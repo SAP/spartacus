@@ -61,6 +61,8 @@ export interface UsageCharge {
   blockSize?: number;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
+  typeName?: string;
+  netAmount?: string;
 }
 
 export interface PerUnitUsageCharge extends UsageCharge {

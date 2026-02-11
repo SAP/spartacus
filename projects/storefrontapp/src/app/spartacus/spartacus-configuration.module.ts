@@ -16,15 +16,10 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
-import { provideConfig, provideConfigFactory } from '@spartacus/core';
-import {
-  defaultCmsContentProviders,
-  layoutConfigFactory,
-  mediaConfig,
-} from '@spartacus/storefront';
+import { provideConfig } from '@spartacus/core';
 import { environment } from '../../environments/environment';
-import { spartacusB2bConfigurationProviders } from './spartacus-b2b-configuration.providers';
-import { spartacusB2cConfigurationProviders } from './spartacus-b2c-configuration.providers';
+import { SpartacusB2bConfigurationModule } from './spartacus-b2b-configuration.module';
+import { SpartacusB2cConfigurationModule } from './spartacus-b2c-configuration.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -37,21 +32,15 @@ registerLocaleData(localeZh);
  * In customers' applications, either B2B or B2C configuration is used, which is decided
  * at the installation time of Spartacus (i.e. when running `ng add @spartacus/schematics`).
  */
-let spartacusChannelSpecificConfigurationProviders = environment.b2b
-  ? spartacusB2bConfigurationProviders
-  : spartacusB2cConfigurationProviders;
+let SpartacusChannelSpecificConfigurationModule =
+  SpartacusB2cConfigurationModule;
+
+if (environment.b2b) {
+  SpartacusChannelSpecificConfigurationModule = SpartacusB2bConfigurationModule;
+}
 
 @NgModule({
   providers: [
-    provideConfigFactory(layoutConfigFactory),
-    provideConfig(mediaConfig),
-    ...defaultCmsContentProviders,
-    provideConfig({
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
-    }),
     provideConfig({
       // we bring in static translations to be up and running soon right away
       i18n: {
@@ -65,8 +54,7 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
         fallbackLang: 'en',
       },
     }),
-
-    spartacusChannelSpecificConfigurationProviders,
   ],
+  imports: [SpartacusChannelSpecificConfigurationModule],
 })
 export class SpartacusConfigurationModule {}

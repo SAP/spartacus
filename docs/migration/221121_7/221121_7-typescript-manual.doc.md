@@ -2,68 +2,67 @@
 ---
 
 ## Removed Constants
-- **`USER_CMS_ENDPOINTS`** (from `projects/core/src/model/cms.model.ts`):
+- **`USER_CMS_ENDPOINTS`** (from `@spartacus/core`):
   - **Impact:** This config constant has been removed. The functionality is now always enabled.
   - **Action Required:** Remove any references to this constant in your code. The CMS adapters now always use user-specific endpoints.
 
 
-- **`SMART_EDIT_DUMMY_COMPONENT_TYPE`** (from `projects/core/src/cms/config/cms-config.ts`):
+- **`SMART_EDIT_DUMMY_COMPONENT_TYPE`** (from `@spartacus/core`):
   - **Impact:** This constant was unused since version 6.5. The `SmartEditLauncher` is now responsible for triggering the lazy loading of the `SMART_EDIT_FEATURE`.
   - **Action Required:** Remove any references to this constant if you were using it.
 
 
-- **`CDC_USER_PREFERENCE_SERIALIZER`** (from `integration-libs/cdc/root/consent-management/converters/converter.ts`):
+- **`CDC_USER_PREFERENCE_SERIALIZER`** (from `@spartacus/cdc/root`):
   - **Impact:** This constant was deprecated since version 2211.38 in favor of `CDC_PREFERENCE_SERIALIZER`.
   - **Action Required:** Remove any references to this constant if you were using it.
 
 
 - **`Deprecated translation chunks removal`** the following members of public apis are removed:
-  - | Constant name                                | From                                                                   |
-    |----------------------------------------------|------------------------------------------------------------------------|
-    | `asmTranslations`                            | `feature-libs/asm/assets/public_api.ts`                                |
-    | `asmCustomer360Translations`                 | `feature-libs/asm/customer-360/assets/public_api.ts`                   |
-    | `cartBaseTranslations`                       | `feature-libs/cart/base/assets/public_api.ts`                          |
-    | `importExportTranslations`                   | `feature-libs/cart/import-export/assets/public_api.ts`                 |
-    | `quickOrderTranslations`                     | `feature-libs/cart/quick-order/assets/public_api.ts`                   |
-    | `savedCartTranslations`                      | `feature-libs/cart/saved-cart/assets/public_api.ts`                    |
-    | `wishListTranslations`                       | `feature-libs/cart/wish-list/assets/public_api.ts`                     |
-    | `checkoutB2BTranslations`                    | `feature-libs/checkout/b2b/assets/public_api.ts`                       |
-    | `checkoutTranslations`                       | `feature-libs/checkout/base/assets/public_api.ts`                      |
-    | `checkoutScheduledReplenishmentTranslations` | `feature-libs/checkout/scheduled-replenishment/assets/public_api.ts`   |
-    | `customerTicketingTranslations`              | `feature-libs/customer-ticketing/assets/public_api.ts`                 |
-    | `estimatedDeliveryDateTranslations`          | `feature-libs/estimated-delivery-date/assets/public_api.ts`            |
-    | `orderTranslations`                          | `feature-libs/order/assets/public_api.ts`                              |
-    | `documentFlowTranslations`                   | `feature-libs/order/document-flow/assets/public_api.ts`                |
-    | `accountSummaryTranslations`                 | `feature-libs/organization/account-summary/assets/public_api.ts`       |
-    | `organizationTranslations`                   | `feature-libs/organization/administration/assets/public_api.ts`        |
-    | `orderApprovalTranslations`                  | `feature-libs/organization/order-approval/assets/public_api.ts`        |
-    | `unitOrderTranslations`                      | `feature-libs/organization/unit-order/assets/public_api.ts`            |
-    | `organizationUserRegistrationTranslations`   | `feature-libs/organization/user-registration/assets/public_api.ts`     |
-    | `pdfInvoicesTranslations`                    | `feature-libs/pdf-invoices/assets/public_api.ts`                       |
-    | `pickupInStoreTranslations`                  | `feature-libs/pickup-in-store/assets/public_api.ts`                    |
-    | `bulkPricingTranslations`                    | `feature-libs/product/bulk-pricing/assets/public_api.ts`               |
-    | `futureStockTranslations`                    | `feature-libs/product/future-stock/assets/public_api.ts`               |
-    | `productImageZoomTranslations`               | `feature-libs/product/image-zoom/assets/public_api.ts`                 |
-    | `productVariantsTranslations`                | `feature-libs/product/variants/assets/public_api.ts`                   |
-    | `configuratorTranslations`                   | `feature-libs/product-configurator/common/assets/public_api.ts`        |
-    | `multiDimensionalSelectorTranslations`       | `feature-libs/product-multi-dimensional/selector/assets/public_api.ts` |
-    | `quoteTranslations`                          | `feature-libs/quote/assets/public_api.ts`                              |
-    | `requestedDeliveryDateTranslations`          | `feature-libs/requested-delivery-date/assets/public_api.ts`            |
-    | `storeFinderTranslations`                    | `feature-libs/storefinder/assets/public_api.ts`                        |
-    | `userAccountTranslations`                    | `feature-libs/user/account/assets/public_api.ts`                       |
-    | `userProfileTranslations`                    | `feature-libs/user/profile/assets/public_api.ts`                       |
-    | `cdcTranslations`                            | `integration-libs/cdc/assets/public_api.ts`                            |
-    | `cdsTranslations`                            | `integration-libs/cds/assets/public_api.ts`                            |
-    | `cdsTranslationChunksConfig`                 | `integration-libs/cds/src/assets/index.ts`                        |
-    | `cdsTranslations`                            | `integration-libs/cds/src/assets/index.ts`                        |
-    | `cpqquoteTranslations`                       | `integration-libs/cpq-quote/assets/public_api.ts`                      |
-    | `dpTranslations`                             | `integration-libs/digital-payments/assets/public_api.ts`               |
-    | `epdVisualizationTranslations`               | `integration-libs/epd-visualization/assets/public_api.ts`              |
-    | `opfCheckoutTranslations`                    | `integration-libs/opf/checkout/assets/public_api.ts`                   |
-    | `opfPaymentTranslations`                     | `integration-libs/opf/payment/assets/public_api.ts`                    |
-    | `s4ServiceTranslations`                      | `integration-libs/s4-service/assets/public_api.ts`                     |
-    | `s4omTranslations`                           | `integration-libs/s4om/assets/public_api.ts`                           |
-    | `translations`                               | `projects/assets/src/public_api.ts`                                    |
+  - | Constant name                                | From                                                   |
+    |----------------------------------------------|--------------------------------------------------------|
+    | `asmTranslations`                            | `@spartacus/asm/assets`                                |
+    | `asmCustomer360Translations`                 | `@spartacus/asm/customer-360/assets`                   |
+    | `cartBaseTranslations`                       | `@spartacus/cart/base/assets`                          |
+    | `importExportTranslations`                   | `@spartacus/cart/import-export/assets`                 |
+    | `quickOrderTranslations`                     | `@spartacus/cart/quick-order/assets`                   |
+    | `savedCartTranslations`                      | `@spartacus/cart/saved-cart/assets`                    |
+    | `wishListTranslations`                       | `@spartacus/cart/wish-list/assets`                     |
+    | `checkoutB2BTranslations`                    | `@spartacus/checkout/b2b/assets`                       |
+    | `checkoutTranslations`                       | `@spartacus/checkout/base/assets`                      |
+    | `checkoutScheduledReplenishmentTranslations` | `@spartacus/checkout/scheduled-replenishment/assets`   |
+    | `customerTicketingTranslations`              | `@spartacus/customer-ticketing/assets`                 |
+    | `estimatedDeliveryDateTranslations`          | `@spartacus/estimated-delivery-date/assets`            |
+    | `orderTranslations`                          | `@spartacus/order/assets`                              |
+    | `documentFlowTranslations`                   | `@spartacus/order/document-flow/assets`                |
+    | `accountSummaryTranslations`                 | `@spartacus/organization/account-summary/assets`       |
+    | `organizationTranslations`                   | `@spartacus/organization/administration/assets`        |
+    | `orderApprovalTranslations`                  | `@spartacus/organization/order-approval/assets`        |
+    | `unitOrderTranslations`                      | `@spartacus/organization/unit-order/assets`            |
+    | `organizationUserRegistrationTranslations`   | `@spartacus/organization/user-registration/assets`     |
+    | `pdfInvoicesTranslations`                    | `@spartacus/pdf-invoices/assets`                       |
+    | `pickupInStoreTranslations`                  | `@spartacus/pickup-in-store/assets`                    |
+    | `bulkPricingTranslations`                    | `@spartacus/product/bulk-pricing/assets`               |
+    | `futureStockTranslations`                    | `@spartacus/product/future-stock/assets`               |
+    | `productImageZoomTranslations`               | `@spartacus/product/image-zoom/assets`                 |
+    | `productVariantsTranslations`                | `@spartacus/product/variants/assets`                   |
+    | `configuratorTranslations`                   | `@spartacus/product-configurator/common/assets`        |
+    | `multiDimensionalSelectorTranslations`       | `@spartacus/product-multi-dimensional/selector/assets` |
+    | `quoteTranslations`                          | `@spartacus/quote/assets`                              |
+    | `requestedDeliveryDateTranslations`          | `@spartacus/requested-delivery-date/assets`            |
+    | `storeFinderTranslations`                    | `@spartacus/storefinder/assets`                        |
+    | `userAccountTranslations`                    | `@spartacus/user/account/assets`                       |
+    | `userProfileTranslations`                    | `@spartacus/user/profile/assets`                       |
+    | `cdcTranslations`                            | `@spartacus/cdc/assets`                                |
+    | `cdsTranslationChunksConfig`                 | `@spartacus/cds/assets`                            |
+    | `cdsTranslations`                            | `@spartacus/cds/assets`                            |
+    | `cpqquoteTranslations`                       | `@spartacus/cpq-quote/assets`                          |
+    | `dpTranslations`                             | `@spartacus/digital-payments/assets`                   |
+    | `epdVisualizationTranslations`               | `@spartacus/epd-visualization/assets`                  |
+    | `opfCheckoutTranslations`                    | `@spartacus/opf/checkout/assets`                       |
+    | `opfPaymentTranslations`                     | `@spartacus/opf/payment/assets`                        |
+    | `s4ServiceTranslations`                      | `@spartacus/s4-service/assets`                         |
+    | `s4omTranslations`                           | `@spartacus/s4om/assets`                               |
+    | `translations`                               | `@spartacus/assets`                                    |
 
 
   - **Action Required** Remove any references to these constants if you were using it. Please use **specific language** translations (suffixed with language code) instead,
@@ -75,19 +74,19 @@
       }
     ```
 
-### `cart-proceed-to-checkout.component.ts`
+### `CartProceedToCheckoutComponent`
 - **Constructor Cleanup**: Removed the deprecated constructor overload `constructor(router: Router)`.
   - **Action Required**: Any classes extending this component must now provide both `Router` and `ChangeDetectorRef` (optional) in the `super()` call.
 
-### `store-finder-stores-count.component.ts`
+### `StoreFinderStoresCountComponent`
 - **Required Dependency**: `RoutingService` is no longer optional. The `@Optional()` decorator and `inject` optional flag were removed.
   - **Action Required**: Ensure `RoutingService` is available in the injection context where this component is used.
 
-### `default-cms-config.ts`
+### `defaultUserCmsModuleConfig`
 - **Config Consolidation**: Removed `defaultUserCmsModuleConfig`.
 - **Breaking Impact**: `defaultCmsModuleConfig` was updated to include the configuration that was previously only in `defaultUserCmsModuleConfig`. If you were specifically relying on the old structure of `defaultCmsModuleConfig` (without the `/users/{userId}` defined as it is now), this may affect CMS request building.
 
-### `occ-cms-component.adapter.ts`
+### `OccCmsComponentAdapter`
 - **Config constant removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` constant.
 - **Behavior Change**: The adapter now **always** uses the `userIdService` to determine the current user and builds the component request URL accordingly.
 - **API Cleanup**: Removed usage of `FeatureConfigService`.
@@ -95,7 +94,7 @@
   - All CMS component requests now consistently include user context in the endpoint URL.
   - Endpoint format is now standardized: `/users/{userId}/cms/components` is always used instead of the legacy `/cms/components` format.
 
-### `occ-cms-page.adapter.ts`
+### `OccCmsPageAdapter`
 - **Config constant removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` constant.
 - **Behavior Change**: Similar to the component adapter, it now always fetches the user ID to build CMS page request URLs.
 - **API Cleanup**: Removed usage of `FeatureConfigService`.
@@ -106,28 +105,28 @@
   - This ensures personalized CMS content is consistently served based on the authenticated or anonymous user context.
 
 
-### `search-box.component.ts`
+### `SearchBoxComponent`
 - **Required Dependencies**: `BreakpointService` and `ChangeDetectorRef` are no longer optional.
   - **Action Required**: Ensure these services are available in the injector.
 - **API Removal**: Removed `isEnabledFeature(feature: string)` method and the `FeatureConfigService` dependency.
 - **Property Rename**: `changeDetecorRef` was renamed to `changeDetectorRef` (fixing a typo) and made `protected`.
   - **Action Required**: Update any references in subclasses to the new spelling `changeDetectorRef`.
 
-### `cms-routes-impl.service.ts`
+### `CmsRoutesImplService`
 - **Refactored Guard Handling**: The `wrapCmsGuard` method no longer uses `CmsGuardsService.canActivateGuard` (which was removed).
 - **New Dependencies**: Now uses `GuardsComposer` and `UnifiedInjector` to resolve and execute guards.
 - **Internal Change**: This change primarily affects how Spartacus internally handles CMS-driven routes and guards, ensuring better support for both class-based and functional guards (`CanActivateFn`).
 
-### `ng-select-a11y.directive.ts`
+### `NgSelectA11yDirective`
 - **Method Removal**: Removed deprecated `onOpen()` and `appendAriaLabelToOptions()` methods.
 - **Method Removal**: Removed `customizeNgSelectAriaLabelDropdown()` method.
 - **Breaking Impact**: If you were overriding or calling these deprecated methods in a custom directive extending this one, your code will fail to compile.
 
-### `cdc-reconsent.component.ts`
+### `CdcReconsentComponent`
 - **Property Removal**: Removed the deprecated property `totalConsents`.
   - **Action Required**: Remove any references to this property in your code.
 
-### `order-guest-register-form.component.ts`
+### `OrderGuestRegisterFormComponent`
 - **Constructor Change**: Removed `protected authService: AuthService` parameter from the constructor.
 - **Property Removal**: Removed `subscription: Subscription` property.
 - **Interface Removal**: The class no longer implements `OnDestroy`.
@@ -141,29 +140,29 @@
 - **Reason:** Deprecated in favor of `GuardsComposer`.
 - **Action Required:** Use the `GuardsComposer` service to execute guards manually if needed.
 
-### `unit-address-item.service.ts`
+### `UnitAddressItemService`
 - **Dependency Removal**: Removed `protected featureConfigService` with `optional: true` flag.
 - **Feature Flag Removal**: Removed logic related to the `fixMyCompanyUnitAddressCreation` feature flag.
 - **Breaking Impact**: Custom services extending this class that relied on `protected` access to `featureConfigService` will encounter compilation errors.
 - **Action Required**: If feature configuration is needed in a subclass, inject `FeatureConfigService` directly within that subclass as a `private` property.
 
-### `org-unit.effect.ts`
+### `OrgUnitEffects`
 - **Dependency Removal**: Removed `protected featureConfigService` with `optional: true` flag.
 - **Feature Flag Removal**: Removed logic related to the `fixMyCompanyUnitAddressCreation` feature flag in the address creation success action.
 - **Breaking Impact**: The effect now always uses the simplified address creation response format (`{ id: payload.address.id }`).
 - **Action Required**: Ensure any custom effects extending this class do not rely on the removed `featureConfigService` property.
 
-### `cdc-user-consent.service.ts`
+### `CdcUserConsentService`
 - **Removed Method:** `updateCdcConsent(isConsentGranted: boolean, consentCodes: string[], user?: string, regToken?: string): Observable<{ errorCode: number; errorMessage: string }>`
 - **Reason:** Deprecated in favor of `updateCdcUserPreferences(consentCodes: CdcConsent[], user?: string, regToken?: string): Observable<{ errorCode: number; errorMessage: string }>` method.
 - **Action Required:** Use the `updateCdcUserPreferences(consentCodes: CdcConsent[], user?: string, regToken?: string): Observable<{ errorCode: number; errorMessage: string }>` method if needed.
 
-### `cdc-reconsent-component.service.ts`
+### `CdcReconsentComponentService`
 - **Removed Method:** `saveConsentAndLogin(consentId: string[], userParams: any)`
 - **Reason:** Deprecated in favor of `savePreferencesAndLogin(consents: CdcConsent[], userParams: any)` method.
 - **Action Required:** Use the `savePreferencesAndLogin(consents: CdcConsent[], userParams: any)` method to save the preferences given in reconsent pop-up and trigger a re-login.
 
-### `cdc-register-component.service.ts`
+### `CDCRegisterComponentService`
 - **Removed Method:** `generatePreferencesObject()`
 - **Reason:** Deprecated since **2211.38** as it is unused.
 
@@ -180,7 +179,7 @@
 ## Removed Tokens
 
 ### `USE_LEGACY_MEDIA_COMPONENT`
-- **File Removed:** `projects/storefrontlib/shared/components/media/media.token.ts`
+- **File Removed:** `@spartacus/storefront`
 - **Reason:** This injection token was deprecated since version 2211.31 and has now been removed.
 - **Impact:** The token was used to force the `MediaComponent` to use the legacy `img` element instead of the `picture` element.
 - **Action Required:** 
@@ -189,7 +188,7 @@
   - Remove any providers for this token from your module or component configurations.
 
 ### `useLegacyMediaComponent` Config Property
-- **Removed From:** `MediaConfig` in `projects/storefrontlib/shared/components/media/media.config.ts`
+- **Removed From:** `MediaConfig` in `@spartacus/storefront`
 - **Reason:** This config property was deprecated since version 2211.31 and has now been removed.
 - **Impact:** The config property was used to globally force the `MediaComponent` to use the legacy `img` element instead of the `picture` element.
 - **Action Required:**
@@ -198,7 +197,7 @@
 
 ## Method Signature Changes
 
-### `persist-focus.directive.ts`, `lock-focus.directive.ts`, `auto-focus.directive.ts`
+### `PersistFocusDirective`, `LockFocusDirective`, `AutoFocusDirective`
 - **Method Signature Change**: The `handleFocus` method parameter type has been corrected from `KeyboardEvent` to `FocusEvent`.
   - **Before:** `handleFocus(event?: KeyboardEvent)`
   - **After:** `handleFocus(event?: FocusEvent)`
