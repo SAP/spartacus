@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
-import { goToB2bOrderHistoryWithOrder } from '../../../helpers/order-history';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
+import {
+  loginB2bUser,
+  navigateToReviewOrderPage,
+} from '../helpers/a11y-b2b.checkout';
 
 export function waitUntilOrderIsPlaced() {
   cy.get('input[formcontrolname="termsAndConditions"]')
@@ -20,10 +22,13 @@ describe('Reorder accessibility', () => {
   before(() => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
-    goToB2bOrderHistoryWithOrder();
+    loginB2bUser();
+    navigateToReviewOrderPage();
+    waitUntilOrderIsPlaced();
   });
 
   it('Reorder', () => {
+    cy.visit('my-account/orders');
     cy.get('cx-order-history .cx-order-history-value').first().click();
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();

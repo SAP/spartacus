@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppModule should add import of spartacus AppRoutingModule to app.module.ts 1`] = `
+"
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from "@spartacus/storefront";
+
+@NgModule({
+  imports: [AppRoutingModule]
+})
+export class AppModule { }
+"
+`;
+
+exports[`updateAppModule should add import of spartacus AppRoutingModule to app.module.ts with customizations 1`] = `
+"
+import { NgModule } from '@angular/core';
+import { AppRoutingModule } from "@spartacus/storefront";
+
+@NgModule({
+  imports: [
+    SomeCustomModule,
+    AppRoutingModule
+  ],
+  providers: [
+    someCustomProvider
+  ]
+})
+export class AppModule { }
+"
+`;

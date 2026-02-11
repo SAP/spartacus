@@ -7,7 +7,7 @@
 import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
-import { goToOrderHistoryWithConsignedOrder } from './order-history';
+import { goToB2COrderHistoryPage } from './order-history';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -56,6 +56,9 @@ export const PRODUCT_NAME_DETAILS_DE = 'Stativ mit Fernbedienung';
 export const PRODUCT_NAME_SEARCH_DE =
   'FUN Einwegkamera mit Blitz, 27+12 Bilder';
 export const TITLE_DE = 'Herr';
+export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
+  month: 'long',
+});
 export const JANUARY_MONTH_DE = 'Januar';
 export const EDIT_DE = 'Bearbeiten';
 
@@ -201,7 +204,13 @@ export function testLangSwitchOrderPage() {
     const orderPath = ORDER_PATH;
 
     before(() => {
-      goToOrderHistoryWithConsignedOrder();
+      cy.whenJDK21(() => {
+        goToB2COrderHistoryPage();
+      });
+      cy.whenJDK17(() => {
+        doPlaceOrder();
+        waitForOrderToBePlacedRequest();
+      });
     });
 
     it('should change language in the url', () => {
@@ -216,10 +225,16 @@ export function testLangSwitchOrderPage() {
 
     it('should change language in the page', () => {
       siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
-
-      cy.get(
-        'cx-order-history .cx-order-history-placed .cx-order-history-value'
-      ).should('contain', JANUARY_MONTH_DE);
+      cy.whenJDK21(() => {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', JANUARY_MONTH_DE);
+      });
+      cy.whenJDK17(() => {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', deutschName);
+      });
     });
   });
 }

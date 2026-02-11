@@ -21,13 +21,26 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
-export function goToOrderHistoryWithConsignedOrder() {
+/**
+ * Navigates to the B2C Order History page for a test user with pre-defined orders.
+ *
+ * The Order History page displays two sample orders:
+ * - Order ID 100002: Contains one consigned entry with status WAITING.
+ * - Order ID 100003: Contains ine unconsigned entry with status COMPLETED.
+ */
+export function goToB2COrderHistoryPage() {
   cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
-export function goToB2bOrderHistoryWithOrder() {
+/**
+ * Navigates to the B2B Order History page for a test user with pre-defined orders.
+ *
+ * The Order History page displays one sample order:
+ * - Order ID 100004: Contains one unconsigned entrie with status COMPLETED.
+ */
+export function goToB2BOrderHistoryPage() {
   cy.login('powertools-test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
   cy.get('.cx-login-greet').should('contain', 'Test User');
@@ -155,25 +168,32 @@ export const orderHistoryTest = {
   // orders flow
   checkIfOrderIsDisplayed() {
     it('should display placed order in Order History', () => {
-      doPlaceOrder().then(() => {
-        doPlaceOrder().then((orderData: any) => {
-          cy.waitForOrderToBePlacedRequest(
-            undefined,
-            undefined,
-            orderData.body.code
-          );
-          cy.visit('/my-account/orders');
-          cy.get('cx-order-history h2').should('contain', 'Order history');
-          cy.get('.cx-order-history-po').should('not.exist');
-          cy.get('.cx-order-history-cost-center').should('not.exist');
-          cy.get('.cx-order-history-code > .cx-order-history-value').should(
-            'contain',
-            orderData.body.code
-          );
-          cy.get('.cx-order-history-total > .cx-order-history-value').should(
-            'contain',
-            orderData.body.totalPrice.formattedValue
-          );
+      cy.whenJDK21(() => {
+        cy.log(
+          'Test is skipped for JDK21 because it uses the existing order history of the test user, so placing a new order is unnecessary.'
+        );
+      });
+      cy.whenJDK17(() => {
+        doPlaceOrder().then(() => {
+          doPlaceOrder().then((orderData: any) => {
+            cy.waitForOrderToBePlacedRequest(
+              undefined,
+              undefined,
+              orderData.body.code
+            );
+            cy.visit('/my-account/orders');
+            cy.get('cx-order-history h2').should('contain', 'Order history');
+            cy.get('.cx-order-history-po').should('not.exist');
+            cy.get('.cx-order-history-cost-center').should('not.exist');
+            cy.get('.cx-order-history-code > .cx-order-history-value').should(
+              'contain',
+              orderData.body.code
+            );
+            cy.get('.cx-order-history-total > .cx-order-history-value').should(
+              'contain',
+              orderData.body.totalPrice.formattedValue
+            );
+          });
         });
       });
     });

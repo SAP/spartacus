@@ -180,7 +180,11 @@ function addToModuleInternal(
 
   let createdNode: Expression | undefined;
   if (insertOptions.order || insertOptions.order === 0) {
-    initializer.insertElement(insertOptions.order, insertOptions.content);
+    const elements = initializer.getElements();
+    const maxIndex = elements.length;
+    // If the requested order exceeds the current array length, append at the end
+    const insertIndex = Math.min(insertOptions.order, maxIndex);
+    initializer.insertElement(insertIndex, insertOptions.content);
   } else {
     createdNode = initializer.addElement(insertOptions.content);
   }

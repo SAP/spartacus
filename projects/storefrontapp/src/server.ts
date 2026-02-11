@@ -16,7 +16,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
-import AppModuleServer from './main.server';
+import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
@@ -44,7 +44,7 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppModuleServer,
+      bootstrap,
     })
   );
 
