@@ -5,7 +5,7 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import {  UserPaymentService } from '@spartacus/core';
+import { UserPaymentService } from '@spartacus/core';
 import { OpfTokenisationFacade } from '../../root/facade';
 import { OpfPaymentDetails } from '../../public_api';
 
@@ -41,13 +41,5 @@ export class OpfTokenisationService implements OpfTokenisationFacade {
    */
   deletePaymentMethod(paymentMethodId: string): void {
     this.userPaymentService.deletePaymentMethod(paymentMethodId);
-  }
-
-  /**
-   * Sets the payment as a default one
-   * @param paymentMethodId a payment method ID
-   */
-  setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.userPaymentService.setPaymentMethodAsDefault(paymentMethodId);
   }
 }

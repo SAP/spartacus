@@ -163,43 +163,12 @@ describe('OpfTokenisationService', () => {
     });
   });
 
-  describe('setPaymentMethodAsDefault', () => {
-    it('should delegate to UserPaymentService.setPaymentMethodAsDefault() with paymentMethodId', () => {
-      spyOn(mockUserPaymentService, 'setPaymentMethodAsDefault');
-      const paymentMethodId = 'method-123';
-
-      service.setPaymentMethodAsDefault(paymentMethodId);
-
-      expect(
-        mockUserPaymentService.setPaymentMethodAsDefault
-      ).toHaveBeenCalledWith(paymentMethodId);
-    });
-
-    it('should allow setting different payment methods as default', () => {
-      spyOn(mockUserPaymentService, 'setPaymentMethodAsDefault');
-
-      service.setPaymentMethodAsDefault('method-1');
-      service.setPaymentMethodAsDefault('method-2');
-
-      expect(
-        mockUserPaymentService.setPaymentMethodAsDefault
-      ).toHaveBeenCalledWith('method-1');
-      expect(
-        mockUserPaymentService.setPaymentMethodAsDefault
-      ).toHaveBeenCalledWith('method-2');
-      expect(
-        mockUserPaymentService.setPaymentMethodAsDefault
-      ).toHaveBeenCalledTimes(2);
-    });
-  });
-
   describe('facade contract compliance', () => {
     it('should implement all OpfTokenisationFacade methods', () => {
       expect(typeof service.getPaymentMethods).toBe('function');
       expect(typeof service.getPaymentMethodsLoading).toBe('function');
       expect(typeof service.loadPaymentMethods).toBe('function');
       expect(typeof service.deletePaymentMethod).toBe('function');
-      expect(typeof service.setPaymentMethodAsDefault).toBe('function');
     });
   });
 });

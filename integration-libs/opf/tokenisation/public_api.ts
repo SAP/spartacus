@@ -5,6 +5,4 @@
  */
 
 export * from './opf-tokenisation.module';
-export * from './root/facade';
 export * from './root/model';
-export { OPF_TOKENISATION_FEATURE } from './root/feature-name';
