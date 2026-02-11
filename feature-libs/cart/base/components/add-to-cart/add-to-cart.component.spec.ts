@@ -19,6 +19,7 @@ import {
   Product,
   ProductAvailabilityAdapter,
   ProductCatalogService,
+  ProductTypes,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -31,12 +32,6 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AddToCartComponent } from './add-to-cart.component';
-
-declare module '@spartacus/core' {
-  interface Product {
-    productTypes?: string;
-  }
-}
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
   inventoryDisplay: false,
@@ -76,7 +71,7 @@ const mockProduct3: Product = {
 const mockProduct4: Product = {
   name: 'mockProduct',
   code: 'code1',
-  productTypes: 'PHYSICAL',
+  productTypes: ProductTypes.PHYSICAL,
 };
 
 const mockNoStockProduct: Product = {
