@@ -22,13 +22,21 @@ describe('Reorder accessibility', () => {
   before(() => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
-    loginB2bUser();
-    navigateToReviewOrderPage();
-    waitUntilOrderIsPlaced();
+
+    cy.whenJDK21(() => {
+      goToB2BOrderHistoryPage();
+    });
+    cy.whenJDK17(() => {
+      loginB2bUser();
+      navigateToReviewOrderPage();
+      waitUntilOrderIsPlaced();
+    });
   });
 
   it('Reorder', () => {
-    cy.visit('my-account/orders');
+    cy.whenJDK17(() => {
+      cy.visit('my-account/orders');
+    });
     cy.get('cx-order-history .cx-order-history-value').first().click();
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();
