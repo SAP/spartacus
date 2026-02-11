@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { goToB2BOrderHistoryPage } from '../../../helpers/order-history';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import {
   loginB2bUser,
