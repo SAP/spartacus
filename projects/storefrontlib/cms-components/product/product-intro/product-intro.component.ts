@@ -8,11 +8,11 @@ import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
-  FeatureDirective,
   Product,
   TranslatePipe,
   TranslationService,
   WindowRef,
+  FeatureDirective,
 } from '@spartacus/core';
 import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -30,10 +30,10 @@ import { CurrentProductService } from '../current-product.service';
   imports: [
     NgIf,
     StarRatingComponent,
-    FeatureDirective,
     AsyncPipe,
     DecimalPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ProductIntroComponent {
