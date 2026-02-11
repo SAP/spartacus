@@ -98,6 +98,7 @@
     "e2e:run:ci:vendor:epd-visualization": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:vendor:epd-visualization",
     "e2e:run:ci:asm": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:asm",
     "e2e:run:ci:vendor:asm": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:asm",
+    "e2e:run:ci:jdk21:asm": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:asm:regression:jdk21",
     "e2e:run:ci:vendor:punchout": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:punchout",
     "e2e:run:ci:ccv2": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "npm --prefix ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",
