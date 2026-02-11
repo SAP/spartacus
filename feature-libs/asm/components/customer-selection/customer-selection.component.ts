@@ -14,7 +14,6 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -30,7 +29,7 @@ import {
 } from '@spartacus/asm/root';
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { FeatureConfigService, TranslatePipe, User } from '@spartacus/core';
+import { TranslatePipe, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
@@ -70,8 +69,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
 
   activeFocusedButtonIndex = -1;
-
-  protected featureConfig = inject(FeatureConfigService);
 
   @Output()
   submitEvent = new EventEmitter<{

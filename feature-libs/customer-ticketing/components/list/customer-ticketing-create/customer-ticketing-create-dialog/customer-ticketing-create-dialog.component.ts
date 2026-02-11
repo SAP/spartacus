@@ -106,7 +106,7 @@ export class CustomerTicketingCreateDialogComponent
 
   protected translationService = inject(TranslationService);
 
-  protected featureService = inject(FeatureConfigService, { optional: true });
+  private featureService = inject(FeatureConfigService, { optional: true });
 
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {

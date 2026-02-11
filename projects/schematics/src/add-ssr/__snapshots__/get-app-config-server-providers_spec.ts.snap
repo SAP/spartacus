@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`getAppConfigServerProviders should handle empty providers array 1`] = `"[]"`;
+
+exports[`getAppConfigServerProviders should return providers array from serverConfig 1`] = `
+"[
+    provideServerRendering(),
+    provideServerRoutesConfig()
+  ]"
+`;

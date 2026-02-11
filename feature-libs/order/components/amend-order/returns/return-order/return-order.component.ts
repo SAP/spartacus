@@ -31,9 +31,7 @@ import { OrderAmendService } from '../../amend-order.service';
 })
 export class ReturnOrderComponent {
   orderCode: string;
-  protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService
     .getForm()

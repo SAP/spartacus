@@ -21,10 +21,8 @@ import { OpfCartUserEmailCheckerService } from '../services';
 export class OpfCheckoutAuthGuard extends CheckoutAuthGuard {
   protected userIdService = inject(UserIdService);
   protected opfCartUserEmailChecker = inject(OpfCartUserEmailCheckerService);
-  /**
-   * @deprecated since 221121.1
-   */
-  protected featureConfigService = inject(FeatureConfigService);
+
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Determines whether the user can activate the checkout route.
