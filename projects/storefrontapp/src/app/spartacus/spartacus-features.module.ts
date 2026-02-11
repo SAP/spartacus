@@ -334,6 +334,7 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
+        a11yCustomerTicketingVisualFocusFix: true,
       };
       return appFeatureToggles;
     }),

@@ -373,6 +373,12 @@ export interface FeatureTogglesInterface {
    * Affects: `ReturnOrderComponent`
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
+
+  /**
+   * Fixes keyboard focus not being visible when tabbing between some buttons
+   * on Customer Ticketing dialog.
+   */
+  a11yCustomerTicketingVisualFocusFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -414,4 +420,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  a11yCustomerTicketingVisualFocusFix: false,
 };
