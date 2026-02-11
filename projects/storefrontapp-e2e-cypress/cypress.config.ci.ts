@@ -6,7 +6,7 @@
 
 import { defineConfig } from 'cypress';
 
-const JDK_VERSION: string = 'JDK17';
+const JDK_VERSION: string = 'JDK21';
 const CLIENT_ID =
   JDK_VERSION === 'JDK21' ? 'mobile_android_public' : 'mobile_android';
 
