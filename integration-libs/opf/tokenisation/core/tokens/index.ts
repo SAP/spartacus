@@ -5,5 +5,3 @@
  */
 
 // export * from './tokens';
-// The above export is commented out to avoid circular dependency issues. It can be uncommented once the circular dependency is resolved.
-export {};
