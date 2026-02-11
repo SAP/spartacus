@@ -14,7 +14,7 @@ import { gunzipSync, inflateSync } from 'zlib';
  *
  * This is needed to set up a custom HTTPS agent with the correct SNI servername.
  */
-const IS_CCV2_SERVER = false;
+const IS_CCV2_SERVER = true;
 /**
  * Options to start a proxy server.
  */
