@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +13,13 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe, useFeatureStyles } from '@spartacus/core';
+import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
+import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -29,7 +36,18 @@ import { ProductListService } from '../product-list.service';
       useExisting: ProductListItemContextSource,
     },
   ],
-  standalone: false,
+  imports: [
+    RouterLink,
+    LcpContextDirective,
+    MediaComponent,
+    OutletDirective,
+    NgIf,
+    StarRatingComponent,
+    InnerComponentsHostDirective,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class ProductGridItemComponent implements OnChanges {
   protected productListService = inject(ProductListService);

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,13 @@ export const defaultSubscriptionBillingRoutingConfig: RoutingConfig = {
       subscriptionDetails: {
         paths: ['my-account/subscription/:subscriptionId'],
         paramsMapping: { subscriptionId: 'subscriptionId' },
+      },
+      subscriptionBills: {
+        paths: ['my-account/subscription-bills'],
+      },
+      subscriptionBillingDetails: {
+        paths: ['my-account/subscription-bill/:subscriptionBillId'],
+        paramsMapping: { subscriptionBillId: 'subscriptionBillId' },
       },
     },
   },

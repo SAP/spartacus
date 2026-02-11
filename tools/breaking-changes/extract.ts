@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import {
   ExtractorResult,
 } from '@microsoft/api-extractor';
 import * as fs from 'fs';
-import { globSync } from 'glob';
+import glob from 'glob';
 import * as path from 'path';
 import { escapePackageName } from './common';
 
@@ -27,7 +27,7 @@ if (!fs.existsSync(`${spartacusHomeDir}/temp`)) {
   fs.mkdirSync(`${spartacusHomeDir}/temp`);
 }
 
-const files = globSync(`${spartacusHomeDir}/dist/**/public_api.d.ts`);
+const files = glob.sync(`${spartacusHomeDir}/dist/**/public_api.d.ts`);
 console.log(`Found ${files.length} entry points to process.`);
 files.forEach((file: any, index: any) => {
   console.log(

@@ -7,15 +7,21 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import {
+  CxDatePipe,
+  FeatureDirective,
   FeaturesConfig,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   LAUNCH_CALLER,
@@ -66,10 +72,7 @@ class MockSavedCartFacade implements Partial<SavedCartFacade> {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -109,8 +112,7 @@ describe('SavedCartListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SavedCartListComponent, MockUrlPipe, MockFeatureDirective],
+      imports: [SavedCartListComponent, RouterModule.forRoot([])],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
@@ -126,7 +128,21 @@ describe('SavedCartListComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SavedCartListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

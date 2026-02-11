@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,12 @@ import { provideDefaultConfig } from '@spartacus/core';
 import {
   OccSubscriptionAdapter,
   OccSubscriptionActionsAdapter,
+  OccSubscriptionBillingAdapter,
 } from './adapters';
 import {
   SubscriptionActionsAdapter,
   SubscriptionAdapter,
+  SubscriptionBillingAdapter,
 } from '@spartacus/subscription-billing/core';
 
 @NgModule({
@@ -26,6 +28,10 @@ import {
     {
       provide: SubscriptionActionsAdapter,
       useClass: OccSubscriptionActionsAdapter,
+    },
+    {
+      provide: SubscriptionBillingAdapter,
+      useClass: OccSubscriptionBillingAdapter,
     },
   ],
 })

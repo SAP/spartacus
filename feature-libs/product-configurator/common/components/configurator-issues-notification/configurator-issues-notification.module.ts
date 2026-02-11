@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,8 +23,8 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
     I18nModule,
     IconModule,
     ConfigureCartEntryModule,
+    ConfiguratorIssuesNotificationComponent,
   ],
-  declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,

@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
@@ -15,7 +15,7 @@ import {
 import { PageTitleComponent } from './page-title.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, PageMetaModule],
+  imports: [CommonModule, RouterModule, PageMetaModule, PageTitleComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -25,7 +25,6 @@ import { PageTitleComponent } from './page-title.component';
       },
     }),
   ],
-  declarations: [PageTitleComponent],
   exports: [PageTitleComponent],
 })
 export class PageTitleModule {}

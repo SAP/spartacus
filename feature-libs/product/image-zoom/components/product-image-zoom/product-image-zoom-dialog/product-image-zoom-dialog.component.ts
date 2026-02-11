@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,17 +11,26 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
 
 @Component({
   selector: 'cx-product-image-zoom-dialog',
   templateUrl: 'product-image-zoom-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    ProductImageZoomViewComponent,
+    TranslatePipe,
+  ],
 })
 export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;

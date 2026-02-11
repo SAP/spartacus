@@ -35,6 +35,9 @@
             [items]="category.variantOptions"
             [(ngModel)]="selectedProductCode"
             (change)="changeVariant($event.code)"
+            ariaLabelDropdown="{{
+              'common.ngSelectDropdownOptionsList' | cxTranslate
+            }}"
             [cxNgSelectA11y]="{
               ariaLabel:
                 ('multiDimensionalSelector.variantThumbnailTitle'

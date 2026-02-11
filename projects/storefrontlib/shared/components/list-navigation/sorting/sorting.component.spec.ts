@@ -1,15 +1,12 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SortingComponent } from './sorting.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
 import { Directive, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
+import { SortingComponent } from './sorting.component';
 
 describe('SortingComponent', () => {
-  @Directive({
-    selector: '[cxNgSelectA11y]',
-    standalone: false,
-  })
+  @Directive({ selector: '[cxNgSelectA11y]' })
   class MockNgSelectA11yDirective {
     @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
   }
@@ -19,8 +16,13 @@ describe('SortingComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NgSelectModule, FormsModule, I18nTestingModule],
-      declarations: [SortingComponent, MockNgSelectA11yDirective],
+      imports: [
+        NgSelectModule,
+        FormsModule,
+        I18nTestingModule,
+        SortingComponent,
+        MockNgSelectA11yDirective,
+      ],
     }).compileComponents();
   }));
 

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,8 +36,8 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
     MediaModule,
     SpinnerModule,
     FeaturesConfigModule,
+    InvoicesListComponent,
   ],
-  declarations: [InvoicesListComponent],
   exports: [InvoicesListComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

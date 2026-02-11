@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron:  '0 8 * * *'
+    - cron: "0 8 * * *"
   workflow_dispatch:
     inputs:
       branch_to_sync:
@@ -17,18 +17,19 @@ jobs:
     name: Force sync a branch to the private repository with current git history
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
           fetch-depth: 0
       - name: Push a branch to the private repository
-        run: | 
+        run: |
           git push -u https://${{ secrets.GHT_USER }}:${{ secrets.GHT_PRIVATE_REPO_TOKEN }}@github.tools.sap/cx-commerce-storefronts/${{ secrets.GHT_SPARTACUS_REPO }}.git ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }} -f
       - name: Include remaining pipeline files to the private remote's branch
         run: |
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
           AZURE_CONFIG_PATH="./azure-pipelines.yml"
           SONAR_PATH="./sonar-project.properties"
+          RBSC_DESCRIPTORS_PATH="./rbsc-descriptors.yml"
           RELEASE_PACKAGES_LIST_GENERATOR="./ci-scripts/release-packages-list-generator.sh"
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
@@ -65,7 +66,7 @@ jobs:
           echo "Configure azure pipeline trigger"
 
           sed -i "s%trigger:%trigger:\n  - ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}%gi" $AZURE_CONFIG_PATH
-          
+
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify trigger has been updated with the synched branch name"
 
@@ -81,14 +82,14 @@ jobs:
           echo "Configure azure pipeline build packages list"
 
           RELEASE_PACKAGES=$($RELEASE_PACKAGES_LIST_GENERATOR)
-          
+
           FORMATTED_RELEASE_PACKAGES=""
           for PACKAGE in $RELEASE_PACKAGES; do
             FORMATTED_RELEASE_PACKAGES+="    - ${PACKAGE}\n"
           done
 
           sed -i "s%buildPackages:%buildPackages:\n${FORMATTED_RELEASE_PACKAGES}%gi" $AZURE_CONFIG_PATH
-          
+
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify buildPackages parameter has been updated with the generated release packages list"
 
@@ -97,6 +98,22 @@ jobs:
               echo "List of packages to release has successfully been added to the buildPackages parameter"
           else
               echo "Error. List of packages to release has NOT been added to the buildPackages parameter"
+              exit 1
+          fi
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Generate RBSC descriptors"
+
+          ./ci-scripts/update-rbsc-descriptors.sh
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Verify RBSC descriptors file has been created"
+
+          if [[ -f "$RBSC_DESCRIPTORS_PATH" ]] && [[ -s "$RBSC_DESCRIPTORS_PATH" ]]; then
+              echo "RBSC descriptors file has been successfully generated"
+              echo "Generated $(grep -c "^- url:" $RBSC_DESCRIPTORS_PATH) package entries"
+          else
+              echo "Error. RBSC descriptors file was NOT generated or is empty"
               exit 1
           fi
 

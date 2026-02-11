@@ -18,11 +18,14 @@
         formControlName="isocode"
         [searchable]="true"
         [clearable]="false"
-        [items]="countries$ | async"
+        [items]="(countries$ | async) ?? []"
         bindLabel="name"
         bindValue="isocode"
         placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
         appendTo="cx-org-list"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -40,11 +43,14 @@
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
-        [items]="titles$ | async"
+        [items]="(titles$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
         appendTo="cx-org-list"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
     </label>
@@ -217,6 +223,9 @@
           bindValue="isocode"
           placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
           appendTo="cx-org-list"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
         >
         </ng-select>
 

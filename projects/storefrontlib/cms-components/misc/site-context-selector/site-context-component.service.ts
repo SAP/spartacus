@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,15 +12,16 @@ import {
   isNotUndefined,
   LANGUAGE_CONTEXT_ID,
   SiteContext,
+  Translatable,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextType } from './site-context.model';
 
-const LABELS: { [key: string]: string } = {
-  [LANGUAGE_CONTEXT_ID]: 'Language',
-  [CURRENCY_CONTEXT_ID]: 'Currency',
+const LABELS: { [key: string]: string | Translatable } = {
+  [LANGUAGE_CONTEXT_ID]: 'common.language',
+  [CURRENCY_CONTEXT_ID]: 'common.currency',
 };
 
 @Injectable()

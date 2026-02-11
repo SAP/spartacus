@@ -1,8 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 context('scroll Position Restoration', () => {
   it('should restore scroll position', () => {
@@ -10,7 +12,7 @@ context('scroll Position Restoration', () => {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages`,
+      )}/${cmsEndpoints.pages}`,
       query: {
         pageType: 'ProductPage',
       },
@@ -20,7 +22,7 @@ context('scroll Position Restoration', () => {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages`,
+      )}/${cmsEndpoints.pages}`,
       query: {
         pageType: 'CategoryPage',
       },

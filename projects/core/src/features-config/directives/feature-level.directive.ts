@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,10 +7,7 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
 
-@Directive({
-  selector: '[cxFeatureLevel]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeatureLevel]' })
 export class FeatureLevelDirective {
   constructor(
     protected templateRef: TemplateRef<any>,

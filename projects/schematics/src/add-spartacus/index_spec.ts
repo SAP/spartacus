@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -41,7 +42,8 @@ const appOptions: ApplicationOptions = {
   inlineTemplate: false,
   style: Style.Scss,
   skipTests: false,
-  standalone: false,
+  zoneless: false,
+  fileNameStyleGuide: FileNameStyleGuide.The2016,
 };
 
 const defaultOptions: SpartacusOptions = {
@@ -99,9 +101,6 @@ describe('add-spartacus', () => {
       );
 
       expect(appModule).toContain(
-        `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
-      );
-      expect(appModule).toContain(
         `import { AppRoutingModule } from "@spartacus/storefront";`
       );
       expect(appModule).toContain(`import { StoreModule } from "@ngrx/store";`);
@@ -110,10 +109,6 @@ describe('add-spartacus', () => {
       );
       expect(appModule).toContain(
         `import { SpartacusModule } from './spartacus/spartacus.module';`
-      );
-
-      expect(appModule).toContain(
-        'provideHttpClient(withFetch(), withInterceptorsFromDi())'
       );
     });
 
@@ -664,9 +659,6 @@ describe('add-spartacus on Angular app without routing', () => {
     );
 
     expect(appModule).toContain(
-      `import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";`
-    );
-    expect(appModule).toContain(
       `import { AppRoutingModule } from "@spartacus/storefront";`
     );
     expect(appModule).toContain(`import { StoreModule } from "@ngrx/store";`);
@@ -675,10 +667,6 @@ describe('add-spartacus on Angular app without routing', () => {
     );
     expect(appModule).toContain(
       `import { SpartacusModule } from './spartacus/spartacus.module';`
-    );
-
-    expect(appModule).toContain(
-      'provideHttpClient(withFetch(), withInterceptorsFromDi())'
     );
   });
 
@@ -692,38 +680,58 @@ describe('add-spartacus on Angular app without routing', () => {
       tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
     ).toBe(false);
   });
-});
 
-describe('add-spartacus - check if app is standalone', () => {
-  it('should throw an error if app.module.ts not found', async () => {
-    let standaloneAppTree: UnitTestTree;
+  describe('app.config.ts', () => {
+    it('should be created with correct content', () => {
+      const appConfig = tree.readContent(
+        '/projects/schematics-test/src/app/app.config.ts'
+      );
+      expect(appConfig).toMatchSnapshot();
+    });
+  });
 
-    standaloneAppTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-    standaloneAppTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      { ...appOptions, standalone: true },
-      standaloneAppTree
-    );
+  describe('app.component.ts', () => {
+    it('should be created with correct content', () => {
+      const appComponent = tree.readContent(
+        '/projects/schematics-test/src/app/app.component.ts'
+      );
+      expect(appComponent).toMatchSnapshot();
+    });
+  });
 
-    await expect(
-      schematicRunner.runSchematic(
-        'add-spartacus',
-        defaultOptions,
-        standaloneAppTree
-      )
-    ).rejects.toMatchInlineSnapshot(`
-      [Error: File "app.module.ts" not found. Please re-create your application:
-      1. remove your application code
-      2. make sure to pass the flag "--standalone=false" to the command "ng new". For more, see https://angular.io/cli/new#options
-      3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...
+  describe('app.module.ts', () => {
+    it('should be created with necessary modules imported inside', () => {
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+      expect(appModule).toMatchSnapshot();
+    });
+  });
 
-      Note: Since version 17, Angular's command "ng new" by default creates an app without a file "app.module.ts" (in a so-called "standalone" mode). But Spartacus installer requires this file to be present.
-      ]
-    `);
+  describe('app.component.html', () => {
+    it('should match snapshot', () => {
+      const appComponentHtml = tree.readContent(
+        '/projects/schematics-test/src/app/app.component.html'
+      );
+      expect(appComponentHtml).toMatchSnapshot();
+    });
+  });
+
+  describe('spartacus.module.ts', () => {
+    it('should be created with correct content', () => {
+      const spartacusModule = tree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus.module.ts'
+      );
+      expect(spartacusModule).toMatchSnapshot();
+    });
+  });
+
+  describe('spartacus-configuration.module.ts', () => {
+    it('should be created with correct content', () => {
+      const spartacusConfigModule = tree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
+      );
+      expect(spartacusConfigModule).toMatchSnapshot();
+    });
   });
 });

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,22 +12,35 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  CxNumericPipe,
   ImageGroup,
   Product,
   ProductScope,
   ProductService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
+import { MediaComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../price/configurator-price.component';
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
   templateUrl: './configurator-overview-bundle-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    MediaComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxNumericPipe,
+  ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   product$: Observable<Product>;

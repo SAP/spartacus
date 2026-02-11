@@ -1,6 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,10 +21,8 @@ import { OpfCartUserEmailCheckerService } from '../services';
 export class OpfCheckoutAuthGuard extends CheckoutAuthGuard {
   protected userIdService = inject(UserIdService);
   protected opfCartUserEmailChecker = inject(OpfCartUserEmailCheckerService);
-  /**
-   * @deprecated since 221121.1
-   */
-  protected featureConfigService = inject(FeatureConfigService);
+
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Determines whether the user can activate the checkout route.

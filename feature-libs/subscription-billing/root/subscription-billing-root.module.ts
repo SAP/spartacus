@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,8 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
           'SubscriptionHistoryComponent',
           'SubscriptionProductPriceComponent',
           'SubscriptionDetailsComponent',
+          'SubscriptionBillsHistoryComponent',
+          'SubscriptionBillDetailsComponent',
         ],
       },
       [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,

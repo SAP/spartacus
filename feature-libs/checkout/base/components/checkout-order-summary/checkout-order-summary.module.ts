@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import { OutletModule } from '@spartacus/storefront';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 
 @NgModule({
-  imports: [CommonModule, OutletModule],
+  imports: [CommonModule, OutletModule, CheckoutOrderSummaryComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +21,6 @@ import { CheckoutOrderSummaryComponent } from './checkout-order-summary.componen
       },
     }),
   ],
-  declarations: [CheckoutOrderSummaryComponent],
   exports: [CheckoutOrderSummaryComponent],
 })
 export class CheckoutOrderSummaryModule {}

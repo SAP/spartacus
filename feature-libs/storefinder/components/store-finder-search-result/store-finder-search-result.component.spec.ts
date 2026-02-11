@@ -41,9 +41,12 @@ describe('StoreFinderListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [
+        I18nTestingModule,
+        StoreFinderSearchResultComponent,
+        MockFeatureDirective,
+      ],
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderSearchResultComponent, MockFeatureDirective],
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },
         { provide: ActivatedRoute, useClass: ActivatedRouteMock },

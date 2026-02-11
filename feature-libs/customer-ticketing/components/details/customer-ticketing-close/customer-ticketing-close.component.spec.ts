@@ -8,14 +8,14 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
   ICON_TYPE,
+  LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 
-import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
+import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -49,7 +49,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -62,8 +62,11 @@ describe('CustomerTicketingCloseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingCloseComponent, MockCxIconComponent],
+      imports: [
+        I18nTestingModule,
+        CustomerTicketingCloseComponent,
+        MockCxIconComponent,
+      ],
       providers: [
         CustomerTicketingCloseComponentService,
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

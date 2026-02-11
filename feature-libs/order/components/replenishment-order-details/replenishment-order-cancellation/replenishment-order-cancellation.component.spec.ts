@@ -7,7 +7,14 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
@@ -36,10 +43,7 @@ class MockReplenishmentOrderHistoryFacade
   clearReplenishmentOrderDetails() {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -63,8 +67,10 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
+      imports: [
+        ReplenishmentOrderCancellationComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: ReplenishmentOrderHistoryFacade,
@@ -75,7 +81,16 @@ describe('ReplenishmentOrderCancellationComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReplenishmentOrderCancellationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

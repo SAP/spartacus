@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,8 +19,8 @@ import { ActiveFacetsComponent } from './active-facets.component';
     I18nModule,
     IconModule,
     KeyboardFocusModule,
+    ActiveFacetsComponent,
   ],
-  declarations: [ActiveFacetsComponent],
   exports: [ActiveFacetsComponent],
 })
 export class ActiveFacetsModule {}

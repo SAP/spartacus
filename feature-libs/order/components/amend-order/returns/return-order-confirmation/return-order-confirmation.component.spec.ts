@@ -6,7 +6,17 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
@@ -17,7 +27,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -29,7 +39,7 @@ class MockAmendOrderActionComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -68,16 +78,30 @@ describe('ReturnOrderConfirmationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, ReturnOrderConfirmationComponent],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
-      declarations: [
-        ReturnOrderConfirmationComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReturnOrderConfirmationComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AmendOrderActionsComponent,
+            CancelOrReturnItemsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAmendOrderActionComponent,
+            MockCancelOrReturnItemsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

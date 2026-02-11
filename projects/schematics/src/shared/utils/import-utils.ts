@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -144,6 +144,7 @@ export function getDynamicImportPropertyAccess(
 
 /**
  * Creates the import statement in the given source file.
+ * If an import from the same module already exists, it adds the named imports to the existing import.
  */
 export function createImports(
   sourceFile: SourceFile,
@@ -151,11 +152,40 @@ export function createImports(
 ): ImportDeclaration[] {
   const importDeclarations: ImportDeclaration[] = [];
   ([] as Import[]).concat(imports).forEach((specifiedImport) => {
-    const importDeclaration = sourceFile.addImportDeclaration({
-      moduleSpecifier: specifiedImport.moduleSpecifier,
-      namedImports: specifiedImport.namedImports,
-    });
-    importDeclarations.push(importDeclaration);
+    // Check if an import declaration with the same module specifier already exists
+    const existingImport = sourceFile
+      .getImportDeclarations()
+      .find(
+        (id) => id.getModuleSpecifierValue() === specifiedImport.moduleSpecifier
+      );
+
+    if (existingImport) {
+      // Add named imports to the existing import declaration (avoiding duplicates)
+      const existingNamedImports =
+        existingImport.getImportClause()?.getNamedImports() ?? [];
+      const existingImportNames = existingNamedImports.map((ni) =>
+        ni.getName()
+      );
+
+      const newNamedImports = specifiedImport.namedImports.filter(
+        (name) => !existingImportNames.includes(name)
+      );
+
+      if (newNamedImports.length > 0) {
+        existingImport.addNamedImports(
+          newNamedImports.map((name) => ({ name }))
+        );
+      }
+
+      importDeclarations.push(existingImport);
+    } else {
+      // Create a new import declaration
+      const importDeclaration = sourceFile.addImportDeclaration({
+        moduleSpecifier: specifiedImport.moduleSpecifier,
+        namedImports: specifiedImport.namedImports,
+      });
+      importDeclarations.push(importDeclaration);
+    }
   });
 
   return importDeclarations;

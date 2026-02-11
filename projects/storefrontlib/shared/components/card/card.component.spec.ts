@@ -8,15 +8,22 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { FocusDirective } from '@spartacus/storefront';
-import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { RouterModule } from '@angular/router';
+import {
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  FocusDirective,
+  TruncateTextPopoverComponent,
+} from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 export class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -24,7 +31,7 @@ export class MockAtMessageDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -33,7 +40,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-truncate-text-popover',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxTruncateTextPopoverComponent {
   @Input() content: string;
@@ -45,10 +52,7 @@ function getTruncatedPopover(elem: DebugElement) {
   return elem.queryAll(By.css('cx-truncate-text-popover'));
 }
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]' })
 class MockFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
@@ -73,16 +77,29 @@ describe('CardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CardComponent,
-        MockCxIconComponent,
-        MockAtMessageDirective,
-        FocusDirective,
-        MockCxTruncateTextPopoverComponent,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+      imports: [CardComponent, FocusDirective, RouterModule.forRoot([])],
+    })
+      .overrideComponent(CardComponent, {
+        remove: {
+          imports: [
+            IconComponent,
+            TruncateTextPopoverComponent,
+            TranslatePipe,
+            AtMessageDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockAtMessageDirective,
+            MockCxTruncateTextPopoverComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

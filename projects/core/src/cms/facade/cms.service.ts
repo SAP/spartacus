@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -290,5 +290,21 @@ export class CmsService {
 
   setPageFailIndex(pageContext: PageContext, value: string): void {
     this.store.dispatch(new CmsActions.CmsSetPageFailIndex(pageContext, value));
+  }
+
+  /**
+   * Clear the cached component data.
+   * This is useful when components need to be forcefully reloaded,
+   * for example in SmartEdit context when child components need to be refreshed.
+   *
+   * @param uids Optional array of component UIDs to clear. If not provided, clears all cached components.
+   */
+  clearComponentState(uids?: string[]): void {
+    const componentUids = uids ?? Object.keys(this.components);
+
+    componentUids.forEach((uid) => {
+      delete this.components[uid];
+      this.store.dispatch(new CmsActions.ClearCmsComponent({ uid }));
+    });
   }
 }

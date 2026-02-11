@@ -22,6 +22,15 @@ $selectors:
   }
 }
 
+// add body specific selectors
+body {
+  @each $selector in $selectors {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}
+
 .user-form {
   display: flex;
   flex-wrap: wrap;

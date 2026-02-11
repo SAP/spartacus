@@ -8,15 +8,9 @@
     <div class="title-bar">
       <div class="title">
         <h3>
-          <span
-            *cxFeature="'a11yRegionAssociatedHeaders'"
-            id="{{ i18nRoot + '_title' }}"
-          >
+          <span id="{{ i18nRoot + '_title' }}">
             {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
           </span>
-          <ng-container *cxFeature="'!a11yRegionAssociatedHeaders'">
-            {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
-          </ng-container>
           <button
             *ngIf="showHint"
             [cxPopover]="detailHint"

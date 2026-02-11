@@ -1,26 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { NgModule } from '@angular/core';
-import { ServerModule } from '@angular/platform-server';
-import { TestConfigServerModule, provideServer } from '@spartacus/setup/ssr';
-import { StorefrontComponent } from '@spartacus/storefront';
-import { AppModule } from './app.module';
+import { provideServer } from '@spartacus/setup/ssr';
 
 @NgModule({
-  imports: [
-    // The AppModuleServer should import your AppModule followed
-    // by the ServerModule from @angular/platform-server.
-    AppModule,
-    ServerModule,
-    TestConfigServerModule.forRoot(), // Injects config dynamically from e2e tests for SSR.
-  ],
-  // Since the bootstrapped component is not inherited from your
-  // imported AppModule, it needs to be repeated here.
-  bootstrap: [StorefrontComponent],
   providers: [
     ...provideServer({
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],

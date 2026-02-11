@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
+  ProtectedRoutesService,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { AsmLoaderModule } from './asm-loader.module';
@@ -18,6 +19,7 @@ import { UserIdHttpHeaderInterceptor } from './interceptors/user-id-http-header.
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
+import { AsmProtectedRoutesService } from './services/asm-protected-routes.service';
 
 @NgModule({
   imports: [AsmLoaderModule],
@@ -34,6 +36,10 @@ import { AsmAuthService } from './services/asm-auth.service';
     {
       provide: AuthHttpHeaderService,
       useExisting: AsmAuthHttpHeaderService,
+    },
+    {
+      provide: ProtectedRoutesService,
+      useExisting: AsmProtectedRoutesService,
     },
     {
       provide: HTTP_INTERCEPTORS,

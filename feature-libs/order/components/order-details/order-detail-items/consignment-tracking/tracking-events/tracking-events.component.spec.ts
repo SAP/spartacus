@@ -1,26 +1,26 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
 import {
-  IconTestingModule,
+  FocusDirective,
   KeyboardFocusTestingModule,
   LaunchDialogService,
-  SpinnerModule,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, Observable, of } from 'rxjs';
+import { MockFocusDirective } from '../../../order-detail-reorder/reorder-dialog/reorder-dialog.component.spec';
 import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
-
-@Pipe({
-  name: 'cxTranslateUrl',
-  standalone: false,
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
     return of(undefined);
@@ -40,18 +40,26 @@ describe('TrackingEventsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SpinnerModule,
-        I18nTestingModule,
-        KeyboardFocusTestingModule,
-        IconTestingModule,
-      ],
-      declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
+      imports: [KeyboardFocusTestingModule, I18nTestingModule],
       providers: [
         { provide: OrderHistoryFacade, useValue: userOrderService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(TrackingEventsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockFocusDirective,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
   }));

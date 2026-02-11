@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -23,14 +24,17 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService } from '@spartacus/core';
+import { Facet, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import {
   FocusConfig,
   KeyboardFocusService,
 } from '../../../../../layout/a11y/keyboard-focus/index';
+import { TabComponent } from '../../../../content/tab/tab.component';
 import { TAB_MODE, Tab, TabConfig } from '../../../../content/tab/tab.model';
+import { IconComponent } from '../../../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
@@ -40,7 +44,16 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet-list',
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FocusDirective,
+    IconComponent,
+    TabComponent,
+    NgFor,
+    FacetComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   protected subscriptions = new Subscription();
@@ -94,9 +107,6 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.close();
   }
   @Optional() focusService = inject(KeyboardFocusService, { optional: true });
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected facetService: FacetService,

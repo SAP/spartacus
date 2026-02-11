@@ -1,11 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { strings } from '@angular-devkit/core';
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { SchematicsException, strings, Tree } from '@angular-devkit/schematics';
 import type { Element, Node } from '@angular/compiler';
 import {
   findNode,
@@ -21,6 +20,7 @@ import {
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { join } from 'path';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
@@ -149,10 +149,11 @@ export function getAllTsSourceFiles(
 export function getIndexHtmlPath(tree: Tree): string {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const angularJson = getAngularJsonFile(tree);
-  const indexHtml: string = (
-    angularJson.projects[projectName]?.architect?.build?.options as any
-  )?.index;
-  if (!indexHtml) {
+  const project = angularJson.projects[projectName];
+  // angular.json no longer contains info about the index file. For more, see: https://github.com/angular/angular-cli/pull/30192
+  const projectSourceRoot = project.sourceRoot ?? join(project.root, 'src');
+  const indexHtml = join(projectSourceRoot, 'index.html');
+  if (!tree.exists(indexHtml)) {
     throw new SchematicsException('"index.html" file not found.');
   }
 
@@ -875,6 +876,31 @@ export function removeImport(
     position = importSpecifier.importNode.getStart();
   }
   return new RemoveChange(source.fileName, position, toRemove);
+}
+
+export function removeImportUsingTsMorph(
+  fileSource: import('ts-morph').SourceFile,
+  { importPath, importName }: { importPath: string; importName: string }
+): void {
+  const importDeclaration = fileSource
+    .getImportDeclarations()
+    .find((imp) => imp.getModuleSpecifierValue() === importPath);
+
+  if (importDeclaration) {
+    const namedImports = importDeclaration.getNamedImports();
+    const targetImport = namedImports.find(
+      (imp) => imp.getName() === importName
+    );
+
+    if (targetImport) {
+      targetImport.remove();
+
+      // If no named imports left, remove the entire import declaration
+      if (importDeclaration.getNamedImports().length === 0) {
+        importDeclaration.remove();
+      }
+    }
+  }
 }
 
 export function removeImportFromContent(

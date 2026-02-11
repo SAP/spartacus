@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,11 @@ import { UserAssignedPermissionListComponent } from './assigned/user-assigned-pe
 import { UserPermissionListComponent } from './user-permission-list.component';
 
 @NgModule({
-  imports: [ListModule, I18nModule, RouterModule, SubListModule],
-  declarations: [
+  imports: [
+    ListModule,
+    I18nModule,
+    RouterModule,
+    SubListModule,
     UserPermissionListComponent,
     UserAssignedPermissionListComponent,
   ],

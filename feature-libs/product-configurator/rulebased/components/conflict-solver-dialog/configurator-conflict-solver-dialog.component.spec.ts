@@ -1,6 +1,13 @@
 import { Component, Directive, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
@@ -8,6 +15,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
   IconLoaderService,
   IconModule,
@@ -20,6 +28,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/testing/comm
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 
@@ -59,10 +68,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -70,7 +76,7 @@ export class MockKeyboardFocusDirective {
 @Component({
   selector: 'cx-configurator-group',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorDefaultFormComponent {
   @Input() group: Configurator.Group;
@@ -95,13 +101,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
-        MockConfiguratorDefaultFormComponent,
-        ConfiguratorConflictSolverDialogComponent,
-        MockKeyboardFocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [IconModule, ConfiguratorConflictSolverDialogComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
@@ -114,7 +114,28 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorConflictSolverDialogComponent, {
+        remove: {
+          imports: [
+            ConfiguratorGroupComponent,
+            FocusDirective,
+            FeatureDirective,
+            TranslatePipe,
+            CxDatePipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockConfiguratorDefaultFormComponent,
+            MockKeyboardFocusDirective,
+            MockFeatureDirective,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

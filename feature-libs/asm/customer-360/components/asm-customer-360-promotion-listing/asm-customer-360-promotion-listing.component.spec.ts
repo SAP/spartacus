@@ -6,17 +6,28 @@ import {
   Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
-import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
+import {
+  CxDatePipe,
+  GlobalMessageType,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MessageComponent,
+} from '@spartacus/storefront';
+import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
 import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    standalone: false,
+    imports: [I18nTestingModule],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -25,7 +36,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
     selector: 'cx-message',
     template: '',
-    standalone: false,
+    imports: [I18nTestingModule],
   })
   class MockCxMessageComponent {
     @Input() text: string;
@@ -75,7 +86,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
       >
       </cx-asm-customer-360-promotion-listing>
     `,
-    standalone: false,
+    imports: [AsmCustomer360PromotionListingComponent],
   })
   class TestHostComponent {
     @Input() headerText: string;
@@ -101,14 +112,22 @@ describe('AsmCustomer360PromotionListingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        TestHostComponent,
-        AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent,
-        MockCxMessageComponent,
-      ],
-    }).compileComponents();
+      imports: [TestHostComponent],
+    })
+      .overrideComponent(AsmCustomer360PromotionListingComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, MessageComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockCxMessageComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

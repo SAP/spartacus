@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,7 +13,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import {
   Quote,
   QuoteDiscount,
@@ -20,7 +27,11 @@ import {
   QuoteFacade,
   QuoteMetadata,
 } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  DatePickerComponent,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -38,7 +49,15 @@ import {
 @Component({
   selector: 'cx-quote-summary-seller-edit',
   templateUrl: './quote-summary-seller-edit.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    DatePickerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);

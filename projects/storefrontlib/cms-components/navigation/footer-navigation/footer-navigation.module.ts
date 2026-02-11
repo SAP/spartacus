@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import { FooterNavigationComponent } from './footer-navigation.component';
     NavigationModule,
     GenericLinkModule,
     I18nModule,
+    FooterNavigationComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -29,7 +30,6 @@ import { FooterNavigationComponent } from './footer-navigation.component';
       },
     }),
   ],
-  declarations: [FooterNavigationComponent],
   exports: [FooterNavigationComponent],
 })
 export class FooterNavigationModule {}

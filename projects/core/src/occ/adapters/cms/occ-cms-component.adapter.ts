@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,24 +10,18 @@ import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
-import {
-  CmsComponent,
-  PageType,
-  USER_CMS_ENDPOINTS,
-} from '../../../model/cms.model';
+import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
-import { FeatureConfigService } from '../../../features-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected readonly userIdService = inject(UserIdService);
-  protected readonly featureConfigService = inject(FeatureConfigService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
@@ -40,26 +34,18 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    // TODO: (CXSPA-4886) Remove flag in the major
-    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
-      return this.userIdService.getUserId().pipe(
-        switchMap((userId: string) => {
-          return this.http.get<T>(
-            this.getComponentEndPoint(id, pageContext, userId),
-            {
-              headers: this.headers,
-            }
-          );
-        }),
-        this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER),
-        take(1)
-      );
-    }
-    return this.http
-      .get<T>(this.getComponentEndPoint(id, pageContext), {
-        headers: this.headers,
-      })
-      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
+    return this.userIdService.getUserId().pipe(
+      switchMap((userId: string) => {
+        return this.http.get<T>(
+          this.getComponentEndPoint(id, pageContext, userId),
+          {
+            headers: this.headers,
+          }
+        );
+      }),
+      this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER),
+      take(1)
+    );
   }
 
   findComponentsByIds(
@@ -76,33 +62,19 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     };
 
     requestParams['componentIds'] = ids.toString();
-    // TODO: (CXSPA-4886) Remove flag in the major
-    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
-      return this.userIdService.getUserId().pipe(
-        switchMap((userId: string) => {
-          return this.http.get<Occ.ComponentList>(
-            this.getComponentsEndpoint(requestParams, fields, userId),
-            {
-              headers: this.headers,
-            }
-          );
-        }),
-        map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
-        take(1)
-      );
-    }
-    return this.http
-      .get<Occ.ComponentList>(
-        this.getComponentsEndpoint(requestParams, fields),
-        {
-          headers: this.headers,
-        }
-      )
-      .pipe(
-        map((componentList) => componentList.component ?? []),
-        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
-      );
+    return this.userIdService.getUserId().pipe(
+      switchMap((userId: string) => {
+        return this.http.get<Occ.ComponentList>(
+          this.getComponentsEndpoint(requestParams, fields, userId),
+          {
+            headers: this.headers,
+          }
+        );
+      }),
+      map((componentList) => componentList.component ?? []),
+      this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER),
+      take(1)
+    );
   }
 
   protected getComponentEndPoint(
@@ -110,22 +82,15 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageContext: PageContext,
     userId?: string
   ): string {
-    // TODO: (CXSPA-4886) Remove flag in the major
-    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
-      const queryParams = this.getContextParams(pageContext);
-      const attributes = userId
-        ? {
-            urlParams: { id, userId },
-            queryParams,
-          }
-        : { urlParams: { id }, queryParams };
+    const queryParams = this.getContextParams(pageContext);
+    const attributes = userId
+      ? {
+          urlParams: { id, userId },
+          queryParams,
+        }
+      : { urlParams: { id }, queryParams };
 
-      return this.occEndpoints.buildUrl('component', attributes);
-    }
-    return this.occEndpoints.buildUrl('component', {
-      urlParams: { id },
-      queryParams: this.getContextParams(pageContext),
-    });
+    return this.occEndpoints.buildUrl('component', attributes);
   }
 
   protected getComponentsEndpoint(
@@ -133,22 +98,16 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     fields: string,
     userId?: string
   ): string {
-    // TODO: (CXSPA-4886) Remove flag in the major
-    if (this.featureConfigService.isEnabled(USER_CMS_ENDPOINTS)) {
-      const queryParams = { fields, ...requestParams };
+    const queryParams = { fields, ...requestParams };
 
-      const attributes = userId
-        ? {
-            urlParams: { userId },
-            queryParams,
-          }
-        : { queryParams };
+    const attributes = userId
+      ? {
+          urlParams: { userId },
+          queryParams,
+        }
+      : { queryParams };
 
-      return this.occEndpoints.buildUrl('components', attributes);
-    }
-    return this.occEndpoints.buildUrl('components', {
-      queryParams: { fields, ...requestParams },
-    });
+    return this.occEndpoints.buildUrl('components', attributes);
   }
 
   protected getPaginationParams(

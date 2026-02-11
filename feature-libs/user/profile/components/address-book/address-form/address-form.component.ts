@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,10 +17,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Address,
   AddressValidation,
@@ -29,12 +33,17 @@ import {
   GlobalMessageType,
   Region,
   Title,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
 import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  NgSelectA11yDirective,
   sortTitles,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
@@ -45,7 +54,18 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    FormRequiredAsterisksComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;

@@ -1,20 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { Config } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { Config, TranslatePipe } from '@spartacus/core';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+  PopoverDirective,
+} from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
@@ -25,7 +36,19 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   templateUrl: './configurator-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    FormsModule,
+    ReactiveFormsModule,
+    FocusDirective,
+    NgClass,
+    PopoverDirective,
+    IconComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent

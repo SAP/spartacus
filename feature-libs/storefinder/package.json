@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefinder",
-  "version": "221121.5.0",
+  "version": "221121.7.0",
   "description": "Store finder feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -25,21 +25,21 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.15",
-    "@angular/core": "^19.2.15",
-    "@angular/forms": "^19.2.15",
-    "@angular/router": "^19.2.15",
-    "@ngrx/effects": "^19.0.0",
-    "@ngrx/store": "^19.0.0",
-    "@spartacus/core": "221121.5.0",
-    "@spartacus/schematics": "221121.5.0",
-    "@spartacus/storefront": "221121.5.0",
-    "@spartacus/styles": "221121.5.0",
+    "@angular-devkit/schematics": "^21.1.0",
+    "@angular/common": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/forms": "^21.1.0",
+    "@angular/router": "^21.1.0",
+    "@ngrx/effects": "^21.0.1",
+    "@ngrx/store": "^21.0.1",
+    "@spartacus/core": "221121.7.0",
+    "@spartacus/schematics": "221121.7.0",
+    "@spartacus/storefront": "221121.7.0",
+    "@spartacus/styles": "221121.7.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
-    "node": "^22.0.0"
+    "node": "^22.22.0"
   },
   "publishConfig": {
     "access": "public"

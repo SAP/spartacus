@@ -9,12 +9,10 @@
     width: 100%;
   }
 
-  @include forFeature('a11yNavigationButtonsAriaFixes') {
-    h4 {
-      text-transform: uppercase;
-      font-weight: 600;
-      width: 100%;
-    }
+  h4 {
+    text-transform: uppercase;
+    font-weight: 600;
+    width: 100%;
   }
 
   li {

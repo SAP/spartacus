@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +12,11 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { Product, UrlPipe } from '@spartacus/core';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -28,7 +33,14 @@ import {
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    RouterLink,
+    LcpContextDirective,
+    MediaComponent,
+    InnerComponentsHostDirective,
+    AsyncPipe,
+    UrlPipe,
+  ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
   /**

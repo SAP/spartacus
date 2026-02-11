@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,7 @@ import { StoreModule } from '../store/store.module';
 import { PickupInfoComponent } from './pickup-info.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, StoreModule],
-  declarations: [PickupInfoComponent],
+  imports: [CommonModule, I18nModule, StoreModule, PickupInfoComponent],
   exports: [PickupInfoComponent],
 })
 export class PickupInfoModule {}

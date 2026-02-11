@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,12 @@ import { CardModule } from '@spartacus/storefront';
 import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
 
 @NgModule({
-  imports: [CardModule, CommonModule, I18nModule],
-  declarations: [AsmCustomer360ProfileComponent],
+  imports: [
+    CardModule,
+    CommonModule,
+    I18nModule,
+    AsmCustomer360ProfileComponent,
+  ],
   exports: [AsmCustomer360ProfileComponent],
 })
 export class AsmCustomer360ProfileModule {}

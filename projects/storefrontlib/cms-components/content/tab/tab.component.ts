@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,18 +17,26 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { BreakpointService } from '../../../layout/breakpoint';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_MODE } from './tab.model';
+import { BreakpointService } from '../../../layout/breakpoint';
+import { TabPanelComponent } from './panel/tab-panel.component';
+import { Tab, TAB_MODE, TabConfig } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
-import { TranslationService, FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-tab',
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgTemplateOutlet,
+    TabPanelComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
@@ -47,9 +56,6 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   protected translationService = inject(TranslationService);
   protected cd = inject(ChangeDetectorRef);
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   @ViewChildren('tabHeader') tabHeaders: QueryList<any>;
 
@@ -113,19 +119,10 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   selectOrFocus(tabNum: number, mode: TAB_MODE, event: KeyboardEvent): void {
     event.preventDefault();
 
-    if (this.featureConfigService?.isEnabled('a11yTabsManualActivation')) {
-      switch (mode) {
-        case TAB_MODE.TAB:
-        case TAB_MODE.ACCORDIAN:
-          return this.focus(tabNum);
-      }
-    } else {
-      switch (mode) {
-        case TAB_MODE.TAB:
-          return this.select(tabNum, mode);
-        case TAB_MODE.ACCORDIAN:
-          return this.focus(tabNum);
-      }
+    switch (mode) {
+      case TAB_MODE.TAB:
+      case TAB_MODE.ACCORDIAN:
+        return this.focus(tabNum);
     }
   }
 

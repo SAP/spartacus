@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { SaveForLaterComponent } from './save-for-later.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, CartSharedModule],
+  imports: [CommonModule, I18nModule, CartSharedModule, SaveForLaterComponent],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
@@ -26,7 +26,6 @@ import { SaveForLaterComponent } from './save-for-later.component';
       },
     }),
   ],
-  declarations: [SaveForLaterComponent],
   exports: [SaveForLaterComponent],
 })
 export class SaveForLaterModule {}

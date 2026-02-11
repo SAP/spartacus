@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FocusDirective } from './focus.directive';
 import { KeyboardFocusService } from './services';
@@ -10,7 +10,7 @@ import { KeyboardFocusService } from './services';
     id="a"
     [cxFocus]="{ autofocus: true, refreshFocus: modelA }"
   ></div>`,
-  standalone: false,
+  imports: [FocusDirective],
 })
 class MockComponent {
   modelA = '';
@@ -33,7 +33,7 @@ describe('FocusDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [FocusDirective, MockComponent],
+      imports: [FocusDirective, MockComponent],
       providers: [
         {
           provide: KeyboardFocusService,

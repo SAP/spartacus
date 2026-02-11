@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,9 +44,10 @@ const baseSite = environment.epdVisualization
         baseSite: baseSite,
       },
     }),
+    // Note: The next config chunk is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
     provideConfig(<PWAModuleConfig>{
       pwa: {
-        enabled: true,
+        enabled: false,
         addToHomeScreen: true,
       },
     }),

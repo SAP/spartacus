@@ -1,13 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
+  DOCUMENT,
   ElementRef,
   HostBinding,
   HostListener,
@@ -18,26 +19,45 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  FeatureConfigService,
-  RoutingService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
+import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
+import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
+import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
 import {
   FocusConfig,
+  FocusDirective,
   KeyboardFocusService,
   SkipFocusConfig,
+  SkipFocusDirective,
 } from '../a11y/keyboard-focus/index';
-import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
+import {
+  SkipLinkComponent,
+  SkipLinkDirective,
+  SkipLinkService,
+} from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
-  standalone: false,
+  imports: [
+    RouterModule,
+    PageLayoutComponent,
+    PageSlotComponent,
+    FocusDirective,
+    SkipFocusDirective,
+    SkipLinkDirective,
+    GlobalMessageComponent,
+    AsyncPipe,
+    OutletDirective,
+    PageTemplateDirective,
+  ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
@@ -50,7 +70,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   readonly StorefrontOutlets = StorefrontOutlets;
 
-  private featureConfigService = inject(FeatureConfigService);
   protected destroyRef = inject(DestroyRef);
   @Optional() protected document = inject(DOCUMENT, {
     optional: true,
@@ -87,7 +106,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('a11yKeyboardFocusInSearchBox');
     useFeatureStyles('a11yNgSelectLayering');
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
@@ -106,9 +124,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       })
     );
 
-    if (this.featureConfigService.isEnabled('a11yHamburgerMenuTrapFocus')) {
-      this.trapFocusOnMenuIfExpanded();
-    }
+    this.trapFocusOnMenuIfExpanded();
   }
 
   collapseMenuIfClickOutside(event: any): void {
@@ -161,7 +177,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
     // After clicking a link the focus should move to the first available item in the main content area.
     if (
-      this.featureConfigService.isEnabled('a11yResetFocusAfterNavigating') &&
       this.stopNavigating &&
       this.document?.activeElement !== this.document?.body
     ) {

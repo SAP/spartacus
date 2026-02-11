@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,9 +70,15 @@ context('Anonymous consents - config flow', () => {
           hideConsents: [STORE_USER_INFORMATION],
         }
       );
+      cy.intercept('GET', '**/users/anonymous/consenttemplates*').as(
+        'getConsentTemplates'
+      );
       const homePage = waitForPage('homepage', 'getHomePage');
       cy.visit('/');
       cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+      cy.wait('@getConsentTemplates')
+        .its('response.statusCode')
+        .should('eq', 200);
     });
 
     anonymousConfigTestFlow();

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,14 @@ const components = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    MediaModule,
+    ...components,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -41,7 +48,6 @@ const components = [
       },
     }),
   ],
-  declarations: [...components],
   exports: [...components],
 })
 export class ReturnRequestDetailModule {}

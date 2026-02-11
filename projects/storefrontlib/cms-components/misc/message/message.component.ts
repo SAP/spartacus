@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -13,12 +14,14 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
-  standalone: false,
+  imports: [NgClass, IconComponent, NgIf, AtMessageDirective, TranslatePipe],
 })
 export class MessageComponent implements AfterViewInit {
   @Input()

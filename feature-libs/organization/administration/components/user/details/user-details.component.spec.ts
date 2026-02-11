@@ -1,20 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   B2BUser,
   B2BUserRight,
   B2BUserRole,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
 } from '@spartacus/organization/administration/core';
-import { FocusConfig } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { FocusConfig, FocusDirective } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
-import { DisableInfoModule } from '../../shared';
+import {
+  CardComponent,
+  DisableInfoModule,
+  MessageComponent,
+} from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
@@ -68,7 +78,6 @@ class MockB2BUserService implements Partial<B2BUserService> {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -84,36 +93,45 @@ describe('UserDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        CardTestingModule,
-        MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
-      ],
-      declarations: [
         UserDetailsComponent,
         ItemExistsDirective,
-        MockKeyboadFocusDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-      providers: [
-        { provide: ItemService, useClass: MockUserItemService },
-        { provide: B2BUserService, useClass: MockB2BUserService },
-      ],
+      providers: [{ provide: B2BUserService, useClass: MockB2BUserService }],
     })
       .overrideComponent(UserDetailsComponent, {
-        set: {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FocusDirective,
+            CardComponent,
+            MessageComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockKeyboadFocusDirective,
+            CardTestingModule,
+            MessageTestingModule,
+          ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
             },
+            { provide: ItemService, useClass: MockUserItemService },
           ],
         },
       })
       .compileComponents();
-
-    itemService = TestBed.inject(ItemService);
 
     b2bUserService = TestBed.inject(B2BUserService);
 
@@ -122,6 +140,7 @@ describe('UserDetailsComponent', () => {
     spyOn(b2bUserService, 'isUpdatingUserAllowed').and.callThrough();
 
     fixture = TestBed.createComponent(UserDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

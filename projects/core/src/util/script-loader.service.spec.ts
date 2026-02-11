@@ -1,7 +1,7 @@
 /* eslint-disable import/no-deprecated */
 // for now there is no better way than to use document.createElement here, therefore we need to disable eslint deprecation rule here
-import { DOCUMENT } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+
+import { PLATFORM_ID, DOCUMENT } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ScriptLoader, ScriptPlacement } from './script-loader.service';
 

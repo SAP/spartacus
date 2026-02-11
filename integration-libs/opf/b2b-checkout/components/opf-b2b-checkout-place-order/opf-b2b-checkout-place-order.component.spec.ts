@@ -6,11 +6,8 @@
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { OpfB2bCheckoutPlaceOrderComponent } from './opf-b2b-checkout-place-order.component';
-import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { LaunchRenderStrategy } from '@spartacus/storefront';
+import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import {
   CurrencyService,
   GlobalMessageService,
@@ -23,7 +20,10 @@ import {
   AtMessageModule,
   LAUNCH_CALLER,
   LaunchDialogService,
+  LaunchRenderStrategy,
 } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OpfB2bCheckoutPlaceOrderComponent } from './opf-b2b-checkout-place-order.component';
 import createSpy = jasmine.createSpy;
 
 class MockCheckoutPlaceOrderComponent {
@@ -71,8 +71,12 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
-      declarations: [OpfB2bCheckoutPlaceOrderComponent],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        AtMessageModule,
+        OpfB2bCheckoutPlaceOrderComponent,
+      ],
       providers: [
         {
           provide: CheckoutPlaceOrderComponent,

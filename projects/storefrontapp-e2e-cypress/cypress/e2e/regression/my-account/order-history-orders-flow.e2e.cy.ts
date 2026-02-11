@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -46,6 +46,7 @@ describe('Order History with orders', () => {
 });
 
 describe('Order details page', { testIsolation: false }, () => {
+  isolateTestsBefore();
   viewportContext(['mobile', 'desktop'], () => {
     isolateTestsBefore();
     let formattedValue: any;

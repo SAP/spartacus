@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,7 @@ import * as github from '@actions/github';
 
 async function run() {
   core.startGroup('npm');
-  let exitCode = await exec.exec('npm', ['i'], {
+  let exitCode = await exec.exec('npm', ['ci'], {
     ignoreReturnCode: true,
   });
   core.endGroup();

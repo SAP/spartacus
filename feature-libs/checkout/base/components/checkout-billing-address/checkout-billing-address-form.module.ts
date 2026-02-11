@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,9 +34,9 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CheckoutBillingAddressFormComponent,
   ],
   providers: [CheckoutBillingAddressFormService],
-  declarations: [CheckoutBillingAddressFormComponent],
   exports: [CheckoutBillingAddressFormComponent],
 })
 export class CheckoutBillingAddressFormModule {}

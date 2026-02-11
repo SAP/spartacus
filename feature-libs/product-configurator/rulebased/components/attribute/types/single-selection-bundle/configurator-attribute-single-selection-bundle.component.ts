@@ -1,12 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
@@ -14,7 +20,13 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   templateUrl:
     './configurator-attribute-single-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    NgFor,
+    ConfiguratorAttributeProductCardComponent,
+  ],
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   /**

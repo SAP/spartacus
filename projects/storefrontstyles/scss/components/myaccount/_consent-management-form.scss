@@ -2,4 +2,14 @@
   .cx-be-bold {
     font-weight: var(--cx-font-weight-semi);
   }
+  input[type='checkbox']:disabled ~ .form-check-label {
+    color: var(--cx-color-text);
+  }
+  input[type='checkbox'].form-check-input:disabled {
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .disabled-consent {
+    opacity: 0.6;
+  }
 }

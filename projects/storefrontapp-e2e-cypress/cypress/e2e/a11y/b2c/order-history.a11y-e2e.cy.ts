@@ -1,13 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../../helpers/viewport-context';
 import { doPlaceOrder } from '../../../helpers/order-history';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Order History Page accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.a11yContinuumSetup();

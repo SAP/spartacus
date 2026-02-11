@@ -1,11 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AuthService, TranslationService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  AuthService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
+import { DomChangeDirective, PageSlotComponent } from '@spartacus/storefront';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -13,7 +21,15 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    PageSlotComponent,
+    DomChangeDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;

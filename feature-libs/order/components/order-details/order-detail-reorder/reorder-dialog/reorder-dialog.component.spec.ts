@@ -88,7 +88,13 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nTestingModule,
+    PromotionsModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -97,14 +103,17 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nTestingModule,
+    PromotionsModule,
+  ],
 })
 class MockSpinnerComponent {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -123,8 +132,6 @@ describe('ReorderDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
-      ],
-      declarations: [
         ReorderDialogComponent,
         MockCxIconComponent,
         MockSpinnerComponent,

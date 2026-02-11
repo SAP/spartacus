@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,8 @@ import {
   Output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -28,7 +30,7 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
   selector: 'cx-configurator-attribute-quantity',
   templateUrl: './configurator-attribute-quantity.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [ItemCounterComponent, TranslatePipe],
 })
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit

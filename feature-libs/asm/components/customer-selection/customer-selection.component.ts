@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,9 +14,13 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
-  inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmConfig,
@@ -24,15 +28,18 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 
-import { FeatureConfigService, User } from '@spartacus/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { TranslatePipe, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -40,7 +47,16 @@ import { debounceTime } from 'rxjs/operators';
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    DotSpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: UntypedFormGroup;
@@ -53,8 +69,6 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
 
   activeFocusedButtonIndex = -1;
-
-  protected featureConfig = inject(FeatureConfigService);
 
   @Output()
   submitEvent = new EventEmitter<{

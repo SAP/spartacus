@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,6 +61,8 @@ export interface UsageCharge {
   blockSize?: number;
   tierUsageChargeEntries?: TierUsageChargeEntry[];
   overageUsageChargeEntries?: OverageUsageChargeEntry[];
+  typeName?: string;
+  netAmount?: string;
 }
 
 export interface PerUnitUsageCharge extends UsageCharge {

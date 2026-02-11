@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
@@ -98,7 +99,8 @@ describe('add-cms-component', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -223,13 +225,14 @@ describe('add-cms-component', () => {
       const moduleOptions = {
         name: moduleName,
         project: defaultOptions.project,
+        typeSeparator: '.',
       };
       const dummyComponentOptions = {
         project: defaultOptions.project,
         name: 'dummy',
         module: moduleName,
         export: true,
-        standalone: false,
+        type: 'component',
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
@@ -276,13 +279,7 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-        existingModulePath
-      );
-      assertContentExists(appTree, [], existingModulePath);
-      assertContentExists(
-        appTree,
-        [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
       assertContentExists(
@@ -371,13 +368,7 @@ describe('add-cms-component', () => {
         );
         assertContentExists(
           appTree,
-          [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-          existingModulePath
-        );
-        assertContentExists(appTree, [], existingModulePath);
-        assertContentExists(
-          appTree,
-          [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
+          [`exports: [`, `MyAwesomeCmsComponent`],
           existingModulePath
         );
         assertContentExists(
@@ -521,11 +512,13 @@ describe('add-cms-component', () => {
       const moduleOptions = {
         name: moduleName,
         project: defaultOptions.project,
+        typeSeparator: '.',
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
         module: 'app',
         declareCmsModule: moduleName,
+        type: 'component',
       };
 
       appTree = await schematicRunner.runExternalSchematic(

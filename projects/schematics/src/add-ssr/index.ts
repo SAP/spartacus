@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,12 @@ import {
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
 import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
-import { ANGULAR_SSR } from '../shared/constants';
+import {
+  ANGULAR_SERVER_MODULE,
+  ANGULAR_SSR,
+  APP_ROUTES_SERVER,
+  INDEX_HTML,
+} from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
@@ -47,6 +52,9 @@ import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
+import { createAppServerModule } from './create-app-server-module';
+import { updateAppConfigInSsr } from './update-app-config-in-ssr';
+import { updateAppConfigServer } from './update-app-config-server';
 
 const DEPENDENCY_NAMES: string[] = ['@angular/platform-server', ANGULAR_SSR];
 
@@ -54,13 +62,13 @@ export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.module.server.ts',
+      ANGULAR_SERVER_MODULE,
       '/src'
     )[0];
 
     if (!appServerModulePath) {
       throw new SchematicsException(
-        `Project file "app.module.server.ts" not found.`
+        `Project file "${ANGULAR_SERVER_MODULE}" not found.`
       );
     }
 
@@ -82,14 +90,14 @@ export function modifyAppServerModuleFile(): Rule {
     const changes = [importChange, ...providerChanges];
     commitChanges(tree, appServerModulePath, changes);
 
-    context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
+    context.logger.log('info', `✅️ Modified app.module.server.ts file.`);
     return tree;
   };
 }
 
 function modifyIndexHtmlFile(options: SpartacusOptions): Rule {
   return (tree: Tree) => {
-    const buffer = tree.read('src/index.html');
+    const buffer = tree.read(`src/${INDEX_HTML}`);
     if (buffer) {
       const indexContent = buffer.toString();
       if (!indexContent.includes('<meta name="occ-backend-base-url"')) {
@@ -352,71 +360,76 @@ function useNoSsrConfigurationInNgServe(
 }
 
 /**
- * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
+ * Removes the "outputMode" option from the "build" target in angular.json.
+ *
+ * This could be removed when we migrate to new SSR API.
  */
-export function addWithNoHttpTransferCacheToAppModule(
+function removeOutputModeSupportedOnlyInNewSsrApi(
   spartacusOptions: SpartacusOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const appModulePath = getPathResultsForFile(
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Removing "outputMode" supported only in new SSR API...`
+      );
+    }
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const options = build?.options;
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              options: {
+                ...options,
+                outputMode: undefined,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (spartacusOptions.debug) {
+      context.logger.info(`✅ Removed "outputMode" option`);
+    }
+    return tree;
+  };
+}
+
+/**
+ * Removes the `app.routes.server.ts` file.
+ * That file is not supported by Spartacus SSR.
+ */
+function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const serverRoutesPath = getPathResultsForFile(
       tree,
-      'app.module.ts',
+      APP_ROUTES_SERVER,
       '/src'
     )[0];
-    if (!appModulePath) {
-      throw new SchematicsException(
-        `AppModule file "app.module.ts" not found.`
-      );
-    }
 
-    const source = getTsSourceFile(tree, appModulePath);
-
-    const importChange = insertImport(
-      source,
-      appModulePath,
-      'withNoHttpTransferCache',
-      '@angular/platform-browser'
-    );
-
-    const fileBuffer = tree.read(appModulePath);
-    if (!fileBuffer) {
-      throw new SchematicsException(`Could not read file at ${appModulePath}`);
-    }
-    const fileContent = fileBuffer.toString();
-
-    // Regex to match provideClientHydration(...) with any arguments
-    const hydrationRegex = /provideClientHydration\s*\(\s*([^)]*)\)/m;
-    const match = hydrationRegex.exec(fileContent);
-
-    if (match) {
-      const args = match[1].trim();
-
-      const argList = args
-        .split(',')
-        .map((a) => a.trim())
-        .filter((a) => a.length > 0);
-
-      const idx = argList.findIndex((a) => a.startsWith('withEventReplay'));
-      if (idx !== -1) {
-        argList[idx] = 'withEventReplay()';
-        argList.splice(idx + 1, 0, 'withNoHttpTransferCache()');
-      } else {
-        argList.push('withNoHttpTransferCache()');
-      }
-      const newArgs = argList.join(', ');
-
-      const updatedContent = fileContent.replace(
-        hydrationRegex,
-        (_, _args) => `provideClientHydration(${newArgs}`
-      );
-      tree.overwrite(appModulePath, updatedContent);
+    if (serverRoutesPath) {
+      tree.delete(serverRoutesPath);
       if (spartacusOptions.debug) {
-        context.logger.info(
-          '✅ Added withNoHttpTransferCache() next to withEventReplay() in the parameter list of provideClientHydration'
-        );
+        context.logger.info(`✅ Deleted ${serverRoutesPath}`);
       }
     }
-    commitChanges(tree, appModulePath, [importChange]);
+
     return tree;
   };
 }
@@ -430,12 +443,15 @@ export function addSSR(options: SpartacusOptions): Rule {
       addPackageJsonDependencies(prepareDependencies(), packageJson),
       externalSchematic(ANGULAR_SSR, 'ng-add', {
         project: options.project,
-        serverRouting: false, //API in dev preview. Remove when API is stable and Spartacus is ready to use it.
       }),
+      removeOutputModeSupportedOnlyInNewSsrApi(options),
+      removeServerRoutesFile(options),
       addBuildSsrScript(options),
+      createAppServerModule(options),
+      updateAppConfigServer(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
-      addWithNoHttpTransferCacheToAppModule(options),
+      updateAppConfigInSsr(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite

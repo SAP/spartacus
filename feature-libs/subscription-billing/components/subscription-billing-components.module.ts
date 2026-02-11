@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,13 +11,17 @@ import { SubscriptionDetailsModule } from './details/subscription-details.module
 import { SubscriptionProductPriceModule } from './product/price/subscription-product-price.module';
 import { SubscriptionListModule } from './list/subscription-list.module';
 import { SubscriptionActionsModalModule } from './actions-modal/subscription-actions-modal.module';
+import { SubscriptionBillingListModule } from './list/billing/subscription-billing-list.module';
+import { SubscriptionBillingDetailsModule } from './billing-details/subscription-billing-details.module';
 
 @NgModule({
   imports: [
     SubscriptionListModule,
     SubscriptionDetailsModule,
+    SubscriptionBillingDetailsModule,
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
+    SubscriptionBillingListModule,
     SubscriptionActionsModalModule,
   ],
 })
