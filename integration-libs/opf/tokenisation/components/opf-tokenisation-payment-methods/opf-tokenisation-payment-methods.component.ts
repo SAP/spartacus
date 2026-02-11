@@ -12,7 +12,6 @@ import {
   PaymentDetails,
   TranslatePipe,
   TranslationService,
-  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
