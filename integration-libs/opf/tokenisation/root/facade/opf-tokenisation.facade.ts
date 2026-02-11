@@ -6,8 +6,8 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { PaymentDetails } from '@spartacus/core';
 import { OPF_TOKENISATION_FEATURE } from '../feature-name';
+import { OpfPaymentDetails } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,7 @@ export abstract class OpfTokenisationFacade {
   /**
    * Returns all user's payment methods
    */
-  abstract getPaymentMethods(): Observable<PaymentDetails[]>;
+  abstract getPaymentMethods(): Observable<OpfPaymentDetails[]>;
 
   /**
    * Returns a loading flag for payment methods

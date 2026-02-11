@@ -5,8 +5,9 @@
  */
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaymentDetails, UserPaymentService } from '@spartacus/core';
+import {  UserPaymentService } from '@spartacus/core';
 import { OpfTokenisationFacade } from '../../root/facade';
+import { OpfPaymentDetails } from '../../public_api';
 
 @Injectable()
 export class OpfTokenisationService implements OpfTokenisationFacade {
@@ -15,7 +16,7 @@ export class OpfTokenisationService implements OpfTokenisationFacade {
   /**
    * Returns all user's payment methods
    */
-  getPaymentMethods(): Observable<PaymentDetails[]> {
+  getPaymentMethods(): Observable<OpfPaymentDetails[]> {
     return this.userPaymentService.getPaymentMethods();
   }
 
