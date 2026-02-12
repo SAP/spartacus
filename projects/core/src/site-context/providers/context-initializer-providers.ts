@@ -33,6 +33,27 @@ export function initializeBaseSite(
   };
 }
 
+/**
+ * Context initializer providers for the core site contexts.
+ *
+ * Note on Custom Contexts:
+ * ------------------------
+ * Custom contexts that are **derived** from another context (like CustomContextService
+ * which wraps LanguageService) do NOT need their own initializer because:
+ *
+ * 1. `SiteContextRoutesHandler.initOnce()` handles ALL URL parameters globally,
+ *    including custom ones - it reads from URL and calls `setValue()` for each context.
+ *
+ * 2. For derived contexts (e.g., uppercase language), the underlying context
+ *    (LanguageService) is already initialized by LanguageInitializer.
+ *
+ * 3. The derived context's `getActive()` automatically reflects the underlying value.
+ *
+ * A custom initializer is only needed when:
+ * - The custom context has its own independent state (not derived from another context)
+ * - The custom context needs special persistence (like LanguageStatePersistenceService)
+ * - The custom context needs custom fallback logic different from URL extraction
+ */
 export const contextInitializerProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,

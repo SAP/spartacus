@@ -32,7 +32,14 @@ import { SpartacusModule } from './spartacus/spartacus.module';
         },
       },
     }),
-
+    provideConfig({
+      context: {
+        custom: ['EN', 'DE', 'JA', 'ZH', 'HU'],
+        // Add 'custom' to urlParameters to persist custom context in URL
+        // Note: This extends the urlParameters from spartacus-b2c-configuration.module.ts
+        urlParameters: ['baseSite', 'language', 'currency', 'custom'],
+      },
+    }),
     privateProviders,
   ],
 })
