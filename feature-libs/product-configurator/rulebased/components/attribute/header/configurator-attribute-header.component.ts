@@ -183,15 +183,15 @@ export class ConfiguratorAttributeHeaderComponent
     if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
       return 'configurator.conflict.viewConfigurationDetails';
     }
-    
+
     if (this.attribute.hasNonNavigableConflict) {
       return 'configurator.conflict.nonNavigableConflict';
     }
-    
+
     if (this.isNavigationToConflictEnabled()) {
       return 'configurator.conflict.viewConflictDetails';
     }
-    
+
     return 'configurator.conflict.conflictDetected';
   }
 
