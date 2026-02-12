@@ -654,7 +654,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
         attributes
       );
       expect(attributes[0].hasNonNavigableConflict).toBe(false);
-      
+
       sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
       occConfiguratorVariantNormalizer.convertAttribute(
         sourceAttribute,
