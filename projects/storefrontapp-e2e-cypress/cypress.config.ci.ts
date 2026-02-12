@@ -13,7 +13,7 @@ const CLIENT_ID =
 const API_URL =
   JDK_VERSION === 'JDK21'
     ? 'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud'
-    : 'https://20.83.184.244:9002';
+    : 'https://74.235.90.247:9002';
 
 export default defineConfig({
   defaultCommandTimeout: 30000,
