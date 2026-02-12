@@ -32,13 +32,11 @@ export class CurrencyInitializer implements OnDestroy {
    * @returns Observable that completes when initialization is done.
    */
   initialize(): Observable<unknown> {
-    const init$ = this.configInit
-      .getStable('context')
-      .pipe(
-        switchMap(() => this.siteContextRoutesHandler.initOnce()),
-        switchMap(() => this.currencyStatePersistenceService.initSync()),
-        switchMap(() => this.setFallbackValue())
-      );
+    const init$ = this.configInit.getStable('context').pipe(
+      switchMap(() => this.siteContextRoutesHandler.initOnce()),
+      switchMap(() => this.currencyStatePersistenceService.initSync()),
+      switchMap(() => this.setFallbackValue())
+    );
 
     this.subscription = init$.subscribe();
     return init$;
