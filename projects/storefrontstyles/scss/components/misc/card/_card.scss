@@ -12,6 +12,12 @@
     white-space: pre-line;
   }
 
+  .cx-card-img-container {
+    cx-icon {
+      width: auto;
+    }
+  }
+
   .cx-text-green {
     color: var(--cx-color-success);
     font-weight: var(--cx-font-weight-bold);

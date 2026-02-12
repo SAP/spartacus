@@ -99,7 +99,6 @@ describe('add-cms-component', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
@@ -233,7 +232,6 @@ describe('add-cms-component', () => {
         name: 'dummy',
         module: moduleName,
         export: true,
-        standalone: false,
         type: 'component',
       };
       const modifiedOptions: CxCmsComponentSchema = {
@@ -281,13 +279,7 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-        existingModulePath
-      );
-      assertContentExists(appTree, [], existingModulePath);
-      assertContentExists(
-        appTree,
-        [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
       assertContentExists(
@@ -376,13 +368,7 @@ describe('add-cms-component', () => {
         );
         assertContentExists(
           appTree,
-          [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-          existingModulePath
-        );
-        assertContentExists(appTree, [], existingModulePath);
-        assertContentExists(
-          appTree,
-          [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
+          [`exports: [`, `MyAwesomeCmsComponent`],
           existingModulePath
         );
         assertContentExists(

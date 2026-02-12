@@ -47,6 +47,9 @@ Thes input files should be present:
 - docs/migration/*_0/migration-comments-members.json      (structured manual doc input for deleted or renamed class members)
 - docs/migration/*_0/renamed-api-mappings.json            (structured manual doc input for renamed public api elements)
 
+If above files are missing, the generator will use empty set of data.
+At least breaking-changes.json must be present to produce meaningful output.
+
 The 6.0 migration files can be taken as a template or en example: https://github.com/SAP/spartacus/tree/release/6.0.x/docs/migration/6_0
 
 The full documentation about those files can be found here: https://wiki.one.int.sap/wiki/x/9WSWtQ
@@ -66,6 +69,10 @@ The full documentation about those files can be found here: https://wiki.one.int
 `gen-doc` : generated the human readable doc listing all the breaking changes in the markdown format.
 Typically the documentation is placed in the folder `docs/migration`
 
+# Automation of almost whole process
+
+Run `npm run regenerate` to run the whole process after preparing old nad new to generating all migration assets and doc.
+It will execute extract-all, parse-all, gen-all, and prettier of schematics/src/migration files.
 
 # Post generation tasks:
 
