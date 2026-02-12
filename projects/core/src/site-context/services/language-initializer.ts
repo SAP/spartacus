@@ -28,16 +28,20 @@ export class LanguageInitializer implements OnDestroy {
 
   /**
    * Initializes the value of the active language.
+   *
+   * @returns Observable that completes when initialization is done.
    */
-  initialize(): void {
-    this.subscription = this.configInit
+  initialize(): Observable<unknown> {
+    const init$ = this.configInit
       .getStable('context')
       .pipe(
         switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.languageStatePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
-      )
-      .subscribe();
+      );
+
+    this.subscription = init$.subscribe();
+    return init$;
   }
 
   /**

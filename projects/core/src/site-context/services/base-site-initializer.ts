@@ -27,15 +27,19 @@ export class BaseSiteInitializer implements OnDestroy {
 
   /**
    * Initializes the value of the base site
+   *
+   * @returns Observable that completes when initialization is done.
    */
-  initialize(): void {
-    this.subscription = this.configInit
+  initialize(): Observable<unknown> {
+    const init$ = this.configInit
       .getStable('context')
       .pipe(
         switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.setFallbackValue())
-      )
-      .subscribe();
+      );
+
+    this.subscription = init$.subscribe();
+    return init$;
   }
 
   /**
