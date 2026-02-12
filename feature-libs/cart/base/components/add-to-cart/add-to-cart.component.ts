@@ -40,6 +40,7 @@ import {
   ProductAvailabilityService,
   ProductCatalogService,
   ProductScope,
+  ProductTypes,
   TranslatePipe,
   isNotNullable,
 } from '@spartacus/core';
@@ -213,7 +214,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When out of stock, display no numerical value.
    */
   getInventory(): string {
-    if (this.hasStock && this.product.productTypes !== 'SUBSCRIPTION') {
+    if (
+      this.hasStock &&
+      this.product.productTypes !== ProductTypes.SUBSCRIPTION
+    ) {
       const quantityDisplay = this.maxQuantity
         ? this.maxQuantity.toString()
         : '';
