@@ -180,13 +180,19 @@ export class ConfiguratorAttributeHeaderComponent
    * @return {string} - the conflict link key
    */
   getConflictMessageKey(): string {
-    return this.groupType === Configurator.GroupType.CONFLICT_GROUP
-      ? 'configurator.conflict.viewConfigurationDetails'
-      : this.isNavigationToConflictEnabled() && !this.attribute.hasNonNavigableConflict
-        ? 'configurator.conflict.viewConflictDetails'
-        : this.attribute.hasNonNavigableConflict
-          ? 'configurator.conflict.nonNavigableConflict'
-          : 'configurator.conflict.conflictDetected';
+    if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
+      return 'configurator.conflict.viewConfigurationDetails';
+    }
+    
+    if (this.attribute.hasNonNavigableConflict) {
+      return 'configurator.conflict.nonNavigableConflict';
+    }
+    
+    if (this.isNavigationToConflictEnabled()) {
+      return 'configurator.conflict.viewConflictDetails';
+    }
+    
+    return 'configurator.conflict.conflictDetected';
   }
 
   /**
