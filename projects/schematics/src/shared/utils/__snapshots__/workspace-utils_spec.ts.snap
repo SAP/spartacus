@@ -85,13 +85,11 @@ exports[`Workspace utils getProject should return project 1`] = `
   "schematics": {
     "@schematics/angular:component": {
       "addTypeToClassName": false,
-      "standalone": false,
       "style": "scss",
       "type": "component",
     },
     "@schematics/angular:directive": {
       "addTypeToClassName": false,
-      "standalone": false,
       "type": "directive",
     },
     "@schematics/angular:guard": {
@@ -104,7 +102,6 @@ exports[`Workspace utils getProject should return project 1`] = `
       "typeSeparator": ".",
     },
     "@schematics/angular:pipe": {
-      "standalone": false,
       "typeSeparator": ".",
     },
     "@schematics/angular:resolver": {
