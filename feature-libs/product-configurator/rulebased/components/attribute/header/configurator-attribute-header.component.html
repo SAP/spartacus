@@ -8,10 +8,8 @@
     [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
     [attr.aria-label]="
       !attribute.required
-        ? ('configurator.a11y.attribute'
-          | cxTranslate: { attribute: attribute.label })
-        : ('configurator.a11y.requiredAttribute'
-          | cxTranslate: { param: attribute.label })
+        ? ('configurator.a11y.attribute' | cxTranslate: { attribute: attribute.label })
+        : ('configurator.a11y.requiredAttribute' | cxTranslate: { param: attribute.label })
     "
     ><span
       [class.cx-required-icon]="attribute.required"
@@ -27,10 +25,8 @@
       [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
       [attr.aria-label]="
         !attribute.required
-          ? ('configurator.a11y.attribute'
-            | cxTranslate: { attribute: attribute.label })
-          : ('configurator.a11y.requiredAttribute'
-            | cxTranslate: { param: attribute.label })
+          ? ('configurator.a11y.attribute' | cxTranslate: { attribute: attribute.label })
+          : ('configurator.a11y.requiredAttribute' | cxTranslate: { param: attribute.label })
       "
       ><span
         [class.cx-required-icon]="attribute.required"
@@ -60,29 +56,18 @@
   [attr.aria-live]="isConflictResolutionActive() ? 'assertive' : 'off'"
   [attr.aria-atomic]="isConflictResolutionActive() ? true : false"
   [attr.role]="isConflictResolutionActive() ? 'alert' : null"
-  [attr.aria-label]="
-    isConflictResolutionActive()
-      ? ('configurator.a11y.conflictDetected' | cxTranslate)
-      : ''
-  "
+  [attr.aria-label]="isConflictResolutionActive() ? ('configurator.a11y.conflictDetected' | cxTranslate) : ''"
 >
-  <cx-icon
-    *ngIf="isAttributeGroup()"
-    [type]="iconTypes.WARNING"
-    aria-hidden="true"
-  ></cx-icon>
+  <cx-icon *ngIf="isAttributeGroup()" [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
-    <ng-container *ngIf="isNavigationToConflictEnabled()  && (!attribute.hasNonNavigableConflict); else withoutLink">
+    <ng-container *ngIf="isNavigationToConflictEnabled() && !attribute.hasNonNavigableConflict; else withoutLink">
       <a
         class="link cx-action-link"
         (click)="navigateToGroup()"
         (keydown.enter)="navigateToGroup()"
         tabindex="0"
         role="link"
-        [attr.aria-label]="
-          'configurator.a11y.navigateToConflict'
-            | cxTranslate: { attribute: attribute.label }
-        "
+        [attr.aria-label]="'configurator.a11y.navigateToConflict' | cxTranslate: { attribute: attribute.label }"
       >
         {{ getConflictMessageKey() | cxTranslate }}
       </a>
