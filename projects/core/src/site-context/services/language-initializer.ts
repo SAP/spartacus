@@ -17,7 +17,7 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageInitializer implements OnDestroy {
-  siteContextRoutesHandler = inject(SiteContextRoutesHandler)
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
   constructor(
     protected languageService: LanguageService,
     protected languageStatePersistenceService: LanguageStatePersistenceService,
