@@ -125,7 +125,9 @@ export class OccConfiguratorVariantNormalizer
       );
     }
     const uiType = this.convertAttributeType(sourceAttribute);
-    const firstConflict = sourceAttribute.conflicts?.[0] as unknown as { text?: string } | undefined;
+    const firstConflict = sourceAttribute.conflicts?.[0] as unknown as
+      | { text?: string }
+      | undefined;
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
@@ -142,7 +144,9 @@ export class OccConfiguratorVariantNormalizer
       numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: undefined,
       hasConflicts: numberOfConflicts > 0,
-      hasNonNavigableConflict: numberOfConflicts === 1 && firstConflict?.text === 'ATTRIBUTE_INCONSISTENCY_MARKER',
+      hasNonNavigableConflict:
+        numberOfConflicts === 1 &&
+        firstConflict?.text === 'ATTRIBUTE_INCONSISTENCY_MARKER',
       images: attributeImages,
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,

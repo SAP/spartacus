@@ -635,7 +635,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes[0].hasConflicts).toBe(false);
 
-      sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
+      sourceAttribute.conflicts = [
+        { text: 'first' } as any,
+        { text: 'second' } as any,
+      ];
       occConfiguratorVariantNormalizer.convertAttribute(
         sourceAttribute,
         attributes
@@ -655,13 +658,15 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes[0].hasNonNavigableConflict).toBe(false);
 
-      sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
+      sourceAttribute.conflicts = [
+        { text: 'first' } as any,
+        { text: 'second' } as any,
+      ];
       occConfiguratorVariantNormalizer.convertAttribute(
         sourceAttribute,
         attributes
       );
       expect(attributes[1].hasNonNavigableConflict).toBe(false);
-
 
       sourceAttribute.conflicts = [{ text: 'onlyConflict' } as any];
       occConfiguratorVariantNormalizer.convertAttribute(
@@ -670,7 +675,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes[2].hasNonNavigableConflict).toBe(false);
 
-      sourceAttribute.conflicts = [{ text: 'ATTRIBUTE_INCONSISTENCY_MARKER' } as any];
+      sourceAttribute.conflicts = [
+        { text: 'ATTRIBUTE_INCONSISTENCY_MARKER' } as any,
+      ];
       occConfiguratorVariantNormalizer.convertAttribute(
         sourceAttribute,
         attributes
