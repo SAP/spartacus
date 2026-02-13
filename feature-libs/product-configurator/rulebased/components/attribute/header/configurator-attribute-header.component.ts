@@ -182,7 +182,7 @@ export class ConfiguratorAttributeHeaderComponent
   getConflictMessageKey(): string {
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
-      : this.isNavigationToConflictEnabled()
+      : this.isNavigationToConflictEnabled() && (!this.attribute.hasNonNavigableConflict)
         ? 'configurator.conflict.viewConflictDetails'
         : 'configurator.conflict.conflictDetected';
   }

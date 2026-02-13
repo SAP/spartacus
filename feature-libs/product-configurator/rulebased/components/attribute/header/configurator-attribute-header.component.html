@@ -72,7 +72,7 @@
     aria-hidden="true"
   ></cx-icon>
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
-    <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
+    <ng-container *ngIf="isNavigationToConflictEnabled() && (!attribute.hasNonNavigableConflict); else withoutLink">
       <a
         class="link cx-action-link"
         (click)="navigateToGroup()"
