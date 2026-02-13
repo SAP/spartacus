@@ -27,6 +27,7 @@ if (environment.epdVisualization) {
 }
 
 @NgModule({
+  // Note: Our internal script in the `ec-automate-pipelines` repo prepends a new config chunk to this array below.
   providers: [
     // b2c
     provideConfigFactory(layoutConfigFactory),
@@ -35,12 +36,14 @@ if (environment.epdVisualization) {
     // b2b
     provideConfig(defaultB2bOccConfig),
     provideConfig(defaultB2BCheckoutConfig),
+    // Note: The next config chunk is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: baseSite,
       },
     }),
+    // Note: The next config chunk is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
     provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: false,
