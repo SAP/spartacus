@@ -153,7 +153,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
 
   // Subject for debounced search input
-  private searchInput$ = new Subject<string>();
+  protected searchInput$ = new Subject<string>();
 
   get isMobile(): Observable<boolean> | undefined {
     return this.breakpointService.isDown(BREAKPOINT.sm);
@@ -287,7 +287,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Performs the actual search operation.
    * This is called after debouncing to reduce HTTP requests.
    */
-  private performSearch(query: string): void {
+  protected performSearch(query: string): void {
     this.searchBoxComponentService.search(query, this.config);
   }
 
