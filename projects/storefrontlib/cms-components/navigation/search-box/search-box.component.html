@@ -149,6 +149,7 @@
         [items]="items"
         [template]="carouselItem"
         itemWidth="160px"
+        [preventNavigationFocus]="true"
         (keybordEvent)="carouselEventPropagator($event)"
       >
       </cx-carousel>
