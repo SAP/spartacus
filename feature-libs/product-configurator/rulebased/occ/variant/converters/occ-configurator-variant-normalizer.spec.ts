@@ -1,6 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, OccConfig, TranslationService } from '@spartacus/core';
+import {
+  ConverterService,
+  OccConfig,
+  TranslationService,
+} from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
@@ -25,7 +29,8 @@ const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
 const conflictGroupName = 'Color';
 const conflictGroupPrefix = 'Conflict for ';
-const conflictExplanation = 'The selected value is conflicting withour selections.';
+const conflictExplanation =
+  'The selected value is conflicting withour selections.';
 
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
@@ -243,7 +248,11 @@ const occValue: OccConfigurator.Value = {
   langDepName: valueName,
 };
 
-function createOccAttribute(key: string, name: string, type: OccConfigurator.UiType): OccConfigurator.Attribute {
+function createOccAttribute(
+  key: string,
+  name: string,
+  type: OccConfigurator.UiType
+): OccConfigurator.Attribute {
   return {
     key: key,
     name: name,
@@ -252,7 +261,11 @@ function createOccAttribute(key: string, name: string, type: OccConfigurator.UiT
   };
 }
 
-function createOccValue(key: string, langDepName: string, isSelected: boolean): OccConfigurator.Value {
+function createOccValue(
+  key: string,
+  langDepName: string,
+  isSelected: boolean
+): OccConfigurator.Value {
   return {
     key: key,
     langDepName: langDepName,
@@ -260,7 +273,10 @@ function createOccValue(key: string, langDepName: string, isSelected: boolean): 
   };
 }
 
-function createValue(valueCode: string, isSelected: boolean): Configurator.Value {
+function createValue(
+  valueCode: string,
+  isSelected: boolean
+): Configurator.Value {
   return {
     valueCode: valueCode,
     valueDisplay: '',
@@ -314,7 +330,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   beforeEach(() => {
     mockOccModuleConfig = structuredClone(mockOccModuleConfigTemplate);
-    mockConfiguratorUISettingsConfig = structuredClone(mockConfiguratorUISettingsConfigTemplate);
+    mockConfiguratorUISettingsConfig = structuredClone(
+      mockConfiguratorUISettingsConfigTemplate
+    );
     TestBed.configureTestingModule({
       providers: [
         OccConfiguratorVariantNormalizer,
@@ -331,7 +349,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     occConfiguratorVariantNormalizer = TestBed.inject(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
-    configUISettingsConfig = TestBed.inject(ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>);
+    configUISettingsConfig = TestBed.inject(
+      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
+    );
     groups = [];
     flatGroups = [];
     configuration = structuredClone(configurationTemplate);
@@ -390,19 +410,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should convert a configuration and support description at attribute and value level', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
-      expect((result.groups[0].attributes ?? [{ description: '' }])[0].description).toBeDefined();
-      expect((result.groups[0].attributes ?? [{ description: '' }])[0].description).toBe(
-        ((configuration.groups ??= [])[0].attributes ?? [{ longText: '' }])[0].longText
+      expect(
+        (result.groups[0].attributes ?? [{ description: '' }])[0].description
+      ).toBeDefined();
+      expect(
+        (result.groups[0].attributes ?? [{ description: '' }])[0].description
+      ).toBe(
+        ((configuration.groups ??= [])[0].attributes ?? [{ longText: '' }])[0]
+          .longText
       );
 
-      expect(((result.groups[0].attributes ??= [])[0].values ??= [])[1].description).toBeDefined();
-      expect(((result.groups[0].attributes ??= [])[0].values ??= [])[1].description).toBe(
-        (((configuration.groups ??= [])[0].attributes ??= [])[0].domainValues ??= [])[1].longText
+      expect(
+        ((result.groups[0].attributes ??= [])[0].values ??= [])[1].description
+      ).toBeDefined();
+      expect(
+        ((result.groups[0].attributes ??= [])[0].values ??= [])[1].description
+      ).toBe(
+        (((configuration.groups ??= [])[0].attributes ??=
+          [])[0].domainValues ??= [])[1].longText
       );
     });
 
     it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {
-      const result: Configurator.Configuration = occConfiguratorVariantNormalizer.convert(configuration);
+      const result: Configurator.Configuration =
+        occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.isCartEntryUpdateRequired).toBeUndefined();
     });
 
@@ -424,7 +455,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       const attributes = result.groups[0].attributes;
       expect(attributes).toBeDefined();
       expect(attributes?.length).toBe(1);
-      const attribute: Configurator.Attribute = attributes ? attributes[0] : { name: '' };
+      const attribute: Configurator.Attribute = attributes
+        ? attributes[0]
+        : { name: '' };
       expect(attribute.name).toBe(attributeName);
       expect(attribute.required).toBe(requiredFlag);
       expect(attribute.selectedSingleValue).toBe(valueKey2);
@@ -435,14 +468,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should work properly with a predecessor converter', () => {
-      const targetFromPredecessor: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
-        'id',
-        ConfiguratorModelUtils.createInitialOwner()
-      );
+      const targetFromPredecessor: Configurator.Configuration =
+        ConfiguratorTestUtils.createConfiguration(
+          'id',
+          ConfiguratorModelUtils.createInitialOwner()
+        );
       targetFromPredecessor.owner.key = 'myKey';
-      const target = occConfiguratorVariantNormalizer.convert(configuration, targetFromPredecessor);
+      const target = occConfiguratorVariantNormalizer.convert(
+        configuration,
+        targetFromPredecessor
+      );
       expect(target.owner).toBe(targetFromPredecessor.owner);
-      expect(target.interactionState).toBe(targetFromPredecessor.interactionState);
+      expect(target.interactionState).toBe(
+        targetFromPredecessor.interactionState
+      );
     });
 
     it('should convert a configuration with kb key', () => {
@@ -451,7 +490,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(result.kbKey?.kbName).toEqual(configuration.kbKey?.kbName);
       expect(result.kbKey?.kbLogsys).toEqual(configuration.kbKey?.kbLogsys);
       expect(result.kbKey?.kbVersion).toEqual(configuration.kbKey?.kbVersion);
-      expect(result.kbKey?.kbBuildNumber).toEqual(configuration.kbKey?.kbBuildNumber);
+      expect(result.kbKey?.kbBuildNumber).toEqual(
+        configuration.kbKey?.kbBuildNumber
+      );
     });
 
     it('should convert a configuration with undefined kb key', () => {
@@ -483,15 +524,23 @@ describe('OccConfiguratorVariantNormalizer', () => {
   describe('convertAttribute', () => {
     it('should convert attributes and do not complain if no domain values are present', () => {
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        occAttribute,
+        attributes
+      );
       expect(attributes.length).toBe(1);
       expect(attributes[0].name).toBe(attributeName);
-      expect(attributes[0].validationType).toBe(Configurator.ValidationType.NUMERIC);
+      expect(attributes[0].validationType).toBe(
+        Configurator.ValidationType.NUMERIC
+      );
     });
 
     it('should convert attribute key', () => {
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        occAttribute,
+        attributes
+      );
       expect(attributes.length).toBe(1);
       expect(attributes[0].key).toBe(csticKey);
     });
@@ -505,7 +554,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         type: OccConfigurator.UiType.READ_ONLY,
         key: groupKey,
       };
-      occConfiguratorVariantNormalizer.convertAttribute(numericOccAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        numericOccAttribute,
+        attributes
+      );
 
       expect(attributes[0].negativeAllowed).toBe(true);
     });
@@ -518,7 +570,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         negativeAllowed: true,
         key: groupKey,
       };
-      occConfiguratorVariantNormalizer.convertAttribute(numericOccAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        numericOccAttribute,
+        attributes
+      );
 
       expect(attributes[0].maxlength).toBe(maxlength + 1);
     });
@@ -531,7 +586,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         type: OccConfigurator.UiType.NUMERIC,
         formattedValue: '12',
       };
-      occConfiguratorVariantNormalizer.convertAttribute(numericOccAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        numericOccAttribute,
+        attributes
+      );
       expect(attributes[0].userInput).toBe(numericOccAttribute.formattedValue);
     });
 
@@ -544,7 +602,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         formattedValue: '12',
         value: valueKey,
       };
-      occConfiguratorVariantNormalizer.convertAttribute(numericOccAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        numericOccAttribute,
+        attributes
+      );
       expect(attributes[0].userInput).toBeUndefined();
     });
 
@@ -554,7 +615,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         key: attributeName,
       };
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       const resultAttribute = attributes[0];
       expect(resultAttribute.uiType).toBe(Configurator.UiType.NOT_IMPLEMENTED);
     });
@@ -565,11 +629,17 @@ describe('OccConfiguratorVariantNormalizer', () => {
         key: attributeName,
       };
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[0].hasConflicts).toBe(false);
 
       sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[1].hasConflicts).toBe(true);
     });
 
@@ -579,19 +649,32 @@ describe('OccConfiguratorVariantNormalizer', () => {
         key: attributeName,
       };
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[0].hasNonNavigableConflict).toBe(false);
 
       sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[1].hasNonNavigableConflict).toBe(false);
 
+
       sourceAttribute.conflicts = [{ text: 'onlyConflict' } as any];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[2].hasNonNavigableConflict).toBe(false);
 
       sourceAttribute.conflicts = [{ text: 'ATTRIBUTE_INCONSISTENCY_MARKER' } as any];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[3].hasNonNavigableConflict).toBe(true);
     });
 
@@ -602,7 +685,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         type: OccConfigurator.UiType.STRING,
       };
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[0].userInput).toBe('');
     });
 
@@ -614,7 +700,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         formattedValue: 'Huh',
       };
       const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(sourceAttribute, attributes);
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
       expect(attributes[0].userInput).toBe(sourceAttribute.formattedValue);
     });
   });
@@ -627,13 +716,21 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a standard group and conflict group but not conflict-header group and sub-item-group', () => {
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(flatGroups.length).toBe(1);
-    occConfiguratorVariantNormalizer.convertGroup(occConflictGroup, groups, flatGroups);
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
     expect(flatGroups.length).toBe(2);
     group.groupType = OccConfigurator.GroupType.INSTANCE;
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(flatGroups.length).toBe(2);
     occConflictGroup.groupType = OccConfigurator.GroupType.CONFLICT_HEADER;
-    occConfiguratorVariantNormalizer.convertGroup(occConflictGroup, groups, flatGroups);
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
     expect(flatGroups.length).toBe(2);
   });
 
@@ -644,7 +741,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
-    occConfiguratorVariantNormalizer.convertGroup(groupsWithoutAttributes, groups, flatGroups);
+    occConfiguratorVariantNormalizer.convertGroup(
+      groupsWithoutAttributes,
+      groups,
+      flatGroups
+    );
     expect(groups[0].name).toBe(groupName);
   });
 
@@ -655,7 +756,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
       groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
-    occConfiguratorVariantNormalizer.convertGroup(generalGroup, groups, flatGroups);
+    occConfiguratorVariantNormalizer.convertGroup(
+      generalGroup,
+      groups,
+      flatGroups
+    );
     expect(groups[0].description).toBe(generalGroupDescription);
   });
 
@@ -677,7 +782,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictHeaderGroup);
-    expect(conflictHeaderGroup.description).toBe(conflictHeaderGroupDescription);
+    expect(conflictHeaderGroup.description).toBe(
+      conflictHeaderGroupDescription
+    );
   });
 
   it('should set description for conflict group and should store conflict explanation in group.name', () => {
@@ -689,14 +796,19 @@ describe('OccConfiguratorVariantNormalizer', () => {
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictGroup);
-    expect(conflictGroup.description).toBe(conflictGroupPrefix + conflictGroupName);
+    expect(conflictGroup.description).toBe(
+      conflictGroupPrefix + conflictGroupName
+    );
     expect(conflictGroup.name).toBe(conflictExplanation);
   });
 
   it('should set selectedSingleValue', () => {
     const configAttribute: Configurator.Attribute = {
       name: attributeName,
-      values: [{ valueCode: valueKey }, { valueCode: valueKey2, selected: selectedFlag }],
+      values: [
+        { valueCode: valueKey },
+        { valueCode: valueKey2, selected: selectedFlag },
+      ],
     };
     occConfiguratorVariantNormalizer.setSelectedSingleValue(configAttribute);
     expect(configAttribute.selectedSingleValue).toBe(valueKey2);
@@ -717,7 +829,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
   describe('convertAttributeType', () => {
     let sourceAttribute: OccConfigurator.Attribute;
     beforeEach(() => {
-      sourceAttribute = createOccAttribute('key', 'name', OccConfigurator.UiType.NOT_IMPLEMENTED);
+      sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.NOT_IMPLEMENTED
+      );
     });
 
     afterEach(() => {
@@ -727,171 +843,194 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should return UIType Radio Button for Radio Button occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.RADIOBUTTON
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.RADIOBUTTON);
     });
 
     it('should convert numeric attribute type correctly', () => {
       sourceAttribute.type = OccConfigurator.UiType.NUMERIC;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(Configurator.UiType.NUMERIC);
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.NUMERIC);
     });
 
     it('should convert date attribute type correctly', () => {
       sourceAttribute.type = OccConfigurator.UiType.SAP_DATE;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(Configurator.UiType.SAP_DATE);
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.SAP_DATE);
     });
 
     it('should convert read-only attribute type correctly', () => {
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.READ_ONLY
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY);
     });
 
     it("should convert read-only attribute type correctly when isRetractBlocked is set to 'true'", () => {
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       sourceAttribute.retractBlocked = true;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.READ_ONLY
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY);
     });
 
     it("should return UIType Radio Button attribute type correctly when isConflicting is set to 'true'", () => {
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       sourceAttribute.retractBlocked = false;
       sourceAttribute.conflicts = ['conflict1'];
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.RADIOBUTTON
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.RADIOBUTTON);
     });
 
     it('should convert read_only_single_selection_image attribute type correctly', () => {
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE
-      );
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE);
     });
 
     it("should convert read_only_single_selection_image attribute type correctly when isRetractBlocked is set to 'true'", () => {
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       sourceAttribute.retractBlocked = true;
       sourceAttribute.conflicts = ['conflict1'];
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE);
     });
 
     it("should return UIType single_selection_image attribute type correctly if isConflicting is set to 'true'", () => {
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       sourceAttribute.retractBlocked = false;
       sourceAttribute.conflicts = ['conflict1'];
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.SINGLE_SELECTION_IMAGE
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
     });
 
     it('should convert read_only_multi_selection_image attribute type correctly', () => {
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
-      );
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE);
     });
 
     it("should convert read_only_multi_selection_image attribute type correctly if isRetractBlocked is set to 'true'", () => {
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       sourceAttribute.retractBlocked = true;
       sourceAttribute.conflicts = ['conflict1'];
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE);
     });
 
     it("should return UIType multi_selection_image attribute type correctly if isConflicting is set to 'true'", () => {
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       sourceAttribute.retractBlocked = false;
       sourceAttribute.conflicts = ['conflict1'];
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.MULTI_SELECTION_IMAGE
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
     });
 
     it('should return UIType Drop Down for Drop Down occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(Configurator.UiType.DROPDOWN);
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.DROPDOWN);
     });
 
     it('should return UIType Checkbox for Checkbox occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.CHECK_BOX_LIST;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.CHECKBOXLIST
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.CHECKBOXLIST);
     });
 
     it('should return UIType single selection image for single selection image occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.SINGLE_SELECTION_IMAGE;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.SINGLE_SELECTION_IMAGE
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
     });
 
     it('should return UIType String for String occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.STRING;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(Configurator.UiType.STRING);
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.STRING);
     });
 
     it('should return UIType checkox for checkbox occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.CHECK_BOX;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(Configurator.UiType.CHECKBOX);
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.CHECKBOX);
     });
 
     it('should return UIType multi selection image for corresponding occ configurator type', () => {
       sourceAttribute.type = OccConfigurator.UiType.MULTI_SELECTION_IMAGE;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.MULTI_SELECTION_IMAGE
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
     });
 
     it('should handle uiType dropDown with additional value correctly ', () => {
       sourceAttribute.type = OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT);
     });
 
     it('should handle uiType radioButton with additional value correctly ', () => {
-      sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT
-      );
+      sourceAttribute.type =
+        OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT;
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT);
     });
 
     it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
       sourceAttribute.type = undefined;
-      expect(occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)).toBe(
-        Configurator.UiType.NOT_IMPLEMENTED
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
+      ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
     });
   });
 
   describe('determineCoreUiType', () => {
     it('should return input in case of a standard UI type', () => {
-      expect(occConfiguratorVariantNormalizer['determineCoreUiType'](OccConfigurator.UiType.CHECK_BOX)).toBe(
-        OccConfigurator.UiType.CHECK_BOX
-      );
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](
+          OccConfigurator.UiType.CHECK_BOX
+        )
+      ).toBe(OccConfigurator.UiType.CHECK_BOX);
     });
 
     it('should return standard UI type in case of a variation', () => {
       expect(
         occConfiguratorVariantNormalizer['determineCoreUiType'](
-          OccConfigurator.UiType.CHECK_BOX + Configurator.CustomUiTypeIndicator + 'Custom'
+          OccConfigurator.UiType.CHECK_BOX +
+            Configurator.CustomUiTypeIndicator +
+            'Custom'
         )
       ).toBe(OccConfigurator.UiType.CHECK_BOX);
     });
 
     it('should return input in case variation does not follow our defined pattern', () => {
       const notKnownUiType = 'WhateverCustom';
-      expect(occConfiguratorVariantNormalizer['determineCoreUiType'](notKnownUiType)).toBe(notKnownUiType);
+      expect(
+        occConfiguratorVariantNormalizer['determineCoreUiType'](notKnownUiType)
+      ).toBe(notKnownUiType);
     });
   });
 
@@ -906,7 +1045,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       type: OccConfigurator.UiType.SAP_DATE,
     };
     it('should return attribute value in case of date UI type', () => {
-      expect(occConfiguratorVariantNormalizer['compileUserInput'](sourceAttribute)).toBe(value);
+      expect(
+        occConfiguratorVariantNormalizer['compileUserInput'](sourceAttribute)
+      ).toBe(value);
     });
     it('should return formatted attribute value in case of readOnly UI type', () => {
       expect(
@@ -937,42 +1078,58 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   describe('convertGroupType', () => {
     it('should convert group types properly', () => {
-      expect(occConfiguratorVariantNormalizer.convertGroupType(OccConfigurator.GroupType.CSTIC_GROUP)).toBe(
-        Configurator.GroupType.ATTRIBUTE_GROUP
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertGroupType(
+          OccConfigurator.GroupType.CSTIC_GROUP
+        )
+      ).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
 
-      expect(occConfiguratorVariantNormalizer.convertGroupType(OccConfigurator.GroupType.CONFLICT_HEADER)).toBe(
-        Configurator.GroupType.CONFLICT_HEADER_GROUP
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertGroupType(
+          OccConfigurator.GroupType.CONFLICT_HEADER
+        )
+      ).toBe(Configurator.GroupType.CONFLICT_HEADER_GROUP);
 
-      expect(occConfiguratorVariantNormalizer.convertGroupType(OccConfigurator.GroupType.CONFLICT)).toBe(
-        Configurator.GroupType.CONFLICT_GROUP
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertGroupType(
+          OccConfigurator.GroupType.CONFLICT
+        )
+      ).toBe(Configurator.GroupType.CONFLICT_GROUP);
 
-      expect(occConfiguratorVariantNormalizer.convertGroupType(OccConfigurator.GroupType.INSTANCE)).toBe(
-        Configurator.GroupType.SUB_ITEM_GROUP
-      );
+      expect(
+        occConfiguratorVariantNormalizer.convertGroupType(
+          OccConfigurator.GroupType.INSTANCE
+        )
+      ).toBe(Configurator.GroupType.SUB_ITEM_GROUP);
     });
   });
 
   it('should convert image types properly', () => {
-    expect(occConfiguratorVariantNormalizer.convertImageType(OccConfigurator.ImageType.GALLERY)).toBe(
-      Configurator.ImageType.GALLERY
-    );
+    expect(
+      occConfiguratorVariantNormalizer.convertImageType(
+        OccConfigurator.ImageType.GALLERY
+      )
+    ).toBe(Configurator.ImageType.GALLERY);
 
-    expect(occConfiguratorVariantNormalizer.convertImageType(OccConfigurator.ImageType.PRIMARY)).toBe(
-      Configurator.ImageType.PRIMARY
-    );
+    expect(
+      occConfiguratorVariantNormalizer.convertImageType(
+        OccConfigurator.ImageType.PRIMARY
+      )
+    ).toBe(Configurator.ImageType.PRIMARY);
   });
 
   it('should convert image format types properly', () => {
-    expect(occConfiguratorVariantNormalizer.convertImageFormatType(OccConfigurator.ImageFormatType.VALUE_IMAGE)).toBe(
-      Configurator.ImageFormatType.VALUE_IMAGE
-    );
+    expect(
+      occConfiguratorVariantNormalizer.convertImageFormatType(
+        OccConfigurator.ImageFormatType.VALUE_IMAGE
+      )
+    ).toBe(Configurator.ImageFormatType.VALUE_IMAGE);
 
-    expect(occConfiguratorVariantNormalizer.convertImageFormatType(OccConfigurator.ImageFormatType.CSTIC_IMAGE)).toBe(
-      Configurator.ImageFormatType.ATTRIBUTE_IMAGE
-    );
+    expect(
+      occConfiguratorVariantNormalizer.convertImageFormatType(
+        OccConfigurator.ImageFormatType.CSTIC_IMAGE
+      )
+    ).toBe(Configurator.ImageFormatType.ATTRIBUTE_IMAGE);
   });
 
   describe('convertImage', () => {
@@ -987,7 +1144,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
       expect(images.length).toBe(1);
-      expect(images[0].url).toBe('https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL');
+      expect(images[0].url).toBe(
+        'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
+      );
 
       occConfiguratorVariantNormalizer.convertImage(occImage, images);
       expect(images.length).toBe(2);
@@ -999,7 +1158,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
       expect(images.length).toBe(1);
-      expect(images[0].url).toBe('https://occBackendBaseUrl/media?This%20%is%20%a%20%URL');
+      expect(images[0].url).toBe(
+        'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
+      );
     });
 
     it('should convert image with no URL configuration at all', () => {
@@ -1024,24 +1185,36 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by string type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeStringWoValue);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeStringWithValue);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeStringWoValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeStringWithValue
+      );
 
       expect(attributeStringWoValue.incomplete).toBe(true);
       expect(attributeStringWithValue.incomplete).toBe(false);
     });
 
     it('should set incomplete by numeric type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeNumericWoValue);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeNumericWithValue);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeNumericWoValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeNumericWithValue
+      );
 
       expect(attributeNumericWoValue.incomplete).toBe(true);
       expect(attributeNumericWithValue.incomplete).toBe(false);
     });
 
     it('should set incomplete by radio button type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeRBWoValues);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeRBWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWoValues
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWithValues
+      );
 
       expect(attributeRBWoValues.incomplete).toBe(true);
       expect(attributeRBWithValues.incomplete).toBe(false);
@@ -1049,14 +1222,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete for radio button type with retract option correctly', () => {
       attributeRBWithValues.selectedSingleValue = Configurator.RetractValueCode;
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeRBWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWithValues
+      );
 
       expect(attributeRBWithValues.incomplete).toBe(true);
     });
 
     it('should set incomplete by drop-down type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeDDWoValues);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeDDWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWoValues
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
 
       expect(attributeDDWoValues.incomplete).toBe(true);
       expect(attributeDDWithValues.incomplete).toBe(false);
@@ -1064,30 +1243,44 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete for drop-down type with retract option correctly', () => {
       attributeDDWithValues.selectedSingleValue = Configurator.RetractValueCode;
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeDDWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
 
       expect(attributeDDWithValues.incomplete).toBe(true);
     });
 
     it('should set incomplete by single-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeSSIWoValues);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeSSIWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeSSIWoValues
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeSSIWithValues
+      );
 
       expect(attributeSSIWoValues.incomplete).toBe(true);
       expect(attributeSSIWithValues.incomplete).toBe(false);
     });
 
     it('should set incomplete by checkbox type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeCheckboxWOValue);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeCheckboxWithValue);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeCheckboxWOValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeCheckboxWithValue
+      );
 
       expect(attributeCheckboxWOValue.incomplete).toBe(true);
       expect(attributeCheckboxWithValue.incomplete).toBe(false);
     });
 
     it('should set incomplete by multi-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeMSIWOValue);
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeMSIWithValue);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeMSIWOValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeMSIWithValue
+      );
 
       expect(attributeMSIWOValue.incomplete).toBe(true);
       expect(attributeMSIWithValue.incomplete).toBe(false);
@@ -1095,24 +1288,32 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete for attribute types with additional value', () => {
       attributeDDWithValues.selectedSingleValue = undefined;
-      attributeDDWithValues.uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeDDWithValues);
+      attributeDDWithValues.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
       expect(attributeDDWithValues.incomplete).toBe(true);
     });
 
     it('should set incomplete for attribute types with additional value, ignoring user input, as that is not sent when retrieving a configuration ', () => {
       //a previous user input is always be part of the domain after a roundtrip
       attributeDDWithValues.selectedSingleValue = undefined;
-      attributeDDWithValues.uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      attributeDDWithValues.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       attributeDDWithValues.userInput = 'NeverBeSentFromBackend';
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeDDWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
       expect(attributeDDWithValues.incomplete).toBe(true);
     });
 
     it('should not touch flag in case uiType is not defined ', () => {
       //a previous user input is always be part of the domain after a roundtrip
       attributeDDWithValues.uiType = undefined;
-      occConfiguratorVariantNormalizer.compileAttributeIncomplete(attributeDDWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
       expect(attributeDDWithValues.incomplete).toBe(false);
     });
   });
@@ -1124,7 +1325,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
         key: attributeName,
         domainValues: undefined,
       };
-      expect(occConfiguratorVariantNormalizer['isRetractValueSelected'](sourceAttribute)).toBe(true);
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(true);
     });
 
     it("should return 'false' because the list of domain values is empty", () => {
@@ -1133,33 +1338,69 @@ describe('OccConfiguratorVariantNormalizer', () => {
         key: attributeName,
         domainValues: [],
       };
-      expect(occConfiguratorVariantNormalizer['isRetractValueSelected'](sourceAttribute)).toBe(true);
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(true);
     });
 
     it("should return 'false' because there is a selected value under domain values", () => {
-      const occValue1: OccConfigurator.Value = createOccValue('key1', 'langDepName1', false);
-      const occValue2: OccConfigurator.Value = createOccValue('key2', 'langDepName2', false);
-      const occValue3: OccConfigurator.Value = createOccValue('key3', 'langDepName3', true);
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        true
+      );
 
       const sourceAttribute: OccConfigurator.Attribute = {
         name: attributeName,
         key: attributeName,
         domainValues: [occValue1, occValue2, occValue3],
       };
-      expect(occConfiguratorVariantNormalizer['isRetractValueSelected'](sourceAttribute)).toBe(false);
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(false);
     });
 
     it("should return 'true' because there is no selected value under domain values", () => {
-      const occValue1: OccConfigurator.Value = createOccValue('key1', 'langDepName1', false);
-      const occValue2: OccConfigurator.Value = createOccValue('key2', 'langDepName2', false);
-      const occValue3: OccConfigurator.Value = createOccValue('key3', 'langDepName3', false);
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
 
       const sourceAttribute: OccConfigurator.Attribute = {
         name: attributeName,
         key: attributeName,
         domainValues: [occValue1, occValue2, occValue3],
       };
-      expect(occConfiguratorVariantNormalizer['isRetractValueSelected'](sourceAttribute)).toBe(true);
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(true);
     });
   });
 
@@ -1167,36 +1408,59 @@ describe('OccConfiguratorVariantNormalizer', () => {
     it('should return no value display', () => {
       const value: Configurator.Value = createValue('valueCode', false);
 
-      occConfiguratorVariantNormalizer['setRetractValueDisplay'](Configurator.UiType.LISTBOX, value);
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.LISTBOX,
+        value
+      );
       expect(value.valueDisplay).toEqual('');
     });
 
     it("should return 'Make a selection' for drop-down list", () => {
       const value: Configurator.Value = createValue('valueCode', true);
 
-      occConfiguratorVariantNormalizer['setRetractValueDisplay'](Configurator.UiType.DROPDOWN, value);
-      expect(value.valueDisplay).toEqual('configurator.attribute.dropDownSelectMsg');
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.DROPDOWN,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.dropDownSelectMsg'
+      );
     });
 
     it("should return 'No option selected' for drop-down list", () => {
       const value: Configurator.Value = createValue('valueCode', false);
 
-      occConfiguratorVariantNormalizer['setRetractValueDisplay'](Configurator.UiType.DROPDOWN, value);
-      expect(value.valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.DROPDOWN,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
     });
 
     it("should return 'No option selected' for radion buttons list", () => {
       const value: Configurator.Value = createValue('valueCode', true);
 
-      occConfiguratorVariantNormalizer['setRetractValueDisplay'](Configurator.UiType.RADIOBUTTON, value);
-      expect(value.valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.RADIOBUTTON,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
     });
 
     it("should return 'No option selected' for single selection images list", () => {
       const value: Configurator.Value = createValue('valueCode', true);
 
-      occConfiguratorVariantNormalizer['setRetractValueDisplay'](Configurator.UiType.SINGLE_SELECTION_IMAGE, value);
-      expect(value.valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.SINGLE_SELECTION_IMAGE,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
     });
   });
 
@@ -1206,7 +1470,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     beforeEach(() => {
       values = [];
-      sourceAttribute = createOccAttribute('key', 'name', OccConfigurator.UiType.NOT_IMPLEMENTED);
+      sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.NOT_IMPLEMENTED
+      );
     });
 
     it("should not add a retract value to the list of values because retractBlocked is set to 'true'", () => {
@@ -1214,141 +1482,245 @@ describe('OccConfiguratorVariantNormalizer', () => {
       sourceAttribute.retractBlocked = true;
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(0);
     });
 
     it('should not add a retract value to the list of values because the retract mode is not activated', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = false;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
       sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       sourceAttribute.retractBlocked = true;
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(0);
     });
 
     it("should not add a retract value to the list of values because attribute type is 'check_box'", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = true;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
       sourceAttribute.type = OccConfigurator.UiType.CHECK_BOX;
       sourceAttribute.retractBlocked = false;
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(0);
     });
 
     it('should add a retract value for a drop-down list to the list of values', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = true;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
       sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
       sourceAttribute.retractBlocked = false;
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(1);
       expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual('configurator.attribute.dropDownSelectMsg');
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.dropDownSelectMsg'
+      );
     });
 
     it('should add a retract value to the list of values for a read-only that is involved in a conflict', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = false;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       sourceAttribute.conflicts = ['conflict1'];
       sourceAttribute.retractBlocked = false;
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(1);
       expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
     });
 
     it('should not add a retract value to the list of values for a read-only that is involved in a conflict in case domain is not yet present', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = false;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
       sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       sourceAttribute.conflicts = ['conflict1'];
       sourceAttribute.retractBlocked = false;
       sourceAttribute.domainOnDemand = true;
 
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(0);
     });
 
     it('should add a retract value to the list of values for a read-only-single-selection-image that is involved in a conflict', () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = false;
-      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
+      sourceAttribute.type =
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       sourceAttribute.conflicts = ['conflict1'];
       sourceAttribute.retractBlocked = false;
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(1);
       expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
     });
 
     it("should not add a retract value to the list of values because attribute type is 'NOT_IMPLEMENTED'", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = true;
-      const occValue1: OccConfigurator.Value = createOccValue('key1', 'langDepName1', false);
-      const occValue2: OccConfigurator.Value = createOccValue('key2', 'langDepName2', false);
-      const occValue3: OccConfigurator.Value = createOccValue('key3', 'langDepName3', false);
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
 
       sourceAttribute.type = undefined;
       sourceAttribute.retractBlocked = false;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(0);
     });
 
     it("should add a retract value with 'Make a selection' message for a drop-down list to the list of values", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = true;
-      const occValue1: OccConfigurator.Value = createOccValue('key1', 'langDepName1', false);
-      const occValue2: OccConfigurator.Value = createOccValue('key2', 'langDepName2', false);
-      const occValue3: OccConfigurator.Value = createOccValue('key3', 'langDepName3', false);
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
       sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(1);
       expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual('configurator.attribute.dropDownSelectMsg');
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.dropDownSelectMsg'
+      );
       expect(values[0].selected).toBe(true);
     });
 
     it("should add a retract value with 'No option selected' message for a drop-down list to the list of values", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = true;
-      const occValue1: OccConfigurator.Value = createOccValue('key1', 'langDepName1', false);
-      const occValue2: OccConfigurator.Value = createOccValue('key2', 'langDepName2', true);
-      const occValue3: OccConfigurator.Value = createOccValue('key3', 'langDepName3', false);
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        true
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
 
       sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(1);
       expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
       expect(values[0].selected).toBe(false);
     });
 
     it("should add a retract value with 'No option selected' message for a radio buttons list to the list of values", () => {
-      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption = true;
-      const occValue1: OccConfigurator.Value = createOccValue('key1', 'langDepName1', false);
-      const occValue2: OccConfigurator.Value = createOccValue('key2', 'langDepName2', true);
-      const occValue3: OccConfigurator.Value = createOccValue('key3', 'langDepName3', false);
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        true
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
 
       sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
 
       expect(values.length).toEqual(0);
-      occConfiguratorVariantNormalizer['addRetractValue'](sourceAttribute, values);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
       expect(values.length).toEqual(1);
       expect(values[0].valueCode).toEqual(Configurator.RetractValueCode);
-      expect(values[0].valueDisplay).toEqual('configurator.attribute.noOptionSelectedMsg');
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
       expect(values[0].selected).toBe(false);
     });
   });
@@ -1361,7 +1733,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const hasSourceAttributeConflicts =
-        occConfiguratorVariantNormalizer['hasSourceAttributeConflicts'](sourceAttribute);
+        occConfiguratorVariantNormalizer['hasSourceAttributeConflicts'](
+          sourceAttribute
+        );
       expect(hasSourceAttributeConflicts).toBeFalsy();
     });
 
@@ -1373,7 +1747,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const hasSourceAttributeConflicts =
-        occConfiguratorVariantNormalizer['hasSourceAttributeConflicts'](sourceAttribute);
+        occConfiguratorVariantNormalizer['hasSourceAttributeConflicts'](
+          sourceAttribute
+        );
       expect(hasSourceAttributeConflicts).toBeFalsy();
     });
 
@@ -1385,7 +1761,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const hasSourceAttributeConflicts =
-        occConfiguratorVariantNormalizer['hasSourceAttributeConflicts'](sourceAttribute);
+        occConfiguratorVariantNormalizer['hasSourceAttributeConflicts'](
+          sourceAttribute
+        );
       expect(hasSourceAttributeConflicts).toBeTruthy();
     });
   });
@@ -1398,7 +1776,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const isSourceAttributeTypeReadOnly =
-        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](sourceAttribute);
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
       expect(isSourceAttributeTypeReadOnly).toBeFalsy();
     });
 
@@ -1410,7 +1790,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const isSourceAttributeTypeReadOnly =
-        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](sourceAttribute);
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
       expect(isSourceAttributeTypeReadOnly).toBeFalsy();
     });
 
@@ -1422,7 +1804,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const isSourceAttributeTypeReadOnly =
-        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](sourceAttribute);
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
       expect(isSourceAttributeTypeReadOnly).toBeTruthy();
     });
 
@@ -1434,7 +1818,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const isSourceAttributeTypeReadOnly =
-        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](sourceAttribute);
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
       expect(isSourceAttributeTypeReadOnly).toBeTruthy();
     });
 
@@ -1446,7 +1832,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       };
 
       const isSourceAttributeTypeReadOnly =
-        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](sourceAttribute);
+        occConfiguratorVariantNormalizer['isSourceAttributeTypeReadOnly'](
+          sourceAttribute
+        );
       expect(isSourceAttributeTypeReadOnly).toBeTruthy();
     });
   });
@@ -1458,7 +1846,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
         key: 'key',
       };
 
-      const isRetractBlocked = occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
+      const isRetractBlocked =
+        occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
       expect(isRetractBlocked).toBeFalsy();
     });
 
@@ -1469,7 +1858,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
         retractBlocked: false,
       };
 
-      const isRetractBlocked = occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
+      const isRetractBlocked =
+        occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
       expect(isRetractBlocked).toBeFalsy();
     });
 
@@ -1480,7 +1870,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
         retractBlocked: true,
       };
 
-      const isRetractBlocked = occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
+      const isRetractBlocked =
+        occConfiguratorVariantNormalizer['isRetractBlocked'](sourceAttribute);
       expect(isRetractBlocked).toBeTruthy();
     });
   });

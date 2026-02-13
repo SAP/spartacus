@@ -14,7 +14,8 @@ import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantNormalizer
-  implements Converter<OccConfigurator.Configuration, Configurator.Configuration>
+  implements
+    Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
   constructor(
     protected config: OccConfig,
@@ -22,7 +23,10 @@ export class OccConfiguratorVariantNormalizer
     protected uiSettingsConfig: ConfiguratorUISettingsConfig
   ) {}
 
-  convert(source: OccConfigurator.Configuration, target?: Configurator.Configuration): Configurator.Configuration {
+  convert(
+    source: OccConfigurator.Configuration,
+    target?: Configurator.Configuration
+  ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
       owner: target?.owner ?? ConfiguratorModelUtils.createInitialOwner(),
@@ -42,16 +46,24 @@ export class OccConfiguratorVariantNormalizer
       isPricingAsync: true,
     };
     const flatGroups: Configurator.Group[] = [];
-    source.groups?.forEach((group) => this.convertGroup(group, resultTarget.groups, flatGroups));
+    source.groups?.forEach((group) =>
+      this.convertGroup(group, resultTarget.groups, flatGroups)
+    );
     resultTarget.flatGroups = flatGroups;
 
     return resultTarget;
   }
 
-  convertGroup(source: OccConfigurator.Group, groupList: Configurator.Group[], flatGroupList: Configurator.Group[]) {
+  convertGroup(
+    source: OccConfigurator.Group,
+    groupList: Configurator.Group[],
+    flatGroupList: Configurator.Group[]
+  ) {
     const attributes: Configurator.Attribute[] = [];
     if (source.attributes) {
-      source.attributes.forEach((sourceAttribute) => this.convertAttribute(sourceAttribute, attributes));
+      source.attributes.forEach((sourceAttribute) =>
+        this.convertAttribute(sourceAttribute, attributes)
+      );
     }
 
     const group: Configurator.Group = {
@@ -69,7 +81,9 @@ export class OccConfiguratorVariantNormalizer
     this.setGroupDescription(group);
 
     if (source.subGroups) {
-      source.subGroups.forEach((sourceSubGroup) => this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList));
+      source.subGroups.forEach((sourceSubGroup) =>
+        this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList)
+      );
     }
 
     if (
@@ -86,20 +100,29 @@ export class OccConfiguratorVariantNormalizer
     return key.replace('@' + name, '');
   }
 
-  convertAttribute(sourceAttribute: OccConfigurator.Attribute, attributeList: Configurator.Attribute[]): void {
-    const numberOfConflicts = sourceAttribute.conflicts ? sourceAttribute.conflicts.length : 0;
+  convertAttribute(
+    sourceAttribute: OccConfigurator.Attribute,
+    attributeList: Configurator.Attribute[]
+  ): void {
+    const numberOfConflicts = sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length
+      : 0;
 
     const attributeImages: Configurator.Image[] = [];
     const attributeValues: Configurator.Value[] = [];
 
     if (sourceAttribute.images) {
-      sourceAttribute.images.forEach((occImage) => this.convertImage(occImage, attributeImages));
+      sourceAttribute.images.forEach((occImage) =>
+        this.convertImage(occImage, attributeImages)
+      );
     }
 
     this.addRetractValue(sourceAttribute, attributeValues);
 
     if (sourceAttribute.domainValues) {
-      sourceAttribute.domainValues.forEach((value) => this.convertValue(value, attributeValues));
+      sourceAttribute.domainValues.forEach((value) =>
+        this.convertValue(value, attributeValues)
+      );
     }
     const uiType = this.convertAttributeType(sourceAttribute);
     const firstConflict = sourceAttribute.conflicts?.[0] as unknown as { text?: string } | undefined;
@@ -111,7 +134,9 @@ export class OccConfiguratorVariantNormalizer
       uiTypeVariation: sourceAttribute.type,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: this.compileUserInput(sourceAttribute),
-      maxlength: (sourceAttribute.maxlength ?? 0) + (sourceAttribute.negativeAllowed ? 1 : 0),
+      maxlength:
+        (sourceAttribute.maxlength ?? 0) +
+        (sourceAttribute.negativeAllowed ? 1 : 0),
       numDecimalPlaces: sourceAttribute.numberScale,
       negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
@@ -134,14 +159,18 @@ export class OccConfiguratorVariantNormalizer
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
-  protected compileUserInput(sourceAttribute: OccConfigurator.Attribute): string | undefined {
+  protected compileUserInput(
+    sourceAttribute: OccConfigurator.Attribute
+  ): string | undefined {
     let userInput;
     if (
       sourceAttribute.type === OccConfigurator.UiType.NUMERIC ||
       sourceAttribute.type === OccConfigurator.UiType.STRING ||
       sourceAttribute.type === OccConfigurator.UiType.READ_ONLY
     ) {
-      userInput = sourceAttribute.formattedValue ? sourceAttribute.formattedValue : '';
+      userInput = sourceAttribute.formattedValue
+        ? sourceAttribute.formattedValue
+        : '';
     }
     if (sourceAttribute.type === OccConfigurator.UiType.SAP_DATE) {
       userInput = sourceAttribute.value ? sourceAttribute.value : '';
@@ -150,20 +179,28 @@ export class OccConfiguratorVariantNormalizer
   }
   setSelectedSingleValue(attribute: Configurator.Attribute) {
     if (attribute.values) {
-      const selectedValues = attribute.values.map((entry) => entry).filter((entry) => entry.selected);
+      const selectedValues = attribute.values
+        .map((entry) => entry)
+        .filter((entry) => entry.selected);
       if (selectedValues && selectedValues.length === 1) {
         attribute.selectedSingleValue = selectedValues[0].valueCode;
       }
     }
   }
 
-  protected isRetractValueSelected(sourceAttribute: OccConfigurator.Attribute): boolean {
-    return sourceAttribute.domainValues && sourceAttribute.domainValues.filter((value) => value.selected).length
+  protected isRetractValueSelected(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.domainValues &&
+      sourceAttribute.domainValues.filter((value) => value.selected).length
       ? false
       : true;
   }
 
-  protected setRetractValueDisplay(attributeType: Configurator.UiType, value: Configurator.Value) {
+  protected setRetractValueDisplay(
+    attributeType: Configurator.UiType,
+    value: Configurator.Value
+  ) {
     if (
       attributeType === Configurator.UiType.DROPDOWN ||
       attributeType === Configurator.UiType.RADIOBUTTON ||
@@ -183,30 +220,47 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  protected hasSourceAttributeConflicts(sourceAttribute: OccConfigurator.Attribute): boolean {
-    return sourceAttribute.conflicts ? sourceAttribute.conflicts.length > 0 : false;
+  protected hasSourceAttributeConflicts(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length > 0
+      : false;
   }
 
-  protected isSourceAttributeTypeReadOnly(sourceAttribute: OccConfigurator.Attribute): boolean {
+  protected isSourceAttributeTypeReadOnly(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
     return (
       sourceAttribute.type === OccConfigurator.UiType.READ_ONLY ||
-      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
-      sourceAttribute.type === OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE ||
+      sourceAttribute.type ===
+        OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE
     );
   }
 
-  protected isRetractBlocked(sourceAttribute: OccConfigurator.Attribute): boolean {
-    return sourceAttribute.retractBlocked ? sourceAttribute.retractBlocked : false;
+  protected isRetractBlocked(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.retractBlocked
+      ? sourceAttribute.retractBlocked
+      : false;
   }
 
-  protected addRetractValue(sourceAttribute: OccConfigurator.Attribute, values: Configurator.Value[]) {
+  protected addRetractValue(
+    sourceAttribute: OccConfigurator.Attribute,
+    values: Configurator.Value[]
+  ) {
     const isRetractBlocked = this.isRetractBlocked(sourceAttribute);
     const isConflicting = this.hasSourceAttributeConflicts(sourceAttribute);
 
     if (!isRetractBlocked) {
       if (
         this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
-        (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting && !sourceAttribute.domainOnDemand)
+        (this.isSourceAttributeTypeReadOnly(sourceAttribute) &&
+          isConflicting &&
+          !sourceAttribute.domainOnDemand)
       ) {
         const attributeType = this.convertAttributeType(sourceAttribute);
         if (
@@ -227,10 +281,15 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  convertValue(occValue: OccConfigurator.Value, values: Configurator.Value[]): void {
+  convertValue(
+    occValue: OccConfigurator.Value,
+    values: Configurator.Value[]
+  ): void {
     const valueImages: Configurator.Image[] = [];
     if (occValue.images) {
-      occValue.images.forEach((occImage) => this.convertImage(occImage, valueImages));
+      occValue.images.forEach((occImage) =>
+        this.convertImage(occImage, valueImages)
+      );
     }
 
     const value: Configurator.Value = {
@@ -245,7 +304,10 @@ export class OccConfiguratorVariantNormalizer
     values.push(value);
   }
 
-  convertImage(occImage: OccConfigurator.Image, images: Configurator.Image[]): void {
+  convertImage(
+    occImage: OccConfigurator.Image,
+    images: Configurator.Image[]
+  ): void {
     const image: Configurator.Image = {
       /**
        * Traditionally, in an on-prem world, medias and other backend related calls
@@ -254,7 +316,10 @@ export class OccConfiguratorVariantNormalizer
        * `backend.media.baseUrl` by default, but fallback to `backend.occ.baseUrl`
        * if none provided.
        */
-      url: (this.config?.backend?.media?.baseUrl || this.config?.backend?.occ?.baseUrl || '') + occImage.url,
+      url:
+        (this.config?.backend?.media?.baseUrl ||
+          this.config?.backend?.occ?.baseUrl ||
+          '') + occImage.url,
       altText: occImage.altText,
       galleryIndex: occImage.galleryIndex,
       type: this.convertImageType(occImage.imageType),
@@ -263,7 +328,10 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  protected getSingleSelectionUiType(coreSourceType: string, uiType: Configurator.UiType): Configurator.UiType {
+  protected getSingleSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
@@ -293,7 +361,10 @@ export class OccConfiguratorVariantNormalizer
     return uiType;
   }
 
-  protected getMultiSelectionUiType(coreSourceType: string, uiType: Configurator.UiType): Configurator.UiType {
+  protected getMultiSelectionUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
         uiType = Configurator.UiType.CHECKBOXLIST;
@@ -315,21 +386,24 @@ export class OccConfiguratorVariantNormalizer
     switch (coreSourceType) {
       case OccConfigurator.UiType.READ_ONLY: {
         uiType =
-          !sourceAttribute.retractBlocked && this.hasSourceAttributeConflicts(sourceAttribute)
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.RADIOBUTTON
             : Configurator.UiType.READ_ONLY;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE: {
         uiType =
-          !sourceAttribute.retractBlocked && this.hasSourceAttributeConflicts(sourceAttribute)
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.SINGLE_SELECTION_IMAGE
             : Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
         break;
       }
       case OccConfigurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE: {
         uiType =
-          !sourceAttribute.retractBlocked && this.hasSourceAttributeConflicts(sourceAttribute)
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.MULTI_SELECTION_IMAGE
             : Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
         break;
@@ -338,7 +412,10 @@ export class OccConfiguratorVariantNormalizer
     return uiType;
   }
 
-  protected getInputUiType(coreSourceType: string, uiType: Configurator.UiType): Configurator.UiType {
+  protected getInputUiType(
+    coreSourceType: string,
+    uiType: Configurator.UiType
+  ): Configurator.UiType {
     switch (coreSourceType) {
       case OccConfigurator.UiType.STRING: {
         uiType = Configurator.UiType.STRING;
@@ -356,7 +433,9 @@ export class OccConfiguratorVariantNormalizer
     return uiType;
   }
 
-  convertAttributeType(sourceAttribute: OccConfigurator.Attribute): Configurator.UiType {
+  convertAttributeType(
+    sourceAttribute: OccConfigurator.Attribute
+  ): Configurator.UiType {
     let uiType = Configurator.UiType.NOT_IMPLEMENTED;
     const sourceType: string = sourceAttribute.type?.toString() ?? '';
     const coreSourceType = this.determineCoreUiType(sourceType);
@@ -370,11 +449,17 @@ export class OccConfiguratorVariantNormalizer
   }
 
   protected determineCoreUiType(sourceType: string) {
-    const indexCustomSeparator = sourceType.indexOf(Configurator.CustomUiTypeIndicator);
-    return indexCustomSeparator > 0 ? sourceType.substring(0, indexCustomSeparator) : sourceType;
+    const indexCustomSeparator = sourceType.indexOf(
+      Configurator.CustomUiTypeIndicator
+    );
+    return indexCustomSeparator > 0
+      ? sourceType.substring(0, indexCustomSeparator)
+      : sourceType;
   }
 
-  convertGroupType(groupType: OccConfigurator.GroupType): Configurator.GroupType {
+  convertGroupType(
+    groupType: OccConfigurator.GroupType
+  ): Configurator.GroupType {
     switch (groupType) {
       case OccConfigurator.GroupType.CSTIC_GROUP:
         return Configurator.GroupType.ATTRIBUTE_GROUP;
@@ -393,7 +478,9 @@ export class OccConfiguratorVariantNormalizer
         this.translation
           .translate('configurator.group.conflictHeader')
           .pipe(take(1))
-          .subscribe((conflictHeaderText) => (group.description = conflictHeaderText));
+          .subscribe(
+            (conflictHeaderText) => (group.description = conflictHeaderText)
+          );
         break;
       case Configurator.GroupType.CONFLICT_GROUP:
         const conflictDescription = group.description;
@@ -402,7 +489,9 @@ export class OccConfiguratorVariantNormalizer
             attribute: group.name,
           })
           .pipe(take(1))
-          .subscribe((conflictGroupText) => (group.description = conflictGroupText));
+          .subscribe(
+            (conflictGroupText) => (group.description = conflictGroupText)
+          );
         group.name = conflictDescription;
         break;
       default:
@@ -416,7 +505,9 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  convertImageType(imageType: OccConfigurator.ImageType): Configurator.ImageType {
+  convertImageType(
+    imageType: OccConfigurator.ImageType
+  ): Configurator.ImageType {
     switch (imageType) {
       case OccConfigurator.ImageType.GALLERY:
         return Configurator.ImageType.GALLERY;
@@ -425,7 +516,9 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  convertImageFormatType(formatType: OccConfigurator.ImageFormatType): Configurator.ImageFormatType {
+  convertImageFormatType(
+    formatType: OccConfigurator.ImageFormatType
+  ): Configurator.ImageFormatType {
     switch (formatType) {
       case OccConfigurator.ImageFormatType.VALUE_IMAGE:
         return Configurator.ImageFormatType.VALUE_IMAGE;
@@ -444,7 +537,11 @@ export class OccConfiguratorVariantNormalizer
       Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
       Configurator.UiType.DROPDOWN,
     ];
-    const inputTypes = [Configurator.UiType.NUMERIC, Configurator.UiType.SAP_DATE, Configurator.UiType.STRING];
+    const inputTypes = [
+      Configurator.UiType.NUMERIC,
+      Configurator.UiType.SAP_DATE,
+      Configurator.UiType.STRING,
+    ];
     const multiValueTypes = [
       Configurator.UiType.CHECKBOXLIST,
       Configurator.UiType.CHECKBOX,
@@ -462,24 +559,36 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  protected compileAttributeIncompleteSingleLevel(attribute: Configurator.Attribute): void {
-    if (!attribute.selectedSingleValue || attribute.selectedSingleValue === Configurator.RetractValueCode) {
+  protected compileAttributeIncompleteSingleLevel(
+    attribute: Configurator.Attribute
+  ): void {
+    if (
+      !attribute.selectedSingleValue ||
+      attribute.selectedSingleValue === Configurator.RetractValueCode
+    ) {
       attribute.incomplete = true;
     }
   }
-  protected compileAttributeIncompleteSingleSelectionImage(attribute: Configurator.Attribute): void {
+  protected compileAttributeIncompleteSingleSelectionImage(
+    attribute: Configurator.Attribute
+  ): void {
     if (!attribute.selectedSingleValue) {
       attribute.incomplete = true;
     }
   }
-  protected compileAttributeIncompleteInputTypes(attribute: Configurator.Attribute): void {
+  protected compileAttributeIncompleteInputTypes(
+    attribute: Configurator.Attribute
+  ): void {
     if (!attribute.userInput) {
       attribute.incomplete = true;
     }
   }
 
-  protected compileAttributeIncompleteMultiSelect(attribute: Configurator.Attribute): void {
-    const isOneValueSelected = attribute.values?.find((value) => value.selected) !== undefined;
+  protected compileAttributeIncompleteMultiSelect(
+    attribute: Configurator.Attribute
+  ): void {
+    const isOneValueSelected =
+      attribute.values?.find((value) => value.selected) !== undefined;
     attribute.incomplete = !isOneValueSelected;
   }
 }
