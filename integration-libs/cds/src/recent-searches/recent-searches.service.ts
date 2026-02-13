@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { interval, last, of, ReplaySubject } from 'rxjs';
 import { concatMap, map, take, takeWhile } from 'rxjs/operators';
 import { WindowRef } from '@spartacus/core';
+import { ProfileTagWindowObject } from '../profiletag/model/profile-tag.model';
 
 @Injectable({ providedIn: 'root' })
 export class RecentSearchesService {
@@ -21,7 +22,7 @@ export class RecentSearchesService {
 
   private checkAvailability() {
     return interval(250).pipe(
-      concatMap((_) => of((this.winRef.nativeWindow as any)?.Y_TRACKING)),
+      concatMap((_) => of((this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING)),
       map((result) => !!result?.recentSearches),
       take(100),
       takeWhile((val) => !val, true),
@@ -35,12 +36,12 @@ export class RecentSearchesService {
       .subscribe((result) => {
         if (result) {
           const recentPhrases = (
-            this.winRef.nativeWindow as any
+            this.winRef.nativeWindow as ProfileTagWindowObject
           )?.Y_TRACKING?.recentSearches?.getPhrases();
           if (recentPhrases) {
             this.recentSearchesSource.next(recentPhrases);
             (
-              this.winRef.nativeWindow as any
+              this.winRef.nativeWindow as ProfileTagWindowObject
             )?.Y_TRACKING?.recentSearches?.addListener(
               (recentSearches: string[]) => {
                 this.recentSearchesSource.next(recentSearches);
@@ -52,7 +53,7 @@ export class RecentSearchesService {
   }
 
   removePhrase(phrase: string): void {
-    const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
+    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
       ?.recentSearches;
     if (!recentSearches || !phrase) {
       return;
@@ -64,7 +65,7 @@ export class RecentSearchesService {
   }
 
   clearPhrases(): void {
-    const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
+    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
       ?.recentSearches;
     if (!recentSearches) {
       return;

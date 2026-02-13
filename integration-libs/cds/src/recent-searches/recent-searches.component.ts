@@ -54,7 +54,7 @@ export class RecentSearchesComponent implements OnInit {
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
-  private enterKeyPressedOnCloseButton = false;
+  protected enterKeyPressedOnCloseButton = false;
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
@@ -108,7 +108,7 @@ export class RecentSearchesComponent implements OnInit {
     }
   }
 
-  private shouldSkipBlurEvent(event: KeyboardEvent | FocusEvent): boolean {
+  protected shouldSkipBlurEvent(event: KeyboardEvent | FocusEvent): boolean {
     if (event.type !== 'blur') {
       return false;
     }
@@ -117,7 +117,7 @@ export class RecentSearchesComponent implements OnInit {
     return !!(closeButton && this.enterKeyPressedOnCloseButton);
   }
 
-  private shouldSkipEnterEvent(event: KeyboardEvent | FocusEvent): boolean {
+  protected shouldSkipEnterEvent(event: KeyboardEvent | FocusEvent): boolean {
     if (event.type !== 'keydown') {
       return false;
     }

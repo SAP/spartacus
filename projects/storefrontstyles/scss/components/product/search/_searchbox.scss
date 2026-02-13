@@ -305,8 +305,10 @@
     .recent-searches,
     .trending-searches,
     .suggestions {
-      margin-bottom: 20px;
-      position: relative;
+      @include forFeature('searchBoxRecentSearchesRemoval') {
+        margin-bottom: 20px;
+        position: relative;
+      }
       ul {
         display: flex;
         flex-wrap: wrap;

@@ -189,6 +189,17 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
+   * Feature flag to enable removal functionality for recent searches in the search box.
+   * When enabled, adds individual removal buttons (X) to each recent search item and improves
+   * spacing and positioning (`margin-bottom: 20px` and `position: relative`) for `.recent-searches`,
+   * `.trending-searches`, and `.suggestions` sections in the search box results.
+   *
+   * This allows users to remove individual recent search phrases and improves the visual spacing
+   * between result sections. Affects the styles and functionality of: SearchBoxComponent.
+   */
+  searchBoxRecentSearchesRemoval?: boolean;
+
+  /**
    * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
    * in the following components instead of the old `<cx-carousel>`:
    * - `ProductCarouselComponent`
@@ -421,4 +432,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  searchBoxRecentSearchesRemoval: false,
 };

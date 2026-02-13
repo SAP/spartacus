@@ -27,6 +27,7 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
+  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -54,6 +55,16 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
+
+interface RecentSearches {
+  clearPhrases(): void;
+}
+
+interface ProfileTagWindowObject extends Window {
+  Y_TRACKING?: {
+    recentSearches?: RecentSearches;
+  };
+}
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -115,7 +126,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Checks if the given element is a clear recent searches button
    */
-  private isClearRecentSearchesButton(element: HTMLElement | null): boolean {
+  protected isClearRecentSearchesButton(element: HTMLElement | null): boolean {
     if (!element) {
       return false;
     }
@@ -213,7 +224,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService
-  ) {}
+  ) {
+    useFeatureStyles('searchBoxRecentSearchesRemoval');
+  }
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
@@ -514,7 +527,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.handleKeyboardEvent(event);
   }
 
-  private handleKeyboardEvent(event: KeyboardEvent): void {
+  protected handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.code) {
       case 'Escape':
         this.close(true);
@@ -541,7 +554,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
   }
 
-  private shouldSkipEnterOnCloseButton(event: KeyboardEvent): boolean {
+  protected shouldSkipEnterOnCloseButton(event: KeyboardEvent): boolean {
     const target = event.target as HTMLElement;
     const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
     return !!closeButton;
@@ -781,7 +794,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
+    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
       ?.recentSearches;
     if (!recentSearches) {
       return;
