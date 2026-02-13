@@ -22,7 +22,9 @@ export class RecentSearchesService {
 
   private checkAvailability() {
     return interval(250).pipe(
-      concatMap((_) => of((this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING)),
+      concatMap((_) =>
+        of((this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING)
+      ),
       map((result) => !!result?.recentSearches),
       take(100),
       takeWhile((val) => !val, true),
@@ -53,8 +55,8 @@ export class RecentSearchesService {
   }
 
   removePhrase(phrase: string): void {
-    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
-      ?.recentSearches;
+    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)
+      ?.Y_TRACKING?.recentSearches;
     if (!recentSearches || !phrase) {
       return;
     }
@@ -65,8 +67,8 @@ export class RecentSearchesService {
   }
 
   clearPhrases(): void {
-    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
-      ?.recentSearches;
+    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)
+      ?.Y_TRACKING?.recentSearches;
     if (!recentSearches) {
       return;
     }

@@ -794,8 +794,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
-      ?.recentSearches;
+    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)
+      ?.Y_TRACKING?.recentSearches;
     if (!recentSearches) {
       return;
     }

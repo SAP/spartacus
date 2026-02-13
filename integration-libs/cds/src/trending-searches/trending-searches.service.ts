@@ -47,7 +47,9 @@ export class TrendingSearchesService implements OnDestroy {
   protected checkAvailability(): Observable<string> {
     return timer(0, AVAILABILITY_CHECK_INTERVAL).pipe(
       map(
-        () => (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING?.config?.cdsSiteId
+        () =>
+          (this.winRef.nativeWindow as ProfileTagWindowObject)?.Y_TRACKING
+            ?.config?.cdsSiteId
       ),
       takeWhile((cdsSiteId) => !cdsSiteId, true),
       take(MAX_AVAILABILITY_CHECKS),
