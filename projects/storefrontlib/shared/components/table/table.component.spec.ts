@@ -66,7 +66,7 @@ describe('TableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => { 
+  it('should be created', () => {
     expect(tableComponent).toBeTruthy();
   });
 

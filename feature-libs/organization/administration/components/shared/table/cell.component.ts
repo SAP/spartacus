@@ -42,7 +42,7 @@ export class CellComponent implements OnInit, OnDestroy {
       this.contextSubscription = this.outlet.context$.subscribe((context) => {
         this.outlet.context = context;
         this.changeDetectorRef.markForCheck();
-    })};
+    });};
   }
 
   ngOnDestroy(): void {

@@ -23,5 +23,5 @@ import { BaseMessageComponent } from '../base-message.component';
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;
 
-featureConfigService = inject(FeatureConfigService);
+  featureConfigService = inject(FeatureConfigService);
 }
