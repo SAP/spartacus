@@ -5,8 +5,8 @@
  */
 
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FeatureConfigService, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
@@ -22,4 +22,6 @@ import { BaseMessageComponent } from '../base-message.component';
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;
+
+featureConfigService = inject(FeatureConfigService);
 }

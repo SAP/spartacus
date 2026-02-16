@@ -7,6 +7,7 @@ import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import createSpy = jasmine.createSpy;
+import { FeatureConfigService } from '@spartacus/core';
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -35,6 +36,12 @@ class MockTableRendererService {
   add() {}
 }
 
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return true;
+  }
+}
+
 describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent<any>>;
   let tableComponent: TableComponent<any>;
@@ -45,6 +52,7 @@ describe('TableComponent', () => {
       imports: [OutletModule, TableComponent],
       providers: [
         { provide: TableRendererService, useClass: MockTableRendererService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(TableComponent, {
@@ -58,7 +66,7 @@ describe('TableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it('should be created', () => { 
     expect(tableComponent).toBeTruthy();
   });
 

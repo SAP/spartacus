@@ -1,6 +1,6 @@
 <div
   class="inner"
-  [cxFocus]="{ autofocus: true, focusOnEscape: true }"
+  [cxFocus]="featureConfigService.isEnabled('a11yCardNotificationMessage') ? {} : { autofocus: true, focusOnEscape: true }"
   (esc)="close()"
 >
   <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>

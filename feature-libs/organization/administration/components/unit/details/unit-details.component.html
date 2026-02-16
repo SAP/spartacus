@@ -1,7 +1,7 @@
 <cx-org-card
   *ngIf="model$ | async as model"
   i18nRoot="orgUnit.details"
-  [cxFocus]="{ refreshFocus: model }"
+  [cxFocus]="featureConfigService.isEnabled('a11yCardNotificationMessage') ? {} : { refreshFocus: model }"
   [showHint]="true"
 >
   <a

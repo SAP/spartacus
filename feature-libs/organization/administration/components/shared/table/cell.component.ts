@@ -5,14 +5,22 @@
  */
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
+import { FeatureConfigService, UrlPipe } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
   TableFieldOptions,
 } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-org-cell',
@@ -20,8 +28,26 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
 })
-export class CellComponent {
-  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
+export class CellComponent implements OnInit, OnDestroy {
+  contextSubscription: Subscription;
+  changeDetectorRef = inject(ChangeDetectorRef);
+  private featureConfigService = inject(FeatureConfigService);
+
+  constructor(
+    protected outlet: OutletContextData<TableDataOutletContext>
+  ) {}
+
+  ngOnInit(): void {
+    if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
+      this.contextSubscription = this.outlet.context$.subscribe((context) => {
+        this.outlet.context = context;
+        this.changeDetectorRef.markForCheck();
+    })};
+  }
+
+  ngOnDestroy(): void {
+    this.contextSubscription?.unsubscribe();
+  }
 
   get tabIndex(): number {
     return -1;
