@@ -21,6 +21,7 @@ import {
   Observable,
   of,
   ReplaySubject,
+  Subscription,
 } from 'rxjs';
 import { map, switchMap, tap, filter, take } from 'rxjs/operators';
 import {
@@ -43,6 +44,8 @@ export class SearchBoxComponentService {
   protected enableTrendingSearches: boolean = false;
   private currentQueryLength: number = 0;
   private hasKeywordRedirect: boolean = false;
+  // Track pending search subscriptions to allow cancellation
+  protected pendingSearchSubscriptions: Subscription[] = [];
   constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
@@ -57,6 +60,9 @@ export class SearchBoxComponentService {
    * products or suggestions.
    */
   search(query: string, config: SearchBoxConfig): void {
+    // Cancel any pending searches before starting a new one
+    this.cancelPendingSearches();
+
     this.hasKeywordRedirect = false;
     this.currentQueryLength = query ? query.length : 0;
     this.searchCompleted.next(false);
@@ -80,37 +86,79 @@ export class SearchBoxComponentService {
     let suggestionsComplete = !config.displaySuggestions;
 
     if (config.displayProducts) {
-      this.searchService
+      const productsSubscription = this.searchService
         .searchWithCompletion(query, {
           pageSize: config.maxProducts,
         })
-        .subscribe((result: any) => {
-          if (
-            result?.type === ProductActions.SEARCH_PRODUCTS_SUCCESS &&
-            result?.payload?.keywordRedirectUrl
-          ) {
-            this.hasKeywordRedirect = true;
-          }
-          productsComplete = true;
-          this.checkSearchCompletion(productsComplete, suggestionsComplete);
+        .subscribe({
+          next: (result: any) => {
+            if (
+              result?.type === ProductActions.SEARCH_PRODUCTS_SUCCESS &&
+              result?.payload?.keywordRedirectUrl
+            ) {
+              this.hasKeywordRedirect = true;
+            }
+            productsComplete = true;
+            this.checkSearchCompletion(productsComplete, suggestionsComplete);
+            // Remove this subscription from pending list when complete
+            this.removePendingSubscription(productsSubscription);
+          },
+          error: () => {
+            // Ensure subscription is removed even on error to prevent memory leaks
+            productsComplete = true;
+            this.checkSearchCompletion(productsComplete, suggestionsComplete);
+            this.removePendingSubscription(productsSubscription);
+          },
         });
+      this.pendingSearchSubscriptions.push(productsSubscription);
     }
 
     if (config.displaySuggestions) {
-      this.searchService
+      const suggestionsSubscription = this.searchService
         .searchSuggestionsWithCompletion(query, {
           pageSize: config.maxSuggestions,
         })
-        .subscribe((result: any) => {
-          if (
-            result?.type === ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS &&
-            result?.payload?.keywordRedirectUrl
-          ) {
-            this.hasKeywordRedirect = true;
-          }
-          suggestionsComplete = true;
-          this.checkSearchCompletion(productsComplete, suggestionsComplete);
+        .subscribe({
+          next: (result: any) => {
+            if (
+              result?.type === ProductActions.GET_PRODUCT_SUGGESTIONS_SUCCESS &&
+              result?.payload?.keywordRedirectUrl
+            ) {
+              this.hasKeywordRedirect = true;
+            }
+            suggestionsComplete = true;
+            this.checkSearchCompletion(productsComplete, suggestionsComplete);
+            // Remove this subscription from pending list when complete
+            this.removePendingSubscription(suggestionsSubscription);
+          },
+          error: () => {
+            // Ensure subscription is removed even on error to prevent memory leaks
+            suggestionsComplete = true;
+            this.checkSearchCompletion(productsComplete, suggestionsComplete);
+            this.removePendingSubscription(suggestionsSubscription);
+          },
         });
+      this.pendingSearchSubscriptions.push(suggestionsSubscription);
+    }
+  }
+
+  /**
+   * Cancels all pending search subscriptions
+   */
+  protected cancelPendingSearches(): void {
+    this.pendingSearchSubscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+    });
+    this.pendingSearchSubscriptions = [];
+  }
+
+  /**
+   * Removes a subscription from the pending list
+   */
+  protected removePendingSubscription(subscription: Subscription): void {
+    const index = this.pendingSearchSubscriptions.indexOf(subscription);
+    if (index > -1) {
+      this.pendingSearchSubscriptions.splice(index, 1);
     }
   }
 
@@ -159,6 +207,8 @@ export class SearchBoxComponentService {
    * no longer emited upon next search.
    */
   clearResults() {
+    // Cancel any pending searches when clearing results
+    this.cancelPendingSearches();
     this.searchService.clearResults();
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
 

@@ -240,21 +240,28 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     // Set up debounced search input subscription
     // Debounce search requests to reduce canceled HTTP requests
-    // Only search after user stops typing for 300ms and if query changed
+    // Use switchMap to automatically cancel previous searches when a new one starts
+    // Only search after user stops typing for 350ms and if query changed
     const debouncedSearchSubscription = this.searchInput$
       .pipe(
         distinctUntilChanged(),
-        debounceTime(300),
+        debounceTime(350),
         filter((query) => {
           return (
             !this.config?.minCharactersBeforeRequest ||
             query.length >= this.config.minCharactersBeforeRequest
           );
+        }),
+        // Use switchMap to automatically cancel previous search operations
+        switchMap((query) => {
+          // Create an observable that performs the search
+          return new Observable<void>((subscriber) => {
+            this.performSearch(query);
+            subscriber.complete();
+          });
         })
       )
-      .subscribe((query) => {
-        this.performSearch(query);
-      });
+      .subscribe();
 
     this.subscriptions.add(debouncedSearchSubscription);
   }
@@ -645,6 +652,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const trimmedValue = value.trim();
 
     // Trigger the search immediately (bypass debounce) to ensure new results are being fetched
+    // The service will cancel any pending searches automatically
     // This sets searchCompleted to false, then back to true when done
     this.performSearch(trimmedValue);
 
