@@ -33,16 +33,15 @@ export class CellComponent implements OnInit, OnDestroy {
   changeDetectorRef = inject(ChangeDetectorRef);
   private featureConfigService = inject(FeatureConfigService);
 
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>
-  ) {}
+  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   ngOnInit(): void {
     if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
       this.contextSubscription = this.outlet.context$.subscribe((context) => {
         this.outlet.context = context;
         this.changeDetectorRef.markForCheck();
-    });};
+      });
+    }
   }
 
   ngOnDestroy(): void {
