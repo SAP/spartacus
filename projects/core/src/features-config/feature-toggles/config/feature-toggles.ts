@@ -379,6 +379,11 @@ export interface FeatureTogglesInterface {
    * on Customer Ticketing dialog.
    */
   a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * Adds Filter By label to product facets when in desktop mode.
+   */
+  a11yFacetFilterByLabel?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -421,4 +426,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yFacetFilterByLabel: false,
 };
