@@ -456,7 +456,6 @@ describe('SearchBoxComponent', () => {
         type: PageType.CONTENT_PAGE,
       };
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
-
       input.triggerEventHandler('keydown.enter', {});
       routerState$.next(mockRouterState);
       fixture.detectChanges();

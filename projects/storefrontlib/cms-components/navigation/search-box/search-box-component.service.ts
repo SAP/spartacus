@@ -155,7 +155,7 @@ export class SearchBoxComponentService {
   }
 
   /**
-   * Clears the searchbox results, so that they are
+   * Clears the searchbox results, so that old values are
    * no longer emited upon next search.
    */
   clearResults() {
