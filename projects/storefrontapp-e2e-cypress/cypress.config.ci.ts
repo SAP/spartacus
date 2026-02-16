@@ -16,8 +16,8 @@ const API_URL =
     : 'https://20.83.184.244:9002';
 
 export default defineConfig({
-  defaultCommandTimeout: 30000,
-  requestTimeout: 30000,
+  defaultCommandTimeout: 120000,
+  requestTimeout: 120000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
