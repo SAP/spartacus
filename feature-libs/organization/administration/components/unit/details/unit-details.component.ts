@@ -50,7 +50,11 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitDetailsComponent {
-  featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
+
+  get isA11yCardNotificationMessageEnabled(): boolean {
+    return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
+  }
 
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),

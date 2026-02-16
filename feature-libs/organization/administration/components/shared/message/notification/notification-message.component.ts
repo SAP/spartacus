@@ -23,5 +23,9 @@ import { BaseMessageComponent } from '../base-message.component';
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;
 
-  featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
+
+  get isA11yCardNotificationMessageEnabled(): boolean {
+    return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
+  }
 }
