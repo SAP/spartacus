@@ -29,15 +29,13 @@ import {
   UrlPipe,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged,
   filter,
   first,
   map,
-  skip,
   switchMap,
   tap,
   timeout,
@@ -152,8 +150,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected subscriptions = new Subscription();
 
-  // Subject for debounced search input
-  protected searchInput$ = new Subject<string>();
+  protected searchQuery$ = new Subject<string>();
 
   get isMobile(): Observable<boolean> | undefined {
     return this.breakpointService.isDown(BREAKPOINT.sm);
@@ -238,32 +235,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(UIEventSubscription);
 
-    // Set up debounced search input subscription
-    // Debounce search requests to reduce canceled HTTP requests
-    // Use switchMap to automatically cancel previous searches when a new one starts
-    // Only search after user stops typing for 350ms and if query changed
-    const debouncedSearchSubscription = this.searchInput$
+    // Debounce search input and use switchMap to automatically cancel pending requests
+    const searchSubscription = this.searchQuery$
       .pipe(
-        distinctUntilChanged(),
-        debounceTime(350),
-        filter((query) => {
-          return (
-            !this.config?.minCharactersBeforeRequest ||
-            query.length >= this.config.minCharactersBeforeRequest
-          );
-        }),
-        // Use switchMap to automatically cancel previous search operations
+        debounceTime(300),
+        // switchMap automatically unsubscribes from previous inner observable (search request)
+        // when a new value is emitted, effectively canceling the previous HTTP request
         switchMap((query) => {
-          // Create an observable that performs the search
-          return new Observable<void>((subscriber) => {
-            this.performSearch(query);
-            subscriber.complete();
-          });
+          this.searchBoxComponentService.search(query, this.config);
+          return of(null);
         })
       )
       .subscribe();
 
-    this.subscriptions.add(debouncedSearchSubscription);
+    this.subscriptions.add(searchSubscription);
   }
 
   /**
@@ -278,24 +263,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   /**
    * Closes the searchBox and opens the search result page.
-   * This method is called directly from template input events.
-   * It emits to searchInput$ for debouncing.
    */
   search(query: string): void {
-    // Emit to debounced search stream
-    this.searchInput$.next(query ?? '');
-
+    this.searchQuery$.next(query ?? '');
     this.checkOuterResults();
     // force the searchBox to open
     this.open();
-  }
-
-  /**
-   * Performs the actual search operation.
-   * This is called after debouncing to reduce HTTP requests.
-   */
-  protected performSearch(query: string): void {
-    this.searchBoxComponentService.search(query, this.config);
   }
 
   /**
@@ -651,28 +624,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     const trimmedValue = value.trim();
 
-    // Trigger the search immediately (bypass debounce) to ensure new results are being fetched
-    // The service will cancel any pending searches automatically
-    // This sets searchCompleted to false, then back to true when done
-    this.performSearch(trimmedValue);
-
     // Check if the entered value matches any current suggestions (including categories)
-    // Wait for search to complete and then get fresh results
-    // Combine with searchCompleted to ensure we wait for the new search to finish
-    const enterSubscription = combineLatest([
-      this.results$,
-      this.searchBoxComponentService.searchCompleted.asObservable(),
-    ])
+    // Wait for results that actually have suggestions loaded with timeout and fallback
+    const enterSubscription = this.results$
       .pipe(
-        // Skip the first emission which might be stale (from before search was triggered)
-        skip(1),
-        filter(([, completed]) => completed === true),
-        map(([result]) => result),
         filter(
           (result) =>
             !!(result && result.suggestions && result.suggestions.length > 0)
         ),
-        debounceTime(50),
         first(),
         timeout(1000), // 1 second timeout to prevent hanging
         catchError(() => of({ suggestions: [] }))
