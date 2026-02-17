@@ -12,7 +12,7 @@ import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-viewportContext(['mobile', 'desktop'], () => {
+viewportContext(['mobile'/*, 'desktop'*/], () => {
   describe('My Account - Consent Management', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

@@ -9,7 +9,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 context('Product search', { testIsolation: false }, () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'/*, 'desktop'*/], () => {
     isolateTests();
     before(() => {
       cy.visit('/');

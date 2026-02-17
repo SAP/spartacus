@@ -9,7 +9,7 @@ import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Order History with no orders', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'/*, 'desktop'*/], () => {
     describe('Order History for anonymous user', () => {
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/orders');

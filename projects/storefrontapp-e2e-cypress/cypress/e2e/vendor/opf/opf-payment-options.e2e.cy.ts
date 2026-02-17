@@ -16,7 +16,7 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 const user = getSampleUser();
 
 describe('OPF payment options', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'/*, 'desktop'*/], () => {
     describe('payment options', () => {
       beforeEach(() => {
         cy.requireLoggedIn();

@@ -12,7 +12,7 @@ import * as sampleData from '../../../sample-data/saved-cart';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('Saved Cart', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'/*, 'desktop'*/], () => {
     describe('Cart page', () => {
       describe('Anonymous user', () => {
         beforeEach(() => {

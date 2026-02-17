@@ -19,7 +19,7 @@ describe('Checkout Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
   });
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

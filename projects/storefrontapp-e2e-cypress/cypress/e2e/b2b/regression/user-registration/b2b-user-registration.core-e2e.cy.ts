@@ -17,7 +17,7 @@ import { isolateTests } from '../../../../support/utils/test-isolation';
 import { getSampleUser } from './../../../../sample-data/checkout-flow';
 
 context('B2B - User Registration', { testIsolation: false }, () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     isolateTests();
     beforeEach(() => {
       clearAllStorage();

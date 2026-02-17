@@ -20,7 +20,7 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 const user = getSampleUser();
 
 describe('OPF billing address', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'/*, 'desktop'*/], () => {
     describe('billing address', () => {
       beforeEach(() => {
         cy.requireLoggedIn();

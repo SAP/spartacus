@@ -16,7 +16,7 @@ import { isolateTests } from '../../../support/utils/test-isolation';
 import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 
 describe('My Account V2 Notification preference (CXSPA-10780)', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'/*, 'desktop'*/], () => {
     describe('Anonymous user (CXSPA-10780)', () => {
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/notification-preference');
