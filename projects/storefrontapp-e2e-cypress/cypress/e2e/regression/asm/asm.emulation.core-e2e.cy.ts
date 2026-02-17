@@ -59,14 +59,12 @@ context('Assisted Service Module', () => {
       cy.get('.cx-page-title').then((el) => {
         const orderNumber = el.text().match(/\d+/)[0];
         cy.log('--> End session');
-        // const homepage = waitForPage('homepage', 'getHomePage');
+        const homepage = waitForPage('homepage', 'getHomePage');
         cy.get('cx-customer-emulation')
           .findByText(/End Session/i)
           .click();
         // Make sure homepage is visible
-        cy.whenJDK17(() => {
-          cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
-        });
+        cy.wait(`@${homepage}`).its('response.statusCode').should('eq', 200);
         cy.get('cx-global-message div').should(
           'contain',
           'You have successfully signed out.'
