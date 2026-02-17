@@ -14,12 +14,11 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   Card,
   CardComponent,
   FormRequiredLegendComponent,
-  ICON_TYPE,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../root/facade';

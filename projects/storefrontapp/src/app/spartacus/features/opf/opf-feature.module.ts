@@ -52,6 +52,7 @@ import {
   OPF_B2B_CHECKOUT_FEATURE,
   OpfB2bCheckoutRootModule,
 } from '@spartacus/opf/b2b-checkout/root';
+import { OPF_TOKENISATION_FEATURE } from 'integration-libs/opf/tokenisation/root/feature-name';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
@@ -109,6 +110,12 @@ extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
         [OPF_QUICK_BUY_FEATURE]: {
           module: () =>
             import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
+        },
+        [OPF_TOKENISATION_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/tokenisation').then(
+              (m) => m.OpfTokenisationModule
+            ),
         },
       },
     }),
