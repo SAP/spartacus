@@ -379,6 +379,11 @@ export interface FeatureTogglesInterface {
    * on Customer Ticketing dialog.
    */
   a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
+   */
+  removeDuplicatedOrderHistoryHeader?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -421,4 +426,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  removeDuplicatedOrderHistoryHeader: false,
 };
