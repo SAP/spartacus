@@ -5,6 +5,7 @@
         {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
       <button
+        *cxFeature="'searchBoxRecentSearchesRemoval'"
         (click)="clearPhrases($event)"
         (mousedown)="$event.stopPropagation()"
         class="recent-searches-btn btn btn-tertiary"
@@ -42,6 +43,7 @@
           </a>
 
           <button
+            *cxFeature="'searchBoxRecentSearchesRemoval'"
             class="close"
             type="button"
             [attr.aria-label]="'common.remove' | cxTranslate"

@@ -218,6 +218,7 @@
           {{ 'searchBox.recentSearches' | cxTranslate }}
         </div>
         <button
+          *cxFeature="'searchBoxRecentSearchesRemoval'"
           class="btn btn-tertiary clear-recent-searches-btn"
           (click)="clearRecentSearches($event)"
           (keydown.arrowdown)="focusPreviousGroup($any($event))"

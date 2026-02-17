@@ -7,7 +7,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   OutletPosition,
@@ -21,6 +21,7 @@ import { RecentSearchesComponent } from './recent-searches.component';
   exports: [RecentSearchesComponent],
   imports: [
     CommonModule,
+    FeaturesConfigModule,
     I18nModule,
     SearchBoxModule,
     UrlModule,

@@ -305,8 +305,8 @@
     .recent-searches,
     .trending-searches,
     .suggestions {
+      margin-bottom: 20px;
       @include forFeature('searchBoxRecentSearchesRemoval') {
-        margin-bottom: 20px;
         position: relative;
       }
       ul {
@@ -379,8 +379,10 @@
   .search-panel-close-btn {
     display: none;
   }
-  .recent-searches-btn {
-    display: none;
+  @include forFeature('searchBoxRecentSearchesRemoval') {
+    .recent-searches-btn {
+      display: none;
+    }
   }
   &.search-box-v2 {
     input {
@@ -407,14 +409,16 @@
         top: 20px;
       }
     }
-    .recent-searches-btn {
-      position: absolute;
-      padding: 0;
-      min-height: 21px;
-      @include media-breakpoint-down(sm) {
-        display: block;
-        right: 0;
-        top: 0;
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches-btn {
+        position: absolute;
+        padding: 0;
+        min-height: 21px;
+        @include media-breakpoint-down(sm) {
+          display: block;
+          right: 0;
+          top: 0;
+        }
       }
     }
     position: unset;
@@ -466,18 +470,24 @@
           width: 20%;
         }
         .recentSearches-header {
-          width: 24%;
+          width: 20%;
           display: none;
-          button {
-            min-height: 20px;
-            padding: 0 30px;
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            width: 24%;
+            button {
+              min-height: 20px;
+              padding: 0 30px;
+            }
           }
         }
       }
       cx-recent-searches:has(.recent-searches)
         ~ .search-panel-header
         .recentSearches-header {
-        display: flex;
+        display: inline-block;
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          display: flex;
+        }
       }
 
       .trending-searches-container:has(.trending-searches)
@@ -495,9 +505,12 @@
         ~ .search-panel-header {
         .products-header {
           display: inline-block;
-          flex-basis: 56%;
+          flex-basis: 60%;
           @include media-breakpoint-down(sm) {
             width: 100%;
+          }
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            flex-basis: 56%;
           }
         }
       }
@@ -507,9 +520,12 @@
         ~ .search-panel-header {
         .products-header {
           display: inline-block;
-          flex-basis: 56%;
+          flex-basis: 60%;
           @include media-breakpoint-down(sm) {
             width: 100%;
+          }
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            flex-basis: 56%;
           }
         }
       }
@@ -632,13 +648,19 @@
         ul {
           border-top: none;
           li {
-            display: flex;
-            padding: 0 30px 0 0;
+            padding: 0 40px 0 0;
             @include media-breakpoint-down(sm) {
               padding: 0;
             }
-            .close {
-              font-size: 16px;
+            @include forFeature('searchBoxRecentSearchesRemoval') {
+              display: flex;
+              padding: 0 30px 0 0;
+              @include media-breakpoint-down(sm) {
+                padding: 0;
+              }
+              .close {
+                font-size: 16px;
+              }
             }
           }
         }
@@ -732,18 +754,24 @@
         }
       }
       .suggestions ~ cx-recent-searches:has(.recent-searches) ~ .products {
-        flex-basis: 56%;
+        flex-basis: 60%;
         @include media-breakpoint-down(sm) {
           width: 100%;
+        }
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          flex-basis: 56%;
         }
       }
 
       .trending-searches-container:has(.trending-searches)
         ~ cx-recent-searches:has(.recent-searches)
         ~ .products {
-        flex-basis: 56%;
+        flex-basis: 60%;
         @include media-breakpoint-down(sm) {
           width: 100%;
+        }
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          flex-basis: 56%;
         }
       }
 
