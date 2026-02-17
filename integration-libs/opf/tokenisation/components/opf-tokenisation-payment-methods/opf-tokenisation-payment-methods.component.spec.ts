@@ -1,316 +1,489 @@
-// import { Component, DebugElement, Directive, Input } from '@angular/core';
-// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-// import { By } from '@angular/platform-browser';
+// /*
+//  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+//  *
+//  * SPDX-License-Identifier: Apache-2.0
+//  */
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { of } from 'rxjs';
 // import {
-//   CxDatePipe,
-//   FeatureDirective,
-//   FeaturesConfig,
 //   GlobalMessageService,
-//   I18nTestingModule,
-//   MockDatePipe,
-//   MockTranslatePipe,
 //   PaymentDetails,
-//   TranslatePipe,
+//   TranslationService,
 // } from '@spartacus/core';
-// import {
-//   AtMessageDirective,
-//   CardComponent,
-//   FocusDirective,
-//   ICON_TYPE,
-//   IconComponent,
-//   SpinnerComponent,
-// } from '@spartacus/storefront';
-// import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-// import { EMPTY, Observable, of } from 'rxjs';
-// import { OpfTokenisationFacade } from '../../root/facade/opf-tokenisation.facade';
+// import { OpfTokenisationFacade } from '../../root/facade';
 // import { OpfTokenisationPaymentMethodsComponent } from './opf-tokenisation-payment-methods.component';
-
-// class MockGlobalMessageService {
-//   add = jasmine.createSpy();
-// }
-
-// @Component({
-//   template: '<div>Spinner</div>',
-//   selector: 'cx-spinner',
-//   imports: [I18nTestingModule],
-// })
-// class MockCxSpinnerComponent {}
-
-// @Directive({ selector: '[cxAtMessage]' })
-// class MockAtMessageDirective {
-//   @Input() cxAtMessage: string | string[] | undefined;
-// }
-
-// const mockPayment: PaymentDetails = {
-//   defaultPayment: true,
-//   accountHolderName: 'John Doe',
-//   cardNumber: '4111 1111 1111 1111',
-//   expiryMonth: '11',
-//   expiryYear: '2020',
-//   id: '2',
-//   cardType: {
-//     code: 'master',
-//   },
-// };
-
-// @Component({
-//   selector: 'cx-icon',
-//   template: '',
-//   imports: [I18nTestingModule],
-// })
-// class MockCxIconComponent {
-//   @Input() type: ICON_TYPE;
-// }
-
-// class MockOcfTokenisationFacade implements OpfTokenisationFacade {
-//   getPaymentMethodsLoading(): Observable<boolean> {
-//     return EMPTY;
-//   }
-//   getPaymentMethods(): Observable<PaymentDetails[]> {
-//     return of([mockPayment]);
-//   }
-//   loadPaymentMethods(): void {}
-//   deletePaymentMethod(_paymentMethodId: string): void {}
-//   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
-// }
+// import { Card } from '@spartacus/storefront';
 
 // describe('OpfTokenisationPaymentMethodsComponent', () => {
 //   let component: OpfTokenisationPaymentMethodsComponent;
 //   let fixture: ComponentFixture<OpfTokenisationPaymentMethodsComponent>;
-//   let tokenisationFacade: OpfTokenisationFacade;
-//   let el: DebugElement;
+//   let tokenisationFacade: jasmine.SpyObj<OpfTokenisationFacade>;
+//   let translationService: jasmine.SpyObj<TranslationService>;
+//   let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
 
-//   beforeEach(waitForAsync(() => {
-//     TestBed.configureTestingModule({
-//       imports: [
-//         OpfTokenisationPaymentMethodsComponent,
-//         CardComponent,
-//         FocusDirective,
-//       ],
+//   const mockPaymentMethod1: PaymentDetails = {
+//     id: 'card-1',
+//     cardNumber: '1234567812345678',
+//     expiryMonth: '12',
+//     expiryYear: '25',
+//     cardType: { code: '8764', name: 'VISA' },
+//   };
+
+//   const mockPaymentMethod2: PaymentDetails = {
+//     id: 'card-2',
+//     cardNumber: '8765432187654321',
+//     expiryMonth: '06',
+//     expiryYear: '26',
+//     cardType: { code: '8764', name: 'MASTERCARD' },
+//   };
+
+//   beforeEach(async () => {
+//     const facadeSpy = jasmine.createSpyObj('OpfTokenisationFacade', [
+//       'getPaymentMethods',
+//       'getPaymentMethodsLoading',
+//       'loadPaymentMethods',
+//       'deletePaymentMethod',
+//     ]);
+
+//     const translationSpy = jasmine.createSpyObj('TranslationService', [
+//       'translate',
+//     ]);
+
+//     const globalMessageSpy = jasmine.createSpyObj('GlobalMessageService', [
+//       'add',
+//     ]);
+
+//     await TestBed.configureTestingModule({
+//       declarations: [OpfTokenisationPaymentMethodsComponent],
 //       providers: [
-//         { provide: OpfTokenisationFacade, useClass: MockOcfTokenisationFacade },
-//         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-//         {
-//           provide: FeaturesConfig,
-//           useValue: {
-//             features: { level: '5.1' },
-//           },
-//         },
+//         { provide: OpfTokenisationFacade, useValue: facadeSpy },
+//         { provide: TranslationService, useValue: translationSpy },
+//         { provide: GlobalMessageService, useValue: globalMessageSpy },
 //       ],
-//     })
-//       .overrideComponent(OpfTokenisationPaymentMethodsComponent, {
-//         remove: {
-//           imports: [
-//             TranslatePipe,
-//             CxDatePipe,
-//             SpinnerComponent,
-//             IconComponent,
-//             AtMessageDirective,
-//             FeatureDirective,
-//           ],
-//         },
-//         add: {
-//           imports: [
-//             MockTranslatePipe,
-//             MockDatePipe,
-//             MockCxSpinnerComponent,
-//             MockCxIconComponent,
-//             MockAtMessageDirective,
-//             MockFeatureDirective,
-//           ],
-//         },
-//       })
-//       .overrideComponent(CardComponent, {
-//         remove: {
-//           imports: [AtMessageDirective, FocusDirective, IconComponent],
-//         },
-//         add: {
-//           imports: [
-//             MockAtMessageDirective,
-//             FocusDirective,
-//             MockCxIconComponent,
-//           ],
-//         },
-//       })
-//       .compileComponents();
-//   }));
+//     }).compileComponents();
 
-//   beforeEach(() => {
+//     tokenisationFacade = TestBed.inject(
+//       OpfTokenisationFacade
+//     ) as jasmine.SpyObj<OpfTokenisationFacade>;
+//     translationService = TestBed.inject(
+//       TranslationService
+//     ) as jasmine.SpyObj<TranslationService>;
+//     globalMessageService = TestBed.inject(
+//       GlobalMessageService
+//     ) as jasmine.SpyObj<GlobalMessageService>;
+
 //     fixture = TestBed.createComponent(OpfTokenisationPaymentMethodsComponent);
 //     component = fixture.componentInstance;
-//     el = fixture.debugElement;
-//     tokenisationFacade = TestBed.inject(OpfTokenisationFacade);
 //   });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
+//   describe('Component Initialization', () => {
+//     it('should create', () => {
+//       expect(component).toBeTruthy();
+//     });
+
+//     it('should initialize with undefined editCard', () => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       expect(component.editCard).toBeUndefined();
+//     });
+
+//     it('should call loadPaymentMethods on init', () => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       fixture.detectChanges();
+
+//       expect(tokenisationFacade.loadPaymentMethods).toHaveBeenCalled();
+//     });
+
+//     it('should set editCard to undefined on init', () => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       fixture.detectChanges();
+
+//       expect(component.editCard).toBeUndefined();
+//     });
 //   });
 
-//   it('should display header', () => {
-//     fixture.detectChanges();
-//     expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
-//       'paymentMethods.paymentMethods'
-//     );
+//   describe('Observable Initialization', () => {
+//     it('should initialize paymentMethods$ observable from facade', (done) => {
+//       const paymentMethods = [mockPaymentMethod1, mockPaymentMethod2];
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of(paymentMethods));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       fixture.detectChanges();
+
+//       component.paymentMethods$.subscribe((result) => {
+//         expect(result).toEqual(paymentMethods);
+//         done();
+//       });
+//     });
+
+//     it('should initialize loading$ observable from facade', (done) => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(true));
+
+//       fixture.detectChanges();
+
+//       component.loading$.subscribe((isLoading) => {
+//         expect(isLoading).toEqual(true);
+//         done();
+//       });
+//     });
+
+//     it('should handle empty payment methods list', (done) => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       fixture.detectChanges();
+
+//       component.paymentMethods$.subscribe((result) => {
+//         expect(result).toEqual([]);
+//         done();
+//       });
+//     });
+
+//     it('should emit loading state changes', (done) => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       fixture.detectChanges();
+
+//       component.loading$.subscribe((isLoading) => {
+//         expect(typeof isLoading).toBe('boolean');
+//         done();
+//       });
+//     });
 //   });
 
-//   it('should show basic information', () => {
-//     function getTitle(elem: DebugElement) {
-//       return elem.query(By.css('.cx-header')).nativeElement.textContent;
-//     }
-//     function getBodyMessage(elem: DebugElement) {
-//       return elem.query(By.css('.cx-msg')).nativeElement.textContent;
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     expect(getTitle(el)).toContain('paymentMethods.paymentMethods');
-//     expect(getBodyMessage(el)).toContain(
-//       ' paymentMethods.newPaymentMethodsAreAddedDuringCheckout '
-//     );
+//   describe('getCardContent', () => {
+//     beforeEach(() => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+//       translationService.translate.and.returnValue(of('Translated Text'));
+//       fixture.detectChanges();
+//     });
+
+//     it('should return card content observable', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         expect(card).toBeDefined();
+//         done();
+//       });
+//     });
+
+//     it('should include card number in card text', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         expect(card.text).toContain(mockPaymentMethod1.cardNumber);
+//         done();
+//       });
+//     });
+
+//     it('should include expiry information in card text', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         expect(card.text.length).toBeGreaterThanOrEqual(2);
+//         done();
+//       });
+//     });
+
+//     it('should translate delete label', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe(() => {
+//         expect(translationService.translate).toHaveBeenCalledWith(
+//           'common.delete'
+//         );
+//         done();
+//       });
+//     });
+
+//     it('should translate delete confirmation message', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe(() => {
+//         expect(translationService.translate).toHaveBeenCalledWith(
+//           'paymentCard.deleteConfirmation'
+//         );
+//         done();
+//       });
+//     });
+
+//     it('should translate expiry date with month and year parameters', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe(() => {
+//         expect(translationService.translate).toHaveBeenCalledWith(
+//           'paymentCard.expires',
+//           {
+//             month: mockPaymentMethod1.expiryMonth,
+//             year: mockPaymentMethod1.expiryYear,
+//           }
+//         );
+//         done();
+//       });
+//     });
+
+//     it('should include delete action in card', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         const deleteAction = card.actions?.find(
+//           (action) => action.event === 'edit'
+//         );
+//         expect(deleteAction).toBeDefined();
+//         done();
+//       });
+//     });
+
+//     it('should set card role to application', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         expect(card.role).toBe('application');
+//         done();
+//       });
+//     });
+
+//     it('should set deleteMsg from translation', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         expect(card.deleteMsg).toBeDefined();
+//         done();
+//       });
+//     });
+
+//     it('should handle payment method with missing cardNumber', (done) => {
+//       const paymentMethod: PaymentDetails = {
+//         ...mockPaymentMethod1,
+//         cardNumber: undefined,
+//       };
+//       component.getCardContent(paymentMethod).subscribe((card) => {
+//         expect(card.text[0]).toBe('');
+//         done();
+//       });
+//     });
+
+//     it('should return correct card content for different payment methods', (done) => {
+//       let count = 0;
+//       component.getCardContent(mockPaymentMethod1).subscribe((card1) => {
+//         expect(card1.text).toContain(mockPaymentMethod1.cardNumber);
+//         count++;
+//         if (count === 2) {
+//           done();
+//         }
+//       });
+
+//       component.getCardContent(mockPaymentMethod2).subscribe((card2) => {
+//         expect(card2.text).toContain(mockPaymentMethod2.cardNumber);
+//         count++;
+//         if (count === 2) {
+//           done();
+//         }
+//       });
+//     });
+
+//     it('should have exactly one action with event "edit"', (done) => {
+//       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+//         const editActions = card.actions?.filter(
+//           (action) => action.event === 'edit'
+//         );
+//         expect(editActions?.length).toBe(1);
+//         done();
+//       });
+//     });
 //   });
 
-//   it('should show spinner if payment methods are loading', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(true)
-//     );
+//   describe('deletePaymentMethod', () => {
+//     beforeEach(() => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(
+//         of([mockPaymentMethod1])
+//       );
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+//       fixture.detectChanges();
+//     });
 
-//     function getSpinner(elem: DebugElement) {
-//       return elem.query(By.css('cx-spinner'));
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     expect(getSpinner(el)).toBeTruthy();
+//     it('should call facade.deletePaymentMethod with payment method id', () => {
+//       component.deletePaymentMethod(mockPaymentMethod1);
+
+//       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
+//         'card-1'
+//       );
+//     });
+
+//     it('should set editCard to undefined after deletion', () => {
+//       component.editCard = 'card-1';
+//       component.deletePaymentMethod(mockPaymentMethod1);
+
+//       expect(component.editCard).toBeUndefined();
+//     });
+
+//     it('should not call deletePaymentMethod if payment method has no id', () => {
+//       const paymentMethod: PaymentDetails = {
+//         ...mockPaymentMethod1,
+//         id: undefined,
+//       };
+//       component.deletePaymentMethod(paymentMethod);
+
+//       expect(tokenisationFacade.deletePaymentMethod).not.toHaveBeenCalled();
+//     });
+
+//     it('should call deletePaymentMethod for different payment methods', () => {
+//       component.deletePaymentMethod(mockPaymentMethod1);
+//       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
+//         'card-1'
+//       );
+
+//       component.deletePaymentMethod(mockPaymentMethod2);
+//       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
+//         'card-2'
+//       );
+//     });
+
+//     it('should only call deletePaymentMethod once per invocation', () => {
+//       component.deletePaymentMethod(mockPaymentMethod1);
+
+//       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledTimes(1);
+//     });
 //   });
 
-//   it('should show payment methods after loading', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(false)
-//     );
-//     function getCard(elem: DebugElement) {
-//       return elem.query(By.css('cx-card'));
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     expect(getCard(el)).toBeTruthy();
+//   describe('setEdit', () => {
+//     beforeEach(() => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+//       fixture.detectChanges();
+//     });
+
+//     it('should set editCard to payment method id', () => {
+//       component.setEdit(mockPaymentMethod1);
+
+//       expect(component.editCard).toBe('card-1');
+//     });
+
+//     it('should update editCard when called multiple times', () => {
+//       component.setEdit(mockPaymentMethod1);
+//       expect(component.editCard).toBe('card-1');
+
+//       component.setEdit(mockPaymentMethod2);
+//       expect(component.editCard).toBe('card-2');
+//     });
+
+//     it('should handle setEdit with different payment methods', () => {
+//       component.setEdit(mockPaymentMethod2);
+//       expect(component.editCard).toBe(mockPaymentMethod2.id);
+//     });
 //   });
 
-//   it('should render all payment methods', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(false)
-//     );
-//     spyOn(tokenisationFacade, 'getPaymentMethods').and.returnValue(
-//       of([mockPayment, mockPayment])
-//     );
+//   describe('cancelCard', () => {
+//     beforeEach(() => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+//       fixture.detectChanges();
+//     });
 
-//     function getCards(elem: DebugElement): DebugElement[] {
-//       return elem.queryAll(By.css('cx-card'));
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     expect(getCards(el).length).toEqual(2);
+//     it('should set editCard to undefined', () => {
+//       component.editCard = 'card-1';
+//       component.cancelCard();
+
+//       expect(component.editCard).toBeUndefined();
+//     });
+
+//     it('should clear editCard even if it was undefined', () => {
+//       component.editCard = undefined;
+//       component.cancelCard();
+
+//       expect(component.editCard).toBeUndefined();
+//     });
+
+//     it('should allow repeated cancellations', () => {
+//       component.editCard = 'card-1';
+//       component.cancelCard();
+//       expect(component.editCard).toBeUndefined();
+
+//       component.cancelCard();
+//       expect(component.editCard).toBeUndefined();
+//     });
 //   });
 
-//   it('should render correct content in card', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(false)
-//     );
-//     spyOn(tokenisationFacade, 'getPaymentMethods').and.returnValue(
-//       of([mockPayment, { ...mockPayment, defaultPayment: false }])
-//     );
-//     function getCardNumber(elem: DebugElement): string {
-//       return elem.queryAll(By.css('cx-card .cx-card-label'))[0].nativeElement
-//         .textContent;
-//     }
-//     function getExpiration(elem: DebugElement): string {
-//       return elem.queryAll(By.css('cx-card .cx-card-label'))[1].nativeElement
-//         .textContent;
-//     }
+//   describe('Edit Card Workflow', () => {
+//     beforeEach(() => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(
+//         of([mockPaymentMethod1, mockPaymentMethod2])
+//       );
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+//       fixture.detectChanges();
+//     });
 
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     expect(getCardNumber(el)).toContain(mockPayment.cardNumber);
-//     expect(getExpiration(el)).toContain(
-//       `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`
-//     );
+//     it('should handle edit -> cancel workflow', () => {
+//       component.setEdit(mockPaymentMethod1);
+//       expect(component.editCard).toBe('card-1');
+
+//       component.cancelCard();
+//       expect(component.editCard).toBeUndefined();
+//     });
+
+//     it('should handle edit -> delete workflow', () => {
+//       component.setEdit(mockPaymentMethod1);
+//       expect(component.editCard).toBe('card-1');
+
+//       component.deletePaymentMethod(mockPaymentMethod1);
+//       expect(component.editCard).toBeUndefined();
+//       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
+//         'card-1'
+//       );
+//     });
+
+//     it('should allow switching between edit cards', () => {
+//       component.setEdit(mockPaymentMethod1);
+//       expect(component.editCard).toBe('card-1');
+
+//       component.setEdit(mockPaymentMethod2);
+//       expect(component.editCard).toBe('card-2');
+
+//       component.cancelCard();
+//       expect(component.editCard).toBeUndefined();
+//     });
 //   });
 
-//   it('should show confirm on delete', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(false)
-//     );
+//   describe('Facade Integration', () => {
+//     beforeEach(() => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+//       fixture.detectChanges();
+//     });
 
-//     function getDeleteMsg(elem: DebugElement): string {
-//       return elem.query(By.css('cx-card .cx-card-delete-msg')).nativeElement
-//         .textContent;
-//     }
-//     function getDeleteButton(elem: DebugElement): any {
-//       return elem.query(By.css('cx-card .btn')).nativeElement;
-//     }
-//     function getCancelButton(elem: DebugElement): DebugElement {
-//       return elem.query(By.css('cx-card .btn-secondary'));
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     getDeleteButton(el).click();
-//     fixture.detectChanges();
-//     expect(getDeleteMsg(el)).toContain('paymentCard.deleteConfirmation');
-//     getCancelButton(el).nativeElement.click();
-//     fixture.detectChanges();
-//     expect(getCancelButton(el)).toBeFalsy();
+//     it('should call all required facade methods on init', () => {
+//       expect(tokenisationFacade.getPaymentMethods).toHaveBeenCalled();
+//       expect(tokenisationFacade.getPaymentMethodsLoading).toHaveBeenCalled();
+//       expect(tokenisationFacade.loadPaymentMethods).toHaveBeenCalled();
+//     });
 //   });
 
-//   it('should successfully delete card', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(false)
-//     );
-//     spyOn(tokenisationFacade, 'deletePaymentMethod').and.stub();
+//   describe('Component Lifecycle', () => {
+//     it('should properly initialize on ngOnInit', () => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(
+//         of([mockPaymentMethod1])
+//       );
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
 
-//     function getDeleteButton(elem: DebugElement): any {
-//       return elem.query(By.css('cx-card .btn')).nativeElement;
-//     }
-//     function getConfirmButton(elem: DebugElement): DebugElement {
-//       return elem.query(By.css('cx-card .btn-primary'));
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     getDeleteButton(el).click();
-//     fixture.detectChanges();
-//     getConfirmButton(el).nativeElement.click();
-//     fixture.detectChanges();
-//     expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
-//       mockPayment.id
-//     );
-//   });
+//       component.ngOnInit();
 
-//   it('should successfully set card as default', () => {
-//     spyOn(tokenisationFacade, 'getPaymentMethodsLoading').and.returnValue(
-//       of(false)
-//     );
-//     spyOn(tokenisationFacade, 'getPaymentMethods').and.returnValue(
-//       of([mockPayment, { ...mockPayment, defaultPayment: false }])
-//     );
-//     spyOn(tokenisationFacade, 'setPaymentMethodAsDefault').and.stub();
+//       expect(component.paymentMethods$).toBeDefined();
+//       expect(component.loading$).toBeDefined();
+//       expect(component.editCard).toBeUndefined();
+//     });
 
-//     function getSetDefaultButton(elem: DebugElement): any {
-//       return elem.queryAll(By.css('cx-card .btn'))[1].nativeElement;
-//     }
-//     component.ngOnInit();
-//     fixture.detectChanges();
-//     getSetDefaultButton(el).click();
-//     expect(tokenisationFacade.setPaymentMethodAsDefault).toHaveBeenCalledWith(
-//       mockPayment.id
-//     );
-//   });
+//     it('should handle multiple ngOnInit calls', () => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
 
-//   it('should return the proper card icon based on its card type', () => {
-//     const otherCardType = 'MockCardType';
+//       component.ngOnInit();
+//       const firstPaymentMethods$ = component.paymentMethods$;
 
-//     expect(component.getCardIcon('visa')).toBe(ICON_TYPE.VISA);
-//     expect(component.getCardIcon('master')).toBe(ICON_TYPE.MASTER_CARD);
-//     expect(component.getCardIcon('mastercard_eurocard')).toBe(
-//       ICON_TYPE.MASTER_CARD
-//     );
-//     expect(component.getCardIcon('diners')).toBe(ICON_TYPE.DINERS_CLUB);
-//     expect(component.getCardIcon('amex')).toBe(ICON_TYPE.AMEX);
-//     expect(component.getCardIcon(otherCardType)).toBe(ICON_TYPE.CREDIT_CARD);
+//       component.ngOnInit();
+//       const secondPaymentMethods$ = component.paymentMethods$;
+
+//       expect(firstPaymentMethods$).toBeDefined();
+//       expect(secondPaymentMethods$).toBeDefined();
+//     });
+
+//     it('should cleanup properly on destroy', () => {
+//       tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+//       tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+
+//       fixture.detectChanges();
+//       fixture.destroy();
+
+//       expect(component).toBeTruthy();
+//     });
 //   });
 // });
