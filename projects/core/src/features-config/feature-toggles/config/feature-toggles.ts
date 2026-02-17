@@ -371,6 +371,13 @@ export interface FeatureTogglesInterface {
    * on Customer Ticketing dialog.
    */
   a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * When enabled, the organization's table component will stop re-rendering its rows each data update.
+   * This improves the screen reader experience of the notification message component.
+   * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
+   */
+  a11yCardNotificationMessage?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -412,4 +419,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yCardNotificationMessage: false,
 };
