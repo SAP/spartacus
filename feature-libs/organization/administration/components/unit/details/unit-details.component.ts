@@ -52,7 +52,7 @@ import { UnitItemService } from '../services/unit-item.service';
 export class UnitDetailsComponent {
   private featureConfigService = inject(FeatureConfigService);
 
-  get isA11yCardNotificationMessageEnabled(): boolean {
+  get isA11yCardNotificationMessageFeatureEnabled(): boolean {
     return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
   }
 

@@ -381,7 +381,8 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
-   * Improves the screen reader experience of the notification message component.
+   * When enabled, the organization's table component will stop re-rendering its rows each data update.
+   * This improves the screen reader experience of the notification message component.
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;

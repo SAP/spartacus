@@ -9,10 +9,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { FeatureConfigService, UrlPipe } from '@spartacus/core';
 import {
@@ -20,7 +21,6 @@ import {
   TableDataOutletContext,
   TableFieldOptions,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-org-cell',
@@ -28,24 +28,22 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
 })
-export class CellComponent implements OnInit, OnDestroy {
-  contextSubscription: Subscription;
+export class CellComponent implements OnInit {
   changeDetectorRef = inject(ChangeDetectorRef);
   private featureConfigService = inject(FeatureConfigService);
+  private destroyRef = inject(DestroyRef);
 
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   ngOnInit(): void {
     if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
-      this.contextSubscription = this.outlet.context$.subscribe((context) => {
-        this.outlet.context = context;
-        this.changeDetectorRef.markForCheck();
-      });
+      this.outlet.context$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((context) => {
+          this.outlet.context = context;
+          this.changeDetectorRef.markForCheck();
+        });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.contextSubscription?.unsubscribe();
   }
 
   get tabIndex(): number {

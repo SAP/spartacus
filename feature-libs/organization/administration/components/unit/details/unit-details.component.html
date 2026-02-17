@@ -2,7 +2,7 @@
   *ngIf="model$ | async as model"
   i18nRoot="orgUnit.details"
   [cxFocus]="
-    isA11yCardNotificationMessageEnabled ? {} : { refreshFocus: model }
+    isA11yCardNotificationMessageFeatureEnabled ? {} : { refreshFocus: model }
   "
   [showHint]="true"
 >
