@@ -44,7 +44,7 @@ context('Cart validation', () => {
     });
   });
 
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     beforeEach(() => {
       clearAllStorage();
       cy.cxConfig({

@@ -14,7 +14,7 @@ import { isolateTests } from '../../../support/utils/test-isolation';
 export const UPDATE_EMAIL_URL = '/my-account/update-email';
 
 describe('My Account - Update Email (CXSPA-10780)', () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

@@ -13,7 +13,7 @@ const productId2 = '2006139';
 const productName2 = 'M340';
 
 describe('Added to cart modal - Anonymous user', () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

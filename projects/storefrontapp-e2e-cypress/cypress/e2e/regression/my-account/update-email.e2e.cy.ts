@@ -14,7 +14,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
 describe('My Account - Update Email', () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     describe('Anonymous user', () => {
       it('should redirect to login page', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);

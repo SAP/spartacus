@@ -32,7 +32,7 @@ describe('My Account - Address Book', { testIsolation: false }, () => {
 });
 
 describe('My Account - Address Book', { testIsolation: false }, () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     isolateTests();
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

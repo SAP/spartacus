@@ -55,7 +55,7 @@ describe('Order History with orders', () => {
 
 describe('Order details page', { testIsolation: false }, () => {
   isolateTestsBefore();
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     let formattedValue: any;
     before(() => {
       cy.whenJDK17(() => {

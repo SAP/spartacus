@@ -17,7 +17,7 @@ import { isolateTests } from '../../../support/utils/test-isolation';
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
 describe('My Account - Close Account', () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();

@@ -17,7 +17,7 @@ export const PAGE_URL_UPDATE_PASSWORD = '/my-account/update-password';
 export const newPassword = 'newPas!sword123!';
 
 describe('My Account V2 - Update Password (CXSPA-10780)', () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

@@ -12,7 +12,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
 
 describe('Cart', () => {
-  viewportContext(['mobile'/*, 'desktop'*/], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     context('Anonymous user', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
