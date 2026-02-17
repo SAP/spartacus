@@ -23,6 +23,7 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureDirective,
   PageType,
   RoutingService,
   TranslatePipe,
@@ -54,17 +55,11 @@ import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
-import { SearchBoxConfig, SearchResults } from './search-box.model';
-
-interface RecentSearches {
-  clearPhrases(): void;
-}
-
-interface ProfileTagWindowObject extends Window {
-  Y_TRACKING?: {
-    recentSearches?: RecentSearches;
-  };
-}
+import {
+  ProfileTagWindowObject,
+  SearchBoxConfig,
+  SearchResults,
+} from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -100,6 +95,7 @@ const RECENT_SEARCHES_BUTTON_SELECTOR = '.recent-searches-btn';
     UrlPipe,
     TranslatePipe,
     HighlightPipe,
+    FeatureDirective,
   ],
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
