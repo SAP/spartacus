@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { getContextParameterDefault } from '../config/context-config-utils';
@@ -16,30 +16,28 @@ import { LanguageStatePersistenceService } from './language-state-persistence.se
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
-export class LanguageInitializer implements OnDestroy {
+export class LanguageInitializer {
   siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+
   constructor(
     protected languageService: LanguageService,
     protected languageStatePersistenceService: LanguageStatePersistenceService,
     protected configInit: ConfigInitializerService
   ) {}
 
-  protected subscription: Subscription;
-
   /**
    * Initializes the value of the active language.
    *
-   * @returns Observable that completes when initialization is done.
+   * @returns Promise that resolves when initialization is done.
    */
-  initialize(): Observable<unknown> {
-    const init$ = this.configInit.getStable('context').pipe(
-      switchMap(() => this.siteContextRoutesHandler.initOnce()),
-      switchMap(() => this.languageStatePersistenceService.initSync()),
-      switchMap(() => this.setFallbackValue())
+  initialize(): Promise<unknown> {
+    return firstValueFrom(
+      this.configInit.getStable('context').pipe(
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
+        switchMap(() => this.languageStatePersistenceService.initSync()),
+        switchMap(() => this.setFallbackValue())
+      )
     );
-
-    this.subscription = init$.subscribe();
-    return init$;
   }
 
   /**
@@ -69,7 +67,4 @@ export class LanguageInitializer implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
 }

@@ -76,22 +76,22 @@ describe('LanguageInitializer', () => {
   });
 
   describe('initialize', () => {
-    it('should call SiteContextRoutesHandler initOnce() and LanguageStatePersistenceService initSync()', () => {
+    it('should call SiteContextRoutesHandler initOnce() and LanguageStatePersistenceService initSync()', async () => {
       spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
-      initializer.initialize();
+      await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(languageStatePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
     });
 
-    it('should set default from config is the language is NOT initialized', () => {
-      initializer.initialize();
+    it('should set default from config is the language is NOT initialized', async () => {
+      await initializer.initialize();
       expect(languageService.setActive).toHaveBeenCalledWith('ja');
     });
 
-    it('should NOT set default from config is the language is initialized', () => {
+    it('should NOT set default from config is the language is initialized', async () => {
       spyOn(languageService, 'isInitialized').and.returnValue(true);
-      initializer.initialize();
+      await initializer.initialize();
       expect(languageService.setActive).not.toHaveBeenCalled();
     });
   });

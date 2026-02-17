@@ -76,22 +76,22 @@ describe('CurrencyInitializer', () => {
   });
 
   describe('initialize', () => {
-    it('should call SiteContextRoutesHandler initOnce() and CurrencyStatePersistenceService initSync()', () => {
+    it('should call SiteContextRoutesHandler initOnce() and CurrencyStatePersistenceService initSync()', async () => {
       spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
-      initializer.initialize();
+      await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(currencyStatePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
     });
 
-    it('should set default from config is the currency is NOT initialized', () => {
-      initializer.initialize();
+    it('should set default from config is the currency is NOT initialized', async () => {
+      await initializer.initialize();
       expect(currencyService.setActive).toHaveBeenCalledWith('USD');
     });
 
-    it('should NOT set default from config is the currency is initialized', () => {
+    it('should NOT set default from config is the currency is initialized', async () => {
       spyOn(currencyService, 'isInitialized').and.returnValue(true);
-      initializer.initialize();
+      await initializer.initialize();
       expect(currencyService.setActive).not.toHaveBeenCalled();
     });
   });
