@@ -66,5 +66,4 @@ export class LanguageInitializer {
       this.languageService.setActive(contextParam);
     }
   }
-
 }

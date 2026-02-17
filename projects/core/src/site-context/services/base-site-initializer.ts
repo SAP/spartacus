@@ -63,5 +63,4 @@ export class BaseSiteInitializer {
       this.baseSiteService.setActive(contextParam);
     }
   }
-
 }

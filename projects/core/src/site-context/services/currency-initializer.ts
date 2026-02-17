@@ -66,5 +66,4 @@ export class CurrencyInitializer {
       this.currencyService.setActive(contextParam);
     }
   }
-
 }
