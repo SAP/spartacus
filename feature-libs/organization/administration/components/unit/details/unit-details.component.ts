@@ -5,9 +5,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { B2BUnit, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  B2BUnit,
+  FeatureConfigService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FocusDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -45,6 +50,12 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
 })
 export class UnitDetailsComponent {
+  private featureConfigService = inject(FeatureConfigService);
+
+  get isA11yCardNotificationMessageFeatureEnabled(): boolean {
+    return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
+  }
+
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
