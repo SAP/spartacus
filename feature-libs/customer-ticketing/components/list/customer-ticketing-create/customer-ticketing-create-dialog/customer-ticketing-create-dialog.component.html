@@ -63,28 +63,7 @@
             {{ 'createCustomerTicket.category' | cxTranslate }}
             <cx-form-required-asterisks />
           </span>
-          <select
-            *cxFeature="
-              '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-            "
-            class="form-control"
-            formControlName="ticketCategory"
-          >
-            <option value="" disabled selected>
-              {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
-            </option>
-            <option
-              *ngFor="let category of ticketCategories"
-              [ngValue]="category"
-              [selected]="category.id === selectedCategory?.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
           <ng-select
-            *cxFeature="
-              'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-            "
             [inputAttrs]="{ required: 'true' }"
             class="ticket-category-select"
             id="ticket-category-select"
@@ -119,34 +98,7 @@
             <span class="cx-customer-ticket-label label-content">
               {{ 'createCustomerTicket.associateTo' | cxTranslate }}
             </span>
-            <select
-              *cxFeature="
-                '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-              "
-              class="form-control"
-              formControlName="associatedTo"
-            >
-              <option value="" disabled selected>
-                {{
-                  'createCustomerTicket.optionallySelectAssociatedObject'
-                    | cxTranslate
-                }}
-              </option>
-              <option
-                *ngFor="let associatedObject of ticketAssociatedObjects"
-                [ngValue]="associatedObject"
-                [selected]="
-                  associatedObject.code === selectedAssociatedObject?.code
-                "
-              >
-                {{ associatedObject.type }}
-                {{ associatedObject.code }}
-              </option>
-            </select>
             <ng-select
-              *cxFeature="
-                'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-              "
               [clearable]="false"
               [items]="ticketAssociatedObjects"
               [placeholder]="
