@@ -335,6 +335,7 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         a11yCustomerTicketingVisualFocusFix: true,
         removeDuplicatedOrderHistoryHeader: true,
+        a11yCardNotificationMessage: true,
       };
       return appFeatureToggles;
     }),
