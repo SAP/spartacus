@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config';
 import { getContextParameterDefault } from '../config/context-config-utils';
@@ -13,10 +13,11 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { CurrencyService } from '../facade';
 import { CURRENCY_CONTEXT_ID } from '../providers';
 import { CurrencyStatePersistenceService } from './currency-state-persistence.service';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
-export class CurrencyInitializer implements OnDestroy {
-  protected subscription: Subscription;
+export class CurrencyInitializer {
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
 
   constructor(
     protected currencyService: CurrencyService,
@@ -26,16 +27,17 @@ export class CurrencyInitializer implements OnDestroy {
 
   /**
    * Initializes the value of the active currency.
+   *
+   * @returns Promise that resolves when initialization is done.
    */
-  initialize(): void {
-    this.subscription = this.configInit
-      .getStable('context')
-      .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+  initialize(): Promise<unknown> {
+    return firstValueFrom(
+      this.configInit.getStable('context').pipe(
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.currencyStatePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
       )
-      .subscribe();
+    );
   }
 
   /**
@@ -63,9 +65,5 @@ export class CurrencyInitializer implements OnDestroy {
     if (!this.currencyService.isInitialized() && contextParam) {
       this.currencyService.setActive(contextParam);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
   }
 }
