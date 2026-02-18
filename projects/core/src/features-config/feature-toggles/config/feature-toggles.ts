@@ -376,7 +376,7 @@ export interface FeatureTogglesInterface {
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
-  
+
   /**
    * When enabled, the organization's table component will stop re-rendering its rows each data update.
    * This improves the screen reader experience of the notification message component.
