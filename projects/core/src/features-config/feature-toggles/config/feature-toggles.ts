@@ -399,7 +399,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: false,
+  a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
