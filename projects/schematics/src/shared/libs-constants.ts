@@ -393,6 +393,8 @@ export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
 export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
 export const OPF_GLOBAL_FUNCTIONS_FEATURE_NAME = 'OPF-Global-Functions';
 export const OPF_QUICK_BUY_FEATURE_NAME = 'OPF-Quick-Buy';
+export const OPF_TOKENISATION_FEATURE_NAME = 'OPF-Tokenisation';
+
 /***** Feature name end *****/
 
 /***** Feature name start *****/
