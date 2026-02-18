@@ -13,7 +13,7 @@ import {
   Optional,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   ICON_TYPE,
   HighlightPipe,
@@ -47,6 +47,7 @@ const CLOSE_BUTTON_SELECTOR = 'button.close';
     HighlightPipe,
     UrlPipe,
     IconComponent,
+    FeatureDirective,
   ],
 })
 export class RecentSearchesComponent implements OnInit {
