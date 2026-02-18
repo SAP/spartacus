@@ -301,7 +301,6 @@ if (environment.cpq) {
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yWideScreenImprovements: true,
@@ -334,6 +333,9 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
+        a11yCustomerTicketingVisualFocusFix: true,
+        removeDuplicatedOrderHistoryHeader: true,
+        a11yCardNotificationMessage: true,
       };
       return appFeatureToggles;
     }),

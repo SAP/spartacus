@@ -70,6 +70,7 @@ export interface OpfPaymentGlobalMethods {
   ): Promise<OpfPaymentVerificationResponse>;
   updateCartGuestUserEmail?(email: string): Promise<boolean>;
   createCartGuestUser?(): Promise<boolean>;
+  handle3DSRedirect?(threeDsURL: string): Promise<void>;
 }
 
 export interface OpfPaymentBrowserInfo {
@@ -92,6 +93,7 @@ export interface OpfPaymentSubmitRequest {
   encryptedToken?: string;
   channel?: string;
   additionalData?: Array<OpfKeyValueMap>;
+  savePaymentMethod?: boolean;
 }
 
 export interface OpfPaymentSubmitInput {
@@ -105,6 +107,7 @@ export interface OpfPaymentSubmitInput {
   returnPath?: string;
   paymentMethod: OpfPaymentMethod;
   encryptedToken?: string;
+  savePaymentMethod?: boolean;
 }
 
 export enum OpfPaymentSubmitStatus {

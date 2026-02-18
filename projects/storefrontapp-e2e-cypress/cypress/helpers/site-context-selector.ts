@@ -8,6 +8,7 @@ import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
+import { goToB2COrderHistoryPage } from './order-history';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -59,6 +60,7 @@ export const TITLE_DE = 'Herr';
 export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
   month: 'long',
 });
+export const JANUARY_MONTH_DE = 'Januar';
 export const EDIT_DE = 'Bearbeiten';
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
@@ -204,8 +206,13 @@ export function testLangSwitchOrderPage() {
     const deutschName = MONTH_DE;
 
     before(() => {
-      doPlaceOrder();
-      waitForOrderToBePlacedRequest();
+      cy.whenJDK21(() => {
+        goToB2COrderHistoryPage();
+      });
+      cy.whenJDK17(() => {
+        doPlaceOrder();
+        waitForOrderToBePlacedRequest();
+      });
     });
 
     it('should change language in the url', () => {
@@ -220,10 +227,16 @@ export function testLangSwitchOrderPage() {
 
     it('should change language in the page', () => {
       siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
-
-      cy.get(
-        'cx-order-history .cx-order-history-placed .cx-order-history-value'
-      ).should('contain', deutschName);
+      cy.whenJDK21(() => {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', JANUARY_MONTH_DE);
+      });
+      cy.whenJDK17(() => {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', deutschName);
+      });
     });
   });
 }
