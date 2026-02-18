@@ -334,6 +334,8 @@ if (environment.cpq) {
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yFacetFilterByLabel: true,
+        removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
       };
       return appFeatureToggles;

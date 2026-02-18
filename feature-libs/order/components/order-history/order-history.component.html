@@ -17,9 +17,12 @@
         <h4 *ngIf="type.replenishmentOrder">
           {{ 'orderHistory.replenishmentHistory' | cxTranslate }}
         </h4>
-        <h2 *ngIf="!type.replenishmentOrder">
-          {{ 'orderHistory.orderHistory' | cxTranslate }}
-        </h2>
+
+        <ng-container *cxFeature="'!removeDuplicatedOrderHistoryHeader'">
+          <h2 *ngIf="!type.replenishmentOrder">
+            {{ 'orderHistory.orderHistory' | cxTranslate }}
+          </h2>
+        </ng-container>
       </div>
 
       <!-- BODY -->

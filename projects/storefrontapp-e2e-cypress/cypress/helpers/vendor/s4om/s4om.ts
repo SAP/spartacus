@@ -524,7 +524,7 @@ export function findRowInOrderHistoryTable(
   poNum: string,
   costCenter?: string
 ) {
-  cy.get('cx-order-history h2').should('contain', 'Order history');
+  cy.get('cx-breadcrumb h1').should('contain', 'Order History');
 
   let index = 2; //start navigating from the second page
   cy.get('#order-history-table').as('orderHistoryTable');

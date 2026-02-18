@@ -373,6 +373,16 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Adds Filter By label to product facets when in desktop mode.
+   */
+  a11yFacetFilterByLabel?: boolean;
+
+  /**
+   * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
+   */
+  removeDuplicatedOrderHistoryHeader?: boolean;
+
+  /**
    * When enabled, the organization's table component will stop re-rendering its rows each data update.
    * This improves the screen reader experience of the notification message component.
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
@@ -419,5 +429,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yFacetFilterByLabel: false,
+  removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
 };

@@ -30,10 +30,7 @@ describe('Order History with no orders', () => {
 
       it('should display order history page and should be able to start shopping', () => {
         const homePage = waitForPage('homepage', 'getHomePage');
-        cy.get('.cx-order-history-header h2').should(
-          'contain',
-          'Order history'
-        );
+        cy.get('cx-breadcrumb h1').should('contain', 'Order History');
         cy.get('.cx-order-history-no-order').should('exist');
 
         cy.get('.btn.btn-primary.btn-block.active')
