@@ -376,7 +376,7 @@ export interface FeatureTogglesInterface {
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
-  
+
   /**
    * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
    */
