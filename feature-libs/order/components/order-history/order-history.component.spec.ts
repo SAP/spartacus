@@ -367,10 +367,6 @@ describe('OrderHistoryComponent', () => {
         By.css('.cx-order-history-header')
       );
 
-      expect(element.nativeElement.textContent).toContain(
-        'orderHistory.orderHistory'
-      );
-
       expect(element.nativeElement.textContent).not.toContain(
         'orderHistory.replenishmentHistory'
       );

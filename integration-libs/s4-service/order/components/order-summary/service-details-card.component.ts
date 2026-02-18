@@ -7,7 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { ProductTypes, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
   CheckoutServiceSchedulePickerService,
@@ -47,7 +47,7 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
         (entry) => entry.deliveryPointOfService === undefined
       ) || [];
     deliveryEntries.forEach((entry) => {
-      if (entry.product?.productTypes === 'SERVICE') {
+      if (entry.product?.productTypes === ProductTypes.SERVICE) {
         hasService = true;
       }
     });
