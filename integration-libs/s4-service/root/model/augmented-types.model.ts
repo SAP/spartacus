@@ -49,9 +49,6 @@ declare module '@spartacus/checkout/base/root' {
 declare module '@spartacus/core' {
   interface OccEndpoints extends CheckoutServiceOrderOccEndpoints {}
   interface BaseStore extends ServiceOrderConfiguration {}
-  interface Product {
-    productTypes?: string;
-  }
 }
 
 @Injectable({
