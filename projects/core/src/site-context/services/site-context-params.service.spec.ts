@@ -85,7 +85,7 @@ describe('SiteContextParamsService', () => {
     });
 
     it('should return undefined if there is no such parameter', () => {
-      const ctxService = service.getSiteContextService('custom');
+      const ctxService = service.getSiteContextService('non-existent-param');
       expect(ctxService).toEqual(undefined);
     });
   });

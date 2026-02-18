@@ -13,7 +13,9 @@ import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
+  CUSTOM
 } from './context-ids';
+import { CustomContextService } from '../services/custom-context-service';
 
 export abstract class ContextServiceMap {
   [context: string]: Type<SiteContext<any>>;
@@ -24,6 +26,7 @@ export function serviceMapFactory() {
     [LANGUAGE_CONTEXT_ID]: LanguageService,
     [CURRENCY_CONTEXT_ID]: CurrencyService,
     [BASE_SITE_CONTEXT_ID]: BaseSiteService,
+    [CUSTOM]: CustomContextService,
   };
 }
 
