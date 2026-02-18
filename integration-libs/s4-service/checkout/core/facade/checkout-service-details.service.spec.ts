@@ -7,6 +7,7 @@ import {
 import {
   EventService,
   OCC_USER_ID_CURRENT,
+  ProductTypes,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
@@ -31,21 +32,21 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
     return of([
       {
         product: {
-          productTypes: 'NON-SERVICE',
+          productTypes: ProductTypes.PHYSICAL,
           name: 'non-service 1',
           code: 'non-service 1',
         },
       },
       {
         product: {
-          productTypes: 'NON-SERVICE',
+          productTypes: ProductTypes.PHYSICAL,
           name: 'non-service 2',
           code: 'non-service 2',
         },
       },
       {
         product: {
-          productTypes: 'SERVICE',
+          productTypes: ProductTypes.SERVICE,
           name: 'service 1',
           code: 'service 1',
         },
