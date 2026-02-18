@@ -336,7 +336,6 @@ if (environment.cpq) {
         a11yCustomerTicketingVisualFocusFix: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
-
       };
       return appFeatureToggles;
     }),
