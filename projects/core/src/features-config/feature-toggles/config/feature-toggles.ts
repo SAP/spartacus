@@ -38,6 +38,14 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
+   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
+   * when a screen reader is used.
+   * Replaces select with ng-select component in the following component:
+   * `CustomerTicketingCreateDialogComponent`
+   */
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
+
+  /**
    * Adds horizontal padding to the 'carousel-panel' to fix the issue where the focus only covers three sides of the 'Previous slide' and 'Next slide' buttons within the carousel section.
    * Affects: CarouselComponent
    */
@@ -407,14 +415,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
-  cdsLoginEventsToken: true,
+  cdsLoginEventsToken: false,
   createMediaPreconnectLink: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
-  authorizationCodeFlowByDefault: true,
+  authorizationCodeFlowByDefault: false,
   incrementProcessesCountForMergeCart: true,
-  dispatchLoginActionOnlyWhenTokenReceived: true,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
