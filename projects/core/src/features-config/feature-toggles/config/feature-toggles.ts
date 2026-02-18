@@ -376,6 +376,11 @@ export interface FeatureTogglesInterface {
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
+  
+  /**
+   * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
+   */
+  removeDuplicatedOrderHistoryHeader?: boolean;
 
   /**
    * When enabled, the organization's table component will stop re-rendering its rows each data update.
@@ -425,5 +430,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
+  removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
 };
