@@ -334,7 +334,9 @@ if (environment.cpq) {
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         a11yCustomerTicketingVisualFocusFix: true,
-        searchBoxRecentSearchesRemoval: false,
+        removeDuplicatedOrderHistoryHeader: true,
+        a11yCardNotificationMessage: true,
+
       };
       return appFeatureToggles;
     }),
