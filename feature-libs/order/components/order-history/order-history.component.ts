@@ -14,6 +14,7 @@ import {
   TranslationService,
   UrlPipe,
   isNotUndefined,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   Order,
@@ -46,8 +47,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
+    FeatureDirective,
   ],
 })
 export class OrderHistoryComponent implements OnDestroy {
