@@ -1288,43 +1288,6 @@ export function insertCommentAboveImportIdentifier(
   return changes;
 }
 
-export function renameIdentifierNode(
-  sourcePath: string,
-  source: ts.SourceFile,
-  oldName: string,
-  newName: string
-): ReplaceChange[] {
-  const identifierNodes = findLevel1NodesInSourceByTextAndKind(
-    source,
-    oldName,
-    ts.SyntaxKind.Identifier
-  );
-  const changes: ReplaceChange[] = [];
-  identifierNodes.forEach((n) =>
-    changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
-  );
-  return changes;
-}
-
-function findLevel1NodesInSourceByTextAndKind(
-  source: ts.SourceFile,
-  text: string,
-  syntaxKind: ts.SyntaxKind
-): ts.Node[] {
-  const nodes = getSourceNodes(source);
-  return findLevel1NodesByTextAndKind(nodes, text, syntaxKind);
-}
-
-function findLevel1NodesByTextAndKind(
-  nodes: ts.Node[],
-  text: string,
-  syntaxKind: ts.SyntaxKind
-): ts.Node[] {
-  return nodes
-    .filter((n) => n.kind === syntaxKind)
-    .filter((n) => n.getText() === text);
-}
-
 export function findMultiLevelNodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
@@ -1369,24 +1332,6 @@ export function getMetadataProperty(
   })[0];
 
   return property as ts.PropertyAssignment;
-}
-
-export function getLineFromTSFile(
-  host: Tree,
-  path: string,
-  position: number,
-  linesToRemove = 1
-): [number, number] {
-  const tsFile = getTsSourceFile(host, path);
-
-  const lac = tsFile.getLineAndCharacterOfPosition(position);
-  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
-  const nextLineStart = tsFile.getPositionOfLineAndCharacter(
-    lac.line + linesToRemove,
-    0
-  );
-
-  return [lineStart, nextLineStart - lineStart];
 }
 
 export function getServerTsPath(host: Tree): string | undefined {
