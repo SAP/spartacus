@@ -130,7 +130,7 @@ function searchForOrder(orderNumber: string): void {
 export function goToOrderHistory(shopName: string): Chainable<Window> {
   cy.log('Navigate to order history');
   return cy.visit(`/${shopName}/en/USD/my-account/orders`).then(() => {
-    cy.get('cx-order-history h2').should('contain', 'Order history');
+    cy.get('cx-breadcrumb h1').should('contain', 'Order History');
   });
 }
 
