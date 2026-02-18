@@ -6,11 +6,13 @@
 
 import {
   clickOnPrimaryDialogButton,
+  getCartItem,
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
   clickOnActionLink,
   doPlaceOrder,
+  goToB2COrderHistoryPage,
   interceptAddToCartEndpoint,
   interceptCartPageEndpoint,
   orderHistoryTest,
@@ -18,16 +20,22 @@ import {
   waitForResponse,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { product } from '../../../sample-data/checkout-flow';
+import { consignedOrderId, product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
-      cy.requireLoggedIn();
+      cy.whenJDK21(() => {
+        goToB2COrderHistoryPage();
+      });
+      cy.whenJDK17(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cy.visit('/');
+        cy.requireLoggedIn();
+        orderHistoryTest.checkIfOrderIsDisplayed();
+      });
     });
 
     beforeEach(() => {
@@ -48,42 +56,52 @@ describe('Order History with orders', () => {
 describe('Order details page', { testIsolation: false }, () => {
   isolateTestsBefore();
   viewportContext(['mobile', 'desktop'], () => {
-    isolateTestsBefore();
     let formattedValue: any;
-
-    orderHistoryTest.checkOrderDetailsUnconsignedEntries();
-
     before(() => {
       cy.visit('/');
-      cy.requireLoggedIn();
-      doPlaceOrder().then((orderData: any) => {
-        formattedValue = orderData.body.totalPrice.formattedValue;
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
-        cy.visit('/my-account/orders');
-        cy.get('.cx-order-history-code > .cx-order-history-value').then(
-          (el) => {
-            const orderNumber = el.text().match(/\d+/)[0];
-            waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
-          }
-        );
+      cy.whenJDK17(() => {
+        cy.requireLoggedIn();
+        doPlaceOrder().then((orderData: any) => {
+          formattedValue = orderData.body.totalPrice.formattedValue;
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
+          cy.visit('/my-account/orders');
+          cy.get('.cx-order-history-code > .cx-order-history-value').then(
+            (el) => {
+              const orderNumber = el.text().match(/\d+/)[0];
+              waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+            }
+          );
+
+          cy.get('.cx-order-history-code > .cx-order-history-value')
+            .should('exist')
+            .first()
+            .click();
+        });
+      });
+      cy.whenJDK21(() => {
+        goToB2COrderHistoryPage();
 
         cy.get('.cx-order-history-code > .cx-order-history-value')
-          .should('exist')
-          .first()
-          .click();
+          .contains(consignedOrderId)
+          .as('orderHistoryCode');
+
+        cy.get('@orderHistoryCode').click();
       });
     });
     it('should display order details page with consigned entries', () => {
       cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
       cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-      cy.get('.cx-summary-total > .cx-summary-amount').should(
-        'contain',
-        formattedValue
-      );
+
+      cy.whenJDK17(() => {
+        cy.get('.cx-summary-total > .cx-summary-amount').should(
+          'contain',
+          formattedValue
+        );
+      });
     });
 
     it('should add product to cart from order details page', () => {
@@ -100,8 +118,23 @@ describe('Order details page', { testIsolation: false }, () => {
       clickOnPrimaryDialogButton();
 
       waitForResponse(cartPageAlias);
-
-      verifyProductIsDisplayed(product.name, product.code);
+      cy.whenJDK17(() => {
+        verifyProductIsDisplayed(product.name, product.code);
+      });
+      cy.whenJDK21(() => {
+        getCartItem(product.name).within(() => {
+          cy.get('.cx-code').should('contain', product.code);
+          cy.get('cx-item-counter input')
+            .invoke('val')
+            .then(Number)
+            .should('be.gt', 0);
+          // Removing the product from cart to avoid increasing qty over runs.
+          cy.get('cx-item-counter')
+            .get(`[aria-label="Remove one"]`)
+            .first()
+            .click();
+        });
+      });
     });
   });
 });

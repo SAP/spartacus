@@ -103,6 +103,18 @@ body.modal-open {
       .list-header {
         display: none;
       }
+
+      @include forFeature('a11yFacetFilterByLabel') {
+        .list-header {
+          display: flex;
+          h4 {
+            display: block;
+          }
+          button.close {
+            display: none;
+          }
+        }
+      }
     }
 
     .cx-facet-list-footer {

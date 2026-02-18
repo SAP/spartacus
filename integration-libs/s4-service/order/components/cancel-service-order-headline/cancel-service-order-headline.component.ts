@@ -7,7 +7,7 @@
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
+import { ProductTypes, TranslatePipe } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { OutletDirective } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
@@ -24,7 +24,8 @@ export class CancelServiceOrderHeadlineComponent {
     map((order) => ({
       ...order,
       entries: (order.entries || []).filter(
-        (entry) => entry.product && entry.product.productTypes === 'SERVICE'
+        (entry) =>
+          entry.product && entry.product.productTypes === ProductTypes.SERVICE
       ),
     }))
   );

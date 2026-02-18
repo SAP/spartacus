@@ -89,7 +89,7 @@ describe('Order History with orders', { testIsolation: false }, () => {
     cy.visit('/my-account/orders');
     const ordersAlias = interceptOrdersEndpoint();
     waitForResponse(ordersAlias);
-    cy.get('cx-order-history h2').should('contain', 'Order history');
+    cy.get('cx-breadcrumb h1').should('contain', 'Order History');
     cy.get('.cx-order-history-po a').should('contain', poNumber);
     cy.get('.cx-order-history-cost-center a').should('contain', costCenter);
   });
