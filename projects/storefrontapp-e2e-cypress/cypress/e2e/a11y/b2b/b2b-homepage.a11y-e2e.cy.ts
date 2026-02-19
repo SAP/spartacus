@@ -5,8 +5,10 @@
  */
 
 import { waitForPage } from '../../../helpers/navigation';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('B2B Homepage Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     const homePage = waitForPage('homepage', 'getHomePage');
     cy.visit('/');
