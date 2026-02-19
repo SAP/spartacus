@@ -205,9 +205,7 @@ export function verifySiteContextChangeUrl(
   label: string,
   testPath: string
 ): void {
-  // cy.intercept('GET', pagePath).as('productPage');
   siteContextChange(pagePath, alias, selectedOption, label);
-  //  cy.wait('@productPage');
   assertSiteContextChange(testPath);
 }
 
