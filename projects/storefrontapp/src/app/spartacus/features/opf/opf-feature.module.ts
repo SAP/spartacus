@@ -52,7 +52,10 @@ import {
   OPF_B2B_CHECKOUT_FEATURE,
   OpfB2bCheckoutRootModule,
 } from '@spartacus/opf/b2b-checkout/root';
-import { OPF_TOKENISATION_FEATURE } from 'integration-libs/opf/tokenisation/root/feature-name';
+import {
+  OPF_TOKENISATION_FEATURE,
+  OpfTokenisationRootModule,
+} from '@spartacus/opf/tokenisation/root';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
@@ -75,6 +78,7 @@ extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
     OpfCtaRootModule,
     OpfGlobalFunctionsRootModule,
     OpfQuickBuyRootModule,
+    OpfTokenisationRootModule,
   ],
   providers: [
     provideConfig({

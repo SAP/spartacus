@@ -724,7 +724,7 @@
       "@spartacus/opf/tokenisation": [
         "integration-libs/opf/tokenisation/public_api"
       ],
-      "spartacus/opf/tokenisation/root": [
+      "@spartacus/opf/tokenisation/root": [
         "integration-libs/opf/tokenisation/root/public_api"
       ],
       "@spartacus/opps": ["integration-libs/opps/public_api"],

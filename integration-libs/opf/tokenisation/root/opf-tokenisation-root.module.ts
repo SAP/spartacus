@@ -12,7 +12,7 @@ export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_TOKENISATION_FEATURE]: {
-        cmsComponents: ['OpfTokenisationPaymentMethodsComponent'],
+        cmsComponents: ['AccountPaymentDetailsComponent'],
       },
     },
   };
