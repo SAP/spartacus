@@ -5,27 +5,19 @@
  */
 
 import { enableProdMode } from '@angular/core';
-import { platformBrowser } from '@angular/platform-browser';
-import { AppModule } from './app/app.module';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { appConfig } from './app/app.config';
 import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
 
-function bootstrap() {
-  platformBrowser()
-    .bootstrapModule(AppModule)
-    /* eslint-disable-next-line no-console
-    --
-    It's just an example application file. This message is not crucial
-    to be logged using any special logger. Moreover, we don't have
-    any special logger available in this context. */
-    .catch((err) => console.error(err));
-}
-
-if (document.readyState === 'complete') {
-  bootstrap();
-} else {
-  document.addEventListener('DOMContentLoaded', bootstrap);
-}
+bootstrapApplication(AppComponent, appConfig)
+  /* eslint-disable-next-line no-console
+  --
+  It's just an example application file. This message is not crucial
+  to be logged using any special logger. Moreover, we don't have
+  any special logger available in this context. */
+  .catch((err) => console.error(err));

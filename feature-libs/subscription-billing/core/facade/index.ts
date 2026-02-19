@@ -7,3 +7,4 @@
 export * from './subscription.service';
 export * from './facade-provider';
 export * from './subscription-actions.service';
+export * from './subscription-billing.service';

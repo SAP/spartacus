@@ -878,6 +878,31 @@ export function removeImport(
   return new RemoveChange(source.fileName, position, toRemove);
 }
 
+export function removeImportUsingTsMorph(
+  fileSource: import('ts-morph').SourceFile,
+  { importPath, importName }: { importPath: string; importName: string }
+): void {
+  const importDeclaration = fileSource
+    .getImportDeclarations()
+    .find((imp) => imp.getModuleSpecifierValue() === importPath);
+
+  if (importDeclaration) {
+    const namedImports = importDeclaration.getNamedImports();
+    const targetImport = namedImports.find(
+      (imp) => imp.getName() === importName
+    );
+
+    if (targetImport) {
+      targetImport.remove();
+
+      // If no named imports left, remove the entire import declaration
+      if (importDeclaration.getNamedImports().length === 0) {
+        importDeclaration.remove();
+      }
+    }
+  }
+}
+
 export function removeImportFromContent(
   updatedContent: string,
   importToRemove: { symbolName?: string; importPath: string }
@@ -1263,43 +1288,6 @@ export function insertCommentAboveImportIdentifier(
   return changes;
 }
 
-export function renameIdentifierNode(
-  sourcePath: string,
-  source: ts.SourceFile,
-  oldName: string,
-  newName: string
-): ReplaceChange[] {
-  const identifierNodes = findLevel1NodesInSourceByTextAndKind(
-    source,
-    oldName,
-    ts.SyntaxKind.Identifier
-  );
-  const changes: ReplaceChange[] = [];
-  identifierNodes.forEach((n) =>
-    changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
-  );
-  return changes;
-}
-
-function findLevel1NodesInSourceByTextAndKind(
-  source: ts.SourceFile,
-  text: string,
-  syntaxKind: ts.SyntaxKind
-): ts.Node[] {
-  const nodes = getSourceNodes(source);
-  return findLevel1NodesByTextAndKind(nodes, text, syntaxKind);
-}
-
-function findLevel1NodesByTextAndKind(
-  nodes: ts.Node[],
-  text: string,
-  syntaxKind: ts.SyntaxKind
-): ts.Node[] {
-  return nodes
-    .filter((n) => n.kind === syntaxKind)
-    .filter((n) => n.getText() === text);
-}
-
 export function findMultiLevelNodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
@@ -1344,24 +1332,6 @@ export function getMetadataProperty(
   })[0];
 
   return property as ts.PropertyAssignment;
-}
-
-export function getLineFromTSFile(
-  host: Tree,
-  path: string,
-  position: number,
-  linesToRemove = 1
-): [number, number] {
-  const tsFile = getTsSourceFile(host, path);
-
-  const lac = tsFile.getLineAndCharacterOfPosition(position);
-  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
-  const nextLineStart = tsFile.getPositionOfLineAndCharacter(
-    lac.line + linesToRemove,
-    0
-  );
-
-  return [lineStart, nextLineStart - lineStart];
 }
 
 export function getServerTsPath(host: Tree): string | undefined {

@@ -49,11 +49,13 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             paymentSessionId,
             paramsMap: paramsMap,
             afterRedirectScriptFlag,
+            is3DSRedirect,
           }) =>
             this.runPaymentPattern({
               paymentSessionId,
               paramsMap,
               afterRedirectScriptFlag,
+              is3DSRedirect,
             })
         )
       )
@@ -89,11 +91,23 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     paymentSessionId,
     paramsMap,
     afterRedirectScriptFlag,
+    is3DSRedirect,
   }: {
     paymentSessionId: string;
     paramsMap: OpfKeyValueMap[];
     afterRedirectScriptFlag?: string;
+    is3DSRedirect?: boolean;
   }): Observable<boolean> {
+    // Handle 3DS redirect return
+    if (is3DSRedirect) {
+      this.isHostedFieldPattern = true;
+      return this.opfPaymentVerificationService.run3DSRedirectPattern(
+        paymentSessionId,
+        paramsMap,
+        this.vcr
+      );
+    }
+
     if (afterRedirectScriptFlag === 'true') {
       this.isHostedFieldPattern = true;
       return this.opfPaymentVerificationService.runHostedFieldsPattern(

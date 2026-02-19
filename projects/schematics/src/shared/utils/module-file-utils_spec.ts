@@ -10,12 +10,9 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import ts from 'typescript';
-import { UTF_8 } from '../constants';
 import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import { getPathResultsForFile } from './file-utils';
 import {
-  addImport,
-  addToModuleDeclarations,
   addToModuleExports,
   addToModuleImports,
   getTemplateInfo,
@@ -60,7 +57,6 @@ describe('Module file utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
@@ -103,27 +99,6 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('addImport', () => {
-    it('should add passed import', async () => {
-      const appModulePath = getPathResultsForFile(
-        appTree,
-        'app.module.ts',
-        'src'
-      )[0];
-      expect(appModulePath).toBeTruthy();
-      addImport(appTree, appModulePath, 'MockUnitTestModule', '@test');
-
-      const buffer = appTree.read(appModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const fileContent = buffer.toString(UTF_8);
-        expect(
-          fileContent.includes("import { MockUnitTestModule } from '@test';")
-        ).toBeTruthy();
-      }
-    });
-  });
-
   describe('add metadata to ng module', () => {
     describe('addToModuleImports', () => {
       it('should add passed position to imports array', async () => {
@@ -134,25 +109,6 @@ describe('Module file utils', () => {
         )[0];
         expect(appModulePath).toBeTruthy();
         const resultChange = addToModuleImports(
-          appTree,
-          appModulePath,
-          'MockUnitTestModule'
-        );
-
-        expect(resultChange).toBeTruthy();
-        expect(resultChange.length).toEqual(1);
-        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
-      });
-    });
-    describe('addToModuleDeclarations', () => {
-      it('should add passed position to declarations array', async () => {
-        const appModulePath = getPathResultsForFile(
-          appTree,
-          'app.module.ts',
-          'src'
-        )[0];
-        expect(appModulePath).toBeTruthy();
-        const resultChange = addToModuleDeclarations(
           appTree,
           appModulePath,
           'MockUnitTestModule'
