@@ -4,7 +4,6 @@
   </h2>
   <ng-container *ngIf="!isWritingReview; else writeReview">
     <div class="header">
-      <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
       <button
         #writeReviewButton
         class="btn btn-primary"
@@ -12,6 +11,7 @@
       >
         {{ 'productReview.writeReview' | cxTranslate }}
       </button>
+      <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
       <cx-star-rating
         *ngIf="product.averageRating"
         class="rating"

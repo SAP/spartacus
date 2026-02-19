@@ -1,24 +1,56 @@
 $gutterSize: 15px;
 
 %cx-product-reviews {
-  .rating-input {
+  .btn-secondary {
     display: none;
   }
 
   .header {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
 
     border-bottom: 1px solid var(--cx-color-light);
 
     padding: 0 $gutterSize $gutterSize;
     margin: 0 -#{$gutterSize} 40px -#{$gutterSize};
 
-    button {
-      margin-inline-start: auto;
+    h3 {
+      margin: 0;
     }
+
+    button {
+      order: 2;
+    }
+
     .rating {
       flex-basis: 100%;
+      order: 3;
+    }
+
+    // Mobile: stack elements and center button
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      h3 {
+        order: 1;
+        width: 100%;
+      }
+
+      button {
+        order: 3;
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .rating {
+        order: 2;
+        width: 100%;
+      }
     }
   }
 

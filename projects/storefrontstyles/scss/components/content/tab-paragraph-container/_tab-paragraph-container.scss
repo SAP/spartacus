@@ -1,245 +1,314 @@
-$useTabsOnPDP: false !default;
-$useAccordionOnly: false !default;
-
-@mixin accordion {
-  > button {
-    border-top: 1px solid var(--cx-color-medium);
-
-    font-size: var(--cx-font-size, 1.188rem);
-    padding-top: 15px;
-    padding-inline-end: 0;
-    padding-bottom: 0;
-    padding-inline-start: 4%;
-    width: 100%;
-    text-align: start;
-    height: 63px;
-    position: relative;
-
-    @include type('3');
-
-    &:focus {
-      box-shadow: 0 0 0 0;
-    }
-
-    > span.accordion-icon {
-      &:before {
-        content: '+';
-        margin: 0px 15px;
-        font-size: var(--cx-font-size, 2.063rem);
-        bottom: 5px;
-        position: absolute;
-        inset-inline-end: 0;
-        color: var(--cx-color-secondary);
-      }
-    }
-    &:after {
-      margin-top: 15px;
-      margin-inline-end: auto;
-      margin-bottom: auto;
-      margin-inline-start: -4%;
-    }
-    &.active {
-      font-weight: var(--cx-font-weight-bold);
-      > span.accordion-icon {
-        &:before {
-          bottom: 8px;
-          content: '–';
-        }
-      }
-    }
-    &.active:after,
-    &:hover:after {
-      width: 104%;
-    }
-  }
-
-  > div {
-    padding: 15px 5px;
-  }
-}
-
-%pdpTabs {
-  > div {
-    // On small devices we hide the toggled items
-    // in order to allow for a more condensed layout
-    @include media-breakpoint-down(sm) {
-      > div.active.toggled {
-        display: none;
-      }
-      > button.active.toggled {
-        color: initial;
-        > span.accordion-icon {
-          &:before {
-            content: '+';
-          }
-        }
-        &:after {
-          width: 0;
-          opacity: var(--cx-opacity, 0);
-        }
-      }
-    }
-
-    > div {
-      background: var(--cx-color-background);
-      &:not(.active) {
-        display: none;
-      }
-      .container > h2 {
-        display: none;
-      }
-    }
-    > button {
-      @include button-reset();
-      margin-bottom: 0;
-      &.active,
-      &:hover {
-        color: var(--cx-color-primary-accent);
-      }
-      &:focus {
-        z-index: 1;
-      }
-      cursor: pointer;
-      @include media-breakpoint-up(md) {
-        &.active {
-          cursor: initial;
-        }
-      }
-
-      // border effect
-      &:after {
-        content: '';
-        display: block;
-        margin-top: 15px;
-        margin-inline-end: auto;
-        margin-bottom: auto;
-        margin-inline-start: auto;
-        height: 3px;
-        background: var(--cx-color-primary-accent);
-
-        // the tab hover effect uses a border in the :after pseudo
-        // that is animated from 0% to 100% width
-        width: 0;
-        opacity: 0;
-        transition: all 0.6s;
-      }
-
-      &.active:after,
-      &:hover:after {
-        width: 100%;
-      }
-      &.active:after,
-      &.active:hover:after {
-        opacity: 1;
-      }
-      &:not(.active):hover:after {
-        opacity: 0.5;
-      }
-    }
-
-    @if $useAccordionOnly == true {
-      @include accordion();
-    } @else {
-      @include media-breakpoint-down(sm) {
-        @include accordion();
-      }
-
-      // in order to align the tabs to the left
-      // we simulate the container size
-      @include media-breakpoint-only(md) {
-        grid-template-columns: auto 10px repeat(4, 180px) 0px auto;
-      }
-      @include media-breakpoint-only(lg) {
-        grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
-      }
-      @include media-breakpoint-only(xl) {
-        grid-template-columns: auto 10px repeat(4, 180px) 420px auto;
-      }
-
-      @include media-breakpoint-up(md) {
-        display: grid;
-
-        > button {
-          order: 0;
-          transition: all 0.6s;
-          font-size: 1.2rem;
-          text-align: center;
-          margin: 0;
-
-          &:first-of-type {
-            grid-column: 3;
-          }
-        }
-
-        // the div elements contain the content and will be rendered after the tabs
-        > div {
-          order: 2;
-          grid-column-start: 1;
-          grid-column-end: -1;
-          padding: 50px 0;
-          border-top: 1px var(--cx-color-light) solid;
-        }
-      }
-    }
-  }
-}
-
-%pdpFlat {
-  > div {
-    margin: auto;
-
-    @include media-breakpoint-down(xl) {
-      max-width: var(--cx-page-width-max);
-    }
-    // make a small header with links
-    display: grid;
-    grid-template-columns: repeat(4, auto) auto;
-    justify-content: start;
-    > button {
-      @include button-reset();
-      order: 2;
-      color: var(--cx-color-primary);
-      font-weight: normal;
-      font-size: 0.9em;
-      cursor: pointer;
-      margin: 10px 15px;
-      &:hover {
-        text-decoration: underline;
-      }
-      &:focus {
-        z-index: 1;
-      }
-    }
-
-    > div {
-      order: 4;
-      grid-column: 1 / span 5;
-    }
-  }
-}
+// Tab Paragraph Container Styles
+// These styles provide visual enhancements for the tab-paragraph-container component
+// The component uses cx-tab internally which has modes: TAB (desktop) and ACCORDIAN (mobile)
+// Base styles are defined in _tab.scss, this file provides enhanced styling
 
 %cx-tab-paragraph-container {
-  @if $useTabsOnPDP == true {
-    @extend %pdpTabs !optional;
-  } @else {
-    @extend %pdpFlat !optional;
-  }
-  @extend %cx-tab !optional;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 
-  .active {
-    background-color: var(--cx-color-inverse);
-  }
-  > div > button {
-    @include cx-highContrastTheme {
-      border-top-color: var(--cx-color-text);
-      color: var(--cx-color-text);
+  // CSS Custom Properties for container-specific theming
+  // Tab mode (desktop)
+  --cx-tab-container-btn-padding: 14px 24px;
+  --cx-tab-container-btn-font-size: 1rem;
+  --cx-tab-container-btn-font-weight: 600;
+  --cx-tab-container-btn-border-radius: 8px 8px 0 0;
+  --cx-tab-container-btn-bg: var(--cx-color-inverse);
+  --cx-tab-container-btn-bg-hover: var(--cx-color-light);
+  --cx-tab-container-btn-bg-active: var(--cx-color-inverse);
+  --cx-tab-container-btn-color: var(--cx-color-secondary);
+  --cx-tab-container-btn-color-hover: var(--cx-color-primary);
+  --cx-tab-container-btn-color-active: var(--cx-color-primary);
+  --cx-tab-container-btn-border-color-active: var(--cx-color-primary);
+  --cx-tab-container-btn-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+  --cx-tab-container-btn-shadow-hover: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  --cx-tab-container-btn-shadow-active: 0 -4px 16px rgba(0, 0, 0, 0.1);
+  --cx-tab-container-transition: all 0.25s ease-in-out;
+  --cx-tab-container-indicator-height: 3px;
+  --cx-tab-container-indicator-color: var(--cx-color-primary);
+
+  // Tab panel
+  --cx-tab-container-panel-bg: var(--cx-color-inverse);
+  --cx-tab-container-panel-padding: 32px;
+  --cx-tab-container-panel-border-radius: 0 8px 8px 8px;
+  --cx-tab-container-panel-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --cx-tab-container-panel-border-color: var(--cx-color-light);
+
+  // Accordion mode (mobile)
+  --cx-tab-container-accordion-btn-padding: 18px 20px;
+  --cx-tab-container-accordion-btn-bg: var(--cx-color-inverse);
+  --cx-tab-container-accordion-btn-bg-hover: var(--cx-color-background);
+  --cx-tab-container-accordion-btn-border-color: var(--cx-color-light);
+  --cx-tab-container-accordion-btn-border-radius: 8px;
+  --cx-tab-container-accordion-btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --cx-tab-container-accordion-btn-shadow-active: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --cx-tab-container-accordion-icon-bg: var(--cx-color-background);
+  --cx-tab-container-accordion-icon-bg-active: var(--cx-color-primary);
+  --cx-tab-container-accordion-icon-color: var(--cx-color-primary);
+  --cx-tab-container-accordion-icon-color-active: var(--cx-color-inverse);
+  --cx-tab-container-accordion-content-padding: 24px 20px;
+
+  // Style the inner cx-tab component with enhanced visuals
+  cx-tab {
+    display: block;
+
+    // TAB MODE (Desktop) - enhanced horizontal tabs
+    .tab {
+      display: flex;
+      gap: 4px;
+
+      .tab-btn {
+        padding: var(--cx-tab-container-btn-padding);
+        font-size: var(--cx-tab-container-btn-font-size);
+        font-weight: var(--cx-tab-container-btn-font-weight);
+        background: var(--cx-tab-container-btn-bg);
+        color: var(--cx-tab-container-btn-color);
+        border: 2px solid transparent;
+        border-bottom: none;
+        border-radius: var(--cx-tab-container-btn-border-radius);
+        box-shadow: var(--cx-tab-container-btn-shadow);
+        transition: var(--cx-tab-container-transition);
+        position: relative;
+
+        &:hover:not(.active):not([disabled]) {
+          background: var(--cx-tab-container-btn-bg-hover);
+          color: var(--cx-tab-container-btn-color-hover);
+          box-shadow: var(--cx-tab-container-btn-shadow-hover);
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          background: var(--cx-tab-container-btn-bg-active);
+          color: var(--cx-tab-container-btn-color-active);
+          border-color: var(--cx-tab-container-btn-border-color-active);
+          border-bottom-color: var(--cx-tab-container-btn-bg-active);
+          box-shadow: var(--cx-tab-container-btn-shadow-active);
+          z-index: 1;
+          margin-bottom: -2px;
+          padding-bottom: calc(14px + 2px);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--cx-color-visual-focus);
+          outline-offset: 2px;
+        }
+
+        // Modern indicator
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%) scaleX(0);
+          width: calc(100% - 48px);
+          height: var(--cx-tab-container-indicator-height);
+          background: var(--cx-tab-container-indicator-color);
+          border-radius: 3px 3px 0 0;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        &.active::after {
+          transform: translateX(-50%) scaleX(1);
+        }
+
+        &:hover:not(.active):not([disabled])::after {
+          transform: translateX(-50%) scaleX(0.5);
+          opacity: 0.4;
+        }
+      }
+    }
+
+    // Tab panel in tab mode
+    cx-tab-panel div[role='tabpanel'] {
+      padding: var(--cx-tab-container-panel-padding);
+      background: var(--cx-tab-container-panel-bg);
+      border: 1px solid var(--cx-tab-container-panel-border-color);
+      border-radius: var(--cx-tab-container-panel-border-radius);
+      box-shadow: var(--cx-tab-container-panel-shadow);
+      animation: cxTabPanelFadeIn 0.3s ease-out;
+    }
+
+    // ACCORDIAN MODE (Mobile) - enhanced vertical expandable sections
+    .accordian {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .tab-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 56px;
+        padding: var(--cx-tab-container-accordion-btn-padding);
+        background: var(--cx-tab-container-accordion-btn-bg);
+        border: 1px solid var(--cx-tab-container-accordion-btn-border-color);
+        border-radius: var(--cx-tab-container-accordion-btn-border-radius);
+        box-shadow: var(--cx-tab-container-accordion-btn-shadow);
+        font-size: var(--cx-tab-container-btn-font-size);
+        font-weight: var(--cx-tab-container-btn-font-weight);
+        color: var(--cx-tab-container-btn-color);
+        text-align: start;
+        cursor: pointer;
+        transition: var(--cx-tab-container-transition);
+        box-sizing: border-box;
+
+        &:hover:not([disabled]) {
+          background: var(--cx-tab-container-accordion-btn-bg-hover);
+          color: var(--cx-tab-container-btn-color-hover);
+          box-shadow: var(--cx-tab-container-accordion-btn-shadow-active);
+        }
+
+        &.active {
+          background: var(--cx-tab-container-btn-bg-active);
+          color: var(--cx-tab-container-btn-color-active);
+          border-color: var(--cx-tab-container-btn-border-color-active);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          box-shadow: var(--cx-tab-container-accordion-btn-shadow-active);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--cx-color-visual-focus);
+          outline-offset: 2px;
+        }
+
+        // Enhanced tab icon styling
+        .tab-icon {
+          width: 28px;
+          height: 28px;
+          min-width: 28px;
+          min-height: 28px;
+          border-radius: 50%;
+          background: var(--cx-tab-container-accordion-icon-bg);
+          color: var(--cx-tab-container-accordion-icon-color);
+          font-size: 1.25rem;
+          transition: var(--cx-tab-container-transition);
+        }
+
+        &.active .tab-icon {
+          background: var(--cx-tab-container-accordion-icon-bg-active);
+          color: var(--cx-tab-container-accordion-icon-color-active);
+        }
+      }
+
+      // Accordion content panels
+      cx-tab-panel {
+        margin-top: -8px;
+        margin-bottom: 8px;
+        display: block;
+        width: 100%;
+        max-width: 100%;
+
+        div[role='region'] {
+          padding: var(--cx-tab-container-accordion-content-padding);
+          background: var(--cx-tab-container-panel-bg);
+          border: 1px solid var(--cx-tab-container-btn-border-color-active);
+          border-top: none;
+          border-radius: 0 0 var(--cx-tab-container-accordion-btn-border-radius)
+            var(--cx-tab-container-accordion-btn-border-radius);
+          box-shadow: var(--cx-tab-container-accordion-btn-shadow);
+          animation: cxAccordionSlideDown 0.3s ease-out;
+          overflow-x: auto;
+          overflow-y: visible;
+          max-width: 100%;
+          box-sizing: border-box;
+
+          // Ensure tables don't break layout
+          table {
+            max-width: 100%;
+            overflow-x: auto;
+            display: block;
+          }
+        }
+      }
     }
   }
 
+  // Animations
+  @keyframes cxTabPanelFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes cxAccordionSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // High Contrast Theme Support
   @include cx-highContrastTheme {
-    .active {
-      color: var(--cx-color-text);
-      background-color: var(--cx-color-background);
+    --cx-tab-container-btn-shadow: none;
+    --cx-tab-container-btn-shadow-hover: none;
+    --cx-tab-container-btn-shadow-active: none;
+    --cx-tab-container-panel-shadow: none;
+    --cx-tab-container-accordion-btn-shadow: none;
+    --cx-tab-container-accordion-btn-shadow-active: none;
+
+    cx-tab {
+      .tab .tab-btn,
+      .accordian .tab-btn {
+        border: 2px solid var(--cx-color-text);
+
+        &:hover:not([disabled]) {
+          outline: 2px solid var(--cx-color-text);
+          outline-offset: -2px;
+        }
+
+        &.active {
+          border-color: var(--cx-color-primary);
+          border-width: 3px;
+        }
+      }
+
+      .accordian .tab-btn .tab-icon {
+        border: 1px solid var(--cx-color-text);
+      }
+
+      cx-tab-panel {
+        div[role='tabpanel'],
+        div[role='region'] {
+          border: 2px solid var(--cx-color-text);
+          background: var(--cx-color-background);
+        }
+      }
+    }
+  }
+
+  @include cx-highContrastTheme-dark {
+    cx-tab {
+      .tab .tab-btn,
+      .accordian .tab-btn {
+        background: var(--cx-color-background);
+        color: var(--cx-color-text);
+      }
+    }
+  }
+
+  @include cx-highContrastTheme-light {
+    cx-tab {
+      .tab .tab-btn,
+      .accordian .tab-btn {
+        border-color: var(--cx-color-dark);
+      }
+
+      .accordian .tab-btn .tab-icon {
+        border-color: var(--cx-color-dark);
+      }
     }
   }
 }
