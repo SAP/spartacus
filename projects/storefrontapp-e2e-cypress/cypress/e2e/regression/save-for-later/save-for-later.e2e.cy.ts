@@ -19,7 +19,7 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Save for later', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');

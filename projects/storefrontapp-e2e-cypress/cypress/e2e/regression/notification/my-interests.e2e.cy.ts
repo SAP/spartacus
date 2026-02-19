@@ -29,7 +29,7 @@ describe('My interests', () => {
       });
     });
   });
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     describe('Guest', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());

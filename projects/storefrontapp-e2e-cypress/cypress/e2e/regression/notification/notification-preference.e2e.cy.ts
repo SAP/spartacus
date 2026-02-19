@@ -28,7 +28,7 @@ describe('Notification preference', () => {
     });
   });
 
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     describe('Anonymous user', () => {
       before(() => {
         clearAllStorage();

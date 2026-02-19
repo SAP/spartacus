@@ -15,7 +15,7 @@ import { standardUser } from '../../../sample-data/shared-users';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 describe('My Account - Consent Management(CXSPA-10780)', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

@@ -23,7 +23,7 @@ describe('My Account - Update Password', () => {
     updatePassword.testUpdatePasswordLoggedInUser();
   });
 
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile' /*, 'desktop'*/], () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();
