@@ -62,7 +62,7 @@ export class UnitDetailsComponent {
   );
 
   refreshFocusReference$ = this.model$.pipe(
-    map((model) => model?.uid || model)
+    map((model) => model?.uid ?? model)
   );
 
   isInEditMode$ = this.itemService.isInEditMode$;
