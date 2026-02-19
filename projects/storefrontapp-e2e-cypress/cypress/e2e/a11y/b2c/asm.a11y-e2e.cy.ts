@@ -5,8 +5,10 @@
  */
 
 import { agentLoginForJDK21 } from '../../../helpers/auth-forms';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('ASM Continuum tests', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.clearLocalStorage();
