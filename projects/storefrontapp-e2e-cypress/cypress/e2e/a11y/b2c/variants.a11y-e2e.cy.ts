@@ -5,8 +5,10 @@
  */
 
 import { configureProductWithVariants } from '../../../helpers/variants/apparel-checkout-flow';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Variants Accessibility test', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     configureProductWithVariants();
     cy.a11yContinuumSetup();
