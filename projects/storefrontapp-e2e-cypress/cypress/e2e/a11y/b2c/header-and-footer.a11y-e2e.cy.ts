@@ -6,8 +6,10 @@
 
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Header and Footer Continuum tests', { testIsolation: false }, () => {
+  isolateTestsBefore();
   beforeEach(() => {
     cy.a11yContinuumSetup();
     cy.clearLocalStorage();
