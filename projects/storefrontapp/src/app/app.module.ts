@@ -30,6 +30,10 @@ import { SpartacusModule } from './spartacus/spartacus.module';
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
         },
+        media: {
+          baseUrl: environment.mediaBaseUrl,
+          prefix: environment.mediaApiPrefix,
+        },
       },
     }),
 
