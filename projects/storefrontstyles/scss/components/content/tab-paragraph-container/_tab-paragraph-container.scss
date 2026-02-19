@@ -1,9 +1,224 @@
 // Tab Paragraph Container Styles
-// These styles provide visual enhancements for the tab-paragraph-container component
-// The component uses cx-tab internally which has modes: TAB (desktop) and ACCORDIAN (mobile)
-// Base styles are defined in _tab.scss, this file provides enhanced styling
+// This file supports both legacy (button/div based) and modern (cx-tab based) implementations
+// Legacy styles use %pdpTabs and %pdpFlat placeholders controlled by $useTabsOnPDP variable
+// Modern styles target the cx-tab component with enhanced visual design
 
-%cx-tab-paragraph-container {
+$useTabsOnPDP: false !default;
+
+// =============================================================================
+// LEGACY STYLES - %pdpTabs (Tabbed layout for PDP)
+// =============================================================================
+%pdpTabs {
+  // On small devices we hide the toggled items
+  // in order to allow for a more condensed layout
+  @include media-breakpoint-down(sm) {
+    > div.active.toggled {
+      display: none;
+    }
+    > button.active.toggled {
+      color: initial;
+      &::before {
+        content: '+';
+      }
+      &::after {
+        width: 0;
+        opacity: var(--cx-opacity, 0);
+      }
+    }
+  }
+
+  > div {
+    background: var(--cx-color-background);
+    &:not(.active) {
+      display: none;
+    }
+    .container > h2 {
+      display: none;
+    }
+  }
+
+  > button {
+    @include button-reset();
+    margin-bottom: 0;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+
+    &:focus {
+      z-index: 1;
+    }
+
+    @include media-breakpoint-up(md) {
+      &.active {
+        cursor: initial;
+      }
+    }
+
+    // border effect
+    &::after {
+      content: '';
+      display: block;
+      margin-top: 15px;
+      margin-inline-end: auto;
+      margin-bottom: auto;
+      margin-inline-start: auto;
+      height: 5px;
+      background: var(--cx-color-primary);
+
+      // the tab hover effect uses a border in the :after pseudo
+      // that is animated from 0% to 100% width
+      width: 0;
+      opacity: 0;
+      transition: all 0.6s;
+    }
+
+    &.active::after,
+    &:hover::after {
+      width: 100%;
+    }
+
+    &.active::after,
+    &.active:hover::after {
+      opacity: 1;
+    }
+
+    &:not(.active):hover::after {
+      opacity: 0.5;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    > button {
+      border-top: 1px var(--cx-color-light) solid;
+      font-size: 18px;
+      padding-top: 15px;
+      padding-inline-end: 0;
+      padding-bottom: 0;
+      padding-inline-start: 4%;
+      width: 100%;
+      text-align: start;
+      height: 63px;
+
+      &::before {
+        content: '+';
+        margin: 0 15px;
+        float: right;
+        font-size: 33px;
+        bottom: 12px;
+        position: relative;
+        color: var(--cx-color-text);
+      }
+
+      &::after {
+        margin-top: 15px;
+        margin-inline-end: auto;
+        margin-bottom: auto;
+        margin-inline-start: -4%;
+      }
+
+      &.active {
+        &::before {
+          content: '–';
+        }
+      }
+
+      &.active::after,
+      &:hover::after {
+        width: 104%;
+      }
+    }
+
+    > div {
+      padding: 15px 5px;
+    }
+  }
+
+  // in order to align the tabs to the left
+  // we simulate the container size
+  @include media-breakpoint-only(md) {
+    grid-template-columns: auto 10px repeat(4, 180px) 0 auto;
+  }
+
+  @include media-breakpoint-only(lg) {
+    grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
+  }
+
+  @include media-breakpoint-only(xl) {
+    grid-template-columns: auto 10px repeat(4, 180px) 420px auto;
+  }
+
+  @include media-breakpoint-up(md) {
+    display: grid;
+
+    > button {
+      order: 0;
+      transition: all 0.6s;
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 0;
+
+      &:first-of-type {
+        grid-column: 3;
+      }
+    }
+
+    // the div elements contain the content and will be rendered after the tabs
+    > div {
+      order: 2;
+      grid-column-start: 1;
+      grid-column-end: -1;
+      padding: 50px 0;
+      border-top: 1px var(--cx-color-light) solid;
+    }
+  }
+}
+
+// =============================================================================
+// LEGACY STYLES - %pdpFlat (Flat layout for PDP)
+// =============================================================================
+%pdpFlat {
+  margin: auto;
+
+  @include media-breakpoint-down(xl) {
+    max-width: var(--cx-page-width-max);
+  }
+
+  // make a small header with links
+  display: grid;
+  grid-template-columns: repeat(4, auto) auto;
+  justify-content: start;
+
+  > button {
+    @include button-reset();
+    order: 2;
+    color: var(--cx-color-primary);
+    font-weight: normal;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin: 10px 15px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      z-index: 1;
+    }
+  }
+
+  > div {
+    order: 4;
+    grid-column: 1 / span 5;
+  }
+}
+
+// =============================================================================
+// MODERN STYLES - Enhanced cx-tab component styling
+// =============================================================================
+%cx-tab-paragraph-container-modern {
   display: block;
   width: 100%;
   max-width: 100%;
@@ -34,13 +249,13 @@
   --cx-tab-container-panel-padding: 32px;
   --cx-tab-container-panel-border-radius: 0 8px 8px 8px;
   --cx-tab-container-panel-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --cx-tab-container-panel-border-color: var(--cx-color-light);
+  --cx-tab-container-panel-border-color: var(--cx-color-secondary);
 
   // Accordion mode (mobile)
   --cx-tab-container-accordion-btn-padding: 18px 20px;
   --cx-tab-container-accordion-btn-bg: var(--cx-color-inverse);
   --cx-tab-container-accordion-btn-bg-hover: var(--cx-color-background);
-  --cx-tab-container-accordion-btn-border-color: var(--cx-color-light);
+  --cx-tab-container-accordion-btn-border-color: var(--cx-color-secondary);
   --cx-tab-container-accordion-btn-border-radius: 8px;
   --cx-tab-container-accordion-btn-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   --cx-tab-container-accordion-btn-shadow-active: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -311,4 +526,24 @@
       }
     }
   }
+}
+
+// =============================================================================
+// MAIN PLACEHOLDER - Applies legacy or modern styles based on context
+// =============================================================================
+%cx-tab-paragraph-container {
+  // Legacy implementation support (button/div based)
+  @if $useTabsOnPDP == true {
+    @extend %pdpTabs !optional;
+  } @else {
+    @extend %pdpFlat !optional;
+  }
+
+  // Common styles for legacy active state
+  .active {
+    background-color: var(--cx-color-inverse);
+  }
+
+  // Modern cx-tab component styles (always included for new implementation)
+  @extend %cx-tab-paragraph-container-modern !optional;
 }
