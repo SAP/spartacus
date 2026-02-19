@@ -58,8 +58,8 @@ describe('Order details page', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     let formattedValue: any;
     before(() => {
-      cy.visit('/');
       cy.whenJDK17(() => {
+        cy.visit('/');
         cy.requireLoggedIn();
         doPlaceOrder().then((orderData: any) => {
           formattedValue = orderData.body.totalPrice.formattedValue;
