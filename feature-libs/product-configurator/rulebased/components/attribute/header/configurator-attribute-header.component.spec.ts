@@ -723,10 +723,41 @@ describe('ConfigAttributeHeaderComponent', () => {
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key for attribute groups", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-
+      component.isNavigationToGroupEnabled = true;
+      component.attribute.hasNonNavigableConflict = false;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
+      );
+    });
+
+    it("should return 'configurator.conflict.nonNavigableConflict' conflict message key for attribute groups and attribute with non navigable conflict", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = true;
+      component.attribute.hasNonNavigableConflict = true;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.nonNavigableConflict'
+      );
+    });
+
+    it("should return 'configurator.conflict.conflictDetected' conflict message key for attriubte groups if navigation is disabled and conflict is navigable", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      component.attribute.hasNonNavigableConflict = false;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.conflictDetected'
+      );
+    });
+
+    it("should return 'configurator.conflict.nonNavigableConflict' conflict message key for attribute groups and attribute with non navigable conflict even if navigation is disabled", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      component.attribute.hasNonNavigableConflict = true;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.nonNavigableConflict'
       );
     });
 
