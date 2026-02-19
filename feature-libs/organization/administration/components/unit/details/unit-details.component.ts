@@ -16,7 +16,7 @@ import {
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { FocusDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { CardComponent } from '../../shared/card/card.component';
 import { DisableInfoComponent } from '../../shared/detail/disable-info/disable-info.component';
 import { ToggleStatusComponent } from '../../shared/detail/toggle-status-action/toggle-status.component';
@@ -60,6 +60,11 @@ export class UnitDetailsComponent {
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
+
+  refreshFocusReference$ = this.model$.pipe(
+    map((model) => model?.uid || model)
+  );
+
   isInEditMode$ = this.itemService.isInEditMode$;
 
   readonly isUpdatingUnitAllowed = this.orgUnitService
