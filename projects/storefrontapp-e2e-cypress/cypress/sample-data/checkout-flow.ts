@@ -103,6 +103,8 @@ export function getSampleOrg() {
   };
 }
 
+export const consignedOrderId = '100002';
+
 export const product: SampleProduct = {
   name: 'Alpha 350',
   code: '1446509',
@@ -125,3 +127,82 @@ export const cartWithCheapProduct: SampleCartProduct = {
   total: '$8.20',
   totalAndShipping: '$20.19',
 };
+
+export function buildCheckoutDetailsAfterPaymentMock() {
+  return {
+    statusCode: 200,
+    body: {
+      type: 'cartWsDTO',
+      deliveryAddress: {
+        cellphone: '',
+        country: { isocode: 'US', name: 'United States' },
+        defaultAddress: false,
+        firstName: 'Cypress',
+        formattedAddress:
+          '1111 S Figueroa St, US-CA, California, Los Angeles, 90015',
+        id: '8798529028119',
+        lastName: 'customer',
+        line1: '1111 S Figueroa St',
+        line2: 'US-CA',
+        phone: '+919555555555',
+        postalCode: '90015',
+        region: {
+          countryIso: 'US',
+          isocode: 'US-CA',
+          isocodeShort: 'CA',
+          name: 'California',
+        },
+        shippingAddress: true,
+        title: 'Mr.',
+        titleCode: 'mr',
+        town: 'Los Angeles',
+        visibleInAddressBook: true,
+      },
+      deliveryMode: {
+        code: 'standard-gross',
+        deliveryCost: {
+          currencyIso: 'USD',
+          formattedValue: '$11.99',
+          priceType: 'BUY',
+          value: 11.99,
+        },
+        description: '3-5 business days',
+        name: 'Standard Delivery',
+      },
+      paymentInfo: {
+        accountHolderName: 'Cypress customer',
+        billingAddress: {
+          country: { isocode: 'US', name: 'United States' },
+          defaultAddress: false,
+          email: 'cypress_user_lm2eyuogu_233653618136@sapcx.com',
+          firstName: 'Cypress',
+          formattedAddress:
+            '1111 S Figueroa St US-CA, US-CA, California, Los Angeles, 90015',
+          id: '8798529060887',
+          lastName: 'customer',
+          line1: '1111 S Figueroa St US-CA',
+          line2: 'US-CA',
+          phone: '+919555555555',
+          postalCode: '90015',
+          region: {
+            countryIso: 'US',
+            isocode: 'US-CA',
+            isocodeShort: 'CA',
+            name: 'California',
+          },
+          shippingAddress: false,
+          town: 'Los Angeles',
+          visibleInAddressBook: true,
+        },
+        cardNumber: '************1111',
+        cardType: { code: 'visa', name: 'Visa' },
+        defaultPayment: false,
+        expiryMonth: '12',
+        expiryYear: '2027',
+        id: '8797867933738',
+        saved: true,
+        subscriptionId: '669ff0cd-6f59-42bf-b655-0cf04653b23f',
+      },
+    },
+  };
+}

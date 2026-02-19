@@ -10,18 +10,38 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
+   * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
+   */
+  a11yKeyboardAccessibleZoom?: boolean;
+
+  /**
+   * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
+   * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
+   */
+  a11yPreventCartItemsFormRedundantRecreation?: boolean;
+
+  /**
+   * Adds label to 'StoreFinderSearchComponent' store search input field.
+   */
+  a11yStoreFinderLabel?: boolean;
+
+  /**
    * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
    *  together with aria-live="atomic"
    */
   a11yImprovedErrorMessage?: boolean;
 
   /**
-   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
-   * when a screen reader is used.
-   * Replaces select with ng-select component in the following component:
-   * `CustomerTicketingCreateDialogComponent`
+   * Replaces buttons resembling links with tetriary buttons in the following components:
+   * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
+  a11yLinkBtnsToTertiaryBtns?: boolean;
+
+  /**
+   * Adds horizontal padding to the 'carousel-panel' to fix the issue where the focus only covers three sides of the 'Previous slide' and 'Next slide' buttons within the carousel section.
+   * Affects: CarouselComponent
+   */
+  a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
    * Improves wide viewport layout issues.
@@ -352,11 +372,38 @@ export interface FeatureTogglesInterface {
    * Affects: `MediaService`
    */
   enableMediaPrefix?: boolean;
+
+  /**
+   * Fixes keyboard focus not being visible when tabbing between some buttons
+   * on Customer Ticketing dialog.
+   */
+  a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * Adds Filter By label to product facets when in desktop mode.
+   */
+  a11yFacetFilterByLabel?: boolean;
+
+  /**
+   * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
+   */
+  removeDuplicatedOrderHistoryHeader?: boolean;
+
+  /**
+   * When enabled, the organization's table component will stop re-rendering its rows each data update.
+   * This improves the screen reader experience of the notification message component.
+   * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
+   */
+  a11yCardNotificationMessage?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  a11yKeyboardAccessibleZoom: false,
+  a11yPreventCartItemsFormRedundantRecreation: false,
+  a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
+  a11yLinkBtnsToTertiaryBtns: false,
+  a11yAddPaddingToCarouselPanel: false,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
@@ -364,7 +411,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: false,
+  a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
@@ -375,18 +422,22 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
-  cdsLoginEventsToken: false,
+  cdsLoginEventsToken: true,
   createMediaPreconnectLink: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
-  authorizationCodeFlowByDefault: false,
+  authorizationCodeFlowByDefault: true,
   incrementProcessesCountForMergeCart: true,
-  dispatchLoginActionOnlyWhenTokenReceived: false,
+  dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   enableMediaPrefix: false,
+  a11yCustomerTicketingVisualFocusFix: false,
+  a11yFacetFilterByLabel: false,
+  removeDuplicatedOrderHistoryHeader: false,
+  a11yCardNotificationMessage: false,
 };

@@ -296,8 +296,12 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        a11yKeyboardAccessibleZoom: true,
+        a11yPreventCartItemsFormRedundantRecreation: true,
         a11yImprovedErrorMessage: true,
-        a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
+        a11yStoreFinderLabel: true,
+        a11yLinkBtnsToTertiaryBtns: true,
+        a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yWideScreenImprovements: true,
         a11yOptimizedMenuSpacing: true,
@@ -330,6 +334,10 @@ if (environment.cpq) {
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
+        a11yCustomerTicketingVisualFocusFix: true,
+        a11yFacetFilterByLabel: true,
+        removeDuplicatedOrderHistoryHeader: true,
+        a11yCardNotificationMessage: true,
       };
       return appFeatureToggles;
     }),

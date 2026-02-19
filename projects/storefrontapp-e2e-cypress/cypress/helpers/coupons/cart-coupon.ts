@@ -206,7 +206,7 @@ export function verifyOrderHistory(orderData: any, couponCode?: string) {
   waitForOrderToBePlacedRequest(orderData.body.code);
   registerOrderDetailsRoute(orderData.body.code);
   visitOrdersPage();
-  cy.get('cx-order-history h2').should('contain', 'Order history');
+  cy.get('cx-breadcrumb h1').should('contain', 'Order history');
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
       .should('contain', orderData.body.code)
@@ -323,7 +323,7 @@ export function registerOrderDetailsRoute(orderCode: string) {
 export function navigateToOrderHistoryPage(orderData: any, couponCode: string) {
   registerOrderDetailsRoute(orderData.body.code);
   visitOrdersPage();
-  cy.get('cx-order-history h2').should('contain', 'Order history');
+  cy.get('cx-breadcrumb h1').should('contain', 'Order History');
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
       .should('contain', orderData.body.code)

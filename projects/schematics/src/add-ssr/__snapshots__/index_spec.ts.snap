@@ -98,13 +98,11 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
       "schematics": {
         "@schematics/angular:component": {
           "addTypeToClassName": false,
-          "standalone": false,
           "style": "scss",
           "type": "component",
         },
         "@schematics/angular:directive": {
           "addTypeToClassName": false,
-          "standalone": false,
           "type": "directive",
         },
         "@schematics/angular:guard": {
@@ -117,7 +115,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "typeSeparator": ".",
         },
         "@schematics/angular:pipe": {
-          "standalone": false,
           "typeSeparator": ".",
         },
         "@schematics/angular:resolver": {
@@ -135,57 +132,71 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
 }
 `;
 
-exports[`add-ssr app.module.server.ts should be updated 1`] = `
-"import { NgModule } from '@angular/core';
+exports[`add-ssr app.config.server.ts should be updated 1`] = `
+"import { ApplicationConfig, importProvidersFrom, mergeApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/ssr';
+import { appConfig } from './app.config';
+import { AppServerModule } from "./app.module.server";
 
-import { App } from './app.component';
-import { AppModule } from './app.module';
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(),
+    importProvidersFrom(AppServerModule)
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+"
+`;
+
+exports[`add-ssr app.config.ts should be updated 1`] = `
+"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
+import { AppModule } from "./app.module";
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule), provideClientHydration(withEventReplay(), withNoHttpTransferCache())
+  ]
+};
+"
+`;
+
+exports[`add-ssr app.module.server.ts should be updated 1`] = `
+"
+import { NgModule } from '@angular/core';
 import { provideServer } from '@spartacus/setup/ssr';
 
-
 @NgModule({
-  imports: [AppModule],
   providers: [
     
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
       }),
-  ],
-  bootstrap: [App],
+  ]
 })
 export class AppServerModule {}
 "
 `;
 
 exports[`add-ssr app.module.ts should be updated 1`] = `
-"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
-
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+"
+import { NgModule } from '@angular/core';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
-import { App } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 @NgModule({
-  declarations: [
-    App
-  ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule
-  ],
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache())
-  ],
-  bootstrap: [App]
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule]
 })
 export class AppModule { }
 "
@@ -220,7 +231,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import AppServerModule from './main.server';
+import bootstrap from './main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
   ssrFeatureToggles: {
@@ -241,7 +252,7 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppServerModule,
+      bootstrap
     })
   );
 

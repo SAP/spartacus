@@ -4,6 +4,7 @@ import { OutletContextData } from '@spartacus/storefront';
 import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
 import { of } from 'rxjs';
 import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
+import { ProductTypes } from '@spartacus/core';
 
 class MockSubscriptionProductService {
   isSubscription(product: any) {
@@ -15,7 +16,7 @@ const mockSubscriptionProduct = {
   product: {
     code: 'Mobile_2020_Plan_cpq',
     name: 'Mobile 2020 Plan',
-    productTypes: 'SUBSCRIPTION',
+    productTypes: ProductTypes.SUBSCRIPTION,
     sapPricePlan: {
       oneTimeCharges: [
         {

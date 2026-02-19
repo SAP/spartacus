@@ -24,7 +24,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService, TranslatePipe } from '@spartacus/core';
+import { Facet, TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
@@ -107,15 +107,14 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.close();
   }
   @Optional() focusService = inject(KeyboardFocusService, { optional: true });
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
     protected renderer: Renderer2
-  ) {}
+  ) {
+    useFeatureStyles('a11yFacetFilterByLabel');
+  }
 
   ngOnInit(): void {
     this.enableFocusHandlingOnFacetListChanges();

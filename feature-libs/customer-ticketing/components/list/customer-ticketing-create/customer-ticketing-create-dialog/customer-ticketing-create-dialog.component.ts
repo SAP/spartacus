@@ -18,8 +18,6 @@ import {
   NgSelectComponent,
 } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
-  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -59,7 +57,6 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     NgIf,
-    FeatureDirective,
     NgFor,
     NgSelectComponent,
     NgSelectA11yDirective,
@@ -106,8 +103,6 @@ export class CustomerTicketingCreateDialogComponent
 
   protected translationService = inject(TranslationService);
 
-  protected featureService = inject(FeatureConfigService, { optional: true });
-
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
       message: form?.get('message')?.value,
@@ -119,15 +114,8 @@ export class CustomerTicketingCreateDialogComponent
 
   ngOnInit(): void {
     this.buildForm();
-
-    if (
-      this.featureService?.isEnabled(
-        'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-      )
-    ) {
-      this.focusConfig.trap = false;
-      this.focusConfig.trapTabOnly = true;
-    }
+    this.focusConfig.trap = false;
+    this.focusConfig.trapTabOnly = true;
   }
 
   protected buildForm(): void {

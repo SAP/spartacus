@@ -35,6 +35,7 @@ import { OPF_CTA_FEATURE, OpfCtaRootModule } from '@spartacus/opf/cta/root';
 import {
   OPF_GLOBAL_FUNCTIONS_FEATURE,
   OpfGlobalFunctionsRootModule,
+  defaultOccOpfCartConfig,
 } from '@spartacus/opf/global-functions/root';
 import {
   OPF_PAYMENT_FEATURE,
@@ -61,6 +62,8 @@ if (environment.b2b) {
 } else {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }
+
+extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
 
 @NgModule({
   imports: [
