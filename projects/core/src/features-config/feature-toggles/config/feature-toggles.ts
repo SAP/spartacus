@@ -382,6 +382,11 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Adds Filter By label to product facets when in desktop mode.
+   */
+  a11yFacetFilterByLabel?: boolean;
+
+  /**
    * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
    */
   removeDuplicatedOrderHistoryHeader?: boolean;
@@ -433,6 +438,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
   searchBoxRecentSearchesRemoval: false,

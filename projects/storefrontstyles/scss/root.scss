@@ -24,6 +24,11 @@
 
   --cx-border-style: solid;
 
+  // Font Awesome breaking change on v7: Fixed Width is now default for icons.
+  // This variable restores Font Awesome icons automatic width.
+  // See: https://docs.fontawesome.com/upgrade/whats-changed/#fixed-width-icons-by-default
+  --fa-width: auto;
+
   body {
     text-align: start;
   }
