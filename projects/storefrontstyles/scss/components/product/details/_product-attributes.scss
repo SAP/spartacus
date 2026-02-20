@@ -26,9 +26,11 @@
     }
 
     tr {
-      border-color: var(--cx-color-secondary);
-      border-width: 1px 0;
-      border-style: solid;
+      border-top: 1px solid var(--cx-color-dark);
+
+      &:first-child {
+        border-top: none;
+      }
     }
 
     td {

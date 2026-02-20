@@ -5,10 +5,31 @@
 %cx-tab {
   display: block;
 
+  // =============================================================================
+  // CSS Custom Properties for Theming (Backward Compatible)
+  // These properties allow users to customize tab appearance without deep overrides
+  // =============================================================================
+  // Tab buttons
+  --cx-tab-gap: 0;
+  --cx-tab-btn-bg-color: var(--cx-color-background);
+  --cx-tab-btn-width: auto;
+  --cx-tab-btn-border: none;
+  --cx-tab-btn-border-radius: 0;
+  --cx-tab-btn-font-size: 1rem;
+  // Tab panel
+  --cx-tab-panel-bg: var(--cx-color-background);
+  --cx-tab-panel-padding: 32px 0;
+  --cx-tab-panel-border-radius: 0;
+  --cx-tab-panel-margin-top: 0;
+  --cx-tab-panel-border-top: 1px solid var(--cx-color-light);
+  --cx-tab-panel-border-end: none;
+  --cx-tab-panel-border-bottom: none;
+  --cx-tab-panel-border-start: none;
+
   // Tab button base styles
   .tab-btn {
     transition: all 0.3s ease;
-    font-size: 1rem;
+    font-size: var(--cx-tab-btn-font-size);
     text-align: center;
     margin: 0;
     border: 0;
@@ -39,18 +60,27 @@
   // TAB MODE (Desktop) - horizontal tabs
   .tab {
     display: flex;
+    gap: var(--cx-tab-gap);
 
     .tab-btn {
+      width: var(--cx-tab-btn-width);
       padding: 12px 20px;
-      background-color: var(--cx-color-background);
+      background-color: var(--cx-tab-btn-bg-color);
+      border: var(--cx-tab-btn-border);
+      border-radius: var(--cx-tab-btn-border-radius);
     }
   }
 
   // Tab panel content (tabpanel role in TAB mode)
   div[role='tabpanel'] {
-    border-top: 1px solid var(--cx-color-light);
-    padding: 32px 0;
-    background: var(--cx-color-background);
+    margin-top: var(--cx-tab-panel-margin-top);
+    border-top: var(--cx-tab-panel-border-top);
+    border-inline-end: var(--cx-tab-panel-border-end);
+    border-bottom: var(--cx-tab-panel-border-bottom);
+    border-inline-start: var(--cx-tab-panel-border-start);
+    border-radius: var(--cx-tab-panel-border-radius);
+    padding: var(--cx-tab-panel-padding);
+    background: var(--cx-tab-panel-bg);
 
     &:focus-visible {
       outline-offset: -3px;
@@ -92,7 +122,7 @@
 
     // Accordion content panels (region role in ACCORDIAN mode)
     div[role='region'] {
-      padding: 32px 0;
+      padding: var(--cx-tab-panel-padding);
     }
   }
 }

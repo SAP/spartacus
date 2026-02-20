@@ -1,5 +1,5 @@
 %ProductDetailsPageTemplate {
-  padding: var(--cx-padding, 2.5rem 0 0);
+  padding: var(--cx-padding, 2.5rem 0 1rem);
 
   .cx-tab-paragraph-content {
     background-color: var(--cx-color-background);
@@ -13,7 +13,7 @@
       @include media-breakpoint-up(lg) {
         display: grid;
         grid-column-gap: 20px;
-        grid-row-gap: 0px;
+        grid-row-gap: 0;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(6, auto) 1fr;
 
@@ -40,7 +40,7 @@
           grid-row: unset;
           padding-top: 20px;
           padding-inline-end: 20px;
-          padding-bottom: 0px;
+          padding-bottom: 0;
           padding-inline-start: 20px;
         }
 
