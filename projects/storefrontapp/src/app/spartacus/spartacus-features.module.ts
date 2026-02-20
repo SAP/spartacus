@@ -333,7 +333,9 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
+        enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
       };

@@ -5,29 +5,16 @@
  */
 
 import { normalize, relative } from '@angular-devkit/core';
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import { Tree } from '@angular-devkit/schematics';
 import {
   addSymbolToNgModuleMetadata,
   findNodes,
   getDecoratorMetadata,
-  insertImport,
-  isImported,
 } from '@schematics/angular/utility/ast-utils';
-import {
-  Change,
-  InsertChange,
-  NoopChange,
-} from '@schematics/angular/utility/change';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
+import { InsertChange } from '@schematics/angular/utility/change';
 import ts from 'typescript';
 import { ANGULAR_CORE } from '../constants';
-import {
-  commitChanges,
-  getMetadataProperty,
-  getTsSourceFile,
-  InsertDirection,
-} from './file-utils';
-import { getProjectTargets } from './workspace-utils';
+import { getMetadataProperty, getTsSourceFile } from './file-utils';
 
 export function stripTsFromImport(importPath: string): string {
   if (!importPath.endsWith('.ts')) {
@@ -37,32 +24,6 @@ export function stripTsFromImport(importPath: string): string {
   return importPath.slice(0, importPath.length - 3);
 }
 
-export function addImport(
-  host: Tree,
-  filePath: string,
-  importText: string,
-  importPath: string
-): void {
-  const moduleSource = getTsSourceFile(host, filePath);
-  if (!isImported(moduleSource, importText, importPath)) {
-    const change = insertImport(moduleSource, filePath, importText, importPath);
-    commitChanges(host, filePath, [change], InsertDirection.LEFT);
-  }
-}
-
-export function createImportChange(
-  host: Tree,
-  filePath: string,
-  importText: string,
-  importPath: string
-): Change {
-  const source = getTsSourceFile(host, filePath);
-  if (isImported(source, importText, importPath)) {
-    return new NoopChange();
-  }
-  return insertImport(source, filePath, importText, importPath);
-}
-
 export function addToModuleImports(
   host: Tree,
   modulePath: string,
@@ -70,21 +31,6 @@ export function addToModuleImports(
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
   return addToMetadata(host, modulePath, importText, 'imports', moduleSource);
-}
-
-export function addToModuleDeclarations(
-  host: Tree,
-  modulePath: string,
-  declarations: string,
-  moduleSource?: ts.SourceFile
-): InsertChange[] {
-  return addToMetadata(
-    host,
-    modulePath,
-    declarations,
-    'declarations',
-    moduleSource
-  );
 }
 
 export function addToModuleExports(
@@ -119,15 +65,6 @@ export function addToMetadata(
     metadataType,
     text
   ) as InsertChange[];
-}
-
-export function addToModuleImportsAndCommitChanges(
-  host: Tree,
-  modulePath: string,
-  importText: string
-): void {
-  const metadataChanges = addToModuleImports(host, modulePath, importText);
-  commitChanges(host, modulePath, metadataChanges, InsertDirection.RIGHT);
 }
 
 // as this is copied from angular source, no need to test it
@@ -236,15 +173,4 @@ function getTemplateUrlOrInlineTemplate(
     contentOrUrl: result,
     start: stringNode.getStart() + 1,
   };
-}
-
-export function getAppModule(host: Tree, project: string): string {
-  const projectTargets = getProjectTargets(host, project);
-
-  if (!projectTargets.build) {
-    throw new SchematicsException(`Project target "build" not found.`);
-  }
-
-  const mainPath = projectTargets.build.options.main;
-  return getAppModulePath(host, mainPath);
 }

@@ -6,11 +6,13 @@
 
 import { configureInventoryDisplay } from '../../../helpers/inventory-display';
 import { inventoryDisplayB2B } from '../../../sample-data/inventory-display';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe(
   'Inventory display - Access Continuum test',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       configureInventoryDisplay(true);
