@@ -102,19 +102,3 @@ export class CheckoutFeatureModule {
 }
 "
 `;
-
-exports[`Feature utils getDynamicallyImportedLocalSourceFile should return the locally referenced source file 1`] = `
-"import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
-import { CheckoutModule } from "@spartacus/checkout/base";
-@NgModule({
-    declarations: [],
-    imports: [
-        CheckoutModule,
-        CheckoutB2BModule
-    ]
-})
-export class CheckoutWrapperModule {
-}
-"
-`;

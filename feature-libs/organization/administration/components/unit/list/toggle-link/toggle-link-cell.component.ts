@@ -15,6 +15,7 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   B2BUnit,
+  FeatureConfigService,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -43,6 +44,7 @@ export class ToggleLinkCellComponent extends CellComponent {
 
   protected elementRef = inject(ElementRef);
   protected routingService = inject(RoutingService);
+  private featureService = inject(FeatureConfigService);
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
@@ -135,7 +137,13 @@ export class ToggleLinkCellComponent extends CellComponent {
     this.routingService
       ?.go({ cxRoute: this.route, params: this.routeModel })
       .then(() => {
-        this.restoreFocus();
+        if (
+          !this.featureService.isEnabled(
+            'isA11yCardNotificationMessageFeatureEnabled'
+          )
+        ) {
+          this.restoreFocus();
+        }
       });
   }
 
@@ -160,17 +168,33 @@ export class ToggleLinkCellComponent extends CellComponent {
   onArrowRight(event: KeyboardEvent): void {
     if (!this.expanded && this.isSwitchable) {
       this.toggleItem(event);
-      this.restoreFocus();
+      if (
+        !this.featureService.isEnabled(
+          'isA11yCardNotificationMessageFeatureEnabled'
+        )
+      ) {
+        this.restoreFocus();
+      }
     }
   }
 
   onArrowLeft(event: KeyboardEvent): void {
     if (this.expanded && this.isSwitchable) {
       this.toggleItem(event);
-      this.restoreFocus();
+      if (
+        !this.featureService.isEnabled(
+          'isA11yCardNotificationMessageFeatureEnabled'
+        )
+      ) {
+        this.restoreFocus();
+      }
     }
   }
 
+  /**
+   * To be removed when isA11yCardNotificationMessageFeatureEnabled is enabled.
+   * @deprecated
+   */
   restoreFocus(): void {
     const focusedElementId = document.activeElement?.id || '';
     this.unitTreeService.treeToggle$.pipe(take(1)).subscribe(() => {

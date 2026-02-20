@@ -24,6 +24,10 @@ export const privateProviders = makeEnvironmentProviders([
         baseUrl: environment.occBaseUrl,
         prefix: environment.occApiPrefix,
       },
+      media: {
+        baseUrl: environment.mediaBaseUrl,
+        prefix: environment.mediaApiPrefix,
+      },
     },
 
     // Custom routing configuration for e2e testing:

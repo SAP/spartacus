@@ -5,6 +5,7 @@
  */
 
 import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const MY_COMPANY_URL = '/organization/purchase-limits';
 const rowCellSelector =
@@ -19,6 +20,7 @@ describe(
   'B2B / My Company / Purchase Limits / Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       loginAsMyCompanyAdmin();

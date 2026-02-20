@@ -151,15 +151,24 @@ export function siteContextChange(
   label: string
 ): void {
   if (pagePath !== null) {
-    let page = waitForPage(pagePath, 'pageForSitContextChange');
-    if (
-      pagePath.startsWith('/product') ||
-      pagePath.startsWith('/Open-Catalogue')
-    ) {
-      page = waitForPage('', 'pageForSitContextChange');
+    const isProductPage = pagePath.startsWith('/product');
+    const isOpenCatalogue = pagePath.startsWith('/Open-Catalogue');
+    let page =
+      isProductPage || isOpenCatalogue
+        ? waitForPage('', 'pageForSitContextChange')
+        : waitForPage(pagePath, 'pageForSitContextChange');
+
+    // Intercept product reviews only for product pages
+    if (isProductPage) {
+      cy.intercept('GET', '**/products/*/reviews**').as('productReviews');
     }
+
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
     cy.wait(`@${page}`).its('response.statusCode').should('eq', 200);
+
+    if (isProductPage) {
+      cy.wait('@productReviews');
+    }
   }
 
   let contextParam: string;
