@@ -19,6 +19,7 @@ import {
 import {
   CmsService,
   CMSTabParagraphContainer,
+  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
@@ -94,7 +95,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yEnhancedTabsAndReviewsStyles');
+  }
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),

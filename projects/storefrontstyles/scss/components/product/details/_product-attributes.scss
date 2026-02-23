@@ -1,105 +1,133 @@
 %cx-product-attributes {
-  .container {
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
-  h2 {
-    margin: 0 0 18px 0;
-  }
-
+  // Original/legacy styles (default when feature flag is OFF)
   table {
     width: 100%;
     margin: 0 0 30px 0;
-    table-layout: fixed;
-    border-collapse: collapse;
-
     th {
-      text-align: start;
-      padding: 0;
-
       h2 {
         margin: 0 0 18px 0;
-        font-size: 1.125rem;
-        font-weight: 600;
       }
     }
-
     tr {
-      border-top: 1px solid var(--cx-color-dark);
-
-      &:first-child {
-        border-top: none;
-      }
+      border-color: var(--cx-color-light);
+      border-width: 1px 0 1px;
+      border-style: solid;
     }
-
     td {
-      padding: 12px 16px 12px 0;
+      padding: 12px 0 12px 0;
       vertical-align: top;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-
-      // First column: attribute name (fixed width)
-      &:first-child {
-        width: 35%;
-        min-width: 120px;
-        font-weight: 500;
-        color: var(--cx-color-secondary);
-      }
-
-      // Second column: attribute value (flexible width)
-      &:last-child {
-        width: 65%;
-        padding-inline-end: 0;
-      }
+      width: 50%;
     }
-
     ul {
       list-style: none;
-      padding: 0;
-      margin: 0;
-
-      li {
-        padding: 2px 0;
-
-        &:first-child {
-          padding-top: 0;
-        }
-
-        &:last-child {
-          padding-bottom: 0;
-        }
-      }
+      padding: 0 0 0 0;
     }
   }
 
-  // Mobile adjustments
-  @include media-breakpoint-down(sm) {
+  // Enhanced styles (when feature flag a11yEnhancedTabsAndReviewsStyles is ON)
+  @include forFeature('a11yEnhancedTabsAndReviewsStyles') {
+    .container {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    h2 {
+      margin: 0 0 18px 0;
+    }
+
     table {
-      table-layout: auto;
+      width: 100%;
+      margin: 0 0 30px 0;
+      table-layout: fixed;
+      border-collapse: collapse;
 
-      td {
-        display: block;
-        width: 100%;
-        padding: 8px 0;
+      th {
+        text-align: start;
+        padding: 0;
 
-        &:first-child {
-          width: 100%;
-          min-width: unset;
-          padding-bottom: 4px;
-          border-bottom: none;
-        }
-
-        &:last-child {
-          width: 100%;
-          padding-top: 0;
-          padding-bottom: 12px;
+        h2 {
+          margin: 0 0 18px 0;
+          font-size: 1.125rem;
+          font-weight: 600;
         }
       }
 
       tr {
-        display: block;
-        padding: 8px 0;
+        border-top: 1px solid var(--cx-color-dark);
+
+        &:first-child {
+          border-top: none;
+        }
+      }
+
+      td {
+        padding: 12px 16px 12px 0;
+        vertical-align: top;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        // First column: attribute name (fixed width)
+        &:first-child {
+          width: 35%;
+          min-width: 120px;
+          font-weight: 500;
+          color: var(--cx-color-secondary);
+        }
+
+        // Second column: attribute value (flexible width)
+        &:last-child {
+          width: 65%;
+          padding-inline-end: 0;
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          padding: 2px 0;
+
+          &:first-child {
+            padding-top: 0;
+          }
+
+          &:last-child {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+
+    // Mobile adjustments
+    @include media-breakpoint-down(sm) {
+      table {
+        table-layout: auto;
+
+        td {
+          display: block;
+          width: 100%;
+          padding: 8px 0;
+
+          &:first-child {
+            width: 100%;
+            min-width: unset;
+            padding-bottom: 4px;
+            border-bottom: none;
+          }
+
+          &:last-child {
+            width: 100%;
+            padding-top: 0;
+            padding-bottom: 12px;
+          }
+        }
+
+        tr {
+          display: block;
+          padding: 8px 0;
+        }
       }
     }
   }

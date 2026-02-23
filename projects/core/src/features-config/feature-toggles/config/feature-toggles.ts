@@ -395,6 +395,18 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
+  /**
+   * Feature flag for enhanced tab and product review styles.
+   * When enabled, applies improved styling for:
+   * - Tab component (`cx-tab`) with enhanced visual design
+   * - Tab paragraph container with modern tab/accordion styles
+   * - Product reviews header layout improvements
+   * - Product attributes table styling
+   *
+   * Affects: `TabParagraphContainerComponent`, `ProductReviewsComponent`, `ProductAttributesComponent`
+   */
+  a11yEnhancedTabsAndReviewsStyles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -440,4 +452,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  a11yEnhancedTabsAndReviewsStyles: false,
 };

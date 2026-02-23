@@ -6,7 +6,12 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope, TranslatePipe } from '@spartacus/core';
+import {
+  Product,
+  ProductScope,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -21,5 +26,7 @@ export class ProductAttributesComponent {
     ProductScope.ATTRIBUTES
   );
 
-  constructor(protected currentProductService: CurrentProductService) {}
+  constructor(protected currentProductService: CurrentProductService) {
+    useFeatureStyles('a11yEnhancedTabsAndReviewsStyles');
+  }
 }
