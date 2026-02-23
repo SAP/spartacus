@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
 describe('Saved carts Continuum tests', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();

@@ -31,7 +31,6 @@ import {
   getDynamicImportCallExpression,
   getDynamicImportImportPath,
   getDynamicImportPropertyAccess,
-  isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
   isRelative,
   removeImports,
@@ -119,15 +118,6 @@ describe('Import utils', () => {
     });
     it('should return false if the provided lib is NOT a spartacus lib', () => {
       expect(isImportedFromSpartacusLibs('xxx')).toBeFalsy();
-    });
-  });
-
-  describe('isImportedFromSpartacusCoreLib', () => {
-    it('should return true if the provided lib is a core spartacus lib', () => {
-      expect(isImportedFromSpartacusCoreLib(SPARTACUS_CORE)).toBeTruthy();
-    });
-    it('should return false if the provided lib is NOT a core spartacus lib', () => {
-      expect(isImportedFromSpartacusCoreLib(SPARTACUS_CHECKOUT)).toBeFalsy();
     });
   });
 

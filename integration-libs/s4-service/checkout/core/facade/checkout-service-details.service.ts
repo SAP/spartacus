@@ -15,6 +15,7 @@ import {
   Command,
   CommandStrategy,
   QueryState,
+  ProductTypes,
 } from '@spartacus/core';
 import { Observable, combineLatest, take, map, switchMap, tap } from 'rxjs';
 import {
@@ -100,7 +101,7 @@ export class CheckoutServiceDetailsService
       map((entries: OrderEntry[]) => {
         return entries
           .map((entry: OrderEntry) => {
-            if (entry.product?.productTypes === 'SERVICE') {
+            if (entry.product?.productTypes === ProductTypes.SERVICE) {
               return entry.product?.code;
             } else {
               return '';

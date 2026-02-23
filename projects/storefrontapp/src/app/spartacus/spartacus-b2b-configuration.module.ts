@@ -46,7 +46,7 @@ if (environment.epdVisualization) {
     // Note: The next config chunk is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
     provideConfig(<PWAModuleConfig>{
       pwa: {
-        enabled: true,
+        enabled: false,
         addToHomeScreen: true,
       },
     }),

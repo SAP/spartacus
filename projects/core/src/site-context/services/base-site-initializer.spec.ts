@@ -4,6 +4,7 @@ import { ConfigInitializerService } from '../../config';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { BaseSiteInitializer } from './base-site-initializer';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
@@ -25,6 +26,12 @@ class MockConfigInitializerService
   getStable = () => of(mockSiteContextConfig);
 }
 
+class MockSiteContextRoutesHandler
+  implements Partial<SiteContextRoutesHandler>
+{
+  initOnce = createSpy().and.returnValue(of(undefined));
+}
+
 describe('BaseSiteInitializer', () => {
   let initializer: BaseSiteInitializer;
   let baseSiteService: BaseSiteService;
@@ -38,6 +45,10 @@ describe('BaseSiteInitializer', () => {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
         },
+        {
+          provide: SiteContextRoutesHandler,
+          useClass: MockSiteContextRoutesHandler,
+        },
       ],
     });
 
@@ -50,14 +61,21 @@ describe('BaseSiteInitializer', () => {
   });
 
   describe('initialize', () => {
-    it('should set default from config is the currency is NOT initialized', () => {
-      initializer.initialize();
+    it('should call SiteContextRoutesHandler initOnce()', async () => {
+      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
+      await initializer.initialize();
+      expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
+      expect(initializer['setFallbackValue']).toHaveBeenCalled();
+    });
+
+    it('should set default from config is the baseSite is NOT initialized', async () => {
+      await initializer.initialize();
       expect(baseSiteService.setActive).toHaveBeenCalledWith('electronics-spa');
     });
 
-    it('should NOT set default from config is the currency is initialized', () => {
+    it('should NOT set default from config is the baseSite is initialized', async () => {
       spyOn(baseSiteService, 'isInitialized').and.returnValue(true);
-      initializer.initialize();
+      await initializer.initialize();
       expect(baseSiteService.setActive).not.toHaveBeenCalled();
     });
   });

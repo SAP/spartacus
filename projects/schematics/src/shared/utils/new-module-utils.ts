@@ -118,23 +118,6 @@ export function addModuleExport(
   );
 }
 
-export function addModuleDeclaration(
-  sourceFile: SourceFile,
-  insertOptions: {
-    import: Import | Import[];
-    content: string;
-    order?: number;
-  },
-  createIfMissing = true
-): Expression | undefined {
-  return addToModuleInternal(
-    sourceFile,
-    'declarations',
-    insertOptions,
-    createIfMissing
-  );
-}
-
 export function addModuleProvider(
   sourceFile: SourceFile,
   insertOptions: {

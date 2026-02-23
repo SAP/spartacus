@@ -1,7 +1,7 @@
 import * as AngularCore from '@angular/core';
 import { Injectable, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import {
   BreadcrumbMeta,
@@ -21,6 +21,7 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
+import { LanguageService } from '../../site-context/facade/language.service';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -70,7 +71,18 @@ const mockPageMetaConfig: PageMetaConfig = {
   },
 };
 
+class MockLanguageService {
+  private active$ = new Subject<string>();
+  getActive() {
+    return this.active$.asObservable();
+  }
+  emitLanguage(lang: string) {
+    this.active$.next(lang);
+  }
+}
+
 class MockCmsService {
+  refreshLatestPage = jasmine.createSpy('refreshLatestPage');
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
   }
@@ -157,6 +169,7 @@ describe('PageMetaService', () => {
         providers: [
           PageMetaService,
           ContentPageResolver,
+          { provide: LanguageService, useClass: MockLanguageService },
           { provide: CmsService, useClass: MockCmsService },
           {
             provide: PageMetaResolver,
@@ -215,6 +228,7 @@ describe('PageMetaService', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
+          { provide: LanguageService, useClass: MockLanguageService },
           PageMetaService,
           ContentPageResolver,
           { provide: CmsService, useClass: MockCmsService },
@@ -309,6 +323,7 @@ describe('Custom PageTitleService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,
