@@ -397,12 +397,11 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
-   * When enabled, carousel navigation buttons (previous/next) call preventDefault on mousedown
-   * to avoid unwanted blur events (e.g., in Safari when carousel is inside modals or search boxes).
+   * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
+   * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
    *
-   * ⚠️ When enabled, custom focus listeners (e.g. addEventListener('focus', ...)) on elements
-   * that contain or interact with the carousel may not fire as expected, since preventing
-   * mousedown default can affect focus behavior. Enable only when the blur fix is needed.
+   * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
+   * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
    * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
    */
   a11yCarouselPreventNavigationFocus?: boolean;
@@ -451,5 +450,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
-  a11yCarouselPreventNavigationFocus: false,
+  a11yCarouselPreventNavigationFocus: true,
 };
