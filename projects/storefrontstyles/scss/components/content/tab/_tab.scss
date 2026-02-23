@@ -102,6 +102,29 @@
       border-top: 1px solid var(--cx-color-light);
       text-align: start;
       box-sizing: border-box;
+      height: 63px;
+      position: relative;
+      color: inherit;
+      background-color: var(--cx-color-background);
+
+      &:before {
+        margin: 0px 15px;
+        float: right;
+        font-size: 33px;
+        bottom: 12px;
+        position: relative;
+        color: var(--cx-color-text);
+      }
+      &:after {
+        margin-top: 15px;
+        margin-inline-end: auto;
+        margin-bottom: auto;
+        margin-inline-start: -4%;
+      }
+      &.active:after,
+      &:hover:after {
+        width: 104%;
+      }
     }
 
     // Tab icon (+/- indicator)
