@@ -5,6 +5,7 @@
  */
 
 import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
@@ -15,6 +16,7 @@ describe(
   'Account Settings / Close Account Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
     });
