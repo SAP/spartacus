@@ -9,6 +9,7 @@ import {
   TestCategory,
   TestTicketDetails,
 } from '../../../helpers/customer-ticketing/customer-ticketing';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const testTicketDetails: TestTicketDetails = {
   subject: 'Automated a11y test',
@@ -20,6 +21,7 @@ const testTicketDetails: TestTicketDetails = {
 };
 
 describe('Customer Ticketing - Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.window().then((win) => {
       win.sessionStorage.clear();

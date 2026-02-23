@@ -12,10 +12,12 @@ import { setupUserAccountForCheckout } from '../../../helpers/checkout-user-setu
 import { CART_PATH } from '../../../helpers/site-context-selector';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const user = getSampleUser();
 
 describe('Checkout Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
   });
