@@ -7,6 +7,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+import { UserIdService } from '../../../auth';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
@@ -18,8 +20,7 @@ import {
 } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { UserIdService } from '../../../auth';
-import { switchMap, take } from 'rxjs/operators';
+import { cleanSlashes } from '../../utils/occ-url-util';
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;
@@ -58,7 +59,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
               queryParams: params,
             });
 
-        return this.http.get(endpoint, { headers: this.headers });
+        return this.http.get(cleanSlashes(endpoint), { headers: this.headers });
       }),
       this.converter.pipeable(CMS_PAGE_NORMALIZER),
       take(1)
