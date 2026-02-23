@@ -395,6 +395,17 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
+  /**
+   * When enabled, improves accessibility for cart item removal notifications by properly announcing
+   * them through assistive technologies (screen readers). This ensures that when a user removes an
+   * item from their cart, the confirmation message "Selected item has been removed" is properly
+   * communicated via ARIA live regions.
+   *
+   * Affects: `GlobalMessageComponent`, `CartItemComponent`
+   * Default: false (will be enabled in future versions)
+   */
+  globalMessageCartRemovalNotification?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -440,4 +451,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  globalMessageCartRemovalNotification: false,
 };

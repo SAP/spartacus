@@ -8,7 +8,7 @@ import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, Input, Optional } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { GlobalMessageService, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   AtMessageDirective,
   ItemCounterComponent,
@@ -47,7 +47,10 @@ export class CartItemListRowComponent extends CartItemComponent {
   @Optional() @Input() items: OrderEntry[];
   protected componentService = inject(CartItemListComponentService);
   isFlagQuote = this.componentService.showBasePriceWithDiscount();
-  constructor(cartItemContextSource: CartItemContextSource) {
-    super(cartItemContextSource);
+  constructor(
+    cartItemContextSource: CartItemContextSource,
+    globalMessageService: GlobalMessageService
+  ) {
+    super(cartItemContextSource, globalMessageService);
   }
 }

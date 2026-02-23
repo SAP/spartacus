@@ -12,12 +12,7 @@ import {
   Optional,
   TemplateRef,
 } from '@angular/core';
-import {
-  GlobalMessageEntities,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 @Directive({ selector: '[cxAtMessage]' })
 export class AtMessageDirective {
@@ -44,28 +39,19 @@ export class AtMessageDirective {
    */
   @HostListener('click', ['$event'])
   handleClick(event: MouseEvent): void {
-    event?.preventDefault();
-
-    if (event?.target === this.host && this.cxAtMessage) {
+    if (this.host.contains(event?.target as Node) && this.cxAtMessage) {
       const message = Array.isArray(this.cxAtMessage)
         ? this.cxAtMessage.join('\n')
         : this.cxAtMessage;
 
-      this.globalMessageService
-        .get()
-        .pipe(take(1))
-        .subscribe((globalMessageEntities: GlobalMessageEntities) => {
-          // Override current assitive message.
-          if (globalMessageEntities[GlobalMessageType.MSG_TYPE_ASSISTIVE]) {
-            this.globalMessageService.remove(
-              GlobalMessageType.MSG_TYPE_ASSISTIVE
-            );
-          }
-          this.globalMessageService.add(
-            message,
-            GlobalMessageType.MSG_TYPE_ASSISTIVE
-          );
-        });
+      // Clear any existing assistive messages first, then add the new one.
+      // This is done synchronously to ensure the message is added before
+      // any component destruction that may happen as a result of the click.
+      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ASSISTIVE);
+      this.globalMessageService.add(
+        message,
+        GlobalMessageType.MSG_TYPE_ASSISTIVE
+      );
     }
   }
 }

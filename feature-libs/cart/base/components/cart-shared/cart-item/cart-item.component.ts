@@ -15,7 +15,12 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   AtMessageDirective,
   ICON_TYPE,
@@ -68,7 +73,10 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {}
+  constructor(
+    protected cartItemContextSource: CartItemContextSource,
+    protected globalMessageService: GlobalMessageService
+  ) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
@@ -103,5 +111,9 @@ export class CartItemComponent implements OnChanges {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
+    this.globalMessageService.add(
+      { key: 'cartItems.itemRemoved' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 }

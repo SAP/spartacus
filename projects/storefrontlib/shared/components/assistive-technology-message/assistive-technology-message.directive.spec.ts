@@ -6,7 +6,6 @@ import {
   GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
 import createSpy = jasmine.createSpy;
 
@@ -30,6 +29,9 @@ import createSpy = jasmine.createSpy;
     >
       Action
     </button>
+    <button class="nested-btn" [cxAtMessage]="'common.remove' | cxTranslate">
+      <span class="nested-child">Remove Item</span>
+    </button>
   `,
   imports: [AtMessageModule, I18nTestingModule],
 })
@@ -37,7 +39,7 @@ class MockComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
-  get = createSpy().and.returnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
+  remove = createSpy().and.stub();
 }
 
 describe('AtMessageDirective', () => {
@@ -103,6 +105,16 @@ describe('AtMessageDirective', () => {
     getConfirmationButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       expectedMessage,
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assistive global message when clicking on nested child element', () => {
+    fixture.detectChanges();
+    const nestedChild = fixture.debugElement.query(By.css('.nested-child'));
+    nestedChild.nativeElement.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.remove',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
   });

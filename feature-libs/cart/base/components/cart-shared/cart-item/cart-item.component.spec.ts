@@ -20,6 +20,8 @@ import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
   FeatureLevelDirective,
+  GlobalMessageService,
+  GlobalMessageType,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -109,6 +111,10 @@ class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
+class MockGlobalMessageService {
+  add = jasmine.createSpy('add');
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -131,6 +137,10 @@ describe('CartItemComponent', () => {
       providers: [
         {
           provide: ControlContainer,
+        },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
       ],
     })
@@ -291,6 +301,19 @@ describe('CartItemComponent', () => {
 
     expect(cartItemComponent.removeItem).toHaveBeenCalled();
     expect(cartItemComponent.quantityControl.value).toEqual(0);
+  });
+
+  it('should show confirmation message when item is removed', () => {
+    const globalMessageService = TestBed.inject(GlobalMessageService);
+    fixture.detectChanges();
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'cartItems.itemRemoved' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   });
 
   it('should mark control "dirty" after removeItem is called', () => {
