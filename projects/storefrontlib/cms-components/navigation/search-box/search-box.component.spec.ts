@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   I18nTestingModule,
   PageType,
   ProductSearchService,
@@ -100,6 +101,12 @@ class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutletContext: string;
 }
 
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return false;
+  }
+}
+
 @Component({
   selector: 'cx-carousel',
   template: ``,
@@ -110,6 +117,7 @@ class MockCarouselComponent {
   @Input() itemWidth: any;
   @Input() template: any;
   @Input() hideIndicators: any;
+  @Input() preventNavigationFocus: boolean;
 }
 const mockRouterState: RouterState = {
   nextState: undefined,
@@ -204,6 +212,10 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

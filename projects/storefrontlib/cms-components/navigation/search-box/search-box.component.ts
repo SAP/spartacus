@@ -23,6 +23,7 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   PageType,
   RoutingService,
   TranslatePipe,
@@ -155,6 +156,17 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected breakpointService = inject(BreakpointService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected featureConfigService = inject(FeatureConfigService);
+
+  /**
+   * When true, the search box carousel uses preventDefault on navigation mousedown (feature toggle).
+   * Can be disabled to avoid breaking custom focus listeners.
+   */
+  get a11yCarouselPreventNavigationFocus(): boolean {
+    return this.featureConfigService.isEnabled(
+      'a11yCarouselPreventNavigationFocus'
+    );
+  }
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
