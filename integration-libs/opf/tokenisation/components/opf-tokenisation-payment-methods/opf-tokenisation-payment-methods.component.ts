@@ -5,22 +5,16 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
-  GlobalMessageType,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  Card,
-  CardComponent,
-  FormRequiredLegendComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../root/facade';
 
 @Component({
@@ -28,7 +22,6 @@ import { OpfTokenisationFacade } from '../../root/facade';
   templateUrl: './opf-tokenisation-payment-methods.component.html',
   imports: [
     NgIf,
-    FormRequiredLegendComponent,
     SpinnerComponent,
     NgFor,
     CardComponent,
@@ -40,6 +33,7 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string | undefined;
   loading$: Observable<boolean>;
+  @Input() showHeader = true;
 
   constructor(
     private tokenisationFacade: OpfTokenisationFacade,

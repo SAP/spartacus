@@ -1,7 +1,6 @@
 <ng-container *ngIf="paymentMethods$ | async as paymentMethods">
-  <cx-form-required-legend />
   <div class="cx-payment container">
-    <div class="cx-header">
+    <div *ngIf="showHeader" class="cx-header">
       <h2>
         {{ 'paymentMethods.paymentMethods' | cxTranslate }}
       </h2>
