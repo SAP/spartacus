@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  GiftCardBalanceRequest,
-  GiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Injectable, inject } from '@angular/core';
 import { Observable, combineLatest, filter, switchMap, take } from 'rxjs';
 import {
@@ -15,9 +12,12 @@ import {
   OpfBaseFacade,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
+import {
+  SAPGiftCardBalanceRequest,
+  SAPGiftCardResponse,
+} from '@spartacus/opf/gift-card/root';
 import { map, startWith } from 'rxjs/operators';
 
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardConnector } from '@spartacus/opf/gift-card/core';
 import { UserIdService } from '@spartacus/core';
 
@@ -53,13 +53,21 @@ export class GiftCardService {
     );
   }
 
+  isGiftCardCoveredTotalAmount(cart$: Observable<Cart>): Observable<boolean> {
+    return cart$.pipe(
+      map((cart) => cart?.sapGiftCardSummary?.giftCardsCoverFullAmount ?? false)
+    );
+  }
+
   /**
    * Apply gift card and get balance
    * @param request Gift card balance request with configurationId and card details
    * @returns Observable of gift card balance response
    */
 
-  applyGiftCard(request: GiftCardBalanceRequest): Observable<GiftCardResponse> {
+  applyGiftCard(
+    request: SAPGiftCardBalanceRequest
+  ): Observable<SAPGiftCardResponse> {
     return combineLatest([
       this.userIdService.getUserId(),
       this.activeCartFacade.getActiveCartId(),
@@ -72,26 +80,8 @@ export class GiftCardService {
     );
   }
   /**
-   * Delete/unapply a previously applied gift card
+   * Delete a previously applied gift card
    */
-
-  // removeGiftCard(request: GiftCardDeleteRequest): Observable<void> {
-  //   return this.opfGiftCardConnector.deleteGiftCard(request);
-  // }this.opfGiftCardConnector.removeGiftCard(giftCardId);
-
-  // removeGiftCard(giftCardId: string): Observable<void> {
-  //  console.log('GiftCardService: ');
-  //   return combineLatest([
-  //     this.userIdService.getUserId(),
-  //     this.activeCartFacade.getActiveCartId(),
-  //   ]).pipe(
-  //     filter(([userId, cartId]) => Boolean(userId && cartId)),
-  //     take(1),
-  //     switchMap(([userId, cartId]) =>
-  //       this.opfGiftCardConnector.removeGiftCard(userId, cartId, giftCardId)
-  //     )
-  //   );
-  // }
 
   removeGiftCard(giftCardId: string): Observable<void> {
     return combineLatest([

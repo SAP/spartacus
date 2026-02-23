@@ -12,7 +12,7 @@ export interface OccOpfGiftCardEndpoints {
    */
   applyGiftCard?: string | OccEndpoint;
   /**
-   * Endpoint for deleting/unapplying a gift card
+   * Endpoint for removing a gift card
    */
   removeGiftCard?: string | OccEndpoint;
 }

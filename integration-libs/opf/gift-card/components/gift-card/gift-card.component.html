@@ -1,22 +1,22 @@
 <ng-container *ngIf="isGiftCardEnabled$ | async">
   <ng-container *ngIf="cart$ | async as cart">
-    <div class="cx-gift-card">
+    <p>{{ isBillingAddressPresent$ | async }}</p>
+    <div
+      class="cx-gift-card"
+      [ngClass]="{ 'cx-disabled': (isBillingAddressPresent$ | async) }"
+    >
       <!-- Header -->
       <div class="cx-gift-card-header">
         <div class="cx-gift-card-title">
           <cx-icon type="GIFT_CARD"></cx-icon>
           <div class="title">
-            <span>{{ 'giftCard.title' | cxTranslate }}</span>
+            <span>{{ 'giftCard.haveGiftCard' | cxTranslate }}</span>
           </div>
         </div>
-        <!-- here add condition of maxgiftcard reaced  
-add this on the button  [disabled]="!cart.sapGiftCardSummary?.canPlaceOrder" 
--->
         <button
           type="button"
           class="add-gift-card-link"
           (click)="showGiftCardForm = !showGiftCardForm"
-          [disabled]="cart._availableOperations?.addGiftCard?.available"
         >
           {{ 'giftCard.addGiftCard' | cxTranslate }}
         </button>
@@ -32,7 +32,7 @@ add this on the button  [disabled]="!cart.sapGiftCardSummary?.canPlaceOrder"
         <div class="cx-gift-card-form-wrapper">
           <div class="form-group">
             <label>
-              {{ 'giftCard.cardNumberLabel' | cxTranslate }}
+              {{ 'giftCard.cardNumber' | cxTranslate }}
             </label>
             <input
               type="text"
@@ -40,23 +40,39 @@ add this on the button  [disabled]="!cart.sapGiftCardSummary?.canPlaceOrder"
               formControlName="cardNumber"
               [attr.aria-label]="'giftCard.CardNumber' | cxTranslate"
             />
+            <cx-form-errors
+              [prefix]="'giftCard.common.formErrors.labeled'"
+              [fallbackPrefix]="'giftCard.common.formErrors'"
+              [translationParams]="{
+                label: 'giftCard.cardNumber' | cxTranslate,
+              }"
+              [control]="giftCardForm.get('cardNumber')"
+            ></cx-form-errors>
           </div>
 
           <div class="form-group">
             <label>
-              {{ 'giftCard.pinLabel' | cxTranslate }}
+              {{ 'giftCard.pin' | cxTranslate }}
             </label>
             <input
               type="text"
               class="form-control"
               formControlName="pin"
-              [attr.aria-label]="'giftCard.pinLabel' | cxTranslate"
+              [attr.aria-label]="'giftCard.pin' | cxTranslate"
             />
+            <cx-form-errors
+              [prefix]="'giftCard.common.formErrors.labeled'"
+              [fallbackPrefix]="'giftCard.common.formErrors'"
+              [translationParams]="{
+                label: 'giftCard.pin' | cxTranslate,
+              }"
+              [control]="giftCardForm.get('pin')"
+            ></cx-form-errors>
           </div>
 
           <button
             type="submit"
-            class="btn btn-primary apply-gift-card-button"
+            class="btn btn-secondary apply-gift-card-button"
             [disabled]="giftCardForm.invalid || (loading$ | async)"
           >
             {{ 'giftCard.apply' | cxTranslate }}

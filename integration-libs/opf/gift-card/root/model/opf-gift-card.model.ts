@@ -6,28 +6,22 @@
 
 import { Price } from '@spartacus/core';
 
-export interface GiftCard {
+export interface SAPGiftCard {
   id: string;
   maskedNumber: string;
   balance: Price;
   appliedAmount: Price;
   remainingBalance: Price;
 }
-export interface GiftCardSummary {
+export interface SAPGiftCardSummary {
   totalBalance: Price;
   totalAppliedAmount: Price;
   totalRemainingBalance: Price;
   giftCardsCoverFullAmount: boolean;
 }
-// configuration id is number
-export interface GiftCardBalanceRequest {
-  configurationId: string | number;
+export interface SAPGiftCardBalanceRequest {
   number: string;
   securityCode: string;
 }
 
-export type GiftCardResponse = GiftCard;
-
-export enum OpfGiftCardProviderType {
-  GIFT_CARD_PAYMENT = 'GIFT_CARD_PAYMENT',
-}
+export type SAPGiftCardResponse = SAPGiftCard;

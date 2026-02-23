@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './gift-card-checkout.component';
-export * from './gift-card-checkout.component.module';
+export * from './gift-card-order-detail-billing.component';
+export * from './gift-card-order-detail-billing.module';

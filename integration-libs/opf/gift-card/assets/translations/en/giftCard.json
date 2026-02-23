@@ -1,10 +1,12 @@
 {
   "giftCard": {
-    "title": "Have a gift card?",
+    "title": "Gift Card:",
+    "giftCardPayment": "Gift Card",
+    "haveGiftCard": "Have a gift card?",
     "addGiftCard": "Add Gift Card",
 
-    "cardNumberLabel": "Card Number",
-    "pinLabel": "Pin",
+    "cardNumber": "Card Number",
+    "pin": "Pin",
 
     "proceedPayment": "Place Order",
 
@@ -27,7 +29,20 @@
       "invalidCard": "Invalid gift card number. Please check the card number and try again.",
       "invalidPin": "Invalid PIN. Please check the PIN and try again.",
       "insufficientFunds": "This gift card has insufficient balance for this purchase.",
-      "cardNotFound": "Gift card not found. Please verify the card details."
+      "cardNotFound": "Gift card not found. Please verify the card details.",
+      "pattern": "PIN must contain only numbers."
+    },
+    "common": {
+      "formErrors": {
+        "labeled": {
+          "required": "{{label}} is required.",
+          "minlength": "{{label}} must be at least {{requiredLength}} characters.",
+          "maxlength": "{{label}} cannot be more than {{requiredLength}} characters."
+        },
+        "required": "This field is required.",
+        "minlength": "This field must be at least {{requiredLength}} characters.",
+        "maxlength": "This field cannot be more than {{requiredLength}} characters."
+      }
     }
   }
 }

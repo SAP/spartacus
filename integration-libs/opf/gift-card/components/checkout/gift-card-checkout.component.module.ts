@@ -11,7 +11,7 @@ import {
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 
 import { CommonModule } from '@angular/common';
-import { GiftCardCheckoutComponent } from './gift-card-checkout-component';
+import { GiftCardCheckoutComponent } from './gift-card-checkout.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 

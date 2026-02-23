@@ -25,14 +25,16 @@ class MockActiveCartFacade {
 describe('AppliedGiftCardComponent', () => {
   let component: AppliedGiftCardComponent;
   let fixture: ComponentFixture<AppliedGiftCardComponent>;
-  let giftCardService: GiftCardService;
-  let globalMessageService: GlobalMessageService;
-  let activeCartFacade: ActiveCartFacade;
+  let giftCardService: jasmine.SpyObj<GiftCardService>;
+  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
+  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AppliedGiftCardComponent],
+      imports: [
+        AppliedGiftCardComponent, // ✅ standalone component must go in imports
+        I18nTestingModule,
+      ],
       providers: [
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: GiftCardService, useClass: MockGiftCardService },
@@ -42,9 +44,19 @@ describe('AppliedGiftCardComponent', () => {
 
     fixture = TestBed.createComponent(AppliedGiftCardComponent);
     component = fixture.componentInstance;
-    giftCardService = TestBed.inject(GiftCardService);
-    globalMessageService = TestBed.inject(GlobalMessageService);
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
+
+    giftCardService = TestBed.inject(
+      GiftCardService
+    ) as jasmine.SpyObj<GiftCardService>;
+    globalMessageService = TestBed.inject(
+      GlobalMessageService
+    ) as jasmine.SpyObj<GlobalMessageService>;
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as jasmine.SpyObj<ActiveCartFacade>;
+    component.giftCards = [];
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -54,8 +66,8 @@ describe('AppliedGiftCardComponent', () => {
   describe('removeGiftCard', () => {
     const giftCardId = 'GC-123';
 
-    it('should successfully remove gift card, reload cart, and show success message', () => {
-      (giftCardService.removeGiftCard as jasmine.Spy).and.returnValue(of({}));
+    it('should remove gift card, reload cart and show success message', () => {
+      giftCardService.removeGiftCard.and.returnValue(of(void 0));
 
       component.removeGiftCard(giftCardId);
 
@@ -67,9 +79,9 @@ describe('AppliedGiftCardComponent', () => {
       );
     });
 
-    it('should handle error and show error message if removal fails', () => {
+    it('should show error message when removal fails', () => {
       const mockError = { message: 'Custom Error' };
-      (giftCardService.removeGiftCard as jasmine.Spy).and.returnValue(
+      giftCardService.removeGiftCard.and.returnValue(
         throwError(() => mockError)
       );
 
@@ -81,10 +93,8 @@ describe('AppliedGiftCardComponent', () => {
       );
     });
 
-    it('should use default error key if error object has no message', () => {
-      (giftCardService.removeGiftCard as jasmine.Spy).and.returnValue(
-        throwError(() => ({}))
-      );
+    it('should use default error key when error has no message', () => {
+      giftCardService.removeGiftCard.and.returnValue(throwError(() => ({})));
 
       component.removeGiftCard(giftCardId);
 

@@ -43,11 +43,12 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
 import { OpfCheckoutOutlets } from '../../root/model';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -75,6 +76,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfCheckoutBillingAddressFormService = inject(
     OpfCheckoutBillingAddressFormService
   );
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected subscription = new Subscription();
 
@@ -309,18 +311,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.paginationIndex = page;
     this.updateActiveConfiguration();
   }
-  //this is used to disable payment options when gift card covers total amount
-  isGiftCardCoveredTotalAmount$: Observable<boolean> = this.activeCartFacade
-    .getActive()
-    .pipe(
-      map((cart) => {
-        const giftCardAmount =
-          (cart as any)?.sapGiftCardSummary?.totalAppliedAmount.value ?? 0;
-        const cartTotal = cart?.totalPrice?.value ?? 0;
-
-        return giftCardAmount >= cartTotal;
-      })
-    );
 
   ngOnInit(): void {
     this.updateActiveConfiguration();

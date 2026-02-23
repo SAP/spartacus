@@ -11,6 +11,7 @@ import { Order } from '@spartacus/order/root';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 
 @Component({
   selector: 'cx-opf-payment-method-details',
@@ -20,7 +21,7 @@ import { OpfPaymentMethodDetails } from '../../model';
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
   @Optional() protected orderOutlet = inject(OutletContextData);
-
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   protected subscription = new Subscription();
   order: Order;
 

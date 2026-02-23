@@ -1,29 +1,32 @@
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { CommonModule, NgIf } from '@angular/common';
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { Component, OnInit, inject } from '@angular/core';
-
-import { GiftCardService } from '../../core/services';
+import { CommonModule, NgIf } from '@angular/common';
+import { Component, Input, OnInit, Optional, inject } from '@angular/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
+import { OutletContextData, OutletModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OutletModule } from '@spartacus/storefront';
-
+import { GiftCardService } from '../../core/services';
 @Component({
   selector: 'cx-opf-gift-card-order-summary',
   templateUrl: './gift-card-order-summary.component.html',
-  imports: [CommonModule, OutletModule, NgIf],
+  imports: [CommonModule, OutletModule, NgIf, TranslatePipe],
 })
 export class GiftCardOrderSummaryComponent implements OnInit {
-  cart$: Observable<Cart>;
+  @Input()
+  cart: Cart;
   protected activeCartFacade = inject(ActiveCartFacade);
   protected giftCardService = inject(GiftCardService);
   protected isGiftCardEnabled$: Observable<boolean>;
-
+  constructor(@Optional() protected outlet?: OutletContextData<any>) {}
   ngOnInit() {
-    this.isGiftCardEnabled$ = this.giftCardService.isGiftCardEnabled();
-    this.cart$ = this.activeCartFacade.getActive();
+    if (this.outlet?.context$) {
+      this.outlet.context$.subscribe((context) => {
+        this.cart = context;
+      });
+    }
   }
 }

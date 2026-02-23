@@ -8,24 +8,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppliedGiftCardModule } from '../applied-gift-card/applied-gift-card.module';
 import { CommonModule } from '@angular/common';
+import { GiftCardCheckoutComponentModule } from '../checkout';
 import { GiftCardComponent } from './gift-card.component';
 import { GiftCardService } from '../../core/services/gift-card.service';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { NgModule } from '@angular/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { GiftCardCheckoutComponentModule } from '../checkout';
 
 @NgModule({
-  providers: [
-    GiftCardService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        GiftCardComponent: {
-          component: GiftCardComponent,
-        },
-      },
-    }),
-  ],
+  providers: [GiftCardService],
   imports: [
     CommonModule,
     FormsModule,

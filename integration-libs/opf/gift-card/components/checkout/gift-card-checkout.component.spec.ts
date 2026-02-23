@@ -1,10 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { GiftCardCheckoutComponent } from './gift-card-checkout-component';
+import { GiftCardCheckoutComponent } from './gift-card-checkout.component';
 import { OrderFacade } from '@spartacus/order/root';
 import { ViewContainerRef } from '@angular/core';
 
@@ -29,6 +33,10 @@ class MockLaunchDialogService {
   clear = jasmine.createSpy('clear');
 }
 
+class MockGlobalMessageService {
+  add = jasmine.createSpy('add');
+}
+
 describe('GiftCardCheckoutComponent', () => {
   let component: GiftCardCheckoutComponent;
   let fixture: ComponentFixture<GiftCardCheckoutComponent>;
@@ -45,6 +53,7 @@ describe('GiftCardCheckoutComponent', () => {
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ViewContainerRef,
       ],
     }).compileComponents();
@@ -75,7 +84,7 @@ describe('GiftCardCheckoutComponent', () => {
         of(mockComponentRef)
       );
       (orderFacade.placePaymentAuthorizedOrder as jasmine.Spy).and.returnValue(
-        of({})
+        of({ code: '0001' })
       );
 
       component.placeOrderWithGiftCard();
@@ -87,6 +96,10 @@ describe('GiftCardCheckoutComponent', () => {
       expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
         true
       );
+      expect(launchDialogService.clear).toHaveBeenCalledWith(
+        LAUNCH_CALLER.PLACE_ORDER_SPINNER
+      );
+      expect(mockComponentRef.destroy).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orderConfirmation',
       });

@@ -4,10 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  GiftCardBalanceRequest,
-  GiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {
@@ -17,6 +13,10 @@ import {
   isJaloError,
   tryNormalizeHttpError,
 } from '@spartacus/core';
+import {
+  SAPGiftCardBalanceRequest,
+  SAPGiftCardResponse,
+} from '@spartacus/opf/gift-card/root';
 
 import { Observable } from 'rxjs';
 import { OccCartAdapter } from '@spartacus/cart/base/occ';
@@ -35,10 +35,10 @@ export class OccOpfGiftCardAdapter extends OccCartAdapter {
   applyGiftCard(
     userId: string,
     cartId: string,
-    request: GiftCardBalanceRequest
-  ): Observable<GiftCardResponse> {
+    request: SAPGiftCardBalanceRequest
+  ): Observable<SAPGiftCardResponse> {
     return this.http
-      .post<GiftCardResponse>(
+      .post<SAPGiftCardResponse>(
         this.getApplyGiftCardEndpoint(userId, cartId),
         request,
         { headers: this.headers }

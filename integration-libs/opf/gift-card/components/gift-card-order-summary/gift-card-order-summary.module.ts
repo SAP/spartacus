@@ -8,20 +8,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 import { GiftCardOrderSummaryComponent } from './gift-card-order-summary.component';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { NgModule } from '@angular/core';
 import { SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        GiftCardOrderSummaryComponent: {
-          component: GiftCardOrderSummaryComponent,
-        },
-      },
-    }),
-  ],
   imports: [
     CommonModule,
     FormsModule,

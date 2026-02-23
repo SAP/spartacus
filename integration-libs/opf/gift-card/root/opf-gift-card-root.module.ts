@@ -4,18 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  CmsConfig,
-  provideConfig,
-  provideDefaultConfigFactory
-} from '@spartacus/core';
 import { IconConfig, IconResourceType } from '@spartacus/storefront';
+import {
+  OpfGiftCardComponentModule,
+  OpfGiftCardPaymentModule,
+} from '../components/public_api';
 
 import { NgModule } from '@angular/core';
-import { OPF_GIFT_CARD_FEATURE } from './feature-name';
-import { OpfGiftCardComponentModule } from '../components/public_api';
 import { OpfGiftCardOccModule } from '../occ/opf-gift-card-occ.module';
 import { defaultGiftCardCartOccEndpointsConfig } from '../occ/config';
+import { provideConfig } from '@spartacus/core';
 
 export const GIFT_CARD_OPF_CMS_COMPONENTS: string[] = [
   'GiftCardComponent',
@@ -23,22 +21,26 @@ export const GIFT_CARD_OPF_CMS_COMPONENTS: string[] = [
   'GiftCardOrderSummaryComponent',
 ];
 
-export function defaultOpfGiftCardComponentsConfig() {
-  const config: CmsConfig = {
-    featureModules: {
-      [OPF_GIFT_CARD_FEATURE]: {
-        cmsComponents: GIFT_CARD_OPF_CMS_COMPONENTS,
-      },
-    },
-  };
-  return config;
-}
+// export function defaultOpfGiftCardComponentsConfig() {
+//   const config: CmsConfig = {
+//     featureModules: {
+//       [OPF_GIFT_CARD_FEATURE]: {
+//         cmsComponents: GIFT_CARD_OPF_CMS_COMPONENTS,
+//       },
+//     },
+//   };
+//   return config;
+// }
 
 @NgModule({
-  imports: [OpfGiftCardOccModule, OpfGiftCardComponentModule],
+  imports: [
+    OpfGiftCardOccModule,
+    OpfGiftCardComponentModule,
+    OpfGiftCardPaymentModule,
+  ],
   providers: [
     provideConfig(defaultGiftCardCartOccEndpointsConfig),
-    provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
+    // provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
     provideConfig({
       icon: {
         symbols: {

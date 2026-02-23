@@ -5,10 +5,6 @@
  */
 
 import {
-  GiftCardBalanceRequest,
-  GiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
-import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
@@ -17,6 +13,10 @@ import {
   OccEndpointsService,
   UserIdService,
 } from '@spartacus/core';
+import {
+  SAPGiftCardBalanceRequest,
+  SAPGiftCardResponse,
+} from '@spartacus/opf/gift-card/root';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OccOpfGiftCardAdapter } from './occ-opf-gift-card.adapter';
@@ -31,7 +31,7 @@ describe('OccOpfGiftCardAdapter', () => {
   let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
   let mockUserIdService: jasmine.SpyObj<UserIdService>;
 
-  const mockGiftCardResponse: GiftCardResponse = {
+  const mockGiftCardResponse: SAPGiftCardResponse = {
     id: 'gc-123',
     maskedNumber: '****1111',
     balance: { currencyIso: 'USD', formattedValue: '$100', value: 100 },
@@ -55,9 +55,9 @@ describe('OccOpfGiftCardAdapter', () => {
 
     mockOccEndpoints.buildUrl.and.callFake((endpoint, config: any) => {
       if (endpoint === 'applyGiftCard') {
-        return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftcard`;
+        return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards`;
       } else if (endpoint === 'removeGiftCard') {
-        return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftcard/${config.urlParams?.giftCardId}`;
+        return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards/${config.urlParams?.giftCardId}`;
       }
       return '';
     });
@@ -90,8 +90,7 @@ describe('OccOpfGiftCardAdapter', () => {
 
   describe('applyGiftCard', () => {
     it('should send POST request with gift card details', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -106,8 +105,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should include correct headers', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -121,13 +119,12 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should return gift card response', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      let result: GiftCardResponse | undefined;
+      let result: SAPGiftCardResponse | undefined;
       adapter.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe({
         next: (response) => {
           result = response;
@@ -143,8 +140,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should build correct endpoint URL', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -161,8 +157,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should handle HTTP errors', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -183,8 +178,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should handle 400 Bad Request', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -208,8 +202,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should handle 404 Not Found', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -230,8 +223,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should validate user ID in endpoint', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -247,8 +239,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should validate cart ID in endpoint', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -390,8 +381,7 @@ describe('OccOpfGiftCardAdapter', () => {
 
   describe('Error Handling', () => {
     it('should normalize and throw HTTP errors', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -412,8 +402,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should handle server errors (500)', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -437,8 +426,7 @@ describe('OccOpfGiftCardAdapter', () => {
     });
 
     it('should handle unauthorized errors (401)', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -461,8 +449,7 @@ describe('OccOpfGiftCardAdapter', () => {
 
   describe('Headers', () => {
     it('should have Content-Type header set to application/json', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 'config-123',
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };

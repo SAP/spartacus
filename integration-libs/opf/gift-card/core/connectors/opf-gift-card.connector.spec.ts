@@ -5,9 +5,9 @@
  */
 
 import {
-  GiftCardBalanceRequest,
-  GiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
+  SAPGiftCardBalanceRequest,
+  SAPGiftCardResponse,
+} from '../../root/model';
 import { of, throwError } from 'rxjs';
 
 import { OpfGiftCardAdapter } from './opf-gift-card.adapter';
@@ -18,7 +18,7 @@ describe('OpfGiftCardConnector', () => {
   let connector: OpfGiftCardConnector;
   let mockAdapter: jasmine.SpyObj<OpfGiftCardAdapter>;
 
-  const mockGiftCardResponse: GiftCardResponse = {
+  const mockSAPGiftCardResponse: SAPGiftCardResponse = {
     id: 'gc-123',
     maskedNumber: '****1111',
     balance: { currencyIso: 'USD', formattedValue: '$100', value: 100 },
@@ -52,30 +52,28 @@ describe('OpfGiftCardConnector', () => {
 
   describe('applyGiftCard', () => {
     it('should delegate to adapter', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
         .subscribe((response) => {
-          expect(response).toEqual(mockGiftCardResponse);
+          expect(response).toEqual(mockSAPGiftCardResponse);
           done();
         });
     });
 
     it('should pass correct parameters to adapter', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-456', 'cart-456', mockRequest)
@@ -90,8 +88,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle adapter error', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -108,13 +105,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should return gift card response with correct structure', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
@@ -129,13 +125,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle different user IDs', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-special-id', 'cart-123', mockRequest)
@@ -150,13 +145,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle different cart IDs', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-special-id', mockRequest)
@@ -171,13 +165,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle multiple gift card responses', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      const anotherResponse: GiftCardResponse = {
+      const anotherResponse: SAPGiftCardResponse = {
         id: 'gc-456',
         maskedNumber: '****2222',
         balance: { currencyIso: 'USD', formattedValue: '$50', value: 50 },
@@ -201,13 +194,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should only call adapter once per subscription', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)
@@ -333,13 +325,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should use same adapter for all methods', () => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
       mockAdapter.removeGiftCard.and.returnValue(of(void 0));
 
       connector.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe();
@@ -351,13 +342,12 @@ describe('OpfGiftCardConnector', () => {
 
   describe('Observable Behavior', () => {
     it('should emit values from adapter observable', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       let emitted = false;
       connector
@@ -373,13 +363,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should allow multiple subscriptions', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       let subscription1Emitted = false;
       let subscription2Emitted = false;
@@ -408,8 +397,7 @@ describe('OpfGiftCardConnector', () => {
 
   describe('Error Propagation', () => {
     it('should propagate adapter errors immediately', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -440,13 +428,12 @@ describe('OpfGiftCardConnector', () => {
 
   describe('Type Safety', () => {
     it('should return correct response type', (done) => {
-      const mockRequest: GiftCardBalanceRequest = {
-        configurationId: 123,
+      const mockRequest: SAPGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      mockAdapter.applyGiftCard.and.returnValue(of(mockGiftCardResponse));
+      mockAdapter.applyGiftCard.and.returnValue(of(mockSAPGiftCardResponse));
 
       connector
         .applyGiftCard('user-123', 'cart-123', mockRequest)

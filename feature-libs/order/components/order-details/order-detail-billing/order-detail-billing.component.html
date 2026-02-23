@@ -12,6 +12,12 @@
       class="cx-review-summary-card cx-review-summary-payment-card"
       *ngIf="paymentDetails?.billingAddress"
     >
+      <ng-template
+        [cxOutlet]="cartOutlets.GIFT_CARD_ORDER_BILLING_INFO"
+        [cxOutletContext]="order"
+      >
+      </ng-template>
+
       <cx-card
         [content]="getBillingAddressCard(paymentDetails) | async"
       ></cx-card>

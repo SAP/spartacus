@@ -9,7 +9,13 @@
     <ng-container *ngIf="!activeConfigurationsState?.loading; else loading">
       <div class="cx-payment-options-list">
         <ng-content></ng-content>
-        <div *ngIf="!(isGiftCardCoveredTotalAmount$ | async)">
+        <div
+          *ngIf="
+            !(
+              opfPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ | async
+            )
+          "
+        >
           <div
             *ngFor="let configuration of activeConfigurationsState?.data?.value"
           >

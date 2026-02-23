@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  GiftCardBalanceRequest,
-  GiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
 import { Injectable, inject } from '@angular/core';
+import {
+  SAPGiftCardBalanceRequest,
+  SAPGiftCardResponse,
+} from '@spartacus/opf/gift-card/root';
 
 import { Observable } from 'rxjs';
 import { OpfGiftCardAdapter } from './opf-gift-card.adapter';
@@ -19,20 +19,14 @@ import { OpfGiftCardAdapter } from './opf-gift-card.adapter';
 export class OpfGiftCardConnector {
   protected adapter = inject(OpfGiftCardAdapter);
 
-  /**
-   * Apply gift card and get balance
-   */
   public applyGiftCard(
     userId: string,
     cartId: string,
-    giftCardBalanceRequest: GiftCardBalanceRequest
-  ): Observable<GiftCardResponse> {
+    giftCardBalanceRequest: SAPGiftCardBalanceRequest
+  ): Observable<SAPGiftCardResponse> {
     return this.adapter.applyGiftCard(userId, cartId, giftCardBalanceRequest);
   }
 
-  /**
-   * Delete/unapply a previously applied gift card
-   */
   public removeGiftCard(
     userId: string,
     cartId: string,

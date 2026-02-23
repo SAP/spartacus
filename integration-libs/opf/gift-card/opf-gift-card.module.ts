@@ -5,15 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-// import { OpfGiftCardComponentsModule } from './components/public_api';
 import { OpfGiftCardCoreModule } from '@spartacus/opf/gift-card/core';
 import { OpfGiftCardOccModule } from './occ/opf-gift-card-occ.module';
 
 @NgModule({
-  imports: [
-    // OpfGiftCardComponentsModule,
-        OpfGiftCardOccModule,
-    OpfGiftCardCoreModule,
-  ],
+  imports: [OpfGiftCardOccModule, OpfGiftCardCoreModule],
 })
 export class OpfGiftCardModule {}

@@ -5,6 +5,11 @@
     margin-top: 1rem;
   }
 
+  &.cx-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
   // cx-card {
   //   flex-grow: 1;
   // }
@@ -43,22 +48,10 @@
     }
   }
 
-  .cx-gift-card-form {
-    padding: 0.5rem;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-
-    h3 {
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-  }
-
   .cx-gift-card-form-wrapper {
     display: flex;
-    align-items: flex-end;
-    gap: 1rem;
+    align-items: flex-start;
+    gap: 0.5rem;
 
     .form-group {
       display: flex;
@@ -101,28 +94,26 @@
     }
 
     button.apply-gift-card-button {
-      margin-bottom: 20px;
-      // white-space: nowrap;
-      // background-color: transparent !important;
-      color: var(--cx-color-primary);
-      border: 2px solid var(--cx-color-primary);
+      margin-top: 20px;
+      // color: var(--cx-color-primary);
+      // border: 2px solid var(--cx-color-primary);
       // border-radius: 50px;
 
-      &:hover,
-      &:active,
-      &:focus {
-        background-color: transparent !important;
-        color: var(--cx-color-primary) !important;
-        border-color: var(--cx-color-primary) !important;
-        box-shadow: none !important;
-        outline: none !important;
-      }
+      // &:hover,
+      // &:active,
+      // &:focus {
+      //   background-color: transparent !important;
+      //   color: var(--cx-color-primary) !important;
+      //   border-color: var(--cx-color-primary) !important;
+      //   box-shadow: none !important;
+      //   outline: none !important;
+      // }
 
-      &:disabled,
-      &.disabled {
-        background-color: transparent !important;
-        opacity: 0.5;
-      }
+      // &:disabled,
+      // &.disabled {
+      //   background-color: transparent !important;
+      //   opacity: 0.5;
+      // }
     }
   }
 
@@ -168,25 +159,5 @@
         }
       }
     }
-  }
-
-  @include media-breakpoint-down(sm) {
-    .cx-gift-card-form {
-      padding: 1rem;
-    }
-
-    .cx-gift-cards-list {
-      max-height: 300px;
-    }
-  }
-}
-
-section {
-  margin-bottom: 2rem;
-
-  h3 {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
   }
 }

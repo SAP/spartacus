@@ -9,3 +9,5 @@ export * from './gift-card/index';
 export * from './applied-gift-card/index';
 export * from './gift-card-order-summary/index';
 export * from './checkout/index';
+export * from './gift-card-payment-method-details/index';
+export * from './gift-card-order-detail-billing/index';
