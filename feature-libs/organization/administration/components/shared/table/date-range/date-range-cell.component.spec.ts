@@ -23,8 +23,8 @@ describe('DateRangeCellComponent', () => {
           provide: OutletContextData,
           useValue: {
             context: {
-              startDate: '2020-07-15T02:00:00+0000',
-              endDate: '2020-07-15T02:59:00+0000',
+              startDate: '2020-07-15T11:00:00+0000',
+              endDate: '2020-07-15T11:59:00+0000',
             },
           },
         },

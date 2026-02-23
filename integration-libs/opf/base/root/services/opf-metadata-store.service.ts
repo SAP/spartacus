@@ -16,6 +16,8 @@ export class OpfMetadataStoreService {
     isPaymentInProgress: false,
     opfPaymentSessionId: undefined,
     isTermsAndConditionsAlertClosed: false,
+    is3DSRedirect: false,
+    opf3DSRedirectReturnPath: undefined,
   });
 
   opfMetadataState = new BehaviorSubject<OpfMetadataModel>(this.INITIAL_STATE);

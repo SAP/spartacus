@@ -76,6 +76,8 @@ export const OPF_GLOBAL_FUNCTIONS_FEATURE_NAME_CONSTANT =
   'OPF_GLOBAL_FUNCTIONS_FEATURE';
 export const OPF_GLOBAL_FUNCTIONS_MODULE = 'OpfGlobalFunctionsModule';
 export const OPF_GLOBAL_FUNCTIONS_ROOT_MODULE = 'OpfGlobalFunctionsRootModule';
+export const OPF_GLOBAL_FUNCTIONS_DEFAULT_OCC_CART_CONFIG =
+  'defaultOccOpfCartConfig';
 
 export const OPF_CTA_FEATURE_NAME_CONSTANT = 'OPF_CTA_FEATURE';
 export const OPF_CTA_MODULE = 'OpfCtaModule';
@@ -338,6 +340,7 @@ export const OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG: SchematicConfig = {
       SPARTACUS_BOOTSTRAP_MIXINS,
     ],
   },
+  customConfig: buildOpfGlobalFunctionsConfig,
 };
 
 export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
@@ -422,6 +425,22 @@ function buildOpfConfig(
             }",
           },
         }`,
+    },
+  };
+}
+
+function buildOpfGlobalFunctionsConfig(
+  _options: SpartacusOpfOptions
+): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_OPF_GLOBAL_FUNCTIONS_ROOT,
+          namedImports: [OPF_GLOBAL_FUNCTIONS_DEFAULT_OCC_CART_CONFIG],
+        },
+      ],
+      content: `${OPF_GLOBAL_FUNCTIONS_DEFAULT_OCC_CART_CONFIG}`,
     },
   };
 }

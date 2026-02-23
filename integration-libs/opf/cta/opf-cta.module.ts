@@ -11,5 +11,6 @@ import { OpfApiCtaModule } from '@spartacus/opf/cta/opf-api';
 
 @NgModule({
   imports: [OpfCtaCoreModule, OpfApiCtaModule, OpfCtaComponentsModule],
+  exports: [OpfCtaComponentsModule],
 })
 export class OpfCtaModule {}
