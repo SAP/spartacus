@@ -80,11 +80,3 @@ When adding schematics config, add to `SCHEMATICS_CONFIGS` array in `projects/sc
 |-----------|-----------|
 | Creating a new Spartacus library | `docs/libs/creating-lib.md` |
 | Writing/debugging schematics, testing migrations | `projects/schematics/README.md` |
-
-## Coding Best Practices
-
-## Common Mistakes to Avoid
-
-| Mistake | Do this instead |
-|---------|-----------------|
-|  |  |
