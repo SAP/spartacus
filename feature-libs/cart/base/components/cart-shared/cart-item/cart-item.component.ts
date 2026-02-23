@@ -5,7 +5,13 @@
  */
 
 import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -63,6 +69,8 @@ export class CartItemComponent implements OnChanges {
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
+  protected globalMessageService = inject(GlobalMessageService);
+
   // TODO: evaluate whether this is generic enough
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
@@ -73,10 +81,7 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(
-    protected cartItemContextSource: CartItemContextSource,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
