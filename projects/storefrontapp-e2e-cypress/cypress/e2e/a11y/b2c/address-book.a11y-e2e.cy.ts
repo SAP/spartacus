@@ -6,8 +6,10 @@
 
 import { newAddress } from '../../../helpers/address-book';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Address Book Page Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();

@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
 describe(
   'Store finder - Access Continuum accessibility tests',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     beforeEach(() => {
       cy.a11yContinuumSetup();
     });

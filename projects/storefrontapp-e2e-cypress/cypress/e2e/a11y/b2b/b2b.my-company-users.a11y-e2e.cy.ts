@@ -5,6 +5,7 @@
  */
 
 import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const MY_COMPANY_URL = '/organization/users';
 const firstRusticSelector =
@@ -25,6 +26,7 @@ describe(
   'B2B / My Company / Users / Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       loginAsMyCompanyAdmin();
