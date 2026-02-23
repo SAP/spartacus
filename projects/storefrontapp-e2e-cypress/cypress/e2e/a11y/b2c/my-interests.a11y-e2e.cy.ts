@@ -5,8 +5,10 @@
  */
 
 import { normalProductCode } from '../../../helpers/notification';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Customer Interests accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();
