@@ -5,6 +5,7 @@
  */
 
 import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const MY_COMPANY_URL = '/organization/account-summary';
 export const SKELETON_SELECTOR =
@@ -17,6 +18,7 @@ describe(
   'B2B / My Company / Account Summaries / Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       loginAsMyCompanyAdmin();

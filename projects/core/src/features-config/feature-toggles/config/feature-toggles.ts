@@ -376,6 +376,13 @@ export interface FeatureTogglesInterface {
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 
   /**
+   * When enabled, the media prefix from the backend config will be used
+   * when constructing media URLs in the MediaService.
+   * Affects: `MediaService`
+   */
+  enableMediaPrefix?: boolean;
+
+  /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
    * on Customer Ticketing dialog.
    */
@@ -437,6 +444,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
