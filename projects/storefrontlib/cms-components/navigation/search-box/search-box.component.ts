@@ -156,7 +156,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected breakpointService = inject(BreakpointService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * When true, the search box carousel uses preventDefault on navigation mousedown (feature toggle).
