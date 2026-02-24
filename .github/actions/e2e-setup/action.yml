@@ -11,6 +11,9 @@ inputs:
   libs-cache-key:
     description: 'Cache key for built libraries'
     required: true
+  e2e-cache-key:
+    description: 'Cache key for e2e libraries'
+    required: true
   app-cache-key:
     description: 'Cache key for built app'
     required: true
@@ -30,6 +33,12 @@ runs:
       uses: ./.github/actions/restore-built-libraries
       with:
         cache-key: ${{ inputs.libs-cache-key }}
+        fail-on-cache-miss: true
+
+    - name: Restore e2e libraries
+      uses: ./.github/actions/restore-e2e-libraries
+      with:
+        cache-key: ${{ inputs.cache-key-base }}
         fail-on-cache-miss: true
 
     - name: Restore built app

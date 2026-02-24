@@ -15,6 +15,6 @@ runs:
       uses: actions/cache@v4
       with:
         path: |
-          storefrontapp-e2e
-        key: spartacus-libs-${{ inputs.cache-key }}
+          projects/storefrontapp-e2e-cypress/node_modules
+        key: spartacus-e2e-${{ inputs.cache-key }}
         fail-on-cache-miss: ${{ inputs.fail-on-cache-miss }}

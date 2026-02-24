@@ -162,11 +162,6 @@ jobs:
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v6
-      - name: Restore e2e libraries
-        uses: ./.github/actions/restore-e2e-libraries
-        with:
-          cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -189,11 +184,6 @@ jobs:
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v6
-      - name: Restore e2e libraries
-        uses: ./.github/actions/restore-e2e-libraries
-        with:
-          cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -216,11 +206,6 @@ jobs:
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v6
-      - name: Restore e2e libraries
-        uses: ./.github/actions/restore-e2e-libraries
-        with:
-          cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
-          fail-on-cache-miss: true
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
