@@ -83,7 +83,6 @@ describe('OrderConfirmationShippingComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [],
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
     }).overrideComponent(OrderConfirmationShippingComponent, {
       remove: {

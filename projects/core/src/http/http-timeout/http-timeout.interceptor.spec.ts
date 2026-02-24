@@ -44,7 +44,6 @@ describe('HttpTimeoutInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,
@@ -307,7 +306,6 @@ describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,

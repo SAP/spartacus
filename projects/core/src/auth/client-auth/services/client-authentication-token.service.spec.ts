@@ -40,7 +40,6 @@ describe('ClientAuthenticationTokenService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         ClientAuthenticationTokenService,
         { provide: AuthConfigService, useClass: AuthConfigServiceMock },

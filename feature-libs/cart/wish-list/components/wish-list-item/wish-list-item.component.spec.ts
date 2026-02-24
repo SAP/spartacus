@@ -34,7 +34,6 @@ import { WishListItemComponent } from './wish-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
-  imports: [I18nTestingModule],
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -44,7 +43,6 @@ class MockAddToCartComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
-  imports: [I18nTestingModule],
 })
 class MockPictureComponent {
   @Input() container;
@@ -101,7 +99,11 @@ describe('WishListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [WishListItemComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        WishListItemComponent,
+        RouterModule.forRoot([]),
+      ],
     })
       .overrideComponent(WishListItemComponent, {
         remove: {

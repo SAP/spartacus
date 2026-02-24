@@ -53,7 +53,6 @@ describe('OccRequestedDeliveryDateAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccRequestedDeliveryDateAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

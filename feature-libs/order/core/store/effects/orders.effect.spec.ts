@@ -48,7 +48,6 @@ describe('Orders effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OrderHistoryConnector,
         ReplenishmentOrderHistoryConnector,

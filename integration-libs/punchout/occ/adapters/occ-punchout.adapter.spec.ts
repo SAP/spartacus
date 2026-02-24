@@ -61,7 +61,6 @@ describe('OccPunchoutAdapter', () => {
     ]);
     mockLogger = jasmine.createSpyObj('LoggerService', ['warn', 'error']);
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccPunchoutAdapter,
         { provide: ConverterService, useValue: mockConverter },

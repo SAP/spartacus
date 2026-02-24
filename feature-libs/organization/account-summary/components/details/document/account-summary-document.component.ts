@@ -53,8 +53,6 @@ import { AccountSummaryDocumentFilterComponent } from './filter/account-summary-
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {

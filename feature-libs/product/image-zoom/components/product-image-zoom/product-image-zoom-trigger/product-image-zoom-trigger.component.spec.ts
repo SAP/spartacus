@@ -9,7 +9,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -21,7 +20,6 @@ import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.c
 
 @Component({
   template: '',
-  imports: [I18nTestingModule],
 })
 class TestDialogComponent {
   @Input() galleryItem: number;

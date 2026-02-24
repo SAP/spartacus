@@ -47,7 +47,6 @@ function initializeWithObs(disableObs: Observable<boolean>) {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  imports: [I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() min: number;
