@@ -133,6 +133,37 @@ jobs:
           path: |
             dist/storefrontapp
           key: spartacus-app-${{ matrix.cache_key }}-${{ matrix.build_type }}-${{ github.event.pull_request.head.sha || github.run_id }}
+  a11y_e2e_tests:
+    needs: [no_retries, validate_e2e_execution, build_apps]
+    name: MC - E2E A11Y
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3]
+    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: E2E Test Setup
+        uses: ./.github/actions/e2e-setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache-key-base: ${{ github.event.pull_request.base.sha }}
+          libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
+          app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+      - name: Run e2es
+        env:
+          SPA_ENV: ci
+          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
+          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
+          GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
+          CYPRESS_ENABLE_SCREENSHOTS: true
+        run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
+      - name: Collect screenshots
+        if: always()
+        uses: ./.github/actions/collect-e2e-screenshots
+        with:
+          test-suite: a11y
+          container-id: ${{ matrix.containers }}
   b2c_e2e_tests:
     needs: [no_retries, validate_e2e_execution, build_apps]
     name: MC - E2E B2C core
@@ -196,37 +227,6 @@ jobs:
           SPA_ENV: ci,b2b
           BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
         run: ci-scripts/e2e-cypress.sh -s b2b --skip-build
-  a11y_e2e_tests:
-    needs: [no_retries, validate_e2e_execution, build_apps]
-    name: MC - E2E A11Y
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        containers: [1, 2, 3]
-    if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
-    steps:
-      - uses: actions/checkout@v6
-      - name: E2E Test Setup
-        uses: ./.github/actions/e2e-setup
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache-key-base: ${{ github.event.pull_request.base.sha }}
-          libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
-          app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
-      - name: Run e2es
-        env:
-          SPA_ENV: ci
-          BUILD_NUMBER: ci-build-number-${{ github.event.pull_request.head.sha || github.run_id }}
-          GITHUB_MATRIX_CONTAINER: ${{ matrix.containers }}
-          GITHUB_MATRIX_TOTAL: ${{ strategy.job-total }}
-          CYPRESS_ENABLE_SCREENSHOTS: true
-        run: ci-scripts/e2e-cypress.sh -s a11y --skip-build
-      - name: Collect screenshots
-        if: always()
-        uses: ./.github/actions/collect-e2e-screenshots
-        with:
-          test-suite: a11y
-          container-id: ${{ matrix.containers }}
   notify_e2e_failures:
     needs: [b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests]
     name: MC - Notify E2E Failures
