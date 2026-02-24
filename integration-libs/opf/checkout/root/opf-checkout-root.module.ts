@@ -14,6 +14,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { OpfApiCheckoutAdapter } from './adapters/opf-api-checkout.adapter';
 import { OpfCheckoutAuthGuard } from './checkout-guard';
 import { defaultOccOpfCheckoutConfig } from './config';
@@ -22,6 +23,7 @@ import { defaultOpfCheckoutRoutingConfig } from './config/default-opf-checkout-r
 import { OpfCheckoutAdapter, OpfCheckoutConnector } from './connectors';
 import { OPF_CHECKOUT_FEATURE } from './feature-name';
 import { OpfCartUserEmailCheckerService } from './services';
+import { OpfTokenisationCheckoutPaymentMethodComponent } from '@spartacus/opf/tokenisation/components';
 
 export const CHECKOUT_OPF_CMS_COMPONENTS: string[] = [
   'OpfCheckoutPaymentAndReview',
@@ -55,6 +57,11 @@ export function defaultOpfCheckoutComponentsConfig() {
     provideDefaultConfig(defaultOccOpfCheckoutConfig),
     provideDefaultConfig(defaultOpfCheckoutConfig),
     provideDefaultConfigFactory(defaultOpfCheckoutComponentsConfig),
+    provideOutlet({
+      id: 'cx-opf-tokenisation-payment-methods',
+      component: OpfTokenisationCheckoutPaymentMethodComponent,
+      position: OutletPosition.REPLACE,
+    }),
     provideAppInitializer(() => {
       inject(CheckoutFlowOrchestratorService);
     }),

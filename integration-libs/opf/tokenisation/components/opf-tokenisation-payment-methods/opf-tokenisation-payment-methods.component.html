@@ -7,7 +7,7 @@
     </div>
 
     <div class="cx-body">
-      <div class="cx-msg">
+      <div *ngIf="showHeader" class="cx-msg">
         {{
           'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
         }}
