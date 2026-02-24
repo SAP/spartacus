@@ -252,7 +252,7 @@ $useAccordionOnly: false !default;
   --cx-tab-container-panel-padding: 32px;
   --cx-tab-container-panel-border-radius: 0 8px 8px 8px;
   --cx-tab-container-panel-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --cx-tab-container-panel-border-color: var(--cx-color-secondary);
+  --cx-tab-container-panel-border-color: var(--cx-color-primary);
 
   // Accordion mode (mobile)
   --cx-tab-container-accordion-btn-padding: 18px 20px;
@@ -272,6 +272,7 @@ $useAccordionOnly: false !default;
   .tab {
     display: flex;
     gap: 4px;
+    overflow: visible;
 
     .tab-btn {
       padding: var(--cx-tab-container-btn-padding);
@@ -291,6 +292,7 @@ $useAccordionOnly: false !default;
         color: var(--cx-tab-container-btn-color-hover);
         box-shadow: var(--cx-tab-container-btn-shadow-hover);
         transform: translateY(-2px);
+        border-radius: var(--cx-tab-container-btn-border-radius);
       }
 
       &.active {
@@ -305,8 +307,13 @@ $useAccordionOnly: false !default;
       }
 
       &:focus-visible {
-        outline: 2px solid var(--cx-color-visual-focus);
-        outline-offset: 2px;
+        outline: 3px solid var(--cx-color-visual-focus);
+        outline-offset: -3px;
+        z-index: 2;
+      }
+
+      &.active:focus-visible {
+        z-index: 3;
       }
 
       // Modern indicator
@@ -349,6 +356,7 @@ $useAccordionOnly: false !default;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    overflow: visible;
 
     .tab-btn {
       display: flex;
@@ -385,8 +393,14 @@ $useAccordionOnly: false !default;
       }
 
       &:focus-visible {
-        outline: 2px solid var(--cx-color-visual-focus);
-        outline-offset: 2px;
+        outline: 3px solid var(--cx-color-visual-focus);
+        outline-offset: -3px;
+        z-index: 2;
+        position: relative;
+      }
+
+      &.active:focus-visible {
+        z-index: 3;
       }
 
       // Enhanced tab icon styling
