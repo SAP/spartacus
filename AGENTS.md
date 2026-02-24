@@ -17,6 +17,7 @@ Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo u
 | `core-libs/setup/` | Core setup utilities, SSR engine |
 | `projects/core/` | Core non-UI library |
 | `projects/storefrontlib/` | UI-related core, CMS engine |
+| `projects/storefrontstyles/` | styles-related core |
 | `projects/schematics/` | Installation and migration schematics |
 | `projects/storefrontapp/` | Demo application |
 | `projects/storefrontapp-e2e-cypress/` | E2E Browser tests (Cypress) |
@@ -40,12 +41,12 @@ npm run build          # Demo app (requires libs built first)
 # Jasmine Test Angular libs
 npm run test:libs              # All library tests
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
-nx run <library-name>:test --include="**/<spec filename>" # Specific test file
+nx run <library-name>:test --include="**/<spec-filename>" # Specific test file
 
 # Jest Test Schematics libs
 npm run test:all-schematics    # All schematics tests
 nx run <library-name>:test-jest # Single library
-nx run <library-name>:test-jest --testPathPatterns="<spec filename>" # Specific file
+nx run <library-name>:test-jest --testPathPatterns="<spec-filename>" # Specific file
 
 # Jest Test SSR lib
 npm run setup:test
@@ -60,7 +61,7 @@ npm run e2e:run:b2b
 
 # SSR E2E
 npm run build:ssr:local-http-backend # special build prerequisite before SSR E2E
-npm run test:sst
+npm run test:ssr
 ```
 
 ## Library Development
