@@ -338,7 +338,7 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
-        a11yEnhancedTabsAndReviewsStyles: false,
+        a11yEnhancedTabsAndReviewsStyles: true,
       };
       return appFeatureToggles;
     }),

@@ -107,19 +107,13 @@
         margin: 0px 15px;
         float: right;
         font-size: 33px;
-        bottom: 12px;
         position: relative;
         color: var(--cx-color-text);
       }
+
+      // Override legacy :after border effect in accordion mode only
       &:after {
-        margin-top: 15px;
-        margin-inline-end: auto;
-        margin-bottom: auto;
-        margin-inline-start: -4%;
-      }
-      &.active:after,
-      &:hover:after {
-        width: 104%;
+        display: none !important;
       }
     }
 
@@ -182,6 +176,7 @@
     margin-bottom: 0;
 
     cursor: pointer;
+
     &[disabled] {
       cursor: not-allowed;
     }
@@ -190,9 +185,11 @@
     &:hover:not([disabled]) {
       color: var(--cx-color-primary);
     }
+
     &:focus {
       z-index: 1;
     }
+
     &:focus-visible {
       outline-offset: -3px;
     }
@@ -201,10 +198,12 @@
     &:hover:not([disabled]):after {
       width: 100%;
     }
+
     &.active:after,
     &.active:hover:after {
       opacity: 1;
     }
+
     &:not(.active):hover:after {
       opacity: 0.5;
     }
@@ -237,6 +236,7 @@
     border-radius: var(--cx-tab-panel-border-radius);
     padding: var(--cx-tab-panel-padding);
     background: var(--cx-tab-panel-bg);
+
     &.active:focus-visible {
       outline-offset: -3px;
     }
@@ -277,12 +277,14 @@
         position: relative;
         color: var(--cx-color-text);
       }
+
       &:after {
         margin-top: 15px;
         margin-inline-end: auto;
         margin-bottom: auto;
         margin-inline-start: -4%;
       }
+
       &.active:after,
       &:hover:after {
         width: 104%;
