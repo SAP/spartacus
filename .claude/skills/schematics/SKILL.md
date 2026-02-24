@@ -1,5 +1,5 @@
 ---
-name: spartacus-schematics
+name: schematics
 description: "Use this skill when working with Spartacus schematics - Angular schematics for installing, configuring, and migrating Spartacus libraries. Trigger when the user mentions writing, debugging, or testing schematics, works with migration scripts or constructor/component deprecations, creates feature schematics configuration, adds new library installation schematics, tests schematics with verdaccio, or updates migrations.json or deprecation data files. Even if the user just mentions 'schematics', 'ng add', or 'ng update' in the context of Spartacus development, load this skill."
 ---
 

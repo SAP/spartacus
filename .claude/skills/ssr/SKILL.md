@@ -1,5 +1,5 @@
 ---
-name: spartacus-ssr
+name: ssr
 description: "Use this skill when working with Spartacus Server-Side Rendering (SSR). Trigger when the user mentions SSR engine development, SSR E2E tests, server-side rendering issues, hydration problems, or needs to run SSR-related commands like 'npm run test:ssr' or 'npm run build:ssr'. Also trigger when working with files in 'core-libs/setup/ssr' or 'projects/ssr-tests/'."
 ---
 
