@@ -9,12 +9,12 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   CxDatePipe,
+  FeatureDirective,
   RoutingService,
   TranslatePipe,
   TranslationService,
   UrlPipe,
   isNotUndefined,
-  FeatureDirective,
 } from '@spartacus/core';
 import {
   Order,

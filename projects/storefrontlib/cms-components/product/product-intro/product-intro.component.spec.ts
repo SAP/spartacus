@@ -20,7 +20,6 @@ import { ProductIntroComponent } from './product-intro.component';
 @Component({
   selector: 'cx-star-rating',
   template: '',
-  imports: [],
 })
 class MockStarRatingComponent {
   @Input() rating: number;

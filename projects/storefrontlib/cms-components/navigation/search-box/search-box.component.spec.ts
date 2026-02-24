@@ -77,7 +77,6 @@ class MockHighlightPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -86,7 +85,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-media',
   template: '<img>',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -103,7 +101,6 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-carousel',
   template: ``,
-  imports: [I18nTestingModule],
 })
 class MockCarouselComponent {
   @Input() items: any;

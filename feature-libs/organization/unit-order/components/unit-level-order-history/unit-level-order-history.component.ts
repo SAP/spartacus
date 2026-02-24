@@ -45,8 +45,6 @@ import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {

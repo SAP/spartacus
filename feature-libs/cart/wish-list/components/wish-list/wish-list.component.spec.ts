@@ -27,7 +27,6 @@ class MockWishListService {
 @Component({
   selector: '[cx-wish-list-item], cx-wish-list-item',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockWishListItemComponent {
   @Input()
@@ -46,7 +45,7 @@ describe('WishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [WishListComponent],
+      imports: [I18nTestingModule, WishListComponent],
       providers: [
         {
           provide: WishListFacade,

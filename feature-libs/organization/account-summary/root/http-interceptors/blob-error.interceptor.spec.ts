@@ -37,7 +37,6 @@ describe('BlobErrorInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         FileReaderService,
         {

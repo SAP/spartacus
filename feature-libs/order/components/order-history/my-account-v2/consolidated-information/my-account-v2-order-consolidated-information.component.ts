@@ -38,8 +38,6 @@ import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
