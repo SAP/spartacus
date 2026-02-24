@@ -25,7 +25,7 @@ export function urlPathJoin(...parts: string[]): string {
   return paths.join('/');
 }
 
-export function cleanSlashes(path: string): string {
+function cleanSlashes(path: string): string {
   path = path.startsWith('/') ? path.slice(1) : path;
   path = path.endsWith('/') ? path.slice(0, -1) : path;
 

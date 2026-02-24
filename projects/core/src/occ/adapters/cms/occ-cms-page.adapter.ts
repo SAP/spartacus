@@ -20,7 +20,6 @@ import {
 } from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { cleanSlashes } from '../../utils/occ-url-util';
 
 export interface OccCmsPageRequest {
   pageLabelOrId?: string;
@@ -59,7 +58,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
               queryParams: params,
             });
 
-        return this.http.get(cleanSlashes(endpoint), { headers: this.headers });
+        return this.http.get(endpoint, { headers: this.headers });
       }),
       this.converter.pipeable(CMS_PAGE_NORMALIZER),
       take(1)
