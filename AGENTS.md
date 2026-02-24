@@ -40,11 +40,11 @@ npm run build          # Demo app (requires libs built first)
 # Jasmine Test Angular libs
 npm run test:libs              # All library tests
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
-npm run <library-name>:test --include="**/<spec filename>" # Specific test file
+nx run <library-name>:test --include="**/<spec filename>" # Specific test file
 
 # Jest Test Schematics libs
 npm run test:all-schematics    # All schematics tests
-npm run <library-name>:test-jest # Single library
+nx run <library-name>:test-jest # Single library
 nx run <library-name>:test-jest --testPathPatterns="<spec filename>" # Specific file
 
 # Jest Test SSR lib
