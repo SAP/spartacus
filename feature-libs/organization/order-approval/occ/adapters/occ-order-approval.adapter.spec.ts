@@ -50,7 +50,6 @@ describe('OccOrderApprovalAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccOrderApprovalAdapter,
         {

@@ -81,7 +81,6 @@ describe('OnNavigateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OnNavigateService,
         {

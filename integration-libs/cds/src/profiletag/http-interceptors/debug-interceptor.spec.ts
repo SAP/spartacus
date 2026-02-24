@@ -23,7 +23,6 @@ describe('Debug interceptor', () => {
       profileTagDebug: false,
     };
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: ProfileTagEventService,

@@ -95,7 +95,6 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccConfiguratorTextfieldAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

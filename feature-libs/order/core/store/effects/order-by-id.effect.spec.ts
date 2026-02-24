@@ -47,7 +47,6 @@ describe('Order By Id effect', () => {
   let actions$: Observable<any>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OrderHistoryConnector,
         OrderByIdEffect,

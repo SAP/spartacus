@@ -50,7 +50,6 @@ describe('OccUserGroupAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccUserGroupAdapter,
         {
