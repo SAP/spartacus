@@ -51,10 +51,7 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import {
-  CheckoutPaymentFormComponent,
-  CheckoutStepService,
-} from '@spartacus/checkout/base/components';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 
 @Component({
   selector: 'cx-opf-tokenisation-checkout-payment-method',
@@ -64,7 +61,6 @@ import {
     NgIf,
     NgFor,
     CardComponent,
-    CheckoutPaymentFormComponent,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,

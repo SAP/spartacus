@@ -38,7 +38,6 @@ import {
   OpfCheckoutReviewCartDetailsModule,
 } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
-import { OpfCheckoutOutlets } from '../../root/model/opf-checkout-outlets.model';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -79,7 +78,6 @@ export class OpfCheckoutPaymentAndReviewComponent
     string | null | undefined
   >(undefined);
 
-  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
     .getCurrentPage()
     .pipe(

@@ -38,11 +38,13 @@ import {
   IconComponent,
   PaginationComponent,
   SpinnerComponent,
+  OutletModule,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
+import { OpfCheckoutOutlets } from '../../root/model';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -58,6 +60,7 @@ import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrap
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    OutletModule,
   ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
@@ -116,6 +119,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   noRenderPaymentWrapperMessage?: string;
 
+  readonly SAVED_CARDS_ID = -1;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -125,6 +130,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   >;
 
   iconTypes = ICON_TYPE;
+
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
 
   @Output() paymentChange = new EventEmitter<OpfActiveConfiguration>();
 
