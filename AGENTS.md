@@ -19,6 +19,12 @@ Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo u
 | `projects/storefrontlib/` | UI-related core, CMS engine |
 | `projects/schematics/` | Installation and migration schematics |
 | `projects/storefrontapp/` | Demo application |
+| `projects/storefrontapp-e2e-cypress/` | E2E Browser tests (Cypress) |
+| `projects/ssr-tests/` | E2E SSR tests (Node) |
+| `tools/eslint-rules/` | Custom ESLint rules |
+| `tools/build-lib/` | Custom Angular builders for library builds |
+| `ci-scripts/` | Scripts used by CI to check peer deps, feature toggles, unit tests, E2E |
+| `.github/workflows/` | GitHub Actions CI/CD pipelines |
 
 ## Common Commands
 
@@ -31,10 +37,18 @@ npm run start:b2b      # B2B dev server
 npm run build:libs     # All libraries
 npm run build          # Demo app (requires libs built first)
 
-# Test
+# Jasmine Test Angular libs
 npm run test:libs              # All library tests
-nx test <library-name>         # Single library (e.g., nx test storefrontlib)
+nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
+npm run <library-name>:test --include="**/<spec filename>" # Specific test file
+
+# Jest Test Schematics libs
 npm run test:all-schematics    # All schematics tests
+npm run <library-name>:test-jest # Single library
+nx run <library-name>:test-jest --testPathPatterns="<spec filename>" # Specific file
+
+# Jest Test SSR lib
+npm run setup:test
 
 # Lint & Format
 npm run lint
@@ -80,6 +94,9 @@ When adding schematics config, add to `SCHEMATICS_CONFIGS` array in `projects/sc
 |-----------|-----------|
 | Creating a new Spartacus library | `docs/libs/creating-lib.md` |
 | Writing/debugging schematics, testing migrations | `projects/schematics/README.md` |
+| Adding/modifying custom ESLint rules | `tools/eslint-rules/` |
+| Debugging custom build process of a lib | `tools/build-lib/` |
+| Debugging CI failures or modifying workflows | `.github/workflows/ci.yml` |
 
 ## Coding Best Practices
 -
