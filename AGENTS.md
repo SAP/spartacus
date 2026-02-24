@@ -14,16 +14,13 @@ Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo u
 |------|--------------------|
 | `feature-libs/` | Optional features for standard SAP Commerce backend (cart, checkout, order, etc.) |
 | `integration-libs/` | Features requiring special backend addons (cdc, cds, digital-payments, opf) |
-| `core-libs/setup/` | Core setup utilities, SSR engine |
+| `core-libs/setup/` | Core setup utilities |
 | `projects/core/` | Core non-UI library |
-| `projects/storefrontlib/` | UI-related core, CMS engine |
-| `projects/storefrontstyles/` | styles-related core |
-| `projects/schematics/` | Installation and migration schematics |
+| `projects/storefrontlib/` | UI-related core, CMS engine and some components |
+| `projects/storefrontstyles/` | Styles-related core and some  components' styles |
 | `projects/storefrontapp/` | Demo application |
 | `projects/storefrontapp-e2e-cypress/` | E2E Browser tests (Cypress) |
-| `projects/ssr-tests/` | E2E SSR tests (Node) |
 | `tools/eslint-rules/` | Custom ESLint rules |
-| `tools/build-lib/` | Custom Angular builders for library builds |
 | `ci-scripts/` | Scripts used by CI to check peer deps, feature toggles, unit tests, E2E |
 | `.github/workflows/` | GitHub Actions CI/CD pipelines |
 
@@ -31,7 +28,7 @@ Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo u
 
 ```bash
 # Dev
-npm run start          # B2C dev server
+npm run start             # B2C dev server
 npm run start:b2b      # B2B dev server
 
 # Build (always build libs before app)
@@ -43,14 +40,6 @@ npm run test:libs              # All library tests
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
 nx run <library-name>:test --include="**/<spec-filename>" # Specific test file
 
-# Jest Test Schematics libs
-npm run test:all-schematics    # All schematics tests
-nx run <library-name>:test-jest # Single library
-nx run <library-name>:test-jest --testPathPatterns="<spec-filename>" # Specific file
-
-# Jest Test SSR lib
-npm run setup:test
-
 # Lint & Format
 npm run lint
 npm run prettier:fix
@@ -58,43 +47,23 @@ npm run prettier:fix
 # E2E
 npm run e2e:run
 npm run e2e:run:b2b
-
-# SSR E2E
-npm run build:ssr:local-http-backend # special build prerequisite before SSR E2E
-npm run test:ssr
 ```
 
 ## Library Development
 
-Each library has:
-- `public_api.ts` — public exports via barrel files tree
-- `ng-package.json` — Angular package config
-- `schematics/` — feature-specific installation schematics
-- `assets/` — translations (if applicable)
-
-Multi-entry point libraries (checkout, cart, product): each entry point has own `public_api.ts`. Import as `@spartacus/<lib>/<entry-point>`.
-
-After creating/modifying libraries, run:
-```bash
-npm install                # Update package-lock.json
-npm run config:update      # Update tsconfig paths
+```
+<library>/
+├── root/        # EAGER - always loaded. Put: abstract facades, models, events, tokens, configs, routes
+├── core/        # LAZY - business logic. Put: facade implementations, connectors, NgRx store, abstract adapters
+├── components/  # LAZY - UI. Put: components, guards, context providers
+├── occ/         # LAZY - backend connection. Put: OCC adapter implementations, normalizers, serializers
+├── assets/      # Translations
+├── styles/      # Styles
+├── schematics/      # Installation schematics
+└── <lib>.module.ts  # Bundles core+components+occ for lazy loading
 ```
 
-## Schematics
-
-- **Installation schematics** (`ng add @spartacus/schematics`): delegates to feature-specific schematics in `<lib>/schematics/`
-- **Migration schematics**: in `projects/schematics/src/migrations/<version>/`
-- **Shared utilities**: in `projects/schematics/src/shared/`
-- **Library configs**: in `projects/schematics/src/shared/lib-configs/`
-
-When adding schematics config, add to `SCHEMATICS_CONFIGS` array in `projects/schematics/src/shared/lib-configs/schematics-config-mappings.ts`.
-
-## When to Read Extended Docs
-
-| Situation | Read this |
-|-----------|-----------|
-| Creating a new Spartacus library | `docs/libs/creating-lib.md` |
-| Writing/debugging schematics, testing migrations | `projects/schematics/README.md` |
+Multi-entry point libraries (checkout, cart, product): each entry point has own `public_api.ts`. Import as `@spartacus/<lib>/<entry-point>`.
 
 ## Coding Best Practices
 -
