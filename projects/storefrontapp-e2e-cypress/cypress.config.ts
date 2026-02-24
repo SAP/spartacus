@@ -6,13 +6,13 @@
 
 import { defineConfig } from 'cypress';
 
-const JDK_VERSION: string = 'JDK17';
+const JDK_VERSION: string = 'JDK21';
 const CLIENT_ID =
   JDK_VERSION === 'JDK21' ? 'mobile_android_public' : 'mobile_android';
 
 const API_URL =
   JDK_VERSION === 'JDK21'
-    ? 'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud'
+    ? 'https://spartacus-devci7677.eastus.cloudapp.azure.com:8443'
     : 'https://40.76.109.9:9002';
 
 export default defineConfig({
