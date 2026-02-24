@@ -94,9 +94,6 @@ When adding schematics config, add to `SCHEMATICS_CONFIGS` array in `projects/sc
 |-----------|-----------|
 | Creating a new Spartacus library | `docs/libs/creating-lib.md` |
 | Writing/debugging schematics, testing migrations | `projects/schematics/README.md` |
-| Adding/modifying custom ESLint rules | `tools/eslint-rules/` |
-| Debugging custom build process of a lib | `tools/build-lib/` |
-| Debugging CI failures or modifying workflows | `.github/workflows/ci.yml` |
 
 ## Coding Best Practices
 -
