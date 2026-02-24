@@ -3,6 +3,7 @@ import { Injectable, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { PageType } from '../../model/cms.model';
+import { LanguageService } from '../../site-context/facade/language.service';
 import {
   BreadcrumbMeta,
   Page,
@@ -21,7 +22,6 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
-import { LanguageService } from '../../site-context/facade/language.service';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -257,6 +257,19 @@ describe('PageMetaService', () => {
 
     it('PageMetaService should be created', () => {
       expect(service).toBeTruthy();
+    });
+    it('should skip the first getActive() emission and call refreshLatestPage on subsequent emissions', () => {
+      const languageService = TestBed.inject(
+        LanguageService
+      ) as unknown as MockLanguageService;
+      // Emit first language (should be skipped)
+      languageService.emitLanguage('en');
+      expect(cmsService.refreshLatestPage).not.toHaveBeenCalled();
+
+      // Emit second and third languages (should trigger refreshLatestPage twice)
+      languageService.emitLanguage('de');
+      languageService.emitLanguage('fr');
+      expect(cmsService.refreshLatestPage).toHaveBeenCalledTimes(2);
     });
 
     it('should resolve page title using resolveTitle()', async () => {
