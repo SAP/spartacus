@@ -147,7 +147,7 @@ $useAccordionOnly: false !default;
       // in order to align the tabs to the left
       // we simulate the container size
       @include media-breakpoint-only(md) {
-        grid-template-columns: auto 10px repeat(4, 180px) 0px auto;
+        grid-template-columns: auto 10px repeat(4, 180px) 0 auto;
       }
       @include media-breakpoint-only(lg) {
         grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
