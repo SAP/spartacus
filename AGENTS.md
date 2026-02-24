@@ -49,21 +49,13 @@ npm run e2e:run
 npm run e2e:run:b2b
 ```
 
-## Library Development
 
-```
-<library>/
-├── root/        # EAGER - always loaded. Put: abstract facades, models, events, tokens, configs, routes
-├── core/        # LAZY - business logic. Put: facade implementations, connectors, NgRx store, abstract adapters
-├── components/  # LAZY - UI. Put: components, guards, context providers
-├── occ/         # LAZY - backend connection. Put: OCC adapter implementations, normalizers, serializers
-├── assets/      # Translations
-├── styles/      # Styles
-├── schematics/      # Installation schematics
-└── <lib>.module.ts  # Bundles core+components+occ for lazy loading
-```
+## When to Read Extended Docs
 
-Multi-entry point libraries (checkout, cart, product): each entry point has own `public_api.ts`. Import as `@spartacus/<lib>/<entry-point>`.
+| Situation | Read this |
+|-----------|-----------|
+| Creating a new Spartacus library | `docs/libs/creating-lib.md` |
+| Library structure | `docs/libs/library-structure.md` |
 
 ## Coding Best Practices
 -
