@@ -16,5 +16,5 @@ runs:
       with:
         path: |
           projects/storefrontapp-e2e-cypress/node_modules
-        key: nodemodules-${{ inputs.cache-key }}
+        key: nodemodules-${{ inputs.cache-key }}-
         fail-on-cache-miss: ${{ inputs.fail-on-cache-miss }}
