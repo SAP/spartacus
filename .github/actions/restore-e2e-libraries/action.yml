@@ -1,8 +1,8 @@
-name: 'Restore Built Libraries'
-description: 'Restore built Spartacus libraries from cache'
+name: 'Restore E2E Libraries'
+description: 'Restore built e2e libraries from cache'
 inputs:
   cache-key:
-    description: 'Cache key for built libraries'
+    description: 'Cache key for e2e libraries'
     required: true
   fail-on-cache-miss:
     description: 'Whether to fail if cache miss occurs'
@@ -11,10 +11,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Restore built libraries
+    - name: Restore e2e libraries
       uses: actions/cache@v4
       with:
         path: |
-          dist
+          storefrontapp-e2e
         key: spartacus-libs-${{ inputs.cache-key }}
         fail-on-cache-miss: ${{ inputs.fail-on-cache-miss }}
