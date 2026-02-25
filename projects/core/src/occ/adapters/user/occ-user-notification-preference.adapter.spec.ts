@@ -53,7 +53,6 @@ describe('OccUserNotificationPreferenceAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccUserNotificationPreferenceAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },

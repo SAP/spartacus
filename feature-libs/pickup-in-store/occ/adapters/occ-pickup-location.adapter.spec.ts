@@ -65,7 +65,6 @@ describe(`OccPickupLocationAdapter`, () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccPickupLocationAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

@@ -54,7 +54,6 @@ describe('OccOrgUnitAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccOrgUnitAdapter,
         {

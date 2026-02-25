@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { getContextParameterDefault } from '../config/context-config-utils';
@@ -13,29 +13,31 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
-export class LanguageInitializer implements OnDestroy {
+export class LanguageInitializer {
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+
   constructor(
     protected languageService: LanguageService,
     protected languageStatePersistenceService: LanguageStatePersistenceService,
     protected configInit: ConfigInitializerService
   ) {}
 
-  protected subscription: Subscription;
-
   /**
    * Initializes the value of the active language.
+   *
+   * @returns Promise that resolves when initialization is done.
    */
-  initialize(): void {
-    this.subscription = this.configInit
-      .getStable('context')
-      .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+  initialize(): Promise<unknown> {
+    return firstValueFrom(
+      this.configInit.getStable('context').pipe(
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.languageStatePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
       )
-      .subscribe();
+    );
   }
 
   /**
@@ -63,9 +65,5 @@ export class LanguageInitializer implements OnDestroy {
     if (!this.languageService.isInitialized() && contextParam) {
       this.languageService.setActive(contextParam);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
   }
 }

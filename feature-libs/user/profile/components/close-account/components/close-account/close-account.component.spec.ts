@@ -14,7 +14,6 @@ import { CloseAccountComponent } from './close-account.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

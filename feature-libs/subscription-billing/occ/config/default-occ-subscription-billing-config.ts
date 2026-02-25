@@ -23,6 +23,9 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
     'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
   reverseCancellation:
     'users/${userId}/subscriptions/${subscriptionCode}/cancellationReversal',
+  subscriptionBillsList: 'users/${userId}/subscriptionbills',
+  subscriptionBillByCode:
+    'users/${userId}/subscriptionbills/${billId}?fields=FULL',
 };
 
 export const defaultOccSubscriptionBillingConfig: OccConfig = {

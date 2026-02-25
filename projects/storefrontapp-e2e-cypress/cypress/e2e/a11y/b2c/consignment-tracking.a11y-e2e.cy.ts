@@ -4,9 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
 const disabledBestPracticesIds = [1775]; // Confirmed to not use table element for layout.
+const productCode = '300938'; // Product code from the order with consignment tracking info.
 
 describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.a11yContinuumSetup();
@@ -26,9 +30,14 @@ describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
   });
 
   it('Tracking Dialog', () => {
-    cy.get('cx-consignment-tracking button')
-      .contains(' Track package ')
-      .click();
+    cy.contains('.cx-list.row .cx-code', productCode)
+      .closest('.cx-list.row')
+      .within(() => {
+        cy.contains(
+          'cx-consignment-tracking button',
+          ' Track package '
+        ).click();
+      });
     cy.get('.modal-dialog .cx-tracking-event-body');
     cy.get('cx-tracking-events').a11yRunContinuumTest();
   });

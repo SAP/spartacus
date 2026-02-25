@@ -46,7 +46,6 @@ describe('OccAccountSummaryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccAccountSummaryAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

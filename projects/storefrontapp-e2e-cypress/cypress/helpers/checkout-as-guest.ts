@@ -52,7 +52,7 @@ export function testCheckoutAsGuest() {
 
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryOptions();
-    checkout.fillPaymentFormWithCheapProduct();
+    checkout.fillPaymentFormWithCheapProductWithMock();
     checkout.placeOrderWithCheapProduct();
     checkout.verifyOrderConfirmationPageWithCheapProduct();
 

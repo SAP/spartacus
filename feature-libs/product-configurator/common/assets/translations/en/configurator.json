@@ -131,7 +131,8 @@
       "suggestionText": "Change value for \"{{ attribute }}\"",
       "viewConflictDetails": "Conflict Detected - View Details",
       "conflictDetected": "Conflict Detected",
-      "viewConfigurationDetails": "View In Configuration"
+      "viewConfigurationDetails": "View In Configuration",
+      "nonNavigableConflict": "There is an issue with this selection"
     },
     "restartDialog": {
       "title": "Unfinished Configuration",

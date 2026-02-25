@@ -197,7 +197,6 @@ class mockFeatureModulesService implements Partial<FeatureModulesService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -247,7 +246,11 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CustomerListComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        CustomerListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: FeatureModulesService,

@@ -96,7 +96,6 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockIconComponent {
   @Input() type;
@@ -126,7 +125,11 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AddToWishListComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        AddToWishListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: WishListFacade, useClass: MockWishListService },
