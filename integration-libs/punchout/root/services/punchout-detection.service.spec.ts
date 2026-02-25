@@ -28,7 +28,6 @@ describe('PunchoutDetectionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: Location, useClass: MockLocation },
         { provide: PunchoutStoreService, useClass: MockPunchoutStoreService },

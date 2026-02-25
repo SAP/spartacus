@@ -36,7 +36,6 @@ describe('OccOrderAttachmentsAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         LoggerService,
         OccOrderAttachmentsAdapter,

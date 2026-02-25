@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { standardUser } from '../../../sample-data/shared-users';
 import * as updateProfile from '../../../helpers/update-profile';
+import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 export function fillUpdatePersonalDetailsForm({
   firstName,
@@ -35,6 +36,7 @@ describe(
   'Account Settings / Personal Details Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
     });

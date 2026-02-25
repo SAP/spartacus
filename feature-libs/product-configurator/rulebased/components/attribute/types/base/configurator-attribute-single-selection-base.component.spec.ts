@@ -67,7 +67,6 @@ class MockConfiguratorCommonsService {
   selector: 'cx-configurator-attribute-single-selection',
   template: 'test-configurator-attribute-single-selection',
   providers: [ConfiguratorAttributePriceChangeService],
-  imports: [I18nTestingModule],
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(

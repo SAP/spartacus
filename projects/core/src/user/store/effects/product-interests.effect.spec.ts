@@ -32,7 +32,6 @@ describe('Product Interests Effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         fromInterestsEffect.ProductInterestsEffect,
         { provide: UserInterestsAdapter, useValue: {} },

@@ -46,7 +46,6 @@ describe('Product references effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: ProductReferencesConnector,

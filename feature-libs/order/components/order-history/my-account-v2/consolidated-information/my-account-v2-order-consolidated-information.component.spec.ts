@@ -36,7 +36,6 @@ const mock_images: Images[] = [
 @Component({
   template: '',
   selector: 'cx-media',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: MediaContainer;

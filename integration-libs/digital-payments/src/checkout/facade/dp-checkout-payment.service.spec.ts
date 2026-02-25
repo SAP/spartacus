@@ -51,7 +51,6 @@ describe('DpCheckoutPaymentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         DpCheckoutPaymentService,
         {
@@ -126,7 +125,6 @@ describe('DpCheckoutPaymentService With Pre-Conditions failing', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         DpCheckoutPaymentService,
         {

@@ -138,7 +138,6 @@ describe('OccConfigurationVariantAdapter', () => {
     forceReset = false;
     expMode = true;
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         VariantConfiguratorOccAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

@@ -126,7 +126,6 @@ describe(`OccQuoteAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccQuoteAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

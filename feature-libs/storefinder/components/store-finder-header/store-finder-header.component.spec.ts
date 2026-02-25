@@ -13,7 +13,6 @@ import { StoreFinderHeaderComponent } from './store-finder-header.component';
 @Component({
   template: '',
   selector: 'cx-store-finder-search',
-  imports: [I18nTestingModule],
 })
 class MockStoreFinderSearchComponent {}
 

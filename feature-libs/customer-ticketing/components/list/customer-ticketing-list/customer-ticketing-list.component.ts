@@ -47,8 +47,6 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
-    CxDatePipe,
   ],
 })
 export class CustomerTicketingListComponent {

@@ -70,7 +70,6 @@ describe('OpfApiQuickBuyAdapter', () => {
     mockOpfConfig = { opf: { commerceCloudPublicKey: 'public-key' } };
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OpfApiQuickBuyAdapter,
         { provide: ConverterService, useValue: mockConverter },

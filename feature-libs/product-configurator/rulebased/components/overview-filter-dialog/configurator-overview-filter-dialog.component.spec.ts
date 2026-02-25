@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -49,7 +48,6 @@ function initializeMocks() {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -58,7 +56,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-configurator-overview-filter',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
