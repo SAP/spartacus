@@ -258,6 +258,7 @@ describe('PageMetaService', () => {
     it('PageMetaService should be created', () => {
       expect(service).toBeTruthy();
     });
+
     it('should skip the first getActive() emission and call refreshLatestPage on subsequent emissions', () => {
       const languageService = TestBed.inject(
         LanguageService
@@ -268,6 +269,28 @@ describe('PageMetaService', () => {
 
       // Emit second and third languages (should trigger refreshLatestPage twice)
       languageService.emitLanguage('de');
+      languageService.emitLanguage('fr');
+      expect(cmsService.refreshLatestPage).toHaveBeenCalledTimes(2);
+    });
+
+    it('should not call refreshLatestPage for consecutive duplicate language emissions', () => {
+      const languageService = TestBed.inject(
+        LanguageService
+      ) as unknown as MockLanguageService;
+
+      // Skip the first emission
+      languageService.emitLanguage('en');
+      expect(cmsService.refreshLatestPage).not.toHaveBeenCalled();
+
+      // Emit 'de' - should trigger refresh
+      languageService.emitLanguage('de');
+      expect(cmsService.refreshLatestPage).toHaveBeenCalledTimes(1);
+
+      // Emit 'de' again (duplicate) - should NOT trigger refresh due to distinctUntilChanged
+      languageService.emitLanguage('de');
+      expect(cmsService.refreshLatestPage).toHaveBeenCalledTimes(1); // Still 1
+
+      // Emit different language - should trigger refresh
       languageService.emitLanguage('fr');
       expect(cmsService.refreshLatestPage).toHaveBeenCalledTimes(2);
     });
