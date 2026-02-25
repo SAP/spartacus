@@ -36,8 +36,6 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {

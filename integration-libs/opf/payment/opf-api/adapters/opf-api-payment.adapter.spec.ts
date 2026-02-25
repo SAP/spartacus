@@ -122,7 +122,6 @@ describe(`OpfApiPaymentAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OpfApiPaymentAdapter,
         {

@@ -47,7 +47,6 @@ describe('Consignment Tracking effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OrderHistoryConnector,
         ConsignmentTrackingEffects,

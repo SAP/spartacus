@@ -104,7 +104,6 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -113,7 +112,6 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  imports: [I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -454,7 +452,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorAddToCartButtonComponent],
+      imports: [ConfiguratorAddToCartButtonComponent, I18nTestingModule],
       providers: [
         {
           provide: RoutingService,

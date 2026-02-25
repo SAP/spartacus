@@ -16,7 +16,6 @@ import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-i
 @Component({
   template: '',
   selector: 'cx-media',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -61,7 +60,6 @@ describe('AsmCustomer360ProductItemComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;

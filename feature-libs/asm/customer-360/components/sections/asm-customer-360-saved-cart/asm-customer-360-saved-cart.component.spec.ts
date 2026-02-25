@@ -122,7 +122,6 @@ describe('AsmCustomer360SavedCartComponent', () => {
   @Component({
     template: '',
     selector: 'cx-media',
-    imports: [I18nTestingModule],
   })
   class MockMediaComponent {
     @Input() container: any;

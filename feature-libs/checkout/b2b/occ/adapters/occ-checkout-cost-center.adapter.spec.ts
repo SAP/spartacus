@@ -75,7 +75,6 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutCostCenterAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

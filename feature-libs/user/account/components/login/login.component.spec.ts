@@ -59,7 +59,6 @@ class MockUserAccountFacade {
       </nav>
     </cx-navigation-ui>
   `,
-  imports: [I18nTestingModule],
 })
 class MockDynamicSlotComponent {
   @Input()
@@ -81,7 +80,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [LoginComponent],
+      imports: [LoginComponent, I18nTestingModule],
       providers: [
         {
           provide: ActivatedRoute,

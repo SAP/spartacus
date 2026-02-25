@@ -39,7 +39,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -48,7 +47,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 

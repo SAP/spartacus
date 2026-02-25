@@ -22,7 +22,6 @@ const mockEntries: OrderEntry[] = [
 @Component({
   template: '',
   selector: '[cx-quick-order-item], cx-quick-order-item',
-  imports: [I18nTestingModule],
 })
 class MockQuickOrderItemComponent {
   @Input() entry: OrderEntry;
@@ -37,7 +36,7 @@ describe('QuickOrderTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuickOrderTableComponent],
+      imports: [I18nTestingModule, QuickOrderTableComponent],
     })
       .overrideComponent(QuickOrderTableComponent, {
         remove: {

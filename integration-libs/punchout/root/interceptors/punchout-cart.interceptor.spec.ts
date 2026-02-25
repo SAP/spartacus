@@ -52,7 +52,6 @@ describe('PunchoutCartInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: PunchoutStoreService, useClass: MockPunchoutStoreService },
         {

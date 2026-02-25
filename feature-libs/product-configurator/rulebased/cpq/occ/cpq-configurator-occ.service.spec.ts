@@ -174,7 +174,6 @@ describe('CpqConfigurationOccService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CpqConfiguratorOccService,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
