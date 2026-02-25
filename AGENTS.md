@@ -4,9 +4,11 @@ Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo u
 
 ## Critical Rules
 
-- **NEVER** add/change `peerDependencies` in library `package.json` files — causes breaking changes for customers. Add `devDependencies` to root `package.json` only if truly needed for development.
-- **NEVER** introduce breaking changes without feature toggles (since v2211.19, no SemVer). If you must change behavior, styling, or public API, add a feature toggle.
-- **ALWAYS** export public APIs through `public_api.ts` files via barrel files. Never export APIs explicitly marked as internal.
+- **AVOID** add/change `peerDependencies` in library `package.json` files — causes breaking changes for customers. Add `devDependencies` to root `package.json` only if truly needed for development.
+- **AVOID** introducing breaking changes. If you must change behavior, styling, or public API, wrap it with a feature toggle (`cxFeature` in HTML,  `inject(FeatureToggles)` in TS)
+- **ALWAYS** export public APIs through `public_api.ts` files via barrel files
+- **AVOID** `private` access modifiers in classes. We want classes to be extendable by customers
+- **AVOID** exporting APIs explicitly marked as internal
 
 ## Directory Quick Reference
 
