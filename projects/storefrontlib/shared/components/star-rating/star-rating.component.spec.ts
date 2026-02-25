@@ -7,7 +7,6 @@ import { StarRatingComponent } from './star-rating.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockIconComponent {
   @Input() type;

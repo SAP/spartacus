@@ -44,7 +44,6 @@ describe('OccCostCenterAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCostCenterAdapter,
         {

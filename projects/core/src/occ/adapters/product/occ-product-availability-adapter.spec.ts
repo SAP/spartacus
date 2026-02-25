@@ -34,7 +34,6 @@ describe('OccProductAvailabilityAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccProductAvailabilityAdapter,
         {

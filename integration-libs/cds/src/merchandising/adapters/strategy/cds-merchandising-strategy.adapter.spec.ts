@@ -74,7 +74,6 @@ describe('MerchandisingStrategyAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: CdsEndpointsService,

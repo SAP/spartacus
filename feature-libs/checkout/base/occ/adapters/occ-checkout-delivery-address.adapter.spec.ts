@@ -91,7 +91,6 @@ describe(`OccCheckoutDeliveryAddressAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutDeliveryAddressAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

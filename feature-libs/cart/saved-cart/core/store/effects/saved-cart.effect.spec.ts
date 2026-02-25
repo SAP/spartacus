@@ -70,7 +70,6 @@ describe('SavedCart Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         fromEffects.SavedCartEffects,
         {

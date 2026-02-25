@@ -46,7 +46,6 @@ class MockNumericPipe implements PipeTransform {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -111,7 +110,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorCartEntryBundleInfoComponent],
+      imports: [ConfiguratorCartEntryBundleInfoComponent, I18nTestingModule],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {

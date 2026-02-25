@@ -33,7 +33,6 @@ const createKeyboardEvent = (key: string) =>
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -68,7 +67,6 @@ class MockHorizontalScrollingPositionDirective
       itemIndex:
       <span class="child-itemIndex">{{ itemIndex }}</span>
     </div>`,
-  imports: [I18nTestingModule],
 })
 class TestChildComponent implements OnDestroy {
   @Input() item: any;
@@ -200,6 +198,7 @@ describe('CarouselScrollingComponent', () => {
       TestChildComponent.destroyedCount = 0;
       TestBed.configureTestingModule({
         imports: [
+          I18nTestingModule,
           CarouselScrollingComponent,
           TestParentComponent,
           TestChildComponent,
@@ -609,6 +608,7 @@ describe('CarouselScrollingComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
+          I18nTestingModule,
           CarouselScrollingComponent,
           TestParentWithCxFocusableCarouselItemComponent,
           TestChildComponent,
@@ -754,6 +754,7 @@ describe('CarouselScrollingComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
+          I18nTestingModule,
           CarouselScrollingComponent,
           TestParentWithoutChildTemplateComponent,
         ],
@@ -802,6 +803,7 @@ describe('CarouselScrollingComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
+          I18nTestingModule,
           CarouselScrollingComponent,
           TestParentWithoutTrackByComponent,
           TestChildComponent,

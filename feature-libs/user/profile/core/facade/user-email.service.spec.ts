@@ -24,7 +24,6 @@ describe('UserEmailService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         UserEmailService,
         { provide: UserProfileConnector, useClass: MockUserProfileConnector },

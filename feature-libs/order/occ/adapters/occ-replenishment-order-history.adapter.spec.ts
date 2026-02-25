@@ -64,7 +64,6 @@ describe('OccReplenishmentOrderHistoryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccReplenishmentOrderHistoryAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
