@@ -24,6 +24,8 @@ describe('My Account - Update Profile', () => {
     });
 
     describe('update profile test for anonymous user', () => {
+      // Verifies that anonymous users cannot access the update profile page and are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page for anonymous user', () => {
         cy.visit(updateProfile.UPDATE_PROFILE_URL);
         cy.location('pathname').should('contain', '/login');
@@ -43,6 +45,8 @@ describe('My Account - Update Profile', () => {
         });
       });
 
+      // Tests that clicking the cancel button on the update profile page returns the user to the homepage without updating the profile.
+      // The final check verifies that the URL pathname contains '/' (the homepage).
       it('should be able to cancel and go back to home', () => {
         cy.get('cx-update-profile button.btn-secondary').click();
         checkBanner();

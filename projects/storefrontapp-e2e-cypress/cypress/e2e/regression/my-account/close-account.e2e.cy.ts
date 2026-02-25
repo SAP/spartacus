@@ -25,6 +25,8 @@ describe('My Account - Close Account', () => {
     );
 
     describe('Anonymous user', () => {
+      // Verifies that anonymous users trying to access the close account page are redirected to the login page.
+      // The final check ensures the URL pathname contains '/login'.
       it('should redirect to login page', () => {
         cy.visit(CLOSE_ACCOUNT_URL);
         cy.location('pathname').should('contain', '/login');
@@ -51,6 +53,8 @@ describe('My Account - Close Account', () => {
         cy.saveLocalStorage();
       });
 
+      // Tests that clicking the cancel button on the close account page returns the user to the homepage without closing the account.
+      // The final check verifies that the URL pathname contains '/' (the homepage).
       it('should cancel and go back to the homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
@@ -60,6 +64,8 @@ describe('My Account - Close Account', () => {
         cy.location('pathname').should('contain', '/');
       });
 
+      // Tests closing an account through the modal confirmation and verifies the user is logged out and redirected to the homepage.
+      // The final check verifies that the login link displays 'Sign In / Register' confirming the user is logged out.
       it('should close account and go back to homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
@@ -92,6 +98,8 @@ describe('My Account - Close Account', () => {
         cy.get('cx-login a').should('contain', 'Sign In / Register');
       });
 
+      // Tests that attempting to login with a closed account's credentials results in an error message.
+      // The final check verifies that the error alert displays 'User is disabled'.
       it('should not login with a closed account credentials', () => {
         cy.whenJDK17(() => {
           visitAndWaitForRedirections('/login');
