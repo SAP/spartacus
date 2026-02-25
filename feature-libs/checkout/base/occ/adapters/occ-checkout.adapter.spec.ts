@@ -83,7 +83,6 @@ describe('OccCheckoutAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

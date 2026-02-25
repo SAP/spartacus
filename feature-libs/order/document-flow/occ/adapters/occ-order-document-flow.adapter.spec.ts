@@ -86,7 +86,6 @@ describe('OccOrderDocumentFlowAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         LoggerService,
         OccOrderDocumentFlowAdapter,

@@ -60,7 +60,6 @@ describe('OccCustomerTicketingAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCustomerTicketingAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

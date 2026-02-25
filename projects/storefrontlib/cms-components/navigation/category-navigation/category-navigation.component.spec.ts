@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import {
   CmsNavigationComponent,
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -20,7 +19,6 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 @Component({
   template: '',
   selector: 'cx-navigation-ui',
-  imports: [I18nTestingModule],
 })
 class MockNavigationComponent {
   @Input() node: NavigationNode;

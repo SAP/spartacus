@@ -97,7 +97,6 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
   @Component({
     template: '',
     selector: 'cx-media',
-    imports: [I18nTestingModule],
   })
   class MockMediaComponent {
     @Input() container: any;

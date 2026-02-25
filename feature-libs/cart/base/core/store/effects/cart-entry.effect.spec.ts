@@ -49,7 +49,6 @@ describe('Cart effect', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: CartEntryConnector, useValue: mockCartEntryConnector },
         fromEffects.CartEntryEffects,

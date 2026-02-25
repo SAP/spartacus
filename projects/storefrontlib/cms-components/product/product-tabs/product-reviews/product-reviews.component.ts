@@ -65,8 +65,6 @@ import { CurrentProductService } from '../../current-product.service';
     SlicePipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class ProductReviewsComponent {
