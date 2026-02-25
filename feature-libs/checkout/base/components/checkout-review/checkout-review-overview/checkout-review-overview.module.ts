@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,12 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 
 @NgModule({
-  declarations: [CheckoutReviewOverviewComponent],
-  imports: [CommonModule, PromotionsModule, I18nModule],
+  imports: [
+    CommonModule,
+    PromotionsModule,
+    I18nModule,
+    CheckoutReviewOverviewComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

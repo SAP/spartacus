@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,9 +12,9 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { Config, LoggerService } from '@spartacus/core';
+import { Config, LoggerService, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
@@ -21,14 +22,23 @@ import { ConfiguratorGroupsService } from '../../../core/facade/configurator-gro
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
+import { ConfiguratorShowOptionsComponent } from '../show-options/configurator-show-options.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
   templateUrl: './configurator-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    IconComponent,
+    ConfiguratorShowOptionsComponent,
+    ConfiguratorShowMoreComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
@@ -170,11 +180,19 @@ export class ConfiguratorAttributeHeaderComponent
    * @return {string} - the conflict link key
    */
   getConflictMessageKey(): string {
-    return this.groupType === Configurator.GroupType.CONFLICT_GROUP
-      ? 'configurator.conflict.viewConfigurationDetails'
-      : this.isNavigationToConflictEnabled()
-        ? 'configurator.conflict.viewConflictDetails'
-        : 'configurator.conflict.conflictDetected';
+    if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
+      return 'configurator.conflict.viewConfigurationDetails';
+    }
+
+    if (this.attribute.hasNonNavigableConflict) {
+      return 'configurator.conflict.nonNavigableConflict';
+    }
+
+    if (this.isNavigationToConflictEnabled()) {
+      return 'configurator.conflict.viewConflictDetails';
+    }
+
+    return 'configurator.conflict.conflictDetected';
   }
 
   /**

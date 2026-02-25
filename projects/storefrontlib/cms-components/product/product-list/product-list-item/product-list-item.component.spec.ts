@@ -10,18 +10,26 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  FeatureDirective,
   I18nTestingModule,
+  MockTranslatePipe,
   ProductService,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
+  IconComponent,
   ImageFetchPriority,
+  InnerComponentsHostDirective,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
-  OutletDirective,
+  MediaComponent,
   OutletModule,
+  StarRatingComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
@@ -31,17 +39,12 @@ import { ProductListItemComponent } from './product-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
-  standalone: false,
+  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
-class MockAddToCartComponent {
-  @Input() product;
-  @Input() showQuantity;
-}
-
 @Component({
   selector: 'cx-star-rating',
   template: '*****',
-  standalone: false,
+  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -51,7 +54,7 @@ class MockStarRatingComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
-  standalone: false,
+  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -62,16 +65,13 @@ class MockMediaComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockCxIconComponent {
   @Input() type;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -79,13 +79,8 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-}
+@Directive({ selector: '[cxInnerComponentsHost]' })
+class MockInnerComponentsHostDirective {}
 
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
@@ -114,17 +109,7 @@ describe('ProductListItemComponent in product-list', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
-      declarations: [
-        ProductListItemComponent,
-        MockMediaComponent,
-        MockAddToCartComponent,
-        MockStarRatingComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
-        MockOutletDirective,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -141,7 +126,29 @@ describe('ProductListItemComponent in product-list', () => {
       ],
     })
       .overrideComponent(ProductListItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockMediaComponent,
+            MockStarRatingComponent,
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+            MockTranslatePipe,
+            MockInnerComponentsHostDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            MediaComponent,
+            StarRatingComponent,
+            UrlPipe,
+            IconComponent,
+            FeatureDirective,
+            TranslatePipe,
+            InnerComponentsHostDirective,
+          ],
+        },
       })
       .compileComponents();
   }));

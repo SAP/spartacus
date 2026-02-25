@@ -9,13 +9,20 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { CmsService, I18nTestingModule } from '@spartacus/core';
+import {
+  CmsService,
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CartItemListComponent } from '../cart-shared';
 import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
-  standalone: false,
 })
 class MockCartItemListComponent {
   @Input() readonly = false;
@@ -49,14 +56,22 @@ describe('SaveForLaterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SaveForLaterComponent, MockCartItemListComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, SaveForLaterComponent],
       providers: [
         { provide: CmsService, useValue: mockCmsService },
         { provide: ActiveCartFacade, useValue: mockActiveCartService },
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SaveForLaterComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, CartItemListComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCartItemListComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

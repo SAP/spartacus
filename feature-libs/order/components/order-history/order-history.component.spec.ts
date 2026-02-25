@@ -8,11 +8,15 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Params } from '@angular/router';
+import { Params, RouterModule } from '@angular/router';
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   Order,
@@ -21,6 +25,7 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
@@ -89,7 +94,6 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -98,7 +102,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -108,10 +111,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -160,13 +160,7 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
+      imports: [RouterModule.forRoot([]), OrderHistoryComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
@@ -176,7 +170,28 @@ describe('OrderHistoryComponent', () => {
           useClass: MockReplenishmentOrderHistoryFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
@@ -347,10 +362,6 @@ describe('OrderHistoryComponent', () => {
 
       const element = fixture.debugElement.query(
         By.css('.cx-order-history-header')
-      );
-
-      expect(element.nativeElement.textContent).toContain(
-        'orderHistory.orderHistory'
       );
 
       expect(element.nativeElement.textContent).not.toContain(

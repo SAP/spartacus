@@ -556,4 +556,55 @@ describe('CmsService', () => {
       );
     }
   ));
+
+  describe('clearComponentState', () => {
+    it('should clear all cached components and dispatch ClearCmsComponent for each when no UIDs provided', inject(
+      [CmsService],
+      (service: CmsService) => {
+        (service as any).components = {
+          comp1: { ctx1: of({}) },
+          comp2: { ctx1: of({}) },
+        };
+
+        service.clearComponentState();
+
+        expect((service as any).components).toEqual({});
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.ClearCmsComponent({ uid: 'comp1' })
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.ClearCmsComponent({ uid: 'comp2' })
+        );
+      }
+    ));
+
+    it('should clear only specified components and dispatch ClearCmsComponent for each when UIDs are provided', inject(
+      [CmsService],
+      (service: CmsService) => {
+        (service as any).components = {
+          comp1: { ctx1: of({}) },
+          comp2: { ctx1: of({}) },
+          comp3: { ctx1: of({}) },
+        };
+
+        service.clearComponentState(['comp1', 'comp3']);
+
+        const components = (service as any).components;
+        expect(Object.keys(components)).toEqual(['comp2']);
+        expect(components.comp2).toBeDefined();
+        expect(components.comp1).toBeUndefined();
+        expect(components.comp3).toBeUndefined();
+
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.ClearCmsComponent({ uid: 'comp1' })
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.ClearCmsComponent({ uid: 'comp3' })
+        );
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new CmsActions.ClearCmsComponent({ uid: 'comp2' })
+        );
+      }
+    ));
+  });
 });

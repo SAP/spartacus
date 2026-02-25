@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,7 @@ context('Merchandising Carousel - Product page', () => {
       );
 
       switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+      cy.wait(500);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
         strategyRequestAlias,
@@ -75,6 +76,7 @@ context('Merchandising Carousel - Product page', () => {
       );
 
       switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+      cy.wait(500);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.yenCurrencySymbol

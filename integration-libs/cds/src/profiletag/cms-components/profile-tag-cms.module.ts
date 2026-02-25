@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import {
 import { ProfileTagComponent } from './profile-tag.component';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, ProfileTagComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -26,6 +26,5 @@ import { ProfileTagComponent } from './profile-tag.component';
     }),
   ],
   exports: [ProfileTagComponent],
-  declarations: [ProfileTagComponent],
 })
 export class ProfileTagCmsModule {}

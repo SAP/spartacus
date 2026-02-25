@@ -8,10 +8,11 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import { MockTranslatePipe, Product, TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { AsmCustomer360ProductListingComponent } from './asm-customer-360-product-listing.component';
 import { ProductItem } from './product-item.model';
 
@@ -30,7 +31,6 @@ describe('AsmCustomer360ProductListingComponent', () => {
     template: '',
     selector:
       '[cx-asm-customer-360-product-item], cx-asm-customer-360-product-item',
-    standalone: false,
   })
   class MockAsmProductItemComponent {
     @Input() product: Product;
@@ -57,7 +57,7 @@ describe('AsmCustomer360ProductListingComponent', () => {
         <div id="product-listing-header-template"></div>
       </ng-template>
     `,
-    standalone: false,
+    imports: [AsmCustomer360ProductListingComponent],
   })
   // eslint-disable-next-line @angular-eslint/component-class-suffix
   class AsmCustomerProductListingComponentTest {
@@ -86,10 +86,8 @@ describe('AsmCustomer360ProductListingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         AsmCustomer360ProductListingComponent,
-        MockAsmProductItemComponent,
         AsmCustomerProductListingComponentTest,
       ],
       providers: [
@@ -98,7 +96,14 @@ describe('AsmCustomer360ProductListingComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360ProductListingComponent, {
+        remove: {
+          imports: [TranslatePipe, AsmCustomer360ProductItemComponent],
+        },
+        add: { imports: [MockTranslatePipe, MockAsmProductItemComponent] },
+      })
+      .compileComponents();
   });
 
   function createComponent(): void {

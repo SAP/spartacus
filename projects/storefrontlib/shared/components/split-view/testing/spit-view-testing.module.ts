@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { Component, Input, NgModule, Output } from '@angular/core';
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-split-view',
-  standalone: false,
 })
 export class MockSplitViewComponent {
   @Input() hideMode;
@@ -19,7 +18,6 @@ export class MockSplitViewComponent {
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-view',
-  standalone: false,
 })
 export class MockViewComponent {
   @Input() position: number;
@@ -30,7 +28,7 @@ export class MockViewComponent {
 const mockComponents = [MockSplitViewComponent, MockViewComponent];
 
 @NgModule({
-  declarations: mockComponents,
+  imports: [...mockComponents],
   exports: mockComponents,
 })
 export class SplitViewTestingModule {}

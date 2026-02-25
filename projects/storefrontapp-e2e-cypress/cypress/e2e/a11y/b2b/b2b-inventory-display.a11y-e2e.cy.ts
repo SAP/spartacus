@@ -1,16 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { configureInventoryDisplay } from '../../../helpers/inventory-display';
 import { inventoryDisplayB2B } from '../../../sample-data/inventory-display';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe(
   'Inventory display - Access Continuum test',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       configureInventoryDisplay(true);

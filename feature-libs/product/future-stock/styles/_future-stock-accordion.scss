@@ -3,6 +3,10 @@ cx-future-stock-accordion {
   overflow: hidden;
   margin-bottom: 1.25rem;
 
+  @include media-breakpoint-up(lg) {
+    padding-inline-start: 20px;
+  }
+
   .cx-future-stock-accordion-header {
     border: none;
     background-color: transparent;
@@ -11,14 +15,11 @@ cx-future-stock-accordion {
     padding: 0;
     margin: 0.5rem auto;
     cursor: pointer;
+    color: var(--cx-color-text);
 
     @include media-breakpoint-down(md) {
       margin-inline-start: 0;
       padding: 0;
-    }
-
-    @include forFeature('a11yUseProperTextColorForFutureStockAccordion') {
-      color: var(--cx-color-text);
     }
 
     &:hover {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -213,9 +213,16 @@ export function addProductToCartWithQuickForm(
       .type(`${quantity}`);
   }
   const alias = this.interceptAddToCartEndpoint();
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/anonymous/carts/*`,
+  }).as('getRefreshedCart');
   cy.get('cx-cart-quick-order-form .apply-quick-order-button').click();
 
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.wait('@getRefreshedCart');
 }
 
 export function prepareCartWithProduct() {

@@ -145,7 +145,6 @@ describe('CpqConfiguratorOccAdapter', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CpqConfiguratorOccAdapter,
         {
@@ -213,7 +212,7 @@ describe('CpqConfiguratorOccAdapter', () => {
   });
 
   it('should throw error in case overview is to be updated', () => {
-    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrowError();
+    expect(() => adapterUnderTest.updateConfigurationOverview()).toThrow();
   });
 
   it('should delegate update value quantity to OCC service and map owner', () => {
@@ -241,7 +240,7 @@ describe('CpqConfiguratorOccAdapter', () => {
   });
 
   it('should throw exception if variant search is attempted', () => {
-    expect(() => adapterUnderTest.searchVariants()).toThrowError();
+    expect(() => adapterUnderTest.searchVariants()).toThrow();
   });
 
   it('should delegate addToCart to OCC service', () => {

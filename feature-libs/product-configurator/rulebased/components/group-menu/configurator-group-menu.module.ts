@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,13 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    ConfiguratorGroupMenuComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +27,6 @@ import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.compon
       },
     }),
   ],
-  declarations: [ConfiguratorGroupMenuComponent],
   exports: [ConfiguratorGroupMenuComponent],
 })
 export class ConfiguratorGroupMenuModule {}

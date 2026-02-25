@@ -2,10 +2,12 @@ import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import {
   SPARTACUS_SCHEMATICS,
@@ -37,7 +39,8 @@ describe('Logger utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -77,9 +80,9 @@ describe('Logger utils', () => {
     });
 
     it('should NOT log the message if the debug is false', async () => {
-      await schematicRunner
-        .callRule(debugLogRule(`xxx`, false), appTree)
-        .toPromise();
+      await firstValueFrom(
+        schematicRunner.callRule(debugLogRule(`xxx`, false), appTree)
+      );
 
       expect(lastLogMessage).not.toEqual(`xxx`);
     });

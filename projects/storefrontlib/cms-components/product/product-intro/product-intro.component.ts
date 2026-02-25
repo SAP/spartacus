@@ -1,15 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
   Product,
+  TranslatePipe,
   TranslationService,
   WindowRef,
+  FeatureDirective,
 } from '@spartacus/core';
 import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -17,13 +20,21 @@ import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
 } from '../../../cms-structure';
+import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
   selector: 'cx-product-intro',
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    StarRatingComponent,
+    AsyncPipe,
+    DecimalPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =

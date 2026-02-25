@@ -1,16 +1,27 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  FeatureConfigService,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  NgOptionTemplateDirective,
+  NgSelectComponent,
+} from '@ng-select/ng-select';
+import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -20,7 +31,16 @@ import {
   TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import { FormUtils } from '@spartacus/storefront';
+import {
+  FileUploadComponent,
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  FormUtils,
+  IconComponent,
+  NgSelectA11yDirective,
+} from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, first, map, tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
@@ -28,7 +48,23 @@ import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticke
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',
   templateUrl: './customer-ticketing-create-dialog.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgIf,
+    NgFor,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    NgOptionTemplateDirective,
+    FileUploadComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CustomerTicketingCreateDialogComponent
   extends CustomerTicketingDialogComponent
@@ -67,8 +103,6 @@ export class CustomerTicketingCreateDialogComponent
 
   protected translationService = inject(TranslationService);
 
-  protected featureService = inject(FeatureConfigService, { optional: true });
-
   protected getCreateTicketPayload(form: FormGroup): TicketStarter {
     return {
       message: form?.get('message')?.value,
@@ -80,15 +114,8 @@ export class CustomerTicketingCreateDialogComponent
 
   ngOnInit(): void {
     this.buildForm();
-
-    if (
-      this.featureService?.isEnabled(
-        'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-      )
-    ) {
-      this.focusConfig.trap = false;
-      this.focusConfig.trapTabOnly = true;
-    }
+    this.focusConfig.trap = false;
+    this.focusConfig.trapTabOnly = true;
   }
 
   protected buildForm(): void {

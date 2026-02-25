@@ -51,7 +51,6 @@ describe('OccCartEntryAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartEntryAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

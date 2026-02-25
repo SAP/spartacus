@@ -36,16 +36,12 @@ const mock_images: Images[] = [
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: MediaContainer;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -70,8 +66,8 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         MyAccountV2OrderConsolidatedInformationComponent,
         MockUrlPipe,
         MockMediaComponent,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,12 @@ import { SupplementHashAnchorsModule } from '../../../shared/pipes/suplement-has
 import { ParagraphComponent } from './paragraph.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SupplementHashAnchorsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SupplementHashAnchorsModule,
+    ParagraphComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -25,7 +30,6 @@ import { ParagraphComponent } from './paragraph.component';
       },
     }),
   ],
-  declarations: [ParagraphComponent],
   exports: [ParagraphComponent],
 })
 export class CmsParagraphModule {}

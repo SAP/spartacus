@@ -182,34 +182,34 @@ describe('OptimizedSsrEngine', () => {
       });
 
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-[
-  "{
-  message: '[spartacus] SSR optimization engine initialized',
-  context: {
-    timestamp: '2023-01-01T00:00:00.000Z',
-    options: {
-      cache: false,
-      cacheSize: 3000,
-      cacheSizeMemory: 800000000,
-      cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
-      ttl: undefined,
-      concurrency: 10,
-      timeout: 50,
-      forcedSsrTimeout: 60000,
-      maxRenderTime: 300000,
-      reuseCurrentRendering: true,
-      renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
-      logger: 'DefaultExpressServerLogger',
-      shouldCacheRenderingResult: '({ entry: { err } }) => !err',
-      renderKeyResolver: 'function getRequestUrl(req) {\\n' +
-        '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
-        '}',
-      ssrFeatureToggles: { limitCacheByMemory: false }
-    }
-  }
-}",
-]
-`);
+        [
+          "{
+          message: '[spartacus] SSR optimization engine initialized',
+          context: {
+            timestamp: '2023-01-01T00:00:00.000Z',
+            options: {
+              cache: false,
+              cacheSize: 3000,
+              cacheSizeMemory: 800000000,
+              cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
+              ttl: undefined,
+              concurrency: 10,
+              timeout: 50,
+              forcedSsrTimeout: 60000,
+              maxRenderTime: 300000,
+              reuseCurrentRendering: true,
+              renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
+              logger: 'DefaultExpressServerLogger',
+              shouldCacheRenderingResult: '({ entry: { err } }) => !err',
+              renderKeyResolver: 'function getRequestUrl(req) {\\n' +
+                '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
+                '}',
+              ssrFeatureToggles: { limitCacheByMemory: true }
+            }
+          }
+        }",
+        ]
+      `);
     });
   });
 
@@ -861,13 +861,15 @@ describe('OptimizedSsrEngine', () => {
       const engineRunner = new TestEngineRunner({}, renderTime).request(
         requestUrl
       );
-      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+      jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
       tick(renderTime + 1);
       expect(engineRunner.renderCount).toEqual(1);
-      expect(engineRunner.optimizedSsrEngine['log']).not.toHaveBeenCalledWith(
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).not.toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
     }));
 
@@ -877,13 +879,14 @@ describe('OptimizedSsrEngine', () => {
       const engineRunner = new TestEngineRunner({}, renderTime).request(
         requestUrl
       );
-      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+      jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
       tick(fiveMinutes);
       expect(engineRunner.renderCount).toEqual(0);
-      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false,
         { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
@@ -902,13 +905,14 @@ describe('OptimizedSsrEngine', () => {
         },
         renderTime
       ).request(requestUrl);
-      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+      jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
       tick(maxRenderTime);
       expect(engineRunner.renderCount).toEqual(0);
-      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false,
         { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
@@ -926,7 +930,7 @@ describe('OptimizedSsrEngine', () => {
         { concurrency: 1, maxRenderTime },
         renderTime
       );
-      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+      jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
       // issue two requests
       engineRunner.request(hangingRequest);
@@ -937,20 +941,21 @@ describe('OptimizedSsrEngine', () => {
 
       tick(1);
       // while the concurrency slot is busy rendering the first hanging request, the second request gets the CSR version
-      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `CSR fallback: Concurrency limit exceeded (1)`,
-        true,
-        { request: expect.objectContaining({ originalUrl: csrRequest }) }
-      );
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).toHaveBeenCalledWith(`CSR fallback: Concurrency limit exceeded (1)`, {
+        request: expect.objectContaining({ originalUrl: csrRequest }),
+      });
       expect(engineRunner.renderCount).toEqual(0);
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
       });
 
       tick(maxRenderTime);
-      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).toHaveBeenCalledWith(
         `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
-        false,
         { request: expect.objectContaining({ originalUrl: hangingRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
@@ -958,11 +963,11 @@ describe('OptimizedSsrEngine', () => {
       // even though the hanging request is still rendering, we've freed up a slot for a new request
       engineRunner.request(ssrRequest);
       tick(1);
-      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `Rendering started (${ssrRequest})`,
-        true,
-        { request: expect.objectContaining({ originalUrl: ssrRequest }) }
-      );
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).toHaveBeenCalledWith(`Rendering started (${ssrRequest})`, {
+        request: expect.objectContaining({ originalUrl: ssrRequest }),
+      });
       expect(getCurrentConcurrency(engineRunner)).toEqual({
         currentConcurrency: 1,
       });
@@ -980,13 +985,14 @@ describe('OptimizedSsrEngine', () => {
         },
         renderTime
       ).request(requestUrl);
-      jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+      jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
       expect(engineRunner.responses).toEqual([]);
 
       tick(fiveMinutes + 101);
-      expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+      expect(
+        engineRunner.optimizedSsrEngine['logger'].log
+      ).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
-        false,
         { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
       expect(engineRunner.responses).toEqual(['']);
@@ -1022,7 +1028,7 @@ describe('OptimizedSsrEngine', () => {
           { timeout, reuseCurrentRendering: false },
           400
         );
-        jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+        jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
         engineRunner.request(requestUrl);
         expect(getRenderCallbacksCount(engineRunner, requestUrl)).toEqual({
@@ -1037,14 +1043,16 @@ describe('OptimizedSsrEngine', () => {
 
         tick(100);
 
-        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        expect(
+          engineRunner.optimizedSsrEngine['logger'].log
+        ).toHaveBeenCalledWith(
           `CSR fallback: rendering in progress (${requestUrl})`,
-          true,
           { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
-        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        expect(
+          engineRunner.optimizedSsrEngine['logger'].log
+        ).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          false,
           { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.responses).toEqual(['', '']);
@@ -1061,7 +1069,7 @@ describe('OptimizedSsrEngine', () => {
             { timeout, reuseCurrentRendering: true },
             400
           );
-          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+          jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
           engineRunner.request(requestUrl);
           tick(200);
@@ -1069,9 +1077,10 @@ describe('OptimizedSsrEngine', () => {
           engineRunner.request(requestUrl);
 
           tick(100);
-          expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          expect(
+            engineRunner.optimizedSsrEngine['logger'].log
+          ).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-            false,
             { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
 
@@ -1088,7 +1097,7 @@ describe('OptimizedSsrEngine', () => {
             { timeout, reuseCurrentRendering: true },
             1000
           );
-          engineRunner.optimizedSsrEngine['log'] = logSpy;
+          engineRunner.optimizedSsrEngine['logger'].log = logSpy;
 
           engineRunner.request(requestUrl);
 
@@ -1164,7 +1173,7 @@ describe('OptimizedSsrEngine', () => {
             { timeout, reuseCurrentRendering: true, concurrency: 2 },
             400
           );
-          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+          jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
           // start 1st request
           engineRunner.request(requestUrl);
@@ -1196,9 +1205,10 @@ describe('OptimizedSsrEngine', () => {
 
           // 1st request timeout
           tick(100);
-          expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          expect(
+            engineRunner.optimizedSsrEngine['logger'].log
+          ).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-            false,
             { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(engineRunner.responses).toEqual(['']); // the first request fallback to CSR due to timeout
@@ -1230,14 +1240,14 @@ describe('OptimizedSsrEngine', () => {
             timeout: 200,
             concurrency: 1,
           });
-          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+          jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
           engineRunner.request('a');
           engineRunner.request('a');
 
           tick(200);
           expect(
-            engineRunner.optimizedSsrEngine['log']
+            engineRunner.optimizedSsrEngine['logger'].log
           ).not.toHaveBeenCalledWith(
             `CSR fallback: Concurrency limit exceeded (1)`
           );
@@ -1309,7 +1319,7 @@ describe('OptimizedSsrEngine', () => {
             { concurrency: 2, maxRenderTime, reuseCurrentRendering: true },
             renderTime
           );
-          jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+          jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
           engineRunner.request(hangingRequest);
           engineRunner.request(hangingRequest);
@@ -1327,9 +1337,10 @@ describe('OptimizedSsrEngine', () => {
           );
 
           tick(maxRenderTime);
-          expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+          expect(
+            engineRunner.optimizedSsrEngine['logger'].log
+          ).toHaveBeenCalledWith(
             `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
-            false,
             { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -1344,11 +1355,11 @@ describe('OptimizedSsrEngine', () => {
           // even though the hanging request is still rendering, we've freed up a slot for a new request
           engineRunner.request(ssrRequest);
           tick(1);
-          expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-            `Rendering started (${ssrRequest})`,
-            true,
-            { request: expect.objectContaining({ originalUrl: ssrRequest }) }
-          );
+          expect(
+            engineRunner.optimizedSsrEngine['logger'].log
+          ).toHaveBeenCalledWith(`Rendering started (${ssrRequest})`, {
+            request: expect.objectContaining({ originalUrl: ssrRequest }),
+          });
           expect(getCurrentConcurrency(engineRunner)).toEqual({
             currentConcurrency: 1,
           });
@@ -1373,7 +1384,7 @@ describe('OptimizedSsrEngine', () => {
           { timeout, reuseCurrentRendering: true },
           400
         );
-        jest.spyOn(engineRunner.optimizedSsrEngine as any, 'log');
+        jest.spyOn(engineRunner.optimizedSsrEngine['logger'], 'log');
 
         engineRunner.request(requestUrl);
         tick(200);
@@ -1381,14 +1392,16 @@ describe('OptimizedSsrEngine', () => {
         engineRunner.request(differentUrl);
         tick(300);
 
-        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        expect(
+          engineRunner.optimizedSsrEngine['logger'].log
+        ).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          false,
           { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
-        expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
+        expect(
+          engineRunner.optimizedSsrEngine['logger'].log
+        ).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${differentUrl}`,
-          false,
           { request: expect.objectContaining({ originalUrl: differentUrl }) }
         );
 
@@ -1423,40 +1436,40 @@ describe('OptimizedSsrEngine', () => {
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-[
-  "[spartacus] SSR optimization engine initialized",
-  {
-    "options": {
-      "cache": false,
-      "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
-      "cacheSize": 3000,
-      "cacheSizeMemory": 800000000,
-      "concurrency": 10,
-      "forcedSsrTimeout": 60000,
-      "logger": "MockExpressServerLogger",
-      "maxRenderTime": 300000,
-      "renderKeyResolver": "function getRequestUrl(req) {
-    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
-}",
-      "renderingStrategyResolver": "(request) => {
-    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
-        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
-    }
-    return shouldFallbackToCsr(request, options)
-        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
-        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
-}",
-      "reuseCurrentRendering": true,
-      "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
-      "ssrFeatureToggles": {
-        "limitCacheByMemory": false,
-      },
-      "timeout": 3000,
-      "ttl": undefined,
-    },
-  },
-]
-`);
+        [
+          "[spartacus] SSR optimization engine initialized",
+          {
+            "options": {
+              "cache": false,
+              "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
+              "cacheSize": 3000,
+              "cacheSizeMemory": 800000000,
+              "concurrency": 10,
+              "forcedSsrTimeout": 60000,
+              "logger": "MockExpressServerLogger",
+              "maxRenderTime": 300000,
+              "renderKeyResolver": "function getRequestUrl(req) {
+            return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
+        }",
+              "renderingStrategyResolver": "(request) => {
+            if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+                return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
+            }
+            return shouldFallbackToCsr(request, options)
+                ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
+                : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
+        }",
+              "reuseCurrentRendering": true,
+              "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
+              "ssrFeatureToggles": {
+                "limitCacheByMemory": true,
+              },
+              "timeout": 3000,
+              "ttl": undefined,
+            },
+          },
+        ]
+      `);
     });
   });
 });

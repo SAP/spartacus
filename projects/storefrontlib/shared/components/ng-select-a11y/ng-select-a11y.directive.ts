@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,20 +19,24 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  outputToObservable,
+  takeUntilDestroyed,
+} from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
 
 const ARIA_LABEL = 'aria-label';
 
-@Directive({
-  selector: '[cxNgSelectA11y]',
-  standalone: false,
-})
+@Directive({ selector: '[cxNgSelectA11y]' })
 export class NgSelectA11yDirective implements AfterViewInit {
   /**
    * Use directive to bind aria attribute to inner element of ng-select
@@ -46,18 +50,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
   protected selectComponent = inject(NgSelectComponent);
   protected destroyRef = inject(DestroyRef);
   private featureConfigService = inject(FeatureConfigService);
-
-  @HostListener('open')
-  //TODO: CXSPA-9005: Remove this method in next major release
-  /**
-   * @deprecated since 2211.33
-   */
-  onOpen() {
-    const observer = new MutationObserver((changes, observerInstance) =>
-      this.appendAriaLabelToOptions(changes, observerInstance)
-    );
-    observer.observe(this.elementRef.nativeElement, { childList: true });
-  }
 
   /**
    * When we inside a combo box using JAWS screen reader and press escape key
@@ -85,7 +77,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yNgSelectUnicodeCarets');
+  }
 
   ngAfterViewInit(): void {
     const inputCombobox =
@@ -93,16 +87,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
-    if (
-      this.featureConfigService?.isEnabled(
-        'a11yNgSelectAriaLabelDropdownCustomized'
-      )
-    ) {
-      this.customizeNgSelectAriaLabelDropdown();
-    }
 
-    const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
-    const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));
+    const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
+      map(() => 'true')
+    );
+    const isClosed$ = outputToObservable(this.selectComponent.closeEvent).pipe(
+      map(() => 'false')
+    );
     merge(isOpened$, isClosed$)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
@@ -145,39 +136,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
           selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
             characterData: true,
+            childList: true,
           });
         });
     }
-  }
-
-  //TODO: CXSPA-9005: Remove this method in next major release
-  /**
-   * @deprecated since 2211.33
-   */
-  appendAriaLabelToOptions(
-    _changes: MutationRecord[],
-    observerInstance: MutationObserver
-  ) {
-    const options: HTMLOptionElement[] =
-      this.elementRef?.nativeElement.querySelectorAll('.ng-option');
-    if (options?.length) {
-      this.translationService
-        .translate('common.of')
-        .pipe(take(1))
-        .subscribe((translation) => {
-          options.forEach(
-            (option: HTMLOptionElement, index: string | number) => {
-              const sanitizedOptionText = this.domSanitizer.sanitize(
-                SecurityContext.HTML,
-                option.innerText
-              );
-              const ariaLabel = `${sanitizedOptionText}, ${+index + 1} ${translation} ${options.length}`;
-              this.renderer.setAttribute(option, ARIA_LABEL, ariaLabel);
-            }
-          );
-        });
-    }
-    observerInstance.disconnect();
   }
 
   /**
@@ -205,14 +167,5 @@ export class NgSelectA11yDirective implements AfterViewInit {
       );
     }
     observer.disconnect();
-  }
-
-  customizeNgSelectAriaLabelDropdown() {
-    this.translationService
-      .translate('common.ngSelectDropdownOptionsList')
-      .pipe(take(1))
-      .subscribe((translation) => {
-        this.selectComponent.ariaLabelDropdown = translation;
-      });
   }
 }

@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
@@ -15,6 +16,7 @@ import {
 } from '@schematics/angular/utility/change';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { Project } from 'ts-morph';
 import ts from 'typescript';
 import { COMPONENT_DEPRECATION_DATA } from '../../migrations/test/component-deprecations/component-deprecations';
 import {
@@ -42,7 +44,6 @@ import {
   getAllTsSourceFiles,
   getHtmlFiles,
   getIndexHtmlPath,
-  getLineFromTSFile,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
@@ -54,8 +55,8 @@ import {
   isCandidateForConstructorDeprecation,
   isInheriting,
   removeConstructorParam,
+  removeImportUsingTsMorph,
   removeInjectImports,
-  renameIdentifierNode,
   shouldRemoveDecorator,
 } from './file-utils';
 import { getSourceRoot } from './workspace-utils';
@@ -312,7 +313,8 @@ describe('File utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
   const defaultOptions = {
     project: 'schematics-test',
@@ -892,24 +894,6 @@ describe('File utils', () => {
       });
     });
 
-    describe('getLineFromTSFile', () => {
-      it('should return the ReplaceChange', async () => {
-        const lineFileTestContent =
-          "import test1 from '@test-lib';\nimport test2 from '@another-test-lib';\nconst test = new Test();";
-        const lineFilePath = '/line-test.ts';
-        const testLine = "import test2 from '@another-test-lib'";
-        appTree.create(lineFilePath, lineFileTestContent);
-        const content = appTree.readContent(lineFilePath);
-        const lines = getLineFromTSFile(
-          appTree,
-          lineFilePath,
-          content.indexOf(testLine)
-        );
-
-        expect(lines[0]).toEqual(content.indexOf(testLine));
-      });
-    });
-
     describe('removeInjectImports', () => {
       it('should remove injection token AND Inject decorator imports when there is one decorator in the constructor', () => {
         const sourcePath = 'xxx.ts';
@@ -1032,7 +1016,7 @@ describe('File utils', () => {
       it('should return the InsertChanges', async () => {
         const filePath = '/src/app/app.component.ts';
         const source = getTsSourceFile(appTree, filePath);
-        const identifierName = 'AppComponent';
+        const identifierName = 'App';
         const commentToInsert = 'comment';
 
         const changes = insertCommentAboveIdentifier(
@@ -1042,27 +1026,126 @@ describe('File utils', () => {
           commentToInsert
         );
         expect(changes).toEqual([
-          new InsertChange(filePath, 179, commentToInsert),
+          new InsertChange(filePath, 261, commentToInsert),
         ]);
       });
     });
+  });
 
-    describe('renameIdentifierNode', () => {
-      it('should return the ReplaceChange', async () => {
-        const filePath = '/src/app/app.component.ts';
-        const source = getTsSourceFile(appTree, filePath);
-        const oldName = 'AppComponent';
-        const newName = 'NewAppComponent';
+  describe('No Workspace', () => {
+    describe('removeImportUsingTsMorph', () => {
+      let project: Project;
 
-        const changes = renameIdentifierNode(
-          filePath,
-          source,
-          oldName,
-          newName
+      beforeEach(() => {
+        project = new Project();
+      });
+
+      it('should remove a named import from import declaration', () => {
+        const sourceFile = project.createSourceFile(
+          'test.ts',
+          `
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+export class TestClass implements OnInit, OnDestroy {
+  ngOnInit() {}
+  ngOnDestroy() {}
+}
+      `
         );
-        expect(changes).toEqual([
-          new ReplaceChange(filePath, 192, oldName, newName),
-        ]);
+
+        removeImportUsingTsMorph(sourceFile, {
+          importPath: '@angular/core',
+          importName: 'OnDestroy',
+        });
+
+        const result = sourceFile.getText();
+        expect(result).toMatchSnapshot();
+      });
+
+      it('should remove entire import declaration if last named import is removed', () => {
+        const sourceFile = project.createSourceFile(
+          'test.ts',
+          `
+import { OnlyImport } from './some-module';
+import { Component } from '@angular/core';
+
+export class TestClass {}
+      `
+        );
+
+        removeImportUsingTsMorph(sourceFile, {
+          importPath: './some-module',
+          importName: 'OnlyImport',
+        });
+
+        const result = sourceFile.getText();
+        expect(result).toMatchSnapshot();
+      });
+
+      it('should do nothing if import path does not exist', () => {
+        const sourceFile = project.createSourceFile(
+          'test.ts',
+          `
+import { Component } from '@angular/core';
+
+export class TestClass {}
+      `
+        );
+
+        const originalText = sourceFile.getText();
+
+        removeImportUsingTsMorph(sourceFile, {
+          importPath: './non-existent-module',
+          importName: 'SomeThing',
+        });
+
+        const result = sourceFile.getText();
+        expect(result).toBe(originalText);
+      });
+
+      it('should do nothing if import name does not exist in the declaration', () => {
+        const sourceFile = project.createSourceFile(
+          'test.ts',
+          `
+import { Component, OnInit } from '@angular/core';
+
+export class TestClass implements OnInit {}
+      `
+        );
+
+        const originalText = sourceFile.getText();
+
+        removeImportUsingTsMorph(sourceFile, {
+          importPath: '@angular/core',
+          importName: 'NonExistent',
+        });
+
+        const result = sourceFile.getText();
+        expect(result).toBe(originalText);
+      });
+
+      it('should allow for being called multiple times on the same file', () => {
+        const sourceFile = project.createSourceFile(
+          'test.ts',
+          `
+import { A, B, C, D } from './module';
+
+export class TestClass {}
+      `
+        );
+
+        removeImportUsingTsMorph(sourceFile, {
+          importPath: './module',
+          importName: 'B',
+        });
+
+        removeImportUsingTsMorph(sourceFile, {
+          importPath: './module',
+          importName: 'D',
+        });
+
+        const result = sourceFile.getText();
+        expect(result).toMatchSnapshot();
       });
     });
   });

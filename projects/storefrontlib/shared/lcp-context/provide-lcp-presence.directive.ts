@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,6 @@ import { LCP_PRESENCE } from './lcp-presence.token';
         inject(ProvideLcpPresenceDirective).lcpPresence$,
     },
   ],
-  standalone: false,
 })
 export class ProvideLcpPresenceDirective implements OnChanges {
   @Input() cxProvideLcpPresence?: LcpPresence | null;

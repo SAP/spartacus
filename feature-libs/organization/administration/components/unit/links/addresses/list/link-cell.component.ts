@@ -1,11 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { B2BUnit, UrlPipe } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -32,7 +34,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     </ng-template>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, NgTemplateOutlet, AsyncPipe, UrlPipe],
 })
 export class LinkCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

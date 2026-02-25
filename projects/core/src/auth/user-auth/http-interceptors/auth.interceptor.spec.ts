@@ -51,7 +51,6 @@ describe('AuthInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: AuthHttpHeaderService, useClass: MockAuthHeaderService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },

@@ -1,22 +1,30 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  AsyncPipe,
+  KeyValuePipe,
+  NgFor,
+  NgIf,
+  TitleCasePipe,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
   ScheduleReplenishmentForm,
   recurrencePeriod,
 } from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
@@ -24,7 +32,15 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   selector: 'cx-schedule-replenishment-order',
   templateUrl: './checkout-schedule-replenishment-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    IconComponent,
+    NgFor,
+    NgIf,
+    AsyncPipe,
+    TitleCasePipe,
+    KeyValuePipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy

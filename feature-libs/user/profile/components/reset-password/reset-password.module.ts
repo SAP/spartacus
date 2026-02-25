@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,6 +41,7 @@ import { ResetPasswordComponent } from './reset-password.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    ResetPasswordComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -59,6 +60,5 @@ import { ResetPasswordComponent } from './reset-password.component';
       },
     }),
   ],
-  declarations: [ResetPasswordComponent],
 })
 export class ResetPasswordModule {}

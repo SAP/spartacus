@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ import { ProductImagesComponent } from './product-images.component';
     CarouselModule,
     CarouselScrollingModule,
     LcpContextDirectiveModule,
+    ProductImagesComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,7 +35,6 @@ import { ProductImagesComponent } from './product-images.component';
       },
     }),
   ],
-  declarations: [ProductImagesComponent],
   exports: [ProductImagesComponent],
 })
 export class ProductImagesModule {}

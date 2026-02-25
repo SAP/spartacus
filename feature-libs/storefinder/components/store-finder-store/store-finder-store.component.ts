@@ -1,20 +1,33 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { PointOfService, RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { PointOfService, RoutingService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
 
 @Component({
   selector: 'cx-store-finder-store',
   templateUrl: './store-finder-store.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    IconComponent,
+    StoreFinderStoreDescriptionComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class StoreFinderStoreComponent implements OnInit {
   location$: Observable<any>;

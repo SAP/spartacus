@@ -45,7 +45,6 @@ describe('TrendingSearchesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         TrendingSearchesService,
         { provide: BaseSiteService, useClass: MockBaseSiteService },

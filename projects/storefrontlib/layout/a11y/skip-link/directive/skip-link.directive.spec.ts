@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkipLinkService } from '../service/skip-link.service';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SkipLinkConfig, SkipLinkDirective } from '../index';
+import { SkipLinkService } from '../service/skip-link.service';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
@@ -11,7 +11,7 @@ const SKIP_KEY_2 = 'Key2';
     <ng-container [cxSkipLink]="'${SKIP_KEY_1}'"></ng-container>
     <div [cxSkipLink]="'${SKIP_KEY_2}'"></div>
   `,
-  standalone: false,
+  imports: [SkipLinkDirective],
 })
 class TestContainerComponent {}
 
@@ -21,8 +21,7 @@ describe('SkipLinkDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [TestContainerComponent, SkipLinkDirective],
+      imports: [TestContainerComponent],
       providers: [
         SkipLinkService,
         {

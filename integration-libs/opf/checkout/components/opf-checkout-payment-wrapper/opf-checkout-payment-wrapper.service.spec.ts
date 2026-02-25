@@ -27,6 +27,10 @@ import { of, throwError } from 'rxjs';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 const mockUrl = 'https://sap.com';
+const mockPaymentOptionId = 123;
+const mockOtpKey = 'otpKey';
+const mockUserId = 'userId';
+const mockCartId = 'cartId';
 
 describe('OpfCheckoutPaymentWrapperService', () => {
   let service: OpfCheckoutPaymentWrapperService;
@@ -120,10 +124,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should initiate payment successfully and render payment gateway', (done) => {
-    const mockPaymentOptionId = 123;
-    const mockOtpKey = 'otpKey';
-    const mockUserId = 'userId';
-    const mockCartId = 'cartId';
     const mockPaymentSessionData: OpfPaymentSessionData = {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
       dynamicScript: {
@@ -231,13 +231,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should handle when payment initiation fails with 409 error', (done) => {
-    const mockPaymentOptionId = 123;
-    const mockOtpKey = 'otpKey';
-    const mockUserId = 'userId';
-    const mockCartId = 'cartId';
-
     opfPaymentFacadeMock.initiatePayment.and.returnValue(
-      throwError({ status: 409 })
+      throwError(() => ({ status: 409 }))
     );
 
     orderFacadeMock.placePaymentAuthorizedOrder.and.returnValue(of({}));
@@ -256,23 +251,18 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     );
     spyOn(service, 'renderPaymentGateway').and.callThrough();
 
-    service.initiatePayment(mockPaymentOptionId).subscribe(
-      () => {},
-      (error) => {
+    service.initiatePayment(mockPaymentOptionId).subscribe({
+      next: () => {},
+      error: (error) => {
         expect(error).toBe('Payment already done');
         done();
-      }
-    );
+      },
+    });
   });
 
   it('should handle when payment initiation fails with 500 error', (done) => {
-    const mockPaymentOptionId = 123;
-    const mockOtpKey = 'otpKey';
-    const mockUserId = 'userId';
-    const mockCartId = 'cartId';
-
     opfPaymentFacadeMock.initiatePayment.and.returnValue(
-      throwError({ status: 500 })
+      throwError(() => ({ status: 500 }))
     );
 
     cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
@@ -290,14 +280,43 @@ describe('OpfCheckoutPaymentWrapperService', () => {
     );
     spyOn(service, 'renderPaymentGateway').and.callThrough();
 
-    service.initiatePayment(mockPaymentOptionId).subscribe(
-      () => {},
-      (error) => {
+    service.initiatePayment(mockPaymentOptionId).subscribe({
+      next: () => {},
+      error: (error) => {
         expect(error).toBe('Payment failed');
         expect(globalMessageServiceMock.add).toHaveBeenCalled();
         done();
-      }
+      },
+    });
+  });
+
+  it('should handle when payment initiation fails with 401 error', (done) => {
+    opfPaymentFacadeMock.initiatePayment.and.returnValue(
+      throwError(() => ({ status: 401 }))
     );
+
+    cartAccessCodeFacadeMock.getCartAccessCode.and.returnValue(
+      of({ accessCode: mockOtpKey })
+    );
+    userIdServiceMock.getUserId.and.returnValue(of(mockUserId));
+    activeCartServiceMock.getActiveCartId.and.returnValue(of(mockCartId));
+    routingServiceMock.getRouterState.and.returnValue(
+      of({ state: { semanticRoute: 'checkoutReviewOrder' } } as RouterState)
+    );
+    routingServiceMock.getFullUrl.and.returnValue(mockUrl);
+    opfMetadataStoreServiceMock.updateOpfMetadata.and.stub();
+    opfResourceLoaderServiceMock.loadResources.and.returnValue(
+      Promise.resolve()
+    );
+
+    service.initiatePayment(mockPaymentOptionId).subscribe({
+      next: () => {},
+      error: (error) => {
+        expect(error).toBe('Payment failed');
+        expect(globalMessageServiceMock.add).toHaveBeenCalled();
+        done();
+      },
+    });
   });
 
   it('should reload payment mode', () => {
@@ -325,6 +344,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       isError: false,
       renderType: OpfPaymentRenderPattern.FULL_PAGE,
       destination: { url: mockUrl, form: [] },
+      paymentOptionId: undefined,
     });
   });
 
@@ -373,6 +393,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       isError: false,
       renderType: OpfPaymentRenderPattern.IFRAME,
       destination: { url: mockUrl, form: mockFormData },
+      paymentOptionId: undefined,
     });
   });
 
@@ -443,6 +464,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         isError: false,
         renderType: OpfPaymentRenderPattern.HOSTED_FIELDS,
         html: '<html></html>',
+        paymentOptionId: mockPaymentOptionId,
       });
       done();
     });

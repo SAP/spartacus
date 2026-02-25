@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,7 @@ import { LoggerService } from '../logger';
 import { LanguageService } from '../site-context/facade/language.service';
 
 // type CxDatePipe, not DatePipe, due to conflict with Angular's DatePipe - problem occurs for the backward compatibility compiler of Ivy
-@Pipe({
-  name: 'cxDate',
-  standalone: false,
-})
+@Pipe({ name: 'cxDate' })
 export class CxDatePipe extends DatePipe implements PipeTransform {
   protected logger = inject(LoggerService);
 

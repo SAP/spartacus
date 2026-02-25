@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,51 +10,15 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In `FutureStockAccordionComponent` use `cx-color-text` for button color
-   */
-  a11yUseProperTextColorForFutureStockAccordion?: boolean;
-
-  /**
-   * Fix popover appearance when a High Contrast Theme is applied.
-   */
-  a11yPopoverHighContrast?: boolean;
-
-  /**
-   * 'TabComponent' disallow automatic tab activation.
-   */
-  a11yTabsManualActivation?: boolean;
-
-  /**
-   * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
-   */
-  a11yAnonymousConsentMessageInDialog?: boolean;
-
-  /**
-   * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
-   */
-  a11yQuickOrderSearchListKeyboardNavigation?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
-
-  /**
-   * `UnitLevelOrderHistoryComponent` filter input label and table email address
-   * are not truncated
-   */
-  a11yTruncatedTextUnitLevelOrderHistory?: boolean;
 
   /**
    * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
-
-  /**
-   * Resets the focus after navigating to a new page.
-   */
-  a11yResetFocusAfterNavigating?: boolean;
 
   /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
@@ -74,116 +38,10 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * 'NgSelectA11yDirective' will customize a ng-select dropdowns by setting custom
-   * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
-   */
-  a11yNgSelectAriaLabelDropdownCustomized?: boolean;
-
-  /**
-   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
-   * when a screen reader is used.
-   * Replaces select with ng-select component in the following component:
-   * `CustomerTicketingCreateDialogComponent`
-   */
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
-
-  /**
-   * In `MiniCart component`, improve visible focus contrast on mobile.
-   */
-  a11yMiniCartFocusOnMobile?: boolean;
-
-  /**
-   * Updates the derivative `consentGiven` state when `consent` is updated.
-   *
-   * Components affected:
-   * - `ConsentManagementFormComponent`
-   * - `MyAccountV2ConsentManagementFormComponent`
-   */
-  updateConsentGivenInOnChanges?: boolean;
-
-  /**
-   * When enabled the input element in `QuickOrderFormComponent' will regain its focus after the dropdown is closed.
-   */
-  a11yQuickOrderSearchBoxRefocusOnClose?: boolean;
-
-  /**
-   * Adds a visible focus indicator for keyboard navigation in the `SearchBoxComponent` without affecting the visual state for mouse interactions.
-   * Affects: SearchBoxComponent
-   */
-  a11yKeyboardFocusInSearchBox?: boolean;
-
-  /**
    * Adds horizontal padding to the 'carousel-panel' to fix the issue where the focus only covers three sides of the 'Previous slide' and 'Next slide' buttons within the carousel section.
    * Affects: CarouselComponent
    */
   a11yAddPaddingToCarouselPanel?: boolean;
-
-  /**
-   * Removes invalid aria-level usage on button elements and ensures buttons have a proper accessible name via aria-label or aria-labelledby.
-   * Affects: NavigationUIComponent
-   */
-  a11yNavigationButtonsAriaFixes?: boolean;
-
-  /**
-   * Restores the focus to the card once a option has been selected and the checkout has updated.
-   * Affects: CheckoutPaymentMethodComponent, CheckoutDeliveryAddressComponent
-   */
-  a11yFocusOnCardAfterSelecting?: boolean;
-
-  /**
-   * Search dropdowns will display the focus ring correctly when navigating to the options using the down arrow key.
-   * Affects: SearchBoxComponent, QuickOrderFormComponent
-   */
-  a11ySearchableDropdownFirstElementFocus?: boolean;
-
-  /**
-   * Hides the 'Consent Management' button from the tab order when the cookies banner is visible.
-   * Ensures the button is re-enabled and part of the tab order once consent is given and the banner disappears.
-   * Renames the button from "View Details" to "Consent Management" after consent is given.
-   * Ensures the button is centered in the `AnonymousConsentOpenDialogComponent` and has clear, four-sided visible focus when navigated via keyboard.
-   * Affects: AnonymousConsentOpenDialogComponent, AnonymousConsentManagementBannerComponent
-   */
-  a11yHideConsentButtonWhenBannerVisible?: boolean;
-
-  /**
-   * Adds a unique `aria-label` to repeating buttons that contain the same text.
-   * Affects: SetPreferredStoreComponent
-   */
-  a11yRepeatingButtonsUniqueLabels?: boolean;
-
-  /**
-   * Ensures that borders across all UI elements are visible and meet accessibility standards in high-contrast dark and light themes.
-   * This change is applied globally to enhance usability for users relying on high-contrast modes.
-   * Affects: CustomerTickingListComponent, CheckoutReviewPaymentComponent, SavedCartListComponent
-   */
-  a11yHighContrastBorders?: boolean;
-
-  /**
-   * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
-   *
-   * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
-   * When set to `true`, claiming customer coupon works with coupon code in httpRequest body with POST method(the new Occ endpoint is available since Commerce 2211.28), which avoids security risk.
-   */
-  enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
-
-  /**
-   * Header. Fixes trapping focus on menu items on mobile when the menu is expanded.
-   * Sets `tabindex` attribute  to `-1` for all visible focusable elements in the header section to exclude them from
-   * keyboard navigation
-   */
-  a11yHamburgerMenuTrapFocus?: boolean;
-
-  /**
-   * Associates content regions with their headers improving readout while navigating between sections.
-   * Affects: CardComponent, AccountSummaryDocumentComponent, ListComponent
-   */
-  a11yRegionAssociatedHeaders?: boolean;
-
-  /**
-   * When enabled, the scroll-to-top button adjusts its position when other UI elements
-   * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
-   */
-  a11yScrollToTopPositioning?: boolean;
 
   /**
    * Improves wide viewport layout issues.
@@ -230,14 +88,19 @@ export interface FeatureTogglesInterface {
   a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
-   * Enables the product carousel to include products based on specified category codes.
-   *
-   * - When this feature is enabled, the carousel will fetch and display products
-   *   associated with the `categoryCodes` provided.
-   * - The `categoryCodes` are configured and managed through SmartEdit
-   *
+   * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
+   * references a non-existent element when accordion is collapsed.
+   * When enabled, content element is always in DOM but hidden when collapsed,
+   * ensuring aria-controls always references a valid ID.
+   * Affects: FutureStockAccordionComponent
    */
-  enableCarouselCategoryProducts?: boolean;
+  a11yFutureStockAccordionAriaControls?: boolean;
+
+  /**
+   * Use unicode characters for ng-select dropdown carets so that OS themes can override the defaults
+   * by targetting text. This is not possible when using borders to draw shapes.
+   */
+  a11yNgSelectUnicodeCarets?: boolean;
 
   /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
@@ -502,66 +365,79 @@ export interface FeatureTogglesInterface {
    * Affects: `ReturnOrderComponent`
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
+
+  /**
+   * When enabled, the media prefix from the backend config will be used
+   * when constructing media URLs in the MediaService.
+   * Affects: `MediaService`
+   */
+  enableMediaPrefix?: boolean;
+
+  /**
+   * Fixes keyboard focus not being visible when tabbing between some buttons
+   * on Customer Ticketing dialog.
+   */
+  a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * Adds Filter By label to product facets when in desktop mode.
+   */
+  a11yFacetFilterByLabel?: boolean;
+
+  /**
+   * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
+   */
+  removeDuplicatedOrderHistoryHeader?: boolean;
+
+  /**
+   * When enabled, the organization's table component will stop re-rendering its rows each data update.
+   * This improves the screen reader experience of the notification message component.
+   * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
+   */
+  a11yCardNotificationMessage?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  a11yUseProperTextColorForFutureStockAccordion: true,
-  a11yPopoverHighContrast: true,
-  a11yTabsManualActivation: true,
-  a11yAnonymousConsentMessageInDialog: true,
-  a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yKeyboardAccessibleZoom: false,
-  a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yResetFocusAfterNavigating: true,
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-  a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yMiniCartFocusOnMobile: true,
-  updateConsentGivenInOnChanges: true,
-  a11yQuickOrderSearchBoxRefocusOnClose: true,
-  a11yKeyboardFocusInSearchBox: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yNavigationButtonsAriaFixes: true,
-  a11yFocusOnCardAfterSelecting: true,
-  a11ySearchableDropdownFirstElementFocus: true,
-  a11yHideConsentButtonWhenBannerVisible: true,
-  a11yRepeatingButtonsUniqueLabels: true,
-  a11yHighContrastBorders: true,
-  a11yRegionAssociatedHeaders: true,
-  a11yHamburgerMenuTrapFocus: true,
-  a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
-  readMoreDirective: false,
-  productReviewCharactersLeft: false,
+  a11yNgSelectUnicodeCarets: false,
+  readMoreDirective: true,
+  productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: false,
-  enableCarouselCategoryProducts: true,
-  enableClaimCustomerCouponWithCodeInRequestBody: true,
+  a11yConfiguratorOverviewHeaderVPC: true,
+  a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
-  storeFinderFacadeCleanup: false,
-  defaultProductPageRouteAllowsNoProductName: false,
-  consistentSizeProductCards: false,
-  reserveHorizontalSpaceStarRating: false,
-  topProgressBarUseTransformAnimation: false,
-  disableCxPageSlotMarginAnimation: false,
-  productCarouselScrolling: false,
-  cdsLoginEventsToken: false,
-  createMediaPreconnectLink: false,
-  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
-  reserveSpaceForImagesOnPdpAndPlp: false,
-  lazyLoadImagesByDefault: false,
-  authorizationCodeFlowByDefault: false,
+  storeFinderFacadeCleanup: true,
+  defaultProductPageRouteAllowsNoProductName: true,
+  consistentSizeProductCards: true,
+  reserveHorizontalSpaceStarRating: true,
+  topProgressBarUseTransformAnimation: true,
+  disableCxPageSlotMarginAnimation: true,
+  productCarouselScrolling: true,
+  cdsLoginEventsToken: true,
+  createMediaPreconnectLink: true,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
+  reserveSpaceForImagesOnPdpAndPlp: true,
+  lazyLoadImagesByDefault: true,
+  authorizationCodeFlowByDefault: true,
   incrementProcessesCountForMergeCart: true,
-  dispatchLoginActionOnlyWhenTokenReceived: false,
-  defaultLayoutConfigWithoutPageFold: false,
+  dispatchLoginActionOnlyWhenTokenReceived: true,
+  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableMediaPrefix: false,
+  a11yCustomerTicketingVisualFocusFix: false,
+  a11yFacetFilterByLabel: false,
+  removeDuplicatedOrderHistoryHeader: false,
+  a11yCardNotificationMessage: false,
 };

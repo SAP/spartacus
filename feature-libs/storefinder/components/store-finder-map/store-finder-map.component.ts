@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,6 @@ import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 @Component({
   selector: 'cx-store-finder-map',
   templateUrl: './store-finder-map.component.html',
-  standalone: false,
 })
 export class StoreFinderMapComponent implements OnChanges {
   @ViewChild('mapElement', { static: true })

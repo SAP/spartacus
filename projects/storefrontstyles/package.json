@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/styles",
-  "version": "221121.4.0",
+  "version": "221121.7.0",
   "description": "Style library containing global styles",
   "keywords": [
     "spartacus",
@@ -18,12 +18,12 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
-    "@ng-select/ng-select": "^14.1.0"
+    "@fontsource/open-sans": "^5.2.7",
+    "@fortawesome/fontawesome-free": "7.1.0",
+    "@ng-select/ng-select": "^21.1.4"
   },
   "engines": {
-    "node": "^22.0.0"
+    "node": "^22.22.0"
   },
   "publishConfig": {
     "access": "public"

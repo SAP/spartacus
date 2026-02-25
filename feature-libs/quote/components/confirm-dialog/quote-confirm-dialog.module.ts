@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,9 +36,9 @@ import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
     KeyboardFocusModule,
     SpinnerModule,
     FeaturesConfigModule,
+    QuoteConfirmDialogComponent,
   ],
   providers: [provideDefaultConfig(defaultQuoteActionDialogConfig)],
-  declarations: [QuoteConfirmDialogComponent],
   exports: [QuoteConfirmDialogComponent],
 })
 export class QuoteConfirmDialogModule {}

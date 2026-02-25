@@ -12,18 +12,17 @@ import { I18nTestingModule } from '@spartacus/core';
 
 import { CardComponent, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
-import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
-import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { By } from '@angular/platform-browser';
 import {
   AsmCustomer360CustomerProfile,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { By } from '@angular/platform-browser';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
 
 @Directive({
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -79,17 +78,13 @@ describe('AsmCustomer360ProfileComponent', () => {
       ],
     },
   };
-  @Pipe({
-    name: 'cxTranslate',
-    standalone: false,
-  })
+  @Pipe({ name: 'cxTranslate' })
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
   @Component({
     selector: 'cx-icon',
     template: '',
-    standalone: false,
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -101,8 +96,8 @@ describe('AsmCustomer360ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AsmCustomer360ProfileComponent,
         MockTranslatePipe,
         MockCxIconComponent,

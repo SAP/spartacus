@@ -1,15 +1,10 @@
 %cx-subscription-details {
   .subscription-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 1.5rem 1rem 1.5rem 1rem; //top-right-bottom-left
-    .action-button-right {
-      float: right;
-      margin: 0 0 0 10px;
-    }
-    .action-button-left {
-      float: left;
-      margin: 0 10px 0 0;
+    .action-button {
+      margin-bottom: 1rem;
     }
   }
 }

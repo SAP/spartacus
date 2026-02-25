@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -296,44 +296,22 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yPopoverHighContrast: true,
-        a11yTabsManualActivation: true,
-        a11yAnonymousConsentMessageInDialog: true,
-        a11yQuickOrderSearchListKeyboardNavigation: false,
         a11yKeyboardAccessibleZoom: true,
-        a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yResetFocusAfterNavigating: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-        a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yMiniCartFocusOnMobile: true,
-        updateConsentGivenInOnChanges: true,
-        a11yQuickOrderSearchBoxRefocusOnClose: true,
-        a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
-        a11yNavigationButtonsAriaFixes: true,
-        a11yFocusOnCardAfterSelecting: true,
-        a11ySearchableDropdownFirstElementFocus: true,
-        a11yHideConsentButtonWhenBannerVisible: true,
-        a11yRepeatingButtonsUniqueLabels: true,
-        a11yHighContrastBorders: true,
-        a11yRegionAssociatedHeaders: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        a11yHamburgerMenuTrapFocus: true,
-        a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
         productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,
         a11yConfiguratorOverviewHeaderVPC: true,
-        enableCarouselCategoryProducts: true,
-        enableClaimCustomerCouponWithCodeInRequestBody: false,
+        a11yFutureStockAccordionAriaControls: true,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
@@ -355,6 +333,11 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
+        enableMediaPrefix: true,
+        a11yCustomerTicketingVisualFocusFix: true,
+        a11yFacetFilterByLabel: true,
+        removeDuplicatedOrderHistoryHeader: true,
+        a11yCardNotificationMessage: true,
       };
       return appFeatureToggles;
     }),

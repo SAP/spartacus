@@ -1,5 +1,5 @@
 <label *ngIf="(items$ | async)?.length > 1 && (items$ | async) as items">
-  <span>{{ label$ | async }}:</span>
+  <span>{{ label$ | async | cxTranslate }}:</span>
   <select (change)="active = $any($event).target.value">
     <option
       [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"

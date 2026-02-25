@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,11 +34,15 @@ export function createProgram(
   };
 }
 
-export function saveAndFormat(sourceFile: SourceFile): void {
+export function formatFile(sourceFile: SourceFile): void {
   sourceFile.organizeImports();
   sourceFile.formatText({
     ensureNewLineAtEndOfFile: true,
     indentSize: 2,
   });
+}
+
+export function saveAndFormat(sourceFile: SourceFile): void {
+  formatFile(sourceFile);
   sourceFile.saveSync();
 }

@@ -34,8 +34,7 @@ describe('OpfPaymentMethodDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpfPaymentMethodDetailsComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, OpfPaymentMethodDetailsComponent],
       providers: [
         { provide: TranslationService, useValue: translationServiceMock },
         {

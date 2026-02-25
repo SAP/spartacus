@@ -10,6 +10,28 @@
 
     <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">
       <table role="table" class="table cx-saved-cart-list-table">
+        <thead role="row" class="cx-saved-cart-list-thead-mobile">
+          <tr>
+            <th scope="col">
+              {{ 'savedCartList.cartName' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'savedCartList.cartId' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'savedCartList.dateSaved' | cxTranslate }}
+            </th>
+            <th scope="col" class="cx-saved-cart-list-th-qty">
+              {{ 'savedCartList.quantityFull' | cxTranslate }}
+            </th>
+            <th scope="col" class="cx-saved-cart-list-th-total">
+              {{ 'savedCartList.total' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'savedCartList.actions' | cxTranslate }}
+            </th>
+          </tr>
+        </thead>
         <tbody>
           <tr
             role="row"

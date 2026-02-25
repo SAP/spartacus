@@ -20,7 +20,7 @@ describe('QualtricsComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      declarations: [QualtricsComponent],
+      imports: [QualtricsComponent],
       providers: [
         {
           provide: QualtricsLoaderService,

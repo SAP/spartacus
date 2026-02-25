@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 @NgModule({
-  declarations: [OpfCheckoutPaymentsComponent],
   exports: [OpfCheckoutPaymentsComponent],
   imports: [
     CommonModule,
@@ -27,6 +26,7 @@ import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component'
     IconModule,
     OpfCheckoutPaymentWrapperModule,
     OpfCheckoutTermsAndConditionsAlertModule,
+    OpfCheckoutPaymentsComponent,
   ],
 })
 export class OpfCheckoutPaymentsModule {}

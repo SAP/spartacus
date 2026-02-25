@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,27 +12,25 @@ import { LanguageInitializer } from '../services/language-initializer';
 export function initializeCurrency(
   currencyInitializer: CurrencyInitializer
 ): () => void {
-  const result = () => {
+  return () => {
     currencyInitializer.initialize();
   };
-  return result;
 }
+
 export function initializeLanguage(
   languageInitializer: LanguageInitializer
 ): () => void {
-  const result = () => {
+  return () => {
     languageInitializer.initialize();
   };
-  return result;
 }
 
 export function initializeBaseSite(
   baseSiteInitializer: BaseSiteInitializer
 ): () => void {
-  const result = () => {
+  return () => {
     baseSiteInitializer.initialize();
   };
-  return result;
 }
 
 export const contextInitializerProviders: Provider[] = [

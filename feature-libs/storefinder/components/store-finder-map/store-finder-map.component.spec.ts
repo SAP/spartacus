@@ -1,7 +1,7 @@
 import { DebugElement, ElementRef, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreFinderMapComponent } from './store-finder-map.component';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
+import { StoreFinderMapComponent } from './store-finder-map.component';
 
 class MapRendererServiceMock {
   public renderMap(_mapElement: HTMLElement, _locations: any[]): void {}
@@ -19,7 +19,7 @@ describe('StoreFinderMapComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreFinderMapComponent],
+      imports: [StoreFinderMapComponent],
       providers: [
         { provide: GoogleMapRendererService, useClass: MapRendererServiceMock },
       ],

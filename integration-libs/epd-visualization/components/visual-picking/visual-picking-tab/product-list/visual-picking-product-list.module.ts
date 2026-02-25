@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,8 @@ import { VisualPickingProductListComponent } from './visual-picking-product-list
     UrlModule,
     I18nModule,
     CompactAddToCartModule,
+    VisualPickingProductListComponent,
   ],
-  declarations: [VisualPickingProductListComponent],
   exports: [VisualPickingProductListComponent],
 })
 export class VisualPickingProductListModule {}

@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
 import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 
@@ -42,7 +42,7 @@ describe('ProductVariantStyleIconsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductVariantStyleIconsComponent],
+      imports: [ProductVariantStyleIconsComponent],
       providers: [
         {
           provide: OccConfig,

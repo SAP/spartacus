@@ -1,17 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -22,8 +28,23 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
+import {
+  CaptchaComponent,
+  CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  NgSelectA11yDirective,
+  sortTitles,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import {
+  VerificationToken,
+  VerificationTokenCreation,
+  VerificationTokenFacade,
+} from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,
@@ -33,20 +54,28 @@ import {
   Observable,
   Subscription,
 } from 'rxjs';
-
-import { HttpErrorResponse } from '@angular/common/http';
-import {
-  VerificationToken,
-  VerificationTokenCreation,
-  VerificationTokenFacade,
-} from '@spartacus/user/account/root';
 import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-register-form',
   templateUrl: './otp-login-register.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgFor,
+    RouterLink,
+    CaptchaComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   protected globalMessageService = inject(GlobalMessageService);

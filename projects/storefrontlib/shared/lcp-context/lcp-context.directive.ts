@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,10 +42,7 @@ interface LcpContextDirectiveTemplateContext {
  *   <cx-media [fetchPriority]="lcpContext.fetchPriority$ | async">
  * </ng-container>
  */
-@Directive({
-  selector: '[cxLcpContext]',
-  standalone: false,
-})
+@Directive({ selector: '[cxLcpContext]' })
 export class LcpContextDirective implements OnInit {
   protected readonly lcpPresence$ = inject(LCP_PRESENCE);
   protected readonly lcpPresenceMappingService = inject(

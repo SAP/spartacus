@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { I18nModule } from '@spartacus/core';
 import { TableHeaderCellComponent } from './table-header-cell.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [TableHeaderCellComponent],
+  imports: [CommonModule, I18nModule, TableHeaderCellComponent],
 })
 export class TableHeaderCellModule {}

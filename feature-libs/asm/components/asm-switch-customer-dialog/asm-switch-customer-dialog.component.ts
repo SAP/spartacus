@@ -1,12 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, OnInit } from '@angular/core';
-import { User } from '@spartacus/core';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import { TranslatePipe, User } from '@spartacus/core';
+import {
+  FocusConfig,
+  FocusDirective,
+  IconComponent,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from '../services';
 
@@ -23,7 +28,7 @@ export interface SwitchCustomerData {
 @Component({
   selector: 'cx-asm-switch-customer-dialog',
   templateUrl: './asm-switch-customer-dialog.component.html',
-  standalone: false,
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {
   SWITCH_CUSTOMER_DIALOG_ACTION = SWITCH_CUSTOMER_DIALOG_ACTION;

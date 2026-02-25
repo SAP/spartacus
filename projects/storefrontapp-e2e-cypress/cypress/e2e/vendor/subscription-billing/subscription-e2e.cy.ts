@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,5 +40,34 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
     helper.validateSubscriptionList();
     helper.validateSubscriptionDetailsPage();
     signOutUser();
+  });
+
+  describe('Subscription Bills', () => {
+    it('validate subscription bill list and detail pages', () => {
+      cy.restoreLocalStorage();
+      Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+
+      cy.visit('/powertools-spa/en/USD/login');
+      login(
+        helper.subscriptionUser.email,
+        helper.subscriptionUser.password,
+        helper.subscriptionUser.fullName
+      );
+
+      helper.validateSubscriptionBillingList();
+      cy.wait(5000);
+
+      // click on view details of first bill
+      cy.get('.cx-billing-list-table tbody tr')
+        .eq(0)
+        .should('exist')
+        .within(() => {
+          cy.contains('a', 'View Bill').click();
+          cy.wait(10000);
+        });
+
+      helper.validateSubscriptionBillDetailsPage();
+      signOutUser();
+    });
   });
 });

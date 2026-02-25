@@ -19,22 +19,20 @@ import {
   Translatable,
   UserConsentService,
 } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-consent-management-form',
   template: ` <div>form</div> `,
-  standalone: false,
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -130,8 +128,8 @@ describe('ConsentManagementComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         MockCxSpinnerComponent,
         MockConsentManagementFormComponent,
         ConsentManagementComponent,

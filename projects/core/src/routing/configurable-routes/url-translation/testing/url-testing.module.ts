@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,8 +9,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { MockUrlPipe, URL_TESTING_ALLOWLISTED_PARAMS } from './mock-url.pipe';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [MockUrlPipe],
+  imports: [CommonModule, MockUrlPipe],
   exports: [MockUrlPipe],
 })
 export class UrlTestingModule {

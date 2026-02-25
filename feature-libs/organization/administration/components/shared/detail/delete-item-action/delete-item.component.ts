@@ -1,10 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, OnDestroy } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -21,7 +23,7 @@ import { BaseItem } from '../../organization.model';
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**

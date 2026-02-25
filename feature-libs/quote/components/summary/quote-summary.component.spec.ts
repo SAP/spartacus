@@ -2,29 +2,26 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
-import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
+import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteSummaryComponent } from './quote-summary.component';
 
 @Component({
   selector: 'cx-quote-summary-prices',
   template: '',
-  standalone: false,
 })
 class MockQuoteSummaryPricesComponent {}
 
 @Component({
   selector: 'cx-quote-summary-actions',
   template: '',
-  standalone: false,
 })
 class MockQuoteSummaryActionsComponent {}
 
 @Component({
   selector: 'cx-quote-summary-seller-edit',
   template: '',
-  standalone: false,
 })
 class MockQuoteSummarySellerEditComponent {}
 
@@ -47,8 +44,8 @@ describe('QuoteSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         QuoteSummaryComponent,
         MockQuoteSummaryPricesComponent,
         MockQuoteSummaryActionsComponent,

@@ -36,9 +36,7 @@ describe('DeleteItemComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
-      declarations: [DeleteItemComponent],
-
+      imports: [CommonModule, I18nTestingModule, DeleteItemComponent],
       providers: [
         {
           provide: MessageService,

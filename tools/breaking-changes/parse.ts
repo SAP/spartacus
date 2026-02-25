@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as fs from 'fs';
-import { globSync } from 'glob';
+import glob from 'glob';
 import { unEscapePackageName } from './common';
 /**
  * This script combines all the json api files produced by MS Api Extractor in one file with a
@@ -26,7 +26,7 @@ import { unEscapePackageName } from './common';
 const spartacusHomeDir = process.argv[2];
 console.log(`Parsing public API for libs in ${spartacusHomeDir}/temp.`);
 
-const files = globSync(`${spartacusHomeDir}/temp/*.api.json`);
+const files = glob.sync(`${spartacusHomeDir}/temp/*.api.json`);
 console.log(`Found ${files.length} api.json files.`);
 const publicApiData: any[] = [];
 files.forEach((file) => {

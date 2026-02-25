@@ -1,26 +1,41 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
-import { Card } from '../../../shared/components/card/card.component';
+import {
+  Card,
+  CardComponent,
+} from '../../../shared/components/card/card.component';
+import { FormRequiredLegendComponent } from '../../../shared/components/form/form-required-legend/form-required-legend.component';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormRequiredLegendComponent,
+    SpinnerComponent,
+    NgFor,
+    CardComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;

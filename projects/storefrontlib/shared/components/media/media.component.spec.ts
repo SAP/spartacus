@@ -15,7 +15,6 @@ import { FeatureConfigService } from '@spartacus/core';
 import { MediaComponent } from './media.component';
 import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
-import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
 const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
   'IS_CONFIGURABLE_MEDIA_COMPONENT'
@@ -23,10 +22,7 @@ const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
 
 const mediaUrl = 'mockProductImageUrl.jpg';
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]' })
 export class MockFeatureDirective {
   protected templateRef = inject(TemplateRef<any>);
   protected viewContainer = inject(ViewContainerRef);
@@ -46,10 +42,7 @@ export class MockFeatureDirective {
   }
 }
 
-@Pipe({
-  name: 'cxMediaSources',
-  standalone: false,
-})
+@Pipe({ name: 'cxMediaSources' })
 export class MockMediaSourcesPipe implements PipeTransform {
   transform() {
     return [
@@ -134,17 +127,12 @@ class MockFeatureConfigService {
 
 function configureTestingModule(
   mockMediaService: MockMediaService,
-  isLegacy: boolean = true,
   isConfigurableMediaComponent = false
 ): void {
   TestBed.configureTestingModule({
-    declarations: [MediaComponent, MockMediaSourcesPipe, MockFeatureDirective],
+    imports: [MediaComponent, MockMediaSourcesPipe, MockFeatureDirective],
     providers: [
       { provide: MediaService, useValue: mockMediaService },
-      {
-        provide: USE_LEGACY_MEDIA_COMPONENT,
-        useValue: isLegacy,
-      },
       {
         provide: IS_CONFIGURABLE_MEDIA_COMPONENT,
         useValue: isConfigurableMediaComponent,
@@ -190,7 +178,7 @@ function createComponent(elementType: 'picture' | 'img' = 'img') {
 
 describe('MediaComponent', () => {
   it('should have picture element if elementType is `picture`', () => {
-    configureTestingModule(new MockMediaService('srcset'), false, true);
+    configureTestingModule(new MockMediaService('srcset'), true);
     const { fixture } = createComponent('picture');
 
     const picture = fixture.debugElement.query(By.css('picture'));
@@ -199,7 +187,7 @@ describe('MediaComponent', () => {
   });
 
   it('should not have picture element if elementType is `img`', () => {
-    configureTestingModule(new MockMediaService('srcset'), false, true);
+    configureTestingModule(new MockMediaService('srcset'), true);
     const { fixture } = createComponent();
 
     const picture = fixture.debugElement.query(By.css('picture'));
@@ -208,14 +196,14 @@ describe('MediaComponent', () => {
   });
 
   it('should call getMediaBasedOnHTMLElementType() method from service', () => {
-    configureTestingModule(new MockMediaService('srcset'), false, true);
+    configureTestingModule(new MockMediaService('srcset'), true);
     const { getMediaSpy } = createComponent();
 
     expect(getMediaSpy).toHaveBeenCalled();
   });
 
   it('should call getMediaForPictureElement() method from service if elementType is `picture`', () => {
-    configureTestingModule(new MockMediaService('srcset'), false, true);
+    configureTestingModule(new MockMediaService('srcset'), true);
     const { getMediaForPictureElementSpy, getMediaSpy } =
       createComponent('picture');
 
@@ -224,7 +212,7 @@ describe('MediaComponent', () => {
   });
 
   it('should call getMedia() method from service if elementType is `img`', () => {
-    configureTestingModule(new MockMediaService('srcset'), false, true);
+    configureTestingModule(new MockMediaService('srcset'), true);
     const { getMediaForPictureElementSpy, getMediaSpy } = createComponent();
 
     expect(getMediaForPictureElementSpy).not.toHaveBeenCalled();
@@ -342,7 +330,7 @@ describe('MediaComponent', () => {
   });
 
   it('should have picture element if there is srcset in media', () => {
-    configureTestingModule(new MockMediaService('srcset'), false);
+    configureTestingModule(new MockMediaService('srcset'));
     const { fixture } = createComponent('picture');
 
     const picture = fixture.debugElement.query(By.css('picture'));

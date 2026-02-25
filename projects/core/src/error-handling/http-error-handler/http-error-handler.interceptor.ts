@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { ErrorHandler, Injectable, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { UserIdService } from '../../auth';
 import { HttpResponseStatus } from '../../global-message';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
@@ -40,6 +42,8 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected errorHandler = inject(ErrorHandler);
   protected occEndpointsService = inject(OccEndpointsService);
   protected windowRef = inject(WindowRef);
+
+  protected userId = toSignal(inject(UserIdService).getUserId());
 
   intercept(
     request: HttpRequest<unknown>,
@@ -83,7 +87,9 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
    * @returns `true` if the error corresponds to a CMS page not found HTTP error, `false` otherwise.
    */
   protected isCmsPageNotFoundHttpError(error: unknown): boolean {
-    const expectedUrl = this.occEndpointsService.buildUrl('pages');
+    const expectedUrl = this.occEndpointsService.buildUrl('pages', {
+      urlParams: { userId: this.userId() },
+    });
     return (
       error instanceof HttpErrorResponse &&
       error.status === HttpResponseStatus.NOT_FOUND &&

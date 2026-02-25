@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
-import { CurrentProductService } from '@spartacus/storefront';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Product, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { CurrentProductService } from '@spartacus/storefront';
 import {
   OneTimeCharge,
   RecurringCharge,
+  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import { Observable, of } from 'rxjs';
+import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
 const mockProduct2 = {
@@ -35,10 +35,7 @@ class MockCurrentProductService {
     return null;
   }
 }
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -60,8 +57,7 @@ describe('SubscriptionProductPriceComponent', () => {
   let productService: SubscriptionProductService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MockTranslatePipe, SubscriptionProductPriceComponent],
+      imports: [MockTranslatePipe, SubscriptionProductPriceComponent],
       providers: [
         {
           provide: SubscriptionProductService,

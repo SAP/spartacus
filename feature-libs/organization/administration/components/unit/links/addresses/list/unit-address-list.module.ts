@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,14 @@ import { LinkCellComponent } from './link-cell.component';
 import { UnitAddressListComponent } from './unit-address-list.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, RouterModule, UrlModule, SubListModule],
-  declarations: [UnitAddressListComponent, LinkCellComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    RouterModule,
+    UrlModule,
+    SubListModule,
+    UnitAddressListComponent,
+    LinkCellComponent,
+  ],
 })
 export class UnitAddressListModule {}

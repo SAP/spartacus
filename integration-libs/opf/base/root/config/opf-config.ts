@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,24 @@ export abstract class OpfConfig {
        * Enables the payment info message section within the payment options
        */
       enableInfoMessage?: boolean;
+      /**
+       * Iframe sandbox permissions per payment option id.
+       * Useful when specific PSPs require different sandbox flags.
+       * @example
+       * ```ts
+       * const opfConfig = {
+       *   opf: {
+       *     paymentOption: {
+       *       iframeSandboxMap: {
+       *         123: 'allow-scripts allow-same-origin', // PSP 1
+       *         456: 'allow-scripts allow-same-origin allow-forms' // PSP 2
+       *       }
+       *     }
+       *   }
+       * };
+       * ```
+       */
+      iframeSandboxMap?: Record<number, string>;
     };
     /**
      * Local PSP resource configuration for faster loading

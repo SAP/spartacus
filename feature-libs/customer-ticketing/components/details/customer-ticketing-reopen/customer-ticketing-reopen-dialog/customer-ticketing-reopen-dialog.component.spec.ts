@@ -32,10 +32,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -43,7 +40,12 @@ export class MockKeyboadFocusDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FileUploadModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -61,8 +63,6 @@ describe('CustomerTicketingReopenDialogComponent', () => {
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
-      ],
-      declarations: [
         CustomerTicketingReopenDialogComponent,
         MockKeyboadFocusDirective,
         MockCxIconComponent,

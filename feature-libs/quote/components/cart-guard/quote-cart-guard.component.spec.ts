@@ -7,7 +7,7 @@ describe('QuoteCartGuardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [QuoteCartGuardComponent],
+      imports: [QuoteCartGuardComponent],
     }).compileComponents();
   });
 

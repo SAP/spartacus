@@ -1,20 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
-  I18nModule,
   FeaturesConfigModule,
+  I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
-import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog/customer-ticketing-close-dialog.component';
 import {
   FileUploadModule,
   FormErrorsModule,
@@ -23,8 +22,9 @@ import {
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
+import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog/customer-ticketing-close-dialog.component';
+import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 
 @NgModule({
   imports: [
@@ -38,6 +38,8 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
     SpinnerModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
+    CustomerTicketingCloseComponent,
+    CustomerTicketingCloseDialogComponent,
   ],
   providers: [
     CustomerTicketingCloseComponentService,
@@ -49,10 +51,6 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
         },
       },
     }),
-  ],
-  declarations: [
-    CustomerTicketingCloseComponent,
-    CustomerTicketingCloseDialogComponent,
   ],
   exports: [
     CustomerTicketingCloseComponent,

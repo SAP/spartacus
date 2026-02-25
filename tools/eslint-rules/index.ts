@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,6 +38,11 @@ import {
   rule as noConstEnum,
   RULE_NAME as noConstEnumName,
 } from './rules/no-const-enum';
+
+import {
+  rule as featureConfigServiceMustBePrivate,
+  RULE_NAME as featureConfigServiceMustBePrivateName,
+} from './rules/feature-config-service-must-be-private';
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -73,5 +78,6 @@ module.exports = {
       noNgrxFailActionWithoutErrorActionImplementation,
     [ngrxFailActionMustInitializeErrorName]: ngrxFailActionMustInitializeError,
     [noConstEnumName]: noConstEnum,
+    [featureConfigServiceMustBePrivateName]: featureConfigServiceMustBePrivate,
   },
 };

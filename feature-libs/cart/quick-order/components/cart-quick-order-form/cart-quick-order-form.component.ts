@@ -1,16 +1,22 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -20,7 +26,9 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
 } from '@spartacus/core';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -28,7 +36,14 @@ import { first, map } from 'rxjs/operators';
   selector: 'cx-cart-quick-order-form',
   templateUrl: './cart-quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   quickOrderForm: UntypedFormGroup;

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,7 @@ import {
 } from '@spartacus/opf/global-functions/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
-import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -76,12 +76,23 @@ export class OpfPaymentVerificationService {
     paymentSessionId: string;
     paramsMap: Array<OpfKeyValueMap>;
     afterRedirectScriptFlag: string | undefined;
+    is3DSRedirect?: boolean;
   }> {
     let paramsMap: Array<OpfKeyValueMap>;
+    const is3DSRedirect = this.check3DSRedirectState();
+
     return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
             paramsMap = this.getParamsMap(params);
+
+            if (is3DSRedirect) {
+              const storedState = this.get3DSRedirectState();
+              if (storedState?.paymentSessionId) {
+                return of(storedState.paymentSessionId);
+              }
+            }
+
             return this.getPaymentSessionId(paramsMap);
           }),
           concatMap((paymentSessionId: string | undefined) => {
@@ -99,6 +110,7 @@ export class OpfPaymentVerificationService {
                 OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG,
                 paramsMap
               ),
+              is3DSRedirect,
             });
           })
         )
@@ -265,5 +277,63 @@ export class OpfPaymentVerificationService {
       OpfGlobalFunctionsDomain.REDIRECT
     );
     this.opfResourceLoaderService.clearAllResources();
+  }
+
+  protected check3DSRedirectState(): boolean {
+    const metadata = this.opfMetadataStoreService.opfMetadataState?.value;
+    return metadata?.is3DSRedirect === true;
+  }
+
+  protected get3DSRedirectState(): {
+    paymentSessionId: string;
+    returnPath: string;
+  } | null {
+    const metadata = this.opfMetadataStoreService.opfMetadataState?.value;
+    if (!metadata?.is3DSRedirect || !metadata?.opfPaymentSessionId) {
+      return null;
+    }
+
+    return {
+      paymentSessionId: metadata.opfPaymentSessionId,
+      returnPath: metadata.opf3DSRedirectReturnPath ?? '',
+    };
+  }
+
+  protected clear3DSRedirectState(): void {
+    this.opfMetadataStoreService.updateOpfMetadata({
+      is3DSRedirect: false,
+      opf3DSRedirectReturnPath: undefined,
+    });
+  }
+
+  run3DSRedirectPattern(
+    paymentSessionId: string,
+    paramsMap: Array<OpfKeyValueMap>,
+    vcr: ViewContainerRef
+  ): Observable<boolean> {
+    const storedState = this.get3DSRedirectState();
+
+    this.globalFunctionsService.registerGlobalFunctions({
+      domain: OpfGlobalFunctionsDomain.CHECKOUT,
+      paymentSessionId,
+      vcr,
+    });
+
+    return this.opfPaymentFacade
+      .submitCompletePayment({
+        paymentSessionId,
+        additionalData: paramsMap,
+        callbacks: {
+          onSuccess: () => {},
+          onPending: () => {},
+          onFailure: () => {},
+        },
+        returnPath: storedState?.returnPath,
+      })
+      .pipe(
+        finalize(() => {
+          this.clear3DSRedirectState();
+        })
+      );
   }
 }

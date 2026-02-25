@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -8,10 +9,13 @@ import {
   Product,
 } from '@spartacus/core';
 import {
+  CarouselComponent,
+  CarouselScrollingComponent,
   ImageFetchPriority,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
@@ -66,7 +70,7 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-media',
   template: '',
-  standalone: false,
+  imports: [LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -83,7 +87,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() items;
@@ -102,7 +106,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
   @Input() items;
@@ -140,12 +144,10 @@ describe('ProductImagesComponent', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [LcpContextDirectiveModule, FeaturesConfigModule],
-      declarations: [
+      imports: [
+        LcpContextDirectiveModule,
+        FeaturesConfigModule,
         ProductImagesComponent,
-        MockMediaComponent,
-        MockCarouselComponent,
-        MockCarouselScrollingComponent,
       ],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
@@ -158,7 +160,24 @@ describe('ProductImagesComponent', () => {
           useClass: MockCurrentProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImagesComponent, {
+        remove: {
+          imports: [
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockMediaComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

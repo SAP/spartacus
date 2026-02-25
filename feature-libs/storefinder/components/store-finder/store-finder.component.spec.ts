@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { StoreFinderHeaderComponent } from '../public_api';
 import { StoreFinderComponent } from './store-finder.component';
 
 @Component({
   selector: 'cx-store-finder-header',
   template: '',
-  standalone: false,
 })
 class MockStoreFinderHeaderComponent {}
 
@@ -15,8 +15,17 @@ describe('StoreFinderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreFinderComponent, MockStoreFinderHeaderComponent],
-    }).compileComponents();
+      imports: [StoreFinderComponent],
+    })
+      .overrideComponent(StoreFinderComponent, {
+        remove: {
+          imports: [StoreFinderHeaderComponent],
+        },
+        add: {
+          imports: [MockStoreFinderHeaderComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

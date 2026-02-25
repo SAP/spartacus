@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { SupplementHashAnchorsPipe } from './supplement-hash-anchors.pipe';
 
 @NgModule({
-  declarations: [SupplementHashAnchorsPipe],
+  imports: [SupplementHashAnchorsPipe],
   exports: [SupplementHashAnchorsPipe],
 })
 export class SupplementHashAnchorsModule {}

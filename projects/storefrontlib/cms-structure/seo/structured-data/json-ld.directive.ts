@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,10 +18,7 @@ import { JsonLdScriptFactory } from './json-ld-script.factory';
  * This directive can however be used by merchants to write static schema data
  * to the DOM in a save way.
  */
-@Directive({
-  selector: '[cxJsonLd]',
-  standalone: false,
-})
+@Directive({ selector: '[cxJsonLd]' })
 export class JsonLdDirective {
   /**
    * Writes the schema data to a json-ld script element.

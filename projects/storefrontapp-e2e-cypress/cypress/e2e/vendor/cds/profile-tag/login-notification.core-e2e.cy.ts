@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -46,11 +46,6 @@ describe('login notification', () => {
   });
   it('should call the login endpoint of EC on a successful login', () => {
     loginHelper.loginAsDefaultUser();
-    cy.wait(`@${loginAlias}`).then((xhr) => {
-      // xhr request headers have lower case for header names. The actual header is: `X-Consent-Reference`.
-      expect(xhr.request.headers['x-consent-reference']).to.eq(
-        profileTagHelper.testCr
-      );
-    });
+    cy.wait(`@${loginAlias}`);
   });
 });

@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,7 +43,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
-      standalone: false,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockTemplateComponent {}
 
@@ -61,7 +62,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
-      standalone: false,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockOutletBeforeComponent {}
 
@@ -77,14 +78,13 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
-      standalone: false,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockOutletAfterComponent {}
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
+        imports: [
           MockTemplateComponent,
           MockOutletBeforeComponent,
           MockOutletAfterComponent,
@@ -149,7 +149,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
-      standalone: false,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockStackedReplaceOutletComponent {}
 
@@ -175,7 +175,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
-      standalone: false,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockStackedBeforeOutletComponent {}
 
@@ -183,8 +183,7 @@ describe('OutletDirective', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
+        imports: [
           MockStackedReplaceOutletComponent,
           MockStackedBeforeOutletComponent,
           OutletDirective,
@@ -227,7 +226,7 @@ describe('OutletDirective', () => {
           <div id="first">instant</div>
         </ng-template>
       `,
-      standalone: false,
+      imports: [OutletDirective],
     })
     class MockInstantOutletComponent {}
 
@@ -241,7 +240,7 @@ describe('OutletDirective', () => {
           <div id="first">deferred</div>
         </ng-template>
       `,
-      standalone: false,
+      imports: [OutletDirective],
     })
     class MockDeferredOutletComponent {
       load(_eventValue: boolean) {}
@@ -251,8 +250,7 @@ describe('OutletDirective', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
+        imports: [
           MockInstantOutletComponent,
           MockDeferredOutletComponent,
           OutletDirective,
@@ -290,7 +288,7 @@ describe('OutletDirective', () => {
         <ng-template cxOutletRef="B">B</ng-template>
         <ng-container *cxOutlet="outletName"> </ng-container>
       `,
-      standalone: false,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class HostComponent {
       outletName = 'A';
@@ -300,8 +298,7 @@ describe('OutletDirective', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [],
-        declarations: [HostComponent, OutletDirective, OutletRefDirective],
+        imports: [HostComponent, OutletDirective, OutletRefDirective],
         providers: [
           {
             provide: DeferLoaderService,
@@ -342,7 +339,7 @@ describe('OutletDirective', () => {
           </ng-template>
         </div>
       `,
-      standalone: false,
+      imports: [OutletDirective, AsyncPipe],
     })
     class MockTemplateComponent {
       constructor(
@@ -353,7 +350,6 @@ describe('OutletDirective', () => {
     @Component({
       template: ` <div id="component">TestData</div> `,
       selector: 'cx-test-component',
-      standalone: false,
     })
     class MockOutletComponent {
       constructor(public outlet: OutletContextData) {}
@@ -363,8 +359,7 @@ describe('OutletDirective', () => {
       mockContextSubject$ = new BehaviorSubject('fakeContext');
 
       TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
+        imports: [
           MockTemplateComponent,
           MockOutletComponent,
           OutletDirective,
@@ -485,8 +480,8 @@ describe('OutletDirective', () => {
         >
         </ng-template>
       `,
+      imports: [OutletDirective],
       changeDetection: ChangeDetectionStrategy.OnPush,
-      standalone: false,
     })
     class MockTestOutletComponent {
       innerCompRef: any;
@@ -495,14 +490,12 @@ describe('OutletDirective', () => {
     @Component({
       template: ` <div id="component">TestData</div> `,
       selector: 'cx-test-component',
-      standalone: false,
     })
     class MockOutletComponent {}
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
+        imports: [
           MockTestOutletComponent,
           OutletDirective,
           MockOutletComponent,

@@ -30,8 +30,7 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IconTestingModule, I18nTestingModule],
-      declarations: [ScrollToTopComponent],
+      imports: [IconTestingModule, I18nTestingModule, ScrollToTopComponent],
       providers: [
         {
           provide: CmsComponentData,
@@ -102,14 +101,18 @@ describe('ScrollToTopComponent', () => {
     expect(component['switchDisplay']).toHaveBeenCalled();
   });
 
-  it('should focus first focusable element after activated with keyboard and pressing tab', () => {
+  it('should focus first focusable element after activated with keyboard and pressing tab', (done) => {
     spyOn(focusUtility, 'findFirstFocusable').and.callThrough();
     scrollBtn.focus();
     component['triggedByKeypress'] = true;
     component['onTab'](new KeyboardEvent('keydown', { key: 'Tab' }));
 
-    expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
-    expect(document.activeElement).not.toBe(component.button.nativeElement);
+    // Wait for focus changes to propagate
+    setTimeout(() => {
+      expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
+      expect(document.activeElement).not.toBe(component.button.nativeElement);
+      done();
+    }, 0);
   });
 
   it('should reset triggedByKeypress flag when display is set to false', () => {

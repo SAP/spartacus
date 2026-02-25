@@ -26,8 +26,11 @@ describe('OrderConfirmationItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule],
-      declarations: [OrderConfirmationItemsComponent],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        OrderConfirmationItemsComponent,
+      ],
       providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         {

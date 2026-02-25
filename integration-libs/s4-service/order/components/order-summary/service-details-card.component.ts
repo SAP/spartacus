@@ -1,24 +1,25 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { ProductTypes, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
-  ServiceDateTime,
   CheckoutServiceSchedulePickerService,
+  ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, map } from 'rxjs';
 
 @Component({
   selector: 'cx-card-service-details',
   templateUrl: './service-details-card.component.html',
-  standalone: false,
+  imports: [NgIf, CardComponent, AsyncPipe],
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
@@ -46,7 +47,7 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
         (entry) => entry.deliveryPointOfService === undefined
       ) || [];
     deliveryEntries.forEach((entry) => {
-      if (entry.product?.productTypes === 'SERVICE') {
+      if (entry.product?.productTypes === ProductTypes.SERVICE) {
         hasService = true;
       }
     });

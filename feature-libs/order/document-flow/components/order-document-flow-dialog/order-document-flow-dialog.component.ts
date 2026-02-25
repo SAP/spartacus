@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,15 +15,26 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   GlobalMessageType,
-  TranslationService,
   isNotNullable,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import {
+  OrderDocumentFlowFacade,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
+} from '@spartacus/order/document-flow/root';
+import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  MessageComponent,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -34,18 +46,24 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  OrderDocumentFlowFacade,
-  OrderSubsequentDocument,
-  OrderSubsequentDocumentEntry,
-} from '@spartacus/order/document-flow/root';
+import { OrderSubsequentDocumentListComponent } from './order-document-flow-list/order-subsequent-document-list.component';
+import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list/order-document-order-entry-list.component';
 
 @Component({
   selector: 'cx-order-document-flow-dialog',
   templateUrl: './order-document-flow-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    MessageComponent,
+    OrderDocumentOrderEntryListComponent,
+    OrderSubsequentDocumentListComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class OrderDocumentFlowDialogComponent {
   protected launchDialogService = inject(LaunchDialogService);

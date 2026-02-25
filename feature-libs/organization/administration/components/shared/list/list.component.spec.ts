@@ -13,11 +13,22 @@ import { ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   EntitiesModel,
+  FeatureDirective,
   I18nTestingModule,
   Translatable,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrganizationTableType } from '@spartacus/organization/administration/components';
-import { PopoverModule, Table } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  IconComponent,
+  PaginationComponent,
+  PopoverModule,
+  SplitViewComponent,
+  Table,
+  TableComponent,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
@@ -92,7 +103,6 @@ class ActivatedRouteMock {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-table',
   template: '',
-  standalone: false,
 })
 class MockTableComponent {
   @Input() data;
@@ -105,7 +115,18 @@ class MockTableComponent {
 
 @Component({
   templateUrl: './list.component.html',
-  standalone: false,
+  imports: [
+    CommonModule,
+    I18nTestingModule,
+    UrlTestingModule,
+    SplitViewTestingModule,
+    PaginationTestingModule,
+    IconTestingModule,
+    NgSelectModule,
+    FormsModule,
+    KeyboardFocusTestingModule,
+    PopoverModule,
+  ],
 })
 class MockListComponent extends ListComponent<Mock> {
   constructor(
@@ -125,23 +146,7 @@ describe('ListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        SplitViewTestingModule,
-        PaginationTestingModule,
-        IconTestingModule,
-        NgSelectModule,
-        FormsModule,
-        KeyboardFocusTestingModule,
-        PopoverModule,
-      ],
-      declarations: [
-        MockListComponent,
-        MockTableComponent,
-        MockFeatureDirective,
-      ],
+      imports: [CommonModule, NgSelectModule, FormsModule, PopoverModule],
       providers: [
         {
           provide: ActivatedRoute,
@@ -156,7 +161,36 @@ describe('ListComponent', () => {
           useClass: MockItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MockListComponent, {
+        remove: {
+          imports: [
+            FocusDirective,
+            UrlPipe,
+            TranslatePipe,
+            SplitViewComponent,
+            PaginationComponent,
+            IconComponent,
+            TableComponent,
+            FeatureDirective,
+            ListComponent,
+          ],
+        },
+        add: {
+          imports: [
+            KeyboardFocusTestingModule,
+            I18nTestingModule,
+            UrlTestingModule,
+            SplitViewTestingModule,
+            PaginationTestingModule,
+            IconTestingModule,
+            MockListComponent,
+            MockTableComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     service = TestBed.inject(ListService);
     itemService = TestBed.inject(ItemService);
@@ -260,15 +294,14 @@ describe('ListComponent', () => {
     });
 
     it('should display hint after click info button', () => {
-      const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
-      ).nativeElement;
+      const infoButton = fixture.debugElement.query(By.css('button cx-icon'))
+        .parent?.nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText).toBe('orgBudget.hint');
+      expect(el.nativeElement.innerText.trim()).toBe('orgBudget.hint');
     });
   });
 

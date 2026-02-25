@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     I18nModule,
     TabModule,
     FeaturesConfigModule,
+    TabParagraphContainerComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,7 +36,6 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
       },
     }),
   ],
-  declarations: [TabParagraphContainerComponent],
   exports: [TabParagraphContainerComponent],
 })
 export class TabParagraphContainerModule {}

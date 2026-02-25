@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import { LoginRegisterComponent } from './login-register.component';
     PageSlotModule,
     I18nModule,
     BtnLikeLinkModule,
+    LoginRegisterComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -37,6 +38,5 @@ import { LoginRegisterComponent } from './login-register.component';
       },
     }),
   ],
-  declarations: [LoginRegisterComponent],
 })
 export class LoginRegisterModule {}

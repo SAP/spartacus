@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import { FeatureConfigService } from './feature-config.service';
 @Injectable({ providedIn: 'root' })
 export class FeatureStylesService {
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
-  protected featureConfig = inject(FeatureConfigService);
+  private featureConfig = inject(FeatureConfigService);
   protected logger = inject(LoggerService);
 
   /**

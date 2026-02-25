@@ -27,7 +27,6 @@ describe('CdcConsentManagementService', () => {
   let store: CdcConsentsLocalStorageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       declarations: [],
       providers: [
         {

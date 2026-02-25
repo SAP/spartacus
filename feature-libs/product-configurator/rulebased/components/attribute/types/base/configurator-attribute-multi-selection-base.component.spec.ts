@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
+import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
-import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
-import { I18nTestingModule } from '@spartacus/core';
-import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 const createTestValue = (
   price: number | undefined,
@@ -31,7 +31,6 @@ const createTestValue = (
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection',
-  standalone: false,
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
   constructor(
@@ -56,8 +55,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExampleConfiguratorAttributeMultiSelectionComponent],
-      imports: [I18nTestingModule],
+      imports: [
+        I18nTestingModule,
+        ExampleConfiguratorAttributeMultiSelectionComponent,
+      ],
       providers: [
         ConfiguratorAttributeQuantityService,
         {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,9 +12,14 @@ import { defaultConfiguratorUISettingsConfig } from '../../config/default-config
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 @NgModule({
-  declarations: [ConfiguratorAttributeQuantityComponent],
   exports: [ConfiguratorAttributeQuantityComponent],
-  imports: [CommonModule, I18nModule, ItemCounterModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ItemCounterModule,
+    KeyboardFocusModule,
+    ConfiguratorAttributeQuantityComponent,
+  ],
   providers: [provideDefaultConfig(defaultConfiguratorUISettingsConfig)],
 })
 export class ConfiguratorAttributeQuantityModule {}

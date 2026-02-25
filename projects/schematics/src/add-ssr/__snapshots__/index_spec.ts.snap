@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`add-ssr angular.json should be configured properly 1`] = `
 {
@@ -8,7 +8,7 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
     "schematics-test": {
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "configurations": {
             "development": {
               "extractLicenses": false,
@@ -44,14 +44,11 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
               },
             ],
             "browser": "src/main.ts",
-            "index": "src/index.html",
             "inlineStyleLanguage": "scss",
-            "outputPath": "dist/schematics-test",
             "polyfills": [
               "zone.js",
             ],
             "prerender": false,
-            "scripts": [],
             "server": "src/main.server.ts",
             "ssr": {
               "entry": "src/server.ts",
@@ -72,11 +69,8 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
             "tsConfig": "tsconfig.app.json",
           },
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-        },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "development": {
               "buildTarget": "schematics-test:build:development,noSsr",
@@ -88,29 +82,13 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "defaultConfiguration": "development",
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public",
-              },
-            ],
-            "inlineStyleLanguage": "scss",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing",
-            ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/",
               ],
             },
-            "styles": [
-              "src/styles.scss",
-            ],
-            "tsConfig": "tsconfig.spec.json",
           },
         },
       },
@@ -119,14 +97,32 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
       "root": "",
       "schematics": {
         "@schematics/angular:component": {
-          "standalone": false,
+          "addTypeToClassName": false,
           "style": "scss",
+          "type": "component",
         },
         "@schematics/angular:directive": {
-          "standalone": false,
+          "addTypeToClassName": false,
+          "type": "directive",
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": ".",
         },
         "@schematics/angular:pipe": {
-          "standalone": false,
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:service": {
+          "addTypeToClassName": false,
+          "type": "service",
         },
       },
       "sourceRoot": "src",
@@ -136,50 +132,71 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
 }
 `;
 
+exports[`add-ssr app.config.server.ts should be updated 1`] = `
+"import { ApplicationConfig, importProvidersFrom, mergeApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/ssr';
+import { appConfig } from './app.config';
+import { AppServerModule } from "./app.module.server";
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(),
+    importProvidersFrom(AppServerModule)
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+"
+`;
+
+exports[`add-ssr app.config.ts should be updated 1`] = `
+"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
+import { AppModule } from "./app.module";
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule), provideClientHydration(withEventReplay(), withNoHttpTransferCache())
+  ]
+};
+"
+`;
+
 exports[`add-ssr app.module.server.ts should be updated 1`] = `
-"import { NgModule } from '@angular/core';
-import { ServerModule } from '@angular/platform-server';
-import { AppComponent } from './app.component';
-import { AppModule } from './app.module';
+"
+import { NgModule } from '@angular/core';
 import { provideServer } from '@spartacus/setup/ssr';
 
 @NgModule({
-  imports: [AppModule, ServerModule],
-  bootstrap: [AppComponent],
   providers: [
-    ...provideServer({
-       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-     }),
-  ],
+    
+     ...provideServer({
+        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      }),
+  ]
 })
 export class AppServerModule {}
 "
 `;
 
 exports[`add-ssr app.module.ts should be updated 1`] = `
-"import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
-
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+"
+import { NgModule } from '@angular/core';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
-import { AppComponent } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule
-  ],
-  providers: [provideHttpClient(withFetch(), withInterceptorsFromDi()), provideClientHydration(withEventReplay(), withNoHttpTransferCache())],
-  bootstrap: [AppComponent]
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule]
 })
 export class AppModule { }
 "
@@ -214,7 +231,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import AppServerModule from './main.server';
+import bootstrap from './main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
   ssrFeatureToggles: {
@@ -235,7 +252,7 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppServerModule,
+      bootstrap
     })
   );
 
@@ -244,21 +261,21 @@ export function app(): express.Express {
 
   // Serve static files from /browser
   server.get(
-    '*.*',
+    /.*\\..*/,
     express.static(browserDistFolder, {
       maxAge: '1y',
     })
   );
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
+  server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
 
-  server.use(defaultExpressErrorHandlers(indexHtmlContent))
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
   return server;
 }

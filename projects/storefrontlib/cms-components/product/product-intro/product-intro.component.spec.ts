@@ -2,11 +2,16 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   EventService,
-  I18nTestingModule,
+  FeatureDirective,
+  MockTranslatePipe,
   Product,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { ComponentCreateEvent } from '@spartacus/storefront';
+import {
+  ComponentCreateEvent,
+  StarRatingComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
@@ -15,7 +20,6 @@ import { ProductIntroComponent } from './product-intro.component';
 @Component({
   selector: 'cx-star-rating',
   template: '',
-  standalone: false,
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -48,12 +52,7 @@ describe('ProductIntroComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ProductIntroComponent,
-        MockStarRatingComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ProductIntroComponent],
       providers: [
         {
           provide: CurrentProductService,
@@ -68,7 +67,20 @@ describe('ProductIntroComponent in product', () => {
           useClass: MockEventService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductIntroComponent, {
+        remove: {
+          imports: [StarRatingComponent, FeatureDirective, TranslatePipe],
+        },
+        add: {
+          imports: [
+            MockStarRatingComponent,
+            MockFeatureDirective,
+            MockTranslatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

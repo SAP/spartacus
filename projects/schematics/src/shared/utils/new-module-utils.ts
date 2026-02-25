@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,6 +71,7 @@ export function ensureModuleExists(options: {
       commonModule: false,
       path: modulePath,
       module: options.module,
+      typeSeparator: '.',
     });
   };
 }
@@ -112,23 +113,6 @@ export function addModuleExport(
   return addToModuleInternal(
     sourceFile,
     'exports',
-    insertOptions,
-    createIfMissing
-  );
-}
-
-export function addModuleDeclaration(
-  sourceFile: SourceFile,
-  insertOptions: {
-    import: Import | Import[];
-    content: string;
-    order?: number;
-  },
-  createIfMissing = true
-): Expression | undefined {
-  return addToModuleInternal(
-    sourceFile,
-    'declarations',
     insertOptions,
     createIfMissing
   );
@@ -179,7 +163,11 @@ function addToModuleInternal(
 
   let createdNode: Expression | undefined;
   if (insertOptions.order || insertOptions.order === 0) {
-    initializer.insertElement(insertOptions.order, insertOptions.content);
+    const elements = initializer.getElements();
+    const maxIndex = elements.length;
+    // If the requested order exceeds the current array length, append at the end
+    const insertIndex = Math.min(insertOptions.order, maxIndex);
+    initializer.insertElement(insertIndex, insertOptions.content);
   } else {
     createdNode = initializer.addElement(insertOptions.content);
   }

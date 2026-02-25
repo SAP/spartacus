@@ -47,7 +47,6 @@ describe('OccAsmCustomer360Adapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccAsmCustomer360Adapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },

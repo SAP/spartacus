@@ -5,6 +5,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -39,7 +40,8 @@ describe('Package utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
   const defaultOptions = {
     project: 'schematics-test',
@@ -163,6 +165,16 @@ describe('Package utils', () => {
       it('should return true when SSR is properly configured and server file exists', () => {
         createWorkspace(
           '@angular-devkit/build-angular:application',
+          'src/main.server.ts',
+          'server.ts'
+        );
+        ssrTree.create('server.ts', 'export const server = {};');
+        expect(isSsrUsed(ssrTree)).toBeTruthy();
+      });
+
+      it('should return true when using @angular/build:application builder with SSR', () => {
+        createWorkspace(
+          '@angular/build:application',
           'src/main.server.ts',
           'server.ts'
         );

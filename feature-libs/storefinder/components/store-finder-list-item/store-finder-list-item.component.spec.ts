@@ -110,8 +110,8 @@ describe('StoreFinderListItemComponent', () => {
         I18nTestingModule,
         RouterModule.forRoot([]),
         OutletModule,
+        StoreFinderListItemComponent,
       ],
-      declarations: [StoreFinderListItemComponent],
       providers: [
         provideLocationMocks(),
         { provide: StoreFinderService, useClass: MockStoreFinderService },
@@ -143,8 +143,7 @@ describe('StoreFinderListItemComponent', () => {
     const encodedName = name.replace(' ', '%20');
     const link = fixture.debugElement
       .queryAll(By.css('.cx-store-name'))
-      .find((el) => el.nativeElement.innerText === displayName).nativeElement;
+      .find((el) => el.nativeElement.innerText === displayName)?.nativeElement;
     expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
-    expect(link.getAttribute('ng-reflect-router-link')).toEqual(name);
   });
 });

@@ -1,33 +1,30 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
-import {
-  FeatureModulesService,
-  User,
-  FeatureConfigService,
-} from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { FeatureModulesService, TranslatePipe, User } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { AsmBindCartComponent } from '../asm-bind-cart/asm-bind-cart.component';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  standalone: false,
+  imports: [NgIf, AsmBindCartComponent, AsyncPipe, TranslatePipe],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
@@ -40,8 +37,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   asmCustomer360LauncherElement: ElementRef;
 
   protected subscription = new Subscription();
-
-  protected featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected asmComponentService: AsmComponentService,

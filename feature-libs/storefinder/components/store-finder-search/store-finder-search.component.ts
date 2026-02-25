@@ -1,18 +1,37 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import {
+  RoutingService,
+  TranslatePipe,
+  FeatureDirective,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    RouterLink,
+    NgClass,
+    NgTemplateOutlet,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class StoreFinderSearchComponent {
   searchBox: UntypedFormControl = new UntypedFormControl();

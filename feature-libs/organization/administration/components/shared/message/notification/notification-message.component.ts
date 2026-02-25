@@ -1,19 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FeatureConfigService, TranslatePipe } from '@spartacus/core';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 import { BaseMessageComponent } from '../base-message.component';
 
 @Component({
   selector: 'cx-org-notification',
   templateUrl: './notification-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe],
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;
+
+  private featureConfigService = inject(FeatureConfigService);
+
+  get isA11yCardNotificationMessageFeatureEnabled(): boolean {
+    return this.featureConfigService.isEnabled('a11yCardNotificationMessage');
+  }
 }

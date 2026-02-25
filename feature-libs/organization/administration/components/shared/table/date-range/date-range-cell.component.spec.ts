@@ -1,8 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { DateRangeCellComponent } from '..';
 
 describe('DateRangeCellComponent', () => {
@@ -11,20 +17,28 @@ describe('DateRangeCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DateRangeCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [DateRangeCellComponent],
       providers: [
         {
           provide: OutletContextData,
           useValue: {
             context: {
-              startDate: '2020-07-15T02:00:00+0000',
-              endDate: '2020-07-15T02:59:00+0000',
+              startDate: '2020-07-15T11:00:00+0000',
+              endDate: '2020-07-15T11:59:00+0000',
             },
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DateRangeCellComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

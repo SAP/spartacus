@@ -1,18 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostBinding,
+  inject,
   Input,
   isDevMode,
   Output,
 } from '@angular/core';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
   TableDataOutletContext,
@@ -21,6 +24,7 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
+import { FeatureConfigService } from '@spartacus/core';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -50,13 +54,15 @@ import {
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, OutletDirective],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;
   @HostBinding('class.horizontal') horizontalLayout: boolean;
   @HostBinding('class.vertical') verticalLayout: boolean;
   @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
+
+  private featureConfigService = inject(FeatureConfigService);
 
   private _structure: TableStructure;
   @Input() set structure(structure: TableStructure) {
@@ -153,9 +159,12 @@ export class TableComponent<T> {
     );
   }
 
-  trackData(_i: number, item: any): any {
+  trackData = (_i: number, item: any): any => {
+    if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
+      return item?.uid ?? JSON.stringify(item);
+    }
     return JSON.stringify(item);
-  }
+  };
 
   /**
    * Generates the table type into the UI in devMode, so that developers

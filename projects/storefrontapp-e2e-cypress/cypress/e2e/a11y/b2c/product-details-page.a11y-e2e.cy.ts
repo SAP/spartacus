@@ -1,13 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 /**
  * This test checks accessibility concerns on the PDP page using Access Continuum
  */
 describe('Product Details Page Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.visit(`/product/1382080`);

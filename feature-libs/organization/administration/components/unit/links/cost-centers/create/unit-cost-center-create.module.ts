@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { CostCenterFormModule } from '../../../../cost-center/form/cost-center-f
 import { UnitCostCenterCreateComponent } from './unit-cost-center-create.component';
 
 @NgModule({
-  imports: [CommonModule, CostCenterFormModule],
-  declarations: [UnitCostCenterCreateComponent],
+  imports: [CommonModule, CostCenterFormModule, UnitCostCenterCreateComponent],
 })
 export class UnitCostCenterCreateModule {}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,13 @@ import { StarRatingModule } from '@spartacus/storefront';
 import { AsmCustomer360TableComponent } from './asm-customer-360-table.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ArgsModule, StarRatingModule],
-  declarations: [AsmCustomer360TableComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ArgsModule,
+    StarRatingModule,
+    AsmCustomer360TableComponent,
+  ],
   exports: [AsmCustomer360TableComponent],
 })
 export class AsmCustomer360TableModule {}

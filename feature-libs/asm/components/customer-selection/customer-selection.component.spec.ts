@@ -119,8 +119,10 @@ describe('CustomerSelectionComponent', () => {
     customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
         CustomerSelectionComponent,
         DotSpinnerComponent,
         MockFeatureDirective,
@@ -262,7 +264,8 @@ describe('CustomerSelectionComponent', () => {
 
   it('should display customer registration message if no customer was found (CXSPA-7026)', () => {
     component.searchByCustomer = true;
-
+    // Set createCustomer config using a public property or by modifying the mock config
+    (component as any).config.asm.createCustomer = { enable: true };
     spyOn(asmService, 'customerSearch').and.callFake(() => {
       customerSearchResults.next({ entries: [] });
       customerSearchResultsLoading.next(false);
@@ -279,6 +282,23 @@ describe('CustomerSelectionComponent', () => {
     );
     createAccountButton.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmService.customerSearchReset).toHaveBeenCalled();
+  });
+
+  it('should no display customer create btn (CXSPA-11633) ', () => {
+    component.searchByCustomer = true;
+    (component as any).config.asm.createCustomer = { enable: false };
+    spyOn(asmService, 'customerSearch').and.callFake(() => {
+      customerSearchResults.next({ entries: [] });
+      customerSearchResultsLoading.next(false);
+    });
+    spyOn(asmService, 'customerSearchReset').and.stub();
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
+    fixture.detectChanges();
+    expect(el.queryAll(By.css('div.cx-message-content div')).length).toEqual(1);
+    const createAccountButton = el.query(By.css('span.linkStyleLabel'));
+    expect(createAccountButton).toBeFalsy(); // Button should not exist
   });
 
   it('should display search exact order message if no customer was found by order ID (CXSPA-7026)', () => {

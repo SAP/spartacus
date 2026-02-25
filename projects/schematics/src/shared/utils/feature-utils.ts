@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  ArrowFunction,
   CallExpression,
   Expression,
   Identifier,
@@ -39,9 +38,7 @@ import {
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
   findDynamicImport,
-  getDynamicImportImportPath,
   isImportedFrom,
-  isRelative,
   staticImportExists,
 } from './import-utils';
 import {
@@ -446,25 +443,6 @@ function isDynamicallyImported(
     moduleSpecifier: moduleConfig.importPath,
     namedImports: [moduleConfig.name],
   });
-}
-
-/**
- * Peeks into the given dynamic import,
- * and returns referenced local source file.
- */
-export function getDynamicallyImportedLocalSourceFile(
-  dynamicImport: ArrowFunction
-): SourceFile | undefined {
-  const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
-  if (!isRelative(importPath)) {
-    return;
-  }
-
-  const wrapperModuleFileName = `${importPath.split('/').pop()}.ts`;
-  return dynamicImport
-    .getSourceFile()
-    .getProject()
-    .getSourceFile((s) => s.getFilePath().endsWith(wrapperModuleFileName));
 }
 
 function createDependentFeaturesLog(

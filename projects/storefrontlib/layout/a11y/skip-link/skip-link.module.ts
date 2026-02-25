@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,8 +28,9 @@ import { SkipLinkDirective } from './directive/skip-link.directive';
     I18nModule,
     ConfigModule.withConfig(defaultSkipLinkConfig),
     KeyboardFocusModule,
+    SkipLinkComponent,
+    SkipLinkDirective,
   ],
-  declarations: [SkipLinkComponent, SkipLinkDirective],
   exports: [SkipLinkDirective],
   providers: [
     provideDefaultConfig(defaultSkipLinkConfig),
