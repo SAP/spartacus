@@ -41,6 +41,7 @@ export class PageMetaService {
   ) {
     // NOTE: Solution to the issue: https://jira.tools.sap/browse/CXSPA-10923
     // Cause CMS page data refresh on language change (to update the title)
+    // Skip the first emission of getActive() to avoid duplicate refresh on app initialization, as the language is already set at that point.
     this.languageService
       .getActive()
       .pipe(skip(1), distinctUntilChanged())

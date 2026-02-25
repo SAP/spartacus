@@ -31,7 +31,6 @@ class MockGlobalMessageService {
 @Component({
   template: '<div>Spinner</div>',
   selector: 'cx-spinner',
-  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -55,7 +54,6 @@ const mockPayment: PaymentDetails = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -81,7 +79,12 @@ describe('PaymentMethodsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [PaymentMethodsComponent, CardComponent, FocusDirective],
+      imports: [
+        PaymentMethodsComponent,
+        CardComponent,
+        FocusDirective,
+        I18nTestingModule,
+      ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },

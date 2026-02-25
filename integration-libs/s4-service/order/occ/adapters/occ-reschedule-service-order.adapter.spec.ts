@@ -32,7 +32,6 @@ describe('OccRescheduleServiceOrderAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccRescheduleServiceOrderAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

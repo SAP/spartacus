@@ -26,7 +26,6 @@ describe('AsmBindCartService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         AsmBindCartService,
         { provide: AsmConnector, useClass: MockAsmConnector },

@@ -65,7 +65,6 @@ describe('SiteContextInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: LanguageService,

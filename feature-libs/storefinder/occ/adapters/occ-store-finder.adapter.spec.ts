@@ -63,7 +63,6 @@ describe('OccStoreFinderAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccStoreFinderAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

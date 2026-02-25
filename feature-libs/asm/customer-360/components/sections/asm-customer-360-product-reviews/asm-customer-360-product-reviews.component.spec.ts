@@ -51,7 +51,6 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -60,7 +59,6 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   @Component({
     selector: 'cx-star-rating',
     template: '',
-    imports: [],
   })
   class MockCxStarRatingnComponent {
     @Input() rating: number;

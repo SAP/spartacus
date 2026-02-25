@@ -6,7 +6,6 @@ import { CustomerTicketingDialogComponent } from './customer-ticketing-dialog.co
 
 @Component({
   template: '',
-  imports: [I18nTestingModule],
 })
 class DialogComponent extends CustomerTicketingDialogComponent {}
 

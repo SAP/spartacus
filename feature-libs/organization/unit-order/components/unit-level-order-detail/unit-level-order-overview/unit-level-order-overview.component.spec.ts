@@ -17,7 +17,6 @@ import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.com
 @Component({
   selector: 'cx-card',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input()

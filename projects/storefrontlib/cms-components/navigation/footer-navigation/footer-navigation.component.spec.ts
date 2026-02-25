@@ -6,7 +6,6 @@ import {
   AnonymousConsentsConfig,
   CmsNavigationComponent,
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -26,7 +25,6 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockNavigationUIComponent {
   @Input() flyout = true;
@@ -43,7 +41,6 @@ const mockAnonymousConsentsConfig = {
 @Component({
   selector: 'cx-generic-link',
   template: '<ng-content></ng-content>',
-  imports: [I18nTestingModule],
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
