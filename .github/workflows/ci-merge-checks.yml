@@ -150,7 +150,8 @@ jobs:
           cache-key-base: ${{ github.event.pull_request.base.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
-          e2e-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}-
+          e2e-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}-${{ hashFiles('**/package-lock.json') }}
+
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
