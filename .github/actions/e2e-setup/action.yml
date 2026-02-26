@@ -35,11 +35,11 @@ runs:
         cache-key: ${{ inputs.libs-cache-key }}
         fail-on-cache-miss: true
 
-    #- name: Restore e2e libraries
-    #  uses: ./.github/actions/restore-e2e-libraries
-    #  with:
-    #    cache-key: ${{ inputs.cache-key-base }}
-    #    fail-on-cache-miss: true
+    - name: Restore e2e libraries
+      uses: ./.github/actions/restore-e2e-libraries
+      with:
+        cache-key: ${{ inputs.e2e-cache-key }}
+        fail-on-cache-miss: true
 
     - name: Restore built app
       uses: ./.github/actions/restore-built-app
