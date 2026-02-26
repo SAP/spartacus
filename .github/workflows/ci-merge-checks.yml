@@ -150,6 +150,7 @@ jobs:
           cache-key-base: ${{ github.event.pull_request.base.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          e2e-cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
           SPA_ENV: ci
@@ -181,6 +182,7 @@ jobs:
           cache-key-base: ${{ github.event.pull_request.base.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          e2e-cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
@@ -200,6 +202,7 @@ jobs:
           cache-key-base: ${{ github.event.pull_request.base.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2c-ssr-${{ github.event.pull_request.head.sha || github.run_id }}
+          e2e-cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
@@ -222,6 +225,7 @@ jobs:
           cache-key-base: ${{ github.event.pull_request.base.sha }}
           libs-cache-key: ${{ github.event.pull_request.head.sha || github.run_id }}
           app-cache-key: ci-b2b-csr-${{ github.event.pull_request.head.sha || github.run_id }}
+          e2e-cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
@@ -250,7 +254,16 @@ jobs:
             const postScreenshotComment = require('./ci-scripts/post-screenshot-comment.js');
             await postScreenshotComment(github, context);
   merge_checks_result:
-    needs: [build_libs, build_apps, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, a11y_e2e_tests, notify_e2e_failures]
+    needs:
+      [
+        build_libs,
+        build_apps,
+        b2c_e2e_tests,
+        b2c_ssr_e2e_tests,
+        b2b_e2e_tests,
+        a11y_e2e_tests,
+        notify_e2e_failures,
+      ]
     name: MC - Result
     runs-on: ubuntu-latest
     if: ${{ always() }}
