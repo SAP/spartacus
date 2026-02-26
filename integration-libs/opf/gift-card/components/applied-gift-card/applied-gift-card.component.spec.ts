@@ -62,7 +62,11 @@ describe('AppliedGiftCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+it('should inject dependencies', () => {
+  expect((component as any).globalMessageService).toBeTruthy();
+  expect((component as any).giftCardService).toBeTruthy();
+  expect((component as any).activeCartFacade).toBeTruthy();
+});
   describe('removeGiftCard', () => {
     const giftCardId = 'GC-123';
 

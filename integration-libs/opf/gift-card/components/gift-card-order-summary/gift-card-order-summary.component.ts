@@ -10,6 +10,8 @@ import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData, OutletModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { GiftCardService } from '../../core/services';
+import { environment } from 'projects/storefrontapp/src/environments/environment';
+
 @Component({
   selector: 'cx-opf-gift-card-order-summary',
   templateUrl: './gift-card-order-summary.component.html',
@@ -18,6 +20,7 @@ import { GiftCardService } from '../../core/services';
 export class GiftCardOrderSummaryComponent implements OnInit {
   @Input()
   cart: Cart;
+  environment = environment;
   protected activeCartFacade = inject(ActiveCartFacade);
   protected giftCardService = inject(GiftCardService);
   protected isGiftCardEnabled$: Observable<boolean>;

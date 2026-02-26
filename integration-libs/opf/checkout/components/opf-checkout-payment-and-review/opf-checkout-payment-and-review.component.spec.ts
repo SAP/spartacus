@@ -23,6 +23,9 @@ import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { OpfBaseFacade } from '@spartacus/opf/base/root';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -103,6 +106,23 @@ class MockCmsService {
   }
 }
 
+class MockOpfBaseFacade {
+  getActiveConfigurationsState(): Observable<any> {
+    return of({});
+  }
+}
+
+class MockOpfMetadataStoreService {
+  getOpfMetadataState(): Observable<any> {
+    return of({});
+  }
+  updateOpfMetadata(): void {}
+}
+
+class MockOpfCheckoutBillingAddressFormService {
+  paymentOptionsDisabled$ = of(false);
+}
+
 describe('OpfCheckoutPaymentAndReviewComponent', () => {
   let component: OpfCheckoutPaymentAndReviewComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentAndReviewComponent>;
@@ -176,6 +196,9 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
         { provide: Store, useClass: MockStore },
         { provide: CmsService, useClass: MockCmsService },
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+        { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
+        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        { provide: OpfCheckoutBillingAddressFormService, useClass: MockOpfCheckoutBillingAddressFormService },
       ],
     }).compileComponents();
   });

@@ -1,6 +1,5 @@
 <ng-container *ngIf="isGiftCardEnabled$ | async">
   <ng-container *ngIf="cart$ | async as cart">
-    <p>{{ isBillingAddressPresent$ | async }}</p>
     <div
       class="cx-gift-card"
       [ngClass]="{ 'cx-disabled': (isBillingAddressPresent$ | async) }"
@@ -88,7 +87,7 @@
 
       <!-- Applied Gift Cards -->
       <cx-applied-gift-card
-        [giftCards]="cart.sapGiftCards || mockGiftCards"
+        [giftCards]="(appliedGiftCards$ | async) || []"
       ></cx-applied-gift-card>
       <cx-gift-card-checkout-payment></cx-gift-card-checkout-payment>
     </div>

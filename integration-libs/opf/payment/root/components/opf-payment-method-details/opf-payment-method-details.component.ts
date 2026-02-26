@@ -8,7 +8,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
+import { Card, CardComponent, OutletContextData, OutletModule } from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
 import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
@@ -16,7 +16,7 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 @Component({
   selector: 'cx-opf-payment-method-details',
   templateUrl: './opf-payment-method-details.component.html',
-  imports: [NgIf, CardComponent, AsyncPipe],
+  imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

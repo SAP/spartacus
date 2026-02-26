@@ -16,9 +16,9 @@
       <div class="cx-card-balance">
         <p class="cx-balance-info">
           {{ 'giftCard.currentBalance' | cxTranslate }}:
-          {{ card.balance.formattedValue }}.
+          {{ card.balance?.formattedValue || card.balance?.value   }}.
           {{ 'giftCard.balanceAfterPurchase' | cxTranslate }}:
-          {{ card.remainingBalance.formattedValue }}
+          {{ card.remainingBalance?.formattedValue || card.remainingBalance?.value }}
         </p>
       </div>
     </div>

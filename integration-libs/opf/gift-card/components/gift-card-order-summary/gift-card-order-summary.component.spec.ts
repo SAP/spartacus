@@ -65,14 +65,7 @@ describe('GiftCardOrderSummaryComponent', () => {
     fixture = TestBed.createComponent(GiftCardOrderSummaryComponent);
     component = fixture.componentInstance;
 
-    spyOn(console, 'log');
-
     component.ngOnInit();
-
-    expect(console.log).toHaveBeenCalledWith(
-      'GiftCardOrderSummaryComponent received outlet context:',
-      mockCart
-    );
 
     expect(component.cart).toEqual(mockCart);
   });

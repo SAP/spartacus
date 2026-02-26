@@ -47,6 +47,10 @@ class MockGiftCardService {
   applyGiftCard = jasmine
     .createSpy('applyGiftCard')
     .and.returnValue(of(void 0));
+
+  isGiftCardCoveredTotalAmount = jasmine
+    .createSpy('isGiftCardCoveredTotalAmount')
+    .and.returnValue(of(false)); // 👈 ADD THIS
 }
 
 describe('GiftCardComponent', () => {
@@ -67,9 +71,6 @@ describe('GiftCardComponent', () => {
       ],
     });
 
-    // The real template uses `cxTranslate` (Spartacus TranslatePipe) which depends on
-    // RoutingService -> NgRx Store. For this unit test we don't need template rendering,
-    // so we override it to keep the testbed lightweight and avoid Store setup.
     TestBed.overrideComponent(GiftCardComponent, {
       set: { template: '' },
     });
@@ -108,7 +109,7 @@ describe('GiftCardComponent', () => {
     cardNumber?.updateValueAndValidity();
     expect(cardNumber?.hasError('required')).toBeTruthy();
 
-    cardNumber?.setValue('1'.repeat(57));
+    cardNumber?.setValue('1'.repeat(65));
     cardNumber?.updateValueAndValidity();
     expect(cardNumber?.hasError('maxlength')).toBeTruthy();
 
@@ -117,7 +118,7 @@ describe('GiftCardComponent', () => {
     pin?.updateValueAndValidity();
     expect(pin?.hasError('required')).toBeTruthy();
 
-    pin?.setValue('1'.repeat(17));
+    pin?.setValue('1'.repeat(29));
     pin?.updateValueAndValidity();
     expect(pin?.hasError('maxlength')).toBeTruthy();
   });

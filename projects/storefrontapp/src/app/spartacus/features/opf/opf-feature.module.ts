@@ -60,6 +60,7 @@ import {
   giftCardTranslationChunksConfig,
   giftCardTranslationsEn,
 } from '@spartacus/opf/gift-card/assets';
+import { defaultGiftCardCartOccEndpointsConfig } from '@spartacus/opf/gift-card/occ';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
@@ -72,6 +73,7 @@ if (environment.b2b) {
 }
 
 extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
+extensionProviders.push(provideConfig(defaultGiftCardCartOccEndpointsConfig));
 
 @NgModule({
   imports: [

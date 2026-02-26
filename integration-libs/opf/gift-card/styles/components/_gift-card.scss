@@ -29,7 +29,7 @@
       margin-right: 0;
       background: none;
       border: none;
-      padding: 0;
+      padding-right: 15px;
       font-weight: 500;
       color: var(--cx-color-primary);
       cursor: pointer;
@@ -59,7 +59,7 @@
       flex: 1;
 
       &:first-child {
-        flex: 2;
+        flex: 1.3;
       }
 
       &:nth-child(2) {
@@ -73,47 +73,22 @@
         font-size: 0.9rem;
 
         .cx-required {
-          color: #d32f2f;
+          color: var(--cx-color-danger);
           margin-left: 0.25rem;
         }
       }
 
       .form-control {
         padding: 0.75rem;
-        border: 0.5px solid var(--cx-color-dark);
+        border: 1px solid #d3d6db;
         border-radius: 4px;
         font-size: 1rem;
         height: 42px;
-
-        &:focus {
-          outline: none;
-          border-color: var(--cx-color-primary);
-          box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-        }
       }
     }
 
     button.apply-gift-card-button {
       margin-top: 20px;
-      // color: var(--cx-color-primary);
-      // border: 2px solid var(--cx-color-primary);
-      // border-radius: 50px;
-
-      // &:hover,
-      // &:active,
-      // &:focus {
-      //   background-color: transparent !important;
-      //   color: var(--cx-color-primary) !important;
-      //   border-color: var(--cx-color-primary) !important;
-      //   box-shadow: none !important;
-      //   outline: none !important;
-      // }
-
-      // &:disabled,
-      // &.disabled {
-      //   background-color: transparent !important;
-      //   opacity: 0.5;
-      // }
     }
   }
 

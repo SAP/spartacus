@@ -13,7 +13,6 @@
     "apply": "Apply",
     "remove": "Remove",
 
-    "addedSuccessfully": "Gift card added successfully",
     "appliedSuccessfully": "Gift card applied",
     "removedSuccessfully": "Gift card removed",
 
@@ -24,6 +23,7 @@
 
     "errors": {
       "configurationNotFound": "Gift card payment configuration is not available. Please contact support.",
+      "placeOrderFailed": "We cannot proceed with the checkout",
       "applyFailed": "Unable to apply gift card. Please verify the card details and try again.",
       "expired": "This gift card has expired. Please use a different card.",
       "invalidCard": "Invalid gift card number. Please check the card number and try again.",

@@ -46,8 +46,7 @@ describe('GiftCardCheckoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [GiftCardCheckoutComponent],
+      imports: [I18nTestingModule, GiftCardCheckoutComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: OrderFacade, useClass: MockOrderFacade },

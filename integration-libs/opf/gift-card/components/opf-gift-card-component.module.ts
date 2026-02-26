@@ -31,22 +31,15 @@ import { provideOutlet } from '@spartacus/storefront';
   ],
   providers: [
     provideOutlet({
-      id: OpfCheckoutOutlets.CHECKOUT_GIFT_CARD,
+      id: OpfCheckoutOutlets.GIFT_CARD,
       component: GiftCardComponent,
     }),
-    // Gift Card as a Payment Option - appears BEFORE payment method details
-    // provideOutlet({
-    //   id: OpfCheckoutOutlets.PAYMENT_METHOD_GIFT_CARD,
-    //   component: GiftCardComponent,
-    //   position: OutletPosition.BEFORE,
-    // }),
     provideOutlet({
-      id: CartOutlets.GIFT_CARD_ORDER_SUMMARY,
+      id: CartOutlets.ORDER_SUMMARY_GIFT_CARD,
       component: GiftCardOrderSummaryComponent,
     }),
-    // Replace Order Billing Component with Gift Card Enhanced Version
     provideOutlet({
-      id: CartOutlets.GIFT_CARD_ORDER_BILLING_INFO,
+      id: CartOutlets.ORDER_BILLING_INFO_GIFT_CARD,
       component: GiftCardOrderDetailBillingComponent,
     }),
     provideOutlet({

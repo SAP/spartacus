@@ -6,7 +6,7 @@
 
 import { Price } from '@spartacus/core';
 
-export interface SAPGiftCard {
+export interface SAPGiftCards {
   id: string;
   maskedNumber: string;
   balance: Price;
@@ -24,4 +24,4 @@ export interface SAPGiftCardBalanceRequest {
   securityCode: string;
 }
 
-export type SAPGiftCardResponse = SAPGiftCard;
+export type SAPGiftCardResponse = SAPGiftCards;

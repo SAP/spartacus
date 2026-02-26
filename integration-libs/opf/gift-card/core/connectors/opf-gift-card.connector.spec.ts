@@ -49,7 +49,10 @@ describe('OpfGiftCardConnector', () => {
   it('should be created', () => {
     expect(connector).toBeTruthy();
   });
-
+it('should inject all dependencies via inject()', () => {
+  expect((connector as any).adapter).toBeTruthy();
+ 
+});
   describe('applyGiftCard', () => {
     it('should delegate to adapter', (done) => {
       const mockRequest: SAPGiftCardBalanceRequest = {

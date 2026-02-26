@@ -53,7 +53,7 @@ describe('OccOpfGiftCardAdapter', () => {
     ]);
     mockUserIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
 
-    mockOccEndpoints.buildUrl.and.callFake((endpoint, config: any) => {
+    mockOccEndpoints.buildUrl.and.callFake((endpoint: string , config: any) => {
       if (endpoint === 'applyGiftCard') {
         return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards`;
       } else if (endpoint === 'removeGiftCard') {
@@ -98,7 +98,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(mockRequest);
@@ -113,7 +113,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       expect(req.request.headers.get('Content-Type')).toBe('application/json');
     });
@@ -132,7 +132,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.flush(mockGiftCardResponse);
 
@@ -148,7 +148,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.applyGiftCard('user-456', 'cart-456', mockRequest).subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-456/carts/cart-456/giftcard'
+        '/rest/v2/users/user-456/carts/cart-456/giftCards'
       );
       expect(mockOccEndpoints.buildUrl).toHaveBeenCalledWith('applyGiftCard', {
         urlParams: { userId: 'user-456', cartId: 'cart-456' },
@@ -170,7 +170,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.error(new ErrorEvent('Network error'), { status: 500 });
 
@@ -191,7 +191,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.flush('Invalid gift card', {
         status: 400,
@@ -215,7 +215,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.flush('Not found', { status: 404, statusText: 'Not Found' });
 
@@ -233,7 +233,7 @@ describe('OccOpfGiftCardAdapter', () => {
         .subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/special-user-id/carts/cart-123/giftcard'
+        '/rest/v2/users/special-user-id/carts/cart-123/giftCards'
       );
       req.flush(mockGiftCardResponse);
     });
@@ -249,7 +249,7 @@ describe('OccOpfGiftCardAdapter', () => {
         .subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/special-cart-id/giftcard'
+        '/rest/v2/users/user-123/carts/special-cart-id/giftCards'
       );
       req.flush(mockGiftCardResponse);
     });
@@ -260,7 +260,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.removeGiftCard('user-123', 'cart-123', 'gc-123').subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard/gc-123'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards/gc-123'
       );
       expect(req.request.method).toBe('DELETE');
     });
@@ -269,7 +269,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.removeGiftCard('user-456', 'cart-456', 'gc-456').subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-456/carts/cart-456/giftcard/gc-456'
+        '/rest/v2/users/user-456/carts/cart-456/giftCards/gc-456'
       );
       expect(mockOccEndpoints.buildUrl).toHaveBeenCalledWith('removeGiftCard', {
         urlParams: {
@@ -290,7 +290,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard/gc-123'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards/gc-123'
       );
       req.flush(null);
 
@@ -306,7 +306,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard/gc-123'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards/gc-123'
       );
       req.error(new ErrorEvent('Network error'), { status: 500 });
 
@@ -324,7 +324,7 @@ describe('OccOpfGiftCardAdapter', () => {
         });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard/gc-nonexistent'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards/gc-nonexistent'
       );
       req.flush('Gift card not found', {
         status: 404,
@@ -340,7 +340,7 @@ describe('OccOpfGiftCardAdapter', () => {
         .subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard/unique-gc-id'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards/unique-gc-id'
       );
       expect(req.request.method).toBe('DELETE');
       req.flush(null);
@@ -350,7 +350,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.removeGiftCard('user-789', 'cart-789', 'gc-789').subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-789/carts/cart-789/giftcard/gc-789'
+        '/rest/v2/users/user-789/carts/cart-789/giftCards/gc-789'
       );
       expect(req.request.method).toBe('DELETE');
       req.flush(null);
@@ -394,7 +394,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.error(new ErrorEvent('Network error'));
 
@@ -415,7 +415,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.flush('Internal Server Error', {
         status: 500,
@@ -439,7 +439,7 @@ describe('OccOpfGiftCardAdapter', () => {
       });
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
@@ -457,7 +457,7 @@ describe('OccOpfGiftCardAdapter', () => {
       adapter.applyGiftCard('user-123', 'cart-123', mockRequest).subscribe();
 
       const req = httpMock.expectOne(
-        '/rest/v2/users/user-123/carts/cart-123/giftcard'
+        '/rest/v2/users/user-123/carts/cart-123/giftCards'
       );
       expect(req.request.headers.get('Content-Type')).toBe('application/json');
       req.flush(mockGiftCardResponse);

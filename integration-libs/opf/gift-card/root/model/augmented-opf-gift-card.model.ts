@@ -7,11 +7,11 @@
 import '@spartacus/opf/base/root';
 import '@spartacus/opf/payment/root';
 
-import { SAPGiftCard, SAPGiftCardSummary } from './opf-gift-card.model';
+import { SAPGiftCardSummary, SAPGiftCards } from './opf-gift-card.model';
 
 declare module '@spartacus/cart/base/root' {
   interface Cart {
-    sapGiftCards?: SAPGiftCard[];
+    sapGiftCards?: SAPGiftCards[];
     sapGiftCardSummary?: SAPGiftCardSummary;
   }
 }

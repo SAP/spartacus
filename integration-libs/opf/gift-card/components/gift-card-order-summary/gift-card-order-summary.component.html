@@ -1,3 +1,4 @@
+<ng-container *ngIf="!environment.b2b">
 <ng-container *ngIf="cart.sapGiftCardSummary as giftCard">
   <div
     class="cx-gift-card-order-summary"
@@ -8,8 +9,9 @@
         {{ 'giftCard.title' | cxTranslate }}
       </div>
       <div class="col-6 cx-summary-amount cx-gift-card-discount">
-        - {{ giftCard?.totalAppliedAmount?.formattedValue }}
+        - {{ giftCard?.totalAppliedAmount?.formattedValue || giftCard?.totalAppliedAmount?.value }}
       </div>
     </div>
   </div>
+</ng-container>
 </ng-container>

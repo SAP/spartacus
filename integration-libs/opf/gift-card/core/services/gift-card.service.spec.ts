@@ -69,7 +69,12 @@ describe('GiftCardService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
+it('should inject all dependencies via inject()', () => {
+  expect((service as any).opfBaseFacade).toBeTruthy();
+  expect((service as any).opfGiftCardConnector).toBeTruthy();
+  expect((service as any).activeCartFacade).toBeTruthy();
+  expect((service as any).userIdService).toBeTruthy();
+});
   describe('getGiftCardConfiguration', () => {
     it('should return gift card configuration when found', (done) => {
       const mockConfig = {
@@ -102,7 +107,7 @@ describe('GiftCardService', () => {
           value: [
             {
               id: 456,
-              providerType: OpfPaymentProviderType.GIFT_CARD_PAYMENT,
+              providerType: "SOME_OTHER_PAYMENT",
             },
           ],
         },
@@ -274,17 +279,16 @@ describe('GiftCardService', () => {
         of(mockCartId)
       );
 
-      service.applyGiftCard(mockGiftCardRequest).subscribe(
-        () => {
-          fail('Should not emit value');
-        },
-        () => {
+      service.applyGiftCard(mockGiftCardRequest).subscribe({
+        next: () => fail('Should not emit'),
+        error: () => fail('Should not error'),
+        complete: () => {
           expect(
             opfGiftCardConnector.applyGiftCard as jasmine.Spy
           ).not.toHaveBeenCalled();
           done();
         }
-      );
+      });
     });
 
     it('should not call connector if cartId is missing', (done) => {
@@ -293,17 +297,16 @@ describe('GiftCardService', () => {
         of(null)
       );
 
-      service.applyGiftCard(mockGiftCardRequest).subscribe(
-        () => {
-          fail('Should not emit value');
-        },
-        () => {
+      service.applyGiftCard(mockGiftCardRequest).subscribe({
+        next: () => fail('Should not emit value'),
+        error: () => fail('Should not error'),
+        complete: () => {
           expect(
             opfGiftCardConnector.applyGiftCard as jasmine.Spy
           ).not.toHaveBeenCalled();
           done();
         }
-      );
+      });
     });
 
     it('should handle connector errors', (done) => {
@@ -373,17 +376,16 @@ describe('GiftCardService', () => {
         of(mockCartId)
       );
 
-      service.removeGiftCard(mockGiftCardId).subscribe(
-        () => {
-          fail('Should not emit value');
-        },
-        () => {
+      service.removeGiftCard(mockGiftCardId).subscribe({
+        next: () => fail('Should not emit value'),
+        error: () => fail('Should not error'),
+        complete: () => {
           expect(
             opfGiftCardConnector.removeGiftCard as jasmine.Spy
           ).not.toHaveBeenCalled();
           done();
         }
-      );
+      });
     });
 
     it('should not call connector if cartId is missing', (done) => {
@@ -392,17 +394,16 @@ describe('GiftCardService', () => {
         of(null)
       );
 
-      service.removeGiftCard(mockGiftCardId).subscribe(
-        () => {
-          fail('Should not emit value');
-        },
-        () => {
+      service.removeGiftCard(mockGiftCardId).subscribe({
+        next: () => fail('Should not emit value'),
+        error: () => fail('Should not error'),
+        complete: () => {
           expect(
             opfGiftCardConnector.removeGiftCard as jasmine.Spy
           ).not.toHaveBeenCalled();
           done();
         }
-      );
+      });
     });
 
     it('should handle connector errors', (done) => {
@@ -467,6 +468,128 @@ describe('GiftCardService', () => {
     });
   });
 
+  describe('isGiftCardCoveredTotalAmount', () => {
+    it('should return true when giftCardsCoverFullAmount is true', (done) => {
+      const mockCart = {
+        sapGiftCardSummary: {
+          giftCardsCoverFullAmount: true,
+          totalBalance: { value: 100, formattedValue: '$100.00' },
+          totalAppliedAmount: { value: 100, formattedValue: '$100.00' },
+          totalRemainingBalance: { value: 0, formattedValue: '$0.00' },
+        },
+      };
+
+      service.isGiftCardCoveredTotalAmount(of(mockCart as any)).subscribe(
+        (result) => {
+          expect(result).toBe(true);
+          done();
+        }
+      );
+    });
+
+    it('should return false when giftCardsCoverFullAmount is false', (done) => {
+      const mockCart = {
+        sapGiftCardSummary: {
+          giftCardsCoverFullAmount: false,
+          totalBalance: { value: 100, formattedValue: '$100.00' },
+          totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
+          totalRemainingBalance: { value: 50, formattedValue: '$50.00' },
+        },
+      };
+
+      service.isGiftCardCoveredTotalAmount(of(mockCart as any)).subscribe(
+        (result) => {
+          expect(result).toBe(false);
+          done();
+        }
+      );
+    });
+
+    it('should return false when sapGiftCardSummary is null', (done) => {
+      const mockCart = {
+        sapGiftCardSummary: null,
+      };
+
+      service.isGiftCardCoveredTotalAmount(of(mockCart as any)).subscribe(
+        (result) => {
+          expect(result).toBe(false);
+          done();
+        }
+      );
+    });
+
+    it('should return false when sapGiftCardSummary is undefined', (done) => {
+      const mockCart = {
+        sapGiftCardSummary: undefined,
+      };
+
+      service.isGiftCardCoveredTotalAmount(of(mockCart as any)).subscribe(
+        (result) => {
+          expect(result).toBe(false);
+          done();
+        }
+      );
+    });
+
+    it('should return false when cart is null', (done) => {
+      service.isGiftCardCoveredTotalAmount(of(null as any)).subscribe(
+        (result) => {
+          expect(result).toBe(false);
+          done();
+        }
+      );
+    });
+
+    it('should return false when giftCardsCoverFullAmount is undefined', (done) => {
+      const mockCart = {
+        sapGiftCardSummary: {
+          giftCardsCoverFullAmount: undefined,
+          totalBalance: { value: 100, formattedValue: '$100.00' },
+          totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
+          totalRemainingBalance: { value: 50, formattedValue: '$50.00' },
+        },
+      };
+
+      service.isGiftCardCoveredTotalAmount(of(mockCart as any)).subscribe(
+        (result) => {
+          expect(result).toBe(false);
+          done();
+        }
+      );
+    });
+
+    it('should handle observable emissions correctly', (done) => {
+      const mockCart1 = {
+        sapGiftCardSummary: {
+          giftCardsCoverFullAmount: true,
+          totalBalance: { value: 100, formattedValue: '$100.00' },
+          totalAppliedAmount: { value: 100, formattedValue: '$100.00' },
+          totalRemainingBalance: { value: 0, formattedValue: '$0.00' },
+        },
+      };
+      const mockCart2 = {
+        sapGiftCardSummary: {
+          giftCardsCoverFullAmount: false,
+          totalBalance: { value: 100, formattedValue: '$100.00' },
+          totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
+          totalRemainingBalance: { value: 50, formattedValue: '$50.00' },
+        },
+      };
+
+      const results: boolean[] = [];
+      service
+        .isGiftCardCoveredTotalAmount(of(mockCart1 as any, mockCart2 as any))
+        .subscribe((result) => {
+          results.push(result);
+          if (results.length === 2) {
+            expect(results[0]).toBe(true);
+            expect(results[1]).toBe(false);
+            done();
+          }
+        });
+    });
+  });
+
   describe('Integration Tests', () => {
     it('should combine user and cart observables correctly', (done) => {
       const mockUserId = 'user-123';
@@ -526,7 +649,7 @@ describe('GiftCardService', () => {
         ).and.returnValue(of(mockConfig));
 
         service.getGiftCardConfiguration().subscribe((result) => {
-          expect(result?.id).toBe(123);
+          expect(result?.id).toBe(100);
           done();
         });
       });
@@ -677,14 +800,13 @@ describe('GiftCardService', () => {
           of('')
         );
 
-        service.removeGiftCard('gc-123').subscribe(
-          () => {
-            fail('Should not emit value');
-          },
-          () => {
+        service.removeGiftCard('gc-123').subscribe({
+          next: () => fail('Should not emit value'),
+          error: () => fail('Should not error'),
+          complete: () => {
             done();
           }
-        );
+        });
       });
     });
 
@@ -756,15 +878,16 @@ describe('GiftCardService', () => {
           of(null)
         );
 
-        service.removeGiftCard('gc-123').subscribe(
-          () => fail('Should not emit'),
-          () => {
+        service.removeGiftCard('gc-123').subscribe({
+          next: () => fail('Should not emit'),
+          error: () => fail('Should not error'),
+          complete: () => {
             expect(
               opfGiftCardConnector.removeGiftCard as jasmine.Spy
             ).not.toHaveBeenCalled();
             done();
           }
-        );
+        });
       });
 
       it('should complete after first emission with take(1)', (done) => {

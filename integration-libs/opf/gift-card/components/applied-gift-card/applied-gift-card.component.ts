@@ -16,7 +16,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { GiftCardService } from '../../core/services';
 import { OutletModule } from '@spartacus/storefront';
-import { SAPGiftCard } from '../../root/model';
+import { SAPGiftCards } from '../../root/model';
 import { TranslatePipe } from '@spartacus/core';
 
 @Component({
@@ -30,7 +30,7 @@ export class AppliedGiftCardComponent {
   protected giftCardService = inject(GiftCardService);
   protected activeCartFacade = inject(ActiveCartFacade);
 
-  @Input() giftCards: SAPGiftCard[];
+  @Input() giftCards: SAPGiftCards[];
 
   removeGiftCard(giftCardId: string) {
     this.giftCardService.removeGiftCard(giftCardId).subscribe({
