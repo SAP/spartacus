@@ -69,7 +69,6 @@ describe('ClientTokenInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: OccConfig, useValue: MockAuthModuleConfig },
         { provide: AuthConfig, useExisting: OccConfig },

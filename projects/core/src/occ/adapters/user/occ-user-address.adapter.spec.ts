@@ -39,7 +39,6 @@ describe('OccUserAddressAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccUserAddressAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },

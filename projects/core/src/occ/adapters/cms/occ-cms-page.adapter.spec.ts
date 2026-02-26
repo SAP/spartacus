@@ -81,7 +81,6 @@ describe('OccCmsPageAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCmsPageAdapter,
         UserIdService,

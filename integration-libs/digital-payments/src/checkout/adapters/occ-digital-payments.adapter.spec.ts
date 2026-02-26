@@ -58,7 +58,6 @@ describe('OccDigitalPaymentsAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: DigitalPaymentsConfig, useValue: mockDpConfig },
         OccDigitalPaymentsAdapter,

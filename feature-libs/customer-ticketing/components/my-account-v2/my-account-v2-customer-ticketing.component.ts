@@ -27,8 +27,6 @@ import { Observable } from 'rxjs';
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
-    CxDatePipe,
   ],
 })
 export class MyAccountV2CustomerTicketingComponent {

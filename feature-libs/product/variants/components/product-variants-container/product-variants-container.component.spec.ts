@@ -4,7 +4,6 @@ import { NavigationExtras } from '@angular/router';
 import {
   BaseOption,
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   Product,
@@ -67,7 +66,6 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-product-variant-style-selector',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxProductStyleSelectorComponent {
   @Input() product: Product;
@@ -77,7 +75,6 @@ class MockCxProductStyleSelectorComponent {
 @Component({
   selector: 'cx-product-variant-size-selector',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxProductSizeSelectorComponent {
   @Input() product: Product;
@@ -87,7 +84,6 @@ class MockCxProductSizeSelectorComponent {
 @Component({
   selector: 'cx-product-variant-color-selector',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxProductColorSelectorComponent {
   @Input() product: Product;

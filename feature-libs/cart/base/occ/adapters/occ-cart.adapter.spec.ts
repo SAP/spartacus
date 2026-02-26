@@ -58,7 +58,6 @@ describe('OccCartAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartAdapter,
         ProductImageNormalizer,

@@ -52,7 +52,6 @@ describe('Cart Voucher effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: CartVoucherAdapter, useValue: {} },
         fromEffects.CartVoucherEffects,

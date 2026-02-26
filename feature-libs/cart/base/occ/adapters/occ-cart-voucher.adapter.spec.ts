@@ -35,7 +35,6 @@ describe('OccCartVoucherAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartVoucherAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },

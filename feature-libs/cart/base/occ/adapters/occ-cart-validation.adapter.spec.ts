@@ -53,7 +53,6 @@ describe('OccCartValidationAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartValidationAdapter,
         {

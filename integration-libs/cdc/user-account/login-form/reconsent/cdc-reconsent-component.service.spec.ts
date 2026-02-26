@@ -35,7 +35,6 @@ describe('CdcReconsentComponentService', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CdcJsService,
         GlobalMessageService,

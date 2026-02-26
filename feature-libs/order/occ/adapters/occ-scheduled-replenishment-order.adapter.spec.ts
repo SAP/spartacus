@@ -89,7 +89,6 @@ describe(`OccScheduledReplenishmentOrderAdapter`, () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccScheduledReplenishmentOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

@@ -157,7 +157,6 @@ const mockTicketList2: TicketList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -166,7 +165,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -204,7 +202,6 @@ class MockCustomerTicketingFacade {
 }
 @Component({
   selector: 'cx-customer-ticketing-create',
-  imports: [I18nTestingModule],
 })
 class MockCustomerTicketingCreateComponent {}
 

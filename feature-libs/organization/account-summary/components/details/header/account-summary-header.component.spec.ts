@@ -28,7 +28,6 @@ import { AccountSummaryHeaderComponent } from './account-summary-header.componen
 @Component({
   selector: 'cx-card',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input() content: any;

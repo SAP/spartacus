@@ -77,7 +77,6 @@ describe('AnonymousConsentsInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: AnonymousConsentsService,
