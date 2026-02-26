@@ -169,7 +169,7 @@
           (keydown.arrowleft)="carouselEventPropagator($any($event))"
           (keydown.arrowright)="carouselEventPropagator($any($event))"
           (keydown.arrowup)="carouselEventPropagator($any($event))"
-          (mousedown)="preventDefault($event)"
+          (mousedown)="a11yCarouselPreventNavigationFocus && preventDefault($event)"
           (click)="
             dispatchProductEvent({
               freeText: searchInputEl?.nativeElement?.value,
