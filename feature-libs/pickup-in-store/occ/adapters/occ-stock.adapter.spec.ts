@@ -66,7 +66,6 @@ describe(`OccStockAdapter`, () => {
   let httpClient: HttpClient;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccStockAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

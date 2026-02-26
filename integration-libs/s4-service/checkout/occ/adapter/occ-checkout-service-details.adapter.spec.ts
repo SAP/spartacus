@@ -31,7 +31,6 @@ describe('OccCheckoutServiceDetailsAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutServiceDetailsAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

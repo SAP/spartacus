@@ -39,7 +39,6 @@ describe('OccBudgetAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccBudgetAdapter,
         {

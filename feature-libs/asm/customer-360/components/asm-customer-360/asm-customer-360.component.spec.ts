@@ -116,7 +116,6 @@ describe('AsmCustomer360Component', () => {
   @Component({
     selector: 'cx-asm-customer-360-section',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockAsmCustomer360SectionComponent {}
 
@@ -178,7 +177,12 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AsmCustomer360Component, ArgsPipe, FocusDirective],
+      imports: [
+        I18nTestingModule,
+        AsmCustomer360Component,
+        ArgsPipe,
+        FocusDirective,
+      ],
       providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },

@@ -11,7 +11,6 @@ describe('ConsentManagementComponentService', () => {
   let service: ConsentManagementComponentService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       declarations: [],
       providers: [
         ConsentManagementComponentService,

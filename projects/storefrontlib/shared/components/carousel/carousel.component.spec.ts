@@ -31,7 +31,6 @@ class MockCarouselService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -39,7 +38,6 @@ class MockCxIconComponent {
 
 @Component({
   template: ` <div id="templateEl"></div> `,
-  imports: [I18nTestingModule],
 })
 class MockTemplateComponent {}
 
@@ -670,7 +668,6 @@ describe('Carousel Component', () => {
       itemIndex:
       <span class="child-itemIndex">{{ itemIndex }}</span>
     </div>`,
-  imports: [I18nTestingModule],
 })
 class TestChildComponent implements OnDestroy {
   @Input() item: any;

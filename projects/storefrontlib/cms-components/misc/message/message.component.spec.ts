@@ -5,7 +5,6 @@ import {
   CxDatePipe,
   FeatureDirective,
   GlobalMessageType,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -33,7 +32,6 @@ const mockCssClassForMessage: Record<string, boolean> = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

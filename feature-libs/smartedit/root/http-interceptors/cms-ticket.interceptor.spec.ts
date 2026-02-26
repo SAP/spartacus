@@ -44,7 +44,6 @@ describe('CmsTicketInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: SmartEditLauncherService,
