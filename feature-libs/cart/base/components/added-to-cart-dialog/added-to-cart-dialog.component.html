@@ -12,9 +12,17 @@
       aria-atomic="true"
       class="cx-dialog-header modal-header"
     >
-      <div id="dialogTitle" class="cx-dialog-title modal-title" role="none">
-        {{ 'addToCart.itemAddedToYourCart' | cxTranslate }}
-      </div>
+      <ng-container *cxFeature="'!a11yAddedToCartDialogHeading'">
+        <div id="dialogTitle" class="cx-dialog-title modal-title" role="none">
+          {{ 'addToCart.itemAddedToYourCart' | cxTranslate }}
+        </div>
+      </ng-container>
+      <ng-container *cxFeature="'a11yAddedToCartDialogHeading'">
+        <h2 id="dialogTitle" class="cx-dialog-title modal-title">
+          {{ 'addToCart.itemAddedToYourCart' | cxTranslate }}
+        </h2>
+      </ng-container>
+
       <button
         type="button"
         class="close"
