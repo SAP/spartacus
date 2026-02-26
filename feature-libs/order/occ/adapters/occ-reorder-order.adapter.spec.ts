@@ -32,7 +32,6 @@ describe(`OccReorderOrderAdapter`, () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccReorderOrderAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },

@@ -8,6 +8,8 @@ export interface Environment {
   production: boolean;
   occBaseUrl: string;
   occApiPrefix: string;
+  mediaBaseUrl?: string;
+  mediaApiPrefix?: string;
   b2b: boolean;
   cds: boolean;
   cdc: boolean;

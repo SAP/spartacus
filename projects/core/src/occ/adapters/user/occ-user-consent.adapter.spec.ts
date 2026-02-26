@@ -29,7 +29,6 @@ describe('OccUserConsentAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccUserConsentAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },

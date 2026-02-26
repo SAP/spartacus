@@ -27,14 +27,12 @@ import { ConsentManagementComponent } from './consent-management.component';
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-consent-management-form',
   template: ` <div>form</div> `,
-  imports: [I18nTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()

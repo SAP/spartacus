@@ -45,7 +45,6 @@ describe('CurrentProductService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CurrentProductService,
         {

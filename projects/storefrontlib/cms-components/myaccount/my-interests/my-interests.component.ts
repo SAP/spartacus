@@ -58,8 +58,6 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
-    CxDatePipe,
   ],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {

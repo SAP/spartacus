@@ -27,7 +27,6 @@ describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -36,7 +35,6 @@ describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
     selector: 'cx-message',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockCxMessageComponent {
     @Input() text: string;
@@ -112,7 +110,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [I18nTestingModule, TestHostComponent],
     })
       .overrideComponent(AsmCustomer360PromotionListingComponent, {
         remove: {

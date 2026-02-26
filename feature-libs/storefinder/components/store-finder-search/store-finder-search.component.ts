@@ -13,9 +13,9 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
-  FeatureDirective,
   RoutingService,
   TranslatePipe,
+  FeatureDirective,
 } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
@@ -23,7 +23,6 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
   imports: [
-    FeatureDirective,
     FormsModule,
     ReactiveFormsModule,
     IconComponent,
@@ -31,6 +30,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
     NgClass,
     NgTemplateOutlet,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class StoreFinderSearchComponent {

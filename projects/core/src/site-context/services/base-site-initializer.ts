@@ -4,35 +4,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
-export class BaseSiteInitializer implements OnDestroy {
+export class BaseSiteInitializer {
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+
   constructor(
     protected baseSiteService: BaseSiteService,
     protected configInit: ConfigInitializerService
   ) {}
 
-  protected subscription: Subscription;
-
   /**
    * Initializes the value of the base site
+   *
+   * @returns Promise that resolves when initialization is done.
    */
-  initialize(): void {
-    this.subscription = this.configInit
-      .getStable('context')
-      .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+  initialize(): Promise<unknown> {
+    return firstValueFrom(
+      this.configInit.getStable('context').pipe(
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.setFallbackValue())
       )
-      .subscribe();
+    );
   }
 
   /**
@@ -60,9 +62,5 @@ export class BaseSiteInitializer implements OnDestroy {
     if (!this.baseSiteService.isInitialized() && contextParam) {
       this.baseSiteService.setActive(contextParam);
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
   }
 }

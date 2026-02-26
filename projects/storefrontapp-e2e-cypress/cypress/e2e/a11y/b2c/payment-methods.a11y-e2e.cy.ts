@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { products } from '../../../helpers/cart';
 import {
   addPaymentMethod,
   testPaymentDetail,
 } from '../../../helpers/payment-methods';
-import { products } from '../../../helpers/cart';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 function addPaymentMethods() {
   cy.visit(`product/${products[0].code}`);
@@ -20,6 +21,7 @@ function addPaymentMethods() {
 }
 
 describe('Payment Methods Page accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();

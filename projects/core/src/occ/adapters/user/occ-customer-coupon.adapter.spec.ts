@@ -42,7 +42,6 @@ describe('OccCustomerCouponAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCustomerCouponAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

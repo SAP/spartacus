@@ -10,18 +10,16 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import {
-  ANGULAR_PLATFORM_BROWSER,
-  BROWSER_MODULE,
-  NGRX_STORE,
-} from '../constants';
+import { NGRX_STORE } from '../constants';
 import { CART_BASE_MODULE } from '../lib-configs/cart-schematics-config';
 import {
+  APP_ROUTING_MODULE_CLASS,
   CART_BASE_FEATURE_NAME,
   SPARTACUS_CART_BASE,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CORE,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_STOREFRONTLIB,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
@@ -33,7 +31,6 @@ import {
   getDynamicImportCallExpression,
   getDynamicImportImportPath,
   getDynamicImportPropertyAccess,
-  isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
   isRelative,
   removeImports,
@@ -65,7 +62,6 @@ describe('Import utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
@@ -122,15 +118,6 @@ describe('Import utils', () => {
     });
     it('should return false if the provided lib is NOT a spartacus lib', () => {
       expect(isImportedFromSpartacusLibs('xxx')).toBeFalsy();
-    });
-  });
-
-  describe('isImportedFromSpartacusCoreLib', () => {
-    it('should return true if the provided lib is a core spartacus lib', () => {
-      expect(isImportedFromSpartacusCoreLib(SPARTACUS_CORE)).toBeTruthy();
-    });
-    it('should return false if the provided lib is NOT a core spartacus lib', () => {
-      expect(isImportedFromSpartacusCoreLib(SPARTACUS_CHECKOUT)).toBeFalsy();
     });
   });
 
@@ -210,8 +197,8 @@ describe('Import utils', () => {
         moduleSpecifier: SPARTACUS_CORE,
         namedImports: ['xxx'],
       });
-      expect(results[0].print()).toEqual(
-        `import { xxx } from "@spartacus/core";`
+      expect(results[0].print()).toMatch(
+        /import\s*\{[^}]*\bxxx\b[^}]*\}\s*from\s*['"]@spartacus\/core['"];?/
       );
     });
   });
@@ -285,17 +272,25 @@ describe('Import utils', () => {
       const appModule = program.getSourceFileOrThrow(appModulePath);
 
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(
+          appModule,
+          SPARTACUS_STOREFRONTLIB,
+          APP_ROUTING_MODULE_CLASS
+        )
       ).toBeTruthy();
 
       const removedImports = removeImports(appModule, [
         {
-          node: BROWSER_MODULE,
-          importPath: ANGULAR_PLATFORM_BROWSER,
+          node: APP_ROUTING_MODULE_CLASS,
+          importPath: SPARTACUS_STOREFRONTLIB,
         },
       ]);
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(
+          appModule,
+          SPARTACUS_STOREFRONTLIB,
+          APP_ROUTING_MODULE_CLASS
+        )
       ).toBeFalsy();
       expect(removedImports.length).toBe(1);
     });

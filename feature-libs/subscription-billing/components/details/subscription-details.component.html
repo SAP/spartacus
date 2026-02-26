@@ -15,10 +15,8 @@
         [attr.aria-label]="'subscriptionList.status' | cxTranslate"
         *ngIf="subscription.status"
       >
-        {{
-          'subscriptionList.status'
-            | cxTranslate: { value: subscription.status }
-        }}
+        {{ 'subscriptionList.status' | cxTranslate }}
+        <span [ngClass]="subscription.status">{{ subscription.status }}</span>
       </div>
     </div>
     <div class="subscription-body">
@@ -97,73 +95,65 @@
   </div>
 
   <div class="subscription-actions row">
-    <div>
-      <span class="col-xs-12 col-md-4 col-lg-3">
-        <span class="action-button-left">
-          <button
-            [routerLink]="{ cxRoute: 'subscriptions' } | cxUrl"
-            class="btn btn-block btn-secondary"
-          >
-            {{ 'subscriptionDetails.back' | cxTranslate }}
-          </button>
-        </span>
-      </span>
-    </div>
-    <div class="cx-other-actions">
-      <span class="col-xs-12 col-md-4 col-lg-3">
-        <span class="action-button-right">
-          <a
-            *ngIf="subscription.isCancellationPossible"
-            cxBtnLikeLink
-            class="btn btn-block btn-secondary"
-            (click)="showSubscriptionActionsDialog('cancel')"
-            [attr.aria-label]="
-              'subscriptionDetails.cancelSubscription' | cxTranslate
-            "
-          >
-            {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
-          </a>
-        </span>
-        <span class="action-button-right">
-          <a
-            #extendSubscriptionBtn
-            *ngIf="subscription.isExtensionPossible"
-            [attr.aria-label]="
-              'subscriptionDetails.extendSubscription' | cxTranslate
-            "
-            cxBtnLikeLink
-            class="btn btn-block btn-secondary"
-            (click)="showSubscriptionActionsDialog('extend')"
-          >
-            {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
-          </a>
-        </span>
-        <span class="action-button-right">
-          <a
-            *ngIf="subscription.isCancellationReversalPossible"
-            cxBtnLikeLink
-            class="btn btn-block btn-secondary"
-            [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
-            (click)="showSubscriptionActionsDialog('resubscribe')"
-          >
-            {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
-          </a>
-        </span>
-        <span class="action-button-right">
-          <a
-            *ngIf="subscription.isWithdrawalPossible"
-            [attr.aria-label]="
-              'subscriptionDetails.withdrawSubscription' | cxTranslate
-            "
-            (click)="showSubscriptionActionsDialog('withdraw')"
-            cxBtnLikeLink
-            class="btn btn-block btn-secondary"
-          >
-            {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
-          </a>
-        </span>
-      </span>
-    </div>
+    <span
+      class="col-xs-12 col-md-4 col-lg-3 action-button"
+      *ngIf="subscription.isWithdrawalPossible"
+    >
+      <a
+        [attr.aria-label]="
+          'subscriptionDetails.withdrawSubscription' | cxTranslate
+        "
+        (click)="showSubscriptionActionsDialog('withdraw')"
+        cxBtnLikeLink
+        class="btn btn-block btn-secondary"
+      >
+        {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
+      </a>
+    </span>
+    <span
+      class="col-xs-12 col-md-4 col-lg-3 action-button"
+      *ngIf="subscription.isCancellationPossible"
+    >
+      <a
+        cxBtnLikeLink
+        class="btn btn-block btn-secondary"
+        (click)="showSubscriptionActionsDialog('cancel')"
+        [attr.aria-label]="
+          'subscriptionDetails.cancelSubscription' | cxTranslate
+        "
+      >
+        {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
+      </a>
+    </span>
+    <span
+      class="col-xs-12 col-md-4 col-lg-3 action-button"
+      *ngIf="subscription.isExtensionPossible"
+    >
+      <a
+        #extendSubscriptionBtn
+        [attr.aria-label]="
+          'subscriptionDetails.extendSubscription' | cxTranslate
+        "
+        cxBtnLikeLink
+        class="btn btn-block btn-primary"
+        (click)="showSubscriptionActionsDialog('extend')"
+      >
+        {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
+      </a>
+    </span>
+    <span
+      class="col-xs-12 col-md-4 col-lg-3 action-button"
+      *ngIf="subscription.isCancellationReversalPossible"
+    >
+      <a
+        cxBtnLikeLink
+        class="btn btn-block btn-primary"
+        [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
+        (click)="showSubscriptionActionsDialog('resubscribe')"
+      >
+        {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
+      </a>
+    </span>
   </div>
 </ng-container>
 <ng-template #loading>

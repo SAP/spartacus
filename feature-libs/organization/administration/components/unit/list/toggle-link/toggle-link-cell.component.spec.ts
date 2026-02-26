@@ -1,13 +1,9 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -18,7 +14,7 @@ import {
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
@@ -42,6 +38,12 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
   let unitTreeService: UnitTreeService;
@@ -58,7 +60,10 @@ describe('ToggleLinkCellComponent', () => {
       providers: [
         {
           provide: OutletContextData,
-          useValue: { context: mockContext },
+          useValue: {
+            context: mockContext,
+            context$: of(mockContext),
+          },
         },
         {
           provide: UnitTreeService,
@@ -67,6 +72,10 @@ describe('ToggleLinkCellComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     })
@@ -158,15 +167,12 @@ describe('ToggleLinkCellComponent', () => {
         value: mockElement1,
       });
       spyOn(mockSpaceEvent, 'preventDefault');
-      spyOn(component, 'restoreFocus');
 
       component.onSpace(mockSpaceEvent, mockSiblingElements);
 
       expect(mockSpaceEvent.preventDefault).toHaveBeenCalled();
       expect(mockElement1.tabIndex).toEqual(0);
       expect(mockElement2.tabIndex).toEqual(-1);
-      tick();
-      expect(component.restoreFocus).toHaveBeenCalled();
     }));
 
     it('should focus next link on ArrowDown', () => {
@@ -205,12 +211,10 @@ describe('ToggleLinkCellComponent', () => {
         value: false,
       });
       spyOn(component, 'toggleItem');
-      spyOn(component, 'restoreFocus');
 
       component.onArrowRight(mockArrowRightEvent);
 
       expect(component.toggleItem).toHaveBeenCalledWith(mockArrowRightEvent);
-      expect(component.restoreFocus).toHaveBeenCalled();
     });
 
     it('should collapse option on ArrowLeft', () => {
@@ -219,30 +223,10 @@ describe('ToggleLinkCellComponent', () => {
         value: true,
       });
       spyOn(component, 'toggleItem');
-      spyOn(component, 'restoreFocus');
 
       component.onArrowLeft(mockArrowLeftEvent);
 
       expect(component.toggleItem).toHaveBeenCalledWith(mockArrowLeftEvent);
-      expect(component.restoreFocus).toHaveBeenCalled();
     });
-
-    it('should restore focus after tree toggle', fakeAsync(() => {
-      const mockElement = document.createElement('a');
-      mockElement.id = 'mockElement';
-      document.body.appendChild(mockElement);
-      spyOnProperty(document, 'activeElement').and.returnValue(mockElement);
-      const treeToggle$ = new Subject<void>();
-      component['unitTreeService'] = {
-        treeToggle$: treeToggle$.asObservable(),
-      } as any;
-      spyOn(mockElement, 'focus');
-
-      component.restoreFocus();
-      treeToggle$.next();
-      tick();
-
-      expect(mockElement.focus).toHaveBeenCalled();
-    }));
   });
 });

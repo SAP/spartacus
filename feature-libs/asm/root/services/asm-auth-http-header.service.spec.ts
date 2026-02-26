@@ -76,7 +76,6 @@ describe('AsmAuthHttpHeaderService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         AsmAuthHttpHeaderService,
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },

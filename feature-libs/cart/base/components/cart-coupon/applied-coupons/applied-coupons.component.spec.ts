@@ -19,7 +19,6 @@ const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -52,7 +51,11 @@ describe('AppliedCouponsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AppliedCouponsComponent, MockedCartCouponComponent],
+      imports: [
+        I18nTestingModule,
+        AppliedCouponsComponent,
+        MockedCartCouponComponent,
+      ],
       providers: [
         { provide: CartVoucherFacade, useValue: mockCartVoucherService },
         {

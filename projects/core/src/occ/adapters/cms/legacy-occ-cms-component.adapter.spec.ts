@@ -47,7 +47,6 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         LegacyOccCmsComponentAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },

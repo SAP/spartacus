@@ -20,7 +20,6 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 

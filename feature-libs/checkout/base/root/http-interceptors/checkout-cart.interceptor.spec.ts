@@ -47,7 +47,6 @@ describe('CheckoutCartInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,

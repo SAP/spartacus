@@ -233,7 +233,6 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
-  selectAccountCostCenter();
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint(
     b2bDeliveryAddressStub,
     b2bDeliveryAddress.id
@@ -275,21 +274,6 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
-}
-
-export function selectAccountCostCenter() {
-  cy.get('cx-cost-center').within(() => {
-    cy.get('select').then((select) => {
-      if (select.find(`option:contains("${costCenter}")`).length) {
-        cy.get('select').select(costCenter, { force: true });
-      } else {
-        cy.get('select').select(0);
-      }
-    });
-  });
-  // need to wait the Selected Address being visible on UI with bold border style.
-  // No other alternative found.
-  cy.wait(4000);
 }
 
 export function selectAccountDeliveryMode() {
@@ -477,7 +461,7 @@ export function placeOrder(orderUrl: string) {
 
   cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
   // temporary solution for very slow backend response while placing order
-  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
+  cy.wait(`@${orderConfirmationPage}`, { timeout: 120000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
@@ -609,14 +593,25 @@ export function interceptPaymentTypesEndpoint(): string {
 
 export function interceptCostCenterEndpoint() {
   const alias = 'getCostCenters';
-
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/costcenters?fields=DEFAULT*`,
-  }).as(alias);
-
+    (req) => {
+      req.reply((res) => {
+        // Modify the response body
+        const costCenters = res.body.costCenters;
+        // Rustic_Global should be the default CostCenter, so it is moved to the first position in the select box.
+        const index = costCenters.findIndex((c) => c.code === 'Rustic_Global');
+        if (index > 0) {
+          const [RusticGlobalCostCenter] = costCenters.splice(index, 1);
+          costCenters.unshift(RusticGlobalCostCenter);
+        }
+        res.send({ ...res.body, costCenters });
+      });
+    }
+  ).as(alias);
   return alias;
 }
 

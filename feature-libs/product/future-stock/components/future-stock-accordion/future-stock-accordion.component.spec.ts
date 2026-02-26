@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -19,7 +18,6 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

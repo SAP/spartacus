@@ -102,7 +102,6 @@ describe('OpfApiBaseAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OpfApiBaseAdapter,
         ConverterService,

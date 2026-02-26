@@ -19,7 +19,7 @@ import {
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -51,11 +51,23 @@ describe('OpfPaymentVerificationService', () => {
     opfPaymentServiceMock = jasmine.createSpyObj('OpfPaymentFacade', [
       'verifyPayment',
       'getAfterRedirectScripts',
+      'submitCompletePayment',
     ]);
+    const defaultMetadata: OpfMetadataModel = {
+      termsAndConditionsChecked: false,
+      selectedPaymentOptionId: undefined,
+      isPaymentInProgress: false,
+      opfPaymentSessionId: undefined,
+      isTermsAndConditionsAlertClosed: false,
+      is3DSRedirect: false,
+      opf3DSRedirectReturnPath: undefined,
+    };
     opfMetadataStoreServiceMock = jasmine.createSpyObj(
       'OpfMetadataStoreService',
-      ['getOpfMetadataState']
+      ['getOpfMetadataState', 'updateOpfMetadata', 'clearOpfMetadata']
     );
+    opfMetadataStoreServiceMock.opfMetadataState =
+      new BehaviorSubject<OpfMetadataModel>(defaultMetadata);
     opfResourceLoaderServiceMock = jasmine.createSpyObj(
       'OpfResourceLoaderService',
       ['clearAllResources', 'executeScriptFromHtml', 'loadResources']
@@ -553,6 +565,75 @@ describe('OpfPaymentVerificationService', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(routingServiceMock.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
+    });
+  });
+
+  describe('3DS Redirect Support', () => {
+    const mockPaymentSessionId = '3ds-session-id';
+    const mockReturnPath = '/checkout/payment-result';
+
+    describe('get3DSRedirectState', () => {
+      it('should return state when 3DS redirect is active', () => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: true,
+          opfPaymentSessionId: mockPaymentSessionId,
+          opf3DSRedirectReturnPath: mockReturnPath,
+        });
+
+        const result = (service as any).get3DSRedirectState();
+        expect(result).toEqual({
+          paymentSessionId: mockPaymentSessionId,
+          returnPath: mockReturnPath,
+        });
+      });
+
+      it('should return null when is3DSRedirect is false', () => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: false,
+        });
+
+        const result = (service as any).get3DSRedirectState();
+        expect(result).toBeNull();
+      });
+
+      it('should return null when paymentSessionId is missing', () => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: true,
+          opfPaymentSessionId: undefined,
+        });
+
+        const result = (service as any).get3DSRedirectState();
+        expect(result).toBeNull();
+      });
+    });
+
+    describe('verifyResultUrl with 3DS redirect', () => {
+      it('should use stored payment session ID when 3DS redirect is active', (done) => {
+        opfMetadataStoreServiceMock.opfMetadataState.next({
+          ...opfMetadataStoreServiceMock.opfMetadataState.value,
+          is3DSRedirect: true,
+          opfPaymentSessionId: mockPaymentSessionId,
+          opf3DSRedirectReturnPath: mockReturnPath,
+        });
+
+        const mockRouteSnapshot: ActivatedRoute = {
+          routeConfig: {
+            data: {
+              cxRoute: 'paymentVerificationResult',
+            },
+          },
+          queryParams: of({}),
+        } as unknown as ActivatedRoute;
+
+        service.verifyResultUrl(mockRouteSnapshot).subscribe((result) => {
+          expect(result.paymentSessionId).toEqual(mockPaymentSessionId);
+          expect(result.is3DSRedirect).toBe(true);
+          done();
+        });
+      });
     });
   });
 });
