@@ -54,7 +54,6 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: PersonalizationConfig, useValue: mockPersonalizationConfig },
         { provide: WindowRef, useValue: MockWindowRef },
@@ -126,7 +125,6 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: PersonalizationConfig,

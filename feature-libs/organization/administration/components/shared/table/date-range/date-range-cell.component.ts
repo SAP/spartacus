@@ -14,14 +14,7 @@ import { CellComponent } from '../cell.component';
   selector: 'cx-org-date-range-cell',
   templateUrl: './date-range-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    NgTemplateOutlet,
-    UrlPipe,
-    CxDatePipe,
-    CxDatePipe,
-  ],
+  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe, CxDatePipe],
 })
 export class DateRangeCellComponent extends CellComponent {
   get linkable(): boolean {

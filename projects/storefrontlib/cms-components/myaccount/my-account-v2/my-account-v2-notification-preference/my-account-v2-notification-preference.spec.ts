@@ -14,7 +14,6 @@ import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-noti
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 

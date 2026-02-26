@@ -28,7 +28,6 @@ describe('OccUserPaymentAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccUserPaymentAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },

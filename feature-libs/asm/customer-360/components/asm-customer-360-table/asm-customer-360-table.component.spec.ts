@@ -90,7 +90,6 @@ describe('AsmCustomer360TableComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;

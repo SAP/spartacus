@@ -65,7 +65,6 @@ describe(`OccCheckoutBillingAddressAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutBillingAddressAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
