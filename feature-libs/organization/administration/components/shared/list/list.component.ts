@@ -10,6 +10,8 @@ import {
   Component,
   HostBinding,
   Input,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -33,8 +35,13 @@ import {
   TrapFocus,
   ViewComponent,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
 import { CreateButtonType, ListService } from './list.service';
@@ -63,7 +70,30 @@ import { CreateButtonType, ListService } from './list.service';
     TranslatePipe,
   ],
 })
-export class ListComponent<T = any, P = PaginationModel> {
+export class ListComponent<T = any, P = PaginationModel>
+  implements OnInit, OnDestroy
+{
+  private searchSubject$ = new Subject<{ pagination: P; query: string }>();
+
+  private destroy$ = new Subject<void>();
+
+  ngOnInit(): void {
+    this.searchSubject$
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged((prev, curr) => prev.query === curr.query),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(({ pagination, query }) => {
+        this.service.search(pagination, query);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   readonly trapFocus = TrapFocus;
 
   @HostBinding('class.ghost') hasGhostData = false;
@@ -85,6 +115,22 @@ export class ListComponent<T = any, P = PaginationModel> {
   createButtonAllTypes = CreateButtonType;
 
   createButtonType = this.service.getCreateButtonType();
+
+  /**
+   * Current search query value.
+   */
+  searchQuery = '';
+
+  /**
+   * Whether search is enabled for this list.
+   */
+  isSearchEnabled = this.service.isSearchEnabled();
+
+  onSearchQueryChange(pagination: P | undefined, query: string): void {
+    if (pagination && this.isSearchEnabled) {
+      this.searchSubject$.next({ pagination, query });
+    }
+  }
 
   /**
    * The current key represents the current selected item from the dataset.
@@ -155,5 +201,25 @@ export class ListComponent<T = any, P = PaginationModel> {
    */
   getCreateButtonLabel(): Translatable {
     return this.service.getCreateButtonLabel();
+  }
+
+  /**
+   * Performs search with the given query.
+   * Triggered by clicking the search icon or pressing Enter.
+   */
+  search(pagination: P | undefined, query: string): void {
+    if (pagination && this.isSearchEnabled) {
+      this.service.search(pagination, query);
+    }
+  }
+
+  /**
+   * Clears the search query and reloads the list.
+   */
+  clearSearch(pagination: P | undefined): void {
+    if (pagination) {
+      this.searchQuery = '';
+      this.service.clearSearch(pagination);
+    }
   }
 }

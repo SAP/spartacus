@@ -40,6 +40,41 @@
         </div>
 
         <div class="actions">
+          <!-- Search box -->
+          <div class="search-wrapper" *ngIf="isSearchEnabled">
+            <label class="search-label">
+              <span class="visually-hidden">{{
+                'organization.search.label' | cxTranslate
+              }}</span>
+              <input
+                type="text"
+                class="form-control search-input"
+                [placeholder]="'organization.search.placeholder' | cxTranslate"
+                [(ngModel)]="searchQuery"
+                (ngModelChange)="
+                  onSearchQueryChange($any(data.pagination), $event)
+                "
+                [attr.aria-label]="'organization.search.label' | cxTranslate"
+              />
+              <button
+                *ngIf="!searchQuery"
+                type="button"
+                class="search-btn"
+                [attr.aria-label]="'organization.search.label' | cxTranslate"
+              >
+                <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+              </button>
+              <button
+                *ngIf="searchQuery"
+                type="button"
+                class="search-clear"
+                (click)="clearSearch($any(data.pagination))"
+                [attr.aria-label]="'organization.search.clear' | cxTranslate"
+              >
+                <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+              </button>
+            </label>
+          </div>
           <label>
             <span *ngIf="data.pagination?.sort">{{
               structure.type + '.sortBy' | cxTranslate

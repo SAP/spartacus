@@ -182,4 +182,31 @@ export abstract class ListService<T, P = PaginationModel> {
   getCreateButtonLabel(): Translatable {
     return { key: 'organization.add' };
   }
+
+  /**
+   * Returns whether search functionality is enabled for this list.
+   * Override in subclass to enable search.
+   */
+  isSearchEnabled(): boolean {
+    return false;
+  }
+
+  /**
+   * Search method to filter the list by query string.
+   * Resets to first page when search query changes.
+   */
+  search(pagination: P, query: string): void {
+    this.pagination$.next({
+      ...pagination,
+      query,
+      currentPage: 0,
+    } as P);
+  }
+
+  /**
+   * Clears the search query and resets to first page.
+   */
+  clearSearch(pagination: P): void {
+    this.search(pagination, '');
+  }
 }

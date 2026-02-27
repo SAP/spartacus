@@ -19,7 +19,7 @@ export function serializeSearchConfig(
 ): string {
   return `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
     config.currentPage ?? ''
-  }&sort=${config.sort ?? ''}`;
+  }&sort=${config.sort ?? ''}&query=${config.query ?? ''}`;
 }
 
 export function denormalizeSearch<T>(

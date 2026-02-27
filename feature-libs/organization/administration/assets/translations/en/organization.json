@@ -53,7 +53,13 @@
         "unknown": "Server validation error."
       }
     },
-    "information": "More information about {{title}}"
+    "information": "More information about {{title}}",
+    "search": {
+      "label": "Search",
+      "placeholder": "Name",
+      "clear": "Clear search",
+      "noResults": "No results found for \"{{query}}\""
+    }
   },
   "orgCostCenter": {
     "groupName": "Cost Centers",

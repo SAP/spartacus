@@ -83,4 +83,11 @@ export class UserListService extends ListService<UserModel> {
     };
     return userModels;
   }
+
+  /**
+   * Enable search functionality for user list.
+   */
+  override isSearchEnabled(): boolean {
+    return true;
+  }
 }

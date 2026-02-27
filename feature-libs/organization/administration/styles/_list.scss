@@ -22,6 +22,14 @@
       }
     }
 
+    .search-wrapper {
+      .search-input,
+      .search-btn,
+      .search-clear {
+        visibility: visible;
+      }
+    }
+
     cx-table.vertical-stacked,
     cx-table.vertical {
       table {
@@ -586,6 +594,67 @@
           .ng-select-container.ng-has-value {
             // align the height of the select with buttons
             max-height: 40px;
+          }
+        }
+
+        // search
+        .search-wrapper {
+          margin-inline-end: 1rem;
+
+          .search-label {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+          }
+
+          .search-input {
+            min-width: 170px;
+            width: 170px;
+            height: 40px;
+            max-height: 40px;
+            box-sizing: border-box;
+          }
+
+          .search-btn {
+            position: absolute;
+            inset-inline-end: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cx-icon {
+              font-size: 16px;
+              color: var(--cx-color-secondary);
+            }
+
+            &:hover cx-icon {
+              color: var(--cx-color-primary);
+            }
+          }
+
+          .search-clear {
+            position: absolute;
+            inset-inline-end: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cx-icon {
+              font-size: 14px;
+              color: var(--cx-color-secondary);
+            }
+
+            &:hover cx-icon {
+              color: var(--cx-color-primary);
+            }
           }
         }
       }
