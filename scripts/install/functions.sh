@@ -1201,7 +1201,10 @@ function addAuthConfig {
     # Check presence of AuthConfig import
     if ! grep -q 'AuthConfig.*@spartacus/core' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
         # add AuthConfig import on last position of @spartacus/core imports
-        sed_inplace 's/} from "@spartacus\/core"/,AuthConfig } from "@spartacus\/core"/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        sed_inplace "s/} from ['\"]@spartacus\/core['\"]/\AuthConfig &/" "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        # add coma before AuthConfig if @spartacus/core import is in a single line
+        sed_inplace '/^[[:space:]]*AuthConfig } from/!s/AuthConfig } from/,AuthConfig } from/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+ 
         echo "AuthConfig import added."
     else
         echo "AuthConfig import already exists, skipping."
