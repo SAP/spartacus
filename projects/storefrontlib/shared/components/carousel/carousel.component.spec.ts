@@ -8,6 +8,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective as CxFeatureDirective,
   I18nTestingModule,
   LoggerService,
   MockTranslatePipe,
@@ -18,6 +19,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(
@@ -66,10 +68,14 @@ describe('Carousel Component', () => {
     })
       .overrideComponent(CarouselComponent, {
         add: {
-          imports: [MockCxIconComponent, MockTranslatePipe],
+          imports: [
+            MockCxIconComponent,
+            MockTranslatePipe,
+            MockFeatureDirective,
+          ],
         },
         remove: {
-          imports: [IconComponent, TranslatePipe],
+          imports: [IconComponent, TranslatePipe, CxFeatureDirective],
         },
       })
       .compileComponents();
