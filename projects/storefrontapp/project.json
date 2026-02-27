@@ -213,13 +213,11 @@
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
       "options": {
-        "buildTarget": "storefrontapp:build,development,noSsr",
-        "disableHostCheck": true
+        "buildTarget": "storefrontapp:build,development,noSsr"
       },
       "configurations": {
         "production": {
-          "buildTarget": "storefrontapp:build:production,noSsr",
-          "disableHostCheck": true
+          "buildTarget": "storefrontapp:build:production,noSsr"
         },
         "development": {
           "buildTarget": "storefrontapp:build:development,noSsr"
