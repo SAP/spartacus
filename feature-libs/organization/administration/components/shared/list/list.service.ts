@@ -22,6 +22,13 @@ export enum CreateButtonType {
 }
 
 /**
+ * Extended pagination model that includes search query support.
+ */
+export interface SearchablePaginationModel extends PaginationModel {
+  query?: string;
+}
+
+/**
  * The `ListService` deals with the table structure, list data and
  * pagination of tables inside the b2b organization.
  *

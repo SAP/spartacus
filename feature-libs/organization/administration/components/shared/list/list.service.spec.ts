@@ -4,7 +4,7 @@ import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrganizationTableType } from '../organization.model';
-import { ListService } from './list.service';
+import { ListService, SearchablePaginationModel } from './list.service';
 
 const mockValues = [{ foo: 'bar' }];
 
@@ -133,5 +133,46 @@ describe('ListService', () => {
 
   it('should show Add hyperlink', () => {
     expect(service.getCreateButtonType()).toEqual('LINK');
+  });
+
+  describe('isSearchEnabled()', () => {
+    it('should return false by default', () => {
+      expect(service.isSearchEnabled()).toBe(false);
+    });
+  });
+
+  describe('search()', () => {
+    it('should update pagination with query and reset to first page', () => {
+      service.search({ currentPage: 5, sort: 'byName' }, 'testQuery');
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
+      expect((result.pagination as SearchablePaginationModel).query).toEqual(
+        'testQuery'
+      );
+      expect(result.pagination.currentPage).toEqual(0);
+    });
+
+    it('should preserve other pagination properties', () => {
+      service.search({ currentPage: 5, sort: 'byName', pageSize: 20 }, 'test');
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
+      expect(result.pagination.sort).toEqual('byName');
+    });
+  });
+
+  describe('clearSearch()', () => {
+    it('should clear query and reset to first page', () => {
+      service.search({ currentPage: 3 }, 'someQuery');
+      service.clearSearch({
+        currentPage: 3,
+        query: 'someQuery',
+      } as SearchablePaginationModel);
+      let result: EntitiesModel<any>;
+      service.getData().subscribe((data) => (result = data));
+      expect((result.pagination as SearchablePaginationModel).query).toEqual(
+        ''
+      );
+      expect(result.pagination.currentPage).toEqual(0);
+    });
   });
 });

@@ -79,5 +79,11 @@ describe('UserListService', () => {
       service.getData().subscribe((table) => (result = table));
       expect(result.values[0].uid).toEqual(uid);
     });
+
+    describe('isSearchEnabled()', () => {
+      it('should return true for user list', () => {
+        expect(service.isSearchEnabled()).toBe(true);
+      });
+    });
   });
 });

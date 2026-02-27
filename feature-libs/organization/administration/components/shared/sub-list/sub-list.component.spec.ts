@@ -85,6 +85,9 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
+  isSearchEnabled(): boolean {
+    return false;
+  }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');
 }
