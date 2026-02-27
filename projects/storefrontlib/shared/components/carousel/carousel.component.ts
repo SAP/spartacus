@@ -26,7 +26,6 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import {
-  FeatureConfigService,
   FeatureDirective as CxFeatureDirective,
   LoggerService,
   TranslatePipe,
@@ -141,7 +140,6 @@ export class CarouselComponent implements OnInit, OnChanges {
   size$: Observable<number>;
 
   protected logger = inject(LoggerService);
-  protected featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected el: ElementRef,
