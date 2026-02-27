@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Currency } from '../../model/misc.model';
 import { isNotNullable } from '../../util/type-guards';
@@ -39,7 +39,8 @@ export class CurrencyService implements SiteContext<Currency> {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(isNotNullable)
+      filter(isNotNullable),
+      map(currencies => currencies.filter(currency => currency.active))
     );
   }
 

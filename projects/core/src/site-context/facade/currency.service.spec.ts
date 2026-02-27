@@ -13,7 +13,14 @@ import { CurrencyService } from './currency.service';
 import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [
-  { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
+  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
+  { active: true, isocode: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { active: false, isocode: 'EUR', name: 'Euro', symbol: '€' },
+];
+
+const mockActiveCurrencies: Currency[] = [
+  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
+  { active: true, isocode: 'JPY', name: 'Japanese Yen', symbol: '¥' },
 ];
 
 const mockActiveCurr = 'USD';
@@ -84,11 +91,13 @@ describe('CurrencyService', () => {
     );
   });
 
-  it('should be able to get currencies', () => {
+  it('should be able to get currencies and filter out inactive ones', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
 
     service.getAll().subscribe((results) => {
-      expect(results).toEqual(mockCurrencies);
+      expect(results).toEqual(mockActiveCurrencies);
+      expect(results.length).toBe(2);
+      expect(results.every((currency) => currency.active === true)).toBe(true);
     });
   });
 
