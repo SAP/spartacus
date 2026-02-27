@@ -17,6 +17,7 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
   startWith,
   switchMap,
@@ -47,7 +48,8 @@ export class MiniCartComponentService {
         if (activeCartRequired) {
           return this.activeCartFacade.getActive().pipe(
             startWith({ totalUnitCount: 0 }),
-            map((cart) => cart.totalUnitCount || 0)
+            map((cart) => cart.totalUnitCount || 0),
+            filter((totalUnitCount) => totalUnitCount < 4)
           );
         } else {
           return of(0);
