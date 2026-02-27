@@ -213,7 +213,7 @@
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
       "options": {
-        "buildTarget": "storefrontapp:build,development,noSsr"
+        "allowedHosts": ["spartacus-dev-asx1.eastus.cloudapp.azure.com"]
       },
       "configurations": {
         "production": {
