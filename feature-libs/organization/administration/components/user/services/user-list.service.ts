@@ -40,7 +40,7 @@ export interface UserModel {
 })
 export class UserListService extends ListService<UserModel> {
   protected tableType = OrganizationTableType.USER;
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected tableService: TableService,
