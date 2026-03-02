@@ -10,37 +10,57 @@
       <div class="cx-payment-options-list">
         <ng-content></ng-content>
 
-        <!-- Saved Payment Methods as Single Radio Option -->
-        <div class="form-check cx-saved-cards-option">
-          <input
-            id="paymentId-saved-cards"
-            class="form-check-input"
-            role="radio"
-            type="radio"
-            [value]="SAVED_CARDS_ID"
-            [checked]="selectedPaymentId === SAVED_CARDS_ID"
-            formControlName="paymentId"
-            [disabled]="
-              (paymentDisabled$ | async) ||
-              (disabled && explicitTermsAndConditions)
-            "
-            (change)="selectedPaymentId = SAVED_CARDS_ID"
-          />
-          <label
-            class="cx-payment-type-label form-check-label form-radio-label"
-            for="paymentId-saved-cards"
-          >
-            <div class="cx-payment-type">
-              <!-- {{ 'opfCheckout.savedPaymentMethods' | cxTranslate }} -->
-              <h5>Saved Payment Options</h5>
-            </div>
-          </label>
-        </div>
+        <!-- Saved Payment Options Section (only shown if saved cards exist) -->
+        <ng-container *ngIf="hasSavedCards$ | async">
+          <!-- Saved Payment Options Heading -->
+          <div class="cx-payment-options-section">
+            <h3 style="margin-top: 1.5rem">Saved Payment Options</h3>
+          </div>
 
-        <!-- Saved Cards List Container (shown when saved cards radio is selected) -->
-        <ng-container *ngIf="selectedPaymentId === SAVED_CARDS_ID">
-          <ng-template [cxOutlet]="opfCheckoutOutlets.OPF_TOKENISATION">
-          </ng-template>
+          <!-- Saved Payment Methods as Single Radio Option -->
+          <div class="form-check cx-saved-cards-option">
+            <input
+              id="paymentId-saved-cards"
+              class="form-check-input"
+              role="radio"
+              type="radio"
+              [value]="SAVED_CARDS_ID"
+              [checked]="selectedPaymentId === SAVED_CARDS_ID"
+              formControlName="paymentId"
+              [disabled]="
+                (paymentDisabled$ | async) ||
+                (disabled && explicitTermsAndConditions)
+              "
+              (change)="selectedPaymentId = SAVED_CARDS_ID"
+            />
+
+            <label
+              class="cx-payment-type-label form-check-label form-radio-label"
+              for="paymentId-saved-cards"
+            >
+              <div class="cx-payment-type">
+                <!-- {{ 'opfCheckout.savedPaymentMethods' | cxTranslate }} -->
+                <cx-icon
+                  [type]="iconTypes.CREDIT_CARD"
+                  style="font-size: 24px"
+                ></cx-icon>
+                <span> Cards</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Saved Cards List Container (shown when saved cards radio is selected) -->
+          <ng-container *ngIf="selectedPaymentId === SAVED_CARDS_ID">
+            <ng-template [cxOutlet]="opfCheckoutOutlets.OPF_TOKENISATION">
+            </ng-template>
+          </ng-container>
+        </ng-container>
+
+        <!-- New Payment Options Heading (only shown if saved cards exist) -->
+        <ng-container *ngIf="hasSavedCards$ | async">
+          <div class="cx-payment-options-section">
+            <h3 style="margin-top: 1.5rem">New Payment Options</h3>
+          </div>
         </ng-container>
 
         <div

@@ -23,6 +23,7 @@ import {
   QueryState,
   TranslatePipe,
   TranslationService,
+  UserPaymentService,
 } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
@@ -41,7 +42,7 @@ import {
   OutletModule,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { OpfCheckoutOutlets } from '../../root/model';
@@ -72,6 +73,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfCheckoutBillingAddressFormService = inject(
     OpfCheckoutBillingAddressFormService
   );
+  protected userPaymentService = inject(UserPaymentService);
 
   protected subscription = new Subscription();
 
@@ -128,6 +130,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   activeConfigurations$: Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   >;
+
+  hasSavedCards$: Observable<boolean> = this.userPaymentService
+    .getPaymentMethods()
+    .pipe(map((methods) => (methods?.length ?? 0) > 0));
 
   iconTypes = ICON_TYPE;
 
@@ -307,6 +313,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.userPaymentService.loadPaymentMethods();
     this.updateActiveConfiguration();
     this.preselectPaymentOption();
   }
