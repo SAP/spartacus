@@ -60,12 +60,16 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   selectFile($event: Event) {
     const files = ($event.target as HTMLInputElement)?.files;
-    this.onChangeCallback(files);
-    this.update.emit(files);
+    // If no files were selected (e.g., user clicked cancel), pass null instead of empty FileList
+    const value = files && files.length > 0 ? files : null;
+    this.onChangeCallback(value);
+    this.update.emit(value);
   }
 
   removeFile(): void {
     this.fileInput.nativeElement.value = '';
+    this.onChangeCallback(null);
+    this.update.emit(null);
   }
 
   get selectedFiles(): File[] | undefined {
