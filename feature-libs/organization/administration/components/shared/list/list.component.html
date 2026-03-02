@@ -50,7 +50,9 @@
                 <input
                   type="text"
                   class="form-control search-input"
-                  [placeholder]="'organization.search.placeholder' | cxTranslate"
+                  [placeholder]="
+                    'organization.search.placeholder' | cxTranslate
+                  "
                   [(ngModel)]="searchQuery"
                   (ngModelChange)="
                     onSearchQueryChange($any(data.pagination), $event)
