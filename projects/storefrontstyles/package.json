@@ -20,7 +20,7 @@
   "peerDependencies": {
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
-    "@ng-select/ng-select": "^21.1.4"
+    "@ng-select/ng-select": "^21.5.2"
   },
   "engines": {
     "node": "^22.22.0"
