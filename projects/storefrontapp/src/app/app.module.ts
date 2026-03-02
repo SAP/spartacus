@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 import { AppRoutingModule } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { privateProviders } from './private/private.providers';
@@ -33,14 +33,13 @@ import { SpartacusModule } from './spartacus/spartacus.module';
       },
     }),
     provideConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductAddToCartComponent: {
-                    data: {
-                        inventoryDisplay: true,
-                    },
-                },
-            },
-        }),
+             ProductAddToCartComponent: {
+          data: {
+            inventoryDisplay: true,
+          },
+        },
+      },
+    }),
 
     privateProviders,
   ],
