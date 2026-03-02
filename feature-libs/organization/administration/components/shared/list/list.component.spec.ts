@@ -406,6 +406,11 @@ describe('ListComponent', () => {
 
     describe('isSearchEnabled', () => {
       it('should initialize isSearchEnabled from service', () => {
+        // MockBaseListService.isSearchEnabled() returns false by default
+        expect(component.isSearchEnabled).toBe(false);
+      });
+
+      it('should reflect service isSearchEnabled value', () => {
         spyOn(service, 'isSearchEnabled').and.returnValue(true);
         const newFixture = TestBed.createComponent(MockListComponent);
         const newComponent = newFixture.componentInstance;

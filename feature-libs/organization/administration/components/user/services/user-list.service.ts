@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   B2BUserRole,
   EntitiesModel,
+  FeatureConfigService,
   isNotUndefined,
   PaginationModel,
 } from '@spartacus/core';
@@ -39,6 +40,7 @@ export interface UserModel {
 })
 export class UserListService extends ListService<UserModel> {
   protected tableType = OrganizationTableType.USER;
+  protected featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected tableService: TableService,
@@ -85,9 +87,9 @@ export class UserListService extends ListService<UserModel> {
   }
 
   /**
-   * Enable search functionality for user list.
+   * Enable search functionality for user list based on feature toggle.
    */
   override isSearchEnabled(): boolean {
-    return true;
+    return this.featureConfigService.isEnabled('enableB2BAdminCustomerSearch');
   }
 }

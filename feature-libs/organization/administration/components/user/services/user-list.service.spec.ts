@@ -5,6 +5,7 @@ import {
   B2BUserRight,
   B2BUserRole,
   EntitiesModel,
+  FeatureConfigService,
   User,
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -45,8 +46,15 @@ class MockTableService {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled(feature: string): boolean {
+    return feature === 'enableB2BAdminCustomerSearch';
+  }
+}
+
 describe('UserListService', () => {
   let service: UserListService;
+  let featureConfigService: FeatureConfigService;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -61,9 +69,14 @@ describe('UserListService', () => {
             provide: TableService,
             useClass: MockTableService,
           },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
       });
       service = TestBed.inject(UserListService);
+      featureConfigService = TestBed.inject(FeatureConfigService);
     });
 
     it('should inject service', () => {
@@ -81,8 +94,20 @@ describe('UserListService', () => {
     });
 
     describe('isSearchEnabled()', () => {
-      it('should return true for user list', () => {
+      it('should return true when feature toggle is enabled', () => {
+        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
         expect(service.isSearchEnabled()).toBe(true);
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'enableB2BAdminCustomerSearch'
+        );
+      });
+
+      it('should return false when feature toggle is disabled', () => {
+        spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+        expect(service.isSearchEnabled()).toBe(false);
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'enableB2BAdminCustomerSearch'
+        );
       });
     });
   });
