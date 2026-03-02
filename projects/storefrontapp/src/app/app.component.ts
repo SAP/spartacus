@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
         (window as any).walkmeLoaderConfig = {
           systemUrl: '',
           customerSystemUrl:
-            ' https://cdn-us01.walkme.cloud.sap/users/7cf1ce06f25545faa95ac694d39e7f01/test/walkme_7cf1ce06f2554… ',
+            'https://cdn-us01.walkme.cloud.sap/users/7cf1ce06f25545faa95ac694d39e7f01/test/walkme_7cf1ce06f25545faa95ac694d39e7f01_https.js',
           enableAnalytics: true,
           tenantId: '<customer name>',
           endUserId,
