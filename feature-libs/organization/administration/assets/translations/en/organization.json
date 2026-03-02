@@ -225,7 +225,11 @@
       "collapseAll": "Collapse all",
       "expand": "Expand",
       "collapse": "collapse",
-      "explore": "Explore sub-units"
+      "explore": "Explore sub-units",
+      "search": {
+        "placeholder": "Search by ID or name",
+        "clear": "Clear"
+      }
     },
     "children": {
       "create": {

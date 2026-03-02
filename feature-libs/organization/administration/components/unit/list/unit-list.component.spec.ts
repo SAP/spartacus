@@ -16,6 +16,7 @@ import {
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UnitListService } from '../services/unit-list.service';
 import { UnitTreeService } from '../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
@@ -40,9 +41,15 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   }
 }
 
+class MockUnitListService {
+  search = createSpy('search');
+  clearSearch = createSpy('clearSearch');
+}
+
 describe('UnitListComponent', () => {
   let component: UnitListComponent;
   let unitTreeService: UnitTreeService;
+  let unitListService: UnitListService;
   let fixture: ComponentFixture<UnitListComponent>;
   let expandAll: HTMLElement;
   let collapseAll: HTMLElement;
@@ -57,6 +64,10 @@ describe('UnitListComponent', () => {
         {
           provide: OrgUnitService,
           useClass: MockOrgUnitService,
+        },
+        {
+          provide: UnitListService,
+          useClass: MockUnitListService,
         },
       ],
     })
@@ -79,6 +90,7 @@ describe('UnitListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitListComponent);
     unitTreeService = TestBed.inject(UnitTreeService);
+    unitListService = TestBed.inject(UnitListService);
     component = fixture.componentInstance;
     fixture.detectChanges();
     [expandAll, collapseAll] = fixture.debugElement
@@ -103,5 +115,55 @@ describe('UnitListComponent', () => {
   it('should call collapseAll', () => {
     collapseAll.click();
     expect(unitTreeService.collapseAll).toHaveBeenCalled();
+  });
+
+  it('should render search input', () => {
+    const input = fixture.debugElement.query(By.css('input.search-input'));
+    expect(input).toBeTruthy();
+  });
+
+  it('should not show reset button initially', () => {
+    const container = fixture.debugElement.query(By.css('.unit-search'));
+    expect(container.nativeElement.classList.contains('dirty')).toBeFalse();
+  });
+
+  it('should call search and expandAll on input change', () => {
+    const input = fixture.debugElement.query(By.css('input.search-input'));
+    input.nativeElement.value = 'test';
+    input.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(unitListService.search).toHaveBeenCalledWith('test');
+    expect(unitTreeService.expandAll).toHaveBeenCalled();
+    const container = fixture.debugElement.query(By.css('.unit-search'));
+    expect(container.nativeElement.classList.contains('dirty')).toBeTrue();
+  });
+
+  it('should not call expandAll when search value is empty', () => {
+    component.onSearchChange('');
+    expect(unitTreeService.expandAll).not.toHaveBeenCalled();
+  });
+
+  it('should call clearSearch and reset input on clearSearch()', () => {
+    component.onSearchChange('abc');
+    fixture.detectChanges();
+
+    component.clearSearch();
+    fixture.detectChanges();
+
+    expect(unitListService.clearSearch).toHaveBeenCalled();
+    expect(component.searchInput).toBe('');
+    const container = fixture.debugElement.query(By.css('.unit-search'));
+    expect(container.nativeElement.classList.contains('dirty')).toBeFalse();
+  });
+
+  it('should call clearSearch when reset button is clicked', () => {
+    component.searchInput = 'abc';
+    fixture.detectChanges();
+
+    const resetBtn = fixture.debugElement.query(By.css('button.reset'));
+    resetBtn.nativeElement.click();
+
+    expect(unitListService.clearSearch).toHaveBeenCalled();
   });
 });

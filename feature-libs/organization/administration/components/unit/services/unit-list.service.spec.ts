@@ -377,5 +377,83 @@ describe('UnitListService', () => {
 
       expect(result).toEqual(mockedTreeAfterConvert);
     });
+
+    describe('search and filter', () => {
+      beforeEach(() => {
+        mockTree$.next(mockedTree);
+        treeService.isExpanded = createSpy().and.returnValue(true);
+      });
+
+      it('should filter tree by unit ID', () => {
+        let result: EntitiesModel<B2BUnitTreeNode>;
+        service.getData().subscribe((table) => (result = table));
+
+        // 'Test' is the id of the deepest node (name is 'TestUnit')
+        service.search('Test');
+
+        const uids = result.values.map((v) => v.uid);
+        expect(uids).toContain('Test');
+        expect(uids).not.toContain('Services West');
+        expect(uids).not.toContain('Services East');
+      });
+
+      it('should filter tree by unit name', () => {
+        let result: EntitiesModel<B2BUnitTreeNode>;
+        service.getData().subscribe((table) => (result = table));
+
+        // 'TestUnit' is the name of the deepest node (id is 'Test')
+        service.search('TestUnit');
+
+        const uids = result.values.map((v) => v.uid);
+        expect(uids).toContain('Test');
+        expect(uids).not.toContain('Services West');
+        expect(uids).not.toContain('Services East');
+      });
+
+      it('should preserve ancestor nodes when a child matches', () => {
+        let result: EntitiesModel<B2BUnitTreeNode>;
+        service.getData().subscribe((table) => (result = table));
+
+        service.search('TestUnit');
+
+        const uids = result.values.map((v) => v.uid);
+        // Ancestors of 'Test' must be preserved
+        expect(uids).toContain('Rustic');
+        expect(uids).toContain('Rustic Retail');
+        expect(uids).toContain('Custom Retail');
+        expect(uids).toContain('Test');
+      });
+
+      it('should be case-insensitive', () => {
+        let result: EntitiesModel<B2BUnitTreeNode>;
+        service.getData().subscribe((table) => (result = table));
+
+        service.search('SERVICES WEST');
+
+        const uids = result.values.map((v) => v.uid);
+        expect(uids).toContain('Services West');
+      });
+
+      it('should return empty list when no match is found', () => {
+        let result: EntitiesModel<B2BUnitTreeNode>;
+        service.getData().subscribe((table) => (result = table));
+
+        service.search('nonexistent');
+
+        expect(result.values.length).toEqual(0);
+        expect(result.pagination.totalResults).toEqual(0);
+      });
+
+      it('should restore full tree after clearSearch', () => {
+        let result: EntitiesModel<B2BUnitTreeNode>;
+        service.getData().subscribe((table) => (result = table));
+
+        service.search('TestUnit');
+        expect(result.values.length).toBeLessThan(7);
+
+        service.clearSearch();
+        expect(result.values.length).toEqual(7);
+      });
+    });
   });
 });

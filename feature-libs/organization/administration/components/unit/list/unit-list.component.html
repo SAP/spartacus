@@ -1,5 +1,24 @@
 <cx-org-list [hideAddButton]="!isUpdatingUnitAllowed">
   <ng-container actions>
+    <div class="unit-search" [class.dirty]="!!searchInput">
+      <input
+        type="text"
+        class="form-control search-input"
+        [value]="searchInput"
+        (input)="onSearchChange($any($event.target).value)"
+        [placeholder]="'orgUnit.tree.search.placeholder' | cxTranslate"
+        [attr.aria-label]="'orgUnit.tree.search.placeholder' | cxTranslate"
+      />
+      <button
+        type="button"
+        class="reset"
+        (click)="clearSearch()"
+        [attr.aria-label]="'orgUnit.tree.search.clear' | cxTranslate"
+        [attr.title]="'orgUnit.tree.search.clear' | cxTranslate"
+      >
+        <cx-icon [type]="iconTypes.RESET"></cx-icon>
+      </button>
+    </div>
     <button class="link btn btn-link btn-sm" (click)="expandAll()">
       {{ 'orgUnit.tree.expandAll' | cxTranslate }}
     </button>
