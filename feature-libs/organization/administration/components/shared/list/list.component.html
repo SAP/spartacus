@@ -43,46 +43,47 @@
           <!-- Search box -->
           <div class="search-wrapper" *ngIf="isSearchEnabled">
             <label class="search-label">
-              <span class="visually-hidden">{{
+              <span class="label-text">{{
                 'organization.search.label' | cxTranslate
               }}</span>
-              <input
-                type="text"
-                class="form-control search-input"
-                [placeholder]="'organization.search.placeholder' | cxTranslate"
-                [(ngModel)]="searchQuery"
-                (ngModelChange)="
-                  onSearchQueryChange($any(data.pagination), $event)
-                "
-                [attr.aria-label]="'organization.search.label' | cxTranslate"
-              />
-              <button
-                *ngIf="!searchQuery"
-                type="button"
-                class="search-btn"
-                [attr.aria-label]="'organization.search.label' | cxTranslate"
-              >
-                <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-              </button>
-              <button
-                *ngIf="searchQuery"
-                type="button"
-                class="search-clear"
-                (click)="clearSearch($any(data.pagination))"
-                [attr.aria-label]="'organization.search.clear' | cxTranslate"
-              >
-                <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-              </button>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  class="form-control search-input"
+                  [placeholder]="'organization.search.placeholder' | cxTranslate"
+                  [(ngModel)]="searchQuery"
+                  (ngModelChange)="
+                    onSearchQueryChange($any(data.pagination), $event)
+                  "
+                  [attr.aria-label]="'organization.search.label' | cxTranslate"
+                />
+                <button
+                  *ngIf="!searchQuery"
+                  type="button"
+                  class="search-btn"
+                  [attr.aria-label]="'organization.search.label' | cxTranslate"
+                >
+                  <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+                </button>
+                <button
+                  *ngIf="searchQuery"
+                  type="button"
+                  class="search-clear"
+                  (click)="clearSearch($any(data.pagination))"
+                  [attr.aria-label]="'organization.search.clear' | cxTranslate"
+                >
+                  <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+                </button>
+              </div>
             </label>
           </div>
-          <label>
-            <span *ngIf="data.pagination?.sort">{{
+          <label class="sort-wrapper" *ngIf="data.pagination?.sort">
+            <span class="label-text">{{
               structure.type + '.sortBy' | cxTranslate
             }}</span>
             <ng-select
               name="sort"
               class="sort"
-              *ngIf="data.pagination?.sort"
               [searchable]="false"
               [clearable]="false"
               (change)="sort($any(data.pagination))"

@@ -531,8 +531,8 @@
 %viewHeader {
   .list {
     .header {
-      padding: 0 6px 38px 6px;
-      min-height: 130px;
+      padding: 0 0 4px 0;
+      min-height: auto;
 
       h3 {
         text-transform: uppercase;
@@ -548,28 +548,43 @@
 
       .actions {
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 0.25rem;
 
-        label {
-          align-items: center;
-          display: inline-flex;
+        // Common label style for search and sort
+        .label-text {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          font-size: 14px;
+        }
 
-          @include media-breakpoint-down(sm) {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-content: center;
-            padding-bottom: 0;
-          }
+        // Sort wrapper - vertical layout
+        .sort-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
 
-          span {
-            margin-inline-end: 0.5rem;
-          }
           .sort {
-            margin-inline-end: auto;
-            min-width: 170px;
+            min-width: 200px;
+            width: 200px;
+            height: 40px;
+
+            .ng-select-container {
+              height: 40px !important;
+              min-height: 40px !important;
+            }
           }
+        }
+
+        // Push create button to the right and align with inputs
+        .create {
+          margin-inline-start: auto;
+          align-self: flex-end;
+          height: 40px;
+          margin-bottom: 12px;
         }
 
         button {
@@ -581,16 +596,8 @@
           text-transform: uppercase;
         }
 
-        // UX team proposed to make header actions in mobile view block style,
-        // I think it's taken too much space.
-        // @include media-breakpoint-down(sm) {
-        //   flex-wrap: wrap;
-        //   ng-select,button { flex: 100%; }
-        // }
-
         // sort
         ng-select {
-          // margin: 20px 0;
           .ng-select-container.ng-has-value {
             // align the height of the select with buttons
             max-height: 40px;
@@ -599,25 +606,34 @@
 
         // search
         .search-wrapper {
-          margin-inline-end: 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
 
           .search-label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .input-wrapper {
             position: relative;
-            display: inline-flex;
+            display: flex;
             align-items: center;
           }
 
           .search-input {
-            min-width: 170px;
-            width: 170px;
+            min-width: 200px;
+            width: 200px;
             height: 40px;
             max-height: 40px;
             box-sizing: border-box;
+            padding-inline-end: 36px;
           }
 
           .search-btn {
             position: absolute;
-            inset-inline-end: 30px;
+            inset-inline-end: 8px;
             background: transparent;
             border: none;
             cursor: pointer;
@@ -638,7 +654,7 @@
 
           .search-clear {
             position: absolute;
-            inset-inline-end: 30px;
+            inset-inline-end: 8px;
             background: transparent;
             border: none;
             cursor: pointer;
