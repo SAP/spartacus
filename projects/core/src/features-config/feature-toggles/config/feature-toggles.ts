@@ -397,14 +397,13 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
-   * When enabled, allows searching B2B customers by name in the organization.
-   */
-  enableB2BAdminCustomerSearch?: boolean;
-
-  /**
    * When enabled, allows searching cost centers by name in the organization.
    */
   enableB2BCostCenterSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B customers by name in the organization.
+   */
   enableB2BCustomerSearch?: boolean;
 }
 
