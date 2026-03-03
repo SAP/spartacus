@@ -39,6 +39,7 @@ import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   takeUntil,
   tap,
 } from 'rxjs/operators';
@@ -77,10 +78,16 @@ export class ListComponent<T = any, P = PaginationModel>
 
   private destroy$ = new Subject<void>();
 
+  minSearchCharacters = this.service.getMinSearchCharacters();
+
   ngOnInit(): void {
     this.searchSubject$
       .pipe(
         debounceTime(300),
+        filter(
+          ({ query }) =>
+            query.length >= this.minSearchCharacters || query.length === 0
+        ),
         distinctUntilChanged((prev, curr) => prev.query === curr.query),
         takeUntil(this.destroy$)
       )
