@@ -4,6 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { Currency } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
 import { SiteContextActions } from '../store/actions/index';
@@ -41,6 +42,10 @@ class MockSiteConnector {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(false);
+}
+
 describe('CurrencyService', () => {
   const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
   const mockSelect1 = createSpy('select').and.returnValue(() =>
@@ -52,6 +57,7 @@ describe('CurrencyService', () => {
 
   let service: CurrencyService;
   let store: Store<StateWithSiteContext>;
+  let featureConfigService: MockFeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,12 +70,16 @@ describe('CurrencyService', () => {
         CurrencyService,
         { provide: SiteConnector, useClass: MockSiteConnector },
         { provide: SiteContextConfig, useValue: mockSiteContextConfig },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(CurrencyService);
+    featureConfigService = TestBed.inject(
+      FeatureConfigService
+    ) as unknown as MockFeatureConfigService;
   });
 
   it('should CurrencyService is injected', inject(
@@ -91,7 +101,8 @@ describe('CurrencyService', () => {
     );
   });
 
-  it('should be able to get currencies and filter out inactive ones', () => {
+  it('should be able to get currencies and filter out inactive ones when showOnlyActiveCurrencies is enabled', () => {
+    featureConfigService.isEnabled.and.returnValue(true);
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
 
     service.getAll().subscribe((results) => {
@@ -99,6 +110,22 @@ describe('CurrencyService', () => {
       expect(results.length).toBe(2);
       expect(results.every((currency) => currency.active === true)).toBe(true);
     });
+    expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+      'showOnlyActiveCurrencies'
+    );
+  });
+
+  it('should return all currencies when showOnlyActiveCurrencies is disabled', () => {
+    featureConfigService.isEnabled.and.returnValue(false);
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+
+    service.getAll().subscribe((results) => {
+      expect(results).toEqual(mockCurrencies);
+      expect(results.length).toBe(3);
+    });
+    expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+      'showOnlyActiveCurrencies'
+    );
   });
 
   it('should be able to get active currencies', () => {
