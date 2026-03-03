@@ -127,16 +127,19 @@
         </div>
       </div>
 
-      <cx-table
+      <ng-container
         *ngIf="data.values && data.values.length > 0; else emptyList"
-        [structure]="structure"
-        [data]="data.values"
-        [i18nRoot]="domainType"
-        [currentItem]="{ property: key, value: currentKey$ | async }"
-        (launch)="launchItem($event)"
-        role="tree"
       >
-      </cx-table>
+        <cx-table
+          [structure]="structure"
+          [data]="data.values"
+          [i18nRoot]="domainType"
+          [currentItem]="{ property: key, value: currentKey$ | async }"
+          (launch)="launchItem($event)"
+          role="tree"
+        >
+        </cx-table>
+      </ng-container>
 
       <div class="footer">
         <cx-pagination
@@ -152,9 +155,28 @@
 </cx-split-view>
 
 <ng-template #emptyList>
-  <p class="instruction is-empty">
-    {{ 'organization.messages.emptyList' | cxTranslate }}
-  </p>
+  <ng-container
+    *ngIf="
+      isSearchEnabled && searchQuery && (structure$ | async) as tableStructure;
+      else defaultEmpty
+    "
+  >
+    <cx-table
+      [structure]="tableStructure"
+      [data]="[]"
+      [i18nRoot]="domainType"
+      role="tree"
+    >
+    </cx-table>
+    <p class="cx-no-results">
+      {{ 'organization.search.noUsersFound' | cxTranslate }}
+    </p>
+  </ng-container>
+  <ng-template #defaultEmpty>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
 </ng-template>
 
 <ng-template #listHint>
