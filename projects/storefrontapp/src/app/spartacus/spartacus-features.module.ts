@@ -339,7 +339,8 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         enableB2BAdminCustomerSearch: false,
-        enableB2BCostCenterSearch: true,
+        enableB2BCostCenterSearch: false,
+        enableB2BCustomerSearch: false,
       };
       return appFeatureToggles;
     }),

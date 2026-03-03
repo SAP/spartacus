@@ -150,6 +150,15 @@
     padding: 20px;
   }
 
+  .cx-no-results {
+    text-align: center;
+    padding: 40px 20px;
+    margin: 0;
+    color: var(--cx-color-text);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
   @include media-breakpoint-up(md) {
     padding-inline-start: 10px;
     padding-inline-end: 10px;
