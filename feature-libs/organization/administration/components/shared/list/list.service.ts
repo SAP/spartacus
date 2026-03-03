@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
+import { OrganizationUIConfig } from '@spartacus/organization/administration/root';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
@@ -91,6 +92,8 @@ export abstract class ListService<T, P = PaginationModel> {
     pageSize: 10,
   } as any as P);
 
+  protected config = inject(OrganizationUIConfig);
+
   constructor(protected tableService: TableService) {}
 
   /**
@@ -107,6 +110,9 @@ export abstract class ListService<T, P = PaginationModel> {
    *
    * The load method is streamed from the `pagination$` stream, which is initialized
    * with default pagination and structure drive properties.
+   *
+   * The ghostData is emitted before each load operation (initial load, search,
+   * pagination, sort) to show a loading skeleton while waiting for the API response.
    */
   getData(...args: any): Observable<EntitiesModel<T> | undefined> {
     return this.pagination$.pipe(
@@ -116,8 +122,9 @@ export abstract class ListService<T, P = PaginationModel> {
           map((config) => ({ ...pagination, ...config.options?.pagination }))
         )
       ),
-      switchMap((pagination) => this.load(pagination, ...args)),
-      startWith(this.ghostData)
+      switchMap((pagination) =>
+        this.load(pagination, ...args).pipe(startWith(this.ghostData))
+      )
     );
   }
 
@@ -200,10 +207,11 @@ export abstract class ListService<T, P = PaginationModel> {
 
   /**
    * Returns the minimum number of characters required to trigger a search.
+   * This value can be configured via `organizationUI.listSearch.minCharacters`.
    * Override in subclass to customize.
    */
   getMinSearchCharacters(): number {
-    return 3;
+    return this.config.organizationUI?.listSearch?.minCharacters ?? 3;
   }
 
   /**

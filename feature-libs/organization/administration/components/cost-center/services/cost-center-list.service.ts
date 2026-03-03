@@ -53,9 +53,7 @@ export class CostCenterListService extends ListService<CostCenterModel> {
    * Enable search functionality for cost center list based on feature toggle.
    */
   override isSearchEnabled(): boolean {
-    return this.featureConfigService.isEnabled(
-      'enableB2BCostCenterSearch'
-    );
+    return this.featureConfigService.isEnabled('enableB2BCostCenterSearch');
   }
 
   protected load(

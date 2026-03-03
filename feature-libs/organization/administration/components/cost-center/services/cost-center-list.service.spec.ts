@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CostCenter, EntitiesModel, FeatureConfigService } from '@spartacus/core';
+import {
+  CostCenter,
+  EntitiesModel,
+  FeatureConfigService,
+} from '@spartacus/core';
+import { OrganizationUIConfig } from '@spartacus/organization/administration/root';
 import { CostCenterService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -38,6 +43,14 @@ class MockFeatureConfigService {
   }
 }
 
+const mockOrganizationUIConfig: OrganizationUIConfig = {
+  organizationUI: {
+    listSearch: {
+      minCharacters: 3,
+    },
+  },
+};
+
 describe('CostCenterListService', () => {
   let service: CostCenterListService;
   let costCenterService: CostCenterService;
@@ -59,6 +72,10 @@ describe('CostCenterListService', () => {
           {
             provide: FeatureConfigService,
             useClass: MockFeatureConfigService,
+          },
+          {
+            provide: OrganizationUIConfig,
+            useValue: mockOrganizationUIConfig,
           },
         ],
       });
@@ -91,7 +108,7 @@ describe('CostCenterListService', () => {
     });
 
     describe('getMinSearchCharacters()', () => {
-      it('should return 3 by default', () => {
+      it('should return value from config', () => {
         expect(service.getMinSearchCharacters()).toBe(3);
       });
     });

@@ -152,11 +152,94 @@
 
   .cx-no-results {
     text-align: center;
-    padding: 40px 20px;
+    padding: 60px 20px;
     margin: 0;
     color: var(--cx-color-text);
     font-size: 16px;
     font-weight: 600;
+    border-top: solid 1px var(--cx-color-light);
+  }
+
+  .cx-list-content {
+    position: relative;
+    min-height: 200px;
+
+    &.is-loading {
+      cx-table {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .cx-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    z-index: 10;
+  }
+
+  // Disabled state for elements during loading
+  .sort-wrapper.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  a.create.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  button.create:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .cx-dots-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    span {
+      width: 12px;
+      height: 12px;
+      background-color: var(--cx-color-primary);
+      border-radius: 50%;
+      animation: cx-dots-bounce 1.4s infinite ease-in-out both;
+
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0s;
+      }
+    }
+  }
+
+  @keyframes cx-dots-bounce {
+    0%,
+    80%,
+    100% {
+      transform: scale(0.6);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   @include media-breakpoint-up(md) {

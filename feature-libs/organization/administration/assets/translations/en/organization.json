@@ -64,7 +64,7 @@
   },
   "orgCostCenter": {
     "groupName": "Cost Centers",
-    "header": "All cost centers ({{count}})",
+    "header": "Cost centers ({{count}})",
     "code": "Code",
     "active": "Status",
     "name": "Name",

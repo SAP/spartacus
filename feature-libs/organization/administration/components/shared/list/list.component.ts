@@ -103,7 +103,7 @@ export class ListComponent<T = any, P = PaginationModel>
 
   readonly trapFocus = TrapFocus;
 
-  @HostBinding('class.ghost') hasGhostData = false;
+  hasGhostData = false;
 
   constructor(
     protected service: ListService<T, P>,
@@ -148,12 +148,33 @@ export class ListComponent<T = any, P = PaginationModel>
 
   readonly structure$: Observable<TableStructure> = this.service.getStructure();
 
+  /**
+   * Cached values from the last successful data load.
+   * Used to display semi-transparent table during loading.
+   */
+  cachedValues: T[] = [];
+
+  /**
+   * Cached total count from the last successful data load.
+   * Used to display count in header during loading.
+   */
+  cachedTotalCount: number | undefined;
+
   readonly listData$: Observable<EntitiesModel<T> | undefined> = this.service
     .getData()
     .pipe(
       tap((data) => {
         this.sortCode = data?.pagination?.sort;
         this.hasGhostData = this.service.hasGhostData(data);
+        // Cache the values and total count when we have real data
+        if (!this.hasGhostData && data?.values) {
+          if (data.values.length > 0) {
+            this.cachedValues = data.values;
+          }
+          if (data.pagination?.totalResults !== undefined) {
+            this.cachedTotalCount = data.pagination.totalResults;
+          }
+        }
       })
     );
 
