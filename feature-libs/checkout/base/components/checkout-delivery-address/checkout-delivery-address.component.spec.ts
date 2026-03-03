@@ -384,7 +384,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'P',
             'M'
           ).role
-        ).toEqual('application');
+        ).toEqual('region');
         expect(component['getCardRole']).toHaveBeenCalledWith(true);
       });
 
@@ -399,7 +399,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'P',
             'M'
           ).role
-        ).toEqual('button');
+        ).toEqual('group');
         expect(component['getCardRole']).toHaveBeenCalledWith(false);
       });
     });

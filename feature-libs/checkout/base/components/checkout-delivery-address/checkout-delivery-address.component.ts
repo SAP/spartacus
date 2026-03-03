@@ -376,10 +376,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 
-  protected getCardRole(isCardSelected: boolean): 'button' | 'application' {
-    const role: 'button' | 'application' = !isCardSelected
-      ? 'button'
-      : 'application';
+  protected getCardRole(isCardSelected: boolean): 'group' | 'region' {
+    const role: 'group' | 'region' = !isCardSelected ? 'group' : 'region';
     return role;
   }
 }
