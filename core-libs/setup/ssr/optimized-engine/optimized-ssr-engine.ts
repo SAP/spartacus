@@ -244,6 +244,32 @@ export class OptimizedSsrEngine {
   ): void {
     preprocessRequestForLogger(options.req, this.logger);
 
+    // SPIKE TODO REMOVE
+    this.logger.warn(
+      `[SPIKE] Express Request details:
+  req.originalUrl || req.url: ${options.req.originalUrl || options.req.url}
+  req.method: ${options.req.method}
+  req.protocol: ${options.req.protocol}
+  req.hostname: ${options.req.hostname}
+  req.get?.('host'): ${options.req.get?.('host')}
+  req.get?.('x-forwarded-host'): ${options.req.get?.('x-forwarded-host')}
+  req.get?.('x-forwarded-proto'): ${options.req.get?.('x-forwarded-proto')}
+  req.get?.('x-forwarded-for'): ${options.req.get?.('x-forwarded-for')}
+  req.get?.('origin'): ${options.req.get?.('origin')}
+  req.get?.('referer'): ${options.req.get?.('referer')}
+  req.get?.('user-agent'): ${options.req.get?.('user-agent')}
+  req.path: ${options.req.path}
+  req.baseUrl: ${options.req.baseUrl}
+  req.query: ${JSON.stringify(options.req.query)}
+  req.ip: ${options.req.ip}
+  req.ips: ${JSON.stringify(options.req.ips)}
+  req.secure: ${options.req.secure}
+  req.headers: ${JSON.stringify(options.req.headers)}`,
+      {
+        request: options.req,
+      }
+    );
+
     const request: Request = options.req;
     const response: Response = options.req.res;
 

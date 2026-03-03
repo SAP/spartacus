@@ -5,9 +5,16 @@
  */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import {
+  inject,
+  Inject,
+  Injectable,
+  Optional,
+  PLATFORM_ID,
+} from '@angular/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
+import { LoggerService } from '../logger';
 import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 
 @Injectable({
@@ -15,6 +22,7 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 })
 export class WindowRef {
   readonly document: Document;
+  logger = inject(LoggerService);
 
   constructor(
     // https://github.com/angular/angular/issues/20351
@@ -24,6 +32,11 @@ export class WindowRef {
     @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
   ) {
     this.document = document as Document;
+
+    // SPIKE TODO REMOVE
+    this.logger.warn(`[SPIKE] WindowRef:
+  windowRef.location.origin: ${this.location.origin}
+  windowRef.location.href: ${this.location.href}`);
   }
 
   /**
