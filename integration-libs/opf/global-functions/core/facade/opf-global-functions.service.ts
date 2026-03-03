@@ -610,8 +610,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return typeof configurationIdOrPaymentConfig === 'string' ||
       typeof configurationIdOrPaymentConfig === 'number'
       ? {
-        configurationId: String(configurationIdOrPaymentConfig),
-      }
+          configurationId: String(configurationIdOrPaymentConfig),
+        }
       : configurationIdOrPaymentConfig;
   }
 
@@ -644,7 +644,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return typeof response === 'string'
       ? response
       : ((response as { accessCode?: string })?.accessCode ??
-        (response as string | undefined));
+          (response as string | undefined));
   }
 
   protected buildAndInitiatePaymentConfig(
@@ -864,8 +864,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         return storedId
           ? of(storedId)
           : throwError(
-            () => new Error('No payment option ID found in storage')
-          );
+              () => new Error('No payment option ID found in storage')
+            );
       })
     );
   }
