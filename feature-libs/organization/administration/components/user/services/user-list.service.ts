@@ -90,6 +90,6 @@ export class UserListService extends ListService<UserModel> {
    * Enable search functionality for user list based on feature toggle.
    */
   override isSearchEnabled(): boolean {
-    return this.featureConfigService.isEnabled('enableB2BAdminCustomerSearch');
+    return this.featureConfigService.isEnabled('enableB2BCustomerSearch');
   }
 }

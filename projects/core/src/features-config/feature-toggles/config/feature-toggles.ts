@@ -399,7 +399,7 @@ export interface FeatureTogglesInterface {
   /**
    * When enabled, allows searching B2B customers by name in the organization.
    */
-  enableB2BAdminCustomerSearch?: boolean;
+  enableB2BCustomerSearch?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -445,5 +445,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
-  enableB2BAdminCustomerSearch: false,
+  enableB2BCustomerSearch: false,
 };
