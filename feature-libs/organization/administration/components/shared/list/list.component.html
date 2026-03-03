@@ -51,7 +51,7 @@
                   type="text"
                   class="form-control search-input"
                   [placeholder]="
-                    'organization.search.placeholder' | cxTranslate
+                    searchPlaceholderKey | cxTranslate
                   "
                   [(ngModel)]="searchQuery"
                   (ngModelChange)="
@@ -128,7 +128,10 @@
       </div>
 
       <cx-table
-        *ngIf="data.values && data.values.length > 0; else emptyList"
+        *ngIf="
+          data.values && (data.values.length > 0 || searchQuery);
+          else emptyList
+        "
         [structure]="structure"
         [data]="data.values"
         [i18nRoot]="domainType"
@@ -137,6 +140,13 @@
         role="tree"
       >
       </cx-table>
+
+      <p
+        *ngIf="searchQuery && data.values && data.values.length === 0"
+        class="instruction is-empty no-search-results"
+      >
+        {{ viewType + '.search.noResults' | cxTranslate }}
+      </p>
 
       <div class="footer">
         <cx-pagination

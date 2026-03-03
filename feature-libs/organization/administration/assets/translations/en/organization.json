@@ -185,10 +185,14 @@
   },
   "orgUnit": {
     "groupName": "Units",
-    "header": "All units ({{count}})",
+    "header": "Units ({{count}})",
     "unit": "Unit",
     "name": "Name",
     "uid": "ID",
+    "search": {
+      "placeholder": "Name or ID",
+      "noResults": "No units found"
+    },
     "approvalProcess": "Approval process",
     "parentUnit": "Parent Unit",
     "active": "Status",

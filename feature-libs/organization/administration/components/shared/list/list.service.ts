@@ -199,6 +199,14 @@ export abstract class ListService<T, P = PaginationModel> {
   }
 
   /**
+   * Returns the i18n key for the search input placeholder.
+   * Override in subclass to provide a custom placeholder.
+   */
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
+
+  /**
    * Search method to filter the list by query string.
    * Resets to first page when search query changes.
    */

@@ -150,6 +150,12 @@
     padding: 20px;
   }
 
+  .no-search-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--cx-color-secondary);
+  }
+
   @include media-breakpoint-up(md) {
     padding-inline-start: 10px;
     padding-inline-end: 10px;
@@ -579,6 +585,7 @@
           }
         }
 
+
         // Push create button to the right and align with inputs
         .create {
           margin-inline-start: auto;
@@ -609,6 +616,8 @@
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          // Push all subsequent items (projected actions + create) to the right
+          margin-inline-end: auto;
 
           .search-label {
             display: flex;
