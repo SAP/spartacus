@@ -89,6 +89,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   savedPaymentHeadingKey?: string;
 
   @Input()
+  savedCardsHeadingKey?: string;
+
+  @Input()
   newPaymentHeadingKey?: string;
 
   @Input()

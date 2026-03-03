@@ -31,6 +31,7 @@
     "termsAndConditionsDisclaimer": "Terms and conditions are not accepted.",
     "savedPaymentHeading": "Saved Payment Options",
     "newPaymentHeading": "New Payment Options",
+    "cards": "Cards",
     "errors": {
       "loadActiveConfigurations": "We are unable to load payment options at this time. Please try again later.",
       "noActiveConfigurations": "There are no payment options available at this time. Please try again later or contact support.",

@@ -53,9 +53,11 @@
                 <!-- {{ 'opfCheckout.savedPaymentMethods' | cxTranslate }} -->
                 <cx-icon
                   [type]="iconTypes.CREDIT_CARD"
-                  style="font-size: 24px"
+                  class="cx-payment-icon"
                 ></cx-icon>
-                <span> Cards</span>
+                <span>{{
+                  savedCardsHeadingKey || 'opfCheckout.cards' | cxTranslate
+                }}</span>
               </div>
             </label>
           </div>
