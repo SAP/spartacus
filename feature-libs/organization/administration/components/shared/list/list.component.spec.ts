@@ -88,6 +88,9 @@ class MockBaseListService {
   isSearchEnabled(): boolean {
     return false;
   }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');
   getCreateButtonLabel(): Translatable {
