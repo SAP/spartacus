@@ -395,6 +395,12 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
+  /**
+   * Fixes doubled screen reader output by providing a static title and aria-label to the password visibility toggle.
+   * Affects: `PasswordVisibilityToggleComponent`
+   */
+  a11yPasswordVisibilityToggle?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -440,4 +446,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  a11yPasswordVisibilityToggle: false,
 };
