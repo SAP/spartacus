@@ -10,7 +10,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -31,7 +30,6 @@ export class MockAtMessageDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -40,7 +38,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-truncate-text-popover',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxTruncateTextPopoverComponent {
   @Input() content: string;

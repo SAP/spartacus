@@ -19,7 +19,6 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
 @Component({
   selector: 'cx-test-cmp',
   template: '',
-  imports: [I18nTestingModule],
 })
 class TestComponent {
   tabTitleParam$ = of('title param');

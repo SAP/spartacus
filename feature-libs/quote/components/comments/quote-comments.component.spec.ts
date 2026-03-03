@@ -1,4 +1,4 @@
-import { Component, Input, DOCUMENT } from '@angular/core';
+import { Component, DOCUMENT, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -33,7 +33,6 @@ const ALL_PRODUCTS_ID = '';
   providers: [
     { provide: MessagingComponent, useClass: MockCxMessagingComponent },
   ],
-  imports: [I18nTestingModule],
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -44,7 +43,6 @@ class MockCxMessagingComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

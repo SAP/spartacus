@@ -52,7 +52,6 @@ describe('OccB2BUserAdapter', () => {
   let converterService: ConverterService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccB2BUserAdapter,
         {
