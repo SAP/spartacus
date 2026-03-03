@@ -451,7 +451,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
-  enableB2BAdminCustomerSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
 };

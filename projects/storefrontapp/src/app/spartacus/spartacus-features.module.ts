@@ -327,7 +327,7 @@ if (environment.cpq) {
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
-        authorizationCodeFlowByDefault: true,
+        authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
@@ -338,7 +338,6 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
-        enableB2BAdminCustomerSearch: false,
         enableB2BCostCenterSearch: false,
         enableB2BCustomerSearch: false,
       };
