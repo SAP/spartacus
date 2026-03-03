@@ -141,6 +141,12 @@ describe('ListService', () => {
     });
   });
 
+  describe('getMinSearchCharacters()', () => {
+    it('should return 3 by default', () => {
+      expect(service.getMinSearchCharacters()).toBe(3);
+    });
+  });
+
   describe('search()', () => {
     it('should update pagination with query and reset to first page', () => {
       service.search({ currentPage: 5, sort: 'byName' }, 'testQuery');
