@@ -69,7 +69,7 @@ export class CartItemComponent implements OnChanges {
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  protected globalMessageService = inject(GlobalMessageService);
+  protected globalMessageService? = inject(GlobalMessageService);
 
   // TODO: evaluate whether this is generic enough
   @Input() options: CartItemComponentOptions = {
@@ -116,7 +116,7 @@ export class CartItemComponent implements OnChanges {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
-    this.globalMessageService.add(
+    this.globalMessageService?.add(
       { key: 'cartItems.itemRemoved' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );

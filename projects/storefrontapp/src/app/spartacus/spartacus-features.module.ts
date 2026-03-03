@@ -338,7 +338,6 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
-        globalMessageCartRemovalNotification: true,
       };
       return appFeatureToggles;
     }),
