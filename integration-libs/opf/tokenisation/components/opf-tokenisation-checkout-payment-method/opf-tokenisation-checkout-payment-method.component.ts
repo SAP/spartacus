@@ -270,23 +270,6 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
     );
   }
 
-  protected getCardIcon(code: string): string {
-    let ccIcon: string;
-    if (code === 'visa') {
-      ccIcon = this.iconTypes.VISA;
-    } else if (code === 'master' || code === 'mastercard_eurocard') {
-      ccIcon = this.iconTypes.MASTER_CARD;
-    } else if (code === 'diners') {
-      ccIcon = this.iconTypes.DINERS_CLUB;
-    } else if (code === 'amex') {
-      ccIcon = this.iconTypes.AMEX;
-    } else {
-      ccIcon = this.iconTypes.CREDIT_CARD;
-    }
-
-    return ccIcon;
-  }
-
   protected createCard(
     paymentDetails: PaymentDetails,
     cardLabels: {
@@ -302,7 +285,6 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
     return {
       role,
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
-      // img: this.getCardIcon(paymentDetails.cardType?.code as string),
       actions: isSelected
         ? []
         : [{ name: cardLabels.textUseThisPayment, event: 'send' }],
