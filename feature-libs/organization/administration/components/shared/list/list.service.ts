@@ -199,6 +199,14 @@ export abstract class ListService<T, P = PaginationModel> {
   }
 
   /**
+   * Returns the minimum number of characters required to trigger a search.
+   * Override in subclass to customize.
+   */
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+
+  /**
    * Search method to filter the list by query string.
    * Resets to first page when search query changes.
    */
