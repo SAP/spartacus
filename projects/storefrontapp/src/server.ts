@@ -18,6 +18,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
 
+if (!process.env['NG_ALLOWED_HOSTS']) {
+  process.env['NG_ALLOWED_HOSTS'] = 'localhost,127.0.0.1';
+}
+
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
     process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
