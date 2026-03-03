@@ -43,6 +43,7 @@ import {
   OpfPaymentFacade,
   OpfPaymentGlobalMethods,
   OpfPaymentInitiationConfig,
+  OpfPaymentChannel,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
   OpfPaymentSessionData,
@@ -609,8 +610,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return typeof configurationIdOrPaymentConfig === 'string' ||
       typeof configurationIdOrPaymentConfig === 'number'
       ? {
-          configurationId: String(configurationIdOrPaymentConfig),
-        }
+        configurationId: String(configurationIdOrPaymentConfig),
+      }
       : configurationIdOrPaymentConfig;
   }
 
@@ -643,7 +644,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return typeof response === 'string'
       ? response
       : ((response as { accessCode?: string })?.accessCode ??
-          (response as string | undefined));
+        (response as string | undefined));
   }
 
   protected buildAndInitiatePaymentConfig(
@@ -654,6 +655,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     const configWithDefaults: OpfPaymentConfig = {
       ...paymentConfig,
       cartId: paymentConfig.cartId ?? cartId,
+      channel: paymentConfig.channel ?? OpfPaymentChannel.BROWSER,
       browserInfo:
         paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),
       resultURL:
@@ -862,8 +864,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         return storedId
           ? of(storedId)
           : throwError(
-              () => new Error('No payment option ID found in storage')
-            );
+            () => new Error('No payment option ID found in storage')
+          );
       })
     );
   }
