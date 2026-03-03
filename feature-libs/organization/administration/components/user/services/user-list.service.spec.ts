@@ -48,7 +48,7 @@ class MockTableService {
 
 class MockFeatureConfigService {
   isEnabled(feature: string): boolean {
-    return feature === 'enableB2BAdminCustomerSearch';
+    return feature === 'enableB2BCustomerSearch';
   }
 }
 
@@ -98,7 +98,7 @@ describe('UserListService', () => {
         spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
         expect(service.isSearchEnabled()).toBe(true);
         expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BAdminCustomerSearch'
+          'enableB2BCustomerSearch'
         );
       });
 
@@ -106,7 +106,7 @@ describe('UserListService', () => {
         spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
         expect(service.isSearchEnabled()).toBe(false);
         expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BAdminCustomerSearch'
+          'enableB2BCustomerSearch'
         );
       });
     });

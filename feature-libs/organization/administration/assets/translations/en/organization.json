@@ -58,7 +58,8 @@
       "label": "Search",
       "placeholder": "Name",
       "clear": "Clear search",
-      "noResults": "No results found for \"{{query}}\""
+      "noResults": "No results found for \"{{query}}\"",
+      "noResultsFound": "No results found"
     }
   },
   "orgCostCenter": {

@@ -150,10 +150,14 @@
     padding: 20px;
   }
 
-  .no-search-results {
+
+  .cx-no-results {
     text-align: center;
     padding: 40px 20px;
-    color: var(--cx-color-secondary);
+    margin: 0;
+    color: var(--cx-color-text);
+    font-size: 16px;
+    font-weight: 600;
   }
 
   @include media-breakpoint-up(md) {

@@ -397,6 +397,11 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * When enabled, allows searching cost centers by name in the organization.
+   */
+  enableB2BCostCenterSearch?: boolean;
+
+  /**
    * When enabled, allows searching B2B customers by name in the organization.
    */
   enableB2BAdminCustomerSearch?: boolean;
@@ -406,6 +411,8 @@ export interface FeatureTogglesInterface {
    * This search is performed on the client side since the full unit tree is already loaded.
    */
   enableB2BUnitSearch?: boolean;
+
+  enableB2BCustomerSearch?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -451,6 +458,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+
   enableB2BAdminCustomerSearch: false,
   enableB2BUnitSearch: false,
+  enableB2BCostCenterSearch: false,
+  enableB2BCustomerSearch: false,
 };

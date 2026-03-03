@@ -338,8 +338,11 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
+
         enableB2BAdminCustomerSearch: false,
-        enableB2BUnitSearch: true,
+        enableB2BUnitSearch: false,
+        enableB2BCostCenterSearch: false,
+        enableB2BCustomerSearch: false,
       };
       return appFeatureToggles;
     }),
