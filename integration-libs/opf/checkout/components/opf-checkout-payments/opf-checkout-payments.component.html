@@ -13,8 +13,19 @@
         <!-- Saved Payment Options Section (only shown if saved cards exist) -->
         <ng-container *ngIf="hasSavedCards$ | async">
           <!-- Saved Payment Options Heading -->
-          <div class="cx-payment-options-section">
-            <h3 style="margin-top: 1.5rem">Saved Payment Options</h3>
+          <div
+            class="cx-payment-options-section"
+            [attr.aria-label]="
+              savedPaymentHeadingKey || 'opfCheckout.savedPaymentHeading'
+                | cxTranslate
+            "
+          >
+            <h3 class="cx-payment-section-heading">
+              {{
+                savedPaymentHeadingKey || 'opfCheckout.savedPaymentHeading'
+                  | cxTranslate
+              }}
+            </h3>
           </div>
 
           <!-- Saved Payment Methods as Single Radio Option -->
@@ -58,8 +69,19 @@
 
         <!-- New Payment Options Heading (only shown if saved cards exist) -->
         <ng-container *ngIf="hasSavedCards$ | async">
-          <div class="cx-payment-options-section">
-            <h3 style="margin-top: 1.5rem">New Payment Options</h3>
+          <div
+            class="cx-payment-options-section"
+            [attr.aria-label]="
+              newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
+                | cxTranslate
+            "
+          >
+            <h3 class="cx-payment-section-heading">
+              {{
+                newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
+                  | cxTranslate
+              }}
+            </h3>
           </div>
         </ng-container>
 
