@@ -17,7 +17,16 @@
     "node": "^22.22.0"
   },
   "overrides": {
-    "minimatch": "^10.2.3"
+    "minimatch": "^10.2.3",
+    "karma": {
+      "minimatch": "^5.1.8"
+    },
+    "karma-coverage": {
+      "minimatch": "^5.1.8"
+    },
+    "i18n-lint": {
+      "minimatch": "^3.1.4"
+    }
   },
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx esbuild-visualizer --metadata ./dist/storefrontapp/stats.json",
