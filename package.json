@@ -26,6 +26,9 @@
     },
     "i18n-lint": {
       "minimatch": "^3.1.4"
+    },
+    "test-exclude": {
+      "minimatch": "^3.1.4"
     }
   },
   "scripts": {
