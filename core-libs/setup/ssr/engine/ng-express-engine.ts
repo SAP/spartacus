@@ -84,6 +84,7 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
     bootstrap: setupOptions.bootstrap,
     providers: setupOptions.providers,
     enablePerformanceProfiler: setupOptions.enablePerformanceProfiler,
+    allowedHosts: setupOptions.allowedHosts,
   });
 
   return function (
