@@ -339,6 +339,7 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         a11yAddedToCartDialogHeading: true,
+        a11yReviewsKeyboardControls: true,
       };
       return appFeatureToggles;
     }),
