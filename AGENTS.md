@@ -7,11 +7,11 @@ Spartacus is an Angular meta-framework for SAP Commerce Cloud e-commerce storefr
 ### Libraries
 - `feature-libs/` - Optional features for standard SAP Commerce backend (cart, checkout, order, etc.)
 - `integration-libs/` - Features requiring special backend addons (cdc, cds, digital-payments, opf)
-- `core-libs/setup/` - Core setup lib
-- `core-libs/setup/ssr` - Core SSR sub-lib
 - `projects/core/` - Core non-UI lib
 - `projects/storefrontlib/` - Core UI lib and CMS engine and some components
 - `projects/storefrontstyles/` - Core styles lib and some components' styles
+- `core-libs/setup/` - Core setup utilities lib
+- `core-libs/setup/ssr` - Core SSR lib
 
 ### Demo App
 - `projects/storefrontapp/`
