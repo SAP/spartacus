@@ -1,14 +1,6 @@
 # Spartacus
 
-Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo using npm workspaces + Nx.
-
-## Critical Rules
-
-- **AVOID** add/change `peerDependencies` in library `package.json` files — causes breaking changes for customers. Add `devDependencies` to root `package.json` only if truly needed for development.
-- **AVOID** introducing breaking changes. If you must change behavior, styling, or public API, wrap it with a feature toggle (`cxFeature` in HTML,  `inject(FeatureToggles)` in TS)
-- **ALWAYS** export public APIs through `public_api.ts` files via barrel files
-- **AVOID** `private` access modifiers in classes. We want classes to be extendable by customers
-- **AVOID** exporting APIs explicitly marked as internal
+Spartacus is Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo us using npm workspaces + Nx.
 
 ## Directory Quick Reference
 
@@ -25,6 +17,9 @@ Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo u
 | `tools/eslint-rules/` | Custom ESLint rules |
 | `ci-scripts/` | Scripts used by CI to check peer deps, feature toggles, unit tests, E2E |
 | `.github/workflows/` | GitHub Actions CI/CD pipelines |
+
+## Library structure
+Described in `docs/libs/library-structure.md`
 
 ## Common Commands
 
@@ -51,19 +46,6 @@ npm run e2e:run
 npm run e2e:run:b2b
 ```
 
+## Critical Rules
 
-## When to Read Extended Docs
-
-| Situation | Read this |
-|-----------|-----------|
-| Creating a new Spartacus library | `docs/libs/creating-lib.md` |
-| Library structure | `docs/libs/library-structure.md` |
-
-## Coding Best Practices
--
-
-## Troubleshooting
--
-
-## Common Mistakes to Avoid
--
+- **AVOID** `private` access modifiers in classes. Everything should be extendable by customers, except when explicitly marked as "internal API"
