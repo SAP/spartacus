@@ -1,6 +1,6 @@
 # Spartacus
 
-Spartacus is Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. Monorepo us using npm workspaces + Nx.
+Spartacus is an Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. It's a monorepo using npm workspaces + Nx.
 
 ## Directory Quick Reference
 
