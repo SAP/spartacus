@@ -339,6 +339,7 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         showOnlyActiveCurrencies: true,
+        a11yAddedToCartDialogHeading: true,
       };
       return appFeatureToggles;
     }),
