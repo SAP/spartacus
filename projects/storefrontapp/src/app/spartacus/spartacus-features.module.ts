@@ -340,6 +340,7 @@ if (environment.cpq) {
         a11yCardNotificationMessage: true,
         enableB2BCostCenterSearch: false,
         enableB2BCustomerSearch: false,
+        a11yAddedToCartDialogHeading: true,
       };
       return appFeatureToggles;
     }),

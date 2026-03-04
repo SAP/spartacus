@@ -405,6 +405,13 @@ export interface FeatureTogglesInterface {
    * When enabled, allows searching B2B customers by name in the organization.
    */
   enableB2BCustomerSearch?: boolean;
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -452,4 +459,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCardNotificationMessage: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
+  a11yAddedToCartDialogHeading: false,
 };
