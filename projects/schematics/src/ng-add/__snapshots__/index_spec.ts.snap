@@ -28,29 +28,17 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "serve:ssr:schematics-test": "node dist/schematics-test/server/server.mjs",
     "build:ssr": "ng build"
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
-  },
   "private": true,
   "dependencies": {
-    "@angular/common": "^21.1.0",
-    "@angular/compiler": "^21.1.0",
-    "@angular/core": "^21.1.0",
-    "@angular/forms": "^21.1.0",
-    "@angular/platform-browser": "^21.1.0",
-    "@angular/platform-server": "^21.1.0",
-    "@angular/router": "^21.1.0",
-    "@angular/service-worker": "^21.1.0",
-    "@angular/ssr": "^21.1.0",
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@angular/platform-server": "^21.2.0",
+    "@angular/router": "^21.2.0",
+    "@angular/service-worker": "^21.2.0",
+    "@angular/ssr": "^21.2.0",
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4",
@@ -73,18 +61,19 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "zone.js": "~0.16.0"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^21.1.0",
-    "@angular-devkit/schematics": "^21.1.0",
-    "@angular/build": "^21.1.0",
+    "@angular-devkit/core": "^21.2.0",
+    "@angular-devkit/schematics": "^21.2.0",
+    "@angular/build": "^21.2.0",
     "@angular/cli": "^0.5.0",
-    "@angular/compiler": "^21.1.0",
-    "@angular/compiler-cli": "^21.1.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/compiler-cli": "^21.2.0",
     "@schematics/angular": "^21.1.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
-    "jsdom": "^27.1.0",
+    "jsdom": "^28.0.0",
     "jsonc-parser": "^3.3.1",
     "parse5": "^8.0.0",
+    "prettier": "^3.8.1",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }
