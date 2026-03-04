@@ -395,6 +395,14 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -440,4 +448,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  a11yAddedToCartDialogHeading: false,
 };
