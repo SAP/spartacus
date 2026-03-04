@@ -55,4 +55,4 @@ npm run e2e:run:b2b
 
 ## Critical Rules
 
-- **AVOID** `private` access modifiers. Everything should be extendable by customers, except when explicitly marked as "internal API"
+- **AVOID** `private` access modifiers and non-exported members. Everything should be extendable by customers, except when explicitly marked as "internal API"
