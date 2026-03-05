@@ -40,7 +40,11 @@ npm run build:libs     # All libraries
 npm run build          # Demo app (requires libs built first)
 
 # Jasmine Test Angular libs
-npm run test:libs              # All library tests
+# All library tests
+npm run test:libs              
+
+## Specific tests
+## Add `--no-watch --source-map --code-coverage --browsers ChromeHeadless`
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
 nx run <library-name>:test --include="**/<spec-filename>" # Specific test file
 
