@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   Images,
+  MockDatePipe,
+  MockTranslatePipe,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -49,16 +51,6 @@ class MockMediaComponent {
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform() {}
-}
-
-@Pipe({ name: 'cxDate' })
-class MockDatePipe implements PipeTransform {
   transform() {}
 }
 

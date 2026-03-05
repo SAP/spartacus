@@ -19,12 +19,12 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { EMPTY, of } from 'rxjs';
+import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  imports: [ReactiveFormsModule, FormErrorsModule],
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -75,12 +75,7 @@ describe('CartCouponComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        FormErrorsModule,
-        CartCouponComponent,
-        MockAppliedCouponsComponent,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, CartCouponComponent],
       providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartService },
         { provide: CartVoucherFacade, useValue: mockCartVoucherService },
@@ -92,8 +87,8 @@ describe('CartCouponComponent', () => {
       ],
     })
       .overrideComponent(CartCouponComponent, {
-        remove: { imports: [TranslatePipe] },
-        add: { imports: [MockTranslatePipe] },
+        remove: { imports: [TranslatePipe, AppliedCouponsComponent] },
+        add: { imports: [MockTranslatePipe, MockAppliedCouponsComponent] },
       })
       .compileComponents();
   }));

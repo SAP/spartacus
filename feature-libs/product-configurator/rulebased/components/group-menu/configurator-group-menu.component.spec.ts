@@ -5,6 +5,7 @@ import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -215,16 +216,6 @@ class MockConfiguratorStorefrontUtilsService {
   setFocus(): void {}
 
   focusFirstActiveElement(): void {}
-}
-
-class MockTranslationService {
-  translate(key: string, options: any = {}): Observable<string> {
-    let result = key;
-    Object.keys(options).forEach((optionKey) => {
-      result += ` ${optionKey}:${options[optionKey]}`;
-    });
-    return of(result);
-  }
 }
 
 let component: ConfiguratorGroupMenuComponent;

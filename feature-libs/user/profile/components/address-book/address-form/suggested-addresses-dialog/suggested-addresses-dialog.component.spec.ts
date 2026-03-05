@@ -14,7 +14,6 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
-  FocusDirective,
   IconComponent,
   ICON_TYPE,
   LaunchDialogService,
@@ -62,7 +61,6 @@ describe('SuggestedAddressDialogComponent', () => {
             CxDatePipe,
             IconComponent,
             FeatureDirective,
-            FocusDirective,
           ],
         },
         add: {
@@ -71,7 +69,6 @@ describe('SuggestedAddressDialogComponent', () => {
             MockDatePipe,
             MockCxIconComponent,
             MockFeatureDirective,
-            FocusDirective,
           ],
         },
       })

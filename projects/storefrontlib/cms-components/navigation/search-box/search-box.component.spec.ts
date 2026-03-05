@@ -1,10 +1,4 @@
-import {
-  Component,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -64,18 +58,6 @@ class MockCmsComponentData {
   get data$(): Observable<CmsSearchBoxComponent> {
     return EMPTY;
   }
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {
-    return ['test', 'url'];
-  }
-}
-
-@Pipe({ name: 'cxHighlight' })
-class MockHighlightPipe implements PipeTransform {
-  transform(): any {}
 }
 
 @Component({
@@ -181,12 +163,6 @@ describe('SearchBoxComponent', () => {
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
         SearchBoxComponent,
-        MockUrlPipe,
-        MockHighlightPipe,
-        MockCxIconComponent,
-        MockMediaComponent,
-        MockOutletDirective,
-        MockCarouselComponent,
       ],
       providers: [
         {

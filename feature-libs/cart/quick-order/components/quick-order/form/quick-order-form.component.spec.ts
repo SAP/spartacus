@@ -18,7 +18,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
@@ -113,7 +112,6 @@ describe('QuickOrderFormComponent', () => {
           imports: [
             MockTranslatePipe,
             MockCxIconComponent,
-            MockFeatureDirective,
           ],
         },
       })

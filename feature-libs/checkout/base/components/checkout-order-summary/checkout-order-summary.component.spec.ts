@@ -1,15 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  AppliedCouponsComponent,
-  OrderSummaryComponent,
-} from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   FeatureLevelDirective,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { PromotionsComponent } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
@@ -37,22 +32,10 @@ describe('CheckoutOrderSummaryComponent', () => {
     })
       .overrideComponent(CheckoutOrderSummaryComponent, {
         remove: {
-          imports: [
-            TranslatePipe,
-            OrderSummaryComponent,
-            PromotionsComponent,
-            AppliedCouponsComponent,
-            FeatureLevelDirective,
-          ],
+          imports: [TranslatePipe, FeatureLevelDirective],
         },
         add: {
-          imports: [
-            MockTranslatePipe,
-            OrderSummaryComponent,
-            PromotionsComponent,
-            AppliedCouponsComponent,
-            MockFeatureLevelDirective,
-          ],
+          imports: [MockTranslatePipe, MockFeatureLevelDirective],
         },
       })
       .compileComponents();

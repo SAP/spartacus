@@ -26,7 +26,6 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
-  MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
   QueryState,
@@ -269,7 +268,6 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
         add: {
           imports: [
             MockTranslatePipe,
-            MockDatePipe,
             MockUrlPipe,
             MockCardComponent,
             MockIconComponent,

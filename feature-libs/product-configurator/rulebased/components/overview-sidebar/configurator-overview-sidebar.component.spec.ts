@@ -116,11 +116,7 @@ class MockConfiguratorOverviewMenuComponent {
 describe('ConfiguratorOverviewSidebarComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ConfiguratorOverviewSidebarComponent,
-        MockConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewMenuComponent,
-      ],
+      imports: [ConfiguratorOverviewSidebarComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,

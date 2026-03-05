@@ -1,14 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { TranslatePipe } from '@spartacus/core';
-import { FeatureDirective } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
-import {
-  FocusDirective,
-  IconComponent,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { DpConfirmationDialogComponent } from './dp-confirmation-dialog.component';
 
@@ -80,15 +73,10 @@ describe('DpConfirmationDialogComponent', () => {
     })
       .overrideComponent(DpConfirmationDialogComponent, {
         remove: {
-          imports: [
-            TranslatePipe,
-            FocusDirective,
-            IconComponent,
-            FeatureDirective,
-          ],
+          imports: [TranslatePipe],
         },
         add: {
-          imports: [MockTranslatePipe, MockFeatureDirective],
+          imports: [MockTranslatePipe],
         },
       })
       .compileComponents();

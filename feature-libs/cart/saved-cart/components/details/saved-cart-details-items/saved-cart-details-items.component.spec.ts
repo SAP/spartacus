@@ -1,7 +1,5 @@
-import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
@@ -14,7 +12,6 @@ import {
   Translatable,
   TranslationService,
 } from '@spartacus/core';
-import { OutletDirective, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
@@ -74,31 +71,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-@Directive({ selector: '[cxOutlet]' })
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-  @Input() cxOutletContext: any;
-}
-
-@Component({
-  selector: 'cx-add-to-cart',
-  template: '',
-})
-class MockAddToCartComponent {
-  @Input() productCode: string;
-  @Input() product: any;
-  @Input() showQuantity: boolean;
-  @Input() options: any;
-  @Input() pickupStore: string | undefined;
-  @Input() savedCart: any;
-}
-
-@Component({
-  selector: 'cx-spinner',
-  template: '',
-})
-class MockSpinnerComponent {}
-
 describe('SavedCartDetailsItemsComponent', () => {
   let component: SavedCartDetailsItemsComponent;
   let fixture: ComponentFixture<SavedCartDetailsItemsComponent>;
@@ -128,18 +100,6 @@ describe('SavedCartDetailsItemsComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     })
-      .overrideComponent(SavedCartDetailsItemsComponent, {
-        remove: {
-          imports: [OutletDirective, AddToCartComponent, SpinnerComponent],
-        },
-        add: {
-          imports: [
-            MockOutletDirective,
-            MockAddToCartComponent,
-            MockSpinnerComponent,
-          ],
-        },
-      })
       .compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);

@@ -13,7 +13,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
@@ -119,11 +118,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
       .overrideComponent(CheckoutPaymentTypeComponent, {
         remove: { imports: [TranslatePipe, SpinnerComponent] },
         add: {
-          imports: [
-            MockTranslatePipe,
-            MockSpinnerComponent,
-            MockFeatureDirective,
-          ],
+          imports: [MockTranslatePipe, MockSpinnerComponent],
         },
       })
       .compileComponents();

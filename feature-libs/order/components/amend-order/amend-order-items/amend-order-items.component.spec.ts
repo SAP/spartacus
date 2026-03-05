@@ -1,11 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import {
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
@@ -82,7 +78,6 @@ describe('CancelOrReturnItemsComponent', () => {
         add: {
           imports: [
             MockTranslatePipe,
-            MockDatePipe,
             MockMediaComponent,
             MockItemCounterComponent,
           ],

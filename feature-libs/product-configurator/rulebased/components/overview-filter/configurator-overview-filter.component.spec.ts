@@ -82,11 +82,7 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     mockRouterState.state.params.displayOnly = false;
 
     return TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        ConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewFilterBarComponent,
-      ],
+      imports: [ReactiveFormsModule, ConfiguratorOverviewFilterComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,

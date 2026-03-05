@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
-  FeatureDirective,
   I18nTestingModule,
   MockTranslatePipe,
   PointOfService,
@@ -11,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, IconComponent, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY } from 'rxjs';
 import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
@@ -77,7 +75,6 @@ describe('StoreFinderStoreComponent', () => {
             TranslatePipe,
             IconComponent,
             StoreFinderStoreDescriptionComponent,
-            FeatureDirective,
           ],
         },
         add: {
@@ -85,7 +82,6 @@ describe('StoreFinderStoreComponent', () => {
             MockTranslatePipe,
             MockCxIconComponent,
             MockStoreFinderStoreDescriptionComponent,
-            MockFeatureDirective,
           ],
         },
       })

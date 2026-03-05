@@ -23,7 +23,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
-  MockDatePipe,
   MockTranslatePipe,
   MockTranslationService,
   RoutingService,
@@ -221,7 +220,6 @@ describe('OneTimePasswordRegisterComponent', () => {
         add: {
           imports: [
             MockTranslatePipe,
-            MockDatePipe,
             MockUrlPipe,
             MockSpinnerComponent,
           ],
