@@ -339,6 +339,8 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         a11yNgSelectReadonlyInputValue: true,
+        a11yPasswordVisibilityToggle: true,
+        showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
       };
       return appFeatureToggles;
