@@ -13,6 +13,12 @@ export * from './angular/index';
 // Express middleware
 export * from './express/index';
 
+// SSR-Bridge (connects Angular config to Express)
+export * from './ssr-bridge/index';
+
+// URL transformation utilities
+export * from './utils/route-utils';
+
 // Legacy Node.js services (for backward compatibility)
 export * from './services/index';
 export * from './providers/index';

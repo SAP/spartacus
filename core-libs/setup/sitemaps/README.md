@@ -5,6 +5,7 @@ This module provides server-side sitemap generation capability for Spartacus app
 ## Features
 
 - **Angular-based generation**: Uses `SemanticPathService` for correct URL generation
+- **SSR-Bridge**: Automatically extracts routing config from Angular to Express
 - **Multi-language support**: Auto-discovers languages from basesites API
 - **Plug-in architecture**: Easy to extend with custom URL providers
 - **XML standard**: Fully compliant with sitemap.org protocol
@@ -12,7 +13,113 @@ This module provides server-side sitemap generation capability for Spartacus app
 
 ---
 
-## 🚀 Recommended Approach: Angular-based Generation
+## 🚀 Recommended Approach: SSR-Bridge
+
+The **SSR-Bridge approach** automatically extracts routing configuration from Angular SSR context and makes it available to Express middleware. This ensures generated URLs match your application's routing configuration, including any customer customizations.
+
+### How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Angular SSR Bootstrap                       │
+│  ┌──────────────────┐      ┌────────────────────────────┐      │
+│  │   RoutingConfig  │ ───▶ │ SitemapConfigExtractor     │      │
+│  │   (customer cfg) │      │ (APP_INITIALIZER)          │      │
+│  └──────────────────┘      └──────────────┬─────────────┘      │
+└───────────────────────────────────────────┼─────────────────────┘
+                                            │
+                         ┌──────────────────▼──────────────────┐
+                         │      SITEMAP_SHARED_STATE           │
+                         │  (Node.js process memory)           │
+                         │  • routingConfig                    │
+                         │  • urlEncodingParams                │
+                         └──────────────────┬──────────────────┘
+                                            │
+┌───────────────────────────────────────────▼─────────────────────┐
+│                      Express Middleware                         │
+│  ┌──────────────────┐      ┌────────────────────────────┐      │
+│  │  UrlPathService  │ ◀─── │ waitForSitemapState()      │      │
+│  │  (real config!)  │      │                            │      │
+│  └──────────────────┘      └────────────────────────────┘      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Step 1: Add Provider to Server Config
+
+```typescript
+// app.config.server.ts
+import { provideSitemapConfigExtractor } from '@spartacus/setup/sitemaps';
+
+export const serverConfig: ApplicationConfig = {
+  providers: [
+    provideSitemapConfigExtractor(),
+    // ... other providers
+  ],
+};
+```
+
+### Step 2: Setup Middleware in server.ts
+
+```typescript
+// server.ts
+import { setupSsrBridgeSitemaps } from '@spartacus/setup/sitemaps';
+
+export function app(): express.Express {
+  const server = express();
+  const browserDistFolder = resolve(serverDistFolder, '../browser');
+  
+  // Setup SSR-Bridge sitemaps (uses Angular config!)
+  setupSsrBridgeSitemaps(server, {
+    baseUrl: 'https://your-store.com',
+    occBaseUrl: 'https://your-occ-backend.com',
+    baseSiteId: 'electronics-spa',
+    outputDir: join(browserDistFolder, 'sitemaps'),
+  });
+  
+  // ... rest of server setup
+  return server;
+}
+```
+
+### Step 3: Verify It Works
+
+After server starts and first SSR request completes:
+
+```bash
+# Check status
+curl http://localhost:4000/sitemap-status
+
+# Response:
+{
+  "ready": true,
+  "routes": ["home", "product", "category", "search", ...],
+  "urlEncodingParams": ["baseSite", "language", "currency"]
+}
+
+# Trigger generation test
+curl -X POST http://localhost:4000/sitemap-generate
+
+# Response:
+{
+  "status": "Config available",
+  "routesCount": 15,
+  "testProductUrl": "/electronics-spa/en/USD/product/300938/Photosmart-E702-Digital-Camera"
+}
+```
+
+### Why SSR-Bridge?
+
+| Feature | SSR-Bridge | Legacy Node.js | Pure Angular |
+|---------|------------|----------------|--------------|
+| Uses real routing config | ✅ | ❌ | ✅ |
+| Customer customizations | ✅ Automatic | ❌ Manual sync | ✅ Automatic |
+| No code duplication | ✅ | ❌ | ✅ |
+| Available at startup | After 1st SSR | ✅ | After SSR |
+| Express integration | ✅ | ✅ | Requires trigger |
+
+---
+
+## 🔄 Alternative: Angular-based Generation
 
 The recommended approach uses Angular services that have access to `SemanticPathService`, ensuring generated URLs match your application's routing configuration.
 

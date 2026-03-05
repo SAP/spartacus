@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './url-path.service';
 export * from './base-site.service';
-
+// Route utilities moved to ../utils/route-utils.ts

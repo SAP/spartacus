@@ -13,11 +13,12 @@ import { provideServerRendering } from '@angular/platform-server';
 import { TestConfigServerModule } from '@spartacus/setup/ssr';
 import { appConfig } from './app.config';
 import { AppServerModule } from './app.module.server';
+import { provideSitemapConfigExtractor } from '@spartacus/setup/sitemaps';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-
+    provideSitemapConfigExtractor(),
     importProvidersFrom(AppServerModule),
 
     importProvidersFrom(

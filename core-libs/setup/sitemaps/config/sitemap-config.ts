@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RoutesConfig } from '../services/url-path.service';
+import { RoutesConfig } from '@spartacus/core';
 
 /**
  * Configuration for multi-language sitemap generation
@@ -114,4 +114,3 @@ export const DEFAULT_SITEMAP_CONFIG: Partial<SitemapConfig> = {
   languageStrategy: 'separate-files',
   autoDiscoverLanguages: true,
 };
-

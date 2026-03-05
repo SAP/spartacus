@@ -4,28 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { RoutesConfig } from '@spartacus/core';
 import { SitemapConfig, SitemapLanguageConfig } from '../config/sitemap-config';
 import { BaseSiteService } from '../services/base-site.service';
-import { UrlPathService } from '../services/url-path.service';
+import { transformRoute } from '../utils/route-utils';
 import { LanguageUrls, SitemapUrlEntry, UrlProvider } from './url-provider';
-
-/**
- * OCC product search response structure
- */
-interface OccProductSearchResponse {
-  products?: Array<{
-    code?: string;
-    name?: string;
-    url?: string;
-  }>;
-  pagination?: {
-    currentPage?: number;
-    pageSize?: number;
-    totalPages?: number;
-    totalResults?: number;
-  };
-}
-
+import { Occ } from '@spartacus/core';
 /**
  * URL Provider for product detail pages (PDP).
  * Fetches products from OCC API and generates sitemap URLs.
@@ -33,8 +17,8 @@ interface OccProductSearchResponse {
  * Uses paginated search endpoint since OCC limits page size to 100.
  * Generates separate URL lists per language for separate sitemap files.
  *
- * @deprecated Use Angular-based SitemapGeneratorService for correct URL generation
- * that uses SemanticPathService and respects urlEncodingAttributes from config.
+ * @deprecated Use setupSsrBridgeSitemaps() with provideSitemapConfigExtractor()
+ * for correct URL generation that uses Angular's routing configuration.
  */
 export class ProductUrlProvider implements UrlProvider {
   readonly name = 'products';
@@ -44,12 +28,13 @@ export class ProductUrlProvider implements UrlProvider {
    */
   protected readonly MAX_PAGE_SIZE = 100;
 
-  protected urlPathService: UrlPathService;
+  protected routesConfig: RoutesConfig;
   protected baseSiteService: BaseSiteService | null = null;
   protected urlEncodingAttributes: string[] = [];
 
-  constructor(urlPathService?: UrlPathService) {
-    this.urlPathService = urlPathService || new UrlPathService();
+  constructor(customRoutes?: Partial<RoutesConfig>) {
+    // this.routesConfig = { ...DEFAULT_ROUTES_CONFIG, ...customRoutes };
+    this.routesConfig = customRoutes;
   }
 
   async getUrlsByLanguage(config: SitemapConfig): Promise<LanguageUrls[]> {
@@ -204,7 +189,7 @@ export class ProductUrlProvider implements UrlProvider {
         return { urls: [], totalPages: 0 };
       }
 
-      const data: OccProductSearchResponse = await response.json();
+      const data: Occ.ProductSearchPage = await response.json();
 
       const urls = this.transformProductsToUrls(data.products || [], config, language);
       const totalPages = data.pagination?.totalPages ?? 1;
@@ -240,10 +225,10 @@ export class ProductUrlProvider implements UrlProvider {
     config: SitemapConfig,
     language: SitemapLanguageConfig
   ): SitemapUrlEntry[] {
-    // Apply custom routes if provided
-    if (config.routes) {
-      this.urlPathService.setRoutes(config.routes);
-    }
+    // Merge custom routes if provided
+    const routes = config.routes
+      ? { ...this.routesConfig, ...config.routes }
+      : this.routesConfig;
 
     // Build URL prefix from urlEncodingAttributes
     const urlPrefix = this.buildUrlPrefix(config, language);
@@ -251,8 +236,7 @@ export class ProductUrlProvider implements UrlProvider {
     return products
       .filter((product) => product.code)
       .map((product) => {
-        const productPath = this.urlPathService.transform('product', {
-          productCode: product.code,
+        const productPath = transformRoute(routes, 'product', {
           code: product.code,
           name: product.name,
         });
@@ -272,8 +256,11 @@ export class ProductUrlProvider implements UrlProvider {
 
 /**
  * Factory function to create ProductUrlProvider
+ *
+ * @param customRoutes - Optional custom routes configuration
+ * @deprecated Use setupSsrBridgeSitemaps() instead
  */
-export function createProductUrlProvider(urlPathService?: UrlPathService): UrlProvider {
-  return new ProductUrlProvider(urlPathService);
+export function createProductUrlProvider(customRoutes?: Partial<RoutesConfig>): UrlProvider {
+  return new ProductUrlProvider(customRoutes);
 }
 
