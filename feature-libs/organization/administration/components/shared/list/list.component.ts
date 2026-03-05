@@ -168,7 +168,7 @@ export class ListComponent<T = any, P = PaginationModel>
         this.hasGhostData = this.service.hasGhostData(data);
         // Cache the values and total count when we have real data
         if (!this.hasGhostData && data?.values) {
-          if (data.values.length > 0) {
+          if (data.values.length >= 0) {
             this.cachedValues = data.values;
           }
           if (data.pagination?.totalResults !== undefined) {
@@ -229,16 +229,6 @@ export class ListComponent<T = any, P = PaginationModel>
    */
   getCreateButtonLabel(): Translatable {
     return this.service.getCreateButtonLabel();
-  }
-
-  /**
-   * Performs search with the given query.
-   * Triggered by clicking the search icon or pressing Enter.
-   */
-  search(pagination: P | undefined, query: string): void {
-    if (pagination && this.isSearchEnabled) {
-      this.service.search(pagination, query);
-    }
   }
 
   /**
