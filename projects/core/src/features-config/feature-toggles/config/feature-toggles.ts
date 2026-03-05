@@ -397,6 +397,13 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * When enabled, only active currencies will be displayed in the currency selector.
+   * Currencies are filtered based on the `active` property returned from the backend.
+   * Affects: `CurrencyService`
+   */
+  showOnlyActiveCurrencies?: boolean;
+
+  /**
    * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
    * instead of a div for the dialog title. This provides better screen reader navigation
    * and follows WAI-ARIA dialog pattern best practices.
@@ -448,5 +455,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
 };
