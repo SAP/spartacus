@@ -12,8 +12,7 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
-    "lib": ["es2021", "dom"],
-    "skipLibCheck": true,
+    "lib": ["esnext", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"]
     }
