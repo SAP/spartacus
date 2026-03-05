@@ -9,6 +9,7 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  ProductTypes,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -33,7 +34,7 @@ const mockOrder = {
       product: {
         code: 'SRV_01',
         name: 'SRV_01',
-        productTypes: 'SERVICE',
+        productTypes: ProductTypes.SERVICE,
       },
     },
   ],
@@ -46,7 +47,7 @@ const mockOrder2 = {
       product: {
         code: 'SRV_01',
         name: 'SRV_01',
-        productTypes: 'SERVICE',
+        productTypes: ProductTypes.SERVICE,
       },
     },
   ],

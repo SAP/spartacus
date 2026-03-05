@@ -49,6 +49,7 @@ describe('AsmCustomer360ProductItemComponent', () => {
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
+
   let component: AsmCustomer360ProductItemComponent;
   let fixture: ComponentFixture<AsmCustomer360ProductItemComponent>;
   let el: DebugElement;

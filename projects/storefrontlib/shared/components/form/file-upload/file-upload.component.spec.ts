@@ -56,5 +56,40 @@ describe('FileUploadComponent', () => {
         mockFile,
       ] as unknown as FileList);
     });
+
+    it('should emit null when no files are selected (cancel)', () => {
+      const emptyFileListEvent = {
+        preventDefault: () => {},
+        stopPropagation: () => {},
+        target: { files: [] as unknown as FileList },
+      };
+      spyOn(component.update, 'emit');
+      inputEl.triggerEventHandler('change', emptyFileListEvent);
+      expect(component.update.emit).toHaveBeenCalledWith(null);
+    });
+
+    it('should emit null when files is null', () => {
+      const nullFilesEvent = {
+        preventDefault: () => {},
+        stopPropagation: () => {},
+        target: { files: null },
+      };
+      spyOn(component.update, 'emit');
+      inputEl.triggerEventHandler('change', nullFilesEvent);
+      expect(component.update.emit).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('removeFile', () => {
+    it('should clear input value and emit null', () => {
+      spyOn(component.update, 'emit');
+      const onChangeCallbackSpy = jasmine.createSpy('onChangeCallback');
+      component.registerOnChange(onChangeCallbackSpy);
+
+      component.removeFile();
+
+      expect(component.update.emit).toHaveBeenCalledWith(null);
+      expect(onChangeCallbackSpy).toHaveBeenCalledWith(null);
+    });
   });
 });

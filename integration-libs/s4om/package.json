@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/s4om",
-  "version": "221121.7.0-3",
+  "version": "221121.7.0",
   "description": "S/4HANA Order Management (b2b feature)",
   "keywords": [
     "spartacus",
@@ -20,16 +20,16 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.1.0",
-    "@angular/common": "^21.1.0",
-    "@angular/core": "^21.1.0",
-    "@spartacus/cart": "221121.7.0-3",
-    "@spartacus/core": "221121.7.0-3",
-    "@spartacus/pdf-invoices": "221121.7.0-3",
-    "@spartacus/requested-delivery-date": "221121.7.0-3",
-    "@spartacus/schematics": "221121.7.0-3",
-    "@spartacus/storefront": "221121.7.0-3",
-    "@spartacus/styles": "221121.7.0-3",
+    "@angular-devkit/schematics": "^21.2.0",
+    "@angular/common": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@spartacus/cart": "221121.7.0",
+    "@spartacus/core": "221121.7.0",
+    "@spartacus/pdf-invoices": "221121.7.0",
+    "@spartacus/requested-delivery-date": "221121.7.0",
+    "@spartacus/schematics": "221121.7.0",
+    "@spartacus/storefront": "221121.7.0",
+    "@spartacus/styles": "221121.7.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

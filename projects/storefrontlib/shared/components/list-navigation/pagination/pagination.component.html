@@ -5,7 +5,7 @@
   [class.current]="isCurrent(item)"
   [routerLink]="pageRoute"
   [queryParams]="getQueryParams(item)"
-  [tabIndex]="isInactive(item) ? -1 : 0"
+  [tabindex]="isInactive(item) ? -1 : 0"
   [attr.aria-current]="isCurrent(item)"
   [attr.aria-disabled]="isInactive(item)"
   (click)="pageChange(item)"

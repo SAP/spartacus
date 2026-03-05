@@ -63,6 +63,13 @@
         p {
           margin-bottom: 0;
         }
+        @include forFeature('a11yCustomerTicketingVisualFocusFix') {
+          button {
+            &:focus {
+              outline-width: 2px;
+            }
+          }
+        }
       }
 
       .cx-customer-ticket-form-footer {
@@ -81,6 +88,9 @@
 
           &:focus {
             @include visible-focus();
+            @include forFeature('a11yCustomerTicketingVisualFocusFix') {
+              outline-width: 2px;
+            }
           }
         }
       }

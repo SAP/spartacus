@@ -22,7 +22,11 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslatePipe,
+  FeatureDirective,
+} from '@spartacus/core';
 import {
   FocusConfig,
   FocusDirective,
@@ -69,6 +73,7 @@ export interface AddedToCartDialogComponentData {
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
