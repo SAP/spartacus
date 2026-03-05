@@ -401,6 +401,14 @@ export interface FeatureTogglesInterface {
    * Affects: `PasswordVisibilityToggleComponent`
    */
   a11yPasswordVisibilityToggle?: boolean;
+
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -447,4 +455,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
   a11yPasswordVisibilityToggle: false,
+  a11yAddedToCartDialogHeading: false,
 };
