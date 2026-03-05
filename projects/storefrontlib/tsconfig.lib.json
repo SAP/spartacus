@@ -13,6 +13,7 @@
     "strict": true,
     "types": [],
     "lib": ["es2021", "dom"],
+    "skipLibCheck": true,
     "paths": {
       "@spartacus/core": ["dist/core"]
     }
