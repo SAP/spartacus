@@ -6,11 +6,7 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import {
-  MockTranslatePipe,
-  TranslatePipe,
-  WindowRef,
-} from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe, WindowRef } from '@spartacus/core';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';

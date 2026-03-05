@@ -218,11 +218,7 @@ describe('OneTimePasswordRegisterComponent', () => {
       .overrideComponent(OneTimePasswordRegisterComponent, {
         remove: { imports: [TranslatePipe, UrlPipe, SpinnerComponent] },
         add: {
-          imports: [
-            MockTranslatePipe,
-            MockUrlPipe,
-            MockSpinnerComponent,
-          ],
+          imports: [MockTranslatePipe, MockUrlPipe, MockSpinnerComponent],
         },
       })
       .compileComponents();

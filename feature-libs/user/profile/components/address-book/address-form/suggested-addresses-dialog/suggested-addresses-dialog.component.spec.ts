@@ -56,12 +56,7 @@ describe('SuggestedAddressDialogComponent', () => {
     })
       .overrideComponent(SuggestedAddressDialogComponent, {
         remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            IconComponent,
-            FeatureDirective,
-          ],
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FeatureDirective],
         },
         add: {
           imports: [

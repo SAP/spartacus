@@ -99,8 +99,7 @@ describe('SavedCartDetailsItemsComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
     component = fixture.componentInstance;

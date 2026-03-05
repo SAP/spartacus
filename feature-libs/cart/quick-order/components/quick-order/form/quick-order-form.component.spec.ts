@@ -109,10 +109,7 @@ describe('QuickOrderFormComponent', () => {
       .overrideComponent(QuickOrderFormComponent, {
         remove: { imports: [TranslatePipe, IconComponent] },
         add: {
-          imports: [
-            MockTranslatePipe,
-            MockCxIconComponent,
-          ],
+          imports: [MockTranslatePipe, MockCxIconComponent],
         },
       })
       .compileComponents();
