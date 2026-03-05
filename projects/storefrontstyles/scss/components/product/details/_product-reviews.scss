@@ -1,6 +1,7 @@
 $gutterSize: 15px;
 
 %cx-product-reviews {
+  // Original/legacy styles (default when feature flag is OFF)
   .rating-input {
     display: none;
   }
@@ -66,6 +67,59 @@ $gutterSize: 15px;
   @include media-breakpoint-down(md) {
     .btn-secondary {
       margin: 0 0 1rem;
+    }
+  }
+
+  // Enhanced styles (when feature flag a11yEnhancedTabsAndReviewsStyles is ON)
+  @include forFeature('a11yEnhancedTabsAndReviewsStyles') {
+    .rating-input {
+      display: revert;
+    }
+
+    .btn-secondary {
+      display: none;
+    }
+
+    .header {
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+
+      h3 {
+        margin: 0;
+      }
+
+      button {
+        margin-inline-start: revert;
+        order: 2;
+      }
+
+      .rating {
+        order: 3;
+      }
+
+      // Mobile: stack elements and center button
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        h3 {
+          order: 1;
+          width: 100%;
+        }
+
+        button {
+          order: 3;
+          width: 100%;
+          max-width: 280px;
+        }
+
+        .rating {
+          order: 2;
+          width: 100%;
+        }
+      }
     }
   }
 }

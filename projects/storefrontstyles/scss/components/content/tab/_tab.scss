@@ -1,3 +1,148 @@
+// =============================================================================
+// MODERN STYLES - Enhanced cx-tab component styling (Feature Flag Protected)
+// These styles are applied when a11yEnhancedTabsAndReviewsStyles feature flag is ON
+// =============================================================================
+%cx-tab-modern {
+  display: block;
+
+  // CSS Custom Properties for Theming (Backward Compatible)
+  --cx-tab-gap: 0;
+  --cx-tab-btn-bg-color: var(--cx-color-background);
+  --cx-tab-btn-width: auto;
+  --cx-tab-btn-border: none;
+  --cx-tab-btn-border-radius: 0;
+  --cx-tab-btn-font-size: 1rem;
+  // Tab panel
+  --cx-tab-panel-bg: var(--cx-color-background);
+  --cx-tab-panel-padding: 32px 0;
+  --cx-tab-panel-border-radius: 0;
+  --cx-tab-panel-margin-top: 0;
+  --cx-tab-panel-border-top: 1px solid var(--cx-color-light);
+  --cx-tab-panel-border-end: none;
+  --cx-tab-panel-border-bottom: none;
+  --cx-tab-panel-border-start: none;
+
+  // Tab button base styles
+  .tab-btn {
+    transition: all 0.3s ease;
+    font-size: var(--cx-tab-btn-font-size);
+    text-align: center;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    color: inherit;
+    background: transparent;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    &.active,
+    &:hover:not([disabled]) {
+      color: var(--cx-color-primary);
+    }
+
+    &:focus {
+      z-index: 1;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--cx-color-visual-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  // TAB MODE (Desktop) - horizontal tabs
+  .tab {
+    display: flex;
+    gap: var(--cx-tab-gap);
+
+    .tab-btn {
+      width: var(--cx-tab-btn-width);
+      padding: 12px 20px;
+      background-color: var(--cx-tab-btn-bg-color);
+      border: var(--cx-tab-btn-border);
+      border-radius: var(--cx-tab-btn-border-radius);
+    }
+  }
+
+  // Tab panel content (tabpanel role in TAB mode)
+  div[role='tabpanel'] {
+    margin-top: var(--cx-tab-panel-margin-top);
+    border-top: var(--cx-tab-panel-border-top);
+    border-inline-end: var(--cx-tab-panel-border-end);
+    border-bottom: var(--cx-tab-panel-border-bottom);
+    border-inline-start: var(--cx-tab-panel-border-start);
+    border-radius: var(--cx-tab-panel-border-radius);
+    padding: var(--cx-tab-panel-padding);
+    background: var(--cx-tab-panel-bg);
+
+    &:focus-visible {
+      outline-offset: -3px;
+    }
+  }
+
+  // ACCORDION MODE (Mobile) - vertical expandable sections
+  .accordian {
+    display: flex;
+    flex-direction: column;
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 56px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--cx-color-light);
+      text-align: start;
+      box-sizing: border-box;
+      height: 63px;
+      position: relative;
+      color: inherit;
+      background-color: var(--cx-color-background);
+
+      &:before {
+        margin: 0 15px;
+        float: right;
+        font-size: 33px;
+        position: relative;
+        color: var(--cx-color-text);
+      }
+
+      // Override legacy :after border effect in accordion mode only
+      &:after {
+        display: none !important;
+      }
+    }
+
+    // Tab icon (+/- indicator)
+    .tab-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      min-height: 24px;
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-inline-start: 12px;
+      color: var(--cx-color-text);
+    }
+
+    // Accordion content panels (region role in ACCORDIAN mode)
+    div[role='region'] {
+      padding: var(--cx-tab-panel-padding);
+    }
+  }
+}
+
+// =============================================================================
+// LEGACY STYLES - Original cx-tab styling (default when feature flag is OFF)
+// =============================================================================
 %cx-tab {
   // Tabs
   --cx-tab-gap: 0;
@@ -31,6 +176,7 @@
     margin-bottom: 0;
 
     cursor: pointer;
+
     &[disabled] {
       cursor: not-allowed;
     }
@@ -39,9 +185,11 @@
     &:hover:not([disabled]) {
       color: var(--cx-color-primary);
     }
+
     &:focus {
       z-index: 1;
     }
+
     &:focus-visible {
       outline-offset: -3px;
     }
@@ -50,10 +198,12 @@
     &:hover:not([disabled]):after {
       width: 100%;
     }
+
     &.active:after,
     &.active:hover:after {
       opacity: 1;
     }
+
     &:not(.active):hover:after {
       opacity: 0.5;
     }
@@ -86,6 +236,7 @@
     border-radius: var(--cx-tab-panel-border-radius);
     padding: var(--cx-tab-panel-padding);
     background: var(--cx-tab-panel-bg);
+
     &.active:focus-visible {
       outline-offset: -3px;
     }
@@ -117,22 +268,23 @@
       height: 63px;
       position: relative;
       color: inherit;
-      background-color: var(--cx-color-background);
 
       &:before {
-        margin: 0px 15px;
+        margin: 0 15px;
         float: right;
         font-size: 33px;
         bottom: 12px;
         position: relative;
         color: var(--cx-color-text);
       }
+
       &:after {
         margin-top: 15px;
         margin-inline-end: auto;
         margin-bottom: auto;
         margin-inline-start: -4%;
       }
+
       &.active:after,
       &:hover:after {
         width: 104%;
@@ -140,7 +292,7 @@
     }
 
     .tab-icon {
-      margin: 0px 15px;
+      margin: 0 15px;
       float: right;
       font-size: 33px;
       bottom: 12px;
@@ -151,5 +303,10 @@
     div {
       padding: 15px 5px;
     }
+  }
+
+  // Apply modern styles when feature flag is enabled
+  @include forFeature('a11yEnhancedTabsAndReviewsStyles') {
+    @extend %cx-tab-modern !optional;
   }
 }

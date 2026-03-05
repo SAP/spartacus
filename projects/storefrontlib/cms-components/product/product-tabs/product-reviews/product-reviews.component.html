@@ -4,7 +4,9 @@
   </h2>
   <ng-container *ngIf="!isWritingReview; else writeReview">
     <div class="header">
-      <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
+      <ng-container *cxFeature="'!a11yEnhancedTabsAndReviewsStyles'">
+        <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
+      </ng-container>
       <button
         #writeReviewButton
         class="btn btn-primary"
@@ -12,6 +14,9 @@
       >
         {{ 'productReview.writeReview' | cxTranslate }}
       </button>
+      <ng-container *cxFeature="'a11yEnhancedTabsAndReviewsStyles'">
+        <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
+      </ng-container>
       <cx-star-rating
         *ngIf="product.averageRating"
         class="rating"

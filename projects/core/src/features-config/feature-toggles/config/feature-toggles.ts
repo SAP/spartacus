@@ -397,6 +397,18 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * Feature flag for enhanced tab and product review styles.
+   * When enabled, applies improved styling for:
+   * - Tab component (`cx-tab`) with enhanced visual design
+   * - Tab paragraph container with modern tab/accordion styles
+   * - Product reviews header layout improvements
+   * - Product attributes table styling
+   *
+   * Affects: `TabParagraphContainerComponent`, `ProductReviewsComponent`, `ProductAttributesComponent`
+   */
+  
+  /**
+  a11yEnhancedTabsAndReviewsStyles?: boolean;
    * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
    * instead of a div for the dialog title. This provides better screen reader navigation
    * and follows WAI-ARIA dialog pattern best practices.
@@ -448,5 +460,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  a11yEnhancedTabsAndReviewsStyles: false,
   a11yAddedToCartDialogHeading: false,
 };
