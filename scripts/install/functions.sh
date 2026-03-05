@@ -519,7 +519,7 @@ function start_ssr_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -535,7 +535,7 @@ function start_ssr_pwa_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -1201,7 +1201,9 @@ function addAuthConfig {
     # Check presence of AuthConfig import
     if ! grep -q 'AuthConfig.*@spartacus/core' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
         # add AuthConfig import on last position of @spartacus/core imports
-        sed_inplace 's/} from "@spartacus\/core"/,AuthConfig } from "@spartacus\/core"/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        sed_inplace "s/} from ['\"]@spartacus\/core['\"]/\AuthConfig &/" "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        # add coma before AuthConfig if @spartacus/core imports list is in a single line
+        sed_inplace '/^[[:space:]]*AuthConfig } from/!s/AuthConfig } from/,AuthConfig } from/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
         echo "AuthConfig import added."
     else
         echo "AuthConfig import already exists, skipping."
