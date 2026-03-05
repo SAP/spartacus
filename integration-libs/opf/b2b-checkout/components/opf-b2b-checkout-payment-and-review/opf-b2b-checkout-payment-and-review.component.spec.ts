@@ -19,6 +19,7 @@ import {
   I18nTestingModule,
   MockTranslatePipe,
   QueryState,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -33,11 +34,12 @@ import {
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
   template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule],
+  standalone: true,
 })
 class MockOpfCheckoutPaymentsComponent {
   @Input() onlyPaymentWrapperMode: boolean;
@@ -105,11 +107,9 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         StoreModule.forRoot({}),
         OpfB2bCheckoutPaymentAndReviewComponent,
-        MockTranslatePipe,
-        MockOpfCheckoutPaymentsComponent,
+        I18nTestingModule,
       ],
       providers: [
         {
@@ -127,7 +127,12 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
         { provide: ActivatedRoute, useValue: {} },
         { provide: CmsService, useClass: MockCmsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfB2bCheckoutPaymentAndReviewComponent, {
+        remove: { imports: [TranslatePipe, OpfCheckoutPaymentsComponent] },
+        add: { imports: [MockTranslatePipe, MockOpfCheckoutPaymentsComponent] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutPaymentAndReviewComponent);
     component = fixture.componentInstance;

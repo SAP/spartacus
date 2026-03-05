@@ -4,14 +4,18 @@ import {
   CxDatePipe,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
@@ -78,13 +82,7 @@ describe('QuoteConfirmDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        QuoteConfirmDialogComponent,
-        MockKeyboardFocusDirective,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [QuoteConfirmDialogComponent, I18nTestingModule],
       providers: [
         CxDatePipe,
         {
@@ -93,7 +91,21 @@ describe('QuoteConfirmDialogComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteConfirmDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockKeyboardFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
