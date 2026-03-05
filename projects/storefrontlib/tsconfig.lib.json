@@ -12,6 +12,7 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
+    "lib": ["es2015", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"]
     }
