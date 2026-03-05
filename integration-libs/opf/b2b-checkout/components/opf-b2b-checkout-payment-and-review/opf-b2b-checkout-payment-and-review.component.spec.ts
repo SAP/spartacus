@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,7 @@ import {
   CmsService,
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
@@ -32,11 +33,6 @@ import {
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 @Component({
   selector: 'cx-opf-checkout-payments',

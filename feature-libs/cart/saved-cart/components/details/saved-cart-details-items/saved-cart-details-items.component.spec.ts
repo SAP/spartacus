@@ -1,18 +1,20 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslationService,
   Product,
   RoutingService,
   Translatable,
+  TranslationService,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { OutletDirective, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
@@ -72,6 +74,31 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
+@Directive({ selector: '[cxOutlet]' })
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+  @Input() cxOutletContext: any;
+}
+
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '',
+})
+class MockAddToCartComponent {
+  @Input() productCode: string;
+  @Input() product: any;
+  @Input() showQuantity: boolean;
+  @Input() options: any;
+  @Input() pickupStore: string | undefined;
+  @Input() savedCart: any;
+}
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
+
 describe('SavedCartDetailsItemsComponent', () => {
   let component: SavedCartDetailsItemsComponent;
   let fixture: ComponentFixture<SavedCartDetailsItemsComponent>;
@@ -82,13 +109,7 @@ describe('SavedCartDetailsItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        I18nTestingModule,
-        OutletModule,
-        SavedCartDetailsItemsComponent,
-        MockFeatureDirective,
-      ],
+      imports: [StoreModule.forRoot({}), SavedCartDetailsItemsComponent],
       providers: [
         {
           provide: SavedCartFacade,
@@ -104,8 +125,22 @@ describe('SavedCartDetailsItemsComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SavedCartDetailsItemsComponent, {
+        remove: {
+          imports: [OutletDirective, AddToCartComponent, SpinnerComponent],
+        },
+        add: {
+          imports: [
+            MockOutletDirective,
+            MockAddToCartComponent,
+            MockSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
     component = fixture.componentInstance;

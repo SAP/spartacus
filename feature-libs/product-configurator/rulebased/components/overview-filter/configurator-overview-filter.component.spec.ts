@@ -2,8 +2,9 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -63,7 +64,7 @@ function initTestComponent() {
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -82,7 +83,6 @@ describe('ConfiguratorOverviewFilterComponent', () => {
 
     return TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         ConfiguratorOverviewFilterComponent,
         MockConfiguratorOverviewFilterBarComponent,
@@ -97,6 +97,16 @@ describe('ConfiguratorOverviewFilterComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
+    }).overrideComponent(ConfiguratorOverviewFilterComponent, {
+      remove: {
+        imports: [TranslatePipe, ConfiguratorOverviewFilterBarComponent],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockConfiguratorOverviewFilterBarComponent,
+        ],
+      },
     });
   }
 

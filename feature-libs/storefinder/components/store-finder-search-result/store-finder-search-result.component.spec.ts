@@ -1,12 +1,17 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   StoreFinderConfig,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
@@ -41,18 +46,20 @@ describe('StoreFinderListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        StoreFinderSearchResultComponent,
-        MockFeatureDirective,
-      ],
+      imports: [StoreFinderSearchResultComponent, I18nTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: StoreFinderService, useValue: mockStoreFinderService },
         { provide: ActivatedRoute, useClass: ActivatedRouteMock },
         { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderSearchResultComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

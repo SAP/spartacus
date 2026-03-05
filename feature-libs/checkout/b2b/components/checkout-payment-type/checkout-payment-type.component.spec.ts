@@ -8,9 +8,11 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
-  I18nTestingModule,
+  MockTranslatePipe,
   QueryState,
+  TranslatePipe,
 } from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
@@ -93,12 +95,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CheckoutPaymentTypeComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
-      ],
+      imports: [CheckoutPaymentTypeComponent],
       providers: [
         {
           provide: CheckoutPaymentTypeFacade,
@@ -118,7 +115,18 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           useClass: MockActiveCartFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutPaymentTypeComponent, {
+        remove: { imports: [TranslatePipe, SpinnerComponent] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
@@ -157,11 +165,7 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CheckoutPaymentTypeComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [CheckoutPaymentTypeComponent],
       providers: [
         {
           provide: CheckoutPaymentTypeFacade,
@@ -181,7 +185,12 @@ describe('CheckoutPaymentTypeComponent', () => {
           useClass: MockActiveCartFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutPaymentTypeComponent, {
+        remove: { imports: [TranslatePipe, SpinnerComponent] },
+        add: { imports: [MockTranslatePipe, MockSpinnerComponent] },
+      })
+      .compileComponents();
 
     checkoutPaymentTypeFacade = TestBed.inject(
       CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>

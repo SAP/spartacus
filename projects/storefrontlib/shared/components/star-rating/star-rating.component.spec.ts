@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { StarRatingComponent } from './star-rating.component';
 
 @Component({
@@ -18,9 +19,13 @@ describe('StarRatingComponent in product', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, MockIconComponent, StarRatingComponent],
-      providers: [],
-    }).compileComponents();
+      imports: [StarRatingComponent],
+    })
+      .overrideComponent(StarRatingComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

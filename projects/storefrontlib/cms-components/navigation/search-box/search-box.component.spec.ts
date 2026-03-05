@@ -17,13 +17,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  I18nTestingModule,
   PageType,
   ProductSearchService,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
+import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import {
   BehaviorSubject,
   delay,
@@ -176,7 +180,6 @@ describe('SearchBoxComponent', () => {
       imports: [
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
-        I18nTestingModule,
         SearchBoxComponent,
         MockUrlPipe,
         MockHighlightPipe,
@@ -203,7 +206,28 @@ describe('SearchBoxComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SearchBoxComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            MediaComponent,
+            OutletDirective,
+            CarouselComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockMediaComponent,
+            MockOutletDirective,
+            MockCarouselComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   describe('Default config', () => {

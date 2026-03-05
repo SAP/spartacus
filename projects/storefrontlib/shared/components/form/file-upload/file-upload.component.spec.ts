@@ -2,12 +2,11 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { FileUploadComponent } from './file-upload.component';
 
 @Component({
   selector: 'cx-form-errors',
-  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockFormErrorComponent {
   @Input() control: UntypedFormControl;
@@ -36,12 +35,16 @@ describe('FileUploadComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FileUploadComponent,
         MockFormErrorComponent,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FileUploadComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

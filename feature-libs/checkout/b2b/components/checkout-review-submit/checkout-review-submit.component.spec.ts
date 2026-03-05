@@ -26,12 +26,22 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
   QueryState,
+  TranslatePipe,
+  UrlPipe,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
+import { MockIconComponent } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
@@ -92,12 +102,6 @@ const mockPaymentTypes: PaymentType[] = [
 @Component({
   selector: 'cx-card',
   template: '',
-  imports: [
-    I18nTestingModule,
-    PromotionsModule,
-    IconTestingModule,
-    OutletModule,
-  ],
 })
 class MockCardComponent {
   @Input()
@@ -223,11 +227,8 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
         RouterModule.forRoot([]),
         I18nTestingModule,
         PromotionsModule,
-        IconTestingModule,
         OutletModule,
         B2BCheckoutReviewSubmitComponent,
-        MockCardComponent,
-        MockUrlPipe,
       ],
       providers: [
         {
@@ -260,7 +261,22 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
           useClass: MockUserCostCenterService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(B2BCheckoutReviewSubmitComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, CardComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCardComponent,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,7 +4,11 @@ import {
   OrderSummaryComponent,
 } from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureLevelDirective,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
@@ -26,18 +30,32 @@ describe('CheckoutOrderSummaryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CheckoutOrderSummaryComponent,
-        OrderSummaryComponent,
-        PromotionsComponent,
-        AppliedCouponsComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [CheckoutOrderSummaryComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutOrderSummaryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            OrderSummaryComponent,
+            PromotionsComponent,
+            AppliedCouponsComponent,
+            FeatureLevelDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            OrderSummaryComponent,
+            PromotionsComponent,
+            AppliedCouponsComponent,
+            MockFeatureLevelDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

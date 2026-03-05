@@ -1,12 +1,22 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { LinkComponent } from './link.component';
+
+@Component({
+  selector: 'cx-generic-link',
+  template: '<a [href]="url" [style]="style"><ng-content></ng-content></a>',
+})
+class MockGenericLinkComponent {
+  @Input() url: string | any[];
+  @Input() target: string;
+  @Input() style: string;
+}
 
 const mockLinkData = {
   uid: '001',
@@ -38,7 +48,7 @@ describe('LinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [GenericLinkModule, LinkComponent],
+      imports: [LinkComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -49,7 +59,12 @@ describe('LinkComponent', () => {
           useClass: MockCmsComponentData,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(LinkComponent, {
+        remove: { imports: [GenericLinkComponent] },
+        add: { imports: [MockGenericLinkComponent] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(LinkComponent);
     linkComponent = fixture.componentInstance;

@@ -11,18 +11,20 @@ import {
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+  imports: [ReactiveFormsModule, FormErrorsModule],
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -74,12 +76,10 @@ describe('CartCouponComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         CartCouponComponent,
         MockAppliedCouponsComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartService },
@@ -88,8 +88,14 @@ describe('CartCouponComponent', () => {
           provide: CustomerCouponService,
           useValue: mockCustomerCouponService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartCouponComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

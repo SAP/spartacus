@@ -3,10 +3,15 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
+import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { TAB_MODE, TabModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable } from 'rxjs';
 import { PickupOptionsComponent } from './pickup-options.component';
 import { PickupOptionsTabs } from './pickup-options.model';
@@ -23,17 +28,21 @@ describe('PickupOptionsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        MockFeatureDirective,
         PickupOptionsComponent,
         CommonModule,
-        I18nTestingModule,
         ReactiveFormsModule,
         TabModule,
       ],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    });
+    })
+      .overrideComponent(PickupOptionsComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(PickupOptionsComponent);
     component = fixture.componentInstance;
   });

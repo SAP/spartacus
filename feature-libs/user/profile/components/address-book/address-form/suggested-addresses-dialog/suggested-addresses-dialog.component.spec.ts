@@ -1,13 +1,21 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { Address, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
   FocusDirective,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -23,7 +31,6 @@ const mockData = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [FormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -43,18 +50,32 @@ describe('SuggestedAddressDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        I18nTestingModule,
-        SuggestedAddressDialogComponent,
-        MockCxIconComponent,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [FormsModule, SuggestedAddressDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SuggestedAddressDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            FeatureDirective,
+            FocusDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+            FocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

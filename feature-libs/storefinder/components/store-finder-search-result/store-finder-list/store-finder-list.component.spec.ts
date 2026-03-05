@@ -6,7 +6,14 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
+  PointOfService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   GoogleMapRendererService,
   StoreFinderService,
@@ -66,6 +73,7 @@ describe('StoreFinderListComponent', () => {
         StoreFinderMapComponent,
       ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: GoogleMapRendererService,
           useClass: GoogleMapRendererServiceMock,
@@ -77,8 +85,8 @@ describe('StoreFinderListComponent', () => {
       ],
     })
       .overrideComponent(StoreFinderListComponent, {
-        remove: {},
-        add: {},
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
   }));
