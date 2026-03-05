@@ -395,12 +395,21 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
   /**
    * Sets the ng-select (readonly) input value from the selected option text,
    * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
    * Affects: `NgSelectA11yDirective`
    */
   a11yNgSelectReadonlyInputValue?: boolean;
+
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -447,4 +456,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
   a11yNgSelectReadonlyInputValue: false,
+  a11yAddedToCartDialogHeading: false,
 };
