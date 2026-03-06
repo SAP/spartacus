@@ -402,11 +402,6 @@ export interface FeatureTogglesInterface {
   enableB2BCostCenterSearch?: boolean;
 
   /**
-   * When enabled, allows searching B2B customers by name in the organization.
-   */
-  enableB2BAdminCustomerSearch?: boolean;
-
-  /**
    * When enabled, allows searching B2B units by name in the organization administration.
    * This search is performed on the client side since the full unit tree is already loaded.
    */
@@ -466,7 +461,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
 
-  enableB2BAdminCustomerSearch: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
