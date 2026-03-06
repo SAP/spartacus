@@ -12,7 +12,12 @@
             <span id="{{ viewType + '_title' }}">
               {{
                 viewType + '.header'
-                  | cxTranslate: { count: getListCount(data) }
+                  | cxTranslate
+                    : {
+                        count: hasGhostData
+                          ? cachedTotalCount
+                          : getListCount(data),
+                      }
               }}
             </span>
             <button
@@ -79,7 +84,11 @@
               </div>
             </label>
           </div>
-          <label class="sort-wrapper" *ngIf="data.pagination?.sort">
+          <label
+            class="sort-wrapper"
+            *ngIf="data.pagination?.sort"
+            [class.disabled]="hasGhostData"
+          >
             <span class="label-text">{{
               structure.type + '.sortBy' | cxTranslate
             }}</span>
@@ -88,6 +97,7 @@
               class="sort"
               [searchable]="false"
               [clearable]="false"
+              [disabled]="hasGhostData"
               (change)="sort($any(data.pagination))"
               [tabIndex]="0"
               [(ngModel)]="sortCode"
@@ -118,7 +128,12 @@
             <a
               *ngIf="!hideAddButton"
               class="button btn btn-sm primary btn-primary create"
-              [routerLink]="{ cxRoute: structure.type + 'Create' } | cxUrl"
+              [class.disabled]="hasGhostData"
+              [routerLink]="
+                hasGhostData
+                  ? null
+                  : ({ cxRoute: structure.type + 'Create' } | cxUrl)
+              "
               routerLinkActive="disabled"
             >
               {{ getCreateButtonLabel() | cxTranslate }}
@@ -127,10 +142,29 @@
         </div>
       </div>
 
-      <ng-container
-        *ngIf="data.values && data.values.length > 0; else emptyList"
-      >
+      <div class="cx-list-content" [class.is-loading]="hasGhostData">
+        <!-- Loading overlay with dots -->
+        <div class="cx-loading-overlay" *ngIf="hasGhostData">
+          <div class="cx-dots-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <!-- Show cached data as semi-transparent during loading -->
         <cx-table
+          *ngIf="hasGhostData && cachedValues.length > 0"
+          [structure]="structure"
+          [data]="cachedValues"
+          [i18nRoot]="domainType"
+          role="tree"
+        >
+        </cx-table>
+
+        <!-- List content when not loading -->
+        <cx-table
+          *ngIf="!hasGhostData && data.values && data.values.length > 0"
           [structure]="structure"
           [data]="data.values"
           [i18nRoot]="domainType"
@@ -139,7 +173,32 @@
           role="tree"
         >
         </cx-table>
-      </ng-container>
+
+        <!-- Empty list when not loading and no data -->
+        <ng-container
+          *ngIf="!hasGhostData && (!data.values || data.values.length === 0)"
+        >
+          <ng-container
+            *ngIf="isSearchEnabled && searchQuery; else defaultEmpty"
+          >
+            <cx-table
+              [structure]="structure"
+              [data]="[]"
+              [i18nRoot]="domainType"
+              role="tree"
+            >
+            </cx-table>
+            <p class="cx-no-results">
+              {{ 'organization.search.noResultsFound' | cxTranslate }}
+            </p>
+          </ng-container>
+          <ng-template #defaultEmpty>
+            <p class="instruction is-empty">
+              {{ 'organization.messages.emptyList' | cxTranslate }}
+            </p>
+          </ng-template>
+        </ng-container>
+      </div>
 
       <div class="footer">
         <cx-pagination
@@ -154,31 +213,6 @@
   </ng-container>
 </cx-split-view>
 
-<ng-template #emptyList>
-  <ng-container
-    *ngIf="
-      isSearchEnabled && searchQuery && (structure$ | async) as tableStructure;
-      else defaultEmpty
-    "
-  >
-    <cx-table
-      [structure]="tableStructure"
-      [data]="[]"
-      [i18nRoot]="domainType"
-      role="tree"
-    >
-    </cx-table>
-    <p class="cx-no-results">
-      {{ 'organization.search.noResultsFound' | cxTranslate }}
-    </p>
-  </ng-container>
-  <ng-template #defaultEmpty>
-    <p class="instruction is-empty">
-      {{ 'organization.messages.emptyList' | cxTranslate }}
-    </p>
-  </ng-template>
-</ng-template>
-
 <ng-template #listHint>
   <p>
     {{ viewType + '.hint' | cxTranslate }}
@@ -189,6 +223,7 @@
   <button
     *ngIf="!hideAddButton"
     class="button btn btn-sm primary btn-primary create"
+    [disabled]="hasGhostData"
     (click)="onCreateButtonClick()"
   >
     {{ getCreateButtonLabel() | cxTranslate }}

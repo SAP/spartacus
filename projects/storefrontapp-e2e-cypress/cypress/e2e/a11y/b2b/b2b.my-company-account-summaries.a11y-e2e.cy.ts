@@ -8,8 +8,7 @@ import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-compan
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const MY_COMPANY_URL = '/organization/account-summary';
-export const SKELETON_SELECTOR =
-  'main cx-view cx-table table cx-org-toggle-link-cell:not(:has(a))';
+export const SKELETON_SELECTOR = 'main cx-view .cx-list-content.is-loading';
 
 /**
  * This test checks accessibility concerns on the B2B My Company Account Summaries page using Access Continuum
