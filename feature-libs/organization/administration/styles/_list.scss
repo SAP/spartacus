@@ -111,6 +111,32 @@
 
   @extend %organizationTitle !optional;
 
+  cx-split-view:not([active-view='1']) .list .header .actions {
+    flex-wrap: nowrap;
+
+    .search-wrapper {
+      flex: 1 1 200px;
+      min-width: 160px;
+      max-width: 200px;
+      margin-inline-end: 0;
+
+      .search-input {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+
+    > .link:first-of-type {
+      margin-inline-start: 0;
+    }
+
+    > .link,
+    .create {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+
   cx-split-view:not([active-view='1']) .list table {
     th,
     td {
@@ -129,6 +155,21 @@
       // let's make status column smaller
       &.active {
         width: 100px;
+      }
+    }
+  }
+
+  // Unit list: show uid(ID) column instead of active(STATUS) when detail panel is open
+  &.orgUnit cx-split-view:not([active-view='1']) .list table {
+    th,
+    td {
+      &.uid {
+        opacity: 1;
+        width: auto;
+      }
+      &.active {
+        opacity: 0;
+        width: 0.1%;
       }
     }
   }
@@ -293,7 +334,7 @@
     }
   }
 
-  cx-view[position='0'] > cx-table.vertical {
+  cx-view[position='0'] cx-table.vertical {
     table {
       border-top: solid 1px var(--cx-color-light);
       border-bottom: solid 1px var(--cx-color-light);
