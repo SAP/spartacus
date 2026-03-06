@@ -5,9 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { OpfGiftCardConnector } from './connectors/opf-gift-card.connector';
+import { OpfGiftCardConnector } from './connectors';
+import { facadeProviders } from './facade/facade-providers';
 
 @NgModule({
-  providers: [OpfGiftCardConnector],
+  providers: [...facadeProviders, OpfGiftCardConnector],
 })
 export class OpfGiftCardCoreModule {}

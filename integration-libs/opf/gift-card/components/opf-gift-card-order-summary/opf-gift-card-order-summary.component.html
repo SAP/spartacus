@@ -1,0 +1,109 @@
+<!-- <ng-container *ngIf="cart.sapGiftCardSummary as giftCard">
+<ng-container  *ngIf="(isPaymentAndReviewStep$ | async)">
+  <div
+    class="cx-gift-card-order-summary"
+    *ngIf="giftCard?.totalAppliedAmount?.value"
+  >
+    <div class="cx-summary-row">
+      <div class="col-6 cx-summary-label">
+        {{ 'giftCard.title' | cxTranslate }}
+      </div>
+      <div class="col-6 cx-summary-amount cx-gift-card-discount">
+        - {{ giftCard?.totalAppliedAmount?.formattedValue || giftCard?.totalAppliedAmount?.value }}
+      </div>
+    </div>
+  </div>
+  </ng-container>
+</ng-container> -->
+  <ng-container>
+  <ng-container *ngIf="cart">
+    <h3 class="cx-summary-heading" style="color: red">
+      {{ 'orderCost.orderSummary' | cxTranslate }}
+    </h3>
+    <div class="cx-summary-partials">
+      <div class="cx-summary-row">
+        <div class="col-6 cx-summary-label">
+          {{ 'orderCost.subtotal' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ cart.subTotal?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row">
+        <div class="col-6 cx-summary-label">
+          {{
+            (cart.deliveryCost?.formattedValue
+              ? 'orderCost.shipping'
+              : 'orderCost.estimatedShipping'
+            ) | cxTranslate
+          }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{
+            cart.deliveryCost?.formattedValue
+              ? cart.deliveryCost?.formattedValue
+              : ('orderCost.toBeDetermined' | cxTranslate)
+          }}
+        </div>
+      </div>
+      <div *ngIf="(isPaymentAndReviewStep$ | async)">
+        <div
+          class="cx-gift-card-order-summary"
+          *ngIf="cart?.sapGiftCardSummary?.totalAppliedAmount?.value"
+        >
+          <div class="cx-summary-row">
+            <div class="col-6 cx-summary-label">
+              {{ 'giftCard.title' | cxTranslate }}
+            </div>
+            <div class="col-6 cx-summary-amount cx-gift-card-discount">
+              -
+              {{
+                cart?.sapGiftCardSummary?.totalAppliedAmount?.formattedValue
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cx-summary-row" *ngIf="cart.net; else cartWithoutNet">
+        <div class="col-6 cx-summary-label">
+          {{ 'orderCost.salesTax' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ cart.totalTax?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row cx-summary-total">
+        <div class="col-6 cx-summary-label">
+          {{ 'orderCost.total' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{
+            (isPaymentAndReviewStep$ | async)
+              ? (giftCardCartTotal
+                | currency: cart.totalPriceWithTax?.currencyIso)
+              : cart.totalPriceWithTax?.formattedValue
+          }}
+        </div>
+      </div>
+      <div class="cx-summary-row" *ngIf="cart.totalDiscounts?.value > 0">
+        {{ 'orderCost.discount' | cxTranslate }}
+        {{ cart.totalDiscounts?.formattedValue }}
+      </div>
+      <ng-template #cartWithoutNet>
+        <div class="cx-summary-row">
+          {{
+            cart.totalPriceWithTax?.value !== cart.totalPrice?.value
+              ? ('orderCost.grossTax' | cxTranslate)
+              : ('orderCost.grossIncludeTax' | cxTranslate)
+          }}
+          {{ cart.totalTax?.formattedValue }}.
+        </div>
+      </ng-template>
+    </div>
+    <cx-applied-coupons
+      [vouchers]="cart.appliedVouchers || []"
+      [isReadOnly]="true"
+    ></cx-applied-coupons>
+  </ng-container>
+</ng-container> 

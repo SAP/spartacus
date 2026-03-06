@@ -53,7 +53,7 @@ describe('OccOpfGiftCardAdapter', () => {
     ]);
     mockUserIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
 
-    mockOccEndpoints.buildUrl.and.callFake((endpoint: string , config: any) => {
+    mockOccEndpoints.buildUrl.and.callFake((endpoint: string, config: any) => {
       if (endpoint === 'applyGiftCard') {
         return `/rest/v2/users/${config.urlParams?.userId}/carts/${config.urlParams?.cartId}/giftCards`;
       } else if (endpoint === 'removeGiftCard') {

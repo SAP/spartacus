@@ -1,0 +1,8 @@
+<ng-container>
+  <p>order summary</p>
+  <ng-template
+    [cxOutlet]="cartOutlets.ORDER_SUMMARY_GIFT_CARD"
+    [cxOutletContext]="cart$ | async"
+  >
+  </ng-template>
+</ng-container>

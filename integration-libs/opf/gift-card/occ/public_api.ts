@@ -6,6 +6,5 @@
 
 export * from './opf-gift-card-occ.module';
 export * from './adapters/index';
-export * from './adapters/occ-opf-gift-card.adapter';
 export * from './config/index';
 export * from './model/index';

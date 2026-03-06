@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-gift-card-component.module';
-export * from './gift-card/index';
-export * from './applied-gift-card/index';
-export * from './gift-card-order-summary/index';
-export * from './checkout/index';
-export * from './gift-card-payment-method-details/index';
-export * from './gift-card-order-detail-billing/index';
+export * from './opf-gift-card-components.module';
+export * from './opf-gift-card-apply/index';
+export * from './opf-gift-card-applied/index';
+export * from './opf-gift-card-order-summary/index';
+export * from './opf-gift-card-checkout/index';
+export * from './opf-gift-card-order-confirmation/index';
+export * from './opf-gift-card-order-details/index';

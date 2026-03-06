@@ -1,0 +1,98 @@
+<ng-container *ngIf="isGiftCardEnabled$ | async">
+  <ng-container *ngIf="cart$ | async as cart">
+    <div
+      class="cx-opf-gift-card"
+      [ngClass]="{ 'cx-disabled': (isBillingAddressPresent$ | async) }"
+    >
+      <!-- Header -->
+      <div class="cx-opf-gift-card-header">
+        <div class="cx-opf-gift-card-title">
+          <cx-icon type="GIFT_CARD"></cx-icon>
+          <div class="title">
+            <span>{{ 'giftCard.haveGiftCard' | cxTranslate }}</span>
+          </div>
+        </div>
+        <div>
+        <button
+          type="button"
+          class="cx-opf-gift-card-add-link"
+          [disabled]="!(isAddGiftCard$ | async)"
+          (click)="showGiftCardForm = !showGiftCardForm"
+        >
+          {{ 'giftCard.addGiftCard' | cxTranslate }}
+        </button>
+      </div>
+      </div>
+
+      <!-- Gift Card Form -->
+      <form
+        *ngIf="showGiftCardForm"
+        [formGroup]="giftCardForm"
+        (ngSubmit)="addGiftCard()"
+        class="cx-opf-gift-card-form"
+      >
+        <div class="cx-opf-gift-card-form-wrapper">
+          <div class="form-group">
+            <label>
+              {{ 'giftCard.cardNumber' | cxTranslate }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="cardNumber"
+              [attr.aria-label]="'giftCard.CardNumber' | cxTranslate"
+            />
+            <cx-form-errors
+              [prefix]="'giftCard.common.formErrors.labeled'"
+              [fallbackPrefix]="'giftCard.common.formErrors'"
+              [translationParams]="{
+                label: 'giftCard.cardNumber' | cxTranslate,
+              }"
+              [control]="giftCardForm.get('cardNumber')"
+            ></cx-form-errors>
+          </div>
+
+          <div class="form-group">
+            <label>
+              {{ 'giftCard.pin' | cxTranslate }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="pin"
+              [attr.aria-label]="'giftCard.pin' | cxTranslate"
+            />
+            <cx-form-errors
+              [prefix]="'giftCard.common.formErrors.labeled'"
+              [fallbackPrefix]="'giftCard.common.formErrors'"
+              [translationParams]="{
+                label: 'giftCard.pin' | cxTranslate,
+              }"
+              [control]="giftCardForm.get('pin')"
+            ></cx-form-errors>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-secondary cx-opf-apply-gift-card-button"
+            [disabled]="giftCardForm.invalid || (loading$ | async)"
+          >
+            {{ 'giftCard.apply' | cxTranslate }}
+          </button>
+        </div>
+
+        <!-- <div aria-live="assertive" aria-atomic="true">
+        <span role="alert" class="cx-invalid-message">
+          {{ 'giftCard.validationError' | cxTranslate }}
+        </span>
+      </div> -->
+      </form>
+
+      <!-- Applied Gift Cards -->
+      <cx-opf-gift-card-applied
+        [giftCards]="(appliedGiftCards$ | async) || []"
+      ></cx-opf-gift-card-applied>
+      <cx-opf-gift-card-checkout-place-order></cx-opf-gift-card-checkout-place-order>
+    </div>
+  </ng-container>
+</ng-container>

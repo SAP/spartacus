@@ -4,17 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 import {
   OPF_B2B_CHECKOUT_FEATURE_NAME,
   OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
   OPF_CTA_FEATURE_NAME,
-  OPF_GIFT_CARD_FEATURE_NAME,
   OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
   OPF_PAYMENT_FEATURE_NAME,
   OPF_QUICK_BUY_FEATURE_NAME,
   ORDER_FEATURE_NAME,
+  OPF_GIFT_CARD_FEATURE_NAME,
   SPARTACUS_BOOTSTRAP_FUNCTIONS,
   SPARTACUS_BOOTSTRAP_MIXINS,
   SPARTACUS_BOOTSTRAP_VARIABLES,
@@ -28,8 +27,6 @@ import {
   SPARTACUS_OPF_CHECKOUT_ROOT,
   SPARTACUS_OPF_CTA,
   SPARTACUS_OPF_CTA_ROOT,
-  SPARTACUS_OPF_GIFT_CARD,
-  SPARTACUS_OPF_GIFT_CARD_ROOT,
   SPARTACUS_OPF_GLOBAL_FUNCTIONS,
   SPARTACUS_OPF_GLOBAL_FUNCTIONS_ROOT,
   SPARTACUS_OPF_ORDER,
@@ -38,6 +35,8 @@ import {
   SPARTACUS_OPF_PAYMENT_ROOT,
   SPARTACUS_OPF_QUICK_BUY,
   SPARTACUS_OPF_QUICK_BUY_ROOT,
+  SPARTACUS_OPF_GIFT_CARD,
+  SPARTACUS_OPF_GIFT_CARD_ROOT,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -87,10 +86,6 @@ export const OPF_QUICK_BUY_FEATURE_NAME_CONSTANT = 'OPF_QUICK_BUY_FEATURE';
 export const OPF_QUICK_BUY_MODULE = 'OpfQuickBuyModule';
 export const OPF_QUICK_BUY_ROOT_MODULE = 'OpfQuickBuyRootModule';
 
-export const OPF_GIFT_CARD_FEATURE_NAME_CONSTANT = 'OPF_GIFT_CARD_FEATURE';
-export const OPF_GIFT_CARD_MODULE = 'OpfGiftCardModule';
-export const OPF_GIFT_CARD_ROOT_MODULE = 'OpfGiftCardRootModule';
-
 export const OPF_PAYMENT_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
 export const OPF_PAYMENT_MODULE = 'OpfPaymentModule';
 export const OPF_PAYMENT_ROOT_MODULE = 'OpfPaymentRootModule';
@@ -98,6 +93,10 @@ export const OPF_PAYMENT_TRANSLATIONS = 'opfPaymentTranslations';
 export const OPF_PAYMENT_TRANSLATION_CHUNKS_CONFIG =
   'opfPaymentTranslationChunksConfig';
 export const OPF_ORDER_MODULE = 'OpfOrderModule';
+
+export const OPF_GIFT_CARD_FEATURE_NAME_CONSTANT = 'OPF_GIFT_CARD_FEATURE';
+export const OPF_GIFT_CARD_MODULE = 'OpfGiftCardModule';
+export const OPF_GIFT_CARD_ROOT_MODULE = 'OpfGiftCardRootModule';
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -214,9 +213,9 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     OPF_BASE_FEATURE_NAME,
     OPF_CTA_FEATURE_NAME,
     OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
-    OPF_GIFT_CARD_FEATURE_NAME,
     OPF_QUICK_BUY_FEATURE_NAME,
     ORDER_FEATURE_NAME,
+    OPF_GIFT_CARD_FEATURE_NAME,
   ],
   importAfter: [
     {

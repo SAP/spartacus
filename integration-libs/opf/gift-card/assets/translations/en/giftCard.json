@@ -13,24 +13,17 @@
     "apply": "Apply",
     "remove": "Remove",
 
-    "appliedSuccessfully": "Gift card applied",
-    "removedSuccessfully": "Gift card removed",
+    "appliedSuccessfully": "Gift card applied.",
+    "removedSuccessfully": "Gift card removed.",
 
     "currentBalance": "Current Balance",
     "balanceAfterPurchase": "Balance After Purchase",
 
-    "validationError": "Please enter a valid gift card number and PIN.",
 
     "errors": {
-      "configurationNotFound": "Gift card payment configuration is not available. Please contact support.",
-      "placeOrderFailed": "We cannot proceed with the checkout",
-      "applyFailed": "Unable to apply gift card. Please verify the card details and try again.",
-      "expired": "This gift card has expired. Please use a different card.",
-      "invalidCard": "Invalid gift card number. Please check the card number and try again.",
-      "invalidPin": "Invalid PIN. Please check the PIN and try again.",
-      "insufficientFunds": "This gift card has insufficient balance for this purchase.",
-      "cardNotFound": "Gift card not found. Please verify the card details.",
-      "pattern": "PIN must contain only numbers."
+      "placeOrderFailed": "Gift Card Payment failed. We cannot proceed with the checkout.",
+       "invalidCard": "Please enter valid card number.",
+      "invalidPin": "Please enter valid pin."
     },
     "common": {
       "formErrors": {

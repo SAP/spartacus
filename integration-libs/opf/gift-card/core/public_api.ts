@@ -6,4 +6,4 @@
 
 export * from './opf-gift-card-core.module';
 export * from './connectors/index';
-export * from './services/index';
+export * from './facade/index';

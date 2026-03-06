@@ -45,7 +45,6 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { tap } from 'rxjs/operators';
 
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
 import { OpfCheckoutOutlets } from '../../root/model';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
@@ -77,7 +76,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     OpfCheckoutBillingAddressFormService
   );
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;

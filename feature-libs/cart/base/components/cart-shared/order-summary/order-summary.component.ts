@@ -6,23 +6,23 @@
 
 import { NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
-import { Cart, CartOutlets } from '@spartacus/cart/base/root';
-import { OutletContextData, OutletModule } from '@spartacus/storefront';
+import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/applied-coupons.component';
 
 @Component({
   selector: 'cx-order-summary',
   templateUrl: './order-summary.component.html',
-  imports: [NgIf, AppliedCouponsComponent, TranslatePipe, OutletModule],
+  imports: [NgIf, AppliedCouponsComponent, TranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input()
   cart: Cart;
 
   protected subscription = new Subscription();
-  readonly cartOutlets = CartOutlets;
+
   constructor(@Optional() protected outlet?: OutletContextData<any>) {}
 
   ngOnInit(): void {
@@ -31,6 +31,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         this.outlet.context$.subscribe((context) => (this.cart = context))
       );
     }
+    console.log('Cart in Order Summary not in giftcard: ', this.cart);
   }
 
   ngOnDestroy(): void {

@@ -197,8 +197,14 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
         { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
-        { provide: OpfCheckoutBillingAddressFormService, useClass: MockOpfCheckoutBillingAddressFormService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
+        {
+          provide: OpfCheckoutBillingAddressFormService,
+          useClass: MockOpfCheckoutBillingAddressFormService,
+        },
       ],
     }).compileComponents();
   });
