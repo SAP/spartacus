@@ -25,6 +25,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  RoutingService,
   TranslatePipe,
   TranslationService,
   UserPaymentService,
@@ -50,8 +51,10 @@ import {
   map,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { Order, OrderFacade } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-opf-tokenisation-checkout-payment-method',
@@ -71,7 +74,11 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
 {
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
+  protected routingService = inject(RoutingService);
   protected busy$ = new BehaviorSubject<boolean>(false);
+  protected selectedPaymentMethod$ = new BehaviorSubject<
+    PaymentDetails | undefined
+  >(undefined);
   @Optional() protected focusService = inject(SelectFocusUtility);
   @Optional() protected windowRef = inject(WindowRef);
 
@@ -99,15 +106,10 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   get existingPaymentMethods$(): Observable<PaymentDetails[]> {
     return this.userPaymentService.getPaymentMethods();
   }
-
+  // instead of reading from checkoutPaymentFacade (which depends on the backend returning paymentInfo), we are using the local subject
   get selectedMethod$(): Observable<PaymentDetails | undefined> {
-    return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
-      filter((state) => !state.loading),
-      map((state) => state.data),
-      distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
-    );
+    return this.selectedPaymentMethod$.asObservable();
   }
-
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -116,7 +118,8 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected orderFacade: OrderFacade
   ) {}
 
   ngOnInit(): void {
@@ -183,7 +186,7 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
-    if (paymentDetails?.id === getLastValueSync(this.selectedMethod$)?.id) {
+    if (paymentDetails?.id === this.selectedPaymentMethod$.getValue()?.id) {
       return;
     }
 
@@ -193,7 +196,7 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
-
+    this.selectedPaymentMethod$.next(paymentDetails);
     this.savePaymentMethod(paymentDetails);
     this.focusCardAfterSelecting();
   }
@@ -253,7 +256,24 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   }
 
   next(): void {
-    this.checkoutStepService.next(this.activatedRoute);
+    this.busy$.next(true);
+    this.subscriptions.add(
+      this.orderFacade
+        .placePaymentAuthorizedOrder(true)
+        .pipe(
+          tap((order: Order) => {
+            if (order) {
+              this.busy$.next(false);
+              this.routingService.go({ cxRoute: 'orderConfirmation' });
+            }
+          })
+        )
+        .subscribe({
+          error: () => {
+            this.busy$.next(false);
+          },
+        })
+    );
   }
 
   back(): void {
@@ -301,6 +321,7 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
 
   protected onError(): void {
     this.busy$.next(false);
+    this.selectedPaymentMethod$.next(undefined);
   }
 
   ngOnDestroy(): void {
