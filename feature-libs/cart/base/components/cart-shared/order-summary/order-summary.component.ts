@@ -31,7 +31,6 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         this.outlet.context$.subscribe((context) => (this.cart = context))
       );
     }
-    console.log('Cart in Order Summary not in giftcard: ', this.cart);
   }
 
   ngOnDestroy(): void {
