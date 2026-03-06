@@ -36,8 +36,6 @@ import { UnitTreeService } from './unit-tree.service';
 export class UnitListService extends ListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
-  protected readonly MIN_SEARCH_LENGTH = 3;
-
   private featureConfigService = inject(FeatureConfigService);
 
   constructor(
@@ -79,7 +77,7 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
         this.unitTreeService.treeToggle$.pipe(map(() => tree))
       ),
       map((tree: B2BUnitNode | undefined) => {
-        if (query && query.length >= this.MIN_SEARCH_LENGTH) {
+        if (query) {
           const forceExpandIds = new Set<string>();
           const filteredTree = this.filterTree(tree, query, forceExpandIds);
           return (

@@ -563,6 +563,18 @@
         flex-wrap: wrap;
         gap: 0.25rem;
 
+        // Keep projected action buttons (e.g. Expand All / Collapse All) on the right,
+        // aligned with the Create (Add) button.
+        // The first .link pushes itself and subsequent siblings to the right
+        // when no search-wrapper is present to do so.
+        > .link:first-of-type {
+          margin-inline-start: auto;
+        }
+        > .link {
+          align-self: flex-end;
+          margin-bottom: 12px;
+        }
+
         // Common label style for search and sort
         .label-text {
           display: block;
@@ -590,12 +602,15 @@
         }
 
 
-        // Push create button to the right and align with inputs
+        // Align create button with projected action buttons
         .create {
-          margin-inline-start: auto;
           align-self: flex-end;
           height: 40px;
           margin-bottom: 12px;
+        }
+        // When no projected .link buttons exist, push create button to the right
+        &:not(:has(> .link)) > .create {
+          margin-inline-start: auto;
         }
 
         button {

@@ -191,8 +191,7 @@
     "name": "Name",
     "uid": "ID",
     "search": {
-      "placeholder": "Name or ID",
-      "noResults": "No units found"
+      "placeholder": "Name or ID"
     },
     "approvalProcess": "Approval process",
     "parentUnit": "Parent Unit",

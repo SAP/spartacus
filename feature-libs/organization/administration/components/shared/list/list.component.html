@@ -141,13 +141,6 @@
         </cx-table>
       </ng-container>
 
-      <p
-        *ngIf="searchQuery && data.values && data.values.length === 0"
-        class="instruction is-empty no-search-results"
-      >
-        {{ viewType + '.search.noResults' | cxTranslate }}
-      </p>
-
       <div class="footer">
         <cx-pagination
           [pagination]="data.pagination"

@@ -604,7 +604,7 @@ describe('UnitListService', () => {
     });
 
     describe('load with search query', () => {
-      it('should filter tree when query length >= 3', () => {
+      it('should filter tree when query is non-empty', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
         treeService.isExpanded = createSpy().and.returnValue(false);
@@ -628,7 +628,7 @@ describe('UnitListService', () => {
         expect(result.pagination.totalResults).toEqual(3);
       });
 
-      it('should not filter when query length < 3', () => {
+      it('should filter when query is non-empty (min-char check is handled by component pipe)', () => {
         let result: EntitiesModel<B2BUnitTreeNode>;
         mockTree$.next(mockedTree);
         treeService.isExpanded = createSpy().and.returnValue(false);
@@ -637,10 +637,12 @@ describe('UnitListService', () => {
           result = table;
         });
 
+        // Service receives 'ab' directly (bypassing component pipe); service filters on any non-empty query
         service.search({} as any, 'ab');
 
-        // Short query -> full tree returned (collapsed)
-        verifyCollapsedAll(result);
+        // 'ab' matches nothing in the mocked tree -> empty result
+        expect(result).toBeDefined();
+        expect(result.values.length).toEqual(0);
       });
 
       it('should not filter when query is empty', () => {
