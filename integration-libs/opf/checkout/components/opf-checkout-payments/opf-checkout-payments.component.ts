@@ -16,6 +16,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -42,7 +43,7 @@ import {
   OutletModule,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { map, finalize, tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { OpfCheckoutOutlets } from '../../root/model';
@@ -74,6 +75,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     OpfCheckoutBillingAddressFormService
   );
   protected userPaymentService = inject(UserPaymentService);
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
 
   protected subscription = new Subscription();
 
@@ -133,6 +135,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   readonly SAVED_CARDS_ID = -1;
 
   selectedPaymentId?: number;
+
+  protected isSavedCardsSelected = false;
 
   isOnlyOnePaymentOptionAvailable = false;
 
@@ -293,12 +297,35 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
+  onSavedCardsSelected(): void {
+    this.selectedPaymentId = this.SAVED_CARDS_ID;
+    this.isSavedCardsSelected = true;
+  }
+
   changePayment(payment: OpfActiveConfiguration): void {
-    this.selectedPaymentId = payment.id;
-    this.opfMetadataStoreService.updateOpfMetadata({
-      selectedPaymentOptionId: this.selectedPaymentId,
-    });
-    this.paymentChange.emit(payment);
+    if (this.isSavedCardsSelected) {
+      this.isSavedCardsSelected = false;
+      this.selectedPaymentId = payment.id;
+      this.subscription.add(
+        this.checkoutPaymentFacade
+          .deletePaymentDetails()
+          .pipe(
+            finalize(() => {
+              this.opfMetadataStoreService.updateOpfMetadata({
+                selectedPaymentOptionId: this.selectedPaymentId,
+              });
+              this.paymentChange.emit(payment);
+            })
+          )
+          .subscribe()
+      );
+    } else {
+      this.selectedPaymentId = payment.id;
+      this.opfMetadataStoreService.updateOpfMetadata({
+        selectedPaymentOptionId: this.selectedPaymentId,
+      });
+      this.paymentChange.emit(payment);
+    }
   }
 
   getPaginationModel(

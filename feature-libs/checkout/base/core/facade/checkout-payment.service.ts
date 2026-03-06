@@ -11,6 +11,7 @@ import {
   CheckoutPaymentCardTypesQueryResetEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
+  CheckoutQueryResetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
 } from '@spartacus/checkout/base/root';
@@ -108,6 +109,21 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
       }
     );
 
+  protected deletePaymentMethodCommand: Command<void, unknown> =
+    this.commandService.create<void>(() =>
+      this.checkoutPreconditions().pipe(
+        switchMap(([userId, cartId]) =>
+          this.checkoutPaymentConnector
+            .deletePaymentDetails(userId, cartId)
+            .pipe(
+              tap(() =>
+                this.eventService.dispatch({}, CheckoutQueryResetEvent)
+              )
+            )
+        )
+      )
+    );
+
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
@@ -163,5 +179,9 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
 
   setPaymentDetails(paymentDetails: PaymentDetails): Observable<unknown> {
     return this.setPaymentMethodCommand.execute(paymentDetails);
+  }
+
+  deletePaymentDetails(): Observable<unknown> {
+    return this.deletePaymentMethodCommand.execute(undefined);
   }
 }
