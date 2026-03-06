@@ -6,8 +6,10 @@
 
 import * as myCoupons from '../../../helpers/coupons/my-coupons';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Coupons Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
   });

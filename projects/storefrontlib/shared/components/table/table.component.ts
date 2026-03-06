@@ -10,6 +10,7 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  inject,
   Input,
   isDevMode,
   Output,
@@ -23,6 +24,7 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
+import { FeatureConfigService } from '@spartacus/core';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -59,6 +61,8 @@ export class TableComponent<T> {
   @HostBinding('class.horizontal') horizontalLayout: boolean;
   @HostBinding('class.vertical') verticalLayout: boolean;
   @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
+
+  private featureConfigService = inject(FeatureConfigService);
 
   private _structure: TableStructure;
   @Input() set structure(structure: TableStructure) {
@@ -155,9 +159,12 @@ export class TableComponent<T> {
     );
   }
 
-  trackData(_i: number, item: any): any {
+  trackData = (_i: number, item: any): any => {
+    if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
+      return item?.uid ?? JSON.stringify(item);
+    }
     return JSON.stringify(item);
-  }
+  };
 
   /**
    * Generates the table type into the UI in devMode, so that developers

@@ -5,6 +5,7 @@
  */
 
 import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const MY_COMPANY_URL = '/organization/budgets';
 const rowCellSelector =
@@ -18,6 +19,7 @@ describe(
   'B2B / My Company / Budgets / Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       loginAsMyCompanyAdmin();

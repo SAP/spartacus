@@ -265,11 +265,14 @@
                   [attr.aria-errormessage]="'termsandconditionsError'"
                 />
                 <span class="form-check-label">
-                  {{ 'register.confirmThatRead' | cxTranslate }}
+                  <span id="confirm-read-label">
+                    {{ 'register.confirmThatRead' | cxTranslate }}
+                  </span>
                   <a
                     [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-describedby="confirm-read-label"
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>

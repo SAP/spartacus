@@ -4,10 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  skip,
+  switchMap,
+} from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
+import { LanguageService } from '../../site-context/facade/language.service';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { Page, PageMeta } from '../model/page.model';
@@ -22,12 +30,25 @@ import { CmsService } from './cms.service';
   providedIn: 'root',
 })
 export class PageMetaService {
+  protected languageService: LanguageService = inject(LanguageService);
+
   constructor(
     protected cms: CmsService,
     protected unifiedInjector: UnifiedInjector,
     protected pageMetaConfig: PageMetaConfig,
+    // @deprecated (will be removed in 12 months)
     @Inject(PLATFORM_ID) protected platformId: string
-  ) {}
+  ) {
+    // NOTE: Solution to the issue: https://jira.tools.sap/browse/CXSPA-10923
+    // Cause CMS page data refresh on language change (to update the title)
+    // Skip the first emission of getActive() to avoid duplicate refresh on app initialization, as the language is already set at that point.
+    this.languageService
+      .getActive()
+      .pipe(skip(1), distinctUntilChanged())
+      .subscribe(() => {
+        this.cms.refreshLatestPage();
+      });
+  }
 
   protected resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
     .getMulti(PageMetaResolver)

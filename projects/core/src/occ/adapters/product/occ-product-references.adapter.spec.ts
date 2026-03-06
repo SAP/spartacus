@@ -48,7 +48,6 @@ describe('OccProductReferencesAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccProductReferencesAdapter,
         {

@@ -28,8 +28,6 @@ import { tap } from 'rxjs/operators';
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class MyAccountV2OrdersComponent implements OnDestroy {

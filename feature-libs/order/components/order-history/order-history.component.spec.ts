@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { Params, RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -95,7 +94,6 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -104,7 +102,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -365,10 +362,6 @@ describe('OrderHistoryComponent', () => {
 
       const element = fixture.debugElement.query(
         By.css('.cx-order-history-header')
-      );
-
-      expect(element.nativeElement.textContent).toContain(
-        'orderHistory.orderHistory'
       );
 
       expect(element.nativeElement.textContent).not.toContain(

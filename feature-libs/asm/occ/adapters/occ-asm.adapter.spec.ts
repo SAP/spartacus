@@ -96,7 +96,6 @@ describe('OccAsmAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccAsmAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },

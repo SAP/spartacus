@@ -72,7 +72,6 @@ const replenishmentOrderHistory = new BehaviorSubject<ReplenishmentOrderList>(
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -81,7 +80,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -137,7 +135,11 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReplenishmentOrderHistoryComponent, RouterModule.forRoot([])],
+      imports: [
+        ReplenishmentOrderHistoryComponent,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+      ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         {

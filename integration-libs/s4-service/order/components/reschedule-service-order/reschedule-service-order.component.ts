@@ -24,6 +24,7 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  ProductTypes,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -77,7 +78,8 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
     map((order) => ({
       ...order,
       entries: (order.entries || []).filter(
-        (entry) => entry.product && entry.product.productTypes === 'SERVICE'
+        (entry) =>
+          entry.product && entry.product.productTypes === ProductTypes.SERVICE
       ),
     }))
   );

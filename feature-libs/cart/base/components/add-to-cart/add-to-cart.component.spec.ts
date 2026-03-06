@@ -19,6 +19,7 @@ import {
   Product,
   ProductAvailabilityAdapter,
   ProductCatalogService,
+  ProductTypes,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -65,6 +66,12 @@ const mockProduct3: Product = {
     stockLevel: 10,
     stockLevelStatus: 'inStock',
   },
+};
+
+const mockProduct4: Product = {
+  name: 'mockProduct',
+  code: 'code1',
+  productTypes: ProductTypes.PHYSICAL,
 };
 
 const mockNoStockProduct: Product = {
@@ -640,6 +647,22 @@ describe('AddToCartComponent', () => {
 
         const obtained: string = addToCartComponent.getInventory();
         expect(obtained).toEqual(mockProduct3.stock?.stockLevel + '+');
+      });
+
+      it('should return empty string for subscription products in getInventory()', () => {
+        spyOn(currentProductService, 'getProduct').and.returnValue(
+          of(mockProduct4)
+        );
+
+        config$.next({
+          inventoryDisplay: true,
+        });
+
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        const obtained: string = addToCartComponent.getInventory();
+        expect(obtained).toEqual('');
       });
     });
   });

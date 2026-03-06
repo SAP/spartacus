@@ -31,7 +31,6 @@ describe('AsmCustomer360ProductListingComponent', () => {
     template: '',
     selector:
       '[cx-asm-customer-360-product-item], cx-asm-customer-360-product-item',
-    imports: [],
   })
   class MockAsmProductItemComponent {
     @Input() product: Product;

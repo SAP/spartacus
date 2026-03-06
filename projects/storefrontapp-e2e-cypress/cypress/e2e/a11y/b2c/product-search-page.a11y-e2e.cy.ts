@@ -5,8 +5,10 @@
  */
 
 import { viewportContext } from '../../../helpers/viewport-context';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Product Search Page', { testIsolation: false }, () => {
+  isolateTestsBefore();
   beforeEach(() => {
     cy.a11yContinuumSetup();
   });

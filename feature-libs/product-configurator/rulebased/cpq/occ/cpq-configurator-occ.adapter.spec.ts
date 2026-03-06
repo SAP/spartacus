@@ -145,7 +145,6 @@ describe('CpqConfiguratorOccAdapter', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CpqConfiguratorOccAdapter,
         {

@@ -137,7 +137,6 @@ describe('CdcRegisterComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: Store, useValue: { dispatch: () => {} } },
