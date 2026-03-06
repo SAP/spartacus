@@ -338,6 +338,8 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
+        a11yPasswordVisibilityToggle: true,
+        showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
       };
       return appFeatureToggles;
