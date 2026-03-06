@@ -115,9 +115,9 @@
     flex-wrap: nowrap;
 
     .search-wrapper {
-      flex: 1 1 200px;
-      min-width: 160px;
-      max-width: 200px;
+      flex: 1 1 12.5rem;
+      min-width: 10rem;
+      max-width: 12.5rem;
       margin-inline-end: 0;
 
       .search-input {
@@ -696,7 +696,7 @@
         }
         > .link {
           align-self: flex-end;
-          margin-bottom: 12px;
+          margin-bottom: 0.75rem;
         }
 
         // Common label style for search and sort
