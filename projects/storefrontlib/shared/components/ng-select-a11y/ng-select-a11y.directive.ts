@@ -11,10 +11,8 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Inject,
   inject,
   Input,
-  Optional,
   PLATFORM_ID,
   Renderer2,
   SecurityContext,
@@ -50,6 +48,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
   protected selectComponent = inject(NgSelectComponent);
   protected destroyRef = inject(DestroyRef);
   private featureConfigService = inject(FeatureConfigService);
+  protected platformId = inject(PLATFORM_ID);
+  protected selectObserver: MutationObserver | null = null;
+  protected breakpointService = inject(BreakpointService, { optional: true });
 
   /**
    * When we inside a combo box using JAWS screen reader and press escape key
@@ -69,10 +70,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.elementRef.nativeElement.querySelector('input').focus();
     });
   }
-
-  @Optional() breakpointService = inject(BreakpointService, { optional: true });
-
-  @Inject(PLATFORM_ID) protected platformId: Object;
 
   constructor(
     private renderer: Renderer2,
@@ -126,19 +123,51 @@ export class NgSelectA11yDirective implements AfterViewInit {
     }
 
     if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
-      this.breakpointService
-        ?.isDown(BREAKPOINT.md)
-        .pipe(filter(Boolean), take(1))
-        .subscribe(() => {
-          const selectObserver = new MutationObserver((changes, observer) => {
-            this.appendValueToAriaLabel(changes, observer, inputCombobox);
-          });
-          selectObserver.observe(this.elementRef.nativeElement, {
-            subtree: true,
-            characterData: true,
-            childList: true,
-          });
+      if (
+        this.featureConfigService.isEnabled('a11yNgSelectReadonlyInputValue')
+      ) {
+        this.setInputValue(inputCombobox);
+        this.selectObserver = new MutationObserver(() => {
+          this.setInputValue(inputCombobox);
         });
+        this.selectObserver.observe(this.elementRef.nativeElement, {
+          subtree: true,
+          characterData: true,
+          childList: true,
+        });
+        this.destroyRef.onDestroy(() => this.selectObserver?.disconnect());
+      } else {
+        this.breakpointService
+          ?.isDown(BREAKPOINT.md)
+          .pipe(filter(Boolean), take(1))
+          .subscribe(() => {
+            const selectObserver = new MutationObserver((changes, observer) => {
+              this.appendValueToAriaLabel(changes, observer, inputCombobox);
+            });
+            selectObserver.observe(this.elementRef.nativeElement, {
+              subtree: true,
+              characterData: true,
+              childList: true,
+            });
+          });
+      }
+    }
+  }
+
+  setInputValue(inputCombobox: HTMLElement) {
+    const sanitizedValueLabel = this.domSanitizer.sanitize(
+      SecurityContext.HTML,
+      this.elementRef.nativeElement.querySelector('.ng-value-label')?.innerText
+    );
+    if (sanitizedValueLabel) {
+      // We set the input's value so JAWS reads it instead of announcing "blank"
+      this.renderer.setProperty(inputCombobox, 'value', sanitizedValueLabel);
+      const valueElement =
+        this.elementRef.nativeElement.querySelector('.ng-value');
+      if (valueElement) {
+        // hide this value to avoid double readout
+        this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+      }
     }
   }
 
