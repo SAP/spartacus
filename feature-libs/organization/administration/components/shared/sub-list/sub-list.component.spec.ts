@@ -91,6 +91,9 @@ class MockBaseListService {
   getMinSearchCharacters(): number {
     return 3;
   }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');
 }
