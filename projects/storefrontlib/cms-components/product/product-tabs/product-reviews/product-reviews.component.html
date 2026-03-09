@@ -24,26 +24,56 @@
 
     <ng-container *ngIf="!isWritingReview; else writeReview">
       <ng-container *ngIf="reviews$ | async as reviews">
-        <div
-          class="review"
-          tabindex="0"
-          *ngFor="let review of reviews | slice: 0 : maxListItems"
-        >
-          <div class="title">{{ review.headline }}</div>
-          <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
-          <div class="name">
-            {{ review.alias ? review.alias : review.principal?.name }}
+        <ul *cxFeature="'a11yReviewsKeyboardControls'" class="review-list">
+          <li
+            #reviewItem
+            class="review"
+            tabindex="0"
+            *ngFor="
+              let review of reviews | slice: 0 : maxListItems;
+              let i = index
+            "
+            (keydown.arrowdown)="focusNextReview($event, i)"
+            (keydown.arrowup)="focusPreviousReview($event, i)"
+          >
+            <div class="title">{{ review.headline }}</div>
+            <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
+            <div class="name">
+              {{ review.alias ? review.alias : review.principal?.name }}
+            </div>
+            <div class="date">{{ review.date | cxDate }}</div>
+            <div *cxFeature="'!readMoreDirective'" class="text">
+              {{ review.comment }}
+            </div>
+            <cx-read-more
+              *cxFeature="'readMoreDirective'"
+              class="text"
+              [text]="review.comment!"
+            ></cx-read-more>
+          </li>
+        </ul>
+        <ng-container *cxFeature="'!a11yReviewsKeyboardControls'">
+          <div
+            class="review"
+            tabindex="0"
+            *ngFor="let review of reviews | slice: 0 : maxListItems"
+          >
+            <div class="title">{{ review.headline }}</div>
+            <cx-star-rating [rating]="review.rating ?? 0"></cx-star-rating>
+            <div class="name">
+              {{ review.alias ? review.alias : review.principal?.name }}
+            </div>
+            <div class="date">{{ review.date | cxDate }}</div>
+            <div *cxFeature="'!readMoreDirective'" class="text">
+              {{ review.comment }}
+            </div>
+            <cx-read-more
+              *cxFeature="'readMoreDirective'"
+              class="text"
+              [text]="review.comment!"
+            ></cx-read-more>
           </div>
-          <div class="date">{{ review.date | cxDate }}</div>
-          <div *cxFeature="'!readMoreDirective'" class="text">
-            {{ review.comment }}
-          </div>
-          <cx-read-more
-            *cxFeature="'readMoreDirective'"
-            class="text"
-            [text]="review.comment!"
-          ></cx-read-more>
-        </div>
+        </ng-container>
         <div *ngIf="reviews.length > initialMaxListItems">
           <button
             aria-live="polite"

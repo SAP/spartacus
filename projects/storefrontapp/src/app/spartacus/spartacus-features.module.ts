@@ -341,6 +341,7 @@ if (environment.cpq) {
         a11yPasswordVisibilityToggle: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
+        a11yReviewsKeyboardControls: true,
       };
       return appFeatureToggles;
     }),
