@@ -4,6 +4,7 @@ import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
   CheckoutQueryFacade,
+  CheckoutQueryResetEvent,
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
@@ -57,6 +58,7 @@ class MockCheckoutPaymentConnector
   getPaymentCardTypes = createSpy().and.returnValue(of(mockCardTypes));
   createPaymentDetails = createSpy().and.returnValue(of(mockPaymentInfo));
   setPaymentDetails = createSpy().and.returnValue(of('set'));
+  deletePaymentDetails = createSpy().and.returnValue(of('deleted'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
@@ -239,6 +241,26 @@ describe(`CheckoutPaymentService`, () => {
           paymentDetailsId: mockPaymentInfo.id,
         },
         CheckoutPaymentDetailsSetEvent
+      );
+    });
+  });
+
+  describe(`deletePaymentDetails`, () => {
+    it(`should call checkoutPaymentConnector.deletePaymentDetails`, () => {
+      service.deletePaymentDetails();
+
+      expect(connector.deletePaymentDetails).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId
+      );
+    });
+
+    it(`should dispatch CheckoutQueryResetEvent event`, () => {
+      service.deletePaymentDetails();
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutQueryResetEvent
       );
     });
   });
