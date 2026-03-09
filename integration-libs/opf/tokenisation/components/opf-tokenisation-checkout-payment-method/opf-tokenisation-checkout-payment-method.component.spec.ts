@@ -15,13 +15,9 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  CxDatePipe,
-  FeatureConfigService,
-  FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
-  MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
   QueryState,
@@ -35,14 +31,9 @@ import {
   IconComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import {
-  CheckoutPaymentFormComponent,
-  CheckoutStepService,
-} from '@spartacus/checkout/base/components';
-import { Store } from '@ngrx/store';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { OpfTokenisationCheckoutPaymentMethodComponent } from './opf-tokenisation-checkout-payment-method.component';
 import { Order, OrderFacade } from '@spartacus/order/root';
 
@@ -55,13 +46,8 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-class MockStore implements Partial<Store> {
-  // Placeholder for the Store interface
-}
-
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
-  accountHolderName: 'Name',
   cardNumber: '123456789',
   cardType: {
     code: 'Visa',
@@ -75,7 +61,6 @@ const mockPaymentDetails: PaymentDetails = {
 const mockPayments: PaymentDetails[] = [
   {
     id: 'non default method',
-    accountHolderName: 'Name',
     cardNumber: '123456789',
     cardType: {
       code: 'Visa',
@@ -87,7 +72,6 @@ const mockPayments: PaymentDetails[] = [
   },
   {
     id: 'default payment method',
-    accountHolderName: 'Name',
     cardNumber: '123456789',
     cardType: {
       code: 'Visa',
@@ -181,33 +165,11 @@ const mockAddress: Address = {
 };
 
 @Component({
-  selector: 'cx-payment-form',
-  template: '',
-  imports: [I18nTestingModule],
-})
-class MockPaymentFormComponent {
-  @Input()
-  paymentMethodsCount: number;
-  @Input()
-  setAsDefaultField: boolean;
-  @Input()
-  loading: boolean;
-  @Input()
-  paymentDetails?: PaymentDetails;
-}
-
-@Component({
   selector: 'cx-spinner',
   template: '',
   imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
 
 describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
   let component: OpfTokenisationCheckoutPaymentMethodComponent;
@@ -217,7 +179,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
   let mockActiveCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let globalMessageService: GlobalMessageService;
-  let featureConfig: FeatureConfigService;
   let orderFacade: OrderFacade;
   let routingService: RoutingService;
 
@@ -252,34 +213,20 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
             features: { level: '6.3' },
           },
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-        { provide: Store, useClass: MockStore },
+
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     })
       .overrideComponent(OpfTokenisationCheckoutPaymentMethodComponent, {
         remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            CheckoutPaymentFormComponent,
-            SpinnerComponent,
-            IconComponent,
-            FeatureDirective,
-          ],
+          imports: [TranslatePipe, SpinnerComponent, IconComponent],
         },
         add: {
           imports: [
             MockTranslatePipe,
-            MockDatePipe,
-            MockPaymentFormComponent,
             MockSpinnerComponent,
             MockCxIconComponent,
-            MockFeatureDirective,
           ],
         },
       })
@@ -292,7 +239,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
       CheckoutStepService as Type<CheckoutStepService>
     );
     globalMessageService = TestBed.inject(GlobalMessageService);
-    featureConfig = TestBed.inject(FeatureConfigService);
     orderFacade = TestBed.inject(OrderFacade);
     routingService = TestBed.inject(RoutingService);
   }));
@@ -367,7 +313,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
     it('should not add select action for selected card', () => {
       const selectedPaymentMethod: PaymentDetails = {
         id: 'selected payment method',
-        accountHolderName: 'Name',
         cardNumber: '123456789',
         cardType: {
           code: 'Visa',
@@ -395,7 +340,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
         mockPaymentDetails,
         {
           id: 'default payment method',
-          accountHolderName: 'Name',
           cardNumber: '123456789',
           cardType: {
             code: 'Visa',
@@ -446,7 +390,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
         mockPaymentDetails,
         {
           id: 'default payment method',
-          accountHolderName: 'Name',
           cardNumber: '123456789',
           cardType: {
             code: 'Visa',
@@ -507,10 +450,8 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
     describe('createCard().role', () => {
       let paymentMethod1: PaymentDetails;
       beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
         paymentMethod1 = {
           id: 'selected payment method',
-          accountHolderName: 'Name',
           cardNumber: '123456789',
           cardType: {
             code: 'Visa',
