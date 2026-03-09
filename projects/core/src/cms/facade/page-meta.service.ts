@@ -6,7 +6,14 @@
 
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  skip,
+  switchMap,
+} from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { resolveApplicable } from '../../util/applicable';
@@ -34,9 +41,13 @@ export class PageMetaService {
   ) {
     // NOTE: Solution to the issue: https://jira.tools.sap/browse/CXSPA-10923
     // Cause CMS page data refresh on language change (to update the title)
-    this.languageService.getActive().subscribe(() => {
-      this.cms.refreshLatestPage();
-    });
+    // Skip the first emission of getActive() to avoid duplicate refresh on app initialization, as the language is already set at that point.
+    this.languageService
+      .getActive()
+      .pipe(skip(1), distinctUntilChanged())
+      .subscribe(() => {
+        this.cms.refreshLatestPage();
+      });
   }
 
   protected resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector

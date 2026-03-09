@@ -11,7 +11,6 @@ import {
   CxDatePipe,
   FeatureConfigService,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -27,7 +26,6 @@ import { NavigationUIComponent } from './navigation-ui.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockIconComponent {
   @Input() type: string;
@@ -36,7 +34,6 @@ class MockIconComponent {
 @Component({
   selector: 'cx-generic-link',
   template: '<a href={{url}}>{{title}}</a>',
-  imports: [I18nTestingModule],
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];

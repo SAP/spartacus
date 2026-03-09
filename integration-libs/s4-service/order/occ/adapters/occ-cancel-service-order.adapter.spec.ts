@@ -27,7 +27,6 @@ describe('OccCancelServiceOrderAdapter', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCancelServiceOrderAdapter,
         { provide: OccEndpointsService, useValue: spyOccEndpointsService },

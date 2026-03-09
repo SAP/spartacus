@@ -58,8 +58,6 @@ import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {

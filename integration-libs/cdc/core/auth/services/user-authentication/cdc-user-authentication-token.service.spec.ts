@@ -47,7 +47,6 @@ describe('CdcUserAuthenticationTokenService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CdcUserAuthenticationTokenService,
         {

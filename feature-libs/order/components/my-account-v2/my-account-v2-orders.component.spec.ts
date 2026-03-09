@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -80,7 +79,6 @@ class MockTranslationService {
 @Component({
   template: '',
   selector: 'cx-media',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -91,7 +89,6 @@ class MockMediaComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 

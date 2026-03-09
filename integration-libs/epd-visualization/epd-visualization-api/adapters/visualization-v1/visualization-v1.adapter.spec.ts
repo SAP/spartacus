@@ -30,7 +30,6 @@ const fakeResponse: LookupVisualizationsResponse = { visualizations: [] };
 describe('VisualizationApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         provideConfigFactory(getTestConfig),
         provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),

@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { Params, RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -57,7 +56,6 @@ const mockEmptyOrderList: OrderHistoryList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -118,7 +116,6 @@ class MockReplenishmentOrderHistoryFacade
 @Component({
   selector: 'cx-my-account-v2-order-consolidated-information',
   template: '',
-  imports: [I18nTestingModule],
 })
 export class MockMyAccountV2OrderConsolidatedInformationComponent {
   @Input() order?: OrderHistoryView;
@@ -127,7 +124,6 @@ export class MockMyAccountV2OrderConsolidatedInformationComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 

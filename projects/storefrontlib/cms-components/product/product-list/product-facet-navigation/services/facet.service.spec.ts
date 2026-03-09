@@ -28,7 +28,6 @@ describe('FacetService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         FacetService,
         {

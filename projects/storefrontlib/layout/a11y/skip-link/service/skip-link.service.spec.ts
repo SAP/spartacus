@@ -39,7 +39,6 @@ class MockKeyboadFocusService {
     <button class="target" id="skip1" tabindex="0">skip 1</button>
     <div class="target" id="skip2"></div>
   `,
-  imports: [I18nTestingModule],
 })
 class TestContainerComponent {}
 

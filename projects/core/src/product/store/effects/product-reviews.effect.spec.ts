@@ -46,7 +46,6 @@ describe('Product reviews effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: ProductReviewsConnector,

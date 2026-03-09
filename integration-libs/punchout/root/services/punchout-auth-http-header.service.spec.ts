@@ -96,7 +96,6 @@ describe('PunchoutAuthHttpHeaderService', () => {
   let punchoutfacade: PunchoutFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: PunchoutFacade, useClass: MockPunchoutFacade },
         {
