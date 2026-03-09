@@ -402,8 +402,11 @@ export interface FeatureTogglesInterface {
   enableB2BCostCenterSearch?: boolean;
 
   /**
-   * When enabled, allows searching B2B customers by name in the organization.
+   * When enabled, allows searching B2B units by name in the organization administration.
+   * This search is performed on the client side since the full unit tree is already loaded.
    */
+  enableB2BUnitSearch?: boolean;
+
   enableB2BCustomerSearch?: boolean;
   /**
    * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
@@ -457,6 +460,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+
+  enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
   a11yAddedToCartDialogHeading: false,

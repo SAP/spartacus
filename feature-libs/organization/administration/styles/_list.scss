@@ -111,6 +111,32 @@
 
   @extend %organizationTitle !optional;
 
+  cx-split-view:not([active-view='1']) .list .header .actions {
+    flex-wrap: nowrap;
+
+    .search-wrapper {
+      flex: 1 1 12.5rem;
+      min-width: 10rem;
+      max-width: 12.5rem;
+      margin-inline-end: 0;
+
+      .search-input {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+
+    > .link:first-of-type {
+      margin-inline-start: 0;
+    }
+
+    > .link,
+    .create {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+
   cx-split-view:not([active-view='1']) .list table {
     th,
     td {
@@ -133,6 +159,21 @@
     }
   }
 
+  // Unit list: show uid(ID) column instead of active(STATUS) when detail panel is open
+  &.orgUnit cx-split-view:not([active-view='1']) .list table {
+    th,
+    td {
+      &.uid {
+        opacity: 1;
+        width: auto;
+      }
+      &.active {
+        opacity: 0;
+        width: 0.1%;
+      }
+    }
+  }
+
   cx-split-view[active-view='1'] {
     .uid .text {
       margin-inline-end: 1rem;
@@ -149,6 +190,7 @@
     margin: 0;
     padding: 20px;
   }
+
 
   .cx-no-results {
     text-align: center;
@@ -292,7 +334,7 @@
     }
   }
 
-  cx-view[position='0'] > cx-table.vertical {
+  cx-view[position='0'] cx-table.vertical {
     table {
       border-top: solid 1px var(--cx-color-light);
       border-bottom: solid 1px var(--cx-color-light);
@@ -645,6 +687,18 @@
         flex-wrap: wrap;
         gap: 0.25rem;
 
+        // Keep projected action buttons (e.g. Expand All / Collapse All) on the right,
+        // aligned with the Create (Add) button.
+        // The first .link pushes itself and subsequent siblings to the right
+        // when no search-wrapper is present to do so.
+        > .link:first-of-type {
+          margin-inline-start: auto;
+        }
+        > .link {
+          align-self: flex-end;
+          margin-bottom: 0.75rem;
+        }
+
         // Common label style for search and sort
         .label-text {
           display: block;
@@ -671,12 +725,16 @@
           }
         }
 
-        // Push create button to the right and align with inputs
+
+        // Align create button with projected action buttons
         .create {
-          margin-inline-start: auto;
           align-self: flex-end;
           height: 40px;
           margin-bottom: 12px;
+        }
+        // When no projected .link buttons exist, push create button to the right
+        &:not(:has(> .link)) > .create {
+          margin-inline-start: auto;
         }
 
         button {
@@ -701,6 +759,8 @@
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          // Push all subsequent items (projected actions + create) to the right
+          margin-inline-end: auto;
 
           .search-label {
             display: flex;

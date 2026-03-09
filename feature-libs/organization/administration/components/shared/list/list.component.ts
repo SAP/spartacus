@@ -133,6 +133,11 @@ export class ListComponent<T = any, P = PaginationModel>
    */
   isSearchEnabled = this.service.isSearchEnabled();
 
+  /**
+   * The i18n key for the search input placeholder.
+   */
+  searchPlaceholderKey = this.service.getSearchPlaceholderKey();
+
   onSearchQueryChange(pagination: P | undefined, query: string): void {
     if (pagination && this.isSearchEnabled) {
       this.searchSubject$.next({ pagination, query });

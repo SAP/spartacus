@@ -206,6 +206,15 @@ export abstract class ListService<T, P = PaginationModel> {
   }
 
   /**
+
+   * Returns the i18n key for the search input placeholder.
+   * Override in subclass to provide a custom placeholder.
+   */
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
+
+  /**
    * Returns the minimum number of characters required to trigger a search.
    * This value can be configured via `organizationUI.listSearch.minCharacters`.
    * Override in subclass to customize.
