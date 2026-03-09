@@ -10,10 +10,12 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
+  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { SubscriptionBillingListComponent } from './subscription-billing-list.component';
+import { DateRangeModalComponent } from './date-range-modal/date-range-modal.component';
 import {
   DatePickerModule,
   FormErrorsModule,
@@ -23,6 +25,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { dateRangeModalConfig } from './date-range-modal/date-range-modal.config';
 
 @NgModule({
   imports: [
@@ -36,8 +39,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormErrorsModule,
     ReactiveFormsModule,
     SubscriptionBillingListComponent,
+    DateRangeModalComponent,
   ],
-  exports: [SubscriptionBillingListComponent],
+  exports: [SubscriptionBillingListComponent, DateRangeModalComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -47,6 +51,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         },
       },
     }),
+    provideConfig(dateRangeModalConfig)
   ],
 })
 export class SubscriptionBillingListModule {}
