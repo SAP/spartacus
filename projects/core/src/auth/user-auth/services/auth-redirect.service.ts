@@ -6,6 +6,7 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
+import { SiteContextUrlSerializer } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -37,7 +38,8 @@ export class AuthRedirectService implements OnDestroy {
     protected routing: RoutingService,
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService
+    protected authFlowRoutesService: AuthFlowRoutesService,
+    protected siteContextUrlSerializer: SiteContextUrlSerializer
   ) {
     this.init();
   }
@@ -67,7 +69,20 @@ export class AuthRedirectService implements OnDestroy {
         if (redirectUrl === undefined) {
           this.routing.go('/');
         } else {
-          this.routing.goByUrl(redirectUrl);
+          let actualParams =
+            this.siteContextUrlSerializer.urlExtractContextParameters(
+              this.router.url
+            ).params;
+          let redirectBaseUrl =
+            this.siteContextUrlSerializer.urlExtractContextParameters(
+              redirectUrl
+            ).url;
+          this.routing.goByUrl(
+            this.siteContextUrlSerializer.combineUrlAndSiteContextUrlParams(
+              redirectBaseUrl,
+              actualParams
+            )
+          );
         }
         this.clearRedirectUrl();
       });

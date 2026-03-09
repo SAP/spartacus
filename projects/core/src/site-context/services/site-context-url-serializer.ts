@@ -157,4 +157,22 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
 
     return contextRoutePart + url;
   }
+
+  /**
+   * Prepends the current values of the given site context parameters to the given URL and returns in the form of a URL.
+   */
+   combineUrlAndSiteContextUrlParams(
+    url: string,
+    params: SiteContextUrlParams
+  ): string {
+    const contextRoutePart = this.urlEncodingParameters
+      .map((param) => {
+        return params[param]
+          ? params[param]
+          : this.siteContextParams.getValue(param);
+      })
+      .join('/');
+
+    return contextRoutePart.concat('/').concat(url);
+  }
 }
