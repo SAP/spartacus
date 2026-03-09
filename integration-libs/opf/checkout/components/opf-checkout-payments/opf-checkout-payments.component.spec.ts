@@ -9,6 +9,7 @@ import {
   QueryState,
   Translatable,
   TranslatePipe,
+  UserPaymentService,
 } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
@@ -18,6 +19,7 @@ import {
   OpfMetadataStoreService,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
+import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 
 import {
   Component,
@@ -96,6 +98,19 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   remove(_: GlobalMessageType, __?: number): void {}
 }
 
+class MockUserPaymentService implements Partial<UserPaymentService> {
+  loadPaymentMethods(): void {}
+  getPaymentMethods(): Observable<any[]> {
+    return of([]);
+  }
+}
+
+class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
+  deletePaymentDetails(): Observable<unknown> {
+    return of({});
+  }
+}
+
 const mockOpfMetadata: OpfMetadataModel = {
   isPaymentInProgress: true,
   selectedPaymentOptionId: 111,
@@ -146,6 +161,14 @@ describe('OpfCheckoutPaymentsComponent', () => {
         {
           provide: OpfCheckoutBillingAddressFormService,
           useValue: mockBillingAddressFormService,
+        },
+        {
+          provide: UserPaymentService,
+          useClass: MockUserPaymentService,
+        },
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentFacade,
         },
       ],
     })
