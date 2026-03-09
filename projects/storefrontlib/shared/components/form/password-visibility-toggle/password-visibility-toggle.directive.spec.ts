@@ -6,7 +6,8 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { MockTranslatePipe, TranslatePipe, WindowRef } from '@spartacus/core';
+import { FeatureDirective, MockTranslatePipe, TranslatePipe, WindowRef } from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';
@@ -71,8 +72,8 @@ describe('PasswordVisibilityToggleDirective', () => {
       ],
     })
       .overrideComponent(PasswordVisibilityToggleComponent, {
-        remove: { imports: [TranslatePipe, IconComponent] },
-        add: { imports: [MockTranslatePipe, MockIconComponent] },
+        remove: { imports: [TranslatePipe, IconComponent, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockIconComponent, MockFeatureDirective] },
       })
       .compileComponents();
   }));
