@@ -416,6 +416,13 @@ export interface FeatureTogglesInterface {
    * Affects: AddedToCartDialogComponent
    */
   a11yAddedToCartDialogHeading?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation between reviews and uses proper list
+   * semantics so screen readers announce list position
+   * Affects: ProductReviewsComponent
+   */
+  a11yReviewsKeyboardControls?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -464,4 +471,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
+  a11yReviewsKeyboardControls: false,
 };
