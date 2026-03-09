@@ -11,6 +11,7 @@ import {
   TranslatePipe,
   UserPaymentService,
 } from '@spartacus/core';
+import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 import {
   OpfActiveConfiguration,
   OpfActiveConfigurationsResponse,
@@ -19,8 +20,6 @@ import {
   OpfMetadataStoreService,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
-
 import {
   Component,
   DebugElement,
@@ -326,5 +325,89 @@ describe('OpfCheckoutPaymentsComponent', () => {
     );
 
     expect(paginationElement).toBeTruthy();
+  });
+
+  describe('changePayment', () => {
+    const mockPayment = mockActiveConfigurations[0]; // { id: 1, ... }
+
+    describe('when isSavedCardsSelected is false (normal path)', () => {
+      beforeEach(() => {
+        component['isSavedCardsSelected'] = false;
+      });
+
+      it('should set selectedPaymentId to the payment id', () => {
+        component.changePayment(mockPayment);
+        expect(component.selectedPaymentId).toBe(mockPayment.id);
+      });
+
+      it('should call updateOpfMetadata with the selected payment option id', () => {
+        component.changePayment(mockPayment);
+        expect(
+          opfMetadataStoreServiceMock.updateOpfMetadata
+        ).toHaveBeenCalledWith({
+          selectedPaymentOptionId: mockPayment.id,
+        });
+      });
+
+      it('should emit paymentChange with the payment', () => {
+        let emittedPayment: OpfActiveConfiguration | undefined;
+        component.paymentChange.subscribe((p) => (emittedPayment = p));
+        component.changePayment(mockPayment);
+        expect(emittedPayment).toEqual(mockPayment);
+      });
+
+      it('should NOT call checkoutPaymentFacade.deletePaymentDetails', () => {
+        const checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+        spyOn(checkoutPaymentFacade, 'deletePaymentDetails').and.callThrough();
+        component.changePayment(mockPayment);
+        expect(
+          checkoutPaymentFacade.deletePaymentDetails
+        ).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when isSavedCardsSelected is true (switching from saved card)', () => {
+      let checkoutPaymentFacade: CheckoutPaymentFacade;
+
+      beforeEach(() => {
+        checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+        component['isSavedCardsSelected'] = true;
+        spyOn(checkoutPaymentFacade, 'deletePaymentDetails').and.returnValue(
+          of({})
+        );
+      });
+
+      it('should reset isSavedCardsSelected to false', () => {
+        component.changePayment(mockPayment);
+        expect(component['isSavedCardsSelected']).toBe(false);
+      });
+
+      it('should set selectedPaymentId to the payment id', () => {
+        component.changePayment(mockPayment);
+        expect(component.selectedPaymentId).toBe(mockPayment.id);
+      });
+
+      it('should call checkoutPaymentFacade.deletePaymentDetails', () => {
+        component.changePayment(mockPayment);
+        expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
+      });
+
+      // finalize runs synchronously when the mock returns of({})
+      it('should call updateOpfMetadata with selectedPaymentOptionId after delete', () => {
+        component.changePayment(mockPayment);
+        expect(
+          opfMetadataStoreServiceMock.updateOpfMetadata
+        ).toHaveBeenCalledWith({
+          selectedPaymentOptionId: mockPayment.id,
+        });
+      });
+
+      it('should emit paymentChange with the payment after delete', () => {
+        let emittedPayment: OpfActiveConfiguration | undefined;
+        component.paymentChange.subscribe((p) => (emittedPayment = p));
+        component.changePayment(mockPayment);
+        expect(emittedPayment).toEqual(mockPayment);
+      });
+    });
   });
 });
