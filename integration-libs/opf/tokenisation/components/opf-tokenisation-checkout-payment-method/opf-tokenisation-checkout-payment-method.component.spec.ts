@@ -364,49 +364,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
         cxRoute: 'orderConfirmation',
       });
     });
-    // it('should create and select new payment method and redirect', () => {
-    //   const selectedPaymentMethod$ = new Subject<
-    //     QueryState<PaymentDetails | undefined>
-    //   >();
-    //   spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-    //     of(false)
-    //   );
-    //   spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-    //     of([])
-    //   );
-    //   spyOn(
-    //     mockCheckoutPaymentService,
-    //     'getPaymentDetailsState'
-    //   ).and.returnValue(selectedPaymentMethod$);
-    //   spyOn(
-    //     mockCheckoutPaymentService,
-    //     'createPaymentDetails'
-    //   ).and.callThrough();
-
-    //   component.ngOnInit();
-    //   fixture.detectChanges();
-
-    //   component.setPaymentDetails({
-    //     paymentDetails: mockPaymentDetails,
-    //     billingAddress: mockAddress,
-    //   });
-
-    //   expect(
-    //     mockCheckoutPaymentService.createPaymentDetails
-    //   ).toHaveBeenCalledWith({
-    //     ...mockPaymentDetails,
-    //     billingAddress: mockAddress,
-    //   });
-    //   selectedPaymentMethod$.next({
-    //     loading: false,
-    //     error: false,
-    //     data: mockPaymentDetails,
-    //   });
-    //   expect(checkoutStepService.next).toHaveBeenCalledWith(
-    //     <any>mockActivatedRoute
-    //   );
-    // });
-
     it('should not add select action for selected card', () => {
       const selectedPaymentMethod: PaymentDetails = {
         id: 'selected payment method',
@@ -534,8 +491,6 @@ describe('OpfTokenisationCheckoutPaymentMethodComponent', () => {
     });
 
     it('should NOT be able to select payment method if the selection is the same as the currently set payment details', () => {
-      // spy is already set in beforeEach
-      // set same payment in local BehaviorSubject BEFORE calling selectPaymentMethod
       component['selectedPaymentMethod$'].next(mockPayments[0]);
 
       component.selectPaymentMethod(mockPayments[0]);
