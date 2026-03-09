@@ -397,6 +397,13 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * Sets the ng-select (readonly) input value from the selected option text,
+   * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yNgSelectReadonlyInputValue?: boolean;
+
+  /**
    * Fixes doubled screen reader output by providing a static title and aria-label to the password visibility toggle.
    * Affects: `PasswordVisibilityToggleComponent`
    */
@@ -468,6 +475,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  a11yNgSelectReadonlyInputValue: false,
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
