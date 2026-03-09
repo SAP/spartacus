@@ -729,9 +729,7 @@ describe('UnitListService', () => {
         expect(result).toBeDefined();
         // Should find 'Services West' despite leading/trailing spaces and casing
         expect(
-          result.values.some(
-            (v: B2BUnitTreeNode) => v.uid === 'Services West'
-          )
+          result.values.some((v: B2BUnitTreeNode) => v.uid === 'Services West')
         ).toBeTrue();
       });
 
