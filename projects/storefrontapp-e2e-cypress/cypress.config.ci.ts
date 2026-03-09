@@ -12,7 +12,7 @@ const CLIENT_ID =
 
 const API_URL =
   JDK_VERSION === 'JDK21'
-    ? 'https://spartacus-devci7677.eastus.cloudapp.azure.com:8443'
+    ? 'https://spartacus-colosseum2.eastus.cloudapp.azure.com:8443'
     : 'https://20.83.184.244:9002';
 
 export default defineConfig({
