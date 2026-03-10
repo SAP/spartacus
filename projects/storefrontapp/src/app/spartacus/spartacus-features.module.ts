@@ -327,7 +327,7 @@ if (environment.cpq) {
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
-        authorizationCodeFlowByDefault: true,
+        authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
@@ -348,4 +348,4 @@ if (environment.cpq) {
     }),
   ],
 })
-export class SpartacusFeaturesModule {}
+export class SpartacusFeaturesModule { }
