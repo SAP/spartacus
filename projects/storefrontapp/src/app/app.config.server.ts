@@ -13,12 +13,15 @@ import { provideServerRendering } from '@angular/platform-server';
 import { TestConfigServerModule } from '@spartacus/setup/ssr';
 import { appConfig } from './app.config';
 import { AppServerModule } from './app.module.server';
-import { provideSitemapConfigExtractor } from '@spartacus/setup/sitemaps';
+import { provideSitemapGenerator } from '@spartacus/setup/sitemaps';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    provideSitemapConfigExtractor(),
+    provideSitemapGenerator({
+      baseUrl: process.env['SITEMAP_BASE_URL'] || 'http://localhost:4000',
+      occBaseUrl: process.env['SITEMAP_OCC_URL'] || 'https://40.76.109.9:9002',
+    }),
     importProvidersFrom(AppServerModule),
 
     importProvidersFrom(

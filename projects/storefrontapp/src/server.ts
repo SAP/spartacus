@@ -12,15 +12,8 @@ import {
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
-// Sitemap imports
-// setupSitemaps - Legacy Node.js approach (simple but doesn't use SemanticPathService)
-// createSitemapServingMiddleware - For serving pre-generated sitemaps
-// Angular services (SitemapGeneratorService, SitemapUrlService) - Recommended for production
 import {
-  // createProductUrlProvider,
-  // createSitemapServingMiddleware,
-  // setupSitemaps,
-  setupSsrBridgeSitemaps,
+  setupSitemapServing,
 } from '@spartacus/setup/sitemaps';
 import express from 'express';
 import { readFileSync } from 'node:fs';
@@ -48,49 +41,9 @@ export function app(): express.Express {
   const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
-  // Sitemap configuration
-  // NOTE: This uses the legacy Node.js-only approach.
-  // For production, consider using Angular-based SitemapGeneratorService
-  // which uses SemanticPathService for correct URL generation.
-  // See: @spartacus/setup/sitemaps documentation
-  // const sitemapEnabled = process.env['SITEMAP_ENABLED'] !== 'false';
-  // if (sitemapEnabled) {
-  //   // Use browserDistFolder to avoid triggering server watch mode restart
-  //   const sitemapOutputDir = join(browserDistFolder, 'sitemaps');
-  //
-  //   // Option 1: Legacy approach (current) - uses Node.js providers
-  //   // WARNING: Does not use SemanticPathService, URLs may not match app routing
-  //   setupSitemaps(server, {
-  //     config: {
-  //       baseUrl: process.env['SITEMAP_BASE_URL'] || 'https://localhost:4000',
-  //       occBaseUrl: process.env['SITEMAP_OCC_URL'] || 'https://40.76.109.9:9002',
-  //       baseSiteId: process.env['SITEMAP_BASE_SITE'] || 'electronics-spa',
-  //     },
-  //     providers: [createProductUrlProvider()],
-  //     outputDir: sitemapOutputDir,
-  //     generateOnStartup: true,
-  //   });
-
-    // Option 2: Angular-based approach (recommended)
-    // Sitemap generation is triggered via SSR render of a special route
-    // Use createSitemapServingMiddleware to serve pre-generated files:
-    // server.use(createSitemapServingMiddleware({ outputDir: sitemapOutputDir }));
-  // }
-  setupSsrBridgeSitemaps(server, {
-    baseUrl: 'http://localhost:4000',
-    occBaseUrl: 'https://40.76.109.9:9002',
-    baseSiteId: 'electronics-spa',
-    outputDir: join(browserDistFolder, 'sitemaps'),
-  });
-  //
-  // console.log(
-  //   'xxxxx',
-  //   ngExpressEngine({
-  //     bootstrap,
-  //   })
-  // );
-  // const injector = (await bootstrap({ platformRef: platformServer })).injector;
-  // injector.get('SitemapConfigExtractorService'); // Ensure config is extracted during bootstrap
+  // Sitemap: Angular generates sitemaps in SSR context (via provideSitemapGenerator),
+  // Express only serves the pre-generated XML from in-memory shared state.
+  setupSitemapServing(server);
 
   server.set('trust proxy', 'loopback');
 

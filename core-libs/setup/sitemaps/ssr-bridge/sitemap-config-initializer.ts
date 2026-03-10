@@ -13,71 +13,91 @@ import {
   runInInjectionContext,
 } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
-import { SitemapConfigExtractorService } from './sitemap-config-extractor.service';
+import {
+  SitemapConfigExtractorService,
+  SitemapSsrConfig,
+  SITEMAP_SSR_CONFIG,
+} from './sitemap-config-extractor.service';
 
 /**
- * Factory function for APP_INITIALIZER that extracts sitemap config.
- * This ensures the config is extracted during Angular bootstrap.
+ * Factory function for APP_INITIALIZER that triggers sitemap generation.
+ *
+ * IMPORTANT: This blocks the first SSR render until sitemaps are generated.
+ * This is required because Angular SSR creates a new injector per request,
+ * and the injector (with SemanticPathService, BaseSiteService, etc.) is
+ * destroyed after the render completes. We must finish generation while
+ * the injector is still alive.
+ *
+ * Subsequent SSR renders skip generation immediately (isReady check).
  */
-function sitemapConfigInitializerFactory(
+function sitemapGeneratorInitializerFactory(
   platformId: Object,
   injector: Injector
 ): () => Promise<void> {
-  return () => {
-    // Only run on server
+  return async () => {
     if (isPlatformServer(platformId)) {
-      // Run in injection context to properly instantiate the service
-      runInInjectionContext(injector, () => {
-        // This will trigger the constructor which extracts the config
-        injector.get(SitemapConfigExtractorService);
+      await runInInjectionContext(injector, async () => {
+        const service = injector.get(SitemapConfigExtractorService);
+        // Block until generation completes — we need the injector alive
+        await service.generateSitemaps();
       });
-      console.log('[Sitemap] Config extractor initialized');
     }
-    return Promise.resolve();
   };
 }
 
 /**
- * Provides the sitemap config extractor for SSR.
+ * Provides the sitemap generator for SSR.
  *
- * Add this to your server configuration to enable automatic
- * routing config extraction for sitemap generation.
+ * This is the main entry point for sitemap generation.
+ * Add to your server configuration to enable automatic sitemap generation
+ * using real Angular services (SemanticPathService, BaseSiteService, etc.).
  *
  * ## Usage
  *
  * ```typescript
  * // app.config.server.ts
- * import { provideSitemapConfigExtractor } from '@spartacus/setup/sitemaps/ssr-bridge';
+ * import { provideSitemapGenerator } from '@spartacus/setup/sitemaps';
  *
  * export const serverConfig: ApplicationConfig = {
  *   providers: [
- *     provideSitemapConfigExtractor(),
- *     // ... other providers
+ *     provideSitemapGenerator({
+ *       baseUrl: 'https://example.com',
+ *       occBaseUrl: 'https://api.example.com',
+ *     }),
  *   ],
  * };
  * ```
  *
  * ## How it works
  *
- * 1. During SSR bootstrap, APP_INITIALIZER triggers the extraction
- * 2. RoutingConfig is read from Angular DI
- * 3. Config is written to shared state (Node.js memory)
- * 4. Express middleware can then use this config for sitemap generation
+ * 1. During first SSR render, APP_INITIALIZER blocks and generates sitemaps
+ *    (subsequent SSR renders skip this — isReady check returns immediately)
+ * 2. SitemapConfigExtractorService fetches products from OCC API
+ * 3. URLs are generated using the REAL SemanticPathService (respects customer's RoutingConfig)
+ * 4. Complete XML sitemaps are stored in shared state (Node.js process memory)
+ * 5. Express middleware (setupSitemapServing) serves the pre-generated XML
  *
- * This approach ensures that customer routing customizations are
- * automatically picked up without requiring manual configuration sync.
+ * Customer routing customizations are automatically picked up.
+ *
+ * @param config - Sitemap configuration (baseUrl, occBaseUrl)
  */
-export function provideSitemapConfigExtractor(): EnvironmentProviders {
+export function provideSitemapGenerator(
+  config: SitemapSsrConfig
+): EnvironmentProviders {
   return makeEnvironmentProviders([
+    { provide: SITEMAP_SSR_CONFIG, useValue: config },
     SitemapConfigExtractorService,
     {
       provide: APP_INITIALIZER,
-      useFactory: sitemapConfigInitializerFactory,
+      useFactory: sitemapGeneratorInitializerFactory,
       deps: [PLATFORM_ID, Injector],
       multi: true,
     },
   ]);
 }
 
-
-
+/**
+ * @deprecated Use `provideSitemapGenerator()` instead.
+ * This is kept for backward compatibility.
+ */
+export const provideSitemapConfigExtractor = provideSitemapGenerator;

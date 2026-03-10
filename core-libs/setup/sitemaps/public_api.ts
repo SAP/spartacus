@@ -10,17 +10,8 @@ export * from './config/index';
 // Angular services (use SemanticPathService internally)
 export * from './angular/index';
 
-// Express middleware
+// Express middleware (serving only)
 export * from './express/index';
 
-// SSR-Bridge (connects Angular config to Express)
+// SSR-Bridge (Angular generates sitemaps, Express serves them)
 export * from './ssr-bridge/index';
-
-// URL transformation utilities
-export * from './utils/route-utils';
-
-// Legacy Node.js services (for backward compatibility)
-export * from './services/index';
-export * from './providers/index';
-// export * from './generator/index';
-

@@ -4,12 +4,43 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RoutesConfig } from '@spartacus/core';
 import { SitemapConfig, SitemapLanguageConfig } from '../config/sitemap-config';
 import { BaseSiteService } from '../services/base-site.service';
-import { transformRoute } from '../utils/route-utils';
+import { transformRoute, RoutesConfig } from '../utils/route-utils';
 import { LanguageUrls, SitemapUrlEntry, UrlProvider } from './url-provider';
 import { Occ } from '@spartacus/core';
+
+/**
+ * OCC product search response structure
+ */
+// interface OccProductSearchResponse {
+//   products?: Array<{
+//     code?: string;
+//     name?: string;
+//     url?: string;
+//   }>;
+//   pagination?: {
+//     currentPage?: number;
+//     pageSize?: number;
+//     totalPages?: number;
+//     totalResults?: number;
+//   };
+// }
+
+/**
+ * Default routes config for legacy approach (when not using SSR-Bridge)
+ */
+// const DEFAULT_ROUTES_CONFIG: RoutesConfig = {
+//   product: {
+//     paths: ['product/:productCode/:name', 'product/:productCode'],
+//     paramsMapping: { productCode: 'code' },
+//   },
+//   category: {
+//     paths: ['category/:categoryCode'],
+//     paramsMapping: { categoryCode: 'code' },
+//   },
+// };
+
 /**
  * URL Provider for product detail pages (PDP).
  * Fetches products from OCC API and generates sitemap URLs.
@@ -33,8 +64,7 @@ export class ProductUrlProvider implements UrlProvider {
   protected urlEncodingAttributes: string[] = [];
 
   constructor(customRoutes?: Partial<RoutesConfig>) {
-    // this.routesConfig = { ...DEFAULT_ROUTES_CONFIG, ...customRoutes };
-    this.routesConfig = customRoutes;
+    this.routesConfig = { ...DEFAULT_ROUTES_CONFIG, ...customRoutes };
   }
 
   async getUrlsByLanguage(config: SitemapConfig): Promise<LanguageUrls[]> {
@@ -189,7 +219,7 @@ export class ProductUrlProvider implements UrlProvider {
         return { urls: [], totalPages: 0 };
       }
 
-      const data: Occ.ProductSearchPage = await response.json();
+      const data: OccProductSearchResponse = await response.json();
 
       const urls = this.transformProductsToUrls(data.products || [], config, language);
       const totalPages = data.pagination?.totalPages ?? 1;
@@ -260,7 +290,7 @@ export class ProductUrlProvider implements UrlProvider {
  * @param customRoutes - Optional custom routes configuration
  * @deprecated Use setupSsrBridgeSitemaps() instead
  */
-export function createProductUrlProvider(customRoutes?: Partial<RoutesConfig>): UrlProvider {
+export function _createProductUrlProvider(customRoutes?: Partial<RoutesConfig>): UrlProvider {
   return new ProductUrlProvider(customRoutes);
 }
 

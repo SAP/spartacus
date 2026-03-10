@@ -42,6 +42,7 @@ export const defaultOccProductConfig: OccConfig = {
             'products/search?fields=products(code,purchasable,name,summary,price(formattedValue),stock(DEFAULT),images(DEFAULT,galleryIndex),baseProduct)',
           carouselMinimal:
             'products/search?fields=products(code,name,price(formattedValue),images(DEFAULT),baseProduct)',
+          sitemap: 'products(code,name)',
         },
         productSearchByCategory: {
           default: 'categories/${categoryCode}/products?fields=DEFAULT',
