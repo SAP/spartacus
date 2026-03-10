@@ -18,15 +18,16 @@ import {
   SitemapSsrConfig,
   SITEMAP_SSR_CONFIG,
 } from './sitemap-config-extractor.service';
+import { SITEMAP_URL_PROVIDERS } from '../model/sitemap-url-provider';
+import { ProductSitemapProvider } from '../providers/product-sitemap-provider';
 
 /**
  * Factory function for APP_INITIALIZER that triggers sitemap generation.
  *
  * IMPORTANT: This blocks the first SSR render until sitemaps are generated.
- * This is required because Angular SSR creates a new injector per request,
- * and the injector (with SemanticPathService, BaseSiteService, etc.) is
- * destroyed after the render completes. We must finish generation while
- * the injector is still alive.
+ * Angular SSR creates a new injector per request, and the injector
+ * (with SemanticPathService, etc.) is destroyed after render completes.
+ * We must finish generation while the injector is still alive.
  *
  * Subsequent SSR renders skip generation immediately (isReady check).
  */
@@ -48,45 +49,64 @@ function sitemapGeneratorInitializerFactory(
 /**
  * Provides the sitemap generator for SSR.
  *
- * This is the main entry point for sitemap generation.
- * Add to your server configuration to enable automatic sitemap generation
- * using real Angular services (SemanticPathService, BaseSiteService, etc.).
+ * ## Basic usage (zero-config)
  *
- * ## Usage
+ * Uses `OccConfig.backend.occ.baseUrl` automatically:
  *
  * ```typescript
  * // app.config.server.ts
- * import { provideSitemapGenerator } from '@spartacus/setup/sitemaps';
+ * providers: [
+ *   provideSitemapGenerator(),
+ * ]
+ * ```
  *
- * export const serverConfig: ApplicationConfig = {
- *   providers: [
- *     provideSitemapGenerator({
- *       baseUrl: 'https://example.com',
- *       occBaseUrl: 'https://api.example.com',
- *     }),
- *   ],
- * };
+ * ## With overrides
+ *
+ * ```typescript
+ * providers: [
+ *   provideSitemapGenerator({
+ *     baseUrl: 'https://my-storefront.com',  // override public URL
+ *   }),
+ * ]
+ * ```
+ *
+ * ## With custom URL providers
+ *
+ * ```typescript
+ * providers: [
+ *   provideSitemapGenerator(),
+ *   { provide: SITEMAP_URL_PROVIDERS, useClass: CategorySitemapProvider, multi: true },
+ * ]
  * ```
  *
  * ## How it works
  *
- * 1. During first SSR render, APP_INITIALIZER blocks and generates sitemaps
- *    (subsequent SSR renders skip this — isReady check returns immediately)
- * 2. SitemapConfigExtractorService fetches products from OCC API
- * 3. URLs are generated using the REAL SemanticPathService (respects customer's RoutingConfig)
- * 4. Complete XML sitemaps are stored in shared state (Node.js process memory)
- * 5. Express middleware (setupSitemapServing) serves the pre-generated XML
+ * 1. First SSR render triggers generation (subsequent renders skip)
+ * 2. Resolves site context from Angular DI (baseSite, languages, currencies)
+ * 3. Runs all registered `SITEMAP_URL_PROVIDERS` (default: ProductSitemapProvider)
+ * 4. URLs generated using real SemanticPathService (respects customer's RoutingConfig)
+ * 5. OCC endpoint uses `productSearch.sitemap` scope from OccConfig
+ * 6. Generated XML stored in shared state → Express serves it
  *
- * Customer routing customizations are automatically picked up.
- *
- * @param config - Sitemap configuration (baseUrl, occBaseUrl)
+ * @param config - Optional overrides for baseUrl/occBaseUrl
  */
 export function provideSitemapGenerator(
-  config: SitemapSsrConfig
+  config?: SitemapSsrConfig
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
-    { provide: SITEMAP_SSR_CONFIG, useValue: config },
+    // Optional config overrides
+    ...(config
+      ? [{ provide: SITEMAP_SSR_CONFIG, useValue: config }]
+      : []),
+    // Default product URL provider
+    {
+      provide: SITEMAP_URL_PROVIDERS,
+      useClass: ProductSitemapProvider,
+      multi: true,
+    },
+    // Orchestrator service
     SitemapConfigExtractorService,
+    // APP_INITIALIZER trigger
     {
       provide: APP_INITIALIZER,
       useFactory: sitemapGeneratorInitializerFactory,
@@ -96,8 +116,3 @@ export function provideSitemapGenerator(
   ]);
 }
 
-/**
- * @deprecated Use `provideSitemapGenerator()` instead.
- * This is kept for backward compatibility.
- */
-export const provideSitemapConfigExtractor = provideSitemapGenerator;

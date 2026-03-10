@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// Configuration
-export * from './config/index';
+// Models (interfaces, abstract classes, tokens)
+export * from './model/sitemap.model';
+export * from './model/sitemap-url-provider';
 
-// Angular services (use SemanticPathService internally)
-export * from './angular/index';
-
-// Express middleware (serving only)
-export * from './express/index';
+// Default URL providers
+export * from './providers/product-sitemap-provider';
 
 // SSR-Bridge (Angular generates sitemaps, Express serves them)
 export * from './ssr-bridge/index';
+
+// Express middleware (serving only)
+export * from './express/index';
