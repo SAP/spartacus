@@ -1,43 +1,45 @@
 <section [attr.aria-label]="'paymentForm.payment' | cxTranslate">
-  <ng-container *ngIf="cards$ | async as cards">
-    <ng-container *ngIf="!(isUpdating$ | async); else loading">
-      <ng-container *ngIf="cards?.length; then hasExistingPaymentMethods">
+  <ng-container *ngIf="showSavedCards$ | async">
+    <ng-container *ngIf="cards$ | async as cards">
+      <ng-container *ngIf="!(isUpdating$ | async); else loading">
+        <ng-container *ngIf="cards?.length; then hasExistingPaymentMethods">
+        </ng-container>
       </ng-container>
-    </ng-container>
 
-    <ng-template #hasExistingPaymentMethods>
-      <div class="cx-checkout-body row">
-        <div
-          class="cx-payment-card col-md-12 col-lg-6"
-          *ngFor="let card of cards; let i = index"
-        >
+      <ng-template #hasExistingPaymentMethods>
+        <div class="cx-checkout-body row">
           <div
-            class="cx-payment-card-inner"
-            (click)="selectPaymentMethod(card.paymentMethod)"
+            class="cx-payment-card col-md-12 col-lg-6"
+            *ngFor="let card of cards; let i = index"
           >
-            <cx-card
-              [border]="true"
-              [fitToContainer]="true"
-              [content]="card.content"
-              [index]="i"
-              (sendCard)="selectPaymentMethod(card.paymentMethod)"
-            ></cx-card>
+            <div
+              class="cx-payment-card-inner"
+              (click)="selectPaymentMethod(card.paymentMethod)"
+            >
+              <cx-card
+                [border]="true"
+                [fitToContainer]="true"
+                [content]="card.content"
+                [index]="i"
+                (sendCard)="selectPaymentMethod(card.paymentMethod)"
+              ></cx-card>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="row cx-checkout-btns">
-        <div class="col-md-12 col-lg-6">
-          <button
-            class="btn btn-block btn-primary"
-            [disabled]="!(selectedMethod$ | async)?.id"
-            (click)="next()"
-          >
-            {{ 'checkoutReview.placeOrder' | cxTranslate }}
-          </button>
+        <div class="row cx-checkout-btns">
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-block btn-primary"
+              [disabled]="!(selectedMethod$ | async)?.id"
+              (click)="next()"
+            >
+              {{ 'checkoutReview.placeOrder' | cxTranslate }}
+            </button>
+          </div>
         </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </ng-container>
   </ng-container>
 </section>
 

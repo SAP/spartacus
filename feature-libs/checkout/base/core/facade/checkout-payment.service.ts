@@ -116,9 +116,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
           this.checkoutPaymentConnector
             .deletePaymentDetails(userId, cartId)
             .pipe(
-              tap(() =>
-                this.eventService.dispatch({}, CheckoutQueryResetEvent)
-              )
+              tap(() => this.eventService.dispatch({}, CheckoutQueryResetEvent))
             )
         )
       )

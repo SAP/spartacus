@@ -7,6 +7,10 @@
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { OPF_TOKENISATION_FEATURE } from './feature-name';
 import { NgModule } from '@angular/core';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { OpfTokenisationSavedCardsToggleComponent } from './components/opf-tokenisation-saved-cards-toggle/opf-tokenisation-saved-cards-toggle.component';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
+import { OpfTokenisationCheckoutPaymentMethodComponent } from '../components/opf-tokenisation-checkout-payment-method/opf-tokenisation-checkout-payment-method.component';
 
 export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -22,6 +26,16 @@ export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfigFactory(defaultOpfTokenisationCmsComponentsConfig),
+    provideOutlet({
+      id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS,
+      component: OpfTokenisationSavedCardsToggleComponent,
+      position: OutletPosition.BEFORE,
+    }),
+    provideOutlet({
+      id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS,
+      component: OpfTokenisationCheckoutPaymentMethodComponent,
+      position: OutletPosition.AFTER,
+    }),
   ],
 })
-export class OpfTokenisationRootModule {}
+export class OpfTokenisationRootModule { }

@@ -37,6 +37,7 @@ import {
   ICON_TYPE,
   SelectFocusUtility,
   SpinnerComponent,
+  OutletContextData,
 } from '@spartacus/storefront';
 import {
   BehaviorSubject,
@@ -86,6 +87,12 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   protected checkoutStepService = inject(CheckoutStepService);
   protected globalMessageService = inject(GlobalMessageService);
   protected orderFacade = inject(OrderFacade);
+  protected outletContextData = inject<
+    OutletContextData<{
+      selectedPaymentId?: number;
+      savedCardsId?: number;
+    }>
+  >(OutletContextData as any, { optional: true });
 
   protected busy$ = new BehaviorSubject<boolean>(false);
   protected selectedPaymentMethod$ = new BehaviorSubject<
@@ -99,6 +106,17 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   isGuestCheckout = false;
   doneAutoSelect = false;
   paymentDetails?: PaymentDetails;
+
+  showSavedCards$: Observable<boolean> =
+    this.outletContextData?.context$.pipe(
+      map(
+        (ctx) =>
+          !!ctx &&
+          ctx.selectedPaymentId !== undefined &&
+          ctx.savedCardsId !== undefined &&
+          ctx.selectedPaymentId === ctx.savedCardsId
+      )
+    ) ?? of(false);
 
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
