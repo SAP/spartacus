@@ -27,7 +27,7 @@ Monorepo: `npm workspaces` and `Nx`
 See `ci-scripts/unit-tests.sh`
 
 ### Specific tests
-```
+```bash
 ## Add `--no-watch --source-map --code-coverage --browsers ChromeHeadless`
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
 nx run <library-name>:test --include="**/<spec-filename>" # Specific test file
