@@ -339,6 +339,11 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         searchBoxRecentSearchesRemoval: false,
+        a11yNgSelectReadonlyInputValue: true,
+        a11yPasswordVisibilityToggle: true,
+        showOnlyActiveCurrencies: true,
+        a11yAddedToCartDialogHeading: true,
+        a11yReviewsKeyboardControls: true,
       };
       return appFeatureToggles;
     }),

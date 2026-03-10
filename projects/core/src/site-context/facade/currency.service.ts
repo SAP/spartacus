@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { Currency } from '../../model/misc.model';
 import { isNotNullable } from '../../util/type-guards';
 import { getContextParameterValues } from '../config/context-config-utils';
@@ -23,6 +24,8 @@ import { SiteContext } from './site-context.interface';
  */
 @Injectable()
 export class CurrencyService implements SiteContext<Currency> {
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     protected store: Store<StateWithSiteContext>,
     protected config: SiteContextConfig
@@ -39,7 +42,12 @@ export class CurrencyService implements SiteContext<Currency> {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(isNotNullable)
+      filter(isNotNullable),
+      map((currencies) =>
+        this.featureConfigService.isEnabled('showOnlyActiveCurrencies')
+          ? currencies.filter((currency) => currency.active)
+          : currencies
+      )
     );
   }
 
