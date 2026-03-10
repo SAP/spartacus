@@ -22,7 +22,11 @@ Monorepo: `npm workspaces` and `Nx`
 - `projects/storefrontapp-e2e-cypress/` - E2E Browser tests (Cypress)
 - `projects/ssr-tests/` - E2E SSR tests (Node)
 
-## Running unit tests
+## Jasmine Test Angular libs
+### All library tests
+See `ci-scripts/unit-tests.sh`
+
+### Specific tests
 ```
 ## Add `--no-watch --source-map --code-coverage --browsers ChromeHeadless`
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
