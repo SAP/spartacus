@@ -156,7 +156,7 @@ function publishPackage(packagePath: string): Promise<PackagePublishingResult> {
       fs.readFileSync(packagePath, 'utf-8')
     );
     const directory = path.dirname(packagePath);
-    const command = `cd ${directory} && npm publish --registry=${verdaccioRegistryUrl} --no-git-tag-version --color always`;
+    const command = `cd ${directory} && npm publish --registry=${verdaccioRegistryUrl} --tag=latest --color always`;
     exec(command, {}, (error, stdout, stderr) => {
       if (error) {
         reject({
@@ -354,6 +354,22 @@ function testAllSchematics(): void {
   }
 }
 
+function parseCliCommand(): Command | undefined {
+  const index = process.argv.indexOf('--command');
+  if (index === -1) return undefined;
+
+  const command = process.argv[index + 1] as Command;
+  if (!commands.includes(command)) {
+    console.error(
+      chalk.red(
+        `\n❌ Unknown command: "${command}"\nAvailable commands: ${commands.join(', ')}`
+      )
+    );
+    process.exit(1);
+  }
+  return command;
+}
+
 const isVoiceNotifyEnabled = process.argv.includes('--voice-notify');
 if (isVoiceNotifyEnabled) {
   console.log('Voice notifications enabled');
@@ -466,18 +482,49 @@ async function executeCommand(command: Command): Promise<void> {
 
 let verdaccioProcess: ChildProcess | undefined;
 
+async function programNonInteractive(command: Command): Promise<void> {
+  const info = `
+   Verdaccio is still running at ${verdaccioRegistryUrl} — keep this process alive to install packages from it.
+   To re-publish libs (e.g. after source code changes), you MUST:
+   1. Kill this process (Ctrl+C / SIGTERM)
+   2. Rebuild libs: npm run build:libs
+   3. Restart this process
+`;
+
+  console.log(
+    chalk.yellow(
+      `\nℹ️  Running in non-interactive mode (because used --command "${command}")\n${info}`
+    )
+  );
+  await executeCommand(command);
+  console.log(
+    chalk.yellow('\nℹ️  Command "' + command + '" completed.\n' + info)
+  );
+  // Keep the process alive until killed
+  await new Promise(() => {});
+}
+
+async function programInteractive(): Promise<void> {
+  while (true) {
+    const response: { command: Command } = await prompt({
+      name: 'command',
+      type: 'select',
+      message: 'What do you want to do next?',
+      choices: [...commands],
+    });
+
+    await executeCommand(response.command);
+  }
+}
+
 async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
+  const cliCommand = parseCliCommand();
   try {
-    while (true) {
-      const response: { command: Command } = await prompt({
-        name: 'command',
-        type: 'select',
-        message: 'What do you want to do next?',
-        choices: [...commands],
-      });
-
-      await executeCommand(response.command);
+    if (cliCommand) {
+      await programNonInteractive(cliCommand);
+    } else {
+      await programInteractive();
     }
   } catch (e) {
     console.error(e);

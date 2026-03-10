@@ -22,6 +22,11 @@ $gutterSize: 15px;
     }
   }
 
+  .review-list {
+    padding: 0;
+    margin: 0;
+  }
+
   .review {
     display: grid;
     grid-template-columns: auto auto 10vw;
