@@ -35,7 +35,6 @@
               class="form-check-input"
               role="radio"
               type="radio"
-              name="paymentId"
               [value]="SAVED_CARDS_ID"
               [checked]="selectedPaymentId === SAVED_CARDS_ID"
               formControlName="paymentId"
@@ -101,7 +100,6 @@
                   class="form-check-input"
                   role="radio"
                   type="radio"
-                  name="paymentId"
                   [attr.aria-checked]="
                     (paymentDisabled$ | async) &&
                     configuration.id === selectedPaymentId
