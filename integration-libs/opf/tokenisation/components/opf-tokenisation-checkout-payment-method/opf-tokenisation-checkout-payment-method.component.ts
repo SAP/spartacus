@@ -75,6 +75,18 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
   protected routingService = inject(RoutingService);
+  protected userPaymentService = inject(UserPaymentService);
+  protected checkoutDeliveryAddressFacade = inject(
+    CheckoutDeliveryAddressFacade
+  );
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected translationService = inject(TranslationService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected orderFacade = inject(OrderFacade);
+
   protected busy$ = new BehaviorSubject<boolean>(false);
   protected selectedPaymentMethod$ = new BehaviorSubject<
     PaymentDetails | undefined
@@ -85,7 +97,6 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   iconTypes = ICON_TYPE;
   isGuestCheckout = false;
-  newPaymentFormManuallyOpened = false;
   doneAutoSelect = false;
   paymentDetails?: PaymentDetails;
 
@@ -110,17 +121,6 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   get selectedMethod$(): Observable<PaymentDetails | undefined> {
     return this.selectedPaymentMethod$.asObservable();
   }
-  constructor(
-    protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService,
-    protected orderFacade: OrderFacade
-  ) {}
 
   ngOnInit(): void {
     if (!getLastValueSync(this.activeCartFacade.isGuestCart())) {
