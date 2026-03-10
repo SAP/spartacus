@@ -58,7 +58,7 @@ export function defaultOpfCheckoutComponentsConfig() {
     provideDefaultConfig(defaultOpfCheckoutConfig),
     provideDefaultConfigFactory(defaultOpfCheckoutComponentsConfig),
     provideOutlet({
-      id: 'cx-opf-tokenisation-payment-methods',
+      id: 'cx-opf-checkout-before-payment-options',
       component: OpfTokenisationCheckoutPaymentMethodComponent,
       position: OutletPosition.REPLACE,
     }),

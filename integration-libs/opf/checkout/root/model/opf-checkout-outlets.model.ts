@@ -5,5 +5,5 @@
  */
 
 export enum OpfCheckoutOutlets {
-  OPF_TOKENISATION = 'cx-opf-tokenisation-payment-methods',
+  OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS = 'cx-opf-checkout-before-payment-options',
 }

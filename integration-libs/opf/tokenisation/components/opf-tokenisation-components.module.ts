@@ -12,7 +12,7 @@ import { OpfTokenisationPaymentMethodsComponent } from './opf-tokenisation-payme
   imports: [OpfTokenisationPaymentMethodsModule],
   providers: [
     provideOutlet({
-      id: 'cx-opf-tokenisation-payment-methods',
+      id: 'cx-opf-checkout-before-payment-options',
       component: OpfTokenisationPaymentMethodsComponent,
     }),
   ],
