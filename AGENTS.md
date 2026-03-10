@@ -1,6 +1,8 @@
 # Spartacus
+Spartacus is an Angular meta-framework for building e-commerce storefronts with SAP Commerce Cloud `OCC` backend.
 
-Spartacus is an Angular meta-framework for SAP Commerce Cloud e-commerce storefronts. It's a monorepo using npm workspaces + Nx.
+## Tech stack
+Monorepo: `npm workspaces` and `Nx`
 
 ## Directory Quick Reference
 
@@ -20,43 +22,9 @@ Spartacus is an Angular meta-framework for SAP Commerce Cloud e-commerce storefr
 - `projects/storefrontapp-e2e-cypress/` - E2E Browser tests (Cypress)
 - `projects/ssr-tests/` - E2E SSR tests (Node)
 
-### Other
-- `tools/eslint-rules/`
-- `ci-scripts/`
-- `.github/workflows/`
-
-## Library structure
-Described in `docs/libs/library-structure.md`
-
-## Common Commands
-
-```bash
-# Dev
-npm run start             # B2C dev server
-npm run start:b2b      # B2B dev server
-
-# Build (always build libs before app)
-npm run build:libs     # All libraries
-npm run build          # Demo app (requires libs built first)
-
-# Jasmine Test Angular libs
-# All library tests
-npm run test:libs              
-
-## Specific tests
+## Running unit tests
+```
 ## Add `--no-watch --source-map --code-coverage --browsers ChromeHeadless`
 nx run <library-name>:test         # Single library (e.g., nx run storefrontlib:test)
 nx run <library-name>:test --include="**/<spec-filename>" # Specific test file
-
-# Lint & Format
-npm run lint
-npm run prettier:fix
-
-# E2E
-npm run e2e:run
-npm run e2e:run:b2b
 ```
-
-## Critical Rules
-
-- **DO** export members in public API and use `protected`/`public` modifiers, because everything should be extendable by customers (except when explicitly marked as "internal API")
