@@ -73,13 +73,13 @@ export class AuthRedirectService implements OnDestroy {
             this.siteContextUrlSerializer.urlExtractContextParameters(
               this.router.url
             ).params;
-          let redirectBaseUrl =
+          let redirectPageContextUrl =
             this.siteContextUrlSerializer.urlExtractContextParameters(
               redirectUrl
             ).url;
           this.routing.goByUrl(
             this.siteContextUrlSerializer.combineUrlAndSiteContextUrlParams(
-              redirectBaseUrl,
+              redirectPageContextUrl,
               actualParams
             )
           );

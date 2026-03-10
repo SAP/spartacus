@@ -9,9 +9,9 @@ import {
 describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
     getUrlEncodingParameters: () => ['language', 'currency'],
-    getParamValues: (param) =>
+    getParamValues: (param: string) =>
       ({ language: ['en', 'de'], currency: ['usd', 'pln'] })[param],
-    getValue: (param) => ({ language: 'de', currency: 'usd' })[param],
+    getValue: (param: string) => ({ language: 'de', currency: 'usd' })[param],
   };
 
   let mockUrlTree: UrlTreeWithSiteContext;
@@ -139,6 +139,18 @@ describe('SiteContextUrlSerializer', () => {
         language: 'de',
         currency: 'pln',
       };
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('combineUrlAndSiteContextUrlParams', () => {
+    it('should combine url and ', () => {
+      const result = service.combineUrlAndSiteContextUrlParams('some/url', {
+        language: 'de',
+        currency: 'usd',
+      });
+      const expected = 'de/usd/some/url'
 
       expect(result).toEqual(expected);
     });
