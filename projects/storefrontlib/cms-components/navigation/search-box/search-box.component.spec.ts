@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  MockTranslatePipe,
   PageType,
   ProductSearchService,
   RouterState,
@@ -18,7 +19,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { MediaComponent } from '../../../shared/components/media/media.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';

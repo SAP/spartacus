@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { LanguageService, TranslatePipe } from '@spartacus/core';
+import {
+  LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
-import { TranslationService } from 'projects/core/src/i18n';
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
 import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
 

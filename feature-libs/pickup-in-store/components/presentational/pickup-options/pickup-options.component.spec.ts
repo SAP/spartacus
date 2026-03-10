@@ -6,10 +6,10 @@ import { By } from '@angular/platform-browser';
 import {
   FeatureConfigService,
   MockTranslatePipe,
+  MockTranslationService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { TAB_MODE, TabModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';

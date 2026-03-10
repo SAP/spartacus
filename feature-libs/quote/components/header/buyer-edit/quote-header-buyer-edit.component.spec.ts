@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import {
   EditCard,

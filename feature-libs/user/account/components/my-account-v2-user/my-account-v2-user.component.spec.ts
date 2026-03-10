@@ -3,13 +3,14 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   TranslatePipe,
+  TranslationService,
   UrlPipe,
   User,
 } from '@spartacus/core';
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { Observable, of } from 'rxjs';
 import { UserAccountFacade } from '../../root/facade';
@@ -50,8 +51,9 @@ describe('MyAccountV2UserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MyAccountV2UserComponent, I18nTestingModule],
+      imports: [MyAccountV2UserComponent],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: ActivatedRoute,
           useValue: {

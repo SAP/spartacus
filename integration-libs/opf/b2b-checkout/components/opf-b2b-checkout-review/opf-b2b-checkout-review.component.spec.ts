@@ -19,11 +19,12 @@ import {
   BaseSiteService,
   CmsService,
   CostCenter,
-  I18nTestingModule,
   MockTranslatePipe,
+  MockTranslationService,
   Page,
   QueryState,
   TranslatePipe,
+  TranslationService,
   UrlPipe,
 } from '@spartacus/core';
 import {
@@ -137,9 +138,9 @@ describe('OpfB2bCheckoutReviewComponent', () => {
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         OpfB2bCheckoutReviewComponent,
-        I18nTestingModule,
       ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: CheckoutPaymentTypeFacade,
           useClass: MockCheckoutPaymentTypeFacade,

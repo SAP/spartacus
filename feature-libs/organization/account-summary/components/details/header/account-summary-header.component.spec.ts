@@ -12,6 +12,8 @@ import { Observable, of } from 'rxjs';
 import {
   Address,
   LanguageService,
+  MockTranslatePipe,
+  MockTranslationService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -20,9 +22,6 @@ import {
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
 import { CardComponent } from '@spartacus/storefront';
-
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 
 import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 import { AccountSummaryHeaderComponent } from './account-summary-header.component';

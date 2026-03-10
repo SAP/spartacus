@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
-  I18nTestingModule,
   MockTranslatePipe,
+  MockTranslationService,
   PointOfService,
   RoutingService,
   TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, IconComponent, SpinnerModule } from '@spartacus/storefront';
@@ -56,8 +57,9 @@ describe('StoreFinderStoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, StoreFinderStoreComponent, I18nTestingModule],
+      imports: [SpinnerModule, StoreFinderStoreComponent],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
         {
           provide: StoreFinderService,

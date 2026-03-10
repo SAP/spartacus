@@ -2,11 +2,12 @@ import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CxDatePipe,
-  I18nTestingModule,
   LanguageService,
   MockDatePipe,
   MockTranslatePipe,
+  MockTranslationService,
   TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import {
@@ -82,9 +83,10 @@ describe('QuoteConfirmDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [QuoteConfirmDialogComponent, I18nTestingModule],
+      imports: [QuoteConfirmDialogComponent],
       providers: [
         CxDatePipe,
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,

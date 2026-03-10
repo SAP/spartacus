@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
+  MockTranslatePipe,
   MockTranslationService,
   TranslatePipe,
   TranslationService,
@@ -11,9 +13,7 @@ import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { FeatureDirective } from 'projects/core/src/features-config/directives/feature.directive';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 

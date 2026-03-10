@@ -2,7 +2,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
-  I18nTestingModule,
   MockTranslatePipe,
   MockTranslationService,
   TranslatePipe,
@@ -46,7 +45,7 @@ describe('StoreFinderListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [StoreFinderSearchResultComponent, I18nTestingModule],
+      imports: [StoreFinderSearchResultComponent],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },

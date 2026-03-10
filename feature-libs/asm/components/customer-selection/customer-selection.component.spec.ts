@@ -14,6 +14,7 @@ import {
   FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
+  MockTranslatePipe,
   TranslatePipe,
   User,
 } from '@spartacus/core';
@@ -24,7 +25,6 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockTranslatePipe } from 'projects/core/src/i18n/testing/mock-translate.pipe';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
