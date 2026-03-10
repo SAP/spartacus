@@ -20,6 +20,7 @@ import {
   CheckoutAuthGuard,
   CheckoutPaymentFormModule,
 } from '@spartacus/checkout/base/components';
+import { OpfTokenisationCheckoutPaymentMethodService } from './opf-tokenisation-checkout-payment-method.service';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import {
     OpfTokenisationCheckoutPaymentMethodComponent,
   ],
   providers: [
+    OpfTokenisationCheckoutPaymentMethodService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPaymentDetails: {
