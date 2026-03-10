@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
   Product,
   ProductReviewService,
@@ -16,6 +17,7 @@ import {
 } from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReviewsComponent } from './product-reviews.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -73,9 +75,20 @@ describe('ProductReviewsComponent in product', () => {
     })
       .overrideComponent(ProductReviewsComponent, {
         add: {
-          imports: [MockStarRatingComponent, I18nTestingModule],
+          imports: [
+            MockStarRatingComponent,
+            I18nTestingModule,
+            MockFeatureDirective,
+          ],
         },
-        remove: { imports: [StarRatingComponent, TranslatePipe, CxDatePipe] },
+        remove: {
+          imports: [
+            StarRatingComponent,
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+          ],
+        },
       })
       .compileComponents();
   }));
@@ -156,6 +169,49 @@ describe('ProductReviewsComponent in product', () => {
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'productDetails.noReviews'
       );
+    });
+  });
+
+  describe('Keyboard navigation', () => {
+    it('should focus the next review item', () => {
+      const items = productReviewsComponent.reviewItems.toArray();
+      spyOn(items[1].nativeElement, 'focus');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+
+      productReviewsComponent.focusNextReview(event, 0);
+
+      expect(items[1].nativeElement.focus).toHaveBeenCalled();
+    });
+
+    it('should stay on the last item when at the end', () => {
+      const items = productReviewsComponent.reviewItems.toArray();
+      const lastIndex = items.length - 1;
+      spyOn(items[lastIndex].nativeElement, 'focus');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+
+      productReviewsComponent.focusNextReview(event, lastIndex);
+
+      expect(items[lastIndex].nativeElement.focus).toHaveBeenCalled();
+    });
+
+    it('should focus the previous review item', () => {
+      const items = productReviewsComponent.reviewItems.toArray();
+      spyOn(items[0].nativeElement, 'focus');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+
+      productReviewsComponent.focusPreviousReview(event, 1);
+
+      expect(items[0].nativeElement.focus).toHaveBeenCalled();
+    });
+
+    it('should stay on the first item when at the beginning', () => {
+      const items = productReviewsComponent.reviewItems.toArray();
+      spyOn(items[0].nativeElement, 'focus');
+      const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+
+      productReviewsComponent.focusPreviousReview(event, 0);
+
+      expect(items[0].nativeElement.focus).toHaveBeenCalled();
     });
   });
 });
