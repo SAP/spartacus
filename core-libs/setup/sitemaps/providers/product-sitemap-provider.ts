@@ -5,11 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  OccConfig,
-  OccEndpointsService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { OccEndpointsService, SemanticPathService } from '@spartacus/core';
 import { SitemapUrlProvider } from '../model/sitemap-url-provider';
 import {
   SitemapGenerationContext,
@@ -59,7 +55,6 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
   readonly name = 'products';
 
   protected semanticPathService = inject(SemanticPathService);
-  protected occConfig = inject(OccConfig);
   protected occEndpointsService = inject(OccEndpointsService);
 
   /**
@@ -134,11 +129,7 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
     let totalPages = 1;
 
     do {
-      const searchUrl = this.buildSearchUrl(
-        context,
-        language,
-        currentPage
-      );
+      const searchUrl = this.buildSearchUrl(language, currentPage);
 
       try {
         const response = await fetch(searchUrl);
@@ -179,50 +170,23 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
   }
 
   /**
-   * Builds the OCC search URL using the `sitemap` scope from OCC endpoint config.
+   * Builds the OCC search URL using `OccEndpointsService.buildUrl()` with 'sitemap' scope.
    *
-   * Uses `productSearch.sitemap` endpoint scope which is configured as
-   * `'products(code,name)'` in `defaultOccProductConfig`.
-   * This ensures we use the same endpoint patterns as the rest of Spartacus.
+   * This respects customer's OCC endpoint configuration and uses the
+   * `productSearch.sitemap` scope which defaults to `'products(code,name)'`.
    */
   protected buildSearchUrl(
-    context: SitemapGenerationContext,
     language: string,
     page: number
   ): string {
-    // Use OccEndpointsService to resolve the productSearch endpoint with 'sitemap' scope
-    // This respects customer's OCC endpoint configuration
-    const endpointFields = this.getProductSearchFields();
-
-    const params = new URLSearchParams({
-      fields: endpointFields,
-      pageSize: String(this.maxPageSize),
-      currentPage: String(page),
-      lang: language,
+    return this.occEndpointsService.buildUrl('productSearch', {
+      queryParams: {
+        pageSize: this.maxPageSize,
+        currentPage: page,
+        lang: language,
+      },
+      scope: 'sitemap',
     });
-
-    return `${context.occBaseUrl}/occ/v2/${context.baseSiteId}/products/search?${params}`;
-  }
-
-  /**
-   * Resolves the `fields` parameter from OCC endpoint config.
-   * Tries to use `productSearch.sitemap` scope, falls back to minimal fields.
-   */
-  protected getProductSearchFields(): string {
-    try {
-      // Try to get the 'sitemap' scope from OCC endpoint configuration
-      const endpoints = this.occConfig.backend?.occ?.endpoints;
-      if (endpoints?.productSearch) {
-        const productSearch = endpoints.productSearch;
-        if (typeof productSearch === 'object' && 'sitemap' in productSearch) {
-          return (productSearch as Record<string, string>)['sitemap'];
-        }
-      }
-    } catch {
-      // Ignore errors, fall back to default
-    }
-    // Fallback: minimal fields for sitemap generation
-    return 'products(code,name)';
   }
 
   /**
