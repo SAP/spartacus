@@ -62,14 +62,14 @@
           </div>
 
           <!-- Saved Cards List Container (shown when saved cards radio is selected) -->
-          <div [hidden]="selectedPaymentId !== SAVED_CARDS_ID">
+          <ng-container *ngIf="selectedPaymentId === SAVED_CARDS_ID">
             <ng-template
               [cxOutlet]="
                 opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS
               "
             >
             </ng-template>
-          </div>
+          </ng-container>
 
           <!-- New Payment Options Heading -->
           <div
