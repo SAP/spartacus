@@ -405,6 +405,41 @@ export interface FeatureTogglesInterface {
    * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
    */
   a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * Sets the ng-select (readonly) input value from the selected option text,
+   * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yNgSelectReadonlyInputValue?: boolean;
+
+  /**
+   * Fixes doubled screen reader output by providing a static title and aria-label to the password visibility toggle.
+   * Affects: `PasswordVisibilityToggleComponent`
+   */
+  a11yPasswordVisibilityToggle?: boolean;
+
+  /**
+   * When enabled, only active currencies will be displayed in the currency selector.
+   * Currencies are filtered based on the `active` property returned from the backend.
+   * Affects: `CurrencyService`
+   */
+  showOnlyActiveCurrencies?: boolean;
+
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation between reviews and uses proper list
+   * semantics so screen readers announce list position
+   * Affects: ProductReviewsComponent
+   */
+  a11yReviewsKeyboardControls?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -451,4 +486,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
   a11yCarouselPreventNavigationFocus: true,
+  a11yNgSelectReadonlyInputValue: false,
+  a11yPasswordVisibilityToggle: false,
+  showOnlyActiveCurrencies: false,
+  a11yAddedToCartDialogHeading: false,
+  a11yReviewsKeyboardControls: false,
 };
