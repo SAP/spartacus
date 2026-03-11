@@ -5,7 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   EventService,
@@ -29,7 +34,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
-export class QuoteLinksComponent {
+export class QuoteLinksComponent implements OnInit {
   protected quoteFacade = inject(QuoteFacade);
   protected cartUtilsService = inject(CartUtilsService);
   protected eventService = inject(EventService);
@@ -38,6 +43,11 @@ export class QuoteLinksComponent {
   protected orderConfig = inject(OrderConfig);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+
+  ngOnInit(): void {
+    // Since the quote details page is cached, we need to make sure to reload the quote details
+    this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+  }
 
   /**
    * Creates a new cart and navigates according to the 'cart' route.
