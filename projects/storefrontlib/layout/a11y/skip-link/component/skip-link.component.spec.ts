@@ -1,7 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
+import { FocusDirective } from '../../keyboard-focus/focus.directive';
 import { SkipLink, SkipLinkConfig } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { SkipLinkComponent } from './skip-link.component';
@@ -44,7 +45,7 @@ describe('SkipLinkComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SkipLinkComponent, MockFocusDirective],
+      imports: [SkipLinkComponent],
       providers: [
         {
           provide: SkipLinkConfig,
@@ -52,7 +53,12 @@ describe('SkipLinkComponent', () => {
         },
         { provide: SkipLinkService, useClass: MockSkipLinkService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SkipLinkComponent, {
+        remove: { imports: [TranslatePipe, FocusDirective] },
+        add: { imports: [MockTranslatePipe, MockFocusDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(async () => {

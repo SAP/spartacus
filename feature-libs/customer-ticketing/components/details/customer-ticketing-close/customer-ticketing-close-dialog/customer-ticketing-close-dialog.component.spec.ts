@@ -1,7 +1,15 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS,
@@ -9,9 +17,12 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import {
   FocusConfig,
+  FocusDirective,
   FormErrorsModule,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
@@ -33,7 +44,6 @@ class MockRoutingService implements Partial<RoutingService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -41,7 +51,7 @@ class MockCxIconComponent {
 
 @Component({
   selector: 'cx-messaging',
-  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+  template: '',
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -50,7 +60,7 @@ class MockCxMessagingComponent {
 }
 
 @Directive({ selector: '[cxFocus]' })
-export class MockKeyboadFocusDirective {
+class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
@@ -62,13 +72,9 @@ describe('CustomerTicketingCloseDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         CustomerTicketingCloseDialogComponent,
-        MockCxIconComponent,
-        MockCxMessagingComponent,
-        MockKeyboadFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -77,8 +83,30 @@ describe('CustomerTicketingCloseDialogComponent', () => {
           useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCloseDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            MessagingComponent,
+            FocusDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockCxMessagingComponent,
+            MockKeyboardFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });
