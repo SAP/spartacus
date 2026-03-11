@@ -28,6 +28,7 @@ import {
 } from '@spartacus/storefront';
 import {
   GetSubscriptionBillsListReloadEvent,
+  SubscriptionBill,
   SubscriptionBillingFacade,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
@@ -224,5 +225,17 @@ export class SubscriptionBillingListComponent {
         maxDate: this.maxDate,
       }
     );
+  }
+
+  
+  getSubscriptionItems(result: SubscriptionBill) {
+    let billItems = '';
+    result.items?.slice(1).forEach((bill, index) => {
+      billItems = billItems + bill.productName;
+      if (index !== result.items.length - 2) {
+        billItems = billItems + ', ';
+      }
+    });
+    return billItems;
   }
 }

@@ -14,7 +14,9 @@
             type="text"
             disabled
             class="form-control"
-            [placeholder]="'subscriptionBillsList.dateRangeInputPlaceholder' | cxTranslate"
+            [placeholder]="
+              'subscriptionBillsList.dateRangeInputPlaceholder' | cxTranslate
+            "
             [value]="getDateRangeFieldValue()"
           />
           <button class="btn btn-tertiary btn-calendar">
@@ -91,7 +93,23 @@
           </td>
           <td>
             <div class="cx-billing-list-table-col">
-              {{ billing.numberOfSubscriptions }}
+              {{ billing.items?.[0]?.productName }}
+              <ng-container *ngIf="billing.items.length > 1">
+                ...
+                <a
+                  [title]="getSubscriptionItems(billing)"
+                  [routerLink]="
+                    {
+                      cxRoute: 'subscriptionBillingDetails',
+                      params: { subscriptionBillId: billing.documentNumber },
+                    } | cxUrl
+                  "
+                  >{{
+                    'subscriptionBillsList.descriptionSuffix'
+                      | cxTranslate: { numberOfItems: billing.items.length - 1 }
+                  }}
+                </a>
+              </ng-container>
             </div>
           </td>
           <td>

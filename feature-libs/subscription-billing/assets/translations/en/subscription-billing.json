@@ -86,6 +86,7 @@
     "submit": "Submit",
     "cancel": "Cancel",
     "clear": "Clear",
+    "descriptionSuffix": "{{ numberOfItems }} more",
     "dateRangeInputPlaceholder": "Click to select the dates",
     "dateRangeModalTitle": "Set The Date Range"
   },
