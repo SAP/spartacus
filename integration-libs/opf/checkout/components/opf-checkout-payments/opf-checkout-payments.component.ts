@@ -293,6 +293,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
+  onSavedCardsSelected(): void {
+    this.selectedPaymentId = this.SAVED_CARDS_ID;
+    this.isSavedCardsSelected = true;
+  }
+
   changePayment(payment: OpfActiveConfiguration): void {
     if (this.isSavedCardsSelected) {
       this.isSavedCardsSelected = false;
