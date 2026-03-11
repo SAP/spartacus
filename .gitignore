@@ -68,6 +68,9 @@ prettier.log
 .DS_Store
 Thumbs.db
 
+# Claude
+/.claude/settings.local.json
+
 **/git-ignore
 
 .nx/cache
