@@ -43,6 +43,7 @@ import {
   OpfPaymentFacade,
   OpfPaymentGlobalMethods,
   OpfPaymentInitiationConfig,
+  OpfPaymentChannel,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
   OpfPaymentSessionData,
@@ -654,6 +655,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     const configWithDefaults: OpfPaymentConfig = {
       ...paymentConfig,
       cartId: paymentConfig.cartId ?? cartId,
+      channel: paymentConfig.channel ?? OpfPaymentChannel.BROWSER,
       browserInfo:
         paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),
       resultURL:
