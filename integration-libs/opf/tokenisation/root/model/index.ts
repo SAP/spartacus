@@ -5,3 +5,4 @@
  */
 
 export { OpfPaymentDetails } from './payment.model';
+export { OpfSavedCardsToggleContext } from './opf-saved-cards-toggle.model';

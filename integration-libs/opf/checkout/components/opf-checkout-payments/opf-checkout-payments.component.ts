@@ -18,7 +18,6 @@ import {
 } from '@angular/core';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 import {
-  FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
   PaginationModel,
@@ -43,8 +42,8 @@ import {
   SpinnerComponent,
   OutletModule,
 } from '@spartacus/storefront';
-import { Observable, Subscription, of } from 'rxjs';
-import { map, finalize, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { OpfCheckoutOutlets } from '../../root/model';
@@ -77,7 +76,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   );
   protected userPaymentService = inject(UserPaymentService);
   protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
-  protected featureModules = inject(FeatureModulesService);
 
   protected subscription = new Subscription();
 
@@ -136,6 +134,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   readonly SAVED_CARDS_ID = -1;
 
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
+
+  readonly iconTypes = ICON_TYPE;
+
   selectedPaymentId?: number;
 
   protected isSavedCardsSelected = false;
@@ -145,18 +147,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   activeConfigurations$: Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   >;
-
-  hasSavedCards$: Observable<boolean> = this.featureModules.isConfigured(
-    'opfTokenisation'
-  )
-    ? this.userPaymentService
-        .getPaymentMethods()
-        .pipe(map((methods) => (methods?.length ?? 0) > 0))
-    : of(false);
-
-  iconTypes = ICON_TYPE;
-
-  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
 
   @Output() paymentChange = new EventEmitter<OpfActiveConfiguration>();
 

@@ -42,6 +42,7 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   isUpdating$: Observable<boolean>;
   selectedMethod$: Observable<PaymentDetails | undefined>;
+  showSavedCards$: Observable<boolean>;
 
   ngOnInit(): void {
     this.OpfTokenisationCheckoutPaymentMethodService.initialize();
@@ -50,6 +51,8 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
       this.OpfTokenisationCheckoutPaymentMethodService.isUpdating$;
     this.selectedMethod$ =
       this.OpfTokenisationCheckoutPaymentMethodService.selectedMethod$;
+    this.showSavedCards$ =
+      this.OpfTokenisationCheckoutPaymentMethodService.showSavedCards$;
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
@@ -57,7 +60,6 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
       paymentDetails
     );
   }
-
   setPaymentDetails({
     paymentDetails,
     billingAddress,

@@ -10,83 +10,39 @@
       <div class="cx-payment-options-list">
         <ng-content></ng-content>
 
-        <!-- Saved Payment Options Section (only shown if saved cards exist) -->
-        <ng-container *ngIf="hasSavedCards$ | async">
-          <!-- Saved Payment Options Heading -->
-          <div
-            class="cx-payment-options-section"
-            [attr.aria-label]="
-              savedPaymentHeadingKey || 'opfCheckout.savedPaymentHeading'
-                | cxTranslate
-            "
-          >
-            <h3 class="cx-payment-section-heading">
-              {{
-                savedPaymentHeadingKey || 'opfCheckout.savedPaymentHeading'
-                  | cxTranslate
-              }}
-            </h3>
-          </div>
+        <!-- Saved Payment Options Section.
+             We don't need an extra *ngIf guard here: if tokenisation is not configured,
+             no outlet implementation will be registered and nothing will render. -->
+        <!-- Saved cards toggle (radio) -->
+        <ng-template
+          [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
+          [cxOutletContext]="{
+            selectedPaymentId: selectedPaymentId,
+            savedCardsId: SAVED_CARDS_ID,
+            disabled:
+              (paymentDisabled$ | async) ||
+              (disabled && explicitTermsAndConditions),
+            savedCardsSelected: onSavedCardsSelected.bind(this),
+          }"
+        >
+        </ng-template>
+        <!-- Saved Cards List Container is now handled inside the outlet implementation. -->
 
-          <!-- Saved Payment Methods as Single Radio Option -->
-          <div class="form-check cx-saved-cards-option">
-            <input
-              id="paymentId-saved-cards"
-              class="form-check-input"
-              role="radio"
-              type="radio"
-              [value]="SAVED_CARDS_ID"
-              [checked]="selectedPaymentId === SAVED_CARDS_ID"
-              formControlName="paymentId"
-              [disabled]="
-                (paymentDisabled$ | async) ||
-                (disabled && explicitTermsAndConditions)
-              "
-              (change)="onSavedCardsSelected()"
-            />
-
-            <label
-              class="cx-payment-type-label form-check-label form-radio-label"
-              for="paymentId-saved-cards"
-            >
-              <div class="cx-payment-type">
-                <cx-icon
-                  [type]="iconTypes.CREDIT_CARD"
-                  class="cx-payment-icon"
-                ></cx-icon>
-                <span>{{
-                  savedCardsHeadingKey || 'opfCheckout.cards' | cxTranslate
-                }}</span>
-              </div>
-            </label>
-          </div>
-
-          <!-- Saved Cards List Container (shown when saved cards radio is selected) -->
-          <ng-container *ngIf="selectedPaymentId === SAVED_CARDS_ID">
-            <ng-template
-              [cxOutlet]="
-                opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS
-              "
-            >
-            </ng-template>
-          </ng-container>
-
-          <!-- New Payment Options Heading -->
-          <div
-            class="cx-payment-options-section"
-            [attr.aria-label]="
+        <!-- New Payment Options Heading -->
+        <div
+          class="cx-payment-options-section"
+          [attr.aria-label]="
+            newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
+              | cxTranslate
+          "
+        >
+          <h3 class="cx-payment-section-heading">
+            {{
               newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
                 | cxTranslate
-            "
-          >
-            <h3 class="cx-payment-section-heading">
-              {{
-                newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
-                  | cxTranslate
-              }}
-            </h3>
-          </div>
-        </ng-container>
+            }}
+          </h3>
+        </div>
 
         <div
           *ngFor="let configuration of activeConfigurationsState?.data?.value"

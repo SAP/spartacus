@@ -24,7 +24,11 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { Card, SelectFocusUtility } from '@spartacus/storefront';
+import {
+  Card,
+  OutletContextData,
+  SelectFocusUtility,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -40,6 +44,7 @@ import { Order, OrderFacade } from '@spartacus/order/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation';
 
 @Injectable()
 export class OpfTokenisationCheckoutPaymentMethodService {
@@ -58,11 +63,21 @@ export class OpfTokenisationCheckoutPaymentMethodService {
   protected checkoutDeliveryAddressFacade = inject(
     CheckoutDeliveryAddressFacade
   );
+
+  protected outletContextData = inject<
+    OutletContextData<OpfSavedCardsToggleContext>
+  >(OutletContextData as any, { optional: true });
+
   paymentDetails?: PaymentDetails;
   isGuestCheckout = false;
 
   @Optional() protected windowRef = inject(WindowRef);
   @Optional() protected focusService = inject(SelectFocusUtility);
+
+  showSavedCards$: Observable<boolean> =
+    this.outletContextData?.context$.pipe(
+      map((ctx) => ctx?.selectedPaymentId === ctx?.savedCardsId)
+    ) ?? of(false);
 
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
