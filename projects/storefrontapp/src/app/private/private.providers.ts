@@ -18,6 +18,18 @@ import { TestOutletModule } from '../../test-outlets/test-outlet.module';
  */
 export const privateProviders = makeEnvironmentProviders([
   provideConfig({
+    // Custom OCC backend configuration:
+    backend: {
+      occ: {
+        baseUrl: environment.occBaseUrl,
+        prefix: environment.occApiPrefix,
+      },
+      media: {
+        baseUrl: environment.mediaBaseUrl,
+        prefix: environment.mediaApiPrefix,
+      },
+    },
+
     // Custom routing configuration for e2e testing:
     routing: {
       routes: {
