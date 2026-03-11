@@ -3,7 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -14,7 +20,9 @@ import {
   BreakpointService,
   DirectionMode,
   DirectionService,
+  FocusDirective,
   HamburgerMenuService,
+  IconComponent,
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { NEVER, Observable, of } from 'rxjs';
@@ -190,7 +198,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+  imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -241,12 +249,9 @@ describe('ConfiguratorGroupMenuComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupMenuComponent,
-        MockCxIconComponent,
-        MockFocusDirective,
       ],
       providers: [
         HamburgerMenuService,
@@ -278,8 +283,19 @@ describe('ConfiguratorGroupMenuComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorGroupMenuComponent, {
+        remove: { imports: [TranslatePipe, FocusDirective, IconComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockFocusDirective, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
