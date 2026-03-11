@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
@@ -994,6 +994,52 @@ describe('ActiveCartService', () => {
           }, 10);
         });
     });
+
+    it('should timeout and clear cache if cart loading takes too long', fakeAsync(() => {
+      // Simulate a cart entity that never completes (hung request)
+      const neverCompletingCart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: true, // Stays loading forever
+        success: false,
+        error: false,
+        value: undefined,
+      });
+
+      service['cartEntity$'] = neverCompletingCart$.asObservable();
+      service['activeCartId$'] = of('test-cart-id');
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      let errorReceived = false;
+      let errorType: any;
+
+      // Call requireLoadedCart - this should cache the observable
+      service['requireLoadedCart']().subscribe({
+        next: () => {
+          fail('Should not emit a value when timing out');
+        },
+        error: (err) => {
+          errorReceived = true;
+          errorType = err;
+        },
+      });
+
+      // Verify cache is set
+      expect(service['loadedCart$']).not.toBeNull();
+
+      // Advance time to just before timeout (14.9 seconds)
+      tick(14900);
+      expect(errorReceived).toBe(false);
+      expect(service['loadedCart$']).not.toBeNull();
+
+      // Advance past timeout threshold (15 seconds total)
+      tick(200);
+
+      // Should have received timeout error
+      expect(errorReceived).toBe(true);
+      expect(errorType.name).toBe('TimeoutError');
+
+      // Cache should be cleared by finalize
+      expect(service['loadedCart$']).toBeNull();
+    }));
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
