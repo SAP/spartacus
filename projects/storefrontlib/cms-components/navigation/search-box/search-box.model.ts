@@ -23,16 +23,3 @@ export interface SearchResults {
   suggestions?: string[];
   recentSearches?: string[];
 }
-
-/**
- * CDS Profile Tag window object interface.
- * This is a minimal subset of the CDS ProfileTagWindowObject interface
- * needed by search-box component to avoid circular dependency with CDS integration library.
- */
-export interface ProfileTagWindowObject extends Window {
-  Y_TRACKING?: {
-    recentSearches?: {
-      clearPhrases(): void;
-    };
-  };
-}

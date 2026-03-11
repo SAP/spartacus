@@ -1,0 +1,15 @@
+<ng-container *ngIf="context$ | async as ctx">
+  <h3 class="recentSearches-header">
+    <div>
+      {{ 'searchBox.recentSearches' | cxTranslate }}
+    </div>
+    <button
+      *cxFeature="'searchBoxRecentSearchesRemoval'"
+      class="btn btn-tertiary clear-recent-searches-btn"
+      (click)="ctx.clearRecentSearches?.($event)"
+      (keydown.arrowdown)="ctx.focusPreviousGroup?.($any($event))"
+    >
+      {{ 'common.clear' | cxTranslate }}
+    </button>
+  </h3>
+</ng-container>

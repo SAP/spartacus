@@ -12,13 +12,16 @@ import {
   IconModule,
   OutletPosition,
   provideOutlet,
+  RECENT_SEARCHES_HEADER_CLEAR_SERVICE,
   SearchBoxModule,
   SearchBoxOutlets,
 } from '@spartacus/storefront';
+import { RecentSearchesHeaderComponent } from './recent-searches-header.component';
 import { RecentSearchesComponent } from './recent-searches.component';
+import { RecentSearchesService } from './recent-searches.service';
 
 @NgModule({
-  exports: [RecentSearchesComponent],
+  exports: [RecentSearchesComponent, RecentSearchesHeaderComponent],
   imports: [
     CommonModule,
     FeaturesConfigModule,
@@ -27,6 +30,7 @@ import { RecentSearchesComponent } from './recent-searches.component';
     UrlModule,
     RouterModule,
     RecentSearchesComponent,
+    RecentSearchesHeaderComponent,
     IconModule,
   ],
   providers: [
@@ -35,6 +39,15 @@ import { RecentSearchesComponent } from './recent-searches.component';
       component: RecentSearchesComponent,
       position: OutletPosition.AFTER,
     }),
+    provideOutlet({
+      id: SearchBoxOutlets.RECENT_SEARCHES_HEADER,
+      component: RecentSearchesHeaderComponent,
+      position: OutletPosition.REPLACE,
+    }),
+    {
+      provide: RECENT_SEARCHES_HEADER_CLEAR_SERVICE,
+      useExisting: RecentSearchesService,
+    },
   ],
 })
 export class RecentSearchesModule {}

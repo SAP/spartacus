@@ -12,6 +12,7 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
+  Inject,
   inject,
   Input,
   OnDestroy,
@@ -23,6 +24,7 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
+  FeatureConfigService,
   FeatureDirective,
   PageType,
   RoutingService,
@@ -50,16 +52,15 @@ import { MediaComponent } from '../../../shared/components/media/media.component
 import { IconComponent } from '../../misc/icon/icon.component';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { SearchBoxOutlets } from './search-box-outlets.model';
+import {
+  RECENT_SEARCHES_HEADER_CLEAR_SERVICE,
+  SearchBoxOutlets,
+} from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
-import {
-  ProfileTagWindowObject,
-  SearchBoxConfig,
-  SearchResults,
-} from './search-box.model';
+import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,
@@ -205,6 +206,32 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   chosenWord = '';
 
+  /**
+   * Tracks whether the search box currently has a non-empty query.
+   * Used to decide if results should be rendered at all.
+   */
+  protected hasQuery = false;
+
+  /**
+   * Cached check whether the searchBoxRecentSearchesRemoval feature is enabled.
+   * Used to switch between legacy and new recent-searches structures.
+   */
+  protected readonly searchBoxRecentSearchesRemovalEnabled =
+    this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval');
+
+  /**
+   * Returns true when the current results represent a \"no results\" state.
+   * Used to hide recent searches when there are no suggestions or products.
+   */
+  isNoResults(result: SearchResults | null | undefined): boolean {
+    if (!result) {
+      return false;
+    }
+    const hasSuggestions = (result.suggestions?.length ?? 0) > 0;
+    const hasProducts = (result.products?.length ?? 0) > 0;
+    return !hasSuggestions && !hasProducts;
+  }
+
   protected subscriptions = new Subscription();
 
   get isMobile(): Observable<boolean> | undefined {
@@ -219,9 +246,35 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected featureConfigService: FeatureConfigService,
+    @Optional()
+    @Inject(RECENT_SEARCHES_HEADER_CLEAR_SERVICE)
+    protected recentSearchesHeaderClearService: { clearPhrases(): void } | null
   ) {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
+  }
+
+  /**
+   * Context for the RECENT_SEARCHES_HEADER outlet (title + optional Clear button).
+   * When RECENT_SEARCHES_HEADER_CLEAR_SERVICE is provided (for example, by CDS),
+   * clearRecentSearches is set and will call through to that service.
+   */
+  protected get recentSearchesHeaderContext(): {
+    clearRecentSearches?(event?: MouseEvent): void;
+    focusPreviousGroup?(event: UIEvent): void;
+  } {
+    return {
+      clearRecentSearches: (event?: MouseEvent) => {
+        if (event) {
+          event.stopPropagation();
+          event.preventDefault();
+          event.stopImmediatePropagation?.();
+        }
+        this.recentSearchesHeaderClearService?.clearPhrases();
+      },
+      focusPreviousGroup: (event: UIEvent) => this.focusPreviousGroup(event),
+    };
   }
 
   /**
@@ -307,16 +360,21 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
-    this.searchBoxComponentService.search(query, this.config);
+    const trimmedQuery = query?.trim() ?? '';
 
-    this.checkOuterResults();
-    // Close search box if query is empty, otherwise open it
-    if (!query || query.trim().length === 0) {
+    // When query is empty, clear results and close the panel
+    if (!trimmedQuery) {
+      this.hasQuery = false;
+      this.searchBoxComponentService.clearResults();
       this.close(true);
-    } else {
-      // force the searchBox to open
-      this.open();
+      return;
     }
+
+    this.hasQuery = true;
+    this.searchBoxComponentService.search(trimmedQuery, this.config);
+    this.checkOuterResults();
+    // force the searchBox to open
+    this.open();
   }
 
   /**
@@ -324,10 +382,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     if (!this.searchBoxActive) {
-      // Check if input has text before opening
       const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
-      if (!this.isMobile && (!inputValue || inputValue.trim().length === 0)) {
-        return; // Don't open if input is empty
+      const trimmed = inputValue.trim();
+      if (!trimmed) {
+        // Don't open results when there is no query
+        return;
       }
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
       this.searchBoxActive = true;
@@ -771,6 +830,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   clear(el: HTMLInputElement): void {
     this.disableClose();
     el.value = '';
+    this.hasQuery = false;
     this.searchBoxComponentService.clearResults();
 
     // Use Timeout to run after blur event to prevent the searchbox from closing on mobile
@@ -782,25 +842,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Clears all recent search phrases from Profile Tag
+   * Component cleanup
    */
-  clearRecentSearches(event: MouseEvent): void {
-    if (event) {
-      event.stopPropagation();
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const recentSearches = (this.winRef.nativeWindow as ProfileTagWindowObject)
-      ?.Y_TRACKING?.recentSearches;
-    if (!recentSearches) {
-      return;
-    }
-
-    if (typeof recentSearches.clearPhrases === 'function') {
-      recentSearches.clearPhrases();
-    }
-  }
-
   ngOnDestroy(): void {
     this.subscriptions?.unsubscribe();
   }

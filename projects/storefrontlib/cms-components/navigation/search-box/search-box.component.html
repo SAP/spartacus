@@ -54,7 +54,7 @@
 </div>
 
 <div
-  *ngIf="results$ | async as result"
+  *ngIf="hasQuery && (results$ | async) as result"
   class="results"
   id="results"
   (click)="handleResultsClick($any($event))"
@@ -128,15 +128,34 @@
   </div>
 
   <!--  RECENT SEARCHES-->
-  <ng-template
-    *ngIf="config.recentSearches"
-    [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
-    [cxOutletContext]="{
-      search: searchInputEl?.nativeElement?.value ?? '',
-      searchBoxActive: searchBoxActive,
-      maxRecentSearches: config.maxRecentSearches,
-    }"
-  ></ng-template>
+  <ng-container
+    *ngIf="
+      searchBoxRecentSearchesRemovalEnabled;
+      else legacyRecentSearchesStructure
+    "
+  >
+    <ng-template
+      *ngIf="config.recentSearches && !isNoResults(result)"
+      [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
+      [cxOutletContext]="{
+        search: searchInputEl?.nativeElement?.value ?? '',
+        searchBoxActive: searchBoxActive,
+        maxRecentSearches: config.maxRecentSearches,
+      }"
+    ></ng-template>
+  </ng-container>
+
+  <ng-template #legacyRecentSearchesStructure>
+    <ng-template
+      *ngIf="config.recentSearches"
+      [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
+      [cxOutletContext]="{
+        search: searchInputEl?.nativeElement?.value ?? '',
+        searchBoxActive: searchBoxActive,
+        maxRecentSearches: config.maxRecentSearches,
+      }"
+    ></ng-template>
+  </ng-template>
   <!--RESULT  PRODUCTS-->
   <div class="products">
     <h3 *ngIf="result.products?.length">
@@ -214,18 +233,17 @@
         {{ 'searchBox.trendingSearches' | cxTranslate }}
       </h3>
       <h3 class="recentSearches-header">
-        <div>
-          {{ 'searchBox.recentSearches' | cxTranslate }}
-        </div>
-        <button
-          *cxFeature="'searchBoxRecentSearchesRemoval'"
-          class="btn btn-tertiary clear-recent-searches-btn"
-          (click)="clearRecentSearches($event)"
-          (keydown.arrowdown)="focusPreviousGroup($any($event))"
-        >
-          {{ 'common.clear' | cxTranslate }}
-        </button>
+        {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
+      <ng-template
+        *cxFeature="'searchBoxRecentSearchesRemoval'"
+        [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER"
+        [cxOutletContext]="recentSearchesHeaderContext"
+      >
+        <h3 class="recentSearches-header">
+          {{ 'searchBox.recentSearches' | cxTranslate }}
+        </h3>
+      </ng-template>
       <h3 class="products-header" *ngIf="result.products?.length">
         {{ 'searchBox.products' | cxTranslate }}
       </h3>

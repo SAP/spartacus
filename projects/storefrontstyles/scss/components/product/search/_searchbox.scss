@@ -473,7 +473,7 @@
           width: 20%;
           display: none;
           @include forFeature('searchBoxRecentSearchesRemoval') {
-            width: 24%;
+            width: 100%;
             button {
               min-height: 20px;
               padding: 0 30px;
