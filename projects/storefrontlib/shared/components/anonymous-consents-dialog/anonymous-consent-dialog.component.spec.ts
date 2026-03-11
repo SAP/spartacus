@@ -8,26 +8,28 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { ConsentManagementFormComponent } from '../../../cms-components/myaccount/consent-management/components/consent-form/consent-management-form.component';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
+import { MockKeyboardFocusDirective } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
 import { LaunchDialogService } from '../../../layout/launch-dialog/index';
-import { MockFeatureDirective } from '../../test/mock-feature-directive';
+import { SpinnerComponent } from '../spinner/spinner.component';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-icon',
   template: ``,
-  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: string;
@@ -36,7 +38,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-consent-management-form',
   template: ``,
-  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -93,15 +94,7 @@ describe('AnonymousConsentsDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        KeyboardFocusTestingModule,
-        AnonymousConsentDialogComponent,
-        MockCxIconComponent,
-        MockConsentManagementFormComponent,
-        MockCxSpinnerComponent,
-        MockFeatureDirective,
-      ],
+      imports: [AnonymousConsentDialogComponent],
       providers: [
         {
           provide: AnonymousConsentsService,
@@ -121,7 +114,28 @@ describe('AnonymousConsentsDialogComponent', () => {
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(AnonymousConsentDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            FocusDirective,
+            IconComponent,
+            ConsentManagementFormComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockKeyboardFocusDirective,
+            MockCxIconComponent,
+            MockConsentManagementFormComponent,
+            MockCxSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

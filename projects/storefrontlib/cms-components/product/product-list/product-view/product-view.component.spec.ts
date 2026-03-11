@@ -2,13 +2,13 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../misc/icon/icon.component';
 import { ProductViewComponent, ViewModes } from './product-view.component';
 
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [NgSelectModule, FormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -20,14 +20,13 @@ describe('ProductViewComponent in product-list', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgSelectModule,
-        FormsModule,
-        I18nTestingModule,
-        ProductViewComponent,
-        MockCxIconComponent,
-      ],
-    }).compileComponents();
+      imports: [NgSelectModule, FormsModule, ProductViewComponent],
+    })
+      .overrideComponent(ProductViewComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
