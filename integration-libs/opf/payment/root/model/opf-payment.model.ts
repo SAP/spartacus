@@ -110,6 +110,10 @@ export interface OpfPaymentSubmitInput {
   savePaymentMethod?: boolean;
 }
 
+export enum OpfPaymentChannel {
+  BROWSER = 'BROWSER',
+}
+
 export enum OpfPaymentSubmitStatus {
   REJECTED = 'REJECTED',
   ACCEPTED = 'ACCEPTED',
