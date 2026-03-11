@@ -28,6 +28,7 @@ import {
   OpfPaymentErrorType,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentChannel,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitCompleteRequest,
   OpfPaymentSubmitCompleteResponse,
@@ -71,7 +72,7 @@ export class OpfPaymentHostedFieldsService {
     const submitRequest: OpfPaymentSubmitRequest = {
       paymentMethod,
       additionalData,
-      channel: 'BROWSER',
+      channel: OpfPaymentChannel.BROWSER,
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
       savePaymentMethod,
     };
