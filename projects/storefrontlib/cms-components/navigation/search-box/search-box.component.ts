@@ -313,6 +313,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
+    const configSubscription = this.config$.subscribe();
+    this.subscriptions.add(configSubscription);
+
     const routeStateSubscription = this.routingService
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
