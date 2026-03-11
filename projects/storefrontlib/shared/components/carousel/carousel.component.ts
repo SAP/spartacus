@@ -118,13 +118,6 @@ export class CarouselComponent implements OnInit, OnChanges {
   @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
 
   /**
-   * When true, prevents default mousedown behavior on navigation buttons to avoid
-   * unwanted blur events (e.g., in Safari when carousel is used inside modals or search boxes).
-   * Defaults to false to maintain backward compatibility.
-   */
-  @Input() preventNavigationFocus = false;
-
-  /**
    * Angular's trackBy function for iterating over carousel items.
    *
    * For a given item it should return an unique identifier.
@@ -165,9 +158,7 @@ export class CarouselComponent implements OnInit, OnChanges {
    * to avoid unwanted blur events (e.g., in Safari when carousel is used inside modals or search boxes).
    */
   onNavigationMouseDown(event: MouseEvent): void {
-    if (this.preventNavigationFocus) {
-      event.preventDefault();
-    }
+    event.preventDefault();
   }
 
   /**

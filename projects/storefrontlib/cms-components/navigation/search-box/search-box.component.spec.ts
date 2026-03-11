@@ -114,7 +114,6 @@ class MockCarouselComponent {
   @Input() itemWidth: any;
   @Input() template: any;
   @Input() hideIndicators: any;
-  @Input() preventNavigationFocus: boolean;
 }
 const mockRouterState: RouterState = {
   nextState: undefined,

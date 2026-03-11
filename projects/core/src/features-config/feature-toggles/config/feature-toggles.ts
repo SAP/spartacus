@@ -485,7 +485,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
-  a11yCarouselPreventNavigationFocus: true,
+  a11yCarouselPreventNavigationFocus: false,
   a11yNgSelectReadonlyInputValue: false,
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
