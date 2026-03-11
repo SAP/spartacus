@@ -232,7 +232,10 @@
       >
         {{ 'searchBox.trendingSearches' | cxTranslate }}
       </h3>
-      <h3 class="recentSearches-header">
+      <h3
+        class="recentSearches-header"
+        *cxFeature="'!searchBoxRecentSearchesRemoval'"
+      >
         {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
       <ng-template
