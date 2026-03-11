@@ -85,7 +85,9 @@ describe('Cart Race Condition - Slow Network', () => {
 
       // Visit product page
       cy.visit(`${getBaseUrlPrefix()}/product/${products[0].code}`);
-      cy.get('cx-add-to-cart button[type=submit]', { timeout: 10000 }).should('be.visible');
+      cy.get('cx-add-to-cart button[type=submit]', { timeout: 10000 }).should(
+        'be.visible'
+      );
 
       // Set quantity to test multiple rapid add-to-cart triggers
       cy.get('cx-add-to-cart cx-item-counter input').clear().type('1');
@@ -126,7 +128,9 @@ describe('Cart Race Condition - Slow Network', () => {
       // Visit and add first product, wait for dialog
       cy.visit(`${getBaseUrlPrefix()}/product/${products[0].code}`);
       cy.get('cx-add-to-cart button[type=submit]', { timeout: 10000 }).click();
-      cy.get('cx-added-to-cart-dialog', { timeout: 10000 }).should('be.visible');
+      cy.get('cx-added-to-cart-dialog', { timeout: 10000 }).should(
+        'be.visible'
+      );
       cy.get('.cx-dialog-total').should('contain', '1 item');
       cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
       cy.get('cx-added-to-cart-dialog').should('not.exist');
@@ -134,7 +138,9 @@ describe('Cart Race Condition - Slow Network', () => {
       // Visit second product page and add
       cy.visit(`${getBaseUrlPrefix()}/product/${products[1].code}`);
       cy.get('cx-add-to-cart button[type=submit]', { timeout: 10000 }).click();
-      cy.get('cx-added-to-cart-dialog', { timeout: 10000 }).should('be.visible');
+      cy.get('cx-added-to-cart-dialog', { timeout: 10000 }).should(
+        'be.visible'
+      );
       cy.get('.cx-dialog-total').should('contain', '2 items');
       cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
       cy.get('cx-added-to-cart-dialog').should('not.exist');
@@ -142,7 +148,9 @@ describe('Cart Race Condition - Slow Network', () => {
       // Visit third product page and add
       cy.visit(`${getBaseUrlPrefix()}/product/${products[2].code}`);
       cy.get('cx-add-to-cart button[type=submit]', { timeout: 10000 }).click();
-      cy.get('cx-added-to-cart-dialog', { timeout: 10000 }).should('be.visible');
+      cy.get('cx-added-to-cart-dialog', { timeout: 10000 }).should(
+        'be.visible'
+      );
       cy.get('.cx-dialog-total').should('contain', '3 items');
 
       // Go to cart and verify all products

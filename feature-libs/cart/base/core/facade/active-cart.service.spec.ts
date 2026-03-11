@@ -997,7 +997,9 @@ describe('ActiveCartService', () => {
 
     it('should timeout and clear cache if cart loading takes too long', fakeAsync(() => {
       // Simulate a cart entity that never completes (hung request)
-      const neverCompletingCart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+      const neverCompletingCart$ = new BehaviorSubject<
+        StateUtils.ProcessesLoaderState<Cart>
+      >({
         loading: true, // Stays loading forever
         success: false,
         error: false,
