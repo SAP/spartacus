@@ -291,7 +291,7 @@
     "ts-morph": "^27.0.2",
     "ts-node": "^10.6.0",
     "typescript": "^5.9.3",
-    "webpack": "~5.101.0",
+    "webpack": "~5.105.4",
     "webpack-cli": "^6.0.0"
   }
 }
