@@ -411,7 +411,7 @@ export interface FeatureTogglesInterface {
    * When enabled, allows searching B2B customers by name in the organization.
    */
   enableB2BCustomerSearch?: boolean;
-  
+
   /**
    * Sets the ng-select (readonly) input value from the selected option text,
    * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
