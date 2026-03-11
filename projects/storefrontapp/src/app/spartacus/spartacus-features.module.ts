@@ -341,9 +341,11 @@ if (environment.cpq) {
         enableB2BUnitSearch: false,
         enableB2BCostCenterSearch: false,
         enableB2BCustomerSearch: false,
+        a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
+        a11yReviewsKeyboardControls: true,
       };
       return appFeatureToggles;
     }),
