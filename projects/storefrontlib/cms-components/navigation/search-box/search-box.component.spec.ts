@@ -17,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
   I18nTestingModule,
   PageType,
   ProductSearchService,
@@ -97,12 +96,6 @@ class MockMediaComponent {
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: string;
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return false;
-  }
 }
 
 @Component({
@@ -208,10 +201,6 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();
