@@ -4,7 +4,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
@@ -20,7 +20,7 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import * as fromClientAuthReducers from 'projects/core/src/auth/client-auth/store/reducers/index';
 import * as fromUserReducers from 'projects/core/src/user/store/reducers/index';
-import { Observable, of, throwError } from 'rxjs';
+import { delay, Observable, of, Subject, throwError } from 'rxjs';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
@@ -285,6 +285,65 @@ describe('Cart effect', () => {
 
       expect(cartEffects.createCart$).toBeObservable(expected);
     });
+
+    it('should ignore subsequent CREATE_CART actions while one is in-flight (exhaustMap behavior)', fakeAsync(() => {
+      // This test verifies the fix for race condition on slow networks
+      // where rapid add-to-cart clicks could trigger multiple parallel cart creations.
+      // With exhaustMap, subsequent CREATE_CART actions are ignored while one is in-flight.
+      const cartConnector = TestBed.inject(CartConnector);
+      const createSpy = cartConnector.create as jasmine.Spy;
+
+      // Track how many times create is called
+      let createCallCount = 0;
+
+      // Make create return a delayed observable to simulate slow network
+      createSpy.and.callFake(() => {
+        createCallCount++;
+        return of(testCart).pipe(delay(100));
+      });
+
+      const action1 = new CartActions.CreateCart({
+        userId,
+        tempCartId: 'tempCartId1',
+      });
+      const action2 = new CartActions.CreateCart({
+        userId,
+        tempCartId: 'tempCartId2',
+      });
+
+      // Use a Subject to emit actions with controlled timing
+      const actionsSubject = new Subject<CartActions.CreateCart>();
+      actions$ = actionsSubject.asObservable();
+
+      // Subscribe to the effect
+      const results: any[] = [];
+      cartEffects.createCart$.subscribe((action) => results.push(action));
+
+      // Emit first action
+      actionsSubject.next(action1);
+      tick(10); // Small tick, first request is now in-flight
+
+      // Emit second action while first is still processing
+      actionsSubject.next(action2);
+      tick(10); // Another small tick
+
+      // Wait for the first request to complete (remaining ~80ms of the 100ms delay)
+      tick(100);
+
+      // Complete the subject
+      actionsSubject.complete();
+
+      // With exhaustMap, create should only be called once
+      // The second action should be ignored while the first is in-flight
+      expect(createCallCount).toBe(1);
+
+      // Only results from the first action should be emitted
+      expect(results.length).toBe(2); // CreateCartSuccess + RemoveCart
+      expect(results[0].type).toBe(CartActions.CREATE_CART_SUCCESS);
+      expect(results[0].payload.tempCartId).toBe('tempCartId1');
+      expect(results[1].type).toBe(CartActions.REMOVE_CART);
+      expect(results[1].payload.cartId).toBe('tempCartId1');
+    }));
   });
 
   describe('mergeCart$', () => {

@@ -20,6 +20,7 @@ import { Observable, concat, from, of } from 'rxjs';
 import {
   catchError,
   concatMap,
+  exhaustMap,
   filter,
   groupBy,
   map,
@@ -146,7 +147,9 @@ export class CartEffects {
     this.actions$.pipe(
       ofType(CartActions.CREATE_CART),
       map((action: CartActions.CreateCart) => action.payload),
-      mergeMap((payload) => {
+      // Use exhaustMap to prevent parallel cart creation - ignores new CREATE_CART
+      // actions while one is in-flight, preventing race conditions on slow networks
+      exhaustMap((payload) => {
         return this.cartConnector
           .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
           .pipe(

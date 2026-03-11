@@ -906,6 +906,94 @@ describe('ActiveCartService', () => {
         done();
       });
     });
+
+    it('should share the same observable for concurrent requireLoadedCart calls (race condition prevention)', (done) => {
+      // This test verifies the fix for race condition on slow networks
+      // where multiple rapid addEntry() calls could trigger parallel cart creations.
+      // With shareReplay caching, concurrent calls share the same cart creation flow.
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
+        {}
+      );
+      let createCartCallCount = 0;
+
+      spyOn<any>(service, 'load').and.callThrough();
+      spyOn(multiCartFacade, 'createCart').and.callFake(() => {
+        createCartCallCount++;
+        // Simulate delayed cart creation
+        setTimeout(() => {
+          cart$.next({
+            loading: false,
+            success: true,
+            error: false,
+            value: {
+              code: 'code',
+            },
+          });
+        }, 50);
+        return EMPTY;
+      });
+
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+      service['cartEntity$'] = cart$.asObservable();
+
+      let completedCount = 0;
+      const expectedCart = { code: 'code' };
+
+      // Simulate 3 concurrent addEntry calls triggering requireLoadedCart
+      service['requireLoadedCart']().subscribe((cart) => {
+        expect(cart).toEqual(expectedCart);
+        completedCount++;
+        checkDone();
+      });
+
+      service['requireLoadedCart']().subscribe((cart) => {
+        expect(cart).toEqual(expectedCart);
+        completedCount++;
+        checkDone();
+      });
+
+      service['requireLoadedCart']().subscribe((cart) => {
+        expect(cart).toEqual(expectedCart);
+        completedCount++;
+        checkDone();
+      });
+
+      function checkDone() {
+        if (completedCount === 3) {
+          // Critical assertion: createCart should only be called once
+          // even though we called requireLoadedCart 3 times concurrently
+          expect(createCartCallCount).toBe(1);
+          done();
+        }
+      }
+    });
+
+    it('should clear cached observable after completion for subsequent calls', (done) => {
+      // Verify that after one cart creation completes, a new call gets a fresh observable
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'existingCart' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // First call - should cache and return
+      service['requireLoadedCart']()
+        .pipe(take(1))
+        .subscribe((cart) => {
+          expect(cart).toEqual({ code: 'existingCart' });
+
+          // After first call completes, the cache should be cleared
+          // Accessing private property for testing
+          setTimeout(() => {
+            expect(service['loadedCart$']).toBeNull();
+            done();
+          }, 10);
+        });
+    });
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
