@@ -2,7 +2,13 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
@@ -25,14 +31,20 @@ describe('CSAgentLoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
         CSAgentLoginFormComponent,
         DotSpinnerComponent,
-        MockFeatureDirective,
       ],
-    }).compileComponents();
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    })
+      .overrideComponent(CSAgentLoginFormComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

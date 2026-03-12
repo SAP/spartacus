@@ -6,12 +6,13 @@ import {
   TemplateRef,
   ViewContainerRef,
   inject,
+  InjectionToken,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { InjectionToken } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, FeatureDirective } from '@spartacus/core';
+import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
 import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
@@ -130,7 +131,7 @@ function configureTestingModule(
   isConfigurableMediaComponent = false
 ): void {
   TestBed.configureTestingModule({
-    imports: [MediaComponent, MockMediaSourcesPipe, MockFeatureDirective],
+    imports: [MediaComponent],
     providers: [
       { provide: MediaService, useValue: mockMediaService },
       {
@@ -142,7 +143,12 @@ function configureTestingModule(
         useClass: MockFeatureConfigService,
       },
     ],
-  }).compileComponents();
+  })
+    .overrideComponent(MediaComponent, {
+      remove: { imports: [MediaSourcesPipe, FeatureDirective] },
+      add: { imports: [MockMediaSourcesPipe, MockFeatureDirective] },
+    })
+    .compileComponents();
 }
 
 function createComponent(elementType: 'picture' | 'img' = 'img') {

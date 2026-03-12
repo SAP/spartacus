@@ -7,8 +7,12 @@ import {
   AsmCustomer360Response,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { CustomerCouponService, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  CustomerCouponService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
@@ -158,10 +162,8 @@ describe('AsmCustomer360CouponComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         AsmCustomer360CustomerCouponComponent,
         AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent,
       ],
       providers: [
         AsmCustomer360SectionContextSource,
@@ -178,7 +180,16 @@ describe('AsmCustomer360CouponComponent', () => {
           useClass: MockAsmCustomer360Facade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360CustomerCouponComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .overrideComponent(AsmCustomer360PromotionListingComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
     customerCouponService = TestBed.inject(CustomerCouponService);
   });
 
