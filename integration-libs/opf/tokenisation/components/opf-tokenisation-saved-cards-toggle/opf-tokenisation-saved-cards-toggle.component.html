@@ -1,7 +1,9 @@
 <ng-container *ngIf="context$ | async as ctx">
   <div
     class="cx-payment-options-section"
-    *ngIf="ctx.savedPaymentHeading && (ctx.selectedPaymentId === ctx.savedCardsId)"
+    *ngIf="
+      ctx.savedPaymentHeading && ctx.selectedPaymentId === ctx.savedCardsId
+    "
     [attr.aria-label]="ctx.savedPaymentHeading"
   >
     <h3 class="cx-payment-section-heading">

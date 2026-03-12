@@ -33,15 +33,4 @@
       </div>
     </label>
   </div>
-
-  <!-- New Payment Options Heading -->
-  <div
-    class="cx-payment-options-section"
-    *ngIf="ctx.selectedPaymentId !== ctx.savedCardsId"
-    [attr.aria-label]="'opfCheckout.newPaymentHeading' | cxTranslate"
-  >
-    <h3 class="cx-payment-section-heading">
-      {{ 'opfCheckout.newPaymentHeading' | cxTranslate }}
-    </h3>
-  </div>
 </ng-container>
