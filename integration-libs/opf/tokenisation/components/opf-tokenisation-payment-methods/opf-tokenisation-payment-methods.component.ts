@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   PaymentDetails,
@@ -35,11 +35,11 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
   loading$: Observable<boolean>;
   @Input() showHeader = true;
 
-  constructor(
-    private tokenisationFacade: OpfTokenisationFacade,
-    private translation: TranslationService,
-    protected globalMessageService?: GlobalMessageService
-  ) {}
+  protected tokenisationFacade = inject(OpfTokenisationFacade);
+  protected translation = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService, {
+    optional: true,
+  });
 
   ngOnInit(): void {
     this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe();
