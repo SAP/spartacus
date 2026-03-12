@@ -69,11 +69,11 @@ export class AuthRedirectService implements OnDestroy {
         if (redirectUrl === undefined) {
           this.routing.go('/');
         } else {
-          let actualParams =
+          const actualParams =
             this.siteContextUrlSerializer.urlExtractContextParameters(
               this.router.url
             ).params;
-          let redirectPageContextUrl =
+          const redirectPageContextUrl =
             this.siteContextUrlSerializer.urlExtractContextParameters(
               redirectUrl
             ).url;
