@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
+  MockTranslatePipe,
   Product,
   ProductService,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -19,6 +20,8 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
+import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
 
@@ -113,11 +116,7 @@ class MockConfiguratorOverviewMenuComponent {
 describe('ConfiguratorOverviewSidebarComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MockConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewMenuComponent,
-      ],
+      imports: [ConfiguratorOverviewSidebarComponent],
       providers: [
         {
           provide: ConfiguratorCommonsService,
@@ -140,7 +139,24 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
           useClass: MockProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewSidebarComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            ConfiguratorOverviewFilterComponent,
+            ConfiguratorOverviewMenuComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockConfiguratorOverviewFilterComponent,
+            MockConfiguratorOverviewMenuComponent,
+          ],
+        },
+      })
+      .compileComponents();
     initTestComponent();
   }));
 

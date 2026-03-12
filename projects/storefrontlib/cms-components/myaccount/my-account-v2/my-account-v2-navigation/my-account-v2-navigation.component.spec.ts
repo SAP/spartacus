@@ -8,6 +8,7 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
+import { NavigationUIComponent } from '../../../navigation/navigation/navigation-ui.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -38,7 +39,7 @@ describe('MyAccountV2NavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
+      imports: [MyAccountV2NavigationComponent],
       providers: [
         {
           provide: NavigationService,
@@ -49,7 +50,12 @@ describe('MyAccountV2NavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2NavigationComponent, {
+        remove: { imports: [NavigationUIComponent] },
+        add: { imports: [MockNavigationUIComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

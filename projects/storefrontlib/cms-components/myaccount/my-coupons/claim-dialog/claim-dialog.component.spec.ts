@@ -11,11 +11,13 @@ import {
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
-import { FocusDirective, FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../../layout/index';
@@ -29,7 +31,6 @@ const form = new FormGroup({
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -59,22 +60,20 @@ describe('ClaimDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        ClaimDialogComponent,
-        MockCxIconComponent,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, ClaimDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: CustomerCouponService, useValue: couponService },
         { provide: RoutingService, useValue: routingService },
         { provide: GlobalMessageService, useValue: globalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ClaimDialogComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -9,7 +9,6 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective as CxFeatureDirective,
-  I18nTestingModule,
   LoggerService,
   MockTranslatePipe,
   Product,
@@ -698,7 +697,7 @@ class TestChildComponent implements OnDestroy {
       <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
     </ng-template>
   `,
-  imports: [TestChildComponent, CarouselComponent, I18nTestingModule],
+  imports: [TestChildComponent, CarouselComponent],
 })
 class TestParentComponent {
   mockTitle = 'Test Carousel';
@@ -719,16 +718,14 @@ describe('Carousel Component tested in TestParentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestChildComponent.destroyedCount = 0;
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-        TestParentComponent,
-        TestChildComponent,
-      ],
+      imports: [CarouselComponent, TestParentComponent, TestChildComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
+    })
+      .overrideComponent(CarouselComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
 
     service = TestBed.inject(CarouselService);
     spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));
