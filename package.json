@@ -298,6 +298,7 @@
     "minimatch": "^10.2.1",
     "karma": {
       "minimatch": "3.1.5"
-    }
+    },
+    "test-exclude": "^8.0.0"
   }
 }
