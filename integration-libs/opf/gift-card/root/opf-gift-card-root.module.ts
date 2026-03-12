@@ -8,22 +8,15 @@ import { IconConfig, IconResourceType } from '@spartacus/storefront';
 import { provideConfig, provideDefaultConfig } from '@spartacus/core';
 
 import { NgModule } from '@angular/core';
-import { OpfGiftCardCheckoutModule } from '../components/opf-gift-card-checkout';
 import { OpfGiftCardComponentsModule } from '../components/opf-gift-card-components.module';
-import { OpfGiftCardOccModule } from '../occ/opf-gift-card-occ.module';
-import { defaultCartConfig } from './config/gift-card-cart-config';
+import { defaultGiftCardCartConfig } from './config/default-gift-card-cart-config';
 import { defaultGiftCardCartOccEndpointsConfig } from '../occ/config';
 import { defaultOccOpfGiftCardOrderEndpointsConfig } from '../occ/config/default-occ-opf-gift-card-order-config';
 
 @NgModule({
+  imports: [OpfGiftCardComponentsModule],
 
-  imports: [OpfGiftCardComponentsModule,OpfGiftCardCheckoutModule, OpfGiftCardOccModule],
-   
   providers: [
-    provideDefaultConfig(defaultGiftCardCartOccEndpointsConfig),
-     provideDefaultConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
-    provideDefaultConfig(defaultCartConfig),
-
     provideConfig({
       icon: {
         symbols: {
@@ -38,6 +31,9 @@ import { defaultOccOpfGiftCardOrderEndpointsConfig } from '../occ/config/default
         ],
       },
     } as IconConfig),
+    provideDefaultConfig(defaultGiftCardCartOccEndpointsConfig),
+    provideDefaultConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
+    provideDefaultConfig(defaultGiftCardCartConfig),
   ],
 })
 export class OpfGiftCardRootModule {}

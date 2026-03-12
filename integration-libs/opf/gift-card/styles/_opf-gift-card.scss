@@ -1,13 +1,13 @@
 @import './components/opf-gift-card';
 @import './components/opf-applied-gift-card';
 @import './components/opf-gift-card-checkout-place-order';
-@import './components/opf-gift-card-payment';
+@import './components/opf-gift-card-payment-method-detail';
 @import './components/opf-gift-card-order-summary';
 $opf-gift-card-components: (
-  cx-opf-gift-card,
-  cx-opf-applied-gift-card,
+  cx-opf-gift-card-apply,
+  cx-opf-gift-card-applied,
   cx-opf-gift-card-checkout-place-order,
-  cx-opf-gift-card-payment,
+  cx-opf-gift-card-payment-method-detail,
   cx-opf-gift-card-order-summary,
   cx-opf-gift-card-order-detail-billing,
 ) !default;

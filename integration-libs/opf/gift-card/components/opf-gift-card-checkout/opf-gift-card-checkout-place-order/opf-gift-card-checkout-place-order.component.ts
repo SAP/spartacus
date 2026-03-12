@@ -45,12 +45,10 @@ export class OpfGiftCardCheckoutPlaceOrderComponent implements OnInit, OnDestroy
   protected activeCartFacade = inject(ActiveCartFacade);
   protected globalMessageService = inject(GlobalMessageService);
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected routingService: RoutingService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  protected orderFacade = inject(OrderFacade);
+  protected routingService = inject(RoutingService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
 
   ngOnInit() {
     console.log('GiftCardCheckoutComponent initialized');
@@ -82,8 +80,6 @@ export class OpfGiftCardCheckoutPlaceOrderComponent implements OnInit, OnDestroy
       )
       .subscribe({
         next: (order) => {
-          // Protect against “successful” emissions that don't contain a placed order.
-         console.log('Place order response: from backend', order);
           if (!order?.code) {
             this.onPlaceOrderError();
             return;

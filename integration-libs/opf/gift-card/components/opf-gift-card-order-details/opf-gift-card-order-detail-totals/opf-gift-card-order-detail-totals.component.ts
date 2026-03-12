@@ -8,13 +8,14 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { OutletModule } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-gift-card-order-detail-totals',
   templateUrl: './opf-gift-card-order-detail-totals.component.html',
-  imports: [ CommonModule, OutletModule, NgIf],
+  imports: [ CommonModule, OutletModule, NgIf, OpfGiftCardOrderSummaryComponent],
 })
 export class OpfGiftCardOrderDetailTotalsComponent implements OnInit {
   protected activeCartFacade = inject(ActiveCartFacade);

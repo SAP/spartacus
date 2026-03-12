@@ -1,4 +1,4 @@
-.cx-opf-gift-card {
+.cx-opf-gift-card-apply {
   margin-bottom: 0.5rem;
 
   @include media-breakpoint-down(md) {
@@ -13,19 +13,19 @@
   // cx-card {
   //   flex-grow: 1;
   // }
-  .cx-opf-gift-card-header {
+  .cx-opf-gift-card-apply-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     padding: 1rem 0;
-    .cx-opf-gift-card-title {
+    .cx-opf-gift-card-apply-title {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .cx-opf-gift-card-add-link {
+    .cx-opf-gift-card-apply-add-link {
       margin-right: 0;
       background: none;
       border: none;
@@ -48,7 +48,7 @@
     }
   }
 
-  .cx-opf-gift-card-form-wrapper {
+  .cx-opf-gift-card-apply-form-wrapper {
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
@@ -87,7 +87,7 @@
       }
     }
 
-    button.cx-opf-apply-gift-card-button {
+    button.cx-opf-gift-card-apply-button {
       margin-top: 20px;
     }
   }
@@ -114,21 +114,21 @@
       }
     }
 
-    .cx-opf-gift-card-list {
+    .cx-opf-gift-card-apply-list {
       max-height: 400px;
 
-      .cx-opf-gift-card-item {
+      .cx-opf-gift-card-apply-item {
         .cx-card-row {
           flex-direction: row;
           align-items: center;
           gap: 1rem;
 
-          .cx-opf-gift-card-balance {
+          .cx-opf-gift-card-apply-balance {
             text-align: left;
             flex: 1;
           }
 
-          .cx-opf-gift-card-balance-info {
+          .cx-opf-gift-card-apply-balance-info {
             width: auto;
           }
         }

@@ -6,7 +6,7 @@
 
 import { CartConfig } from '@spartacus/cart/base/root';
 
-export const defaultCartConfig: CartConfig = {
+export const defaultGiftCardCartConfig: CartConfig = {
   cart: {
     validation: {
       enabled: true,

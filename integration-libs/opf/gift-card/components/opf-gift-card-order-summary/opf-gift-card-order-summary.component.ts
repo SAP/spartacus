@@ -6,20 +6,17 @@
 import { CommonModule, NgIf } from '@angular/common';
 import {
   Component,
-  inject,
   Input,
-  OnDestroy,
-  OnInit,
-  Optional,
+  inject
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { I18nModule, RoutingService, TranslatePipe } from '@spartacus/core';
+import { Subscription, map } from 'rxjs';
+
 import { AppliedCouponsComponent } from '@spartacus/cart/base/components';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { I18nModule, RoutingService, TranslatePipe } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { OutletContextData } from '@spartacus/storefront';
-import { map, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'cx-opf-gift-card-order-summary',
   templateUrl: './opf-gift-card-order-summary.component.html',
@@ -31,7 +28,7 @@ import { map, Subscription } from 'rxjs';
     AppliedCouponsComponent,
   ],
 })
-export class OpfGiftCardOrderSummaryComponent implements OnInit, OnDestroy {
+export class OpfGiftCardOrderSummaryComponent {
   @Input() cart: Cart | Order;
   protected checkoutStepService = inject(CheckoutStepService);
   protected router = inject(Router);
@@ -48,22 +45,6 @@ export class OpfGiftCardOrderSummaryComponent implements OnInit, OnDestroy {
           )
       )
     );
-
-  constructor(@Optional() protected outlet?: OutletContextData<any>) {}
-
-  ngOnInit(): void {
-    if (this.outlet?.context$) {
-      this.subscription.add(
-        this.outlet.context$.subscribe((context) => {
-          this.cart = context;
-        })
-      );
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
   get giftCardCartTotal() {
     return Math.abs(

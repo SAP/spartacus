@@ -1,21 +1,3 @@
-<!-- <ng-container *ngIf="cart.sapGiftCardSummary as giftCard">
-<ng-container  *ngIf="(isPaymentAndReviewStep$ | async)">
-  <div
-    class="cx-gift-card-order-summary"
-    *ngIf="giftCard?.totalAppliedAmount?.value"
-  >
-    <div class="cx-summary-row">
-      <div class="col-6 cx-summary-label">
-        {{ 'giftCard.title' | cxTranslate }}
-      </div>
-      <div class="col-6 cx-summary-amount cx-gift-card-discount">
-        - {{ giftCard?.totalAppliedAmount?.formattedValue || giftCard?.totalAppliedAmount?.value }}
-      </div>
-    </div>
-  </div>
-  </ng-container>
-</ng-container> -->
-  <ng-container>
   <ng-container *ngIf="cart">
     <h3 class="cx-summary-heading" style="color: red">
       {{ 'orderCost.orderSummary' | cxTranslate }}
@@ -106,4 +88,3 @@
       [isReadOnly]="true"
     ></cx-applied-coupons>
   </ng-container>
-</ng-container> 

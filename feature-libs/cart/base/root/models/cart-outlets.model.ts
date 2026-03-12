@@ -26,6 +26,5 @@ export enum CartOutlets {
   CPQ_QUOTE = 'cx-cpq-quote-offer',
   SUBSCRIPTION_PRICE_HEADING = 'cx-subscription-cart-price-heading',
   SUBSCRIPTION_PRICE_BODY = 'cx-subscription-cart-price-body',
-  ORDER_SUMMARY_GIFT_CARD = 'cx-gift-card-order-summary',
-  ORDER_BILLING_INFO_GIFT_CARD = 'cx-gift-card-order-billing-info',
+  ORDER_DETAILS_PAYMENT_METHOD_DETAILS = 'cx-order-details-payment-method-details',
 }

@@ -1,12 +1,12 @@
 <ng-container *ngIf="isGiftCardEnabled$ | async">
   <ng-container *ngIf="cart$ | async as cart">
     <div
-      class="cx-opf-gift-card"
+      class="cx-opf-gift-card-apply"
       [ngClass]="{ 'cx-disabled': (isBillingAddressPresent$ | async) }"
     >
       <!-- Header -->
-      <div class="cx-opf-gift-card-header">
-        <div class="cx-opf-gift-card-title">
+      <div class="cx-opf-gift-card-apply-header">
+        <div class="cx-opf-gift-card-apply-title">
           <cx-icon type="GIFT_CARD"></cx-icon>
           <div class="title">
             <span>{{ 'giftCard.haveGiftCard' | cxTranslate }}</span>
@@ -15,7 +15,7 @@
         <div>
         <button
           type="button"
-          class="cx-opf-gift-card-add-link"
+          class="cx-opf-gift-card-apply-add-link"
           [disabled]="!(isAddGiftCard$ | async)"
           (click)="showGiftCardForm = !showGiftCardForm"
         >
@@ -29,9 +29,9 @@
         *ngIf="showGiftCardForm"
         [formGroup]="giftCardForm"
         (ngSubmit)="addGiftCard()"
-        class="cx-opf-gift-card-form"
+        class="cx-opf-gift-card-apply-form"
       >
-        <div class="cx-opf-gift-card-form-wrapper">
+        <div class="cx-opf-gift-card-apply-form-wrapper">
           <div class="form-group">
             <label>
               {{ 'giftCard.cardNumber' | cxTranslate }}
@@ -74,7 +74,7 @@
 
           <button
             type="submit"
-            class="btn btn-secondary cx-opf-apply-gift-card-button"
+            class="btn btn-secondary cx-opf-gift-card-apply-button"
             [disabled]="giftCardForm.invalid || (loading$ | async)"
           >
             {{ 'giftCard.apply' | cxTranslate }}

@@ -10,10 +10,7 @@ import {
   OpfGiftCardOrderDetailsModule,
   OpfGiftCardPaymentMethodDetailComponent,
 } from './opf-gift-card-order-details';
-import {
-  OpfGiftCardOrderSummaryComponent,
-  OpfGiftCardOrderSummaryModule,
-} from './opf-gift-card-order-summary';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { NgModule } from '@angular/core';
@@ -21,7 +18,9 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 import { OpfGiftCardAppliedModule } from './opf-gift-card-applied';
 import { OpfGiftCardCheckoutModule } from './opf-gift-card-checkout';
 import { OpfGiftCardOrderConfirmationModule } from './opf-gift-card-order-confirmation';
-import { provideOutlet } from '@spartacus/storefront';
+import {
+  OpfGiftCardOrderSummaryModule
+} from './opf-gift-card-order-summary';
 
 @NgModule({
   imports: [
@@ -35,21 +34,31 @@ import { provideOutlet } from '@spartacus/storefront';
   ],
   providers: [
     provideOutlet({
-      id: OpfCheckoutOutlets.GIFT_CARD,
+      // id: OpfCheckoutOutlets.GIFT_CARD,
+      id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS,
+      position: OutletPosition.BEFORE,
       component: OpfGiftCardApplyComponent,
     }),
+    // provideOutlet({
+    //   id: CartOutlets.ORDER_SUMMARY_GIFT_CARD,
+    //   component: OpfGiftCardOrderSummaryComponent,
+    // }),
     provideOutlet({
-      id: CartOutlets.ORDER_SUMMARY_GIFT_CARD,
-      component: OpfGiftCardOrderSummaryComponent,
-    }),
-    provideOutlet({
-      id: CartOutlets.ORDER_BILLING_INFO_GIFT_CARD,
+      id: CartOutlets.ORDER_DETAILS_PAYMENT_METHOD_DETAILS,
       component: OpfGiftCardOrderDetailBillingComponent,
     }),
     provideOutlet({
-      id: OpfCheckoutOutlets.ORDER_OVERVIEW_GIFT_CARD,
+      id: OpfCheckoutOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD,
       component: OpfGiftCardPaymentMethodDetailComponent,
     }),
   ],
+  exports: [
+    OpfGiftCardAppliedModule,
+    OpfGiftCardApplyModule,
+    OpfGiftCardOrderSummaryModule,
+    OpfGiftCardOrderConfirmationModule,
+    OpfGiftCardOrderDetailsModule,
+    OpfGiftCardCheckoutModule,
+  ]
 })
 export class OpfGiftCardComponentsModule {}

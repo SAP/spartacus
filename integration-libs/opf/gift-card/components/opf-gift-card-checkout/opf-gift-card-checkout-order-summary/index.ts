@@ -5,4 +5,3 @@
  */
 
 export * from './opf-gift-card-checkout-order-summary.component';
-// export * from './opf-gift-card-order-summary-checkout.module';
