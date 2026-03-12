@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Product, TranslationService } from '@spartacus/core';
+import { Product, TranslatePipe, TranslationService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import {
   OneTimeCharge,
@@ -57,7 +57,7 @@ describe('SubscriptionProductPriceComponent', () => {
   let productService: SubscriptionProductService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MockTranslatePipe, SubscriptionProductPriceComponent],
+      imports: [SubscriptionProductPriceComponent],
       providers: [
         {
           provide: SubscriptionProductService,
@@ -66,7 +66,12 @@ describe('SubscriptionProductPriceComponent', () => {
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: TranslationService, useClass: MockTranslateService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionProductPriceComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     productService = TestBed.inject(SubscriptionProductService);
   }));
   describe('for a null product', () => {
