@@ -3,48 +3,53 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import { login } from '../../../helpers/auth-forms';
 import * as siteContextSelector from '../../../helpers/site-context-selector';
 import * as merchandisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
+import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { switchSiteContext } from '../../../support/utils/switch-site-context';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
-import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 
-context(
-  'Site Context changes made on login page',
-  { testIsolation: false },
-  () => {
-    isolateTestsBefore();
+context('Site Context', { testIsolation: false }, () => {
+  isolateTestsBefore();
+  const filmCamerasCategoryUrl =
+    '/c/' + merchandisingCarousel.filmCamerasCategoryCode;
+
+  it('should navigate to film cameras category page to save redirect url', () => {
+    cy.visit('/');
+    merchandisingCarousel.navigateToCategory(
+      merchandisingCarousel.filmCamerasCategoryName,
+      merchandisingCarousel.filmCamerasCategoryCode
+    );
+    cy.url().should('include', filmCamerasCategoryUrl);
+  });
+
+  it('should navigate to login page without submitting the form', () => {
+    cy.visit('/login');
+  });
+
+  it('should change language and currency site context', () => {
+    switchSiteContext(
+      siteContextSelector.LANGUAGE_DE,
+      siteContextSelector.LANGUAGE_LABEL
+    );
+    switchSiteContext(
+      siteContextSelector.CURRENCY_JPY,
+      siteContextSelector.CURRENCY_LABEL
+    );
+  });
+
+  it('should login and redirect to film cameras category page with the updated language and currency context', () => {
     const registrationData = myCompanyAdminUser.registrationData;
-    const filmCamerasCategoryUrl =
-      '/c/' + merchandisingCarousel.filmCamerasCategoryCode;
 
-    it('should navigate to film cameras category page to save redirect url', () => {
-      cy.visit('/');
-      merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
-      );
-      cy.url().should('include', filmCamerasCategoryUrl);
-    });
+    cy.intercept('POST', '**/oauth/token').as('loginToken');
 
-    it('should navigate to login page without submitting the form', () => {
-      cy.visit('/login');
-    });
+    login(registrationData.email, registrationData.password);
 
-    it('should change language and currency site context', () => {
-      switchSiteContext(
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
-      );
-    });
+    cy.wait('@loginToken').its('response.statusCode').should('eq', 200);
 
-    it('should login and redirect to film cameras category page with the updated language and currency context', () => {
-      login(registrationData.email, registrationData.password);
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + filmCamerasCategoryUrl
-      );
-    });
-  }
-);
+    siteContextSelector.assertSiteContextChange(
+      siteContextSelector.FULL_BASE_URL_DE_JPY + filmCamerasCategoryUrl
+    );
+  });
+});
