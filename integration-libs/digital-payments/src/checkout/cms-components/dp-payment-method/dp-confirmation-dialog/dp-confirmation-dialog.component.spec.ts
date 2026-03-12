@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { DpConfirmationDialogComponent } from './dp-confirmation-dialog.component';
 
@@ -59,11 +58,7 @@ describe('DpConfirmationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        DpConfirmationDialogComponent,
-        MockFeatureDirective,
-      ],
+      imports: [DpConfirmationDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -75,7 +70,16 @@ describe('DpConfirmationDialogComponent', () => {
           useClass: MockRouter,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DpConfirmationDialogComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -2,23 +2,40 @@
   <h2 *ngIf="title">{{ title }}</h2>
 
   <div class="carousel-panel" [ngClass]="'size-' + size">
-    <button
-      *ngIf="size < items.length"
-      class="previous"
-      (click)="
-        $event.stopPropagation();
-        activeSlide === 0 ? null : (activeSlide = activeSlide - size)
-      "
-      [attr.aria-disabled]="activeSlide === 0"
-      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
-      [attr.title]="'carousel.previousSlide' | cxTranslate"
-      (keydown.arrowleft)="shareEvent($any($event))"
-      (keydown.arrowright)="shareEvent($any($event))"
-      (keydown.arrowup)="shareEvent($any($event))"
-      (keydown.arrowdown)="shareEvent($any($event))"
-    >
-      <cx-icon [type]="previousIcon"></cx-icon>
-    </button>
+    <ng-container *ngIf="size < items.length">
+      <button
+        *cxFeature="'a11yCarouselPreventNavigationFocus'"
+        class="previous"
+        (mousedown)="onNavigationMouseDown($event)"
+        (click)="onPreviousClick($event, size)"
+        [attr.aria-disabled]="activeSlide === 0"
+        [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+        [attr.title]="'carousel.previousSlide' | cxTranslate"
+        (keydown.arrowleft)="shareEvent($any($event))"
+        (keydown.arrowright)="shareEvent($any($event))"
+        (keydown.arrowup)="shareEvent($any($event))"
+        (keydown.arrowdown)="shareEvent($any($event))"
+      >
+        <cx-icon [type]="previousIcon"></cx-icon>
+      </button>
+      <button
+        *cxFeature="'!a11yCarouselPreventNavigationFocus'"
+        class="previous"
+        (click)="
+          $event.stopPropagation();
+          activeSlide === 0 ? null : (activeSlide = activeSlide - size)
+        "
+        [attr.aria-disabled]="activeSlide === 0"
+        [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+        [attr.title]="'carousel.previousSlide' | cxTranslate"
+        (keydown.arrowleft)="shareEvent($any($event))"
+        (keydown.arrowright)="shareEvent($any($event))"
+        (keydown.arrowup)="shareEvent($any($event))"
+        (keydown.arrowdown)="shareEvent($any($event))"
+      >
+        <cx-icon [type]="previousIcon"></cx-icon>
+      </button>
+    </ng-container>
     <div class="slides">
       <ng-container *ngFor="let _ of items; let i = index; trackBy: trackByFn">
         <div
@@ -54,25 +71,42 @@
       </ng-container>
     </div>
 
-    <button
-      *ngIf="size < items.length"
-      class="next"
-      (click)="
-        $event.stopPropagation();
-        activeSlide > items.length - size - 1
-          ? null
-          : (activeSlide = activeSlide + size)
-      "
-      [attr.aria-disabled]="activeSlide > items.length - size - 1"
-      [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
-      [attr.title]="'carousel.nextSlide' | cxTranslate"
-      (keydown.arrowleft)="shareEvent($any($event))"
-      (keydown.arrowright)="shareEvent($any($event))"
-      (keydown.arrowup)="shareEvent($any($event))"
-      (keydown.arrowdown)="shareEvent($any($event))"
-    >
-      <cx-icon [type]="nextIcon"></cx-icon>
-    </button>
+    <ng-container *ngIf="size < items.length">
+      <button
+        *cxFeature="'a11yCarouselPreventNavigationFocus'"
+        class="next"
+        (mousedown)="onNavigationMouseDown($event)"
+        (click)="onNextClick($event, size)"
+        [attr.aria-disabled]="activeSlide > items.length - size - 1"
+        [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
+        [attr.title]="'carousel.nextSlide' | cxTranslate"
+        (keydown.arrowleft)="shareEvent($any($event))"
+        (keydown.arrowright)="shareEvent($any($event))"
+        (keydown.arrowup)="shareEvent($any($event))"
+        (keydown.arrowdown)="shareEvent($any($event))"
+      >
+        <cx-icon [type]="nextIcon"></cx-icon>
+      </button>
+      <button
+        *cxFeature="'!a11yCarouselPreventNavigationFocus'"
+        class="next"
+        (click)="
+          $event.stopPropagation();
+          activeSlide > items.length - size - 1
+            ? null
+            : (activeSlide = activeSlide + size)
+        "
+        [attr.aria-disabled]="activeSlide > items.length - size - 1"
+        [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
+        [attr.title]="'carousel.nextSlide' | cxTranslate"
+        (keydown.arrowleft)="shareEvent($any($event))"
+        (keydown.arrowright)="shareEvent($any($event))"
+        (keydown.arrowup)="shareEvent($any($event))"
+        (keydown.arrowdown)="shareEvent($any($event))"
+      >
+        <cx-icon [type]="nextIcon"></cx-icon>
+      </button>
+    </ng-container>
   </div>
 
   <div *ngIf="!hideIndicators && size < items.length" class="indicators">

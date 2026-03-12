@@ -3,9 +3,13 @@ import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import {
   AuthRedirectService,
   FeatureConfigService,
+  FeatureDirective,
   FeatureToggles,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -57,20 +61,24 @@ describe('OrderGuestRegisterFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
         OrderGuestRegisterFormComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderGuestRegisterFormComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

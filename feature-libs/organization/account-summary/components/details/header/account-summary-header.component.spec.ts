@@ -11,16 +11,17 @@ import { Observable, of } from 'rxjs';
 
 import {
   Address,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
-
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
+import { CardComponent } from '@spartacus/storefront';
 
 import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 import { AccountSummaryHeaderComponent } from './account-summary-header.component';
@@ -52,17 +53,18 @@ describe('AccountSummaryHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AccountSummaryHeaderComponent,
-        MockCardComponent,
-      ],
+      imports: [AccountSummaryHeaderComponent],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AccountSummaryHeaderComponent, {
+        remove: { imports: [TranslatePipe, CardComponent] },
+        add: { imports: [MockTranslatePipe, MockCardComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
