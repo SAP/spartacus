@@ -4,9 +4,11 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';
 import createSpy = jasmine.createSpy;
 
@@ -26,10 +28,9 @@ class MockMessageService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 describe('GlobalMessageComponent', () => {
@@ -39,11 +40,16 @@ describe('GlobalMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, GlobalMessageComponent, MockCxIconComponent],
+      imports: [GlobalMessageComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(GlobalMessageComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

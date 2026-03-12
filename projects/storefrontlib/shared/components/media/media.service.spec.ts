@@ -1,8 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { Config, FeatureConfigService, Image } from '@spartacus/core';
+import {
+  Config,
+  FeatureConfigService,
+  Image,
+  LoggerService,
+} from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
+import * as AngularCore from '@angular/core';
 
 const MockStorefrontConfig: Config = {
   backend: {
@@ -791,6 +797,216 @@ describe('MediaService', () => {
           'format600'
         )?.srcset
       ).toBeFalsy();
+    });
+  });
+
+  describe('getBaseUrl', () => {
+    describe('media.baseUrl present', () => {
+      let service: MediaService;
+      beforeEach(() => {
+        configureTestingModule({
+          backend: {
+            media: { baseUrl: 'mediaBase:' },
+            occ: { baseUrl: 'occBase:' },
+          },
+        });
+        service = TestBed.inject(MediaService);
+      });
+      it('should return media.baseUrl if present', () => {
+        expect(service.getBaseUrl()).toBe('mediaBase:');
+      });
+    });
+
+    describe('media.baseUrl not present', () => {
+      let service: MediaService;
+      beforeEach(() => {
+        configureTestingModule({
+          backend: {
+            occ: { baseUrl: 'occBase:' },
+          },
+        });
+        service = TestBed.inject(MediaService);
+      });
+      it('should return occ.baseUrl if media.baseUrl is not present', () => {
+        expect(service.getBaseUrl()).toBe('occBase:');
+      });
+    });
+
+    describe('no baseUrl present', () => {
+      let service: MediaService;
+      beforeEach(() => {
+        configureTestingModule({});
+        service = TestBed.inject(MediaService);
+      });
+      it('should return empty string if neither media.baseUrl nor occ.baseUrl is present', () => {
+        expect(service.getBaseUrl()).toBe('');
+      });
+    });
+
+    describe('media prefix enabled and present', () => {
+      let service: MediaService;
+      let featureConfig: any;
+      const config = {
+        backend: {
+          media: {
+            baseUrl: 'https://media.example.com/',
+            prefix: 'my-prefix',
+          },
+        },
+      };
+      beforeEach(() => {
+        configureTestingModule(config);
+        featureConfig = TestBed.inject(FeatureConfigService) as any;
+        spyOn(featureConfig, 'isEnabled').and.callFake(
+          (feature: string) => feature === 'enableMediaPrefix'
+        );
+        service = TestBed.inject(MediaService);
+      });
+      it('should add prefix to baseUrl if enableMediaPrefix is enabled and prefix is present', () => {
+        expect(service.getBaseUrl()).toBe(
+          'https://media.example.com/my-prefix'
+        );
+      });
+    });
+
+    describe('media prefix enabled, no leading slash', () => {
+      let service: MediaService;
+      let featureConfig: any;
+      const config = {
+        backend: {
+          media: {
+            baseUrl: 'https://media.example.com/',
+            prefix: 'prefix-no-slash',
+          },
+        },
+      };
+      beforeEach(() => {
+        configureTestingModule(config);
+        featureConfig = TestBed.inject(FeatureConfigService) as any;
+        spyOn(featureConfig, 'isEnabled').and.callFake(
+          (feature: string) => feature === 'enableMediaPrefix'
+        );
+        service = TestBed.inject(MediaService);
+      });
+      it('should add prefix with leading slash if not present', () => {
+        expect(service.getBaseUrl()).toBe(
+          'https://media.example.com/prefix-no-slash'
+        );
+      });
+    });
+
+    describe('media prefix enabled, already has slash', () => {
+      let service: MediaService;
+      let featureConfig: any;
+      const config = {
+        backend: {
+          media: {
+            baseUrl: 'https://media.example.com/',
+            prefix: '/already-slash',
+          },
+        },
+      };
+      beforeEach(() => {
+        configureTestingModule(config);
+        featureConfig = TestBed.inject(FeatureConfigService) as any;
+        spyOn(featureConfig, 'isEnabled').and.callFake(
+          (feature: string) => feature === 'enableMediaPrefix'
+        );
+        service = TestBed.inject(MediaService);
+      });
+      it('should use prefix as-is if it already starts with a slash', () => {
+        expect(service.getBaseUrl()).toBe(
+          'https://media.example.com/already-slash'
+        );
+      });
+    });
+
+    describe('invalid baseUrl and prefix combination', () => {
+      let service: MediaService;
+      let featureConfig: any;
+      let logger: any;
+      const config = {
+        backend: {
+          media: {
+            baseUrl: 'not-a-valid-url',
+            prefix: 'prefix',
+          },
+        },
+      };
+      let isDevModeSpy: any;
+      beforeEach(() => {
+        configureTestingModule(config);
+        featureConfig = TestBed.inject(FeatureConfigService) as any;
+        spyOn(featureConfig, 'isEnabled').and.callFake(
+          (feature: string) => feature === 'enableMediaPrefix'
+        );
+        logger = TestBed.inject(LoggerService);
+        spyOn(logger, 'error').and.callFake((msg: string) => msg);
+        spyOn(logger, 'warn').and.callFake((msg: string) => msg);
+        isDevModeSpy = spyOnProperty(AngularCore, 'isDevMode').and.returnValue(
+          () => true
+        );
+        service = TestBed.inject(MediaService);
+      });
+
+      it('should return "" (and log the error) if baseUrl with prefix is not a valid URL', () => {
+        const result = service.getBaseUrl();
+        expect(result).toBe('not-a-valid-url');
+        expect(logger.error).toHaveBeenCalled();
+      });
+
+      it('should return "" (and log the warrning in non dev mode) if baseUrl with prefix is not a valid URL', () => {
+        isDevModeSpy.and.returnValue(() => false);
+        const result = service.getBaseUrl();
+        expect(result).toBe('not-a-valid-url');
+        expect(logger.warn).toHaveBeenCalled();
+      });
+    });
+
+    describe('media prefix disabled', () => {
+      let service: MediaService;
+      let featureConfig: any;
+      const config = {
+        backend: {
+          media: {
+            baseUrl: 'https://media.example.com/',
+            prefix: 'should-not-be-used',
+          },
+        },
+      };
+      beforeEach(() => {
+        configureTestingModule(config);
+        featureConfig = TestBed.inject(FeatureConfigService) as any;
+        spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+        service = TestBed.inject(MediaService);
+      });
+      it('should not add prefix if enableMediaPrefix is disabled', () => {
+        expect(service.getBaseUrl()).toBe('https://media.example.com/');
+      });
+    });
+
+    describe('media prefix enabled, empty prefix', () => {
+      let service: MediaService;
+      let featureConfig: any;
+      const config = {
+        backend: {
+          media: {
+            baseUrl: 'https://media.example.com/',
+            prefix: '',
+          },
+        },
+      };
+      beforeEach(() => {
+        configureTestingModule(config);
+        featureConfig = TestBed.inject(FeatureConfigService) as any;
+        spyOn(featureConfig, 'isEnabled').and.callFake(
+          (feature: string) => feature === 'enableMediaPrefix'
+        );
+        service = TestBed.inject(MediaService);
+      });
+      it('should not add prefix if prefix is empty', () => {
+        expect(service.getBaseUrl()).toBe('https://media.example.com/');
+      });
     });
   });
 });

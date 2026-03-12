@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
 describe(
   'Buy Online, Pick Up in Store - Access Continuum',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       cy.window().then((win) => {

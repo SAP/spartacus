@@ -44,7 +44,6 @@ import {
   getAllTsSourceFiles,
   getHtmlFiles,
   getIndexHtmlPath,
-  getLineFromTSFile,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
@@ -58,7 +57,6 @@ import {
   removeConstructorParam,
   removeImportUsingTsMorph,
   removeInjectImports,
-  renameIdentifierNode,
   shouldRemoveDecorator,
 } from './file-utils';
 import { getSourceRoot } from './workspace-utils';
@@ -896,24 +894,6 @@ describe('File utils', () => {
       });
     });
 
-    describe('getLineFromTSFile', () => {
-      it('should return the ReplaceChange', async () => {
-        const lineFileTestContent =
-          "import test1 from '@test-lib';\nimport test2 from '@another-test-lib';\nconst test = new Test();";
-        const lineFilePath = '/line-test.ts';
-        const testLine = "import test2 from '@another-test-lib'";
-        appTree.create(lineFilePath, lineFileTestContent);
-        const content = appTree.readContent(lineFilePath);
-        const lines = getLineFromTSFile(
-          appTree,
-          lineFilePath,
-          content.indexOf(testLine)
-        );
-
-        expect(lines[0]).toEqual(content.indexOf(testLine));
-      });
-    });
-
     describe('removeInjectImports', () => {
       it('should remove injection token AND Inject decorator imports when there is one decorator in the constructor', () => {
         const sourcePath = 'xxx.ts';
@@ -1047,25 +1027,6 @@ describe('File utils', () => {
         );
         expect(changes).toEqual([
           new InsertChange(filePath, 261, commentToInsert),
-        ]);
-      });
-    });
-
-    describe('renameIdentifierNode', () => {
-      it('should return the ReplaceChange', async () => {
-        const filePath = '/src/app/app.component.ts';
-        const source = getTsSourceFile(appTree, filePath);
-        const oldName = 'App';
-        const newName = 'NewAppComponent';
-
-        const changes = renameIdentifierNode(
-          filePath,
-          source,
-          oldName,
-          newName
-        );
-        expect(changes).toEqual([
-          new ReplaceChange(filePath, 274, oldName, newName),
         ]);
       });
     });

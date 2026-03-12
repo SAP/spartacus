@@ -75,7 +75,6 @@ describe(`OccCartAccessCodeAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCartAccessCodeAdapter,
         {

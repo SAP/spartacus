@@ -15,11 +15,13 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
+import { MyAccountV2ConsentManagementFormComponent } from './consent-form/my-account-v2-consent-management-form.component';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ConsentManagementComponentService } from '../../../consent-management';
 import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
@@ -27,14 +29,12 @@ import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-m
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-my-account-v2-consent-management',
   template: ` <div>form</div> `,
-  imports: [I18nTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -129,13 +129,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MockCxSpinnerComponent,
-        MockConsentManagementFormComponent,
-        MyAccountV2ConsentManagementComponent,
-        MockFeatureDirective,
-      ],
+      imports: [MyAccountV2ConsentManagementComponent],
       providers: [
         ConsentManagementComponentService,
         { provide: UserConsentService, useClass: UserConsentServiceMock },
@@ -153,7 +147,24 @@ describe('MyAccountV2ConsentManagementComponent', () => {
           useValue: mockAnonymousConsentsConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2ConsentManagementComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            MyAccountV2ConsentManagementFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockConsentManagementFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -75,7 +75,6 @@ describe('OppsLoginRequiredGuard', () => {
   let authRedirectService: AuthRedirectService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: OppsConfig, useValue: mockConfig },
         { provide: SemanticPathService, useClass: MockSemanticPathService },

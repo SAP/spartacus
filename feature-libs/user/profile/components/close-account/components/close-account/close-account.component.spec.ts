@@ -1,29 +1,13 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  ICON_TYPE,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CloseAccountComponent } from './close-account.component';
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog() {
@@ -43,18 +27,17 @@ describe('CloseAccountComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CloseAccountComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [CloseAccountComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CloseAccountComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

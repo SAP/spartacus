@@ -56,7 +56,6 @@ describe('Order Return Request effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OrderHistoryConnector,
         fromOrderReturnRequestEffect.OrderReturnRequestEffect,

@@ -36,8 +36,6 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class OrderApprovalListComponent implements OnInit {

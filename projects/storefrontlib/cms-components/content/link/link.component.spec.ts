@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CmsLinkComponent } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { LinkComponent } from './link.component';
 
 const mockLinkData = {
@@ -38,7 +37,7 @@ describe('LinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [GenericLinkModule, LinkComponent],
+      imports: [LinkComponent],
       providers: [
         {
           provide: ActivatedRoute,

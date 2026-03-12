@@ -33,7 +33,6 @@ describe('WithCredentialsInterceptor', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           { provide: OccConfig, useValue: MockAuthModuleConfig },
           {
@@ -85,7 +84,6 @@ describe('WithCredentialsInterceptor', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           { provide: OccConfig, useValue: MockAuthModuleConfig },
           {
@@ -127,7 +125,6 @@ describe('WithCredentialsInterceptor', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           { provide: OccConfig, useValue: MockAuthModuleConfig },
           {

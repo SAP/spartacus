@@ -5,6 +5,7 @@
  */
 
 import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const NOTIFICATION_PREFERENCE_URL = '/my-account/notification-preference';
 
@@ -15,6 +16,7 @@ describe(
   'Account Settings / Notification Preference Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       cy.requireLoggedIn(standardUser);

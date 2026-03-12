@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
 const disabledBestPracticesIds = [1775]; // Confirmed to not use table element for layout.
 const productCode = '300938'; // Product code from the order with consignment tracking info.
 
 describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.a11yContinuumSetup();

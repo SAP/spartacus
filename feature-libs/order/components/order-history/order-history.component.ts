@@ -9,6 +9,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   CxDatePipe,
+  FeatureDirective,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -46,8 +47,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
+    FeatureDirective,
   ],
 })
 export class OrderHistoryComponent implements OnDestroy {

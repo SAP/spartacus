@@ -2,18 +2,20 @@ import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
+  MockTranslatePipe,
   Product,
   ProductService,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
+  FocusDirective,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -28,7 +30,6 @@ const product: Product = { code: 'pCode' };
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -84,13 +85,7 @@ describe('ConfiguratorRestartDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     initializeMocks();
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ConfiguratorRestartDialogComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [ConfiguratorRestartDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -106,7 +101,20 @@ describe('ConfiguratorRestartDialogComponent', () => {
           useValue: mockProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorRestartDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
 describe('Applied Promotions Accessibility', { testIsolation: false }, () => {
   const ProductCode = '1382080';
+  isolateTestsBefore();
   before(() => {
     cy.a11yContinuumSetup();
     cy.requireLoggedIn();

@@ -7,8 +7,7 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
@@ -17,12 +16,21 @@ import { AsmCustomer360PromotionComponent } from './asm-customer-360-promotion.c
 
 describe('AsmCustomer360PromotionComponent', () => {
   @Component({
-    selector: 'cx-icon',
+    selector: 'cx-asm-customer-360-promotion-listing',
     template: '',
-    imports: [I18nTestingModule],
   })
-  class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
+  class MockAsmCustomer360PromotionListingComponent {
+    @Input() headerText: string;
+    @Input() emptyStateText: string;
+    @Input() applyButtonText: string;
+    @Input() applied: string;
+    @Input() removeButtonText: string;
+    @Input() entries: unknown;
+    @Input() showAlert: unknown;
+    @Input() showAlertForApplyAction: unknown;
+    @Input() showRemoveButton: boolean;
+    @Input() showApplyButton: boolean;
+    @Input() isCustomerCoupon: boolean;
   }
 
   let component: AsmCustomer360PromotionComponent;
@@ -95,12 +103,7 @@ describe('AsmCustomer360PromotionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AsmCustomer360PromotionComponent,
-        AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent,
-      ],
+      imports: [AsmCustomer360PromotionComponent],
       providers: [
         AsmCustomer360SectionContextSource,
         {
@@ -116,7 +119,19 @@ describe('AsmCustomer360PromotionComponent', () => {
           useClass: MockActiveCartFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360PromotionComponent, {
+        remove: {
+          imports: [TranslatePipe, AsmCustomer360PromotionListingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockAsmCustomer360PromotionListingComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

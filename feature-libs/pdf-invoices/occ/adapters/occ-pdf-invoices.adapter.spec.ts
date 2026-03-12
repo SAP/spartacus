@@ -109,7 +109,6 @@ describe('OccPDFInvoicesAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccPDFInvoicesAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
