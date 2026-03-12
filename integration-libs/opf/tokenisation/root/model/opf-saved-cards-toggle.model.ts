@@ -10,6 +10,7 @@
 export interface OpfSavedCardsToggleContext {
   savedPaymentHeading?: string | null;
   savedCardsHeading?: string | null;
+  newPaymentHeadingKey?: string;
   selectedPaymentId?: number;
   savedCardsId?: number;
   disabled?: boolean | null;

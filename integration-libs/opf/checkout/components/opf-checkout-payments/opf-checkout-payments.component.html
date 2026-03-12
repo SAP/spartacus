@@ -23,22 +23,6 @@
         >
         </ng-template>
 
-        <!-- New Payment Options Heading -->
-        <div
-          class="cx-payment-options-section"
-          [attr.aria-label]="
-            newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
-              | cxTranslate
-          "
-        >
-          <h3 class="cx-payment-section-heading">
-            {{
-              newPaymentHeadingKey || 'opfCheckout.newPaymentHeading'
-                | cxTranslate
-            }}
-          </h3>
-        </div>
-
         <div
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
