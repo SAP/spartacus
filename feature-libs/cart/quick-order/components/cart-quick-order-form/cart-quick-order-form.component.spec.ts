@@ -7,12 +7,18 @@ import {
   CartAddEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
+  CxDatePipe,
   EventService,
   FeatureConfigService,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
   Translatable,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -101,10 +107,8 @@ describe('CartQuickOrderFormComponent', () => {
       imports: [
         StoreModule.forRoot({}),
         FormErrorsModule,
-        I18nTestingModule,
         ReactiveFormsModule,
         CartQuickOrderFormComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -113,8 +117,16 @@ describe('CartQuickOrderFormComponent', () => {
           useClass: MockEventService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartQuickOrderFormComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CartQuickOrderFormComponent);
     component = fixture.componentInstance;

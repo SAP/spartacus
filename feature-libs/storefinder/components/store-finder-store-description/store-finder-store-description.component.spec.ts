@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { ScheduleComponent } from '../schedule-component/schedule.component';
+import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 
 class StoreFinderServiceMock {
@@ -31,16 +33,24 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        StoreFinderStoreDescriptionComponent,
-        MockScheduleComponent,
-        MockStoreFinderMapComponent,
-      ],
+      imports: [StoreFinderStoreDescriptionComponent],
       providers: [
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderStoreDescriptionComponent, {
+        remove: {
+          imports: [TranslatePipe, ScheduleComponent, StoreFinderMapComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockScheduleComponent,
+            MockStoreFinderMapComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

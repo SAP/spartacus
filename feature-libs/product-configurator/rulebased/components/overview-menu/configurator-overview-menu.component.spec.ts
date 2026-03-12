@@ -1,10 +1,10 @@
-import { Component, Input, Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { IconComponent, MockIconComponent } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -52,15 +52,6 @@ class MockConfiguratorStorefrontUtilsService {
   getVerticallyScrolledPixels(): void {}
 
   scrollToConfigurationElement(): void {}
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -111,10 +102,8 @@ describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        MockCxIconComponent,
         ConfiguratorOverviewMenuComponent,
       ],
       providers: [
@@ -127,7 +116,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewMenuComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
   }));
 
   it('should create component', () => {

@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
@@ -20,6 +14,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
+  MockTranslatePipe,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -39,11 +34,6 @@ import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-car
 class MockOutletDirective {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: any;
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
 }
 
 @Component({

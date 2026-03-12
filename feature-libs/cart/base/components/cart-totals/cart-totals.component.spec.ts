@@ -35,7 +35,7 @@ describe('CartTotalsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MockOrderSummaryComponent, CartTotalsComponent],
+      imports: [CartTotalsComponent],
       providers: [
         {
           provide: ActiveCartFacade,
