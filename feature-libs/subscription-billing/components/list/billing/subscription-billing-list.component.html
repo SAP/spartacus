@@ -97,7 +97,7 @@
               <ng-container *ngIf="billing.items.length > 1">
                 ...
                 <a
-                  [title]="getSubscriptionItems(billing)"
+                  [title]="getTrailingSubscriptionItems(billing)"
                   [routerLink]="
                     {
                       cxRoute: 'subscriptionBillingDetails',

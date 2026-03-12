@@ -50,7 +50,7 @@ import { Observable } from 'rxjs';
     SortingComponent,
     IconComponent,
   ],
-  providers: [CxDatePipe]
+  providers: [CxDatePipe],
 })
 export class SubscriptionBillingListComponent {
   protected subscriptionBillsFacade = inject(SubscriptionBillingFacade);
@@ -227,12 +227,11 @@ export class SubscriptionBillingListComponent {
     );
   }
 
-  
-  getSubscriptionItems(result: SubscriptionBill) {
+  getTrailingSubscriptionItems(result: SubscriptionBill) {
     let billItems = '';
     result.items?.slice(1).forEach((bill, index) => {
       billItems = billItems + bill.productName;
-      if (index !== result.items.length - 2) {
+      if (result?.items?.length && index !== result.items.length - 2) {
         billItems = billItems + ', ';
       }
     });
