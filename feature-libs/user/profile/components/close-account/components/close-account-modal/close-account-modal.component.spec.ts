@@ -3,10 +3,18 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AuthService,
   GlobalMessageService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, throwError } from 'rxjs';
 import { CloseAccountModalComponent } from './close-account-modal.component';
@@ -59,12 +67,7 @@ describe('CloseAccountModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CloseAccountModalComponent,
-        MockCxSpinnerComponent,
-        MockCxIconComponent,
-      ],
+      imports: [CloseAccountModalComponent],
       providers: [
         {
           provide: UserProfileFacade,
@@ -86,8 +89,23 @@ describe('CloseAccountModalComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CloseAccountModalComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, SpinnerComponent] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockCxSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
