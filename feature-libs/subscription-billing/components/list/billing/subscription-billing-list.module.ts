@@ -51,7 +51,7 @@ import { dateRangeModalConfig } from './date-range-modal/date-range-modal.config
         },
       },
     }),
-    provideConfig(dateRangeModalConfig)
+    provideConfig(dateRangeModalConfig),
   ],
 })
 export class SubscriptionBillingListModule {}

@@ -348,10 +348,8 @@ describe('SubscriptionBillingListComponent', () => {
     let tooltipString = component.getTrailingSubscriptionItems(
       listWithMultipleItems.results?.[0] as SubscriptionBill
     );
-    expect(tooltipString).toEqual(
-      'SB - recurring types, Mobile 2020 Plan'
-    );
-     tooltipString = component.getTrailingSubscriptionItems(
+    expect(tooltipString).toEqual('SB - recurring types, Mobile 2020 Plan');
+    tooltipString = component.getTrailingSubscriptionItems(
       listWithData.results?.[0] as SubscriptionBill
     );
     expect(tooltipString).toEqual('');
