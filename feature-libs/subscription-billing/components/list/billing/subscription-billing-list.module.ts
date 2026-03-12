@@ -10,7 +10,6 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
-  provideConfig,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
@@ -51,7 +50,7 @@ import { dateRangeModalConfig } from './date-range-modal/date-range-modal.config
         },
       },
     }),
-    provideConfig(dateRangeModalConfig),
+    provideDefaultConfig(dateRangeModalConfig),
   ],
 })
 export class SubscriptionBillingListModule {}
