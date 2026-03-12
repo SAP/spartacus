@@ -339,6 +339,7 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         searchBoxRecentSearchesRemoval: false,
+        a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         showOnlyActiveCurrencies: true,

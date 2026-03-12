@@ -8,7 +8,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
+  FeatureDirective as CxFeatureDirective,
   LoggerService,
   MockTranslatePipe,
   Product,
@@ -18,6 +18,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(
@@ -66,10 +67,14 @@ describe('Carousel Component', () => {
     })
       .overrideComponent(CarouselComponent, {
         add: {
-          imports: [MockCxIconComponent, MockTranslatePipe],
+          imports: [
+            MockCxIconComponent,
+            MockTranslatePipe,
+            MockFeatureDirective,
+          ],
         },
         remove: {
-          imports: [IconComponent, TranslatePipe],
+          imports: [IconComponent, TranslatePipe, CxFeatureDirective],
         },
       })
       .compileComponents();
@@ -692,7 +697,7 @@ class TestChildComponent implements OnDestroy {
       <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
     </ng-template>
   `,
-  imports: [TestChildComponent, CarouselComponent, I18nTestingModule],
+  imports: [TestChildComponent, CarouselComponent],
 })
 class TestParentComponent {
   mockTitle = 'Test Carousel';
@@ -713,16 +718,14 @@ describe('Carousel Component tested in TestParentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestChildComponent.destroyedCount = 0;
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-        TestParentComponent,
-        TestChildComponent,
-      ],
+      imports: [CarouselComponent, TestParentComponent, TestChildComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
+    })
+      .overrideComponent(CarouselComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
 
     service = TestBed.inject(CarouselService);
     spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));

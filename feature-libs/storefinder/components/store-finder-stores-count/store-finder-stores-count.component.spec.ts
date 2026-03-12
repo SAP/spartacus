@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
@@ -45,11 +46,11 @@ describe('StoreFinderStoresCountComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SpinnerModule,
-        I18nTestingModule,
         StoreFinderStoresCountComponent,
         RouterModule.forRoot([]),
       ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: StoreFinderService,
           useClass: MockStoreFinderService,
