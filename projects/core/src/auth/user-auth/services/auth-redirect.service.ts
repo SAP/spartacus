@@ -6,7 +6,7 @@
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
-import { SiteContextUrlSerializer } from '@spartacus/core';
+import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
