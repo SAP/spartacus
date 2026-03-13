@@ -7,11 +7,11 @@ import { login } from '../../../helpers/auth-forms';
 import * as siteContextSelector from '../../../helpers/site-context-selector';
 import * as merchandisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
-import { whenJDK17 } from '../../../support/utils/jdk-versions';
+import { whenJDK17, whenJDK21 } from '../../../support/utils/jdk-versions';
 import { switchSiteContext } from '../../../support/utils/switch-site-context';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
-context('Site Context', { testIsolation: false }, () => {
+context('Site Context on redirect', { testIsolation: false }, () => {
   isolateTestsBefore();
   const filmCamerasCategoryUrl =
     '/c/' + merchandisingCarousel.filmCamerasCategoryCode;
@@ -57,10 +57,13 @@ context('Site Context', { testIsolation: false }, () => {
     whenJDK17(() => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_JPY + filmCamerasCategoryUrl
-      ),
-        siteContextSelector.assertSiteContextChange(
-          siteContextSelector.FULL_BASE_URL_DE + filmCamerasCategoryUrl
-        );
+      )
+    });
+
+    whenJDK21(() => {
+      siteContextSelector.assertSiteContextChange(
+        siteContextSelector.FULL_BASE_URL_DE_USD + filmCamerasCategoryUrl
+      )
     });
   });
 });
