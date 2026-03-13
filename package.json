@@ -293,5 +293,8 @@
     "typescript": "^5.9.3",
     "webpack": "~5.105.4",
     "webpack-cli": "^6.0.0"
+  },
+  "overrides": {
+    "koa": "^3.1.2"
   }
 }
