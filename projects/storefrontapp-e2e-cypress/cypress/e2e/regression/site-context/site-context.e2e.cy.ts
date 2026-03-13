@@ -57,13 +57,13 @@ context('Site Context on redirect', { testIsolation: false }, () => {
     whenJDK17(() => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_JPY + filmCamerasCategoryUrl
-      )
+      );
     });
 
     whenJDK21(() => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + filmCamerasCategoryUrl
-      )
+      );
     });
   });
 });
