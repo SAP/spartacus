@@ -145,12 +145,12 @@ describe('SiteContextUrlSerializer', () => {
   });
 
   describe('combineUrlAndSiteContextUrlParams', () => {
-    it('should combine url and ', () => {
+    it('should combine url and site context parameters', () => {
       const result = service.combineUrlAndSiteContextUrlParams('some/url', {
         language: 'de',
         currency: 'usd',
       });
-      const expected = 'de/usd/some/url'
+      const expected = 'de/usd/some/url';
 
       expect(result).toEqual(expected);
     });

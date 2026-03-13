@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { SiteContextUrlSerializer } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -38,12 +38,11 @@ export class AuthRedirectService implements OnDestroy {
     protected routing: RoutingService,
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService,
-    protected siteContextUrlSerializer: SiteContextUrlSerializer
+    protected authFlowRoutesService: AuthFlowRoutesService
   ) {
     this.init();
   }
-
+  protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
   protected subscription: Subscription;
 
   protected init() {
