@@ -161,7 +161,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   /**
    * Prepends the current values of the given site context parameters to the given URL and returns in the form of a URL.
    */
-   combineUrlAndSiteContextUrlParams(
+  combineUrlAndSiteContextUrlParams(
     url: string,
     params: SiteContextUrlParams
   ): string {
