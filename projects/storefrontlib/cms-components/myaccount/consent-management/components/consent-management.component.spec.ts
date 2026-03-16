@@ -15,12 +15,14 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
 
@@ -128,13 +130,7 @@ describe('ConsentManagementComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MockCxSpinnerComponent,
-        MockConsentManagementFormComponent,
-        ConsentManagementComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ConsentManagementComponent],
       providers: [
         ConsentManagementComponentService,
         { provide: UserConsentService, useClass: UserConsentServiceMock },
@@ -152,7 +148,24 @@ describe('ConsentManagementComponent', () => {
           useValue: mockAnonymousConsentsConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConsentManagementComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            ConsentManagementFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockConsentManagementFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

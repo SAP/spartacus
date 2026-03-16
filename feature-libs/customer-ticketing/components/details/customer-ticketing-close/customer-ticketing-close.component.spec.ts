@@ -1,6 +1,11 @@
 import { Component, ElementRef, Input, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS,
@@ -9,6 +14,7 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -61,11 +67,7 @@ describe('CustomerTicketingCloseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CustomerTicketingCloseComponent,
-        MockCxIconComponent,
-      ],
+      imports: [CustomerTicketingCloseComponent],
       providers: [
         CustomerTicketingCloseComponentService,
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -74,7 +76,14 @@ describe('CustomerTicketingCloseComponent', () => {
           useClass: MockCustomerTicketingFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCloseComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
