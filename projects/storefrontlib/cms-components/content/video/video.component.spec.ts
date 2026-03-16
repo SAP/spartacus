@@ -80,7 +80,7 @@ describe('VideoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), VideoComponent, MockTranslatePipe],
+      imports: [RouterModule.forRoot([]), VideoComponent],
       providers: [
         { provide: CmsComponentData, useClass: MockCmsVideoComponentData },
         { provide: CmsService, useClass: MockCmsService },

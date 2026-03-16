@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Pipe, PipeTransform } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -18,6 +18,7 @@ import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
   TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
@@ -36,11 +37,6 @@ import {
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive = () => of({ purchaseOrderNumber: 'PO123' });

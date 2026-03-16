@@ -17,8 +17,8 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { combineLatest, Observable, of, throwError } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 
 @Injectable()
@@ -59,17 +59,31 @@ export class ReorderOrderService implements ReorderOrderFacade {
       this.activeCartFacade.getActiveCartId(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      switchMap(([userId, cartId]) => {
         if (!userId) {
-          throw new Error('Must be logged in to reorder');
+          return throwError(() => new Error('Must be logged in to reorder'));
         }
 
         if (cartId) {
-          this.multiCartFacade.deleteCart(cartId, userId);
+          return this.deleteCartAndWait(cartId, userId);
         }
 
-        return userId;
+        return of(userId);
       })
+    );
+  }
+
+  protected deleteCartAndWait(
+    cartId: string,
+    userId: string
+  ): Observable<string> {
+    this.multiCartFacade.deleteCart(cartId, userId);
+    // Wait for the cart entity to be fully removed from the store
+    // before proceeding with the reorder.
+    return this.multiCartFacade.getCartEntity(cartId).pipe(
+      filter((state) => !state.value && !state.loading),
+      take(1),
+      map(() => userId)
     );
   }
 }

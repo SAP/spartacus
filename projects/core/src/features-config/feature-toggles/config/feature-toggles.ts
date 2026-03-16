@@ -413,6 +413,16 @@ export interface FeatureTogglesInterface {
   enableB2BCustomerSearch?: boolean;
 
   /**
+   * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
+   * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
+   *
+   * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
+   * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
+   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   */
+  a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
    * Sets the ng-select (readonly) input value from the selected option text,
    * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
    * Affects: `NgSelectA11yDirective`
@@ -494,6 +504,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
+  a11yCarouselPreventNavigationFocus: false,
   a11yNgSelectReadonlyInputValue: false,
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,

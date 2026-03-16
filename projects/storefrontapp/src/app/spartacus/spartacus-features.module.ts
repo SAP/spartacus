@@ -341,6 +341,7 @@ if (environment.cpq) {
         enableB2BUnitSearch: false,
         enableB2BCostCenterSearch: false,
         enableB2BCustomerSearch: false,
+        a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         showOnlyActiveCurrencies: true,
