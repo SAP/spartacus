@@ -14,11 +14,12 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   TranslatePipe,
+  TranslationService,
   UrlPipe,
 } from '@spartacus/core';
 import {
@@ -77,9 +78,9 @@ describe('VerificationTokenFormComponent', () => {
         SpinnerModule,
         VerificationTokenFormComponent,
         RouterModule.forRoot([]),
-        I18nTestingModule,
       ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: VerificationTokenFormComponentService,
           useClass: MockFormComponentService,

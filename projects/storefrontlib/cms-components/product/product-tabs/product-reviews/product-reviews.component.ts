@@ -12,7 +12,9 @@ import {
   ElementRef,
   inject,
   Input,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import {
   FormsModule,
@@ -71,6 +73,7 @@ export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
+  @ViewChildren('reviewItem') reviewItems: QueryList<ElementRef<HTMLElement>>;
 
   @Input() maxLengthReviewTitle = 255;
   @Input() maxLengthReviewComment = 2200;
@@ -158,6 +161,20 @@ export class ProductReviewsComponent {
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();
     }
+  }
+
+  focusNextReview(event: UIEvent, currentIndex: number): void {
+    event.preventDefault();
+    const items = this.reviewItems.toArray();
+    const nextIndex =
+      currentIndex + 1 < items.length ? currentIndex + 1 : currentIndex;
+    items[nextIndex]?.nativeElement.focus();
+  }
+
+  focusPreviousReview(event: UIEvent, currentIndex: number): void {
+    event.preventDefault();
+    const prevIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : 0;
+    this.reviewItems.toArray()[prevIndex]?.nativeElement.focus();
   }
 
   private resetReviewForm(): void {

@@ -1,7 +1,7 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
@@ -13,11 +13,6 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-term
 })
 class MockIconComponent {
   @Input() type: string;
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
 }
 
 const alertSelector = '.cx-opf-checkout-terms-and-conditions-alert';
@@ -32,7 +27,7 @@ describe('OpfCheckoutTermsAndConditionsAlertComponent', () => {
       paymentOptionsDisabled$: of(false),
     };
     TestBed.configureTestingModule({
-      imports: [OpfCheckoutTermsAndConditionsAlertComponent, MockTranslatePipe],
+      imports: [OpfCheckoutTermsAndConditionsAlertComponent],
       providers: [
         {
           provide: OpfCheckoutBillingAddressFormService,

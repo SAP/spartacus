@@ -9,16 +9,6 @@ import { Observable, Subject } from 'rxjs';
 import { RenderParams } from '../captcha.model';
 import { CaptchaService } from '../captcha.service';
 
-/**
- * Global function to be passes as "onload" url param for captcha <script>, to be
- * triggered once script and dependencies are loaded
- */
-declare global {
-  interface Window {
-    onCaptchaLoad: () => void;
-  }
-}
-
 @Injectable({
   providedIn: 'root',
 })

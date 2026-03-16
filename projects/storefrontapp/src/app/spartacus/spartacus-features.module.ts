@@ -338,6 +338,13 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
+        a11yCarouselPreventNavigationFocus: true,
+        a11yNgSelectReadonlyInputValue: true,
+        a11yPasswordVisibilityToggle: true,
+        showOnlyActiveCurrencies: true,
+        a11yAddedToCartDialogHeading: true,
+        a11yCartItemListHideEmptyOutlets: true,
+        a11yReviewsKeyboardControls: true,
       };
       return appFeatureToggles;
     }),

@@ -161,6 +161,15 @@ describe('QuoteLinksComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should dispatch QuoteDetailsReloadQueryEvent when component is initialized', () => {
+    spyOn(eventService, 'dispatch').and.callThrough();
+    component.ngOnInit();
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {},
+      QuoteDetailsReloadQueryEvent
+    );
+  });
+
   it('should render empty component', () => {
     fixture = TestBed.createComponent(QuoteLinksComponent);
     htmlElem = fixture.nativeElement;
