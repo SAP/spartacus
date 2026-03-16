@@ -61,8 +61,8 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "zone.js": "~0.16.0"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^21.2.0",
-    "@angular-devkit/schematics": "^21.2.0",
+    "@angular-devkit/core": "^21.2.2",
+    "@angular-devkit/schematics": "^21.2.2",
     "@angular/build": "^21.2.0",
     "@angular/cli": "^0.5.0",
     "@angular/compiler": "^21.2.4",
