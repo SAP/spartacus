@@ -213,6 +213,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected hasQuery = false;
 
   /**
+   * Cached flag indicating if the current viewport is mobile (BREAKPOINT.sm and below).
+   * Used to vary behavior between mobile and desktop.
+   */
+  protected isMobileState: boolean | null = null;
+
+  /**
    * Cached check whether the searchBoxRecentSearchesRemoval feature is enabled.
    * Used to switch between legacy and new recent-searches structures.
    */
@@ -316,6 +322,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const configSubscription = this.config$.subscribe();
     this.subscriptions.add(configSubscription);
 
+    const isMobile$ = this.isMobile;
+    if (isMobile$) {
+      const isMobileSubscription = isMobile$.subscribe(
+        (isMobile) => (this.isMobileState = isMobile ?? false)
+      );
+      this.subscriptions.add(isMobileSubscription);
+    }
+
     const routeStateSubscription = this.routingService
       .getRouterState()
       .pipe(filter((data) => !data.nextState))
@@ -387,10 +401,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (!this.searchBoxActive) {
       const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
       const trimmed = inputValue.trim();
-      if (!trimmed) {
-        // Don't open results when there is no query
+      const isMobile = this.isMobileState;
+
+      // On desktop, do not open results when there is no query.
+      // On mobile, always allow opening to show the panel.
+      if (isMobile === false && !trimmed) {
         return;
       }
+
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
       this.searchBoxActive = true;
       this.searchInputEl?.nativeElement.focus();
