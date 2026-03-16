@@ -20,7 +20,7 @@
   },
   "peerDependencies": {
     "@angular/core": "^21.2.4",
-    "@angular/ssr": "^21.2.0",
+    "@angular/ssr": "^21.2.2",
     "@spartacus/cart": "221121.9.0-1",
     "@spartacus/core": "221121.9.0-1",
     "@spartacus/order": "221121.9.0-1",
