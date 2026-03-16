@@ -68,20 +68,7 @@ export class AuthRedirectService implements OnDestroy {
         if (redirectUrl === undefined) {
           this.routing.go('/');
         } else {
-          const actualParams =
-            this.siteContextUrlSerializer.urlExtractContextParameters(
-              this.router.url
-            ).params;
-          const redirectPageContextUrl =
-            this.siteContextUrlSerializer.urlExtractContextParameters(
-              redirectUrl
-            ).url;
-          this.routing.goByUrl(
-            this.siteContextUrlSerializer.combineUrlAndSiteContextUrlParams(
-              redirectPageContextUrl,
-              actualParams
-            )
-          );
+          this.routing.goByUrl(redirectUrl);
         }
         this.clearRedirectUrl();
       });
@@ -106,7 +93,11 @@ export class AuthRedirectService implements OnDestroy {
    */
   setRedirectUrl(url: string): void {
     if (!this.authFlowRoutesService.isAuthFlow(url)) {
-      this.authRedirectStorageService.setRedirectUrl(url);
+      // Remove site-context params from the redirect URL to avoid using outdated values (e.g., language) after authentication.
+      // Without these params in the Redirect URL, up-to-date site-context values will be applied implicitly on redirect.
+      this.authRedirectStorageService.setRedirectUrl(
+        this.getUrlWithoutSiteContextParams(url)
+      );
     }
   }
 
@@ -115,5 +106,19 @@ export class AuthRedirectService implements OnDestroy {
    */
   protected clearRedirectUrl(): void {
     this.authRedirectStorageService.setRedirectUrl(undefined);
+  }
+
+  /**
+   * For a given URL, removes the prefix with site-context params (e.g., baseSite, language, currency)
+   *
+   * @example
+   * Supposing the configured site-context URL params are [baseSite, language, currency],
+   * and given the url '/electronics-spa/en/USD/product/123',
+   * it returns '/product/123'.
+   */
+  protected getUrlWithoutSiteContextParams(url: string): string {
+    const { url: urlWithoutSiteContextParams } =
+      this.siteContextUrlSerializer.urlExtractContextParameters(url);
+    return urlWithoutSiteContextParams;
   }
 }

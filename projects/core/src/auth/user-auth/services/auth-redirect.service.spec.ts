@@ -30,10 +30,6 @@ class MockSiteContextUrlSerializer
   } {
     return { url, params: { language: 'en', currency: 'jpy' } };
   }
-
-  combineUrlAndSiteContextUrlParams = jasmine
-    .createSpy('combineUrlAndSiteContextUrlParams')
-    .and.returnValue('combined/url');
 }
 
 @Component({
@@ -87,15 +83,12 @@ describe('AuthRedirectService', () => {
   });
 
   describe('redirect', () => {
-    it('should redirect to the combined redirect URL', () => {
+    it('should redirect by to the saved redirect URL', () => {
       const redirectUrl = '/redirect/url';
       authRedirectStorageService.setRedirectUrl(redirectUrl);
       service.redirect();
-      expect(
-        siteContextUrlSerializer.combineUrlAndSiteContextUrlParams
-      ).toHaveBeenCalledWith(redirectUrl, { language: 'en', currency: 'jpy' });
       expect(authRedirectStorageService.getRedirectUrl).toHaveBeenCalled();
-      expect(routingService.goByUrl).toHaveBeenCalledWith('combined/url');
+      expect(routingService.goByUrl).toHaveBeenCalledWith(redirectUrl);
     });
 
     it('should redirect to home page when there was no saved redirect URL', () => {
@@ -174,15 +167,34 @@ describe('AuthRedirectService', () => {
   });
 
   describe('setRedirectUrl', () => {
-    it('should save the passed url', () => {
-      service.setRedirectUrl('/custom/url');
+    it('should save the passed url without site context parameters', () => {
+      spyOn<any>(service, 'getUrlWithoutSiteContextParams').and.returnValue(
+        '/c/123'
+      );
+      service.setRedirectUrl('/custom/url/en/USD/c/123');
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-        '/custom/url'
+        '/c/123'
       );
     });
+
     it('should not save the url if the url is part of the user auth flow', () => {
       service.setRedirectUrl('/login');
       expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getUrlWithoutSiteContextParams', () => {
+    it('should return url without site context parameters', () => {
+      const inputUrl = '/custom/url/en/USD/c/123';
+      spyOn(
+        siteContextUrlSerializer,
+        'urlExtractContextParameters'
+      ).and.callThrough();
+      const result = (service as any).getUrlWithoutSiteContextParams(inputUrl);
+      expect(result).toEqual(jasmine.any(String));
+      expect(
+        siteContextUrlSerializer.urlExtractContextParameters
+      ).toHaveBeenCalledWith(inputUrl);
     });
   });
 });
