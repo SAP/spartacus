@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Configuration (Spartacus Config pattern)
+export * from './config/index';
+
 // Models (interfaces, abstract classes, tokens)
 export * from './model/sitemap.model';
 export * from './model/sitemap-url-provider';

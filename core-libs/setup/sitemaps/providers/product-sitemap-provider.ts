@@ -72,6 +72,13 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
     const urlsByLanguage: Record<string, number> = {};
 
     const hasCurrencyInUrl = context.urlEncodingParams.includes('currency');
+    const hasLanguageInUrl = context.urlEncodingParams.includes('language');
+
+    // If language is part of URL encoding, generate per-language.
+    // Otherwise, generate only for default language.
+    const languagesToIterate = hasLanguageInUrl
+      ? context.languages
+      : [context.languages[0] || 'en'];
 
     // If currency is part of URL encoding, generate per-language-per-currency.
     // Otherwise, generate per-language with default currency.
@@ -79,7 +86,7 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
       ? context.currencies
       : [context.defaultCurrency];
 
-    for (const language of context.languages) {
+    for (const language of languagesToIterate) {
       for (const currency of currenciesToIterate) {
         const urlPrefix = this.buildUrlPrefix(context, language, currency);
 
@@ -90,19 +97,27 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
         const entries = await this.fetchProducts(context, language, urlPrefix);
 
         if (entries.length > 0) {
-          const filename = hasCurrencyInUrl
-            ? `sitemap-${this.name}-${language}-${currency}.xml`
-            : `sitemap-${this.name}-${language}.xml`;
+          // Split into multiple files if exceeding maxUrlsPerSitemap
+          const chunks = this.chunkEntries(entries, context.config.maxUrlsPerSitemap);
 
-          sitemaps[filename] = this.buildSitemapXml(entries);
-          files.push(filename);
-          totalUrls += entries.length;
-          urlsByLanguage[language] =
-            (urlsByLanguage[language] || 0) + entries.length;
+          for (let i = 0; i < chunks.length; i++) {
+            const chunk = chunks[i];
+            const filename = this.buildFilename(
+              hasLanguageInUrl ? language : undefined,
+              hasCurrencyInUrl ? currency : undefined,
+              chunks.length > 1 ? i + 1 : undefined
+            );
 
-          console.log(
-            `[Sitemap] ProductProvider: Generated ${filename}: ${entries.length} URLs`
-          );
+            sitemaps[filename] = this.buildSitemapXml(chunk);
+            files.push(filename);
+            totalUrls += chunk.length;
+            urlsByLanguage[language] =
+              (urlsByLanguage[language] || 0) + chunk.length;
+
+            console.log(
+              `[Sitemap] ProductProvider: Generated ${filename}: ${chunk.length} URLs`
+            );
+          }
         }
       }
     }
@@ -114,6 +129,44 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
       totalUrls,
       urlsByLanguage,
     };
+  }
+
+  /**
+   * Builds filename for sitemap based on language, currency, and page number.
+   * Only includes components that are present in urlEncodingAttributes.
+   */
+  protected buildFilename(
+    language?: string,
+    currency?: string,
+    pageNumber?: number
+  ): string {
+    const parts = [`sitemap-${this.name}`];
+
+    if (language) {
+      parts.push(language);
+    }
+    if (currency) {
+      parts.push(currency);
+    }
+    if (pageNumber !== undefined) {
+      parts.push(String(pageNumber));
+    }
+
+    return parts.join('-') + '.xml';
+  }
+
+  /**
+   * Splits entries into chunks of maxSize.
+   */
+  protected chunkEntries(
+    entries: SitemapUrlEntry[],
+    maxSize: number
+  ): SitemapUrlEntry[][] {
+    const chunks: SitemapUrlEntry[][] = [];
+    for (let i = 0; i < entries.length; i += maxSize) {
+      chunks.push(entries.slice(i, i + maxSize));
+    }
+    return chunks;
   }
 
   /**

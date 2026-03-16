@@ -13,6 +13,8 @@ import {
   runInInjectionContext,
 } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
+import { provideConfig } from '@spartacus/core';
+import { defaultSitemapConfig } from '../config/sitemap-config';
 import {
   SitemapConfigExtractorService,
   SitemapSsrConfig,
@@ -60,13 +62,27 @@ function sitemapGeneratorInitializerFactory(
  * ]
  * ```
  *
- * ## With overrides
+ * ## With SSR overrides
  *
  * ```typescript
  * providers: [
  *   provideSitemapGenerator({
  *     baseUrl: 'https://my-storefront.com',  // override public URL
+ *     baseSiteFilter: ['electronics-spa', 'powertools-spa'],  // optional filter
  *   }),
+ * ]
+ * ```
+ *
+ * ## With sitemap config (Spartacus Config pattern)
+ *
+ * ```typescript
+ * providers: [
+ *   provideSitemapGenerator(),
+ *   provideConfig({
+ *     sitemap: {
+ *       maxUrlsPerSitemap: 50,  // for testing; default is 50000 per sitemaps.org
+ *     },
+ *   } as SitemapConfig),
  * ]
  * ```
  *
@@ -82,21 +98,38 @@ function sitemapGeneratorInitializerFactory(
  * ## How it works
  *
  * 1. First SSR render triggers generation (subsequent renders skip)
- * 2. Resolves site context from Angular DI (baseSite, languages, currencies)
- * 3. Runs all registered `SITEMAP_URL_PROVIDERS` (default: ProductSitemapProvider)
- * 4. URLs generated using real SemanticPathService (respects customer's RoutingConfig)
- * 5. OCC endpoint uses `productSearch.sitemap` scope from OccConfig
- * 6. Generated XML stored in shared state → Express serves it
+ * 2. Fetches all baseSites from OCC and iterates over them
+ * 3. For each baseSite, resolves context (languages, currencies, urlEncodingAttributes)
+ * 4. Runs all registered `SITEMAP_URL_PROVIDERS` (default: ProductSitemapProvider)
+ * 5. URLs generated using real SemanticPathService (respects customer's RoutingConfig)
+ * 6. OCC endpoint uses `productSearch.sitemap` scope from OccConfig
+ * 7. Generated XML stored in shared state → Express serves it
  *
- * @param config - Optional overrides for baseUrl/occBaseUrl
+ * ## URL encoding
+ *
+ * The `urlEncodingAttributes` from each baseSite determines what appears in URLs:
+ * - `['storefront', 'language', 'currency']` → `/powertools-spa/en/USD/product/123`
+ * - `['storefront', 'language']` → `/electronics-spa/en/product/123`
+ * - `['language']` → `/en/product/123`
+ *
+ * ## Sitemap file limits
+ *
+ * Per sitemaps.org protocol, each sitemap file can contain max 50,000 URLs.
+ * When exceeded, files are split with numeric suffixes:
+ * - `sitemap-products-en-1.xml`
+ * - `sitemap-products-en-2.xml`
+ *
+ * @param ssrConfig - Optional SSR-specific overrides for baseUrl/occBaseUrl/baseSiteFilter
  */
 export function provideSitemapGenerator(
-  config?: SitemapSsrConfig
+  ssrConfig?: SitemapSsrConfig
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
-    // Optional config overrides
-    ...(config
-      ? [{ provide: SITEMAP_SSR_CONFIG, useValue: config }]
+    // Default sitemap configuration (can be overridden via provideConfig)
+    provideConfig(defaultSitemapConfig),
+    // Optional SSR config overrides
+    ...(ssrConfig
+      ? [{ provide: SITEMAP_SSR_CONFIG, useValue: ssrConfig }]
       : []),
     // Default product URL provider
     {

@@ -88,6 +88,73 @@ provideSitemapGenerator({
 
 If not set, `OccConfig.backend.occ.baseUrl` is used automatically.
 
+### Sitemap file limits (Spartacus Config pattern)
+
+Per sitemaps.org protocol, each sitemap file can contain max 50,000 URLs.
+Configure this limit using the standard Spartacus config pattern:
+
+```typescript
+import { provideConfig } from '@spartacus/core';
+import { SitemapConfig } from '@spartacus/setup/sitemaps';
+
+// app.config.ts
+providers: [
+  provideSitemapGenerator(),
+  provideConfig({
+    sitemap: {
+      maxUrlsPerSitemap: 50,  // for testing; default is 50000
+    },
+  } as SitemapConfig),
+]
+```
+
+When the limit is exceeded, files are automatically split with numeric suffixes:
+- `sitemap-products-en-1.xml`
+- `sitemap-products-en-2.xml`
+
+### Filter baseSites
+
+By default, sitemaps are generated for all baseSites. Filter them:
+
+```typescript
+// By UID array
+provideSitemapGenerator({
+  baseSiteFilter: ['electronics-spa', 'powertools-spa'],
+})
+
+// Or with a filter function
+provideSitemapGenerator({
+  baseSiteFilter: (baseSite) => !baseSite.requiresAuthentication,
+})
+```
+
+## Multi-site support
+
+The generator iterates over all baseSites from OCC and creates separate sitemaps for each:
+
+```
+/sitemaps/electronics-spa/sitemap-products-en.xml
+/sitemaps/electronics-spa/sitemap-products-de.xml
+/sitemaps/powertools-spa/sitemap-products-en-USD.xml
+/sitemaps/powertools-spa/sitemap-products-de-USD.xml
+```
+
+The main `/sitemap.xml` index references all of them.
+
+### URL encoding attributes
+
+Each baseSite has its own `urlEncodingAttributes` which determines what appears in URLs:
+
+| `urlEncodingAttributes` | Example URL |
+|-------------------------|-------------|
+| `['storefront', 'language', 'currency']` | `/powertools-spa/en/USD/product/123` |
+| `['storefront', 'language']` | `/electronics-spa/en/product/123` |
+| `['language']` | `/en/product/123` |
+
+**Note about `storefront`:** This is used when hosting multiple storefronts on the same domain.
+If 1 domain = 1 storefront, you may not need `storefront` in your `urlEncodingAttributes`.
+The generator respects whatever is configured in your baseSite.
+
 ## Extensibility
 
 ### Custom URL providers
@@ -138,26 +205,26 @@ providers: [
 ]
 ```
 
-## Currency handling
+## Language and Currency handling
 
-### URL encoding with currency
+### URL encoding based on urlEncodingAttributes
 
-When `urlEncodingAttributes` includes `currency` (e.g., `['baseSite', 'language', 'currency']`),
-sitemaps are generated per language **and** per currency:
+The generator reads `urlEncodingAttributes` from each baseSite and only includes
+language/currency in URLs when they are configured:
 
-```
-sitemap-products-en-USD.xml
-sitemap-products-en-EUR.xml
-sitemap-products-de-USD.xml
-sitemap-products-de-EUR.xml
-```
+**When `currency` IS in `urlEncodingAttributes`:**
+- Sitemaps generated per language **and** per currency
+- URL prefix includes currency: `/powertools-spa/en/USD/product/123`
+- Files: `sitemap-products-en-USD.xml`, `sitemap-products-de-EUR.xml`
 
-When currency is **not** in URL encoding, files are per language only:
+**When `currency` is NOT in `urlEncodingAttributes`:**
+- Sitemaps generated per language only
+- URL prefix omits currency: `/electronics-spa/en/product/123`
+- Files: `sitemap-products-en.xml`, `sitemap-products-de.xml`
 
-```
-sitemap-products-en.xml
-sitemap-products-de.xml
-```
+**When `language` is NOT in `urlEncodingAttributes`:**
+- Only default language is used
+- Single file per provider: `sitemap-products.xml`
 
 > **Note:** OCC product search results are typically currency-independent.
 > The currency only affects the URL prefix, not the API call.
@@ -175,18 +242,31 @@ productSearch: {
 
 Customers can override this in their OCC config to include additional fields.
 
+## Generated sitemap structure
+
+For a deployment with multiple baseSites:
+
+```
+/sitemap.xml                                          # Master index
+/sitemaps/electronics-spa/sitemap-products-en.xml     # Electronics, English
+/sitemaps/electronics-spa/sitemap-products-de.xml     # Electronics, German
+/sitemaps/powertools-spa/sitemap-products-en-USD.xml  # Powertools, English, USD
+/sitemaps/powertools-spa/sitemap-products-en-USD-1.xml # (if > 50000 URLs)
+/sitemaps/powertools-spa/sitemap-products-en-USD-2.xml # (continued)
+```
+
 ## File structure
 
 ```
 sitemaps/
 ├── model/
-│   ├── sitemap.model.ts          # Core interfaces
+│   ├── sitemap.model.ts          # Core interfaces + SitemapConfig
 │   └── sitemap-url-provider.ts   # Abstract base class + multi-token
 ├── providers/
 │   └── product-sitemap-provider.ts  # Default product provider
 ├── ssr-bridge/
 │   ├── sitemap-shared-state.ts      # In-memory shared state
-│   ├── sitemap-config-extractor.service.ts  # Orchestrator service
+│   ├── sitemap-config-extractor.service.ts  # Orchestrator (multi-site)
 │   └── sitemap-config-initializer.ts        # provideSitemapGenerator()
 ├── express/
 │   └── sitemap-middleware.ts     # Express serving middleware

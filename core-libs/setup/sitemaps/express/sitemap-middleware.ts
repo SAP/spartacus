@@ -138,7 +138,36 @@ export function setupSitemapServing(
     }
   });
 
-  // Individual sitemap files: /sitemaps/sitemap-products-en.xml
+  // Individual sitemap files with baseSite prefix: /sitemaps/:baseSite/:filename
+  // e.g., /sitemaps/electronics-spa/sitemap-products-en.xml
+  app.get(`${servePath}/:baseSite/:filename`, async (req, res) => {
+    const baseSite = req.params['baseSite'];
+    const filename = req.params['filename'];
+    const fullPath = `${baseSite}/${filename}`;
+
+    // If sitemaps aren't ready, trigger a warmup SSR render
+    if (!SITEMAP_SHARED_STATE.isReady && !SITEMAP_SHARED_STATE.isGenerating) {
+      triggerWarmup(req);
+    }
+
+    try {
+      const state = await waitForSitemapReady(timeout);
+      const xml = state.sitemaps[fullPath];
+
+      if (xml) {
+        res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+        res.send(xml);
+      } else {
+        res.status(404).send(`Sitemap file '${fullPath}' not found. Available: ${state.sitemapFiles.join(', ')}`);
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : 'Unknown error';
+      res.status(503).send(`Sitemap not ready: ${msg}`);
+    }
+  });
+
+  // Legacy route for backward compatibility: /sitemaps/:filename (without baseSite prefix)
+  // This is for single-site deployments or migration period
   app.get(`${servePath}/:filename`, async (req, res) => {
     const filename = req.params['filename'];
 
@@ -149,7 +178,19 @@ export function setupSitemapServing(
 
     try {
       const state = await waitForSitemapReady(timeout);
-      const xml = state.sitemaps[filename];
+
+      // First try exact match (for single-site deployments)
+      let xml = state.sitemaps[filename];
+
+      // If not found, try to find it in any baseSite subdirectory
+      if (!xml) {
+        for (const key of Object.keys(state.sitemaps)) {
+          if (key.endsWith(`/${filename}`)) {
+            xml = state.sitemaps[key];
+            break;
+          }
+        }
+      }
 
       if (xml) {
         res.setHeader('Content-Type', 'application/xml; charset=utf-8');

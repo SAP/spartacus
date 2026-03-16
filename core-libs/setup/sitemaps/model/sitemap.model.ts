@@ -26,12 +26,19 @@ export interface SitemapUrlEntry {
 }
 
 /**
+ * Resolved sitemap configuration with all values filled in.
+ */
+export interface ResolvedSitemapConfig {
+  maxUrlsPerSitemap: number;
+}
+
+/**
  * Context information passed to URL providers during generation.
  * Contains all resolved site context values so providers don't need
  * to resolve them independently.
  */
 export interface SitemapGenerationContext {
-  /** Resolved base site ID (e.g., 'electronics-spa') */
+  /** Resolved base site UID (e.g., 'electronics-spa') */
   baseSiteId: string;
   /** Storefront base URL (e.g., 'https://example.com') */
   baseUrl: string;
@@ -43,8 +50,10 @@ export interface SitemapGenerationContext {
   currencies: string[];
   /** Default currency isocode */
   defaultCurrency: string;
-  /** URL encoding parameters (e.g., ['baseSite', 'language', 'currency']) */
+  /** URL encoding parameters (e.g., ['storefront', 'language', 'currency']) */
   urlEncodingParams: string[];
+  /** Resolved sitemap configuration (limits, etc.) */
+  config: ResolvedSitemapConfig;
 }
 
 /**

@@ -12,19 +12,24 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import {
+  BaseSite,
   BaseSiteService,
-  CurrencyService,
-  LanguageService,
   OccConfig,
-  SiteContextParamsService,
 } from '@spartacus/core';
 import { firstValueFrom } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import {
+  defaultSitemapConfig,
+  SitemapConfig,
+} from '../config/sitemap-config';
 import {
   SITEMAP_URL_PROVIDERS,
   SitemapUrlProvider,
 } from '../model/sitemap-url-provider';
-import { SitemapGenerationContext } from '../model/sitemap.model';
+import {
+  ResolvedSitemapConfig,
+  SitemapGenerationContext,
+} from '../model/sitemap.model';
 import {
   markSitemapError,
   markSitemapGenerating,
@@ -51,6 +56,13 @@ export interface SitemapSsrConfig {
    * If not set, uses `OccConfig.backend.occ.baseUrl`.
    */
   occBaseUrl?: string;
+
+  /**
+   * Filter which baseSites to generate sitemaps for.
+   * If not set, generates for all baseSites.
+   * Can be an array of baseSite UIDs or a filter function.
+   */
+  baseSiteFilter?: string[] | ((baseSite: BaseSite) => boolean);
 }
 
 /**
@@ -67,9 +79,20 @@ export const SITEMAP_SSR_CONFIG = new InjectionToken<SitemapSsrConfig>(
  * Main sitemap generator service. Orchestrates URL providers during SSR bootstrap.
  *
  * This service:
- * 1. Resolves site context (baseSite, languages, currencies) from Angular DI
- * 2. Delegates URL generation to registered `SitemapUrlProvider` instances
- * 3. Stores generated XML sitemaps in shared state for Express to serve
+ * 1. Fetches all baseSites from OCC
+ * 2. For each baseSite, resolves context (languages, currencies, urlEncodingAttributes)
+ * 3. Delegates URL generation to registered `SitemapUrlProvider` instances
+ * 4. Generates separate sitemaps per baseSite with proper prefixing
+ * 5. Creates a master sitemap index referencing all per-site sitemaps
+ *
+ * ## Multi-site support
+ *
+ * Each baseSite gets its own set of sitemaps:
+ * - `/sitemaps/electronics-spa/sitemap-products-en.xml`
+ * - `/sitemaps/electronics-spa/sitemap-products-de.xml`
+ * - `/sitemaps/powertools-spa/sitemap-products-en-USD.xml`
+ *
+ * The main sitemap index (`/sitemap.xml`) references all of them.
  *
  * ## Extensibility
  *
@@ -91,17 +114,15 @@ export const SITEMAP_SSR_CONFIG = new InjectionToken<SitemapSsrConfig>(
 export class SitemapConfigExtractorService {
   private platformId = inject(PLATFORM_ID);
   private baseSiteService = inject(BaseSiteService);
-  private languageService = inject(LanguageService);
-  private currencyService = inject(CurrencyService);
-  private siteContextParamsService = inject(SiteContextParamsService);
   private occConfig = inject(OccConfig);
-  private config = inject(SITEMAP_SSR_CONFIG);
+  private ssrConfig = inject(SITEMAP_SSR_CONFIG);
+  private sitemapConfig = inject(SitemapConfig);
 
   private providers: SitemapUrlProvider[] =
     inject(SITEMAP_URL_PROVIDERS, { optional: true }) ?? [];
 
   /**
-   * Main entry point — orchestrates all registered URL providers.
+   * Main entry point — orchestrates all registered URL providers for all baseSites.
    * Called from APP_INITIALIZER during SSR bootstrap.
    */
   async generateSitemaps(): Promise<void> {
@@ -121,42 +142,63 @@ export class SitemapConfigExtractorService {
     console.log('[Sitemap] Starting generation in Angular SSR context...');
 
     try {
-      const context = await this.buildContext();
+      const baseSites = await this.getAllBaseSites();
+      const filteredBaseSites = this.filterBaseSites(baseSites);
 
-      console.log(`[Sitemap] Context resolved:`);
-      console.log(`  Base site: ${context.baseSiteId}`);
-      console.log(`  Base URL: ${context.baseUrl}`);
-      console.log(`  OCC URL: ${context.occBaseUrl}`);
-      console.log(`  Languages: ${context.languages.join(', ')}`);
-      console.log(`  Currencies: ${context.currencies.join(', ')}`);
-      console.log(`  Default currency: ${context.defaultCurrency}`);
       console.log(
-        `  URL encoding params: ${context.urlEncodingParams.join(', ')}`
+        `[Sitemap] Found ${baseSites.length} baseSites, processing ${filteredBaseSites.length} after filtering`
       );
-      console.log(`  Providers: ${this.providers.map((p) => p.name).join(', ')}`);
 
       const allSitemaps: Record<string, string> = {};
       const allFiles: string[] = [];
       let totalUrls = 0;
       const urlsByLanguage: Record<string, number> = {};
 
-      // Run each provider
-      for (const provider of this.providers) {
-        console.log(`[Sitemap] Running provider '${provider.name}'...`);
+      // Process each baseSite
+      for (const baseSite of filteredBaseSites) {
+        const siteUid = baseSite.uid;
+        if (!siteUid) {
+          console.warn('[Sitemap] Skipping baseSite without uid');
+          continue;
+        }
 
-        const result = await provider.getUrls(context);
+        console.log(`[Sitemap] Processing baseSite: ${siteUid}`);
 
-        // Merge results
-        Object.assign(allSitemaps, result.sitemaps);
-        allFiles.push(...result.files);
-        totalUrls += result.totalUrls;
-        for (const [lang, count] of Object.entries(result.urlsByLanguage)) {
-          urlsByLanguage[lang] = (urlsByLanguage[lang] || 0) + count;
+        const context = this.buildContextForBaseSite(baseSite);
+        console.log(`[Sitemap] Context for ${siteUid}:`);
+        console.log(`  Base URL: ${context.baseUrl}`);
+        console.log(`  Languages: ${context.languages.join(', ')}`);
+        console.log(`  Currencies: ${context.currencies.join(', ')}`);
+        console.log(`  Default currency: ${context.defaultCurrency}`);
+        console.log(
+          `  URL encoding params: ${context.urlEncodingParams.join(', ')}`
+        );
+
+        // Run each provider for this baseSite
+        for (const provider of this.providers) {
+          console.log(
+            `[Sitemap] Running provider '${provider.name}' for ${siteUid}...`
+          );
+
+          const result = await provider.getUrls(context);
+
+          // Prefix filenames with baseSiteUid for multi-site support
+          for (const [filename, xml] of Object.entries(result.sitemaps)) {
+            const prefixedFilename = `${siteUid}/${filename}`;
+            allSitemaps[prefixedFilename] = xml;
+            allFiles.push(prefixedFilename);
+          }
+
+          totalUrls += result.totalUrls;
+          for (const [lang, count] of Object.entries(result.urlsByLanguage)) {
+            urlsByLanguage[lang] = (urlsByLanguage[lang] || 0) + count;
+          }
         }
       }
 
-      // Generate sitemap index
-      const indexXml = this.buildSitemapIndexXml(allFiles, context.baseUrl);
+      // Generate master sitemap index
+      const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
+      const indexXml = this.buildSitemapIndexXml(allFiles, baseUrl);
       allSitemaps['sitemap.xml'] = indexXml;
 
       // Store in shared state for Express
@@ -173,34 +215,78 @@ export class SitemapConfigExtractorService {
   }
 
   /**
-   * Builds the generation context from Angular DI services.
+   * Fetches all baseSites from OCC.
    */
-  private async buildContext(): Promise<SitemapGenerationContext> {
-    const baseSiteId = await this.getBaseSiteId();
-    const languages = await this.getActiveLanguages();
-    const currencies = await this.getActiveCurrencies();
-    const defaultCurrency = await this.getDefaultCurrency();
-    const urlEncodingParams =
-      this.siteContextParamsService.getUrlEncodingParameters();
+  private async getAllBaseSites(): Promise<BaseSite[]> {
+    return await firstValueFrom(
+      this.baseSiteService.getAll().pipe(take(1))
+    );
+  }
 
-    // Resolve baseUrl: override > fallback
-    const baseUrl =
-      this.config.baseUrl || 'http://localhost:4000';
+  /**
+   * Filters baseSites based on configuration.
+   */
+  private filterBaseSites(baseSites: BaseSite[]): BaseSite[] {
+    const filter = this.ssrConfig.baseSiteFilter;
 
-    // Resolve occBaseUrl: override > OccConfig > fallback
+    if (!filter) {
+      return baseSites;
+    }
+
+    if (Array.isArray(filter)) {
+      return baseSites.filter((site) => filter.includes(site.uid || ''));
+    }
+
+    return baseSites.filter(filter);
+  }
+
+  /**
+   * Builds the generation context for a specific baseSite.
+   */
+  private buildContextForBaseSite(baseSite: BaseSite): SitemapGenerationContext {
+    const baseSiteId = baseSite.uid || '';
+    const store = baseSite.stores?.[0] || baseSite.baseStore;
+
+    // Extract languages from store
+    const languages = (store?.languages || [])
+      .filter((lang) => lang.active !== false)
+      .map((lang) => lang.isocode)
+      .filter((code): code is string => !!code);
+
+    // Extract currencies from store
+    const currencies = (store?.currencies || [])
+      .filter((curr) => curr.active !== false)
+      .map((curr) => curr.isocode)
+      .filter((code): code is string => !!code);
+
+    const defaultCurrency = store?.defaultCurrency?.isocode || 'USD';
+
+    // urlEncodingAttributes comes directly from baseSite
+    const urlEncodingParams = baseSite.urlEncodingAttributes || [];
+
+    // Resolve baseUrl and occBaseUrl
+    const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
     const occBaseUrl =
-      this.config.occBaseUrl ||
+      this.ssrConfig.occBaseUrl ||
       this.occConfig.backend?.occ?.baseUrl ||
       '';
+
+    // Build resolved sitemap config from injected Spartacus config
+    const resolvedConfig: ResolvedSitemapConfig = {
+      maxUrlsPerSitemap:
+        this.sitemapConfig.sitemap?.maxUrlsPerSitemap ??
+        defaultSitemapConfig.sitemap!.maxUrlsPerSitemap!,
+    };
 
     return {
       baseSiteId,
       baseUrl,
       occBaseUrl,
-      languages,
-      currencies,
+      languages: languages.length > 0 ? languages : ['en'],
+      currencies: currencies.length > 0 ? currencies : ['USD'],
       defaultCurrency,
       urlEncodingParams,
+      config: resolvedConfig,
     };
   }
 
@@ -233,47 +319,5 @@ ${sitemapElements}
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&apos;');
-  }
-
-  // ---- Site context helpers ----
-
-  private async getBaseSiteId(): Promise<string> {
-    return (
-      (await firstValueFrom(
-        this.baseSiteService.getActive().pipe(take(1))
-      )) || ''
-    );
-  }
-
-  private async getActiveLanguages(): Promise<string[]> {
-    const languages = await firstValueFrom(
-      this.languageService.getAll().pipe(take(1))
-    );
-    return languages
-      .filter((lang) => lang.active !== false)
-      .map((lang) => lang.isocode)
-      .filter((code): code is string => !!code);
-  }
-
-  private async getActiveCurrencies(): Promise<string[]> {
-    const currencies = await firstValueFrom(
-      this.currencyService.getAll().pipe(take(1))
-    );
-    return currencies
-      .filter((curr) => curr.active !== false)
-      .map((curr) => curr.isocode)
-      .filter((code): code is string => !!code);
-  }
-
-  private async getDefaultCurrency(): Promise<string> {
-    return await firstValueFrom(
-      this.baseSiteService.get().pipe(
-        take(1),
-        map(
-          (baseSite) =>
-            baseSite?.stores?.[0]?.defaultCurrency?.isocode ?? 'USD'
-        )
-      )
-    );
   }
 }
