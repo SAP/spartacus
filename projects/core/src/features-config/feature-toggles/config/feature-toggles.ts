@@ -435,6 +435,13 @@ export interface FeatureTogglesInterface {
   a11yAddedToCartDialogHeading?: boolean;
 
   /**
+   * Ensures the facet component displays elements with proper listbox semantics.
+   * The screen reader should recognize links as listbox options and display visible-focus outlines correctly.
+   * Affects: FacetComponent
+   */
+  a11yListSemanticsForFacets?: boolean;
+
+  /**
    * When enabled, adds arrow key navigation between reviews and uses proper list
    * semantics so screen readers announce list position
    * Affects: ProductReviewsComponent
@@ -490,5 +497,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
+  a11yListSemanticsForFacets: false,
   a11yReviewsKeyboardControls: false,
 };
