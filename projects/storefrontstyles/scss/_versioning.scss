@@ -2,6 +2,11 @@
 // and superseded by the recommendation of using named feature flags with mixin `forFeature($featureName)`.
 // =====================================================================================
 
+@use 'sass:string';
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+
 // The Spartacus team is cautious with introducing style changes in a minor release,
 // as it would conflict with the [semantic versioning](https://semver.org/)
 // model. To improve the style layer during minor releases, without breaking the
@@ -82,16 +87,16 @@ $useLatestStyles: false !default;
   $patch: 0;
 
   $string: toString($value);
-  $i: str-index($string, '.');
+  $i: string.index($string, '.');
 
   @if $i !=null {
-    $major: toNumber(str-slice($string, 1, $i - 1));
-    $remaining: str-slice($string, $i + 1);
-    $d: str-index($remaining, '.');
+    $major: toNumber(string.slice($string, 1, $i - 1));
+    $remaining: string.slice($string, $i + 1);
+    $d: string.index($remaining, '.');
 
     @if $d !=null {
-      $minor: toNumber(str-slice($remaining, 1, $d - 1));
-      $patch: toNumber(str-slice($remaining, $d + 1));
+      $minor: toNumber(string.slice($remaining, 1, $d - 1));
+      $patch: toNumber(string.slice($remaining, $d + 1));
     } @else {
       $minor: toNumber($remaining);
     }
@@ -103,23 +108,23 @@ $useLatestStyles: false !default;
 }
 
 @function toString($value) {
-  @if type-of($value) == 'number' {
+  @if meta.type-of($value) == 'number' {
     @return #{$value};
-  } @else if type-of($value) == 'string' {
+  } @else if meta.type-of($value) == 'string' {
     @return $value;
-  } @else if type-of($value) == 'list' {
+  } @else if meta.type-of($value) == 'list' {
     // 1.2.3 will become list [1.2, 0.3]
     // 1.2.0 will become list [1.2, 0]
     // 1.0.2 will become list [1, 0.2]
-    $firstItem: toString(nth($value, 1));
-    $secondItem: toString(nth($value, 2));
-    $firstDot: str-index($firstItem, '.');
+    $firstItem: toString(list.nth($value, 1));
+    $secondItem: toString(list.nth($value, 2));
+    $firstDot: string.index($firstItem, '.');
 
     @if $firstDot !=null {
-      $secondDot: str-index($secondItem, '.');
+      $secondDot: string.index($secondItem, '.');
 
       @if $secondDot !=null {
-        @return $firstItem + '.' + str-slice($secondItem, $secondDot + 1);
+        @return $firstItem + '.' + string.slice($secondItem, $secondDot + 1);
       } @else {
         @return $firstItem;
       }
@@ -135,9 +140,9 @@ $useLatestStyles: false !default;
   $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9';
   $result: 0;
 
-  @for $i from 1 through str-length($string) {
-    $character: str-slice($string, $i, $i);
-    $number: index($strings, $character) - 1;
+  @for $i from 1 through string.length($string) {
+    $character: string.slice($string, $i, $i);
+    $number: list.index($strings, $character) - 1;
     $result: $result * 10 + $number;
   }
 
@@ -145,21 +150,21 @@ $useLatestStyles: false !default;
 }
 
 @function compareVersion($v1, $v2) {
-  @if type-of($v1) != 'map' {
+  @if meta.type-of($v1) != 'map' {
     $v1: getVersion($v1);
   }
 
-  @if type-of($v2) != 'map' {
+  @if meta.type-of($v2) != 'map' {
     $v2: getVersion($v2);
   }
 
-  $v1Major: map-get($v1, major);
-  $v1Minor: map-get($v1, minor);
-  $v1Patch: map-get($v1, patch);
+  $v1Major: map.get($v1, major);
+  $v1Minor: map.get($v1, minor);
+  $v1Patch: map.get($v1, patch);
 
-  $v2Major: map-get($v2, major);
-  $v2Minor: map-get($v2, minor);
-  $v2Patch: map-get($v2, patch);
+  $v2Major: map.get($v2, major);
+  $v2Minor: map.get($v2, minor);
+  $v2Patch: map.get($v2, patch);
 
   $compareMajor: compareNumber($v1Major, $v2Major);
 
