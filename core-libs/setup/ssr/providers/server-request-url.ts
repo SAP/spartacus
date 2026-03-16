@@ -35,6 +35,15 @@ export function serverRequestUrlFactory(options?: ServerOptions): Function {
     }
 
     // prerendering mode (no express server)
-    return serverRequestOrigin + platformConfig.url;
+    // platformConfig.url may be a full URL (e.g. 'http://ng-localhost/')
+    // in newer Angular versions, so we need to extract just the path.
+    const url = platformConfig.url ?? '/';
+    try {
+      const parsedUrl = new URL(url);
+      return serverRequestOrigin + parsedUrl.pathname;
+    } catch {
+      // If it's already a relative path, just concatenate
+      return serverRequestOrigin + url;
+    }
   };
 }
