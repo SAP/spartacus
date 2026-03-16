@@ -39,7 +39,6 @@ export class DateRangeModalComponent {
 
   minDate: string | null = null;
   maxDate: string | null = null;
-  DATE_FILTER_PARAM = 'startAt:%s:endAt:%s';
   billsDateFilterForm = new FormGroup({
     from: new FormControl(this.minDate, { validators: [Validators.required] }),
     to: new FormControl(this.maxDate, { validators: [Validators.required] }),
