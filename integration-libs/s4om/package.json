@@ -21,8 +21,8 @@
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^21.2.0",
-    "@angular/common": "^21.2.0",
-    "@angular/core": "^21.2.0",
+    "@angular/common": "^21.2.4",
+    "@angular/core": "^21.2.4",
     "@spartacus/cart": "221121.9.0-1",
     "@spartacus/core": "221121.9.0-1",
     "@spartacus/pdf-invoices": "221121.9.0-1",
