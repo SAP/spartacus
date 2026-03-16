@@ -344,6 +344,7 @@ if (environment.cpq) {
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
         a11yListSemanticsForFacets: true,
+        a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
       };
       return appFeatureToggles;
