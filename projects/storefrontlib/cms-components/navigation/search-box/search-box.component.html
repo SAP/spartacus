@@ -11,7 +11,7 @@
         [placeholder]="'searchBox.placeholder' | cxTranslate"
         autocomplete="off"
         aria-describedby="initialDescription"
-        aria-controls="results"
+        [attr.aria-controls]="hasQuery ? 'results' : null"
         [attr.tabindex]="getTabIndex(isMobile | async)"
         (click)="open()"
         (input)="search(searchInput.value)"
