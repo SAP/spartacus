@@ -45,7 +45,6 @@ export function app(): express.Express {
     'html',
     ngExpressEngine({
       bootstrap,
-      allowedHosts: ['localhost'],
     })
   );
 
