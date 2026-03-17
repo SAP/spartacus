@@ -47,6 +47,21 @@ export function updateServerTs(): Rule {
     );
 
     context.logger.info(
+      "  ↳ Adding allowedHosts: ['localhost'] to ngExpressEngine call"
+    );
+    serverTs = serverTs.replace(
+      // matches: ngExpressEngine({ bootstrap... })
+      // eslint-disable-next-line prefer-regex-literals
+      new RegExp('ngExpressEngine\\(\\{(\\s*bootstrap[^}]*)}'+'\\)'),
+      (match, inner) => {
+        if (inner.includes('allowedHosts')) {
+          return match;
+        }
+        return `ngExpressEngine({${inner.trimEnd()}\n      allowedHosts: ['localhost'],\n    })`;
+      }
+    );
+
+    context.logger.info(
       `  ↳ Moving the file "${ServerTsPaths.OLD}" to "${ServerTsPaths.NEW}" with the updated content`
     );
     tree.create(ServerTsPaths.NEW, serverTs);
