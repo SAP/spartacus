@@ -302,6 +302,7 @@
     "i18n-lint": {
       "minimatch": "3.1.5"
     },
-    "test-exclude": "^8.0.0"
+    "test-exclude": "^8.0.0",
+    "undici": "^7.24.0"
   }
 }
