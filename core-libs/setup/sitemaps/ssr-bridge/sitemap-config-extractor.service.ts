@@ -5,25 +5,18 @@
  */
 
 import { isPlatformServer } from '@angular/common';
-import {
-  inject,
-  Injectable,
-  InjectionToken,
-  PLATFORM_ID,
-} from '@angular/core';
+import { inject, Injectable, InjectionToken, PLATFORM_ID } from '@angular/core';
 import {
   BaseSite,
   BaseSiteService,
+  normalizeUrlEncodingParams,
   OccConfig,
   RoutingConfig,
   SiteContextConfig,
 } from '@spartacus/core';
 import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
-import {
-  defaultSitemapConfig,
-  SitemapConfig,
-} from '../config/sitemap-config';
+import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
 import {
   SITEMAP_URL_PROVIDERS,
   SitemapUrlProvider,
@@ -95,43 +88,18 @@ export const SITEMAP_SSR_CONFIG = new InjectionToken<SitemapSsrConfig>(
  *
  * This allows customers to override URL encoding via frontend config while
  * maintaining compatibility with backend-defined defaults.
- *
- * ## Multi-site support
- *
- * Each baseSite gets its own set of sitemaps:
- * - `/sitemaps/electronics-spa/sitemap-products-en.xml`
- * - `/sitemaps/electronics-spa/sitemap-products-de.xml`
- * - `/sitemaps/powertools-spa/sitemap-products-en-USD.xml`
- *
- * The main sitemap index (`/sitemap.xml`) references all of them.
- *
- * ## Extensibility
- *
- * Register custom URL providers via `SITEMAP_URL_PROVIDERS`:
- *
- * ```typescript
- * providers: [
- *   provideSitemapGenerator(),
- *   { provide: SITEMAP_URL_PROVIDERS, useClass: CategorySitemapProvider, multi: true },
- * ]
- * ```
- *
- * ## Configuration
- *
- * By default, reads `backend.occ.baseUrl` from `OccConfig` (no duplication).
- * Optional overrides via `provideSitemapGenerator({ baseUrl: '...' })`.
  */
 @Injectable()
 export class SitemapConfigExtractorService {
-  private platformId = inject(PLATFORM_ID);
-  private baseSiteService = inject(BaseSiteService);
-  private occConfig = inject(OccConfig);
-  private ssrConfig = inject(SITEMAP_SSR_CONFIG);
-  private sitemapConfig = inject(SitemapConfig);
-  private siteContextConfig = inject(SiteContextConfig);
-  private routingConfig = inject(RoutingConfig);
+  protected platformId = inject(PLATFORM_ID);
+  protected baseSiteService = inject(BaseSiteService);
+  protected occConfig = inject(OccConfig);
+  protected ssrConfig = inject(SITEMAP_SSR_CONFIG);
+  protected sitemapConfig = inject(SitemapConfig);
+  protected siteContextConfig = inject(SiteContextConfig);
+  protected routingConfig = inject(RoutingConfig);
 
-  private providers: SitemapUrlProvider[] =
+  protected providers: SitemapUrlProvider[] =
     inject(SITEMAP_URL_PROVIDERS, { optional: true }) ?? [];
 
   /**
@@ -214,8 +182,7 @@ export class SitemapConfigExtractorService {
 
       // Generate master sitemap index
       const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
-      const indexXml = this.buildSitemapIndexXml(allFiles, baseUrl);
-      allSitemaps['sitemap.xml'] = indexXml;
+      allSitemaps['sitemap.xml'] = this.buildSitemapIndexXml(allFiles, baseUrl);
 
       // Store in shared state for Express
       updateSitemapState(allSitemaps, allFiles, totalUrls, urlsByLanguage);
@@ -233,16 +200,14 @@ export class SitemapConfigExtractorService {
   /**
    * Fetches all baseSites from OCC.
    */
-  private async getAllBaseSites(): Promise<BaseSite[]> {
-    return await firstValueFrom(
-      this.baseSiteService.getAll().pipe(take(1))
-    );
+  protected async getAllBaseSites(): Promise<BaseSite[]> {
+    return await firstValueFrom(this.baseSiteService.getAll().pipe(take(1)));
   }
 
   /**
    * Filters baseSites based on configuration.
    */
-  private filterBaseSites(baseSites: BaseSite[]): BaseSite[] {
+  protected filterBaseSites(baseSites: BaseSite[]): BaseSite[] {
     const filter = this.ssrConfig.baseSiteFilter;
 
     if (!filter) {
@@ -262,12 +227,10 @@ export class SitemapConfigExtractorService {
    * URL encoding parameters are resolved with priority:
    * 1. Frontend config (SiteContextConfig.context.urlParameters) - if defined
    * 2. Backend config (baseSite.urlEncodingAttributes) - fallback
-   *
-   * This allows customers to override URL encoding via their Spartacus config
-   * (e.g., in spartacus-b2c-configuration.providers.ts) while maintaining
-   * compatibility with backend-defined defaults.
    */
-  private buildContextForBaseSite(baseSite: BaseSite): SitemapGenerationContext {
+  protected buildContextForBaseSite(
+    baseSite: BaseSite
+  ): SitemapGenerationContext {
     const baseSiteId = baseSite.uid || '';
     const store = baseSite.stores?.[0] || baseSite.baseStore;
 
@@ -288,20 +251,15 @@ export class SitemapConfigExtractorService {
     // Resolve urlEncodingParams with priority:
     // 1. Frontend SiteContextConfig.context.urlParameters (if defined)
     // 2. Backend baseSite.urlEncodingAttributes (fallback)
-    //
-    // Note: Frontend config maps 'storefront' -> 'baseSite', but we need to
-    // handle both for URL building (they're semantically equivalent).
     const frontendUrlParams = this.siteContextConfig.context?.urlParameters;
     const urlEncodingParams = frontendUrlParams?.length
-      ? this.normalizeUrlParams(frontendUrlParams)
-      : this.normalizeUrlParams(baseSite.urlEncodingAttributes || []);
+      ? frontendUrlParams
+      : normalizeUrlEncodingParams(baseSite.urlEncodingAttributes);
 
     // Resolve baseUrl and occBaseUrl
     const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
     const occBaseUrl =
-      this.ssrConfig.occBaseUrl ||
-      this.occConfig.backend?.occ?.baseUrl ||
-      '';
+      this.ssrConfig.occBaseUrl || this.occConfig.backend?.occ?.baseUrl || '';
 
     // Build resolved sitemap config from injected Spartacus config
     const sitemapRoutesCfg = this.sitemapConfig.sitemap?.routes;
@@ -323,7 +281,8 @@ export class SitemapConfigExtractorService {
     };
 
     // Get global routing.protected flag
-    const globalRoutingProtected = this.routingConfig.routing?.protected ?? false;
+    const globalRoutingProtected =
+      this.routingConfig.routing?.protected ?? false;
 
     return {
       baseSiteId,
@@ -338,18 +297,7 @@ export class SitemapConfigExtractorService {
     };
   }
 
-  /**
-   * Normalizes URL parameters, converting 'storefront' to 'baseSite' for consistency.
-   * Both are semantically equivalent - 'storefront' is OCC terminology,
-   * 'baseSite' is Spartacus terminology.
-   */
-  private normalizeUrlParams(params: string[]): string[] {
-    return params.map((param) =>
-      param === 'storefront' ? 'baseSite' : param
-    );
-  }
-
-  private buildSitemapIndexXml(
+  protected buildSitemapIndexXml(
     sitemapFiles: string[],
     baseUrl: string
   ): string {
@@ -371,7 +319,7 @@ ${sitemapElements}
 </sitemapindex>`;
   }
 
-  private escapeXml(str: string): string {
+  protected escapeXml(str: string): string {
     return str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')

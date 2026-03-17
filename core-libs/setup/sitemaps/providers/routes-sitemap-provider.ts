@@ -28,43 +28,6 @@ import {
  * Routes containing path parameters (`:param`) are automatically skipped
  * because they require specific values that can only be provided by
  * specialized providers (e.g., ProductSitemapProvider for product routes).
- *
- * Examples of skipped routes:
- * - `product/:productCode/:name` (PDP - handled by ProductSitemapProvider)
- * - `category/:categoryCode` (PLP)
- * - `search/:query` (search results)
- *
- * Examples of included routes (if not protected/authFlow):
- * - `home` (path: '')
- * - `termsAndConditions` (path: 'terms-and-conditions')
- * - `notFound` (path: 'not-found') - though typically excluded
- *
- * ## Configuration
- *
- * Configure which routes to include via `SitemapConfig`:
- *
- * ```typescript
- * provideConfig({
- *   sitemap: {
- *     routes: {
- *       includeAuthFlowRoutes: false,  // default
- *       includeProtectedRoutes: false, // default
- *       excludes: ['cart', 'checkout'],
- *     },
- *   },
- * } as SitemapConfig),
- * ```
- *
- * ## Registration
- *
- * This provider is NOT registered by default. Add it explicitly:
- *
- * ```typescript
- * providers: [
- *   provideSitemapGenerator(),
- *   { provide: SITEMAP_URL_PROVIDERS, useClass: RoutesSitemapProvider, multi: true },
- * ]
- * ```
  */
 @Injectable()
 export class RoutesSitemapProvider extends SitemapUrlProvider {
@@ -109,14 +72,12 @@ export class RoutesSitemapProvider extends SitemapUrlProvider {
       `[Sitemap] RoutesSitemapProvider: Found ${staticRoutes.length} static routes: ${staticRoutes.join(', ')}`
     );
 
-    // If language is part of URL encoding, generate per-language.
-    // Otherwise, generate only for default language.
+    // If language is part of URL encoding, generate per-language
     const languagesToIterate = hasLanguageInUrl
       ? context.languages
       : [context.languages[0] || 'en'];
 
-    // If currency is part of URL encoding, generate per-language-per-currency.
-    // Otherwise, generate per-language with default currency.
+    // If currency is part of URL encoding, generate per-language-per-currency
     const currenciesToIterate = hasCurrencyInUrl
       ? context.currencies
       : [context.defaultCurrency];
@@ -285,11 +246,9 @@ export class RoutesSitemapProvider extends SitemapUrlProvider {
   protected getChangeFrequency(
     routeName: string
   ): SitemapUrlEntry['changefreq'] {
-    // Home page changes more frequently
     if (routeName === 'home') {
       return 'daily';
     }
-    // Static pages like terms, privacy, etc. change rarely
     return 'monthly';
   }
 
@@ -298,49 +257,10 @@ export class RoutesSitemapProvider extends SitemapUrlProvider {
    * Override to customize per-route priorities.
    */
   protected getPriority(routeName: string): number {
-    // Home page has highest priority
     if (routeName === 'home') {
       return 1.0;
     }
-    // Other static pages have lower priority
     return 0.5;
-  }
-
-  /**
-   * Builds filename for sitemap based on language, currency, and page number.
-   */
-  protected buildFilename(
-    language?: string,
-    currency?: string,
-    pageNumber?: number
-  ): string {
-    const parts = [`sitemap-${this.name}`];
-
-    if (language) {
-      parts.push(language);
-    }
-    if (currency) {
-      parts.push(currency);
-    }
-    if (pageNumber !== undefined) {
-      parts.push(String(pageNumber));
-    }
-
-    return parts.join('-') + '.xml';
-  }
-
-  /**
-   * Splits entries into chunks of maxSize.
-   */
-  protected chunkEntries(
-    entries: SitemapUrlEntry[],
-    maxSize: number
-  ): SitemapUrlEntry[][] {
-    const chunks: SitemapUrlEntry[][] = [];
-    for (let i = 0; i < entries.length; i += maxSize) {
-      chunks.push(entries.slice(i, i + maxSize));
-    }
-    return chunks.length > 0 ? chunks : [[]];
   }
 }
 

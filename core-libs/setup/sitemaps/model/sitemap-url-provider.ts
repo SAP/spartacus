@@ -20,29 +20,6 @@ import {
  *
  * Providers are registered via the `SITEMAP_URL_PROVIDERS` multi-token
  * and automatically picked up by the sitemap generator.
- *
- * ## Creating a custom provider
- *
- * ```typescript
- * @Injectable()
- * export class CategorySitemapProvider extends SitemapUrlProvider {
- *   readonly name = 'categories';
- *
- *   async getUrls(context: SitemapGenerationContext): Promise<SitemapProviderResult> {
- *     // Fetch categories and generate URLs...
- *   }
- * }
- * ```
- *
- * ## Registering a custom provider
- *
- * ```typescript
- * // app.config.server.ts
- * providers: [
- *   provideSitemapGenerator(),
- *   { provide: SITEMAP_URL_PROVIDERS, useClass: CategorySitemapProvider, multi: true },
- * ]
- * ```
  */
 export abstract class SitemapUrlProvider {
   /**
@@ -64,7 +41,7 @@ export abstract class SitemapUrlProvider {
   // ---- Shared utility methods for subclasses ----
 
   /**
-   * Builds URL prefix based on urlEncodingAttributes.
+   * Builds URL prefix based on urlEncodingParams.
    * E.g., for ['baseSite', 'language', 'currency'] → '/electronics-spa/en/USD'
    */
   protected buildUrlPrefix(
@@ -85,6 +62,45 @@ export abstract class SitemapUrlProvider {
       .join('/');
 
     return prefix ? `/${prefix}` : '';
+  }
+
+  /**
+   * Builds filename for sitemap based on language, currency, and page number.
+   * Only includes components that are present in urlEncodingParams.
+   */
+  protected buildFilename(
+    language?: string,
+    currency?: string,
+    pageNumber?: number
+  ): string {
+    const parts = [`sitemap-${this.name}`];
+
+    if (language) {
+      parts.push(language);
+    }
+    if (currency) {
+      parts.push(currency);
+    }
+    if (pageNumber !== undefined) {
+      parts.push(String(pageNumber));
+    }
+
+    return parts.join('-') + '.xml';
+  }
+
+  /**
+   * Splits entries into chunks of maxSize.
+   * Per sitemaps.org protocol, each sitemap can have max 50,000 URLs.
+   */
+  protected chunkEntries(
+    entries: SitemapUrlEntry[],
+    maxSize: number
+  ): SitemapUrlEntry[][] {
+    const chunks: SitemapUrlEntry[][] = [];
+    for (let i = 0; i < entries.length; i += maxSize) {
+      chunks.push(entries.slice(i, i + maxSize));
+    }
+    return chunks.length > 0 ? chunks : [[]];
   }
 
   /**
@@ -138,4 +154,3 @@ ${urlElements}
 export const SITEMAP_URL_PROVIDERS = new InjectionToken<SitemapUrlProvider[]>(
   'SITEMAP_URL_PROVIDERS'
 );
-

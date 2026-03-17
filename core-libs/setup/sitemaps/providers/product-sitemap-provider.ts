@@ -131,43 +131,6 @@ export class ProductSitemapProvider extends SitemapUrlProvider {
     };
   }
 
-  /**
-   * Builds filename for sitemap based on language, currency, and page number.
-   * Only includes components that are present in urlEncodingAttributes.
-   */
-  protected buildFilename(
-    language?: string,
-    currency?: string,
-    pageNumber?: number
-  ): string {
-    const parts = [`sitemap-${this.name}`];
-
-    if (language) {
-      parts.push(language);
-    }
-    if (currency) {
-      parts.push(currency);
-    }
-    if (pageNumber !== undefined) {
-      parts.push(String(pageNumber));
-    }
-
-    return parts.join('-') + '.xml';
-  }
-
-  /**
-   * Splits entries into chunks of maxSize.
-   */
-  protected chunkEntries(
-    entries: SitemapUrlEntry[],
-    maxSize: number
-  ): SitemapUrlEntry[][] {
-    const chunks: SitemapUrlEntry[][] = [];
-    for (let i = 0; i < entries.length; i += maxSize) {
-      chunks.push(entries.slice(i, i + maxSize));
-    }
-    return chunks;
-  }
 
   /**
    * Fetches all products from OCC and builds URL entries.
