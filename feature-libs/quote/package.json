@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/quote",
-  "version": "221121.9.0-1",
+  "version": "221121.9.0",
   "description": "",
   "keywords": [
     "spartacus",
@@ -32,12 +32,12 @@
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
     "@angular/router": "^21.2.0",
-    "@spartacus/cart": "221121.9.0-1",
-    "@spartacus/core": "221121.9.0-1",
-    "@spartacus/order": "221121.9.0-1",
-    "@spartacus/schematics": "221121.9.0-1",
-    "@spartacus/storefront": "221121.9.0-1",
-    "@spartacus/styles": "221121.9.0-1",
+    "@spartacus/cart": "221121.9.0",
+    "@spartacus/core": "221121.9.0",
+    "@spartacus/order": "221121.9.0",
+    "@spartacus/schematics": "221121.9.0",
+    "@spartacus/storefront": "221121.9.0",
+    "@spartacus/styles": "221121.9.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
