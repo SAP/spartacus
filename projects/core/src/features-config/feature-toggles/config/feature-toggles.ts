@@ -451,6 +451,13 @@ export interface FeatureTogglesInterface {
   a11yAddedToCartDialogHeading?: boolean;
 
   /**
+   * Hides empty outlet wrapper elements in the cart item list table when they have no content.
+   * Otherwise screen readers would interpret them as extra table columns.
+   * Affects: CartItemListComponent
+   */
+  a11yCartItemListHideEmptyOutlets?: boolean;
+
+  /**
    * When enabled, adds arrow key navigation between reviews and uses proper list
    * semantics so screen readers announce list position
    * Affects: ProductReviewsComponent
@@ -509,5 +516,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
+  a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
 };
