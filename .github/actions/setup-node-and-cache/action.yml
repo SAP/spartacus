@@ -31,3 +31,8 @@ runs:
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       shell: bash
       run: npm ci
+    
+    - name: Rebuild native modules
+      if: steps.cache-node-modules.outputs.cache-hit == 'true'
+      shell: bash
+      run: npm rebuild
