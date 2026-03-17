@@ -30,25 +30,13 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run unit tests
         run: |
-          ci-scripts/unit-tests.sh          
+          ci-scripts/unit-tests.sh
   sonarqube_scan:
     name: CI - SonarQube Scan
     runs-on: ubuntu-latest
@@ -72,22 +60,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup-node-and-cache
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v4
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: npm ci
+          cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
