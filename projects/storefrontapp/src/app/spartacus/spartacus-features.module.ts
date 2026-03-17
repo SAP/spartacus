@@ -313,7 +313,6 @@ if (environment.cpq) {
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
         enableReadDomainValuesOnDemand: true,
-        opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
         consistentSizeProductCards: true,
