@@ -35,6 +35,8 @@
 #  Admin files
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
+/.github/workflows/          @SAP/spartacus-admins
+/.github/actions/            @SAP/spartacus-admins
 /projects/storefrontstyles/vendor/bootstrap          @SAP/spartacus-admins
 
 # ================================================
