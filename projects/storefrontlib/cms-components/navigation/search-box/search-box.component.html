@@ -53,6 +53,10 @@
   </label>
 </div>
 
+<span id="initialDescription" class="cx-visually-hidden">
+  {{ 'searchBox.initialDescription' | cxTranslate }}
+</span>
+
 <div
   *ngIf="hasQuery && (results$ | async) as result"
   class="results"
@@ -260,9 +264,6 @@
     </button>
   </div>
 
-  <span id="initialDescription" class="cx-visually-hidden">
-    {{ 'searchBox.initialDescription' | cxTranslate }}
-  </span>
   <div
     *ngIf="result.suggestions?.length || result.products?.length"
     aria-live="assertive"
