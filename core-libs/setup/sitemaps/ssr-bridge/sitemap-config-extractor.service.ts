@@ -15,6 +15,8 @@ import {
   BaseSite,
   BaseSiteService,
   OccConfig,
+  RoutingConfig,
+  SiteContextConfig,
 } from '@spartacus/core';
 import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -85,6 +87,15 @@ export const SITEMAP_SSR_CONFIG = new InjectionToken<SitemapSsrConfig>(
  * 4. Generates separate sitemaps per baseSite with proper prefixing
  * 5. Creates a master sitemap index referencing all per-site sitemaps
  *
+ * ## URL Encoding Parameters Resolution
+ *
+ * The `urlEncodingParams` (which control language/currency in URLs) are resolved:
+ * 1. From `SiteContextConfig.context.urlParameters` (frontend override) - takes precedence
+ * 2. From baseSite's `urlEncodingAttributes` (OCC backend) - fallback
+ *
+ * This allows customers to override URL encoding via frontend config while
+ * maintaining compatibility with backend-defined defaults.
+ *
  * ## Multi-site support
  *
  * Each baseSite gets its own set of sitemaps:
@@ -117,6 +128,8 @@ export class SitemapConfigExtractorService {
   private occConfig = inject(OccConfig);
   private ssrConfig = inject(SITEMAP_SSR_CONFIG);
   private sitemapConfig = inject(SitemapConfig);
+  private siteContextConfig = inject(SiteContextConfig);
+  private routingConfig = inject(RoutingConfig);
 
   private providers: SitemapUrlProvider[] =
     inject(SITEMAP_URL_PROVIDERS, { optional: true }) ?? [];
@@ -172,6 +185,9 @@ export class SitemapConfigExtractorService {
         console.log(`  Default currency: ${context.defaultCurrency}`);
         console.log(
           `  URL encoding params: ${context.urlEncodingParams.join(', ')}`
+        );
+        console.log(
+          `  Global routing protected: ${context.globalRoutingProtected}`
         );
 
         // Run each provider for this baseSite
@@ -242,6 +258,14 @@ export class SitemapConfigExtractorService {
 
   /**
    * Builds the generation context for a specific baseSite.
+   *
+   * URL encoding parameters are resolved with priority:
+   * 1. Frontend config (SiteContextConfig.context.urlParameters) - if defined
+   * 2. Backend config (baseSite.urlEncodingAttributes) - fallback
+   *
+   * This allows customers to override URL encoding via their Spartacus config
+   * (e.g., in spartacus-b2c-configuration.providers.ts) while maintaining
+   * compatibility with backend-defined defaults.
    */
   private buildContextForBaseSite(baseSite: BaseSite): SitemapGenerationContext {
     const baseSiteId = baseSite.uid || '';
@@ -261,8 +285,16 @@ export class SitemapConfigExtractorService {
 
     const defaultCurrency = store?.defaultCurrency?.isocode || 'USD';
 
-    // urlEncodingAttributes comes directly from baseSite
-    const urlEncodingParams = baseSite.urlEncodingAttributes || [];
+    // Resolve urlEncodingParams with priority:
+    // 1. Frontend SiteContextConfig.context.urlParameters (if defined)
+    // 2. Backend baseSite.urlEncodingAttributes (fallback)
+    //
+    // Note: Frontend config maps 'storefront' -> 'baseSite', but we need to
+    // handle both for URL building (they're semantically equivalent).
+    const frontendUrlParams = this.siteContextConfig.context?.urlParameters;
+    const urlEncodingParams = frontendUrlParams?.length
+      ? this.normalizeUrlParams(frontendUrlParams)
+      : this.normalizeUrlParams(baseSite.urlEncodingAttributes || []);
 
     // Resolve baseUrl and occBaseUrl
     const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
@@ -272,11 +304,26 @@ export class SitemapConfigExtractorService {
       '';
 
     // Build resolved sitemap config from injected Spartacus config
+    const sitemapRoutesCfg = this.sitemapConfig.sitemap?.routes;
+    const defaultRoutesCfg = defaultSitemapConfig.sitemap!.routes!;
+
     const resolvedConfig: ResolvedSitemapConfig = {
       maxUrlsPerSitemap:
         this.sitemapConfig.sitemap?.maxUrlsPerSitemap ??
         defaultSitemapConfig.sitemap!.maxUrlsPerSitemap!,
+      routes: {
+        includeAuthFlowRoutes:
+          sitemapRoutesCfg?.includeAuthFlowRoutes ??
+          defaultRoutesCfg.includeAuthFlowRoutes!,
+        includeProtectedRoutes:
+          sitemapRoutesCfg?.includeProtectedRoutes ??
+          defaultRoutesCfg.includeProtectedRoutes!,
+        excludes: sitemapRoutesCfg?.excludes ?? defaultRoutesCfg.excludes!,
+      },
     };
+
+    // Get global routing.protected flag
+    const globalRoutingProtected = this.routingConfig.routing?.protected ?? false;
 
     return {
       baseSiteId,
@@ -287,7 +334,19 @@ export class SitemapConfigExtractorService {
       defaultCurrency,
       urlEncodingParams,
       config: resolvedConfig,
+      globalRoutingProtected,
     };
+  }
+
+  /**
+   * Normalizes URL parameters, converting 'storefront' to 'baseSite' for consistency.
+   * Both are semantically equivalent - 'storefront' is OCC terminology,
+   * 'baseSite' is Spartacus terminology.
+   */
+  private normalizeUrlParams(params: string[]): string[] {
+    return params.map((param) =>
+      param === 'storefront' ? 'baseSite' : param
+    );
   }
 
   private buildSitemapIndexXml(

@@ -12,10 +12,12 @@ Server-side sitemap generation for Spartacus applications using SSR.
 │                          │                                          │
 │                          ├─▶ Resolves context from Angular DI       │
 │                          │   (BaseSiteService, LanguageService,     │
-│                          │    CurrencyService, OccConfig)           │
+│                          │    CurrencyService, OccConfig,           │
+│                          │    SiteContextConfig, RoutingConfig)     │
 │                          │                                          │
 │                          ├─▶ Runs SITEMAP_URL_PROVIDERS             │
-│                          │   ├─ ProductSitemapProvider (default)     │
+│                          │   ├─ RoutesSitemapProvider (static pages)│
+│                          │   ├─ ProductSitemapProvider (PDPs)        │
 │                          │   ├─ CategorySitemapProvider (custom)     │
 │                          │   └─ ... (extensible)                    │
 │                          │                                          │
@@ -68,6 +70,13 @@ That's it. The sitemap generator:
 - Generates URLs using **real** `SemanticPathService` (respects customer's `RoutingConfig`)
 - Uses `productSearch.sitemap` OCC endpoint scope
 
+## Default Providers
+
+The following URL providers are registered by default:
+
+1. **RoutesSitemapProvider** - Static routes without parameters (home, terms, etc.)
+2. **ProductSitemapProvider** - Product detail pages from OCC
+
 ## Configuration
 
 ### Override baseUrl (recommended for production)
@@ -104,13 +113,43 @@ providers: [
     sitemap: {
       maxUrlsPerSitemap: 50,  // for testing; default is 50000
     },
-  } as SitemapConfig),
+  }),
 ]
 ```
 
 When the limit is exceeded, files are automatically split with numeric suffixes:
 - `sitemap-products-en-1.xml`
 - `sitemap-products-en-2.xml`
+
+### Routes configuration
+
+Configure which static routes are included in the sitemap:
+
+```typescript
+provideConfig({
+  sitemap: {
+    routes: {
+      // Include login, register, forgot-password routes (default: false)
+      includeAuthFlowRoutes: false,
+      
+      // Include routes requiring authentication (default: false)
+      includeProtectedRoutes: false,
+      
+      // Exclude specific routes by name (cxRoute key)
+      excludes: ['cart', 'checkout', 'notFound'],
+    },
+  },
+}),
+```
+
+**Route filtering logic:**
+
+| Route property | Default behavior |
+|----------------|------------------|
+| `authFlow: true` | Excluded (login, register, etc.) |
+| `protected: true` | Excluded (requires auth) |
+| `routing.protected: true` (global) | Excludes routes without `protected: false` |
+| Path with `:param` | Excluded (requires specialized provider) |
 
 ### Filter baseSites
 
@@ -133,27 +172,48 @@ provideSitemapGenerator({
 The generator iterates over all baseSites from OCC and creates separate sitemaps for each:
 
 ```
+/sitemaps/electronics-spa/sitemap-routes-en.xml
 /sitemaps/electronics-spa/sitemap-products-en.xml
 /sitemaps/electronics-spa/sitemap-products-de.xml
+/sitemaps/powertools-spa/sitemap-routes-en-USD.xml
 /sitemaps/powertools-spa/sitemap-products-en-USD.xml
-/sitemaps/powertools-spa/sitemap-products-de-USD.xml
 ```
 
 The main `/sitemap.xml` index references all of them.
 
-### URL encoding attributes
+## URL encoding attributes
 
-Each baseSite has its own `urlEncodingAttributes` which determines what appears in URLs:
+### Resolution priority
 
-| `urlEncodingAttributes` | Example URL |
-|-------------------------|-------------|
-| `['storefront', 'language', 'currency']` | `/powertools-spa/en/USD/product/123` |
-| `['storefront', 'language']` | `/electronics-spa/en/product/123` |
+URL encoding parameters are resolved with the following priority:
+
+1. **Frontend config** (`SiteContextConfig.context.urlParameters`) - takes precedence
+2. **Backend config** (`baseSite.urlEncodingAttributes`) - fallback
+
+This allows customers to override URL encoding via their Spartacus config
+(e.g., in `spartacus-b2c-configuration.providers.ts`) while maintaining
+compatibility with backend-defined defaults.
+
+```typescript
+// spartacus-b2c-configuration.providers.ts
+provideConfig({
+  context: {
+    urlParameters: ['baseSite', 'language', 'currency'],
+    baseSite: ['electronics-spa'],
+  },
+}),
+```
+
+### URL format examples
+
+| `urlParameters` | Example URL |
+|-----------------|-------------|
+| `['baseSite', 'language', 'currency']` | `/powertools-spa/en/USD/product/123` |
+| `['baseSite', 'language']` | `/electronics-spa/en/product/123` |
 | `['language']` | `/en/product/123` |
+| `[]` | `/product/123` |
 
-**Note about `storefront`:** This is used when hosting multiple storefronts on the same domain.
-If 1 domain = 1 storefront, you may not need `storefront` in your `urlEncodingAttributes`.
-The generator respects whatever is configured in your baseSite.
+**Note:** The `storefront` parameter (OCC terminology) is automatically mapped to `baseSite` (Spartacus terminology).
 
 ## Extensibility
 
@@ -207,22 +267,22 @@ providers: [
 
 ## Language and Currency handling
 
-### URL encoding based on urlEncodingAttributes
+### URL encoding based on urlParameters
 
-The generator reads `urlEncodingAttributes` from each baseSite and only includes
-language/currency in URLs when they are configured:
+The generator reads `urlParameters` (or falls back to `urlEncodingAttributes`)
+and only includes language/currency in URLs when they are configured:
 
-**When `currency` IS in `urlEncodingAttributes`:**
+**When `currency` IS in URL parameters:**
 - Sitemaps generated per language **and** per currency
 - URL prefix includes currency: `/powertools-spa/en/USD/product/123`
 - Files: `sitemap-products-en-USD.xml`, `sitemap-products-de-EUR.xml`
 
-**When `currency` is NOT in `urlEncodingAttributes`:**
+**When `currency` is NOT in URL parameters:**
 - Sitemaps generated per language only
 - URL prefix omits currency: `/electronics-spa/en/product/123`
 - Files: `sitemap-products-en.xml`, `sitemap-products-de.xml`
 
-**When `language` is NOT in `urlEncodingAttributes`:**
+**When `language` is NOT in `urlParameters`:**
 - Only default language is used
 - Single file per provider: `sitemap-products.xml`
 
@@ -248,9 +308,11 @@ For a deployment with multiple baseSites:
 
 ```
 /sitemap.xml                                          # Master index
-/sitemaps/electronics-spa/sitemap-products-en.xml     # Electronics, English
-/sitemaps/electronics-spa/sitemap-products-de.xml     # Electronics, German
-/sitemaps/powertools-spa/sitemap-products-en-USD.xml  # Powertools, English, USD
+/sitemaps/electronics-spa/sitemap-routes-en.xml       # Electronics, static routes
+/sitemaps/electronics-spa/sitemap-products-en.xml     # Electronics, products, English
+/sitemaps/electronics-spa/sitemap-products-de.xml     # Electronics, products, German
+/sitemaps/powertools-spa/sitemap-routes-en-USD.xml    # Powertools, static routes
+/sitemaps/powertools-spa/sitemap-products-en-USD.xml  # Powertools, products, English, USD
 /sitemaps/powertools-spa/sitemap-products-en-USD-1.xml # (if > 50000 URLs)
 /sitemaps/powertools-spa/sitemap-products-en-USD-2.xml # (continued)
 ```
@@ -259,11 +321,15 @@ For a deployment with multiple baseSites:
 
 ```
 sitemaps/
+├── config/
+│   ├── index.ts
+│   └── sitemap-config.ts          # SitemapConfig (routes, limits)
 ├── model/
-│   ├── sitemap.model.ts          # Core interfaces + SitemapConfig
-│   └── sitemap-url-provider.ts   # Abstract base class + multi-token
+│   ├── sitemap.model.ts           # Core interfaces + ResolvedSitemapConfig
+│   └── sitemap-url-provider.ts    # Abstract base class + multi-token
 ├── providers/
-│   └── product-sitemap-provider.ts  # Default product provider
+│   ├── routes-sitemap-provider.ts # Static routes provider
+│   └── product-sitemap-provider.ts  # Product detail pages provider
 ├── ssr-bridge/
 │   ├── sitemap-shared-state.ts      # In-memory shared state
 │   ├── sitemap-config-extractor.service.ts  # Orchestrator (multi-site)
@@ -272,4 +338,3 @@ sitemaps/
 │   └── sitemap-middleware.ts     # Express serving middleware
 └── public_api.ts
 ```
-

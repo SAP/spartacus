@@ -22,6 +22,7 @@ import {
 } from './sitemap-config-extractor.service';
 import { SITEMAP_URL_PROVIDERS } from '../model/sitemap-url-provider';
 import { ProductSitemapProvider } from '../providers/product-sitemap-provider';
+import { RoutesSitemapProvider } from '../providers/routes-sitemap-provider';
 
 /**
  * Factory function for APP_INITIALIZER that triggers sitemap generation.
@@ -81,8 +82,13 @@ function sitemapGeneratorInitializerFactory(
  *   provideConfig({
  *     sitemap: {
  *       maxUrlsPerSitemap: 50,  // for testing; default is 50000 per sitemaps.org
+ *       routes: {
+ *         includeAuthFlowRoutes: false,  // default
+ *         includeProtectedRoutes: false, // default
+ *         excludes: ['cart', 'checkout'],
+ *       },
  *     },
- *   } as SitemapConfig),
+ *   }),
  * ]
  * ```
  *
@@ -95,21 +101,33 @@ function sitemapGeneratorInitializerFactory(
  * ]
  * ```
  *
+ * ## Default providers
+ *
+ * The following providers are registered by default (in this order):
+ * 1. `RoutesSitemapProvider` - Static routes without parameters (home, terms, etc.)
+ * 2. `ProductSitemapProvider` - Product detail pages from OCC
+ *
  * ## How it works
  *
  * 1. First SSR render triggers generation (subsequent renders skip)
  * 2. Fetches all baseSites from OCC and iterates over them
  * 3. For each baseSite, resolves context (languages, currencies, urlEncodingAttributes)
- * 4. Runs all registered `SITEMAP_URL_PROVIDERS` (default: ProductSitemapProvider)
+ * 4. Runs all registered `SITEMAP_URL_PROVIDERS`
  * 5. URLs generated using real SemanticPathService (respects customer's RoutingConfig)
  * 6. OCC endpoint uses `productSearch.sitemap` scope from OccConfig
  * 7. Generated XML stored in shared state → Express serves it
  *
  * ## URL encoding
  *
- * The `urlEncodingAttributes` from each baseSite determines what appears in URLs:
- * - `['storefront', 'language', 'currency']` → `/powertools-spa/en/USD/product/123`
- * - `['storefront', 'language']` → `/electronics-spa/en/product/123`
+ * URL encoding parameters are resolved with priority:
+ * 1. Frontend config (`SiteContextConfig.context.urlParameters`) - if defined
+ * 2. Backend config (`baseSite.urlEncodingAttributes`) - fallback
+ *
+ * This allows customers to override URL encoding via their Spartacus config.
+ *
+ * Examples:
+ * - `['baseSite', 'language', 'currency']` → `/powertools-spa/en/USD/product/123`
+ * - `['baseSite', 'language']` → `/electronics-spa/en/product/123`
  * - `['language']` → `/en/product/123`
  *
  * ## Sitemap file limits
@@ -131,7 +149,13 @@ export function provideSitemapGenerator(
     ...(ssrConfig
       ? [{ provide: SITEMAP_SSR_CONFIG, useValue: ssrConfig }]
       : []),
-    // Default product URL provider
+    // Routes URL provider (static pages first)
+    {
+      provide: SITEMAP_URL_PROVIDERS,
+      useClass: RoutesSitemapProvider,
+      multi: true,
+    },
+    // Product URL provider
     {
       provide: SITEMAP_URL_PROVIDERS,
       useClass: ProductSitemapProvider,

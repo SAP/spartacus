@@ -26,10 +26,23 @@ export interface SitemapUrlEntry {
 }
 
 /**
+ * Configuration for routes sitemap provider.
+ */
+export interface ResolvedRoutesConfig {
+  /** Whether to include auth flow routes (login, register, etc.) */
+  includeAuthFlowRoutes: boolean;
+  /** Whether to include protected routes */
+  includeProtectedRoutes: boolean;
+  /** Route names to explicitly exclude */
+  excludes: string[];
+}
+
+/**
  * Resolved sitemap configuration with all values filled in.
  */
 export interface ResolvedSitemapConfig {
   maxUrlsPerSitemap: number;
+  routes: ResolvedRoutesConfig;
 }
 
 /**
@@ -54,6 +67,8 @@ export interface SitemapGenerationContext {
   urlEncodingParams: string[];
   /** Resolved sitemap configuration (limits, etc.) */
   config: ResolvedSitemapConfig;
+  /** Whether global routing.protected flag is set */
+  globalRoutingProtected?: boolean;
 }
 
 /**

@@ -12,6 +12,7 @@ export * from './model/sitemap.model';
 export * from './model/sitemap-url-provider';
 
 // Default URL providers
+export * from './providers/routes-sitemap-provider';
 export * from './providers/product-sitemap-provider';
 
 // SSR-Bridge (Angular generates sitemaps, Express serves them)
