@@ -16,4 +16,9 @@ export interface SearchConfig {
    * @example `allCategories:584:code:1,2,3:availableInStores:Chiba`
    */
   filters?: string;
+
+  /**
+   * find organizational customers using fuzzy matching on name.
+   */
+  query?: string;
 }
