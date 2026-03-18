@@ -295,6 +295,7 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
+    "koa": "^3.1.2",
     "minimatch": "^10.2.1",
     "karma": {
       "minimatch": "3.1.5"
@@ -302,6 +303,7 @@
     "i18n-lint": {
       "minimatch": "3.1.5"
     },
-    "test-exclude": "^8.0.0"
+    "test-exclude": "^8.0.0",
+    "undici": "^7.24.0"
   }
 }
