@@ -55,6 +55,10 @@ export class I18nextInitializer implements OnDestroy {
         escapeValue: false,
         skipOnVariables: false,
       },
+
+      // Suppress Locize ad in i18next runtime. See: https://www.i18next.com/overview/configuration-options
+      // @ts-ignore -- our repo's i18next version doesn't have this option available, but customers' apps can have it
+      showSupportNotice: false,
     };
 
     if (this.config.i18n?.backend) {
