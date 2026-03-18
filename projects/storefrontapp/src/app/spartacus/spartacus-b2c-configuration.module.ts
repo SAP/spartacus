@@ -1,0 +1,63 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { NgModule } from '@angular/core';
+import { CartConfig } from '@spartacus/cart/base/root';
+import {
+  provideConfig,
+  provideConfigFactory,
+  SiteContextConfig,
+} from '@spartacus/core';
+import {
+  defaultCmsContentProviders,
+  layoutConfigFactory,
+  mediaConfig,
+  PWAModuleConfig,
+} from '@spartacus/storefront';
+import { environment } from '../../environments/environment';
+
+const defaultBaseSite = [
+  'electronics-spa',
+  'electronics-spa-standalone',
+  'electronics',
+  'electronics-standalone',
+  'apparel-de',
+  'apparel-uk',
+  'apparel-uk-spa',
+  'apparel-uk-standalone',
+];
+const baseSite = environment.epdVisualization
+  ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
+  : defaultBaseSite;
+
+@NgModule({
+  providers: [
+    provideConfigFactory(layoutConfigFactory),
+    provideConfig(mediaConfig),
+    ...defaultCmsContentProviders,
+    provideConfig(<SiteContextConfig>{
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: baseSite,
+      },
+    }),
+    // Note: The next config chunk is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
+    provideConfig(<PWAModuleConfig>{
+      pwa: {
+        enabled: true,
+        addToHomeScreen: true,
+      },
+    }),
+    provideConfig(<CartConfig>{
+      cart: {
+        selectiveCart: {
+          enabled: true,
+        },
+      },
+    }),
+  ],
+})
+export class SpartacusB2cConfigurationModule {}
