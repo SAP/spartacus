@@ -22,7 +22,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import {
   FeatureConfigService,
   TranslatePipe,
-  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
@@ -129,7 +128,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
-    useFeatureStyles('a11yOptimizedMenuSpacing');
   }
 
   /**

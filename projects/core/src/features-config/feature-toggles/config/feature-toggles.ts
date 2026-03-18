@@ -38,13 +38,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Adjusts line spacing in menus and navigation dropdowns for better readability
-   * across different monitors, text sizes, and zoom levels.
-   * Affects: NavigationUIComponent
-   */
-  a11yOptimizedMenuSpacing?: boolean;
-
-  /**
    * Fixes layering issues caused by native ng-select styles.
    * Sets the dropdown's z-index property to be more in line with Spartacus.
    */
@@ -451,7 +444,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
-  a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
   a11yNgSelectUnicodeCarets: false,
   readMoreDirective: true,
