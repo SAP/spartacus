@@ -57,7 +57,7 @@ export class I18nextInitializer implements OnDestroy {
       },
 
       // Suppress Locize ad in i18next runtime. See: https://www.i18next.com/overview/configuration-options
-      // @ts-ignore -- our repo's i18next version doesn't have this option available, but customers' apps can have it
+      // @ts-ignore -- In CXSPA-12377 we'll remove this @ts-ignore, after we upgrade to the latest i18next version
       showSupportNotice: false,
     };
 
