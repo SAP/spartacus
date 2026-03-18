@@ -38,12 +38,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Fixes layering issues caused by native ng-select styles.
-   * Sets the dropdown's z-index property to be more in line with Spartacus.
-   */
-  a11yNgSelectLayering?: boolean;
-
-  /**
    * Introduces read more directive for presenting elements with long text.
    * Affects: ProductReviewsComponent
    */
@@ -444,7 +438,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
-  a11yNgSelectLayering: true,
   a11yNgSelectUnicodeCarets: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,

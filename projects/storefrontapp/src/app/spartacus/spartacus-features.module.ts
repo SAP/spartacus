@@ -302,7 +302,6 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        a11yNgSelectLayering: true,
         a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
         productReviewCharactersLeft: true,
