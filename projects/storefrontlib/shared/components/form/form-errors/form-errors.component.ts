@@ -17,7 +17,7 @@ import {
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, TranslatePipe, isObject } from '@spartacus/core';
+import { TranslatePipe, isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -37,8 +37,6 @@ import { map, startWith } from 'rxjs/operators';
   imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
 })
 export class FormErrorsComponent implements DoCheck {
-  private featureConfigService = inject(FeatureConfigService);
-
   protected elementRef = inject(ElementRef, { optional: true });
   protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
     optional: true,
@@ -96,7 +94,6 @@ export class FormErrorsComponent implements DoCheck {
   ngDoCheck(): void {
     if (this.control.touched !== this.previousTouchedState) {
       if (
-        this.featureConfigService.isEnabled('a11yImprovedErrorMessage') &&
         this.elementRef?.nativeElement?.getAttribute('aria-live') === 'polite'
       ) {
         // due to the way we detect changes here, JAWS doesn't always respect
@@ -136,18 +133,9 @@ export class FormErrorsComponent implements DoCheck {
   @HostBinding('class.cx-visually-hidden') get hidden() {
     return !(this.invalid && (this.touched || this.dirty));
   }
-  @HostBinding('attr.role') role = this.featureConfigService.isEnabled(
-    'a11yImprovedErrorMessage'
-  )
-    ? null
-    : 'alert';
+  @HostBinding('attr.role') role = null;
 
-  @HostBinding('attr.aria-live') ariaLive =
-    !this.featureConfigService.isEnabled('a11yImprovedErrorMessage')
-      ? this.ariaLiveToken
-      : // If no aria-live value is set add 'polite' as a default. This is preferred over setting
-        // role='alert' so that screen readers do not interrupt the current task to read this aloud.
-        (this.ariaLiveToken ?? 'polite');
+  @HostBinding('attr.aria-live') ariaLive = this.ariaLiveToken ?? 'polite';
 
   @HostBinding('attr.aria-atomic') atomic = true;
 }

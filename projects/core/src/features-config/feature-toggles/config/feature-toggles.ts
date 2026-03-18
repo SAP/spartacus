@@ -26,12 +26,6 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
-   * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
-   *  together with aria-live="atomic"
-   */
-  a11yImprovedErrorMessage?: boolean;
-
-  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -461,7 +455,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yWideScreenImprovements: true,
