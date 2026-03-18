@@ -30,16 +30,16 @@
   }
 
   .billing-list-filter-section {
-    margin-bottom: 1rem;
+    margin-bottom: 2.5rem;
     @include flex-space-between;
 
+    .sort-label {
+      display: inline-block;
+      position: relative;
+      bottom: 4px;
+      font-weight: 600;
+    }
     .billing-list-sorting-bar {
-      .sort-label {
-        display: inline-block;
-        position: relative;
-        bottom: 4px;
-        font-weight: 600;
-      }
       .ng-select-container {
         @include input-border;
       }
@@ -49,13 +49,33 @@
     }
 
     .date-filters-wrapper {
-      width: 30%;
-      .date-filters {
-        input {
-          @include input-border;
+      width: 35%;
+      .dateRangeInputContainer {
+        position: relative;
+        cursor: pointer;
+        width: 80%;
+        .btn-calendar {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          font-size: x-large;
+          cursor: pointer;
         }
+      }
+      .date-filters {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
         font-weight: 600;
         padding: 0 0 0 1rem;
+        input {
+          @include input-border;
+          position: relative;
+          z-index: -1;
+        }
+        .btn-clear {
+          height: 55px;
+        }
       }
 
       & .date-filters-buttons-wrapper {
@@ -83,6 +103,10 @@
   .cx-billing-list-table-col {
     padding: 1rem 0px;
     text-align: center;
+  }
+
+  .cx-billing-list-table-header {
+    text-transform: capitalize;
   }
 
   .cx-billing-list-table-col {

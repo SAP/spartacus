@@ -9,16 +9,26 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  CxDatePipe,
+  EventService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   CustomFormValidators,
-  DatePickerComponent,
   DatePickerService,
+  ICON_TYPE,
+  IconComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
   PaginationComponent,
   SortingComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import {
+  GetSubscriptionBillsListReloadEvent,
+  SubscriptionBill,
   SubscriptionBillingFacade,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
@@ -38,12 +48,16 @@ import { Observable } from 'rxjs';
     CxDatePipe,
     AsyncPipe,
     SortingComponent,
-    DatePickerComponent,
+    IconComponent,
   ],
+  providers: [CxDatePipe],
 })
 export class SubscriptionBillingListComponent {
   protected subscriptionBillsFacade = inject(SubscriptionBillingFacade);
   protected datePickerService = inject(DatePickerService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected eventService = inject(EventService);
+  protected cxDatePipe = inject(CxDatePipe);
 
   minDate: string | null = null;
   maxDate: string | null = null;
@@ -58,6 +72,7 @@ export class SubscriptionBillingListComponent {
     pageNumber: 0,
     dateFilter: undefined,
   };
+  iconTypes = ICON_TYPE;
 
   constructor() {
     this.billsDateFilterForm.addValidators(
@@ -65,6 +80,13 @@ export class SubscriptionBillingListComponent {
         this.datePickerService.getDate(value)
       ) as ValidatorFn
     );
+    this.launchDialogService.dialogClose.subscribe((data) => {
+      if (typeof data === 'object' && data !== null) {
+        this.minDate = data.minDate;
+        this.maxDate = data.maxDate;
+        this.onDateRangeSelection();
+      }
+    });
   }
 
   billingList$: Observable<SubscriptionBillsList | undefined> =
@@ -92,6 +114,9 @@ export class SubscriptionBillingListComponent {
     this.getSubscriptionBillsList();
   }
 
+  /**
+   * @deprecated - Selection of date range and relevant methods have been moved to DateRangeModalComponent
+   */
   onFilterDateChange(): void {
     this.minDate = this.billsDateFilterForm.controls.from.value;
     this.maxDate = this.billsDateFilterForm.controls.to.value;
@@ -110,6 +135,9 @@ export class SubscriptionBillingListComponent {
     );
   }
 
+  /**
+   * @deprecated - Selection of date range and relevant methods have been moved to DateRangeModalComponent
+   */
   onResetFilterDate(): void {
     if (this.minDate || this.maxDate) {
       this.billsDateFilterForm.reset();
@@ -124,6 +152,9 @@ export class SubscriptionBillingListComponent {
     }
   }
 
+  /**
+   * @deprecated - Selection of date range and relevant methods have been moved to DateRangeModalComponent
+   */
   onDateFilterSubmit(): void {
     if (this.minDate && this.maxDate && this.billsDateFilterForm.valid) {
       const dateFilterParam = this.buildDateFilter(this.minDate, this.maxDate);
@@ -141,5 +172,69 @@ export class SubscriptionBillingListComponent {
       '%s',
       endDate
     );
+  }
+
+  onResetDateRange(): void {
+    if (this.minDate || this.maxDate) {
+      this.minDate = null;
+      this.maxDate = null;
+      this.listParams = {
+        ...this.listParams,
+        dateFilter: undefined,
+        pageNumber: 0,
+      };
+      this.getSubscriptionBillsList();
+    }
+  }
+
+  onDateRangeSelection(): void {
+    if (this.minDate && this.maxDate) {
+      const dateFilterParam = this.buildDateFilter(this.minDate, this.maxDate);
+      this.listParams = {
+        ...this.listParams,
+        dateFilter: dateFilterParam,
+        pageNumber: 0,
+      };
+    } else {
+      this.listParams = {
+        ...this.listParams,
+        dateFilter: undefined,
+        pageNumber: 0,
+      };
+    }
+    this.eventService.dispatch({}, GetSubscriptionBillsListReloadEvent);
+    this.getSubscriptionBillsList();
+  }
+
+  getDateRangeFieldValue(): string {
+    if (this.minDate && this.maxDate) {
+      const fromDate = this.cxDatePipe.transform(this.minDate);
+      const toDate = this.cxDatePipe.transform(this.maxDate);
+      return `${fromDate} - ${toDate}`;
+    } else {
+      return '';
+    }
+  }
+
+  launchDateRangeModal(): void {
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.DATE_RANGE_MODAL,
+      undefined,
+      {
+        minDate: this.minDate,
+        maxDate: this.maxDate,
+      }
+    );
+  }
+
+  getTrailingSubscriptionItems(result: SubscriptionBill) {
+    let billItems = '';
+    result.items?.slice(1).forEach((bill, index) => {
+      billItems = billItems + bill.productName;
+      if (result?.items?.length && index !== result.items.length - 2) {
+        billItems = billItems + ', ';
+      }
+    });
+    return billItems;
   }
 }
