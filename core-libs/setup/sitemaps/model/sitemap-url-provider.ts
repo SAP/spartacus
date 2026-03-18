@@ -5,6 +5,7 @@
  */
 
 import { InjectionToken } from '@angular/core';
+import { escapeXml } from '../utils/xml-utils';
 import {
   SitemapGenerationContext,
   SitemapProviderResult,
@@ -109,10 +110,7 @@ export abstract class SitemapUrlProvider {
   protected buildSitemapXml(entries: SitemapUrlEntry[]): string {
     const urlElements = entries
       .map((entry) => {
-        const parts = [
-          `  <url>`,
-          `    <loc>${this.escapeXml(entry.loc)}</loc>`,
-        ];
+        const parts = [`  <url>`, `    <loc>${escapeXml(entry.loc)}</loc>`];
         if (entry.lastmod) {
           parts.push(`    <lastmod>${entry.lastmod}</lastmod>`);
         }
@@ -131,15 +129,6 @@ export abstract class SitemapUrlProvider {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlElements}
 </urlset>`;
-  }
-
-  protected escapeXml(str: string): string {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
   }
 }
 

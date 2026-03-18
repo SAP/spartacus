@@ -10,6 +10,8 @@ export * from './config/index';
 // Models (interfaces, abstract classes, tokens)
 export * from './model/sitemap.model';
 export * from './model/sitemap-url-provider';
+// Utilities
+export * from './utils/index';
 
 // Default URL providers
 export * from './providers/routes-sitemap-provider';

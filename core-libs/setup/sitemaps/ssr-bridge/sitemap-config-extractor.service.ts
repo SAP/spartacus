@@ -31,6 +31,7 @@ import {
   SITEMAP_SHARED_STATE,
   updateSitemapState,
 } from './sitemap-shared-state';
+import { escapeXml } from '../utils/xml-utils';
 
 /**
  * Optional overrides for sitemap generation.
@@ -307,7 +308,7 @@ export class SitemapConfigExtractorService {
       .map(
         (file) =>
           `  <sitemap>
-    <loc>${this.escapeXml(baseUrl)}/sitemaps/${file}</loc>
+    <loc>${escapeXml(baseUrl)}/sitemaps/${file}</loc>
     <lastmod>${today}</lastmod>
   </sitemap>`
       )
@@ -317,14 +318,5 @@ export class SitemapConfigExtractorService {
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapElements}
 </sitemapindex>`;
-  }
-
-  protected escapeXml(str: string): string {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
   }
 }
