@@ -38,12 +38,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Improves wide viewport layout issues.
-   * Affects the styles of: Order confirmation page, product configurator.
-   */
-  a11yWideScreenImprovements?: boolean;
-
-  /**
    * Adjusts line spacing in menus and navigation dropdowns for better readability
    * across different monitors, text sizes, and zoom levels.
    * Affects: NavigationUIComponent
@@ -457,7 +451,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
-  a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
   a11yNgSelectUnicodeCarets: false,
