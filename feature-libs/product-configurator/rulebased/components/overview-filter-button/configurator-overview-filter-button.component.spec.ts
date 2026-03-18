@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
@@ -16,6 +16,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
+import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -71,7 +72,6 @@ function initMocks() {
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -90,11 +90,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ConfiguratorOverviewFilterButtonComponent,
-        MockConfiguratorOverviewFilterBarComponent,
-      ],
+      imports: [ConfiguratorOverviewFilterButtonComponent],
       providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
         {
@@ -110,7 +106,19 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewFilterButtonComponent, {
+        remove: {
+          imports: [TranslatePipe, ConfiguratorOverviewFilterBarComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockConfiguratorOverviewFilterBarComponent,
+          ],
+        },
+      })
+      .compileComponents();
     initComponent();
   }));
 

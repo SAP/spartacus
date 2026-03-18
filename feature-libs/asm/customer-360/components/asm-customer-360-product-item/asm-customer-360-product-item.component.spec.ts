@@ -1,14 +1,13 @@
 import {
   Component,
   DebugElement,
-  Directive,
   Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, ImageType, Product } from '@spartacus/core';
-import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import { ImageType, Product, TranslatePipe } from '@spartacus/core';
+import { MediaComponent } from '@spartacus/storefront';
 
 import { By } from '@angular/platform-browser';
 import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-item.component';
@@ -16,19 +15,11 @@ import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-i
 @Component({
   template: '',
   selector: 'cx-media',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: any;
   @Input() format: any;
   @Input() alt: any;
-}
-
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockKeyboadFocusDirective {
-  @Input('cxFocus') config: FocusConfig = {};
 }
 
 describe('AsmCustomer360ProductItemComponent', () => {
@@ -58,14 +49,6 @@ describe('AsmCustomer360ProductItemComponent', () => {
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
-  @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
-  })
-  class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
-  }
 
   let component: AsmCustomer360ProductItemComponent;
   let fixture: ComponentFixture<AsmCustomer360ProductItemComponent>;
@@ -73,14 +56,13 @@ describe('AsmCustomer360ProductItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AsmCustomer360ProductItemComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
-        MockMediaComponent,
-      ],
-    }).compileComponents();
+      imports: [AsmCustomer360ProductItemComponent],
+    })
+      .overrideComponent(AsmCustomer360ProductItemComponent, {
+        remove: { imports: [TranslatePipe, MediaComponent] },
+        add: { imports: [MockTranslatePipe, MockMediaComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

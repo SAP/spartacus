@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy, RendererFactory2 } from '@angular/core';
 import {
   BaseSiteService,
   CaptchaConfig,
@@ -18,24 +18,16 @@ import { RenderParams } from './captcha.model';
 import { CaptchaApiConfig } from './captcha-api-config';
 import { CaptchaRenderer } from './captcha.renderer';
 
-/**
- * Global function to be passes as "onload" url param for captcha <script>, to be
- * triggered once script and dependencies are loaded
- */
-declare global {
-  interface Window {
-    onCaptchaLoad: () => void;
-  }
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export abstract class CaptchaService implements CaptchaRenderer, OnDestroy {
+  protected rendererFactory = inject(RendererFactory2);
   protected token: string;
   protected subscription = new Subscription();
   protected captchaConfigSubject$ = new ReplaySubject<CaptchaConfig>(1);
   protected captchaConfig: CaptchaConfig;
+  protected renderer = this.rendererFactory.createRenderer(null, null);
 
   constructor(
     protected adapter: SiteAdapter,

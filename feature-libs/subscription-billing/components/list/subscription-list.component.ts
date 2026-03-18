@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
@@ -25,6 +25,7 @@ import { switchMap } from 'rxjs';
   templateUrl: './subscription-list.component.html',
   imports: [
     NgIf,
+    NgClass,
     SortingComponent,
     NgFor,
     RouterLink,

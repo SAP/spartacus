@@ -89,7 +89,6 @@ describe('AuthHttpHeaderService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         AuthHttpHeaderService,
         { provide: AuthService, useClass: MockAuthService },

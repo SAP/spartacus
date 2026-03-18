@@ -31,8 +31,6 @@ import { MyAccountV2OrderConsolidatedInformationComponent } from './consolidated
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {

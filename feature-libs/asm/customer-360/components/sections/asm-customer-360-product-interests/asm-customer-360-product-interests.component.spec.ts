@@ -6,14 +6,19 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
-  I18nTestingModule,
   ImageType,
+  MockTranslatePipe,
   Product,
   ProductService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { AsmCustomer360ProductItemComponent } from '../../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
@@ -97,7 +102,6 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
   @Component({
     template: '',
     selector: 'cx-media',
-    imports: [I18nTestingModule],
   })
   class MockMediaComponent {
     @Input() container: any;
@@ -107,13 +111,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AsmCustomer360ProductInterestsComponent,
-        AsmCustomer360ProductListingComponent,
-        AsmCustomer360ProductItemComponent,
-        MockMediaComponent,
-      ],
+      imports: [AsmCustomer360ProductInterestsComponent],
       providers: [
         AsmCustomer360SectionContextSource,
         {
@@ -126,7 +124,20 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360ProductInterestsComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(AsmCustomer360ProductListingComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(AsmCustomer360ProductItemComponent, {
+        remove: { imports: [MediaComponent, TranslatePipe] },
+        add: { imports: [MockMediaComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

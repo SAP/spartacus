@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
@@ -13,11 +7,11 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 
@@ -36,19 +30,6 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
     translate(): Observable<string> {
       return of('test');
     }
-  }
-  @Pipe({ name: 'cxTranslate' })
-  class MockTranslatePipe implements PipeTransform {
-    transform(): any {}
-  }
-
-  @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
-  })
-  class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
   }
 
   let component: AsmCustomer360SupportTicketsComponent;
@@ -93,10 +74,7 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         AsmCustomer360SupportTicketsComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
         AsmCustomer360TableComponent,
         ArgsPipe,
       ],
@@ -109,7 +87,12 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360SupportTicketsComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

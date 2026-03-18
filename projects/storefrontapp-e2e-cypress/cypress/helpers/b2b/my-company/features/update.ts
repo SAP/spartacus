@@ -42,7 +42,11 @@ export function updateTest(config: MyCompanyConfig) {
         });
       }
 
-      cy.get(`cx-org-card a.link`).contains('Edit').click();
+      cy.get('cx-org-card a.link')
+        .contains('Edit')
+        .should('be.visible')
+        .and('not.be.disabled')
+        .click();
       cy.url().should('contain', `${config.baseUrl}/${entityId}/edit`);
 
       cy.get('cx-org-form div.header h3').contains(

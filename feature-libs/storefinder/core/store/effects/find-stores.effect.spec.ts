@@ -32,7 +32,6 @@ describe('FindStores Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
         fromEffects.FindStoresEffect,

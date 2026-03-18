@@ -38,14 +38,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
-   * when a screen reader is used.
-   * Replaces select with ng-select component in the following component:
-   * `CustomerTicketingCreateDialogComponent`
-   */
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
-
-  /**
    * Adds horizontal padding to the 'carousel-panel' to fix the issue where the focus only covers three sides of the 'Previous slide' and 'Next slide' buttons within the carousel section.
    * Affects: CarouselComponent
    */
@@ -373,6 +365,104 @@ export interface FeatureTogglesInterface {
    * Affects: `ReturnOrderComponent`
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
+
+  /**
+   * When enabled, the media prefix from the backend config will be used
+   * when constructing media URLs in the MediaService.
+   * Affects: `MediaService`
+   */
+  enableMediaPrefix?: boolean;
+
+  /**
+   * Fixes keyboard focus not being visible when tabbing between some buttons
+   * on Customer Ticketing dialog.
+   */
+  a11yCustomerTicketingVisualFocusFix?: boolean;
+
+  /**
+   * Adds Filter By label to product facets when in desktop mode.
+   */
+  a11yFacetFilterByLabel?: boolean;
+
+  /**
+   * When enabled, this fixes the issue of duplicated Order History headers on the Order History page.
+   */
+  removeDuplicatedOrderHistoryHeader?: boolean;
+
+  /**
+   * When enabled, the organization's table component will stop re-rendering its rows each data update.
+   * This improves the screen reader experience of the notification message component.
+   * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
+   */
+  a11yCardNotificationMessage?: boolean;
+
+  /**
+   * When enabled, allows searching cost centers by name in the organization.
+   */
+  enableB2BCostCenterSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B units by name in the organization administration.
+   * This search is performed on the client side since the full unit tree is already loaded.
+   */
+  enableB2BUnitSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B customers by name in the organization.
+   */
+  enableB2BCustomerSearch?: boolean;
+
+  /**
+   * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
+   * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
+   *
+   * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
+   * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
+   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   */
+  a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * Sets the ng-select (readonly) input value from the selected option text,
+   * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yNgSelectReadonlyInputValue?: boolean;
+
+  /**
+   * Fixes doubled screen reader output by providing a static title and aria-label to the password visibility toggle.
+   * Affects: `PasswordVisibilityToggleComponent`
+   */
+  a11yPasswordVisibilityToggle?: boolean;
+
+  /**
+   * When enabled, only active currencies will be displayed in the currency selector.
+   * Currencies are filtered based on the `active` property returned from the backend.
+   * Affects: `CurrencyService`
+   */
+  showOnlyActiveCurrencies?: boolean;
+
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
+
+  /**
+   * Hides empty outlet wrapper elements in the cart item list table when they have no content.
+   * Otherwise screen readers would interpret them as extra table columns.
+   * Affects: CartItemListComponent
+   */
+  a11yCartItemListHideEmptyOutlets?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation between reviews and uses proper list
+   * semantics so screen readers announce list position
+   * Affects: ProductReviewsComponent
+   */
+  a11yReviewsKeyboardControls?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -381,7 +471,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yAddPaddingToCarouselPanel: false,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
@@ -390,7 +479,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: false,
+  a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
@@ -401,17 +490,32 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   topProgressBarUseTransformAnimation: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
-  cdsLoginEventsToken: false,
+  cdsLoginEventsToken: true,
   createMediaPreconnectLink: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
-  authorizationCodeFlowByDefault: false,
+  authorizationCodeFlowByDefault: true,
   incrementProcessesCountForMergeCart: true,
-  dispatchLoginActionOnlyWhenTokenReceived: false,
+  dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableMediaPrefix: false,
+  a11yCustomerTicketingVisualFocusFix: false,
+  a11yFacetFilterByLabel: false,
+  removeDuplicatedOrderHistoryHeader: false,
+  a11yCardNotificationMessage: false,
+  enableB2BUnitSearch: false,
+  enableB2BCostCenterSearch: false,
+  enableB2BCustomerSearch: false,
+  a11yCarouselPreventNavigationFocus: false,
+  a11yNgSelectReadonlyInputValue: false,
+  a11yPasswordVisibilityToggle: false,
+  showOnlyActiveCurrencies: false,
+  a11yAddedToCartDialogHeading: false,
+  a11yCartItemListHideEmptyOutlets: false,
+  a11yReviewsKeyboardControls: false,
 };

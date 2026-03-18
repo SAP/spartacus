@@ -18,6 +18,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   CxDatePipe,
+  FeatureConfigService,
   FeatureModulesService,
   I18nTestingModule,
   MockDatePipe,
@@ -197,7 +198,6 @@ class mockFeatureModulesService implements Partial<FeatureModulesService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -206,6 +206,12 @@ class MockCxIconComponent {
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
     return of(BREAKPOINT.md);
+  }
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
   }
 }
 
@@ -247,7 +253,11 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CustomerListComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        CustomerListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: FeatureModulesService,
@@ -258,6 +268,7 @@ describe('CustomerListComponent', () => {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: AsmConfig, useClass: MockAsmConfig },
         {
           provide: AsmCustomerListFacade,

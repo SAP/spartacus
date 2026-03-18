@@ -7,6 +7,7 @@ import { CmsComponentData } from '../../../cms-structure/index';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
+import { NavigationUIComponent } from './navigation-ui.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -42,7 +43,7 @@ describe('CmsNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NavigationComponent, MockNavigationUIComponent],
+      imports: [NavigationComponent],
       providers: [
         {
           provide: NavigationService,
@@ -53,7 +54,12 @@ describe('CmsNavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(NavigationComponent, {
+        remove: { imports: [NavigationUIComponent] },
+        add: { imports: [MockNavigationUIComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

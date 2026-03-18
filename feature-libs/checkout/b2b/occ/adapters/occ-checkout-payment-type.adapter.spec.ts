@@ -80,7 +80,6 @@ describe(`OccCheckoutPaymentTypeAdapter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCheckoutPaymentTypeAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

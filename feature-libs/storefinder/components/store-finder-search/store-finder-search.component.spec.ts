@@ -1,9 +1,13 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
@@ -35,7 +39,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -49,14 +52,7 @@ describe('StoreFinderSearchComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        I18nTestingModule,
-        StoreFinderSearchComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [StoreFinderSearchComponent, MockUrlPipe],
       providers: [
         {
           provide: RoutingService,
@@ -64,7 +60,18 @@ describe('StoreFinderSearchComponent', () => {
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderSearchComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FeatureDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

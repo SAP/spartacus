@@ -1,10 +1,4 @@
-import {
-  Component,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -17,13 +11,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  I18nTestingModule,
+  MockTranslatePipe,
   PageType,
   ProductSearchService,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import {
   BehaviorSubject,
   delay,
@@ -62,22 +60,9 @@ class MockCmsComponentData {
   }
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): any {
-    return ['test', 'url'];
-  }
-}
-
-@Pipe({ name: 'cxHighlight' })
-class MockHighlightPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -86,7 +71,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-media',
   template: '<img>',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -103,7 +87,6 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-carousel',
   template: ``,
-  imports: [I18nTestingModule],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -179,14 +162,7 @@ describe('SearchBoxComponent', () => {
       imports: [
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
-        I18nTestingModule,
         SearchBoxComponent,
-        MockUrlPipe,
-        MockHighlightPipe,
-        MockCxIconComponent,
-        MockMediaComponent,
-        MockOutletDirective,
-        MockCarouselComponent,
       ],
       providers: [
         {
@@ -206,7 +182,28 @@ describe('SearchBoxComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SearchBoxComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            MediaComponent,
+            OutletDirective,
+            CarouselComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockMediaComponent,
+            MockOutletDirective,
+            MockCarouselComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   describe('Default config', () => {

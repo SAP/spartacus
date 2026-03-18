@@ -21,7 +21,7 @@
     "title": "All Subscriptions",
     "sortSubtitle": "Sort By",
     "startDate": "Subscription Start Date: {{ date }}",
-    "status": "Status: {{ value }}",
+    "status": "Status: ",
     "noSubscriptions": "You don't have any subscriptions",
     "sortOrders": "Sort orders",
     "manageService": "Manage Service",
@@ -32,16 +32,16 @@
     }
   },
   "subscriptionDetails": {
-    "info": "Subscription/Contract Details:",
+    "info": "Subscription Product Details:",
     "productCode": "Subscription Service (Product) Code:",
     "endDate": "Subscription End Date: {{ date }}",
     "cancelSubscription": "Cancel Subscription",
     "extendSubscription": "Extend Subscription",
     "withdrawSubscription": "Withdraw Subscription",
-    "reSubscribe": "Re-subscribe",
+    "reSubscribe": "Renew Subscription",
     "back": "View All Subscriptions",
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
-    "orderCode": "Order Code:"
+    "orderCode": "Order Number:"
   },
   "subscriptionActions": {
     "cancel": "Cancel",
@@ -69,5 +69,36 @@
   "subscriptionCartItemList": {
     "itemPriceHeader": "Item Price",
     "dueNowHeader": "Due Now"
+  },
+  "subscriptionBillsList": {
+    "title": "All Subscriptions Bills",
+    "dateRangeLabel": "Select Date Range",
+    "filterFromDateLabel": "From",
+    "filterToDateLabel": "To",
+    "sortLabel": "Sort By",
+    "noSubscriptionBills": "You don't have any subscription bills",
+    "tableHeaderColId": "Bill ID/Number",
+    "tableHeaderColDate": "Billing Date",
+    "tableHeaderColSubscriptions": "Subscriptions",
+    "tableHeaderColTotal": "Total",
+    "tableViewBillCol": "View Bill",
+    "reset": "Reset",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "descriptionSuffix": "{{ numberOfItems }} more",
+    "dateRangeInputPlaceholder": "Click to select the dates",
+    "dateRangeModalTitle": "Set The Date Range"
+  },
+  "subscriptionBillingDetails": {
+    "billId": "Subscription Bill ID: ",
+    "totalAmount": "Total Amount: ",
+    "subscriptionProduct": "Subscription Product",
+    "billingPeriod": "Billing Period: {{ startDate }} - {{ endDate }}"
+  },
+  "subscriptionPageBreadcrumb": {
+    "home": "Home",
+    "subscriptions": "Subscriptions",
+    "subscriptionBills": "Subscription Bills"
   }
 }

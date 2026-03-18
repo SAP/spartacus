@@ -49,7 +49,6 @@ describe('HttpErrorInterceptor', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         {
           provide: HTTP_INTERCEPTORS,

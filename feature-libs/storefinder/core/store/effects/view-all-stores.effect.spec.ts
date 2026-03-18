@@ -40,7 +40,6 @@ describe('ViewAllStores Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: StoreFinderConnector, useValue: mockStoreFinderConnector },
         { provide: OccConfig, useValue: mockOccModuleConfig },

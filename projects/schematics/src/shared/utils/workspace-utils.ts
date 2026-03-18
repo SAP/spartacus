@@ -135,21 +135,6 @@ export function getProjectTargets(
   return projectTargets;
 }
 
-/**
- * Build a default project path for generating.
- * @param project The project to build the path for.
- */
-export function buildDefaultPath(project: WorkspaceProject): string {
-  const root = project.sourceRoot
-    ? `/${project.sourceRoot}/`
-    : `/${project.root}/src/`;
-
-  const projectDirName =
-    project.projectType === ProjectType.Application ? 'app' : 'lib';
-
-  return `${root}${projectDirName}`;
-}
-
 export function getProject<
   TProjectType extends ProjectType = ProjectType.Application,
 >(

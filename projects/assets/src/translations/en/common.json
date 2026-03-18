@@ -251,7 +251,8 @@
   },
   "passwordVisibility": {
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "togglePassword": "Toggle password visibility"
   },
   "generalErrors": {
     "pageFailure": "The page could not be loaded. Please try again later."

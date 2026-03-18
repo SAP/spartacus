@@ -38,7 +38,6 @@ describe('OccCouponCodesInterceptor', () => {
   let couponService: OppsCouponCodesService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: OppsConfig, useValue: mockOppsConfig },
         { provide: WindowRef, useValue: MockWindowRef },

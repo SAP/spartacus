@@ -14,7 +14,7 @@ import {
   SourceFile,
   ts as tsMorph,
 } from 'ts-morph';
-import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
+import { SPARTACUS_SCOPE } from '../libs-constants';
 import { getSpartacusProviders } from './config-utils';
 import { Import } from './new-module-utils';
 
@@ -30,21 +30,6 @@ export function isImportedFromSpartacusLibs(
   node: Identifier | string
 ): boolean {
   return isImportedFrom(node, SPARTACUS_SCOPE);
-}
-
-/**
- * Checks if the provided imports is a core Spartacus library.
- */
-export function isImportedFromSpartacusCoreLib(
-  node: Identifier | string
-): boolean {
-  for (const coreScope of CORE_SPARTACUS_SCOPES) {
-    if (isImportedFrom(node, coreScope)) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 export function isImportedFrom(

@@ -28,6 +28,7 @@ import {
   OpfPaymentErrorType,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentChannel,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitCompleteRequest,
   OpfPaymentSubmitCompleteResponse,
@@ -65,13 +66,15 @@ export class OpfPaymentHostedFieldsService {
       paymentSessionId,
       returnPath,
       encryptedToken,
+      savePaymentMethod,
     } = submitInput;
 
     const submitRequest: OpfPaymentSubmitRequest = {
       paymentMethod,
       additionalData,
-      channel: 'BROWSER',
+      channel: OpfPaymentChannel.BROWSER,
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
+      savePaymentMethod,
     };
     if (paymentMethod !== OpfPaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';
