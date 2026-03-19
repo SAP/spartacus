@@ -16,6 +16,7 @@ import {
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -24,11 +25,15 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
 } from '@spartacus/core';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -43,6 +48,8 @@ import { first, map } from 'rxjs/operators';
     FormRequiredAsterisksComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
+    FormErrorsComponent,
   ],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
@@ -92,7 +99,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected buildForm(): void {
     this.quickOrderForm = this.formBuilder.group({
-      productCode: ['', []],
+      productCode: ['', [Validators.required]],
       quantity: [
         this.minQuantityValue,
         {

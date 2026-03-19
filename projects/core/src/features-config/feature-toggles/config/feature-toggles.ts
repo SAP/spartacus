@@ -455,6 +455,14 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   a11yReviewsKeyboardControls?: boolean;
+
+  /**
+   * Use on existing form buttons that are programatically disabled/enabled.
+   * To use, duplicate button and use false in original and true in duplicate. The duplicated button
+   * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
+   * is in disabled state.
+   */
+  a11yEnableButtonAndUseCxFormErrors?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -509,4 +517,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddedToCartDialogHeading: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
+  a11yEnableButtonAndUseCxFormErrors: false,
 };

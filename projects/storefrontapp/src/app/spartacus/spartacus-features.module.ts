@@ -347,6 +347,7 @@ if (environment.cpq) {
         a11yAddedToCartDialogHeading: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
+        a11yEnableButtonAndUseCxFormErrors: true,
       };
       return appFeatureToggles;
     }),

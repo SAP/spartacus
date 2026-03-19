@@ -12,6 +12,7 @@
           </label>
 
           <input
+            [attr.aria-errormessage]="'productCodeError'"
             [attr.aria-label]="
               'quickOrderCartForm.entryProductCode' | cxTranslate
             "
@@ -37,15 +38,31 @@
             type="number"
           />
         </span>
-
+        <cx-form-errors
+          id="productCodeError"
+          [translationParams]="{
+            label: 'loginForm.password.label' | cxTranslate,
+          }"
+          [control]="quickOrderForm.get('productCode')"
+        ></cx-form-errors>
         <button
+          *cxFeature="'!a11yEnableButtonAndUseCxFormErrors'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
           [class.disabled]="cartIsLoading$ | async"
           [disabled]="
             (cartIsLoading$ | async) ||
-            !quickOrderForm?.get('productCode')?.value ||
-            !quickOrderForm?.get('quantity')?.value
+            !quickOrderForm.get('productCode')?.value ||
+            !quickOrderForm.get('quantity')?.value
           "
+          class="btn btn-block btn-secondary apply-quick-order-button"
+          type="submit"
+        >
+          {{ 'quickOrderCartForm.add' | cxTranslate }}
+        </button>
+
+        <button
+          *cxFeature="'a11yEnableButtonAndUseCxFormErrors'"
+          [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
           class="btn btn-block btn-secondary apply-quick-order-button"
           type="submit"
         >
