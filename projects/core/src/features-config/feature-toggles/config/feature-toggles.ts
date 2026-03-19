@@ -112,14 +112,6 @@ export interface FeatureTogglesInterface {
   enableReadDomainValuesOnDemand?: boolean;
 
   /**
-   * When enabled, checks before accessing checkout
-   * if user has email assigned to the current cart.
-   * If not - redirects user to `/opf-checkout-email` page.
-   * After providing email user will be redirected back to checkout.
-   */
-  opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
-
-  /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
    * and getStoreLongitude instead of StoreFinderFacade (deprecated)
    * The logic behind it stays the same
@@ -491,7 +483,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
-  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
