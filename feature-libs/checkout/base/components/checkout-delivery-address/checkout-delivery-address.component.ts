@@ -377,7 +377,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected getCardRole(isCardSelected: boolean): 'group' | 'region' {
-    const role: 'group' | 'region' = !isCardSelected ? 'group' : 'region';
-    return role;
+    return !isCardSelected ? 'group' : 'region';
   }
 }
