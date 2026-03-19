@@ -112,14 +112,6 @@ export interface FeatureTogglesInterface {
   enableReadDomainValuesOnDemand?: boolean;
 
   /**
-   * When enabled, checks before accessing checkout
-   * if user has email assigned to the current cart.
-   * If not - redirects user to `/opf-checkout-email` page.
-   * After providing email user will be redirected back to checkout.
-   */
-  opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
-
-  /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
    * and getStoreLongitude instead of StoreFinderFacade (deprecated)
    * The logic behind it stays the same
@@ -397,6 +389,22 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * When enabled, allows searching cost centers by name in the organization.
+   */
+  enableB2BCostCenterSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B units by name in the organization administration.
+   * This search is performed on the client side since the full unit tree is already loaded.
+   */
+  enableB2BUnitSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B customers by name in the organization.
+   */
+  enableB2BCustomerSearch?: boolean;
+
+  /**
    * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
    * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
    *
@@ -466,7 +474,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
-  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
@@ -492,6 +499,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  enableB2BUnitSearch: false,
+  enableB2BCostCenterSearch: false,
+  enableB2BCustomerSearch: false,
   a11yCarouselPreventNavigationFocus: false,
   a11yNgSelectReadonlyInputValue: false,
   a11yPasswordVisibilityToggle: false,

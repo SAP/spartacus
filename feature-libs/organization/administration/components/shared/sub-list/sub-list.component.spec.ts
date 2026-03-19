@@ -85,6 +85,15 @@ class MockBaseListService {
   hasGhostData() {
     return false;
   }
+  isSearchEnabled(): boolean {
+    return false;
+  }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');
 }

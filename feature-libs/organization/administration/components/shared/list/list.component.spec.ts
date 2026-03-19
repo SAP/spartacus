@@ -71,6 +71,8 @@ const mockEmptyList: EntitiesModel<Mock> = {
 class MockBaseListService {
   view = createSpy('view');
   sort = createSpy('sort');
+  search = createSpy('search');
+  clearSearch = createSpy('clearSearch');
   getData() {
     return EMPTY;
   }
@@ -82,6 +84,15 @@ class MockBaseListService {
   }
   hasGhostData() {
     return false;
+  }
+  isSearchEnabled(): boolean {
+    return false;
+  }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');
@@ -387,6 +398,78 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
+      });
+    });
+  });
+
+  describe('Search functionality', () => {
+    beforeEach(() => {
+      spyOn(service, 'getData').and.returnValue(of(mockList));
+      fixture = TestBed.createComponent(MockListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    describe('isSearchEnabled', () => {
+      it('should initialize isSearchEnabled from service', () => {
+        // MockBaseListService.isSearchEnabled() returns false by default
+        expect(component.isSearchEnabled).toBe(false);
+      });
+
+      it('should reflect service isSearchEnabled value', () => {
+        spyOn(service, 'isSearchEnabled').and.returnValue(true);
+        const newFixture = TestBed.createComponent(MockListComponent);
+        const newComponent = newFixture.componentInstance;
+        expect(newComponent.isSearchEnabled).toBe(true);
+      });
+    });
+
+    describe('onSearchQueryChange()', () => {
+      it('should not trigger search when pagination is undefined', () => {
+        component.isSearchEnabled = true;
+        component.onSearchQueryChange(undefined, 'test');
+        // Should not throw and search should not be called immediately (debounced)
+        expect(service.search).not.toHaveBeenCalled();
+      });
+
+      it('should not trigger search when search is disabled', () => {
+        component.isSearchEnabled = false;
+        component.onSearchQueryChange({ currentPage: 0 }, 'test');
+        expect(service.search).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('clearSearch()', () => {
+      it('should clear searchQuery and call service.clearSearch', () => {
+        component.searchQuery = 'test';
+        component.clearSearch({ currentPage: 0 });
+        expect(component.searchQuery).toBe('');
+        expect(service.clearSearch).toHaveBeenCalledWith({ currentPage: 0 });
+      });
+
+      it('should not call service.clearSearch when pagination is undefined', () => {
+        component.clearSearch(undefined);
+        expect(service.clearSearch).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('UI', () => {
+      it('should not show search box when search is disabled', () => {
+        component.isSearchEnabled = false;
+        fixture.detectChanges();
+        const searchWrapper = fixture.debugElement.query(
+          By.css('.search-wrapper')
+        );
+        expect(searchWrapper).toBeFalsy();
+      });
+
+      it('should show search box when search is enabled', () => {
+        component.isSearchEnabled = true;
+        fixture.detectChanges();
+        const searchWrapper = fixture.debugElement.query(
+          By.css('.search-wrapper')
+        );
+        expect(searchWrapper).toBeTruthy();
       });
     });
   });

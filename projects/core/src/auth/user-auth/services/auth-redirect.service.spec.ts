@@ -1,6 +1,10 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Navigation, Router, RouterModule } from '@angular/router';
+import {
+  SiteContextUrlParams,
+  SiteContextUrlSerializer,
+} from '@spartacus/core';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
@@ -17,6 +21,17 @@ class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
   }
 }
 
+class MockSiteContextUrlSerializer
+  implements Partial<SiteContextUrlSerializer>
+{
+  urlExtractContextParameters(url: string): {
+    url: string;
+    params: SiteContextUrlParams;
+  } {
+    return { url, params: { language: 'en', currency: 'jpy' } };
+  }
+}
+
 @Component({
   selector: 'cx-test-component',
   template: 'test',
@@ -29,6 +44,7 @@ describe('AuthRedirectService', () => {
   let router: Router;
   let zone: NgZone;
   let authRedirectStorageService: AuthRedirectStorageService;
+  let siteContextUrlSerializer: SiteContextUrlSerializer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,6 +56,10 @@ describe('AuthRedirectService', () => {
           useClass: MockRoutingService,
         },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
+        {
+          provide: SiteContextUrlSerializer,
+          useClass: MockSiteContextUrlSerializer,
+        },
       ],
       imports: [
         RouterModule.forRoot([
@@ -55,18 +75,20 @@ describe('AuthRedirectService', () => {
     routingService = TestBed.inject(RoutingService);
     router = TestBed.inject(Router);
     zone = TestBed.inject(NgZone);
-
     authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
+    siteContextUrlSerializer = TestBed.inject(SiteContextUrlSerializer);
+
     spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
     spyOn(authRedirectStorageService, 'getRedirectUrl').and.callThrough();
   });
 
   describe('redirect', () => {
     it('should redirect by to the saved redirect URL', () => {
-      authRedirectStorageService.setRedirectUrl('/redirect/url');
+      const redirectUrl = '/redirect/url';
+      authRedirectStorageService.setRedirectUrl(redirectUrl);
       service.redirect();
       expect(authRedirectStorageService.getRedirectUrl).toHaveBeenCalled();
-      expect(routingService.goByUrl).toHaveBeenCalledWith('/redirect/url');
+      expect(routingService.goByUrl).toHaveBeenCalledWith(redirectUrl);
     });
 
     it('should redirect to home page when there was no saved redirect URL', () => {
@@ -145,15 +167,34 @@ describe('AuthRedirectService', () => {
   });
 
   describe('setRedirectUrl', () => {
-    it('should save the passed url', () => {
-      service.setRedirectUrl('/custom/url');
+    it('should save the passed url without site context parameters', () => {
+      spyOn<any>(service, 'getUrlWithoutSiteContextParams').and.returnValue(
+        '/c/123'
+      );
+      service.setRedirectUrl('/custom/url/en/USD/c/123');
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
-        '/custom/url'
+        '/c/123'
       );
     });
+
     it('should not save the url if the url is part of the user auth flow', () => {
       service.setRedirectUrl('/login');
       expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getUrlWithoutSiteContextParams', () => {
+    it('should return url without site context parameters', () => {
+      const inputUrl = '/custom/url/en/USD/c/123';
+      spyOn(
+        siteContextUrlSerializer,
+        'urlExtractContextParameters'
+      ).and.callThrough();
+      const result = (service as any).getUrlWithoutSiteContextParams(inputUrl);
+      expect(result).toEqual(jasmine.any(String));
+      expect(
+        siteContextUrlSerializer.urlExtractContextParameters
+      ).toHaveBeenCalledWith(inputUrl);
     });
   });
 });

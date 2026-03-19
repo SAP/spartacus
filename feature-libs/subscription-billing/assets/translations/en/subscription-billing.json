@@ -72,6 +72,7 @@
   },
   "subscriptionBillsList": {
     "title": "All Subscriptions Bills",
+    "dateRangeLabel": "Select Date Range",
     "filterFromDateLabel": "From",
     "filterToDateLabel": "To",
     "sortLabel": "Sort By",
@@ -82,7 +83,12 @@
     "tableHeaderColTotal": "Total",
     "tableViewBillCol": "View Bill",
     "reset": "Reset",
-    "submit": "Submit"
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "descriptionSuffix": "{{ numberOfItems }} more",
+    "dateRangeInputPlaceholder": "Click to select the dates",
+    "dateRangeModalTitle": "Set The Date Range"
   },
   "subscriptionBillingDetails": {
     "billId": "Subscription Bill ID: ",

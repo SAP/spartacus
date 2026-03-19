@@ -60,11 +60,13 @@ export type SubscriptionActionMode =
 declare module '@spartacus/storefront' {
   enum LAUNCH_CALLER {
     SUBSCRIPTION_ACTION_CONFIRMATION = 'SUBSCRIPTION_ACTION_CONFIRMATION',
+    DATE_RANGE_MODAL = 'DATE_RANGE_MODAL',
   }
 }
 
 (LAUNCH_CALLER as any)['SUBSCRIPTION_ACTION_CONFIRMATION'] =
   'SUBSCRIPTION_ACTION_CONFIRMATION';
+(LAUNCH_CALLER as any)['DATE_RANGE_MODAL'] = 'DATE_RANGE_MODAL';
 
 export interface SubscriptionExtensionEffectiveDate {
   subscriptionEndAt: string;
