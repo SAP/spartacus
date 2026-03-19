@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CostCenter, EntitiesModel } from '@spartacus/core';
+import {
+  CostCenter,
+  EntitiesModel,
+  FeatureConfigService,
+} from '@spartacus/core';
+import { OrganizationUIConfig } from '@spartacus/organization/administration/root';
 import { CostCenterService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -32,9 +37,24 @@ class MockTableService {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return false;
+  }
+}
+
+const mockOrganizationUIConfig: OrganizationUIConfig = {
+  organizationUI: {
+    listSearch: {
+      minCharacters: 3,
+    },
+  },
+};
+
 describe('CostCenterListService', () => {
   let service: CostCenterListService;
   let costCenterService: CostCenterService;
+  let featureConfigService: FeatureConfigService;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -49,10 +69,19 @@ describe('CostCenterListService', () => {
             provide: TableService,
             useClass: MockTableService,
           },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
+          {
+            provide: OrganizationUIConfig,
+            useValue: mockOrganizationUIConfig,
+          },
         ],
       });
       service = TestBed.inject(CostCenterListService);
       costCenterService = TestBed.inject(CostCenterService);
+      featureConfigService = TestBed.inject(FeatureConfigService);
     });
 
     it('should inject service', () => {
@@ -76,6 +105,30 @@ describe('CostCenterListService', () => {
       service.getData().subscribe((table) => (result = table));
       expect(result.values.length).toBe(10);
       expect(result.values[0]).toBeUndefined();
+    });
+
+    describe('getMinSearchCharacters()', () => {
+      it('should return value from config', () => {
+        expect(service.getMinSearchCharacters()).toBe(3);
+      });
+    });
+
+    describe('isSearchEnabled()', () => {
+      it('should return true when feature toggle is enabled', () => {
+        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+        expect(service.isSearchEnabled()).toBe(true);
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'enableB2BCostCenterSearch'
+        );
+      });
+
+      it('should return false when feature toggle is disabled', () => {
+        spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+        expect(service.isSearchEnabled()).toBe(false);
+        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
+          'enableB2BCostCenterSearch'
+        );
+      });
     });
   });
 });
