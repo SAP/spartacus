@@ -114,43 +114,102 @@ export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
   });
 }
 
-export function checkRows(rows): void {
-  let rowIndex = 1;
-  rows.forEach((row: any) => {
-    if (row.text.length) {
-      for (let columnIndex = 0; columnIndex < row.text.length; columnIndex++) {
-        if (row.text[columnIndex]) {
-          if (Array.isArray(row.text[columnIndex])) {
-            const ROLES = {
-              b2bcustomergroup: 'Customer',
-              b2bmanagergroup: 'Manager',
-              b2bapprovergroup: 'Approver',
-              b2badmingroup: 'Admin',
-            };
+export function checkRows(rows, rowConfig?: MyCompanyRowConfig[]): void {
+  if (rowConfig) {
+    const showInTableConfigs = rowConfig.filter((r) => r.showInTable);
 
-            // should to be filtered out, as we don't show them
-            const RIGHTS = ['unitorderviewergroup'];
+    const ROLES = {
+      b2bcustomergroup: 'Customer',
+      b2bmanagergroup: 'Manager',
+      b2bapprovergroup: 'Approver',
+      b2badmingroup: 'Admin',
+    };
+    const RIGHTS = ['unitorderviewergroup'];
 
-            // Used in user roles and rights array
-            // Because we can't use translate pipe, have to check per case
-            row.text[columnIndex]
-              .filter((text: string) => !RIGHTS.includes(text))
-              .forEach((text) => {
-                cy.get(
-                  `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
-                ).should('include.text', ROLES[text]);
-              });
-          } else {
-            cy.get(`cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`).should(
-              'include.text',
+    // Resolve DOM column indices once from rendered <th> elements, then run
+    // all row/cell assertions inside the same synchronous callback so that
+    // rowIndex is never affected by async scheduling.
+    cy.get('cx-table th').then(($headers) => {
+      // Build label → DOM-column-index map
+      const domIndexByLabel: Record<string, number> = {};
+      showInTableConfigs.forEach((colConfig) => {
+        const idx = $headers.toArray().findIndex(
+          (th) =>
+            th.textContent?.trim().toLowerCase() ===
+            colConfig.label?.trim().toLowerCase()
+        );
+        if (idx !== -1) {
+          domIndexByLabel[colConfig.label] = idx;
+        }
+      });
+
+      let rowIndex = 1;
+      rows.forEach((row: any) => {
+        if (row.text.length) {
+          showInTableConfigs.forEach((colConfig, textIndex) => {
+            if (!row.text[textIndex]) {
+              return;
+            }
+            const domColumnIndex = domIndexByLabel[colConfig.label];
+            if (domColumnIndex === undefined) {
+              return;
+            }
+            if (Array.isArray(row.text[textIndex])) {
+              row.text[textIndex]
+                .filter((text: string) => !RIGHTS.includes(text))
+                .forEach((text: string) => {
+                  cy.get(
+                    `cx-table tr:eq(${rowIndex}) td:eq(${domColumnIndex})`
+                  ).should('include.text', ROLES[text]);
+                });
+            } else {
+              cy.get(
+                `cx-table tr:eq(${rowIndex}) td:eq(${domColumnIndex})`
+              ).should('include.text', String(row.text[textIndex]));
+            }
+          });
+          rowIndex++;
+        }
+      });
+    });
+  } else {
+    // Fallback: use text array index directly as DOM column index (legacy behaviour)
+    const ROLES = {
+      b2bcustomergroup: 'Customer',
+      b2bmanagergroup: 'Manager',
+      b2bapprovergroup: 'Approver',
+      b2badmingroup: 'Admin',
+    };
+    const RIGHTS = ['unitorderviewergroup'];
+
+    let rowIndex = 1;
+    rows.forEach((row: any) => {
+      if (row.text.length) {
+        for (
+          let columnIndex = 0;
+          columnIndex < row.text.length;
+          columnIndex++
+        ) {
+          if (row.text[columnIndex]) {
+            if (Array.isArray(row.text[columnIndex])) {
               row.text[columnIndex]
-            );
+                .filter((text: string) => !RIGHTS.includes(text))
+                .forEach((text: string) => {
+                  cy.get(
+                    `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+                  ).should('include.text', ROLES[text]);
+                });
+            } else {
+              cy.get(
+                `cx-table tr:eq(${rowIndex}) td:eq(${columnIndex})`
+              ).should('include.text', String(row.text[columnIndex]));
+            }
           }
         }
+        rowIndex++;
       }
-      rowIndex++;
-    }
-  });
+    });
+  }
 }
 
 export function getListRowsFromBody(
@@ -254,7 +313,7 @@ export function getRootRowsFromBody(body: any, config: MyCompanyConfig) {
 
 export function verifyList(rows, rowConfig): void {
   checkRowHeaders(rowConfig);
-  checkRows(rows);
+  checkRows(rows, rowConfig);
 }
 
 function getVariableFromName(name: string, dataset: any) {
