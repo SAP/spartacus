@@ -20,17 +20,18 @@ This skill covers developing and testing Angular schematics for Spartacus librar
 ## Testing Commands
 
 ```bash
-# All schematics tests (Jest)
+# Core Schematics lib
+cd projects/schematics && npm run test
+
+
+# All libs' schematics
 npm run test:all-schematics
 
-# Single library schematics
+# Single library schematics (Jest)
 nx run <library-name>:test-jest
 
 # Specific test file
 nx run <library-name>:test-jest --testPathPatterns="<spec-filename>"
-
-# projects/schematics specifically
-cd projects/schematics && npm run test
 ```
 
 **Technical note**: During `build`/`test`, `feature-toggles.ts` is copied from `@spartacus/core` to `src/feature-toggles.copied-from-core-lib.ts` (git-ignored). This avoids direct dependency on `@spartacus/core`.
