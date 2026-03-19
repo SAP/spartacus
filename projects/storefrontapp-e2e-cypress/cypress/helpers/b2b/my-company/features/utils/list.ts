@@ -133,11 +133,13 @@ export function checkRows(rows, rowConfig?: MyCompanyRowConfig[]): void {
       // Build label → DOM-column-index map
       const domIndexByLabel: Record<string, number> = {};
       showInTableConfigs.forEach((colConfig) => {
-        const idx = $headers.toArray().findIndex(
-          (th) =>
-            th.textContent?.trim().toLowerCase() ===
-            colConfig.label?.trim().toLowerCase()
-        );
+        const idx = $headers
+          .toArray()
+          .findIndex(
+            (th) =>
+              th.textContent?.trim().toLowerCase() ===
+              colConfig.label?.trim().toLowerCase()
+          );
         if (idx !== -1) {
           domIndexByLabel[colConfig.label] = idx;
         }
