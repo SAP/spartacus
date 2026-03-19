@@ -1,6 +1,10 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { KeyboardFocusTestingModule } from '@spartacus/storefront';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
+import {
+  KeyboardFocusTestingModule,
+  MockKeyboardFocusDirective,
+} from '../../../../layout/a11y/keyboard-focus/focus-testing.module';
 import { Tab, TAB_MODE } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
 
@@ -24,8 +28,13 @@ describe('TabPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [KeyboardFocusTestingModule, TabPanelComponent, MockComponent],
-    }).compileComponents();
+      imports: [TabPanelComponent, MockComponent],
+    })
+      .overrideComponent(TabPanelComponent, {
+        remove: { imports: [FocusDirective] },
+        add: { imports: [MockKeyboardFocusDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

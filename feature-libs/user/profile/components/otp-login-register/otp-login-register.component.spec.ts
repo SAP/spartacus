@@ -22,20 +22,24 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   SiteAdapter,
   Title,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
@@ -72,16 +76,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [
-    ReactiveFormsModule,
-    RouterTestingModule,
-    I18nTestingModule,
-    FormErrorsModule,
-    NgSelectModule,
-    PasswordVisibilityToggleModule,
-    NgSelectA11yModule,
-    CaptchaModule,
-  ],
 })
 class MockSpinnerComponent {}
 
@@ -171,16 +165,12 @@ describe('OneTimePasswordRegisterComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
         OneTimePasswordRegisterComponent,
-        MockUrlPipe,
-        MockSpinnerComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {
@@ -219,8 +209,19 @@ describe('OneTimePasswordRegisterComponent', () => {
           provide: ClientAuthenticationTokenService,
           useClass: MockClientAuthenticationTokenService,
         },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OneTimePasswordRegisterComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe, SpinnerComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe, MockSpinnerComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
@@ -9,14 +8,6 @@ import { CpqQuoteDiscountComponent } from './cpq-quote.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
-}
-
-@Component({
-  selector: 'cx-cpq-quote',
-  template: '',
-})
-class MockConfigureCpqDiscountsComponent {
-  @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
 }
 
 describe('CpqQuoteDiscountComponent', () => {
@@ -31,7 +22,7 @@ describe('CpqQuoteDiscountComponent', () => {
     };
     mockCartItemContext = new MockCartItemContext();
     await TestBed.configureTestingModule({
-      imports: [CpqQuoteDiscountComponent, MockConfigureCpqDiscountsComponent],
+      imports: [CpqQuoteDiscountComponent],
       providers: [
         { provide: CpqQuoteService, useValue: cpqQuoteServiceMock },
         { provide: CartItemContext, useValue: mockCartItemContext },

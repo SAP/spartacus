@@ -26,6 +26,7 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import {
+  FeatureDirective as CxFeatureDirective,
   LoggerService,
   TranslatePipe,
   useFeatureStyles,
@@ -70,6 +71,7 @@ import { CarouselService } from './carousel.service';
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
+    CxFeatureDirective,
   ],
 })
 export class CarouselComponent implements OnInit, OnChanges {
@@ -150,6 +152,37 @@ export class CarouselComponent implements OnInit, OnChanges {
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
+  }
+  /**
+   * Prevents default mousedown behavior on navigation buttons when enabled
+   * to avoid unwanted blur events (e.g., in Safari when carousel is used inside modals or search boxes).
+   */
+  onNavigationMouseDown(event: MouseEvent): void {
+    event.preventDefault();
+  }
+
+  /**
+   * Handler for the "next" button click.
+   */
+  onNextClick(event: MouseEvent, size: number): void {
+    event.stopPropagation();
+
+    const itemsLength = this.items?.length ?? 0;
+    const canMove = this.activeSlide <= itemsLength - size - 1;
+
+    if (canMove) {
+      this.activeSlide = this.activeSlide + size;
+    }
+  }
+
+  /**
+   * Handler for the "previous" button click.
+   */
+  onPreviousClick(event: MouseEvent, size: number): void {
+    event.stopPropagation();
+    if (this.activeSlide !== 0) {
+      this.activeSlide = this.activeSlide - size;
+    }
   }
 
   onItemKeydown(event: KeyboardEvent, size: number): void {

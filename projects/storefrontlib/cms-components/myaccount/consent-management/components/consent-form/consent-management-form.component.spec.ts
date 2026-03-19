@@ -4,9 +4,9 @@ import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
-  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {
@@ -16,12 +16,13 @@ describe('ConsentManagementFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ConsentManagementFormComponent,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+      imports: [ConsentManagementFormComponent],
+    })
+      .overrideComponent(ConsentManagementFormComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

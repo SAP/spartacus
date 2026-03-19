@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectorRef,
-  DebugElement,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -22,9 +17,13 @@ import {
   AuthConfigService,
   FeatureConfigService,
   GlobalMessageService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   OAuthFlow,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
@@ -32,6 +31,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
@@ -68,10 +68,6 @@ class MockFormComponentService
   );
   displayMessage = createSpy('displayMessage').and.stub();
 }
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe = createSpy().and.stub();
@@ -107,11 +103,9 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
         RegistrationVerificationTokenFormComponent,
-        MockUrlPipe,
       ],
       providers: [
         {
@@ -134,9 +128,15 @@ describe('RegistrationVerificationTokenFormComponent', () => {
           provide: RegistrationVerificationTokenFormComponentService,
           useClass: MockRegistrationVerificationTokenFormComponentService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
         ChangeDetectorRef,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RegistrationVerificationTokenFormComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

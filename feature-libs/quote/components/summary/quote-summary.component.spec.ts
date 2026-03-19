@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { Quote, QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
+import { QuoteSummaryActionsComponent } from './actions/quote-summary-actions.component';
+import { QuoteSummaryPricesComponent } from './prices/quote-summary-prices.component';
 import { QuoteSummaryComponent } from './quote-summary.component';
+import { QuoteSummarySellerEditComponent } from './seller-edit/quote-summary-seller-edit.component';
 
 @Component({
   selector: 'cx-quote-summary-prices',
@@ -44,20 +47,33 @@ describe('QuoteSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        QuoteSummaryComponent,
-        MockQuoteSummaryPricesComponent,
-        MockQuoteSummaryActionsComponent,
-        MockQuoteSummarySellerEditComponent,
-      ],
+      imports: [QuoteSummaryComponent],
       providers: [
         {
           provide: QuoteFacade,
           useClass: MockCommerceQuotesFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteSummaryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            QuoteSummaryPricesComponent,
+            QuoteSummaryActionsComponent,
+            QuoteSummarySellerEditComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockQuoteSummaryPricesComponent,
+            MockQuoteSummaryActionsComponent,
+            MockQuoteSummarySellerEditComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
@@ -25,6 +18,7 @@ import {
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
   TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
@@ -35,11 +29,6 @@ import { EMPTY, of } from 'rxjs';
 import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-center';
 import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 class MockUserAddressService implements Partial<UserAddressService> {
   getAddresses = createSpy().and.returnValue(of(mockAddresses));
