@@ -7,9 +7,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
   Translatable,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -21,7 +22,9 @@ import {
 import {
   FileUploadModule,
   FocusConfig,
+  FocusDirective,
   FormErrorsModule,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
   NgSelectA11yModule,
@@ -96,14 +99,6 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [
-    I18nTestingModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FileUploadModule,
-    NgSelectModule,
-    NgSelectA11yModule,
-  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -123,15 +118,12 @@ describe('CustomerTicketingCreateDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
         NgSelectModule,
         NgSelectA11yModule,
         CustomerTicketingCreateDialogComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -143,7 +135,18 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCreateDialogComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FocusDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 

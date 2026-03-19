@@ -1,7 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  CxNumericPipe,
+  LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-slider.component';
 
@@ -22,14 +26,19 @@ describe('VisualViewerAnimationSliderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule, MockNumericPipe],
+      imports: [VisualViewerAnimationSliderComponent],
       providers: [
         {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VisualViewerAnimationSliderComponent, {
+        remove: { imports: [TranslatePipe, CxNumericPipe] },
+        add: { imports: [MockTranslatePipe, MockNumericPipe] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(VisualViewerAnimationSliderComponent);
     visualViewerAnimationSliderComponent = fixture.componentInstance;

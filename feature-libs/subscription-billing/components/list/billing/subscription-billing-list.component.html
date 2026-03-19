@@ -1,71 +1,52 @@
 <ng-container *ngIf="billingList$ | async as billingList; else loading">
+  <div class="billing-list-title-section">
+    <h3>{{ 'subscriptionBillsList.title' | cxTranslate }}</h3>
+  </div>
+
+  <div class="billing-list-filter-section">
+    <div class="date-filters-wrapper">
+      <div class="date-filters">
+        <div class="dateRangeInputContainer" (click)="launchDateRangeModal()">
+          <span class="sort-label label-text">
+            {{ 'subscriptionBillsList.dateRangeLabel' | cxTranslate }}
+          </span>
+          <input
+            type="text"
+            disabled
+            class="form-control"
+            [placeholder]="
+              'subscriptionBillsList.dateRangeInputPlaceholder' | cxTranslate
+            "
+            [value]="getDateRangeFieldValue()"
+          />
+          <button class="btn btn-tertiary btn-calendar">
+            <cx-icon class="fa fa-calendar"></cx-icon>
+          </button>
+        </div>
+        <button
+          class="btn btn-tertiary btn-clear"
+          *ngIf="getDateRangeFieldValue()"
+          (click)="onResetDateRange()"
+        >
+          {{ 'subscriptionBillsList.clear' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+
+    <div class="billing-list-sorting-bar">
+      <span class="sort-label label-text">
+        {{ 'subscriptionBillsList.sortLabel' | cxTranslate }}
+      </span>
+      <cx-sorting
+        [sortOptions]="billingList.sorts"
+        (sortListEvent)="onSortCodeChange($event)"
+        [selectedOption]="billingList.pagination?.sort"
+        placeholder="{{ 'subscriptionBillsList.sortLabel' | cxTranslate }}"
+        [ariaLabel]="'subscriptionBillsList.sortOrders'"
+      ></cx-sorting>
+    </div>
+  </div>
   <ng-container *ngIf="billingList.results?.length > 0; else noBills">
-    <div class="billing-list-title-section">
-      <h3>{{ 'subscriptionBillsList.title' | cxTranslate }}</h3>
-    </div>
-
-    <div class="billing-list-filter-section">
-      <div class="date-filters-wrapper">
-        <div class="from-date-filter date-filters">
-          <span class="sort-label label-text">
-            {{ 'subscriptionBillsList.filterFromDateLabel' | cxTranslate }}
-          </span>
-          <cx-date-picker
-            [control]="$any(billsDateFilterForm.get('from'))"
-            [label]="'subscriptionBillsList.filterFromDateLabel'"
-            (update)="onFilterDateChange()"
-            [min]="minDate"
-            [max]="maxDate"
-          ></cx-date-picker>
-        </div>
-        <div class="to-date-filter date-filters">
-          <span class="sort-label label-text">
-            {{ 'subscriptionBillsList.filterToDateLabel' | cxTranslate }}
-          </span>
-          <cx-date-picker
-            [control]="$any(billsDateFilterForm.get('to'))"
-            [label]="'subscriptionBillsList.filterToDateLabel'"
-            (update)="onFilterDateChange()"
-            [min]="minDate"
-            [max]="maxDate"
-          ></cx-date-picker>
-        </div>
-        <div class="date-filters-buttons-wrapper">
-          <div class="date-filters-buttons reset">
-            <button
-              type="button"
-              class="btn btn-block btn-secondary"
-              (click)="onResetFilterDate()"
-            >
-              {{ 'subscriptionBillsList.reset' | cxTranslate }}
-            </button>
-          </div>
-          <div class="date-filters-buttons submit">
-            <button
-              type="submit"
-              class="btn btn-primary btn-block"
-              (click)="onDateFilterSubmit()"
-            >
-              {{ 'subscriptionBillsList.submit' | cxTranslate }}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="billing-list-sorting-bar">
-        <span class="sort-label label-text">
-          {{ 'subscriptionBillsList.sortLabel' | cxTranslate }}
-        </span>
-        <cx-sorting
-          [sortOptions]="billingList.sorts"
-          (sortListEvent)="onSortCodeChange($event)"
-          [selectedOption]="billingList.pagination?.sort"
-          placeholder="{{ 'subscriptionBillsList.sortLabel' | cxTranslate }}"
-          [ariaLabel]="'subscriptionBillsList.sortOrders'"
-        ></cx-sorting>
-      </div>
-    </div>
-
     <!-- table starts -->
     <table id="billing-list-table" class="table cx-billing-list-table">
       <thead class="cx-billing-list-thead">
@@ -112,7 +93,23 @@
           </td>
           <td>
             <div class="cx-billing-list-table-col">
-              {{ billing.numberOfSubscriptions }}
+              {{ billing.items?.[0]?.productName }}
+              <ng-container *ngIf="billing.items.length > 1">
+                ...
+                <a
+                  [title]="getTrailingSubscriptionItems(billing)"
+                  [routerLink]="
+                    {
+                      cxRoute: 'subscriptionBillingDetails',
+                      params: { subscriptionBillId: billing.documentNumber },
+                    } | cxUrl
+                  "
+                  >{{
+                    'subscriptionBillsList.descriptionSuffix'
+                      | cxTranslate: { numberOfItems: billing.items.length - 1 }
+                  }}
+                </a>
+              </ng-container>
             </div>
           </td>
           <td>

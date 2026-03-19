@@ -1,12 +1,5 @@
-import {
-  Component,
-  DebugElement,
-  ElementRef,
-  Input,
-  ViewContainerRef,
-} from '@angular/core';
+import { DebugElement, ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -18,17 +11,18 @@ import {
 import {
   CmsComponent,
   EventService,
-  I18nTestingModule,
+  MockTranslatePipe,
   Product,
   ProductAvailabilityAdapter,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
-  IconModule,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
-  SpinnerModule,
+  MockIconComponent,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
@@ -97,18 +91,6 @@ class MockEventService implements Partial<EventService> {
 
 class MockProductAvailabilityAdapter {}
 
-@Component({
-  template: '',
-  selector: 'cx-item-counter',
-  imports: [SpinnerModule, I18nTestingModule, ReactiveFormsModule, IconModule],
-})
-class MockItemCounterComponent {
-  @Input() min: number;
-  @Input() max: number;
-  @Input() step: number;
-  @Input() control: any;
-}
-
 describe('CompactAddToCartComponent', () => {
   let addToCartComponent: CompactAddToCartComponent;
   let fixture: ComponentFixture<CompactAddToCartComponent>;
@@ -121,15 +103,7 @@ describe('CompactAddToCartComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        SpinnerModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-        IconModule,
-        CompactAddToCartComponent,
-        MockItemCounterComponent,
-      ],
+      imports: [BrowserAnimationsModule, CompactAddToCartComponent],
       providers: [
         {
           provide: LaunchDialogService,
@@ -150,7 +124,12 @@ describe('CompactAddToCartComponent', () => {
         },
         { provide: EventService, useClass: MockEventService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CompactAddToCartComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -6,13 +6,15 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
+  SubscriptionBill,
   SubscriptionBillingFacade,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { Pipe, PipeTransform } from '@angular/core';
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { SubscriptionBillingListComponent } from '@spartacus/subscription-billing/components';
 import { ActivatedRoute } from '@angular/router';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 const listWithData: SubscriptionBillsList = {
   pagination: {
@@ -72,6 +74,60 @@ const listWithData: SubscriptionBillsList = {
   ],
 };
 
+const listWithMultipleItems: SubscriptionBillsList = {
+  ...listWithData,
+  results: [
+    {
+      ...listWithData.results?.[0],
+      items: [
+        {
+          netAmount: 'USD0.00',
+          productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
+          productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
+          subscriptionDocumentNumber: '807',
+          subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
+          usageCharges: [
+            {
+              netAmount: 'USD185.00',
+              typeName: 'Charge',
+            },
+          ],
+        },
+        {
+          netAmount: 'USD355.00',
+          productCode: 'SB_-_recurring_types_cpq',
+          productName: 'SB - recurring types',
+          subscriptionDocumentNumber: '946',
+          subscriptionId: 'E5FC4D4D-9BF0-4233-9C9B-1D4690C7640A',
+          usageCharges: [
+            {
+              netAmount: 'USD185.00',
+              typeName: 'Charge',
+            },
+            {
+              netAmount: 'USD170.00',
+              typeName: 'Charge',
+            },
+          ],
+        },
+        {
+          netAmount: 'USD20.00',
+          productCode: 'Mobile_2020_Plan_cpq',
+          productName: 'Mobile 2020 Plan',
+          subscriptionDocumentNumber: '864',
+          subscriptionId: 'E9163E7A-F195-47A1-B8C7-563DCB6FEAD5',
+          usageCharges: [
+            {
+              netAmount: 'USD20.00',
+              typeName: 'Charge',
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 const listWithNoData: SubscriptionBillsList = {
   pagination: {},
   results: [],
@@ -125,6 +181,17 @@ class MockActivatedRoute {
   constructor(public snapshot: any) {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  data$: Observable<any> = of({ minDate: null, maxDate: null });
+  dialogClose = of({ minDate: null, maxDate: null });
+  openDialogAndSubscribe(
+    _: LAUNCH_CALLER | string,
+    __?: ElementRef,
+    ___?: any
+  ): void {}
+  closeDialog(_: any) {}
+}
+
 describe('SubscriptionBillingListComponent', () => {
   let component: SubscriptionBillingListComponent;
   let fixture: ComponentFixture<SubscriptionBillingListComponent>;
@@ -145,6 +212,7 @@ describe('SubscriptionBillingListComponent', () => {
           provide: SubscriptionBillingFacade,
           useClass: MockSubscriptionBillingFacade,
         },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
     facadeSpy = TestBed.inject(SubscriptionBillingFacade);
@@ -170,10 +238,8 @@ describe('SubscriptionBillingListComponent', () => {
       5
     );
     expect(
-      fixture.debugElement.queryAll(By.css('cx-date-picker')).length
-    ).toEqual(2);
-    expect(fixture.debugElement.queryAll(By.css('.submit')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('.reset')).length).toEqual(1);
+      fixture.debugElement.queryAll(By.css('.dateRangeInputContainer')).length
+    ).toEqual(1);
   });
 
   it('should show no subscription bills if data is not present', () => {
@@ -181,7 +247,7 @@ describe('SubscriptionBillingListComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.billing-list-sorting-bar')).length
-    ).toEqual(0);
+    ).toEqual(1);
     expect(
       fixture.debugElement.queryAll(By.css('.billing-list-pagination-bar'))
         .length
@@ -235,7 +301,29 @@ describe('SubscriptionBillingListComponent', () => {
     });
 
     component.minDate = '2026-12-31';
+    component.maxDate = '2026-12-31';
     component.onResetFilterDate();
+    fixture.detectChanges();
+    expect(component.minDate).toBeNull();
+    expect(component.maxDate).toBeNull();
+    expect(component.listParams).toEqual({
+      pageNumber: 0,
+      sortCode: undefined,
+      dateFilter: undefined,
+    });
+
+    component.onResetDateRange();
+    fixture.detectChanges();
+    expect(component.minDate).toBeNull();
+    expect(component.maxDate).toBeNull();
+    expect(component.listParams).toEqual({
+      pageNumber: 0,
+      sortCode: undefined,
+      dateFilter: undefined,
+    });
+
+    component.maxDate = '2026-12-31';
+    component.onResetDateRange();
     fixture.detectChanges();
     expect(component.minDate).toBeNull();
     expect(component.maxDate).toBeNull();
@@ -254,5 +342,16 @@ describe('SubscriptionBillingListComponent', () => {
       sortCode: undefined,
       dateFilter: undefined,
     });
+  });
+
+  it('get all subscription items except the first one to display in description tooltip', () => {
+    let tooltipString = component.getTrailingSubscriptionItems(
+      listWithMultipleItems.results?.[0] as SubscriptionBill
+    );
+    expect(tooltipString).toEqual('SB - recurring types, Mobile 2020 Plan');
+    tooltipString = component.getTrailingSubscriptionItems(
+      listWithData.results?.[0] as SubscriptionBill
+    );
+    expect(tooltipString).toEqual('');
   });
 });
