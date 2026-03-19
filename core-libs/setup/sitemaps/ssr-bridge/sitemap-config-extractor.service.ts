@@ -18,13 +18,10 @@ import { firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
 import {
-  SITEMAP_URL_PROVIDERS,
-  SitemapUrlProvider,
-} from '../model/sitemap-url-provider';
-import {
   ResolvedSitemapConfig,
   SitemapGenerationContext,
 } from '../model/sitemap.model';
+import { SitemapGeneratorService } from '../services/sitemap-generator.service';
 import {
   markSitemapError,
   markSitemapGenerating,
@@ -34,61 +31,65 @@ import {
 import { escapeXml } from '../utils/xml-utils';
 
 /**
- * Optional overrides for sitemap generation.
+ * Configuration for sitemap generation in SSR context.
  *
- * By default, baseUrl and occBaseUrl are resolved from OccConfig.
- * Use this token only when you need to override them
- * (e.g., different public URL vs. internal OCC URL).
+ * The `baseUrls` map determines which baseSites to generate sitemaps for
+ * and what storefront URL to use for each. This is the **driving** configuration —
+ * only baseSites listed here will be processed. Site context data (languages,
+ * currencies, urlEncodingAttributes) is resolved from the OCC baseSites response.
+ *
+ * This design ensures that when multiple applications/instances share the same
+ * OCC backend, each application only generates sitemaps for its own baseSites,
+ * avoiding unnecessary iterations and incorrect sitemaps.
  */
 export interface SitemapSsrConfig {
   /**
-   * Override storefront base URL.
-   * If not set, derived from the request or falls back to 'http://localhost:4000'.
+   * Mapping of baseSite UID → storefront base URL.
+   *
+   * Only baseSites present in this map will have sitemaps generated.
+   * The URL is used as the `<loc>` prefix in sitemap entries.
+   *
+   * Example:
+   * ```typescript
+   * {
+   *   'electronics-spa': 'https://electronics.example.com',
+   *   'apparel-uk-spa': 'https://apparel-uk.example.com',
+   *   'apparel-de': 'https://apparel-de.example.com',
+   * }
+   * ```
    */
-  baseUrl?: string;
+  baseUrls: Record<string, string>;
 
   /**
    * Override OCC backend URL.
    * If not set, uses `OccConfig.backend.occ.baseUrl`.
    */
   occBaseUrl?: string;
-
-  /**
-   * Filter which baseSites to generate sitemaps for.
-   * If not set, generates for all baseSites.
-   * Can be an array of baseSite UIDs or a filter function.
-   */
-  baseSiteFilter?: string[] | ((baseSite: BaseSite) => boolean);
 }
 
 /**
- * Injection token for optional sitemap SSR configuration overrides.
+ * Injection token for sitemap SSR configuration.
  */
 export const SITEMAP_SSR_CONFIG = new InjectionToken<SitemapSsrConfig>(
   'SITEMAP_SSR_CONFIG',
   {
-    factory: () => ({}),
+    factory: () => ({ baseUrls: {} }),
   }
 );
 
 /**
- * Main sitemap generator service. Orchestrates URL providers during SSR bootstrap.
+ * Main sitemap orchestrator service. Coordinates sitemap generation during SSR bootstrap.
  *
  * This service:
- * 1. Fetches all baseSites from OCC
- * 2. For each baseSite, resolves context (languages, currencies, urlEncodingAttributes)
- * 3. Delegates URL generation to registered `SitemapUrlProvider` instances
- * 4. Generates separate sitemaps per baseSite with proper prefixing
- * 5. Creates a master sitemap index referencing all per-site sitemaps
- *
- * ## URL Encoding Parameters Resolution
- *
- * The `urlEncodingParams` (which control language/currency in URLs) are resolved:
- * 1. From `SiteContextConfig.context.urlParameters` (frontend override) - takes precedence
- * 2. From baseSite's `urlEncodingAttributes` (OCC backend) - fallback
- *
- * This allows customers to override URL encoding via frontend config while
- * maintaining compatibility with backend-defined defaults.
+ * 1. Reads configured baseSite → URL mappings from `SitemapSsrConfig.baseUrls`
+ * 2. Fetches baseSites from OCC to resolve site context data (languages, currencies, etc.)
+ * 3. For each configured baseSite, matches it with OCC data and builds generation context
+ * 4. Delegates to SitemapGeneratorService which uses the layered architecture:
+ *    - SiteContextAwareRoutesDiscoveryService (iterates site contexts)
+ *    - RoutesDiscoveryService (matches routes with enumerators)
+ *    - ROUTE_PARAMS_ENUMERATOR[] (provides params for each route type)
+ * 5. Generates separate sitemaps per baseSite with proper prefixing
+ * 6. Creates a master sitemap index referencing all per-site sitemaps
  */
 @Injectable()
 export class SitemapConfigExtractorService {
@@ -99,12 +100,10 @@ export class SitemapConfigExtractorService {
   protected sitemapConfig = inject(SitemapConfig);
   protected siteContextConfig = inject(SiteContextConfig);
   protected routingConfig = inject(RoutingConfig);
-
-  protected providers: SitemapUrlProvider[] =
-    inject(SITEMAP_URL_PROVIDERS, { optional: true }) ?? [];
+  protected sitemapGeneratorService = inject(SitemapGeneratorService);
 
   /**
-   * Main entry point — orchestrates all registered URL providers for all baseSites.
+   * Main entry point — orchestrates sitemap generation for configured baseSites.
    * Called from APP_INITIALIZER during SSR bootstrap.
    */
   async generateSitemaps(): Promise<void> {
@@ -124,11 +123,26 @@ export class SitemapConfigExtractorService {
     console.log('[Sitemap] Starting generation in Angular SSR context...');
 
     try {
-      const baseSites = await this.getAllBaseSites();
-      const filteredBaseSites = this.filterBaseSites(baseSites);
+      const configuredSites = this.ssrConfig.baseUrls;
+      const configuredSiteIds = Object.keys(configuredSites);
+
+      if (configuredSiteIds.length === 0) {
+        console.warn('[Sitemap] No baseSites configured in baseUrls. Nothing to generate.');
+        updateSitemapState({}, [], 0, {});
+        return;
+      }
+
+      // Fetch all baseSites from OCC to get site context data
+      const allBaseSites = await this.getAllBaseSites();
+      const baseSiteMap = new Map<string, BaseSite>(
+        allBaseSites.map((site) => [site.uid || '', site])
+      );
 
       console.log(
-        `[Sitemap] Found ${baseSites.length} baseSites, processing ${filteredBaseSites.length} after filtering`
+        `[Sitemap] Configured ${configuredSiteIds.length} baseSite(s): ${configuredSiteIds.join(', ')}`
+      );
+      console.log(
+        `[Sitemap] OCC returned ${allBaseSites.length} baseSite(s): ${allBaseSites.map((s) => s.uid).join(', ')}`
       );
 
       const allSitemaps: Record<string, string> = {};
@@ -136,18 +150,22 @@ export class SitemapConfigExtractorService {
       let totalUrls = 0;
       const urlsByLanguage: Record<string, number> = {};
 
-      // Process each baseSite
-      for (const baseSite of filteredBaseSites) {
-        const siteUid = baseSite.uid;
-        if (!siteUid) {
-          console.warn('[Sitemap] Skipping baseSite without uid');
+      // Process only baseSites listed in baseUrls config
+      for (const baseSiteId of configuredSiteIds) {
+        const baseUrl = configuredSites[baseSiteId];
+        const baseSite = baseSiteMap.get(baseSiteId);
+
+        if (!baseSite) {
+          console.warn(
+            `[Sitemap] BaseSite '${baseSiteId}' configured in baseUrls but not found in OCC response. Skipping.`
+          );
           continue;
         }
 
-        console.log(`[Sitemap] Processing baseSite: ${siteUid}`);
+        console.log(`[Sitemap] Processing baseSite: ${baseSiteId} → ${baseUrl}`);
 
-        const context = this.buildContextForBaseSite(baseSite);
-        console.log(`[Sitemap] Context for ${siteUid}:`);
+        const context = this.buildContextForBaseSite(baseSite, baseUrl);
+        console.log(`[Sitemap] Context for ${baseSiteId}:`);
         console.log(`  Base URL: ${context.baseUrl}`);
         console.log(`  Languages: ${context.languages.join(', ')}`);
         console.log(`  Currencies: ${context.currencies.join(', ')}`);
@@ -155,35 +173,28 @@ export class SitemapConfigExtractorService {
         console.log(
           `  URL encoding params: ${context.urlEncodingParams.join(', ')}`
         );
-        console.log(
-          `  Global routing protected: ${context.globalRoutingProtected}`
-        );
 
-        // Run each provider for this baseSite
-        for (const provider of this.providers) {
-          console.log(
-            `[Sitemap] Running provider '${provider.name}' for ${siteUid}...`
-          );
+        // Use new architecture: SitemapGeneratorService
+        const result = await this.sitemapGeneratorService.generateSitemaps(context);
 
-          const result = await provider.getUrls(context);
+        // Prefix filenames with baseSiteUid for multi-site support
+        for (const [filename, xml] of Object.entries(result.sitemaps)) {
+          const prefixedFilename = `${baseSiteId}/${filename}`;
+          allSitemaps[prefixedFilename] = xml;
+          allFiles.push(prefixedFilename);
+        }
 
-          // Prefix filenames with baseSiteUid for multi-site support
-          for (const [filename, xml] of Object.entries(result.sitemaps)) {
-            const prefixedFilename = `${siteUid}/${filename}`;
-            allSitemaps[prefixedFilename] = xml;
-            allFiles.push(prefixedFilename);
-          }
-
-          totalUrls += result.totalUrls;
-          for (const [lang, count] of Object.entries(result.urlsByLanguage)) {
-            urlsByLanguage[lang] = (urlsByLanguage[lang] || 0) + count;
-          }
+        totalUrls += result.totalUrls;
+        for (const [lang, count] of Object.entries(result.urlsByLanguage)) {
+          urlsByLanguage[lang] = (urlsByLanguage[lang] || 0) + count;
         }
       }
 
-      // Generate master sitemap index
-      const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
-      allSitemaps['sitemap.xml'] = this.buildSitemapIndexXml(allFiles, baseUrl);
+      // Generate master sitemap index with per-baseSite URLs
+      allSitemaps['sitemap.xml'] = this.buildSitemapIndexXml(
+        allFiles,
+        configuredSites
+      );
 
       // Store in shared state for Express
       updateSitemapState(allSitemaps, allFiles, totalUrls, urlsByLanguage);
@@ -206,31 +217,13 @@ export class SitemapConfigExtractorService {
   }
 
   /**
-   * Filters baseSites based on configuration.
-   */
-  protected filterBaseSites(baseSites: BaseSite[]): BaseSite[] {
-    const filter = this.ssrConfig.baseSiteFilter;
-
-    if (!filter) {
-      return baseSites;
-    }
-
-    if (Array.isArray(filter)) {
-      return baseSites.filter((site) => filter.includes(site.uid || ''));
-    }
-
-    return baseSites.filter(filter);
-  }
-
-  /**
    * Builds the generation context for a specific baseSite.
-   *
-   * URL encoding parameters are resolved with priority:
-   * 1. Frontend config (SiteContextConfig.context.urlParameters) - if defined
-   * 2. Backend config (baseSite.urlEncodingAttributes) - fallback
+   * @param baseSite - BaseSite data from OCC response
+   * @param baseUrl - Storefront base URL for this baseSite (from SitemapSsrConfig.baseUrls)
    */
   protected buildContextForBaseSite(
-    baseSite: BaseSite
+    baseSite: BaseSite,
+    baseUrl: string
   ): SitemapGenerationContext {
     const baseSiteId = baseSite.uid || '';
     const store = baseSite.stores?.[0] || baseSite.baseStore;
@@ -250,19 +243,25 @@ export class SitemapConfigExtractorService {
     const defaultCurrency = store?.defaultCurrency?.isocode || 'USD';
 
     // Resolve urlEncodingParams with priority:
-    // 1. Frontend SiteContextConfig.context.urlParameters (if defined)
-    // 2. Backend baseSite.urlEncodingAttributes (fallback)
-    const frontendUrlParams = this.siteContextConfig.context?.urlParameters;
-    const urlEncodingParams = frontendUrlParams?.length
-      ? frontendUrlParams
+    // 1. Static config from provideConfig({ context: { urlParameters } })
+    // 2. Per-baseSite urlEncodingAttributes from OCC (fallback)
+    //
+    // We can trust siteContextConfig.context.urlParameters only when
+    // context.baseSite was provided statically — because in that case
+    // SiteContextConfigInitializer does NOT run (see initSiteContextConfig
+    // in SiteContextModule), so urlParameters retains the customer's value.
+    // Otherwise, the initializer overwrites it with the active baseSite's
+    // data, which is unreliable when iterating over multiple baseSites.
+    const staticUrlParams = this.getStaticUrlParameters();
+    const urlEncodingParams = staticUrlParams?.length
+      ? staticUrlParams
       : normalizeUrlEncodingParams(baseSite.urlEncodingAttributes);
 
-    // Resolve baseUrl and occBaseUrl
-    const baseUrl = this.ssrConfig.baseUrl || 'http://localhost:4000';
+    // Resolve occBaseUrl
     const occBaseUrl =
       this.ssrConfig.occBaseUrl || this.occConfig.backend?.occ?.baseUrl || '';
 
-    // Build resolved sitemap config from injected Spartacus config
+    // Build resolved sitemap config
     const sitemapRoutesCfg = this.sitemapConfig.sitemap?.routes;
     const defaultRoutesCfg = defaultSitemapConfig.sitemap!.routes!;
 
@@ -298,20 +297,52 @@ export class SitemapConfigExtractorService {
     };
   }
 
+  /**
+   * Returns the customer's static `context.urlParameters` if it can be trusted.
+   *
+   * When `context.baseSite` is provided via `provideConfig()`,
+   * `SiteContextConfigInitializer` does NOT run (see `initSiteContextConfig`
+   * in `SiteContextModule`). In that case `context.urlParameters` is the
+   * customer's own static value — or `undefined` if they didn't set it.
+   *
+   * When `context.baseSite` is NOT provided, the initializer runs and
+   * overwrites `context.urlParameters` with data from a single baseSite
+   * matched by URL pattern. That value cannot be used for other baseSites,
+   * so we return `undefined` to signal "use per-baseSite OCC fallback".
+   */
+  protected getStaticUrlParameters(): string[] | undefined {
+    const hasStaticBaseSiteConfig =
+      !!this.siteContextConfig.context?.['baseSite']?.length;
+    if (!hasStaticBaseSiteConfig) {
+      return undefined;
+    }
+    return this.siteContextConfig.context?.urlParameters;
+  }
+
+  /**
+   * Builds sitemap index XML referencing all per-baseSite sitemap files.
+   * Each sitemap file's `<loc>` uses the baseUrl configured for its baseSite.
+   *
+   * @param sitemapFiles - List of sitemap file paths (e.g., 'electronics-spa/sitemap-en.xml')
+   * @param baseUrls - Mapping of baseSite UID → storefront URL
+   */
   protected buildSitemapIndexXml(
     sitemapFiles: string[],
-    baseUrl: string
+    baseUrls: Record<string, string>
   ): string {
     const today = new Date().toISOString().split('T')[0];
 
     const sitemapElements = sitemapFiles
-      .map(
-        (file) =>
-          `  <sitemap>
+      .map((file) => {
+        // Extract baseSiteId from the file path (e.g., 'electronics-spa/sitemap-en.xml' → 'electronics-spa')
+        const baseSiteId = file.split('/')[0];
+        const baseUrl = baseUrls[baseSiteId] || '';
+
+        return `  <sitemap>
     <loc>${escapeXml(baseUrl)}/sitemaps/${file}</loc>
     <lastmod>${today}</lastmod>
-  </sitemap>`
-      )
+  </sitemap>`;
+      })
       .join('\n');
 
     return `<?xml version="1.0" encoding="UTF-8"?>

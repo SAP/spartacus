@@ -8,333 +8,122 @@ Server-side sitemap generation for Spartacus applications using SSR.
 ┌─────────────────────────────────────────────────────────────────────┐
 │                     Angular SSR (first render)                      │
 │                                                                     │
-│  APP_INITIALIZER ─▶ SitemapConfigExtractorService (orchestrator)    │
-│                          │                                          │
-│                          ├─▶ Resolves context from Angular DI       │
-│                          │   (BaseSiteService, LanguageService,     │
-│                          │    CurrencyService, OccConfig,           │
-│                          │    SiteContextConfig, RoutingConfig)     │
-│                          │                                          │
-│                          ├─▶ Runs SITEMAP_URL_PROVIDERS             │
-│                          │   ├─ RoutesSitemapProvider (static pages)│
-│                          │   ├─ ProductSitemapProvider (PDPs)        │
-│                          │   ├─ CategorySitemapProvider (custom)     │
-│                          │   └─ ... (extensible)                    │
-│                          │                                          │
-│                          └─▶ Stores XML in SITEMAP_SHARED_STATE     │
+│  APP_INITIALIZER ─▶ SitemapConfigExtractorService                   │
+│                      │ (per baseSite)                               │
+│                      └─▶ SitemapGeneratorService                    │
+│                           │                                         │
+│                           └─▶ SiteContextAwareRoutesDiscoveryService│
+│                                │ (per language × per currency)      │
+│                                └─▶ RoutesDiscoveryService           │
+│                                     │ (per language, once)          │
+│                                     ├─▶ RoutingConfig               │
+│                                     ├─▶ SemanticPathService         │
+│                                     └─▶ ROUTE_PARAMS_ENUMERATOR[]   │
+│                                          ├─ StaticRouteParams...    │
+│                                          ├─ ProductRouteParams...   │
+│                                          └─ (extensible)            │
+│                                                                     │
+│  SITEMAP_SHARED_STATE ◄── XML files stored in process memory        │
 └─────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│                      Express Middleware                              │
-│                                                                     │
-│  /sitemap.xml ──────▶ serves sitemap index from shared state        │
-│  /sitemaps/*.xml ───▶ serves individual sitemaps from shared state  │
-│  /sitemap-status ───▶ JSON status endpoint                          │
+│  Express Middleware                                                  │
+│  /sitemap.xml ──────▶ sitemap index                                 │
+│  /sitemaps/*.xml ───▶ individual sitemaps                           │
+│  /sitemap-status ───▶ JSON status                                   │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## Quick Start (zero-config)
+### Language / Currency handling
 
-### 1. Server config
+- **Enumeration** happens once per language (OCC data is currency-independent).
+- **URL duplication** happens per currency when `currency` is in `urlEncodingParams`.
+  The same paths get different URL prefixes (`/en/USD/...` vs `/en/EUR/...`).
+
+## Quick Start
 
 ```typescript
 // app.config.server.ts
-import { provideSitemapGenerator } from '@spartacus/setup/sitemaps';
+provideSitemapGenerator()
 
-const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(),
-    provideSitemapGenerator(),
-    // ...
-  ],
-};
-```
-
-### 2. Express middleware
-
-```typescript
 // server.ts
-import { setupSitemapServing } from '@spartacus/setup/sitemaps';
-
-export function app(): express.Express {
-  const server = express();
-  setupSitemapServing(server);
-  // ...
-}
+setupSitemapServing(server)
 ```
-
-That's it. The sitemap generator:
-- Reads `backend.occ.baseUrl` from `OccConfig` (no duplication)
-- Discovers languages/currencies from Angular services
-- Generates URLs using **real** `SemanticPathService` (respects customer's `RoutingConfig`)
-- Uses `productSearch.sitemap` OCC endpoint scope
-
-## Default Providers
-
-The following URL providers are registered by default:
-
-1. **RoutesSitemapProvider** - Static routes without parameters (home, terms, etc.)
-2. **ProductSitemapProvider** - Product detail pages from OCC
 
 ## Configuration
 
-### Override baseUrl (recommended for production)
-
 ```typescript
-provideSitemapGenerator({
-  baseUrl: 'https://my-storefront.com',
-})
-```
+// Override base URL
+provideSitemapGenerator({ baseUrl: 'https://my-storefront.com' })
 
-### Override OCC URL
+// Filter baseSites
+provideSitemapGenerator({ baseSiteFilter: ['electronics-spa'] })
 
-```typescript
-provideSitemapGenerator({
-  occBaseUrl: 'https://internal-occ.example.com',
-})
-```
-
-If not set, `OccConfig.backend.occ.baseUrl` is used automatically.
-
-### Sitemap file limits (Spartacus Config pattern)
-
-Per sitemaps.org protocol, each sitemap file can contain max 50,000 URLs.
-Configure this limit using the standard Spartacus config pattern:
-
-```typescript
-import { provideConfig } from '@spartacus/core';
-import { SitemapConfig } from '@spartacus/setup/sitemaps';
-
-// app.config.ts
-providers: [
-  provideSitemapGenerator(),
-  provideConfig({
-    sitemap: {
-      maxUrlsPerSitemap: 50,  // for testing; default is 50000
-    },
-  }),
-]
-```
-
-When the limit is exceeded, files are automatically split with numeric suffixes:
-- `sitemap-products-en-1.xml`
-- `sitemap-products-en-2.xml`
-
-### Routes configuration
-
-Configure which static routes are included in the sitemap:
-
-```typescript
+// Sitemap config (Spartacus Config pattern)
 provideConfig({
   sitemap: {
+    maxUrlsPerSitemap: 50,          // default: 50000
     routes: {
-      // Include login, register, forgot-password routes (default: false)
-      includeAuthFlowRoutes: false,
-      
-      // Include routes requiring authentication (default: false)
-      includeProtectedRoutes: false,
-      
-      // Exclude specific routes by name (cxRoute key)
-      excludes: ['cart', 'checkout', 'notFound'],
+      includeAuthFlowRoutes: false, // default
+      includeProtectedRoutes: false,// default
+      excludes: ['cart', 'checkout'],
     },
   },
-}),
-```
-
-**Route filtering logic:**
-
-| Route property | Default behavior |
-|----------------|------------------|
-| `authFlow: true` | Excluded (login, register, etc.) |
-| `protected: true` | Excluded (requires auth) |
-| `routing.protected: true` (global) | Excludes routes without `protected: false` |
-| Path with `:param` | Excluded (requires specialized provider) |
-
-### Filter baseSites
-
-By default, sitemaps are generated for all baseSites. Filter them:
-
-```typescript
-// By UID array
-provideSitemapGenerator({
-  baseSiteFilter: ['electronics-spa', 'powertools-spa'],
-})
-
-// Or with a filter function
-provideSitemapGenerator({
-  baseSiteFilter: (baseSite) => !baseSite.requiresAuthentication,
 })
 ```
 
-## Multi-site support
-
-The generator iterates over all baseSites from OCC and creates separate sitemaps for each:
-
-```
-/sitemaps/electronics-spa/sitemap-routes-en.xml
-/sitemaps/electronics-spa/sitemap-products-en.xml
-/sitemaps/electronics-spa/sitemap-products-de.xml
-/sitemaps/powertools-spa/sitemap-routes-en-USD.xml
-/sitemaps/powertools-spa/sitemap-products-en-USD.xml
-```
-
-The main `/sitemap.xml` index references all of them.
-
-## URL encoding attributes
-
-### Resolution priority
-
-URL encoding parameters are resolved with the following priority:
-
-1. **Frontend config** (`SiteContextConfig.context.urlParameters`) - takes precedence
-2. **Backend config** (`baseSite.urlEncodingAttributes`) - fallback
-
-This allows customers to override URL encoding via their Spartacus config
-(e.g., in `spartacus-b2c-configuration.providers.ts`) while maintaining
-compatibility with backend-defined defaults.
-
-```typescript
-// spartacus-b2c-configuration.providers.ts
-provideConfig({
-  context: {
-    urlParameters: ['baseSite', 'language', 'currency'],
-    baseSite: ['electronics-spa'],
-  },
-}),
-```
-
-### URL format examples
-
-| `urlParameters` | Example URL |
-|-----------------|-------------|
-| `['baseSite', 'language', 'currency']` | `/powertools-spa/en/USD/product/123` |
-| `['baseSite', 'language']` | `/electronics-spa/en/product/123` |
-| `['language']` | `/en/product/123` |
-| `[]` | `/product/123` |
-
-**Note:** The `storefront` parameter (OCC terminology) is automatically mapped to `baseSite` (Spartacus terminology).
-
-## Extensibility
-
-### Custom URL providers
-
-Create a provider by extending `SitemapUrlProvider`:
+## Custom Enumerators
 
 ```typescript
 @Injectable()
-export class CategorySitemapProvider extends SitemapUrlProvider {
-  readonly name = 'categories';
+export class CategoryRouteParamsEnumerator extends RouteParamsEnumerator {
+  readonly cxRoute = 'category';
+  override readonly languageDependent = true;
 
-  async getUrls(context: SitemapGenerationContext): Promise<SitemapProviderResult> {
-    const sitemaps: Record<string, string> = {};
-    const files: string[] = [];
-    // ... fetch categories, build URLs ...
-    return { providerName: this.name, sitemaps, files, totalUrls, urlsByLanguage };
-  }
-}
-```
-
-Register it:
-
-```typescript
-import { SITEMAP_URL_PROVIDERS } from '@spartacus/setup/sitemaps';
-
-providers: [
-  provideSitemapGenerator(),
-  { provide: SITEMAP_URL_PROVIDERS, useClass: CategorySitemapProvider, multi: true },
-]
-```
-
-### Override the default product provider
-
-```typescript
-@Injectable()
-export class MyProductProvider extends ProductSitemapProvider {
-  protected override maxPageSize = 200;
-
-  protected override buildProductEntry(product, baseUrl, urlPrefix) {
-    // Custom URL logic...
+  async enumerate(ctx: RouteParamsEnumeratorContext) {
+    return { params: categories.map(c => ({ categoryCode: c.code })) };
   }
 }
 
-// Replace the default:
-providers: [
-  provideSitemapGenerator(),  // registers default ProductSitemapProvider
-  { provide: SITEMAP_URL_PROVIDERS, useClass: MyProductProvider, multi: true },
-]
+// Register:
+{ provide: ROUTE_PARAMS_ENUMERATOR, useClass: CategoryRouteParamsEnumerator, multi: true }
 ```
 
-## Language and Currency handling
-
-### URL encoding based on urlParameters
-
-The generator reads `urlParameters` (or falls back to `urlEncodingAttributes`)
-and only includes language/currency in URLs when they are configured:
-
-**When `currency` IS in URL parameters:**
-- Sitemaps generated per language **and** per currency
-- URL prefix includes currency: `/powertools-spa/en/USD/product/123`
-- Files: `sitemap-products-en-USD.xml`, `sitemap-products-de-EUR.xml`
-
-**When `currency` is NOT in URL parameters:**
-- Sitemaps generated per language only
-- URL prefix omits currency: `/electronics-spa/en/product/123`
-- Files: `sitemap-products-en.xml`, `sitemap-products-de.xml`
-
-**When `language` is NOT in `urlParameters`:**
-- Only default language is used
-- Single file per provider: `sitemap-products.xml`
-
-> **Note:** OCC product search results are typically currency-independent.
-> The currency only affects the URL prefix, not the API call.
-
-## OCC Endpoint
-
-Uses the `sitemap` scope from `productSearch` OCC endpoint config:
-
-```typescript
-// default-occ-product-config.ts
-productSearch: {
-  sitemap: 'products(code,name)',
-}
-```
-
-Customers can override this in their OCC config to include additional fields.
-
-## Generated sitemap structure
-
-For a deployment with multiple baseSites:
+## Generated Structure
 
 ```
-/sitemap.xml                                          # Master index
-/sitemaps/electronics-spa/sitemap-routes-en.xml       # Electronics, static routes
-/sitemaps/electronics-spa/sitemap-products-en.xml     # Electronics, products, English
-/sitemaps/electronics-spa/sitemap-products-de.xml     # Electronics, products, German
-/sitemaps/powertools-spa/sitemap-routes-en-USD.xml    # Powertools, static routes
-/sitemaps/powertools-spa/sitemap-products-en-USD.xml  # Powertools, products, English, USD
-/sitemaps/powertools-spa/sitemap-products-en-USD-1.xml # (if > 50000 URLs)
-/sitemaps/powertools-spa/sitemap-products-en-USD-2.xml # (continued)
+/sitemap.xml                                   # Index
+/sitemaps/electronics-spa/sitemap-en.xml       # English
+/sitemaps/electronics-spa/sitemap-de.xml       # German
+/sitemaps/powertools-spa/sitemap-en-USD.xml    # English + USD
+/sitemaps/powertools-spa/sitemap-en-EUR.xml    # English + EUR
+/sitemaps/powertools-spa/sitemap-en-USD-1.xml  # Split (if > limit)
 ```
 
-## File structure
+## File Structure
 
 ```
 sitemaps/
 ├── config/
-│   ├── index.ts
-│   └── sitemap-config.ts          # SitemapConfig (routes, limits)
+│   └── sitemap-config.ts             # SitemapConfig
 ├── model/
-│   ├── sitemap.model.ts           # Core interfaces + ResolvedSitemapConfig
-│   └── sitemap-url-provider.ts    # Abstract base class + multi-token
-├── providers/
-│   ├── routes-sitemap-provider.ts # Static routes provider
-│   └── product-sitemap-provider.ts  # Product detail pages provider
+│   ├── sitemap.model.ts              # All interfaces
+│   └── route-params-enumerator.ts    # Abstract class + token
+├── enumerators/
+│   ├── static-route-params-enumerator.ts
+│   └── product-route-params-enumerator.ts
+├── services/
+│   ├── routes-discovery.service.ts
+│   ├── site-context-aware-routes-discovery.service.ts
+│   └── sitemap-generator.service.ts
 ├── ssr-bridge/
-│   ├── sitemap-shared-state.ts      # In-memory shared state
-│   ├── sitemap-config-extractor.service.ts  # Orchestrator (multi-site)
-│   └── sitemap-config-initializer.ts        # provideSitemapGenerator()
+│   ├── sitemap-shared-state.ts
+│   ├── sitemap-config-extractor.service.ts
+│   └── sitemap-config-initializer.ts
 ├── express/
-│   └── sitemap-middleware.ts     # Express serving middleware
+│   └── sitemap-middleware.ts
+├── utils/
+│   └── xml-utils.ts
 └── public_api.ts
 ```

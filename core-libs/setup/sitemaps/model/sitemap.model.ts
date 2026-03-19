@@ -25,8 +25,10 @@ export interface SitemapUrlEntry {
   priority?: number;
 }
 
+// ---- Sitemap Configuration ----
+
 /**
- * Configuration for routes sitemap provider.
+ * Resolved routes configuration (all values filled in).
  */
 export interface ResolvedRoutesConfig {
   /** Whether to include auth flow routes (login, register, etc.) */
@@ -38,17 +40,18 @@ export interface ResolvedRoutesConfig {
 }
 
 /**
- * Resolved sitemap configuration with all values filled in.
+ * Resolved sitemap configuration (all values filled in).
  */
 export interface ResolvedSitemapConfig {
   maxUrlsPerSitemap: number;
   routes: ResolvedRoutesConfig;
 }
 
+// ---- Generation Context ----
+
 /**
- * Context information passed to URL providers during generation.
- * Contains all resolved site context values so providers don't need
- * to resolve them independently.
+ * Context information passed during sitemap generation.
+ * Built from baseSite data by the orchestrator.
  */
 export interface SitemapGenerationContext {
   /** Resolved base site UID (e.g., 'electronics-spa') */
@@ -71,18 +74,66 @@ export interface SitemapGenerationContext {
   globalRoutingProtected?: boolean;
 }
 
+// ---- Discovery Results ----
+
 /**
- * Result of a single URL provider's generation, grouped by language and currency.
+ * A discovered route with its concrete URL path.
  */
-export interface SitemapProviderResult {
-  /** Provider name (used in sitemap filenames) */
-  providerName: string;
+export interface DiscoveredRoute {
+  /** Semantic route name (e.g., 'product', 'home') */
+  cxRoute: string;
+  /** Parameters used to generate this URL */
+  params: Record<string, unknown>;
+  /** Concrete URL path without base URL or prefix (e.g., 'product/123/camera') */
+  path: string;
+}
+
+/**
+ * A discovered URL with full site context information.
+ */
+export interface SiteContextAwareUrl {
+  cxRoute: string;
+  params: Record<string, unknown>;
+  /** Full URL path with site context prefix (e.g., '/electronics-spa/en/USD/product/123') */
+  fullPath: string;
+  language: string;
+  currency: string;
+}
+
+/**
+ * Result of site-context-aware route discovery.
+ */
+export interface SiteContextAwareDiscoveryResult {
+  /** Discovered URLs keyed by language (or language-currency) */
+  urlsByLanguageCurrency: Map<string, SiteContextAwareUrl[]>;
+  totalUrls: number;
+}
+
+// ---- Generation Results ----
+
+/**
+ * Result of sitemap generation for a single baseSite.
+ */
+export interface SitemapGenerationResult {
   /** Generated sitemap files keyed by filename → XML content */
   sitemaps: Record<string, string>;
-  /** Filenames of generated sitemaps */
   files: string[];
-  /** Total URLs across all files */
   totalUrls: number;
-  /** URLs per language */
   urlsByLanguage: Record<string, number>;
+}
+
+// ---- Discovery Options ----
+
+/**
+ * Options for route discovery filtering.
+ */
+export interface RoutesDiscoveryOptions {
+  /** Only include these semantic route names. */
+  include?: string[];
+  /** Exclude these semantic route names. */
+  exclude?: string[];
+  /** Include routes marked with `authFlow: true`. Default: false */
+  includeAuthFlowRoutes?: boolean;
+  /** Include protected routes. Default: false */
+  includeProtectedRoutes?: boolean;
 }

@@ -9,13 +9,16 @@ export * from './config/index';
 
 // Models (interfaces, abstract classes, tokens)
 export * from './model/sitemap.model';
-export * from './model/sitemap-url-provider';
+export * from './model/route-params-enumerator';
+
 // Utilities
 export * from './utils/index';
 
-// Default URL providers
-export * from './providers/routes-sitemap-provider';
-export * from './providers/product-sitemap-provider';
+// Route parameter enumerators
+export * from './enumerators/index';
+
+// Services
+export * from './services/index';
 
 // SSR-Bridge (Angular generates sitemaps, Express serves them)
 export * from './ssr-bridge/index';

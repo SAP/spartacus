@@ -20,9 +20,12 @@ import {
   SitemapSsrConfig,
   SITEMAP_SSR_CONFIG,
 } from './sitemap-config-extractor.service';
-import { SITEMAP_URL_PROVIDERS } from '../model/sitemap-url-provider';
-import { ProductSitemapProvider } from '../providers/product-sitemap-provider';
-import { RoutesSitemapProvider } from '../providers/routes-sitemap-provider';
+import { ROUTE_PARAMS_ENUMERATOR } from '../model/route-params-enumerator';
+import { ProductRouteParamsEnumerator } from '../enumerators/product-route-params-enumerator';
+import { StaticRouteParamsEnumerator } from '../enumerators/static-route-params-enumerator';
+import { RoutesDiscoveryService } from '../services/routes-discovery.service';
+import { SiteContextAwareRoutesDiscoveryService } from '../services/site-context-aware-routes-discovery.service';
+import { SitemapGeneratorService } from '../services/sitemap-generator.service';
 
 /**
  * Factory function for APP_INITIALIZER that triggers sitemap generation.
@@ -52,14 +55,17 @@ function sitemapGeneratorInitializerFactory(
 /**
  * Provides the sitemap generator for SSR.
  *
- * ## Basic usage (zero-config)
- *
- * Uses `OccConfig.backend.occ.baseUrl` automatically:
+ * ## Basic usage
  *
  * ```typescript
  * // app.config.server.ts
  * providers: [
- *   provideSitemapGenerator(),
+ *   provideSitemapGenerator({
+ *     baseUrls: {
+ *       'electronics-spa': 'https://electronics.example.com',
+ *       'apparel-uk-spa': 'https://apparel-uk.example.com',
+ *     },
+ *   }),
  * ]
  * ```
  *
@@ -68,101 +74,74 @@ function sitemapGeneratorInitializerFactory(
  * ```typescript
  * providers: [
  *   provideSitemapGenerator({
- *     baseUrl: 'https://my-storefront.com',  // override public URL
- *     baseSiteFilter: ['electronics-spa', 'powertools-spa'],  // optional filter
- *   }),
- * ]
- * ```
- *
- * ## With sitemap config (Spartacus Config pattern)
- *
- * ```typescript
- * providers: [
- *   provideSitemapGenerator(),
- *   provideConfig({
- *     sitemap: {
- *       maxUrlsPerSitemap: 50,  // for testing; default is 50000 per sitemaps.org
- *       routes: {
- *         includeAuthFlowRoutes: false,  // default
- *         includeProtectedRoutes: false, // default
- *         excludes: ['cart', 'checkout'],
- *       },
+ *     baseUrls: {
+ *       'electronics-spa': 'https://electronics.example.com',
  *     },
+ *     occBaseUrl: 'https://internal-api.example.com',
  *   }),
  * ]
  * ```
  *
- * ## With custom URL providers
+ * ## With custom route parameter enumerators
  *
  * ```typescript
  * providers: [
- *   provideSitemapGenerator(),
- *   { provide: SITEMAP_URL_PROVIDERS, useClass: CategorySitemapProvider, multi: true },
+ *   provideSitemapGenerator({
+ *     baseUrls: { 'electronics-spa': 'https://electronics.example.com' },
+ *   }),
+ *   { provide: ROUTE_PARAMS_ENUMERATOR, useClass: CategoryRouteParamsEnumerator, multi: true },
  * ]
  * ```
  *
- * ## Default providers
+ * ## Default enumerators
  *
- * The following providers are registered by default (in this order):
- * 1. `RoutesSitemapProvider` - Static routes without parameters (home, terms, etc.)
- * 2. `ProductSitemapProvider` - Product detail pages from OCC
+ * 1. `StaticRouteParamsEnumerator` - Fallback for routes without parameters
+ * 2. `ProductRouteParamsEnumerator` - Products from OCC
  *
- * ## How it works
+ * ## Architecture
  *
- * 1. First SSR render triggers generation (subsequent renders skip)
- * 2. Fetches all baseSites from OCC and iterates over them
- * 3. For each baseSite, resolves context (languages, currencies, urlEncodingAttributes)
- * 4. Runs all registered `SITEMAP_URL_PROVIDERS`
- * 5. URLs generated using real SemanticPathService (respects customer's RoutingConfig)
- * 6. OCC endpoint uses `productSearch.sitemap` scope from OccConfig
- * 7. Generated XML stored in shared state → Express serves it
+ * ```
+ * SitemapConfigExtractorService (orchestrator)
+ *     └─► SitemapGeneratorService
+ *         └─► SiteContextAwareRoutesDiscoveryService
+ *             └─► RoutesDiscoveryService
+ *                 └─► ROUTE_PARAMS_ENUMERATOR[]
+ *                     ├─ StaticRouteParamsEnumerator
+ *                     └─ ProductRouteParamsEnumerator
+ * ```
  *
- * ## URL encoding
- *
- * URL encoding parameters are resolved with priority:
- * 1. Frontend config (`SiteContextConfig.context.urlParameters`) - if defined
- * 2. Backend config (`baseSite.urlEncodingAttributes`) - fallback
- *
- * This allows customers to override URL encoding via their Spartacus config.
- *
- * Examples:
- * - `['baseSite', 'language', 'currency']` → `/powertools-spa/en/USD/product/123`
- * - `['baseSite', 'language']` → `/electronics-spa/en/product/123`
- * - `['language']` → `/en/product/123`
- *
- * ## Sitemap file limits
- *
- * Per sitemaps.org protocol, each sitemap file can contain max 50,000 URLs.
- * When exceeded, files are split with numeric suffixes:
- * - `sitemap-products-en-1.xml`
- * - `sitemap-products-en-2.xml`
- *
- * @param ssrConfig - Optional SSR-specific overrides for baseUrl/occBaseUrl/baseSiteFilter
+ * @param ssrConfig - SSR configuration with baseSite → URL mappings (required)
  */
 export function provideSitemapGenerator(
-  ssrConfig?: SitemapSsrConfig
+  ssrConfig: SitemapSsrConfig
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
     // Default sitemap configuration (can be overridden via provideConfig)
     provideConfig(defaultSitemapConfig),
-    // Optional SSR config overrides
-    ...(ssrConfig
-      ? [{ provide: SITEMAP_SSR_CONFIG, useValue: ssrConfig }]
-      : []),
-    // Routes URL provider (static pages first)
+
+    // SSR config with baseSite → URL mappings
+    { provide: SITEMAP_SSR_CONFIG, useValue: ssrConfig },
+
+    // Route Parameter Enumerators
     {
-      provide: SITEMAP_URL_PROVIDERS,
-      useClass: RoutesSitemapProvider,
+      provide: ROUTE_PARAMS_ENUMERATOR,
+      useClass: StaticRouteParamsEnumerator,
       multi: true,
     },
-    // Product URL provider
     {
-      provide: SITEMAP_URL_PROVIDERS,
-      useClass: ProductSitemapProvider,
+      provide: ROUTE_PARAMS_ENUMERATOR,
+      useClass: ProductRouteParamsEnumerator,
       multi: true,
     },
-    // Orchestrator service
+
+    // Discovery & Generation Services
+    RoutesDiscoveryService,
+    SiteContextAwareRoutesDiscoveryService,
+    SitemapGeneratorService,
+
+    // Orchestrator
     SitemapConfigExtractorService,
+
     // APP_INITIALIZER trigger
     {
       provide: APP_INITIALIZER,
