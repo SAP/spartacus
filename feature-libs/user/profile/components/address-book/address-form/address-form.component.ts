@@ -5,6 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,6 +37,7 @@ import {
   TranslatePipe,
   TranslationService,
   UserAddressService,
+  OccEndpointsService,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -47,7 +49,13 @@ import {
   sortTitles,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  combineLatest,
+  of,
+} from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -72,6 +80,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  isChinaAddress = false;
+  cities$: Observable<any[]>;
+  districts$: Observable<any[]>;
   addresses$: Observable<Address[]>;
 
   @Input()
@@ -118,6 +131,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     region: this.fb.group({
       isocode: [null, Validators.required],
     }),
+    district: [''],
     postalCode: ['', Validators.required],
     phone: '',
     cellphone: '',
@@ -130,7 +144,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,
     protected launchDialogService: LaunchDialogService,
-    protected userProfileFacade: UserProfileFacade
+    protected userProfileFacade: UserProfileFacade,
+    protected http: HttpClient,
+    protected occEndpointsService: OccEndpointsService
   ) {}
 
   ngOnInit() {
@@ -171,6 +187,34 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
 
     this.addresses$ = this.userAddressService.getAddresses();
+
+    this.cities$ = this.selectedRegion$.pipe(
+      switchMap((regionIsocode) => {
+        if (!regionIsocode) {
+          return of([]);
+        }
+        const baseUrl = this.occEndpointsService.getBaseUrl();
+        return this.http
+          .get<any>(
+            `${baseUrl}/regions/${regionIsocode}/cities?fields=cities(name,isocode)`
+          )
+          .pipe(map((res) => res.cities ?? []));
+      })
+    );
+
+    this.districts$ = this.selectedCity$.pipe(
+      switchMap((cityIsocode) => {
+        if (!cityIsocode) {
+          return of([]);
+        }
+        const baseUrl = this.occEndpointsService.getBaseUrl();
+        return this.http
+          .get<any>(
+            `${baseUrl}/cities/${cityIsocode}/districts?fields=districts(name,isocode)`
+          )
+          .pipe(map((res) => res.districts ?? []));
+      })
+    );
   }
 
   getTitles(): Observable<Title[]> {
@@ -214,10 +258,37 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countrySelected(country: Country | undefined): void {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode ?? '');
+    this.isChinaAddress = country?.isocode === 'CN';
+
+    const cellphoneControl = this.addressForm.get('cellphone');
+    const districtControl = this.addressForm.get('district');
+    if (this.isChinaAddress) {
+      cellphoneControl?.setValidators([Validators.required]);
+      districtControl?.setValidators([Validators.required]);
+    } else {
+      cellphoneControl?.clearValidators();
+      districtControl?.clearValidators();
+      districtControl?.reset();
+    }
+    cellphoneControl?.updateValueAndValidity();
+    districtControl?.updateValueAndValidity();
   }
 
   regionSelected(region: Region): void {
     this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
+    if (this.isChinaAddress) {
+      this.selectedRegion$.next(region.isocode ?? '');
+      this.addressForm.get('town')?.reset();
+      this.selectedCity$.next('');
+      this.addressForm.get('district')?.reset();
+    }
+  }
+
+  citySelected(city: any): void {
+    if (city?.isocode) {
+      this.selectedCity$.next(city.isocode);
+      this.addressForm.get('district')?.reset();
+    }
   }
 
   toggleDefaultAddress(): void {
