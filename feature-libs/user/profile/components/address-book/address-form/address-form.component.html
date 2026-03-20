@@ -165,17 +165,37 @@
 
           <cx-form-required-asterisks />
         </span>
-        <input
-          required="true"
-          type="text"
-          class="form-control"
-          placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
+        <ng-select
+          *ngIf="isChinaAddress; else cityTextInput"
+          class="city-select"
+          id="city-select"
           formControlName="town"
-          [attr.aria-invalid]="
-            addressForm.get('town')?.touched && addressForm.get('town')?.invalid
-          "
-          [attr.aria-errormessage]="'townError'"
-        />
+          [searchable]="true"
+          [clearable]="false"
+          [items]="cities$ | async"
+          bindLabel="name"
+          bindValue="isocode"
+          placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+          (change)="citySelected($event)"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'addressForm.city.label' | cxTranslate,
+          }"
+        >
+        </ng-select>
+        <ng-template #cityTextInput>
+          <input
+            required="true"
+            type="text"
+            class="form-control"
+            placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
+            formControlName="town"
+            [attr.aria-invalid]="
+              addressForm.get('town')?.touched &&
+              addressForm.get('town')?.invalid
+            "
+            [attr.aria-errormessage]="'townError'"
+          />
+        </ng-template>
         <cx-form-errors
           id="townError"
           [translationParams]="{
@@ -218,7 +238,11 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content required"
-              >{{ 'addressForm.state' | cxTranslate }}
+              >{{
+                isChinaAddress
+                  ? ('addressForm.province' | cxTranslate)
+                  : ('addressForm.state' | cxTranslate)
+              }}
               <cx-form-required-asterisks />
             </span>
             <ng-select
@@ -231,6 +255,7 @@
               bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
               bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
               placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+              (change)="regionSelected($event)"
               id="region-select"
               ariaLabelDropdown="{{
                 'common.ngSelectDropdownOptionsList' | cxTranslate
@@ -247,6 +272,35 @@
         </div>
       </ng-container>
     </ng-container>
+    <div class="form-group col-md-6" *ngIf="isChinaAddress">
+      <label>
+        <span class="label-content required"
+          >{{ 'addressForm.district' | cxTranslate }}
+          <cx-form-required-asterisks />
+        </span>
+        <ng-select
+          class="district-select"
+          id="district-select"
+          formControlName="district"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="districts$ | async"
+          bindLabel="name"
+          bindValue="isocode"
+          placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'addressForm.district' | cxTranslate,
+          }"
+        >
+        </ng-select>
+        <cx-form-errors
+          [translationParams]="{
+            label: 'addressForm.district' | cxTranslate,
+          }"
+          [control]="addressForm.get('district')"
+        ></cx-form-errors>
+      </label>
+    </div>
   </div>
 
   <div class="row">
@@ -267,15 +321,23 @@
     </div>
     <div class="form-group col-md-6">
       <label>
-        <span class="label-content">{{
-          'addressForm.cellphone.label' | cxTranslate
-        }}</span>
+        <span class="label-content" [class.required]="isChinaAddress"
+          >{{ 'addressForm.cellphone.label' | cxTranslate }}
+          <cx-form-required-asterisks *ngIf="isChinaAddress" />
+        </span>
         <input
           type="tel"
           class="form-control"
           placeholder="{{ 'addressForm.cellphone.placeholder' | cxTranslate }}"
           formControlName="cellphone"
         />
+        <cx-form-errors
+          *ngIf="isChinaAddress"
+          [translationParams]="{
+            label: 'addressForm.cellphone.label' | cxTranslate,
+          }"
+          [control]="addressForm.get('cellphone')"
+        ></cx-form-errors>
       </label>
     </div>
   </div>
