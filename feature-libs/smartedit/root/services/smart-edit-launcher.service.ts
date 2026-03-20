@@ -54,8 +54,7 @@ export class SmartEditLauncherService {
    * Indicates whether Spartacus is launched in SmartEdit
    */
   isLaunchedInSmartEdit(): boolean {
-    const path = this.location.path().split('?')[0];
-    const params = this.location.path().split('?')[1];
+    const [path, params] = this.location.path().split('?');
     const cmsToken = params
       ?.split('&')
       .find((param) => param.startsWith('cmsTicketId='));
@@ -71,7 +70,7 @@ export class SmartEditLauncherService {
     path: string,
     cmsTicketId: string | undefined
   ): boolean {
-    // When SmartEdit context is detected from the URL, persist it to sessionStorage
+    // When both the SmartEdit cmsTicketId and the storefrontPreviewRoute values are found in the URL, store the cmsTicketId in sessionStorage.
     // so it survives full-page navigation (e.g. CDC OIDC redirect flow).
     if (
       path.split('/').pop() === this.config.smartEdit?.storefrontPreviewRoute &&
