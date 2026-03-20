@@ -17,9 +17,15 @@ export function serializeSearchConfig(
   config: SearchConfig,
   id?: string
 ): string {
-  return `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
+  let result = `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
     config.currentPage ?? ''
   }&sort=${config.sort ?? ''}`;
+
+  if (config.query) {
+    result += `&query=${config.query}`;
+  }
+
+  return result;
 }
 
 export function denormalizeSearch<T>(
