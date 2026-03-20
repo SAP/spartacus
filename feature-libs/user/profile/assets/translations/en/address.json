@@ -19,6 +19,8 @@
       "placeholder": "Enter city"
     },
     "state": "State",
+    "province": "Province",
+    "district": "District",
     "zipCode": {
       "label": "Zip code",
       "placeholder": "Postal Code/Zip"
