@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
+import { of } from 'rxjs';
 import { defaultSmartEditConfig } from '../config/default-smart-edit-config';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SmartEditLauncherService } from './smart-edit-launcher.service';
-import { of } from 'rxjs';
 
 class MockLocation {
   path() {
@@ -28,6 +28,7 @@ describe('SmartEditLauncherService', () => {
   let featureModules: FeatureModulesService;
 
   beforeEach(() => {
+    sessionStorage.clear();
     TestBed.configureTestingModule({
       providers: [
         { provide: Location, useClass: MockLocation },
@@ -68,6 +69,50 @@ describe('SmartEditLauncherService', () => {
       spyOn(location, 'path').and.returnValue('/any/cx-preview');
       const launched = smartEditLauncherService.isLaunchedInSmartEdit();
       expect(launched).toBeFalsy();
+    });
+
+    it('should persist cmsTicketId to sessionStorage on initial SmartEdit launch', () => {
+      spyOn(location, 'path').and.returnValue(
+        '/any/cx-preview?cmsTicketId=abc123'
+      );
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      const ticketId = smartEditLauncherService.cmsTicketId;
+      expect(ticketId).toBe('abc123');
+    });
+
+    it('should restore cmsTicketId from sessionStorage when full page redirect occurs after initial launch', () => {
+      spyOn(location, 'path').and.returnValues(
+        '/any/cx-preview?cmsTicketId=abc123',
+        '/any/login/callback?code=auth-code'
+      );
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      const launched2 = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched2).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      const ticketId = smartEditLauncherService.cmsTicketId;
+      expect(ticketId).toBe('abc123');
+    });
+
+    it('should prefer cmsTicketId from URL over sessionStorage', () => {
+      spyOn(location, 'path').and.returnValues(
+        '/any/cx-preview?cmsTicketId=abc123',
+        '/any/cx-preview?cmsTicketId=def456'
+      );
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBeNull();
+      const launched = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('abc123');
+      const launched2 = smartEditLauncherService.isLaunchedInSmartEdit();
+      expect(launched2).toBeTruthy();
+      expect(sessionStorage.getItem('smartedit.cmsTicketId')).toBe('def456');
+      const ticketId = smartEditLauncherService.cmsTicketId;
+      expect(ticketId).toBe('def456');
     });
   });
 
