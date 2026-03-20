@@ -8,7 +8,7 @@
       "name": "Name",
       "price": "Preis"
     },
-    "exportProductToCsv": "Produkt in CSV-Datei eportieren"
+    "exportProductToCsv": "Produkt in CSV-Datei exportieren"
   },
   "importEntries": {
     "importProducts": "Produkte importieren"
