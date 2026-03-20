@@ -26,12 +26,6 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
-   * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
-   *  together with aria-live="atomic"
-   */
-  a11yImprovedErrorMessage?: boolean;
-
-  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -42,25 +36,6 @@ export interface FeatureTogglesInterface {
    * Affects: CarouselComponent
    */
   a11yAddPaddingToCarouselPanel?: boolean;
-
-  /**
-   * Improves wide viewport layout issues.
-   * Affects the styles of: Order confirmation page, product configurator.
-   */
-  a11yWideScreenImprovements?: boolean;
-
-  /**
-   * Adjusts line spacing in menus and navigation dropdowns for better readability
-   * across different monitors, text sizes, and zoom levels.
-   * Affects: NavigationUIComponent
-   */
-  a11yOptimizedMenuSpacing?: boolean;
-
-  /**
-   * Fixes layering issues caused by native ng-select styles.
-   * Sets the dropdown's z-index property to be more in line with Spartacus.
-   */
-  a11yNgSelectLayering?: boolean;
 
   /**
    * Introduces read more directive for presenting elements with long text.
@@ -461,12 +436,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
-  a11yWideScreenImprovements: true,
-  a11yOptimizedMenuSpacing: true,
-  a11yNgSelectLayering: true,
   a11yNgSelectUnicodeCarets: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
