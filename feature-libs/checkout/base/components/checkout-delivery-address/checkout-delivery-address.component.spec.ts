@@ -233,7 +233,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
     spyOn<any>(component, 'setAddress').and.callThrough();
-    spyOn<any>(component, 'getCardRole').and.callThrough();
   });
 
   it('should be created', () => {
@@ -385,7 +384,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'M'
           ).role
         ).toEqual('region');
-        expect(component['getCardRole']).toHaveBeenCalledWith(true);
       });
 
       it('should be set to "button" for all non selected addresses', () => {
@@ -400,7 +398,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'M'
           ).role
         ).toEqual('group');
-        expect(component['getCardRole']).toHaveBeenCalledWith(false);
       });
     });
   });
