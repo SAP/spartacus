@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
+import { OrganizationUIConfig } from '@spartacus/organization/administration/root';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
@@ -19,6 +20,13 @@ import { OrganizationTableType } from '../organization.model';
 export enum CreateButtonType {
   LINK = 'LINK',
   BUTTON = 'BUTTON',
+}
+
+/**
+ * Extended pagination model that includes search query support.
+ */
+export interface SearchablePaginationModel extends PaginationModel {
+  query?: string;
 }
 
 /**
@@ -84,6 +92,8 @@ export abstract class ListService<T, P = PaginationModel> {
     pageSize: 10,
   } as any as P);
 
+  protected config = inject(OrganizationUIConfig);
+
   constructor(protected tableService: TableService) {}
 
   /**
@@ -100,6 +110,9 @@ export abstract class ListService<T, P = PaginationModel> {
    *
    * The load method is streamed from the `pagination$` stream, which is initialized
    * with default pagination and structure drive properties.
+   *
+   * The ghostData is emitted before each load operation (initial load, search,
+   * pagination, sort) to show a loading skeleton while waiting for the API response.
    */
   getData(...args: any): Observable<EntitiesModel<T> | undefined> {
     return this.pagination$.pipe(
@@ -109,8 +122,9 @@ export abstract class ListService<T, P = PaginationModel> {
           map((config) => ({ ...pagination, ...config.options?.pagination }))
         )
       ),
-      switchMap((pagination) => this.load(pagination, ...args)),
-      startWith(this.ghostData)
+      switchMap((pagination) =>
+        this.load(pagination, ...args).pipe(startWith(this.ghostData))
+      )
     );
   }
 
@@ -181,5 +195,49 @@ export abstract class ListService<T, P = PaginationModel> {
    */
   getCreateButtonLabel(): Translatable {
     return { key: 'organization.add' };
+  }
+
+  /**
+   * Returns whether search functionality is enabled for this list.
+   * Override in subclass to enable search.
+   */
+  isSearchEnabled(): boolean {
+    return false;
+  }
+
+  /**
+   * Returns the i18n key for the search input placeholder.
+   * Override in subclass to provide a custom placeholder.
+   */
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
+  }
+
+  /**
+   * Returns the minimum number of characters required to trigger a search.
+   * This value can be configured via `organizationUI.listSearch.minCharacters`.
+   * Override in subclass to customize.
+   */
+  getMinSearchCharacters(): number {
+    return this.config.organizationUI?.listSearch?.minCharacters ?? 3;
+  }
+
+  /**
+   * Search method to filter the list by query string.
+   * Resets to first page when search query changes.
+   */
+  search(pagination: P, query: string): void {
+    this.pagination$.next({
+      ...pagination,
+      query,
+      currentPage: 0,
+    } as P);
+  }
+
+  /**
+   * Clears the search query and resets to first page.
+   */
+  clearSearch(pagination: P): void {
+    this.search(pagination, '');
   }
 }
