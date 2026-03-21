@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const cartUrlPrefix = `${Cypress.env('API_URL')}/${Cypress.env(
+export const cartUrlPrefix = `${Cypress.env('API_URL')}${Cypress.env(
   'OCC_PREFIX'
 )}/${Cypress.env('BASE_SITE')}/users/current/carts`;
 

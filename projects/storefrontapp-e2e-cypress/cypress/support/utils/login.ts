@@ -15,7 +15,7 @@ export const config = {
   revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
   customLoginOrigin: Cypress.config('baseUrl'),
   returnUri: `${Cypress.config('baseUrl')}/cy`,
-  newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
+  newUserUrl: `${Cypress.env('API_URL')}${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users?lang=en&curr=${Cypress.env(
     'BASE_CURRENCY'
