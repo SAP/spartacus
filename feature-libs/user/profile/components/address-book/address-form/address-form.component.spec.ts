@@ -372,6 +372,95 @@ describe('AddressFormComponent', () => {
     );
   });
 
+  it('should set isChinaAddress and add validators when CN is selected', () => {
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.countrySelected({ isocode: 'CN' });
+    expect(component.isChinaAddress).toBe(true);
+    expect(
+      component.addressForm.get('cellphone')?.validator
+    ).toBeTruthy();
+    expect(
+      component.addressForm.get('district')?.validator
+    ).toBeTruthy();
+  });
+
+  it('should clear validators when switching away from CN', () => {
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.countrySelected({ isocode: 'CN' });
+    component.countrySelected({ isocode: 'US' });
+    expect(component.isChinaAddress).toBe(false);
+    expect(
+      component.addressForm.get('cellphone')?.validator
+    ).toBeNull();
+    expect(
+      component.addressForm.get('district')?.validator
+    ).toBeNull();
+  });
+
+  it('should reset town and district when region changes for CN address', () => {
+    component.isChinaAddress = true;
+    component.addressForm.get('town')?.setValue('old-town');
+    component.addressForm.get('district')?.setValue('old-district');
+    component.regionSelected({ isocode: 'CN-11' });
+    expect(component.addressForm.get('town')?.value).toBeNull();
+    expect(component.addressForm.get('district')?.value).toBeNull();
+  });
+
+  it('should not reset town and district when region changes for non-CN address', () => {
+    component.isChinaAddress = false;
+    component.addressForm.get('town')?.setValue('old-town');
+    component.regionSelected({ isocode: 'US-CA' });
+    expect(component.addressForm.get('town')?.value).toEqual('old-town');
+  });
+
+  it('should update selectedCity$ and reset district on citySelected', () => {
+    component.addressForm.get('district')?.setValue('old-district');
+    component.citySelected({ isocode: 'CN-11-1' });
+    expect(component.addressForm.get('district')?.value).toBeNull();
+  });
+
+  it('should not update selectedCity$ when city has no isocode', () => {
+    component.addressForm.get('district')?.setValue('old-district');
+    component.citySelected({});
+    expect(component.addressForm.get('district')?.value).toEqual(
+      'old-district'
+    );
+  });
+
+  it('should set up cities$ observable in ngOnInit', () => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    expect(component.cities$).toBeDefined();
+  });
+
+  it('should set up districts$ observable in ngOnInit', () => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    expect(component.districts$).toBeDefined();
+  });
+
+  it('should return empty cities when no region is selected', (done) => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    component.cities$.pipe(take(1)).subscribe((cities) => {
+      expect(cities).toEqual([]);
+      done();
+    });
+  });
+
+  it('should return empty districts when no city is selected', (done) => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    component.districts$.pipe(take(1)).subscribe((districts) => {
+      expect(districts).toEqual([]);
+      done();
+    });
+  });
+
   it('should call verifyAddress', () => {
     spyOn(component, 'verifyAddress').and.callThrough();
     const mockCountryIsocode = 'test country isocode';
