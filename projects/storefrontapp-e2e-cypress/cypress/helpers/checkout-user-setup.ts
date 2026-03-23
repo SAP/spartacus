@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { generateMail, randomString } from './user';
-import { products } from './cart';
 import { standardUser } from '../sample-data/shared-users';
+import { products } from './cart';
+import { generateMail, randomString } from './user';
 
 /**
  * Interface for creating a test user with complete setup
@@ -108,7 +108,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
       return cy
         .request({
           method: 'POST',
-          url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
           )}/users/current/addresses?lang=en&curr=USD`,
           headers: {
@@ -137,7 +137,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
           return cy
             .request({
               method: 'POST',
-              url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
                 'BASE_SITE'
               )}/users/current/carts`,
               headers: {
@@ -152,7 +152,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
                 return cy
                   .request({
                     method: 'POST',
-                    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+                    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
                       'BASE_SITE'
                     )}/users/current/carts/${cartId}/entries`,
                     headers: {
@@ -173,7 +173,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
                 return cy
                   .request({
                     method: 'POST',
-                    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+                    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
                       'BASE_SITE'
                     )}/users/current/carts/${cartId}/paymentdetails`,
                     headers: {
