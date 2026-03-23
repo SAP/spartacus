@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { CartModification } from '@spartacus/cart/base/root';
-import { OccConfig } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, OccConfig } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
@@ -27,10 +27,15 @@ const MockOccModuleConfig: OccConfig = {
 describe('Cart effect', () => {
   let entryEffects: fromEffects.CartEntryEffects;
   let actions$: Observable<Action>;
+  let globalMessageService: GlobalMessageService;
 
   let mockCartModification: Required<CartModification>;
   const userId = 'testUserId';
   const cartId = 'testCartId';
+
+  const mockGlobalMessageService = {
+    add: createSpy('add'),
+  };
 
   beforeEach(() => {
     mockCartModification = {
@@ -51,6 +56,7 @@ describe('Cart effect', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CartEntryConnector, useValue: mockCartEntryConnector },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         fromEffects.CartEntryEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
@@ -60,6 +66,7 @@ describe('Cart effect', () => {
     });
 
     entryEffects = TestBed.inject(fromEffects.CartEntryEffects);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe('addEntry$', () => {
@@ -123,6 +130,22 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.removeEntry$).toBeObservable(expected);
+    });
+
+    it('should show a confirmation message after successfully removing an entry', () => {
+      const action = new CartActions.CartRemoveEntry({
+        userId: userId,
+        cartId: cartId,
+        entryNumber: 'testEntryNumber',
+      });
+
+      actions$ = hot('-a', { a: action });
+      entryEffects.removeEntry$.subscribe();
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'cartItems.itemRemoved' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     });
   });
 

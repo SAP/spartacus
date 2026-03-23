@@ -5,13 +5,7 @@
  */
 
 import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import {
@@ -21,12 +15,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   AtMessageDirective,
   ICON_TYPE,
@@ -68,8 +57,6 @@ export class CartItemComponent implements OnChanges {
   @Input() quantityControl: UntypedFormControl;
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-
-  protected globalMessageService? = inject(GlobalMessageService);
 
   // TODO: evaluate whether this is generic enough
   @Input() options: CartItemComponentOptions = {
@@ -116,9 +103,5 @@ export class CartItemComponent implements OnChanges {
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();
-    this.globalMessageService?.add(
-      { key: 'cartItems.itemRemoved' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
   }
 }

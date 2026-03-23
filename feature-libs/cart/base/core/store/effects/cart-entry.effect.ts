@@ -8,6 +8,8 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   LoggerService,
   SiteContextActions,
   tryNormalizeHttpError,
@@ -28,6 +30,7 @@ export class CartEntryEffects {
   );
 
   protected logger = inject(LoggerService);
+  protected globalMessageService = inject(GlobalMessageService);
 
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
@@ -85,6 +88,10 @@ export class CartEntryEffects {
           .remove(payload.userId, payload.cartId, payload.entryNumber)
           .pipe(
             map(() => {
+              this.globalMessageService.add(
+                { key: 'cartItems.itemRemoved' },
+                GlobalMessageType.MSG_TYPE_CONFIRMATION
+              );
               return new CartActions.CartRemoveEntrySuccess({
                 ...payload,
               });
