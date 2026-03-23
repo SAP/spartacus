@@ -158,6 +158,10 @@ jobs:
           cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Install Cypress packages
         run: (cd projects/storefrontapp-e2e-cypress && npm ci)
+      - name: Snapshot source files before build
+        uses: ./.github/actions/build-integrity-check
+        with:
+          phase: snapshot
       - name: Build Spartacus libraries
         run: |
           source ci-scripts/npm-commands.sh
@@ -174,6 +178,10 @@ jobs:
             rm build.log
             exit 1
           fi
+      - name: Verify source file integrity after build
+        uses: ./.github/actions/build-integrity-check
+        with:
+          phase: verify
       - name: Cache built libraries
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0
         with:

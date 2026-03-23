@@ -1,0 +1,61 @@
+name: 'Build Integrity Check'
+description: 'Detects unexpected source file modifications during the build process'
+
+inputs:
+  phase:
+    description: 'Phase to run: "snapshot" (before build) or "verify" (after build)'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Snapshot source files before build
+      if: inputs.phase == 'snapshot'
+      shell: bash
+      run: |
+        find . -type f \
+          -not -path './.git/*' \
+          -not -path './node_modules/*' \
+          -not -path './dist/*' \
+          -not -path './.angular/*' \
+          -not -path './.nx/*' \
+          -not -path './coverage/*' \
+          -not -name 'feature-toggles.copied-from-core-lib.*' \
+          -not -path '*/schematics/*.js' \
+          -not -path '*/schematics/*.js.map' \
+          -not -path '*/schematics/*.d.ts' \
+          -print0 \
+          | sort -z \
+          | xargs -0 sha256sum > /tmp/pre-build-integrity.sha256
+
+        echo "Snapshotted $(wc -l < /tmp/pre-build-integrity.sha256) source files for integrity check"
+
+    - name: Verify source file integrity after build
+      if: inputs.phase == 'verify'
+      shell: bash
+      run: |
+        find . -type f \
+          -not -path './.git/*' \
+          -not -path './node_modules/*' \
+          -not -path './dist/*' \
+          -not -path './.angular/*' \
+          -not -path './.nx/*' \
+          -not -path './coverage/*' \
+          -not -name 'feature-toggles.copied-from-core-lib.*' \
+          -not -path '*/schematics/*.js' \
+          -not -path '*/schematics/*.js.map' \
+          -not -path '*/schematics/*.d.ts' \
+          -print0 \
+          | sort -z \
+          | xargs -0 sha256sum > /tmp/post-build-integrity.sha256
+
+        CHANGED=$(diff /tmp/pre-build-integrity.sha256 /tmp/post-build-integrity.sha256 || true)
+
+        if [ -n "$CHANGED" ]; then
+          echo "::error::Source files were unexpectedly modified during the build!"
+          echo "The following files were added, removed, or changed:"
+          echo "$CHANGED"
+          exit 1
+        fi
+
+        echo "Build integrity check passed, no source files were modified"

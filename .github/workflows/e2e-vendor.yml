@@ -71,7 +71,7 @@ jobs:
           - suite: vendor:s4om
             spa_env: s4om,b2b
             test_name: E2E tests for s4om
-          - suite: vendor:estimated-delivery-datenode
+          - suite: vendor:estimated-delivery-date
             spa_env: estimated-delivery-date,b2c
             test_name: E2E tests for estimated delivery date
           - suite: vendor:pickup-in-store

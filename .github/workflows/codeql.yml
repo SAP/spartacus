@@ -62,7 +62,7 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@38e701f46e33fb233075bf4238cb1e5d68e429e4 #v3.31.11
+      uses: github/codeql-action/init@38e701f46e33fb233075bf4238cb1e5d68e429e4 #v3.31.1
       with:
         config: |
           name: Disable scan for tests
