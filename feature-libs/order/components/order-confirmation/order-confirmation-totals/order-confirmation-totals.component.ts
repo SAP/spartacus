@@ -7,7 +7,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { useFeatureStyles } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { OutletDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -22,9 +21,7 @@ export class OrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
 
-  constructor(protected orderFacade: OrderFacade) {
-    useFeatureStyles('a11yWideScreenImprovements');
-  }
+  constructor(protected orderFacade: OrderFacade) {}
 
   ngOnDestroy() {
     this.orderFacade.clearPlacedOrder();

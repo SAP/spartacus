@@ -218,7 +218,7 @@ export const unitsTableConfig: TableConfig = {
         },
       },
       [BREAKPOINT.lg]: {
-        cells: ['name', 'active', 'uid'],
+        cells: ['name', 'uid', 'active'],
       },
     },
     [OrganizationTableType.UNIT_USERS]: {
