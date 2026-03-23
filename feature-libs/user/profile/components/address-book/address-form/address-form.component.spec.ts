@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   DebugElement,
@@ -14,6 +15,7 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
+  OccEndpointsService,
   Region,
   Title,
   UserAddressService,
@@ -70,6 +72,7 @@ const mockAddress: Address = {
   line2: 'line2',
   town: 'town',
   region: { isocode: 'JP-27' },
+  district: '',
   postalCode: 'zip',
   country: { isocode: 'JP' },
   phone: '123123123',
@@ -152,6 +155,14 @@ describe('AddressFormComponent', () => {
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        {
+          provide: HttpClient,
+          useValue: { get: () => EMPTY },
+        },
+        {
+          provide: OccEndpointsService,
+          useValue: { getBaseUrl: () => '' },
+        },
       ],
     })
       .overrideComponent(AddressFormComponent, {
