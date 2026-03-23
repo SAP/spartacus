@@ -24,7 +24,7 @@ export function loginSuccessfully() {
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
@@ -80,7 +80,7 @@ export function addPaymentMethod() {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
+        url: `${Cypress.env('API_URL')}${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'

@@ -75,7 +75,7 @@ export function loginB2bUser() {
 export function addB2bUser(access_token: string, user: any) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/orgCustomers?lang=en&curr=USD`,
     headers: {
@@ -101,7 +101,7 @@ export function setB2bPassword(
 ) {
   return cy.request({
     method: 'PATCH',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/orgCustomers/${customerId}?lang=en&curr=USD`,
     headers: {
