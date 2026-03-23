@@ -12,6 +12,10 @@
           </label>
 
           <input
+            [attr.aria-invalid]="
+              quickOrderForm.get('productCode')?.touched &&
+              quickOrderForm.get('productCode')?.invalid
+            "
             [attr.aria-errormessage]="'productCodeError'"
             [attr.aria-label]="
               'quickOrderCartForm.entryProductCode' | cxTranslate
@@ -64,6 +68,8 @@
         <button
           *cxFeature="'a11yEnableButtonAndUseCxFormErrors'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
+          [class.disabled]="cartIsLoading$ | async"
+          [disabled]="cartIsLoading$ | async"
           class="btn btn-block btn-secondary apply-quick-order-button"
           type="submit"
         >
