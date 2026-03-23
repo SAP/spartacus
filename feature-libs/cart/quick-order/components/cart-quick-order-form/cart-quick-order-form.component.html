@@ -39,9 +39,10 @@
           />
         </span>
         <cx-form-errors
+          *cxFeature="'a11yEnableButtonAndUseCxFormErrors'"
           id="productCodeError"
           [translationParams]="{
-            label: 'loginForm.password.label' | cxTranslate,
+            label: 'quickOrderCartForm.productCodeLabel' | cxTranslate,
           }"
           [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>

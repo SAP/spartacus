@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -25,6 +26,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
+  FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
@@ -63,6 +65,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription: Subscription = new Subscription();
   protected cartEventsSubscription: Subscription = new Subscription();
   protected minQuantityValue: number = 1;
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -98,8 +101,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
+    const useValidation = this.featureConfigService.isEnabled(
+      'a11yEnableButtonAndUseCxFormErrors'
+    );
     this.quickOrderForm = this.formBuilder.group({
-      productCode: ['', [Validators.required]],
+      productCode: ['', useValidation ? [Validators.required] : []],
       quantity: [
         this.minQuantityValue,
         {
