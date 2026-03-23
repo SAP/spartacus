@@ -91,7 +91,7 @@ export function addPaymentMethod(paymentDetail: PaymentDetail) {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
+        url: `${Cypress.env('API_URL')}${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env(
           'BASE_SITE'

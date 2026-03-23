@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { GuardResult, UrlTree } from '@angular/router';
 import { CheckoutAuthGuard } from '@spartacus/checkout/base/components';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { combineLatest, filter, map, Observable, switchMap } from 'rxjs';
 import { OpfCartUserEmailCheckerService } from '../services';
 
@@ -22,8 +22,6 @@ export class OpfCheckoutAuthGuard extends CheckoutAuthGuard {
   protected userIdService = inject(UserIdService);
   protected opfCartUserEmailChecker = inject(OpfCartUserEmailCheckerService);
 
-  private featureConfigService = inject(FeatureConfigService);
-
   /**
    * Determines whether the user can activate the checkout route.
    * - If the cart is **not a guest cart**, it defers to the parent `CheckoutAuthGuard`.
@@ -33,14 +31,6 @@ export class OpfCheckoutAuthGuard extends CheckoutAuthGuard {
    * @returns {Observable<GuardResult>} - An observable that emits `true` to allow navigation, or a `UrlTree` to redirect the user.
    */
   canActivate(): Observable<GuardResult> {
-    if (
-      !this.featureConfigService?.isEnabled(
-        'opfEnablePreventingFromCheckoutWithoutEmail'
-      )
-    ) {
-      return super.canActivate();
-    }
-
     return this.activeCartFacade.isStable().pipe(
       filter((isStable) => isStable),
       switchMap(() => this.activeCartFacade.isGuestCart()),
