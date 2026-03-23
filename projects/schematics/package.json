@@ -24,8 +24,8 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^21.2.2",
-    "@angular-devkit/schematics": "^21.2.2",
+    "@angular-devkit/core": "^21.2.3",
+    "@angular-devkit/schematics": "^21.2.3",
     "@angular/compiler": "^21.2.4",
     "@schematics/angular": "^21.2.0",
     "jsonc-parser": "^3.3.1",
