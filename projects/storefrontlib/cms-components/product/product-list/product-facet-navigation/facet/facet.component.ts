@@ -18,7 +18,12 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Facet, FacetValue, TranslatePipe } from '@spartacus/core';
+import {
+  Facet,
+  FacetValue,
+  FeatureDirective,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import {
@@ -43,6 +48,7 @@ import { FacetService } from '../services/facet.service';
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class FacetComponent implements AfterViewInit {
