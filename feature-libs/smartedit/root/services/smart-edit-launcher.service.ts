@@ -6,7 +6,11 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  ScriptLoader,
+  WindowRef,
+} from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SMART_EDIT_FEATURE } from '../feature-name';
 
@@ -19,6 +23,7 @@ import { SMART_EDIT_FEATURE } from '../feature-name';
 })
 export class SmartEditLauncherService {
   protected readonly featureModulesService = inject(FeatureModulesService);
+  protected readonly windowRef = inject(WindowRef);
   private _cmsTicketId: string | undefined;
   private static readonly STORAGE_KEY_CMS_TICKET_ID = 'smartedit.cmsTicketId';
 
@@ -91,6 +96,12 @@ export class SmartEditLauncherService {
   }
 
   private persistCmsTicketId(cmsTicketId: string): void {
+    if (!this.windowRef.isBrowser()) {
+      console.log('flo1 SSR');
+      return;
+    } else {
+      console.log('flo1 BROWSER');
+    }
     sessionStorage.setItem(
       SmartEditLauncherService.STORAGE_KEY_CMS_TICKET_ID,
       cmsTicketId
@@ -98,6 +109,12 @@ export class SmartEditLauncherService {
   }
 
   private restoreCmsTicketId(): string | undefined {
+    if (!this.windowRef.isBrowser()) {
+      console.log('flo2 SSR');
+      return undefined;
+    } else {
+      console.log('flo2 BROWSER');
+    }
     const stored = sessionStorage.getItem(
       SmartEditLauncherService.STORAGE_KEY_CMS_TICKET_ID
     );
