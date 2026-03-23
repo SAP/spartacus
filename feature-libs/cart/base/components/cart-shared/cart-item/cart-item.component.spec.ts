@@ -105,7 +105,6 @@ class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
-
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let componentInjector: Injector;
@@ -289,7 +288,6 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent.removeItem).toHaveBeenCalled();
     expect(cartItemComponent.quantityControl.value).toEqual(0);
   });
-
 
   it('should mark control "dirty" after removeItem is called', () => {
     const button: DebugElement = fixture.debugElement.query(By.css('button'));

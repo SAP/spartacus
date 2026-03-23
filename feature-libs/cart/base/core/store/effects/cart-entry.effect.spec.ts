@@ -3,7 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { CartModification } from '@spartacus/cart/base/root';
-import { GlobalMessageService, GlobalMessageType, OccConfig } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  OccConfig,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
