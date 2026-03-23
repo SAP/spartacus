@@ -344,7 +344,7 @@ if (environment.cpq) {
         a11yListSemanticsForFacets: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
-        a11yEnableButtonAndUseCxFormErrors: true,
+        a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
       };
       return appFeatureToggles;
     }),

@@ -444,7 +444,7 @@ export interface FeatureTogglesInterface {
    * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
    * is in disabled state.
    */
-  a11yEnableButtonAndUseCxFormErrors?: boolean;
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -496,5 +496,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yListSemanticsForFacets: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
-  a11yEnableButtonAndUseCxFormErrors: false,
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
 };

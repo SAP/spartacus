@@ -40,7 +40,7 @@
           />
         </span>
         <cx-form-errors
-          *cxFeature="'a11yEnableButtonAndUseCxFormErrors'"
+          *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
           id="productCodeError"
           [translationParams]="{
             label: 'quickOrderCartForm.productCodeLabel' | cxTranslate,
@@ -48,7 +48,7 @@
           [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>
         <button
-          *cxFeature="'a11yEnableButtonAndUseCxFormErrors'"
+          *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
           [class.disabled]="cartIsLoading$ | async"
           [disabled]="cartIsLoading$ | async"
@@ -58,7 +58,7 @@
           {{ 'quickOrderCartForm.add' | cxTranslate }}
         </button>
         <button
-          *cxFeature="'!a11yEnableButtonAndUseCxFormErrors'"
+          *cxFeature="'!a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
           [class.disabled]="cartIsLoading$ | async"
           [disabled]="

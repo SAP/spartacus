@@ -102,7 +102,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected buildForm(): void {
     const useValidation = this.featureConfigService.isEnabled(
-      'a11yEnableButtonAndUseCxFormErrors'
+      'a11yCartQuickOrderFormEnableSubmitAndAddValidation'
     );
     this.quickOrderForm = this.formBuilder.group({
       productCode: ['', useValidation ? [Validators.required] : []],
