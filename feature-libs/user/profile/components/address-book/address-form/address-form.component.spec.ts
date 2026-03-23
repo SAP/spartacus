@@ -376,12 +376,8 @@ describe('AddressFormComponent', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.countrySelected({ isocode: 'CN' });
     expect(component.isChinaAddress).toBe(true);
-    expect(
-      component.addressForm.get('cellphone')?.validator
-    ).toBeTruthy();
-    expect(
-      component.addressForm.get('district')?.validator
-    ).toBeTruthy();
+    expect(component.addressForm.get('cellphone')?.validator).toBeTruthy();
+    expect(component.addressForm.get('district')?.validator).toBeTruthy();
   });
 
   it('should clear validators when switching away from CN', () => {
@@ -389,12 +385,8 @@ describe('AddressFormComponent', () => {
     component.countrySelected({ isocode: 'CN' });
     component.countrySelected({ isocode: 'US' });
     expect(component.isChinaAddress).toBe(false);
-    expect(
-      component.addressForm.get('cellphone')?.validator
-    ).toBeNull();
-    expect(
-      component.addressForm.get('district')?.validator
-    ).toBeNull();
+    expect(component.addressForm.get('cellphone')?.validator).toBeNull();
+    expect(component.addressForm.get('district')?.validator).toBeNull();
   });
 
   it('should reset town and district when region changes for CN address', () => {
