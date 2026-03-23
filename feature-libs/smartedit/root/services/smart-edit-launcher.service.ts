@@ -96,11 +96,9 @@ export class SmartEditLauncherService {
   }
 
   private persistCmsTicketId(cmsTicketId: string): void {
+    // bypass sessionStorage when not in browser context (e.g. SSR) to avoid "SecurityError: Access to storage is denied" error
     if (!this.windowRef.isBrowser()) {
-      console.log('flo1 SSR');
       return;
-    } else {
-      console.log('flo1 BROWSER');
     }
     sessionStorage.setItem(
       SmartEditLauncherService.STORAGE_KEY_CMS_TICKET_ID,
@@ -109,11 +107,9 @@ export class SmartEditLauncherService {
   }
 
   private restoreCmsTicketId(): string | undefined {
+    // bypass sessionStorage when not in browser context (e.g. SSR) to avoid "SecurityError: Access to storage is denied" error
     if (!this.windowRef.isBrowser()) {
-      console.log('flo2 SSR');
       return undefined;
-    } else {
-      console.log('flo2 BROWSER');
     }
     const stored = sessionStorage.getItem(
       SmartEditLauncherService.STORAGE_KEY_CMS_TICKET_ID
