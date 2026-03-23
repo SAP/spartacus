@@ -418,6 +418,13 @@ export interface FeatureTogglesInterface {
   a11yAddedToCartDialogHeading?: boolean;
 
   /**
+   * Ensures the facet component displays elements with proper listbox semantics.
+   * The screen reader should recognize links as listbox options and display visible-focus outlines correctly.
+   * Affects: FacetComponent
+   */
+  a11yListSemanticsForFacets?: boolean;
+
+  /**
    * Hides empty outlet wrapper elements in the cart item list table when they have no content.
    * Otherwise screen readers would interpret them as extra table columns.
    * Affects: CartItemListComponent
@@ -478,6 +485,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
+  a11yListSemanticsForFacets: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
 };
