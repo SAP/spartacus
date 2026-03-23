@@ -5,7 +5,6 @@
  */
 
 import {
-  APP_INITIALIZER,
   EnvironmentProviders,
   Injector,
   makeEnvironmentProviders,
@@ -26,6 +25,7 @@ import { StaticRouteParamsEnumerator } from '../enumerators/static-route-params-
 import { RoutesDiscoveryService } from '../services/routes-discovery.service';
 import { SiteContextAwareRoutesDiscoveryService } from '../services/site-context-aware-routes-discovery.service';
 import { SitemapGeneratorService } from '../services/sitemap-generator.service';
+import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 
 /**
  * Factory function for APP_INITIALIZER that triggers sitemap generation.
@@ -144,7 +144,7 @@ export function provideSitemapGenerator(
 
     // APP_INITIALIZER trigger
     {
-      provide: APP_INITIALIZER,
+      provide: BEFORE_APP_SERIALIZED,
       useFactory: sitemapGeneratorInitializerFactory,
       deps: [PLATFORM_ID, Injector],
       multi: true,
