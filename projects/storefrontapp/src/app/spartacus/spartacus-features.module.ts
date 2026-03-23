@@ -322,7 +322,7 @@ if (environment.cpq) {
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
-        authorizationCodeFlowByDefault: false,
+        authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
@@ -341,6 +341,7 @@ if (environment.cpq) {
         a11yPasswordVisibilityToggle: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
+        a11yListSemanticsForFacets: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
       };
