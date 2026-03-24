@@ -88,15 +88,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   headingTranslationKey?: string;
 
   @Input()
-  savedPaymentHeadingKey?: string;
-
-  @Input()
-  savedCardsHeadingKey?: string;
-
-  @Input()
-  newPaymentHeadingKey?: string;
-
-  @Input()
   isPaymentRenderBelow? = true;
 
   @Input()
@@ -136,8 +127,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
 
-  readonly iconTypes = ICON_TYPE;
-
   selectedPaymentId?: number;
 
   protected isSavedCardsSelected = false;
@@ -147,6 +136,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   activeConfigurations$: Observable<
     QueryState<OpfActiveConfigurationsResponse | undefined>
   >;
+
+  iconTypes = ICON_TYPE;
 
   @Output() paymentChange = new EventEmitter<OpfActiveConfiguration>();
 
