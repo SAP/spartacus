@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as common from './common'; 
+import * as common from './common';
 import * as login from './login';
 import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
@@ -606,26 +606,6 @@ export function completeOrderProcess(
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
-
-  /**
-  verifyGlobalMessageAfterRegistration();
-   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-   authForm.login(user.email, user.password);
-   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
-   login.checkUserIsSignedIn(user);
-   this.searchForProduct(productName);
-   common.clickOnAddToCartBtnOnPD();
-   this.clickOnProceedToCheckoutBtnOnPD();
-   configurationCartVc.completeCheckout(user);
-   if (navigateToOrderDetails) {
-   configurationCart.navigateToOrderDetails();
-   }
-   //don't check the order history aspect because this part is flaky
-   // configurationCart.selectOrderByOrderNumberAlias();
-   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
-   login.signOutUser();
-   cy.wait(tokenRevocationRequestAlias);
-  */
 }
 
 /**
