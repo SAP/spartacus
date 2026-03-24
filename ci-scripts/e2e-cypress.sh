@@ -169,31 +169,31 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        echo "Running Cypress end-to-end tests for pull request"
+   # if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+    #    echo "Running Cypress end-to-end tests for pull request"
 
-        if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
-            echo "Running full Cypress end-to-end tests for epic branch"
-            run_tests_for_suite "${SUITE}" "full"
-        else
-            echo "Running core Cypress end-to-end tests for pull requests"
-            run_tests_for_suite "${SUITE}" "core"
-        fi
+    #    if [[ "${GITHUB_HEAD_REF}" == epic/* ]]; then
+    #        echo "Running full Cypress end-to-end tests for epic branch"
+    #        run_tests_for_suite "${SUITE}" "full"
+    #    else
+    #        echo "Running core Cypress end-to-end tests for pull requests"
+    #        run_tests_for_suite "${SUITE}" "core"
+    #    fi
 
-    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-        echo "Running Cypress end-to-end tests for push event"
+    #elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+    #    echo "Running Cypress end-to-end tests for push event"
 
-        if is_bot_commit; then
-            echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
-            run_tests_for_suite "${SUITE}" "core"
-        else
-            echo "Running full Cypress end-to-end tests"
-            run_tests_for_suite "${SUITE}" "full"
-        fi
-    else
+    #    if is_bot_commit; then
+    #        echo "Commit was made by Renovate Bot or Dependabot. Running core Cypress end-to-end tests"
+    #        run_tests_for_suite "${SUITE}" "core"
+    #    else
+    #        echo "Running full Cypress end-to-end tests"
+    #        run_tests_for_suite "${SUITE}" "full"
+    #    fi
+    #else
         echo "Running full Cypress end-to-end tests"
         run_tests_for_suite "${SUITE}" "full"
-    fi
+    #fi
 
     #Force run vendor tests.
     # echo "Force Running Cypress Vendor Product Configurator end-to-end tests"
