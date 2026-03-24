@@ -1,4 +1,8 @@
 import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
@@ -14,10 +18,6 @@ import {
   mockOccModuleConfig,
 } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 
 const userId = '123';
 const cartId = '456';
@@ -91,15 +91,19 @@ describe('OccCartVoucherAdapter', () => {
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'DELETE';
+        return req.method === 'POST';
       });
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('cartVoucher', {
-        urlParams: {
-          userId: userId,
-          cartId: cartId,
-        },
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'cartRemoveVoucher',
+        {
+          urlParams: {
+            userId: userId,
+            cartId: cartId,
+          },
+        }
+      );
+      expect(mockReq.request.body).toEqual({ voucherId });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);

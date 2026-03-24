@@ -36,6 +36,15 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     });
   }
 
+  protected getRemoveCartVoucherEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('cartRemoveVoucher', {
+      urlParams: { userId, cartId },
+    });
+  }
+
   protected getHeaders(userId: string): HttpHeaders {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -66,14 +75,12 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   remove(userId: string, cartId: string, voucherId: string): Observable<{}> {
-    const url =
-      this.getCartVoucherEndpoint(userId, cartId) +
-      '/' +
-      encodeURIComponent(voucherId);
+    const url = this.getRemoveCartVoucherEndpoint(userId, cartId);
+    const body = { voucherId };
 
     const headers = this.getHeaders(userId);
 
-    return this.http.delete(url, { headers }).pipe(
+    return this.http.post(url, body, { headers }).pipe(
       catchError((error: any) => {
         throw tryNormalizeHttpError(error, this.logger);
       })
