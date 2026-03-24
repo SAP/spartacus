@@ -1,11 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -19,15 +22,24 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeatureConfigService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    AppliedCouponsComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
@@ -42,10 +54,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   couponBoxIsActive = false;
-
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected cartVoucherService: CartVoucherFacade,

@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
-import { CurrentProductService } from '@spartacus/storefront';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Product, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Product, TranslatePipe, TranslationService } from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
 import {
   OneTimeCharge,
   RecurringCharge,
+  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import { Observable, of } from 'rxjs';
+import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
 const mockProduct2 = {
@@ -35,10 +35,7 @@ class MockCurrentProductService {
     return null;
   }
 }
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -60,8 +57,7 @@ describe('SubscriptionProductPriceComponent', () => {
   let productService: SubscriptionProductService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MockTranslatePipe, SubscriptionProductPriceComponent],
+      imports: [SubscriptionProductPriceComponent],
       providers: [
         {
           provide: SubscriptionProductService,
@@ -70,7 +66,12 @@ describe('SubscriptionProductPriceComponent', () => {
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: TranslationService, useClass: MockTranslateService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionProductPriceComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     productService = TestBed.inject(SubscriptionProductService);
   }));
   describe('for a null product', () => {

@@ -2,16 +2,25 @@ import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
+  TranslatePipe,
   UserPaymentService,
 } from '@spartacus/core';
-import { FocusDirective } from '@spartacus/storefront';
+import {
+  AtMessageDirective,
+  FocusDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
-import { ICON_TYPE } from '../../../cms-components/misc/icon';
+import { ICON_TYPE, IconComponent } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
@@ -22,14 +31,10 @@ class MockGlobalMessageService {
 @Component({
   template: '<div>Spinner</div>',
   selector: 'cx-spinner',
-  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -49,7 +54,6 @@ const mockPayment: PaymentDetails = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -75,15 +79,11 @@ describe('PaymentMethodsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         PaymentMethodsComponent,
-        MockCxSpinnerComponent,
         CardComponent,
-        MockCxIconComponent,
-        MockAtMessageDirective,
         FocusDirective,
-        MockFeatureDirective,
+        I18nTestingModule,
       ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
@@ -95,7 +95,42 @@ describe('PaymentMethodsComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PaymentMethodsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            SpinnerComponent,
+            IconComponent,
+            AtMessageDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxSpinnerComponent,
+            MockCxIconComponent,
+            MockAtMessageDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .overrideComponent(CardComponent, {
+        remove: {
+          imports: [AtMessageDirective, FocusDirective, IconComponent],
+        },
+        add: {
+          imports: [
+            MockAtMessageDirective,
+            FocusDirective,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

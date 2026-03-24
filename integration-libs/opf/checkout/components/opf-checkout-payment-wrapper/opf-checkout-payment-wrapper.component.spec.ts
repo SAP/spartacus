@@ -1,16 +1,19 @@
-import { ViewContainerRef, ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CurrencyService, LanguageService } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CurrencyService, LanguageService } from '@spartacus/core';
+import { OpfConfig } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsService } from '@spartacus/opf/global-functions/core';
 import {
   OpfGlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
   OpfRegisterGlobalFunctionsInput,
 } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentRenderPattern } from '@spartacus/opf/payment/root';
-import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentRenderPattern,
+} from '@spartacus/opf/payment/root';
 import { of, Subject } from 'rxjs';
 import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapper.component';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
@@ -24,6 +27,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   let mockLanguageService: jasmine.SpyObj<LanguageService>;
   let mockCurrencyService: jasmine.SpyObj<CurrencyService>;
   let mockActiveCartService: jasmine.SpyObj<ActiveCartFacade>;
+  let mockOpfConfig: OpfConfig;
   let domSanitizer: DomSanitizer;
 
   // Subjects for testing language and currency changes
@@ -85,8 +89,19 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       cartStableSubject.asObservable()
     );
 
+    mockOpfConfig = {
+      opf: {
+        paymentOption: {
+          iframeSandboxMap: {
+            458: 'allow-scripts',
+            213: 'allow-scripts allow-same-origin',
+          },
+        },
+      },
+    };
+
     TestBed.configureTestingModule({
-      declarations: [OpfCheckoutPaymentWrapperComponent],
+      imports: [OpfCheckoutPaymentWrapperComponent],
       providers: [
         { provide: OpfCheckoutPaymentWrapperService, useValue: mockService },
         {
@@ -108,6 +123,10 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
         {
           provide: ActiveCartFacade,
           useValue: mockActiveCartService,
+        },
+        {
+          provide: OpfConfig,
+          useValue: mockOpfConfig,
         },
         {
           provide: ViewContainerRef,
@@ -371,6 +390,86 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       component['submitFormToIframe']();
 
       expect(mockFormElement.submit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getIframeSandbox', () => {
+    it('should return different sandbox value for different payment option id', () => {
+      const result = component.getIframeSandbox(213);
+      expect(result).toBe('allow-scripts allow-same-origin');
+    });
+
+    it('should return undefined when payment option id is undefined', () => {
+      const result = component.getIframeSandbox(undefined);
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when iframeSandboxMap is empty', () => {
+      mockOpfConfig.opf = {
+        paymentOption: {
+          iframeSandboxMap: {},
+        },
+      };
+      fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
+      component = fixture.componentInstance;
+
+      const result = component.getIframeSandbox(458);
+      expect(result).toBeUndefined();
+    });
+
+    it('should handle multiple payment option ids correctly', () => {
+      mockOpfConfig.opf = {
+        paymentOption: {
+          iframeSandboxMap: {
+            100: 'allow-scripts',
+            200: 'allow-scripts allow-same-origin',
+            300: 'allow-scripts allow-forms',
+          },
+        },
+      };
+      fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
+      component = fixture.componentInstance;
+
+      expect(component.getIframeSandbox(100)).toBe('allow-scripts');
+      expect(component.getIframeSandbox(200)).toBe(
+        'allow-scripts allow-same-origin'
+      );
+      expect(component.getIframeSandbox(300)).toBe('allow-scripts allow-forms');
+      expect(component.getIframeSandbox(400)).toBeUndefined();
+    });
+
+    it('should render iframe without sandbox attribute when sandbox is undefined', () => {
+      const renderPaymentMethodSubject = new Subject<any>();
+      const selectedPaymentId = 123;
+
+      mockService.getRenderPaymentMethodEvent.and.returnValue(
+        renderPaymentMethodSubject.asObservable()
+      );
+      mockOpfConfig.opf = {
+        paymentOption: {
+          iframeSandboxMap: {},
+        },
+      };
+
+      fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
+      component = fixture.componentInstance;
+      component.selectedPaymentId = selectedPaymentId;
+      fixture.detectChanges();
+
+      renderPaymentMethodSubject.next({
+        isLoading: false,
+        isError: false,
+        renderType: OpfPaymentRenderPattern.IFRAME,
+        destination: { url: 'TEST_URL' },
+        paymentOptionId: selectedPaymentId,
+      });
+
+      fixture.detectChanges();
+
+      const iframe: HTMLIFrameElement =
+        fixture.nativeElement.querySelector('.cx-payment-iframe');
+      expect(iframe).toBeTruthy();
+      expect(iframe?.hasAttribute('sandbox')).toBeFalsy();
     });
   });
 });

@@ -10,6 +10,7 @@ import {
   Page,
   PageContext,
   SemanticPathService,
+  TranslatePipe,
   UrlCommand,
 } from '@spartacus/core';
 import { CmsComponentData, Media } from '@spartacus/storefront';
@@ -17,10 +18,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MediaService } from '../../../shared/components/media/media.service';
 import { VideoComponent } from './video.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -82,15 +80,19 @@ describe('VideoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [VideoComponent, MockTranslatePipe],
+      imports: [RouterModule.forRoot([]), VideoComponent],
       providers: [
         { provide: CmsComponentData, useClass: MockCmsVideoComponentData },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: MediaService, useClass: MockMediaService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VideoComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoComponent);
@@ -180,9 +182,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(product);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        product
-      );
+      expect(videoElement.getAttribute('href')).toContain(product);
     });
 
     it('should set routing link with category', () => {
@@ -191,9 +191,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(category);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        category
-      );
+      expect(videoElement.getAttribute('href')).toContain(category);
     });
 
     it('should set routing link with url', () => {
@@ -202,9 +200,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(url);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        url
-      );
+      expect(videoElement.getAttribute('href')).toContain(url);
     });
 
     it('should set routing link with content page', () => {
@@ -213,9 +209,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(contentPage);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        contentPage
-      );
+      expect(videoElement.getAttribute('href')).toContain(contentPage);
     });
   });
 

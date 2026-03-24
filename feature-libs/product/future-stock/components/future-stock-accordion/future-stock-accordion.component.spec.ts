@@ -1,9 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { FutureStockService } from '../../core/services';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
@@ -11,7 +18,6 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -51,12 +57,25 @@ describe('FutureStockAccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [MockCxIconComponent, FutureStockAccordionComponent],
+      imports: [FutureStockAccordionComponent],
       providers: [
         { provide: FutureStockFacade, useClass: MockFutureStockService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FutureStockAccordionComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -91,13 +110,18 @@ describe('FutureStockAccordionComponent', () => {
     });
 
     it('should toggle expanded state by clicking button', () => {
-      expect(button.innerHTML).toContain('CARET_DOWN');
+      let icon = fixture.debugElement.query(
+        By.css('cx-icon')
+      ).componentInstance;
+      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
       button.click();
       fixture.detectChanges();
-      expect(button.innerHTML).toContain('CARET_UP');
+      icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
+      expect(icon.type).toBe(ICON_TYPE.CARET_UP);
       button.click();
       fixture.detectChanges();
-      expect(button.innerHTML).toContain('CARET_DOWN');
+      icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
+      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
     });
   });
 

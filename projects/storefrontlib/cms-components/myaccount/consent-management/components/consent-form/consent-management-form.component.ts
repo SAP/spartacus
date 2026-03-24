@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   OnInit,
@@ -15,16 +15,16 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
-  FeatureConfigService,
+  TranslatePipe,
 } from '@spartacus/core';
 
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
-  standalone: false,
+  imports: [NgIf, NgTemplateOutlet, TranslatePipe],
 })
 export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;
@@ -49,10 +49,6 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
     template: ConsentTemplate;
   }>();
 
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
-
   constructor() {
     // Intentional empty constructor
   }
@@ -62,10 +58,7 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.featureConfigService?.isEnabled('updateConsentGivenInOnChanges') &&
-      (changes.consent || changes.consentTemplate)
-    ) {
+    if (changes.consent || changes.consentTemplate) {
       this.updateConsentGiven();
     }
   }

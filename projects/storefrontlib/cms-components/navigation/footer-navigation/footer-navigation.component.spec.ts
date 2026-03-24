@@ -1,11 +1,19 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   AnonymousConsentsConfig,
   CmsNavigationComponent,
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
+import {
+  GenericLinkComponent,
+  NavigationUIComponent,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
@@ -17,7 +25,6 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
-  standalone: false,
 })
 class MockNavigationUIComponent {
   @Input() flyout = true;
@@ -34,7 +41,6 @@ const mockAnonymousConsentsConfig = {
 @Component({
   selector: 'cx-generic-link',
   template: '<ng-content></ng-content>',
-  standalone: false,
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -73,12 +79,10 @@ describe('FooterNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         FooterNavigationComponent,
         NavigationComponent,
-        MockNavigationUIComponent,
-        MockGenericLinkComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -94,7 +98,26 @@ describe('FooterNavigationComponent', () => {
           useValue: mockAnonymousConsentsConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FooterNavigationComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            NavigationUIComponent,
+            GenericLinkComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockNavigationUIComponent,
+            MockGenericLinkComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

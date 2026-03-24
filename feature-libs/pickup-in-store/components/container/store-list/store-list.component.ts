@@ -1,16 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock } from '@spartacus/core';
+import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { StoreComponent } from '../../presentational/store/store.component';
 
 /**
  * The list of stores with their stock level and distance from a searched location.
@@ -19,7 +22,14 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-store-list',
   templateUrl: 'store-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    StoreComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class StoreListComponent implements OnInit {
   /** The product code for the stock levels at each location */

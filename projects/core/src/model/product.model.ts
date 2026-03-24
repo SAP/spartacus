@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -206,6 +206,7 @@ export interface Product {
    * Default unit of measure to be used for the product stock availability
    */
   sapUnit?: SapUnit;
+  productTypes?: ProductTypes;
 }
 
 /**
@@ -261,4 +262,10 @@ export interface StoreFinderStockSearchPage {
 export interface ProductAvailabilities {
   quantity?: string;
   status?: string;
+}
+
+export enum ProductTypes {
+  PHYSICAL = 'PHYSICAL',
+  SERVICE = 'SERVICE',
+  SUBSCRIPTION = 'SUBSCRIPTION',
 }

@@ -11,7 +11,17 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   LaunchDialogService,
@@ -43,10 +53,7 @@ class MockRoutingService {
   go = createSpy();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -67,12 +74,13 @@ describe('VerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
+        VerificationTokenFormComponent,
+        RouterModule.forRoot([]),
       ],
-      declarations: [VerificationTokenFormComponent, MockUrlPipe],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: VerificationTokenFormComponentService,
           useClass: MockFormComponentService,
@@ -87,7 +95,16 @@ describe('VerificationTokenFormComponent', () => {
         },
         ChangeDetectorRef,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VerificationTokenFormComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

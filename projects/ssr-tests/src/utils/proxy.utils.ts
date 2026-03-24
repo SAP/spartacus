@@ -1,13 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2023 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import * as http from 'http';
 import httpProxy from 'http-proxy';
+import { Agent as HttpsAgent } from 'https';
+import { gunzipSync, inflateSync } from 'zlib';
 
+/**
+ * Set to `true` if the target server is a CCv2 server.
+ *
+ * This is needed to set up a custom HTTPS agent with the correct SNI servername.
+ */
+const IS_CCV2_SERVER = false;
 /**
  * Options to start a proxy server.
  */
@@ -42,17 +49,33 @@ interface ProxyOptions {
     res: http.ServerResponse;
   }) => void;
 }
-
+function extractUrlWithoutProtocol(url: string): string {
+  return url.replace(/^https?:\/\//, '');
+}
 /**
  * Starts an http proxy server on port 9002 with the provided options.
  */
 export async function startBackendProxyServer(
   options: ProxyOptions
 ): Promise<http.Server> {
-  const proxy = httpProxy.createProxyServer({
+  const proxyOptions: httpProxy.ServerOptions = {
     secure: false,
     selfHandleResponse: !!options.responseInterceptor,
+  };
+
+  // Add custom agent to support CCv2 servers
+  if (IS_CCV2_SERVER) {
+    proxyOptions.agent = new HttpsAgent({
+      servername: extractUrlWithoutProtocol(options.target),
+    });
+  }
+
+  const proxy = httpProxy.createProxyServer(proxyOptions);
+
+  proxy.on('proxyReq', (proxyReq) => {
+    proxyReq.setHeader('host', extractUrlWithoutProtocol(options.target));
   });
+
   if (options.responseInterceptor) {
     proxy.on('proxyRes', (proxyRes, req, res) => {
       // We have to buffer the response body before passing it to the interceptor
@@ -61,7 +84,10 @@ export async function startBackendProxyServer(
         bodyBuffer.push(chunk);
       });
       proxyRes.on('end', () => {
-        const body = Buffer.concat(bodyBuffer).toString();
+        const body = unzipResponseBody(
+          Buffer.concat(bodyBuffer),
+          proxyRes.headers['content-encoding']
+        );
 
         // Pass the body to the interceptor
         if (options.responseInterceptor) {
@@ -87,4 +113,15 @@ export async function startBackendProxyServer(
       resolve(server);
     });
   });
+}
+
+function unzipResponseBody(buffer: Buffer, encoding?: string): string {
+  switch (encoding) {
+    case 'gzip':
+      return gunzipSync(buffer).toString();
+    case 'deflate':
+      return inflateSync(buffer).toString();
+    default:
+      return buffer.toString();
+  }
 }

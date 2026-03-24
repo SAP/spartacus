@@ -1,11 +1,15 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { Component, Input } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
-import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import {
+  LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
+import { Observable, ReplaySubject, of, take } from 'rxjs';
+import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -23,7 +27,6 @@ class MockLanguageService {
 @Component({
   selector: 'cx-cpq-quote-offer',
   template: '',
-  standalone: false,
 })
 class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
@@ -37,11 +40,7 @@ describe('CpqQuoteOfferComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CpqQuoteOfferComponent,
-        MockConfigureCpqDiscountsComponent,
-      ],
+      imports: [CpqQuoteOfferComponent, MockConfigureCpqDiscountsComponent],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
@@ -50,7 +49,12 @@ describe('CpqQuoteOfferComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CpqQuoteOfferComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteOfferComponent);

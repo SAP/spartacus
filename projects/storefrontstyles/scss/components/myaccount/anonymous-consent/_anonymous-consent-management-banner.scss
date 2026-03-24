@@ -51,9 +51,7 @@
     }
   }
 
-  @include forFeature('a11yScrollToTopPositioning') {
-    &:has(.anonymous-consent-banner) ~ cx-scroll-to-top {
-      bottom: 180px;
-    }
+  &:has(.anonymous-consent-banner) ~ cx-scroll-to-top {
+    bottom: 180px;
   }
 }

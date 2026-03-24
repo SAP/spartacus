@@ -1,3 +1,4 @@
+import { NgFor } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -7,7 +8,6 @@ import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-pos
 
 @Component({
   selector: 'cx-test-component',
-  standalone: false,
   template: `
     <ng-container
       cxHorizontalScrollingPosition
@@ -29,6 +29,7 @@ import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-pos
       </div>
     </ng-container>
   `,
+  imports: [HorizontalScrollingPositionDirective, NgFor],
 })
 export class TestComponent {
   items = [1, 2, 3, 4, 5];
@@ -49,7 +50,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HorizontalScrollingPositionDirective, TestComponent],
+      imports: [HorizontalScrollingPositionDirective, TestComponent],
       providers: [
         {
           provide: WindowRef,
@@ -92,6 +93,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
         spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
         spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+        spyOn(IntersectionObserver.prototype, 'observe');
 
         directive.ngOnChanges();
 
@@ -111,12 +113,13 @@ describe('HorizontalScrollingPositionDirective', () => {
         expect(directive['scrollingAreaIntersectionObserver'].root).toEqual(
           mockScrollingArea
         );
-        expect(
-          directive['scrollingAreaIntersectionObserver'].takeRecords()
-        ).toEqual([
-          jasmine.objectContaining({ target: mockScrollingAreaStart }),
-          jasmine.objectContaining({ target: mockScrollingAreaEnd }),
-        ]);
+        expect(IntersectionObserver.prototype.observe).toHaveBeenCalledWith(
+          mockScrollingAreaStart
+        );
+        expect(IntersectionObserver.prototype.observe).toHaveBeenCalledWith(
+          mockScrollingAreaEnd
+        );
+
         expect(directive['scrollingAreaResizeObserver']).not.toBe(
           mockResizeObserver
         );

@@ -17,7 +17,6 @@ import { TrapFocusService } from './trap-focus.service';
     </div>
     <div id="c"></div>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -34,7 +33,7 @@ describe('TrapFocusService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
+      imports: [MockComponent],
       providers: [
         TrapFocusService,
         {

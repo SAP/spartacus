@@ -8,17 +8,26 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, UntypedFormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  CxNumericPipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
   ConfiguratorType,
+  ConfigureCartEntryComponent,
   LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
@@ -27,10 +36,7 @@ import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -40,7 +46,6 @@ class MockNumericPipe implements PipeTransform {
 @Component({
   selector: 'cx-configure-cart-entry',
   template: '',
-  standalone: false,
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -105,19 +110,33 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorCartEntryBundleInfoComponent,
-        MockNumericPipe,
-        MockConfigureCartEntryComponent,
-      ],
+      imports: [ConfiguratorCartEntryBundleInfoComponent, I18nTestingModule],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
           provide: ControlContainer,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorCartEntryBundleInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CxNumericPipe,
+            ConfigureCartEntryComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockNumericPipe,
+            MockConfigureCartEntryComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -609,49 +628,41 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
           mockCartItemContext.readonly$?.next(undefined);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
           mockCartItemContext.readonly$?.next(null);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
           mockCartItemContext.readonly$?.next(false);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as true in case readonly$ is true', () => {
           mockCartItemContext.readonly$?.next(true);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('true');
+          expect(component.readOnly).toBe(true);
         });
       });
 
@@ -931,8 +942,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent],
+      imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
     }).compileComponents();
   }));
 

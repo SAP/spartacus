@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,6 +35,7 @@ import { OPF_CTA_FEATURE, OpfCtaRootModule } from '@spartacus/opf/cta/root';
 import {
   OPF_GLOBAL_FUNCTIONS_FEATURE,
   OpfGlobalFunctionsRootModule,
+  defaultOccOpfCartConfig,
 } from '@spartacus/opf/global-functions/root';
 import {
   OPF_PAYMENT_FEATURE,
@@ -61,6 +62,8 @@ if (environment.b2b) {
 } else {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }
+
+extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
 
 @NgModule({
   imports: [
@@ -137,7 +140,7 @@ if (environment.b2b) {
       opf: {
         opfBaseUrl:
           'https://opf-iss-d0.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
-        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+        commerceCloudPublicKey: 'ADD_COMMERCE_CLOUD_PUBLIC_KEY_HERE',
       },
     }),
     ...extensionProviders,

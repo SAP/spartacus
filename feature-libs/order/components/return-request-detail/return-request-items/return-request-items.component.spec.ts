@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MediaComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 import { ReturnRequestItemsComponent } from './return-request-items.component';
@@ -20,7 +20,6 @@ class MockCheckoutService {
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -33,16 +32,16 @@ describe('ReturnRequestItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ReturnRequestItemsComponent,
-        MockMediaComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [ReturnRequestItemsComponent],
       providers: [
         { provide: ReturnRequestService, useClass: MockCheckoutService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReturnRequestItemsComponent, {
+        remove: { imports: [TranslatePipe, MediaComponent] },
+        add: { imports: [MockTranslatePipe, MockMediaComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

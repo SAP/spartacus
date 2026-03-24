@@ -1,22 +1,28 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  OutletContextData,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-set-preferred-store',
   templateUrl: './set-preferred-store.component.html',
-  standalone: false,
+  imports: [NgIf, NgClass, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   readonly ICON_TYPE = ICON_TYPE;

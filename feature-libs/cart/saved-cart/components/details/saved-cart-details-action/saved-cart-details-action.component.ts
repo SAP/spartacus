@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -13,7 +14,8 @@ import {
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
@@ -21,7 +23,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 @Component({
   selector: 'cx-saved-cart-details-action',
   templateUrl: './saved-cart-details-action.component.html',
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class SavedCartDetailsActionComponent implements OnDestroy {
   private subscription = new Subscription();

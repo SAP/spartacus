@@ -46,7 +46,6 @@ describe('Orders effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         UnitOrderConnector,
         UnitOrderEffect,

@@ -19,8 +19,10 @@ import {
 } from '@spartacus/pdf-invoices/root';
 import {
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusTestingModule,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-invoices.component';
@@ -77,7 +79,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -86,7 +87,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -99,7 +99,13 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule],
+      imports: [
+        I18nModule,
+        PDFInvoicesModule,
+        KeyboardFocusTestingModule,
+        MyAccountV2DownloadInvoicesComponent,
+        InvoicesListComponent,
+      ],
       providers: [
         ChangeDetectorRef,
         { provide: LanguageService, useClass: MockLanguageService },
@@ -108,13 +114,12 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-      declarations: [
-        MyAccountV2DownloadInvoicesComponent,
-        InvoicesListComponent,
-        MockCxIconComponent,
-        MockSpinnerComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2DownloadInvoicesComponent, {
+        remove: { imports: [IconComponent, SpinnerComponent] },
+        add: { imports: [MockCxIconComponent, MockSpinnerComponent] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(MyAccountV2DownloadInvoicesComponent);
     fixture2 = TestBed.createComponent(InvoicesListComponent);
     launchService = TestBed.inject(LaunchDialogService);

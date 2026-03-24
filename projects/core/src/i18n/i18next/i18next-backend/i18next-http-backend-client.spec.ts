@@ -23,7 +23,6 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),

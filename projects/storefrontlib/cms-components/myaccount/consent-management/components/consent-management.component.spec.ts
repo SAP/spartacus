@@ -15,26 +15,26 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-consent-management-form',
   template: ` <div>form</div> `,
-  standalone: false,
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -130,13 +130,7 @@ describe('ConsentManagementComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MockCxSpinnerComponent,
-        MockConsentManagementFormComponent,
-        ConsentManagementComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ConsentManagementComponent],
       providers: [
         ConsentManagementComponentService,
         { provide: UserConsentService, useClass: UserConsentServiceMock },
@@ -154,7 +148,24 @@ describe('ConsentManagementComponent', () => {
           useValue: mockAnonymousConsentsConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConsentManagementComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            ConsentManagementFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockConsentManagementFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

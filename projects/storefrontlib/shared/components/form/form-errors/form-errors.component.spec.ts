@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
-  FeatureConfigService,
   I18nTestingModule,
   MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
@@ -11,12 +11,6 @@ import { FormErrorsComponent } from './form-errors.component';
 const mockErrorName = 'exampleError';
 const mockError = { [mockErrorName]: true };
 const mockErrorDetails: [string, string | boolean][] = [[mockErrorName, true]];
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
-
 describe('FormErrors', () => {
   let component: FormErrorsComponent;
   let fixture: ComponentFixture<FormErrorsComponent>;
@@ -25,17 +19,12 @@ describe('FormErrors', () => {
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      providers: [
-        FeatureConfigService,
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-      declarations: [FormErrorsComponent, MockFeatureDirective],
-    }).compileComponents();
+    TestBed.configureTestingModule({})
+      .overrideComponent(FormErrorsComponent, {
+        remove: { imports: [MockFeatureDirective, TranslatePipe] },
+        add: { imports: [MockFeatureDirective, I18nTestingModule] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

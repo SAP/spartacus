@@ -1,14 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Type,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutModule } from '@spartacus/checkout/base';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -19,24 +18,17 @@ import {
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { FormComponent } from '@spartacus/organization/administration/components';
+import { Card, SpinnerComponent } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { EMPTY, of } from 'rxjs';
-import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-center';
 import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
-import { Store, StoreModule } from '@ngrx/store';
-import { CheckoutModule } from '@spartacus/checkout/base';
 import createSpy = jasmine.createSpy;
-
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 class MockUserAddressService implements Partial<UserAddressService> {
   getAddresses = createSpy().and.returnValue(of(mockAddresses));
@@ -126,7 +118,7 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, CheckoutModule],
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -138,14 +130,14 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, CheckoutModule],
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, CheckoutModule],
 })
 class MockCardComponent {
   @Input()
@@ -158,6 +150,13 @@ class MockCardComponent {
   index: number;
 }
 
+@Component({
+  selector: 'cx-opf-b2b-checkout-cost-center',
+  template: '',
+})
+class MockOpfB2bCheckoutCostCenterComponent
+  implements Partial<OpfB2bCheckoutCostCenterComponent> {}
+
 describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
   let component: OpfB2bCheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<OpfB2bCheckoutDeliveryAddressComponent>;
@@ -168,13 +167,10 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreModule.forRoot({}), CheckoutModule],
-      declarations: [
+      imports: [
+        StoreModule.forRoot({}),
+        CheckoutModule,
         OpfB2bCheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-        MockTranslatePipe,
       ],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
@@ -186,10 +182,7 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModesFacade,
-        },
+
         {
           provide: FeaturesConfig,
           useValue: {
@@ -208,20 +201,41 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
       ],
     })
       .overrideComponent(OpfB2bCheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            FormComponent,
+            TranslatePipe,
+            SpinnerComponent,
+            AddressFormComponent,
+            OpfB2bCheckoutCostCenterComponent,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+            MockTranslatePipe,
+            MockOpfB2bCheckoutCostCenterComponent,
+          ],
+          providers: [
+            {
+              provide: CheckoutDeliveryAddressFacade,
+              useClass: MockCheckoutDeliveryAddressFacade,
+            },
+            {
+              provide: CheckoutDeliveryModesFacade,
+              useClass: MockCheckoutDeliveryModesFacade,
+            },
+          ],
+        },
       })
       .compileComponents();
-
-    checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
-    );
 
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
-
-    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-    globalMessageService = TestBed.inject(GlobalMessageService);
   }));
 
   beforeEach(() => {
@@ -232,6 +246,14 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
     spyOn(component, 'selectAddress').and.callThrough();
     spyOn<any>(component, 'setAddress').and.callThrough();
     spyOn<any>(component, 'getCardRole').and.callThrough();
+
+    checkoutDeliveryAddressFacade = fixture.componentRef.injector.get(
+      CheckoutDeliveryAddressFacade
+    );
+    checkoutDeliveryModesFacade = fixture.componentRef.injector.get(
+      CheckoutDeliveryModesFacade
+    );
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import {
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, ConfiguratorExitButtonComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -26,7 +26,6 @@ import { ConfiguratorExitButtonComponent } from './configurator-exit-button.comp
     }),
     WindowRef,
   ],
-  declarations: [ConfiguratorExitButtonComponent],
   exports: [ConfiguratorExitButtonComponent],
 })
 export class ConfiguratorExitButtonModule {}

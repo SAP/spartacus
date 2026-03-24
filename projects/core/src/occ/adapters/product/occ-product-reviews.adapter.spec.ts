@@ -41,7 +41,6 @@ describe('OccProductReviewsAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccProductReviewsAdapter,
         {

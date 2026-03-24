@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
+import { goToB2COrderHistoryPage } from './order-history';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -48,6 +49,7 @@ export const TITLE_REQUEST = `${Cypress.env(
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
 export const FULL_BASE_URL_DE_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_DE}/${CURRENCY_USD}`;
+export const FULL_BASE_URL_DE_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_DE}/${CURRENCY_JPY}`;
 
 const PRODUCT_ID_1 = '280916';
 const PRODUCT_ID_2 = '1687508';
@@ -59,6 +61,7 @@ export const TITLE_DE = 'Herr';
 export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
   month: 'long',
 });
+export const JANUARY_MONTH_DE = 'Januar';
 export const EDIT_DE = 'Bearbeiten';
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
@@ -149,15 +152,24 @@ export function siteContextChange(
   label: string
 ): void {
   if (pagePath !== null) {
-    let page = waitForPage(pagePath, 'pageForSitContextChange');
-    if (
-      pagePath.startsWith('/product') ||
-      pagePath.startsWith('/Open-Catalogue')
-    ) {
-      page = waitForPage('', 'pageForSitContextChange');
+    const isProductPage = pagePath.startsWith('/product');
+    const isOpenCatalogue = pagePath.startsWith('/Open-Catalogue');
+    let page =
+      isProductPage || isOpenCatalogue
+        ? waitForPage('', 'pageForSitContextChange')
+        : waitForPage(pagePath, 'pageForSitContextChange');
+
+    // Intercept product reviews only for product pages
+    if (isProductPage) {
+      cy.intercept('GET', '**/products/*/reviews**').as('productReviews');
     }
+
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
     cy.wait(`@${page}`).its('response.statusCode').should('eq', 200);
+
+    if (isProductPage) {
+      cy.wait('@productReviews');
+    }
   }
 
   let contextParam: string;
@@ -204,8 +216,13 @@ export function testLangSwitchOrderPage() {
     const deutschName = MONTH_DE;
 
     before(() => {
-      doPlaceOrder();
-      waitForOrderToBePlacedRequest();
+      cy.whenJDK21(() => {
+        goToB2COrderHistoryPage();
+      });
+      cy.whenJDK17(() => {
+        doPlaceOrder();
+        waitForOrderToBePlacedRequest();
+      });
     });
 
     it('should change language in the url', () => {
@@ -220,10 +237,16 @@ export function testLangSwitchOrderPage() {
 
     it('should change language in the page', () => {
       siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
-
-      cy.get(
-        'cx-order-history .cx-order-history-placed .cx-order-history-value'
-      ).should('contain', deutschName);
+      cy.whenJDK21(() => {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', JANUARY_MONTH_DE);
+      });
+      cy.whenJDK17(() => {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', deutschName);
+      });
     });
   });
 }

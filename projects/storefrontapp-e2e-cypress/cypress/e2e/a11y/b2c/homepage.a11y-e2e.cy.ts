@@ -1,12 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { waitForPage } from '../../../helpers/navigation';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Homepage Accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   before(() => {
     const homePage = waitForPage('homepage', 'getHomePage');
     cy.visit('/');

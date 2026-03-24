@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "target": "es2015",
-    "module": "es2022",
-    "moduleResolution": "node",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "declaration": true,
     "sourceMap": true,
     "inlineSources": true,
@@ -12,7 +12,7 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
-    "lib": ["es2022", "dom"],
+    "lib": ["esnext", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"]
     }

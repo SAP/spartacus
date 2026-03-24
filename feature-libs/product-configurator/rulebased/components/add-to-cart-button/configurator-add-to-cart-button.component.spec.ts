@@ -14,6 +14,7 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
+  FeatureLevelDirective,
   GlobalMessageService,
   I18nTestingModule,
   RouterState,
@@ -29,7 +30,9 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   ICON_TYPE,
+  IconComponent,
   IntersectionService,
+  ItemCounterComponent,
   KeyboardFocusService,
 } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
@@ -101,7 +104,6 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -110,7 +112,6 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -451,13 +452,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorAddToCartButtonComponent,
-        MockItemCounterComponent,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [ConfiguratorAddToCartButtonComponent, I18nTestingModule],
       providers: [
         {
           provide: RoutingService,
@@ -510,7 +505,20 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorAddToCartButtonComponent, {
+        remove: {
+          imports: [ItemCounterComponent, IconComponent, FeatureLevelDirective],
+        },
+        add: {
+          imports: [
+            MockItemCounterComponent,
+            MockCxIconComponent,
+            MockFeatureLevelDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

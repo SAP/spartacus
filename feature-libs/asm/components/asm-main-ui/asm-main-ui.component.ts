@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -16,6 +17,7 @@ import {
 import { AsmService } from '@spartacus/asm/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import {
+  AsmConfig,
   AsmDeepLinkParameters,
   AsmUi,
   CLOSE_DIALOG_REASON,
@@ -24,6 +26,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureDirective,
   FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
@@ -31,12 +34,15 @@ import {
   HttpResponseStatus,
   OAuthLibWrapperService,
   RoutingService,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import {
@@ -55,7 +61,12 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { AsmSessionTimerComponent } from '../asm-session-timer/asm-session-timer.component';
+import { AsmToggleUiComponent } from '../asm-toggle-ui/asm-toggle-ui.component';
+import { CSAgentLoginFormComponent } from '../csagent-login-form/csagent-login-form.component';
+import { CustomerEmulationComponent } from '../customer-emulation/customer-emulation.component';
 import { CustomerListAction } from '../customer-list/customer-list.model';
+import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
 import { AsmComponentService } from '../services/asm-component.service';
 
 interface CartTypeKey {
@@ -69,7 +80,19 @@ export const CART_TYPE_KEY: CartTypeKey = {
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
-  standalone: false,
+  imports: [
+    IconComponent,
+    NgIf,
+    FeatureDirective,
+    AsmToggleUiComponent,
+    AsmSessionTimerComponent,
+    CustomerEmulationComponent,
+    MessageComponent,
+    CustomerSelectionComponent,
+    CSAgentLoginFormComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;
@@ -100,8 +123,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
+  protected asmConfig = inject(AsmConfig);
 
   protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  isAsmSessionConfigured: boolean = false;
 
   constructor(
     protected authService: AuthService,
@@ -123,7 +148,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         this.isAsmCustomer360Loaded$.next(true);
       });
     }
-
+    this.isAsmSessionConfigured =
+      this.asmConfig.asm?.asmSessionSupport?.enabled ?? false;
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(
@@ -374,6 +400,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.startingCustomerSession = true;
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
+      if (this.isAsmSessionConfigured) {
+        this.asmService.createAsmSessionEvent({ eventType: 'StartSession' });
+      }
       if (parameters) {
         this.asmComponentService.handleDeepLinkNavigation({
           customerId,

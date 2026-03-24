@@ -15,25 +15,35 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
   QueryState,
+  TranslatePipe,
   UserPaymentService,
 } from '@spartacus/core';
-import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
+import {
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -153,7 +163,6 @@ const mockAddress: Address = {
 @Component({
   selector: 'cx-payment-form',
   template: '',
-  standalone: false,
 })
 class MockPaymentFormComponent {
   @Input()
@@ -169,7 +178,6 @@ class MockPaymentFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -191,14 +199,12 @@ describe('CheckoutPaymentMethodComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CheckoutPaymentMethodComponent,
-        MockPaymentFormComponent,
         CardComponent,
-        MockSpinnerComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
+        IconComponent,
+        SpinnerComponent,
       ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
@@ -228,7 +234,30 @@ describe('CheckoutPaymentMethodComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutPaymentMethodComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CheckoutPaymentFormComponent,
+            SpinnerComponent,
+            IconComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPaymentFormComponent,
+            MockSpinnerComponent,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     mockUserPaymentService = TestBed.inject(UserPaymentService);
     mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
@@ -559,6 +588,8 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should be able to select payment method', () => {
+      fixture.detectChanges();
+
       component.selectPaymentMethod(mockPaymentDetails);
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
@@ -575,6 +606,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         createSpy().and.returnValue(
           of({ loading: false, error: false, data: mockPayments[0] })
         );
+      fixture.detectChanges();
 
       component.selectPaymentMethod(mockPayments[0]);
 

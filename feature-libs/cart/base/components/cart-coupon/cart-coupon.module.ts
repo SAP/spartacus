@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,6 @@ import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.compo
 import { CartCouponComponent } from './cart-coupon.component';
 
 @NgModule({
-  declarations: [CartCouponComponent, AppliedCouponsComponent],
   exports: [CartCouponComponent, AppliedCouponsComponent],
   imports: [
     CommonModule,
@@ -35,6 +34,8 @@ import { CartCouponComponent } from './cart-coupon.component';
     FormErrorsModule,
     FeaturesConfigModule,
     FormRequiredLegendComponent,
+    CartCouponComponent,
+    AppliedCouponsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

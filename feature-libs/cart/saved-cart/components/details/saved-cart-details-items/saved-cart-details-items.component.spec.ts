@@ -6,13 +6,12 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslationService,
   Product,
   RoutingService,
   Translatable,
+  TranslationService,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
@@ -82,8 +81,7 @@ describe('SavedCartDetailsItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
-      declarations: [SavedCartDetailsItemsComponent, MockFeatureDirective],
+      imports: [StoreModule.forRoot({}), SavedCartDetailsItemsComponent],
       providers: [
         {
           provide: SavedCartFacade,
@@ -99,6 +97,7 @@ describe('SavedCartDetailsItemsComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
 

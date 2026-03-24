@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,4 +16,9 @@ export interface SearchConfig {
    * @example `allCategories:584:code:1,2,3:availableInStores:Chiba`
    */
   filters?: string;
+
+  /**
+   * find organizational customers using fuzzy matching on name.
+   */
+  query?: string;
 }

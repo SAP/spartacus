@@ -2,13 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -17,7 +19,12 @@ import {
   OrderInvoiceList,
   PDFInvoicesFacade,
 } from '@spartacus/pdf-invoices/root';
-import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
+import {
+  FileDownloadService,
+  IconTestingModule,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -109,7 +116,6 @@ const mockOrderInvoiceList: OrderInvoiceList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -118,7 +124,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -194,13 +199,7 @@ describe('InvoicesListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [
-        InvoicesListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockFeatureDirective,
-      ],
+      imports: [IconTestingModule, InvoicesListComponent],
       providers: [
         { provide: PDFInvoicesFacade, useClass: MockPDFInvoicesFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
@@ -208,7 +207,26 @@ describe('InvoicesListComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(InvoicesListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            PaginationComponent,
+            SortingComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
     pdfInvoicesFacade = TestBed.inject(PDFInvoicesFacade);
     translationService = TestBed.inject(TranslationService);
     downloadService = TestBed.inject(FileDownloadService);

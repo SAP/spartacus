@@ -26,7 +26,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -37,7 +37,7 @@ class MockConfiguratorShowMoreComponent {
 @Component({
   selector: 'cx-configurator-show-options',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorShowOptionsComponent {
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
@@ -141,8 +141,9 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        IconModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
@@ -165,7 +166,6 @@ describe('ConfigAttributeHeaderComponent', () => {
           provide: ConfiguratorUISettingsConfig,
           useValue: structuredClone(testConfiguratorUISettings),
         },
-
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
@@ -723,10 +723,41 @@ describe('ConfigAttributeHeaderComponent', () => {
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key for attribute groups", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
-
+      component.isNavigationToGroupEnabled = true;
+      component.attribute.hasNonNavigableConflict = false;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
+      );
+    });
+
+    it("should return 'configurator.conflict.nonNavigableConflict' conflict message key for attribute groups and attribute with non navigable conflict", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = true;
+      component.attribute.hasNonNavigableConflict = true;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.nonNavigableConflict'
+      );
+    });
+
+    it("should return 'configurator.conflict.conflictDetected' conflict message key for attriubte groups if navigation is disabled and conflict is navigable", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      component.attribute.hasNonNavigableConflict = false;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.conflictDetected'
+      );
+    });
+
+    it("should return 'configurator.conflict.nonNavigableConflict' conflict message key for attribute groups and attribute with non navigable conflict even if navigation is disabled", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.isNavigationToGroupEnabled = false;
+      component.attribute.hasNonNavigableConflict = true;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.nonNavigableConflict'
       );
     });
 

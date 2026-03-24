@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AsmSessionCreationOptions,
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
-import { AsmActions } from '../store/actions/index';
+import { AsmActions, AsmSessionActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmService } from './asm.service';
@@ -103,5 +104,14 @@ describe('AsmService', () => {
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(asmUi);
+  });
+
+  it('should dispatch proper action for create session event', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const options: AsmSessionCreationOptions = { eventType: 'startSesion' };
+    service.createAsmSessionEvent(options);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmSessionActions.AsmSessionCreationAction(options)
+    );
   });
 });

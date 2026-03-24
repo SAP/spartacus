@@ -7,10 +7,13 @@ import { ServerModule } from '@angular/platform-server';
 import { PROPAGATE_ERROR_TO_SERVER } from '../error-handling/error-response/propagate-error-to-server';
 import { CxCommonEngine } from './cx-common-engine';
 
+const allowedHosts = Object.freeze(['localhost']);
+
 // Test how the CxCommonEngine handles successful server-side rendering
 @Component({
   selector: 'cx-mock',
   template: 'some template',
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class SuccessComponent {}
@@ -26,6 +29,7 @@ export class SuccessServerModule {}
 @Component({
   selector: 'cx-response',
   template: ``,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class WithPropagatedErrorComponent {
@@ -48,6 +52,7 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 @Component({
   selector: 'cx-token',
   template: `message:{{ someToken }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class TokenComponent {
@@ -76,6 +81,7 @@ describe('CxCommonEngine', () => {
   it('should return html if no errors', async () => {
     engine = new CxCommonEngine({
       bootstrap: SuccessServerModule,
+      allowedHosts,
     });
 
     const html = await engine.render({
@@ -91,6 +97,7 @@ describe('CxCommonEngine', () => {
   it('should not override providers passed to options', async () => {
     engine = new CxCommonEngine({
       bootstrap: TokenServerModule,
+      allowedHosts,
     });
 
     const html = await engine.render({
@@ -107,6 +114,7 @@ describe('CxCommonEngine', () => {
   it('should handle APP_INITIALIZER errors the standard Angular way and throw if any occurred', async () => {
     engine = new CxCommonEngine({
       bootstrap: TokenServerModule,
+      allowedHosts,
     });
 
     // Cannot use `.toMatchInlineSnapshot()` due to bug in jest:
@@ -122,6 +130,7 @@ describe('CxCommonEngine', () => {
   it('should handle errors propagated from SSR', async () => {
     engine = new CxCommonEngine({
       bootstrap: WithPropagatedErrorServerModule,
+      allowedHosts,
     });
 
     // Cannot use `.toMatchInlineSnapshot()` due to bug in jest:

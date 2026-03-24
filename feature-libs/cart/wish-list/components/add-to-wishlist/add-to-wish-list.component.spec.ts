@@ -9,15 +9,26 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+import {
+  AtMessageDirective,
+  CurrentProductService,
+  IconComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
@@ -85,16 +96,12 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockIconComponent {
   @Input() type;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -105,10 +112,7 @@ class MockFeatureConfigService {
   }
 }
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -121,13 +125,10 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AddToWishListComponent,
-        MockIconComponent,
-        MockUrlPipe,
-        MockAtMessageDirective,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
@@ -140,7 +141,27 @@ describe('AddToWishListComponent', () => {
       ],
     })
       .overrideComponent(AddToWishListComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            UrlPipe,
+            AtMessageDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockUrlPipe,
+            MockAtMessageDirective,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

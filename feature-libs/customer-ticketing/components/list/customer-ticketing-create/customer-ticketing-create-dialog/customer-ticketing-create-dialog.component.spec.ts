@@ -1,14 +1,16 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
   Translatable,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -20,7 +22,9 @@ import {
 import {
   FileUploadModule,
   FocusConfig,
+  FocusDirective,
   FormErrorsModule,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
   NgSelectA11yModule,
@@ -28,7 +32,6 @@ import {
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
-import { NgSelectModule } from '@ng-select/ng-select';
 
 const mockCategories = [
   {
@@ -96,16 +99,12 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -119,17 +118,12 @@ describe('CustomerTicketingCreateDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         FileUploadModule,
         NgSelectModule,
         NgSelectA11yModule,
-      ],
-      declarations: [
         CustomerTicketingCreateDialogComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -141,7 +135,18 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCreateDialogComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FocusDirective] },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 

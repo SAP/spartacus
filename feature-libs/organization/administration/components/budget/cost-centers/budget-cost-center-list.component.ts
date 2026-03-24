@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SubListComponent } from '../../shared';
 import { ListService } from '../../shared/list/list.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
@@ -19,6 +20,6 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
       useExisting: BudgetCostCenterListService,
     },
   ],
-  standalone: false,
+  imports: [SubListComponent],
 })
 export class BudgetCostCenterListComponent {}

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ import {
   OpfPaymentErrorType,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentChannel,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitCompleteRequest,
   OpfPaymentSubmitCompleteResponse,
@@ -65,13 +66,15 @@ export class OpfPaymentHostedFieldsService {
       paymentSessionId,
       returnPath,
       encryptedToken,
+      savePaymentMethod,
     } = submitInput;
 
     const submitRequest: OpfPaymentSubmitRequest = {
       paymentMethod,
       additionalData,
-      channel: 'BROWSER',
+      channel: OpfPaymentChannel.BROWSER,
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
+      savePaymentMethod,
     };
     if (paymentMethod !== OpfPaymentMethod.CREDIT_CARD) {
       submitRequest.encryptedToken = '';

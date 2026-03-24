@@ -1,11 +1,57 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, of, Subscription, take } from 'rxjs';
-import { CdcReconsentComponent } from './cdc-reconsent.component';
-import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
-import { AnonymousConsentsService } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 import { CdcConsentManagementComponentService } from '@spartacus/cdc/root';
+import {
+  AnonymousConsentsService,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  BtnLikeLinkDirective,
+  ConsentManagementFormComponent,
+  FocusDirective,
+  IconComponent,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { BehaviorSubject, of, Subscription, take } from 'rxjs';
+import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
+import { CdcReconsentComponent } from './cdc-reconsent.component';
+import createSpy = jasmine.createSpy;
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
+}
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
+
+@Component({
+  selector: 'cx-consent-management-form',
+  template: '',
+})
+class MockConsentManagementFormComponent {
+  @Input() consentTemplate: any;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+class MockFocusDirective {
+  @Input() cxFocus: any;
+}
+
+@Directive({
+  selector: '[cxBtnLikeLink]',
+})
+class MockBtnLikeLinkDirective {}
 const reconsentEvent = {
   user: 'sample@user.com',
   password: 'password',
@@ -42,7 +88,7 @@ describe('CdcReconsentComponent', () => {
   let cdcConsentManagementComponentService: CdcConsentManagementComponentService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [CdcReconsentComponent],
       providers: [
         { provide: Subscription, useValue: MockSubscription },
         {
@@ -59,7 +105,27 @@ describe('CdcReconsentComponent', () => {
           useClass: MockCdcConsentManagementComponentService,
         },
       ],
-      declarations: [CdcReconsentComponent],
+    }).overrideComponent(CdcReconsentComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          IconComponent,
+          SpinnerComponent,
+          ConsentManagementFormComponent,
+          FocusDirective,
+          BtnLikeLinkDirective,
+        ],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockCxIconComponent,
+          MockSpinnerComponent,
+          MockConsentManagementFormComponent,
+          MockFocusDirective,
+          MockBtnLikeLinkDirective,
+        ],
+      },
     });
     cdcReconsentService = TestBed.inject(CdcReconsentComponentService);
     cdcConsentManagementComponentService = TestBed.inject(

@@ -1,14 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrderConfig } from '@spartacus/order/root';
 import {
@@ -23,9 +32,9 @@ import { Observable } from 'rxjs';
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
-export class QuoteLinksComponent {
+export class QuoteLinksComponent implements OnInit {
   protected quoteFacade = inject(QuoteFacade);
   protected cartUtilsService = inject(CartUtilsService);
   protected eventService = inject(EventService);
@@ -34,6 +43,11 @@ export class QuoteLinksComponent {
   protected orderConfig = inject(OrderConfig);
 
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
+
+  ngOnInit(): void {
+    // Since the quote details page is cached, we need to make sure to reload the quote details
+    this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+  }
 
   /**
    * Creates a new cart and navigates according to the 'cart' route.

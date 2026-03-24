@@ -1,20 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
 
 @Component({
   selector: 'cx-opf-payment-method-details',
   templateUrl: './opf-payment-method-details.component.html',
-  standalone: false,
+  imports: [NgIf, CardComponent, AsyncPipe],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

@@ -1,9 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  AsyncPipe,
+  NgClass,
+  NgFor,
+  NgIf,
+  NgTemplateOutlet,
+  SlicePipe,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,9 +25,15 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { LoggerService, useFeatureStyles } from '@spartacus/core';
+import {
+  FeatureDirective as CxFeatureDirective,
+  LoggerService,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 import { CarouselService } from './carousel.service';
@@ -48,7 +62,17 @@ import { CarouselService } from './carousel.service';
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    IconComponent,
+    NgFor,
+    NgTemplateOutlet,
+    AsyncPipe,
+    SlicePipe,
+    TranslatePipe,
+    CxFeatureDirective,
+  ],
 })
 export class CarouselComponent implements OnInit, OnChanges {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
@@ -128,6 +152,37 @@ export class CarouselComponent implements OnInit, OnChanges {
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
+  }
+  /**
+   * Prevents default mousedown behavior on navigation buttons when enabled
+   * to avoid unwanted blur events (e.g., in Safari when carousel is used inside modals or search boxes).
+   */
+  onNavigationMouseDown(event: MouseEvent): void {
+    event.preventDefault();
+  }
+
+  /**
+   * Handler for the "next" button click.
+   */
+  onNextClick(event: MouseEvent, size: number): void {
+    event.stopPropagation();
+
+    const itemsLength = this.items?.length ?? 0;
+    const canMove = this.activeSlide <= itemsLength - size - 1;
+
+    if (canMove) {
+      this.activeSlide = this.activeSlide + size;
+    }
+  }
+
+  /**
+   * Handler for the "previous" button click.
+   */
+  onPreviousClick(event: MouseEvent, size: number): void {
+    event.stopPropagation();
+    if (this.activeSlide !== 0) {
+      this.activeSlide = this.activeSlide - size;
+    }
   }
 
   onItemKeydown(event: KeyboardEvent, size: number): void {

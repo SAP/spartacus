@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,9 @@ export abstract class AsmConfig {
         actionType?: CustomerListColumnActionType;
       }[];
     };
+    asmSessionSupport?: {
+      enabled?: boolean;
+    };
     userIdHttpHeader?: {
       /**
        * To fix certain features when a customer agent is emulating a user, we must send a header called
@@ -43,6 +46,9 @@ export abstract class AsmConfig {
        *
        * Enabling this feature will send the emulated user's IDs on requests that need it as context.
        */
+      enable?: boolean;
+    };
+    createCustomer?: {
       enable?: boolean;
     };
   };

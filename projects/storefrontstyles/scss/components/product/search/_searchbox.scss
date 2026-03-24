@@ -165,10 +165,8 @@
       padding-bottom: 6px;
       padding-inline-start: 10px;
 
-      @include forFeature('a11yKeyboardFocusInSearchBox') {
-        &:focus-within {
-          @include visible-focus();
-        }
+      &:focus-within {
+        @include visible-focus();
       }
 
       @include media-breakpoint-up(md) {
@@ -188,11 +186,9 @@
         z-index: 20;
         padding-top: 25px;
 
-        @include forFeature('a11yKeyboardFocusInSearchBox') {
-          &:focus-within {
-            padding: 27px 10px 8px;
-            outline: 0;
-          }
+        &:focus-within {
+          padding: 27px 10px 8px;
+          outline: 0;
         }
       }
     }
@@ -210,10 +206,8 @@
         border: 1px solid var(--cx-color-medium);
         border-radius: 4px;
 
-        @include forFeature('a11yKeyboardFocusInSearchBox') {
-          &:focus {
-            @include visible-focus();
-          }
+        &:focus {
+          @include visible-focus();
         }
       }
 

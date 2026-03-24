@@ -11,24 +11,24 @@ import { Observable, of } from 'rxjs';
 
 import {
   Address,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
+import { CardComponent } from '@spartacus/storefront';
 
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
-
-import { AccountSummaryHeaderComponent } from './account-summary-header.component';
 import { mockAccountSummaryDetails } from '../account-summary-mock-data';
+import { AccountSummaryHeaderComponent } from './account-summary-header.component';
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input() content: any;
@@ -53,14 +53,18 @@ describe('AccountSummaryHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AccountSummaryHeaderComponent, MockCardComponent],
+      imports: [AccountSummaryHeaderComponent],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AccountSummaryHeaderComponent, {
+        remove: { imports: [TranslatePipe, CardComponent] },
+        add: { imports: [MockTranslatePipe, MockCardComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -13,14 +13,16 @@ import {
 } from '@angular/core/testing';
 import { AsmConfig } from '@spartacus/asm/root';
 import {
-  I18nTestingModule,
+  MockTranslatePipe,
   OCC_USER_ID_ANONYMOUS,
   RoutingService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmSessionTimerComponent } from './asm-session-timer.component';
+import { FormatTimerPipe } from './format-timer.pipe';
 import createSpy = jasmine.createSpy;
 
 const MockAsmConfig: AsmConfig = {
@@ -47,10 +49,7 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-@Pipe({
-  name: 'formatTimer',
-  standalone: false,
-})
+@Pipe({ name: 'formatTimer' })
 class MockFormatTimerPipe implements PipeTransform {
   transform() {}
 }
@@ -65,8 +64,7 @@ describe('AsmSessionTimerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
+      imports: [AsmSessionTimerComponent],
       providers: [
         {
           provide: ChangeDetectorRef,
@@ -77,7 +75,12 @@ describe('AsmSessionTimerComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserIdService, useClass: MockUserIdService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmSessionTimerComponent, {
+        remove: { imports: [TranslatePipe, FormatTimerPipe] },
+        add: { imports: [MockTranslatePipe, MockFormatTimerPipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

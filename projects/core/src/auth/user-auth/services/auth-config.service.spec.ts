@@ -37,7 +37,6 @@ describe('AuthConfigService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         AuthConfigService,
         {

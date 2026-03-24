@@ -1,13 +1,19 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { OrderHistoryListView } from '@spartacus/order/root';
+import { MediaComponent, SpinnerComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
 
@@ -40,10 +46,7 @@ const mockEmptyOrderList: OrderHistoryListView = {
   pagination: { totalResults: 0, totalPages: 1 },
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -76,7 +79,6 @@ class MockTranslationService {
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -87,7 +89,6 @@ class MockMediaComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -98,19 +99,34 @@ describe(' MyAccountV2OrdersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2OrdersComponent,
-        MockUrlPipe,
-        MockMediaComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [RouterModule.forRoot([]), MyAccountV2OrdersComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: MyAccountV2OrderHistoryService, useClass: MockService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2OrdersComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
     service = TestBed.inject(MyAccountV2OrderHistoryService);
   }));
 

@@ -10,7 +10,7 @@ import { HOME_PAGE_CONTEXT, PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   provideHttpClient,
@@ -36,8 +36,6 @@ const cmsPageData: any = {
 };
 
 class CmsStructureConfigServiceMock {}
-
-const endpoint = '/cms';
 
 const userEndpoint = '/users/${userId}/cms';
 
@@ -80,11 +78,9 @@ describe('OccCmsPageAdapter', () => {
   let httpMock: HttpTestingController;
   let endpointsService: OccEndpointsService;
   let userIdService: UserIdService;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccCmsPageAdapter,
         UserIdService,
@@ -102,7 +98,6 @@ describe('OccCmsPageAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     endpointsService = TestBed.inject(OccEndpointsService);
     userIdService = TestBed.inject(UserIdService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   afterEach(() => {
@@ -110,10 +105,6 @@ describe('OccCmsPageAdapter', () => {
   });
 
   describe('user endpoints', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-    });
-
     describe('endpoint configuration', () => {
       it('should get cms home page by specific context', (done) => {
         spyOn(endpointsService, 'buildUrl');
@@ -316,142 +307,6 @@ describe('OccCmsPageAdapter', () => {
           .expectOne((req) => req.url === userEndpoint + '/pages')
           .flush(cmsPageData);
         done();
-      });
-    });
-  });
-
-  describe('default endpoints', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-    });
-
-    describe('endpoint configuration', () => {
-      it('should get cms home page by specific context', () => {
-        spyOn(endpointsService, 'buildUrl');
-        service.load(homePageContext);
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-          queryParams: {},
-        });
-      });
-
-      it('should get cms pages by page type and id for any page', () => {
-        spyOn(endpointsService, 'buildUrl');
-        service.load(contentPageContext);
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-          queryParams: {
-            pageLabelOrId: contentPageContext.id,
-            pageType: PageType.CONTENT_PAGE,
-          },
-        });
-      });
-
-      it('should get cms product page by product code and ProductPage type', () => {
-        spyOn(endpointsService, 'buildUrl');
-        service.load(productPageContext);
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-          queryParams: {
-            pageType: PageType.PRODUCT_PAGE,
-            code: productPageContext.id,
-          },
-        });
-      });
-
-      it('should get cms page by pageId if there is no PageType', () => {
-        spyOn(endpointsService, 'buildUrl');
-        service.load(contextWithoutType);
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('page', {
-          urlParams: { id: contextWithoutType.id },
-        });
-      });
-    });
-
-    describe('http', () => {
-      it('Should get home page', () => {
-        spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint + `/pages`
-        );
-
-        service.load(homePageContext).subscribe((result) => {
-          expect(result).toEqual(cmsPageData);
-        });
-
-        const testRequest = httpMock.expectOne((req) => {
-          return req.method === 'GET' && req.url === endpoint + `/pages`;
-        });
-
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-          queryParams: {},
-        });
-        expect(testRequest.cancelled).toBeFalsy();
-        expect(testRequest.request.responseType).toEqual('json');
-        testRequest.flush(cmsPageData);
-      });
-
-      it('Should get cms content page data', () => {
-        spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint +
-            `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`
-        );
-
-        service.load(contentPageContext).subscribe((result) => {
-          expect(result).toEqual(cmsPageData);
-        });
-
-        const testRequest = httpMock.expectOne((req) => {
-          return (
-            req.method === 'GET' &&
-            req.url ===
-              endpoint +
-                `/pages?pageType=${contentPageContext.type}&pageLabelOrId=${contentPageContext.id}`
-          );
-        });
-
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-          queryParams: {
-            pageType: contentPageContext.type,
-            pageLabelOrId: contentPageContext.id,
-          },
-        });
-        expect(testRequest.cancelled).toBeFalsy();
-        expect(testRequest.request.responseType).toEqual('json');
-        testRequest.flush(cmsPageData);
-      });
-
-      it('should get cms page data by pageId if PageType is unknown', () => {
-        spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint + `/pages/${contextWithoutType.id}`
-        );
-        service.load(contextWithoutType).subscribe((result) => {
-          expect(result).toEqual(cmsPageData);
-        });
-
-        const testRequest = httpMock.expectOne((req) => {
-          return (
-            req.method === 'GET' &&
-            req.url === endpoint + `/pages/${contextWithoutType.id}`
-          );
-        });
-
-        expect(testRequest.cancelled).toBeFalsy();
-        expect(testRequest.request.responseType).toEqual('json');
-        testRequest.flush(cmsPageData);
-      });
-    });
-
-    describe('normalizer', () => {
-      it('should use normalizer', () => {
-        spyOn(endpointsService, 'buildUrl').and.returnValue(
-          endpoint + '/pages'
-        );
-        const converter = TestBed.inject(ConverterService);
-
-        service.load(contentPageContext).subscribe();
-
-        httpMock
-          .expectOne((req) => req.url === endpoint + '/pages')
-          .flush(cmsPageData);
-
-        expect(converter.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZER);
       });
     });
   });

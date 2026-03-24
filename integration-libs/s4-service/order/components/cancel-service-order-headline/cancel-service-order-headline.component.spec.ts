@@ -1,21 +1,18 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { I18nTestingModule, ProductTypes } from '@spartacus/core';
+import { OrderDetailsService } from '@spartacus/order/components';
 import { of } from 'rxjs';
 import { CancelServiceOrderHeadlineComponent } from './cancel-service-order-headline.component';
-import { OrderDetailsService } from '@spartacus/order/components';
-import { I18nTestingModule } from '@spartacus/core';
-import { Pipe, PipeTransform } from '@angular/core';
 
 // Mock data
 const mockOrder = {
   servicedAt: '2024-07-29T10:00:00Z',
   deliveryAddress: { town: 'Test Town' },
-  entries: [{ product: { productTypes: 'SERVICE' } }],
+  entries: [{ product: { productTypes: ProductTypes.SERVICE } }],
 };
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -32,8 +29,11 @@ describe('CancelServiceOrderHeadlineComponent', () => {
     orderDetailsServiceSpy.getOrderDetails.and.returnValue(of(mockOrder));
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CancelServiceOrderHeadlineComponent, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        CancelServiceOrderHeadlineComponent,
+        MockUrlPipe,
+      ],
       providers: [
         { provide: OrderDetailsService, useValue: orderDetailsServiceSpy },
       ],
@@ -58,7 +58,8 @@ describe('CancelServiceOrderHeadlineComponent', () => {
       expect(order).toEqual({
         ...mockOrder,
         entries: mockOrder.entries.filter(
-          (entry) => entry.product && entry.product.productTypes === 'SERVICE'
+          (entry) =>
+            entry.product && entry.product.productTypes === ProductTypes.SERVICE
         ),
       });
     });

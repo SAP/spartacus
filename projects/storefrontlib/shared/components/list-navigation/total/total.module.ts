@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,7 @@ import { I18nModule } from '@spartacus/core';
 import { TotalComponent } from './total.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, I18nModule],
-  declarations: [TotalComponent],
+  imports: [CommonModule, FormsModule, I18nModule, TotalComponent],
   exports: [TotalComponent],
 })
 export class TotalModule {}

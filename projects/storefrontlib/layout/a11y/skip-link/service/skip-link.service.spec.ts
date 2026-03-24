@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -39,7 +39,6 @@ class MockKeyboadFocusService {
     <button class="target" id="skip1" tabindex="0">skip 1</button>
     <div class="target" id="skip2"></div>
   `,
-  standalone: false,
 })
 class TestContainerComponent {}
 
@@ -51,8 +50,7 @@ describe('SkipLinkService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [TestContainerComponent],
+      imports: [I18nTestingModule, TestContainerComponent],
       providers: [
         SkipLinkService,
         {

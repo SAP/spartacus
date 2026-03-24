@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Feature utils addFeatures should generate feature modules for the given array of features 1`] = `
 "import { NgModule } from '@angular/core';
@@ -99,22 +99,6 @@ import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
     ]
 })
 export class CheckoutFeatureModule {
-}
-"
-`;
-
-exports[`Feature utils getDynamicallyImportedLocalSourceFile should return the locally referenced source file 1`] = `
-"import { NgModule } from '@angular/core';
-import { CheckoutB2BModule } from "@spartacus/checkout/b2b";
-import { CheckoutModule } from "@spartacus/checkout/base";
-@NgModule({
-    declarations: [],
-    imports: [
-        CheckoutModule,
-        CheckoutB2BModule
-    ]
-})
-export class CheckoutWrapperModule {
 }
 "
 `;

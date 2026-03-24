@@ -1,11 +1,17 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
-import { FormConfig } from '../../../../shared/config/form-config';
+import {
+  FeatureDirective,
+  I18nTestingModule,
+  WindowRef,
+} from '@spartacus/core';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
-import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
+import { FormConfig } from '../../../../shared/config/form-config';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
+import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 
 const mockFormConfig: FormConfig = {
   form: {
@@ -31,8 +37,8 @@ describe('PasswordVisibilityToggleComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
+        PasswordVisibilityToggleComponent,
       ],
-      declarations: [PasswordVisibilityToggleComponent],
       providers: [
         {
           provide: FormConfig,
@@ -40,7 +46,12 @@ describe('PasswordVisibilityToggleComponent', () => {
         },
         { provide: WindowRef, useClass: MockWinRef },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PasswordVisibilityToggleComponent, {
+        remove: { imports: [FeatureDirective] },
+        add: { imports: [MockFeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -59,28 +70,26 @@ describe('PasswordVisibilityToggleComponent', () => {
 
   it('should display default state', () => {
     const button: HTMLButtonElement = el.nativeElement.querySelector('button');
-    const icon: HTMLElement = el.nativeElement.querySelector('button cx-icon');
 
     expect(button.getAttribute('aria-label')).toEqual(
-      'passwordVisibility.showPassword'
+      'passwordVisibility.togglePassword'
     );
-    expect(icon.getAttribute('ng-reflect-type')).toEqual('EYE');
+    expect(component.state.icon).toEqual(ICON_TYPE.EYE);
     expect(input.getAttribute('type')).toEqual('password');
   });
 
   it('should show password on visibility toggle', () => {
     spyOn(component, 'toggle').and.callThrough();
     const button: HTMLButtonElement = el.nativeElement.querySelector('button');
-    const icon: HTMLElement = el.nativeElement.querySelector('button cx-icon');
 
     button.click();
     fixture.detectChanges();
 
     expect(component.toggle).toHaveBeenCalledWith();
     expect(button.getAttribute('aria-label')).toEqual(
-      'passwordVisibility.hidePassword'
+      'passwordVisibility.togglePassword'
     );
-    expect(icon.getAttribute('ng-reflect-type')).toEqual('EYE_SLASH');
+    expect(component.state.icon).toEqual(ICON_TYPE.EYE_SLASH);
     expect(input.getAttribute('type')).toEqual('text');
   });
 });

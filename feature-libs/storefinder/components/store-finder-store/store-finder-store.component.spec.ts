@@ -2,14 +2,17 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   PointOfService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { ICON_TYPE, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { ICON_TYPE, IconComponent, SpinnerModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
+import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
 import createSpy = jasmine.createSpy;
 
@@ -24,7 +27,6 @@ class MockStoreFinderService implements Partial<StoreFinderService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -33,7 +35,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-store-finder-store-description',
   template: '',
-  standalone: false,
 })
 class MockStoreFinderStoreDescriptionComponent {
   @Input() location: PointOfService;
@@ -56,14 +57,9 @@ describe('StoreFinderStoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule],
-      declarations: [
-        StoreFinderStoreComponent,
-        MockStoreFinderStoreDescriptionComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [SpinnerModule, StoreFinderStoreComponent],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: RoutingService, useValue: { go: jasmine.createSpy() } },
         {
           provide: StoreFinderService,
@@ -74,7 +70,24 @@ describe('StoreFinderStoreComponent', () => {
           useValue: mockActivatedRoute,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderStoreComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            StoreFinderStoreDescriptionComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockStoreFinderStoreDescriptionComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  DebugElement,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -13,7 +8,15 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import {
   FormErrorsModule,
   LaunchDialogService,
@@ -48,13 +51,6 @@ class MockStore {
   dispatch = jasmine.createSpy();
   select = jasmine.createSpy().and.returnValue(of({}));
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe = createSpy().and.stub();
@@ -74,11 +70,10 @@ describe('RegisterVerificationTokenFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
+        RegisterVerificationTokenFormComponent,
       ],
-      declarations: [RegisterVerificationTokenFormComponent, MockUrlPipe],
       providers: [
         { provide: Store, useClass: MockStore },
         {
@@ -93,9 +88,15 @@ describe('RegisterVerificationTokenFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
         ChangeDetectorRef,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RegisterVerificationTokenFormComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

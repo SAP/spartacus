@@ -2,12 +2,14 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -21,18 +23,12 @@ import {
 } from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -119,7 +115,7 @@ function initialize(router: ConfiguratorRouter.Data) {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [RouterModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -132,13 +128,7 @@ class MockActivatedRoute {
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule],
-      declarations: [
-        ConfiguratorOverviewNotificationBannerComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
+      imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -150,7 +140,16 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   it('should create', () => {

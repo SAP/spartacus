@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import {
 import { defaultBudgetRoutingConfig } from './config/default-budget-routing.config';
 import { defaultCostCenterRoutingConfig } from './config/default-cost-center-routing.config';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
+import { defaultOrganizationUIConfig } from './config/default-organization-ui.config';
 import { defaultPermissionRoutingConfig } from './config/default-permission-routing.config';
 import { defaultUnitsRoutingConfig } from './config/default-units-routing.config';
 import { defaultUserGroupRoutingConfig } from './config/default-user-group-routing.config';
@@ -43,6 +44,7 @@ export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOrganizationLayoutConfig),
+    provideDefaultConfig(defaultOrganizationUIConfig),
 
     provideDefaultConfig(<RoutingConfig>{
       routing: { routes: { organization: { paths: ['organization'] } } },

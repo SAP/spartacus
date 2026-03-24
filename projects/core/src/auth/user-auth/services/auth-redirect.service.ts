@@ -1,14 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 
@@ -41,7 +42,7 @@ export class AuthRedirectService implements OnDestroy {
   ) {
     this.init();
   }
-
+  protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
   protected subscription: Subscription;
 
   protected init() {
@@ -92,7 +93,11 @@ export class AuthRedirectService implements OnDestroy {
    */
   setRedirectUrl(url: string): void {
     if (!this.authFlowRoutesService.isAuthFlow(url)) {
-      this.authRedirectStorageService.setRedirectUrl(url);
+      // Remove site-context params from the redirect URL to avoid using outdated values (e.g., language) after authentication.
+      // Without these params in the Redirect URL, up-to-date site-context values will be applied implicitly on redirect.
+      this.authRedirectStorageService.setRedirectUrl(
+        this.getUrlWithoutSiteContextParams(url)
+      );
     }
   }
 
@@ -101,5 +106,19 @@ export class AuthRedirectService implements OnDestroy {
    */
   protected clearRedirectUrl(): void {
     this.authRedirectStorageService.setRedirectUrl(undefined);
+  }
+
+  /**
+   * For a given URL, removes the prefix with site-context params (e.g., baseSite, language, currency)
+   *
+   * @example
+   * Supposing the configured site-context URL params are [baseSite, language, currency],
+   * and given the url '/electronics-spa/en/USD/product/123',
+   * it returns '/product/123'.
+   */
+  protected getUrlWithoutSiteContextParams(url: string): string {
+    const { url: urlWithoutSiteContextParams } =
+      this.siteContextUrlSerializer.urlExtractContextParameters(url);
+    return urlWithoutSiteContextParams;
   }
 }

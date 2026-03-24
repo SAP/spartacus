@@ -11,15 +11,21 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
+  CxDatePipe,
   EventService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductAvailabilityAdapter,
   ProductCatalogService,
+  ProductTypes,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
+  ItemCounterComponent,
   OutletModule,
   ProductListItemContext,
   SpinnerModule,
@@ -60,6 +66,12 @@ const mockProduct3: Product = {
     stockLevel: 10,
     stockLevelStatus: 'inStock',
   },
+};
+
+const mockProduct4: Product = {
+  name: 'mockProduct',
+  code: 'code1',
+  productTypes: ProductTypes.PHYSICAL,
 };
 
 const mockNoStockProduct: Product = {
@@ -111,7 +123,12 @@ class MockProductAvailabilityAdapter {}
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
+  imports: [
+    SpinnerModule,
+    I18nTestingModule,
+    ReactiveFormsModule,
+    OutletModule,
+  ],
 })
 class MockItemCounterComponent {
   @Input() min;
@@ -143,11 +160,10 @@ describe('AddToCartComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SpinnerModule,
-        I18nTestingModule,
         ReactiveFormsModule,
         OutletModule,
+        AddToCartComponent,
       ],
-      declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
@@ -172,6 +188,13 @@ describe('AddToCartComponent', () => {
           useValue: mockProductCatalogService,
         },
       ],
+    }).overrideComponent(AddToCartComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, ItemCounterComponent],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, MockItemCounterComponent],
+      },
     });
   }
 
@@ -624,6 +647,22 @@ describe('AddToCartComponent', () => {
 
         const obtained: string = addToCartComponent.getInventory();
         expect(obtained).toEqual(mockProduct3.stock?.stockLevel + '+');
+      });
+
+      it('should return empty string for subscription products in getInventory()', () => {
+        spyOn(currentProductService, 'getProduct').and.returnValue(
+          of(mockProduct4)
+        );
+
+        config$.next({
+          inventoryDisplay: true,
+        });
+
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        const obtained: string = addToCartComponent.getInventory();
+        expect(obtained).toEqual('');
       });
     });
   });

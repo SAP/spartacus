@@ -12,16 +12,26 @@ import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
   CxDatePipe,
-  I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
   FocusConfig,
   ICON_TYPE,
+  IconComponent,
 } from '@spartacus/storefront';
 
+import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
+import { of } from 'rxjs';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
+import {
+  AsmCustomer360ActiveCartComponent,
+  AsmCustomer360ProductReviewsComponent,
+  AsmCustomer360ProfileComponent,
+} from '../sections';
 import { AsmCustomer360TableComponent } from './asm-customer-360-table.component';
 import {
   CustomerTableColumn,
@@ -29,18 +39,9 @@ import {
   GeneralEntry,
   TableEntry,
 } from './asm-customer-360-table.model';
-import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
-import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import { of } from 'rxjs';
-import {
-  AsmCustomer360ActiveCartComponent,
-  AsmCustomer360ProductReviewsComponent,
-  AsmCustomer360ProfileComponent,
-} from '../sections';
 
 @Directive({
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -82,17 +83,13 @@ describe('AsmCustomer360TableComponent', () => {
   const mockLanguageService = {
     getActive: () => {},
   };
-  @Pipe({
-    name: 'cxTranslate',
-    standalone: false,
-  })
+  @Pipe({ name: 'cxTranslate' })
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
   @Component({
     selector: 'cx-icon',
     template: '',
-    standalone: false,
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -220,7 +217,7 @@ describe('AsmCustomer360TableComponent', () => {
         (selectItem)="itemSelected($event)"
       ></cx-asm-customer-360-table>
     `,
-    standalone: false,
+    imports: [AsmCustomer360TableComponent],
   })
   class TestHostComponent {
     @Input() columns: Array<CustomerTableColumn>;
@@ -241,14 +238,7 @@ describe('AsmCustomer360TableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        TestHostComponent,
-        AsmCustomer360TableComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
-        ArgsPipe,
-      ],
+      imports: [TestHostComponent, AsmCustomer360TableComponent, ArgsPipe],
       providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
@@ -258,7 +248,16 @@ describe('AsmCustomer360TableComponent', () => {
         },
         { provide: AsmCustomer360Config, useValue: mockAsmConfig },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360TableComponent, {
+        remove: {
+          imports: [CxDatePipe, TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockDatePipe, MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
     spyOn(languageService, 'getActive').and.returnValue(of('en'));

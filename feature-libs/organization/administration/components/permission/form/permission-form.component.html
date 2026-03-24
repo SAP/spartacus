@@ -38,7 +38,7 @@
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
-        [items]="(types$ | async) ?? null"
+        [items]="(types$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         [readonly]="form.disabled"
@@ -46,6 +46,9 @@
         [placeholder]="
           'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
         "
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -70,6 +73,9 @@
         [items]="periods"
         appendTo="cx-org-list"
         [placeholder]="'orgPurchaseLimit.periodRange' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -99,6 +105,9 @@
         bindLabel="name"
         bindValue="isocode"
         [placeholder]="'orgPurchaseLimit.currency' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -146,12 +155,15 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="(units$ | async) ?? null"
+        [items]="(units$ | async) ?? []"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgPurchaseLimit.orgUnit' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 

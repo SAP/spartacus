@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,12 @@ export interface BackendConfig {
      * switching environments, etc.
      */
     baseUrl?: string;
+    /**
+     * Media URL path prefix, to be appended to the baseUrl.
+     * This is useful when media is hosted under a specific path.
+     * For example, if media is hosted under '/api/storefront', then the prefix should be set to '/api/storefront'.
+     */
+    prefix?: string;
   };
   loadingScopes?: LoadingScopes;
 }

@@ -48,7 +48,6 @@ describe('ReturnRequestService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         ReturnRequestService,
         {

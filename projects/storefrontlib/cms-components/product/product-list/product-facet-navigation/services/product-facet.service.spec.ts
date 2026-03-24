@@ -26,7 +26,6 @@ describe('ProductFacetService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         ProductFacetService,
         {

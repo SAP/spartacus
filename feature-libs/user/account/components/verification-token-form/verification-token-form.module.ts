@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,6 +50,8 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    VerificationTokenFormComponent,
+    VerificationTokenDialogComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -73,10 +75,6 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
       },
     }),
     provideDefaultConfig(defaultVerificationTokenLayoutConfig),
-  ],
-  declarations: [
-    VerificationTokenFormComponent,
-    VerificationTokenDialogComponent,
   ],
 })
 export class VerificationTokenFormModule {}

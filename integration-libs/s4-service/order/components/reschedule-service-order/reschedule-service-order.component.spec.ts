@@ -1,21 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
+import { FormBuilder } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  ProductTypes,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { FormBuilder } from '@angular/forms';
 import {
-  RescheduleServiceOrderFacade,
   CheckoutServiceSchedulePickerService,
+  RescheduleServiceOrderFacade,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
+import { DatePickerComponent } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of, throwError } from 'rxjs';
+import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
 import createSpy = jasmine.createSpy;
 
 const mockOrder = {
@@ -25,7 +34,7 @@ const mockOrder = {
       product: {
         code: 'SRV_01',
         name: 'SRV_01',
-        productTypes: 'SERVICE',
+        productTypes: ProductTypes.SERVICE,
       },
     },
   ],
@@ -38,7 +47,7 @@ const mockOrder2 = {
       product: {
         code: 'SRV_01',
         name: 'SRV_01',
-        productTypes: 'SERVICE',
+        productTypes: ProductTypes.SERVICE,
       },
     },
   ],
@@ -82,8 +91,12 @@ describe('RescheduleServiceOrderComponent', () => {
   let checkoutServiceSchedulePickerService: CheckoutServiceSchedulePickerService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UrlTestingModule],
-      declarations: [RescheduleServiceOrderComponent],
+      imports: [
+        I18nTestingModule,
+        UrlTestingModule,
+        RescheduleServiceOrderComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
@@ -98,7 +111,24 @@ describe('RescheduleServiceOrderComponent', () => {
         },
         FormBuilder,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RescheduleServiceOrderComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .overrideComponent(DatePickerComponent, {
+        remove: {
+          imports: [CxDatePipe],
+        },
+        add: {
+          imports: [MockDatePipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(RescheduleServiceOrderComponent);
     component = fixture.componentInstance;

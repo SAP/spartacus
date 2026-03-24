@@ -1,10 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { FeatureConfigService, UrlPipe } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -15,10 +26,25 @@ import {
   selector: 'cx-org-cell',
   templateUrl: './cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
 })
-export class CellComponent {
+export class CellComponent implements OnInit {
+  changeDetectorRef = inject(ChangeDetectorRef);
+  private featureConfigService = inject(FeatureConfigService);
+  private destroyRef = inject(DestroyRef);
+
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
+
+  ngOnInit(): void {
+    if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
+      this.outlet.context$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((context) => {
+          this.outlet.context = context;
+          this.changeDetectorRef.markForCheck();
+        });
+    }
+  }
 
   get tabIndex(): number {
     return -1;

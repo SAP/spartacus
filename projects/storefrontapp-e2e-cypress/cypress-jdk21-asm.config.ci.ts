@@ -1,6 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +12,7 @@ export default defineConfig({
   env: {
     ...baseConfig.env,
     CLIENT_ID: 'asm_client',
-    API_URL:
-      'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud',
+    API_URL: 'https://20.83.184.244:9002',
     JDK_VERSION: 'JDK21',
   },
 });

@@ -5,21 +5,24 @@ import {
   CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { LayoutConfig } from '../../../layout/config/layout-config';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
+import { TabComponent } from '../tab/tab.component';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Component({
   selector: 'cx-test-cmp',
   template: '',
-  standalone: false,
 })
 class TestComponent {
   tabTitleParam$ = of('title param');
@@ -84,13 +87,11 @@ describe('TabParagraphContainerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         TestComponent,
         TabParagraphContainerComponent,
         ComponentWrapperDirective,
         OutletDirective,
-        MockFeatureDirective,
       ],
       providers: [
         WindowRef,
@@ -98,8 +99,17 @@ describe('TabParagraphContainerComponent', () => {
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(TabParagraphContainerComponent, {
+        add: { imports: [MockFeatureDirective] },
+      })
+      .overrideComponent(TabComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

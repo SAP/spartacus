@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from './site-context-params.service';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
@@ -47,18 +47,61 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   /**
    * Initializes the two-way synchronization between the site context state and the URL.
+   *
+   * @deprecated since 2211.32. Use `initOnce()` instead for safe idempotent initialization.
+   * This method now delegates to `initOnce()` internally.
    */
-  init() {
-    this.router = this.injector.get<Router>(Router);
+  init(): void {
+    this.initOnce();
+  }
 
+  /**
+   * ReplaySubject to track initialization state.
+   * Emits once when URL context has been read and applied.
+   */
+  protected initialized$ = new ReplaySubject<unknown>(1);
+
+  /**
+   * Flag to ensure init logic runs only once.
+   */
+  private isInitialized = false;
+
+  /**
+   * Initializes the URL-to-state synchronization once and returns an Observable
+   * that completes when the initial URL context values have been applied.
+   *
+   * Safe to call multiple times - subsequent calls return the same Observable
+   * without re-executing the initialization logic.
+   *
+   * @returns Observable that emits and completes when URL context is initialized
+   */
+  initOnce(): Observable<unknown> {
+    if (!this.isInitialized) {
+      this.isInitialized = true;
+      this.initInternal();
+    }
+    return this.initialized$.asObservable();
+  }
+
+  /**
+   * Internal initialization logic
+   */
+  private initInternal(): void {
+    this.router = this.injector.get<Router>(Router);
     this.location = this.injector.get<Location>(Location);
     const routingParams = this.siteContextParams.getUrlEncodingParameters();
 
     if (routingParams.length) {
+      // Read and apply URL context values synchronously
       this.setContextParamsFromRoute(this.location.path(true));
+      // Set up ongoing subscriptions for navigation and state changes
       this.subscribeChanges(routingParams);
       this.subscribeRouting();
     }
+
+    // Signal completion - URL context has been applied
+    this.initialized$.next(undefined);
+    this.initialized$.complete();
   }
 
   /**

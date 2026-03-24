@@ -9,11 +9,14 @@
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
-        [items]="titles$ | async"
+        [items]="(titles$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         appendTo="cx-org-list"
         [placeholder]="'orgUser.title' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -150,11 +153,14 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="(units$ | async) ?? null"
+        [items]="(units$ | async) ?? []"
         bindLabel="name"
         bindValue="id"
         appendTo="cx-org-list"
         [placeholder]="'orgUser.orgUnit' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 

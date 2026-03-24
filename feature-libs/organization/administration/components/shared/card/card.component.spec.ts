@@ -1,13 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
-import { PopoverModule, SplitViewService } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  GlobalMessageService,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  IconComponent,
+  PopoverModule,
+  SplitViewService,
+} from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
+import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
 import createSpy = jasmine.createSpy;
@@ -33,22 +47,42 @@ describe('CardComponent', () => {
       imports: [
         CommonModule,
         // SplitViewTestingModule,
-        IconTestingModule,
-        I18nTestingModule,
-        MessageTestingModule,
         PopoverModule,
+        CardComponent,
+        ViewComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-      declarations: [CardComponent, ViewComponent, MockFeatureDirective],
       providers: [
         {
           provide: ItemService,
           useClass: MockItemService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-
         SplitViewService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CardComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+            IconComponent,
+            MessageComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockFeatureDirective,
+            IconTestingModule,
+            MessageTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -142,14 +176,16 @@ describe('CardComponent', () => {
 
     it('should display hint after click info button', () => {
       const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
-      ).nativeElement;
+        By.css('.title h3 button cx-icon')
+      ).parent?.nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText).toBe('organization.budget.hint');
+      expect(el.nativeElement.innerText.trim()).toBe(
+        'organization.budget.hint'
+      );
     });
   });
 });

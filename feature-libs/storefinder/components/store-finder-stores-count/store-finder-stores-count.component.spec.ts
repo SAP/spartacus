@@ -1,7 +1,17 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -34,9 +44,13 @@ describe('StoreFinderStoresCountComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule],
-      declarations: [StoreFinderStoresCountComponent, MockFeatureDirective],
+      imports: [
+        SpinnerModule,
+        StoreFinderStoresCountComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: StoreFinderService,
           useClass: MockStoreFinderService,
@@ -46,7 +60,16 @@ describe('StoreFinderStoresCountComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderStoresCountComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

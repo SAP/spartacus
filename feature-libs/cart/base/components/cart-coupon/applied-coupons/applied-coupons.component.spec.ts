@@ -2,8 +2,15 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  CxDatePipe,
+  FeaturesConfig,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons.component';
 
 const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };
@@ -12,7 +19,6 @@ const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -27,7 +33,7 @@ class MockCxIconComponent {
     >
     </cx-applied-coupons>
   `,
-  standalone: false,
+  imports: [I18nTestingModule, AppliedCouponsComponent],
 })
 class MockedCartCouponComponent {
   coupons = [coupon2, coupon1];
@@ -45,10 +51,9 @@ describe('AppliedCouponsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AppliedCouponsComponent,
-        MockCxIconComponent,
         MockedCartCouponComponent,
       ],
       providers: [
@@ -60,7 +65,16 @@ describe('AppliedCouponsComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AppliedCouponsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,5 +4,6 @@
   "compilerOptions": {
     "strict": false,
     "typeRoots": ["node_modules/@types/!(jest/jasmine)"]
-  }
+  },
+  "include": ["node_modules/@types/applepayjs"]
 }

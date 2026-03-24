@@ -1,8 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { PointOfService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  PointOfService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
+import { PickupInfoComponent } from '../../presentational';
 import { PickupInfoStubComponent } from '../../presentational/pickup-info/pickup-info.component.spec';
 import { PickupInfoContainerComponent } from './pickup-info-container.component';
 
@@ -34,7 +40,7 @@ describe('PickupInfoContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PickupInfoContainerComponent, PickupInfoStubComponent],
+      imports: [PickupInfoContainerComponent, I18nTestingModule],
       providers: [
         {
           provide: ActiveCartFacade,
@@ -45,7 +51,16 @@ describe('PickupInfoContainerComponent', () => {
           useClass: MockPickupLocationsSearchFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PickupInfoComponent, {
+        remove: {
+          imports: [TranslatePipe, PickupInfoComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, PickupInfoStubComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

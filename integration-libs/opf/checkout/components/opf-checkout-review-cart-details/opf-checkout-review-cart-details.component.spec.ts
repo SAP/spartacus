@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BaseSiteService, TranslationService } from '@spartacus/core';
+import { Component, Directive, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
   CartOutlets,
@@ -12,39 +13,32 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
-  Component,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+  BaseSiteService,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 
-import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 import { Store } from '@ngrx/store';
+import {
+  AppliedCouponsComponent,
+  CartItemListComponent,
+  OrderSummaryComponent,
+} from '@spartacus/cart/base/components';
+import { PickUpItemsDetailsComponent } from '@spartacus/pickup-in-store/components';
+import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: any;
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-cart-item-list',
   template: '',
-  standalone: false,
 })
 class MockCartItemListComponent {
   @Input() items: OrderEntry[];
@@ -55,7 +49,6 @@ class MockCartItemListComponent {
 @Component({
   selector: 'cx-order-summary',
   template: '',
-  standalone: false,
 })
 class MockOrderSummaryComponent {
   @Input() cart: Cart;
@@ -64,7 +57,6 @@ class MockOrderSummaryComponent {
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  standalone: false,
 })
 class MockAppliedCouponsComponent {
   @Input() cart: Cart;
@@ -74,11 +66,17 @@ class MockAppliedCouponsComponent {
 @Component({
   selector: 'cx-promotions',
   template: '',
-  standalone: false,
 })
 class MockPromotionsComponent {
   @Input() promotions: any[];
 }
+
+@Component({
+  selector: 'cx-pick-up-in-store-items-details',
+  template: '',
+})
+class MockPickUpItemsDetailsComponent
+  implements Partial<PickUpItemsDetailsComponent> {}
 
 describe('OpfCheckoutReviewCartDetailsComponent', () => {
   let component: OpfCheckoutReviewCartDetailsComponent;
@@ -131,15 +129,7 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        OpfCheckoutReviewCartDetailsComponent,
-        MockCartItemListComponent,
-        MockOrderSummaryComponent,
-        MockAppliedCouponsComponent,
-        MockPromotionsComponent,
-        MockTranslatePipe,
-        MockOutletDirective,
-      ],
+      imports: [OpfCheckoutReviewCartDetailsComponent],
 
       providers: [
         {
@@ -158,7 +148,32 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
         },
         { provide: BaseSiteService, useValue: baseSiteServiceMock },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutReviewCartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CartItemListComponent,
+            OrderSummaryComponent,
+            AppliedCouponsComponent,
+            PromotionsComponent,
+            OutletDirective,
+            PickUpItemsDetailsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCartItemListComponent,
+            MockOrderSummaryComponent,
+            MockAppliedCouponsComponent,
+            MockPromotionsComponent,
+            MockOutletDirective,
+            MockPickUpItemsDetailsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

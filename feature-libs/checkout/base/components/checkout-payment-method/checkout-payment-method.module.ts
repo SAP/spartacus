@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,6 +28,7 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    CheckoutPaymentMethodComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
       },
     }),
   ],
-  declarations: [CheckoutPaymentMethodComponent],
   exports: [CheckoutPaymentMethodComponent],
 })
 export class CheckoutPaymentMethodModule {}

@@ -5,18 +5,15 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
-import {
-  ProjectType,
-  WorkspaceProject,
-} from '@schematics/angular/utility/workspace-models';
+import { ProjectType } from '@schematics/angular/utility/workspace-models';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
-  buildDefaultPath,
   getAngularJsonFile,
   getDefaultProjectNameFromWorkspace,
   getProject,
@@ -48,7 +45,8 @@ describe('Workspace utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
@@ -98,7 +96,7 @@ describe('Workspace utils', () => {
     });
 
     it('should throw an error if Angular not found', async () => {
-      expect(() => getAngularJsonFile(appTree, [])).toThrowError(
+      expect(() => getAngularJsonFile(appTree, [])).toThrow(
         new SchematicsException(`Could not find Angular`)
       );
     });
@@ -110,7 +108,7 @@ describe('Workspace utils', () => {
           read: (_path) => null,
           exists: (_path) => true,
         } as Tree)
-      ).toThrowError(new SchematicsException(`Could not find (/angular.json)`));
+      ).toThrow(new SchematicsException(`Could not find (/angular.json)`));
     });
   });
 
@@ -127,7 +125,7 @@ describe('Workspace utils', () => {
     it('should throw an error if project is not passed', async () => {
       expect(() =>
         getProjectFromWorkspace(appTree as Tree, {} as SpartacusOptions)
-      ).toThrowError(new SchematicsException('Option "project" is required.'));
+      ).toThrow(new SchematicsException('Option "project" is required.'));
     });
 
     it('should throw an error if project is not defined in this workspace', async () => {
@@ -135,7 +133,7 @@ describe('Workspace utils', () => {
         getProjectFromWorkspace(appTree, {
           project: 'projectKey',
         } as SpartacusOptions)
-      ).toThrowError(
+      ).toThrow(
         new SchematicsException(`Project is not defined in this workspace.`)
       );
     });
@@ -164,36 +162,7 @@ describe('Workspace utils', () => {
           prefix: 'prefix',
           sourceRoot: '',
         })
-      ).toThrowError(new Error('Project target not found.'));
-    });
-  });
-
-  describe('buildDefaultPath', () => {
-    let project: WorkspaceProject;
-    beforeEach(() => {
-      project = {
-        projectType: ProjectType.Application,
-        root: 'foo',
-        prefix: 'app',
-        sourceRoot: '',
-      };
-    });
-
-    it('should handle projectType of application', () => {
-      const result = buildDefaultPath(project);
-      expect(result).toEqual('/foo/src/app');
-    });
-
-    it('should handle projectType of library', () => {
-      project = { ...project, projectType: ProjectType.Library };
-      const result = buildDefaultPath(project);
-      expect(result).toEqual('/foo/src/lib');
-    });
-
-    it('should handle sourceRoot', () => {
-      project = { ...project, sourceRoot: 'foo/bar/custom' };
-      const result = buildDefaultPath(project);
-      expect(result).toEqual('/foo/bar/custom/app');
+      ).toThrow(new Error('Project target not found.'));
     });
   });
 
@@ -256,9 +225,7 @@ describe('Workspace utils', () => {
 
   describe('validateSpartacusInstallation', () => {
     it('should throw an error if key is missing', () => {
-      expect(() =>
-        validateSpartacusInstallation({ dependencies: {} })
-      ).toThrowError(
+      expect(() => validateSpartacusInstallation({ dependencies: {} })).toThrow(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
     To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
@@ -271,7 +238,7 @@ describe('Workspace utils', () => {
         validateSpartacusInstallation({
           dependencies: { [SPARTACUS_CORE]: '/..' },
         })
-      ).not.toThrowError();
+      ).not.toThrow();
     });
   });
 });

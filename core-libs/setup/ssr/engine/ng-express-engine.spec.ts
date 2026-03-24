@@ -14,6 +14,8 @@ import { REQUEST, RESPONSE } from '../public_api';
 import { ngExpressEngine } from './ng-express-engine';
 //@ts-ignore
 
+const allowedHosts = Object.freeze(['localhost']);
+
 /**
  * @license
  * The MIT License
@@ -28,6 +30,7 @@ import { ngExpressEngine } from './ng-express-engine';
 @Component({
   selector: 'cx-mock',
   template: 'some template',
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class MockComponent {}
@@ -64,6 +67,7 @@ export class MockServerModule {}
 @Component({
   selector: 'cx-request',
   template: `url:{{ _req.url }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class RequestComponent {
@@ -102,6 +106,7 @@ export class RequestServerModule {}
 @Component({
   selector: 'cx-response',
   template: `statusCode:{{ _res.statusCode }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class ResponseComponent {
@@ -153,6 +158,7 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 @Component({
   selector: 'cx-token',
   template: `message:{{ _someToken.message }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class TokenComponent {
@@ -177,6 +183,16 @@ export class TokenComponent {
 })
 export class TokenServerModule {}
 
+function getTestRequest(overrides: Record<string, unknown> = {}): unknown {
+  return {
+    get: (header: string) => (header === 'host' ? 'localhost:4200' : undefined),
+    protocol: 'http',
+    baseUrl: '',
+    url: 'http://localhost:4200',
+    ...overrides,
+  };
+}
+
 /**
  * @license
  * The MIT License
@@ -194,10 +210,13 @@ describe('ngExpressEngine', () => {
   });
 
   it('should render a basic template', (done) => {
-    ngExpressEngine({ bootstrap: MockServerModule })(
+    ngExpressEngine({
+      bootstrap: MockServerModule,
+      allowedHosts,
+    })(
       null as any as string,
       {
-        req: { get: () => 'localhost' } as any,
+        req: getTestRequest(),
         document: '<cx-mock></cx-mock>',
       },
       (err, html) => {
@@ -211,7 +230,7 @@ describe('ngExpressEngine', () => {
   });
 
   it('Should throw when no module is passed', () => {
-    ngExpressEngine({ bootstrap: null as any })(
+    ngExpressEngine({ bootstrap: null as any, allowedHosts })(
       null as any as string,
       {
         req: {} as any,
@@ -225,13 +244,13 @@ describe('ngExpressEngine', () => {
   });
 
   it('should be able to inject REQUEST token', (done) => {
-    ngExpressEngine({ bootstrap: RequestServerModule })(
+    ngExpressEngine({
+      bootstrap: RequestServerModule,
+      allowedHosts,
+    })(
       null as any as string,
       {
-        req: {
-          get: () => 'localhost',
-          url: 'http://localhost:4200',
-        } as any,
+        req: getTestRequest(),
         document: '<cx-request></cx-request>',
       },
       (err, html) => {
@@ -246,15 +265,15 @@ describe('ngExpressEngine', () => {
 
   it('should be able to inject RESPONSE token', (done) => {
     const someStatusCode = 400;
-    ngExpressEngine({ bootstrap: ResponseServerModule })(
+    ngExpressEngine({
+      bootstrap: ResponseServerModule,
+      allowedHosts,
+    })(
       null as any as string,
       {
-        req: {
-          get: () => 'localhost',
-          res: {
-            statusCode: someStatusCode,
-          },
-        } as any,
+        req: getTestRequest({
+          res: { statusCode: someStatusCode },
+        }),
         document: '<cx-response></cx-response>',
       },
       (err, html) => {
@@ -272,13 +291,11 @@ describe('ngExpressEngine', () => {
     ngExpressEngine({
       bootstrap: TokenServerModule,
       providers: [{ provide: SOME_TOKEN, useValue: someValue }],
+      allowedHosts,
     })(
       null as any as string,
       {
-        req: {
-          get: () => 'localhost',
-          url: 'http://localhost:4200',
-        } as any,
+        req: getTestRequest(),
         document: '<cx-token></cx-token>',
       },
       (err, html) => {

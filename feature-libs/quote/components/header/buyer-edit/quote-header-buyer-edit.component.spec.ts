@@ -1,8 +1,6 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import {
   EditCard,
@@ -16,15 +14,6 @@ const mockCard: EditCard = {
   charactersLimit: 255,
 };
 
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
-}
-
 describe('QuoteHeaderBuyerEditComponent', () => {
   let fixture: ComponentFixture<QuoteHeaderBuyerEditComponent>;
   let component: QuoteHeaderBuyerEditComponent;
@@ -32,9 +21,13 @@ describe('QuoteHeaderBuyerEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [QuoteHeaderBuyerEditComponent, MockCxIconComponent],
-    }).compileComponents();
+      imports: [ReactiveFormsModule, QuoteHeaderBuyerEditComponent],
+    })
+      .overrideComponent(QuoteHeaderBuyerEditComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

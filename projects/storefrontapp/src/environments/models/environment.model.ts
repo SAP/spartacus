@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,8 @@ export interface Environment {
   production: boolean;
   occBaseUrl: string;
   occApiPrefix: string;
+  mediaBaseUrl?: string;
+  mediaApiPrefix?: string;
   b2b: boolean;
   cds: boolean;
   cdc: boolean;

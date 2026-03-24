@@ -1,21 +1,23 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
 import {
-  RoutingService,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import {
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
-import {
-  ReactiveFormsModule,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { FocusDirective, FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../../layout/index';
@@ -29,7 +31,6 @@ const form = new FormGroup({
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -59,20 +60,20 @@ describe('ClaimDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ClaimDialogComponent,
-        MockCxIconComponent,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+      imports: [ReactiveFormsModule, FormErrorsModule, ClaimDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: CustomerCouponService, useValue: couponService },
         { provide: RoutingService, useValue: routingService },
         { provide: GlobalMessageService, useValue: globalMessageService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ClaimDialogComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

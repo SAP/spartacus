@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,12 +29,12 @@ import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-i
     SortingModule,
     SpinnerModule,
     PDFInvoicesComponentsModule,
+    MyAccountV2DownloadInvoicesComponent,
   ],
   providers: [
     provideDefaultConfig(defaultMyAccountV2DownloadInvoicesLayoutConfig),
   ],
   exports: [MyAccountV2DownloadInvoicesComponent],
-  declarations: [MyAccountV2DownloadInvoicesComponent],
 })
 export class MyAccountV2DownloadInvoicesModule {
   protected downloadInvoicesDialogEventListener = inject(

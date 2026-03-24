@@ -1,6 +1,11 @@
 import { Component, ElementRef, Input, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS,
@@ -8,14 +13,15 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
   ICON_TYPE,
+  IconComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 
-import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
+import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -49,7 +55,6 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -62,8 +67,7 @@ describe('CustomerTicketingCloseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingCloseComponent, MockCxIconComponent],
+      imports: [CustomerTicketingCloseComponent],
       providers: [
         CustomerTicketingCloseComponentService,
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -72,7 +76,14 @@ describe('CustomerTicketingCloseComponent', () => {
           useClass: MockCustomerTicketingFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCloseComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, IconComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
     launchDialogService = TestBed.inject(LaunchDialogService);
   });
 

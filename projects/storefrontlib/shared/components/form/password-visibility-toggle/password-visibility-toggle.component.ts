@@ -1,10 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FeatureDirective, TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { PasswordInputState } from './password-input-visibility.model';
 
@@ -12,7 +14,7 @@ import { PasswordInputState } from './password-input-visibility.model';
   selector: 'cx-password-visibility-toggle',
   templateUrl: './password-visibility-toggle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [IconComponent, TranslatePipe, FeatureDirective],
 })
 export class PasswordVisibilityToggleComponent {
   protected showState: PasswordInputState = {

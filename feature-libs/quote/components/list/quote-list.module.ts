@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -31,6 +30,7 @@ import { QuoteListComponent } from './quote-list.component';
     UrlModule,
     RouterModule,
     ListNavigationModule,
+    QuoteListComponent,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>{
@@ -47,9 +47,7 @@ import { QuoteListComponent } from './quote-list.component';
       },
     }),
     QuoteListComponentService,
-    FeaturesConfigModule,
   ],
-  declarations: [QuoteListComponent],
   exports: [QuoteListComponent],
 })
 export class QuoteListModule {}

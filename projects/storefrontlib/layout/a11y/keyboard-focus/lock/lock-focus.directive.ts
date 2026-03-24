@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -101,7 +101,7 @@ export class LockFocusDirective
       // we wait a few milliseconds, mainly because firefox will otherwise apply
       // the mouse event on the new focused child element
       setTimeout(() => {
-        super.handleFocus(event as KeyboardEvent);
+        super.handleFocus(event as FocusEvent);
       }, 100);
     }
   }
@@ -150,7 +150,7 @@ export class LockFocusDirective
     super.ngAfterViewInit();
   }
 
-  handleFocus(event?: KeyboardEvent): void {
+  handleFocus(event?: FocusEvent): void {
     if (this.shouldLock) {
       if (this.shouldUnlockAfterAutofocus(event)) {
         // Delay unlocking in case the host is using `ChangeDetectionStrategy.Default`
@@ -178,7 +178,7 @@ export class LockFocusDirective
    *
    * We keep this private to not polute the API.
    */
-  private shouldUnlockAfterAutofocus(event?: KeyboardEvent) {
+  private shouldUnlockAfterAutofocus(event?: FocusEvent) {
     return !event && this.service.hasPersistedFocus(this.host, this.config);
   }
 

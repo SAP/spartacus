@@ -137,7 +137,6 @@ describe('CdcRegisterComponentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: Store, useValue: { dispatch: () => {} } },
@@ -266,8 +265,6 @@ describe('CdcRegisterComponentService', () => {
       cdcJsService.registerUserWithoutScreenSet = createSpy().and.returnValue(
         throwError(() => 'ERROR')
       );
-      cdcUserRegisterService.generatePreferencesObject =
-        createSpy().and.returnValue({});
 
       cdcUserRegisterService.register(userRegisterFormData).subscribe({
         error: () => {
@@ -346,28 +343,6 @@ describe('CdcRegisterComponentService', () => {
         });
       });
       expect(cdcJsService.didLoad).toHaveBeenCalled();
-      done();
-    });
-
-    it('should generate preferences for user registration', (done) => {
-      converter.convert = createSpy().and.returnValue({
-        others: {
-          survey: {
-            isConsentGranted: true,
-          },
-        },
-      });
-      cdcConsentManagementService.getCdcConsentIDs =
-        createSpy().and.returnValue(['others.survey']);
-      let result = cdcUserRegisterService.generatePreferencesObject();
-      expect(cdcConsentManagementService.getCdcConsentIDs).toHaveBeenCalled();
-      expect(result).toEqual({
-        others: {
-          survey: {
-            isConsentGranted: true,
-          },
-        },
-      });
       done();
     });
   });

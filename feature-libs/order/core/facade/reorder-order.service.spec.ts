@@ -5,7 +5,7 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
-import { config, of } from 'rxjs';
+import { config, of, Subject } from 'rxjs';
 import { ReorderOrderConnector } from '../connectors/reorder-order.connector';
 import { ReorderOrderService } from './reorder-order.service';
 
@@ -32,6 +32,15 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   deleteCart = createSpy();
+  getCartEntity = createSpy().and.returnValue(
+    of({
+      value: undefined,
+      loading: false,
+      success: false,
+      error: false,
+      processesCount: 0,
+    })
+  );
 }
 
 describe(`ReorderOrderService`, () => {
@@ -123,7 +132,50 @@ describe(`ReorderOrderService`, () => {
 
         service.reorder(mockOrderId);
 
-        expect(service.reorder).toThrowError();
+        expect(service.reorder).toThrow();
+      });
+
+      it('should wait for cart entity to be removed before calling reorder', () => {
+        const cartEntity$ = new Subject<any>();
+        multiCartFacade.getCartEntity = createSpy().and.returnValue(
+          cartEntity$.asObservable()
+        );
+
+        service.reorder(mockOrderId);
+
+        // Cart entity still has value - reorder should NOT have been called yet
+        cartEntity$.next({
+          value: { code: mockCartId },
+          loading: false,
+          success: true,
+          error: false,
+          processesCount: 0,
+        });
+        expect(connector.reorder).not.toHaveBeenCalled();
+
+        // Cart entity removed (DELETE_CART_SUCCESS) - reorder should proceed
+        cartEntity$.next({
+          value: undefined,
+          loading: false,
+          success: false,
+          error: false,
+          processesCount: 0,
+        });
+        expect(connector.reorder).toHaveBeenCalledWith(mockOrderId, mockUserId);
+      });
+
+      it('should call getCartEntity with the active cart id after deleteCart', () => {
+        service.reorder(mockOrderId);
+
+        expect(multiCartFacade.getCartEntity).toHaveBeenCalledWith(mockCartId);
+      });
+
+      it('should NOT call getCartEntity when there is no active cart', () => {
+        activeCartFacade.getActiveCartId = createSpy().and.returnValue(of(''));
+
+        service.reorder(mockOrderId);
+
+        expect(multiCartFacade.getCartEntity).not.toHaveBeenCalled();
       });
     });
   });

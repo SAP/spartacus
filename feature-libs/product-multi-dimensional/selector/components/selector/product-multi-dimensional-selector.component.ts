@@ -1,16 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   isNotNullable,
   Product,
   ProductScope,
   ProductService,
   RoutingService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -18,7 +23,13 @@ import {
   VariantCategoryGroup,
   VariantCategoryOption,
 } from '@spartacus/product-multi-dimensional/selector/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  CurrentProductService,
+  FocusDirective,
+  MediaComponent,
+  NgSelectA11yDirective,
+} from '@spartacus/storefront';
+import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -27,14 +38,23 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CurrentProductService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-multi-dimensional-selector',
   templateUrl: './product-multi-dimensional-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    FocusDirective,
+    MediaComponent,
+    NgSelectComponent,
+    FormsModule,
+    NgSelectA11yDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProductMultiDimensionalSelectorComponent {
   protected multiDimensionalService: ProductMultiDimensionalSelectorService =

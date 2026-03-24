@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
@@ -34,13 +34,31 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "type": "directive",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -48,10 +66,8 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -72,7 +88,6 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -109,7 +124,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -120,38 +135,21 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            },
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              },
               {
                 "glob": "**/*",
                 "input": "./node_modules/@spartacus/smartedit/assets",
                 "output": "assets/"
               }
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/"
-              ]
-            }
+            ]
           }
         }
       }

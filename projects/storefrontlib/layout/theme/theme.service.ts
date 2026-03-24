@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,17 +12,12 @@ import {
   RendererFactory2,
   inject,
 } from '@angular/core';
-import {
-  FeatureConfigService,
-  SiteContextConfig,
-  SiteThemeService,
-} from '@spartacus/core';
+import { SiteContextConfig, SiteThemeService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService implements OnDestroy {
   protected siteThemeService = inject(SiteThemeService);
-  protected featureConfigService = inject(FeatureConfigService);
   protected rootComponent: ComponentRef<any>;
   protected renderer: Renderer2;
   protected existingTheme: string;

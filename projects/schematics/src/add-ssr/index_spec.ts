@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -35,7 +36,8 @@ describe('add-ssr', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -103,6 +105,20 @@ describe('add-ssr', () => {
   describe('app.module.server.ts', () => {
     it('should be updated', () => {
       const content = appTree.readContent('./src/app/app.module.server.ts');
+      expect(content).toMatchSnapshot();
+    });
+  });
+
+  describe('app.config.ts', () => {
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.config.ts');
+      expect(content).toMatchSnapshot();
+    });
+  });
+
+  describe('app.config.server.ts', () => {
+    it('should be updated', () => {
+      const content = appTree.readContent('./src/app/app.config.server.ts');
       expect(content).toMatchSnapshot();
     });
   });

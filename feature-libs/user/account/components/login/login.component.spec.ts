@@ -4,10 +4,16 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
   User,
 } from '@spartacus/core';
+import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
@@ -42,7 +48,6 @@ class MockUserAccountFacade {
 
 @Component({
   selector: 'cx-page-slot',
-  standalone: false,
   template: `
     <cx-navigation-ui>
       <nav>
@@ -60,10 +65,7 @@ class MockDynamicSlotComponent {
   position: string;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
@@ -78,8 +80,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
+      imports: [LoginComponent, I18nTestingModule],
       providers: [
         {
           provide: ActivatedRoute,
@@ -97,7 +98,21 @@ describe('LoginComponent', () => {
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(LoginComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, PageSlotComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockDynamicSlotComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     authService = TestBed.inject(AuthService);
   }));

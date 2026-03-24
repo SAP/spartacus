@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,9 +10,6 @@ import { REGISTER_USER_PROCESS_ID } from '../user-state';
 
 export const REGISTER_USER_SUCCESS = '[User] Register User Success';
 
-/**
- * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
- */
 export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = REGISTER_USER_SUCCESS;
   constructor() {

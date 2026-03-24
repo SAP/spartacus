@@ -1,0 +1,122 @@
+%cx-billing-list {
+  margin-bottom: 10rem;
+
+  @mixin input-border {
+    border: 1px solid var(--cx-color-medium);
+    color: var(--cx-color-secondary);
+  }
+
+  @mixin flex-space-between {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .billing-list-title-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: var(--cx-color-light);
+    border-top: 1px solid var(--cx-color-medium);
+    border-bottom: 1px solid var(--cx-color-medium);
+    margin-bottom: 30px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .billing-list-filter-section {
+    margin-bottom: 2.5rem;
+    @include flex-space-between;
+
+    .sort-label {
+      display: inline-block;
+      position: relative;
+      bottom: 4px;
+      font-weight: 600;
+    }
+    .billing-list-sorting-bar {
+      .ng-select-container {
+        @include input-border;
+      }
+      padding: 0 1rem 0 1.75rem;
+      width: 30%;
+      height: 40%;
+    }
+
+    .date-filters-wrapper {
+      width: 35%;
+      .dateRangeInputContainer {
+        position: relative;
+        cursor: pointer;
+        width: 80%;
+        .btn-calendar {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          font-size: x-large;
+          cursor: pointer;
+        }
+      }
+      .date-filters {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        font-weight: 600;
+        padding: 0 0 0 1rem;
+        input {
+          @include input-border;
+          position: relative;
+          z-index: -1;
+        }
+        .btn-clear {
+          height: 55px;
+        }
+      }
+
+      & .date-filters-buttons-wrapper {
+        @include flex-space-between;
+        margin: 1rem 0 0.5rem 0;
+        padding: 0 0 0 1rem;
+        & .date-filters-buttons {
+          &.reset {
+            width: 6rem;
+          }
+
+          &.submit {
+            width: 12rem;
+          }
+        }
+      }
+    }
+  }
+
+  .cx-billing-list-thead {
+    border-top: 1px solid var(--cx-color-medium);
+  }
+
+  .cx-billing-list-table-header,
+  .cx-billing-list-table-col {
+    padding: 1rem 0px;
+    text-align: center;
+  }
+
+  .cx-billing-list-table-header {
+    text-transform: capitalize;
+  }
+
+  .cx-billing-list-table-col {
+    padding: 0.5rem 0;
+  }
+
+  .billing-list-pagination-bar {
+    margin-top: 20px;
+    padding: 0 24px 0 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

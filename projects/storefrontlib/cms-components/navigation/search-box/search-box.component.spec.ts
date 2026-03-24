@@ -1,10 +1,4 @@
-import {
-  Component,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -17,15 +11,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
-  I18nTestingModule,
+  MockTranslatePipe,
   PageType,
   ProductSearchService,
   RouterState,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import {
   BehaviorSubject,
   delay,
@@ -64,28 +60,9 @@ class MockCmsComponentData {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform(): any {
-    return ['test', 'url'];
-  }
-}
-
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
-class MockHighlightPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -94,7 +71,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-media',
   template: '<img>',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container;
@@ -102,10 +78,7 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: string;
@@ -114,7 +87,6 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-carousel',
   template: ``,
-  standalone: false,
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -142,12 +114,6 @@ const PRODUCT_SEARCH_STRING = 'camera';
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
-}
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
 }
 
 describe('SearchBoxComponent', () => {
@@ -196,17 +162,7 @@ describe('SearchBoxComponent', () => {
       imports: [
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
-        I18nTestingModule,
-      ],
-      declarations: [
         SearchBoxComponent,
-        MockFeatureDirective,
-        MockUrlPipe,
-        MockHighlightPipe,
-        MockCxIconComponent,
-        MockMediaComponent,
-        MockOutletDirective,
-        MockCarouselComponent,
       ],
       providers: [
         {
@@ -225,12 +181,29 @@ describe('SearchBoxComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SearchBoxComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            MediaComponent,
+            OutletDirective,
+            CarouselComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockMediaComponent,
+            MockOutletDirective,
+            MockCarouselComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   describe('Default config', () => {

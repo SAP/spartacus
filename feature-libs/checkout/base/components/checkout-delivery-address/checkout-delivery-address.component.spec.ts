@@ -15,13 +15,18 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  CxDatePipe,
   FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutFlowOrchestratorService } from '../services/checkout-flow-orchestrator.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -100,7 +105,6 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
-  standalone: false,
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -112,14 +116,12 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -157,13 +159,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [I18nTestingModule, CheckoutDeliveryAddressComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -195,7 +191,25 @@ describe('CheckoutDeliveryAddressComponent', () => {
       ],
     })
       .overrideComponent(CheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AddressFormComponent,
+            CardComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+          ],
+        },
       })
       .compileComponents();
 
@@ -275,6 +289,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   it('should be able to select address', () => {
+    fixture.detectChanges();
+
     component.selectAddress(mockAddress1);
 
     expect(
@@ -289,6 +305,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
       createSpy().and.returnValue(
         of({ loading: false, error: false, data: mockAddress2 })
       );
+
+    fixture.detectChanges();
 
     component.selectAddress(mockAddress2);
 

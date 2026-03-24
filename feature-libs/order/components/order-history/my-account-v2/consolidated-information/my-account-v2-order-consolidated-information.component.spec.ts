@@ -1,10 +1,18 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Images, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  Images,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import { MyAccountV2OrderConsignmentsService } from '@spartacus/order/components';
 import { OrderHistoryView } from '@spartacus/order/root';
-import { MediaContainer } from '@spartacus/storefront';
+import { MediaComponent, MediaContainer } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { MyAccountV2OrderConsolidatedInformationComponent } from './my-account-v2-order-consolidated-information.component';
 import createSpy = jasmine.createSpy;
@@ -36,16 +44,12 @@ const mock_images: Images[] = [
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: MediaContainer;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -70,12 +74,7 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2OrderConsolidatedInformationComponent,
-        MockUrlPipe,
-        MockMediaComponent,
-      ],
+      imports: [MyAccountV2OrderConsolidatedInformationComponent],
       providers: [
         {
           provide: MyAccountV2OrderConsignmentsService,
@@ -83,7 +82,21 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
         },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2OrderConsolidatedInformationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, MediaComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+          ],
+        },
+      })
+      .compileComponents();
     service = TestBed.inject(MyAccountV2OrderConsignmentsService);
   }));
 

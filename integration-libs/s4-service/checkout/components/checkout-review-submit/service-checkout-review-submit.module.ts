@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,6 +35,7 @@ import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-
     PromotionsModule,
     IconModule,
     OutletModule,
+    ServiceCheckoutReviewSubmitComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -46,7 +47,6 @@ import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-
       },
     }),
   ],
-  declarations: [ServiceCheckoutReviewSubmitComponent],
   exports: [ServiceCheckoutReviewSubmitComponent],
 })
 export class ServiceCheckoutReviewSubmitModule {}

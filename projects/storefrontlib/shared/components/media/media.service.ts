@@ -1,11 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
-import { Config, FeatureConfigService, Image } from '@spartacus/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import {
+  Config,
+  FeatureConfigService,
+  Image,
+  LoggerService,
+} from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -40,6 +45,7 @@ export class MediaService {
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
   private readonly featureConfigService = inject(FeatureConfigService);
+  protected logger = inject(LoggerService);
 
   constructor(protected config: Config) {}
 
@@ -401,10 +407,33 @@ export class MediaService {
    * Defaults to empty string in case no config is provided.
    */
   public getBaseUrl(): string {
-    return (
+    const baseUrl =
       this.config.backend?.media?.baseUrl ??
       this.config.backend?.occ?.baseUrl ??
-      ''
-    );
+      '';
+
+    if (!this.featureConfigService.isEnabled('enableMediaPrefix')) {
+      return baseUrl;
+    }
+
+    try {
+      const mediaPrefix = this.config?.backend?.media?.prefix ?? '';
+      // Construct URL (with Validation)
+      const url = new URL(mediaPrefix, baseUrl);
+      return url.toString();
+    } catch (error) {
+      if (isDevMode()) {
+        this.logger.error(
+          'Invalid media/occ baseUrl and prefix configuration',
+          error
+        );
+      } else {
+        this.logger.warn(
+          'Invalid media/occ baseUrl and prefix configuration',
+          error
+        );
+      }
+      return baseUrl;
+    }
   }
 }

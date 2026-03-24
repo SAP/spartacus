@@ -76,7 +76,6 @@ describe('OccSubscriptionAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccSubscriptionAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },

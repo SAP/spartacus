@@ -3,13 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
   PaymentDetails,
   RequiredPick,
   TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
@@ -17,7 +18,6 @@ import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.com
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input()
@@ -133,8 +133,7 @@ describe('UnitLevelOrderOverviewComponent', () => {
   //TODO: investigate why 'waitForAsync' is not working in the spare time
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
+      imports: [UnitLevelOrderOverviewComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -142,7 +141,12 @@ describe('UnitLevelOrderOverviewComponent', () => {
           useClass: MockOrderDetailsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitLevelOrderOverviewComponent, {
+        remove: { imports: [CxDatePipe, CardComponent] },
+        add: { imports: [MockDatePipe, MockCardComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,7 +1,15 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsNavigationComponent, I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CmsNavigationComponent,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { NavigationUIComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
@@ -11,7 +19,6 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 @Component({
   template: '',
   selector: 'cx-navigation-ui',
-  standalone: false,
 })
 class MockNavigationComponent {
   @Input() node: NavigationNode;
@@ -59,8 +66,7 @@ describe('CategoryNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CategoryNavigationComponent, MockNavigationComponent],
+      imports: [RouterModule.forRoot([]), CategoryNavigationComponent],
       providers: [
         {
           provide: NavigationService,
@@ -71,7 +77,16 @@ describe('CategoryNavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CategoryNavigationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, NavigationUIComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockNavigationComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

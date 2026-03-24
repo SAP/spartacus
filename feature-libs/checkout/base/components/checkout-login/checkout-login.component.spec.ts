@@ -1,7 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
+import {
+  AuthRedirectService,
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+  User,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
@@ -30,16 +40,23 @@ describe('CheckoutLoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [CheckoutLoginComponent, MockFeatureDirective],
+      imports: [ReactiveFormsModule, FormErrorsModule, CheckoutLoginComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutLoginComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

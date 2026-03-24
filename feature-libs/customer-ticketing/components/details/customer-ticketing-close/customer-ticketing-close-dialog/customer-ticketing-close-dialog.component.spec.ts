@@ -1,5 +1,15 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   STATUS,
@@ -7,16 +17,17 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import {
   FocusConfig,
+  FocusDirective,
   FormErrorsModule,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog.component';
 import createSpy = jasmine.createSpy;
-import { Component, Directive, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
@@ -33,7 +44,6 @@ class MockRoutingService implements Partial<RoutingService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -41,7 +51,7 @@ class MockCxIconComponent {
 
 @Component({
   selector: 'cx-messaging',
-  standalone: false,
+  template: '',
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -49,11 +59,8 @@ class MockCxMessagingComponent {
   @Input() messagingConfigs?: MessagingConfigs;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
-export class MockKeyboadFocusDirective {
+@Directive({ selector: '[cxFocus]' })
+class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
@@ -64,12 +71,10 @@ describe('CustomerTicketingCloseDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        FormErrorsModule,
         CustomerTicketingCloseDialogComponent,
-        MockCxIconComponent,
-        MockCxMessagingComponent,
-        MockKeyboadFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -78,8 +83,30 @@ describe('CustomerTicketingCloseDialogComponent', () => {
           useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingCloseDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            MessagingComponent,
+            FocusDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockCxMessagingComponent,
+            MockKeyboardFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });

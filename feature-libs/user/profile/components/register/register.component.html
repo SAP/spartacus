@@ -5,7 +5,6 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
-        <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
         <cx-form-required-legend />
         <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
@@ -15,13 +14,16 @@
               }}</span>
               <ng-select
                 [clearable]="false"
-                [items]="titles$ | async"
+                [items]="(titles$ | async) ?? []"
                 [placeholder]="'register.selectTitle' | cxTranslate"
                 [searchable]="false"
                 bindLabel="name"
                 bindValue="code"
                 formControlName="titleCode"
                 id="title-select"
+                ariaLabelDropdown="{{
+                  'common.ngSelectDropdownOptionsList' | cxTranslate
+                }}"
                 [cxNgSelectA11y]="{}"
               >
               </ng-select>
@@ -263,11 +265,14 @@
                   [attr.aria-errormessage]="'termsandconditionsError'"
                 />
                 <span class="form-check-label">
-                  {{ 'register.confirmThatRead' | cxTranslate }}
+                  <span id="confirm-read-label">
+                    {{ 'register.confirmThatRead' | cxTranslate }}
+                  </span>
                   <a
                     [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-describedby="confirm-read-label"
                   >
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>

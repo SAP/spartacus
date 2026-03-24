@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { I18nTestingModule, UrlPipe } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { ActiveLinkCellComponent } from '..';
 
 const mockContext = {
@@ -24,15 +26,23 @@ describe('ActiveLinkCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActiveLinkCellComponent],
-      imports: [UrlTestingModule],
+      imports: [
+        ActiveLinkCellComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: OutletContextData,
           useValue: { context: mockContext },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ActiveLinkCellComponent, {
+        remove: { imports: [UrlPipe] },
+        add: { imports: [MockUrlPipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

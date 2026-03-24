@@ -1,23 +1,26 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'cx-dp-confirmation-dialog',
   templateUrl: './dp-confirmation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

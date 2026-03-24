@@ -1,16 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -18,9 +26,16 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
+  FeatureConfigService,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
 } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -28,7 +43,16 @@ import { first, map } from 'rxjs/operators';
   selector: 'cx-cart-quick-order-form',
   templateUrl: './cart-quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+    FormErrorsComponent,
+  ],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   quickOrderForm: UntypedFormGroup;
@@ -41,6 +65,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription: Subscription = new Subscription();
   protected cartEventsSubscription: Subscription = new Subscription();
   protected minQuantityValue: number = 1;
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -76,8 +101,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
+    const useValidation = this.featureConfigService.isEnabled(
+      'a11yCartQuickOrderFormEnableSubmitAndAddValidation'
+    );
     this.quickOrderForm = this.formBuilder.group({
-      productCode: ['', []],
+      productCode: ['', useValidation ? [Validators.required] : []],
       quantity: [
         this.minQuantityValue,
         {

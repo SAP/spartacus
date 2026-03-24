@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,6 +49,19 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
     OutletModule,
     FeaturesConfigModule,
     BtnLikeLinkModule,
+    StoreFinderSearchComponent,
+    StoreFinderListComponent,
+    StoreFinderMapComponent,
+    StoreFinderListItemComponent,
+    StoreFinderStoresCountComponent,
+    StoreFinderGridComponent,
+    StoreFinderStoreDescriptionComponent,
+    ScheduleComponent,
+    StoreFinderHeaderComponent,
+    StoreFinderSearchResultComponent,
+    StoreFinderComponent,
+    StoreFinderPaginationDetailsComponent,
+    StoreFinderStoreComponent,
   ],
   providers: [
     provideDefaultConfig({
@@ -84,21 +97,6 @@ import { StoreFinderComponent } from './store-finder/store-finder.component';
         },
       },
     }),
-  ],
-  declarations: [
-    StoreFinderSearchComponent,
-    StoreFinderListComponent,
-    StoreFinderMapComponent,
-    StoreFinderListItemComponent,
-    StoreFinderStoresCountComponent,
-    StoreFinderGridComponent,
-    StoreFinderStoreDescriptionComponent,
-    ScheduleComponent,
-    StoreFinderHeaderComponent,
-    StoreFinderSearchResultComponent,
-    StoreFinderComponent,
-    StoreFinderPaginationDetailsComponent,
-    StoreFinderStoreComponent,
   ],
   exports: [
     ScheduleComponent,

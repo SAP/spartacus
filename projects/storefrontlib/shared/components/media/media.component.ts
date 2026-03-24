@@ -1,21 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostBinding,
-  inject,
   Input,
   OnChanges,
   Output,
   TrackByFunction,
 } from '@angular/core';
-import { Config, Image, ImageGroup } from '@spartacus/core';
+import { Image, ImageGroup } from '@spartacus/core';
 import {
   ImageFetchPriority,
   ImageLoadingStrategy,
@@ -23,7 +23,6 @@ import {
   MediaContainer,
 } from './media.model';
 import { MediaService } from './media.service';
-import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
 /**
  * The HTML element rendered in the template can be either `<img>` or `<picture>`,
@@ -51,7 +50,7 @@ import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
   selector: 'cx-media',
   templateUrl: './media.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor],
 })
 export class MediaComponent implements OnChanges {
   /**
@@ -150,17 +149,6 @@ export class MediaComponent implements OnChanges {
 
   protected trackByMedia: TrackByFunction<HTMLSourceElement> = (_, item) =>
     item.media;
-
-  /**
-   * @deprecated since 2211.31. It will be eventually removed in the future
-   *
-   * To use `img` HTML element instead of `picture`
-   * pass `[elementType]="'img'"` input to the component
-   */
-  protected isLegacy =
-    inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
-    (inject(Config) as any)['useLegacyMediaComponent'] ||
-    false;
 
   constructor(protected mediaService: MediaService) {}
 

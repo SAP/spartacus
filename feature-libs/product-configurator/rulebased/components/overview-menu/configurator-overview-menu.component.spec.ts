@@ -1,16 +1,16 @@
+import { Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { Component, Input, Type } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { IconComponent, MockIconComponent } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { Configurator } from '../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -52,15 +52,6 @@ class MockConfiguratorStorefrontUtilsService {
   getVerticallyScrolledPixels(): void {}
 
   scrollToConfigurationElement(): void {}
-}
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
-})
-class MockCxIconComponent {
-  @Input() type: ICON_TYPE;
 }
 
 let component: ConfiguratorOverviewMenuComponent;
@@ -110,8 +101,11 @@ function initialize() {
 describe('ConfigurationOverviewMenuComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [MockCxIconComponent, ConfiguratorOverviewMenuComponent],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorOverviewMenuComponent,
+      ],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -122,7 +116,12 @@ describe('ConfigurationOverviewMenuComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewMenuComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockIconComponent] },
+      })
+      .compileComponents();
   }));
 
   it('should create component', () => {

@@ -1,15 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
-import { of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
+import { of } from 'rxjs';
+import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
+import { ProductTypes } from '@spartacus/core';
 
+class MockSubscriptionProductService {
+  isSubscription(product: any) {
+    return Boolean(product?.sapSubscriptionTerm && product?.sapPricePlan);
+  }
+}
 const mockSubscriptionProduct = {
   basePrice: { formattedValue: 'USD35.00', value: 0 },
   product: {
     code: 'Mobile_2020_Plan_cpq',
     name: 'Mobile 2020 Plan',
-    productTypes: 'SUBSCRIPTION',
+    productTypes: ProductTypes.SUBSCRIPTION,
     sapPricePlan: {
       oneTimeCharges: [
         {
@@ -86,11 +93,14 @@ describe('SubscriptionCartPriceBodyComponent', () => {
   describe('with subscription product', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [],
         providers: [
           {
             provide: OutletContextData,
             useClass: MockSubscriptionOutletContextData,
+          },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
@@ -121,11 +131,14 @@ describe('SubscriptionCartPriceBodyComponent', () => {
   describe('with physical product', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [],
         providers: [
           {
             provide: OutletContextData,
             useClass: MockOutletContextData,
+          },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
@@ -155,11 +168,14 @@ describe('SubscriptionCartPriceBodyComponent', () => {
   describe('with minicart', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [],
         providers: [
           {
             provide: OutletContextData,
             useClass: MockEmptyContextData,
+          },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],

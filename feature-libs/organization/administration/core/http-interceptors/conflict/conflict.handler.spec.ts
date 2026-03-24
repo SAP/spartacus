@@ -65,6 +65,17 @@ const MockUnitConflictResponse = {
   },
 } as HttpErrorResponse;
 
+const MockCostCenterConflictResponse = {
+  error: {
+    errors: [
+      {
+        message: 'Cost center with code [CC123] already exists',
+        type: 'AlreadyExistsError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 describe('OrganizationConflictHandler', () => {
   let service: OrganizationConflictHandler;
   let globalMessageService: GlobalMessageService;
@@ -141,6 +152,19 @@ describe('OrganizationConflictHandler', () => {
       {
         key: 'organization.httpHandlers.conflict.unit',
         params: { code: 'TU22' },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle cost center conflict', () => {
+    spyOn(globalMessageService, 'add');
+    service.handleError(MockRequest, MockCostCenterConflictResponse);
+
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'organization.httpHandlers.conflict.costCenter',
+        params: { code: 'CC123' },
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );

@@ -6,9 +6,9 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { MockKeyboardFocusDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from '../../test/mock-feature-directive';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { ItemCounterComponent } from './item-counter.component';
 
 const form = new UntypedFormGroup({
@@ -21,13 +21,13 @@ describe('ItemCounterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
-        ItemCounterComponent,
-        MockFeatureDirective,
-        MockKeyboardFocusDirective,
-      ],
-    }).compileComponents();
+      imports: [ReactiveFormsModule, ItemCounterComponent],
+    })
+      .overrideComponent(ItemCounterComponent, {
+        remove: { imports: [TranslatePipe, FocusDirective] },
+        add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

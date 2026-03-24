@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -7,13 +7,13 @@ import { CmsComponentData } from '../../../cms-structure/index';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
+import { NavigationUIComponent } from './navigation-ui.component';
 
 import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
-  standalone: false,
 })
 class MockNavigationUIComponent {
   @Input()
@@ -43,6 +43,7 @@ describe('CmsNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [NavigationComponent],
       providers: [
         {
           provide: NavigationService,
@@ -53,8 +54,12 @@ describe('CmsNavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
       ],
-      declarations: [NavigationComponent, MockNavigationUIComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(NavigationComponent, {
+        remove: { imports: [NavigationUIComponent] },
+        add: { imports: [MockNavigationUIComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

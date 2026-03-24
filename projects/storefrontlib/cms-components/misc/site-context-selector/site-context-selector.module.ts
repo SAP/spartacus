@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ContextServiceMap,
+  I18nModule,
   provideDefaultConfig,
   SiteContextModule,
 } from '@spartacus/core';
@@ -20,7 +21,15 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SiteContextModule,
+    IconModule,
+    SiteContextSelectorComponent,
+    LanguageCurrencyComponent,
+    I18nModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -41,7 +50,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     }),
     SiteContextComponentService,
   ],
-  declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}

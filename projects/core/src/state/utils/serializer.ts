@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,9 +17,15 @@ export function serializeSearchConfig(
   config: SearchConfig,
   id?: string
 ): string {
-  return `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
+  let result = `${id ?? ''}?pageSize=${config.pageSize ?? ''}&currentPage=${
     config.currentPage ?? ''
   }&sort=${config.sort ?? ''}`;
+
+  if (config.query) {
+    result += `&query=${config.query}`;
+  }
+
+  return result;
 }
 
 export function denormalizeSearch<T>(

@@ -1,15 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubscriptionCartPriceHeadingComponent } from './subscription-cart-price-heading.component';
-import { TranslationService } from '@spartacus/core';
+import { ProductTypes, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
-
+import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
+class MockSubscriptionProductService {
+  isSubscription(product: any) {
+    return Boolean(product?.sapSubscriptionTerm && product?.sapPricePlan);
+  }
+}
 const mockSubscriptionProduct = {
   basePrice: { formattedValue: 'USD35.00', value: 0 },
   product: {
     code: 'Mobile_2020_Plan_cpq',
     name: 'Mobile 2020 Plan',
-    productTypes: 'SUBSCRIPTION',
+    productTypes: ProductTypes.SUBSCRIPTION,
+    sapPricePlan: {},
+    sapSubscriptionTerm: {},
   },
 };
 
@@ -53,6 +60,10 @@ describe('SubscriptionCartPriceHeadingComponent', () => {
         providers: [
           { provide: TranslationService, useClass: MockTranslateService },
           {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
+          {
             provide: OutletContextData,
             useClass: MockSubscriptionOutletContextData,
           },
@@ -83,6 +94,10 @@ describe('SubscriptionCartPriceHeadingComponent', () => {
         providers: [
           { provide: TranslationService, useClass: MockTranslateService },
           {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
+          {
             provide: OutletContextData,
             useClass: MockOutletContextData,
           },
@@ -108,6 +123,10 @@ describe('SubscriptionCartPriceHeadingComponent', () => {
         imports: [SubscriptionCartPriceHeadingComponent],
         providers: [
           { provide: TranslationService, useClass: MockTranslateService },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
           {
             provide: OutletContextData,
             useClass: MockEmptyContextData,

@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { loginAsMyCompanyAdmin } from '../../../helpers/b2b/my-company/my-company.utils';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 import { SKELETON_SELECTOR } from './b2b.my-company-account-summaries.a11y-e2e.cy';
 
 const MY_COMPANY_URL = '/organization/units';
@@ -16,6 +17,7 @@ describe(
   'B2B / My Company / Units / Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
       loginAsMyCompanyAdmin();

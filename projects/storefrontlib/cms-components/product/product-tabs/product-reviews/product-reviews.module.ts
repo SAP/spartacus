@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,6 +35,7 @@ import { ProductReviewsComponent } from './product-reviews.component';
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
     ReadMoreComponent,
+    ProductReviewsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -45,7 +46,6 @@ import { ProductReviewsComponent } from './product-reviews.component';
       },
     }),
   ],
-  declarations: [ProductReviewsComponent],
   exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}

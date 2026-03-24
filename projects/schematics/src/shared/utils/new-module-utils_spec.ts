@@ -1,23 +1,20 @@
-/*
- * We'll be able to import `firstValueFrom` directly from 'rxjs' only after we bump `@angular-devkit/schematics`,
- * because typings of `@angular-devkit/schematics/node_modules/rxjs@7.8.1` are not compatible with
- * typings of the `rxjs@7.8.2` globally installed in our repo.
- */
-import { firstValueFrom } from '@angular-devkit/schematics/node_modules/rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE } from '../constants';
 import {
+  APP_ROUTING_MODULE_CLASS,
   CART_BASE_FEATURE_NAME,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_STOREFRONTLIB,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
@@ -50,7 +47,8 @@ describe('New Module utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -103,7 +101,7 @@ describe('New Module utils', () => {
     /**
      * Checks if the `imports` array (in NgModule decorator) contains the ModuleName
      *
-     * It simply checks if `ModuleName` is placed between words `imports:` and `providers:`
+     * It simply checks if `ModuleName` is placed between words `imports:` and either `providers:` or `})`
      * @example
      * ```
      * imports: [
@@ -111,11 +109,13 @@ describe('New Module utils', () => {
      *   ModuleName,
      *   (...)
      * ],
-     * providers:
+     * providers: (or })
      * ```
      */
     function doesNgModuleImportsContainModule(moduleName: string): RegExp {
-      return new RegExp(`imports:[\\s\\S]*${moduleName}[\\s\\S]*providers:`);
+      return new RegExp(
+        `imports:[\\s\\S]*${moduleName}[\\s\\S]*(providers:|\\}\\))`
+      );
     }
 
     it('should remove the specified imports', () => {
@@ -123,22 +123,30 @@ describe('New Module utils', () => {
       const appModule = program.getSourceFileOrThrow(appModulePath);
 
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(
+          appModule,
+          SPARTACUS_STOREFRONTLIB,
+          APP_ROUTING_MODULE_CLASS
+        )
       ).toBeTruthy();
       expect(appModule.getText()).toMatch(
-        doesNgModuleImportsContainModule(BROWSER_MODULE)
+        doesNgModuleImportsContainModule(APP_ROUTING_MODULE_CLASS)
       );
 
       removeModuleImport(appModule, {
-        content: BROWSER_MODULE,
-        importPath: ANGULAR_PLATFORM_BROWSER,
+        content: APP_ROUTING_MODULE_CLASS,
+        importPath: SPARTACUS_STOREFRONTLIB,
       });
 
       expect(
-        staticImportExists(appModule, ANGULAR_PLATFORM_BROWSER, BROWSER_MODULE)
+        staticImportExists(
+          appModule,
+          SPARTACUS_STOREFRONTLIB,
+          APP_ROUTING_MODULE_CLASS
+        )
       ).toBeFalsy();
       expect(appModule.getText()).not.toMatch(
-        doesNgModuleImportsContainModule(BROWSER_MODULE)
+        doesNgModuleImportsContainModule(APP_ROUTING_MODULE_CLASS)
       );
     });
 

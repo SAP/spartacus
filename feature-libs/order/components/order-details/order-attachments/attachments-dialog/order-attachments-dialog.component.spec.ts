@@ -99,8 +99,8 @@ describe('OrderAttachmentsDialogComponent', () => {
         KeyboardFocusModule,
         MessageComponentModule,
         StoreModule.forRoot({}),
+        OrderAttachmentsDialogComponent,
       ],
-      declarations: [OrderAttachmentsDialogComponent],
       providers: [
         provideDefaultConfig(mockConfig),
         {

@@ -9,8 +9,7 @@ describe('AmountCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AmountCellComponent],
-      imports: [UrlTestingModule],
+      imports: [UrlTestingModule, AmountCellComponent],
       providers: [
         {
           provide: OutletContextData,

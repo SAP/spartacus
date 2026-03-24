@@ -1,19 +1,26 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
+  OnDestroy,
   OnInit,
   ViewChild,
-  AfterViewInit,
-  OnDestroy,
 } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -22,21 +29,25 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { GlobalMessageService, UserIdService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  TranslatePipe,
+  UserIdService,
+} from '@spartacus/core';
 import {
   OpfActiveConfiguration,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { SpinnerComponent } from '@spartacus/storefront';
 import {
   BehaviorSubject,
+  filter,
   Observable,
   Subscription,
-  take,
-  filter,
   switchMap,
+  take,
 } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -44,7 +55,15 @@ import { map, tap } from 'rxjs/operators';
   selector: 'cx-opf-b2b-checkout-payment-type',
   templateUrl: './opf-b2b-checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    OpfCheckoutPaymentsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutPaymentTypeComponent
   implements OnInit, AfterViewInit, OnDestroy

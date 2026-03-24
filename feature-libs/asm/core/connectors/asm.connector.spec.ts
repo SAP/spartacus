@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -26,6 +27,7 @@ class MockAsmAdapter {
   createCustomer(_user: CustomerRegistrationForm): Observable<User> {
     return EMPTY;
   }
+  createAsmSessionEvent(_options: AsmSessionCreationOptions): void {}
 }
 const MOCK_ID = '00000123';
 const MOCK_USER_ID = 'userId';
@@ -163,5 +165,12 @@ describe('AsmConnector', () => {
         expect(results).toEqual(user);
         done();
       });
+  });
+
+  it('should call adapter for createAsmSessionEvent', () => {
+    spyOn(asmAdapter, 'createAsmSessionEvent').and.stub();
+    const options: AsmSessionCreationOptions = { eventType: 'startSession' };
+    asmConnector.createAsmSessionEvent(options);
+    expect(asmAdapter.createAsmSessionEvent).toHaveBeenCalled();
   });
 });

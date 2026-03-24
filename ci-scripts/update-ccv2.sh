@@ -6,9 +6,10 @@ B2B_STORE="b2bspastore"
 CCV2_B2C_STOREFRONT_PATH="$GHT_REPO/js-storefront/$B2C_STORE"
 CCV2_B2B_STOREFRONT_PATH="$GHT_REPO/js-storefront/$B2B_STORE"
 GH_BASE_URL="https://$GHT_USER:$GHT_PRIVATE_REPO_TOKEN@github.tools.sap/cx-commerce/$GHT_REPO.git"
-APP_MODULE_PATH="projects/storefrontapp/src/app/app.module.ts"
-B2C_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts"
-B2B_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.module.ts"
+OCC_CONFIG_PATH="projects/storefrontapp/src/app/private/private.providers.ts"
+B2C_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.providers.ts"
+B2B_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-b2b-configuration.providers.ts"
+PWA_CONFIG_PATH="projects/storefrontapp/src/app/spartacus/spartacus-configuration.module.ts"
 SERVER_CONFIG_PATH="projects/storefrontapp/src/server.ts"
 
 function verify_branch_exist {
@@ -25,7 +26,7 @@ function remove_pwa_config {
 
     cat "$1"
 
-    if grep -Fq "addToHomeScreen: true" "$1"
+    if grep -Fq "addToHomeScreen" "$1"
     then
         echo "PWA config has NOT been removed"
         exit 1
@@ -52,27 +53,22 @@ verify_branch_exist "$GH_BASE_URL" "$CCV2_BRANCH"
 echo "------------------------------------------------------------------"
 echo "Comment out occBaseUrl from configration to allow index.html meta tag to set the occBaseUrl"
 
-sed -i 's/baseUrl: environment.occBaseUrl/\/\/ baseUrl: environment.occBaseUrl/gi' "$APP_MODULE_PATH"
+sed -i 's/baseUrl: environment.occBaseUrl/\/\/ baseUrl: environment.occBaseUrl/gi' "$OCC_CONFIG_PATH"
 
-cat "$APP_MODULE_PATH"
+cat "$OCC_CONFIG_PATH"
 
-if grep -Fq "// baseUrl: environment.occBaseUrl" "$APP_MODULE_PATH"
+if grep -Fq "// baseUrl: environment.occBaseUrl" "$OCC_CONFIG_PATH"
 then
-    echo "Base url has been successfully commented out from app.module.ts"
+    echo "Base url has been successfully commented out from private.providers.ts"
 else
-    echo "Base url is not commented out from app.module.ts"
+    echo "Base url is not commented out from private.providers.ts"
     exit 1
 fi
 
 echo "------------------------------------------------------------------"
-echo "Remove pwa config for B2C storefront"
+echo "Remove pwa config (centralized in spartacus-configuration.module.ts)"
 
-remove_pwa_config "$B2C_CONFIG_PATH"
-
-echo "------------------------------------------------------------------"
-echo "Remove pwa config for B2B storefront"
-
-remove_pwa_config "$B2B_CONFIG_PATH"
+remove_pwa_config "$PWA_CONFIG_PATH"
 
 echo "------------------------------------------------------------------"
 echo "Clone ccv2 repository"

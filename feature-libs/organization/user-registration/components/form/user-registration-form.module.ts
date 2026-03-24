@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,8 +49,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
       },
     }),
     FeaturesConfigModule,
+    UserRegistrationFormComponent,
   ],
-  declarations: [UserRegistrationFormComponent],
   exports: [UserRegistrationFormComponent],
   providers: [UserRegistrationFormService],
 })

@@ -47,7 +47,6 @@ function initializeWithObs(disableObs: Observable<boolean>) {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -60,11 +59,11 @@ class MockItemCounterComponent {
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        I18nTestingModule,
         ConfiguratorAttributeQuantityComponent,
         MockItemCounterComponent,
       ],
-      imports: [I18nTestingModule],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,

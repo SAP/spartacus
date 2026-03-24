@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -31,6 +32,8 @@ import {
   tap,
 } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { OutletDirective } from '../../outlet/outlet.directive';
+import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotService } from './page-slot.service';
 
 /**
@@ -46,7 +49,7 @@ import { PageSlotService } from './page-slot.service';
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, OutletDirective, NgFor, ComponentWrapperDirective],
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
   /**

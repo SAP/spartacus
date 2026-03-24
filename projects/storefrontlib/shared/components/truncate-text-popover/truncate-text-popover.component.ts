@@ -1,16 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
+import { PopoverDirective } from '../popover/popover.directive';
+import { TruncatePipe } from './truncate.pipe';
 
 @Component({
   selector: 'cx-truncate-text-popover',
   templateUrl: './truncate-text-popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgClass, NgIf, PopoverDirective, TranslatePipe, TruncatePipe],
 })
 export class TruncateTextPopoverComponent {
   /**

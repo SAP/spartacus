@@ -6,7 +6,13 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  MockTranslationService,
+  PointOfService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   GoogleMapRendererService,
   StoreFinderService,
@@ -35,6 +41,10 @@ class StoreFinderServiceMock implements Partial<StoreFinderService> {
     return 35.528984;
   }
 
+  getDirections(_location: PointOfService): string {
+    return 'testDirections';
+  }
+
   getStoreLongitude(_location: any): number {
     return 139.700168;
   }
@@ -45,7 +55,7 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-describe('StoreFinderDisplayListComponent', () => {
+describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let storeMapComponent: StoreFinderMapComponent;
@@ -55,18 +65,28 @@ describe('StoreFinderDisplayListComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [StoreFinderListComponent, StoreFinderMapComponent],
-      imports: [SpinnerModule, I18nTestingModule],
+      imports: [
+        SpinnerModule,
+        StoreFinderListComponent,
+        StoreFinderMapComponent,
+      ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: GoogleMapRendererService,
           useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
+
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderListComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

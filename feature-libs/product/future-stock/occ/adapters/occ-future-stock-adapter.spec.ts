@@ -80,7 +80,6 @@ describe('OccFutureStockAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccFutureStockAdapter,
         {

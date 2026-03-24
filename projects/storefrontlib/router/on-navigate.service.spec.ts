@@ -3,11 +3,11 @@ import { ApplicationRef, Component, Injector } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   NavigationEnd,
-  ROUTER_CONFIGURATION,
   Router,
+  ROUTER_CONFIGURATION,
   Scroll,
 } from '@angular/router';
-import { OnNavigateConfig } from '@spartacus/storefront';
+import { OnNavigateConfig, StorefrontComponent } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
 
@@ -21,7 +21,7 @@ const mockOnNavigateConfig: OnNavigateConfig = {
 
 @Component({
   template: ` <cx-storefront tabindex="0"></cx-storefront> `,
-  standalone: false,
+  imports: [StorefrontComponent],
 })
 class MockComponent {}
 
@@ -81,7 +81,6 @@ describe('OnNavigateService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OnNavigateService,
         {

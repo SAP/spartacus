@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -6,27 +7,27 @@ import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-presence.token';
 import { ProvideLcpPresenceDirective } from './provide-lcp-presence.directive';
 
 @Component({
-  selector: 'cx-test-host',
-  template: `Parent:
-    <div [cxProvideLcpPresence]="lcpPresence">
-      <cx-child></cx-child>
-    </div>`,
-  standalone: false,
-})
-class TestHostComponent {
-  lcpPresence: LcpPresence = LcpPresence.HAS_LCP;
-}
-
-@Component({
   selector: 'cx-child',
   template: `Child:
     <div class="lcpPresence">
       {{ lcpPresence$ | async }}
     </div>`,
-  standalone: false,
+  imports: [AsyncPipe],
 })
 class ChildComponent {
   lcpPresence$ = inject(LCP_PRESENCE);
+}
+
+@Component({
+  selector: 'cx-test-host',
+  template: `Parent:
+    <div [cxProvideLcpPresence]="lcpPresence">
+      <cx-child></cx-child>
+    </div>`,
+  imports: [ProvideLcpPresenceDirective, ChildComponent],
+})
+class TestHostComponent {
+  lcpPresence: LcpPresence = LcpPresence.HAS_LCP;
 }
 
 describe('ProvideLcpContextDirective', () => {
@@ -34,11 +35,7 @@ describe('ProvideLcpContextDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestHostComponent,
-        ChildComponent,
-        ProvideLcpPresenceDirective,
-      ],
+      imports: [TestHostComponent],
       providers: [],
     });
     fixture = TestBed.createComponent(TestHostComponent);

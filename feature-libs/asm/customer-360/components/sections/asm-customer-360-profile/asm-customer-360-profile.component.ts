@@ -1,27 +1,39 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
-import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
-
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   AsmCustomer360CustomerProfile,
   AsmCustomer360PaymentDetail,
   AsmCustomer360Profile,
   PaymentCardCode,
 } from '@spartacus/asm/customer-360/root';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
+import {
+  Card,
+  CardComponent,
+  FocusConfig,
+  ICON_TYPE,
+} from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   selector: 'cx-asm-customer-360-profile',
   templateUrl: './asm-customer-360-profile.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgFor,
+    CardComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {
   focusConfig: FocusConfig = {

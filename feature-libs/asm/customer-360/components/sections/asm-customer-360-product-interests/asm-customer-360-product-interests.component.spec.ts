@@ -6,19 +6,24 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
-  I18nTestingModule,
   ImageType,
+  MockTranslatePipe,
   Product,
   ProductService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
+import {
+  BREAKPOINT,
+  BreakpointService,
+  MediaComponent,
+} from '@spartacus/storefront';
+import { AsmCustomer360ProductItemComponent } from '../../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360ProductInterestsComponent } from './asm-customer-360-product-interests.component';
-import { AsmCustomer360ProductItemComponent } from '../../asm-customer-360-product-item/asm-customer-360-product-item.component';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 
 describe('AsmCustomer360ProductInterestsComponent', () => {
   let component: AsmCustomer360ProductInterestsComponent;
@@ -97,7 +102,6 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
   @Component({
     template: '',
     selector: 'cx-media',
-    standalone: false,
   })
   class MockMediaComponent {
     @Input() container: any;
@@ -107,13 +111,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360ProductInterestsComponent,
-        AsmCustomer360ProductListingComponent,
-        AsmCustomer360ProductItemComponent,
-        MockMediaComponent,
-      ],
+      imports: [AsmCustomer360ProductInterestsComponent],
       providers: [
         AsmCustomer360SectionContextSource,
         {
@@ -126,7 +124,20 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360ProductInterestsComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(AsmCustomer360ProductListingComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(AsmCustomer360ProductItemComponent, {
+        remove: { imports: [MediaComponent, TranslatePipe] },
+        add: { imports: [MockMediaComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

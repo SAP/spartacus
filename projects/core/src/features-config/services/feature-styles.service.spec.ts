@@ -7,7 +7,6 @@ import { FeatureStylesService } from './feature-styles.service';
   selector: 'cx-test-root',
   template: '',
   host: { class: 'originalHostClass' },
-  standalone: false,
 })
 class TestRootComponent {}
 

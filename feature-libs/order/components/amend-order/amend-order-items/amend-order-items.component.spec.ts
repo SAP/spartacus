@@ -1,12 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
 
@@ -35,23 +31,21 @@ mockEntries.forEach((entry) => {
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() format;
+  @Input() container: any;
+  @Input() format: any;
 }
 
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
 })
 class MockItemCounterComponent {
-  @Input() min;
-  @Input() max;
-  @Input() readonly;
-  @Input() control;
+  @Input() min: any;
+  @Input() max: any;
+  @Input() readonly: any;
+  @Input() control: any;
 }
 
 class MockOrderAmendService {
@@ -69,20 +63,27 @@ describe('CancelOrReturnItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [CancelOrReturnItemsComponent],
       providers: [
         {
           provide: OrderAmendService,
           useClass: MockOrderAmendService,
         },
       ],
-      declarations: [
-        CancelOrReturnItemsComponent,
-        MockMediaComponent,
-        MockItemCounterComponent,
-        MockFeatureLevelDirective,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(CancelOrReturnItemsComponent, {
+        remove: {
+          imports: [TranslatePipe, MediaComponent, ItemCounterComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockMediaComponent,
+            MockItemCounterComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

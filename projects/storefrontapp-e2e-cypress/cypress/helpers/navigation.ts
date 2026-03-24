@@ -1,8 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { cmsEndpoints } from './cms-endpoints';
 
 export const navigation = {
   visitHomePage({
@@ -38,13 +40,13 @@ export function waitForPage(page: string, alias: string): string {
           method: 'GET',
           path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/cms/pages?lang=en&curr=*`,
+          )}/${cmsEndpoints.pages}?lang=en&curr=*`,
         }
       : {
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/cms/pages`,
+          )}/${cmsEndpoints.pages}`,
           query: {
             pageLabelOrId: page,
           },
@@ -61,7 +63,7 @@ export function waitForCategoryPage(
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageType: 'CategoryPage',
       code: categoryCode,

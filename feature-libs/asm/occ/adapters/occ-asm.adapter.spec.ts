@@ -10,6 +10,7 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmConfig,
+  AsmSessionCreationOptions,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -22,6 +23,7 @@ import {
   OccEndpointsService,
   User,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OccAsmAdapter } from './occ-asm.adapter';
@@ -70,6 +72,12 @@ class MockBaseSiteService {
   }
 }
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of('test-user-id');
+  }
+}
+
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
@@ -88,12 +96,12 @@ describe('OccAsmAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccAsmAdapter,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: AsmConfig, useValue: MockAsmConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: UserIdService, useClass: MockUserIdService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -351,6 +359,25 @@ describe('OccAsmAdapter', () => {
         req.method === 'POST'
       );
     });
+
+    mockReq.flush(null);
+  });
+
+  it('should create ASM session event with minimal payload', (done) => {
+    const payload: AsmSessionCreationOptions = {
+      eventType: 'ASSISTED_SESSION_CREATION',
+    };
+
+    occAsmAdapter.createAsmSessionEvent(payload).subscribe((response) => {
+      expect(response).toBeNull();
+      done();
+    });
+
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'POST';
+    });
+
+    expect(mockReq.request.body).toEqual(payload);
 
     mockReq.flush(null);
   });

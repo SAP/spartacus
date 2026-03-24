@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -18,7 +19,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -34,12 +40,17 @@ import {
   ProductAvailabilityService,
   ProductCatalogService,
   ProductScope,
+  ProductTypes,
+  TranslatePipe,
   isNotNullable,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ICON_TYPE,
+  IconComponent,
+  ItemCounterComponent,
+  OutletDirective,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -49,7 +60,17 @@ import { filter, map, take } from 'rxjs/operators';
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    ItemCounterComponent,
+    OutletDirective,
+    NgClass,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
@@ -193,7 +214,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When out of stock, display no numerical value.
    */
   getInventory(): string {
-    if (this.hasStock) {
+    if (
+      this.hasStock &&
+      this.product.productTypes !== ProductTypes.SUBSCRIPTION
+    ) {
       const quantityDisplay = this.maxQuantity
         ? this.maxQuantity.toString()
         : '';

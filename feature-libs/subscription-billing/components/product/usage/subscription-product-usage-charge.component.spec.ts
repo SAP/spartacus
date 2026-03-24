@@ -1,13 +1,10 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
 import { Pipe, PipeTransform, signal } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UsageChargeType } from '../../../root/model';
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -82,15 +79,16 @@ describe('SubscriptionProductUsageChargeComponent', () => {
   let fixture: ComponentFixture<SubscriptionProductUsageChargeComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [
-        MockTranslatePipe,
-        SubscriptionProductUsageChargeComponent,
-      ],
+      imports: [SubscriptionProductUsageChargeComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslateService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionProductUsageChargeComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(SubscriptionProductUsageChargeComponent);
     component = fixture.componentInstance;
   }));

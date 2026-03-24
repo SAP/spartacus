@@ -8,16 +8,24 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
+import { CustomerTicketingCreateComponent } from '../customer-ticketing-create';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 const mockTicketList: TicketList = {
@@ -149,7 +157,6 @@ const mockTicketList2: TicketList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -158,7 +165,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -168,10 +174,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -199,7 +202,6 @@ class MockCustomerTicketingFacade {
 }
 @Component({
   selector: 'cx-customer-ticketing-create',
-  standalone: false,
 })
 class MockCustomerTicketingCreateComponent {}
 
@@ -211,13 +213,10 @@ describe('CustomerTicketingListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CustomerTicketingListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockUrlPipe,
-        MockCustomerTicketingCreateComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -227,7 +226,30 @@ describe('CustomerTicketingListComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            PaginationComponent,
+            SortingComponent,
+            UrlPipe,
+            CustomerTicketingCreateComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockUrlPipe,
+            MockCustomerTicketingCreateComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     const translationService = TestBed.inject(TranslationService);
     spyOn(translationService, 'translate').and.callFake((input) => {

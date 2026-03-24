@@ -1,12 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable } from 'rxjs';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
+import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
 import createSpy = jasmine.createSpy;
 
 const countryIsoCode = 'CA';
@@ -15,11 +19,10 @@ const regionIsoCode = 'CA-QC';
 @Component({
   selector: 'cx-store-finder-list-item',
   template: '',
-  standalone: false,
 })
 class MockStoreFinderListItemComponent {
   @Input()
-  location;
+  location: any;
 }
 
 class MockTranslationService implements Partial<TranslationService> {
@@ -54,19 +57,23 @@ describe('StoreFinderGridComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule],
-      declarations: [
-        StoreFinderGridComponent,
-        MockStoreFinderListItemComponent,
-        MockFeatureDirective,
-      ],
+      imports: [StoreFinderGridComponent],
       providers: [
         { provide: StoreFinderService, useClass: MockStoreFinderService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderGridComponent, {
+        remove: {
+          imports: [StoreFinderListItemComponent, TranslatePipe],
+        },
+        add: {
+          imports: [MockStoreFinderListItemComponent, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

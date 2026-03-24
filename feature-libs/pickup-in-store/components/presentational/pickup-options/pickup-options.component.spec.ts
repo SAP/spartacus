@@ -1,42 +1,20 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { TAB_MODE, TabModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable } from 'rxjs';
 import { PickupOptionsComponent } from './pickup-options.component';
 import { PickupOptionsTabs } from './pickup-options.model';
-
-// Reverted mock directive used to check whether all parts of the component works properly
-// if the feature flag is disabled.
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
-export class MockRevertedFeatureDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
-
-  @Input() set cxFeature(_feature: string) {
-    // ensure the deprecated DOM changes are not rendered during tests
-
-    if (_feature.toString().includes('!')) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-    }
-  }
-}
 
 class MockFeatureConfigService {
   isEnabled() {
@@ -49,17 +27,22 @@ describe('PickupOptionsComponent', () => {
   let fixture: ComponentFixture<PickupOptionsComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickupOptionsComponent, MockFeatureDirective],
       imports: [
+        PickupOptionsComponent,
         CommonModule,
-        I18nTestingModule,
         ReactiveFormsModule,
         TabModule,
       ],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    });
+    })
+      .overrideComponent(PickupOptionsComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(PickupOptionsComponent);
     component = fixture.componentInstance;
   });
@@ -205,7 +188,6 @@ describe('PickupOptionsComponent', () => {
 @Component({
   selector: 'cx-pickup-options',
   template: '',
-  standalone: false,
 })
 export class PickupOptionsStubComponent {
   @Input() selectedOption: PickupOption;

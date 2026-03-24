@@ -13,28 +13,42 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmEnablerService,
+  AsmSessionCreationOptions,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  CxDatePipe,
   FeatureConfigService,
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   OAuthLibWrapperService,
   RoutingService,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import {
+  AsmSessionTimerComponent,
+  AsmToggleUiComponent,
+  CSAgentLoginFormComponent,
+  CustomerEmulationComponent,
+  CustomerSelectionComponent,
+} from '../public_api';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -51,7 +65,6 @@ class MockAuthService implements Partial<AuthService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -111,21 +124,18 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-asm-toggle-ui',
   template: '',
-  standalone: false,
 })
 class MockAsmToggleUiComponent {}
 
 @Component({
   selector: 'cx-asm-session-timer',
   template: '',
-  standalone: false,
 })
 class MockAsmSessionTimerComponent {}
 
 @Component({
   selector: 'cx-customer-selection',
   template: '',
-  standalone: false,
 })
 class MockCustomerSelectionComponent {
   @Output()
@@ -134,7 +144,6 @@ class MockCustomerSelectionComponent {
 @Component({
   selector: 'cx-csagent-login-form',
   template: '',
-  standalone: false,
 })
 class MockCSAgentLoginFormComponent {
   @Output()
@@ -145,7 +154,6 @@ class MockCSAgentLoginFormComponent {
 @Component({
   template: '',
   selector: 'cx-customer-emulation',
-  standalone: false,
 })
 class MockCustomerEmulationComponent {}
 
@@ -181,6 +189,8 @@ class MockAsmService implements Partial<AsmService> {
     return of(mockAsmUi);
   }
 
+  createAsmSessionEvent(_option: AsmSessionCreationOptions): void {}
+
   customerSearch(_searchTerm: unknown): void {}
 }
 
@@ -192,10 +202,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   refreshAuthConfig() {}
 }
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]' })
 export class MockRevertedFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
@@ -224,21 +231,12 @@ describe('AsmMainUiComponent', () => {
   let launchDialogService: LaunchDialogService;
   let featureConfig: FeatureConfigService;
   let asmEnablerService: AsmEnablerService;
+  let asmConfig: AsmConfig;
   const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmMainUiComponent,
-        MockAsmToggleUiComponent,
-        MockCSAgentLoginFormComponent,
-        MockCustomerSelectionComponent,
-        MockAsmSessionTimerComponent,
-        MockCustomerEmulationComponent,
-        MockCxIconComponent,
-        MockRevertedFeatureDirective,
-      ],
+      imports: [I18nTestingModule, AsmMainUiComponent],
       providers: [
         {
           provide: FeatureModulesService,
@@ -257,7 +255,35 @@ describe('AsmMainUiComponent', () => {
           useClass: MockOAuthLibWrapperService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmMainUiComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AsmToggleUiComponent,
+            CSAgentLoginFormComponent,
+            CustomerSelectionComponent,
+            AsmSessionTimerComponent,
+            CustomerEmulationComponent,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAsmToggleUiComponent,
+            MockCSAgentLoginFormComponent,
+            MockCustomerSelectionComponent,
+            MockAsmSessionTimerComponent,
+            MockCustomerEmulationComponent,
+            MockCxIconComponent,
+            MockRevertedFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -273,6 +299,7 @@ describe('AsmMainUiComponent', () => {
     featureConfig = TestBed.inject(FeatureConfigService);
     asmEnablerService = TestBed.inject(AsmEnablerService);
     featureModulesService = TestBed.inject(FeatureModulesService);
+    asmConfig = TestBed.inject(AsmConfig);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -317,15 +344,35 @@ describe('AsmMainUiComponent', () => {
     ).toHaveBeenCalled();
   });
 
-  it('should call authService.startCustomerEmulationSession() when startCustomerEmulationSession() is called', () => {
+  it('should call authService.startCustomerEmulationSession() and asmService.createAsmSessionEvent() when startCustomerEmulationSession() is called', () => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(asmService, 'createAsmSessionEvent').and.stub();
+    asmConfig.asm = { asmSessionSupport: { enabled: true } };
     const testCustomerId = 'customerid1234567890';
-
+    component.ngOnInit();
     component.startCustomerEmulationSession({ customerId: testCustomerId });
 
     expect(
       csAgentAuthService.startCustomerEmulationSession
     ).toHaveBeenCalledWith(testCustomerId);
+    expect(asmService.createAsmSessionEvent).toHaveBeenCalledWith({
+      eventType: 'StartSession',
+    });
+  });
+
+  it('should not call asmService.createAsmSessionEvent() when asmSessionSupport is false', () => {
+    spyOn(asmService, 'createAsmSessionEvent').and.stub();
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+
+    asmConfig.asm = { asmSessionSupport: { enabled: false } };
+    const testCustomerId = 'customerid1234567890';
+    component.ngOnInit();
+    component.startCustomerEmulationSession({ customerId: testCustomerId });
+
+    expect(
+      csAgentAuthService.startCustomerEmulationSession
+    ).toHaveBeenCalledWith(testCustomerId);
+    expect(asmService.createAsmSessionEvent).not.toHaveBeenCalled();
   });
 
   it('should not call authService.startCustomerEmulationSession() when customerId is undefined', () => {

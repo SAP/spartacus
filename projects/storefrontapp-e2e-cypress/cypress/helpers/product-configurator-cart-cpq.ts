@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -130,7 +130,7 @@ function searchForOrder(orderNumber: string): void {
 export function goToOrderHistory(shopName: string): Chainable<Window> {
   cy.log('Navigate to order history');
   return cy.visit(`/${shopName}/en/USD/my-account/orders`).then(() => {
-    cy.get('cx-order-history h2').should('contain', 'Order history');
+    cy.get('cx-breadcrumb h1').should('contain', 'Order History');
   });
 }
 

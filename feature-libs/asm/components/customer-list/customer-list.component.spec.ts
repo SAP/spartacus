@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -16,16 +17,23 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
+  CxDatePipe,
+  FeatureConfigService,
   FeatureModulesService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   QueryState,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -190,7 +198,6 @@ class mockFeatureModulesService implements Partial<FeatureModulesService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -199,6 +206,12 @@ class MockCxIconComponent {
 class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
     return of(BREAKPOINT.md);
+  }
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
   }
 }
 
@@ -224,10 +237,7 @@ class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
   }
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -243,11 +253,10 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CustomerListComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -259,6 +268,7 @@ describe('CustomerListComponent', () => {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: AsmConfig, useClass: MockAsmConfig },
         {
           provide: AsmCustomerListFacade,
@@ -266,7 +276,21 @@ describe('CustomerListComponent', () => {
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
     featureModulesService = TestBed.inject(FeatureModulesService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     config = TestBed.inject(AsmConfig);

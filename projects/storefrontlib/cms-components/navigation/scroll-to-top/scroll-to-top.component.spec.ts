@@ -3,13 +3,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsScrollToTopComponent,
-  I18nTestingModule,
+  MockTranslatePipe,
   ScrollBehavior,
+  TranslatePipe,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
-import { IconTestingModule } from '../../misc/icon/testing/icon-testing.module';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { MockIconComponent } from '../../misc/icon/testing/icon-testing.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 const mockData: CmsScrollToTopComponent = {
@@ -30,15 +32,19 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IconTestingModule, I18nTestingModule],
-      declarations: [ScrollToTopComponent],
+      imports: [ScrollToTopComponent],
       providers: [
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ScrollToTopComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
 
     focusUtility = TestBed.inject(SelectFocusUtility);
     fixture = TestBed.createComponent(ScrollToTopComponent);
@@ -102,14 +108,18 @@ describe('ScrollToTopComponent', () => {
     expect(component['switchDisplay']).toHaveBeenCalled();
   });
 
-  it('should focus first focusable element after activated with keyboard and pressing tab', () => {
+  it('should focus first focusable element after activated with keyboard and pressing tab', (done) => {
     spyOn(focusUtility, 'findFirstFocusable').and.callThrough();
     scrollBtn.focus();
     component['triggedByKeypress'] = true;
     component['onTab'](new KeyboardEvent('keydown', { key: 'Tab' }));
 
-    expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
-    expect(document.activeElement).not.toBe(component.button.nativeElement);
+    // Wait for focus changes to propagate
+    setTimeout(() => {
+      expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
+      expect(document.activeElement).not.toBe(component.button.nativeElement);
+      done();
+    }, 0);
   });
 
   it('should reset triggedByKeypress flag when display is set to false', () => {

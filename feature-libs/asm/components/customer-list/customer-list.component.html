@@ -458,6 +458,9 @@
       [items]="customerListsPage?.userGroups"
       bindLabel="name"
       bindValue="uid"
+      ariaLabelDropdown="{{
+        'common.ngSelectDropdownOptionsList' | cxTranslate
+      }}"
       [cxNgSelectA11y]="{
         ariaLabel: getGroupName(customerListsPage, selectedUserGroupId),
         ariaControls: 'asm-cusomer-list-table',
@@ -483,6 +486,7 @@
 
 <ng-template #createCustomerButton>
   <button
+    *ngIf="asmConfig.asm?.createCustomer?.enable"
     type="button"
     class="btn cx-asm-create-customer-btn"
     (click)="createCustomer()"

@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { standardUser } from '../../../sample-data/shared-users';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
@@ -15,6 +16,7 @@ describe(
   'Account Settings / Close Account Page Accessibility',
   { testIsolation: false },
   () => {
+    isolateTestsBefore();
     before(() => {
       cy.a11yContinuumSetup();
     });

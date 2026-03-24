@@ -325,6 +325,20 @@ input[type='radio'] {
     }
   }
 
+  @include forFeature('a11yNgSelectUnicodeCarets') {
+    .ng-arrow-wrapper {
+      .ng-arrow {
+        border: none;
+      }
+      .ng-arrow::after {
+        content: '\25BC'; // Down Caret
+        font-size: 90%;
+        position: absolute;
+        transform: translate(-75%, -75%);
+      }
+    }
+  }
+
   .ng-select-container {
     padding: 0.6875rem 0;
     line-height: 1.6;
@@ -378,8 +392,14 @@ input[type='radio'] {
 
 ng-select.ng-select.ng-select-opened .ng-select-container,
 ng-select .ng-dropdown-panel {
-  @include forFeature('a11yNgSelectLayering') {
-    z-index: 10;
+  z-index: 10;
+
+  @include forFeature('a11yNgSelectUnicodeCarets') {
+    .ng-arrow-wrapper {
+      .ng-arrow::after {
+        content: '\25B2'; // Up Caret
+      }
+    }
   }
 }
 

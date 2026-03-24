@@ -7,15 +7,19 @@ import {
   ProductImportInfo,
   ProductImportStatus,
 } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import {
-  IconTestingModule,
-  KeyboardFocusTestingModule,
+  FocusDirective,
+  IconComponent,
   LaunchDialogService,
+  MockIconComponent,
+  MockKeyboardFocusDirective,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
+import { ImportEntriesFormComponent } from './import-entries-form/import-entries-form.component';
+import { ImportEntriesSummaryComponent } from './import-entries-summary/import-entries-summary.component';
+import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
 
 const mockProducts: ProductData[] = [
   { productCode: '693923', quantity: 1 },
@@ -51,9 +55,28 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-import-entries-form',
   template: '',
-  standalone: false,
 })
 class MockImportEntriesFormComponent {
+  @Input()
+  type: OrderEntriesSource;
+}
+
+@Component({
+  selector: 'cx-import-to-new-saved-cart-form',
+  template: '',
+})
+class MockImportToNewSavedCartFormComponent {
+  @Input()
+  type: OrderEntriesSource;
+}
+
+@Component({
+  selector: 'cx-import-entries-summary',
+  template: '',
+})
+class MockImportEntriesSummaryComponent {
+  @Input()
+  summary: any;
   @Input()
   type: OrderEntriesSource;
 }
@@ -65,20 +88,34 @@ describe('ImportEntriesDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        IconTestingModule,
-        KeyboardFocusTestingModule,
-      ],
-      declarations: [
-        ImportEntriesDialogComponent,
-        MockImportEntriesFormComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ImportEntriesDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ImportEntriesDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            FocusDirective,
+            ImportEntriesFormComponent,
+            ImportEntriesSummaryComponent,
+            ImportToNewSavedCartFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockIconComponent,
+            MockKeyboardFocusDirective,
+            MockImportEntriesFormComponent,
+            MockImportEntriesSummaryComponent,
+            MockImportToNewSavedCartFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ImportEntriesDialogComponent);
     component = fixture.componentInstance;

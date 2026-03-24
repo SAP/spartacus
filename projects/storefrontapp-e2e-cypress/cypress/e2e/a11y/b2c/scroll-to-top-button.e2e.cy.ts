@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,11 +7,10 @@
 describe('Scroll to top button', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.scrollTo('bottom');
-    cy.get('.cx-scroll-to-top-btn').as('scrollBtn');
-
     // close the cookie banner
     cy.get('button').contains('Allow All').click();
+    cy.scrollTo('bottom');
+    cy.get('.cx-scroll-to-top-btn').as('scrollBtn');
   });
 
   it('should appear when the page is scrolled down', () => {

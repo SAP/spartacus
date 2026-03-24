@@ -1,13 +1,19 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  ReactiveFormsModule,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  I18nModule,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
@@ -25,13 +31,6 @@ class MockForgotPasswordService
   requestEmail = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
@@ -46,17 +45,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        SpinnerModule,
-      ],
-      declarations: [
-        ForgotPasswordComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
-      ],
+      imports: [ForgotPasswordComponent],
       providers: [
         {
           provide: ForgotPasswordComponentService,
@@ -67,7 +56,28 @@ describe('ForgotPasswordComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ForgotPasswordComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .overrideComponent(SpinnerComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(FormErrorsComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(FormRequiredLegendComponent, {
+        remove: { imports: [I18nModule] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .overrideComponent(FormRequiredAsterisksComponent, {
+        remove: { imports: [I18nModule] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

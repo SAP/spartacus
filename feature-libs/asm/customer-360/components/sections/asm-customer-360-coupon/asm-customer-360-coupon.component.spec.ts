@@ -5,17 +5,17 @@ import {
   AsmCustomer360Response,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { I18nTestingModule, UserIdService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { AsmCustomer360CouponComponent } from './asm-customer-360-coupon.component';
 import {
   ActiveCartFacade,
   Cart,
   CartVoucherFacade,
 } from '@spartacus/cart/base/root';
+import { I18nTestingModule, UserIdService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { AsmCustomer360CouponComponent } from './asm-customer-360-coupon.component';
 
 describe('AsmCustomer360CouponComponent', () => {
   let cartVoucherService: CartVoucherFacade;
@@ -95,8 +95,8 @@ describe('AsmCustomer360CouponComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AsmCustomer360CouponComponent,
         AsmCustomer360PromotionListingComponent,
       ],

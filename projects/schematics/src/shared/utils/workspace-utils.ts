@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -133,21 +133,6 @@ export function getProjectTargets(
   }
 
   return projectTargets;
-}
-
-/**
- * Build a default project path for generating.
- * @param project The project to build the path for.
- */
-export function buildDefaultPath(project: WorkspaceProject): string {
-  const root = project.sourceRoot
-    ? `/${project.sourceRoot}/`
-    : `/${project.root}/src/`;
-
-  const projectDirName =
-    project.projectType === ProjectType.Application ? 'app' : 'lib';
-
-  return `${root}${projectDirName}`;
 }
 
 export function getProject<

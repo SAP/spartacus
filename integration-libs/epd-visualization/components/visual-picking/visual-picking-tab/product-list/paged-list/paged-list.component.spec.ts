@@ -2,14 +2,13 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LoggerService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 import { PagedListComponent } from './paged-list.component';
 
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -21,7 +20,6 @@ class MockCxIconComponent {
       <div id="templateEl"></div>
     </ng-template>
   `,
-  standalone: false,
 })
 class MockTemplateComponent {
   @ViewChild('itemTemplate') template: TemplateRef<any>;
@@ -33,7 +31,6 @@ class MockTemplateComponent {
       <div id="headerTemplateEl"></div>
     </ng-template>
   `,
-  standalone: false,
 })
 class MockHeaderTemplateComponent {
   @ViewChild('headerTemplate') template: TemplateRef<any>;
@@ -49,13 +46,17 @@ describe('PagedList Component', () => {
   let headerTemplate: any;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         PagedListComponent,
-        MockCxIconComponent,
         MockHeaderTemplateComponent,
         MockTemplateComponent,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PagedListComponent, {
+        remove: { imports: [IconComponent] },
+        add: { imports: [MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslationService } from '@spartacus/core';
+import { ProductTypes, TranslationService } from '@spartacus/core';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { OutletContextData } from '@spartacus/storefront';
-import { ServiceDetailsCardComponent } from './service-details-card.component';
 import { of } from 'rxjs';
+import { ServiceDetailsCardComponent } from './service-details-card.component';
 
 class MockTranslationService {
   translate() {}
@@ -20,7 +20,7 @@ describe('ServiceDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ServiceDetailsCardComponent],
+      imports: [ServiceDetailsCardComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: CheckoutServiceSchedulePickerService, useValue: {} },
@@ -86,8 +86,8 @@ describe('ServiceDetailsCardComponent', () => {
   it('should show service details card in order summary only if order contains service products', () => {
     component.order = {
       entries: [
-        { product: { productTypes: 'SERVICE' } },
-        { product: { productTypes: 'PHYSICAL' } },
+        { product: { productTypes: ProductTypes.SERVICE } },
+        { product: { productTypes: ProductTypes.PHYSICAL } },
       ],
     } as any;
     expect(component.showServiceDetails()).toEqual(true);
@@ -95,8 +95,8 @@ describe('ServiceDetailsCardComponent', () => {
   it('should not show service details card in order summary if order doesnot contains service products', () => {
     component.order = {
       entries: [
-        { product: { productTypes: 'PHYSICAL' } },
-        { product: { productTypes: 'PHYSICAL' } },
+        { product: { productTypes: ProductTypes.PHYSICAL } },
+        { product: { productTypes: ProductTypes.PHYSICAL } },
       ],
     } as any;
     expect(component.showServiceDetails()).toEqual(false);

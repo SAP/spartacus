@@ -6,10 +6,15 @@
 @import './details/subscription-details';
 @import './cart/subscription-cart-item-list';
 @import './cart/subscription-cart-price-body';
+@import './billing-details/subscription-billing-details';
+@import './list/billing-list';
+@import './list/date-range-modal';
+
 $subscription-billing-components-allowlist:
   cx-subscription-product-price, cx-subscription-product-usage-charge,
   cx-subscription-list, cx-subscription-details, cx-subscription-cart-item-list,
-  cx-subscription-cart-price-body, cx-subscription-actions-modal !default;
+  cx-subscription-cart-price-body, cx-subscription-actions-modal,
+  cx-billing-list, cx-date-range-modal, cx-subscription-billing-details !default;
 
 $skipComponentStyles: () !default;
 

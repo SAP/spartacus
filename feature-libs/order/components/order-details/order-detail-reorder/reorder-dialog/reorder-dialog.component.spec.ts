@@ -6,12 +6,15 @@ import {
   CartModificationList,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
+  FocusDirective,
+  IconComponent,
   ICON_TYPE,
   LaunchDialogService,
   PromotionsModule,
+  SpinnerComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -88,7 +91,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -97,14 +99,10 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -121,14 +119,8 @@ describe('ReorderDialogComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SpinnerModule,
-        I18nTestingModule,
         PromotionsModule,
-      ],
-      declarations: [
         ReorderDialogComponent,
-        MockCxIconComponent,
-        MockSpinnerComponent,
-        MockFocusDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -141,7 +133,26 @@ describe('ReorderDialogComponent', () => {
           useClass: MockMultiCartService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReorderDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            SpinnerComponent,
+            FocusDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockSpinnerComponent,
+            MockFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

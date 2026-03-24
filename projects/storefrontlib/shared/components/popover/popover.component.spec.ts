@@ -35,8 +35,12 @@ describe('PopoverComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IconModule, KeyboardFocusTestingModule, I18nTestingModule],
-      declarations: [PopoverComponent],
+      imports: [
+        IconModule,
+        KeyboardFocusTestingModule,
+        I18nTestingModule,
+        PopoverComponent,
+      ],
       providers: [
         { provide: PositioningService, useClass: MockPositionService },
       ],

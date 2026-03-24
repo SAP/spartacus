@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,12 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
 @NgModule({
-  imports: [CommonModule, NavigationModule, I18nModule],
+  imports: [
+    CommonModule,
+    NavigationModule,
+    I18nModule,
+    CategoryNavigationComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -24,7 +29,6 @@ import { CategoryNavigationComponent } from './category-navigation.component';
       },
     }),
   ],
-  declarations: [CategoryNavigationComponent],
   exports: [CategoryNavigationComponent],
 })
 export class CategoryNavigationModule {}

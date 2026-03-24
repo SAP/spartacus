@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';
 import createSpy = jasmine.createSpy;
 
@@ -26,10 +28,9 @@ class MockMessageService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 describe('GlobalMessageComponent', () => {
@@ -39,12 +40,16 @@ describe('GlobalMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [GlobalMessageComponent, MockCxIconComponent],
+      imports: [GlobalMessageComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(GlobalMessageComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

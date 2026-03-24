@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,6 @@ import {
   injectService,
 } from '../shared/utils/file-utils';
 import {
-  addToModuleDeclarations,
   addToModuleExports,
   addToModuleImports,
   buildRelativePath,
@@ -131,14 +130,6 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     );
     changes.push(...addToModuleImportsChanges);
 
-    const addToModuleDeclarationsChanges = addToModuleDeclarations(
-      tree,
-      modulePath,
-      componentName,
-      moduleTs
-    );
-    changes.push(...addToModuleDeclarationsChanges);
-
     const addToModuleExportsChanges = addToModuleExports(
       tree,
       modulePath,
@@ -148,30 +139,27 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     changes.push(...addToModuleExportsChanges);
     /*** updating the module's metadata end ***/
 
-    const componentImportSkipped = !Boolean(options.declareCmsModule);
-    if (componentImportSkipped) {
-      const componentFileName = `${strings.dasherize(
-        options.name
-      )}.${strings.dasherize(options.type)}.ts`;
-      const componentPath = getPathResultsForFile(
-        tree,
-        componentFileName,
-        '/src'
-      )[0];
+    const componentFileName = `${strings.dasherize(
+      options.name
+    )}.${strings.dasherize(options.type)}.ts`;
+    const componentPath = getPathResultsForFile(
+      tree,
+      componentFileName,
+      '/src'
+    )[0];
 
-      const componentRelativeImportPath = buildRelativePath(
-        modulePath,
-        componentPath
-      );
-      const componentImport = insertImport(
-        moduleTs,
-        modulePath,
-        componentName,
-        stripTsFromImport(componentRelativeImportPath),
-        false
-      );
-      changes.push(componentImport);
-    }
+    const componentRelativeImportPath = buildRelativePath(
+      modulePath,
+      componentPath
+    );
+    const componentImport = insertImport(
+      moduleTs,
+      modulePath,
+      componentName,
+      stripTsFromImport(componentRelativeImportPath),
+      false
+    );
+    changes.push(componentImport);
 
     commitChanges(tree, modulePath, changes, InsertDirection.RIGHT);
     context.logger.info(`Updated ${modulePath}`);
@@ -434,6 +422,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
             route,
             commonModule,
             module: declaringModule,
+            typeSeparator: '.',
           })
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
@@ -453,7 +442,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         style,
         viewEncapsulation,
         skipImport,
-        standalone: false,
       }),
       mergeWith(templateSource, MergeStrategy.Overwrite),
       updateModule(options),

@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
@@ -15,7 +17,9 @@ import {
   CmsService,
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
   QueryState,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -23,29 +27,19 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import {
-  OpfPaymentFacade,
   OpfPaymentAfterRedirectScriptResponse,
+  OpfPaymentFacade,
   OpfPaymentSessionData,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
-import { Pipe, PipeTransform } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { Component, Input } from '@angular/core';
-
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
   template: '',
-  standalone: false,
+  standalone: true,
 })
 class MockOpfCheckoutPaymentsComponent {
   @Input() onlyPaymentWrapperMode: boolean;
@@ -113,13 +107,9 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         StoreModule.forRoot({}),
-      ],
-      declarations: [
         OpfB2bCheckoutPaymentAndReviewComponent,
-        MockTranslatePipe,
-        MockOpfCheckoutPaymentsComponent,
+        I18nTestingModule,
       ],
       providers: [
         {
@@ -137,7 +127,12 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
         { provide: ActivatedRoute, useValue: {} },
         { provide: CmsService, useClass: MockCmsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfB2bCheckoutPaymentAndReviewComponent, {
+        remove: { imports: [TranslatePipe, OpfCheckoutPaymentsComponent] },
+        add: { imports: [MockTranslatePipe, MockOpfCheckoutPaymentsComponent] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutPaymentAndReviewComponent);
     component = fixture.componentInstance;

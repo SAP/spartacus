@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,9 @@ export class I18nextInitializer implements OnDestroy {
         escapeValue: false,
         skipOnVariables: false,
       },
+
+      // @ts-ignore -- In CXSPA-12377 we'll remove this @ts-ignore, after we upgrade to the latest i18next version
+      showSupportNotice: false,
     };
 
     if (this.config.i18n?.backend) {

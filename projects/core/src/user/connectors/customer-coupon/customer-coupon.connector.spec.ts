@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { CustomerCouponAdapter } from './customer-coupon.adapter';
 import { CustomerCouponConnector } from './customer-coupon.connector';
 import createSpy = jasmine.createSpy;
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 
 const PAGE_SIZE = 5;
 const currentPage = 1;
@@ -33,7 +32,6 @@ class MockUserAdapter implements CustomerCouponAdapter {
 describe('CustomerCouponConnector', () => {
   let service: CustomerCouponConnector;
   let adapter: CustomerCouponAdapter;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +42,6 @@ describe('CustomerCouponConnector', () => {
 
     service = TestBed.inject(CustomerCouponConnector);
     adapter = TestBed.inject(CustomerCouponAdapter);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   it('should be created', () => {
@@ -89,22 +86,8 @@ describe('CustomerCouponConnector', () => {
     );
   });
 
-  it('claimCustomerCoupon should call adapter.claimCustomerCoupon in case enableClaimCustomerCouponWithCodeInRequestBody is disabled', () => {
+  it('claimCustomerCoupon should call adapter.claimCustomerCouponWithCodeInBody', () => {
     let result;
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-    service
-      .claimCustomerCoupon('userId', 'couponCode')
-      .subscribe((res) => (result = res));
-    expect(result).toEqual('claim-userId');
-    expect(adapter.claimCustomerCoupon).toHaveBeenCalledWith(
-      'userId',
-      'couponCode'
-    );
-  });
-
-  it('claimCustomerCoupon should call adapter.claimCustomerCouponWithCodeInBody in case enableClaimCustomerCouponWithCodeInRequestBody is enabled', () => {
-    let result;
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
     service
       .claimCustomerCoupon('userId', 'couponCode')
       .subscribe((res) => (result = res));

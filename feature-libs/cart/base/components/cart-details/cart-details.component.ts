@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -13,15 +14,25 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, TranslatePipe } from '@spartacus/core';
+import { PromotionsComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
+import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
+import { CartValidationWarningsComponent } from '../validation/cart-warnings/cart-validation-warnings.component';
 
 @Component({
   selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CartValidationWarningsComponent,
+    PromotionsComponent,
+    CartItemListComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;

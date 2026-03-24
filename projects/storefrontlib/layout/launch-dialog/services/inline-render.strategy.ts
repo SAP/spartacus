@@ -1,10 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
 import {
   ComponentFactoryResolver,
   ComponentRef,
@@ -19,6 +18,7 @@ import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchInlineDialog } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {

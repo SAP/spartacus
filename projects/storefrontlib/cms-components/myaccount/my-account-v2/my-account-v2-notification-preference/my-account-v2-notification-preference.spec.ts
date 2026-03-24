@@ -2,19 +2,21 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  I18nTestingModule,
+  FeatureDirective,
+  MockTranslatePipe,
   NotificationPreference,
+  TranslatePipe,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
 })
 class MockCxSpinnerComponent {}
 
@@ -52,19 +54,27 @@ describe('MyAccountV2NotificationPreferenceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2NotificationPreferenceComponent,
-        MockCxSpinnerComponent,
-        MockFeatureDirective,
-      ],
+      imports: [MyAccountV2NotificationPreferenceComponent],
       providers: [
         {
           provide: UserNotificationPreferenceService,
           useValue: notificationPreferenceService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2NotificationPreferenceComponent, {
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

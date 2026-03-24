@@ -7,11 +7,18 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  FeatureDirective as CxFeatureDirective,
+  LoggerService,
+  MockTranslatePipe,
+  Product,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
+import { MockFeatureDirective } from '../../test/mock-feature-directive';
 
 class MockCarouselService {
   getItemsPerSlide(
@@ -25,7 +32,6 @@ class MockCarouselService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -33,7 +39,6 @@ class MockCxIconComponent {
 
 @Component({
   template: ` <div id="templateEl"></div> `,
-  standalone: false,
 })
 class MockTemplateComponent {}
 
@@ -57,14 +62,22 @@ describe('Carousel Component', () => {
   let template: TemplateRef<any>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-      ],
+      imports: [CarouselComponent, MockTemplateComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
+    })
+      .overrideComponent(CarouselComponent, {
+        add: {
+          imports: [
+            MockCxIconComponent,
+            MockTranslatePipe,
+            MockFeatureDirective,
+          ],
+        },
+        remove: {
+          imports: [IconComponent, TranslatePipe, CxFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -660,7 +673,6 @@ describe('Carousel Component', () => {
       itemIndex:
       <span class="child-itemIndex">{{ itemIndex }}</span>
     </div>`,
-  standalone: false,
 })
 class TestChildComponent implements OnDestroy {
   @Input() item: any;
@@ -685,7 +697,7 @@ class TestChildComponent implements OnDestroy {
       <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
     </ng-template>
   `,
-  standalone: false,
+  imports: [TestChildComponent, CarouselComponent],
 })
 class TestParentComponent {
   mockTitle = 'Test Carousel';
@@ -706,16 +718,14 @@ describe('Carousel Component tested in TestParentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestChildComponent.destroyedCount = 0;
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-        TestParentComponent,
-        TestChildComponent,
-      ],
+      imports: [CarouselComponent, TestParentComponent, TestChildComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
+    })
+      .overrideComponent(CarouselComponent, {
+        remove: { imports: [IconComponent, TranslatePipe] },
+        add: { imports: [MockCxIconComponent, MockTranslatePipe] },
+      })
+      .compileComponents();
 
     service = TestBed.inject(CarouselService);
     spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));

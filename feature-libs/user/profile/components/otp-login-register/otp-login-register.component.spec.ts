@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
@@ -21,27 +22,30 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   SiteAdapter,
   Title,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
+import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
-import { RegisterComponentService } from '../register';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -64,10 +68,7 @@ const mockTitlesList: Title[] = [
   },
 ];
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -75,7 +76,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -165,18 +165,12 @@ describe('OneTimePasswordRegisterComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
-      ],
-      declarations: [
         OneTimePasswordRegisterComponent,
-        MockUrlPipe,
-        MockSpinnerComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {
@@ -215,8 +209,19 @@ describe('OneTimePasswordRegisterComponent', () => {
           provide: ClientAuthenticationTokenService,
           useClass: MockClientAuthenticationTokenService,
         },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OneTimePasswordRegisterComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe, SpinnerComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe, MockSpinnerComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

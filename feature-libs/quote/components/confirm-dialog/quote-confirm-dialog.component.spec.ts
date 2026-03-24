@@ -2,16 +2,21 @@ import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CxDatePipe,
-  I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
@@ -43,16 +48,12 @@ const confirmationContext: ConfirmationContext = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -82,22 +83,31 @@ describe('QuoteConfirmDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        QuoteConfirmDialogComponent,
-        MockKeyboardFocusDirective,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [QuoteConfirmDialogComponent],
       providers: [
         CxDatePipe,
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteConfirmDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockKeyboardFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

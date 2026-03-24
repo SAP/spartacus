@@ -1,13 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CostCenter,
   EntitiesModel,
+  FeatureConfigService,
   isNotUndefined,
   PaginationModel,
 } from '@spartacus/core';
@@ -39,12 +40,20 @@ export interface CostCenterModel {
 })
 export class CostCenterListService extends ListService<CostCenterModel> {
   protected tableType = OrganizationTableType.COST_CENTER;
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected tableService: TableService,
     protected costCenterService: CostCenterService
   ) {
     super(tableService);
+  }
+
+  /**
+   * Enable search functionality for cost center list based on feature toggle.
+   */
+  override isSearchEnabled(): boolean {
+    return this.featureConfigService.isEnabled('enableB2BCostCenterSearch');
   }
 
   protected load(

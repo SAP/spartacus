@@ -1,14 +1,22 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
 } from '@angular/forms';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
+import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';
-import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
+import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 
 const mockFormConfig: FormConfig = {
@@ -34,7 +42,7 @@ const mockFormConfig: FormConfig = {
       </form>
     </div>
   `,
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule, PasswordVisibilityToggleModule],
 })
 class MockFormComponent {
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -55,13 +63,11 @@ describe('PasswordVisibilityToggleDirective', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        IconTestingModule,
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
+        MockFormComponent,
       ],
-      declarations: [MockFormComponent],
       providers: [
         {
           provide: FormConfig,
@@ -69,7 +75,14 @@ describe('PasswordVisibilityToggleDirective', () => {
         },
         { provide: WindowRef, useClass: MockWinRef },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PasswordVisibilityToggleComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockIconComponent, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
