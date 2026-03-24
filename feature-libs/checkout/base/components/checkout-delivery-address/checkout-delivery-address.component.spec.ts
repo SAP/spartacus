@@ -132,6 +132,8 @@ class MockCardComponent {
   fitToContainer: boolean;
   @Input()
   index: number;
+  @Input()
+  role: string;
 }
 
 class MockCheckoutDeliveryModesFacade
@@ -372,7 +374,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
       beforeEach(() => {
         spyOn(featureConfig, 'isEnabled').and.returnValue(true);
       });
-      it('should be set to "application" for selected address', () => {
+      it('should be set to "region" for selected address', () => {
         expect(
           component.getCardContent(
             mockAddress1,
@@ -386,7 +388,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         ).toEqual('region');
       });
 
-      it('should be set to "button" for all non selected addresses', () => {
+      it('should be set to "group" for all non selected addresses', () => {
         expect(
           component.getCardContent(
             mockAddress1,
@@ -398,6 +400,44 @@ describe('CheckoutDeliveryAddressComponent', () => {
             'M'
           ).role
         ).toEqual('group');
+      });
+    });
+
+    describe('role in template', () => {
+      beforeEach(() => {
+        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
+      });
+
+      it('should pass "region" role to cx-card for selected address', () => {
+        checkoutDeliveryAddressFacade.getDeliveryAddressState =
+          createSpy().and.returnValue(
+            of({ loading: false, error: false, data: mockAddress1 })
+          );
+        fixture.detectChanges();
+
+        const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+        const selectedCard = cards.find(
+          (card) => card.componentInstance.content?.role === 'region'
+        );
+        expect(selectedCard).toBeTruthy();
+        expect(selectedCard?.componentInstance.role).toEqual('region');
+      });
+
+      it('should pass "group" role to cx-card for non-selected addresses', () => {
+        checkoutDeliveryAddressFacade.getDeliveryAddressState =
+          createSpy().and.returnValue(
+            of({ loading: false, error: false, data: mockAddress1 })
+          );
+        fixture.detectChanges();
+
+        const cards = fixture.debugElement.queryAll(By.css('cx-card'));
+        const nonSelectedCards = cards.filter(
+          (card) => card.componentInstance.content?.role === 'group'
+        );
+        expect(nonSelectedCards.length).toBeGreaterThan(0);
+        nonSelectedCards.forEach((card) => {
+          expect(card.componentInstance.role).toEqual('group');
+        });
       });
     });
   });
