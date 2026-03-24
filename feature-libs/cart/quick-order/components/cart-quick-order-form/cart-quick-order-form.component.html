@@ -10,8 +10,12 @@
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
             <cx-form-required-asterisks />
           </label>
-
           <input
+            [attr.aria-invalid]="
+              quickOrderForm.get('productCode')?.touched &&
+              quickOrderForm.get('productCode')?.invalid
+            "
+            [attr.aria-errormessage]="'productCodeError'"
             [attr.aria-label]="
               'quickOrderCartForm.entryProductCode' | cxTranslate
             "
@@ -23,13 +27,11 @@
             type="text"
           />
         </span>
-
         <span class="cx-cart-quick-order-form-qty">
           <label class="cx-cart-quick-order-form-label">
             {{ 'quickOrderCartForm.quantityFullLabel' | cxTranslate }}
             <cx-form-required-asterisks />
           </label>
-
           <input
             [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
             class="form-control input-quantity"
@@ -37,14 +39,32 @@
             type="number"
           />
         </span>
-
+        <cx-form-errors
+          *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
+          id="productCodeError"
+          [translationParams]="{
+            label: 'quickOrderCartForm.productCodeLabel' | cxTranslate,
+          }"
+          [control]="quickOrderForm.get('productCode')"
+        ></cx-form-errors>
         <button
+          *cxFeature="'a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
+          [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
+          [class.disabled]="cartIsLoading$ | async"
+          [disabled]="cartIsLoading$ | async"
+          class="btn btn-block btn-secondary apply-quick-order-button"
+          type="submit"
+        >
+          {{ 'quickOrderCartForm.add' | cxTranslate }}
+        </button>
+        <button
+          *cxFeature="'!a11yCartQuickOrderFormEnableSubmitAndAddValidation'"
           [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
           [class.disabled]="cartIsLoading$ | async"
           [disabled]="
             (cartIsLoading$ | async) ||
-            !quickOrderForm?.get('productCode')?.value ||
-            !quickOrderForm?.get('quantity')?.value
+            !quickOrderForm.get('productCode')?.value ||
+            !quickOrderForm.get('quantity')?.value
           "
           class="btn btn-block btn-secondary apply-quick-order-button"
           type="submit"

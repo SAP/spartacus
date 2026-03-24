@@ -1,5 +1,9 @@
 <ng-container *ngIf="state$ | async as state">
-  <div>
+  <div
+    role="listbox"
+    [attr.aria-multiselectable]="facet.multiSelect ? true : null"
+    [id]="facet.name + '-list-id'"
+  >
     <a
       *ngFor="let value of facet.values | slice: 0 : state.topVisible"
       #facetValue
@@ -10,8 +14,8 @@
       [cxFocus]="{ key: value.name }"
       (keydown)="onKeydown($event)"
       (keydown.space)="openLink($any($event))"
-      [attr.role]="facet.multiSelect ? 'checkbox' : null"
-      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      role="option"
+      [attr.aria-selected]="value.selected"
       attr.aria-label="{{
         'productFacetNavigation.ariaLabelItemsAvailable'
           | cxTranslate: { name: value.name, count: value.count }
@@ -23,7 +27,7 @@
       >
     </a>
 
-    <div class="more">
+    <div class="more" role="presentation">
       <a
         *ngFor="
           let value of facet.values
@@ -37,52 +41,105 @@
         [cxFocus]="{ key: value.name }"
         (keydown)="onKeydown($event)"
         (keydown.space)="openLink($any($event))"
+        role="option"
+        [attr.aria-selected]="value.selected"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelItemsAvailable'
+            | cxTranslate: { name: value.name, count: value.count }
+        }}"
       >
         <span
           >{{ value.name }}<span class="count">{{ value.count }}</span></span
         >
       </a>
 
-      <button
-        *ngIf="
-          state.maxVisible &&
-          state.topVisible &&
-          state.maxVisible > state.topVisible
-        "
-        (click)="decreaseVisibleValues()"
-        [cxAtMessage]="
-          'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
-        "
-        aria-expanded="true"
-        attr.aria-label="{{
-          'productFacetNavigation.ariaLabelShowLess' | cxTranslate
-        }}"
-        class="cx-action-link"
-        [cxFocus]="{ key: 'moreorless' }"
-      >
-        {{ 'productList.showLess' | cxTranslate }}
-      </button>
+      <ng-container *cxFeature="'!a11yListSemanticsForFacets'">
+        <button
+          *ngIf="
+            state.maxVisible &&
+            state.topVisible &&
+            state.maxVisible > state.topVisible
+          "
+          (click)="decreaseVisibleValues()"
+          [cxAtMessage]="
+            'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
+          "
+          aria-expanded="true"
+          attr.aria-label="{{
+            'productFacetNavigation.ariaLabelShowLess' | cxTranslate
+          }}"
+          class="cx-action-link"
+          [cxFocus]="{ key: 'moreorless' }"
+        >
+          {{ 'productList.showLess' | cxTranslate }}
+        </button>
 
-      <button
-        *ngIf="
-          state.maxVisible &&
-          facet.values &&
-          state.maxVisible > 0 &&
-          state.maxVisible < facet.values.length
-        "
-        (click)="increaseVisibleValues()"
-        [cxAtMessage]="
-          'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
-        "
-        aria-expanded="false"
-        attr.aria-label="{{
-          'productFacetNavigation.ariaLabelShowMore' | cxTranslate
-        }}"
-        class="cx-action-link"
-        [cxFocus]="{ key: 'moreorless' }"
-      >
-        {{ 'productList.showMore' | cxTranslate }}
-      </button>
+        <button
+          *ngIf="
+            state.maxVisible &&
+            facet.values &&
+            state.maxVisible > 0 &&
+            state.maxVisible < facet.values.length
+          "
+          (click)="increaseVisibleValues()"
+          [cxAtMessage]="
+            'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
+          "
+          aria-expanded="false"
+          attr.aria-label="{{
+            'productFacetNavigation.ariaLabelShowMore' | cxTranslate
+          }}"
+          class="cx-action-link"
+          [cxFocus]="{ key: 'moreorless' }"
+        >
+          {{ 'productList.showMore' | cxTranslate }}
+        </button>
+      </ng-container>
     </div>
   </div>
+
+  <ng-container *cxFeature="'a11yListSemanticsForFacets'">
+    <button
+      *ngIf="
+        state.maxVisible &&
+        state.topVisible &&
+        state.maxVisible > state.topVisible
+      "
+      (click)="decreaseVisibleValues()"
+      [cxAtMessage]="
+        'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
+      "
+      aria-expanded="true"
+      [attr.aria-controls]="facet.name + '-list-id'"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelShowLess' | cxTranslate
+      }}"
+      class="cx-action-link"
+      [cxFocus]="{ key: 'moreorless' }"
+    >
+      {{ 'productList.showLess' | cxTranslate }}
+    </button>
+
+    <button
+      *ngIf="
+        state.maxVisible &&
+        facet.values &&
+        state.maxVisible > 0 &&
+        state.maxVisible < facet.values.length
+      "
+      (click)="increaseVisibleValues()"
+      [cxAtMessage]="
+        'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
+      "
+      aria-expanded="false"
+      [attr.aria-controls]="facet.name + '-list-id'"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelShowMore' | cxTranslate
+      }}"
+      class="cx-action-link"
+      [cxFocus]="{ key: 'moreorless' }"
+    >
+      {{ 'productList.showMore' | cxTranslate }}
+    </button>
+  </ng-container>
 </ng-container>
