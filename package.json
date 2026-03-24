@@ -295,6 +295,7 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
+    "flatted": "^3.4.2",
     "koa": "^3.1.2",
     "minimatch": "^10.2.1",
     "karma": {
