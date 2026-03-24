@@ -342,8 +342,10 @@ if (environment.cpq) {
         a11yPasswordVisibilityToggle: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
+        a11yListSemanticsForFacets: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
+        a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
       };
       return appFeatureToggles;
     }),

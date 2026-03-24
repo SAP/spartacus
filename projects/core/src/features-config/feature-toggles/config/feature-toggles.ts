@@ -427,6 +427,13 @@ export interface FeatureTogglesInterface {
   a11yAddedToCartDialogHeading?: boolean;
 
   /**
+   * Ensures the facet component displays elements with proper listbox semantics.
+   * The screen reader should recognize links as listbox options and display visible-focus outlines correctly.
+   * Affects: FacetComponent
+   */
+  a11yListSemanticsForFacets?: boolean;
+
+  /**
    * Hides empty outlet wrapper elements in the cart item list table when they have no content.
    * Otherwise screen readers would interpret them as extra table columns.
    * Affects: CartItemListComponent
@@ -439,6 +446,14 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   a11yReviewsKeyboardControls?: boolean;
+
+  /**
+   * Use on existing form buttons that are programatically disabled/enabled.
+   * To use, duplicate button and use false in original and true in duplicate. The duplicated button
+   * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
+   * is in disabled state.
+   */
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -488,6 +503,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPasswordVisibilityToggle: false,
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
+  a11yListSemanticsForFacets: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
 };
