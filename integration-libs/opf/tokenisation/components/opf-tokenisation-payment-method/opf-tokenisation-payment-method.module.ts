@@ -14,13 +14,13 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
-import { OpfTokenisationCheckoutPaymentMethodComponent } from './opf-tokenisation-checkout-payment-method.component';
+import { OpfTokenisationPaymentMethodComponent } from './opf-tokenisation-payment-method.component';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
   CheckoutPaymentFormModule,
 } from '@spartacus/checkout/base/components';
-import { OpfTokenisationCheckoutPaymentMethodService } from './opf-tokenisation-checkout-payment-method.service';
+import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-method.service';
 
 @NgModule({
   imports: [
@@ -31,19 +31,19 @@ import { OpfTokenisationCheckoutPaymentMethodService } from './opf-tokenisation-
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
-    OpfTokenisationCheckoutPaymentMethodComponent,
+    OpfTokenisationPaymentMethodComponent,
   ],
   providers: [
-    OpfTokenisationCheckoutPaymentMethodService,
+    OpfTokenisationPaymentMethodService,
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPaymentDetails: {
-          component: OpfTokenisationCheckoutPaymentMethodComponent,
+          component: OpfTokenisationPaymentMethodComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  exports: [OpfTokenisationCheckoutPaymentMethodComponent],
+  exports: [OpfTokenisationPaymentMethodComponent],
 })
-export class OpfTokenisationCheckoutPaymentMethodModule {}
+export class OpfTokenisationPaymentMethodModule {}

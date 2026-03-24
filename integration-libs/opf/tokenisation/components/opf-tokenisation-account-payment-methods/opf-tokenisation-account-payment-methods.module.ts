@@ -13,7 +13,7 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { OpfTokenisationPaymentMethodsComponent } from './opf-tokenisation-payment-methods.component';
+import { OpfTokenisationAccountPaymentMethodsComponent } from './opf-tokenisation-account-payment-methods.component';
 import {
   CardModule,
   FormRequiredLegendComponent,
@@ -28,18 +28,18 @@ import {
     I18nModule,
     FeaturesConfigModule,
     FormRequiredLegendComponent,
-    OpfTokenisationPaymentMethodsComponent,
+    OpfTokenisationAccountPaymentMethodsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountPaymentDetailsComponent: {
-          component: OpfTokenisationPaymentMethodsComponent,
+          component: OpfTokenisationAccountPaymentMethodsComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
-  exports: [OpfTokenisationPaymentMethodsComponent],
+  exports: [OpfTokenisationAccountPaymentMethodsComponent],
 })
-export class OpfTokenisationPaymentMethodsModule {}
+export class OpfTokenisationAccountPaymentMethodsModule {}

@@ -18,8 +18,8 @@ import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../root/facade';
 
 @Component({
-  selector: 'cx-opf-tokenisation-payment-methods',
-  templateUrl: './opf-tokenisation-payment-methods.component.html',
+  selector: 'cx-opf-tokenisation-account-payment-methods',
+  templateUrl: './opf-tokenisation-account-payment-methods.component.html',
   imports: [
     NgIf,
     SpinnerComponent,
@@ -29,7 +29,7 @@ import { OpfTokenisationFacade } from '../../root/facade';
     TranslatePipe,
   ],
 })
-export class OpfTokenisationPaymentMethodsComponent implements OnInit {
+export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string | undefined;
   loading$: Observable<boolean>;

@@ -47,7 +47,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation';
 
 @Injectable()
-export class OpfTokenisationCheckoutPaymentMethodService {
+export class OpfTokenisationPaymentMethodService {
   protected userPaymentService = inject(UserPaymentService);
   protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
   protected busy$ = new BehaviorSubject<boolean>(false);

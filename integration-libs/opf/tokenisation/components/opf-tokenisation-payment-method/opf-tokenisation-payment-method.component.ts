@@ -16,11 +16,11 @@ import {
 import { Address, PaymentDetails, TranslatePipe } from '@spartacus/core';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { OpfTokenisationCheckoutPaymentMethodService } from './opf-tokenisation-checkout-payment-method.service';
+import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-method.service';
 
 @Component({
-  selector: 'cx-opf-tokenisation-checkout-payment-method',
-  templateUrl: './opf-tokenisation-checkout-payment-method.component.html',
+  selector: 'cx-opf-tokenisation-payment-method',
+  templateUrl: './opf-tokenisation-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
@@ -30,13 +30,13 @@ import { OpfTokenisationCheckoutPaymentMethodService } from './opf-tokenisation-
     AsyncPipe,
     TranslatePipe,
   ],
-  providers: [OpfTokenisationCheckoutPaymentMethodService],
+  providers: [OpfTokenisationPaymentMethodService],
 })
-export class OpfTokenisationCheckoutPaymentMethodComponent
+export class OpfTokenisationPaymentMethodComponent
   implements OnInit, OnDestroy
 {
-  protected OpfTokenisationCheckoutPaymentMethodService = inject(
-    OpfTokenisationCheckoutPaymentMethodService
+  protected OpfTokenisationPaymentMethodService = inject(
+    OpfTokenisationPaymentMethodService
   );
 
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
@@ -45,18 +45,17 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
   showSavedCards$: Observable<boolean>;
 
   ngOnInit(): void {
-    this.OpfTokenisationCheckoutPaymentMethodService.initialize();
-    this.cards$ = this.OpfTokenisationCheckoutPaymentMethodService.getCards$();
-    this.isUpdating$ =
-      this.OpfTokenisationCheckoutPaymentMethodService.isUpdating$;
+    this.OpfTokenisationPaymentMethodService.initialize();
+    this.cards$ = this.OpfTokenisationPaymentMethodService.getCards$();
+    this.isUpdating$ = this.OpfTokenisationPaymentMethodService.isUpdating$;
     this.selectedMethod$ =
-      this.OpfTokenisationCheckoutPaymentMethodService.selectedMethod$;
+      this.OpfTokenisationPaymentMethodService.selectedMethod$;
     this.showSavedCards$ =
-      this.OpfTokenisationCheckoutPaymentMethodService.showSavedCards$;
+      this.OpfTokenisationPaymentMethodService.showSavedCards$;
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
-    this.OpfTokenisationCheckoutPaymentMethodService.selectPaymentMethod(
+    this.OpfTokenisationPaymentMethodService.selectPaymentMethod(
       paymentDetails
     );
   }
@@ -67,21 +66,21 @@ export class OpfTokenisationCheckoutPaymentMethodComponent
     paymentDetails: PaymentDetails;
     billingAddress?: Address;
   }): void {
-    this.OpfTokenisationCheckoutPaymentMethodService.setPaymentDetails({
+    this.OpfTokenisationPaymentMethodService.setPaymentDetails({
       paymentDetails,
       billingAddress,
     });
   }
 
   next(): void {
-    this.OpfTokenisationCheckoutPaymentMethodService.next();
+    this.OpfTokenisationPaymentMethodService.next();
   }
 
   back(): void {
-    this.OpfTokenisationCheckoutPaymentMethodService.back();
+    this.OpfTokenisationPaymentMethodService.back();
   }
 
   ngOnDestroy(): void {
-    this.OpfTokenisationCheckoutPaymentMethodService.destroy();
+    this.OpfTokenisationPaymentMethodService.destroy();
   }
 }

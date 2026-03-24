@@ -16,7 +16,7 @@ import {
 import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfTokenisationFacade } from '../../root/facade';
-import { OpfTokenisationPaymentMethodsComponent } from './opf-tokenisation-payment-methods.component';
+import { OpfTokenisationAccountPaymentMethodsComponent } from './opf-tokenisation-account-payment-methods.component';
 
 @Component({
   selector: 'cx-card',
@@ -30,9 +30,9 @@ class MockCardComponent {}
 })
 class MockSpinnerComponent {}
 
-describe('OpfTokenisationPaymentMethodsComponent', () => {
-  let component: OpfTokenisationPaymentMethodsComponent;
-  let fixture: ComponentFixture<OpfTokenisationPaymentMethodsComponent>;
+describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
+  let component: OpfTokenisationAccountPaymentMethodsComponent;
+  let fixture: ComponentFixture<OpfTokenisationAccountPaymentMethodsComponent>;
   let tokenisationFacade: jasmine.SpyObj<OpfTokenisationFacade>;
   let translationService: jasmine.SpyObj<TranslationService>;
 
@@ -69,14 +69,17 @@ describe('OpfTokenisationPaymentMethodsComponent', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [OpfTokenisationPaymentMethodsComponent, I18nTestingModule],
+      imports: [
+        OpfTokenisationAccountPaymentMethodsComponent,
+        I18nTestingModule,
+      ],
       providers: [
         { provide: OpfTokenisationFacade, useValue: facadeSpy },
         { provide: TranslationService, useValue: translationSpy },
         { provide: GlobalMessageService, useValue: globalMessageSpy },
       ],
     })
-      .overrideComponent(OpfTokenisationPaymentMethodsComponent, {
+      .overrideComponent(OpfTokenisationAccountPaymentMethodsComponent, {
         remove: {
           imports: [CardComponent, SpinnerComponent, TranslatePipe],
         },
@@ -99,7 +102,9 @@ describe('OpfTokenisationPaymentMethodsComponent', () => {
     tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
     translationService.translate.and.returnValue(of('translated'));
 
-    fixture = TestBed.createComponent(OpfTokenisationPaymentMethodsComponent);
+    fixture = TestBed.createComponent(
+      OpfTokenisationAccountPaymentMethodsComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
