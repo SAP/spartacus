@@ -5,7 +5,7 @@
  */
 
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
-import * as cart from '../../../helpers/cart';
+import * as cart from '../../../helpers/cart';  
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationCartVc from '../../../helpers/product-configurator-cart-vc';
@@ -284,7 +284,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Skipped due to JDK-21 (CXSPA-10506): Checkout process for configurable products', () => {
+  describe('Checkout process for configurable products', () => {
     it('should support configurable product', () => {
       configuration.completeOrderProcess(testProductMultiLevel, true);
     });

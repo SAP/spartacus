@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+ 
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
-import * as configuration from '../../../helpers/product-configurator';
+import * as configuration from '../../../helpers/product-configurator'; 
 import * as configurationOv from '../../../helpers/product-configurator-overview';
 import * as configurationOvVc from '../../../helpers/product-configurator-overview-vc';
 import * as restartDialog from '../../../helpers/product-configurator-restart-dialog';
@@ -39,7 +39,7 @@ context('Restart dialog for product configuration', () => {
     navigateToConfigurationAndCheckDialog();
   });
 
-  it.skip('skipped due to JDK-21 (CXSPA-10506): should keep configuration on resume (CXSPA-1786)', () => {
+  it('should keep configuration on resume (CXSPA-1786)', () => {
     restartDialog.resume();
 
     restartDialog.checkIsClosed();
