@@ -15,7 +15,11 @@ class MockSubListComponent {
   @Input() i18nRoot;
 }
 
-class MockListService {}
+class MockListService {
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+}
 
 @NgModule({
   imports: [MockSubListComponent],

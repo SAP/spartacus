@@ -10,12 +10,14 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
+  Validators,
 } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -24,11 +26,16 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
+  FeatureConfigService,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
 } from '@spartacus/core';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
@@ -43,6 +50,8 @@ import { first, map } from 'rxjs/operators';
     FormRequiredAsterisksComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
+    FormErrorsComponent,
   ],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
@@ -56,6 +65,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription: Subscription = new Subscription();
   protected cartEventsSubscription: Subscription = new Subscription();
   protected minQuantityValue: number = 1;
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -91,8 +101,11 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
+    const useValidation = this.featureConfigService.isEnabled(
+      'a11yCartQuickOrderFormEnableSubmitAndAddValidation'
+    );
     this.quickOrderForm = this.formBuilder.group({
-      productCode: ['', []],
+      productCode: ['', useValidation ? [Validators.required] : []],
       quantity: [
         this.minQuantityValue,
         {

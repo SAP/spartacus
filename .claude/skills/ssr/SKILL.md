@@ -17,10 +17,10 @@ This skill covers Server-Side Rendering (SSR) development and testing.
 ## Commands
 
 ```bash
-# Test SSR lib (Jest)
-npm run setup:test
+# Unit test SSR lib (Jest)
+nx run setup:test
 
-# SSR E2E tests (requires special build first)
+# E2E SSR (requires special build first)
 npm run build:ssr:local-http-backend   # Build prerequisite - must run first
 npm run test:ssr                       # Run SSR E2E tests
 ```

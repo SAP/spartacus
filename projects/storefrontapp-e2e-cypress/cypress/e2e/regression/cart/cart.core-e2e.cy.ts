@@ -133,7 +133,7 @@ describe('Cart', () => {
           // remove cart
           cy.request({
             method: 'DELETE',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
+            url: `${Cypress.env('API_URL')}${Cypress.env(
               'OCC_PREFIX'
             )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
             headers: {
@@ -153,7 +153,7 @@ describe('Cart', () => {
           cy.request({
             // create cart
             method: 'POST',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
+            url: `${Cypress.env('API_URL')}${Cypress.env(
               'OCC_PREFIX'
             )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
             headers: {
@@ -163,7 +163,7 @@ describe('Cart', () => {
             // add entry to cart
             return cy.request({
               method: 'POST',
-              url: `${Cypress.env('API_URL')}/${Cypress.env(
+              url: `${Cypress.env('API_URL')}${Cypress.env(
                 'OCC_PREFIX'
               )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
                 response.body.code
@@ -205,7 +205,7 @@ describe('Cart', () => {
           cy.log('Removing current Cart for the test case');
           cy.request({
             method: 'DELETE',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
+            url: `${Cypress.env('API_URL')}${Cypress.env(
               'OCC_PREFIX'
             )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
             headers: {

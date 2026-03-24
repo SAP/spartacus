@@ -74,7 +74,7 @@ export class ReorderDialogComponent {
     this.reorderOrderFacade
       .reorder(orderCode)
       .subscribe((cartModificationList: CartModificationList) => {
-        this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT);
+        this.multiCartFacade.reloadCart(OCC_CART_ID_CURRENT, { active: true });
         this.cartModifications = cartModificationList.cartModifications;
         this.loading$.next(false);
         this.recaptureFocus();

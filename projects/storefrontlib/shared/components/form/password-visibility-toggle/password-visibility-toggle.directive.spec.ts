@@ -8,14 +8,16 @@ import {
 } from '@angular/forms';
 import {
   FeatureDirective,
-  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
+import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const mockFormConfig: FormConfig = {
   form: {
@@ -40,13 +42,7 @@ const mockFormConfig: FormConfig = {
       </form>
     </div>
   `,
-  imports: [
-    I18nTestingModule,
-    IconTestingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PasswordVisibilityToggleModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, PasswordVisibilityToggleModule],
 })
 class MockFormComponent {
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -67,8 +63,6 @@ describe('PasswordVisibilityToggleDirective', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        IconTestingModule,
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
@@ -83,8 +77,10 @@ describe('PasswordVisibilityToggleDirective', () => {
       ],
     })
       .overrideComponent(PasswordVisibilityToggleComponent, {
-        remove: { imports: [FeatureDirective] },
-        add: { imports: [MockFeatureDirective] },
+        remove: { imports: [TranslatePipe, IconComponent, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockIconComponent, MockFeatureDirective],
+        },
       })
       .compileComponents();
   }));

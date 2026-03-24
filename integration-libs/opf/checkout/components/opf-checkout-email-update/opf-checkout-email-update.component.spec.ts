@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
@@ -7,6 +7,7 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import {
+  MockTranslatePipe,
   RoutingService,
   SemanticPathService,
   TranslatePipe,
@@ -15,11 +16,6 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.component';
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 @Component({
   selector: 'cx-form-errors',
