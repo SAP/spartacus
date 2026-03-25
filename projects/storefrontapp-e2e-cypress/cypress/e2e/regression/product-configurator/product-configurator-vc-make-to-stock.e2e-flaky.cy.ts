@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as common from '../../../helpers/common'; 
+import * as common from '../../../helpers/common';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
-import * as cart from '../../../helpers/cart'; 
+import * as cart from '../../../helpers/cart';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configuration from '../../../helpers/product-configurator';

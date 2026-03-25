@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
-import * as configuration from '../../../helpers/product-configurator'; 
+import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOv from '../../../helpers/product-configurator-overview';
 import * as configurationOvVc from '../../../helpers/product-configurator-overview-vc';
 import * as restartDialog from '../../../helpers/product-configurator-restart-dialog';
