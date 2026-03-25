@@ -45,11 +45,14 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/core';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
   protected userPaymentService = inject(UserPaymentService);
   protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected busy$ = new BehaviorSubject<boolean>(false);
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
@@ -74,10 +77,12 @@ export class OpfTokenisationPaymentMethodService {
   @Optional() protected windowRef = inject(WindowRef);
   @Optional() protected focusService = inject(SelectFocusUtility);
 
-  showSavedCards$: Observable<boolean> =
-    this.outletContextData?.context$.pipe(
-      map((ctx) => ctx?.selectedPaymentId === ctx?.savedCardsId)
-    ) ?? of(false);
+  showSavedCards$: Observable<boolean> = this.opfMetadataStoreService
+    .getOpfMetadataState()
+    .pipe(
+      map((state) => state?.selectedPaymentOptionId === SAVED_CARDS_ID),
+      distinctUntilChanged()
+    );
 
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,

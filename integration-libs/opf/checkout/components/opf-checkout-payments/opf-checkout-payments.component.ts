@@ -288,6 +288,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.outletContext$.next({
       selectedPaymentId: this.selectedPaymentId,
       savedCardsId: this.SAVED_CARDS_ID,
+      showSavedCardsList: this.selectedPaymentId === this.SAVED_CARDS_ID,
       disabled: this.disabled && this.explicitTermsAndConditions,
       savedCardsSelected: this.onSavedCardsSelected.bind(this),
     });
