@@ -12,7 +12,7 @@ name: Update ccv2 repo with unreleased Spartacus
 
 env:
   DEFAULT_BRANCH_TO_DEPLOY: ${{ github.event.repository.default_branch }}
-  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
+  SAP_ARTIFACTORY_NPM_TOKEN: ${{ secrets.SAP_ARTIFACTORY_NPM_TOKEN }}
 
 jobs:
   deploy_to_ccv2: 

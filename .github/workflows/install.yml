@@ -13,7 +13,7 @@ on:
 name: Installation
 
 env:
-  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
+  SAP_ARTIFACTORY_NPM_TOKEN: ${{ secrets.SAP_ARTIFACTORY_NPM_TOKEN }}
 
 jobs:
   install:

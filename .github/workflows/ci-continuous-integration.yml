@@ -16,7 +16,7 @@ env:
   NODE_VERSION: '20'
   NX_BASE: origin/${{ github.event.pull_request.base.ref }}
   NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
-  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
+  SAP_ARTIFACTORY_NPM_TOKEN: ${{ secrets.SAP_ARTIFACTORY_NPM_TOKEN }}
 
 concurrency: 
   group: ci-continuous-integration-${{ github.head_ref || github.run_id }}
