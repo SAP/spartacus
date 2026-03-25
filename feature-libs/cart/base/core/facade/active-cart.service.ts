@@ -34,7 +34,6 @@ import {
   switchMap,
   take,
   tap,
-  timeout,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -44,12 +43,6 @@ import {
   isJustLoggedIn,
   isTempCartId,
 } from '../utils/utils';
-
-/**
- * Timeout for cart loading/creation operations in milliseconds.
- * Protects against hung requests keeping the cache indefinitely.
- */
-const CART_LOAD_TIMEOUT_MS = 15000;
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
@@ -376,11 +369,17 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     }
 
     const cart$ = this.buildRequireLoadedCartPipeline(forGuestMerge).pipe(
-      // Timeout protection: clear cache if cart creation hangs (triggers finalize to clear the cache allowing susequent calls to retry/start a new cart creation flow)
-      timeout(CART_LOAD_TIMEOUT_MS),
+      // Clear cache immediately after successful cart emission
+      // This allows new calls to get a fresh pipeline while concurrent
+      // subscribers still receive the same cart via shareReplay
+      tap(() => {
+        if (!forGuestMerge) {
+          this.loadedCart$ = null;
+        }
+      }),
       // Share the same observable for all concurrent subscribers
       shareReplay({ bufferSize: 1, refCount: true }),
-      // Clear cache when all subscribers complete or on error
+      // Clear cache on error or unsubscribe for cleanup
       finalize(() => {
         if (!forGuestMerge) {
           this.loadedCart$ = null;
