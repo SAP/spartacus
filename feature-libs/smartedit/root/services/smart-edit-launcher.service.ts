@@ -63,7 +63,7 @@ export class SmartEditLauncherService {
     const cmsToken = params
       ?.split('&')
       .find((param) => param.startsWith('cmsTicketId='));
-    const cmsTicketId = cmsToken?.split('=')[1] ?? undefined;
+    const cmsTicketId = cmsToken?.split('=')[1];
 
     return (
       this.isInitialSmartEditPage(path, cmsTicketId) ||

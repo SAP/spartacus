@@ -57,6 +57,10 @@ describe('SmartEditLauncherService', () => {
     windowRef = TestBed.inject(WindowRef);
   });
 
+  afterEach(() => {
+    sessionStorage.clear();
+  });
+
   it('should be created', () => {
     expect(smartEditLauncherService).toBeTruthy();
   });
