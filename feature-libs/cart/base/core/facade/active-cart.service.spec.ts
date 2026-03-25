@@ -994,6 +994,108 @@ describe('ActiveCartService', () => {
           }, 10);
         });
     });
+
+    it('should clear cached observable on error for subsequent retry', (done) => {
+      // This tests that the cache is cleared after an observable completes,
+      // allowing retry attempts to get a fresh pipeline
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'testCart' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // First call creates and caches the observable
+      const obs1 = service['requireLoadedCart']();
+      expect(service['loadedCart$']).not.toBeNull();
+
+      // Subscribe and complete
+      obs1.pipe(take(1)).subscribe({
+        next: (cart) => {
+          expect(cart).toEqual({ code: 'testCart' });
+        },
+        complete: () => {
+          // After completion, cache should be cleared via tap/finalize
+          setTimeout(() => {
+            expect(service['loadedCart$']).toBeNull();
+
+            // A subsequent call should create a new observable (fresh retry)
+            const obs2 = service['requireLoadedCart']();
+            expect(obs2).not.toBe(obs1);
+            done();
+          }, 10);
+        },
+      });
+    });
+
+    it('should not use cache when forGuestMerge is true', () => {
+      // forGuestMerge requires special filtering, so caching is bypassed
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'guestCart' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // Call with forGuestMerge = true twice
+      const obs1 = service['requireLoadedCart'](true);
+      const obs2 = service['requireLoadedCart'](true);
+
+      // These should be different observables (no caching for guest merge)
+      expect(obs1).not.toBe(obs2);
+
+      // loadedCart$ should remain null (not cached for guest merge)
+      expect(service['loadedCart$']).toBeNull();
+    });
+
+    it('should create new pipeline for calls after previous completion', (done) => {
+      // Verifies that after a successful cart creation completes, subsequent
+      // calls get a fresh pipeline (not stale cached data)
+      let callCount = 0;
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>({
+        loading: false,
+        success: true,
+        error: false,
+        value: { code: 'cart1' },
+      });
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+
+      // First call
+      service['requireLoadedCart']()
+        .pipe(take(1))
+        .subscribe((cart) => {
+          callCount++;
+          expect(cart).toEqual({ code: 'cart1' });
+
+          // After first completes, update cart and make second call
+          setTimeout(() => {
+            cart$.next({
+              loading: false,
+              success: true,
+              error: false,
+              value: { code: 'cart2' },
+            });
+
+            service['requireLoadedCart']()
+              .pipe(take(1))
+              .subscribe((secondCart) => {
+                callCount++;
+                // Second call should get fresh data, not cached cart1
+                expect(secondCart).toEqual({ code: 'cart2' });
+                expect(callCount).toBe(2);
+                done();
+              });
+          }, 20);
+        });
+    });
   });
 
   describe('hasPickupItems and hasDeliveryItems', () => {
