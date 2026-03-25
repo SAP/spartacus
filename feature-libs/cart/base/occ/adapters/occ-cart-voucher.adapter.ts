@@ -80,9 +80,12 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     const headers = this.getHeaders(userId);
 
     if (this.featureToggles.enableRemoveVoucherEndpoint) {
-      const url = this.getRemoveCartVoucherEndpoint(userId, cartId);
+      const removeVoucherUrl = this.getRemoveCartVoucherEndpoint(
+        userId,
+        cartId
+      );
       const body = { voucherId };
-      return this.http.post(url, body, { headers }).pipe(
+      return this.http.post(removeVoucherUrl, body, { headers }).pipe(
         catchError((error: any) => {
           throw tryNormalizeHttpError(error, this.logger);
         })
