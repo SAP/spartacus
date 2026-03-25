@@ -11,6 +11,10 @@ on:
       - 'docs/**'
 
 name: Installation
+
+env:
+  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
+
 jobs:
   install:
     name: Build libs and install

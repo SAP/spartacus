@@ -13,6 +13,7 @@ name: Cache node modules
 env:
   NODE_VERSION: '20'
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
+  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
 
 jobs:
   cacheNodeModules:   

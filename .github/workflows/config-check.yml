@@ -6,6 +6,9 @@ on:
       - '**.md'
       - 'docs/**'
 
+env:
+  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
+
 name: Config check
 jobs:
   configCheck:
