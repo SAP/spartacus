@@ -10,6 +10,7 @@ import { CartVoucherAdapter } from '@spartacus/cart/base/core';
 import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  FeatureToggles,
   InterceptorUtil,
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
@@ -23,6 +24,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
   protected logger = inject(LoggerService);
+  protected featureToggles = inject(FeatureToggles);
 
   constructor(
     protected http: HttpClient,
@@ -75,12 +77,23 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   remove(userId: string, cartId: string, voucherId: string): Observable<{}> {
-    const url = this.getRemoveCartVoucherEndpoint(userId, cartId);
-    const body = { voucherId };
-
     const headers = this.getHeaders(userId);
 
-    return this.http.post(url, body, { headers }).pipe(
+    if (this.featureToggles.enableRemoveVoucherEndpoint) {
+      const url = this.getRemoveCartVoucherEndpoint(userId, cartId);
+      const body = { voucherId };
+      return this.http.post(url, body, { headers }).pipe(
+        catchError((error: any) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        })
+      );
+    }
+
+    const url =
+      this.getCartVoucherEndpoint(userId, cartId) +
+      '/' +
+      encodeURIComponent(voucherId);
+    return this.http.delete(url, { headers }).pipe(
       catchError((error: any) => {
         throw tryNormalizeHttpError(error, this.logger);
       })
