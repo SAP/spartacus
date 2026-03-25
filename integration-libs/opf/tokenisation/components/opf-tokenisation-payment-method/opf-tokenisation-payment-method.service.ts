@@ -46,13 +46,17 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
-import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/core';
+import {
+  SAVED_CARDS_ID,
+  OpfTokenisationSavedCardsService,
+} from '@spartacus/opf/tokenisation/core';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
   protected userPaymentService = inject(UserPaymentService);
   protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected savedCardsService = inject(OpfTokenisationSavedCardsService);
   protected busy$ = new BehaviorSubject<boolean>(false);
   protected subscriptions = new Subscription();
   protected deliveryAddress: Address | undefined;
@@ -127,6 +131,22 @@ export class OpfTokenisationPaymentMethodService {
       .subscribe((address) => {
         this.deliveryAddress = address;
       });
+
+    // Clear selected card when switching away from saved cards
+    this.subscriptions.add(
+      this.opfMetadataStoreService
+        .getOpfMetadataState()
+        .pipe(
+          map((state) => state?.selectedPaymentOptionId),
+          distinctUntilChanged()
+        )
+        .subscribe((selectedId) => {
+          // If we're no longer in saved cards mode, clear the selected card
+          if (selectedId !== SAVED_CARDS_ID) {
+            this.selectedPaymentMethod$.next(undefined);
+          }
+        })
+    );
   }
 
   getCards$(): Observable<{ content: Card; paymentMethod: PaymentDetails }[]> {
@@ -268,6 +288,9 @@ export class OpfTokenisationPaymentMethodService {
     if (paymentDetails?.id === this.selectedPaymentMethod$.getValue()?.id) {
       return;
     }
+
+    // Mark that a saved card was selected (used to trigger delete only on provider switch)
+    this.savedCardsService.markCardAsSelected();
 
     this.globalMessageService.add(
       {

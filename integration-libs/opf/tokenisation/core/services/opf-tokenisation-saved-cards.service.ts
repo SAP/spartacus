@@ -7,7 +7,7 @@
 import { Injectable, inject, OnDestroy } from '@angular/core';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, pairwise } from 'rxjs/operators';
 
 export const SAVED_CARDS_ID = -1;
@@ -26,6 +26,12 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
 
   protected subscription = new Subscription();
 
+  /**
+   * Tracks whether a card was selected from the saved cards list.
+   * Used to distinguish between "just selecting saved cards" vs "selecting a card for payment"
+   */
+  protected cardSelected$ = new BehaviorSubject<boolean>(false);
+
   constructor() {
     this.listenForPaymentTransitions();
   }
@@ -35,9 +41,18 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
    * by writing SAVED_CARDS_ID to the metadata store.
    */
   selectSavedCards(): void {
+    // Reset card selection flag when user selects saved cards option
+    this.cardSelected$.next(false);
     this.opfMetadataStoreService.updateOpfMetadata({
       selectedPaymentOptionId: SAVED_CARDS_ID,
     });
+  }
+
+  /**
+   * Marks that a specific card has been selected from the saved cards list
+   */
+  markCardAsSelected(): void {
+    this.cardSelected$.next(true);
   }
 
   /**
@@ -53,8 +68,8 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
 
   /**
    * Watches the metadata store for transitions from SAVED_CARDS_ID
-   * to any other payment option. When detected, deletes the saved
-   * payment details from the backend.
+   * to any other payment option. When detected and a card was previously selected,
+   * deletes the saved payment details from the backend.
    */
   protected listenForPaymentTransitions(): void {
     this.subscription.add(
@@ -66,12 +81,19 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
           pairwise()
         )
         .subscribe(([prev, curr]) => {
+          // Only delete if:
+          // 1. We're transitioning away from SAVED_CARDS_ID
+          // 2. A card was actually selected from the saved cards list
+          // 3. We're not going to an undefined state
           if (
             prev === SAVED_CARDS_ID &&
             curr !== SAVED_CARDS_ID &&
-            curr !== undefined
+            curr !== undefined &&
+            this.cardSelected$.value
           ) {
             this.checkoutPaymentFacade.deletePaymentDetails().subscribe();
+            // Reset the flag after deleting
+            this.cardSelected$.next(false);
           }
         })
     );
