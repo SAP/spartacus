@@ -16,7 +16,6 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -42,8 +41,8 @@ import {
   SpinnerComponent,
   OutletModule,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { OpfCheckoutOutlets } from '../../root/model';
@@ -75,7 +74,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     OpfCheckoutBillingAddressFormService
   );
   protected userPaymentService = inject(UserPaymentService);
-  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
 
   protected subscription = new Subscription();
 
@@ -123,13 +121,13 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   noRenderPaymentWrapperMessage?: string;
 
-  readonly SAVED_CARDS_ID = -1;
-
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
 
-  selectedPaymentId?: number;
+  readonly SAVED_CARDS_ID = -1;
 
-  protected isSavedCardsSelected = false;
+  protected outletContext$ = new Subject<any>();
+
+  selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
 
@@ -266,12 +264,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             this.opfMetadataStoreService.updateOpfMetadata({
               selectedPaymentOptionId: this.selectedPaymentId,
             });
+            this.emitOutletContext();
           } else if (
             !state.termsAndConditionsChecked &&
             this.explicitTermsAndConditions
           ) {
             isPreselected = false;
             this.selectedPaymentId = undefined;
+            this.emitOutletContext();
           }
         })
     );
@@ -284,35 +284,30 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected emitOutletContext(): void {
+    this.outletContext$.next({
+      selectedPaymentId: this.selectedPaymentId,
+      savedCardsId: this.SAVED_CARDS_ID,
+      disabled: this.disabled && this.explicitTermsAndConditions,
+      savedCardsSelected: this.onSavedCardsSelected.bind(this),
+    });
+  }
+
   onSavedCardsSelected(): void {
     this.selectedPaymentId = this.SAVED_CARDS_ID;
-    this.isSavedCardsSelected = true;
+    this.opfMetadataStoreService.updateOpfMetadata({
+      selectedPaymentOptionId: this.SAVED_CARDS_ID,
+    });
+    this.emitOutletContext();
   }
 
   changePayment(payment: OpfActiveConfiguration): void {
-    if (this.isSavedCardsSelected) {
-      this.isSavedCardsSelected = false;
-      this.selectedPaymentId = payment.id;
-      this.subscription.add(
-        this.checkoutPaymentFacade
-          .deletePaymentDetails()
-          .pipe(
-            finalize(() => {
-              this.opfMetadataStoreService.updateOpfMetadata({
-                selectedPaymentOptionId: this.selectedPaymentId,
-              });
-              this.paymentChange.emit(payment);
-            })
-          )
-          .subscribe()
-      );
-    } else {
-      this.selectedPaymentId = payment.id;
-      this.opfMetadataStoreService.updateOpfMetadata({
-        selectedPaymentOptionId: this.selectedPaymentId,
-      });
-      this.paymentChange.emit(payment);
-    }
+    this.selectedPaymentId = payment.id;
+    this.opfMetadataStoreService.updateOpfMetadata({
+      selectedPaymentOptionId: this.selectedPaymentId,
+    });
+    this.emitOutletContext();
+    this.paymentChange.emit(payment);
   }
 
   getPaginationModel(
@@ -339,6 +334,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.userPaymentService.loadPaymentMethods();
     this.updateActiveConfiguration();
     this.preselectPaymentOption();
+    this.emitOutletContext();
   }
 
   ngOnDestroy(): void {

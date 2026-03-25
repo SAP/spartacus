@@ -12,14 +12,7 @@
 
         <ng-template
           [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
-          [cxOutletContext]="{
-            selectedPaymentId: selectedPaymentId,
-            savedCardsId: SAVED_CARDS_ID,
-            disabled:
-              (paymentDisabled$ | async) ||
-              (disabled && explicitTermsAndConditions),
-            savedCardsSelected: onSavedCardsSelected.bind(this),
-          }"
+          [cxOutletContext]="outletContext$"
         >
         </ng-template>
 
@@ -36,6 +29,7 @@
                   class="form-check-input"
                   role="radio"
                   type="radio"
+                  name="paymentId"
                   [attr.aria-checked]="
                     (paymentDisabled$ | async) &&
                     configuration.id === selectedPaymentId
