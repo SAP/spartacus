@@ -165,7 +165,7 @@ extensionProviders.push(provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig)
       opf: {
         opfBaseUrl:
           'https://opf-iss-d0.opf.commerce.stage.context.cloud.sap/commerce-cloud-adapter/storefront',
-        commerceCloudPublicKey: 'ab4RhYGZ+w5B0SALMPOPlepWk/kmDQjTy2FU5hrQoFg=',
+        commerceCloudPublicKey: 'ADD_COMMERCE_CLOUD_PUBLIC_KEY_HERE',
       },
     }),
     ...extensionProviders,
