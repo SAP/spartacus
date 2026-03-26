@@ -1,9 +1,10 @@
-import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 

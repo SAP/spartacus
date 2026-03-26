@@ -4,7 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   CmsService,
@@ -14,27 +23,16 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import {
-  CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryModesFacade,
-  CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form';
-import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
-import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { Observable, of } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { OpfCheckoutBillingAddressFormComponent, OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments';
 import { OpfCheckoutReviewCartDetailsComponent } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert';
-import { finalize } from 'rxjs/operators';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
 @Pipe({ name: 'cxUrl', standalone: true })
 class MockUrlPipe implements PipeTransform {

@@ -1,9 +1,10 @@
-import { BehaviorSubject, of, throwError } from 'rxjs';
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
