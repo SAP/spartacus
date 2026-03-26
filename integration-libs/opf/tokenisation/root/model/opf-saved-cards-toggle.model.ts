@@ -17,3 +17,11 @@ export interface OpfSavedCardsToggleContext {
   savedCardsSelected?: () => void;
   showSavedCardsList?: boolean;
 }
+
+/**
+ * Context data passed to new payments heading component via outlet.
+ * Allows customization of the heading text displayed above the new payment method form.
+ */
+export interface OpfNewPaymentsHeadingContext {
+  newPaymentHeading?: string | null;
+}

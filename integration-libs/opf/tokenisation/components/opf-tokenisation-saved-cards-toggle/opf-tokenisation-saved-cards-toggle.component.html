@@ -4,10 +4,16 @@
     *ngIf="
       ctx.savedPaymentHeading && ctx.selectedPaymentId === ctx.savedCardsId
     "
-    [attr.aria-label]="ctx.savedPaymentHeading"
+    [attr.aria-label]="
+      ctx.savedPaymentHeading ||
+      ('opfCheckout.savedPaymentHeading' | cxTranslate)
+    "
   >
     <h3 class="cx-payment-section-heading">
-      {{ ctx.savedPaymentHeading }}
+      {{
+        ctx.savedPaymentHeading ||
+          ('opfCheckout.savedPaymentHeading' | cxTranslate)
+      }}
     </h3>
   </div>
 
@@ -32,7 +38,9 @@
           [type]="iconTypes.CREDIT_CARD"
           class="cx-payment-icon"
         ></cx-icon>
-        <span>{{ ctx.savedCardsHeading }}</span>
+        <span>{{
+          ctx.savedCardsHeading || ('opfCheckout.cards' | cxTranslate)
+        }}</span>
       </div>
     </label>
   </div>

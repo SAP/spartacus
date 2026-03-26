@@ -5,4 +5,7 @@
  */
 
 export { OpfPaymentDetails } from './payment.model';
-export { OpfSavedCardsToggleContext } from './opf-saved-cards-toggle.model';
+export {
+  OpfSavedCardsToggleContext,
+  OpfNewPaymentsHeadingContext,
+} from './opf-saved-cards-toggle.model';

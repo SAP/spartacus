@@ -1,10 +1,16 @@
 <ng-container *ngIf="context$ | async as ctx">
   <div
     class="cx-payment-options-section"
-    [attr.aria-label]="'opfCheckout.savedPaymentHeading' | cxTranslate"
+    [attr.aria-label]="
+      ctx.savedPaymentHeading ||
+      ('opfCheckout.savedPaymentHeading' | cxTranslate)
+    "
   >
     <h3 class="cx-payment-section-heading">
-      {{ 'opfCheckout.savedPaymentHeading' | cxTranslate }}
+      {{
+        ctx.savedPaymentHeading ||
+          ('opfCheckout.savedPaymentHeading' | cxTranslate)
+      }}
     </h3>
   </div>
 
@@ -30,7 +36,9 @@
           [type]="iconTypes.CREDIT_CARD"
           class="cx-payment-icon"
         ></cx-icon>
-        <span>{{ 'opfCheckout.cards' | cxTranslate }}</span>
+        <span>{{
+          ctx.savedCardsHeading || ('opfCheckout.cards' | cxTranslate)
+        }}</span>
       </div>
     </label>
   </div>
