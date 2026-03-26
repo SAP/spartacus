@@ -31,7 +31,7 @@
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-block btn-primary"
-              [disabled]="!(selectedMethod$ | async)?.id"
+              [disabled]="!(selectedMethod$ | async)?.id || (isUpdating$ | async)"
               (click)="next()"
             >
               {{ 'checkoutReview.placeOrder' | cxTranslate }}
