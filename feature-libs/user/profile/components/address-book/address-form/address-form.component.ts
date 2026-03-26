@@ -5,12 +5,12 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -32,12 +32,12 @@ import {
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
+  LanguageService,
   Region,
   Title,
   TranslatePipe,
   TranslationService,
   UserAddressService,
-  OccEndpointsService,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -57,6 +57,11 @@ import {
   of,
 } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  ChineseAddressService,
+  City,
+  District,
+} from './chinese-address.service';
 
 @Component({
   selector: 'cx-address-form',
@@ -76,15 +81,18 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   ],
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
+  protected chineseAddressService = inject(ChineseAddressService);
+  protected languageService = inject(LanguageService);
+
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  isChinaAddress = false;
-  cities$: Observable<any[]>;
-  districts$: Observable<any[]>;
+  isChineseAddress = false;
+  cities$: Observable<City[]>;
+  districts$: Observable<District[]>;
   addresses$: Observable<Address[]>;
 
   @Input()
@@ -144,9 +152,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,
     protected launchDialogService: LaunchDialogService,
-    protected userProfileFacade: UserProfileFacade,
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
+    protected userProfileFacade: UserProfileFacade
   ) {}
 
   ngOnInit() {
@@ -188,31 +194,27 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     this.addresses$ = this.userAddressService.getAddresses();
 
-    this.cities$ = this.selectedRegion$.pipe(
-      switchMap((regionIsocode) => {
+    this.cities$ = combineLatest([
+      this.selectedRegion$,
+      this.languageService.getActive(),
+    ]).pipe(
+      switchMap(([regionIsocode]) => {
         if (!regionIsocode) {
           return of([]);
         }
-        const baseUrl = this.occEndpointsService.getBaseUrl();
-        return this.http
-          .get<any>(
-            `${baseUrl}/regions/${regionIsocode}/cities?fields=cities(name,isocode)`
-          )
-          .pipe(map((res) => res.cities ?? []));
+        return this.chineseAddressService.getCities(regionIsocode);
       })
     );
 
-    this.districts$ = this.selectedCity$.pipe(
-      switchMap((cityIsocode) => {
+    this.districts$ = combineLatest([
+      this.selectedCity$,
+      this.languageService.getActive(),
+    ]).pipe(
+      switchMap(([cityIsocode]) => {
         if (!cityIsocode) {
           return of([]);
         }
-        const baseUrl = this.occEndpointsService.getBaseUrl();
-        return this.http
-          .get<any>(
-            `${baseUrl}/cities/${cityIsocode}/districts?fields=districts(name,isocode)`
-          )
-          .pipe(map((res) => res.districts ?? []));
+        return this.chineseAddressService.getDistricts(cityIsocode);
       })
     );
   }
@@ -258,17 +260,19 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countrySelected(country: Country | undefined): void {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode ?? '');
-    this.isChinaAddress = country?.isocode === 'CN';
+    this.isChineseAddress = country?.isocode === 'CN';
 
     const cellphoneControl = this.addressForm.get('cellphone');
     const districtControl = this.addressForm.get('district');
-    if (this.isChinaAddress) {
+    if (this.isChineseAddress) {
       cellphoneControl?.setValidators([Validators.required]);
       districtControl?.setValidators([Validators.required]);
     } else {
       cellphoneControl?.clearValidators();
       districtControl?.clearValidators();
       districtControl?.reset();
+      this.selectedRegion$.next('');
+      this.selectedCity$.next('');
     }
     cellphoneControl?.updateValueAndValidity();
     districtControl?.updateValueAndValidity();
@@ -276,7 +280,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   regionSelected(region: Region): void {
     this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
-    if (this.isChinaAddress) {
+    if (this.isChineseAddress) {
       this.selectedRegion$.next(region.isocode ?? '');
       this.addressForm.get('town')?.reset();
       this.selectedCity$.next('');
@@ -284,7 +288,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  citySelected(city: any): void {
+  citySelected(city: City | undefined): void {
     if (city?.isocode) {
       this.selectedCity$.next(city.isocode);
       this.addressForm.get('district')?.reset();
@@ -322,13 +326,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.addressForm.dirty) {
-        this.subscription.add(
-          this.userAddressService
-            .verifyAddress(this.addressForm.value)
-            .subscribe((value) => {
-              this.handleAddressVerificationResults(value);
-            })
-        );
+        if (this.isChineseAddress) {
+          this.submitAddress.emit(this.addressForm.value);
+        } else {
+          this.subscription.add(
+            this.userAddressService
+              .verifyAddress(this.addressForm.value)
+              .subscribe((value) => {
+                this.handleAddressVerificationResults(value);
+              })
+          );
+        }
       } else {
         // address form value not changed
         // ignore duplicate address

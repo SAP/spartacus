@@ -46,7 +46,12 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       ...CONTENT_TYPE_JSON_HEADER,
     });
 
-    return this.http.get<Occ.AddressList>(url, { headers }).pipe(
+    return this.http
+      .get<Occ.AddressList>(url, {
+        headers,
+        params: { fields: 'addresses(FULL)' },
+      })
+      .pipe(
       catchError((error: any) => {
         throw tryNormalizeHttpError(error, this.logger);
       }),

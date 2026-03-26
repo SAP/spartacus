@@ -112,9 +112,16 @@ export class AddressBookComponent implements OnInit {
         ]) => {
           let region = '';
 
-          if (address.region && address.region.isocode) {
-            region = address.region.isocode + ', ';
+          if (address.region) {
+            region =
+              (address.region.name || address.region.isocode || '') + ', ';
           }
+
+          const countryName =
+            address.country?.name || address.country?.isocode || '';
+          const townName = address.city?.name || address.town || '';
+          const districtName =
+            address.cityDistrict?.name || address.district || '';
 
           const actions: { name: string; event: string }[] = [];
           if (!address.defaultAddress) {
@@ -125,16 +132,21 @@ export class AddressBookComponent implements OnInit {
 
           const numbers = getAddressNumbers(address, textPhone, textMobile);
 
+          const locationParts = [townName, region, countryName]
+            .filter(Boolean)
+            .join(', ');
+
           return {
             role: 'application',
             textBold: address.firstName + ' ' + address.lastName,
             text: [
               address.line1,
               address.line2,
-              address.town + ', ' + region + address.country?.isocode,
+              locationParts,
+              districtName ? districtName : undefined,
               address.postalCode,
               numbers,
-            ],
+            ].filter(Boolean) as string[],
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,

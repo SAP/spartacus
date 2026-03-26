@@ -51,6 +51,16 @@ export interface UserProfileOccEndpoints {
    * Close user account
    */
   userCloseAccount?: string | OccEndpoint;
+
+  /**
+   * Get cities for a Chinese address region.
+   */
+  chineseAddressCities?: string | OccEndpoint;
+
+  /**
+   * Get districts for a Chinese address city.
+   */
+  chineseAddressDistricts?: string | OccEndpoint;
 }
 declare module '@spartacus/core' {
   interface OccEndpoints extends UserProfileOccEndpoints {}
