@@ -284,7 +284,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Skipped due to JDK-21 (CXSPA-10506): Checkout process for configurable products', () => {
+  describe('Checkout process for configurable products', () => {
     it('should support configurable product', () => {
       configuration.completeOrderProcess(testProductMultiLevel, true);
     });
