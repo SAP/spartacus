@@ -38,8 +38,10 @@ export interface Address {
   line2?: string;
   postalCode?: string;
   town?: string;
+  city?: { isocode?: string; name?: string };
   region?: Region;
   district?: string;
+  cityDistrict?: { isocode?: string; name?: string };
   country?: Country;
   cellphone?: string;
 

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   DebugElement,
@@ -15,7 +14,7 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
-  OccEndpointsService,
+  LanguageService,
   Region,
   Title,
   UserAddressService,
@@ -26,6 +25,7 @@ import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feat
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressFormComponent } from './address-form.component';
+import { ChineseAddressService } from './chinese-address.service';
 import createSpy = jasmine.createSpy;
 
 const mockTitles: Title[] = [
@@ -106,6 +106,22 @@ class MockUserAddressService {
     return of({});
   }
 }
+
+class MockChineseAddressService {
+  getCities() {
+    return of([]);
+  }
+  getDistricts() {
+    return of([]);
+  }
+}
+
+class MockLanguageService {
+  getActive() {
+    return of('en');
+  }
+}
+
 const dialogClose$ = new BehaviorSubject<any>('');
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -156,12 +172,12 @@ describe('AddressFormComponent', () => {
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         {
-          provide: HttpClient,
-          useValue: { get: () => EMPTY },
+          provide: ChineseAddressService,
+          useClass: MockChineseAddressService,
         },
         {
-          provide: OccEndpointsService,
-          useValue: { getBaseUrl: () => '' },
+          provide: LanguageService,
+          useClass: MockLanguageService,
         },
       ],
     })
@@ -372,25 +388,25 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should set isChinaAddress and add validators when CN is selected', () => {
+  it('should set isChineseAddress and add validators when CN is selected', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.countrySelected({ isocode: 'CN' });
-    expect(component.isChinaAddress).toBe(true);
+    expect(component.isChineseAddress).toBe(true);
     expect(component.addressForm.get('cellphone')?.validator).toBeTruthy();
     expect(component.addressForm.get('district')?.validator).toBeTruthy();
   });
 
-  it('should clear validators when switching away from CN', () => {
+  it('should clear validators and reset state when switching away from CN', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.countrySelected({ isocode: 'CN' });
     component.countrySelected({ isocode: 'US' });
-    expect(component.isChinaAddress).toBe(false);
+    expect(component.isChineseAddress).toBe(false);
     expect(component.addressForm.get('cellphone')?.validator).toBeNull();
     expect(component.addressForm.get('district')?.validator).toBeNull();
   });
 
   it('should reset town and district when region changes for CN address', () => {
-    component.isChinaAddress = true;
+    component.isChineseAddress = true;
     component.addressForm.get('town')?.setValue('old-town');
     component.addressForm.get('district')?.setValue('old-district');
     component.regionSelected({ isocode: 'CN-11' });
@@ -399,7 +415,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should not reset town and district when region changes for non-CN address', () => {
-    component.isChinaAddress = false;
+    component.isChineseAddress = false;
     component.addressForm.get('town')?.setValue('old-town');
     component.regionSelected({ isocode: 'US-CA' });
     expect(component.addressForm.get('town')?.value).toEqual('old-town');
@@ -407,13 +423,13 @@ describe('AddressFormComponent', () => {
 
   it('should update selectedCity$ and reset district on citySelected', () => {
     component.addressForm.get('district')?.setValue('old-district');
-    component.citySelected({ isocode: 'CN-11-1' });
+    component.citySelected({ isocode: 'CN-11-1', name: 'Beijing' });
     expect(component.addressForm.get('district')?.value).toBeNull();
   });
 
-  it('should not update selectedCity$ when city has no isocode', () => {
+  it('should not update selectedCity$ when city is undefined', () => {
     component.addressForm.get('district')?.setValue('old-district');
-    component.citySelected({});
+    component.citySelected(undefined);
     expect(component.addressForm.get('district')?.value).toEqual(
       'old-district'
     );
