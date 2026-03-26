@@ -28,7 +28,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form';
+import { OpfCheckoutBillingAddressFormComponent, OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments';
 import { OpfCheckoutReviewCartDetailsComponent } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert';
@@ -99,7 +99,9 @@ class MockCmsService {
     return of({});
   }
 }
-
+class MockOpfCheckoutBillingAddressFormService {
+  paymentOptionsDisabled$ = of(false);
+}
 class MockOpfMetadataStoreService {
   getOpfMetadataState(): Observable<any> {
     return of({ selectedPaymentOptionId: 'test-payment-id' });
@@ -173,9 +175,14 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+        { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
         {
           provide: OpfMetadataStoreService,
           useClass: MockOpfMetadataStoreService,
+        },
+        {
+          provide: OpfCheckoutBillingAddressFormService,
+          useClass: MockOpfCheckoutBillingAddressFormService,
         },
         { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
         {

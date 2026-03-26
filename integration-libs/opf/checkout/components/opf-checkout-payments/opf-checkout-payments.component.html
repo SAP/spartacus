@@ -9,6 +9,8 @@
     <ng-container *ngIf="!activeConfigurationsState?.loading; else loading">
       <div class="cx-payment-options-list">
         <ng-content></ng-content>
+        <div *ngIf="!(opfPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ | async)"
+        >
         <div
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
@@ -124,7 +126,8 @@
           [pagination]="paginationModel"
           (viewPageEvent)="pageChange($event)"
         ></cx-pagination></div
-    ></ng-container>
+    ></div>
+  </ng-container>
   </ng-container>
 
   <ng-template #loading>

@@ -1,0 +1,38 @@
+{
+  "giftCard": {
+    "title": "Gift Card:",
+    "giftCardPayment": "Gift Card",
+    "haveGiftCard": "Have a gift card?",
+    "addGiftCard": "Add Gift Card",
+
+    "cardNumber": "Card Number",
+    "pin": "Pin",
+
+    "proceedPayment": "Place Order",
+
+    "apply": "Apply",
+    "remove": "Remove",
+
+    "appliedSuccessfully": "Gift card applied.",
+    "removedSuccessfully": "Gift card removed.",
+
+    "currentBalance": "Current Balance",
+    "balanceAfterPurchase": "Balance After Purchase",
+
+    "errors": {
+      "placeOrderFailed": "Gift Card Payment failed. We cannot proceed with the checkout."
+    },
+    "common": {
+      "formErrors": {
+        "labeled": {
+          "required": "{{label}} is required.",
+          "minlength": "{{label}} must be at least {{requiredLength}} characters.",
+          "maxlength": "{{label}} cannot be more than {{requiredLength}} characters."
+        },
+        "required": "This field is required.",
+        "minlength": "This field must be at least {{requiredLength}} characters.",
+        "maxlength": "This field cannot be more than {{requiredLength}} characters."
+      }
+    }
+  }
+}

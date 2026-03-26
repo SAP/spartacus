@@ -33,6 +33,11 @@
             "glob": "**/*",
             "input": "feature-libs/smartedit/assets",
             "output": "assets/"
+          },
+          {
+            "glob": "**/*",
+            "input": "integration-libs/opf/gift-card/assets",
+            "output": "assets/"
           }
         ],
         "styles": [

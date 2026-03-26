@@ -36,6 +36,7 @@ import {
 import {
   ICON_TYPE,
   IconComponent,
+  OutletModule,
   PaginationComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -43,7 +44,9 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-
+import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
+import { OpfCheckoutOutlets } from '../../root/model';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 @Component({
   selector: 'cx-opf-checkout-payments',
   templateUrl: './opf-checkout-payments.component.html',
@@ -58,6 +61,7 @@ import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrap
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    OutletModule,
   ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
@@ -69,11 +73,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfCheckoutBillingAddressFormService = inject(
     OpfCheckoutBillingAddressFormService
   );
-
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;
-
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   @Input()
   isHeadingDisplayed? = true;
 
@@ -192,6 +196,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
             if (state.data?.value && !state.error && !state.loading) {
               this.paginationModel = this.getPaginationModel(state.data?.page);
+
+              state.data.value = state.data?.value.filter(
+                (x) =>
+                  x.providerType !== OpfPaymentProviderType.STORED_VALUE_PAYMENT
+              );
 
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(

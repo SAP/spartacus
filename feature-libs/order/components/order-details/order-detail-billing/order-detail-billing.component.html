@@ -8,6 +8,13 @@
         [content]="getPaymentMethodCard(paymentDetails) | async"
       ></cx-card>
     </div>
+
+    <ng-template
+      [cxOutlet]="cartOutlets.ORDER_DETAILS_PAYMENT_METHOD_DETAILS"
+      [cxOutletContext]="order"
+    >
+    </ng-template>
+
     <div
       class="cx-review-summary-card cx-review-summary-payment-card"
       *ngIf="paymentDetails?.billingAddress"
