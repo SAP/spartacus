@@ -10,7 +10,7 @@ import { TestBed } from '@angular/core/testing';
 import { Cart, CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  FeatureToggles,
+  FeatureConfigService,
   OccConfig,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -33,10 +33,19 @@ describe('OccCartVoucherAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
-  let mockFeatureToggles: Partial<FeatureToggles>;
+  let mockFeatureConfigService: Partial<FeatureConfigService>;
 
-  function setup(featureToggles: Partial<FeatureToggles> = {}) {
-    mockFeatureToggles = featureToggles;
+  function setup(enableRemoveVoucherEndpoint = false) {
+    mockFeatureConfigService = {
+      isEnabled: jasmine
+        .createSpy('isEnabled')
+        .and.callFake((feature: string) =>
+          feature === 'enableRemoveVoucherEndpoint'
+            ? enableRemoveVoucherEndpoint
+            : false
+        ),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         OccCartVoucherAdapter,
@@ -45,7 +54,10 @@ describe('OccCartVoucherAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        { provide: FeatureToggles, useValue: mockFeatureToggles },
+        {
+          provide: FeatureConfigService,
+          useValue: mockFeatureConfigService,
+        },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -92,7 +104,7 @@ describe('OccCartVoucherAdapter', () => {
 
   describe('remove a voucher from cart', () => {
     describe('when enableRemoveVoucherEndpoint is false (default)', () => {
-      beforeEach(() => setup({ enableRemoveVoucherEndpoint: false }));
+      beforeEach(() => setup(false));
 
       it('should use DELETE /vouchers/{voucherId}', () => {
         let result;
@@ -120,7 +132,7 @@ describe('OccCartVoucherAdapter', () => {
     });
 
     describe('when enableRemoveVoucherEndpoint is true', () => {
-      beforeEach(() => setup({ enableRemoveVoucherEndpoint: true }));
+      beforeEach(() => setup(true));
 
       it('should use POST /removeVoucher with voucherId in body', () => {
         let result;
