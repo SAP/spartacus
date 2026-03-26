@@ -219,7 +219,7 @@
     "@angular/language-service": "^21.2.4",
     "@babel/runtime": "^7.26.10",
     "@ngrx/store-devtools": "^21.0.1",
-    "@nx/angular": "^22.3.1",
+    "@nx/angular": "^22.6.0",
     "@nx/devkit": "^22.3.1",
     "@nx/eslint-plugin": "^22.3.1",
     "@nx/jest": "^22.3.1",
@@ -295,6 +295,7 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
+    "flatted": "^3.4.2",
     "koa": "^3.1.2",
     "minimatch": "^10.2.1",
     "karma": {
