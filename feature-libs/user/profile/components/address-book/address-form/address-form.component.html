@@ -214,7 +214,7 @@
           [items]="(cities$ | async) ?? []"
           bindLabel="name"
           bindValue="isocode"
-          placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+          placeholder="{{ cityPlaceholder }}"
           (change)="citySelected($event)"
           [cxNgSelectA11y]="{
             ariaLabel: 'addressForm.city.label' | cxTranslate,
@@ -259,7 +259,7 @@
           [items]="(districts$ | async) ?? []"
           bindLabel="name"
           bindValue="isocode"
-          placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+          placeholder="{{ districtPlaceholder }}"
           [cxNgSelectA11y]="{
             ariaLabel: 'addressForm.district' | cxTranslate,
           }"
