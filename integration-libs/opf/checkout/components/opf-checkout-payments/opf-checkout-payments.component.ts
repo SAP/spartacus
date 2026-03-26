@@ -25,15 +25,6 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import {
-  ICON_TYPE,
-  IconComponent,
-  OutletModule,
-  PaginationComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import {
   OpfActiveConfiguration,
   OpfActiveConfigurationsPagination,
   OpfActiveConfigurationsResponse,
@@ -42,13 +33,20 @@ import {
   OpfMetadataModel,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-
+import {
+  ICON_TYPE,
+  IconComponent,
+  OutletModule,
+  PaginationComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
-import { OpfCheckoutOutlets } from '../../root/model';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
-
+import { OpfCheckoutOutlets } from '../../root/model';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 @Component({
   selector: 'cx-opf-checkout-payments',
   templateUrl: './opf-checkout-payments.component.html',
