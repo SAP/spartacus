@@ -32,6 +32,7 @@ import {
   OpfConfig,
   OpfMetadataModel,
   OpfMetadataStoreService,
+  OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
 import {
   ICON_TYPE,
@@ -44,7 +45,6 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
 import { OpfCheckoutOutlets } from '../../root/model';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 @Component({

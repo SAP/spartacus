@@ -40,7 +40,7 @@ export class OpfGiftCardPaymentMethodDetailComponent
   order: Order;
 
   protected routingService = inject(RoutingService);
-  constructor(@Optional() protected orderOutlet?: OutletContextData<any>) {}
+  constructor(@Optional() protected orderOutlet?: OutletContextData) {}
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
