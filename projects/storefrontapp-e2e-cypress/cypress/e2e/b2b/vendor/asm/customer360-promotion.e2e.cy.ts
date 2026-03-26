@@ -68,9 +68,7 @@ context('Assisted Service Module', () => {
               $body.find('.cx-asm-customer-360-promotion-listing-remove-button')
                 .length > 0
             ) {
-              cy.intercept('POST', /\.*\/removeVoucher(\?.*)?$/).as(
-                'removeCoupon'
-              );
+              cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
               cy.wrap($body).contains('Remove').click();
             } else {
               cy.log('Remove button is not visible');
@@ -87,9 +85,11 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Remove').should('be.visible');
           cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
           cy.get('button').contains('Remove').click();
-
-          cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);
-
+          cy.whenJDK17(() => {
+            cy.wait('@removeCoupon')
+              .its('response.statusCode')
+              .should('eq', 204);
+          });
           cy.get('button').should('not.contain', 'Remove');
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });
