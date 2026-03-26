@@ -53,9 +53,7 @@ export class OpfTokenisationSavedCardsToggleComponent {
   readonly isSavedCardsChecked$: Observable<boolean> =
     this.opfMetadataStoreService
       .getOpfMetadataState()
-      .pipe(
-        map((state) => state.selectedPaymentOptionId === SAVED_CARDS_ID)
-      );
+      .pipe(map((state) => state.selectedPaymentOptionId === SAVED_CARDS_ID));
 
   onSavedCardsSelected(): void {
     this.savedCardsService?.selectSavedCards();
