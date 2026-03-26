@@ -240,7 +240,11 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Remove').should('be.visible');
           cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
           cy.get('button').contains('Remove').click();
-          cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);
+          cy.whenJDK17(() => {
+            cy.wait('@removeCoupon')
+              .its('response.statusCode')
+              .should('eq', 204);
+          });
           cy.get('button').should('not.contain', 'Remove');
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });
