@@ -4,75 +4,90 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { BaseSiteService, TranslationService } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { Cart } from '@spartacus/cart/base/root';
-import { OpfGiftCardFacade } from '../../../root/facade/opf-gift-card.facade';
-import { OpfGiftCardOrderSummaryComponent } from '../../public_api';
-import { OutletContextData } from '@spartacus/storefront';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { OpfGiftCardOrderConfirmationTotalsComponent } from './opf-gift-card-order-confirmation-totals.component';
+import { OrderFacade } from '@spartacus/order/root';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-describe('OpfGiftCardOrderSummaryComponent', () => {
-  let fixture: ComponentFixture<OpfGiftCardOrderSummaryComponent>;
-  let component: OpfGiftCardOrderSummaryComponent;
+class MockTranslationService {
+  translate(): any {
+    return of('');
+  }
+}
+describe('OpfGiftCardOrderConfirmationTotalsComponent', () => {
+  let component: OpfGiftCardOrderConfirmationTotalsComponent;
+  let fixture: ComponentFixture<OpfGiftCardOrderConfirmationTotalsComponent>;
+  let mockOrderFacade: jasmine.SpyObj<OrderFacade>;
+  let mockStore: jasmine.SpyObj<Store>;
 
   beforeEach(async () => {
+    mockOrderFacade = jasmine.createSpyObj('OrderFacade', [
+      'getOrderDetails',
+      'clearPlacedOrder',
+    ]);
+
+    mockStore = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
+    mockStore.pipe.and.returnValue(of({}));
+
+    mockOrderFacade.getOrderDetails.and.returnValue(
+      of({
+        code: 'test-order-123',
+        status: 'COMPLETE',
+      })
+    );
+
     await TestBed.configureTestingModule({
-      imports: [OpfGiftCardOrderSummaryComponent],
+      imports: [OpfGiftCardOrderConfirmationTotalsComponent],
       providers: [
-        { provide: ActiveCartFacade, useValue: {} },
-        { provide: OpfGiftCardFacade, useValue: {} },
-        { provide: OutletContextData, useValue: undefined },
+        { provide: OrderFacade, useValue: mockOrderFacade },
+        { provide: Store, useValue: mockStore },
+        { provide: CheckoutStepService, useValue: {} },
+        { provide: BaseSiteService, useValue: {} },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(
+      OpfGiftCardOrderConfirmationTotalsComponent
+    );
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {
-    fixture = TestBed.createComponent(OpfGiftCardOrderSummaryComponent);
-    component = fixture.componentInstance;
-    component.cart = {} as Cart;
-    fixture.detectChanges();
-
     expect(component).toBeTruthy();
   });
 
-  it('should NOT subscribe if outlet is not provided', () => {
-    fixture = TestBed.createComponent(OpfGiftCardOrderSummaryComponent);
-    component = fixture.componentInstance;
-
-    spyOn(console, 'log');
-
-    component.ngOnInit();
-
-    expect(console.log).not.toHaveBeenCalled();
+  it('should inject OrderFacade', () => {
+    expect(component['orderFacade']).toBe(mockOrderFacade);
   });
 
-  it('should subscribe to outlet context and set cart', async () => {
-    const mockCart = { code: '12345' } as Cart;
+  it('should initialize order$ observable with order details', (done) => {
+    fixture.detectChanges();
 
-    // 🔑 Reconfigure TestBed BEFORE creating component
-    await TestBed.resetTestingModule();
+    component.order$.subscribe((order) => {
+      expect(order).toEqual({
+        code: 'test-order-123',
+        status: 'COMPLETE',
+      });
+      done();
+    });
+  });
 
-    await TestBed.configureTestingModule({
-      imports: [OpfGiftCardOrderSummaryComponent],
-      providers: [
-        { provide: ActiveCartFacade, useValue: {} },
-        { provide: OpfGiftCardFacade, useValue: {} },
-        {
-          provide: OutletContextData,
-          useValue: {
-            context$: of(mockCart),
-          },
-        },
-      ],
-    }).compileComponents();
+  it('should call getOrderDetails on orderFacade during initialization', () => {
+    fixture.detectChanges();
+    expect(mockOrderFacade.getOrderDetails).toHaveBeenCalled();
+  });
 
-    fixture = TestBed.createComponent(OpfGiftCardOrderSummaryComponent);
-    component = fixture.componentInstance;
+  it('should call clearPlacedOrder on ngOnDestroy', () => {
+    component.ngOnDestroy();
+    expect(mockOrderFacade.clearPlacedOrder).toHaveBeenCalled();
+  });
 
-    component.ngOnInit();
-
-    expect(component.cart).toEqual(mockCart);
+  it('should have cartOutlets property defined', () => {
+    expect(component.cartOutlets).toBeDefined();
   });
 });

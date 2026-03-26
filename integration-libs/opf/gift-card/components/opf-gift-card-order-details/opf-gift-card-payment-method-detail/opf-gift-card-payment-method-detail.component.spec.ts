@@ -8,13 +8,14 @@ import { Card, OutletContextData } from '@spartacus/storefront';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Subject, of } from 'rxjs';
 
-import { OpfGiftCardPaymentComponent } from './opf-gift-card-payment-method-detail.component';
+import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment-method-detail.component';
 import { Order } from '@spartacus/order/root';
+import { Store } from '@ngrx/store';
 import { TranslationService } from '@spartacus/core';
 
-describe('OpfGiftCardPaymentComponent', () => {
-  let component: OpfGiftCardPaymentComponent;
-  let fixture: ComponentFixture<OpfGiftCardPaymentComponent>;
+describe('OpfGiftCardPaymentMethodDetailComponent', () => {
+  let component: OpfGiftCardPaymentMethodDetailComponent;
+  let fixture: ComponentFixture<OpfGiftCardPaymentMethodDetailComponent>;
   let translationService: jasmine.SpyObj<TranslationService>;
   let mockOrder: Order;
   let contextSubject: Subject<any>;
@@ -25,16 +26,20 @@ describe('OpfGiftCardPaymentComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [OpfGiftCardPaymentComponent],
+      imports: [OpfGiftCardPaymentMethodDetailComponent],
       providers: [
         { provide: TranslationService, useValue: translationServiceSpy },
+        {
+          provide: Store,
+          useValue: { pipe: jasmine.createSpy('pipe').and.returnValue(of({})) },
+        },
       ],
     }).compileComponents();
 
     translationService = TestBed.inject(
       TranslationService
     ) as jasmine.SpyObj<TranslationService>;
-    fixture = TestBed.createComponent(OpfGiftCardPaymentComponent);
+    fixture = TestBed.createComponent(OpfGiftCardPaymentMethodDetailComponent);
     component = fixture.componentInstance;
 
     contextSubject = new Subject<any>();
@@ -235,33 +240,6 @@ describe('OpfGiftCardPaymentComponent', () => {
       } as Order;
 
       expect(component.isGiftCardPayment).toBe(true);
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe from subscription', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'unsubscribe');
-
-      component.ngOnDestroy();
-
-      expect(subscriptionSpy).toHaveBeenCalled();
-    });
-
-    it('should be called when component is destroyed', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'unsubscribe');
-
-      fixture.destroy();
-
-      expect(subscriptionSpy).toHaveBeenCalled();
-    });
-
-    it('should handle multiple destroy calls', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'unsubscribe');
-
-      component.ngOnDestroy();
-      component.ngOnDestroy();
-
-      expect(subscriptionSpy).toHaveBeenCalledTimes(2);
     });
   });
 

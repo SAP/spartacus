@@ -4,27 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideConfig,
-} from '@spartacus/core';
-import { SpinnerModule } from '@spartacus/storefront';
+import { AuthGuard, CmsConfig, provideConfig } from '@spartacus/core';
 import { OpfGiftCardOrderDetailBillingComponent } from './opf-gift-card-order-detail-billing/opf-gift-card-order-detail-billing.component';
 import { OpfGiftCardOrderDetailTotalsComponent } from './opf-gift-card-order-detail-totals/opf-gift-card-order-detail-totals.component';
-import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment-method-detail';
+import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment-method-detail/opf-gift-card-payment-method-detail.component';
+import { provideOutlet } from '@spartacus/storefront';
+import { CartOutlets } from '@spartacus/cart/base/root';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    SpinnerModule,
-    I18nModule,
-    ReactiveFormsModule,
     OpfGiftCardOrderDetailBillingComponent,
     OpfGiftCardOrderDetailTotalsComponent,
     OpfGiftCardPaymentMethodDetailComponent,
@@ -37,6 +27,15 @@ import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment
           guards: [AuthGuard],
         },
       },
+    }),
+    
+    provideOutlet({
+      id: CartOutlets.ORDER_DETAILS_PAYMENT_METHOD_DETAILS,
+      component: OpfGiftCardOrderDetailBillingComponent,
+    }),
+    provideOutlet({
+      id: OpfCheckoutOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD,
+      component: OpfGiftCardPaymentMethodDetailComponent,
     }),
   ],
   exports: [

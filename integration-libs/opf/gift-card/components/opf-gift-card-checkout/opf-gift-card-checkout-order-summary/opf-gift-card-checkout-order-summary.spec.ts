@@ -4,75 +4,128 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
+import {
+  BaseSiteService,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { ActiveCartFacade } from '@spartacus/cart/base/root';
-// import { Cart } from '@spartacus/cart/base/root';
-// import { GiftCardOrderSummaryComponent } from './gift-card-order-summary.component';
-// import { GiftCardService } from '../../core/services';
-// import { OutletContextData } from '@spartacus/storefront';
-// import { of } from 'rxjs';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { OpfGiftCardCheckoutOrderSummaryComponent } from './opf-gift-card-checkout-order-summary.component';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
-// describe('GiftCardOrderSummaryComponent', () => {
-//   let fixture: ComponentFixture<GiftCardOrderSummaryComponent>;
-//   let component: GiftCardOrderSummaryComponent;
+describe('OpfGiftCardCheckoutOrderSummaryComponent', () => {
+  let component: OpfGiftCardCheckoutOrderSummaryComponent;
+  let fixture: ComponentFixture<OpfGiftCardCheckoutOrderSummaryComponent>;
+  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [GiftCardOrderSummaryComponent],
-//       providers: [
-//         { provide: ActiveCartFacade, useValue: {} },
-//         { provide: GiftCardService, useValue: {} },
-//         { provide: OutletContextData, useValue: undefined },
-//       ],
-//     }).compileComponents();
-//   });
+  beforeEach(async () => {
+    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
+      'getActive',
+      'addEntry',
+      'removeEntry',
+    ]);
 
-//   it('should create', () => {
-//     fixture = TestBed.createComponent(GiftCardOrderSummaryComponent);
-//     component = fixture.componentInstance;
-//     component.cart = {} as Cart;
-//     fixture.detectChanges();
+    mockActiveCartFacade.getActive.and.returnValue(
+      of({
+        code: 'cart-123',
+        totalItems: 2,
+        totalPrice: {
+          value: 150,
+        },
+      } as Cart)
+    );
 
-//     expect(component).toBeTruthy();
-//   });
+    const mockStore = jasmine.createSpyObj('Store', [
+      'pipe',
+      'dispatch',
+      'select',
+    ]);
+    mockStore.pipe.and.returnValue(of({}));
 
-//   it('should NOT subscribe if outlet is not provided', () => {
-//     fixture = TestBed.createComponent(GiftCardOrderSummaryComponent);
-//     component = fixture.componentInstance;
+    const translationServiceSpy = jasmine.createSpyObj('TranslationService', [
+      'translate',
+    ]);
+    translationServiceSpy.translate.and.returnValue(of({}));
 
-//     spyOn(console, 'log');
+    await TestBed.configureTestingModule({
+      imports: [OpfGiftCardCheckoutOrderSummaryComponent],
+      providers: [
+        { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+        { provide: CheckoutStepService, useValue: {} },
+        { provide: BaseSiteService, useValue: {} },
+        { provide: RoutingService, useValue: { getRouterState: () => of({}) } },
+        { provide: Store, useValue: mockStore },
+        { provide: TranslationService, useValue: translationServiceSpy },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
-//     component.ngOnInit();
+    fixture = TestBed.createComponent(OpfGiftCardCheckoutOrderSummaryComponent);
+    component = fixture.componentInstance;
+  });
 
-//     expect(console.log).not.toHaveBeenCalled();
-//   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it('should subscribe to outlet context and set cart', async () => {
-//     const mockCart = { code: '12345' } as Cart;
+  it('should inject ActiveCartFacade', () => {
+    expect(component['activeCartFacade']).toBe(mockActiveCartFacade);
+  });
 
-//     // 🔑 Reconfigure TestBed BEFORE creating component
-//     await TestBed.resetTestingModule();
+  it('should initialize cart$ observable on ngOnInit', (done) => {
+    fixture.detectChanges();
 
-//     await TestBed.configureTestingModule({
-//       imports: [GiftCardOrderSummaryComponent],
-//       providers: [
-//         { provide: ActiveCartFacade, useValue: {} },
-//         { provide: GiftCardService, useValue: {} },
-//         {
-//           provide: OutletContextData,
-//           useValue: {
-//             context$: of(mockCart),
-//           },
-//         },
-//       ],
-//     }).compileComponents();
+    component.cart$.subscribe((cart) => {
+      expect(cart).toEqual({
+        code: 'cart-123',
+        totalItems: 2,
+        totalPrice: {
+          value: 150,
+        },
+      });
+      done();
+    });
+  });
 
-//     fixture = TestBed.createComponent(GiftCardOrderSummaryComponent);
-//     component = fixture.componentInstance;
+  it('should call getActive on activeCartFacade during ngOnInit', () => {
+    fixture.detectChanges();
+    expect(mockActiveCartFacade.getActive).toHaveBeenCalled();
+  });
 
-//     component.ngOnInit();
+  it('should have cartOutlets property defined', () => {
+    expect(component.cartOutlets).toBeDefined();
+    expect(component.cartOutlets).toBe(CartOutlets);
+  });
 
-//     expect(component.cart).toEqual(mockCart);
-//   });
-// });
+  it('should have cart$ as Observable', () => {
+    fixture.detectChanges();
+    expect(component.cart$).toBeDefined();
+  });
+
+  it('should handle empty cart', (done) => {
+    mockActiveCartFacade.getActive.and.returnValue(of({} as Cart));
+
+    fixture.detectChanges();
+
+    component.cart$.subscribe((cart) => {
+      expect(cart).toEqual({});
+      done();
+    });
+  });
+
+  it('should handle null cart', (done) => {
+    mockActiveCartFacade.getActive.and.returnValue(of(undefined));
+
+    fixture.detectChanges();
+
+    component.cart$.subscribe((cart) => {
+      expect(cart).toBeUndefined();
+      done();
+    });
+  });
+});

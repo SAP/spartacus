@@ -14,9 +14,9 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { OpfGiftCardFacade } from '@spartacus/opf/gift-card/root';
+import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
 import { OutletModule } from '@spartacus/storefront';
-import { SAPGiftCards } from '../../root/model';
+import { SAPGiftCards } from '../../root/model/opf-gift-card.model';
 import { TranslatePipe } from '@spartacus/core';
 
 @Component({
@@ -42,9 +42,7 @@ export class OpfGiftCardAppliedComponent {
         );
       },
       error: (error) => {
-          console.error('Error removing gift card:', error.details[0].message);
-
-        const message = error?.message;
+        const message = error.details?.[0]?.message;
         this.globalMessageService.add(
           { raw: message },
           GlobalMessageType.MSG_TYPE_ERROR

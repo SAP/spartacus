@@ -10,13 +10,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
-import { OutletModule } from '@spartacus/storefront';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary/opf-gift-card-order-summary.component';
 
 @Component({
   selector: 'cx-opf-gift-card-checkout-order-summary',
   templateUrl: './opf-gift-card-checkout-order-summary.component.html',
-  imports: [CommonModule, I18nModule, OutletModule, OpfGiftCardOrderSummaryComponent],
+  imports: [CommonModule, I18nModule, OpfGiftCardOrderSummaryComponent],
 })
 export class OpfGiftCardCheckoutOrderSummaryComponent implements OnInit {
   protected activeCartFacade = inject(ActiveCartFacade);

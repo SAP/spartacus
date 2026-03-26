@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { CommonModule, NgIf } from '@angular/common';
-import {
-  Component,
-  Input,
-  inject
-} from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { I18nModule, RoutingService, TranslatePipe } from '@spartacus/core';
 import { Subscription, map } from 'rxjs';
 

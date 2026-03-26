@@ -9,9 +9,6 @@ import { OpfGiftCardCoreModule } from '@spartacus/opf/gift-card/core';
 import { OpfGiftCardOccModule } from '@spartacus/opf/gift-card/occ';
 
 @NgModule({
-  imports: [
-    OpfGiftCardCoreModule,
-    OpfGiftCardOccModule,
-  ],
+  imports: [OpfGiftCardCoreModule, OpfGiftCardOccModule],
 })
 export class OpfGiftCardModule {}

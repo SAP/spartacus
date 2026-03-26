@@ -16,7 +16,11 @@ import {
 } from '@angular/core';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 
-import { TranslatePipe, TranslationService } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { combineLatest, map, Observable, Subscription } from 'rxjs';
 
@@ -36,6 +40,7 @@ export class OpfGiftCardOrderDetailBillingComponent
   order: Order;
 
   constructor(@Optional() protected orderOutlet?: OutletContextData<any>) {}
+  protected routingService = inject(RoutingService);
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
@@ -44,6 +49,15 @@ export class OpfGiftCardOrderDetailBillingComponent
       );
     }
   }
+
+  isOrderDetailsPage$ = this.routingService
+    .getRouterState()
+    .pipe(
+      map(
+        ({ state }) =>
+          ['orderDetails'].includes(state?.semanticRoute ?? '')
+      )
+    );
 
   getPaymentMethodCardContent(): Observable<Card> {
     return combineLatest([

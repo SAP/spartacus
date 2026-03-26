@@ -42,7 +42,7 @@ export class OpfGiftCardService implements OpfGiftCardFacade {
         map((config) =>
           (config?.data?.value || []).find(
             (item) =>
-              item?.providerType === OpfPaymentProviderType.GIFT_CARD_PAYMENT
+              item?.providerType === OpfPaymentProviderType.STORED_VALUE_PAYMENT
           )
         )
       );

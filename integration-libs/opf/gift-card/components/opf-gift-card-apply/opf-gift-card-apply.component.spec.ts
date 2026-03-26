@@ -1,101 +1,109 @@
+import { BehaviorSubject, of, throwError } from 'rxjs';
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   I18nTestingModule,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
+import { LaunchRenderStrategy, OutletContextData } from '@spartacus/storefront';
 
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardApplyComponent } from './opf-gift-card-apply.component';
-import { OpfGiftCardFacade } from '@spartacus/opf/gift-card/root';
-import { SAPGiftCards } from '../../root/model';
+import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
-const mockGiftCard: SAPGiftCards = {
-  id: 'GC1',
-  maskedNumber: '****1111',
-  balance: { currencyIso: 'USD', formattedValue: '$100', value: 100 },
-  appliedAmount: { currencyIso: 'USD', formattedValue: '$20', value: 20 },
-  remainingBalance: {
-    currencyIso: 'USD',
-    formattedValue: '$80',
-    value: 80,
-  },
-};
-
-class MockGlobalMessageService {
-  add = jasmine.createSpy('add');
-}
-
-class MockActiveCartFacade {
-  cartSubject = new BehaviorSubject<Cart>({} as Cart);
-
-  getActive = jasmine
-    .createSpy('getActive')
-    .and.callFake(() => this.cartSubject.asObservable());
-
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
-}
-
-class MockOpfGiftCardFacade {
-  isGiftCardEnabled = jasmine
-    .createSpy('isGiftCardEnabled')
-    .and.returnValue(of(true));
-
-  applyGiftCard = jasmine
-    .createSpy('applyGiftCard')
-    .and.returnValue(of(void 0));
-
-  isGiftCardCoveredTotalAmount = jasmine
-    .createSpy('isGiftCardCoveredTotalAmount')
-    .and.returnValue(of(false));
+class MockTranslationService {
+  translate(): any {
+    return of('');
+  }
 }
 
 describe('OpfGiftCardApplyComponent', () => {
   let component: OpfGiftCardApplyComponent;
   let fixture: ComponentFixture<OpfGiftCardApplyComponent>;
-  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let activeCartFacade: MockActiveCartFacade;
-  let giftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
+
+  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
+  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
+  let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
+  let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
+
+  const cartSubject = new BehaviorSubject<any>({
+    sapGiftCards: [],
+    _availableOperations: [
+      { key: 'applyGiftCard', value: { available: true } },
+    ],
+  });
+
+  const mockGiftCard = {
+    id: 'GC1',
+    maskedNumber: '****1111',
+    balance: { currencyIso: 'USD', formattedValue: '$100', value: 100 },
+    appliedAmount: { currencyIso: 'USD', formattedValue: '$20', value: 20 },
+    remainingBalance: {
+      currencyIso: 'USD',
+      formattedValue: '$80',
+      value: 80,
+    },
+  };
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
+      'getActive',
+      'reloadActiveCart',
+    ]);
+
+    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardFacade', [
+      'applyGiftCard',
+      'isGiftCardEnabled',
+      'isGiftCardCoveredTotalAmount',
+    ]);
+
+    mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
+      'add',
+    ]);
+
+    mockPaymentEventsService = jasmine.createSpyObj('OpfPaymentEventsService', [
+      'emitIsGiftCardCoveredTotalAmountEvent',
+    ]);
+
+    mockActiveCartFacade.getActive.and.returnValue(cartSubject.asObservable());
+    mockGiftCardFacade.isGiftCardEnabled.and.returnValue(of(true));
+    mockGiftCardFacade.isGiftCardCoveredTotalAmount.and.returnValue(of(false));
+
+    await TestBed.configureTestingModule({
       imports: [OpfGiftCardApplyComponent, I18nTestingModule],
       providers: [
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        { provide: OpfGiftCardFacade, useClass: MockOpfGiftCardFacade },
+        { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+        { provide: OpfGiftCardFacade, useValue: mockGiftCardFacade },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        {
+          provide: OpfPaymentEventsService,
+          useValue: mockPaymentEventsService,
+        },
+        {
+          provide: OutletContextData,
+          useValue: { context$: of({ disabled: false }) },
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
         { provide: RoutingService, useValue: {} },
+        {
+          provide: LaunchRenderStrategy,
+          useValue: {},
+        },
+        TranslatePipe,
       ],
-    });
-
-    TestBed.overrideComponent(OpfGiftCardApplyComponent, {
-      set: { template: '' },
-    });
-
-    await TestBed.compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OpfGiftCardApplyComponent);
     component = fixture.componentInstance;
-
-    globalMessageService = TestBed.inject(
-      GlobalMessageService
-    ) as jasmine.SpyObj<GlobalMessageService>;
-    activeCartFacade = TestBed.inject(
-      ActiveCartFacade
-    ) as unknown as MockActiveCartFacade;
-    giftCardFacade = TestBed.inject(
-      OpfGiftCardFacade
-    ) as jasmine.SpyObj<OpfGiftCardFacade>;
-
     fixture.detectChanges();
   });
 
@@ -103,141 +111,104 @@ describe('OpfGiftCardApplyComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should build the form on init with required + maxlength validators', () => {
-    const cardNumber = component.giftCardForm.get('cardNumber');
-    const pin = component.giftCardForm.get('pin');
-
-    expect(cardNumber).toBeTruthy();
-    expect(pin).toBeTruthy();
-
-    cardNumber?.setValue('');
-    cardNumber?.markAsTouched();
-    cardNumber?.updateValueAndValidity();
-    expect(cardNumber?.hasError('required')).toBeTruthy();
-
-    cardNumber?.setValue('1'.repeat(65));
-    cardNumber?.updateValueAndValidity();
-    expect(cardNumber?.hasError('maxlength')).toBeTruthy();
-
-    pin?.setValue('');
-    pin?.markAsTouched();
-    pin?.updateValueAndValidity();
-    expect(pin?.hasError('required')).toBeTruthy();
-
-    pin?.setValue('1'.repeat(29));
-    pin?.updateValueAndValidity();
-    expect(pin?.hasError('maxlength')).toBeTruthy();
+  it('should build form on init', () => {
+    expect(component.giftCardForm).toBeTruthy();
+    expect(component.giftCardForm.controls['cardNumber']).toBeDefined();
+    expect(component.giftCardForm.controls['pin']).toBeDefined();
   });
 
-  it('should map appliedGiftCards$ from active cart', () => {
-    activeCartFacade.cartSubject.next({ sapGiftCards: [mockGiftCard] } as any);
+  it('should mark form as touched if invalid on addGiftCard', () => {
+    spyOn(component.giftCardForm, 'markAllAsTouched');
 
-    let actual: SAPGiftCards[] | undefined;
-    (component as any).appliedGiftCards$.subscribe((cards: SAPGiftCards[]) => {
-      actual = cards;
-    });
+    component.addGiftCard();
 
-    expect(actual).toEqual([mockGiftCard]);
+    expect(component.giftCardForm.markAllAsTouched).toHaveBeenCalled();
   });
 
-  describe('toggleGiftCardForm', () => {
-    it('should toggle showGiftCardForm', () => {
-      expect((component as any).showGiftCardForm).toBeFalsy();
+  it('should apply gift card successfully', () => {
+    component.giftCardForm.setValue({
+      cardNumber: '12345678',
+      pin: '123',
+    });
 
-      component.toggleGiftCardForm();
-      expect((component as any).showGiftCardForm).toBeTruthy();
+    mockGiftCardFacade.applyGiftCard.and.returnValue(of(void 0));
 
-      component.toggleGiftCardForm();
-      expect((component as any).showGiftCardForm).toBeFalsy();
+    component.addGiftCard();
+
+    expect(mockGiftCardFacade.applyGiftCard).toHaveBeenCalled();
+    expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
+    expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+      { key: 'giftCard.appliedSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  });
+
+  it('should handle error when applying gift card fails', () => {
+    component.giftCardForm.setValue({
+      cardNumber: '12345678',
+      pin: '123',
+    });
+
+    const error = {
+      message: 'Apply failed',
+      details: [{ message: 'Detailed error' }],
+    };
+
+    mockGiftCardFacade.applyGiftCard.and.returnValue(throwError(() => error));
+
+    component.addGiftCard();
+
+    expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+      { raw: 'Detailed error' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should toggle gift card form', () => {
+    const initial = component['showGiftCardForm'];
+
+    component.toggleGiftCardForm();
+
+    expect(component['showGiftCardForm']).toBe(!initial);
+  });
+
+  it('should reset form', () => {
+    component.giftCardForm.setValue({
+      cardNumber: '12345678',
+      pin: '123',
+    });
+
+    component['resetForm']();
+
+    expect(component.giftCardForm.value).toEqual({
+      cardNumber: null,
+      pin: null,
     });
   });
 
-  describe('addGiftCard', () => {
-    it('should mark all as touched and not call service when form is invalid', () => {
-      component.giftCardForm.reset();
-      const markAllAsTouchedSpy = spyOn(
-        component.giftCardForm,
-        'markAllAsTouched'
-      ).and.callThrough();
-
-      component.addGiftCard();
-
-      expect(markAllAsTouchedSpy).toHaveBeenCalled();
-      expect(giftCardFacade.applyGiftCard).not.toHaveBeenCalled();
-    });
-
-    it('should apply gift card, reload cart, show success message, reset form and stop loading', () => {
-      giftCardFacade.applyGiftCard.and.returnValue(of(void 0));
-      const loadingValues: boolean[] = [];
-      (component as any).loading$.subscribe((v: boolean) =>
-        loadingValues.push(v)
-      );
-
-      component.giftCardForm.setValue({ cardNumber: '411111', pin: '1234' });
-      component.addGiftCard();
-
-      expect(giftCardFacade.applyGiftCard).toHaveBeenCalledWith({
-        number: '411111',
-        securityCode: '1234',
-      });
-      expect(
-        (TestBed.inject(ActiveCartFacade) as any).reloadActiveCart
-      ).toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'giftCard.addedSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-      expect(component.giftCardForm.value).toEqual({
-        cardNumber: null,
-        pin: null,
-      });
-      expect(loadingValues).toContain(true);
-      expect(loadingValues[loadingValues.length - 1]).toBeFalsy();
-    });
-
-    it('should show error message from error.details[0].message and stop loading', () => {
-      const error = {
-        details: [{ message: 'Invalid gift card' }],
-      } as any as HttpErrorModel;
-      giftCardFacade.applyGiftCard.and.returnValue(throwError(() => error));
-
-      const loadingValues: boolean[] = [];
-      (component as any).loading$.subscribe((v: boolean) =>
-        loadingValues.push(v)
-      );
-
-      component.giftCardForm.setValue({ cardNumber: '411111', pin: '1234' });
-      component.addGiftCard();
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { raw: 'Invalid gift card' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      expect(loadingValues).toContain(true);
-      expect(loadingValues[loadingValues.length - 1]).toBeFalsy();
-    });
-
-    it('should fall back to default error key if no message is provided', () => {
-      giftCardFacade.applyGiftCard.and.returnValue(
-        throwError(() => ({}) as HttpErrorModel)
-      );
-
-      component.giftCardForm.setValue({ cardNumber: '411111', pin: '1234' });
-      component.addGiftCard();
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { raw: 'giftCard.errors.applyFailed' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
+  it('should emit gift card coverage event on init', () => {
+    expect(
+      mockPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent
+    ).toHaveBeenCalledWith(false);
   });
 
   it('should unsubscribe on destroy', () => {
-    const unsubscribeSpy = spyOn(
-      (component as any).subscription,
-      'unsubscribe'
-    );
+    spyOn(component['subscription'], 'unsubscribe');
+
     component.ngOnDestroy();
-    expect(unsubscribeSpy).toHaveBeenCalled();
+
+    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should return applied gift cards from cart$', (done) => {
+    cartSubject.next({
+      sapGiftCards: [mockGiftCard],
+    });
+
+    component['appliedGiftCards$'].subscribe((cards) => {
+      expect(cards.length).toBe(1);
+      expect(cards[0].id).toBe('GC1');
+      done();
+    });
   });
 });

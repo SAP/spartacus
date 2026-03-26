@@ -4,32 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { CommonModule } from '@angular/common';
-import { CmsConfig, I18nModule, provideConfig } from '@spartacus/core';
 import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 import { OpfGiftCardOrderSummaryComponent } from './opf-gift-card-order-summary.component';
-import { SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    SpinnerModule,
-    I18nModule,
-    ReactiveFormsModule,
-    OpfGiftCardOrderSummaryComponent,
-  ],
+  imports: [OpfGiftCardOrderSummaryComponent],
   providers: [
-    //     provideConfig(<CmsConfig>{
-    //   cmsComponents: {
-    //     CartTotalsComponent: {
-    //       component: GiftCardOrderSummaryComponent,
-    //     },
-    //   },
-    // }),
-      provideConfig(<CmsConfig>{
+    provideConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutOrderSummary: {
           component: OpfGiftCardOrderSummaryComponent,

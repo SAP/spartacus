@@ -35,7 +35,6 @@ import { OPF_CTA_FEATURE, OpfCtaRootModule } from '@spartacus/opf/cta/root';
 import {
   OPF_GLOBAL_FUNCTIONS_FEATURE,
   OpfGlobalFunctionsRootModule,
-  defaultOccOpfCartConfig,
 } from '@spartacus/opf/global-functions/root';
 import {
   OPF_PAYMENT_FEATURE,
@@ -60,7 +59,10 @@ import {
   giftCardTranslationChunksConfig,
   giftCardTranslationsEn,
 } from '@spartacus/opf/gift-card/assets';
-import { defaultGiftCardCartOccEndpointsConfig, defaultOccOpfGiftCardOrderEndpointsConfig } from '@spartacus/opf/gift-card/occ';
+import {
+  defaultGiftCardCartOccEndpointsConfig,
+  defaultOccOpfGiftCardOrderEndpointsConfig,
+} from '@spartacus/opf/gift-card/occ';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
@@ -72,9 +74,10 @@ if (environment.b2b) {
   extensionProviders.push(provideConfig(defaultOpfCheckoutConfig));
 }
 
-extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
 extensionProviders.push(provideConfig(defaultGiftCardCartOccEndpointsConfig));
-extensionProviders.push(provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig));
+extensionProviders.push(
+  provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig)
+);
 
 @NgModule({
   imports: [

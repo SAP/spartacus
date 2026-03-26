@@ -201,7 +201,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
               state.data.value = state.data?.value.filter(
                 (x) =>
-                  x.providerType !== OpfPaymentProviderType.GIFT_CARD_PAYMENT
+                  x.providerType !== OpfPaymentProviderType.STORED_VALUE_PAYMENT
               );
 
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {

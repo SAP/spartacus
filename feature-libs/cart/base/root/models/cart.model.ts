@@ -107,9 +107,9 @@ export interface Cart {
 export interface SAPAvailableOperation {
   key: string;
   value: {
-     available?: boolean;
+    available?: boolean;
     name?: string;
-  }
+  };
 }
 
 export interface CartModification {

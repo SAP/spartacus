@@ -19,11 +19,8 @@
     "currentBalance": "Current Balance",
     "balanceAfterPurchase": "Balance After Purchase",
 
-
     "errors": {
-      "placeOrderFailed": "Gift Card Payment failed. We cannot proceed with the checkout.",
-       "invalidCard": "Please enter valid card number.",
-      "invalidPin": "Please enter valid pin."
+      "placeOrderFailed": "Gift Card Payment failed. We cannot proceed with the checkout."
     },
     "common": {
       "formErrors": {

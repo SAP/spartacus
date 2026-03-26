@@ -8,14 +8,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  inject
+  inject,
 } from '@angular/core';
 import { CommonModule, NgIf } from '@angular/common';
 import { Order, OrderFacade } from '@spartacus/order/root';
 
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary/opf-gift-card-order-summary.component';
 import { OutletModule } from '@spartacus/storefront';
 import { useFeatureStyles } from '@spartacus/core';
 
@@ -25,9 +25,7 @@ import { useFeatureStyles } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, OutletModule, NgIf, OpfGiftCardOrderSummaryComponent],
 })
-export class OpfGiftCardOrderConfirmationTotalsComponent
-  implements OnDestroy
-{
+export class OpfGiftCardOrderConfirmationTotalsComponent implements OnDestroy {
   protected orderFacade = inject(OrderFacade);
   readonly cartOutlets = CartOutlets;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
@@ -35,7 +33,7 @@ export class OpfGiftCardOrderConfirmationTotalsComponent
   constructor() {
     useFeatureStyles('a11yWideScreenImprovements');
   }
- 
+
   ngOnDestroy() {
     this.orderFacade.clearPlacedOrder();
   }

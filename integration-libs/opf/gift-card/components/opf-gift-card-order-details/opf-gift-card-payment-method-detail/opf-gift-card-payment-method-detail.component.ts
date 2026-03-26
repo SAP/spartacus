@@ -17,7 +17,11 @@ import {
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, map } from 'rxjs';
 
-import { TranslatePipe, TranslationService } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 
 @Component({
@@ -26,13 +30,16 @@ import { Order } from '@spartacus/order/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, CardComponent, AsyncPipe, TranslatePipe],
 })
-export class OpfGiftCardPaymentMethodDetailComponent implements OnInit, OnDestroy {
+export class OpfGiftCardPaymentMethodDetailComponent
+  implements OnInit, OnDestroy
+{
   protected translationService = inject(TranslationService);
 
   protected subscription = new Subscription();
   @Input()
   order: Order;
 
+  protected routingService = inject(RoutingService);
   constructor(@Optional() protected orderOutlet?: OutletContextData<any>) {}
 
   ngOnInit(): void {

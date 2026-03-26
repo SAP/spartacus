@@ -3,112 +3,91 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CommonModule } from '@angular/common';
 import { OpfGiftCardAppliedComponent } from './opf-gift-card-applied.component';
-import { OpfGiftCardFacade } from '@spartacus/opf/gift-card/root';
-
-class MockGlobalMessageService {
-  add = jasmine.createSpy('add');
-}
-
-class MockOpfGiftCardFacade {
-  removeGiftCard = jasmine.createSpy('removeGiftCard');
-}
-
-class MockActiveCartFacade {
-  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
-}
+import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { OutletModule } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 describe('OpfGiftCardAppliedComponent', () => {
   let component: OpfGiftCardAppliedComponent;
   let fixture: ComponentFixture<OpfGiftCardAppliedComponent>;
-  let giftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
-  let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let activeCartFacade: jasmine.SpyObj<ActiveCartFacade>;
+
+  let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
+  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
+  let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
 
   beforeEach(async () => {
+    mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
+      'add',
+    ]);
+    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardFacade', [
+      'removeGiftCard',
+    ]);
+    mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
+      'reloadActiveCart',
+    ]);
+
     await TestBed.configureTestingModule({
-      imports: [OpfGiftCardAppliedComponent, I18nTestingModule],
+      imports: [CommonModule, OutletModule, OpfGiftCardAppliedComponent],
       providers: [
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: OpfGiftCardFacade, useClass: MockOpfGiftCardFacade },
-        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: OpfGiftCardFacade, useValue: mockGiftCardFacade },
+        { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+        TranslatePipe,
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpfGiftCardAppliedComponent);
     component = fixture.componentInstance;
-
-    giftCardFacade = TestBed.inject(
-      OpfGiftCardFacade
-    ) as jasmine.SpyObj<OpfGiftCardFacade>;
-    globalMessageService = TestBed.inject(
-      GlobalMessageService
-    ) as jasmine.SpyObj<GlobalMessageService>;
-    activeCartFacade = TestBed.inject(
-      ActiveCartFacade
-    ) as jasmine.SpyObj<ActiveCartFacade>;
-    component.giftCards = [];
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should inject dependencies', () => {
-    expect((component as any).globalMessageService).toBeTruthy();
-    expect((component as any).giftCardFacade).toBeTruthy();
-    expect((component as any).activeCartFacade).toBeTruthy();
+
+  it('should remove gift card successfully', () => {
+    const giftCardId = '123';
+
+    mockGiftCardFacade.removeGiftCard.and.returnValue(of(undefined));
+    component.removeGiftCard(giftCardId);
+
+    expect(mockGiftCardFacade.removeGiftCard).toHaveBeenCalledWith(giftCardId);
+    expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
+    expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+      { key: 'giftCard.removedSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   });
-  describe('removeGiftCard', () => {
-    const giftCardId = 'GC-123';
 
-    it('should remove gift card, reload cart and show success message', () => {
-      giftCardFacade.removeGiftCard.and.returnValue(of(void 0));
+  it('should handle error when removing gift card fails', () => {
+    const giftCardId = '123';
+    const errorResponse = {
+      message: 'Failed to remove gift card',
+      details: [{ message: 'Detailed error' }],
+    };
 
-      component.removeGiftCard(giftCardId);
+    spyOn(console, 'error');
 
-      expect(giftCardFacade.removeGiftCard).toHaveBeenCalledWith(giftCardId);
-      expect(activeCartFacade.reloadActiveCart).toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'giftCard.removedSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
+    mockGiftCardFacade.removeGiftCard.and.returnValue(
+      throwError(() => errorResponse)
+    );
 
-    it('should show error message when removal fails', () => {
-      const mockError = { message: 'Custom Error' };
-      giftCardFacade.removeGiftCard.and.returnValue(
-        throwError(() => mockError)
-      );
+    component.removeGiftCard(giftCardId);
 
-      component.removeGiftCard(giftCardId);
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { raw: 'Custom Error' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
-
-    it('should use default error key when error has no message', () => {
-      giftCardFacade.removeGiftCard.and.returnValue(throwError(() => ({})));
-
-      component.removeGiftCard(giftCardId);
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { raw: 'giftCard.errors.removeFailed' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    });
+    expect(mockGiftCardFacade.removeGiftCard).toHaveBeenCalledWith(giftCardId);
+    expect(console.error).toHaveBeenCalledWith(
+      'Error removing gift card:',
+      errorResponse.details[0].message
+    );
+    expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+      { raw: errorResponse.message },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });

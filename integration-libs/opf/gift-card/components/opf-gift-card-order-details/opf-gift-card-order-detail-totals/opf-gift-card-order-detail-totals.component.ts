@@ -8,14 +8,14 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary/opf-gift-card-order-summary.component';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { OutletModule } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-gift-card-order-detail-totals',
   templateUrl: './opf-gift-card-order-detail-totals.component.html',
-  imports: [ CommonModule, OutletModule, NgIf, OpfGiftCardOrderSummaryComponent],
+  imports: [CommonModule, OutletModule, NgIf, OpfGiftCardOrderSummaryComponent],
 })
 export class OpfGiftCardOrderDetailTotalsComponent implements OnInit {
   protected activeCartFacade = inject(ActiveCartFacade);
@@ -25,8 +25,5 @@ export class OpfGiftCardOrderDetailTotalsComponent implements OnInit {
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
-    this.order$.subscribe((order) => {
-      console.log('Order details in totals component: ', order);
-    });
   }
 }

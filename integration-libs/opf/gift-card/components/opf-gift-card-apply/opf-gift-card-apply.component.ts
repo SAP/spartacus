@@ -38,10 +38,10 @@ import { map, shareReplay } from 'rxjs/operators';
 
 import { CommonModule } from '@angular/common';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
-import { OpfGiftCardFacade } from '@spartacus/opf/gift-card/root';
-import { SAPGiftCards } from '../../root/model';
-import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied';
-import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout';
+import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { SAPGiftCards } from '../../root/model/opf-gift-card.model';
+import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied/opf-gift-card-applied.component';
+import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout/opf-gift-card-checkout-place-order/opf-gift-card-checkout-place-order.component';
 @Component({
   selector: 'cx-opf-gift-card-apply',
   templateUrl: './opf-gift-card-apply.component.html',
@@ -155,10 +155,14 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
     .pipe(shareReplay(1));
 
   isAddGiftCard$ = this.cart$.pipe(
-    map((cart)=>{
-      return cart?._availableOperations?.find(operations => operations.key === 'applyGiftCard')?.value?.available ?? true;
+    map((cart) => {
+      return (
+        cart?._availableOperations?.find(
+          (operations) => operations.key === 'applyGiftCard'
+        )?.value?.available ?? true
+      );
     })
-  )
+  );
 
   ngOnInit(): void {
     this.subscription.add(
@@ -170,7 +174,6 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
           );
         })
     );
-
 
     if (this.outlet?.context$) {
       this.subscription.add(

@@ -13,15 +13,15 @@
           </div>
         </div>
         <div>
-        <button
-          type="button"
-          class="cx-opf-gift-card-apply-add-link"
-          [disabled]="!(isAddGiftCard$ | async)"
-          (click)="showGiftCardForm = !showGiftCardForm"
-        >
-          {{ 'giftCard.addGiftCard' | cxTranslate }}
-        </button>
-      </div>
+          <button
+            type="button"
+            class="cx-opf-gift-card-apply-add-link"
+            [disabled]="!(isAddGiftCard$ | async)"
+            (click)="showGiftCardForm = !showGiftCardForm"
+          >
+            {{ 'giftCard.addGiftCard' | cxTranslate }}
+          </button>
+        </div>
       </div>
 
       <!-- Gift Card Form -->

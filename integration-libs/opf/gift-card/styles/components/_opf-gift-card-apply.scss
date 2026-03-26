@@ -84,6 +84,21 @@
         border-radius: 4px;
         font-size: 1rem;
         height: 42px;
+
+        &.is-invalid,
+        &.ng-invalid.ng-touched,
+        &.ng-invalid.ng-dirty {
+          border-color: var(--cx-color-danger);
+        }
+      }
+
+      cx-form-errors {
+        color: var(--cx-color-danger);
+
+        .cx-form-error,
+        .cx-error-msg {
+          color: var(--cx-color-danger);
+        }
       }
     }
 

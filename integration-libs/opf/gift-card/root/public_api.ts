@@ -8,3 +8,4 @@ export * from './opf-gift-card-root.module';
 export * from './facade/index';
 export * from './feature-name';
 export * from './model/index';
+export * from './config/default-gift-card-cart-config';

@@ -10,6 +10,7 @@ import { Subject, of } from 'rxjs';
 
 import { OpfGiftCardOrderDetailBillingComponent } from './opf-gift-card-order-detail-billing.component';
 import { Order } from '@spartacus/order/root';
+import { Store } from '@ngrx/store';
 import { TranslationService } from '@spartacus/core';
 
 describe('OpfGiftCardOrderDetailBillingComponent', () => {
@@ -28,6 +29,14 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       imports: [OpfGiftCardOrderDetailBillingComponent],
       providers: [
         { provide: TranslationService, useValue: translationServiceSpy },
+        {
+          provide: Store,
+          useValue: {
+            pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
+            dispatch: jasmine.createSpy('dispatch'),
+            select: jasmine.createSpy('select').and.returnValue(of({})),
+          },
+        },
       ],
     }).compileComponents();
 

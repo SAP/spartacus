@@ -5,5 +5,5 @@
  */
 
 export * from './opf-gift-card-checkout-place-order/opf-gift-card-checkout-place-order.component';
-export * from './opf-gift-card-checkout-order-summary/opf-gift-card-checkout-order-summary.component'
+export * from './opf-gift-card-checkout-order-summary/opf-gift-card-checkout-order-summary.component';
 export * from './opf-gift-card-checkout.module';

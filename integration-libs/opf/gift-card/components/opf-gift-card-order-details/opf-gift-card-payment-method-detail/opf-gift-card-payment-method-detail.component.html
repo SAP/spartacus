@@ -1,38 +1,22 @@
 <ng-container *ngIf="isGiftCardPayment">
   <div class="cx-opf-gift-card-payment-method-detail">
-     <ng-container
-       *ngIf="
-         order?.sapGiftCardSummary?.giftCardsCoverFullAmount;
-         else giftCardPayment
-       "
-     >
-           <div class="cx-gift-card-full-payment">
-
-       <cx-card [content]="getPaymentMethodCardContent() | async"></cx-card>
-       </div>
-     </ng-container>
-
-     <ng-template #giftCardPayment>
-            <div class="cx-gift-card-partial-payment">
-
-       <cx-card
-         [content]="{ text: ['giftCard.giftCardPayment' | cxTranslate] }"
-       ></cx-card>
-       </div>
-     </ng-template>
-    <!-- <ng-container
+    <ng-container
       *ngIf="
         order?.sapGiftCardSummary?.giftCardsCoverFullAmount;
         else giftCardPayment
       "
     >
-      <cx-card [content]="getPaymentMethodCardContent() | async"></cx-card>
+      <div class="cx-gift-card-full-payment">
+        <cx-card [content]="getPaymentMethodCardContent() | async"></cx-card>
+      </div>
     </ng-container>
 
     <ng-template #giftCardPayment>
-      <cx-card
-        [content]="{ text: ['giftCard.giftCardPayment' | cxTranslate] }"
-      ></cx-card>
-    </ng-template> -->
+      <div class="cx-gift-card-partial-payment">
+        <cx-card
+          [content]="{ text: ['giftCard.giftCardPayment' | cxTranslate] }"
+        ></cx-card>
+      </div>
+    </ng-template>
   </div>
 </ng-container>

@@ -5,7 +5,6 @@
  */
 import {
   CmsConfig,
-  I18nModule,
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -15,10 +14,8 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { OpfGiftCardCheckoutOrderSummaryComponent } from './opf-gift-card-checkout-order-summary';
+import { OpfGiftCardCheckoutOrderSummaryComponent } from './opf-gift-card-checkout-order-summary/opf-gift-card-checkout-order-summary.component';
 import { OpfGiftCardCheckoutPlaceOrderComponent } from './opf-gift-card-checkout-place-order/opf-gift-card-checkout-place-order.component';
 
 export const defaultPlaceOrderSpinnerLayoutConfig: LayoutConfig = {
@@ -33,15 +30,12 @@ export const defaultPlaceOrderSpinnerLayoutConfig: LayoutConfig = {
 
 @NgModule({
   imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
     OpfGiftCardCheckoutPlaceOrderComponent,
     OpfGiftCardCheckoutOrderSummaryComponent,
   ],
   providers: [
     provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
-    
+
     provideConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutOrderSummary: {

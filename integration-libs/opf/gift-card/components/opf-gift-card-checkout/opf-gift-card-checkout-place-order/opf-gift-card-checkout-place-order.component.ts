@@ -40,7 +40,9 @@ import { OrderFacade } from '@spartacus/order/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, OutletModule, CommonModule],
 })
-export class OpfGiftCardCheckoutPlaceOrderComponent implements OnInit, OnDestroy {
+export class OpfGiftCardCheckoutPlaceOrderComponent
+  implements OnInit, OnDestroy
+{
   cart$: Observable<Cart>;
   protected activeCartFacade = inject(ActiveCartFacade);
   protected globalMessageService = inject(GlobalMessageService);
@@ -51,7 +53,6 @@ export class OpfGiftCardCheckoutPlaceOrderComponent implements OnInit, OnDestroy
   protected vcr = inject(ViewContainerRef);
 
   ngOnInit() {
-    console.log('GiftCardCheckoutComponent initialized');
     this.cart$ = this.activeCartFacade.getActive();
   }
 
@@ -88,24 +89,17 @@ export class OpfGiftCardCheckoutPlaceOrderComponent implements OnInit, OnDestroy
           this.stopPlaceOrderSpinner();
           this.onSuccess();
         },
-        error: (error) => this.onPlaceOrderError(error),
+        error: () => this.onPlaceOrderError(),
       });
   }
 
-  protected onPlaceOrderError(error?: unknown): void {
+  protected onPlaceOrderError(): void {
     this.stopPlaceOrderSpinner();
-
-    // User-visible message (uses existing i18n key).
     this.globalMessageService.add(
       { key: 'giftCard.errors.placeOrderFailed' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
-        this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });
-
-
-    // Helpful for debugging without breaking UX.
-    // eslint-disable-next-line no-console
-    console.error('Gift card place order failed', error);
+    this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });
   }
 
   protected stopPlaceOrderSpinner(): void {

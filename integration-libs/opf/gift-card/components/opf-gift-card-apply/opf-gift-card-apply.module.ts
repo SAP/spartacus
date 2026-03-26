@@ -8,9 +8,7 @@ import { NgModule } from '@angular/core';
 import { OpfGiftCardApplyComponent } from './opf-gift-card-apply.component';
 
 @NgModule({
-  imports: [
-    OpfGiftCardApplyComponent,
-  ],
+  imports: [OpfGiftCardApplyComponent],
 
   exports: [OpfGiftCardApplyComponent],
 })
