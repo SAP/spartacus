@@ -247,7 +247,9 @@
     "refreshThePage": "Please refresh the page."
   },
   "assistiveMessage": {
-    "actionCancelled": "Action cancelled, nothing changed"
+    "actionCancelled": "Action cancelled, nothing changed",
+    "ngSelectDropdownCount": "Please select from {{count}} item",
+    "ngSelectDropdownCount_other": "Please select from {{count}} items"
   },
   "passwordVisibility": {
     "showPassword": "Show password",
