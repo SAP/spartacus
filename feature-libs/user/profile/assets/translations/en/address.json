@@ -38,6 +38,8 @@
     "streetAddress": "Street Address",
     "aptSuite": "Apartment Number",
     "selectOne": "Select One...",
+    "selectProvinceFirst": "Please select a province first",
+    "selectCityFirst": "Please select a city first",
     "setAsDefault": "Set as default delivery address",
     "titleRequired": "Title is required.",
     "userAddressAddSuccess": "New address was added successfully!",

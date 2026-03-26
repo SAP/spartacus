@@ -91,6 +91,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   isChineseAddress = false;
+  cityPlaceholder = '';
+  districtPlaceholder = '';
   cities$: Observable<City[]>;
   districts$: Observable<District[]>;
   addresses$: Observable<Address[]>;
@@ -264,13 +266,19 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     const cellphoneControl = this.addressForm.get('cellphone');
     const districtControl = this.addressForm.get('district');
+    const townControl = this.addressForm.get('town');
     if (this.isChineseAddress) {
       cellphoneControl?.setValidators([Validators.required]);
       districtControl?.setValidators([Validators.required]);
+      townControl?.disable();
+      districtControl?.disable();
+      this.updateChinesePlaceholders();
     } else {
       cellphoneControl?.clearValidators();
       districtControl?.clearValidators();
       districtControl?.reset();
+      townControl?.enable();
+      districtControl?.enable();
       this.selectedRegion$.next('');
       this.selectedCity$.next('');
     }
@@ -283,8 +291,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.isChineseAddress) {
       this.selectedRegion$.next(region.isocode ?? '');
       this.addressForm.get('town')?.reset();
+      this.addressForm.get('town')?.enable();
       this.selectedCity$.next('');
       this.addressForm.get('district')?.reset();
+      this.addressForm.get('district')?.disable();
+      this.updateChinesePlaceholders();
     }
   }
 
@@ -292,7 +303,29 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (city?.isocode) {
       this.selectedCity$.next(city.isocode);
       this.addressForm.get('district')?.reset();
+      this.addressForm.get('district')?.enable();
+      this.updateChinesePlaceholders();
     }
+  }
+
+  protected updateChinesePlaceholders(): void {
+    this.translation
+      .translate(
+        this.selectedRegion$.value
+          ? 'addressForm.selectOne'
+          : 'addressForm.selectProvinceFirst'
+      )
+      .pipe(take(1))
+      .subscribe((text) => (this.cityPlaceholder = text));
+
+    this.translation
+      .translate(
+        this.selectedCity$.value
+          ? 'addressForm.selectOne'
+          : 'addressForm.selectCityFirst'
+      )
+      .pipe(take(1))
+      .subscribe((text) => (this.districtPlaceholder = text));
   }
 
   toggleDefaultAddress(): void {
