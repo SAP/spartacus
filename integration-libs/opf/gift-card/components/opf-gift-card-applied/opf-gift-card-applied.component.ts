@@ -11,13 +11,12 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, TranslatePipe } from '@spartacus/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
 import { OutletModule } from '@spartacus/storefront';
 import { SAPGiftCards } from '../../root/model/opf-gift-card.model';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-gift-card-applied',

@@ -70,7 +70,7 @@ export class OpfGiftCardCheckoutPlaceOrderComponent
     this.placedOrder = this.launchDialogService.launch(
       LAUNCH_CALLER.PLACE_ORDER_SPINNER,
       this.vcr
-    ) as Observable<ComponentRef<any> | undefined> | void;
+    );
 
     this.orderFacade
       .placePaymentAuthorizedOrder(this.termsAndConditionsChecked)

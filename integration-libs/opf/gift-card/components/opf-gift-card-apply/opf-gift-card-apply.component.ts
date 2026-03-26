@@ -99,7 +99,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
     });
   }
 
-  constructor(@Optional() protected outlet?: OutletContextData<any>) {}
+  constructor(@Optional() protected outlet?: OutletContextData) {}
 
   addGiftCard(): void {
     if (this.giftCardForm.invalid) {
