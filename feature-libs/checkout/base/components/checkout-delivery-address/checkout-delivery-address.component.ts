@@ -133,7 +133,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     const numbers = getAddressNumbers(address, textPhone, textMobile);
     const isSelected: boolean = selected && selected.id === address.id;
 
-    const role = this.getCardRole(isSelected);
+    const role = isSelected ? 'region' : 'group';
 
     return {
       role,
@@ -376,6 +376,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return !!this.checkoutConfigService?.shouldUseAddressSavedInCart();
   }
 
+  /**
+   * @deprecated since 221121.8. No longer used internally.
+   * The role logic is now inlined in `getCardContent()` method.
+   * This method will be removed in a future major version.
+   */
   protected getCardRole(isCardSelected: boolean): 'button' | 'application' {
     const role: 'button' | 'application' = !isCardSelected
       ? 'button'
