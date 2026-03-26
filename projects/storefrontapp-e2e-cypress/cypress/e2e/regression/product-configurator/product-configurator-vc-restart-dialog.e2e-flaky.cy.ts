@@ -39,7 +39,7 @@ context('Restart dialog for product configuration', () => {
     navigateToConfigurationAndCheckDialog();
   });
 
-  it.skip('skipped due to JDK-21 (CXSPA-10506): should keep configuration on resume (CXSPA-1786)', () => {
+  it('should keep configuration on resume (CXSPA-1786)', () => {
     restartDialog.resume();
 
     restartDialog.checkIsClosed();

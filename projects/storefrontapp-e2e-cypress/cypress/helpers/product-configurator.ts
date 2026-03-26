@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SampleUser } from '../sample-data/checkout-flow';
-import * as authForm from './auth-forms';
 import * as common from './common';
 import * as login from './login';
 import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
+import * as authentication from './auth-forms';
+import { SampleUser } from '../sample-data/checkout-flow';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
@@ -580,12 +580,19 @@ export function completeOrderProcess(
   productName: string,
   navigateToOrderDetails: boolean = false
 ): void {
+  // Navigate to the registry page to register a new user
+  cy.visit('/login/register');
   const user: SampleUser = login.registerUser(true);
   verifyGlobalMessageAfterRegistration();
   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-  authForm.login(user.email, user.password);
+  // Login via authentication service
+  authentication.login(user.email, user.password);
   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
-  login.checkUserIsSignedIn(user);
+  // Verify whether the user logged in successfully,
+  // namely the logged-in user should be greeted
+  cy.get('.cx-login-greet').should('contain', user.fullName);
+  cy.getLoginRegisterLink().should('not.contain', 'Sign In');
+
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
@@ -595,6 +602,7 @@ export function completeOrderProcess(
   }
   //don't check the order history aspect because this part is flaky
   // configurationCart.selectOrderByOrderNumberAlias();
+
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
