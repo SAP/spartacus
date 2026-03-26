@@ -43,7 +43,7 @@
                 [fitToContainer]="true"
                 [content]="card.card"
                 (sendCard)="selectAddress(card.address)"
-                [role]="'group'"
+                [role]="card.card.role"
               ></cx-card>
             </div>
           </div>

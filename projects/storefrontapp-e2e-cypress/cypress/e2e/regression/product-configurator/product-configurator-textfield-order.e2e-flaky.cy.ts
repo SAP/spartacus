@@ -11,17 +11,14 @@ const testProduct = '1934793';
 /**
  * Requires commerce core 22.05
  */
-context.skip(
-  'Skipped due to JDK-21 (CXSPA-10506): Textfield Configuration',
-  () => {
-    beforeEach(() => {
-      cy.visit('/');
-    });
+context('Textfield Configuration', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
 
-    describe('Configuration process', () => {
-      it('should support configuration aspect in product search, cart, checkout and order history', () => {
-        configuration.completeOrderProcess(testProduct);
-      });
+  describe('Configuration process', () => {
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
+      configuration.completeOrderProcess(testProduct);
     });
-  }
-);
+  });
+});

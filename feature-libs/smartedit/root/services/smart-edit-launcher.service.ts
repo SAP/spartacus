@@ -6,7 +6,11 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { FeatureModulesService, ScriptLoader } from '@spartacus/core';
+import {
+  FeatureModulesService,
+  ScriptLoader,
+  WindowRef,
+} from '@spartacus/core';
 import { SmartEditConfig } from '../config/smart-edit-config';
 import { SMART_EDIT_FEATURE } from '../feature-name';
 
@@ -19,7 +23,9 @@ import { SMART_EDIT_FEATURE } from '../feature-name';
 })
 export class SmartEditLauncherService {
   protected readonly featureModulesService = inject(FeatureModulesService);
+  protected readonly windowRef = inject(WindowRef);
   private _cmsTicketId: string | undefined;
+  private static readonly STORAGE_KEY_CMS_TICKET_ID = 'smartedit.cmsTicketId';
 
   get cmsTicketId(): string | undefined {
     return this._cmsTicketId;
@@ -53,16 +59,61 @@ export class SmartEditLauncherService {
    * Indicates whether Spartacus is launched in SmartEdit
    */
   isLaunchedInSmartEdit(): boolean {
-    const path = this.location.path().split('?')[0];
-    const params = this.location.path().split('?')[1];
+    const [path, params] = this.location.path().split('?');
     const cmsToken = params
       ?.split('&')
       .find((param) => param.startsWith('cmsTicketId='));
-    this._cmsTicketId = cmsToken?.split('=')[1];
+    const cmsTicketId = cmsToken?.split('=')[1];
 
     return (
-      path.split('/').pop() === this.config.smartEdit?.storefrontPreviewRoute &&
-      !!this._cmsTicketId
+      this.isInitialSmartEditPage(path, cmsTicketId) ||
+      this.isFullPageRedirectInSmartEdit()
     );
+  }
+
+  private isInitialSmartEditPage(
+    path: string,
+    cmsTicketId: string | undefined
+  ): boolean {
+    // When both the SmartEdit cmsTicketId and the storefrontPreviewRoute values are found in the URL, store the cmsTicketId in sessionStorage.
+    // so it survives full-page navigation (e.g. CDC OIDC redirect flow).
+    if (
+      path.split('/').pop() === this.config.smartEdit?.storefrontPreviewRoute &&
+      !!cmsTicketId
+    ) {
+      this.persistCmsTicketId(cmsTicketId);
+      this._cmsTicketId = cmsTicketId;
+      return true;
+    }
+    return false;
+  }
+
+  private isFullPageRedirectInSmartEdit(): boolean {
+    // Fall back to sessionStorage for scenarios where a full-page redirect
+    // drops the cmsTicketId and other SmartEdit context from the URL.
+    this._cmsTicketId = this.restoreCmsTicketId();
+    return !!this._cmsTicketId;
+  }
+
+  private persistCmsTicketId(cmsTicketId: string): void {
+    // bypass sessionStorage when not in browser context (e.g. SSR) to avoid "SecurityError: Access to storage is denied" error
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    sessionStorage.setItem(
+      SmartEditLauncherService.STORAGE_KEY_CMS_TICKET_ID,
+      cmsTicketId
+    );
+  }
+
+  private restoreCmsTicketId(): string | undefined {
+    // bypass sessionStorage when not in browser context (e.g. SSR) to avoid "SecurityError: Access to storage is denied" error
+    if (!this.windowRef.isBrowser()) {
+      return undefined;
+    }
+    const stored = sessionStorage.getItem(
+      SmartEditLauncherService.STORAGE_KEY_CMS_TICKET_ID
+    );
+    return stored ?? undefined;
   }
 }

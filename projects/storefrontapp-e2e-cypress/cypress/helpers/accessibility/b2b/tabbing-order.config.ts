@@ -354,6 +354,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
+      value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
