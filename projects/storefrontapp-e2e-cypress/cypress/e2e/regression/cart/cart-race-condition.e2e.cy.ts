@@ -13,11 +13,11 @@ import { viewportContext } from '../../../helpers/viewport-context';
  * before the first cart creation completes, concurrent createCart() actions
  * could result in multiple carts being created on the backend.
  *
- * Fix: Uses exhaustMap in cart.effect.ts and shareReplay caching in
- * active-cart.service.ts to prevent parallel cart creation.
+ * Fix: Uses shareReplay caching in active-cart.service.ts to ensure
+ * concurrent requireLoadedCart() calls share the same cart creation observable,
+ * preventing parallel cart creation requests.
  *
  * @see active-cart.service.ts - requireLoadedCart() with shareReplay caching
- * @see cart.effect.ts - createCart$ effect using exhaustMap
  */
 describe('Cart Race Condition - Slow Network', () => {
   const products = [
@@ -104,7 +104,7 @@ describe('Cart Race Condition - Slow Network', () => {
       // Wait a bit more for all add entry calls to process
       cy.wait(1000);
 
-      // Verify only ONE cart was created (exhaustMap ignores parallel requests)
+      // Verify only ONE cart was created (shareReplay caching prevents parallel requests)
       cy.wrap(null).then(() => {
         expect(
           createCartCallCount,
