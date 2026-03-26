@@ -87,7 +87,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           .pipe(take(1), takeUntilDestroyed(this.destroyRef))
           .subscribe((ariaPlaceholder) => {
             this.renderer.setAttribute(
-              this.elementRef.nativeElement.querySelector('[role="combobox"]'),
+              this.inputCombobox,
               'aria-placeholder',
               ariaPlaceholder
             );
