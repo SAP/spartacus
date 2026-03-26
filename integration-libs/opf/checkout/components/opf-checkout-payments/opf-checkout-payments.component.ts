@@ -34,6 +34,7 @@ import {
   OpfMetadataModel,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -122,8 +123,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   noRenderPaymentWrapperMessage?: string;
 
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
-
-  readonly SAVED_CARDS_ID = -1;
 
   protected outletContext$ = new Subject<any>();
 
@@ -292,17 +291,17 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected emitOutletContext(): void {
     this.outletContext$.next({
       selectedPaymentId: this.selectedPaymentId,
-      savedCardsId: this.SAVED_CARDS_ID,
-      showSavedCardsList: this.selectedPaymentId === this.SAVED_CARDS_ID,
+      savedCardsId: SAVED_CARDS_ID,
+      showSavedCardsList: this.selectedPaymentId === SAVED_CARDS_ID,
       disabled: this.disabled && this.explicitTermsAndConditions,
       savedCardsSelected: this.onSavedCardsSelected.bind(this),
     });
   }
 
   onSavedCardsSelected(): void {
-    this.selectedPaymentId = this.SAVED_CARDS_ID;
+    this.selectedPaymentId = SAVED_CARDS_ID;
     this.opfMetadataStoreService.updateOpfMetadata({
-      selectedPaymentOptionId: this.SAVED_CARDS_ID,
+      selectedPaymentOptionId: SAVED_CARDS_ID,
     });
     this.emitOutletContext();
   }
