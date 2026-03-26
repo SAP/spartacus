@@ -10,7 +10,7 @@ import { CartVoucherAdapter } from '@spartacus/cart/base/core';
 import { CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
-  FeatureConfigService,
+  FeatureToggles,
   InterceptorUtil,
   LoggerService,
   OCC_USER_ID_ANONYMOUS,
@@ -24,7 +24,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
   protected logger = inject(LoggerService);
-  protected featureConfigService = inject(FeatureConfigService);
+  protected featureToggles = inject(FeatureToggles);
 
   constructor(
     protected http: HttpClient,
@@ -79,7 +79,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   remove(userId: string, cartId: string, voucherId: string): Observable<{}> {
     const headers = this.getHeaders(userId);
 
-    if (this.featureConfigService.isEnabled('enableRemoveVoucherEndpoint')) {
+    if (this.featureToggles.enableRemoveVoucherEndpoint) {
       const removeVoucherUrl = this.getRemoveCartVoucherEndpoint(
         userId,
         cartId
