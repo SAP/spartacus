@@ -5,7 +5,6 @@
  */
 
 import * as common from '../../../helpers/common';
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
 import * as cart from '../../../helpers/cart';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
@@ -22,7 +21,6 @@ context('Product Configuration', () => {
     configurationVc.registerConfigurationUpdateRoute();
     configurationOverviewVc.registerConfigurationOverviewRoute();
     cy.visit('/');
-    clickAllowAllFromBanner();
   });
 
   describe('Support Make-to-Stock for Product Variants (CXSPA-5951)', () => {
@@ -76,7 +74,7 @@ context('Product Configuration', () => {
       });
     });
 
-    describe.skip('skipped due to JDK-21 (CXSPA-10506): support back navigation to the checkout page after clicking Display Configuration link', () => {
+    describe('support back navigation to the checkout page after clicking Display Configuration link', () => {
       it('should proceed to checkout and display a product overview', () => {
         configuration.completeOrderProcess(testProduct, true);
       });
