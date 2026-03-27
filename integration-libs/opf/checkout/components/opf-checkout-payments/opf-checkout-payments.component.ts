@@ -272,8 +272,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             this.selectedPaymentId = undefined;
             this.emitOutletContext();
           } else if (isPreselected) {
-            // After initial preselection, continue listening for payment option changes
-            // This handles transitions to saved cards and between payment providers
             this.selectedPaymentId = state.selectedPaymentOptionId;
             this.emitOutletContext();
           }

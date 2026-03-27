@@ -210,9 +210,7 @@ describe('OpfTokenisationSavedCardsService', () => {
       metadataState$.next({ selectedPaymentOptionId: null });
 
       setTimeout(() => {
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).toHaveBeenCalled();
+        expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
         done();
       }, 50);
     });
@@ -312,8 +310,6 @@ describe('OpfTokenisationSavedCardsService', () => {
   });
 
   describe('Subscription management', () => {
-    
-
     it('should add subscription to subscription object', () => {
       const subscriptionBefore = (service as any).subscription.closed;
 

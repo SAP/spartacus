@@ -2,7 +2,9 @@
 <ng-container *ngIf="context$ | async as ctx">
   <div
     class="cx-payment-options-section"
-    [attr.aria-label]="ctx.newPaymentHeading || ('opfCheckout.newPaymentHeading' | cxTranslate)"
+    [attr.aria-label]="
+      ctx.newPaymentHeading || ('opfCheckout.newPaymentHeading' | cxTranslate)
+    "
   >
     <h3 class="cx-payment-section-heading">
       {{

@@ -67,6 +67,25 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
   }
 
   /**
+   * Determines if user is transitioning away from saved cards to a specific payment method.
+   * Checks that:
+   * - Previous payment was SAVED_CARDS_ID
+   * - Current payment is not SAVED_CARDS_ID
+   * - Current payment is defined
+   * - A card was actually selected from saved cards list
+   */
+  private isTransitioningFromSavedCardsWithCardSelected(
+    prev: number | undefined,
+    curr: number | undefined
+  ): boolean {
+    return (
+      prev === SAVED_CARDS_ID &&
+      curr !== SAVED_CARDS_ID &&
+      curr !== undefined &&
+      this.cardSelected$.value
+    );
+  }
+  /**
    * Watches the metadata store for transitions from SAVED_CARDS_ID
    * to any other payment option. When detected and a card was previously selected,
    * deletes the saved payment details from the backend.
@@ -81,16 +100,7 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
           pairwise()
         )
         .subscribe(([prev, curr]) => {
-          // Only delete if:
-          // 1. We're transitioning away from SAVED_CARDS_ID
-          // 2. A card was actually selected from the saved cards list
-          // 3. We're not going to an undefined state
-          if (
-            prev === SAVED_CARDS_ID &&
-            curr !== SAVED_CARDS_ID &&
-            curr !== undefined &&
-            this.cardSelected$.value
-          ) {
+          if (this.isTransitioningFromSavedCardsWithCardSelected(prev, curr)) {
             this.checkoutPaymentFacade.deletePaymentDetails().subscribe();
             // Reset the flag after deleting
             this.cardSelected$.next(false);
