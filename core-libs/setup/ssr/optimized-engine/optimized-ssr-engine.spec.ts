@@ -201,9 +201,7 @@ describe('OptimizedSsrEngine', () => {
               renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
               logger: 'DefaultExpressServerLogger',
               shouldCacheRenderingResult: '({ entry: { err } }) => !err',
-              renderKeyResolver: 'function getRequestUrl(req) {\\n' +
-                '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
-                '}',
+              renderKeyResolver: 'function getDefaultRenderKey(req) {\\n    return req.originalUrl;\\n}',
               ssrFeatureToggles: { limitCacheByMemory: true }
             }
           }
@@ -584,7 +582,7 @@ describe('OptimizedSsrEngine', () => {
 
   describe('renderKeyResolver option', () => {
     describe('default key resolver', () => {
-      it('should be used when the custom one is provided', fakeAsync(() => {
+      it('should use only the path as the render key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           timeout: 200,
           cache: true,
@@ -599,10 +597,10 @@ describe('OptimizedSsrEngine', () => {
 
         expect(
           engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith(`https://${host}${route}`);
+        ).toHaveBeenCalledWith(route);
       }));
 
-      it('should use the X-Forwarded-Host header to resolve the origin', fakeAsync(() => {
+      it('should not include X-Forwarded-Host header in the render key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           timeout: 200,
           cache: true,
@@ -623,7 +621,7 @@ describe('OptimizedSsrEngine', () => {
 
         expect(
           engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith(`https://${domain}${route}`);
+        ).toHaveBeenCalledWith(route);
       }));
     });
 
@@ -800,10 +798,12 @@ describe('OptimizedSsrEngine', () => {
         });
 
         engineRunner.request('a');
-        engineRunner.request('a', { httpHeaders: { 'User-Agent': 'bot' } });
+        engineRunner.request('a', {
+          httpHeaders: { host, 'User-Agent': 'bot' },
+        });
         tick(200);
 
-        expect(engineRunner.responses).toEqual(['', 'a-1']);
+        expect(engineRunner.responses).toEqual(['', 'a-0']);
       }));
     });
   });
@@ -1007,8 +1007,7 @@ describe('OptimizedSsrEngine', () => {
     const requestUrl = 'a';
     const differentUrl = 'b';
 
-    const getRenderingKey = (requestUrlStr: string): string =>
-      `https://${host}${requestUrlStr}`;
+    const getRenderingKey = (requestUrlStr: string): string => requestUrlStr;
     const getRenderCallbacksCount = (
       engineRunner: TestEngineRunner,
       requestUrlStr: string
@@ -1448,8 +1447,8 @@ describe('OptimizedSsrEngine', () => {
               "forcedSsrTimeout": 60000,
               "logger": "MockExpressServerLogger",
               "maxRenderTime": 300000,
-              "renderKeyResolver": "function getRequestUrl(req) {
-            return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
+              "renderKeyResolver": "function getDefaultRenderKey(req) {
+            return req.originalUrl;
         }",
               "renderingStrategyResolver": "(request) => {
             if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {

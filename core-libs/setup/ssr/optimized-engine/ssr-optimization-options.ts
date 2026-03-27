@@ -5,7 +5,6 @@
  */
 
 import { Request } from 'express';
-import { getRequestUrl } from '../express-utils/express-request-url';
 import { DefaultExpressServerLogger, ExpressServerLogger } from '../logger';
 import { DefaultCacheEntrySizeCalculator } from './rendering-cache/default-cache-entry-size-calculator';
 import {
@@ -219,9 +218,14 @@ type DeepRequired<T> = {
 };
 
 /**
- * Returns the full url for the given SSR Request.
+ * Returns the request path (with query string) for use as the SSR cache key.
+ *
+ * Note: This intentionally excludes the host to prevent cache poisoning
+ * via attacker-controlled headers like X-Forwarded-Host.
  */
-export const getDefaultRenderKey = getRequestUrl;
+export function getDefaultRenderKey(req: Request): string {
+  return req.originalUrl;
+}
 
 /**
  * The type of `defaultSsrOptimizationOptions` ensures that all properties are set to a default value.
