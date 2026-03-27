@@ -5,8 +5,7 @@
  */
 import {
   CmsConfig,
-  provideConfig,
-  provideDefaultConfig,
+  provideDefaultConfig
 } from '@spartacus/core';
 import {
   DIALOG_TYPE,
@@ -36,7 +35,7 @@ export const defaultPlaceOrderSpinnerLayoutConfig: LayoutConfig = {
   providers: [
     provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
 
-    provideConfig(<CmsConfig>{
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutOrderSummary: {
           component: OpfGiftCardCheckoutOrderSummaryComponent,

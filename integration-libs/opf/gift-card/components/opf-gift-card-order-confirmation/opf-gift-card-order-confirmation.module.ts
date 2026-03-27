@@ -5,22 +5,20 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { OrderConfirmationGuard } from '@spartacus/order/components';
 import { OpfGiftCardOrderConfirmationTotalsComponent } from './opf-gift-card-order-confirmation-totals/opf-gift-card-order-confirmation-totals.component';
 
 @NgModule({
-  imports: [OpfGiftCardOrderConfirmationTotalsComponent],
-
-  providers: [
-    provideConfig(<CmsConfig>{
-      cmsComponents: {
+  imports: [OpfGiftCardOrderConfirmationTotalsComponent,
+       ConfigModule.withConfig(<CmsConfig>{
+           cmsComponents: {
         OrderConfirmationTotalsComponent: {
           component: OpfGiftCardOrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
       },
-    }),
+        })
   ],
 
   exports: [OpfGiftCardOrderConfirmationTotalsComponent],
