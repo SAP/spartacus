@@ -9,6 +9,7 @@ import {
   QueryState,
   Translatable,
   TranslatePipe,
+  TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
@@ -16,6 +17,7 @@ import {
   OpfActiveConfiguration,
   OpfActiveConfigurationsResponse,
   OpfBaseFacade,
+  OpfConfig,
   OpfMetadataModel,
   OpfMetadataStoreService,
   OpfPaymentProviderType,
@@ -35,6 +37,7 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/core';
 
 @Component({
   template: '',
@@ -327,87 +330,344 @@ describe('OpfCheckoutPaymentsComponent', () => {
     expect(paginationElement).toBeTruthy();
   });
 
-  describe('changePayment', () => {
-    const mockPayment = mockActiveConfigurations[0]; // { id: 1, ... }
+  describe('onSavedCardsSelected', () => {
+    it('should set selectedPaymentId to SAVED_CARDS_ID', () => {
+      component.onSavedCardsSelected();
+      expect(component.selectedPaymentId).toBe(SAVED_CARDS_ID);
+    });
 
-    describe('when isSavedCardsSelected is false (normal path)', () => {
-      beforeEach(() => {
-        component['isSavedCardsSelected'] = false;
-      });
-
-      it('should set selectedPaymentId to the payment id', () => {
-        component.changePayment(mockPayment);
-        expect(component.selectedPaymentId).toBe(mockPayment.id);
-      });
-
-      it('should call updateOpfMetadata with the selected payment option id', () => {
-        component.changePayment(mockPayment);
-        expect(
-          opfMetadataStoreServiceMock.updateOpfMetadata
-        ).toHaveBeenCalledWith({
-          selectedPaymentOptionId: mockPayment.id,
-        });
-      });
-
-      it('should emit paymentChange with the payment', () => {
-        let emittedPayment: OpfActiveConfiguration | undefined;
-        component.paymentChange.subscribe((p) => (emittedPayment = p));
-        component.changePayment(mockPayment);
-        expect(emittedPayment).toEqual(mockPayment);
-      });
-
-      it('should NOT call checkoutPaymentFacade.deletePaymentDetails', () => {
-        const checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
-        spyOn(checkoutPaymentFacade, 'deletePaymentDetails').and.callThrough();
-        component.changePayment(mockPayment);
-        expect(
-          checkoutPaymentFacade.deletePaymentDetails
-        ).not.toHaveBeenCalled();
+    it('should update opf metadata with SAVED_CARDS_ID', () => {
+      component.onSavedCardsSelected();
+      expect(
+        opfMetadataStoreServiceMock.updateOpfMetadata
+      ).toHaveBeenCalledWith({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
       });
     });
 
-    describe('when isSavedCardsSelected is true (switching from saved card)', () => {
-      let checkoutPaymentFacade: CheckoutPaymentFacade;
+    it('should call emitOutletContext', () => {
+      spyOn<any>(component, 'emitOutletContext');
+      component.onSavedCardsSelected();
+      expect(component['emitOutletContext']).toHaveBeenCalled();
+    });
+  });
 
-      beforeEach(() => {
-        checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
-        component['isSavedCardsSelected'] = true;
-        spyOn(checkoutPaymentFacade, 'deletePaymentDetails').and.returnValue(
-          of({})
-        );
+  describe('emitOutletContext', () => {
+    it('should emit outlet context with savedCardsSelected callback', (done) => {
+      component.selectedPaymentId = 1;
+      component['outletContext$'].subscribe((context) => {
+        expect(context).toBeTruthy();
+        expect(context.selectedPaymentId).toBe(1);
+        expect(context.savedCardsId).toBe(SAVED_CARDS_ID);
+        expect(typeof context.savedCardsSelected).toBe('function');
+        done();
+      });
+      component['emitOutletContext']();
+    });
+
+    it('should include showSavedCardsList flag when saved cards are selected', (done) => {
+      component.selectedPaymentId = SAVED_CARDS_ID;
+      component['outletContext$'].subscribe((context) => {
+        expect(context.showSavedCardsList).toBe(true);
+        done();
+      });
+      component['emitOutletContext']();
+    });
+
+    it('should exclude showSavedCardsList when other payment is selected', (done) => {
+      component.selectedPaymentId = 1;
+      component['outletContext$'].subscribe((context) => {
+        expect(context.showSavedCardsList).toBe(false);
+        done();
+      });
+      component['emitOutletContext']();
+    });
+
+    it('should include disabled flag based on explicit terms and conditions', (done) => {
+      component.disabled = true;
+      component.explicitTermsAndConditions = true;
+      component['outletContext$'].subscribe((context) => {
+        expect(context.disabled).toBe(true);
+        done();
+      });
+      component['emitOutletContext']();
+    });
+  });
+
+  describe('pageChange', () => {
+    it('should update pagination index', () => {
+      component.pageChange(2);
+      expect(component['paginationIndex']).toBe(2);
+    });
+
+    it('should call updateActiveConfiguration', () => {
+      spyOn(component, 'updateActiveConfiguration');
+      component.pageChange(1);
+      expect(component.updateActiveConfiguration).toHaveBeenCalled();
+    });
+  });
+
+  describe('getPaginationModel', () => {
+    it('should calculate pagination model from page data', () => {
+      const paginationModel = component.getPaginationModel({
+        size: 10,
+        totalPages: 5,
+        totalElements: 50,
+        number: 2,
       });
 
-      it('should reset isSavedCardsSelected to false', () => {
-        component.changePayment(mockPayment);
-        expect(component['isSavedCardsSelected']).toBe(false);
+      expect(paginationModel.pageSize).toBe(10);
+      expect(paginationModel.totalPages).toBe(5);
+      expect(paginationModel.totalResults).toBe(50);
+      expect(paginationModel.currentPage).toBe(1); // 0-indexed
+    });
+
+    it('should update pagination index when page number is provided', () => {
+      component.getPaginationModel({
+        size: 10,
+        totalPages: 5,
+        totalElements: 50,
+        number: 3,
       });
 
-      it('should set selectedPaymentId to the payment id', () => {
-        component.changePayment(mockPayment);
-        expect(component.selectedPaymentId).toBe(mockPayment.id);
-      });
+      expect(component['paginationIndex']).toBe(2); // 0-indexed
+    });
+  });
 
-      it('should call checkoutPaymentFacade.deletePaymentDetails', () => {
-        component.changePayment(mockPayment);
-        expect(checkoutPaymentFacade.deletePaymentDetails).toHaveBeenCalled();
-      });
+  describe('checkIfOnlyOnePaymentOptionAvailable', () => {
+    it('should return true when only one payment option available', () => {
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [mockActiveConfigurations[0]],
+          page: {
+            totalPages: 1,
+          },
+        },
+      };
 
-      // finalize runs synchronously when the mock returns of({})
-      it('should call updateOpfMetadata with selectedPaymentOptionId after delete', () => {
-        component.changePayment(mockPayment);
-        expect(
-          opfMetadataStoreServiceMock.updateOpfMetadata
-        ).toHaveBeenCalledWith({
-          selectedPaymentOptionId: mockPayment.id,
-        });
-      });
+      const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
+      expect(result).toBe(true);
+    });
 
-      it('should emit paymentChange with the payment after delete', () => {
-        let emittedPayment: OpfActiveConfiguration | undefined;
-        component.paymentChange.subscribe((p) => (emittedPayment = p));
-        component.changePayment(mockPayment);
-        expect(emittedPayment).toEqual(mockPayment);
+    it('should return false when multiple payment options available', () => {
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: mockActiveConfigurations,
+          page: {
+            totalPages: 2,
+          },
+        },
+      };
+
+      const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when no payment options available', () => {
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [],
+        },
+      };
+
+      const result = component['checkIfOnlyOnePaymentOptionAvailable'](state);
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('handleDefaultPaymentOptionInputSelection', () => {
+    it('should set selectedPaymentId when only one option available', () => {
+      component.isOnlyOnePaymentOptionAvailable = true;
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [mockActiveConfigurations[0]],
+        },
+      };
+
+      component['handleDefaultPaymentOptionInputSelection'](state);
+
+      expect(component.selectedPaymentId).toBe(mockActiveConfigurations[0].id);
+    });
+
+    it('should emit selectedPaymentProviderName when only one option available', () => {
+      spyOn(component.selectedPaymentProviderName, 'emit');
+      component.isOnlyOnePaymentOptionAvailable = true;
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [mockActiveConfigurations[1]],
+        },
+      };
+
+      component['handleDefaultPaymentOptionInputSelection'](state);
+
+      expect(component.selectedPaymentProviderName.emit).toHaveBeenCalledWith(
+        mockActiveConfigurations[1].displayName
+      );
+    });
+
+    it('should update metadata with default selected payment option id', () => {
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: [mockActiveConfigurations[0]],
+        },
+      };
+
+      component['handleDefaultPaymentOptionInputSelection'](state);
+
+      expect(
+        opfMetadataStoreServiceMock.updateOpfMetadata
+      ).toHaveBeenCalledWith({
+        defaultSelectedPaymentOptionId: mockActiveConfigurations[0].id,
       });
+    });
+
+    it('should force select default payment when flag is set', () => {
+      component.forceDefaultPaymentOptionInputSelection = true;
+      component.selectedPaymentId = undefined;
+      const state: QueryState<OpfActiveConfigurationsResponse | undefined> = {
+        loading: false,
+        error: false,
+        data: {
+          value: mockActiveConfigurations,
+        },
+      };
+
+      component['handleDefaultPaymentOptionInputSelection'](state);
+
+      expect(component.selectedPaymentId).toBe(mockActiveConfigurations[0].id);
+    });
+  });
+
+  describe('getPaymentInfoMessage', () => {
+    let translationService: any;
+
+    beforeEach(() => {
+      translationService = TestBed.inject(TranslationService);
+    });
+
+    it('should return default message when paymentId is undefined', (done) => {
+      component.getPaymentInfoMessage(undefined).subscribe((message) => {
+        expect(message).toBeTruthy();
+        done();
+      });
+    });
+
+    it('should return mapped message when found in config', (done) => {
+      spyOn(translationService, 'translate').and.returnValue(
+        of('Custom message')
+      );
+      const opfConfig = TestBed.inject(OpfConfig);
+      (opfConfig as any).opf = {
+        paymentOption: {
+          paymentInfoMessagesMap: {
+            1: 'customMessageKey',
+          },
+        },
+      };
+
+      component.getPaymentInfoMessage(1).subscribe((message) => {
+        expect(message).toBeTruthy();
+        done();
+      });
+    });
+  });
+
+  describe('isPaymentInfoMessageVisible', () => {
+    it('should return false when enableInfoMessage is not set', () => {
+      const opfConfig = TestBed.inject(OpfConfig);
+      (opfConfig as any).opf = {};
+
+      expect(component.isPaymentInfoMessageVisible).toBe(false);
+    });
+
+    it('should return false when isPaymentInfoMessageEnabled is false', () => {
+      component.isPaymentInfoMessageEnabled = false;
+      const opfConfig = TestBed.inject(OpfConfig);
+      (opfConfig as any).opf = {
+        paymentOption: {
+          enableInfoMessage: true,
+        },
+      };
+
+      expect(component.isPaymentInfoMessageVisible).toBe(false);
+    });
+
+    it('should return true when both flags are enabled', () => {
+      component.isPaymentInfoMessageEnabled = true;
+      const opfConfig = TestBed.inject(OpfConfig);
+      (opfConfig as any).opf = {
+        paymentOption: {
+          enableInfoMessage: true,
+        },
+      };
+
+      expect(component.isPaymentInfoMessageVisible).toBe(true);
+    });
+  });
+
+  describe('preselectPaymentOption with terms and conditions', () => {
+    it('should clear selection when terms not checked and explicit required', () => {
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of({
+          isPaymentInProgress: false,
+          selectedPaymentOptionId: 111,
+          termsAndConditionsChecked: false,
+          defaultSelectedPaymentOptionId: 1,
+          opfPaymentSessionId: '111111',
+          isTermsAndConditionsAlertClosed: false,
+        })
+      );
+
+      component.explicitTermsAndConditions = true;
+
+      fixture.detectChanges();
+
+      expect(component.selectedPaymentId).toBeUndefined();
+    });
+
+    it('should preselect when terms not required', () => {
+      opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
+        of({
+          isPaymentInProgress: false,
+          selectedPaymentOptionId: 111,
+          termsAndConditionsChecked: false,
+          defaultSelectedPaymentOptionId: 1,
+          opfPaymentSessionId: '111111',
+          isTermsAndConditionsAlertClosed: false,
+        })
+      );
+
+      component.explicitTermsAndConditions = false;
+
+      fixture.detectChanges();
+
+      expect(component.selectedPaymentId).toBe(111);
+    });
+  });
+
+  describe('outlet context savedCardsSelected callback', () => {
+    it('should call onSavedCardsSelected when invoking savedCardsSelected callback', (done) => {
+      spyOn(component, 'onSavedCardsSelected');
+      component['outletContext$'].subscribe((context) => {
+        if (typeof context.savedCardsSelected === 'function') {
+          context.savedCardsSelected();
+          expect(component.onSavedCardsSelected).toHaveBeenCalled();
+          done();
+        }
+      });
+      component['emitOutletContext']();
     });
   });
 });
