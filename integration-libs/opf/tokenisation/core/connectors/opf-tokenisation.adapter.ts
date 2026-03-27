@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Injectable } from '@angular/core';
+
 /**
  * OPF Tokenisation Adapter
  *
@@ -12,4 +14,5 @@
  * However, this adapter serves as a placeholder for any future OPF-specific tokenisation logic that may arise as the feature evolves.
  *
  */
-export abstract class OpfTokenisationAdapter {}
+@Injectable()
+export class OpfTokenisationAdapter {}

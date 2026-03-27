@@ -109,7 +109,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
       }
     );
 
-  protected deletePaymentMethodCommand: Command<void, unknown> =
+  protected deletePaymentMethodCommand: Command<void> =
     this.commandService.create<void>(() =>
       this.checkoutPreconditions().pipe(
         switchMap(([userId, cartId]) =>
