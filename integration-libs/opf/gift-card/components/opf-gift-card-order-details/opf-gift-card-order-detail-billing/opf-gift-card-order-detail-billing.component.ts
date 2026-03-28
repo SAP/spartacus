@@ -53,10 +53,7 @@ export class OpfGiftCardOrderDetailBillingComponent
   isOrderDetailsPage$ = this.routingService
     .getRouterState()
     .pipe(
-      map(
-        ({ state }) =>
-          ['orderDetails'].includes(state?.semanticRoute ?? '')
-      )
+      map(({ state }) => ['orderDetails'].includes(state?.semanticRoute ?? ''))
     );
 
   getPaymentMethodCardContent(): Observable<Card> {

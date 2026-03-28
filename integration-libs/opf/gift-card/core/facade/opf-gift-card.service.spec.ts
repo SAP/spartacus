@@ -630,7 +630,7 @@ describe('OpfGiftCardService', () => {
             value: [
               {
                 id: 100,
-                providerType: OpfPaymentProviderType.STORED_VALUE_PAYMENT
+                providerType: OpfPaymentProviderType.STORED_VALUE_PAYMENT,
               },
               {
                 id: 123,

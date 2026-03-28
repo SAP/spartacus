@@ -11,7 +11,11 @@ import {
   inject,
 } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { GlobalMessageService, GlobalMessageType, TranslatePipe } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+} from '@spartacus/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';

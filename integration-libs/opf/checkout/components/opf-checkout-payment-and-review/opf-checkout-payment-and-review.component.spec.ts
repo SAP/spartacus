@@ -28,7 +28,10 @@ import {
 } from '@spartacus/opf/base/root';
 import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { OpfCheckoutBillingAddressFormComponent, OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
+import {
+  OpfCheckoutBillingAddressFormComponent,
+  OpfCheckoutBillingAddressFormService,
+} from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments';
 import { OpfCheckoutReviewCartDetailsComponent } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert';

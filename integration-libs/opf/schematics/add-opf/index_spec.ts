@@ -97,11 +97,10 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     ...libraryNoFeaturesOptions,
     features: [OPF_QUICK_BUY_FEATURE_NAME],
   };
- const opfGiftCardFeatureOptions: SpartacusOpfOptions = {
+  const opfGiftCardFeatureOptions: SpartacusOpfOptions = {
     ...libraryNoFeaturesOptions,
     features: [OPF_GIFT_CARD_FEATURE_NAME],
   };
-
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
@@ -166,8 +165,8 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
             ...opfPaymentFeatureOptions,
             ...opfCtaFeatureOptions,
             ...opfGlobalFunctionsFeatureOptions,
-            ...opfQuickBuyFeatureOptions,
             ...opfGiftCardFeatureOptions,
+            ...opfQuickBuyFeatureOptions,
           },
           appTree
         );

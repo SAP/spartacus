@@ -4,15 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsConfig, ConfigModule, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
-import { IconConfig, IconResourceType } from '@spartacus/storefront';
-
 import { NgModule } from '@angular/core';
-import { OPF_GIFT_CARD_FEATURE } from './feature-name';
+import {
+  CmsConfig,
+  ConfigModule,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { OpfGiftCardComponentsModule } from '../components/opf-gift-card-components.module';
 import { defaultGiftCardCartOccEndpointsConfig } from '../occ/config';
 import { defaultOccOpfGiftCardOrderEndpointsConfig } from '../occ/config/default-occ-opf-gift-card-order-config';
 import { defaultOpfGiftCardCartConfig } from './config/default-gift-card-cart-config';
+import { opfGiftCardIconConfig } from './config/opf-gift-card-icon.config';
+import { OPF_GIFT_CARD_FEATURE } from './feature-name';
 
 export const OPF_GIFT_CARD_FEATURE_CMS_COMPONENTS: string[] = [
   'CheckoutOrderSummary',
@@ -34,20 +38,7 @@ export function defaultOpfGiftCardComponentsConfig() {
 @NgModule({
   imports: [
     OpfGiftCardComponentsModule,
-    ConfigModule.withConfig({
-      icon: {
-        symbols: {
-          GIFT_CARD: 'gift-card-icon',
-        },
-        resources: [
-          {
-            type: IconResourceType.SVG,
-            url: './assets/icons/opf-gift-card.svg',
-            types: ['GIFT_CARD'],
-          },
-        ],
-      },
-    } as IconConfig),
+    ConfigModule.withConfig(opfGiftCardIconConfig),
   ],
   providers: [
     provideDefaultConfig(defaultGiftCardCartOccEndpointsConfig),

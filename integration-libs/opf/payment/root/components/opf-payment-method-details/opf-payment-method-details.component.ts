@@ -8,7 +8,12 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, CardComponent, OutletContextData, OutletModule } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  OutletContextData,
+  OutletModule,
+} from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
 import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';

@@ -25,7 +25,7 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
           guards: [AuthGuard],
         },
       },
-    })
+    }),
   ],
   providers: [
     provideOutlet({

@@ -10,15 +10,16 @@ import { OrderConfirmationGuard } from '@spartacus/order/components';
 import { OpfGiftCardOrderConfirmationTotalsComponent } from './opf-gift-card-order-confirmation-totals/opf-gift-card-order-confirmation-totals.component';
 
 @NgModule({
-  imports: [OpfGiftCardOrderConfirmationTotalsComponent,
-       ConfigModule.withConfig(<CmsConfig>{
-           cmsComponents: {
+  imports: [
+    OpfGiftCardOrderConfirmationTotalsComponent,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
         OrderConfirmationTotalsComponent: {
           component: OpfGiftCardOrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
       },
-        })
+    }),
   ],
 
   exports: [OpfGiftCardOrderConfirmationTotalsComponent],

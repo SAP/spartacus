@@ -3,10 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  CmsConfig,
-  provideDefaultConfig
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import {
   DIALOG_TYPE,
   LayoutConfig,
