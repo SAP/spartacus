@@ -245,7 +245,6 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
     spyOn<any>(component, 'setAddress').and.callThrough();
-    spyOn<any>(component, 'getCardRole').and.callThrough();
 
     checkoutDeliveryAddressFacade = fixture.componentRef.injector.get(
       CheckoutDeliveryAddressFacade
