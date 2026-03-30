@@ -199,10 +199,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addresses$ = this.userAddressService.getAddresses();
 
     this.subscription.add(
-      combineLatest([
-        this.selectedRegion$,
-        this.languageService.getActive(),
-      ])
+      combineLatest([this.selectedRegion$, this.languageService.getActive()])
         .pipe(
           switchMap(([regionIsocode]) => {
             if (!regionIsocode) {
@@ -218,10 +215,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([
-        this.selectedCity$,
-        this.languageService.getActive(),
-      ])
+      combineLatest([this.selectedCity$, this.languageService.getActive()])
         .pipe(
           switchMap(([cityIsocode]) => {
             if (!cityIsocode) {
