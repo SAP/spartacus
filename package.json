@@ -298,6 +298,7 @@
     "flatted": "^3.4.2",
     "koa": "^3.1.2",
     "minimatch": "^10.2.1",
+    "rollup-plugin-dts": "6.2.3",
     "karma": {
       "minimatch": "3.1.5"
     },
