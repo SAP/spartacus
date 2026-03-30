@@ -29,4 +29,8 @@ runs:
             return !filename.startsWith('docs/') && !filename.endsWith('.md');
           });
 
+          if (!shouldRun) {
+            console.log('skip check as only docs & md file(s) involved');
+          }
+
           core.setOutput('RUN_CHECKS', shouldRun ? 'true' : 'false');
