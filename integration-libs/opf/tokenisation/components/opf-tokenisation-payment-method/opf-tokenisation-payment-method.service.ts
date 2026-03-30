@@ -57,9 +57,6 @@ export class OpfTokenisationPaymentMethodService {
   protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected savedCardsService = inject(OpfTokenisationSavedCardsService);
-  protected busy$ = new BehaviorSubject<boolean>(false);
-  protected subscriptions = new Subscription();
-  protected deliveryAddress: Address | undefined;
   protected orderFacade = inject(OrderFacade);
   protected routingService = inject(RoutingService);
   protected checkoutStepService = inject(CheckoutStepService);
@@ -70,16 +67,18 @@ export class OpfTokenisationPaymentMethodService {
   protected checkoutDeliveryAddressFacade = inject(
     CheckoutDeliveryAddressFacade
   );
-
   protected outletContextData = inject<
     OutletContextData<OpfSavedCardsToggleContext>
   >(OutletContextData as any, { optional: true });
+  @Optional() protected windowRef = inject(WindowRef);
+  @Optional() protected focusService = inject(SelectFocusUtility);
+
+  protected busy$ = new BehaviorSubject<boolean>(false);
+  protected subscriptions = new Subscription();
+  protected deliveryAddress: Address | undefined;
 
   paymentDetails?: PaymentDetails;
   isGuestCheckout = false;
-
-  @Optional() protected windowRef = inject(WindowRef);
-  @Optional() protected focusService = inject(SelectFocusUtility);
 
   showSavedCards$: Observable<boolean> = this.opfMetadataStoreService
     .getOpfMetadataState()
