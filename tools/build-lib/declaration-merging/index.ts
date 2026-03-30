@@ -132,11 +132,12 @@ async function repairNgPackagrCorruptions(
       'MULTI_DIMENSIONAL_AVAILABILITY = "multi_dimensional_avai"./spartacus-core" fig/loading-scopes-config*/ {',
       'MULTI_DIMENSIONAL_AVAILABILITY = "multi_dimensional_availability",\n}\ndeclare module "./spartacus-core" {',
     ],
-    // AnonymousConsentsConfig: showAnonymousConsents property was consumed
+    // AnonymousConsentsConfig: showAnonymousConsents JSDoc body + property was consumed.
+    // The '/**' opener is already in the output; only the comment body, closing '*/', and property were consumed.
     // Raw: '       "./spartacus-core" olean;'
     [
       '       "./spartacus-core" olean;',
-      '            showAnonymousConsents?: boolean;',
+      '             * Show all anonymous consents on the consent management page.\n             */\n            showAnonymousConsents?: boolean;',
     ],
     // I18nConfig: JSDoc comment for debug logging was consumed mid-word
     // Raw: '         * Logs i18"./spartacus-core" ;'
@@ -162,11 +163,12 @@ async function repairNgPackagrCorruptions(
       ' * only require the necessary properties. Adapter logic is applied"./spartacus-core" s CmsConfig {',
       ' * only require the necessary properties. Adapter logic is applied to make\n */\ndeclare abstract class CmsStructureConfig extends CmsConfig {',
     ],
-    // CmsService: refreshComponent JSDoc @param details + method signature consumed
+    // CmsService: refreshComponent JSDoc @param details + method signature + clearComponentState method consumed
     // Raw: '     * @param uids Optional array"./spartacus-core"  void;'
+    // ng-packagr consumed everything from '@param uids Optional array...' through the end of clearComponentState.
     [
       '     * @param uids Optional array"./spartacus-core"  void;',
-      "     * @param uids Optional array of component uids.\n     * @param pageContext an optional parameter that enables the caller to specify for which context the component should be refreshed.\n     * If not specified, 'current' page context is used.\n     */\n    refreshComponent(uid: string, pageContext?: PageContext): void;",
+      "     * @param uids Optional array of component uids.\n     * @param pageContext an optional parameter that enables the caller to specify for which context the component should be refreshed.\n     * If not specified, 'current' page context is used.\n     */\n    refreshComponent(uid: string, pageContext?: PageContext): void;\n    /**\n     * Clear the cached component data.\n     * This is useful when components need to be forcefully reloaded,\n     * for example in SmartEdit context when child components need to be refreshed.\n     *\n     * @param uids Optional array of component UIDs to clear. If not provided, clears all cached components.\n     */\n    clearComponentState(uids?: string[]): void;",
     ],
     // HTTP_TIMEOUT_CONFIG: JSDoc tail + constant declaration consumed
     // Raw: ' * Allows for configuring different timeout time pe"./spartacus-core" IG: HttpContextToken<HttpTimeoutConfig | undefined>;'
