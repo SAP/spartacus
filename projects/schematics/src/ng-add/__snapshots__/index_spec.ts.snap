@@ -38,7 +38,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "@angular/platform-server": "^21.2.0",
     "@angular/router": "^21.2.0",
     "@angular/service-worker": "^21.2.4",
-    "@angular/ssr": "^21.2.0",
+    "@angular/ssr": "^21.2.5",
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4",
@@ -63,7 +63,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
   "devDependencies": {
     "@angular-devkit/core": "^21.2.3",
     "@angular-devkit/schematics": "^21.2.3",
-    "@angular/build": "^21.2.0",
+    "@angular/build": "^21.2.5",
     "@angular/cli": "^0.5.0",
     "@angular/compiler": "^21.2.4",
     "@angular/compiler-cli": "^21.2.0",

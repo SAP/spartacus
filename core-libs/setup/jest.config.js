@@ -16,6 +16,13 @@ module.exports = {
     // and: https://github.com/angular/angular-cli/pull/28726
     '^../third_party/beasties/index.js$':
       '<rootDir>/../../node_modules/beasties',
+    // mapping required because Jest (CJS mode) cannot correctly resolve the
+    // default export from Angular's internalized domino `.mjs` bundle.
+    // Without this, `domino` is undefined in @angular/platform-server and
+    // `platformServerTesting()` throws:
+    //   TypeError: Cannot read properties of undefined (reading 'Event')
+    '^../third_party/domino/bundled-domino.mjs$':
+      '<rootDir>/bundled-domino-proxy.js',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transform: {
