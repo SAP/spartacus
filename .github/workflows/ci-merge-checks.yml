@@ -26,31 +26,12 @@ jobs:
     name: MC - Detect changes
     runs-on: ubuntu-latest
     outputs:
-      RUN_E2E_BY_CHANGES: ${{ steps.detect.outputs.RUN_E2E_BY_CHANGES }}
+      RUN_E2E_BY_CHANGES: ${{ steps.changes.outputs.RUN_CHECKS }}
     steps:
-      - name: Determine whether to run e2es based on changed files
-        id: detect
-        uses: actions/github-script@v7
-        with:
-          script: |
-            if (!context.payload.pull_request) {
-              core.setOutput('RUN_E2E_BY_CHANGES', 'true');
-              return;
-            }
-
-            const files = await github.paginate(github.rest.pulls.listFiles, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              per_page: 100,
-            });
-
-            const shouldRun = files.some((file) => {
-              const filename = file.filename;
-              return !filename.startsWith('docs/') && !filename.endsWith('.md');
-            });
-
-            core.setOutput('RUN_E2E_BY_CHANGES', shouldRun ? 'true' : 'false');
+      - uses: actions/checkout@v6
+      - name: Detect code changes
+        id: changes
+        uses: ./.github/actions/detect-changes
 
   no_retries:
     name: MC - Prevent retries

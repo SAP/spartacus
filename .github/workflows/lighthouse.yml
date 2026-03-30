@@ -22,9 +22,22 @@ concurrency:
 
 name: Lighthouse
 jobs:
+  detect_changes:
+    name: Lighthouse - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect code changes
+        id: changes
+        uses: ./.github/actions/detect-changes
+
   lighthouse:
+    needs: [detect_changes]
     name: Lighthouse score validation
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@v6
       - name: Setup node
