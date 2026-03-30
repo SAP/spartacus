@@ -15,11 +15,23 @@ import { appConfig } from './app.config';
 import { AppServerModule } from './app.module.server';
 import { provideSitemapGenerator } from '@spartacus/setup/sitemaps';
 
+const defaultBaseUrl =
+  process.env['SITEMAP_BASE_URL'] || 'http://localhost:4000';
+
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
     provideSitemapGenerator({
-      baseUrl: process.env['SITEMAP_BASE_URL'] || 'http://localhost:4000',
+      baseUrls: {
+        'electronics-spa': defaultBaseUrl,
+        'electronics-spa-standalone': defaultBaseUrl,
+        electronics: defaultBaseUrl,
+        'electronics-standalone': defaultBaseUrl,
+        'apparel-de': 'http://www.apparel.de:4000',
+        'apparel-uk': 'http://www.apparel.uk:4000',
+        'apparel-uk-spa': defaultBaseUrl,
+        'apparel-uk-standalone': defaultBaseUrl,
+      },
     }),
     importProvidersFrom(AppServerModule),
 

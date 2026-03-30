@@ -5,7 +5,12 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { RoutingConfig, SemanticPathService } from '@spartacus/core';
+import {
+  ParamsMapping,
+  RoutingConfig,
+  RoutingConfigService,
+  SemanticPathService,
+} from '@spartacus/core';
 import {
   ROUTE_PARAMS_ENUMERATOR,
   RouteParamsEnumerator,
@@ -29,6 +34,7 @@ import { DiscoveredRoute, RoutesDiscoveryOptions } from '../model/sitemap.model'
 @Injectable()
 export class RoutesDiscoveryService {
   protected routingConfig = inject(RoutingConfig);
+  protected routingConfigService = inject(RoutingConfigService);
   protected semanticPathService = inject(SemanticPathService);
   protected sitemapConfig = inject(SitemapConfig);
 
@@ -78,10 +84,14 @@ export class RoutesDiscoveryService {
 
       const result = await enumerator.enumerate(context);
 
+      const paramsMapping =
+        this.routingConfigService.getRouteConfig(routeName)?.paramsMapping;
+
       for (const params of result.params) {
-        const path = this.buildPath(routeName, params);
+        const adaptedParams = this.adaptParamsForMapping(params, paramsMapping);
+        const path = this.buildPath(routeName, adaptedParams);
         if (path !== null) {
-          discovered.push({ cxRoute: routeName, params, path });
+          discovered.push({ cxRoute: routeName, params: adaptedParams, path });
         }
       }
     }
@@ -191,5 +201,40 @@ export class RoutesDiscoveryService {
       return null;
     }
   }
+
+  /**
+   * Adapts enumerator params to account for `paramsMapping` in the route config.
+   *
+   * Enumerators return params using natural property names from the backend
+   * (e.g., `{ code: '123', name: 'Camera' }`). However, when `paramsMapping`
+   * is configured (e.g., `{ name: 'slug' }`), `SemanticPathService` looks up
+   * the mapped key (`params.slug`) instead of the URL param name (`params.name`).
+   *
+   * This method bridges the gap: for each mapping entry `{ urlParam: mappedKey }`,
+   * if `params` has `urlParam` but not `mappedKey`, it copies the value
+   * from `urlParam` to `mappedKey`.
+   */
+  protected adaptParamsForMapping(
+    params: Record<string, unknown>,
+    paramsMapping?: ParamsMapping
+  ): Record<string, unknown> {
+    if (!paramsMapping) {
+      return params;
+    }
+
+    const adapted = { ...params };
+
+    for (const [urlParamName, mappedKey] of Object.entries(paramsMapping)) {
+      if (
+        adapted[mappedKey] === undefined &&
+        adapted[urlParamName] !== undefined
+      ) {
+        adapted[mappedKey] = adapted[urlParamName];
+      }
+    }
+
+    return adapted;
+  }
+
 }
 

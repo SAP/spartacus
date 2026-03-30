@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService, ProductNameNormalizer } from '@spartacus/core';
 import {
   RouteParamsEnumerator,
   RouteParamsEnumeratorContext,
@@ -40,6 +40,7 @@ export class ProductRouteParamsEnumerator extends RouteParamsEnumerator {
   override readonly languageDependent = true;
 
   protected occEndpointsService = inject(OccEndpointsService);
+  protected productNameNormalizer = inject(ProductNameNormalizer);
 
   /**
    * Maximum page size for OCC API pagination.
@@ -52,10 +53,17 @@ export class ProductRouteParamsEnumerator extends RouteParamsEnumerator {
     const products = await this.fetchAllProducts(context);
 
     return {
-      params: products.map((product) => ({
-        code: product.code,
-        name: product.name,
-      })),
+      params: products.map((product) => {
+        const normalized = this.productNameNormalizer.convert({
+          code: product.code,
+          name: product.name,
+        });
+        return {
+          code: normalized.code,
+          name: normalized.name,
+          slug: normalized.slug,
+        };
+      }),
     };
   }
 
