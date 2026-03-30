@@ -31,4 +31,3 @@ const domino = require(
   platformServerDir + 'third_party/domino/bundled-domino.mjs'
 );
 module.exports = domino.default ?? domino;
-
