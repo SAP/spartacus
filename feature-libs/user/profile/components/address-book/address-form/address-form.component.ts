@@ -7,6 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -83,6 +84,7 @@ import {
 export class AddressFormComponent implements OnInit, OnDestroy {
   protected chineseAddressService = inject(ChineseAddressService);
   protected languageService = inject(LanguageService);
+  protected cdr = inject(ChangeDetectorRef);
 
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
@@ -93,8 +95,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   isChineseAddress = false;
   cityPlaceholder = '';
   districtPlaceholder = '';
-  cities$: Observable<City[]>;
-  districts$: Observable<District[]>;
+  cities: City[] = [];
+  districts: District[] = [];
   addresses$: Observable<Address[]>;
 
   @Input()
@@ -196,27 +198,49 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     this.addresses$ = this.userAddressService.getAddresses();
 
-    this.cities$ = combineLatest([
-      this.selectedRegion$,
-      this.languageService.getActive(),
-    ]).pipe(
-      switchMap(([regionIsocode]) => {
-        if (!regionIsocode) {
-          return of([]);
-        }
-        return this.chineseAddressService.getCities(regionIsocode);
-      })
+    this.subscription.add(
+      combineLatest([
+        this.selectedRegion$,
+        this.languageService.getActive(),
+      ])
+        .pipe(
+          switchMap(([regionIsocode]) => {
+            if (!regionIsocode) {
+              return of([]);
+            }
+            return this.chineseAddressService.getCities(regionIsocode);
+          })
+        )
+        .subscribe((cities) => {
+          this.cities = cities;
+          this.cdr.markForCheck();
+        })
     );
 
-    this.districts$ = combineLatest([
-      this.selectedCity$,
-      this.languageService.getActive(),
-    ]).pipe(
-      switchMap(([cityIsocode]) => {
-        if (!cityIsocode) {
-          return of([]);
+    this.subscription.add(
+      combineLatest([
+        this.selectedCity$,
+        this.languageService.getActive(),
+      ])
+        .pipe(
+          switchMap(([cityIsocode]) => {
+            if (!cityIsocode) {
+              return of([]);
+            }
+            return this.chineseAddressService.getDistricts(cityIsocode);
+          })
+        )
+        .subscribe((districts) => {
+          this.districts = districts;
+          this.cdr.markForCheck();
+        })
+    );
+
+    this.subscription.add(
+      this.languageService.getActive().subscribe(() => {
+        if (this.isChineseAddress) {
+          this.updateChinesePlaceholders();
         }
-        return this.chineseAddressService.getDistricts(cityIsocode);
       })
     );
   }

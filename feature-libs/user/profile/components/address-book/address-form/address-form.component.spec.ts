@@ -435,38 +435,32 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should set up cities$ observable in ngOnInit', () => {
+  it('should initialize cities as empty array', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.ngOnInit();
-    expect(component.cities$).toBeDefined();
+    expect(component.cities).toEqual([]);
   });
 
-  it('should set up districts$ observable in ngOnInit', () => {
+  it('should initialize districts as empty array', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.ngOnInit();
-    expect(component.districts$).toBeDefined();
+    expect(component.districts).toEqual([]);
   });
 
-  it('should return empty cities when no region is selected', (done) => {
+  it('should have empty cities when no region is selected', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.ngOnInit();
-    component.cities$.pipe(take(1)).subscribe((cities) => {
-      expect(cities).toEqual([]);
-      done();
-    });
+    expect(component.cities).toEqual([]);
   });
 
-  it('should return empty districts when no city is selected', (done) => {
+  it('should have empty districts when no city is selected', () => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.ngOnInit();
-    component.districts$.pipe(take(1)).subscribe((districts) => {
-      expect(districts).toEqual([]);
-      done();
-    });
+    expect(component.districts).toEqual([]);
   });
 
   it('should call verifyAddress', () => {

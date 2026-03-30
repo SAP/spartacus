@@ -52,12 +52,12 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
         params: { fields: 'addresses(FULL)' },
       })
       .pipe(
-      catchError((error: any) => {
-        throw tryNormalizeHttpError(error, this.logger);
-      }),
-      map((addressList) => addressList.addresses ?? []),
-      this.converter.pipeableMany(ADDRESS_NORMALIZER)
-    );
+        catchError((error: any) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+        map((addressList) => addressList.addresses ?? []),
+        this.converter.pipeableMany(ADDRESS_NORMALIZER)
+      );
   }
 
   add(userId: string, address: Address): Observable<{}> {
