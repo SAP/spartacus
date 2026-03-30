@@ -49,6 +49,6 @@ export class CdcLogoutGuard extends LogoutGuard {
    * @returns promise to resolve after complete logout
    */
   protected logout(): Promise<any> {
-    return Promise.all([super.logout(), this.logoutFromCdc()]);
+    return Promise.all([super.logout(), Promise.resolve(this.logoutFromCdc())]);
   }
 }
