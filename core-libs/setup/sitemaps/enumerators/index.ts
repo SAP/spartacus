@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './brand-route-params-enumerator';
+export * from './category-route-params-enumerator';
 export * from './product-route-params-enumerator';
 export * from './static-route-params-enumerator';
 

@@ -50,6 +50,10 @@ export const defaultOccProductConfig: OccConfig = {
         },
         /* eslint-enable */
         productSuggestions: 'products/suggestions',
+        catalogs: {
+          sitemap:
+            'catalogs?fields=catalogs(id,catalogVersions(id,categories(FULL)))',
+        },
       },
     },
     loadingScopes: {

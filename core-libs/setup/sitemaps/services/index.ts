@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './catalogs-fetch.service';
 export * from './routes-discovery.service';
 export * from './site-context-aware-routes-discovery.service';
 export * from './sitemap-generator.service';

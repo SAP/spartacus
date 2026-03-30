@@ -21,10 +21,13 @@ import {
 } from './sitemap-config-extractor.service';
 import { ROUTE_PARAMS_ENUMERATOR } from '../model/route-params-enumerator';
 import { ProductRouteParamsEnumerator } from '../enumerators/product-route-params-enumerator';
+import { CategoryRouteParamsEnumerator } from '../enumerators/category-route-params-enumerator';
+import { BrandRouteParamsEnumerator } from '../enumerators/brand-route-params-enumerator';
 import { StaticRouteParamsEnumerator } from '../enumerators/static-route-params-enumerator';
 import { RoutesDiscoveryService } from '../services/routes-discovery.service';
 import { SiteContextAwareRoutesDiscoveryService } from '../services/site-context-aware-routes-discovery.service';
 import { SitemapGeneratorService } from '../services/sitemap-generator.service';
+import { CatalogsFetchService } from '../services/catalogs-fetch.service';
 import { BEFORE_APP_SERIALIZED } from '@angular/platform-server';
 
 /**
@@ -97,6 +100,8 @@ function sitemapGeneratorInitializerFactory(
  *
  * 1. `StaticRouteParamsEnumerator` - Fallback for routes without parameters
  * 2. `ProductRouteParamsEnumerator` - Products from OCC
+ * 3. `CategoryRouteParamsEnumerator` - Categories from OCC catalogs
+ * 4. `BrandRouteParamsEnumerator` - Brands from OCC catalogs
  *
  * ## Architecture
  *
@@ -107,7 +112,9 @@ function sitemapGeneratorInitializerFactory(
  *             └─► RoutesDiscoveryService
  *                 └─► ROUTE_PARAMS_ENUMERATOR[]
  *                     ├─ StaticRouteParamsEnumerator
- *                     └─ ProductRouteParamsEnumerator
+ *                     ├─ ProductRouteParamsEnumerator
+ *                     ├─ CategoryRouteParamsEnumerator
+ *                     └─ BrandRouteParamsEnumerator
  * ```
  *
  * @param ssrConfig - SSR configuration with baseSite → URL mappings (required)
@@ -133,8 +140,19 @@ export function provideSitemapGenerator(
       useClass: ProductRouteParamsEnumerator,
       multi: true,
     },
+    {
+      provide: ROUTE_PARAMS_ENUMERATOR,
+      useClass: CategoryRouteParamsEnumerator,
+      multi: true,
+    },
+    {
+      provide: ROUTE_PARAMS_ENUMERATOR,
+      useClass: BrandRouteParamsEnumerator,
+      multi: true,
+    },
 
     // Discovery & Generation Services
+    CatalogsFetchService,
     RoutesDiscoveryService,
     SiteContextAwareRoutesDiscoveryService,
     SitemapGeneratorService,
