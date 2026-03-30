@@ -30,7 +30,7 @@ export class CartEntryEffects {
   );
 
   protected logger = inject(LoggerService);
-  protected globalMessageService = inject(GlobalMessageService);
+  protected globalMessageService? = inject(GlobalMessageService);
 
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
@@ -88,7 +88,7 @@ export class CartEntryEffects {
           .remove(payload.userId, payload.cartId, payload.entryNumber)
           .pipe(
             map(() => {
-              this.globalMessageService.add(
+              this.globalMessageService?.add(
                 { key: 'cartItems.itemRemoved' },
                 GlobalMessageType.MSG_TYPE_CONFIRMATION
               );
