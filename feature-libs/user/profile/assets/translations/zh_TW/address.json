@@ -19,6 +19,8 @@
       "placeholder": "城市"
     },
     "state": "州",
+    "province": "省份",
+    "district": "區/縣",
     "zipCode": {
       "label": "郵遞區號",
       "placeholder": "郵遞區號/ZIP"
@@ -36,6 +38,8 @@
     "streetAddress": "街道地址",
     "aptSuite": "公寓號碼",
     "selectOne": "選擇一個...",
+    "selectProvinceFirst": "請先選擇省份",
+    "selectCityFirst": "請先選擇城市",
     "setAsDefault": "設定為預設交貨地址",
     "titleRequired": "稱謂為必要。",
     "userAddressAddSuccess": "已成功新增地址！",
