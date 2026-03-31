@@ -9,28 +9,29 @@
 #   4. Verify the app builds/starts
 #   5. Run ng update to the new version
 #   6. Verify the app builds/starts after upgrade
-#
 # Prerequisites:
 #   - Node 22+, npm 10+
-#   - NPM_AUTH set (base64-encoded auth for the registry serving @spartacus packages)
+#   - Auth token provided via one of (in priority order):
+#       a) NPM_AUTH env var (base64-encoded _auth)
+#       b) NPM_TOKEN env var (CI convention, used by config.sh)
+#       c) ~/.npmrc containing a /:_auth= line (auto-detected)
 #
 # Usage:
 #   chmod +x test-schematics-upgrade.sh
 #
-#   # Minimal (uses defaults):
-#   NPM_AUTH=<base64-token> ./test-schematics-upgrade.sh
-#
-#   # Fully customized:
-#   NPM_AUTH=<base64-token> \
-#   REGISTRY_URL=https://my-registry.example.com/ \
-#   ANGULAR_VERSION=21.2.0 \
-#   FROM_VERSION=221121.7.0 \
-#   TO_VERSION=221121.9.0 \
-#   BASE_URL=https://my-backend:9002 \
+#   # Minimal — auto-detects token from ~/.npmrc or NPM_TOKEN:
 #   ./test-schematics-upgrade.sh
 #
+#   # Explicit token:
+#   NPM_AUTH=<base64-token> ./test-schematics-upgrade.sh
+#
+#   # CI style (matches config.sh variables):
+#   NPM_TOKEN=<base64-token> NPM_URL=https://my-registry/ ./test-schematics-upgrade.sh
+#
 # Environment variables:
-#   NPM_AUTH          - (required) base64-encoded auth for the npm registry (_auth value)
+#   NPM_AUTH          - base64-encoded auth for the npm registry (_auth value)
+#   NPM_TOKEN         - (alternative) same as NPM_AUTH; CI convention from config.sh
+#   NPM_URL           - (alternative) same as REGISTRY_URL; CI convention from config.sh
 #   REGISTRY_URL      - registry URL for @spartacus packages (default: https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/)
 #   ANGULAR_VERSION   - Angular CLI version to scaffold with (default: 21.1.0)
 #   FROM_VERSION      - Spartacus version to install first (default: 221121.7.0)
@@ -44,16 +45,34 @@
 
 set -e
 
-# --- Validate required env ---
+# --- Resolve auth token ---
+# Priority: NPM_AUTH env > NPM_TOKEN env (CI convention from config.sh) > ~/.npmrc auto-detect
 if [[ -z "$NPM_AUTH" ]]; then
-  echo "❌ NPM_AUTH is required. Export it before running the script."
-  echo "   export NPM_AUTH=<base64-encoded-auth>"
+  if [[ -n "$NPM_TOKEN" ]]; then
+    NPM_AUTH="$NPM_TOKEN"
+    echo "ℹ️  NPM_AUTH resolved from NPM_TOKEN (CI config.sh convention)"
+  elif [[ -f "$HOME/.npmrc" ]]; then
+    EXTRACTED_AUTH=$(grep -E '/:_auth=' "$HOME/.npmrc" | head -1 | sed 's/.*:_auth=//')
+    if [[ -n "$EXTRACTED_AUTH" ]]; then
+      NPM_AUTH="$EXTRACTED_AUTH"
+      echo "ℹ️  NPM_AUTH auto-detected from ~/.npmrc"
+    fi
+  fi
+fi
+
+if [[ -z "$NPM_AUTH" ]]; then
+  echo "❌ Auth token is required. Provide it via one of:"
+  echo "   1) export NPM_AUTH=<base64-encoded-auth>"
+  echo "   2) export NPM_TOKEN=<base64-encoded-auth>  (CI convention, used by config.sh)"
+  echo "   3) Have a ~/.npmrc with a /:_auth= line (auto-detected)"
+  echo ""
   echo "   ./test-schematics-upgrade.sh"
   exit 1
 fi
 
 # --- Configuration ---
-REGISTRY_URL="${REGISTRY_URL:-https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/}"
+# REGISTRY_URL also falls back to NPM_URL (CI convention from config.sh)
+REGISTRY_URL="${REGISTRY_URL:-${NPM_URL:-https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/}}"
 ANGULAR_VERSION="${ANGULAR_VERSION:-21.1.0}"
 FROM_VERSION="${FROM_VERSION:-221121.7.0}"
 TO_VERSION="${TO_VERSION:-221121.9.0}"
