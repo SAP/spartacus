@@ -265,6 +265,9 @@ export const SPARTACUS_OPF_ORDER = `@spartacus/opf/order`;
 export const SPARTACUS_OPF_QUICK_BUY = `@spartacus/opf/quick-buy`;
 export const SPARTACUS_OPF_QUICK_BUY_ROOT = `@spartacus/opf/quick-buy/root`;
 
+export const SPARTACUS_OPF_TOKENISATION = `@spartacus/opf/tokenisation`;
+export const SPARTACUS_OPF_TOKENISATION_ROOT = `@spartacus/opf/tokenisation/root`;
+
 export const SPARTACUS_OPF_BASE = `@spartacus/opf/base`;
 export const SPARTACUS_OPF_BASE_ROOT = `@spartacus/opf/base/root`;
 
