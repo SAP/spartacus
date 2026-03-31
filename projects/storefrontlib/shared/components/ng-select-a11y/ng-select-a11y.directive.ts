@@ -52,7 +52,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
   protected platformId = inject(PLATFORM_ID);
   protected selectObserver: MutationObserver | null = null;
   protected breakpointService = inject(BreakpointService, { optional: true });
-  private inputCombobox: HTMLElement;
 
   /**
    * When we inside a combo box using JAWS screen reader and press escape key
@@ -85,23 +84,46 @@ export class NgSelectA11yDirective implements AfterViewInit {
             count: this.selectComponent.items()?.length ?? 0,
           })
           .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-          .subscribe((ariaPlaceholder) => {
-            this.renderer.setAttribute(
-              this.inputCombobox,
-              'aria-placeholder',
-              ariaPlaceholder
+          .subscribe((countText) => {
+            let countEl = this.elementRef.nativeElement.querySelector(
+              '.cx-ng-select-count'
             );
+            if (!countEl) {
+              countEl = this.renderer.createElement('span');
+              this.renderer.addClass(countEl, 'cx-ng-select-count');
+              this.renderer.addClass(countEl, 'cx-visually-hidden');
+              this.renderer.appendChild(this.elementRef.nativeElement, countEl);
+              const countId =
+                (this.elementRef.nativeElement.id || 'ng-select') + '-count';
+              console.log(countId, countText);
+              this.renderer.setAttribute(countEl, 'id', countId);
+              const inputCombobox =
+                this.elementRef.nativeElement.querySelector(
+                  '[role="combobox"]'
+                );
+              if (!!inputCombobox) {
+                console.log(this.elementRef.nativeElement.id);
+                console.log('hello');
+                this.renderer.setAttribute(
+                  inputCombobox,
+                  'aria-describedby',
+                  countId
+                );
+              }
+              this.destroyRef.onDestroy(() => countEl.remove());
+            }
+            this.renderer.setProperty(countEl, 'textContent', countText);
           });
       });
     }
   }
 
   ngAfterViewInit(): void {
-    this.inputCombobox =
+    const inputCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
 
-    this.renderer.setAttribute(this.inputCombobox, 'role', 'combobox');
-    this.renderer.setAttribute(this.inputCombobox, 'aria-expanded', 'false');
+    this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
+    this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
 
     const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
       map(() => 'true')
@@ -112,7 +134,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     merge(isOpened$, isClosed$)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
-        this.renderer.setAttribute(this.inputCombobox, 'aria-expanded', state);
+        this.renderer.setAttribute(inputCombobox, 'aria-expanded', state);
         if (
           ariaControls &&
           this.featureConfigService.isEnabled('a11yNgSelectAriaControls')
@@ -120,7 +142,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           // Delay execution to come after the ng-select's own 'aria-controls' logic
           setTimeout(() => {
             this.renderer.setAttribute(
-              this.inputCombobox,
+              inputCombobox,
               'aria-controls',
               ariaControls
             );
@@ -133,27 +155,20 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
-      this.renderer.setAttribute(this.inputCombobox, ARIA_LABEL, ariaLabel);
+      this.renderer.setAttribute(inputCombobox, ARIA_LABEL, ariaLabel);
     }
 
     if (ariaControls) {
-      this.renderer.setAttribute(
-        this.inputCombobox,
-        'aria-controls',
-        ariaControls
-      );
+      this.renderer.setAttribute(inputCombobox, 'aria-controls', ariaControls);
     }
 
-    if (
-      (this.inputCombobox as HTMLInputElement).readOnly &&
-      isPlatformBrowser(this.platformId)
-    ) {
+    if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
       if (
         this.featureConfigService.isEnabled('a11yNgSelectReadonlyInputValue')
       ) {
-        this.setInputValue(this.inputCombobox);
+        this.setInputValue(inputCombobox);
         this.selectObserver = new MutationObserver(() => {
-          this.setInputValue(this.inputCombobox);
+          this.setInputValue(inputCombobox);
         });
         this.selectObserver.observe(this.elementRef.nativeElement, {
           subtree: true,
@@ -167,11 +182,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           .pipe(filter(Boolean), take(1))
           .subscribe(() => {
             const selectObserver = new MutationObserver((changes, observer) => {
-              this.appendValueToAriaLabel(
-                changes,
-                observer,
-                this.inputCombobox
-              );
+              this.appendValueToAriaLabel(changes, observer, inputCombobox);
             });
             selectObserver.observe(this.elementRef.nativeElement, {
               subtree: true,
