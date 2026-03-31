@@ -8,8 +8,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { AppRoutingModule } from '@spartacus/storefront';
 import { CmsConfig, provideConfig } from '@spartacus/core';
+import { AppRoutingModule } from '@spartacus/storefront';
 import { privateProviders } from './private/private.providers';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
@@ -17,18 +17,21 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),
+    AppRoutingModule,
+    EffectsModule.forRoot([]),
+    SpartacusModule,
+  ],
+  providers: [
+    privateProviders,
     provideConfig(<CmsConfig>{
-            ProductAddToCartComponent: {
+      cmsComponents: {
+        ProductAddToCartComponent: {
           data: {
             inventoryDisplay: true,
           },
         },
       },
     }),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule,
   ],
-  providers: [privateProviders],
 })
 export class AppModule {}
