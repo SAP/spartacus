@@ -212,12 +212,6 @@
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
-      "options": {
-        "allowedHosts": [
-          "spartacus-dev-asx1.eastus.cloudapp.azure.com",
-          "https://40.76.109.9:9002"
-        ]
-      },
       "configurations": {
         "production": {
           "buildTarget": "storefrontapp:build:production,noSsr"

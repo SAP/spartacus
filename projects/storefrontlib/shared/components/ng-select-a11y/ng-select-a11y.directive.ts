@@ -93,7 +93,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
               this.renderer.addClass(itemCountSpan, 'cx-ng-select-count');
               this.renderer.addClass(itemCountSpan, 'cx-visually-hidden');
               this.renderer.setAttribute(itemCountSpan, 'aria-hidden', 'true');
-              this.renderer.appendChild(this.elementRef.nativeElement, itemCountSpan);
+              this.renderer.appendChild(
+                this.elementRef.nativeElement,
+                itemCountSpan
+              );
               const countId =
                 (this.elementRef.nativeElement.id || 'ng-select') + '-count';
               this.renderer.setAttribute(itemCountSpan, 'id', countId);
