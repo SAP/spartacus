@@ -85,34 +85,32 @@ export class NgSelectA11yDirective implements AfterViewInit {
           })
           .pipe(take(1), takeUntilDestroyed(this.destroyRef))
           .subscribe((countText) => {
-            let countEl = this.elementRef.nativeElement.querySelector(
+            let itemCountSpan = this.elementRef.nativeElement.querySelector(
               '.cx-ng-select-count'
             );
-            if (!countEl) {
-              countEl = this.renderer.createElement('span');
-              this.renderer.addClass(countEl, 'cx-ng-select-count');
-              this.renderer.addClass(countEl, 'cx-visually-hidden');
-              this.renderer.appendChild(this.elementRef.nativeElement, countEl);
+            if (!itemCountSpan) {
+              itemCountSpan = this.renderer.createElement('span');
+              this.renderer.addClass(itemCountSpan, 'cx-ng-select-count');
+              this.renderer.addClass(itemCountSpan, 'cx-visually-hidden');
+              this.renderer.setAttribute(itemCountSpan, 'aria-hidden', 'true');
+              this.renderer.appendChild(this.elementRef.nativeElement, itemCountSpan);
               const countId =
                 (this.elementRef.nativeElement.id || 'ng-select') + '-count';
-              console.log(countId, countText);
-              this.renderer.setAttribute(countEl, 'id', countId);
+              this.renderer.setAttribute(itemCountSpan, 'id', countId);
               const inputCombobox =
                 this.elementRef.nativeElement.querySelector(
                   '[role="combobox"]'
                 );
               if (!!inputCombobox) {
-                console.log(this.elementRef.nativeElement.id);
-                console.log('hello');
                 this.renderer.setAttribute(
                   inputCombobox,
                   'aria-describedby',
                   countId
                 );
               }
-              this.destroyRef.onDestroy(() => countEl.remove());
+              this.destroyRef.onDestroy(() => itemCountSpan.remove());
             }
-            this.renderer.setProperty(countEl, 'textContent', countText);
+            this.renderer.setProperty(itemCountSpan, 'textContent', countText);
           });
       });
     }
