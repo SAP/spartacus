@@ -110,13 +110,7 @@ export class AddressBookComponent implements OnInit {
           textPhone,
           textMobile,
         ]) => {
-          let region = '';
-
-          if (address.region) {
-            region =
-              (address.region.name || address.region.isocode || '') + ', ';
-          }
-
+          const region = this.buildRegion(address);
           const countryName =
             address.country?.name || address.country?.isocode || '';
           const townName = address.city?.name || address.town || '';
@@ -143,7 +137,7 @@ export class AddressBookComponent implements OnInit {
               address.line1,
               address.line2,
               locationParts,
-              districtName ? districtName : undefined,
+              districtName,
               address.postalCode,
               numbers,
             ].filter(Boolean) as string[],
@@ -157,6 +151,13 @@ export class AddressBookComponent implements OnInit {
         }
       )
     );
+  }
+
+  private buildRegion(address: Address): string {
+    if (address.region) {
+      return (address.region.name || address.region.isocode || '') + ', ';
+    }
+    return '';
   }
 
   setAddressAsDefault(address: Address): void {
