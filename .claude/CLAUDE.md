@@ -26,6 +26,7 @@ Monorepo: `npm workspaces` and `Nx`
 ### All library tests
 See `ci-scripts/unit-tests.sh`
 This is a test from Florent to analyse PR checks after modifying .md files.
+This is a 2nd test from Florent to analyse PR checks after modifying .md files.
 
 ### Specific tests
 ```bash
