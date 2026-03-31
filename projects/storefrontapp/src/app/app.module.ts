@@ -3,6 +3,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+// TEMP FIX for pipeline
+// baseUrl: environment.occBaseUrl
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
