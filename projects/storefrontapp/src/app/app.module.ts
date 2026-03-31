@@ -18,13 +18,14 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     BrowserModule,
     StoreModule.forRoot({}),
     provideConfig(<CmsConfig>{
-            ProductAddToCartComponent: {
-          data: {
-            inventoryDisplay: true,
-          },
-        },
+  cmsComponents: {
+    ProductAddToCartComponent: {
+      data: {
+        inventoryDisplay: true,
       },
-    }),
+    },
+  },
+}),
     AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule,
