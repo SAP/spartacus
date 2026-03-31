@@ -65,7 +65,16 @@ export class VisibleFocusDirective extends BaseFocusDirective {
       return true;
     }
     // If the user fill in a form, we don't considering it part of storefront navigation.
+    // However, pressing Space/Enter on a checkbox or radio button is a toggle action
+    // (not typing), so we treat it as navigation to preserve the focus outline.
     if (['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)) {
+      const inputType = (event.target as HTMLInputElement).type;
+      if (
+        (event.code === 'Space' || event.code === 'Enter') &&
+        (inputType === 'checkbox' || inputType === 'radio')
+      ) {
+        return true;
+      }
       return false;
     }
     return true;
