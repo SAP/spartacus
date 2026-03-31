@@ -17,19 +17,21 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),
-    provideConfig(<CmsConfig>{
-  cmsComponents: {
-    ProductAddToCartComponent: {
-      data: {
-        inventoryDisplay: true,
-      },
-    },
-  },
-}),
     AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule,
   ],
-  providers: [privateProviders],
+  providers: [
+    privateProviders,
+    provideConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductAddToCartComponent: {
+          data: {
+            inventoryDisplay: true,
+          },
+        },
+      },
+    }),
+  ],
 })
 export class AppModule {}
