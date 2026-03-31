@@ -25,7 +25,6 @@ Monorepo: `npm workspaces` and `Nx`
 ## Jasmine Test Angular libs
 ### All library tests
 See `ci-scripts/unit-tests.sh`
-This is a test from Florent to analyse PR checks after modifying .md files.
 
 ### Specific tests
 ```bash
