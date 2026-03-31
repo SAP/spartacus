@@ -13,6 +13,7 @@ import {
 import {
   CONSECUTIVE_CHARACTERS,
   EMAIL_PATTERN,
+  ENDS_WITH_VALID_CHARACTER_PATTERN,
   MAX_CHARACTERS_PATTERN,
   MIN_EIGHT_CHARACTERS_PATTERN,
   MIN_ONE_DIGIT_PATTERN,
@@ -211,6 +212,7 @@ export class CustomFormValidators {
     this.minEightCharactersLengthValidator,
     this.maxCharactersLengthValidator,
     this.noConsecutiveCharacters,
+    this.mustEndWithValidCharacter,
   ];
 
   /**
@@ -319,6 +321,27 @@ export class CustomFormValidators {
     const amount = control.value as number;
 
     return amount >= 0 ? null : { cxNegativeAmount: true };
+  }
+
+  /**
+   * Checks if control's value ends with a legal letter, digit, or character.
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMustEndWithValidCharacter' validator error
+   * @memberof CustomFormValidators
+   */
+  static mustEndWithValidCharacter(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const value = control.value as string;
+
+    return value &&
+      (!value.length || value.match(ENDS_WITH_VALID_CHARACTER_PATTERN))
+      ? null
+      : { cxMustEndWithValidCharacter: true };
   }
 
   /**
