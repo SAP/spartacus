@@ -34,6 +34,7 @@ import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
 
 const ARIA_LABEL = 'aria-label';
+const ARIA_HIDDEN = 'aria-hidden';
 
 @Directive({ selector: '[cxNgSelectA11y]' })
 export class NgSelectA11yDirective implements AfterViewInit {
@@ -92,7 +93,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
               itemCountSpan = this.renderer.createElement('span');
               this.renderer.addClass(itemCountSpan, 'cx-ng-select-count');
               this.renderer.addClass(itemCountSpan, 'cx-visually-hidden');
-              this.renderer.setAttribute(itemCountSpan, 'aria-hidden', 'true');
+              this.renderer.setAttribute(itemCountSpan, ARIA_HIDDEN, 'true');
               this.renderer.appendChild(
                 this.elementRef.nativeElement,
                 itemCountSpan
@@ -104,7 +105,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
                 this.elementRef.nativeElement.querySelector(
                   '[role="combobox"]'
                 );
-              if (!!inputCombobox) {
+              if (inputCombobox) {
                 this.renderer.setAttribute(
                   inputCombobox,
                   'aria-describedby',
@@ -207,7 +208,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
         this.elementRef.nativeElement.querySelector('.ng-value');
       if (valueElement) {
         // hide this value to avoid double readout
-        this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+        this.renderer.setAttribute(valueElement, ARIA_HIDDEN, 'true');
       }
     }
   }
@@ -229,7 +230,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
       const comboboxAriaLabel = divCombobox?.getAttribute(ARIA_LABEL) || '';
       const valueElement =
         this.elementRef.nativeElement.querySelector('.ng-value');
-      this.renderer.setAttribute(valueElement, 'aria-hidden', 'true');
+      this.renderer.setAttribute(valueElement, ARIA_HIDDEN, 'true');
       this.renderer.setAttribute(
         divCombobox,
         ARIA_LABEL,
