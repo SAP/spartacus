@@ -30,7 +30,9 @@ export class CartEntryEffects {
   );
 
   protected logger = inject(LoggerService);
-  protected globalMessageService = inject(GlobalMessageService, { optional: true });
+  protected globalMessageService = inject(GlobalMessageService, {
+    optional: true,
+  });
 
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
