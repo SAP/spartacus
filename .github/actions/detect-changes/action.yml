@@ -31,10 +31,10 @@ runs:
             return !skipRunPatterns.some((pattern) => pattern.test(filename));
           });
 
-          if (!shouldRun) {
-            core.info('skip check as only docs & md file(s) involved');
-          } else {
-            core.info('code-related file(s) changed, run checks');
+          if (!shouldRun) { 
+            core.info('⏭️ Skip checks: only docs & md files changed'); 
+          } else { 
+            core.info('✅ Running checks: code-related files changed'); 
           }
 
           core.setOutput('RUN_CHECKS', shouldRun ? 'true' : 'false');
