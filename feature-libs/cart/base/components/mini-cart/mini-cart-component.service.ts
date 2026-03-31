@@ -45,7 +45,6 @@ export class MiniCartComponentService {
     return this.activeCartRequired().pipe(
       switchMap((activeCartRequired) => {
         if (activeCartRequired) {
-          // this is a test
           return this.activeCartFacade.getActive().pipe(
             startWith({ totalUnitCount: 0 }),
             map((cart) => cart.totalUnitCount || 0)
