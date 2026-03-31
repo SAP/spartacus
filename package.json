@@ -301,6 +301,7 @@
     "karma": {
       "minimatch": "3.1.5"
     },
+    "rollup-plugin-dts": "6.2.3",
     "i18n-lint": {
       "minimatch": "3.1.5"
     },
