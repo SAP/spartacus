@@ -24,9 +24,11 @@ runs:
             per_page: 100,
           });
 
+          const skipRunPatterns = [/^docs\//, /\.md$/];
+
           const shouldRun = files.some((file) => {
             const filename = file.filename;
-            return !filename.startsWith('docs/') && !filename.endsWith('.md');
+            return !skipRunPatterns.some((pattern) => pattern.test(filename));
           });
 
           if (!shouldRun) {
