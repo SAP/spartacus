@@ -30,7 +30,9 @@ runs:
           });
 
           if (!shouldRun) {
-            console.log('skip check as only docs & md file(s) involved');
+            core.info('skip check as only docs & md file(s) involved');
+          } else {
+            core.info('code-related file(s) changed, run checks');
           }
 
           core.setOutput('RUN_CHECKS', shouldRun ? 'true' : 'false');
