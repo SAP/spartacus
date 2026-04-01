@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SAPGiftCardBalanceRequest, SAPGiftCardResponse } from '../model';
+import { OpfGiftCardBalanceRequest, OpfGiftCardResponse } from '../model';
 
 import { Cart } from '@spartacus/cart/base/root';
 import { Injectable } from '@angular/core';
@@ -63,8 +63,8 @@ export abstract class OpfGiftCardFacade {
    * @returns Observable of the applied gift card response
    */
   abstract applyGiftCard(
-    request: SAPGiftCardBalanceRequest
-  ): Observable<SAPGiftCardResponse>;
+    request: OpfGiftCardBalanceRequest
+  ): Observable<OpfGiftCardResponse>;
 
   /**
    * Remove a previously applied gift card from the active cart.

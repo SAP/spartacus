@@ -14,8 +14,8 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
-  SAPGiftCardBalanceRequest,
-  SAPGiftCardResponse,
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardResponse,
 } from '@spartacus/opf/gift-card/root';
 
 import { Observable } from 'rxjs';
@@ -35,10 +35,10 @@ export class OccOpfGiftCardAdapter extends OccCartAdapter {
   applyGiftCard(
     userId: string,
     cartId: string,
-    request: SAPGiftCardBalanceRequest
-  ): Observable<SAPGiftCardResponse> {
+    request: OpfGiftCardBalanceRequest
+  ): Observable<OpfGiftCardResponse> {
     return this.http
-      .post<SAPGiftCardResponse>(
+      .post<OpfGiftCardResponse>(
         this.getApplyGiftCardEndpoint(userId, cartId),
         request,
         { headers: this.headers }

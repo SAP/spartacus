@@ -5,8 +5,8 @@
  */
 
 import {
-  SAPGiftCardBalanceRequest,
-  SAPGiftCardResponse,
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardResponse,
 } from '../../root/model';
 import { of, throwError } from 'rxjs';
 
@@ -18,7 +18,7 @@ describe('OpfGiftCardConnector', () => {
   let connector: OpfGiftCardConnector;
   let mockAdapter: jasmine.SpyObj<OpfGiftCardAdapter>;
 
-  const mockSAPGiftCardResponse: SAPGiftCardResponse = {
+  const mockSAPGiftCardResponse: OpfGiftCardResponse = {
     id: 'gc-123',
     maskedNumber: '****1111',
     balance: { currencyIso: 'USD', formattedValue: '$100', value: 100 },
@@ -54,7 +54,7 @@ describe('OpfGiftCardConnector', () => {
   });
   describe('applyGiftCard', () => {
     it('should delegate to adapter', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -70,7 +70,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should pass correct parameters to adapter', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -90,7 +90,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle adapter error', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -107,7 +107,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should return gift card response with correct structure', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -127,7 +127,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle different user IDs', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -147,7 +147,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle different cart IDs', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -167,12 +167,12 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should handle multiple gift card responses', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
 
-      const anotherResponse: SAPGiftCardResponse = {
+      const anotherResponse: OpfGiftCardResponse = {
         id: 'gc-456',
         maskedNumber: '****2222',
         balance: { currencyIso: 'USD', formattedValue: '$50', value: 50 },
@@ -196,7 +196,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should only call adapter once per subscription', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -327,7 +327,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should use same adapter for all methods', () => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -344,7 +344,7 @@ describe('OpfGiftCardConnector', () => {
 
   describe('Observable Behavior', () => {
     it('should emit values from adapter observable', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -365,7 +365,7 @@ describe('OpfGiftCardConnector', () => {
     });
 
     it('should allow multiple subscriptions', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -399,7 +399,7 @@ describe('OpfGiftCardConnector', () => {
 
   describe('Error Propagation', () => {
     it('should propagate adapter errors immediately', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };
@@ -430,7 +430,7 @@ describe('OpfGiftCardConnector', () => {
 
   describe('Type Safety', () => {
     it('should return correct response type', (done) => {
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '1234',
       };

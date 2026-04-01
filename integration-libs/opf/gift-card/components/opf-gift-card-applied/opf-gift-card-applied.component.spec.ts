@@ -60,7 +60,7 @@ describe('OpfGiftCardAppliedComponent', () => {
     expect(mockGiftCardFacade.removeGiftCard).toHaveBeenCalledWith(giftCardId);
     expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
     expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-      { key: 'giftCard.removedSuccessfully' },
+      { key: 'opfGiftCard.removedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   });

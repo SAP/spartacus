@@ -37,7 +37,7 @@ describe('OpfGiftCardApplyComponent', () => {
   let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
 
   const cartSubject = new BehaviorSubject<any>({
-    sapGiftCards: [],
+    opfGiftCards: [],
     _availableOperations: [
       { key: 'applyGiftCard', value: { available: true } },
     ],
@@ -139,7 +139,7 @@ describe('OpfGiftCardApplyComponent', () => {
     expect(mockGiftCardFacade.applyGiftCard).toHaveBeenCalled();
     expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
     expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-      { key: 'giftCard.appliedSuccessfully' },
+      { key: 'opfGiftCard.appliedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   });
@@ -203,7 +203,7 @@ describe('OpfGiftCardApplyComponent', () => {
 
   it('should return applied gift cards from cart$', (done) => {
     cartSubject.next({
-      sapGiftCards: [mockGiftCard],
+      opfGiftCards: [mockGiftCard],
     });
 
     component['appliedGiftCards$'].subscribe((cards) => {

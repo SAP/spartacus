@@ -49,7 +49,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
     contextSubject = new Subject<any>();
     mockOrder = {
       code: 'order-101',
-      sapGiftCardSummary: {
+       opfGiftCardSummary: {
         totalAppliedAmount: { value: 75.0, formattedValue: '$75.00' },
         totalBalance: { value: 200.0, formattedValue: '$200.00' },
         totalRemainingBalance: { value: 125.0, formattedValue: '$125.00' },
@@ -149,7 +149,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       translationService.translate.and.callFake((key: string) => {
         const translations: Record<string, string> = {
           'paymentForm.payment': 'Payment',
-          'giftCard.giftCardPayment': 'Gift Card Payment',
+          'opfGiftCard.giftCardPayment': 'Gift Card Payment',
         };
         return of(translations[key] || key);
       });
@@ -169,7 +169,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
           'paymentForm.payment'
         );
         expect(translationService.translate).toHaveBeenCalledWith(
-          'giftCard.giftCardPayment'
+          'opfGiftCard.giftCardPayment'
         );
         done();
       });
@@ -219,7 +219,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
   describe('isGiftCardPayment', () => {
     it('should return true when gift card is applied with positive amount', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 75.0, formattedValue: '$75.00' },
         },
       } as Order;
@@ -229,7 +229,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return false when gift card is not applied', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 0, formattedValue: '$0.00' },
         },
       } as Order;
@@ -237,7 +237,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component.isGiftCardPayment).toBe(false);
     });
 
-    it('should return false when sapGiftCardSummary is undefined', () => {
+    it('should return false when  opfGiftCardSummary is undefined', () => {
       component.order = {} as Order;
 
       expect(component.isGiftCardPayment).toBe(false);
@@ -245,7 +245,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return false when totalAppliedAmount is undefined', () => {
       component.order = {
-        sapGiftCardSummary: {},
+         opfGiftCardSummary: {},
       } as Order;
 
       expect(component.isGiftCardPayment).toBe(false);
@@ -253,7 +253,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return false when totalAppliedAmount.value is negative', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: -25.0, formattedValue: '-$25.00' },
         },
       } as Order;
@@ -263,7 +263,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return true when full amount is covered by gift card', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 150.0, formattedValue: '$150.00' },
           giftCardsCoverFullAmount: true,
         },
@@ -274,7 +274,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return true when partial gift card is applied', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 50.0, formattedValue: '$50.00' },
           giftCardsCoverFullAmount: false,
         },
@@ -285,7 +285,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return true for large applied amounts', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 5000.0, formattedValue: '$5000.00' },
         },
       } as Order;
@@ -295,7 +295,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should return true for small positive amounts', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 0.01, formattedValue: '$0.01' },
         },
       } as Order;
@@ -342,7 +342,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
   describe('Integration Tests', () => {
     it('should update isGiftCardPayment when order changes', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 0, formattedValue: '$0.00' },
         },
       } as Order;
@@ -350,7 +350,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component.isGiftCardPayment).toBe(false);
 
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 100.0, formattedValue: '$100.00' },
         },
       } as Order;
@@ -362,7 +362,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       translationService.translate.and.callFake((key: string) => {
         const translations: Record<string, string> = {
           'paymentForm.payment': 'Payment',
-          'giftCard.giftCardPayment': 'Gift Card Payment',
+          'opfGiftCard.giftCardPayment': 'Gift Card Payment',
         };
         return of(translations[key] || key);
       });
@@ -403,7 +403,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       translationService.translate.and.callFake((key: string) => {
         const translations: Record<string, string> = {
           'paymentForm.payment': 'Payment',
-          'giftCard.giftCardPayment': 'Gift Card Payment',
+          'opfGiftCard.giftCardPayment': 'Gift Card Payment',
         };
         return of(translations[key] || key);
       });
@@ -421,7 +421,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
   describe('Edge Cases', () => {
     it('should handle order with partial gift card summary', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
         },
       } as Order;
@@ -446,7 +446,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       const orders: unknown[] = [
         {
           code: 'order-201',
-          sapGiftCardSummary: {
+           opfGiftCardSummary: {
             totalAppliedAmount: { value: 10 },
             totalBalance: { value: 50 },
             totalRemainingBalance: { value: 40 },
@@ -455,7 +455,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         },
         {
           code: 'order-202',
-          sapGiftCardSummary: {
+           opfGiftCardSummary: {
             totalAppliedAmount: { value: 20 },
             totalBalance: { value: 50 },
             totalRemainingBalance: { value: 30 },
@@ -464,7 +464,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
         },
         {
           code: 'order-203',
-          sapGiftCardSummary: {
+           opfGiftCardSummary: {
             totalAppliedAmount: { value: 30 },
             totalBalance: { value: 50 },
             totalRemainingBalance: { value: 20 },
@@ -483,7 +483,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should handle decimal values in gift card amount', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 123.45, formattedValue: '$123.45' },
         },
       } as Order;
@@ -493,7 +493,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should handle when giftCardsCoverFullAmount changes', () => {
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 100.0, formattedValue: '$100.00' },
           giftCardsCoverFullAmount: false,
         },
@@ -502,7 +502,7 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component.isGiftCardPayment).toBe(true);
 
       component.order = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           totalAppliedAmount: { value: 100.0, formattedValue: '$100.00' },
           giftCardsCoverFullAmount: true,
         },

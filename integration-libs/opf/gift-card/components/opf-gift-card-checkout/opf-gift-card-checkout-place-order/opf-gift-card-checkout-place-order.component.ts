@@ -95,7 +95,7 @@ export class OpfGiftCardCheckoutPlaceOrderComponent
   protected onPlaceOrderError(): void {
     this.stopPlaceOrderSpinner();
     this.globalMessageService.add(
-      { key: 'giftCard.errors.placeOrderFailed' },
+      { key: 'opfGiftCard.errors.placeOrderFailed' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
     this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });

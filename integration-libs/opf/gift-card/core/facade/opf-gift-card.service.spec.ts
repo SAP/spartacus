@@ -9,8 +9,8 @@ import {
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
 import {
-  SAPGiftCardBalanceRequest,
-  SAPGiftCardResponse,
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardResponse,
 } from '@spartacus/opf/gift-card/root';
 import { of, throwError } from 'rxjs';
 
@@ -242,12 +242,12 @@ describe('OpfGiftCardService', () => {
   describe('applyGiftCard', () => {
     const mockUserId = 'user-123';
     const mockCartId = 'cart-456';
-    const mockGiftCardRequest: SAPGiftCardBalanceRequest = {
+    const mockGiftCardRequest: OpfGiftCardBalanceRequest = {
       number: '1234567890123456',
       securityCode: '0000',
     };
 
-    const mockGiftCardResponse: SAPGiftCardResponse = {
+    const mockGiftCardResponse: OpfGiftCardResponse = {
       id: '123',
       maskedNumber: '****567890123456',
       balance: { value: 100.0, formattedValue: '$100.00' },
@@ -471,7 +471,7 @@ describe('OpfGiftCardService', () => {
   describe('isGiftCardCoveredTotalAmount', () => {
     it('should return true when giftCardsCoverFullAmount is true', (done) => {
       const mockCart = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 100, formattedValue: '$100.00' },
@@ -489,7 +489,7 @@ describe('OpfGiftCardService', () => {
 
     it('should return false when giftCardsCoverFullAmount is false', (done) => {
       const mockCart = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           giftCardsCoverFullAmount: false,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
@@ -505,9 +505,9 @@ describe('OpfGiftCardService', () => {
         });
     });
 
-    it('should return false when sapGiftCardSummary is null', (done) => {
+    it('should return false when  opfGiftCardSummary is null', (done) => {
       const mockCart = {
-        sapGiftCardSummary: null,
+         opfGiftCardSummary: null,
       };
 
       service
@@ -518,9 +518,9 @@ describe('OpfGiftCardService', () => {
         });
     });
 
-    it('should return false when sapGiftCardSummary is undefined', (done) => {
+    it('should return false when  opfGiftCardSummary is undefined', (done) => {
       const mockCart = {
-        sapGiftCardSummary: undefined,
+         opfGiftCardSummary: undefined,
       };
 
       service
@@ -542,7 +542,7 @@ describe('OpfGiftCardService', () => {
 
     it('should return false when giftCardsCoverFullAmount is undefined', (done) => {
       const mockCart = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           giftCardsCoverFullAmount: undefined,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
@@ -560,7 +560,7 @@ describe('OpfGiftCardService', () => {
 
     it('should handle observable emissions correctly', (done) => {
       const mockCart1 = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 100, formattedValue: '$100.00' },
@@ -568,7 +568,7 @@ describe('OpfGiftCardService', () => {
         },
       };
       const mockCart2 = {
-        sapGiftCardSummary: {
+         opfGiftCardSummary: {
           giftCardsCoverFullAmount: false,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
@@ -594,11 +594,11 @@ describe('OpfGiftCardService', () => {
     it('should combine user and cart observables correctly', (done) => {
       const mockUserId = 'user-123';
       const mockCartId = 'cart-456';
-      const mockRequest: SAPGiftCardBalanceRequest = {
+      const mockRequest: OpfGiftCardBalanceRequest = {
         number: '1234567890123456',
         securityCode: '0000',
       };
-      const mockResponse: SAPGiftCardResponse = {
+      const mockResponse: OpfGiftCardResponse = {
         id: '123',
         maskedNumber: '****567890123456',
         balance: { value: 100.0, formattedValue: '$100.00' },
@@ -660,11 +660,11 @@ describe('OpfGiftCardService', () => {
       const mockCartId = 'cart-456';
 
       it('should handle request with all properties', (done) => {
-        const mockRequest: SAPGiftCardBalanceRequest = {
+        const mockRequest: OpfGiftCardBalanceRequest = {
           number: '1234567890123456',
           securityCode: '0000',
         };
-        const mockResponse: SAPGiftCardResponse = {
+        const mockResponse: OpfGiftCardResponse = {
           id: '123',
           maskedNumber: '****567890123456',
           balance: { value: 100.0, formattedValue: '$100.00' },
@@ -692,11 +692,11 @@ describe('OpfGiftCardService', () => {
       });
 
       it('should handle response with zero applied amount', (done) => {
-        const mockRequest: SAPGiftCardBalanceRequest = {
+        const mockRequest: OpfGiftCardBalanceRequest = {
           number: '1234567890123456',
           securityCode: '0000',
         };
-        const mockResponse: SAPGiftCardResponse = {
+        const mockResponse: OpfGiftCardResponse = {
           id: '123',
           maskedNumber: '****567890123456',
           balance: { value: 100.0, formattedValue: '$100.00' },
@@ -721,11 +721,11 @@ describe('OpfGiftCardService', () => {
       });
 
       it('should handle response with remaining balance equal to zero', (done) => {
-        const mockRequest: SAPGiftCardBalanceRequest = {
+        const mockRequest: OpfGiftCardBalanceRequest = {
           number: '1234567890123456',
           securityCode: '0000',
         };
-        const mockResponse: SAPGiftCardResponse = {
+        const mockResponse: OpfGiftCardResponse = {
           id: '123',
           maskedNumber: '****567890123456',
           balance: { value: 100.0, formattedValue: '$100.00' },
@@ -814,22 +814,22 @@ describe('OpfGiftCardService', () => {
       it('should handle multiple applyGiftCard calls', (done) => {
         const mockUserId = 'user-123';
         const mockCartId = 'cart-456';
-        const mockRequest1: SAPGiftCardBalanceRequest = {
+        const mockRequest1: OpfGiftCardBalanceRequest = {
           number: '1111111111111111',
           securityCode: '0000',
         };
-        const mockRequest2: SAPGiftCardBalanceRequest = {
+        const mockRequest2: OpfGiftCardBalanceRequest = {
           number: '2222222222222222',
           securityCode: '0000',
         };
-        const mockResponse1: SAPGiftCardResponse = {
+        const mockResponse1: OpfGiftCardResponse = {
           id: '123',
           maskedNumber: '****1111111111',
           balance: { value: 100.0, formattedValue: '$100.00' },
           appliedAmount: { value: 50.0, formattedValue: '$50.00' },
           remainingBalance: { value: 50.0, formattedValue: '$50.00' },
         };
-        const mockResponse2: SAPGiftCardResponse = {
+        const mockResponse2: OpfGiftCardResponse = {
           id: '124',
           maskedNumber: '****2222222222',
           balance: { value: 200.0, formattedValue: '$200.00' },
@@ -844,7 +844,7 @@ describe('OpfGiftCardService', () => {
           of(mockCartId)
         );
         (opfGiftCardConnector.applyGiftCard as jasmine.Spy).and.callFake(
-          (request: SAPGiftCardBalanceRequest) => {
+          (request: OpfGiftCardBalanceRequest) => {
             if (request === mockRequest1) {
               return of(mockResponse1);
             }

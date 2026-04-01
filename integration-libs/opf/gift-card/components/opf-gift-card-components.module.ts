@@ -27,7 +27,6 @@ import { OpfGiftCardOrderSummaryModule } from './opf-gift-card-order-summary';
   ],
   providers: [
     provideOutlet({
-      // id: OpfCheckoutOutlets.GIFT_CARD,
       id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS,
       position: OutletPosition.BEFORE,
       component: OpfGiftCardApplyComponent,

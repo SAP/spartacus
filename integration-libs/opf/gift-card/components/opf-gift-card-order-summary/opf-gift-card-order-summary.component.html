@@ -31,15 +31,15 @@
     <div *ngIf="isPaymentAndReviewStep$ | async">
       <div
         class="cx-gift-card-order-summary"
-        *ngIf="cart?.sapGiftCardSummary?.totalAppliedAmount?.value"
+        *ngIf="cart?.opfGiftCardSummary?.totalAppliedAmount?.value"
       >
         <div class="cx-summary-row">
           <div class="col-6 cx-summary-label">
-            {{ 'giftCard.title' | cxTranslate }}
+            {{ 'opfGiftCard.title' | cxTranslate }}
           </div>
           <div class="col-6 cx-summary-amount cx-gift-card-discount">
             -
-            {{ cart?.sapGiftCardSummary?.totalAppliedAmount?.formattedValue }}
+            {{ cart?.opfGiftCardSummary?.totalAppliedAmount?.formattedValue }}
           </div>
         </div>
       </div>

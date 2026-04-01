@@ -6,8 +6,8 @@
 
 import { Injectable, inject } from '@angular/core';
 import {
-  SAPGiftCardBalanceRequest,
-  SAPGiftCardResponse,
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardResponse,
 } from '@spartacus/opf/gift-card/root';
 
 import { Observable } from 'rxjs';
@@ -22,9 +22,9 @@ export class OpfGiftCardConnector {
   public applyGiftCard(
     userId: string,
     cartId: string,
-    giftCardBalanceRequest: SAPGiftCardBalanceRequest
-  ): Observable<SAPGiftCardResponse> {
-    return this.adapter.applyGiftCard(userId, cartId, giftCardBalanceRequest);
+    opfGiftCardBalanceRequest: OpfGiftCardBalanceRequest
+  ): Observable<OpfGiftCardResponse> {
+    return this.adapter.applyGiftCard(userId, cartId, opfGiftCardBalanceRequest);
   }
 
   public removeGiftCard(

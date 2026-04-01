@@ -29,11 +29,11 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
   ],
   providers: [
     provideOutlet({
-      id: CartOutlets.ORDER_DETAILS_PAYMENT_METHOD_DETAILS,
+      id: CartOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD,
       component: OpfGiftCardOrderDetailBillingComponent,
     }),
     provideOutlet({
-      id: OpfCheckoutOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD,
+      id: OpfCheckoutOutlets.ORDER_DETAILS_AFTER_PAYMENT_OPTIONS,
       component: OpfGiftCardPaymentMethodDetailComponent,
     }),
   ],

@@ -57,8 +57,8 @@ import {
   OpfB2bCheckoutRootModule,
 } from '@spartacus/opf/b2b-checkout/root';
 import {
-  giftCardTranslationChunksConfig,
-  giftCardTranslationsEn,
+  opfGiftCardTranslationChunksConfig,
+  opfGiftCardTranslationsEn,
 } from '@spartacus/opf/gift-card/assets';
 import {
   defaultGiftCardCartOccEndpointsConfig,
@@ -160,9 +160,9 @@ extensionProviders.push(
     provideConfig(<I18nConfig>{
       i18n: {
         resources: {
-          en: giftCardTranslationsEn,
+          en: opfGiftCardTranslationsEn,
         },
-        chunks: giftCardTranslationChunksConfig,
+        chunks: opfGiftCardTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

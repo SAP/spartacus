@@ -5,8 +5,8 @@
  */
 
 import {
-  SAPGiftCardBalanceRequest,
-  SAPGiftCardResponse,
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardResponse,
 } from '@spartacus/opf/gift-card/root';
 
 import { Observable } from 'rxjs';
@@ -18,8 +18,8 @@ export abstract class OpfGiftCardAdapter {
   abstract applyGiftCard(
     userId: string,
     cartId: string,
-    giftCardBalanceRequest: SAPGiftCardBalanceRequest
-  ): Observable<SAPGiftCardResponse>;
+    opfGiftCardBalanceRequest: OpfGiftCardBalanceRequest
+  ): Observable<OpfGiftCardResponse>;
 
   /**
    * Remove a previously applied gift card

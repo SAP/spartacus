@@ -59,7 +59,7 @@ export class OpfGiftCardOrderDetailBillingComponent
   getPaymentMethodCardContent(): Observable<Card> {
     return combineLatest([
       this.translationService.translate('paymentForm.payment'),
-      this.translationService.translate('giftCard.giftCardPayment'),
+      this.translationService.translate('opfGiftCard.giftCardPayment'),
     ]).pipe(
       map(([translatedTitle, translatedText]) => {
         return {
@@ -72,7 +72,7 @@ export class OpfGiftCardOrderDetailBillingComponent
 
   get isGiftCardPayment(): boolean {
     const totalAppliedAmount =
-      this.order?.sapGiftCardSummary?.totalAppliedAmount?.value ?? 0;
+      this.order?.opfGiftCardSummary?.totalAppliedAmount?.value ?? 0;
     return totalAppliedAmount > 0;
   }
 

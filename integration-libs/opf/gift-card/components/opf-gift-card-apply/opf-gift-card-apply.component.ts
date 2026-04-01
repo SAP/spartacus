@@ -39,7 +39,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
-import { SAPGiftCards } from '../../root/model/opf-gift-card.model';
+import { OpfGiftCards } from '../../root/model/opf-gift-card.model';
 import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied/opf-gift-card-applied.component';
 import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout/opf-gift-card-checkout-place-order/opf-gift-card-checkout-place-order.component';
 @Component({
@@ -74,8 +74,8 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   protected cart$: Observable<Cart> = this.activeCartFacade.getActive();
   isBillingAddressPresent$!: Observable<void>;
 
-  protected appliedGiftCards$: Observable<SAPGiftCards[]> = this.cart$.pipe(
-    map((cart): SAPGiftCards[] => cart?.sapGiftCards ?? [])
+  protected appliedGiftCards$: Observable<OpfGiftCards[]> = this.cart$.pipe(
+    map((cart): OpfGiftCards[] => cart?.opfGiftCards ?? [])
   );
 
   protected buildForm(): void {
@@ -119,7 +119,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
         next: () => {
           this.activeCartFacade.reloadActiveCart();
           this.globalMessageService.add(
-            { key: 'giftCard.appliedSuccessfully' },
+            { key: 'opfGiftCard.appliedSuccessfully' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
           this.resetForm();
@@ -134,7 +134,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
     const message =
       error?.details?.[0]?.message ||
       error?.message ||
-      'giftCard.errors.applyFailed';
+      'opfGiftCard.errors.applyFailed';
     this.globalMessageService.add(
       { raw: message },
       GlobalMessageType.MSG_TYPE_ERROR

@@ -19,8 +19,8 @@ import {
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { OpfGiftCards } from '../../root/model/opf-gift-card.model';
 import { OutletModule } from '@spartacus/storefront';
-import { SAPGiftCards } from '../../root/model/opf-gift-card.model';
 
 @Component({
   selector: 'cx-opf-gift-card-applied',
@@ -33,14 +33,14 @@ export class OpfGiftCardAppliedComponent {
   protected giftCardFacade = inject(OpfGiftCardFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
 
-  @Input() giftCards: SAPGiftCards[];
-
+  @Input() opfGiftCards: OpfGiftCards[];
+  
   removeGiftCard(giftCardId: string) {
     this.giftCardFacade.removeGiftCard(giftCardId).subscribe({
       next: () => {
         this.activeCartFacade.reloadActiveCart();
         this.globalMessageService.add(
-          { key: 'giftCard.removedSuccessfully' },
+          { key: 'opfGiftCard.removedSuccessfully' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       },

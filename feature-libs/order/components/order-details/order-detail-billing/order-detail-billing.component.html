@@ -8,9 +8,8 @@
         [content]="getPaymentMethodCard(paymentDetails) | async"
       ></cx-card>
     </div>
-
     <ng-template
-      [cxOutlet]="cartOutlets.ORDER_DETAILS_PAYMENT_METHOD_DETAILS"
+      [cxOutlet]="cartOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD"
       [cxOutletContext]="order"
     >
     </ng-template>

@@ -6,8 +6,8 @@
 
 import { TranslationChunksConfig } from '@spartacus/core';
 
-export const giftCardTranslationChunksConfig: TranslationChunksConfig = {
-  giftCard: ['giftCard'],
+export const opfGiftCardTranslationChunksConfig: TranslationChunksConfig = {
+  opfGiftCard: ['opfGiftCard'],
 };
 
-export { en as giftCardTranslationsEn } from './en/index';
+export { en as opfGiftCardTranslationsEn } from './en/index';

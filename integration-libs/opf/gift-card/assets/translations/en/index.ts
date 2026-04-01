@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import giftCard from './giftCard.json';
+import opfGiftCard from './opfGiftCard.json';
 export const en = {
-  giftCard,
+  opfGiftCard,
 };

@@ -9,7 +9,7 @@
         <div class="cx-opf-gift-card-apply-title">
           <cx-icon type="GIFT_CARD"></cx-icon>
           <div class="title">
-            <span>{{ 'giftCard.haveGiftCard' | cxTranslate }}</span>
+            <span>{{ 'opfGiftCard.haveGiftCard' | cxTranslate }}</span>
           </div>
         </div>
         <div>
@@ -19,7 +19,7 @@
             [disabled]="!(isAddGiftCard$ | async)"
             (click)="showGiftCardForm = !showGiftCardForm"
           >
-            {{ 'giftCard.addGiftCard' | cxTranslate }}
+            {{ 'opfGiftCard.addGiftCard' | cxTranslate }}
           </button>
         </div>
       </div>
@@ -34,19 +34,19 @@
         <div class="cx-opf-gift-card-apply-form-wrapper">
           <div class="form-group">
             <label>
-              {{ 'giftCard.cardNumber' | cxTranslate }}
+              {{ 'opfGiftCard.cardNumber' | cxTranslate }}
             </label>
             <input
               type="text"
               class="form-control"
               formControlName="cardNumber"
-              [attr.aria-label]="'giftCard.cardNumber' | cxTranslate"
+              [attr.aria-label]="'opfGiftCard.cardNumber' | cxTranslate"
             />
             <cx-form-errors
-              [prefix]="'giftCard.common.formErrors.labeled'"
-              [fallbackPrefix]="'giftCard.common.formErrors'"
+              [prefix]="'opfGiftCard.common.formErrors.labeled'"
+              [fallbackPrefix]="'opfGiftCard.common.formErrors'"
               [translationParams]="{
-                label: 'giftCard.cardNumber' | cxTranslate,
+                label: 'opfGiftCard.cardNumber' | cxTranslate,
               }"
               [control]="giftCardForm.get('cardNumber')"
             ></cx-form-errors>
@@ -54,19 +54,19 @@
 
           <div class="form-group">
             <label>
-              {{ 'giftCard.pin' | cxTranslate }}
+              {{ 'opfGiftCard.pin' | cxTranslate }}
             </label>
             <input
               type="text"
               class="form-control"
               formControlName="pin"
-              [attr.aria-label]="'giftCard.pin' | cxTranslate"
+              [attr.aria-label]="'opfGiftCard.pin' | cxTranslate"
             />
             <cx-form-errors
-              [prefix]="'giftCard.common.formErrors.labeled'"
-              [fallbackPrefix]="'giftCard.common.formErrors'"
+              [prefix]="'opfGiftCard.common.formErrors.labeled'"
+              [fallbackPrefix]="'opfGiftCard.common.formErrors'"
               [translationParams]="{
-                label: 'giftCard.pin' | cxTranslate,
+                label: 'opfGiftCard.pin' | cxTranslate,
               }"
               [control]="giftCardForm.get('pin')"
             ></cx-form-errors>
@@ -77,20 +77,14 @@
             class="btn btn-secondary cx-opf-gift-card-apply-button"
             [disabled]="giftCardForm.invalid || (loading$ | async)"
           >
-            {{ 'giftCard.apply' | cxTranslate }}
+            {{ 'opfGiftCard.apply' | cxTranslate }}
           </button>
         </div>
-
-        <!-- <div aria-live="assertive" aria-atomic="true">
-        <span role="alert" class="cx-invalid-message">
-          {{ 'giftCard.validationError' | cxTranslate }}
-        </span>
-      </div> -->
       </form>
 
       <!-- Applied Gift Cards -->
       <cx-opf-gift-card-applied
-        [giftCards]="(appliedGiftCards$ | async) || []"
+        [opfGiftCards]="(appliedGiftCards$ | async) || []"
       ></cx-opf-gift-card-applied>
       <cx-opf-gift-card-checkout-place-order></cx-opf-gift-card-checkout-place-order>
     </div>

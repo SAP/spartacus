@@ -2,7 +2,7 @@
   <div class="cx-opf-gift-card-payment-method-detail">
     <ng-container
       *ngIf="
-        order?.sapGiftCardSummary?.giftCardsCoverFullAmount;
+        order?.opfGiftCardSummary?.giftCardsCoverFullAmount;
         else giftCardPayment
       "
     >
@@ -14,7 +14,7 @@
     <ng-template #giftCardPayment>
       <div class="cx-gift-card-partial-payment">
         <cx-card
-          [content]="{ text: ['giftCard.giftCardPayment' | cxTranslate] }"
+          [content]="{ text: ['opfGiftCard.giftCardPayment' | cxTranslate] }"
         ></cx-card>
       </div>
     </ng-template>

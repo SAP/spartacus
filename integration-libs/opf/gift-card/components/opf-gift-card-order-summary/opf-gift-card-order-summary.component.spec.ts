@@ -151,7 +151,7 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
       totalPriceWithTax: {
         value: 150,
       },
-      sapGiftCardSummary: {
+       opfGiftCardSummary: {
         totalAppliedAmount: {
           value: 50,
         },
@@ -165,7 +165,7 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
   it('should handle null totalPriceWithTax in giftCardCartTotal', () => {
     const mockCart: Cart = {
       code: 'test-cart',
-      sapGiftCardSummary: {
+       opfGiftCardSummary: {
         totalAppliedAmount: {
           value: 50,
         },
@@ -176,7 +176,7 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
     expect(component.giftCardCartTotal).toBe(50);
   });
 
-  it('should handle null sapGiftCardSummary in giftCardCartTotal', () => {
+  it('should handle null  opfGiftCardSummary in giftCardCartTotal', () => {
     const mockCart: Cart = {
       code: 'test-cart',
       totalPriceWithTax: {

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { giftCardTranslationsEn } from './translations/translations';
+import { opfGiftCardTranslationsEn } from './translations/translations';
 
 export * from './translations/index';
-export const giftCardTranslations = {
-  en: giftCardTranslationsEn,
+export const opfGiftCardTranslations = {
+  en: opfGiftCardTranslationsEn,
 };

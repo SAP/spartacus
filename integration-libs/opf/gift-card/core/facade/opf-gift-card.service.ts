@@ -5,6 +5,11 @@
  */
 
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import {
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardFacade,
+  OpfGiftCardResponse,
+} from '@spartacus/opf/gift-card/root';
 import { Injectable, inject } from '@angular/core';
 import { Observable, combineLatest, filter, switchMap, take } from 'rxjs';
 import {
@@ -12,11 +17,6 @@ import {
   OpfBaseFacade,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import {
-  OpfGiftCardFacade,
-  SAPGiftCardBalanceRequest,
-  SAPGiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
 import { map, startWith } from 'rxjs/operators';
 
 import { OpfGiftCardConnector } from '../connectors';
@@ -57,7 +57,7 @@ export class OpfGiftCardService implements OpfGiftCardFacade {
 
   isGiftCardCoveredTotalAmount(cart$: Observable<Cart>): Observable<boolean> {
     return cart$.pipe(
-      map((cart) => cart?.sapGiftCardSummary?.giftCardsCoverFullAmount ?? false)
+      map((cart) => cart?.opfGiftCardSummary?.giftCardsCoverFullAmount ?? false)
     );
   }
 
@@ -68,8 +68,8 @@ export class OpfGiftCardService implements OpfGiftCardFacade {
    * @returns Observable of the applied gift card response
    */
   applyGiftCard(
-    request: SAPGiftCardBalanceRequest
-  ): Observable<SAPGiftCardResponse> {
+    request: OpfGiftCardBalanceRequest
+  ): Observable<OpfGiftCardResponse> {
     return combineLatest([
       this.userIdService.getUserId(),
       this.activeCartFacade.getActiveCartId(),
