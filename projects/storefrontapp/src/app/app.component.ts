@@ -74,10 +74,11 @@ export class AppComponent implements OnInit {
         console.log('initializing WalkMe script', language, endUserId, theme);
 
         const isWalkmeEnabled = true;
+
         (window as any).walkmeLoaderConfig = {
           systemUrl: '',
           customerSystemUrl:
-            'https://cdn-us01.walkme.cloud.sap/users/7cf1ce06f25545faa95ac694d39e7f01/test/walkme_7cf1ce06f25545faa95ac694d39e7f01_https.js',
+            'https://cdn-us01.walkme.cloud.sap/users/3f2ed237794544f8a1753829a3575812/test/walkme_3f2ed237794544f8a1753829a3575812_https.js',
           enableAnalytics: true,
           tenantId: '<customer name>',
           endUserId,
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
           theme,
           wmCmpMode: 2,
         };
+
         if (isWalkmeEnabled) {
           const walkme = document.createElement('script');
           walkme.async = true;
