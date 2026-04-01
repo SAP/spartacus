@@ -216,7 +216,7 @@ export class CustomFormValidators {
 
   // TODO: Delete this array and move mustEndWithLegalCharacter validator to securePasswordValidators
   // When: upon removing feature toogle: useEnhancedSecurePasswordValidators
-  static enhancedSecurePasswordValidators = [
+  static readonly enhancedSecurePasswordValidators = [
     ...this.securePasswordValidators,
     this.mustEndWithLegalCharacter,
   ];
@@ -345,7 +345,7 @@ export class CustomFormValidators {
     const value = control.value as string;
 
     return value &&
-      (!value.length || value.match(ENDS_WITH_LEGAL_CHARACTER_PATTERN))
+      (!value.length || ENDS_WITH_LEGAL_CHARACTER_PATTERN.exec(value))
       ? null
       : { cxMustEndWithLegalCharacter: true };
   }

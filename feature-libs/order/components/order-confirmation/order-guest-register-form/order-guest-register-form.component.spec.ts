@@ -21,7 +21,6 @@ import { OrderGuestRegisterFormComponent } from './order-guest-register-form.com
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
-const mockSecurePasswordEndingWithInvalidCharacter = 'strongPas$!123&';
 const mockInvalidPassword = 'strongPass$!123';
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
@@ -39,15 +38,16 @@ class MockRoutingService implements Partial<RoutingService> {
 /** Mock control for FeatureConfigService.isEnabled() */
 const mockFeatureConfigServiceController: Pick<
   FeatureToggles,
-  'authorizationCodeFlowByDefault'
+  'authorizationCodeFlowByDefault' | 'useEnhancedSecurePasswordValidators'
 > = {
   authorizationCodeFlowByDefault: false,
+  useEnhancedSecurePasswordValidators: false,
 };
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = createSpy().and.callFake(
-    () =>
-      mockFeatureConfigServiceController.authorizationCodeFlowByDefault ?? false
+    (flag: keyof typeof mockFeatureConfigServiceController) =>
+      mockFeatureConfigServiceController[flag] ?? false
   );
 }
 
@@ -142,8 +142,6 @@ describe('OrderGuestRegisterFormComponent', () => {
 
   describe('password validators', () => {
     it('should have secure password validators', () => {
-      fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       const passwordControl = component.guestRegisterForm.get(
         'password'
@@ -171,23 +169,46 @@ describe('OrderGuestRegisterFormComponent', () => {
   });
 
   describe('when useEnhancedSecurePasswordValidators is enabled', () => {
-    it('should use enhancedSecurePasswordValidators on password control', () => {
-      fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
-      component = fixture.componentInstance;
+    beforeAll(() => {
+      mockFeatureConfigServiceController.useEnhancedSecurePasswordValidators =
+        true;
+    });
+
+    afterAll(() => {
+      mockFeatureConfigServiceController.useEnhancedSecurePasswordValidators =
+        false;
+    });
+
+    it('should fail for password ending with ilegal character', () => {
       fixture.detectChanges();
       const passwordControl = component.guestRegisterForm.get(
         'password'
       ) as UntypedFormControl;
       const validations = {
-        whenNotEmptyButInvalid: passwordControl.validator?.({
-          value: mockSecurePasswordEndingWithInvalidCharacter,
+        whenEndingWithIlegalCharacter: passwordControl.validator?.({
+          value: 'strongPas$!123&',
         } as any),
       };
 
       expect(passwordControl).toBeTruthy();
-      expect(validations.whenNotEmptyButInvalid).toEqual({
+      expect(validations.whenEndingWithIlegalCharacter).toEqual({
         cxMustEndWithLegalCharacter: true,
       });
+    });
+
+    it('should pass for password ending with legal character', () => {
+      fixture.detectChanges();
+      const passwordControl = component.guestRegisterForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validations = {
+        whenEndingWithLegalCharacter: passwordControl.validator?.({
+          value: mockSecurePassword,
+        } as any),
+      };
+
+      expect(passwordControl).toBeTruthy();
+      expect(validations.whenEndingWithLegalCharacter).toEqual(null);
     });
   });
 });
