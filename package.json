@@ -295,12 +295,14 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
+    "axios": "1.13.5",
     "flatted": "^3.4.2",
     "koa": "^3.1.2",
     "minimatch": "^10.2.1",
     "karma": {
       "minimatch": "3.1.5"
     },
+    "rollup-plugin-dts": "6.2.3",
     "i18n-lint": {
       "minimatch": "3.1.5"
     },
