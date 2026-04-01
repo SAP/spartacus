@@ -17,5 +17,6 @@
       "cache": true
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "analytics": false
 }
