@@ -18,7 +18,7 @@ const defaultBaseSite = [
   'apparel-uk-spa',
   'apparel-uk-standalone',
 ];
-const baseSite = environment.epdVisualization
+export const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
   : defaultBaseSite;
 
@@ -26,8 +26,11 @@ export const spartacusB2cConfigurationProviders = makeEnvironmentProviders([
   provideConfig({
     context: {
       urlParameters: ['baseSite', 'language', 'currency'],
-      baseSite: baseSite,
+      // baseSite: baseSite,
     },
+  }),
+  provideConfig({
+    authentication: { client_id: 'mobile_android_login' },
   }),
   provideConfig({
     cart: {

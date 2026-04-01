@@ -19,8 +19,8 @@ import { BaseOccModule } from './occ/base-occ.module';
 import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
-import { StateModule } from './state/state.module';
 import { SiteThemeModule } from './site-theme/site-theme.module';
+import { StateModule } from './state/state.module';
 
 @NgModule({
   imports: [
@@ -45,6 +45,15 @@ import { SiteThemeModule } from './site-theme/site-theme.module';
 export class BaseCoreModule {
   static forRoot(): ModuleWithProviders<BaseCoreModule> {
     return {
+      providers: [
+        // did not work, species did not survive to later runtime
+        // { provide: APP_BASE_HREF, useClass: WritableBaseSite }
+        // {
+        //   provide: RendererFactory2,
+        //   useFactory: rendererFactory,
+        // },
+      ],
+
       ngModule: BaseCoreModule,
     };
   }
