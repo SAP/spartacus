@@ -153,10 +153,7 @@ export class AddressBookComponent implements OnInit {
   }
 
   private buildRegion(address: Address): string {
-    if (address.region) {
-      return (address.region.name || address.region.isocode || '') + ', ';
-    }
-    return '';
+    return address.region?.isocode || '';
   }
 
   setAddressAsDefault(address: Address): void {
