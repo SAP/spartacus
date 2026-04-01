@@ -44,7 +44,11 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
 export class OrderGuestRegisterFormComponent {
   private featureConfigService = inject(FeatureConfigService);
   protected authRedirectService = inject(AuthRedirectService);
-  protected passwordValidators = CustomFormValidators.securePasswordValidators;
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'useEnhancedSecurePasswordValidators'
+  )
+    ? CustomFormValidators.enhancedSecurePasswordValidators
+    : CustomFormValidators.securePasswordValidators;
 
   @Input() guid: string;
   @Input() email: string;

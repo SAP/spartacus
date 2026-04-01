@@ -13,7 +13,7 @@ import {
 import {
   CONSECUTIVE_CHARACTERS,
   EMAIL_PATTERN,
-  ENDS_WITH_VALID_CHARACTER_PATTERN,
+  ENDS_WITH_LEGAL_CHARACTER_PATTERN,
   MAX_CHARACTERS_PATTERN,
   MIN_EIGHT_CHARACTERS_PATTERN,
   MIN_ONE_DIGIT_PATTERN,
@@ -212,7 +212,13 @@ export class CustomFormValidators {
     this.minEightCharactersLengthValidator,
     this.maxCharactersLengthValidator,
     this.noConsecutiveCharacters,
-    this.mustEndWithValidCharacter,
+  ];
+
+  // TODO: Delete this array and move mustEndWithLegalCharacter validator to securePasswordValidators
+  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators
+  static enhancedSecurePasswordValidators = [
+    ...this.securePasswordValidators,
+    this.mustEndWithLegalCharacter,
   ];
 
   /**
@@ -330,18 +336,18 @@ export class CustomFormValidators {
    *
    * @static
    * @param {AbstractControl} control
-   * @returns {(ValidationErrors | null)} Uses 'cxMustEndWithValidCharacter' validator error
+   * @returns {(ValidationErrors | null)} Uses 'cxMustEndWithLegalCharacter' validator error
    * @memberof CustomFormValidators
    */
-  static mustEndWithValidCharacter(
+  static mustEndWithLegalCharacter(
     control: AbstractControl
   ): ValidationErrors | null {
     const value = control.value as string;
 
     return value &&
-      (!value.length || value.match(ENDS_WITH_VALID_CHARACTER_PATTERN))
+      (!value.length || value.match(ENDS_WITH_LEGAL_CHARACTER_PATTERN))
       ? null
-      : { cxMustEndWithValidCharacter: true };
+      : { cxMustEndWithLegalCharacter: true };
   }
 
   /**

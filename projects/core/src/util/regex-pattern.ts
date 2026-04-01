@@ -32,5 +32,5 @@ export const STRONG_PASSWORD_PATTERN =
 export const SECURE_PASSWORD_PATTERN =
   /^(?!.*(.)\1)(?=.*?[A-Z])(?=.*?\d)(?=.*?[!@#$%^*()_\-+{};:.,]).{8,128}$/;
 
-export const ENDS_WITH_VALID_CHARACTER_PATTERN =
+export const ENDS_WITH_LEGAL_CHARACTER_PATTERN =
   /^.*[a-zA-Z0-9!@#$%^*()_\-+{};:.,]$/;

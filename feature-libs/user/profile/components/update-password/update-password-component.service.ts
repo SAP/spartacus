@@ -14,6 +14,7 @@ import {
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -27,7 +28,14 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
-  protected passwordValidators = CustomFormValidators.securePasswordValidators;
+  // TODO: Delete FeatureConfigService injection
+  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and not used anywhere else
+  private featureConfigService = inject(FeatureConfigService);
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'useEnhancedSecurePasswordValidators'
+  )
+    ? CustomFormValidators.enhancedSecurePasswordValidators
+    : CustomFormValidators.securePasswordValidators;
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

@@ -451,6 +451,12 @@ export interface FeatureTogglesInterface {
    * Affects: cxNgSelectA11y
    */
   a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled forms using CustomFormValidators.securePasswordValidators will use
+   * CustomFormValidators.enhancedSecurePasswordValidators instead
+   */
+  useEnhancedSecurePasswordValidators?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -504,4 +510,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yVocalizeDropdownItemCount: false,
+  useEnhancedSecurePasswordValidators: false,
 };

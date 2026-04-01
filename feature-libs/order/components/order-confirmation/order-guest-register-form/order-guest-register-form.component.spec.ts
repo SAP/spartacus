@@ -21,6 +21,7 @@ import { OrderGuestRegisterFormComponent } from './order-guest-register-form.com
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
+const mockSecurePasswordEndingWithInvalidCharacter = 'strongPas$!123&';
 const mockInvalidPassword = 'strongPass$!123';
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
@@ -165,6 +166,27 @@ describe('OrderGuestRegisterFormComponent', () => {
       });
       expect(validations.whenNotEmpty).toEqual({
         cxNoConsecutiveCharacters: true,
+      });
+    });
+  });
+
+  describe('when useEnhancedSecurePasswordValidators is enabled', () => {
+    it('should use enhancedSecurePasswordValidators on password control', () => {
+      fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const passwordControl = component.guestRegisterForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validations = {
+        whenNotEmptyButInvalid: passwordControl.validator?.({
+          value: mockSecurePasswordEndingWithInvalidCharacter,
+        } as any),
+      };
+
+      expect(passwordControl).toBeTruthy();
+      expect(validations.whenNotEmptyButInvalid).toEqual({
+        cxMustEndWithLegalCharacter: true,
       });
     });
   });
