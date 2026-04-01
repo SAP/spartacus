@@ -10,6 +10,13 @@ import {
   NgModule,
   inject,
 } from '@angular/core';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationSkipped,
+  Router,
+} from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import {
   RouterState,
@@ -17,6 +24,8 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import {
   CONFIG_INITIALIZER,
   ConfigInitializer,
@@ -32,7 +41,6 @@ import {
   reducerToken,
 } from './store/reducers/router.reducer';
 import { ROUTING_FEATURE } from './store/routing-state';
-import { LOCATION_INITIALIZED } from '@angular/common';
 
 export function initConfigurableRoutes(
   service: ConfigurableRoutesService
@@ -51,23 +59,50 @@ export function initSecurePortalConfig(
   return null;
 }
 
-/** Factory function for Angular's injection token LOCATION_INITIALIZED.
+/**
+ * Factory for an APP_INITIALIZER that blocks bootstrap until the initial
+ * navigation has completed. This replaces the previous approach of using
+ * `initialNavigation: 'enabledBlocking'` together with `LOCATION_INITIALIZED`,
+ * which is incompatible with Angular hydration (NG05001).
  *
- * Note: LOCATION_INITIALIZED is an Angular's API (https://angular.io/api/common/LOCATION_INITIALIZED).
- *          Only when the Promise in this injection token is resolved, then Angular
- *          will start the initial navigation in the Router.
+ * The initializer:
+ * 1. Runs all `LOCATION_INITIALIZED_MULTI` initializers (e.g. config stability,
+ *    OAuth callback handling, coupon code extraction) and waits for them to complete.
+ * 2. Manually triggers the Router's initial navigation via `router.initialNavigation()`.
+ * 3. Waits for the initial navigation to finish (NavigationEnd, NavigationCancel,
+ *    NavigationError, or NavigationSkipped).
  *
- * Our factory retrieves the initializers from the `LOCATION_INITIALIZED_MULTI`
- * injection token of Spartacus, invokes each initializer, and returns a Promise
- * that resolves when all initializers have completed.
- *
- * @returns A promise that resolves when all initializers have completed.
+ * Because `APP_INITIALIZER` blocks bootstrap, the component tree will not render
+ * until the navigation is fully resolved — preserving the same behavioral semantics
+ * as the previous `enabledBlocking` approach while being compatible with hydration.
  */
-function locationInitializedFactory(): Promise<any> {
+function blockingInitialNavigationInitializer(): () => Promise<void> {
+  const router = inject(Router);
   const initializers =
     inject(LOCATION_INITIALIZED_MULTI, { optional: true }) ?? [];
-  const promiseInitializers = initializers.map((initializer) => initializer());
-  return Promise.all(promiseInitializers);
+
+  return async () => {
+    // 1. Run all LOCATION_INITIALIZED_MULTI initializers
+    //    (config stability, auth params, coupon codes, etc.)
+    const promiseInitializers = initializers.map((initializer) => initializer());
+    await Promise.all(promiseInitializers);
+
+    // 2. Manually trigger initial navigation
+    router.initialNavigation();
+
+    // 3. Wait for the initial navigation to complete
+    await firstValueFrom(
+      router.events.pipe(
+        filter(
+          (e) =>
+            e instanceof NavigationEnd ||
+            e instanceof NavigationCancel ||
+            e instanceof NavigationError ||
+            e instanceof NavigationSkipped
+        )
+      )
+    );
+  };
 }
 
 @NgModule({
@@ -103,8 +138,9 @@ export class RoutingModule {
           multi: true,
         },
         {
-          provide: LOCATION_INITIALIZED,
-          useFactory: locationInitializedFactory,
+          provide: APP_INITIALIZER,
+          useFactory: blockingInitialNavigationInitializer,
+          multi: true,
         },
       ],
     };
