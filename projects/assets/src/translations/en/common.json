@@ -248,8 +248,8 @@
   },
   "assistiveMessage": {
     "actionCancelled": "Action cancelled, nothing changed",
-    "ngSelectDropdownCount": "{{count}} option available",
-    "ngSelectDropdownCount_other": "{{count}} options available"
+    "dropdownItemCount": "{{count}} option available",
+    "dropdownItemCount_other": "{{count}} options available"
   },
   "passwordVisibility": {
     "showPassword": "Show password",

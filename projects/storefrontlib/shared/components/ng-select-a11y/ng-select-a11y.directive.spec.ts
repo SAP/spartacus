@@ -158,7 +158,7 @@ describe('NgSelectA11yDirective', () => {
       fixture.detectChanges();
       // We expect count 3 because of the MockComponent defined at the top contains [items]="[1, 2, 3]"
       expect(translationService.translate).toHaveBeenCalledWith(
-        'assistiveMessage.ngSelectDropdownCount',
+        'assistiveMessage.dropdownItemCount',
         { count: 3 }
       );
     });
@@ -171,7 +171,7 @@ describe('NgSelectA11yDirective', () => {
       emptyFixture.detectChanges();
 
       expect(translationService.translate).toHaveBeenCalledWith(
-        'assistiveMessage.ngSelectDropdownCount',
+        'assistiveMessage.dropdownItemCount',
         { count: 0 }
       );
     });

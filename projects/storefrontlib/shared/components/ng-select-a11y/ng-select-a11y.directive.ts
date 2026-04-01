@@ -78,7 +78,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
     private elementRef: ElementRef
   ) {
     useFeatureStyles('a11yNgSelectUnicodeCarets');
-    this.vocalizeItemCount();
+    if (this.featureConfigService.isEnabled('a11yVocalizeDropdownItemCount')) {
+      this.vocalizeItemCount();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -158,22 +160,20 @@ export class NgSelectA11yDirective implements AfterViewInit {
   }
 
   vocalizeItemCount() {
-    if (this.featureConfigService.isEnabled('a11yVocalizeDropdownItemCount')) {
-      effect(() => {
-        this.translationService
-          .translate('assistiveMessage.ngSelectDropdownCount', {
-            count: this.selectComponent.items()?.length ?? 0,
-          })
-          .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-          .subscribe((countText) => {
-            const itemCountSpan =
-              this.elementRef.nativeElement.querySelector(
-                '.cx-ng-select-count'
-              ) ?? this.createItemCountSpan();
-            this.renderer.setProperty(itemCountSpan, 'textContent', countText);
-          });
-      });
-    }
+    effect(() => {
+      this.translationService
+        .translate('assistiveMessage.dropdownItemCount', {
+          count: this.selectComponent.items()?.length ?? 0,
+        })
+        .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+        .subscribe((countText) => {
+          const itemCountSpan =
+            this.elementRef.nativeElement.querySelector(
+              '.cx-ng-select-count'
+            ) ?? this.createItemCountSpan();
+          this.renderer.setProperty(itemCountSpan, 'textContent', countText);
+        });
+    });
   }
 
   protected createItemCountSpan() {
