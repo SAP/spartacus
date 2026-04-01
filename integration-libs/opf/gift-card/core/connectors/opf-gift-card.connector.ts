@@ -24,7 +24,11 @@ export class OpfGiftCardConnector {
     cartId: string,
     opfGiftCardBalanceRequest: OpfGiftCardBalanceRequest
   ): Observable<OpfGiftCardResponse> {
-    return this.adapter.applyGiftCard(userId, cartId, opfGiftCardBalanceRequest);
+    return this.adapter.applyGiftCard(
+      userId,
+      cartId,
+      opfGiftCardBalanceRequest
+    );
   }
 
   public removeGiftCard(

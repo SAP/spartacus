@@ -471,7 +471,7 @@ describe('OpfGiftCardService', () => {
   describe('isGiftCardCoveredTotalAmount', () => {
     it('should return true when giftCardsCoverFullAmount is true', (done) => {
       const mockCart = {
-         opfGiftCardSummary: {
+        opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 100, formattedValue: '$100.00' },
@@ -489,7 +489,7 @@ describe('OpfGiftCardService', () => {
 
     it('should return false when giftCardsCoverFullAmount is false', (done) => {
       const mockCart = {
-         opfGiftCardSummary: {
+        opfGiftCardSummary: {
           giftCardsCoverFullAmount: false,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
@@ -507,7 +507,7 @@ describe('OpfGiftCardService', () => {
 
     it('should return false when  opfGiftCardSummary is null', (done) => {
       const mockCart = {
-         opfGiftCardSummary: null,
+        opfGiftCardSummary: null,
       };
 
       service
@@ -520,7 +520,7 @@ describe('OpfGiftCardService', () => {
 
     it('should return false when  opfGiftCardSummary is undefined', (done) => {
       const mockCart = {
-         opfGiftCardSummary: undefined,
+        opfGiftCardSummary: undefined,
       };
 
       service
@@ -542,7 +542,7 @@ describe('OpfGiftCardService', () => {
 
     it('should return false when giftCardsCoverFullAmount is undefined', (done) => {
       const mockCart = {
-         opfGiftCardSummary: {
+        opfGiftCardSummary: {
           giftCardsCoverFullAmount: undefined,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 50, formattedValue: '$50.00' },
@@ -560,7 +560,7 @@ describe('OpfGiftCardService', () => {
 
     it('should handle observable emissions correctly', (done) => {
       const mockCart1 = {
-         opfGiftCardSummary: {
+        opfGiftCardSummary: {
           giftCardsCoverFullAmount: true,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 100, formattedValue: '$100.00' },
@@ -568,7 +568,7 @@ describe('OpfGiftCardService', () => {
         },
       };
       const mockCart2 = {
-         opfGiftCardSummary: {
+        opfGiftCardSummary: {
           giftCardsCoverFullAmount: false,
           totalBalance: { value: 100, formattedValue: '$100.00' },
           totalAppliedAmount: { value: 50, formattedValue: '$50.00' },

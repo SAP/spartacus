@@ -34,7 +34,7 @@ export class OpfGiftCardAppliedComponent {
   protected activeCartFacade = inject(ActiveCartFacade);
 
   @Input() opfGiftCards: OpfGiftCards[];
-  
+
   removeGiftCard(giftCardId: string) {
     this.giftCardFacade.removeGiftCard(giftCardId).subscribe({
       next: () => {

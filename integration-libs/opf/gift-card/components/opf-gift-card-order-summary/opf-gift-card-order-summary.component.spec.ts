@@ -151,7 +151,7 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
       totalPriceWithTax: {
         value: 150,
       },
-       opfGiftCardSummary: {
+      opfGiftCardSummary: {
         totalAppliedAmount: {
           value: 50,
         },
@@ -165,7 +165,7 @@ describe('OpfGiftCardOrderSummaryComponent', () => {
   it('should handle null totalPriceWithTax in giftCardCartTotal', () => {
     const mockCart: Cart = {
       code: 'test-cart',
-       opfGiftCardSummary: {
+      opfGiftCardSummary: {
         totalAppliedAmount: {
           value: 50,
         },
