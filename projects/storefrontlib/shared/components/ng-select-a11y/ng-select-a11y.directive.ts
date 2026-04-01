@@ -78,46 +78,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     private elementRef: ElementRef
   ) {
     useFeatureStyles('a11yNgSelectUnicodeCarets');
-    if (this.featureConfigService.isEnabled('a11yVocalizeDropdownItemCount')) {
-      effect(() => {
-        this.translationService
-          .translate('assistiveMessage.ngSelectDropdownCount', {
-            count: this.selectComponent.items()?.length ?? 0,
-          })
-          .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-          .subscribe((countText) => {
-            let itemCountSpan = this.elementRef.nativeElement.querySelector(
-              '.cx-ng-select-count'
-            );
-            if (!itemCountSpan) {
-              itemCountSpan = this.renderer.createElement('span');
-              this.renderer.addClass(itemCountSpan, 'cx-ng-select-count');
-              this.renderer.addClass(itemCountSpan, 'cx-visually-hidden');
-              this.renderer.setAttribute(itemCountSpan, ARIA_HIDDEN, 'true');
-              this.renderer.appendChild(
-                this.elementRef.nativeElement,
-                itemCountSpan
-              );
-              const countId =
-                (this.elementRef.nativeElement.id || 'ng-select') + '-count';
-              this.renderer.setAttribute(itemCountSpan, 'id', countId);
-              const inputCombobox =
-                this.elementRef.nativeElement.querySelector(
-                  '[role="combobox"]'
-                );
-              if (inputCombobox) {
-                this.renderer.setAttribute(
-                  inputCombobox,
-                  'aria-describedby',
-                  countId
-                );
-              }
-              this.destroyRef.onDestroy(() => itemCountSpan.remove());
-            }
-            this.renderer.setProperty(itemCountSpan, 'textContent', countText);
-          });
-      });
-    }
+    this.vocalizeItemCount();
   }
 
   ngAfterViewInit(): void {
@@ -194,6 +155,43 @@ export class NgSelectA11yDirective implements AfterViewInit {
           });
       }
     }
+  }
+
+  vocalizeItemCount() {
+    if (this.featureConfigService.isEnabled('a11yVocalizeDropdownItemCount')) {
+      effect(() => {
+        this.translationService
+          .translate('assistiveMessage.ngSelectDropdownCount', {
+            count: this.selectComponent.items()?.length ?? 0,
+          })
+          .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+          .subscribe((countText) => {
+            const itemCountSpan =
+              this.elementRef.nativeElement.querySelector(
+                '.cx-ng-select-count'
+              ) ?? this.createItemCountSpan();
+            this.renderer.setProperty(itemCountSpan, 'textContent', countText);
+          });
+      });
+    }
+  }
+
+  protected createItemCountSpan() {
+    const itemCountSpan = this.renderer.createElement('span');
+    this.renderer.addClass(itemCountSpan, 'cx-ng-select-count');
+    this.renderer.addClass(itemCountSpan, 'cx-visually-hidden');
+    this.renderer.setAttribute(itemCountSpan, ARIA_HIDDEN, 'true');
+    this.renderer.appendChild(this.elementRef.nativeElement, itemCountSpan);
+    const countId =
+      (this.elementRef.nativeElement.id || 'ng-select') + '-count';
+    this.renderer.setAttribute(itemCountSpan, 'id', countId);
+    const inputCombobox =
+      this.elementRef.nativeElement.querySelector('[role="combobox"]');
+    if (inputCombobox) {
+      this.renderer.setAttribute(inputCombobox, 'aria-describedby', countId);
+    }
+    this.destroyRef.onDestroy(() => itemCountSpan.remove());
+    return itemCountSpan;
   }
 
   setInputValue(inputCombobox: HTMLElement) {
