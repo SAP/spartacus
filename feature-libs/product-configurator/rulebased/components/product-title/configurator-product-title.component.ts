@@ -11,7 +11,6 @@ import {
   ProductScope,
   ProductService,
   TranslatePipe,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   ConfiguratorRouter,
@@ -99,9 +98,7 @@ export class ConfiguratorProductTitleComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService,
     protected configExpertModeService: ConfiguratorExpertModeService
-  ) {
-    useFeatureStyles('a11yWideScreenImprovements');
-  }
+  ) {}
 
   triggerDetails(): void {
     this.showMore = !this.showMore;

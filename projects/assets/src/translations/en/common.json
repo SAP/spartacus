@@ -247,11 +247,14 @@
     "refreshThePage": "Please refresh the page."
   },
   "assistiveMessage": {
-    "actionCancelled": "Action cancelled, nothing changed"
+    "actionCancelled": "Action cancelled, nothing changed",
+    "dropdownItemCount": "{{count}} option available",
+    "dropdownItemCount_other": "{{count}} options available"
   },
   "passwordVisibility": {
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "togglePassword": "Toggle password visibility"
   },
   "generalErrors": {
     "pageFailure": "The page could not be loaded. Please try again later."
