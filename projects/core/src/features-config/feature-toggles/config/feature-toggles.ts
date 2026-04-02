@@ -445,6 +445,12 @@ export interface FeatureTogglesInterface {
    * is in disabled state.
    */
   a11yCartQuickOrderFormEnableSubmitAndAddValidation?: boolean;
+
+  /**
+   * When enabled, adds vocalization of dropdown item count when dropdown gains focus.
+   * Affects: cxNgSelectA11y
+   */
+  a11yVocalizeDropdownItemCount?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -497,4 +503,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
+  a11yVocalizeDropdownItemCount: false,
 };
