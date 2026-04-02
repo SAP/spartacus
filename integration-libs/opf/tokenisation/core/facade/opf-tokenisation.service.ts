@@ -6,8 +6,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserPaymentService } from '@spartacus/core';
-import { OpfTokenisationFacade } from '@spartacus/opf/tokenisation/root';
-import { OpfPaymentDetails } from '@spartacus/opf/tokenisation/root';
+import {
+  OpfTokenisationFacade,
+  OpfPaymentDetails,
+} from '@spartacus/opf/tokenisation/root';
 
 @Injectable()
 export class OpfTokenisationService implements OpfTokenisationFacade {
