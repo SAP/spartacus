@@ -15,7 +15,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
-import { OpfTokenisationFacade } from '../../root/facade';
+import { OpfTokenisationService } from '@spartacus/opf/tokenisation/core';
 
 @Component({
   selector: 'cx-opf-tokenisation-account-payment-methods',
@@ -35,17 +35,17 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   loading$: Observable<boolean>;
   @Input() showHeader = true;
 
-  protected tokenisationFacade = inject(OpfTokenisationFacade);
+  protected tokenisationService = inject(OpfTokenisationService);
   protected translation = inject(TranslationService);
   protected globalMessageService = inject(GlobalMessageService, {
     optional: true,
   });
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe();
+    this.paymentMethods$ = this.tokenisationService.getPaymentMethods().pipe();
     this.editCard = undefined;
-    this.loading$ = this.tokenisationFacade.getPaymentMethodsLoading();
-    this.tokenisationFacade.loadPaymentMethods();
+    this.loading$ = this.tokenisationService.getPaymentMethodsLoading();
+    this.tokenisationService.loadPaymentMethods();
   }
 
   getCardContent({
@@ -78,7 +78,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
     if (paymentMethod.id) {
-      this.tokenisationFacade.deletePaymentMethod(paymentMethod.id);
+      this.tokenisationService.deletePaymentMethod(paymentMethod.id);
       this.editCard = undefined;
     }
   }

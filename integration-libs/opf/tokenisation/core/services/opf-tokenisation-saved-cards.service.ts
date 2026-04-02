@@ -6,6 +6,7 @@
 
 import { Injectable, inject, OnDestroy } from '@angular/core';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
+import { PaymentDetails } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, pairwise } from 'rxjs/operators';
@@ -101,7 +102,9 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
         )
         .subscribe(([prev, curr]) => {
           if (this.isTransitioningFromSavedCardsWithCardSelected(prev, curr)) {
-            this.checkoutPaymentFacade.deletePaymentDetails().subscribe();
+            this.checkoutPaymentFacade
+              .setPaymentDetails({} as PaymentDetails)
+              .subscribe();
             // Reset the flag after deleting
             this.cardSelected$.next(false);
           }
