@@ -1,14 +1,24 @@
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
 name: API extractor
 jobs:
+  detect_changes:
+    name: API extractor - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect code changes
+        id: changes
+        uses: ./.github/actions/detect-changes
+
   breakingChangeDetectionBot:
+    needs: [detect_changes]
     name: Breaking change detection bot
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1

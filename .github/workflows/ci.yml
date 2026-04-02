@@ -4,9 +4,6 @@ on:
       - develop
       - develop-*
       - release/*
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
 
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow.
@@ -23,16 +20,31 @@ concurrency:
 
 name: Spartacus build pipeline
 jobs:
+  detect_changes:
+    name: CI - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect code changes
+        id: changes
+        uses: ./.github/actions/detect-changes
+
   no_retries:
+    needs: [detect_changes]
     name: Verify re-run of all jobs
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@v6
       - name: Prevent retries
         uses: ./.github/actions/prevent-retries
   validate_e2e_execution:
+    needs: [detect_changes]
     name: Validate pull_request files
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:

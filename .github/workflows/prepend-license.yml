@@ -2,15 +2,24 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-
 name: Add license header to files
 jobs:
+  detect_changes:
+    name: Add license - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect code changes
+        id: changes
+        uses: ./.github/actions/detect-changes
+
   add_license_header:
+    needs: [detect_changes]
     name: Add license header to files
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@v6
         with:

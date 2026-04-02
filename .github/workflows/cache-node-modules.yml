@@ -5,9 +5,6 @@ on:
       - develop-*
       - 'epic/**'
       - release/*
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
 name: Cache node modules
 
 env:
@@ -15,9 +12,22 @@ env:
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
 
 jobs:
+  detect_changes:
+    name: Cache node modules - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect code changes
+        id: changes
+        uses: ./.github/actions/detect-changes
+
   cacheNodeModules:   
+    needs: [detect_changes]
     name: Cache node_modules
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@v6
       - name: Setup node
