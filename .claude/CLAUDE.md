@@ -14,7 +14,7 @@ Monorepo: `npm workspaces` and `Nx`
 - `projects/storefrontstyles/` - Core styles lib and some components' styles
 - `core-libs/setup/` - Core setup utilities lib
 - `core-libs/setup/ssr` - Core SSR lib
-
+- editing an md file
 ### Demo App
 - `projects/storefrontapp/`
 
