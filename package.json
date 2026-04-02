@@ -168,7 +168,7 @@
   "private": false,
   "dependencies": {
     "@angular/animations": "^21.2.4",
-    "@angular/build": "^21.2.2",
+    "@angular/build": "^21.2.3",
     "@angular/common": "^21.2.4",
     "@angular/compiler": "^21.2.4",
     "@angular/core": "^21.2.4",
@@ -179,7 +179,7 @@
     "@angular/pwa": "^21.2.0",
     "@angular/router": "^21.2.4",
     "@angular/service-worker": "^21.2.4",
-    "@angular/ssr": "^21.2.2",
+    "@angular/ssr": "^21.2.3",
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4",
@@ -191,7 +191,6 @@
     "@types/google.maps": "^3.58.1",
     "@types/googlepay": "^0.7.10",
     "angular-oauth2-oidc": "^20.0.2",
-    "comment-json": "^4.2.3",
     "express": "^5.1.0",
     "hamburgers": "^1.2.1",
     "i18next": "^25.7.4",
@@ -204,9 +203,9 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^21.0.3",
-    "@angular-devkit/build-angular": "^21.2.2",
-    "@angular-devkit/core": "^21.2.2",
-    "@angular-devkit/schematics": "^21.2.2",
+    "@angular-devkit/build-angular": "^21.2.3",
+    "@angular-devkit/core": "^21.2.3",
+    "@angular-devkit/schematics": "^21.2.3",
     "@angular-eslint/builder": "^21.1.0",
     "@angular-eslint/eslint-plugin": "^21.1.0",
     "@angular-eslint/eslint-plugin-template": "^21.1.0",
@@ -214,12 +213,12 @@
     "@angular-eslint/template-parser": "^21.1.0",
     "@angular-eslint/test-utils": "^21.1.0",
     "@angular-eslint/utils": "^21.1.0",
-    "@angular/cli": "^21.2.2",
+    "@angular/cli": "^21.2.3",
     "@angular/compiler-cli": "^21.2.4",
     "@angular/language-service": "^21.2.4",
     "@babel/runtime": "^7.26.10",
     "@ngrx/store-devtools": "^21.0.1",
-    "@nx/angular": "^22.3.1",
+    "@nx/angular": "^22.6.0",
     "@nx/devkit": "^22.3.1",
     "@nx/eslint-plugin": "^22.3.1",
     "@nx/jest": "^22.3.1",
@@ -244,6 +243,7 @@
     "@typescript-eslint/utils": "^8.33.1",
     "browser-sync": "^3.0.4",
     "commander": "^14.0.0",
+    "comment-json": "4.6.2",
     "concurrently": "^9.0.0",
     "core-js": "^3.30.1",
     "cross-env": "^10.0.0",
@@ -295,11 +295,15 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
+    "axios": "1.13.5",
+    "express-rate-limit": "^8.3.0",
+    "flatted": "^3.4.2",
     "koa": "^3.1.2",
     "minimatch": "^10.2.1",
     "karma": {
       "minimatch": "3.1.5"
     },
+    "rollup-plugin-dts": "6.2.3",
     "i18n-lint": {
       "minimatch": "3.1.5"
     },

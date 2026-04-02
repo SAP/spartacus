@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/tracking",
-  "version": "221121.7.0",
+  "version": "221121.9.0",
   "description": "Spartacus tracking and personalization library",
   "keywords": [
     "spartacus",
@@ -24,11 +24,11 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.2.2",
+    "@angular-devkit/schematics": "^21.2.3",
     "@angular/common": "^21.2.4",
     "@angular/core": "^21.2.4",
-    "@spartacus/core": "221121.7.0",
-    "@spartacus/schematics": "221121.7.0",
+    "@spartacus/core": "221121.9.0",
+    "@spartacus/schematics": "221121.9.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
