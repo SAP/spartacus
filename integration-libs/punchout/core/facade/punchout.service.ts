@@ -74,7 +74,7 @@ export class PunchoutService implements PunchoutFacade {
       this.punchoutAuthService.endPunchoutSession();
       return throwError(() => new Error('Punchout Session Id missing'));
     }
-
+    // test modifying ts file
     return this.punchoutAuthService.silentLogout(payload?.isPageRefresh).pipe(
       switchMap(() => this.requestPunchoutSession(payload.punchoutSessionId)),
       map((punchoutSession) => {
