@@ -8,3 +8,4 @@ export * from './facade/index';
 export * from './feature-name';
 export * from './model/index';
 export * from './opf-tokenisation-root.module';
+export * from './components';

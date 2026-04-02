@@ -44,12 +44,12 @@ import { Order, OrderFacade } from '@spartacus/order/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   SAVED_CARDS_ID,
   OpfTokenisationSavedCardsService,
 } from '@spartacus/opf/tokenisation/core';
+import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation/root';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {

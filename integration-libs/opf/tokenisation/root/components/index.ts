@@ -3,5 +3,5 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
-export * from './opf-tokenisation.module';
+export * from './opf-tokenisation-new-payments-heading';
+export * from './opf-tokenisation-saved-cards-toggle';
