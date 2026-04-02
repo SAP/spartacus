@@ -1,7 +1,9 @@
 <div *ngIf="messages$ | async as messages">
   <div
-    class="cx-visually-hidden"
     *ngFor="let assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]"
+    class="cx-visually-hidden"
+    aria-live="assertive"
+    aria-atomic="true"
   >
     <span>{{ assistiveMsg | cxTranslate }}</span>
   </div>
