@@ -1,4 +1,4 @@
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import angular from 'angular-eslint';
 import nxPlugin from '@nx/eslint-plugin';
@@ -16,6 +16,7 @@ const TAG = {
 };
 
 export default defineConfig(
+  globalIgnores(['**/schematics/**/*.d.ts']),
   {
     ignores: ['**/dist', '**/out-tsc'],
   },

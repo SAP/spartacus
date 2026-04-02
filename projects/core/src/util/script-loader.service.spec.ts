@@ -1,5 +1,3 @@
-/* eslint-disable import/no-deprecated */
-// for now there is no better way than to use document.createElement here, therefore we need to disable eslint deprecation rule here
 
 import { PLATFORM_ID, DOCUMENT } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
