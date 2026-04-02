@@ -46,10 +46,10 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
-  SAVED_CARDS_ID,
+  OpfSavedCardsToggleContext,
   OpfTokenisationSavedCardsService,
-} from '@spartacus/opf/tokenisation/core';
-import { OpfSavedCardsToggleContext } from '@spartacus/opf/tokenisation/root';
+  SAVED_CARDS_ID,
+} from '@spartacus/opf/tokenisation/root';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
