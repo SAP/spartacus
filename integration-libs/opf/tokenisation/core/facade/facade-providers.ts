@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Provider } from '@angular/core';
-import { OpfTokenisationFacade } from '../../root/facade';
+import { OpfTokenisationFacade } from '@spartacus/opf/tokenisation/root';
 import { OpfTokenisationService } from './opf-tokenisation.service';
 
 export const facadeProviders: Provider[] = [

@@ -15,7 +15,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
-import { OpfTokenisationFacade } from '../../root/facade';
+import { OpfTokenisationFacade } from '@spartacus/opf/tokenisation/root';
 
 @Component({
   selector: 'cx-opf-tokenisation-account-payment-methods',
