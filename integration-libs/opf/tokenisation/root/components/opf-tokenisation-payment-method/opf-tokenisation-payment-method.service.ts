@@ -45,11 +45,11 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import { OpfSavedCardsToggleContext } from '../../model';
 import {
-  OpfSavedCardsToggleContext,
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
-} from '@spartacus/opf/tokenisation/root';
+} from '../../services';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
