@@ -29,7 +29,7 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 @Injectable()
 export class UpdatePasswordComponentService {
   // TODO: Delete FeatureConfigService injection
-  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and not used anywhere else
+  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and service is not used anywhere else
   private featureConfigService = inject(FeatureConfigService);
   protected passwordValidators = this.featureConfigService.isEnabled(
     'useEnhancedSecurePasswordValidators'

@@ -38,7 +38,7 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
-const mockInvalidPassword = 'strongPass$!123';
+const mockInvalidPassword = 'strongPas$!123|';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -312,12 +312,12 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   });
 
   describe('password validators', () => {
-    describe('when validators feature flag is enabled', () => {
+    describe('when useEnhancedSecurePasswordValidators is enabled', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
 
-      it('should have new validators', () => {
+      it('should have new cxMustEndWithLegalCharacter validator', () => {
         fixture = TestBed.createComponent(
           RegistrationVerificationTokenFormComponent
         );
@@ -329,8 +329,11 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         ) as UntypedFormControl;
         const validations = {
           whenEmpty: passwordControl.validator?.({} as any),
-          whenNotEmpty: passwordControl.validator?.({
+          whenNotEmptyAndInvalid: passwordControl.validator?.({
             value: mockInvalidPassword,
+          } as any),
+          whenNotEmpty: passwordControl.validator?.({
+            value: mockSecurePassword,
           } as any),
         };
 
@@ -342,16 +345,18 @@ describe('RegistrationVerificationTokenFormComponent', () => {
           cxMinOneUpperCaseCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+          cxMustEndWithLegalCharacter: true,
         });
-        expect(validations.whenNotEmpty).toEqual({
-          cxNoConsecutiveCharacters: true,
+        expect(validations.whenNotEmptyAndInvalid).toEqual({
+          cxMustEndWithLegalCharacter: true,
         });
+        expect(validations.whenNotEmpty).toEqual(null);
       });
 
-      it('test getPasswordValidators method', () => {
+      it('should use enhancedSecurePasswordValidators', () => {
         const passwordValidators = component.getPasswordValidators();
         expect(passwordValidators).toEqual(
-          CustomFormValidators.securePasswordValidators
+          CustomFormValidators.enhancedSecurePasswordValidators
         );
       });
     });
