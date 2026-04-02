@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { OpfTokenisationFacade } from '../../root/facade';
+import { OpfTokenisationFacade } from '../../facade';
 import { OpfTokenisationAccountPaymentMethodsComponent } from './opf-tokenisation-account-payment-methods.component';
 
 @Component({

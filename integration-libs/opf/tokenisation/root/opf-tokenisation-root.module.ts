@@ -11,7 +11,7 @@ import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 import { OpfTokenisationSavedCardsToggleComponent } from './components/opf-tokenisation-saved-cards-toggle/opf-tokenisation-saved-cards-toggle.component';
 import { OpfTokenisationNewPaymentsHeadingComponent } from './components/opf-tokenisation-new-payments-heading/opf-tokenisation-new-payments-heading.component';
-import { OpfTokenisationPaymentMethodComponent } from '@spartacus/opf/tokenisation/components';
+import { OpfTokenisationPaymentMethodComponent } from './components/opf-tokenisation-payment-method';
 
 export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
