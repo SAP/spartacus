@@ -34,7 +34,7 @@ import {
   OpfMetadataModel,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/core';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
 import {
   ICON_TYPE,
   IconComponent,
