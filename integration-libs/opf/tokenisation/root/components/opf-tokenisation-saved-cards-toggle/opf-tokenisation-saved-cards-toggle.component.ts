@@ -19,7 +19,7 @@ import { OpfSavedCardsToggleContext } from '../../model';
 import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
-} from '@spartacus/opf/tokenisation/core';
+} from '@spartacus/opf/tokenisation/root';
 
 @Component({
   selector: 'cx-opf-tokenisation-saved-cards-toggle',
