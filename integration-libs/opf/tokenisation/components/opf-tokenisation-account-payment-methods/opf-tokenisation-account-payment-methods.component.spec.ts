@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { OpfTokenisationFacade } from '../../root/facade';
+import { OpfTokenisationService } from '@spartacus/opf/tokenisation/core';
 import { OpfTokenisationAccountPaymentMethodsComponent } from './opf-tokenisation-account-payment-methods.component';
 
 @Component({
@@ -33,7 +33,7 @@ class MockSpinnerComponent {}
 describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
   let component: OpfTokenisationAccountPaymentMethodsComponent;
   let fixture: ComponentFixture<OpfTokenisationAccountPaymentMethodsComponent>;
-  let tokenisationFacade: jasmine.SpyObj<OpfTokenisationFacade>;
+  let tokenisationService: jasmine.SpyObj<OpfTokenisationService>;
   let translationService: jasmine.SpyObj<TranslationService>;
 
   const mockPaymentMethod1: PaymentDetails = {
@@ -53,7 +53,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    const facadeSpy = jasmine.createSpyObj('OpfTokenisationFacade', [
+    const serviceSpy = jasmine.createSpyObj('OpfTokenisationService', [
       'getPaymentMethods',
       'getPaymentMethodsLoading',
       'loadPaymentMethods',
@@ -74,7 +74,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
         I18nTestingModule,
       ],
       providers: [
-        { provide: OpfTokenisationFacade, useValue: facadeSpy },
+        { provide: OpfTokenisationService, useValue: serviceSpy },
         { provide: TranslationService, useValue: translationSpy },
         { provide: GlobalMessageService, useValue: globalMessageSpy },
       ],
@@ -89,17 +89,17 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       })
       .compileComponents();
 
-    tokenisationFacade = TestBed.inject(
-      OpfTokenisationFacade
-    ) as jasmine.SpyObj<OpfTokenisationFacade>;
+    tokenisationService = TestBed.inject(
+      OpfTokenisationService
+    ) as jasmine.SpyObj<OpfTokenisationService>;
     translationService = TestBed.inject(
       TranslationService
     ) as jasmine.SpyObj<TranslationService>;
   }));
 
   beforeEach(() => {
-    tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
-    tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+    tokenisationService.getPaymentMethods.and.returnValue(of([]));
+    tokenisationService.getPaymentMethodsLoading.and.returnValue(of(false));
     translationService.translate.and.returnValue(of('translated'));
 
     fixture = TestBed.createComponent(
@@ -115,16 +115,16 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
 
   describe('ngOnInit', () => {
     it('should call loadPaymentMethods on facade', () => {
-      expect(tokenisationFacade.loadPaymentMethods).toHaveBeenCalled();
+      expect(tokenisationService.loadPaymentMethods).toHaveBeenCalled();
     });
 
     it('should set paymentMethods$ from facade', () => {
-      expect(tokenisationFacade.getPaymentMethods).toHaveBeenCalled();
+      expect(tokenisationService.getPaymentMethods).toHaveBeenCalled();
       expect(component.paymentMethods$).toBeDefined();
     });
 
     it('should set loading$ from facade', () => {
-      expect(tokenisationFacade.getPaymentMethodsLoading).toHaveBeenCalled();
+      expect(tokenisationService.getPaymentMethodsLoading).toHaveBeenCalled();
       expect(component.loading$).toBeDefined();
     });
 
@@ -135,7 +135,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
 
   describe('paymentMethods$', () => {
     it('should emit payment methods from facade', (done) => {
-      tokenisationFacade.getPaymentMethods.and.returnValue(
+      tokenisationService.getPaymentMethods.and.returnValue(
         of([mockPaymentMethod1, mockPaymentMethod2])
       );
 
@@ -148,7 +148,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
     });
 
     it('should emit empty array when no payment methods', (done) => {
-      tokenisationFacade.getPaymentMethods.and.returnValue(of([]));
+      tokenisationService.getPaymentMethods.and.returnValue(of([]));
 
       component.ngOnInit();
 
@@ -161,7 +161,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
 
   describe('loading$', () => {
     it('should emit true when loading', (done) => {
-      tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(true));
+      tokenisationService.getPaymentMethodsLoading.and.returnValue(of(true));
 
       component.ngOnInit();
 
@@ -172,7 +172,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
     });
 
     it('should emit false when not loading', (done) => {
-      tokenisationFacade.getPaymentMethodsLoading.and.returnValue(of(false));
+      tokenisationService.getPaymentMethodsLoading.and.returnValue(of(false));
 
       component.ngOnInit();
 
@@ -241,7 +241,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
     it('should call facade.deletePaymentMethod with payment method id', () => {
       component.deletePaymentMethod(mockPaymentMethod1);
 
-      expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
+      expect(tokenisationService.deletePaymentMethod).toHaveBeenCalledWith(
         'card-1'
       );
     });
@@ -262,7 +262,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
 
       component.deletePaymentMethod(paymentMethod);
 
-      expect(tokenisationFacade.deletePaymentMethod).not.toHaveBeenCalled();
+      expect(tokenisationService.deletePaymentMethod).not.toHaveBeenCalled();
     });
   });
 
