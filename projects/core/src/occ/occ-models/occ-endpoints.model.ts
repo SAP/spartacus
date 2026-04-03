@@ -288,4 +288,10 @@ export interface OccEndpoints {
    * @member {string}
    */
   productAvailabilities?: string | OccEndpoint;
+  /**
+   * Endpoint for fetching product catalogs with category hierarchies.
+   *
+   * @member {string}
+   */
+  catalogs?: string | OccEndpoint;
 }

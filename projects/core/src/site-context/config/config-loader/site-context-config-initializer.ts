@@ -18,6 +18,7 @@ import {
   LANGUAGE_CONTEXT_ID,
   THEME_CONTEXT_ID,
 } from '../../providers/context-ids';
+import { normalizeUrlEncodingParams } from '../context-config-utils';
 import { SiteContextConfig } from '../site-context-config';
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +32,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
     protected winRef: WindowRef
   ) {}
 
-  private get currentUrl(): string {
+  protected get currentUrl(): string {
     return this.winRef.location.href as string;
   }
 
@@ -61,7 +62,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected getConfig(source: BaseSite): SiteContextConfig {
     const result = {
       context: {
-        urlParameters: this.getUrlParams(source.urlEncodingAttributes),
+        urlParameters: normalizeUrlEncodingParams(source.urlEncodingAttributes),
         [BASE_SITE_CONTEXT_ID]: [source.uid],
         [LANGUAGE_CONTEXT_ID]: this.getIsoCodes(
           source.baseStore?.languages,
@@ -81,7 +82,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
     return result;
   }
 
-  private isCurrentBaseSite(site: BaseSite): boolean {
+  protected isCurrentBaseSite(site: BaseSite): boolean {
     const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
       const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
@@ -94,22 +95,9 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   }
 
   /**
-   * Returns an array of url encoded site context parameters.
-   *
-   * It maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
-   */
-  private getUrlParams(params: string[] | undefined): string[] {
-    const STOREFRONT_PARAM = 'storefront';
-
-    return (params || []).map((param) =>
-      param === STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param
-    );
-  }
-
-  /**
    * Returns iso codes in a array, where the first element is the default iso code.
    */
-  private getIsoCodes(
+  protected getIsoCodes(
     elements: { isocode?: string }[] | undefined,
     defaultElement: { isocode?: string } | undefined
   ) {
@@ -128,7 +116,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    * @param array array to modify
    * @param predicate function called on elements
    */
-  private moveToFirst(array: any[], predicate: (el: any) => boolean): any[] {
+  protected moveToFirst(array: any[], predicate: (el: any) => boolean): any[] {
     array = [...array];
     const index = array.findIndex(predicate);
     if (index !== -1) {

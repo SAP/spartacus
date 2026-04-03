@@ -5,6 +5,7 @@
  */
 
 import { Plugin } from 'esbuild';
+import { resolve } from 'node:path';
 
 // Environment Variables Plugin
 const resolveEnvPlugin: Plugin = {
@@ -28,6 +29,28 @@ const resolveEnvPlugin: Plugin = {
   },
 };
 
+// Sitemap CLI Entry Point Plugin
+// Adds generate-sitemaps.ts as an additional server entry point
+// so that `nx build storefrontapp` produces generate-sitemaps.mjs in dist/server/.
+const sitemapCliEntryPlugin: Plugin = {
+  name: 'sitemap-cli-entry',
+  setup(build) {
+    const entryPoints = build.initialOptions.entryPoints;
+
+    // entryPoints is an object like { "main.server": "...", "server": "..." }
+    if (entryPoints && !Array.isArray(entryPoints) && typeof entryPoints === 'object') {
+      // Only add to server builds (those that have a "server" or "main.server" key)
+      const keys = Object.keys(entryPoints);
+      const isServerBuild = keys.some((k) => k.includes('server'));
+      if (isServerBuild) {
+        (entryPoints as Record<string, string>)['generate-sitemaps'] =
+          resolve('projects/storefrontapp/src/generate-sitemaps.ts');
+        console.log('[sitemap-cli-entry] ✅ Added generate-sitemaps entry point');
+      }
+    }
+  },
+};
+
 // Filter Warnings Plugin
 const filterWarningsPlugin = (): Plugin => ({
   name: 'filter-warnings',
@@ -44,4 +67,4 @@ const filterWarningsPlugin = (): Plugin => ({
 });
 
 // Export Plugins
-export default [resolveEnvPlugin, filterWarningsPlugin()];
+export default [resolveEnvPlugin, sitemapCliEntryPlugin, filterWarningsPlugin()];

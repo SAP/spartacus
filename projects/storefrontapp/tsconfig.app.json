@@ -13,6 +13,7 @@
     "src/main.ts",
     "src/main.server.ts",
     "src/server.ts",
+    "src/generate-sitemaps.ts",
     "src/environments/models/build.process.env.d.ts"
   ],
   "include": ["projects/storefrontapp/src/**/*.d.ts"],
