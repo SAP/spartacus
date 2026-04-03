@@ -46,7 +46,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-import { OpfCheckoutOutlets } from '../../root/model';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
