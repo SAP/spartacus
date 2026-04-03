@@ -37,7 +37,7 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
-import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/core';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
 
 @Component({
   template: '',

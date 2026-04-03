@@ -16,7 +16,7 @@ import { OpfTokenisationSavedCardsToggleComponent } from './opf-tokenisation-sav
 import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
-} from '@spartacus/opf/tokenisation/core';
+} from '@spartacus/opf/tokenisation/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { OpfSavedCardsToggleContext } from '../../model';
 

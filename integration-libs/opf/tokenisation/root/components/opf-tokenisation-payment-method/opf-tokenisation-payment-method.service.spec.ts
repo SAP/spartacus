@@ -23,7 +23,7 @@ import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   SAVED_CARDS_ID,
   OpfTokenisationSavedCardsService,
-} from '@spartacus/opf/tokenisation/core';
+} from '@spartacus/opf/tokenisation/root';
 import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-method.service';
 
 describe('OpfTokenisationPaymentMethodService', () => {

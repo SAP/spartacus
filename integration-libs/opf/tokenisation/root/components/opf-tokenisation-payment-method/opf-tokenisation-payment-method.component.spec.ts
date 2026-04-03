@@ -22,7 +22,7 @@ import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
-} from '@spartacus/opf/tokenisation/core';
+} from '@spartacus/opf/tokenisation/root';
 import { SelectFocusUtility, OutletContextData } from '@spartacus/storefront';
 
 describe('OpfTokenisationPaymentMethodComponent', () => {
