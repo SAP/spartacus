@@ -339,7 +339,6 @@ if (environment.cpq) {
         a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
-        showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
         a11yListSemanticsForFacets: true,
         a11yCartItemListHideEmptyOutlets: true,
