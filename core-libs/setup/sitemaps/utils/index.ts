@@ -5,4 +5,5 @@
  */
 
 export * from './xml-utils';
+export * from './sitemap-xml-stream-writer';
 

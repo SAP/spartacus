@@ -6,6 +6,7 @@
 
 export * from './brand-route-params-enumerator';
 export * from './category-route-params-enumerator';
+export * from './cms-content-page-enumerator';
 export * from './product-route-params-enumerator';
 export * from './static-route-params-enumerator';
 

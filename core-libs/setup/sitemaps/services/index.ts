@@ -7,5 +7,4 @@
 export * from './catalogs-fetch.service';
 export * from './routes-discovery.service';
 export * from './site-context-aware-routes-discovery.service';
-export * from './sitemap-generator.service';
-
+export * from './streaming-sitemap-generator.service';

@@ -48,6 +48,13 @@ export abstract class SitemapConfig {
     maxUrlsPerSitemap?: number;
 
     /**
+     * Output directory for file-based sitemap generation (CLI mode).
+     * Only used by `provideSitemapFileGenerator()`.
+     * Default: `./dist/sitemaps`
+     */
+    outputDir?: string;
+
+    /**
      * Configuration for static routes sitemap generation.
      */
     routes?: {
@@ -71,6 +78,23 @@ export abstract class SitemapConfig {
        * Example: ['cart', 'checkout', 'myAccount']
        */
       excludes?: string[];
+
+      /**
+       * CMS content page labels to include in the sitemap.
+       *
+       * OCC does not provide a "list all content pages" API.
+       * Use this configuration to explicitly list CMS content page labels
+       * that should appear in the sitemap.
+       *
+       * Each label should match the CMS page `label` field (e.g., '/faq', '/about').
+       *
+       * Example: ['/faq', '/about', '/contact', '/terms']
+       */
+      cmsContentPageLabels?: string[];
+    };
+    catalogs: {
+      excludes: string[];
+      versionId: 'Online' | 'Staged' | (string & {});
     };
   };
 }
@@ -85,10 +109,16 @@ declare module '@spartacus/core' {
 export const defaultSitemapConfig: SitemapConfig = {
   sitemap: {
     maxUrlsPerSitemap: 50000,
+    outputDir: './dist/sitemaps',
     routes: {
       includeAuthFlowRoutes: false,
       includeProtectedRoutes: false,
       excludes: [],
+      cmsContentPageLabels: [],
     },
+    catalogs: {
+      excludes: [],
+      versionId: '',
+    }
   },
 };

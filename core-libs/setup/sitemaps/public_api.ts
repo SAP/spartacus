@@ -10,6 +10,7 @@ export * from './config/index';
 // Models (interfaces, abstract classes, tokens)
 export * from './model/sitemap.model';
 export * from './model/route-params-enumerator';
+export * from './model/streaming.model';
 
 // Utilities
 export * from './utils/index';
@@ -20,8 +21,9 @@ export * from './enumerators/index';
 // Services
 export * from './services/index';
 
-// SSR-Bridge (Angular generates sitemaps, Express serves them)
-export * from './ssr-bridge/index';
-
-// Express middleware (serving only)
+// Express middleware (static file serving)
 export * from './express/index';
+
+// CLI / File-based generation (standalone, no Express dependency)
+export * from './cli/sitemap-file-orchestrator';
+

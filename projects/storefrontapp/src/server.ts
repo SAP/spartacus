@@ -12,9 +12,6 @@ import {
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
-import {
-  setupSitemapServing,
-} from '@spartacus/setup/sitemaps';
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -40,10 +37,6 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
-
-  // Sitemap: Angular generates sitemaps in SSR context (via provideSitemapGenerator),
-  // Express only serves the pre-generated XML from in-memory shared state.
-  setupSitemapServing(server);
 
   server.set('trust proxy', 'loopback');
 

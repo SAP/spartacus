@@ -24,3 +24,8 @@ const bootstrap = (context: BootstrapContext) =>
   bootstrapApplication(AppComponent, config, context);
 
 export default bootstrap;
+
+// Re-export renderApplication so the standalone sitemap CLI can use
+// the pre-compiled version from the built server bundle.
+export { renderApplication } from '@angular/platform-server';
+
