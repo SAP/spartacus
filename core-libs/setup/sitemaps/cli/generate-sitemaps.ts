@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /*
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
