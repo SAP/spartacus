@@ -12,6 +12,7 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 import { OpfTokenisationSavedCardsToggleComponent } from './components/opf-tokenisation-saved-cards-toggle/opf-tokenisation-saved-cards-toggle.component';
 import { OpfTokenisationNewPaymentsHeadingComponent } from './components/opf-tokenisation-new-payments-heading/opf-tokenisation-new-payments-heading.component';
 import { OpfTokenisationPaymentMethodComponent } from './components/opf-tokenisation-payment-method';
+import { OpfTokenisationAccountPaymentMethodsModule } from './components/opf-tokenisation-account-payment-methods/opf-tokenisation-account-payment-methods.module';
 
 export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -25,6 +26,7 @@ export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
+  imports: [OpfTokenisationAccountPaymentMethodsModule],
   providers: [
     provideDefaultConfigFactory(defaultOpfTokenisationCmsComponentsConfig),
     provideOutlet({
