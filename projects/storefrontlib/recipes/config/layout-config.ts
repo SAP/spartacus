@@ -136,7 +136,7 @@ export const layoutConfig: LayoutConfig = {
 };
 
 /**
- * Factory for layout configuration.
+ * Factory for layout configuration. Test
  */
 export function layoutConfigFactory(): LayoutConfig {
   const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
