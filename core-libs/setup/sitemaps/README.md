@@ -170,6 +170,150 @@ dist/sitemaps/
 
 ---
 
+## 🔮 Planned: Per-Type File Generation for Cron Jobs
+
+> **Status:** Planned for Phase 3. Not yet implemented.
+
+### Motivation
+
+In large-scale deployments, different entity types have very different change frequencies:
+- **Products** change frequently (prices, availability) → regenerate daily or even hourly
+- **Categories / Brands** change rarely → regenerate weekly
+- **Static / CMS pages** almost never change → regenerate monthly
+
+Currently, the CLI regenerates **all types at once** in a single run. For sites with millions
+of products, this means a long-running process that has to re-fetch categories and CMS pages
+even if only products have changed.
+
+### Planned Architecture
+
+The CLI will accept a `--type` argument that filters which `RouteParamsEnumerator` types
+are invoked during generation. Each type produces its own set of sitemap files:
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│  Cron Schedule                                                             │
+│                                                                            │
+│  ┌──────────────────────────────────────────────────────┐                  │
+│  │ */30 * * * *  (every 30 min)                         │                  │
+│  │   node generate-sitemaps.mjs --type product          │──▶ products      │
+│  └──────────────────────────────────────────────────────┘                  │
+│  ┌──────────────────────────────────────────────────────┐                  │
+│  │ 0 3 * * 0     (weekly, Sunday 3 AM)                  │                  │
+│  │   node generate-sitemaps.mjs --type category,brand   │──▶ categories,   │
+│  └──────────────────────────────────────────────────────┘    brands        │
+│  ┌──────────────────────────────────────────────────────┐                  │
+│  │ 0 4 1 * *     (monthly, 1st at 4 AM)                │                  │
+│  │   node generate-sitemaps.mjs --type static,cms       │──▶ static pages  │
+│  └──────────────────────────────────────────────────────┘                  │
+│  ┌──────────────────────────────────────────────────────┐                  │
+│  │ After any --type run:                                │                  │
+│  │   node generate-sitemaps.mjs --rebuild-index         │──▶ sitemap.xml   │
+│  └──────────────────────────────────────────────────────┘    (index only)  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Planned CLI Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `--type <types>` | Comma-separated list of route types to generate (e.g., `product`, `category`, `brand`, `static`, `cms`). Corresponds to `cxRoute` values of `RouteParamsEnumerator`. |
+| `--rebuild-index` | Only regenerate the master `sitemap.xml` index from existing files on disk, without running any enumerator. |
+
+### Planned File Structure (Per-Type)
+
+```
+dist/sitemaps/
+├── sitemap.xml                                    # Master index (all types)
+├── electronics-spa/
+│   ├── sitemap-product-en-1.xml                   # Products chunk 1
+│   ├── sitemap-product-en-2.xml                   # Products chunk 2
+│   ├── sitemap-category-en.xml                    # Categories
+│   ├── sitemap-brand-en.xml                       # Brands
+│   ├── sitemap-static-en.xml                      # Static pages (home, etc.)
+│   └── sitemap-cms-en.xml                         # CMS content pages
+└── apparel-uk-spa/
+    ├── sitemap-product-en-USD-1.xml
+    ├── sitemap-category-en-USD.xml
+    └── sitemap-static-en-USD.xml
+```
+
+### Planned Behavior
+
+1. **`--type product`** → only invokes `ProductRouteParamsEnumerator`,
+   writes `sitemap-product-*.xml` files.
+2. **`--type category,brand`** → invokes `CategoryRouteParamsEnumerator`
+   and `BrandRouteParamsEnumerator`.
+3. **Without `--type`** → current behavior (all enumerators run, all files regenerated).
+4. **`--rebuild-index`** → scans the output directory for all existing
+   `sitemap-*.xml` files, rebuilds only the master `sitemap.xml` index.
+   This allows per-type runs to update individual file sets
+   and then a final index rebuild combines them.
+
+### CCV2 / Kubernetes CronJob Example
+
+```yaml
+# cron-sitemap-products.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sitemap-products
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: sitemap-gen
+              image: my-storefront:latest
+              command:
+                - node
+                - dist/storefrontapp/server/generate-sitemaps.mjs
+                - --type
+                - product
+                - --output
+                - /shared-volume/sitemaps
+                - --occ-url
+                - https://api.example.com
+              volumeMounts:
+                - name: sitemaps
+                  mountPath: /shared-volume/sitemaps
+          restartPolicy: OnFailure
+          volumes:
+            - name: sitemaps
+              persistentVolumeClaim:
+                claimName: sitemaps-pvc
+---
+# cron-sitemap-index.yaml — runs after type-specific jobs
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sitemap-index-rebuild
+spec:
+  schedule: "5,35 * * * *"   # 5 min after product cron
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: sitemap-index
+              image: my-storefront:latest
+              command:
+                - node
+                - dist/storefrontapp/server/generate-sitemaps.mjs
+                - --rebuild-index
+                - --output
+                - /shared-volume/sitemaps
+          restartPolicy: OnFailure
+          volumes:
+            - name: sitemaps
+              persistentVolumeClaim:
+                claimName: sitemaps-pvc
+```
+
+---
+
 ## File Structure
 
 ```
