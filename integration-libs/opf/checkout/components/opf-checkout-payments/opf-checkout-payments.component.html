@@ -9,6 +9,13 @@
     <ng-container *ngIf="!activeConfigurationsState?.loading; else loading">
       <div class="cx-payment-options-list">
         <ng-content></ng-content>
+
+        <ng-template
+          [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
+          [cxOutletContext]="outletContext$"
+        >
+        </ng-template>
+
         <div
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
@@ -22,6 +29,7 @@
                   class="form-check-input"
                   role="radio"
                   type="radio"
+                  name="paymentId"
                   [attr.aria-checked]="
                     (paymentDisabled$ | async) &&
                     configuration.id === selectedPaymentId
