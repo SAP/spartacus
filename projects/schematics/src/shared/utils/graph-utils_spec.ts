@@ -198,6 +198,7 @@ describe('Graph utils', () => {
           "OPF-Base",
           "OPF-Payment",
           "OPF-Checkout",
+          "OPF-Tokenisation",
           "OPF-B2B-Checkout",
           "Personalization",
           "TMS-AEPL",

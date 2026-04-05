@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { provideOutlet } from '@spartacus/storefront';
 
 import { NgModule } from '@angular/core';
 import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
@@ -27,8 +27,7 @@ import { OpfGiftCardOrderSummaryModule } from './opf-gift-card-order-summary';
   ],
   providers: [
     provideOutlet({
-      id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS,
-      position: OutletPosition.BEFORE,
+      id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_SAVED_PAYMENT_OPTIONS,
       component: OpfGiftCardApplyComponent,
     }),
   ],

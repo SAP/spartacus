@@ -11,6 +11,13 @@
         <ng-content></ng-content>
         <div *ngIf="!(opfPaymentEventsService.isGiftCardCoveredTotalAmountEvent$ | async)"
         >
+
+        <ng-template
+          [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
+          [cxOutletContext]="outletContext$"
+        >
+        </ng-template>
+
         <div
           *ngFor="let configuration of activeConfigurationsState?.data?.value"
         >
@@ -24,6 +31,7 @@
                   class="form-check-input"
                   role="radio"
                   type="radio"
+                  name="paymentId"
                   [attr.aria-checked]="
                     (paymentDisabled$ | async) &&
                     configuration.id === selectedPaymentId

@@ -408,6 +408,12 @@
       "@spartacus/opps": ["dist/opps"],
       "@spartacus/opps/root": ["dist/opps/root"],
       "@spartacus/opf": ["dist/opf"],
+      "@spartacus/opf/tokenisation": ["dist/opf/tokenisation"],
+      "@spartacus/opf/tokenisation/root": ["dist/opf/tokenisation/root"],
+      "@spartacus/opf/tokenisation/core": ["dist/opf/tokenisation/core"],
+      "@spartacus/opf/tokenisation/components": [
+        "dist/opf/tokenisation/components"
+      ],
       "@spartacus/opf/quick-buy": ["dist/opf/quick-buy"],
       "@spartacus/opf/quick-buy/root": ["dist/opf/quick-buy/root"],
       "@spartacus/opf/quick-buy/opf-api": ["dist/opf/quick-buy/opf-api"],

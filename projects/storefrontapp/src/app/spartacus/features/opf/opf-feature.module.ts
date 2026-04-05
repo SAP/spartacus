@@ -64,6 +64,10 @@ import {
   defaultGiftCardCartOccEndpointsConfig,
   defaultOccOpfGiftCardOrderEndpointsConfig,
 } from '@spartacus/opf/gift-card/occ';
+import{
+  OPF_TOKENISATION_FEATURE,
+  OpfTokenisationRootModule,
+} from '@spartacus/opf/tokenisation/root';
 
 const extensionProviders: Provider[] = [];
 if (environment.b2b) {
@@ -91,6 +95,7 @@ extensionProviders.push(
     OpfGlobalFunctionsRootModule,
     OpfQuickBuyRootModule,
     OpfGiftCardRootModule,
+    OpfTokenisationRootModule,
   ],
   providers: [
     provideConfig({
@@ -130,6 +135,12 @@ extensionProviders.push(
         [OPF_GIFT_CARD_FEATURE]: {
           module: () =>
             import('@spartacus/opf/gift-card').then((m) => m.OpfGiftCardModule),
+        },
+        [OPF_TOKENISATION_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/tokenisation').then(
+              (m) => m.OpfTokenisationModule
+            ),
         },
       },
     }),
