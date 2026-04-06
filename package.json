@@ -181,7 +181,7 @@
     "@angular/service-worker": "^21.2.4",
     "@angular/ssr": "^21.2.3",
     "@fontsource/open-sans": "^5.2.7",
-    "@fortawesome/fontawesome-free": "7.1.0",
+    "@fortawesome/fontawesome-free": "7.2.0",
     "@ng-select/ng-select": "^21.1.4",
     "@ngrx/effects": "^21.0.1",
     "@ngrx/operators": "^21.0.1",
