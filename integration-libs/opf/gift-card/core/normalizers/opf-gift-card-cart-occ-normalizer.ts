@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Converter, Occ } from '@spartacus/core';
 import {
   OpfGiftCardSummary,
   OpfGiftCards,
 } from '@spartacus/opf/gift-card/root';
 
 import { Cart } from '@spartacus/cart/base/root';
-import { Converter } from '@spartacus/core';
 import { Injectable } from '@angular/core';
 
 /**
@@ -21,23 +21,27 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class OpfGiftCardCartOccNormalizer implements Converter<any, Cart> {
-  convert(source: any, target?: Cart): Cart {
+export class OpfGiftCardCartOccNormalizer
+  implements Converter<Occ.Cart, Cart>
+{
+  convert(source: Occ.Cart, target?: Cart): Cart {
     if (target === undefined) {
       target = { ...(source as any) } as Cart;
     }
 
     // Map sapGiftCards to opfGiftCards
-    if (source.sapGiftCards && Array.isArray(source.sapGiftCards)) {
-      target.opfGiftCards = source.sapGiftCards.map((card: any) =>
+    const sapGiftCards = (source as any).sapGiftCards;
+    if (sapGiftCards && Array.isArray(sapGiftCards)) {
+      target.opfGiftCards = sapGiftCards.map((card: any) =>
         this.convertGiftCard(card)
       );
     }
 
     // Map sapGiftCardSummary to opfGiftCardSummary
-    if (source.sapGiftCardSummary) {
+    const sapGiftCardSummary = (source as any).sapGiftCardSummary;
+    if (sapGiftCardSummary) {
       target.opfGiftCardSummary = this.convertGiftCardSummary(
-        source.sapGiftCardSummary
+        sapGiftCardSummary
       );
     }
 
@@ -54,7 +58,7 @@ export class OpfGiftCardCartOccNormalizer implements Converter<any, Cart> {
     };
   }
 
-  private convertGiftCardSummary(source: any): OpfGiftCardSummary {
+  private convertGiftCardSummary(source: SourceGiftCardSummary): OpfGiftCardSummary {
     return {
       totalBalance: source.totalBalance,
       totalAppliedAmount: source.totalAppliedAmount,

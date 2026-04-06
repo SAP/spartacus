@@ -166,9 +166,6 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.appliedGiftCards$.subscribe((x) => {
-      console.log('appliedGiftCards$', x);
-    });
     this.subscription.add(
       this.giftCardFacade
         .isGiftCardCoveredTotalAmount(this.cart$)

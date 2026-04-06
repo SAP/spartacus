@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Converter } from '@spartacus/core';
+import { Converter, Occ } from '@spartacus/core';
+
 import { Injectable } from '@angular/core';
 import { OpfGiftCardSummary } from '@spartacus/opf/gift-card/root';
 import { Order } from '@spartacus/order/root';
@@ -16,16 +17,19 @@ import { Order } from '@spartacus/order/root';
 @Injectable({
   providedIn: 'root',
 })
-export class OpfGiftCardOrderOccNormalizer implements Converter<any, Order> {
-  convert(source: any, target?: Order): Order {
+export class OpfGiftCardOrderOccNormalizer
+  implements Converter<Occ.Order, Order>
+{
+  convert(source: Occ.Order, target?: Order): Order {
     if (target === undefined) {
       target = { ...(source as any) } as Order;
     }
 
     // Map sapGiftCardSummary to opfGiftCardSummary
-    if (source.sapGiftCardSummary) {
+    const sapGiftCardSummary = (source as any).sapGiftCardSummary;
+    if (sapGiftCardSummary) {
       target.opfGiftCardSummary = this.convertGiftCardSummary(
-        source.sapGiftCardSummary
+        sapGiftCardSummary
       );
     }
 
