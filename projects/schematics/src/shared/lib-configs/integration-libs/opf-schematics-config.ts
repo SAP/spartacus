@@ -12,6 +12,7 @@ import {
   OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
   OPF_PAYMENT_FEATURE_NAME,
   OPF_QUICK_BUY_FEATURE_NAME,
+  OPF_TOKENISATION_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   SPARTACUS_BOOTSTRAP_FUNCTIONS,
   SPARTACUS_BOOTSTRAP_MIXINS,
@@ -34,6 +35,8 @@ import {
   SPARTACUS_OPF_PAYMENT_ROOT,
   SPARTACUS_OPF_QUICK_BUY,
   SPARTACUS_OPF_QUICK_BUY_ROOT,
+  SPARTACUS_OPF_TOKENISATION,
+  SPARTACUS_OPF_TOKENISATION_ROOT,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
@@ -82,6 +85,11 @@ export const OPF_CTA_ROOT_MODULE = 'OpfCtaRootModule';
 export const OPF_QUICK_BUY_FEATURE_NAME_CONSTANT = 'OPF_QUICK_BUY_FEATURE';
 export const OPF_QUICK_BUY_MODULE = 'OpfQuickBuyModule';
 export const OPF_QUICK_BUY_ROOT_MODULE = 'OpfQuickBuyRootModule';
+
+export const OPF_TOKENISATION_FEATURE_NAME_CONSTANT =
+  'OPF_TOKENISATION_FEATURE';
+export const OPF_TOKENISATION_MODULE = 'OpfTokenisationModule';
+export const OPF_TOKENISATION_ROOT_MODULE = 'OpfTokenisationRootModule';
 
 export const OPF_PAYMENT_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
 export const OPF_PAYMENT_MODULE = 'OpfPaymentModule';
@@ -353,6 +361,37 @@ export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_OPF_QUICK_BUY_ROOT,
     namedImports: [OPF_QUICK_BUY_FEATURE_NAME_CONSTANT],
+  },
+  styles: {
+    scssFileName: OPF_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
+  },
+};
+
+export const OPF_TOKENISATION_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: OPF_TOKENISATION_FEATURE_NAME,
+    mainScope: SPARTACUS_OPF,
+    featureScope: SPARTACUS_OPF_TOKENISATION,
+  },
+  folderName: OPF_FOLDER_NAME,
+  moduleName: OPF_MODULE_NAME,
+  featureModule: {
+    name: OPF_TOKENISATION_MODULE,
+    importPath: SPARTACUS_OPF_TOKENISATION,
+  },
+  rootModule: {
+    name: OPF_TOKENISATION_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_TOKENISATION_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_OPF_TOKENISATION_ROOT,
+    namedImports: [OPF_TOKENISATION_FEATURE_NAME_CONSTANT],
   },
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,

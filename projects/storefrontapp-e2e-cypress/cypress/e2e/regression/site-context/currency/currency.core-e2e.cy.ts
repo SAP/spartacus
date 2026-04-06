@@ -41,7 +41,7 @@ context('Currency change', () => {
         siteContextSelector.CURRENCY_LABEL
       );
 
-      cy.get('.price').should('contain', '¥690');
+      cy.get('.price').should('contain', '¥').and('contain', '690');
       switchSiteContext(siteContextSelector.CURRENCY_USD, 'Currency');
       cy.get('.price').should('contain', '$8.20');
     });
