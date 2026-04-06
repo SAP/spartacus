@@ -1,0 +1,15 @@
+<!-- ADD SHOWHEADER LOGIC HERE -->
+<ng-container *ngIf="context$ | async as ctx">
+  <div
+    class="cx-payment-options-section"
+    [attr.aria-label]="
+      ctx.newPaymentHeading || ('opfCheckout.newPaymentHeading' | cxTranslate)
+    "
+  >
+    <h3 class="cx-payment-section-heading">
+      {{
+        ctx.newPaymentHeading || ('opfCheckout.newPaymentHeading' | cxTranslate)
+      }}
+    </h3>
+  </div>
+</ng-container>
