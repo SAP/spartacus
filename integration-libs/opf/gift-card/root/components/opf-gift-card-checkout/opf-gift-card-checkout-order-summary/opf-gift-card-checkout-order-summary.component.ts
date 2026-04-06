@@ -10,7 +10,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18nModule } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary/opf-gift-card-order-summary.component';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
 
 @Component({
   selector: 'cx-opf-gift-card-checkout-order-summary',

@@ -18,8 +18,8 @@ import {
 } from '@spartacus/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
-import { OpfGiftCards } from '../../root/model/opf-gift-card.model';
+import { OpfGiftCardFacade } from '../../facade';
+import { OpfGiftCards } from '../../model';
 import { OutletModule } from '@spartacus/storefront';
 
 @Component({

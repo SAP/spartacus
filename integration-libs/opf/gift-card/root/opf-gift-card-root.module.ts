@@ -4,19 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import {
   CmsConfig,
   ConfigModule,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { OpfGiftCardComponentsModule } from '../components/opf-gift-card-components.module';
-import { defaultGiftCardCartOccEndpointsConfig } from '../occ/config';
-import { defaultOccOpfGiftCardOrderEndpointsConfig } from '../occ/config/default-occ-opf-gift-card-order-config';
+
+import { NgModule } from '@angular/core';
+import { OPF_GIFT_CARD_FEATURE } from './feature-name';
+import { OpfGiftCardApplyModule } from './components/opf-gift-card-apply';
+import { OpfGiftCardCheckoutModule } from './components/opf-gift-card-checkout';
+import { OpfGiftCardOrderConfirmationModule } from './components/opf-gift-card-order-confirmation';
+import { OpfGiftCardOrderDetailsModule } from './components/opf-gift-card-order-details';
 import { defaultOpfGiftCardCartConfig } from './config/default-gift-card-cart-config';
 import { opfGiftCardIconConfig } from './config/opf-gift-card-icon.config';
-import { OPF_GIFT_CARD_FEATURE } from './feature-name';
 
 export const OPF_GIFT_CARD_FEATURE_CMS_COMPONENTS: string[] = [
   'CheckoutOrderSummary',
@@ -37,14 +39,15 @@ export function defaultOpfGiftCardComponentsConfig() {
 
 @NgModule({
   imports: [
-    OpfGiftCardComponentsModule,
     ConfigModule.withConfig(opfGiftCardIconConfig),
+    OpfGiftCardApplyModule,
+    OpfGiftCardCheckoutModule,
+    OpfGiftCardOrderDetailsModule,
+    OpfGiftCardOrderConfirmationModule,
   ],
   providers: [
-    provideDefaultConfig(defaultGiftCardCartOccEndpointsConfig),
-    provideDefaultConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
-    provideDefaultConfig(defaultOpfGiftCardCartConfig),
     provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
+    provideDefaultConfig(defaultOpfGiftCardCartConfig),
   ],
 })
 export class OpfGiftCardRootModule {}

@@ -18,7 +18,7 @@ import { LaunchRenderStrategy, OutletContextData } from '@spartacus/storefront';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardApplyComponent } from './opf-gift-card-apply.component';
-import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { OpfGiftCardFacade } from '@spartacus/opf/gift-card/root';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 class MockTranslationService {
@@ -77,7 +77,9 @@ describe('OpfGiftCardApplyComponent', () => {
 
     mockActiveCartFacade.getActive.and.returnValue(cartSubject.asObservable());
     mockGiftCardFacade.isGiftCardEnabled.and.returnValue(of(true));
-    mockGiftCardFacade.isGiftCardCoveredTotalAmount.and.returnValue(of(false));
+    mockGiftCardFacade.isGiftCardCoveredTotalAmount.and.callFake(() =>
+      of(false)
+    );
 
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardApplyComponent, I18nTestingModule],

@@ -9,7 +9,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary/opf-gift-card-order-summary.component';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { OutletModule } from '@spartacus/storefront';
 
