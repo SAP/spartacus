@@ -10,15 +10,13 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  OpfGiftCardCheckoutModule,
-  OpfGiftCardOrderConfirmationModule,
-  OpfGiftCardOrderDetailsModule,
-} from './components';
 
 import { NgModule } from '@angular/core';
 import { OPF_GIFT_CARD_FEATURE } from './feature-name';
 import { OpfGiftCardApplyModule } from './components/opf-gift-card-apply';
+import { OpfGiftCardCheckoutModule } from './components/opf-gift-card-checkout';
+import { OpfGiftCardOrderConfirmationModule } from './components/opf-gift-card-order-confirmation';
+import { OpfGiftCardOrderDetailsModule } from './components/opf-gift-card-order-details';
 import { defaultOpfGiftCardCartConfig } from './config/default-gift-card-cart-config';
 import { opfGiftCardIconConfig } from './config/opf-gift-card-icon.config';
 
