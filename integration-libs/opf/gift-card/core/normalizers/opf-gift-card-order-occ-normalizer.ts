@@ -21,9 +21,7 @@ export class OpfGiftCardOrderOccNormalizer
   implements Converter<Occ.Order, Order>
 {
   convert(source: Occ.Order, target?: Order): Order {
-    if (target === undefined) {
-      target = { ...(source as any) } as Order;
-    }
+    target ??= { ...(source as any) } as Order;
 
     // Map sapGiftCardSummary to opfGiftCardSummary
     const sapGiftCardSummary = (source as any).sapGiftCardSummary;

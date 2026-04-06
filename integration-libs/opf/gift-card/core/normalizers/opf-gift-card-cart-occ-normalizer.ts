@@ -25,9 +25,7 @@ export class OpfGiftCardCartOccNormalizer
   implements Converter<Occ.Cart, Cart>
 {
   convert(source: Occ.Cart, target?: Cart): Cart {
-    if (target === undefined) {
-      target = { ...(source as any) } as Cart;
-    }
+    target ??= { ...(source as any) } as Cart;
 
     // Map sapGiftCards to opfGiftCards
     const sapGiftCards = (source as any).sapGiftCards;
@@ -58,7 +56,7 @@ export class OpfGiftCardCartOccNormalizer
     };
   }
 
-  private convertGiftCardSummary(source: SourceGiftCardSummary): OpfGiftCardSummary {
+  private convertGiftCardSummary(source: any): OpfGiftCardSummary {
     return {
       totalBalance: source.totalBalance,
       totalAppliedAmount: source.totalAppliedAmount,
