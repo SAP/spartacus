@@ -3,18 +3,18 @@
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
+import { OPF_TOKENISATION_FEATURE, OpfTokenisationRootModule } from "@spartacus/opf/tokenisation/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    OpfQuickBuyRootModule
+    OpfTokenisationRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [OPF_QUICK_BUY_FEATURE]: {
+      [OPF_TOKENISATION_FEATURE]: {
         module: () =>
-          import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
+          import('@spartacus/opf/tokenisation').then((m) => m.OpfTokenisationModule),
       },
     }
   })]
@@ -26,18 +26,18 @@ export class OpfFeatureModule { }
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 2`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from "@spartacus/core";
-import { OPF_QUICK_BUY_FEATURE, OpfQuickBuyRootModule } from "@spartacus/opf/quick-buy/root";
+import { OPF_TOKENISATION_FEATURE, OpfTokenisationRootModule } from "@spartacus/opf/tokenisation/root";
 
 @NgModule({
   declarations: [],
   imports: [
-    OpfQuickBuyRootModule
+    OpfTokenisationRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [OPF_QUICK_BUY_FEATURE]: {
+      [OPF_TOKENISATION_FEATURE]: {
         module: () =>
-          import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
+          import('@spartacus/opf/tokenisation').then((m) => m.OpfTokenisationModule),
       },
     }
   })]
