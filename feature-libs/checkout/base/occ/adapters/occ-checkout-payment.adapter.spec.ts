@@ -1024,4 +1024,83 @@ describe('OccCheckoutPaymentAdapter', () => {
       expect(params['billTo_state']).toEqual('');
     });
   });
+
+  describe(`deletePaymentDetails`, () => {
+    it(`should send a DELETE request to the setCartPaymentDetails endpoint`, (done) => {
+      service
+        .deletePaymentDetails(userId, cartId)
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+          done();
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'DELETE' &&
+          req.url === `users/${userId}/carts/${cartId}/paymentdetails`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'delete').and.returnValue(
+          throwError(() => mockJaloError)
+        );
+
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .deletePaymentDetails(userId, cartId)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
+
+        tick(4200);
+
+        expect(result).toEqual(mockNormalizedJaloError);
+
+        subscription.unsubscribe();
+      }));
+
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
+
+        spyOn(httpClient, 'delete').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(cartData);
+            }
+            return throwError(() => mockJaloError);
+          })
+        );
+
+        let result: unknown;
+        const subscription = service
+          .deletePaymentDetails(userId, cartId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
+
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
+
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
+
+        // 3*3*300 = 2700
+        tick(2700);
+
+        expect(result).toEqual(cartData);
+        subscription.unsubscribe();
+      }));
+    });
+  });
 });
