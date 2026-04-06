@@ -28,6 +28,8 @@ scripts/install/htpasswd
 
 # Environment config file
 scripts/install/config.sh
+scripts/install/config.default.sh-e
+scripts/install/config.sh-e
 
 # IDEs and editors
 /.idea
