@@ -42,7 +42,7 @@ import { OpfGiftCardFacade } from '../../facade';
 import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied';
 import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout';
 import { OpfGiftCards } from '../../model';
- 
+
 @Component({
   selector: 'cx-opf-gift-card-apply',
   templateUrl: './opf-gift-card-apply.component.html',
@@ -166,9 +166,9 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.appliedGiftCards$.subscribe((x)=>{
+    this.appliedGiftCards$.subscribe((x) => {
       console.log('appliedGiftCards$', x);
-    })
+    });
     this.subscription.add(
       this.giftCardFacade
         .isGiftCardCoveredTotalAmount(this.cart$)

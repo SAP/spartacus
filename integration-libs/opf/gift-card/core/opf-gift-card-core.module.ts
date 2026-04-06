@@ -32,4 +32,3 @@ import { facadeProviders } from './facade/facade-providers';
   ],
 })
 export class OpfGiftCardCoreModule {}
-

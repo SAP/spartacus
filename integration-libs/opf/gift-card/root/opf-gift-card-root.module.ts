@@ -10,7 +10,11 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { OpfGiftCardCheckoutModule, OpfGiftCardOrderConfirmationModule, OpfGiftCardOrderDetailsModule } from './components';
+import {
+  OpfGiftCardCheckoutModule,
+  OpfGiftCardOrderConfirmationModule,
+  OpfGiftCardOrderDetailsModule,
+} from './components';
 
 import { NgModule } from '@angular/core';
 import { OPF_GIFT_CARD_FEATURE } from './feature-name';
@@ -38,7 +42,10 @@ export function defaultOpfGiftCardComponentsConfig() {
 @NgModule({
   imports: [
     ConfigModule.withConfig(opfGiftCardIconConfig),
-    OpfGiftCardApplyModule,OpfGiftCardCheckoutModule,OpfGiftCardOrderDetailsModule,OpfGiftCardOrderConfirmationModule
+    OpfGiftCardApplyModule,
+    OpfGiftCardCheckoutModule,
+    OpfGiftCardOrderDetailsModule,
+    OpfGiftCardOrderConfirmationModule,
   ],
   providers: [
     provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),

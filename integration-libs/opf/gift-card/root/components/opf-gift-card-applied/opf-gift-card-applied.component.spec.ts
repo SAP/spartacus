@@ -10,7 +10,7 @@ import { of, throwError } from 'rxjs';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CommonModule } from '@angular/common';
 import { OpfGiftCardAppliedComponent } from './opf-gift-card-applied.component';
-import { OpfGiftCardService } from '@spartacus/opf/gift-card/core'
+import { OpfGiftCardService } from '@spartacus/opf/gift-card/core';
 import { OutletModule } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 

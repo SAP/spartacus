@@ -11,6 +11,11 @@ import { OpfGiftCardOccModule } from '@spartacus/opf/gift-card/occ';
 import { OpfGiftCardRootModule } from './root/opf-gift-card-root.module';
 
 @NgModule({
-  imports: [OpfGiftCardComponentsModule,OpfGiftCardCoreModule, OpfGiftCardOccModule,OpfGiftCardRootModule],
+  imports: [
+    OpfGiftCardComponentsModule,
+    OpfGiftCardCoreModule,
+    OpfGiftCardOccModule,
+    OpfGiftCardRootModule,
+  ],
 })
 export class OpfGiftCardModule {}

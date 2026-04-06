@@ -5,4 +5,3 @@
  */
 
 export * from './opf-gift-card-components.module';
-

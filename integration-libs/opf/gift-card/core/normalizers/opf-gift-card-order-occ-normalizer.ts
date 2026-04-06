@@ -24,8 +24,9 @@ export class OpfGiftCardOrderOccNormalizer implements Converter<any, Order> {
 
     // Map sapGiftCardSummary to opfGiftCardSummary
     if (source.sapGiftCardSummary) {
-      target.opfGiftCardSummary =
-        this.convertGiftCardSummary(source.sapGiftCardSummary);
+      target.opfGiftCardSummary = this.convertGiftCardSummary(
+        source.sapGiftCardSummary
+      );
     }
 
     return target;

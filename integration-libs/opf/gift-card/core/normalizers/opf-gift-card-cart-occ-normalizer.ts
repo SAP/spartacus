@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OpfGiftCardSummary, OpfGiftCards } from '@spartacus/opf/gift-card/root';
+import {
+  OpfGiftCardSummary,
+  OpfGiftCards,
+} from '@spartacus/opf/gift-card/root';
 
 import { Cart } from '@spartacus/cart/base/root';
 import { Converter } from '@spartacus/core';
@@ -33,8 +36,9 @@ export class OpfGiftCardCartOccNormalizer implements Converter<any, Cart> {
 
     // Map sapGiftCardSummary to opfGiftCardSummary
     if (source.sapGiftCardSummary) {
-      target.opfGiftCardSummary =
-        this.convertGiftCardSummary(source.sapGiftCardSummary);
+      target.opfGiftCardSummary = this.convertGiftCardSummary(
+        source.sapGiftCardSummary
+      );
     }
 
     return target;
