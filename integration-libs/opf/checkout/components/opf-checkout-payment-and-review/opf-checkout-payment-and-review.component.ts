@@ -37,7 +37,7 @@ import {
   OpfCheckoutReviewCartDetailsModule,
 } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
-import { OpfCheckoutOutlets } from '../../root/model/opf-checkout-outlets.model';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 import { OutletModule } from '@spartacus/storefront';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 

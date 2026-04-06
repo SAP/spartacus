@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-gift-card-components.module';
-
+export * from './opf-gift-card-cart-occ-normalizer';
+export * from './opf-gift-card-order-occ-normalizer';

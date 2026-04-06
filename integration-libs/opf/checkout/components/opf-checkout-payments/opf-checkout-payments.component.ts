@@ -9,12 +9,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -44,9 +44,10 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
-import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-import { OpfCheckoutOutlets } from '../../root/model';
+import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
+import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+
 @Component({
   selector: 'cx-opf-checkout-payments',
   templateUrl: './opf-checkout-payments.component.html',

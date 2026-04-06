@@ -66,7 +66,7 @@
         }}
       </div>
     </div>
-    <div class="cx-summary-row" *ngIf="cart.totalDiscounts?.value > 0">
+    <div class="cx-summary-row" *ngIf="(cart.totalDiscounts?.value ?? 0)>0">
       {{ 'orderCost.discount' | cxTranslate }}
       {{ cart.totalDiscounts?.formattedValue }}
     </div>

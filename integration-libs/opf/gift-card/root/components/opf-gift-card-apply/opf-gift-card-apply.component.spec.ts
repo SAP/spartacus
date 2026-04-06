@@ -18,7 +18,7 @@ import { LaunchRenderStrategy, OutletContextData } from '@spartacus/storefront';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardApplyComponent } from './opf-gift-card-apply.component';
-import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { OpfGiftCardService } from '@spartacus/opf/gift-card/core';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 class MockTranslationService {
@@ -32,7 +32,7 @@ describe('OpfGiftCardApplyComponent', () => {
   let fixture: ComponentFixture<OpfGiftCardApplyComponent>;
 
   let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
-  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
+  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardService>;
   let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
   let mockPaymentEventsService: jasmine.SpyObj<OpfPaymentEventsService>;
 
@@ -61,7 +61,7 @@ describe('OpfGiftCardApplyComponent', () => {
       'reloadActiveCart',
     ]);
 
-    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardFacade', [
+    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardService', [
       'applyGiftCard',
       'isGiftCardEnabled',
       'isGiftCardCoveredTotalAmount',
@@ -83,7 +83,7 @@ describe('OpfGiftCardApplyComponent', () => {
       imports: [OpfGiftCardApplyComponent, I18nTestingModule],
       providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
-        { provide: OpfGiftCardFacade, useValue: mockGiftCardFacade },
+        { provide: OpfGiftCardService, useValue: mockGiftCardFacade },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         {
           provide: OpfPaymentEventsService,

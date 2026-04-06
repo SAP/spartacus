@@ -10,7 +10,7 @@ import { of, throwError } from 'rxjs';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CommonModule } from '@angular/common';
 import { OpfGiftCardAppliedComponent } from './opf-gift-card-applied.component';
-import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
+import { OpfGiftCardService } from '@spartacus/opf/gift-card/core'
 import { OutletModule } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 
@@ -19,14 +19,14 @@ describe('OpfGiftCardAppliedComponent', () => {
   let fixture: ComponentFixture<OpfGiftCardAppliedComponent>;
 
   let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
-  let mockGiftCardFacade: jasmine.SpyObj<OpfGiftCardFacade>;
+  let mockGiftCardService: jasmine.SpyObj<OpfGiftCardService>;
   let mockActiveCartFacade: jasmine.SpyObj<ActiveCartFacade>;
 
   beforeEach(async () => {
     mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
       'add',
     ]);
-    mockGiftCardFacade = jasmine.createSpyObj('OpfGiftCardFacade', [
+    mockGiftCardService = jasmine.createSpyObj('OpfGiftCardService', [
       'removeGiftCard',
     ]);
     mockActiveCartFacade = jasmine.createSpyObj('ActiveCartFacade', [
@@ -37,7 +37,7 @@ describe('OpfGiftCardAppliedComponent', () => {
       imports: [CommonModule, OutletModule, OpfGiftCardAppliedComponent],
       providers: [
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        { provide: OpfGiftCardFacade, useValue: mockGiftCardFacade },
+        { provide: OpfGiftCardService, useValue: mockGiftCardService },
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
         TranslatePipe,
       ],
@@ -54,10 +54,10 @@ describe('OpfGiftCardAppliedComponent', () => {
   it('should remove gift card successfully', () => {
     const giftCardId = '123';
 
-    mockGiftCardFacade.removeGiftCard.and.returnValue(of(undefined));
+    mockGiftCardService.removeGiftCard.and.returnValue(of(undefined));
     component.removeGiftCard(giftCardId);
 
-    expect(mockGiftCardFacade.removeGiftCard).toHaveBeenCalledWith(giftCardId);
+    expect(mockGiftCardService.removeGiftCard).toHaveBeenCalledWith(giftCardId);
     expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
     expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
       { key: 'opfGiftCard.removedSuccessfully' },
@@ -74,13 +74,13 @@ describe('OpfGiftCardAppliedComponent', () => {
 
     spyOn(console, 'error');
 
-    mockGiftCardFacade.removeGiftCard.and.returnValue(
+    mockGiftCardService.removeGiftCard.and.returnValue(
       throwError(() => errorResponse)
     );
 
     component.removeGiftCard(giftCardId);
 
-    expect(mockGiftCardFacade.removeGiftCard).toHaveBeenCalledWith(giftCardId);
+    expect(mockGiftCardService.removeGiftCard).toHaveBeenCalledWith(giftCardId);
     expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
       { raw: errorResponse.details[0].message },
       GlobalMessageType.MSG_TYPE_ERROR

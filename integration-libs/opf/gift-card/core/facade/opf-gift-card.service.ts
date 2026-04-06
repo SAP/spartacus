@@ -5,11 +5,6 @@
  */
 
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import {
-  OpfGiftCardBalanceRequest,
-  OpfGiftCardFacade,
-  OpfGiftCardResponse,
-} from '@spartacus/opf/gift-card/root';
 import { Injectable, inject } from '@angular/core';
 import { Observable, combineLatest, filter, switchMap, take } from 'rxjs';
 import {
@@ -17,6 +12,11 @@ import {
   OpfBaseFacade,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
+import {
+  OpfGiftCardBalanceRequest,
+  OpfGiftCardFacade,
+  OpfGiftCardResponse,
+} from '@spartacus/opf/gift-card/root';
 import { map, startWith } from 'rxjs/operators';
 
 import { OpfGiftCardConnector } from '../connectors';
