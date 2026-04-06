@@ -4,7 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-
-@NgModule({})
-export class OpfGiftCardComponentsModule {}
+export * from './opf-gift-card-cart-occ-normalizer';
+export * from './opf-gift-card-order-occ-normalizer';

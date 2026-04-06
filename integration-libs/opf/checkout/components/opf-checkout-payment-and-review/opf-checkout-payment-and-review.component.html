@@ -62,7 +62,9 @@
     ></cx-opf-checkout-terms-and-conditions-alert>
     <ng-container>
       <ng-template
-        [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_SAVED_PAYMENT_OPTIONS"
+        [cxOutlet]="
+          opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_SAVED_PAYMENT_OPTIONS
+        "
         [cxOutletContext]="{ disabled: paymentOptionsDisabled$ }"
       ></ng-template>
     </ng-container>

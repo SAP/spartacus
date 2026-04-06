@@ -15,7 +15,7 @@ import { Order, OrderFacade } from '@spartacus/order/root';
 
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary/opf-gift-card-order-summary.component';
+import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
 import { OutletModule } from '@spartacus/storefront';
 import { useFeatureStyles } from '@spartacus/core';
 

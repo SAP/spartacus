@@ -14,8 +14,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { OpfGiftCardFacade } from '@spartacus/opf/gift-card/root';
 import { OpfGiftCardOrderDetailTotalsComponent } from './opf-gift-card-order-detail-totals.component';
+import { OpfGiftCardService } from '@spartacus/opf/gift-card/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { OutletContextData } from '@spartacus/storefront';
 import { Store } from '@ngrx/store';
@@ -50,7 +50,7 @@ describe('OpfGiftCardOrderDetailTotalsComponent', () => {
       imports: [OpfGiftCardOrderDetailTotalsComponent],
       providers: [
         { provide: ActiveCartFacade, useValue: {} },
-        { provide: OpfGiftCardFacade, useValue: {} },
+        { provide: OpfGiftCardService, useValue: {} },
         { provide: OutletContextData, useValue: undefined },
         { provide: TranslationService, useValue: translationServiceSpy },
         { provide: Store, useValue: mockStore },
@@ -106,7 +106,7 @@ describe('OpfGiftCardOrderDetailTotalsComponent', () => {
       imports: [OpfGiftCardOrderDetailTotalsComponent],
       providers: [
         { provide: ActiveCartFacade, useValue: {} },
-        { provide: OpfGiftCardFacade, useValue: {} },
+        { provide: OpfGiftCardService, useValue: {} },
         {
           provide: OutletContextData,
           useValue: {

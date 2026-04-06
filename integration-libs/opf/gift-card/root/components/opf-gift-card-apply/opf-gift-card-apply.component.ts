@@ -38,10 +38,11 @@ import { map, shareReplay } from 'rxjs/operators';
 
 import { CommonModule } from '@angular/common';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
-import { OpfGiftCardFacade } from '../../root/facade/opf-gift-card.facade';
-import { OpfGiftCards } from '../../root/model/opf-gift-card.model';
-import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied/opf-gift-card-applied.component';
-import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout/opf-gift-card-checkout-place-order/opf-gift-card-checkout-place-order.component';
+import { OpfGiftCardFacade } from '../../facade';
+import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied';
+import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout';
+import { OpfGiftCards } from '../../model';
+
 @Component({
   selector: 'cx-opf-gift-card-apply',
   templateUrl: './opf-gift-card-apply.component.html',
@@ -165,6 +166,9 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
+    this.appliedGiftCards$.subscribe((x) => {
+      console.log('appliedGiftCards$', x);
+    });
     this.subscription.add(
       this.giftCardFacade
         .isGiftCardCoveredTotalAmount(this.cart$)

@@ -64,7 +64,7 @@ import {
   defaultGiftCardCartOccEndpointsConfig,
   defaultOccOpfGiftCardOrderEndpointsConfig,
 } from '@spartacus/opf/gift-card/occ';
-import{
+import {
   OPF_TOKENISATION_FEATURE,
   OpfTokenisationRootModule,
 } from '@spartacus/opf/tokenisation/root';
