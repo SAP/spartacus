@@ -51,6 +51,7 @@ export class CartDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // test CXSPA-12325 modifying code related file
     this.cart$ = this.activeCartService.getActive();
 
     this.entries$ = this.activeCartService
