@@ -24,11 +24,11 @@ jobs:
     name: CI - Detect changes
     runs-on: ubuntu-latest
     outputs:
-      RUN_CI_CHECKS: ${{ steps.changes.outputs.RUN_CHECKS }}
+      RUN_CI_CHECKS: ${{ steps.detect_code_changes.outputs.RUN_CHECKS }}
     steps:
       - uses: actions/checkout@v6
       - name: Detect code changes
-        id: changes
+        id: detect_code_changes
         uses: ./.github/actions/detect-changes
 
   unit_tests:
