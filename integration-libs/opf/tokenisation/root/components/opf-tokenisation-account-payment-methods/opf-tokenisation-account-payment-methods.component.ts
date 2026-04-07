@@ -8,12 +8,13 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
+  GlobalMessageType,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../facade';
 
@@ -42,37 +43,65 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe();
+    this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
+      tap((paymentDetails) => {
+        // Set first payment method to DEFAULT if none is set
+        if (
+          paymentDetails.length > 0 &&
+          !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
+        ) {
+          this.setDefaultPaymentMethod(paymentDetails[0]);
+        }
+      })
+    );
     this.editCard = undefined;
     this.loading$ = this.tokenisationFacade.getPaymentMethodsLoading();
     this.tokenisationFacade.loadPaymentMethods();
   }
 
   getCardContent({
+    defaultPayment,
     expiryMonth,
     expiryYear,
     cardNumber,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
+      this.translation.translate('paymentCard.setAsDefault'),
       this.translation.translate('common.delete'),
       this.translation.translate('paymentCard.deleteConfirmation'),
       this.translation.translate('paymentCard.expires', {
         month: expiryMonth,
         year: expiryYear,
       }),
+      this.translation.translate('paymentCard.defaultPaymentMethod'),
     ]).pipe(
-      map(([textDelete, textDeleteConfirmation, textExpires]) => {
-        const actions: { name: string; event: string }[] = [];
-        actions.push({ name: textDelete, event: 'edit' });
-        const card: Card = {
-          role: 'application',
-          text: [cardNumber ?? '', textExpires],
-          actions,
-          deleteMsg: textDeleteConfirmation,
-        };
+      map(
+        ([
+          textSetAsDefault,
+          textDelete,
+          textDeleteConfirmation,
+          textExpires,
+          textDefaultPaymentMethod,
+        ]) => {
+          const actions: { name: string; event: string }[] = [];
+          if (!defaultPayment) {
+            actions.push({ name: textSetAsDefault, event: 'default' });
+          }
+          actions.push({ name: textDelete, event: 'edit' });
+          const card: Card = {
+            role: 'application',
+            header: defaultPayment ? textDefaultPaymentMethod : undefined,
+            text: [cardNumber ?? '', textExpires],
+            actions,
+            deleteMsg: textDeleteConfirmation,
+            label: defaultPayment
+              ? 'paymentCard.defaultPaymentLabel'
+              : 'paymentCard.additionalPaymentLabel',
+          };
 
-        return card;
-      })
+          return card;
+        }
+      )
     );
   }
 
@@ -89,5 +118,13 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   cancelCard(): void {
     this.editCard = undefined;
+  }
+
+  setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
+    this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethod.id ?? '');
+    this.globalMessageService?.add(
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 }
