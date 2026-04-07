@@ -10,7 +10,6 @@ export const defaultOccUserConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        /* eslint-disable max-len */
         paymentDetailsAll: 'users/${userId}/paymentdetails',
         paymentDetail: 'users/${userId}/paymentdetails/${paymentDetailId}',
         anonymousConsentTemplates: 'users/anonymous/consenttemplates',
