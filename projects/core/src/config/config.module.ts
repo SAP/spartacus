@@ -28,7 +28,7 @@ export class ConfigModule {
   static withConfig(config: Config): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      // eslint-disable-next-line @nx/workspace/use-provide-default-config
+      // eslint-disable-next-line @nx/workspace-use-provide-default-config
       providers: [provideConfig(config)],
     };
   }
@@ -47,7 +47,7 @@ export class ConfigModule {
   ): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
+      // eslint-disable-next-line @nx/workspace-use-provide-default-config-factory
       providers: [provideConfigFactory(configFactory, deps)],
     };
   }
@@ -60,7 +60,7 @@ export class ConfigModule {
   static forRoot(config: Config = {}): ModuleWithProviders<ConfigModule> {
     return {
       ngModule: ConfigModule,
-      // eslint-disable-next-line @nx/workspace/use-provide-default-config
+      // eslint-disable-next-line @nx/workspace-use-provide-default-config
       providers: [provideConfig(config)],
     };
   }

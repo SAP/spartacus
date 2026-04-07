@@ -41,7 +41,6 @@ export class CombinedInjector implements Injector {
   ): T;
   get(token: any, notFoundValue?: any): any;
   get(token: any, notFoundValue?: any, optional?: InjectOptions): any {
-    // eslint-disable-next-line no-bitwise
     if (optional && optional.self) {
       if (notFoundValue !== undefined) {
         return notFoundValue;
