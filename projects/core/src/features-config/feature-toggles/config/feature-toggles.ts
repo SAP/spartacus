@@ -457,7 +457,7 @@ export interface FeatureTogglesInterface {
    * CustomFormValidators.enhancedSecurePasswordValidators instead
    */
   useEnhancedSecurePasswordValidators?: boolean;
-  
+
   /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
    * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
