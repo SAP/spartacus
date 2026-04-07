@@ -52,6 +52,11 @@
   }
 
   &:has(.anonymous-consent-banner) ~ cx-scroll-to-top {
-    bottom: 180px;
+    bottom: $cx-anonymous-consent-banner-height;
   }
 }
+
+html:has(cx-anonymous-consent-management-banner .anonymous-consent-banner:not(.anonymous-consent-banner-hidden)) {
+  scroll-padding-bottom: $cx-anonymous-consent-banner-height;
+}
+
