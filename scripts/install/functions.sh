@@ -150,7 +150,7 @@ function add_opf {
         ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-B2B-Checkout"
     fi
 
-     if [ "${ADD_OPF}" = true ] && [ "${ADD_OPF_TOKENISATION}" = true ] ; then
+     if [[ "${ADD_OPF}" = true && "${ADD_OPF_TOKENISATION}" = true ]] ; then
         ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-Tokenisation"
     fi
 }
