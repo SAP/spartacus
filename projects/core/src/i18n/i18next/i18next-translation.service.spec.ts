@@ -194,6 +194,7 @@ describe('I18nextTranslationService', () => {
               .map((key) => `'${key}' from chunk 'testChunk'`)
               .join(', ')}.`;
             service.translate(key, testOptions).pipe(first()).subscribe();
+            // eslint-disable-next-line no-console
             expect(console.warn).toHaveBeenCalledWith(expected);
           });
         });

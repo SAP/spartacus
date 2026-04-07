@@ -249,6 +249,7 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
+        "eslintConfig": "projects/storefrontapp/eslint.config.mjs",
         "lintFilePatterns": [
           "projects/storefrontapp/**/*.ts",
           "projects/storefrontapp/**/*.html"
