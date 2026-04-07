@@ -74,9 +74,6 @@ describe('OpfGiftCardOrderDetailTotalsComponent', () => {
   it('should NOT subscribe if outlet is not provided', () => {
     fixture = TestBed.createComponent(OpfGiftCardOrderDetailTotalsComponent);
     component = fixture.componentInstance;
-
-    spyOn(console, 'log');
-    expect(console.log).not.toHaveBeenCalled();
   });
 
   it('should subscribe to outlet context and set cart', async () => {
