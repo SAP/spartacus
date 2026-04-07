@@ -102,14 +102,6 @@ export interface Cart {
   user?: Principal;
   quoteCode?: string;
   quotePurchaseOrderNumber?: string;
-  _availableOperations?: SAPAvailableOperation[];
-}
-export interface SAPAvailableOperation {
-  key: string;
-  value: {
-    available?: boolean;
-    name?: string;
-  };
 }
 
 export interface CartModification {

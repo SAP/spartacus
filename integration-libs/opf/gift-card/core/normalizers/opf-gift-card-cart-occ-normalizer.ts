@@ -39,6 +39,19 @@ export class OpfGiftCardCartOccNormalizer implements Converter<Occ.Cart, Cart> {
       target.opfGiftCardSummary =
         this.convertGiftCardSummary(sapGiftCardSummary);
     }
+    // Map _availableOperations to availableOperations
+    const _availableOperations = (source as any)._availableOperations;
+    if (Array.isArray(_availableOperations)) {
+      target.availableOperations = _availableOperations.map(
+        (operation: any) => ({
+          key: operation.key,
+          value: {
+            available: operation.value?.available,
+            name: operation.value?.name,
+          },
+        })
+      );
+    }
 
     return target;
   }

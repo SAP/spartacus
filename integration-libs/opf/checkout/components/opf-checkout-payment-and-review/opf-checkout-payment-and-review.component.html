@@ -60,14 +60,10 @@
       [isExplicit]="explicitTermsAndConditions.value"
       [ngClass]="['for-desktop']"
     ></cx-opf-checkout-terms-and-conditions-alert>
-    <ng-container>
-      <ng-template
-        [cxOutlet]="
-          opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_SAVED_PAYMENT_OPTIONS
-        "
-        [cxOutletContext]="{ disabled: paymentOptionsDisabled$ }"
-      ></ng-template>
-    </ng-container>
+    <ng-template
+      [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_SAVED_PAYMENT_OPTIONS"
+      [cxOutletContext]="{ disabled: paymentOptionsDisabled$ }"
+    ></ng-template>
   </cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details

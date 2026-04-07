@@ -13,10 +13,19 @@ declare module '@spartacus/cart/base/root' {
   interface Cart {
     opfGiftCards?: OpfGiftCards[];
     opfGiftCardSummary?: OpfGiftCardSummary;
+    availableOperations?: CartAvailableOperation[];
   }
 }
 declare module '@spartacus/order/root' {
   interface Order {
     opfGiftCardSummary?: OpfGiftCardSummary;
   }
+}
+
+export interface CartAvailableOperation {
+  key: string;
+  value: {
+    available?: boolean;
+    name?: string;
+  };
 }

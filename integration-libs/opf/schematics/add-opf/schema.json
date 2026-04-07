@@ -95,7 +95,7 @@
           {
             "value": "OPF-Gift-Card",
             "label": "OPF Gift Card",
-            "checked": true
+            "checked": false
           }
         ]
       }

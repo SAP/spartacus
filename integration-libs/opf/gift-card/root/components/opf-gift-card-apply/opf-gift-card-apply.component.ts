@@ -158,7 +158,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   isAddGiftCard$ = this.cart$.pipe(
     map((cart) => {
       return (
-        cart?._availableOperations?.find(
+        cart?.availableOperations?.find(
           (operations) => operations.key === 'applyGiftCard'
         )?.value?.available ?? true
       );
