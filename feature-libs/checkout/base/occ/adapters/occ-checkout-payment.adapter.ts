@@ -125,6 +125,26 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     });
   }
 
+  public deletePaymentDetails(
+    userId: string,
+    cartId: string
+  ): Observable<unknown> {
+    return this.http
+      .delete(
+        this.occEndpoints.buildUrl('setCartPaymentDetails', {
+          urlParams: { userId, cartId },
+        })
+      )
+      .pipe(
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
+  }
+
   getPaymentCardTypes(): Observable<CardType[]> {
     return this.http
       .get<Occ.CardTypeList>(this.getPaymentCardTypesEndpoint())

@@ -24,6 +24,7 @@ import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { CmsService, Page, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { OutletModule } from '@spartacus/storefront';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
@@ -56,6 +57,7 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-ter
     TranslatePipe,
     UrlPipe,
     OpfCheckoutReviewCartDetailsComponent,
+    OutletModule,
   ],
 })
 export class OpfCheckoutPaymentAndReviewComponent

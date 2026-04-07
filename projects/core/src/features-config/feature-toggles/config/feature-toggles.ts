@@ -451,6 +451,13 @@ export interface FeatureTogglesInterface {
    * Affects: cxNgSelectA11y
    */
   a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
+   * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableRemoveVoucherEndpoint?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -504,4 +511,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yVocalizeDropdownItemCount: false,
+  enableRemoveVoucherEndpoint: false,
 };
