@@ -10,7 +10,6 @@ export const defaultOccOrderConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        /* eslint-disable max-len */
         orderHistory: 'users/${userId}/orders',
         orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
         quoteCode: 'users/${userId}/orders/${orderId}?fields=sapQuoteCode',
@@ -23,8 +22,6 @@ export const defaultOccOrderConfig: OccConfig = {
         orderReturnDetail:
           'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
-        /* eslint-enable */
-
         /** scheduled replenishment endpoints start */
         replenishmentOrderDetails:
           'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',

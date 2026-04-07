@@ -1,0 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export enum OpfCheckoutOutlets {
+  OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS = 'cx-opf-checkout-before-payment-options',
+}
