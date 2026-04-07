@@ -45,6 +45,7 @@ describe('tryNormalizeHttpError', () => {
       spyOn(console, 'error');
       const error = 'xxx';
       tryNormalizeHttpError(error, logger);
+      // eslint-disable-next-line no-console
       expect(console.error).toHaveBeenCalledWith(
         'Error passed to tryNormalizeHttpError is not HttpErrorResponse instance',
         error
