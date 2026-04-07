@@ -135,15 +135,8 @@ export const layoutConfig: LayoutConfig = {
   },
 };
 
-/**
- * Factory for layout configuration.
- */
-export function layoutConfigFactory(): LayoutConfig {
-  const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
-  const featureToggles = inject(FeatureToggles);
-
+function applyUnifiedHeaderSlots(config: LayoutConfig): void {
   if (
-    featureToggles.unifiedDefaultHeaderSlotsAcrossBreakpoints &&
     config.layoutSlots &&
     config.layoutSlots.header &&
     'slots' in config.layoutSlots.header
@@ -162,20 +155,36 @@ export function layoutConfigFactory(): LayoutConfig {
       'NavigationBar',
     ];
   }
+}
+
+function applyWithoutPageFold(config: LayoutConfig): void {
+  const homepageConfig =
+    (config?.layoutSlots?.LandingPage2Template as SlotConfig) ?? {};
+  delete homepageConfig.pageFold;
+
+  const categoryPageConfig =
+    (config?.layoutSlots?.CategoryPageTemplate as SlotConfig) ?? {};
+  delete categoryPageConfig.pageFold;
+
+  const productDetailsPageConfig =
+    (config?.layoutSlots?.ProductDetailsPageTemplate as SlotConfig) ?? {};
+  delete productDetailsPageConfig.pageFold;
+  delete ((productDetailsPageConfig as SlotGroup).lg ?? {}).pageFold;
+}
+
+/**
+ * Factory for layout configuration.
+ */
+export function layoutConfigFactory(): LayoutConfig {
+  const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
+  const featureToggles = inject(FeatureToggles);
+
+  if (featureToggles.unifiedDefaultHeaderSlotsAcrossBreakpoints) {
+    applyUnifiedHeaderSlots(config);
+  }
 
   if (featureToggles.defaultLayoutConfigWithoutPageFold) {
-    const homepageConfig =
-      (config?.layoutSlots?.LandingPage2Template as SlotConfig) ?? {};
-    delete homepageConfig.pageFold;
-
-    const categoryPageConfig =
-      (config?.layoutSlots?.CategoryPageTemplate as SlotConfig) ?? {};
-    delete categoryPageConfig.pageFold;
-
-    const productDetailsPageConfig =
-      (config?.layoutSlots?.ProductDetailsPageTemplate as SlotConfig) ?? {};
-    delete productDetailsPageConfig.pageFold;
-    delete ((productDetailsPageConfig as SlotGroup).lg ?? {}).pageFold;
+    applyWithoutPageFold(config);
   }
 
   return config;
