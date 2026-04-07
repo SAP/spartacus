@@ -8,9 +8,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { CmsConfig, provideConfig } from '@spartacus/core';
 import { AppRoutingModule } from '@spartacus/storefront';
-import { environment } from '../environments/environment';
 import { privateProviders } from './private/private.providers';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
@@ -18,28 +16,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule,
-  ],
-  providers: [
-    provideConfig({
-      backend: {
-        occ: {
-          // Note: The next line is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
-    }),
-    provideConfig(<CmsConfig>{
-            ProductAddToCartComponent: {
-          data: {
-            inventoryDisplay: true,
-          },
-        },
-      },
-    }),
     provideConfig(<CmsConfig>{
             cmsComponents: {
                 ProductAddToCartComponent: {
@@ -49,8 +25,10 @@ import { SpartacusModule } from './spartacus/spartacus.module';
                 },
             },
         }),
-
-    privateProviders,
+    AppRoutingModule,
+    EffectsModule.forRoot([]),
+    SpartacusModule,
   ],
+  providers: [privateProviders],
 })
 export class AppModule {}
