@@ -40,6 +40,15 @@ import { SpartacusModule } from './spartacus/spartacus.module';
         },
       },
     }),
+    provideConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductAddToCartComponent: {
+                    data: {
+                        inventoryDisplay: true,
+                    },
+                },
+            },
+        }),
 
     privateProviders,
   ],
