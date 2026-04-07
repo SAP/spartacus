@@ -204,7 +204,7 @@
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^21.0.3",
     "@angular-devkit/build-angular": "^21.2.3",
-    "@angular-devkit/core": "^21.2.6",
+    "@angular-devkit/core": "^21.2.3",
     "@angular-devkit/schematics": "^21.2.3",
     "@angular-eslint/builder": "^21.1.0",
     "@angular-eslint/eslint-plugin": "^21.1.0",
@@ -310,6 +310,9 @@
     "test-exclude": "^8.0.0",
     "undici": "^7.24.0",
     "vite": "^7.3.2",
-    "lodash": "^4.18.0"
+    "lodash": "^4.18.0",
+    "@angular-devkit/schematics": {
+      "@angular-devkit/core": "21.2.6"
+    }
   }
 }
