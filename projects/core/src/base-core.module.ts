@@ -45,15 +45,6 @@ import { StateModule } from './state/state.module';
 export class BaseCoreModule {
   static forRoot(): ModuleWithProviders<BaseCoreModule> {
     return {
-      providers: [
-        // did not work, species did not survive to later runtime
-        // { provide: APP_BASE_HREF, useClass: WritableBaseSite }
-        // {
-        //   provide: RendererFactory2,
-        //   useFactory: rendererFactory,
-        // },
-      ],
-
       ngModule: BaseCoreModule,
     };
   }

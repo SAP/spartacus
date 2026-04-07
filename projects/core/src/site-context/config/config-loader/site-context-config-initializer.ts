@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { FederatedOriginsService } from 'projects/core/src/federated-login';
 import { lastValueFrom, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
@@ -20,49 +19,14 @@ import {
   LANGUAGE_CONTEXT_ID,
   THEME_CONTEXT_ID,
 } from '../../providers/context-ids';
-import { BaseHrefConfig } from '../base-site-renderer';
 import { SiteContextConfig } from '../site-context-config';
-
-@Injectable({ providedIn: 'root' })
-//implements Partial<String>
-export class WritableBaseSite {
-  charAt(pos: number): string {
-    return this.url.charAt(pos);
-  }
-
-  replace(searchValue: any, replacer: any): string {
-    return this.url.replace(searchValue, replacer);
-  }
-  endsWith(searchString: string, endPosition?: number): boolean {
-    return this.url.endsWith(searchString, endPosition);
-  }
-
-  windowRef = inject(WindowRef);
-
-  url = this.windowRef.location.href ?? '';
-
-  valueOf(): string {
-    return this.url;
-  }
-  toString() {
-    return this.url ?? '';
-  }
-  [Symbol.toStringTag]() {
-    return this.url;
-  }
-  [Symbol.toPrimitive]() {
-    return this.url;
-  }
-}
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
-  router = inject(Router);
-  writableBaseUrl = inject(WritableBaseSite);
-  baseHrefConfig = inject(BaseHrefConfig);
+  federatedOriginsService = inject(FederatedOriginsService);
 
   constructor(
     protected baseSiteService: BaseSiteService,
@@ -82,29 +46,16 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected resolveConfig(): Observable<SiteContextConfig> {
     return this.baseSiteService.getAll().pipe(
       map((baseSites) => {
-        if (this.winRef.location.search) {
-          const origin = new HttpParams({
-            fromString: this.winRef.location.search,
-          }).get('origin');
-          if (origin) {
-            const site = baseSites
-              ?.filter((site) => {
-                return site.uid?.includes('-spa');
-              })
-              ?.find((site) => this.isCurrentBaseSite(site, origin));
-            console.log('origin', origin, 'found site', site);
+        if (this.federatedOriginsService.active) {
+          this.federatedOriginsService.detectContext();
+          if (this.federatedOriginsService.origin) {
+            const origin = this.federatedOriginsService.origin;
+            const site = baseSites?.find((site) =>
+              this.isCurrentBaseSite(site, origin)
+            );
 
-            if (site) {
-              const newBaseUrl = `https://${origin}:4200`;
-              // does not work.  interferes with lazy-loaded modules
-              // var newBase = document.createElement('base');
-              // newBase.setAttribute('href', newBaseUrl);
-              // document.head.prepend(newBase);
+            console.log('federated login:', origin, '\nfound site', site);
 
-              // this.writableBaseUrl.url = newBaseUrl;
-
-              this.baseHrefConfig.baseUrl = newBaseUrl;
-            }
             return site;
           }
         }
