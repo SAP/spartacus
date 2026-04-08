@@ -433,6 +433,12 @@
       "@spartacus/opf/global-functions/core": [
         "dist/opf/global-functions/core"
       ],
+      "@spartacus/opf/gift-card": ["dist/opf/gift-card"],
+      "@spartacus/opf/gift-card/root": ["dist/opf/gift-card/root"],
+      "@spartacus/opf/gift-card/occ": ["dist/opf/gift-card/occ"],
+      "@spartacus/opf/gift-card/core": ["dist/opf/gift-card/core"],
+      "@spartacus/opf/gift-card/components": ["dist/opf/gift-card/components"],
+      "@spartacus/opf/gift-card/assets": ["dist/opf/gift-card/assets"],
       "@spartacus/opf/cta": ["dist/opf/cta"],
       "@spartacus/opf/cta/root": ["dist/opf/cta/root"],
       "@spartacus/opf/cta/opf-api": ["dist/opf/cta/opf-api"],
