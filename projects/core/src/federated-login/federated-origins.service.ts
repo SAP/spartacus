@@ -40,6 +40,7 @@ export class FederatedOriginsService {
   }
 
   detectContext() {
+    console.log('detecting context');
     if (this.config?.contextParameterName) {
       const context = new HttpParams({
         fromString: this.windowRef.location.search,

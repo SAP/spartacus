@@ -30,9 +30,6 @@ export const spartacusB2cConfigurationProviders = makeEnvironmentProviders([
     },
   }),
   provideConfig({
-    authentication: { client_id: 'mobile_android_login' },
-  }),
-  provideConfig({
     cart: {
       selectiveCart: {
         enabled: true,

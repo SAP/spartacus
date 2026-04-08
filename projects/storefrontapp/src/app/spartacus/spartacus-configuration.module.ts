@@ -65,6 +65,9 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
         fallbackLang: 'en',
       },
     }),
+    provideConfig({
+      authentication: { client_id: 'mobile_android_login' },
+    }),
 
     spartacusChannelSpecificConfigurationProviders,
   ],

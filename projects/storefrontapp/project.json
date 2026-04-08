@@ -216,10 +216,11 @@
         "allowedHosts": [
           "localhost",
           "login.local",
-          "powertools.de",
-          "electronics.de",
-          "electronics.es"
+          "powertools-storefront.de",
+          "electronics-storefront.de",
+          "electronics-storefront.es"
         ],
+        "liveReload": false,
         "ssl": true
       },
       "configurations": {

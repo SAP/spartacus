@@ -46,6 +46,18 @@ export class OAuthLibWrapperService {
         (loginUrl.includes('?') ? '&' : '?') +
         this.federatedOriginsService.getParameters();
     }
+
+    if (this.federatedOriginsService.loginDomain) {
+      console.log('config oauth', this.federatedOriginsService.origin);
+    }
+    let redirectUri =
+      this.authConfigService.getOAuthLibConfig()?.redirectUri ??
+      (!isSSR
+        ? this.federatedOriginsService.loginDomain
+          ? this.federatedOriginsService.origin
+          : this.winRef.nativeWindow?.location.origin
+        : '');
+
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl,
@@ -57,12 +69,7 @@ export class OAuthLibWrapperService {
       issuer:
         this.authConfigService.getOAuthLibConfig()?.issuer ??
         this.authConfigService.getBaseUrl(),
-      redirectUri:
-        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-        (!isSSR
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.winRef.nativeWindow!.location.origin
-          : ''),
+      redirectUri,
       ...this.authConfigService.getOAuthLibConfig(),
     });
   }
