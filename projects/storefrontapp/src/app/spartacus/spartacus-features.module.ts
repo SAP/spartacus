@@ -347,6 +347,7 @@ if (environment.cpq) {
         a11yReviewsKeyboardControls: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yVocalizeDropdownItemCount: true,
+        enableRemoveVoucherEndpoint: true,
       };
       return appFeatureToggles;
     }),
