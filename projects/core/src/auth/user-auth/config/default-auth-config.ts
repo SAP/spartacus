@@ -50,7 +50,7 @@ export const defaultAuthConfig: AuthConfig = {
     client_id: 'mobile_android_public',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
-    loginUrl: '/oauth/authorize?origin=electronics.de',
+    loginUrl: '/oauth/authorize',
     OAuthLibConfig: {
       scope: '',
       customTokenParameters: ['token_type'],

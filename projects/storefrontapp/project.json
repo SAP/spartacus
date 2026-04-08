@@ -216,9 +216,9 @@
         "allowedHosts": [
           "localhost",
           "login.local",
-          "powertools.us",
-          "electronics.us",
-          "electronics.de"
+          "powertools.de",
+          "electronics.de",
+          "electronics.es"
         ],
         "ssl": true
       },

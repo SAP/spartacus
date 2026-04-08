@@ -17,7 +17,7 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
   // rebase relative URLs onto the origin site
   prepareExternalUrl(url: string) {
     const normalUrl = super.prepareExternalUrl(url);
-    if (!this.federatedOriginService.active) {
+    if (!this.federatedOriginService.loginDomain) {
       return normalUrl;
     }
 
@@ -42,7 +42,7 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
     url: string,
     queryParams: string
   ) {
-    if (!this.federatedOriginService.active) {
+    if (!this.federatedOriginService.loginDomain) {
       return super.pushState(_state, _title, url, queryParams);
     }
 
@@ -62,7 +62,7 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
     url: string,
     queryParams: string
   ) {
-    if (!this.federatedOriginService.active) {
+    if (!this.federatedOriginService.loginDomain) {
       return super.replaceState(state, title, url, queryParams);
     }
 

@@ -5,39 +5,59 @@
  */
 import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Config, WindowRef } from '@spartacus/core';
-import { OriginMapService } from './origin-map.service';
+import { WindowRef } from '@spartacus/core';
+import { FederatedLoginConfig } from './config/federated-login-config';
 
 @Injectable({ providedIn: 'root' })
 export class FederatedOriginsService {
   windowRef = inject(WindowRef);
-  config = inject(Config);
+  config = inject(FederatedLoginConfig).federatedLogin;
 
-  originMapService = inject(OriginMapService);
+  enabled = this.config?.enabled ?? false;
 
-  active = this.isActive();
+  loginDomain = this.isLoginDomain();
 
   origin: string | undefined;
 
+  deserializeContext(context: string | null | undefined) {
+    return context ? this.config?.originMap[context] : undefined;
+  }
+
+  getParameters() {
+    return new HttpParams({
+      fromObject: {
+        [this.config?.contextParameterName ?? '']: this.serializeContext(),
+      },
+    }).toString();
+  }
+
+  protected serializeContext() {
+    return 'de';
+  }
+
   setContext(context: string | null | undefined) {
-    this.origin = this.originMapService.translateContext(context);
+    this.origin = this.deserializeContext(context);
   }
 
   detectContext() {
-    const context = new HttpParams({
-      fromString: this.windowRef.location.search,
-    }).get(this.originMapService.contextParameterName);
+    if (this.config?.contextParameterName) {
+      const context = new HttpParams({
+        fromString: this.windowRef.location.search,
+      }).get(this.config?.contextParameterName);
 
-    this.setContext(context);
+      this.setContext(context);
+    }
   }
 
   getOrigin() {
     return this.origin;
   }
 
-  isActive() {
-    return this.originMapService.loginOrigin.some(
-      (origin) => origin === this.windowRef.location.host
+  protected isLoginDomain() {
+    return (
+      this.config?.loginDomains.some(
+        (origin) => origin === this.windowRef.location.host
+      ) ?? false
     );
   }
 }

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './config/federated-login-config';
 export * from './federated-login-location.strategy';
+export * from './federated-login.module';
 export * from './federated-origins.service';
-export * from './origin-map.service';

@@ -9,6 +9,7 @@ import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
+import { FederatedOriginsService } from '../../../federated-login';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -24,6 +25,7 @@ import { AuthConfigService } from './auth-config.service';
 export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
+  federatedOriginsService = inject(FederatedOriginsService);
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -37,9 +39,16 @@ export class OAuthLibWrapperService {
 
   protected initialize() {
     const isSSR = !this.winRef.isBrowser();
+
+    let loginUrl = this.authConfigService.getLoginUrl();
+    if (this.federatedOriginsService.enabled) {
+      loginUrl +=
+        (loginUrl.includes('?') ? '&' : '?') +
+        this.federatedOriginsService.getParameters();
+    }
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
-      loginUrl: this.authConfigService.getLoginUrl(),
+      loginUrl,
       clientId: this.authConfigService.getClientId(),
       dummyClientSecret: this.authConfigService.getClientSecret(),
       revocationEndpoint: this.authConfigService.getRevokeEndpoint(),

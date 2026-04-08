@@ -11,6 +11,7 @@ import {
   CostCenterOccModule,
   ExternalRoutesModule,
   FeatureToggles,
+  FederatedLoginModule,
   ProductModule,
   ProductOccModule,
   UserModule,
@@ -179,6 +180,7 @@ if (environment.cpq) {
     AuthModule.forRoot(),
     LogoutModule, // will be come part of auth package
     LoginRouteModule, // will be come part of auth package
+    FederatedLoginModule,
 
     // Basic Cms Components
     HamburgerMenuModule,
