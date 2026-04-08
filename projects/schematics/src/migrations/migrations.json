@@ -119,6 +119,11 @@
       "version": "221121.7.0",
       "factory": "./221121_7/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
+    },
+    "00-migration-v221121_9-update-feature-toggles": {
+      "version": "221121.9.0",
+      "factory": "./221121_9/update-feature-toggles/index#migrate",
+      "description": "Remove outdated feature toggles that no longer exist in the new FeatureTogglesInterface"
     }
   }
 }

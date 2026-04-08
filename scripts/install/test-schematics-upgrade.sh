@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env bash
 #
 # test-schematics-upgrade.sh
 #
@@ -11,81 +11,160 @@
 #      - optionally from a different registry (e.g. local Verdaccio)
 #   6. Verify the app builds/starts after upgrade
 #
-# Prerequisites:
-#   - Node 22+, npm 10+
-#   - FROM_REGISTRY + FROM_REGISTRY_TOKEN set (or present in ~/.npmrc)
+# ────────────────────────────────────────────────────────────────
+# USAGE
+# ────────────────────────────────────────────────────────────────
 #
-# Usage:
-#   chmod +x test-schematics-upgrade.sh
+#   # On CI — zero config needed (uses NPM_URL + NPM_TOKEN from config.sh / env):
+#   ./scripts/install/test-schematics-upgrade.sh
 #
-#   # Explicit registries (recommended):
-#   FROM_REGISTRY=https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/ \
-#   FROM_REGISTRY_TOKEN=<base64-token> \
+#   # Local — SAP registry for FROM, local Verdaccio for TO:
+#   TO_REGISTRY=http://localhost:4873/ TO_VERSION=221121.10.0-3 \
+#     ./scripts/install/test-schematics-upgrade.sh
+#
+#   # Local — fully explicit (overrides everything):
+#   SPARTACUS_REGISTRY=https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/ \
+#   SPARTACUS_REGISTRY_TOKEN=<base64-token> \
 #   TO_REGISTRY=http://localhost:4873/ \
 #   TO_VERSION=221121.10.0-3 \
-#     ./test-schematics-upgrade.sh
+#   SKIP_START_CHECK=true \
+#     ./scripts/install/test-schematics-upgrade.sh
 #
-#   # Minimal — reads @spartacus:registry & token from ~/.npmrc for FROM,
-#   #           uses same registry for TO:
-#   ./test-schematics-upgrade.sh
+# ────────────────────────────────────────────────────────────────
+# ENVIRONMENT VARIABLES (all optional — smart defaults apply)
+# ────────────────────────────────────────────────────────────────
 #
-# Environment variables:
-#   ANGULAR_VERSION      - Angular CLI version to scaffold with (default: 21.1.0)
+#   ANGULAR_VERSION      - Angular CLI version (default: from config.sh or 21.1.0)
 #   FROM_VERSION         - Spartacus version to install first (default: 221121.7.0)
-#   TO_VERSION           - Spartacus version to upgrade to (default: 221121.9.0)
-#   FROM_REGISTRY        - registry that hosts FROM_VERSION
-#                           (default: read @spartacus:registry from ~/.npmrc)
-#   FROM_REGISTRY_TOKEN  - auth token for FROM_REGISTRY
-#                           (default: read matching _auth / _authToken from ~/.npmrc)
-#   TO_REGISTRY          - registry that hosts TO_VERSION (default: same as FROM_REGISTRY)
-#                           Useful for local Verdaccio: http://localhost:4873/
-#   TO_REGISTRY_TOKEN    - auth token for TO_REGISTRY (default: none — Verdaccio often
-#                           needs no auth for reads)
+#   TO_VERSION           - Spartacus version to upgrade to
+#                           (default: SPARTACUS_VERSION from config.sh)
+#   SPARTACUS_REGISTRY        - registry hosting Spartacus packages
+#                           Resolution: SPARTACUS_REGISTRY → NPM_URL → config.sh → ~/.npmrc
+#   SPARTACUS_REGISTRY_TOKEN  - auth token for SPARTACUS_REGISTRY
+#                           Resolution: SPARTACUS_REGISTRY_TOKEN → NPM_TOKEN → config.sh → ~/.npmrc
+#   TO_REGISTRY          - registry hosting TO_VERSION (default: same as SPARTACUS_REGISTRY)
+#   TO_REGISTRY_TOKEN    - auth token for TO_REGISTRY (default: empty)
 #   BASE_URL             - OCC backend URL (default: https://40.76.109.9:9002)
-#   APP_NAME             - name of the test app (default: spartacus-fresh)
-#   WORK_DIR             - directory to create the app in (default: ~/Desktop)
-#   SKIP_START_CHECK     - set to "true" to skip ng serve verification (default: false)
-#   SERVE_TIMEOUT        - seconds to wait for ng serve to compile (default: 120)
+#   APP_NAME             - test app name (default: spartacus-fresh)
+#   WORK_DIR             - where to create the app (default: ~/Desktop or /tmp on CI)
+#   SKIP_START_CHECK     - "true" to skip ng serve verification (default: false)
+#   SERVE_TIMEOUT        - seconds to wait for ng serve (default: 120)
 #
 
-set -e
+set -euo pipefail
 
-# --- Configuration ---
-ANGULAR_VERSION="${ANGULAR_VERSION:-21.1.0}"
-FROM_VERSION="${FROM_VERSION:-221121.7.0}"
-TO_VERSION="${TO_VERSION:-221121.9.0}"
-TO_REGISTRY="${TO_REGISTRY:-}"
+# ─── Resolve script directory (works even via symlink) ───
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# ─── Detect CI vs local ───
+if [[ -n "${CI:-}" || -n "${JENKINS_URL:-}" || -n "${BUILD_NUMBER:-}" || -n "${GITHUB_ACTIONS:-}" ]]; then
+  IS_CI=true
+else
+  IS_CI=false
+fi
+
+# ─── Source config.sh for NPM_URL / NPM_TOKEN / SPARTACUS_VERSION ───
+# Save caller's explicit env vars before sourcing, so config.sh doesn't overwrite them.
+_saved_SPARTACUS_REGISTRY="${SPARTACUS_REGISTRY:-}"
+_saved_SPARTACUS_REGISTRY_TOKEN="${SPARTACUS_REGISTRY_TOKEN:-}"
+_saved_TO_VERSION="${TO_VERSION:-}"
+_saved_TO_REGISTRY="${TO_REGISTRY:-}"
+_saved_TO_REGISTRY_TOKEN="${TO_REGISTRY_TOKEN:-}"
+_saved_ANGULAR_VERSION="${ANGULAR_VERSION:-}"
+_saved_FROM_VERSION="${FROM_VERSION:-}"
+
+CONFIG_SH="${SCRIPT_DIR}/config.sh"
+if [[ -f "$CONFIG_SH" ]]; then
+  source "$CONFIG_SH"
+fi
+
+# Restore caller's explicit overrides (they take priority over config.sh)
+SPARTACUS_REGISTRY="${_saved_SPARTACUS_REGISTRY}"
+SPARTACUS_REGISTRY_TOKEN="${_saved_SPARTACUS_REGISTRY_TOKEN}"
+TO_VERSION="${_saved_TO_VERSION}"
+TO_REGISTRY="${_saved_TO_REGISTRY}"
+TO_REGISTRY_TOKEN="${_saved_TO_REGISTRY_TOKEN}"
+ANGULAR_VERSION="${_saved_ANGULAR_VERSION}"
+FROM_VERSION="${_saved_FROM_VERSION}"
+unset _saved_SPARTACUS_REGISTRY _saved_SPARTACUS_REGISTRY_TOKEN _saved_TO_VERSION
+unset _saved_TO_REGISTRY _saved_TO_REGISTRY_TOKEN _saved_ANGULAR_VERSION _saved_FROM_VERSION
+
+# ─── Three-tier registry resolution ───
+# Priority: explicit env var → NPM_URL/NPM_TOKEN → ~/.npmrc auto-detect
+
+# 1) SPARTACUS_REGISTRY
+if [[ -z "${SPARTACUS_REGISTRY:-}" && -n "${NPM_URL:-}" ]]; then
+  SPARTACUS_REGISTRY="$NPM_URL"
+fi
+if [[ -z "${SPARTACUS_REGISTRY:-}" && -f "$HOME/.npmrc" ]]; then
+  SPARTACUS_REGISTRY=$(grep '^@spartacus:registry=' "$HOME/.npmrc" 2>/dev/null | head -1 | sed 's/^@spartacus:registry=//')
+fi
+SPARTACUS_REGISTRY="${SPARTACUS_REGISTRY:-}"
+
+# 2) SPARTACUS_REGISTRY_TOKEN
+if [[ -z "${SPARTACUS_REGISTRY_TOKEN:-}" && -n "${NPM_TOKEN:-}" ]]; then
+  SPARTACUS_REGISTRY_TOKEN="$NPM_TOKEN"
+fi
+if [[ -z "${SPARTACUS_REGISTRY_TOKEN:-}" && -n "$SPARTACUS_REGISTRY" && -f "$HOME/.npmrc" ]]; then
+  # Extract _auth token for the registry host from ~/.npmrc
+  local_host=$(echo "$SPARTACUS_REGISTRY" | sed -E 's|^https?://||')
+  # Try _auth first (SAP registry style), then _authToken (npm style)
+  SPARTACUS_REGISTRY_TOKEN=$(grep -m1 "^//${local_host}.*:_auth=" "$HOME/.npmrc" 2>/dev/null | sed 's/^.*:_auth=//')
+  if [[ -z "$SPARTACUS_REGISTRY_TOKEN" ]]; then
+    SPARTACUS_REGISTRY_TOKEN=$(grep -m1 "^//${local_host}.*:_authToken=" "$HOME/.npmrc" 2>/dev/null | sed 's/^.*:_authToken=//')
+  fi
+  unset local_host
+fi
+SPARTACUS_REGISTRY_TOKEN="${SPARTACUS_REGISTRY_TOKEN:-}"
+
+# 3) TO_REGISTRY defaults to SPARTACUS_REGISTRY
+TO_REGISTRY="${TO_REGISTRY:-$SPARTACUS_REGISTRY}"
 TO_REGISTRY_TOKEN="${TO_REGISTRY_TOKEN:-}"
+# If TO is same as SPARTACUS_REGISTRY, share the token
+if [[ "$TO_REGISTRY" == "$SPARTACUS_REGISTRY" && -z "$TO_REGISTRY_TOKEN" ]]; then
+  TO_REGISTRY_TOKEN="$SPARTACUS_REGISTRY_TOKEN"
+fi
+
+# ─── Configuration with smart defaults ───
+ANGULAR_VERSION="${ANGULAR_VERSION:-${ANGULAR_CLI_VERSION:-21.1.0}}"
+# Strip leading ^ from Angular CLI version if sourced from config.sh (e.g. "^21.1.0")
+ANGULAR_VERSION="${ANGULAR_VERSION#^}"
+
+FROM_VERSION="${FROM_VERSION:-221121.7.0}"
+if [[ -z "$FROM_VERSION" ]]; then
+  echo "❌ FROM_VERSION is empty. Set FROM_VERSION=<version>." >&2
+  exit 1
+fi
+
+# TO_VERSION: explicit → SPARTACUS_VERSION from config.sh
+if [[ -z "${TO_VERSION:-}" && -n "${SPARTACUS_VERSION:-}" ]]; then
+  TO_VERSION="$SPARTACUS_VERSION"
+fi
+TO_VERSION="${TO_VERSION:?TO_VERSION is required. Set it explicitly or ensure SPARTACUS_VERSION is in config.sh.}"
+
+# Sanity check: FROM and TO should differ
+if [[ "$FROM_VERSION" == "$TO_VERSION" ]]; then
+  echo "⚠️  FROM_VERSION and TO_VERSION are both '${FROM_VERSION}'. ng update will be a no-op." >&2
+fi
+
 BASE_URL="${BASE_URL:-https://40.76.109.9:9002}"
 APP_NAME="${APP_NAME:-spartacus-fresh}"
-WORK_DIR="${WORK_DIR:-$HOME/Desktop}"
+
+# WORK_DIR: ~/Desktop locally, /tmp on CI
+if [[ -z "${WORK_DIR:-}" ]]; then
+  if [[ "$IS_CI" == "true" ]]; then
+    WORK_DIR="${WORKSPACE:-/tmp}"
+  else
+    WORK_DIR="$HOME/Desktop"
+  fi
+fi
+
 SKIP_START_CHECK="${SKIP_START_CHECK:-false}"
 SERVE_TIMEOUT="${SERVE_TIMEOUT:-120}"
 APP_DIR="${WORK_DIR}/${APP_NAME}"
-SERVE_PORT=4200
+SERVE_PORT="${SERVE_PORT:-4200}"
 
-# --- Auto-detect FROM_REGISTRY from ~/.npmrc if not provided ---
-if [[ -z "${FROM_REGISTRY:-}" && -f "$HOME/.npmrc" ]]; then
-  FROM_REGISTRY=$(grep '^@spartacus:registry=' "$HOME/.npmrc" 2>/dev/null | head -1 | sed 's/^@spartacus:registry=//')
-fi
-FROM_REGISTRY="${FROM_REGISTRY:-}"
-
-if [[ -z "${FROM_REGISTRY_TOKEN:-}" && -n "$FROM_REGISTRY" && -f "$HOME/.npmrc" ]]; then
-  # Try to extract _auth or _authToken for the FROM_REGISTRY host from ~/.npmrc
-  # Strip protocol for matching: //host/path/:_auth=...
-  local_host=$(echo "$FROM_REGISTRY" | sed 's|^https\?://||')
-  FROM_REGISTRY_TOKEN=$(grep "^//${local_host}" "$HOME/.npmrc" 2>/dev/null | head -1 | sed 's/^.*:_auth=//' | sed 's/^.*:_authToken=//')
-  unset local_host
-fi
-FROM_REGISTRY_TOKEN="${FROM_REGISTRY_TOKEN:-}"
-
-# Default TO_REGISTRY to FROM_REGISTRY if not set
-if [[ -z "$TO_REGISTRY" ]]; then
-  TO_REGISTRY="$FROM_REGISTRY"
-  TO_REGISTRY_TOKEN="${TO_REGISTRY_TOKEN:-$FROM_REGISTRY_TOKEN}"
-fi
-
-# All available Spartacus features (from schema.json enum)
+# --- All available Spartacus features (from schema.json enum) ---
 ALL_FEATURES=(
   "ASM"
   "ASM-Customer-360"
@@ -150,10 +229,10 @@ YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-log_step()  { echo "\n${CYAN}━━━ $1 ━━━${NC}\n"; }
-log_ok()    { echo "${GREEN}✅ $1${NC}"; }
-log_warn()  { echo "${YELLOW}⚠️  $1${NC}"; }
-log_fail()  { echo "${RED}❌ $1${NC}"; }
+log_step()  { printf "\n${CYAN}━━━ %s ━━━${NC}\n\n" "$1"; }
+log_ok()    { printf "${GREEN}✅ %s${NC}\n" "$1"; }
+log_warn()  { printf "${YELLOW}⚠️  %s${NC}\n" "$1"; }
+log_fail()  { printf "${RED}❌ %s${NC}\n" "$1"; }
 
 # Safe git commit — won't fail under set -e when working tree is clean
 git_commit() {
@@ -168,12 +247,15 @@ git_commit() {
 }
 
 # Write a project .npmrc that points @spartacus at the given registry.
+# NOTE: The .npmrc is committed to the throwaway test app's git repo.
+# This is intentional — ng update requires a clean working tree.
+# The test app is deleted after the test. Do NOT use this on real projects.
 # Usage: write_npmrc <registry-url> [auth-token]
 write_npmrc() {
   local registry="$1"
   local token="${2:-}"
   local host
-  host=$(echo "$registry" | sed 's|^https\?://||')
+  host=$(echo "$registry" | sed -E 's|^https?://||')
 
   {
     echo "@spartacus:registry=${registry}"
@@ -253,14 +335,14 @@ verify_app_starts() {
 # Print configuration
 # =====================================================
 log_step "Configuration"
-echo "  ANGULAR_VERSION:  ${ANGULAR_VERSION}"
-echo "  FROM_VERSION:     ${FROM_VERSION}"
-echo "  FROM_REGISTRY:    ${FROM_REGISTRY:-(not set — will fail)}"
-echo "  TO_VERSION:       ${TO_VERSION}"
-echo "  TO_REGISTRY:      ${TO_REGISTRY:-(same as FROM)}"
-echo "  BASE_URL:         ${BASE_URL}"
-echo "  APP_DIR:          ${APP_DIR}"
-echo "  SKIP_START_CHECK: ${SKIP_START_CHECK}"
+printf "  ANGULAR_VERSION:    %s\n" "${ANGULAR_VERSION}"
+printf "  FROM_VERSION:       %s\n" "${FROM_VERSION}"
+printf "  SPARTACUS_REGISTRY: %s\n" "${SPARTACUS_REGISTRY:-(not set — will fail)}"
+printf "  TO_VERSION:         %s\n" "${TO_VERSION}"
+printf "  TO_REGISTRY:        %s\n" "${TO_REGISTRY:-(same as SPARTACUS_REGISTRY)}"
+printf "  BASE_URL:           %s\n" "${BASE_URL}"
+printf "  APP_DIR:            %s\n" "${APP_DIR}"
+printf "  SKIP_START_CHECK:   %s\n" "${SKIP_START_CHECK}"
 
 # =====================================================
 # STEP 0: Pre-flight checks
@@ -283,22 +365,25 @@ log_ok "npm $(npm --version)"
 if [[ -f "$HOME/.npmrc" ]]; then
   log_ok "~/.npmrc found"
 else
-  log_warn "~/.npmrc not found — relying on FROM_REGISTRY / TO_REGISTRY env vars"
+  log_warn "~/.npmrc not found — relying on SPARTACUS_REGISTRY / TO_REGISTRY env vars"
 fi
 
-# Verify FROM_REGISTRY is set
-if [[ -z "$FROM_REGISTRY" ]]; then
-  log_fail "FROM_REGISTRY not set and could not be auto-detected from ~/.npmrc."
-  echo "  Set FROM_REGISTRY=<url> and FROM_REGISTRY_TOKEN=<token>."
+# Verify SPARTACUS_REGISTRY is set
+if [[ -z "$SPARTACUS_REGISTRY" ]]; then
+  log_fail "SPARTACUS_REGISTRY not set and could not be auto-detected."
+  echo "  Set SPARTACUS_REGISTRY=<url> and SPARTACUS_REGISTRY_TOKEN=<token>."
   exit 1
 fi
-log_ok "FROM_REGISTRY: ${FROM_REGISTRY}"
+log_ok "SPARTACUS_REGISTRY: ${SPARTACUS_REGISTRY}"
 
 # Clean up previous test app
 if [[ -d "${APP_DIR}" ]]; then
   log_warn "Removing existing ${APP_DIR}"
   rm -rf "${APP_DIR}"
 fi
+
+# Ensure WORK_DIR exists
+mkdir -p "${WORK_DIR}"
 
 # =====================================================
 # STEP 1: Create fresh Angular app
@@ -321,14 +406,14 @@ log_ok "Angular app created at ${APP_DIR}"
 git_commit "chore: scaffold Angular ${ANGULAR_VERSION} app"
 
 # =====================================================
-# STEP 2: Configure .npmrc for FROM_REGISTRY
+# STEP 2: Configure .npmrc for SPARTACUS_REGISTRY
 # =====================================================
-log_step "Step 2: Configuring .npmrc → FROM_REGISTRY"
+log_step "Step 2: Configuring .npmrc → SPARTACUS_REGISTRY"
 
-write_npmrc "$FROM_REGISTRY" "$FROM_REGISTRY_TOKEN"
-log_ok ".npmrc configured for ${FROM_REGISTRY}"
+write_npmrc "$SPARTACUS_REGISTRY" "$SPARTACUS_REGISTRY_TOKEN"
+log_ok ".npmrc configured for ${SPARTACUS_REGISTRY}"
 
-git_commit "chore: add .npmrc (FROM_REGISTRY)"
+git_commit "chore: add .npmrc (SPARTACUS_REGISTRY)"
 
 # =====================================================
 # STEP 3: Install previous Spartacus release
@@ -341,12 +426,12 @@ git_commit "chore: npm install @spartacus/schematics@${FROM_VERSION}"
 
 npx ng add "@spartacus/schematics@${FROM_VERSION}" \
   --base-url="${BASE_URL}" \
-  --features ${ALL_FEATURES[@]} \
+  --features "${ALL_FEATURES[@]}" \
   --skip-confirmation
 
 log_ok "Spartacus ${FROM_VERSION} installed"
 
-echo "\nInstalled @spartacus packages:"
+printf "\nInstalled @spartacus packages:\n"
 grep '"@spartacus/' package.json | head -30
 
 git_commit "chore: ng add Spartacus ${FROM_VERSION} (all features)"
@@ -356,10 +441,10 @@ git_commit "chore: ng add Spartacus ${FROM_VERSION} (all features)"
 # =====================================================
 log_step "Step 4: Building app with Spartacus ${FROM_VERSION}"
 
-npx ng build 2>&1 || {
+if ! npx ng build 2>&1; then
   log_fail "Build failed with Spartacus ${FROM_VERSION}"
   exit 1
-}
+fi
 log_ok "Build succeeded with Spartacus ${FROM_VERSION}"
 
 verify_app_starts "before-upgrade"
@@ -371,24 +456,24 @@ git_commit "chore: verified build with Spartacus ${FROM_VERSION}"
 # =====================================================
 log_step "Step 5: Upgrading to Spartacus ${TO_VERSION}"
 
-# If TO_REGISTRY differs from FROM_REGISTRY, switch .npmrc for the upgrade
+# If TO_REGISTRY differs from SPARTACUS_REGISTRY, switch .npmrc for the upgrade
 SWITCHED_REGISTRY=false
-if [[ "$TO_REGISTRY" != "$FROM_REGISTRY" ]]; then
+if [[ "$TO_REGISTRY" != "$SPARTACUS_REGISTRY" ]]; then
   log_warn "Switching @spartacus:registry → ${TO_REGISTRY} for upgrade"
 
-  # Save FROM_REGISTRY details so we can restore later (don't create untracked files
+  # Save SPARTACUS_REGISTRY details so we can restore later (don't create untracked files
   # that would make git dirty — ng update requires a clean working tree)
-  SAVED_FROM_REGISTRY="$FROM_REGISTRY"
-  SAVED_FROM_REGISTRY_TOKEN="$FROM_REGISTRY_TOKEN"
+  SAVED_SPARTACUS_REGISTRY="$SPARTACUS_REGISTRY"
+  SAVED_SPARTACUS_REGISTRY_TOKEN="$SPARTACUS_REGISTRY_TOKEN"
   SWITCHED_REGISTRY=true
 
-  # Verify TO_VERSION is available on the target registry
+  # Verify TO_VERSION is available on the target registry (using node instead of python3)
   ENCODED_PKG=$(echo "@spartacus/schematics" | sed 's/@/%40/g; s/\//%2f/g')
-  if curl -sf "${TO_REGISTRY}${ENCODED_PKG}" | python3 -c "
-import sys,json
-d=json.load(sys.stdin)
-sys.exit(0 if '${TO_VERSION}' in d.get('versions',{}) else 1)
-" 2>/dev/null; then
+  if curl -sf "${TO_REGISTRY}${ENCODED_PKG}" | node -e "
+    let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{
+      const v=JSON.parse(d).versions||{};
+      process.exit('${TO_VERSION}' in v ? 0 : 1);
+    });" 2>/dev/null; then
     log_ok "@spartacus/schematics@${TO_VERSION} found on ${TO_REGISTRY}"
   else
     log_fail "@spartacus/schematics@${TO_VERSION} NOT found on ${TO_REGISTRY}"
@@ -409,35 +494,41 @@ fi
 # ng update requires a perfectly clean working tree.
 # Ensure there are no leftover untracked/modified files.
 # Add a .gitignore for build artifacts and logs that might appear.
-{
-  echo "*.log"
-  echo "/dist"
-} >> .gitignore
+# Add .gitignore entries for build artifacts (idempotent)
+grep -qxF '*.log' .gitignore 2>/dev/null || echo "*.log" >> .gitignore
+grep -qxF '/dist' .gitignore 2>/dev/null || echo "/dist" >> .gitignore
 git_commit "chore: update .gitignore before ng update"
 
-echo "\n--- git status before ng update ---"
+printf "\n--- git status before ng update ---\n"
 git status --short
 
-echo "\n--- package.json BEFORE ng update ---"
+printf "\n--- package.json BEFORE ng update ---\n"
 grep '"@spartacus/' package.json | head -40
 
+# Run ng update — pipefail ensures we catch ng update failures through tee
 npx ng update "@spartacus/schematics@${TO_VERSION}" --force --allow-dirty 2>&1 | tee ng-update.log
+NG_UPDATE_EXIT=${PIPESTATUS[0]}
+
+if [[ $NG_UPDATE_EXIT -ne 0 ]]; then
+  log_fail "ng update exited with code ${NG_UPDATE_EXIT}"
+  cat ng-update.log
+fi
 
 # Commit whatever ng update changed
 git_commit "chore: ng update @spartacus/schematics@${TO_VERSION}"
 
-echo "\n--- package.json AFTER ng update ---"
+printf "\n--- package.json AFTER ng update ---\n"
 grep '"@spartacus/' package.json | head -40
 
 # Show what ng update actually changed
-echo "\n--- git diff from ng update ---"
+printf "\n--- git diff from ng update ---\n"
 git --no-pager diff HEAD~1 -- package.json || true
 
-# Restore FROM_REGISTRY .npmrc if we switched registries
+# Restore SPARTACUS_REGISTRY .npmrc if we switched registries
 if [[ "$SWITCHED_REGISTRY" == "true" ]]; then
-  write_npmrc "$SAVED_FROM_REGISTRY" "$SAVED_FROM_REGISTRY_TOKEN"
-  git_commit "chore: restore .npmrc to FROM_REGISTRY after upgrade"
-  log_ok "Restored .npmrc to FROM_REGISTRY"
+  write_npmrc "$SAVED_SPARTACUS_REGISTRY" "$SAVED_SPARTACUS_REGISTRY_TOKEN"
+  git_commit "chore: restore .npmrc to SPARTACUS_REGISTRY after upgrade"
+  log_ok "Restored .npmrc to SPARTACUS_REGISTRY"
 fi
 
 log_ok "ng update completed"
@@ -458,14 +549,16 @@ fi
 log_step "Step 6: Building app with Spartacus ${TO_VERSION}"
 
 # Run npm install to ensure node_modules match updated package.json
-npm install 2>&1 || true
+if ! npm install 2>&1; then
+  log_warn "npm install after upgrade had errors (continuing anyway)"
+fi
 
 git_commit "chore: npm install after upgrade to ${TO_VERSION}"
 
-npx ng build 2>&1 || {
+if ! npx ng build 2>&1; then
   log_fail "Build failed after upgrade to Spartacus ${TO_VERSION}"
   exit 1
-}
+fi
 log_ok "Build succeeded with Spartacus ${TO_VERSION}"
 
 verify_app_starts "after-upgrade"
@@ -477,12 +570,12 @@ git_commit "chore: verified build with Spartacus ${TO_VERSION}"
 # =====================================================
 log_step "Summary"
 
-echo "  App location:      ${APP_DIR}"
-echo "  Angular version:   ${ANGULAR_VERSION}"
-echo "  From version:      ${FROM_VERSION}"
-echo "  From registry:     ${FROM_REGISTRY}"
-echo "  To version:        ${TO_VERSION}"
-echo "  To registry:       ${TO_REGISTRY}"
+printf "  App location:      %s\n" "${APP_DIR}"
+printf "  Angular version:   %s\n" "${ANGULAR_VERSION}"
+printf "  From version:      %s\n" "${FROM_VERSION}"
+printf "  From registry:     %s\n" "${SPARTACUS_REGISTRY}"
+printf "  To version:        %s\n" "${TO_VERSION}"
+printf "  To registry:       %s\n" "${TO_REGISTRY}"
 echo ""
 
 # Check all @spartacus packages are on target version
@@ -494,7 +587,7 @@ else
   log_ok "All @spartacus packages bumped to ${TO_VERSION}"
 fi
 
-echo "\n--- Git log (all steps) ---"
+printf "\n--- Git log (all steps) ---\n"
 git --no-pager log --oneline
 
 log_ok "Upgrade test completed successfully! 🎉"
