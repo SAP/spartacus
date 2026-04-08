@@ -236,10 +236,10 @@ describe('ResetPasswordComponentService', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
-      it('should use enhancedSecurePasswordValidators', () => {
+      it('should include mustEndWithLegalCharacter validator', () => {
         service = TestBed.inject(ResetPasswordComponentService);
-        expect((service as any).passwordValidators).toEqual(
-          CustomFormValidators.enhancedSecurePasswordValidators
+        expect((service as any).passwordValidators).toContain(
+          CustomFormValidators.mustEndWithLegalCharacter
         );
       });
     });

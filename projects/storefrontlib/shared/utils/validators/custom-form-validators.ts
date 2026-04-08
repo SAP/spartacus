@@ -205,6 +205,7 @@ export class CustomFormValidators {
     this.minSixCharactersLengthValidator,
   ];
 
+  // TODO: Insert mustEndWithLegalCharacter into this array when removing feature toogle: useEnhancedSecurePasswordValidators
   static securePasswordValidators = [
     this.minOneDigitValidator,
     this.minOneUpperCaseCharacterValidator,
@@ -212,13 +213,6 @@ export class CustomFormValidators {
     this.minEightCharactersLengthValidator,
     this.maxCharactersLengthValidator,
     this.noConsecutiveCharacters,
-  ];
-
-  // TODO: Delete this array and move mustEndWithLegalCharacter validator to securePasswordValidators
-  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators
-  static readonly enhancedSecurePasswordValidators = [
-    ...this.securePasswordValidators,
-    this.mustEndWithLegalCharacter,
   ];
 
   /**

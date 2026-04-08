@@ -34,7 +34,10 @@ export class UpdatePasswordComponentService {
   protected passwordValidators = this.featureConfigService.isEnabled(
     'useEnhancedSecurePasswordValidators'
   )
-    ? CustomFormValidators.enhancedSecurePasswordValidators
+    ? [
+        ...CustomFormValidators.securePasswordValidators,
+        CustomFormValidators.mustEndWithLegalCharacter,
+      ]
     : CustomFormValidators.securePasswordValidators;
 
   constructor(

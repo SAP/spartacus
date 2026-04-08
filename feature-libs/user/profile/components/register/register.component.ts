@@ -77,7 +77,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   protected passwordValidators = this.featureConfigService.isEnabled(
     'useEnhancedSecurePasswordValidators'
   )
-    ? CustomFormValidators.enhancedSecurePasswordValidators
+    ? [
+        ...CustomFormValidators.securePasswordValidators,
+        CustomFormValidators.mustEndWithLegalCharacter,
+      ]
     : CustomFormValidators.securePasswordValidators;
 
   titles$: Observable<Title[]>;

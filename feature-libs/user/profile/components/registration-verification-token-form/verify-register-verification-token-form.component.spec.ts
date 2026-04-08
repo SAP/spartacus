@@ -26,7 +26,6 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import {
-  CustomFormValidators,
   FormErrorsModule,
   LaunchDialogService,
   SpinnerModule,
@@ -317,7 +316,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
 
-      it('should have new cxMustEndWithLegalCharacter validator', () => {
+      it('should include new cxMustEndWithLegalCharacter validator', () => {
         fixture = TestBed.createComponent(
           RegistrationVerificationTokenFormComponent
         );
@@ -351,13 +350,6 @@ describe('RegistrationVerificationTokenFormComponent', () => {
           cxMustEndWithLegalCharacter: true,
         });
         expect(validations.whenNotEmpty).toEqual(null);
-      });
-
-      it('should use enhancedSecurePasswordValidators', () => {
-        const passwordValidators = component.getPasswordValidators();
-        expect(passwordValidators).toEqual(
-          CustomFormValidators.enhancedSecurePasswordValidators
-        );
       });
     });
   });

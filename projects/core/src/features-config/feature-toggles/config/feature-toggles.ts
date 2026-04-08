@@ -453,8 +453,8 @@ export interface FeatureTogglesInterface {
   a11yVocalizeDropdownItemCount?: boolean;
 
   /**
-   * When enabled forms using CustomFormValidators.securePasswordValidators will use
-   * CustomFormValidators.enhancedSecurePasswordValidators instead
+   * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
+   * CustomFormValidators.mustEndWithLegalCharacter
    */
   useEnhancedSecurePasswordValidators?: boolean;
 

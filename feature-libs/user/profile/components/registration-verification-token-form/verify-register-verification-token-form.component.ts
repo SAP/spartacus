@@ -91,7 +91,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
     return this.featureConfigService.isEnabled(
       'useEnhancedSecurePasswordValidators'
     )
-      ? CustomFormValidators.enhancedSecurePasswordValidators
+      ? [
+          ...CustomFormValidators.securePasswordValidators,
+          CustomFormValidators.mustEndWithLegalCharacter,
+        ]
       : CustomFormValidators.securePasswordValidators;
   }
 
