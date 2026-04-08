@@ -186,7 +186,6 @@ describe('Navigation UI Component', () => {
     });
 
     it('should return 2 for 12', () => {
-      console.log(navigationComponent.wrapAfter);
       expect(navigationComponent.getColumnCount(12)).toEqual(3);
     });
 
