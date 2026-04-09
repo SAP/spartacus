@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { BaseStorefrontModule } from '@spartacus/storefront';
+import { BaseStorefrontModule, BaseStorefrontModuleV2 } from '@spartacus/storefront';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';
 
@@ -13,8 +13,6 @@ import { SpartacusFeaturesModule } from './spartacus-features.module';
  * Default Spartacus module.
  *
  * Uses `BaseStorefrontModule` with `initialNavigation: 'enabledBlocking'`.
- * Identical to the baseline `develop` branch behavior.
- *
  * Use together with `AppRoutingModule` in `AppModule`.
  */
 @NgModule({
@@ -28,20 +26,23 @@ import { SpartacusFeaturesModule } from './spartacus-features.module';
 export class SpartacusModule {}
 
 /**
- * New hydration-compatible Spartacus module.
+ * Hydration-compatible Spartacus module.
  *
- * Uses `BaseStorefrontModuleV2` which provides an `APP_INITIALIZER` that
- * manually triggers and awaits navigation instead of using `enabledBlocking`.
- * Compatible with Angular hydration (avoids NG05001).
+ * Uses `BaseStorefrontModuleV2` which internally uses `RoutingModuleV2.forRoot()`.
+ * That provides an `APP_INITIALIZER` that manually runs all prerequisite
+ * initializers, triggers `router.initialNavigation()`, and awaits its
+ * completion — avoiding the NG05001 error caused by `enabledBlocking`
+ * when Angular hydration is enabled.
  *
  * Use together with `AppRoutingModuleV2` in `AppModule`.
  */
 @NgModule({
   imports: [
-    BaseStorefrontModule,
+    BaseStorefrontModuleV2,
     SpartacusFeaturesModule,
     SpartacusConfigurationModule,
   ],
-  exports: [BaseStorefrontModule],
+  exports: [BaseStorefrontModuleV2],
 })
 export class SpartacusModuleV2 {}
+

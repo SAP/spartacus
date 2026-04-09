@@ -71,7 +71,7 @@ export function initSecurePortalConfig(
  *
  * @returns A promise that resolves when all initializers have completed.
  */
-function locationInitializedFactory(): Promise<any> {
+export function routingLocationInitializedFactory(): Promise<any> {
   const initializers =
     inject(LOCATION_INITIALIZED_MULTI, { optional: true }) ?? [];
   const promiseInitializers = initializers.map((initializer) => initializer());
@@ -107,7 +107,7 @@ function isNavigationDoneEvent(e: unknown): boolean {
  *
  * Used by `RoutingModule.forRootV2()`. Pair with `AppRoutingModuleV2`.
  */
-function blockingInitialNavigationFactory(): () => Promise<void> {
+export function blockingInitialNavigationFactory(): () => Promise<void> {
   const router = inject(Router);
   const initializers =
     inject(LOCATION_INITIALIZED_MULTI, { optional: true }) ?? [];
@@ -184,7 +184,7 @@ export class RoutingModule {
         ...sharedProviders,
         {
           provide: LOCATION_INITIALIZED,
-          useFactory: locationInitializedFactory,
+          useFactory: routingLocationInitializedFactory,
         },
       ],
     };

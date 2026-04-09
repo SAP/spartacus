@@ -8,10 +8,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { AppRoutingModule, AppRoutingModuleV2 } from '@spartacus/storefront';
+import { AppRoutingModuleV2 } from '@spartacus/storefront';
 import { privateProviders } from './private/private.providers';
 import {
-  SpartacusModule,
   SpartacusModuleV2,
 } from './spartacus/spartacus.module';
 
@@ -20,35 +19,21 @@ import {
  *
  * Uses `AppRoutingModule` (`initialNavigation: 'enabledBlocking'`) paired with
  * `SpartacusModule` (`BaseStorefrontModule`).
- * Identical to the baseline `develop` branch behavior.
- */
-@NgModule({
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule,
-  ],
-  providers: [privateProviders],
-})
-export class AppModule {}
-
-/**
- * New hydration-compatible AppModule.
  *
- * Uses `AppRoutingModuleV2` (`initialNavigation: 'disabled'`) paired with
- * `SpartacusModuleV2` (`BaseStorefrontModuleV2`).
- * Compatible with Angular hydration (avoids NG05001).
+ * Angular handles the initial navigation itself via `enabledBlocking`:
+ * it blocks bootstrap until the navigation completes, using `LOCATION_INITIALIZED`
+ * to await all Spartacus prerequisite initializers first.
+ *
+ * Use this when Angular hydration is NOT enabled.
  */
 @NgModule({
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),
-    AppRoutingModule,
+    AppRoutingModuleV2,
     EffectsModule.forRoot([]),
     SpartacusModuleV2,
   ],
   providers: [privateProviders],
 })
-export class AppModuleV2 {}
+export class AppModule {}
