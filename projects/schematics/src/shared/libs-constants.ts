@@ -267,6 +267,7 @@ export const SPARTACUS_OPF_QUICK_BUY_ROOT = `@spartacus/opf/quick-buy/root`;
 
 export const SPARTACUS_OPF_GIFT_CARD = `@spartacus/opf/gift-card`;
 export const SPARTACUS_OPF_GIFT_CARD_ROOT = `@spartacus/opf/gift-card/root`;
+export const SPARTACUS_OPF_GIFT_CARD_ASSETS = `@spartacus/opf/gift-card/assets`;
 export const SPARTACUS_OPF_TOKENISATION = `@spartacus/opf/tokenisation`;
 export const SPARTACUS_OPF_TOKENISATION_ROOT = `@spartacus/opf/tokenisation/root`;
 
