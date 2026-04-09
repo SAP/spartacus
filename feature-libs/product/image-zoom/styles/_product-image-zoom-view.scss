@@ -119,41 +119,39 @@ cx-product-image-zoom-view {
       @include media-breakpoint-up(lg) {
         height: fit-content;
       }
+    }
 
-      .cx-zoom-btn {
-        margin: 0.5rem;
-        border-radius: 100%;
-        background-color: var(--cx-color-medium);
-        position: absolute;
-        padding: 0;
-        right: 0;
-        bottom: 0;
+    .cx-zoom-btn-container {
+      text-align: center;
+    }
 
-        @include media-breakpoint-down(sm) {
-          display: none;
-        }
+    .cx-zoom-btn {
+      margin: 0.5rem;
+      border-radius: 100%;
+      padding: 0;
 
-        &:focus {
-          box-shadow: none;
-        }
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
 
-        .cx-zoom-indicator {
-          color: var(--cx-color-background-dark);
-          font-size: 2rem;
-        }
+      &:focus {
+        box-shadow: none;
+      }
+
+      .cx-zoom-indicator {
+        font-size: 2rem;
       }
     }
   }
 
   @include cx-highContrastTheme-light {
-    .cx-image-container .cx-zoom-btn .cx-zoom-indicator {
+    .cx-image-container .cx-zoom-btn-container .cx-zoom-btn .cx-zoom-indicator {
       color: var(--cx-color-dark);
     }
   }
 
   @include cx-highContrastTheme-dark {
-    .cx-image-container .cx-zoom-btn {
-      background-color: var(--cx-color-dark);
+    .cx-image-container .cx-zoom-btn-container .cx-zoom-btn .cx-zoom-indicator {
       color: var(--cx-color-light);
       --cx-color-visual-focus: #1f3a93;
     }

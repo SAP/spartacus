@@ -33,33 +33,6 @@
         >
         </cx-media>
       </div>
-      <button
-        #zoomButton
-        *ngIf="imageLoaded | async"
-        [attr.aria-label]="
-          isZoomed
-            ? ('common.zoomOut' | cxTranslate)
-            : ('common.zoomIn' | cxTranslate)
-        "
-        title="{{
-          isZoomed
-            ? ('common.zoomOut' | cxTranslate)
-            : ('common.zoomIn' | cxTranslate)
-        }}"
-        class="btn btn-link cx-zoom-btn"
-        (click)="zoom()"
-      >
-        <cx-icon
-          [type]="iconType.SEARCH_PLUS"
-          *ngIf="!isZoomed"
-          class="cx-zoom-indicator"
-        ></cx-icon>
-        <cx-icon
-          [type]="iconType.SEARCH_MINUS"
-          *ngIf="isZoomed"
-          class="cx-zoom-indicator"
-        ></cx-icon>
-      </button>
     </div>
     <ng-container *cxFeature="'!a11yKeyboardAccessibleZoom'">
       <cx-media
@@ -91,6 +64,35 @@
         <cx-icon [type]="iconType.CARET_RIGHT"></cx-icon>
       </button>
     </div>
+  </div>
+  <div class="cx-zoom-btn-container">
+    <button
+      #zoomButton
+      *ngIf="imageLoaded | async"
+      [attr.aria-label]="
+        isZoomed
+          ? ('common.zoomOut' | cxTranslate)
+          : ('common.zoomIn' | cxTranslate)
+      "
+      title="{{
+        isZoomed
+          ? ('common.zoomOut' | cxTranslate)
+          : ('common.zoomIn' | cxTranslate)
+      }}"
+      class="btn btn-link cx-zoom-btn"
+      (click)="zoom()"
+    >
+      <cx-icon
+        [type]="iconType.SEARCH_PLUS"
+        *ngIf="!isZoomed"
+        class="cx-zoom-indicator"
+      ></cx-icon>
+      <cx-icon
+        [type]="iconType.SEARCH_MINUS"
+        *ngIf="isZoomed"
+        class="cx-zoom-indicator"
+      ></cx-icon>
+    </button>
   </div>
 </ng-container>
 
