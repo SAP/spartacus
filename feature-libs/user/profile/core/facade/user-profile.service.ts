@@ -22,12 +22,7 @@ import {
   UserAccountFacade,
 } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import {
-  ChineseCity,
-  ChineseDistrict,
-  Title,
-  UserProfileFacade,
-} from '@spartacus/user/profile/root';
+import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { map, switchMap, tap } from 'rxjs/operators';
 
@@ -106,13 +101,5 @@ export class UserProfileService implements UserProfileFacade {
    */
   getTitles(): Observable<Title[]> {
     return this.titleQuery.get().pipe(map((titles) => titles ?? []));
-  }
-
-  getCities(regionIsocode: string): Observable<ChineseCity[]> {
-    return this.userProfileConnector.getCities(regionIsocode);
-  }
-
-  getDistricts(cityIsocode: string): Observable<ChineseDistrict[]> {
-    return this.userProfileConnector.getDistricts(cityIsocode);
   }
 }

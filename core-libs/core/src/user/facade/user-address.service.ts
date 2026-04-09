@@ -19,6 +19,7 @@ import {
   Command,
   CommandService,
 } from '../../util/command-query/command.service';
+import { SiteConnector } from '../../site-context/connectors/site.connector';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -32,7 +33,8 @@ export class UserAddressService {
     protected store: Store<StateWithUser>,
     protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
-    protected command: CommandService
+    protected command: CommandService,
+    protected siteConnector: SiteConnector
   ) {}
 
   /**
@@ -197,6 +199,19 @@ export class UserAddressService {
       })
     );
   }
+
+  getCities(
+    regionIsocode: string
+  ): Observable<{ isocode?: string; name?: string }[]> {
+    return this.siteConnector.getCities(regionIsocode);
+  }
+
+  getDistricts(
+    cityIsocode: string
+  ): Observable<{ isocode?: string; name?: string }[]> {
+    return this.siteConnector.getDistricts(cityIsocode);
+  }
+
   /**
    * Verifies the address
    * @param address : the address to be verified

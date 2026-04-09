@@ -214,7 +214,11 @@
           [items]="cities"
           bindLabel="name"
           bindValue="isocode"
-          placeholder="{{ cityPlaceholder }}"
+          placeholder="{{
+            selectedRegion$.value
+              ? ('addressForm.selectOne' | cxTranslate)
+              : ('addressForm.selectProvinceFirst' | cxTranslate)
+          }}"
           (change)="citySelected($event)"
           [cxNgSelectA11y]="{
             ariaLabel: 'addressForm.city.label' | cxTranslate,
@@ -259,7 +263,11 @@
           [items]="districts"
           bindLabel="name"
           bindValue="isocode"
-          placeholder="{{ districtPlaceholder }}"
+          placeholder="{{
+            selectedCity$.value
+              ? ('addressForm.selectOne' | cxTranslate)
+              : ('addressForm.selectCityFirst' | cxTranslate)
+          }}"
           [cxNgSelectA11y]="{
             ariaLabel: 'addressForm.district' | cxTranslate,
           }"
