@@ -25,7 +25,6 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressFormComponent } from './address-form.component';
-import { ChineseAddressService } from './chinese-address.service';
 import createSpy = jasmine.createSpy;
 
 const mockTitles: Title[] = [
@@ -105,13 +104,10 @@ class MockUserAddressService {
   verifyAddress(): Observable<AddressValidation> {
     return of({});
   }
-}
-
-class MockChineseAddressService {
-  getCities() {
+  getCities(): Observable<{ isocode?: string; name?: string }[]> {
     return of([]);
   }
-  getDistricts() {
+  getDistricts(): Observable<{ isocode?: string; name?: string }[]> {
     return of([]);
   }
 }
@@ -171,10 +167,6 @@ describe('AddressFormComponent', () => {
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
-        {
-          provide: ChineseAddressService,
-          useClass: MockChineseAddressService,
-        },
         {
           provide: LanguageService,
           useClass: MockLanguageService,

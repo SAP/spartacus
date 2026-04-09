@@ -110,4 +110,30 @@ export class OccSiteAdapter implements SiteAdapter {
         this.converterService.pipeableMany(BASE_SITE_NORMALIZER)
       );
   }
+
+  loadCities(
+    regionIsocode: string
+  ): Observable<{ isocode?: string; name?: string }[]> {
+    const url = this.occEndpointsService.buildUrl('chineseAddressCities', {
+      urlParams: { regionId: regionIsocode },
+    });
+    return this.http
+      .get<{ cities: { isocode?: string; name?: string }[] }>(url, {
+        params: { fields: 'cities(name,isocode)' },
+      })
+      .pipe(map((res) => res.cities ?? []));
+  }
+
+  loadDistricts(
+    cityIsocode: string
+  ): Observable<{ isocode?: string; name?: string }[]> {
+    const url = this.occEndpointsService.buildUrl('chineseAddressDistricts', {
+      urlParams: { cityId: cityIsocode },
+    });
+    return this.http
+      .get<{ districts: { isocode?: string; name?: string }[] }>(url, {
+        params: { fields: 'districts(name,isocode)' },
+      })
+      .pipe(map((res) => res.districts ?? []));
+  }
 }

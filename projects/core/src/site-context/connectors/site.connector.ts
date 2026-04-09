@@ -32,6 +32,18 @@ export class SiteConnector {
     return this.adapter.loadRegions(countryIsoCode);
   }
 
+  getCities(
+    regionIsocode: string
+  ): Observable<{ isocode?: string; name?: string }[]> {
+    return this.adapter.loadCities(regionIsocode);
+  }
+
+  getDistricts(
+    cityIsocode: string
+  ): Observable<{ isocode?: string; name?: string }[]> {
+    return this.adapter.loadDistricts(cityIsocode);
+  }
+
   getBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
     return this.adapter.loadBaseSite(siteUid);
   }

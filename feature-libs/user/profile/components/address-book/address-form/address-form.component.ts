@@ -50,8 +50,6 @@ import {
   sortTitles,
 } from '@spartacus/storefront';
 import {
-  ChineseCity,
-  ChineseDistrict,
   UserProfileFacade,
 } from '@spartacus/user/profile/root';
 import {
@@ -92,10 +90,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   isChineseAddress = false;
-  cityPlaceholder = '';
-  districtPlaceholder = '';
-  cities: ChineseCity[] = [];
-  districts: ChineseDistrict[] = [];
+  cities: { isocode?: string; name?: string }[] = [];
+  districts: { isocode?: string; name?: string }[] = [];
   addresses$: Observable<Address[]>;
 
   @Input()
@@ -138,11 +134,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
-    town: ['', Validators.required],
+    town: [null, Validators.required],
     region: this.fb.group({
       isocode: [null, Validators.required],
     }),
-    district: [''],
+    district: [null],
     postalCode: ['', Validators.required],
     phone: '',
     cellphone: '',
@@ -203,14 +199,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             if (!regionIsocode) {
               return of([]);
             }
-            return this.userProfileFacade.getCities(regionIsocode);
+            return this.userAddressService.getCities(regionIsocode);
           })
         )
         .subscribe((cities) => {
           this.cities = cities;
           if (this.addressData?.city?.isocode && !this.selectedCity$.value) {
             this.selectedCity$.next(this.addressData.city.isocode);
-            this.addressForm.get('district')?.enable();
+            this.addressForm.get('town')?.setValue(this.addressData.city.isocode);
           }
           this.cdr.markForCheck();
         })
@@ -223,7 +219,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             if (!cityIsocode) {
               return of([]);
             }
-            return this.userProfileFacade.getDistricts(cityIsocode);
+            return this.userAddressService.getDistricts(cityIsocode);
           })
         )
         .subscribe((districts) => {
@@ -240,7 +236,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.languageService.getActive().subscribe(() => {
         if (this.isChineseAddress) {
-          this.updateChinesePlaceholders();
+          this.cdr.markForCheck();
         }
       })
     );
@@ -295,9 +291,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.isChineseAddress) {
       cellphoneControl?.setValidators([Validators.required]);
       districtControl?.setValidators([Validators.required]);
-      townControl?.disable();
-      districtControl?.disable();
-      this.updateChinesePlaceholders();
+      townControl?.reset();
+      districtControl?.reset();
     } else {
       cellphoneControl?.clearValidators();
       districtControl?.clearValidators();
@@ -316,48 +311,19 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.isChineseAddress) {
       this.selectedRegion$.next(region.isocode ?? '');
       this.addressForm.get('town')?.reset();
-      this.addressForm.get('town')?.enable();
       this.selectedCity$.next('');
       this.addressForm.get('district')?.reset();
-      this.addressForm.get('district')?.disable();
-      this.updateChinesePlaceholders();
     }
   }
 
-  citySelected(city: ChineseCity | undefined): void {
+  citySelected(city: { isocode?: string; name?: string } | undefined): void {
     if (city?.isocode) {
       this.selectedCity$.next(city.isocode);
       this.addressForm.get('district')?.reset();
-      this.addressForm.get('district')?.enable();
-      this.updateChinesePlaceholders();
     }
   }
 
-  protected updateChinesePlaceholders(): void {
-    this.translation
-      .translate(
-        this.selectedRegion$.value
-          ? 'addressForm.selectOne'
-          : 'addressForm.selectProvinceFirst'
-      )
-      .pipe(take(1))
-      .subscribe((text) => {
-        this.cityPlaceholder = text;
-        this.cdr.markForCheck();
-      });
-
-    this.translation
-      .translate(
-        this.selectedCity$.value
-          ? 'addressForm.selectOne'
-          : 'addressForm.selectCityFirst'
-      )
-      .pipe(take(1))
-      .subscribe((text) => {
-        this.districtPlaceholder = text;
-        this.cdr.markForCheck();
-      });
-  }
+  protected updateChinesePlaceholders(): void {}
 
   toggleDefaultAddress(): void {
     this.addressForm['controls'].defaultAddress.setValue(
