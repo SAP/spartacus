@@ -37,19 +37,30 @@
 {redirectUriHost}
 
 ```sh
-# add 'context'
+# add 'context' to existing value
 authserver.authorizationCode.allowed.params=context 
 # client_id,client_secret,response_type,redirect_uri,scope,state,code_challenge,code_challenge_method,nonce,continue,_csrf,context
 
-# add 'login.local'
+# add 'login.local' to existing value
 authserver.oauthclientdetails.loginpageuri.allowed.hosts=login.local 
 
-# add to current value
+# add to existing value
 corsfilter.authorizationserver.allowedOrigins=https://login.local:4200, https://electronics-storefront.de:4200, https://electronics-storefront.es:4200, https://powertools-storefront.de:4200
 ```
 
 
 ## Hosting
+
+/etc/hosts
+```
+40.76.109.9     api.login.local
+127.0.0.1           login.local
+
+127.0.0.1       electronics-storefront.de
+127.0.0.1       electronics-storefront.es
+127.0.0.1       powertools-storefront.de
+```
+
 
 static API endpoint
 	- [api.login.local](https://api.login.local:9002/)
@@ -101,3 +112,9 @@ https://wiki.one.int.sap/wiki/spaces/spar/pages/5804333987/Multi-Host+emulation+
   - fallback to basesite defaults
 
 **What to do when no basesite?**
+
+
+
+CmsStructureConfigService allows for custom hiding/changing certain slots in the CMS-response.
+ 
+AFAIK the ProductConfiguration team implemented hiding/changing the top level navigation on the Product Configuration pages
