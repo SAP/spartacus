@@ -49,7 +49,11 @@ import {
   NgSelectA11yDirective,
   sortTitles,
 } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import {
+  ChineseCity,
+  ChineseDistrict,
+  UserProfileFacade,
+} from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,
   Observable,
@@ -58,11 +62,6 @@ import {
   of,
 } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import {
-  ChineseAddressService,
-  City,
-  District,
-} from './chinese-address.service';
 
 @Component({
   selector: 'cx-address-form',
@@ -82,9 +81,9 @@ import {
   ],
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
-  protected chineseAddressService = inject(ChineseAddressService);
   protected languageService = inject(LanguageService);
   protected cdr = inject(ChangeDetectorRef);
+  protected userProfileFacade = inject(UserProfileFacade);
 
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
@@ -95,8 +94,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   isChineseAddress = false;
   cityPlaceholder = '';
   districtPlaceholder = '';
-  cities: City[] = [];
-  districts: District[] = [];
+  cities: ChineseCity[] = [];
+  districts: ChineseDistrict[] = [];
   addresses$: Observable<Address[]>;
 
   @Input()
@@ -155,8 +154,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,
-    protected launchDialogService: LaunchDialogService,
-    protected userProfileFacade: UserProfileFacade
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit() {
@@ -205,11 +203,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             if (!regionIsocode) {
               return of([]);
             }
-            return this.chineseAddressService.getCities(regionIsocode);
+            return this.userProfileFacade.getCities(regionIsocode);
           })
         )
         .subscribe((cities) => {
           this.cities = cities;
+          if (this.addressData?.city?.isocode && !this.selectedCity$.value) {
+            this.selectedCity$.next(this.addressData.city.isocode);
+            this.addressForm.get('district')?.enable();
+          }
           this.cdr.markForCheck();
         })
     );
@@ -221,11 +223,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             if (!cityIsocode) {
               return of([]);
             }
-            return this.chineseAddressService.getDistricts(cityIsocode);
+            return this.userProfileFacade.getDistricts(cityIsocode);
           })
         )
         .subscribe((districts) => {
           this.districts = districts;
+          if (this.addressData?.cityDistrict?.isocode) {
+            this.addressForm
+              .get('district')
+              ?.setValue(this.addressData.cityDistrict.isocode);
+          }
           this.cdr.markForCheck();
         })
     );
@@ -317,7 +324,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  citySelected(city: City | undefined): void {
+  citySelected(city: ChineseCity | undefined): void {
     if (city?.isocode) {
       this.selectedCity$.next(city.isocode);
       this.addressForm.get('district')?.reset();
@@ -334,7 +341,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           : 'addressForm.selectProvinceFirst'
       )
       .pipe(take(1))
-      .subscribe((text) => (this.cityPlaceholder = text));
+      .subscribe((text) => {
+        this.cityPlaceholder = text;
+        this.cdr.markForCheck();
+      });
 
     this.translation
       .translate(
@@ -343,7 +353,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           : 'addressForm.selectCityFirst'
       )
       .pipe(take(1))
-      .subscribe((text) => (this.districtPlaceholder = text));
+      .subscribe((text) => {
+        this.districtPlaceholder = text;
+        this.cdr.markForCheck();
+      });
   }
 
   toggleDefaultAddress(): void {

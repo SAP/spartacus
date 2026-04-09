@@ -25,7 +25,12 @@ import {
   USER_SIGN_UP_SERIALIZER,
   UserProfileAdapter,
 } from '@spartacus/user/profile/core';
-import { Title, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  ChineseCity,
+  ChineseDistrict,
+  Title,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -182,6 +187,38 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)
     );
+  }
+
+  getCities(regionIsocode: string): Observable<ChineseCity[]> {
+    const url = this.occEndpoints.buildUrl('chineseAddressCities', {
+      urlParams: { regionId: regionIsocode },
+    });
+    return this.http
+      .get<{ cities: ChineseCity[] }>(url, {
+        params: { fields: 'cities(name,isocode)' },
+      })
+      .pipe(
+        map((res) => res.cities ?? []),
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        })
+      );
+  }
+
+  getDistricts(cityIsocode: string): Observable<ChineseDistrict[]> {
+    const url = this.occEndpoints.buildUrl('chineseAddressDistricts', {
+      urlParams: { cityId: cityIsocode },
+    });
+    return this.http
+      .get<{ districts: ChineseDistrict[] }>(url, {
+        params: { fields: 'districts(name,isocode)' },
+      })
+      .pipe(
+        map((res) => res.districts ?? []),
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        })
+      );
   }
 
   protected appendCaptchaToken(currentHeaders: HttpHeaders): HttpHeaders {

@@ -30,6 +30,16 @@ export interface Title {
   name?: string;
 }
 
+export interface ChineseCity {
+  name?: string;
+  isocode?: string;
+}
+
+export interface ChineseDistrict {
+  name?: string;
+  isocode?: string;
+}
+
 export interface UserSignUp {
   firstName?: string;
   lastName?: string;
