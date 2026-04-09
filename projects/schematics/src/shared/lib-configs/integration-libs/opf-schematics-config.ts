@@ -30,6 +30,7 @@ import {
   SPARTACUS_OPF_CTA,
   SPARTACUS_OPF_CTA_ROOT,
   SPARTACUS_OPF_GIFT_CARD,
+  SPARTACUS_OPF_GIFT_CARD_ASSETS,
   SPARTACUS_OPF_GIFT_CARD_ROOT,
   SPARTACUS_OPF_GLOBAL_FUNCTIONS,
   SPARTACUS_OPF_GLOBAL_FUNCTIONS_ROOT,
@@ -106,6 +107,9 @@ export const OPF_ORDER_MODULE = 'OpfOrderModule';
 export const OPF_GIFT_CARD_FEATURE_NAME_CONSTANT = 'OPF_GIFT_CARD_FEATURE';
 export const OPF_GIFT_CARD_MODULE = 'OpfGiftCardModule';
 export const OPF_GIFT_CARD_ROOT_MODULE = 'OpfGiftCardRootModule';
+export const OPF_GIFT_CARD_TRANSLATIONS = 'opfGiftCardTranslations';
+export const OPF_GIFT_CARD_TRANSLATION_CHUNKS_CONFIG =
+  'opfGiftCardTranslationChunksConfig';
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -432,6 +436,11 @@ export const OPF_GIFT_CARD_SCHEMATICS_CONFIG: SchematicConfig = {
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
     namedImports: [OPF_GIFT_CARD_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: OPF_GIFT_CARD_TRANSLATIONS,
+    chunks: OPF_GIFT_CARD_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_OPF_GIFT_CARD_ASSETS,
   },
   styles: {
     scssFileName: OPF_SCSS_FILE_NAME,
