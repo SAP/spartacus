@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/product-multi-dimensional",
-  "version": "221121.10.0-1",
+  "version": "221121.10.0",
   "description": "Product Multi-Dimensional library for Spartacus",
   "keywords": [
     "spartacus",
@@ -31,10 +31,10 @@
     "@angular/forms": "^21.2.4",
     "@angular/router": "^21.2.4",
     "@ng-select/ng-select": "^21.1.4",
-    "@spartacus/core": "221121.10.0-1",
-    "@spartacus/schematics": "221121.10.0-1",
-    "@spartacus/storefront": "221121.10.0-1",
-    "@spartacus/styles": "221121.10.0-1",
+    "@spartacus/core": "221121.10.0",
+    "@spartacus/schematics": "221121.10.0",
+    "@spartacus/storefront": "221121.10.0",
+    "@spartacus/styles": "221121.10.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

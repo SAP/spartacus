@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cpq-quote",
-  "version": "221121.10.0-1",
+  "version": "221121.10.0",
   "description": "cpq-quote library for Spartacus",
   "keywords": [
     "spartacus",
@@ -23,10 +23,10 @@
     "@angular-devkit/schematics": "^21.2.3",
     "@angular/common": "^21.2.4",
     "@angular/core": "^21.2.4",
-    "@spartacus/cart": "221121.10.0-1",
-    "@spartacus/core": "221121.10.0-1",
-    "@spartacus/schematics": "221121.10.0-1",
-    "@spartacus/storefront": "221121.10.0-1",
+    "@spartacus/cart": "221121.10.0",
+    "@spartacus/core": "221121.10.0",
+    "@spartacus/schematics": "221121.10.0",
+    "@spartacus/storefront": "221121.10.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
