@@ -9,12 +9,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -26,6 +26,14 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import {
+  ICON_TYPE,
+  IconComponent,
+  OutletModule,
+  PaginationComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { Observable, Subject, Subscription } from 'rxjs';
+import {
   OpfActiveConfiguration,
   OpfActiveConfigurationsPagination,
   OpfActiveConfigurationsResponse,
@@ -33,20 +41,15 @@ import {
   OpfConfig,
   OpfMetadataModel,
   OpfMetadataStoreService,
+  OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
-import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
-import {
-  ICON_TYPE,
-  IconComponent,
-  PaginationComponent,
-  SpinnerComponent,
-  OutletModule,
-} from '@spartacus/storefront';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
-import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
+import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -74,12 +77,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfCheckoutBillingAddressFormService = inject(
     OpfCheckoutBillingAddressFormService
   );
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected userPaymentService = inject(UserPaymentService);
 
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;
-
   @Input()
   isHeadingDisplayed? = true;
 
@@ -202,6 +205,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
 
             if (state.data?.value && !state.error && !state.loading) {
               this.paginationModel = this.getPaginationModel(state.data?.page);
+
+              state.data.value = state.data?.value.filter(
+                (x) =>
+                  x.providerType !== OpfPaymentProviderType.STORED_VALUE_PAYMENT
+              );
 
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
