@@ -153,6 +153,10 @@ function add_opf {
      if [[ "${ADD_OPF}" = true && "${ADD_OPF_TOKENISATION}" = true ]] ; then
         ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-Tokenisation"
     fi
+
+    if [[ "${ADD_OPF}" = true && "${ADD_OPF_GIFT_CARD}" = true ]] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-Gift-Card"
+    fi
 }
 
 function add_punchout {
