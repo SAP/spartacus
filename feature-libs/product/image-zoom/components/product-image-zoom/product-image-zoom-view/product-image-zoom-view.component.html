@@ -65,7 +65,7 @@
       </button>
     </div>
   </div>
-  <div class="cx-zoom-btn-container">
+  <div class="cx-zoom-btn-container" *cxFeature="'a11yKeyboardAccessibleZoom'">
     <button
       #zoomButton
       *ngIf="imageLoaded | async"
