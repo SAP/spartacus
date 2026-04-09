@@ -687,6 +687,24 @@
       "@spartacus/opf/global-functions/core": [
         "../../integration-libs/opf/global-functions/core/public_api"
       ],
+      "@spartacus/opf/gift-card": [
+        "../../integration-libs/opf/gift-card/public_api"
+      ],
+      "@spartacus/opf/gift-card/root": [
+        "../../integration-libs/opf/gift-card/root/public_api"
+      ],
+      "@spartacus/opf/gift-card/occ": [
+        "../../integration-libs/opf/gift-card/occ/public_api"
+      ],
+      "@spartacus/opf/gift-card/core": [
+        "../../integration-libs/opf/gift-card/core/public_api"
+      ],
+      "@spartacus/opf/gift-card/components": [
+        "../../integration-libs/opf/gift-card/components/public_api"
+      ],
+      "@spartacus/opf/gift-card/assets": [
+        "../../integration-libs/opf/gift-card/assets/public_api"
+      ],
       "@spartacus/opf/cta": ["../../integration-libs/opf/cta/public_api"],
       "@spartacus/opf/cta/root": [
         "../../integration-libs/opf/cta/root/public_api"
