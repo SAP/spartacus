@@ -6,26 +6,26 @@
 
 import { PathLocationStrategy, PlatformLocation } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { FederatedOriginsService } from './federated-origins.service';
+import { FederatedLoginService } from './federated-login.service';
 
 @Injectable({ providedIn: 'root' })
 export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
-  federatedOriginService = inject(FederatedOriginsService);
+  federatedOriginService = inject(FederatedLoginService);
 
   platformLocation = inject(PlatformLocation);
 
   // rebase relative URLs onto the origin site
   prepareExternalUrl(url: string) {
     const normalUrl = super.prepareExternalUrl(url);
-    if (!this.federatedOriginService.loginDomain) {
+    if (
+      !this.federatedOriginService.loginDomain ||
+      !this.federatedOriginService.origin
+    ) {
       return normalUrl;
     }
 
     // if the normalUrl has a hostname, the origin won't be used
-    const rebasedUrl = new URL(
-      normalUrl,
-      this.federatedOriginService.getOrigin()
-    );
+    const rebasedUrl = new URL(normalUrl, this.federatedOriginService.origin);
 
     if (!url.startsWith('electronics-spa')) {
       console.log(`preparing url\n  ${url}\n  ${normalUrl}\n  ${rebasedUrl}`);
@@ -62,11 +62,11 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
     url: string,
     queryParams: string
   ) {
+    console.log(`replaceState\n  ${state}\n  ${title}\n  ${url}`);
     if (!this.federatedOriginService.loginDomain) {
       return super.replaceState(state, title, url, queryParams);
     }
 
-    console.log(`replaceState\n  ${state}\n  ${title}\n  ${url}`);
     const externalUrl = super.prepareExternalUrl(
       url + this.normalizeQueryParams(queryParams)
     );

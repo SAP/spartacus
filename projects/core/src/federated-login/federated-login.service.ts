@@ -7,20 +7,34 @@ import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { FederatedLoginConfig } from './config/federated-login-config';
+import {
+  FederatedLoginContext,
+  FederatedLoginContextSerializerService,
+} from './federated-login-context-serializer.service';
 
 @Injectable({ providedIn: 'root' })
-export class FederatedOriginsService {
+export class FederatedLoginService {
   windowRef = inject(WindowRef);
   config = inject(FederatedLoginConfig).federatedLogin;
+  contextSerializerService = inject(FederatedLoginContextSerializerService);
 
   enabled = this.config?.enabled ?? false;
 
+  /** Is the current domain a federated login domain */
   loginDomain = this.isLoginDomain();
 
-  origin: string | undefined;
+  contextValue: FederatedLoginContext | undefined;
 
-  deserializeContext(context: string | null | undefined) {
-    return context ? this.config?.originMap[context] : undefined;
+  get origin(): string | undefined {
+    return this.contextValue?.origin;
+  }
+
+  get language(): string | undefined {
+    return this.contextValue?.language;
+  }
+
+  get currency(): string | undefined {
+    return this.contextValue?.currency;
   }
 
   getParameters() {
@@ -36,7 +50,8 @@ export class FederatedOriginsService {
   }
 
   setContext(context: string | null | undefined) {
-    this.origin = this.deserializeContext(context);
+    this.contextValue =
+      this.contextSerializerService.deserializeContext(context);
   }
 
   detectContext() {
@@ -48,10 +63,6 @@ export class FederatedOriginsService {
 
       this.setContext(context);
     }
-  }
-
-  getOrigin() {
-    return this.origin;
   }
 
   protected isLoginDomain() {

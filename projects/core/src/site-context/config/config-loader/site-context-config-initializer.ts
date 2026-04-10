@@ -5,10 +5,10 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { FederatedOriginsService } from 'projects/core/src/federated-login';
 import { lastValueFrom, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
+import { FederatedLoginService } from '../../../federated-login';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { WindowRef } from '../../../window/window-ref';
@@ -26,7 +26,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
-  federatedOriginsService = inject(FederatedOriginsService);
+  federatedLoginService = inject(FederatedLoginService);
 
   constructor(
     protected baseSiteService: BaseSiteService,
@@ -46,10 +46,10 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected resolveConfig(): Observable<SiteContextConfig> {
     return this.baseSiteService.getAll().pipe(
       map((baseSites) => {
-        if (this.federatedOriginsService.loginDomain) {
-          this.federatedOriginsService.detectContext();
-          if (this.federatedOriginsService.origin) {
-            const origin = this.federatedOriginsService.origin;
+        if (this.federatedLoginService.loginDomain) {
+          this.federatedLoginService.detectContext();
+          if (this.federatedLoginService.origin) {
+            const origin = this.federatedLoginService.origin;
             const site = baseSites?.find((site) =>
               this.isCurrentBaseSite(site, origin)
             );

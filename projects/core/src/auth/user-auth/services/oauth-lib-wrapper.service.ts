@@ -9,7 +9,7 @@ import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
-import { FederatedOriginsService } from '../../../federated-login';
+import { FederatedLoginService } from '../../../federated-login';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -25,7 +25,7 @@ import { AuthConfigService } from './auth-config.service';
 export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
-  federatedOriginsService = inject(FederatedOriginsService);
+  federatedOriginsService = inject(FederatedLoginService);
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
