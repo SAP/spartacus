@@ -10,9 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AppRoutingModuleV2 } from '@spartacus/storefront';
 import { privateProviders } from './private/private.providers';
-import {
-  SpartacusModuleV2,
-} from './spartacus/spartacus.module';
+import { SpartacusModuleV2 } from './spartacus/spartacus.module';
 
 /**
  * Default AppModule.

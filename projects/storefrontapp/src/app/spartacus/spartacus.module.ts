@@ -5,7 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { BaseStorefrontModule, BaseStorefrontModuleV2 } from '@spartacus/storefront';
+import {
+  BaseStorefrontModule,
+  BaseStorefrontModuleV2,
+} from '@spartacus/storefront';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';
 
@@ -45,4 +48,3 @@ export class SpartacusModule {}
   exports: [BaseStorefrontModuleV2],
 })
 export class SpartacusModuleV2 {}
-
