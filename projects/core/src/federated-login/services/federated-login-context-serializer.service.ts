@@ -5,19 +5,14 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { FederatedLoginConfig } from '@spartacus/core';
-
-export interface FederatedLoginContext {
-  origin: string | undefined;
-  language: string | undefined;
-  currency: string | undefined;
-}
+import { FederatedLoginConfig } from '../config/federated-login-config';
+import { FederatedLoginContext } from '../model/federated-login-context.mode';
 
 @Injectable({ providedIn: 'root' })
 export class FederatedLoginContextSerializerService {
   config = inject(FederatedLoginConfig).federatedLogin;
 
-  serializeContext(context: Partial<FederatedLoginContext>) {
+  serializeContext(context: FederatedLoginContext) {
     const value: string[] = [];
 
     if (context.origin) {
@@ -42,11 +37,7 @@ export class FederatedLoginContextSerializerService {
 
   deserializeContext(serializedContext: string | null | undefined) {
     const [domain, language, currency] = serializedContext?.split(':', 3) ?? [];
-    const contextValue: FederatedLoginContext = {
-      currency: undefined,
-      language: undefined,
-      origin: undefined,
-    };
+    const contextValue: FederatedLoginContext = {};
 
     if (domain) {
       contextValue.origin = this.config?.originMap[domain];

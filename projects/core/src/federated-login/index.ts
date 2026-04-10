@@ -5,7 +5,8 @@
  */
 
 export * from './config/federated-login-config';
-export * from './federated-login-context-serializer.service';
+export * from './federated-login-language-initializer';
 export * from './federated-login-location.strategy';
 export * from './federated-login.module';
-export * from './federated-login.service';
+export * from './model';
+export * from './services';

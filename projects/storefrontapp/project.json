@@ -221,6 +221,7 @@
           "electronics-storefront.es"
         ],
         "liveReload": false,
+        "hmr": false,
         "ssl": true
       },
       "configurations": {

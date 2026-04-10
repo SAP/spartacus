@@ -46,7 +46,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected resolveConfig(): Observable<SiteContextConfig> {
     return this.baseSiteService.getAll().pipe(
       map((baseSites) => {
-        if (this.federatedLoginService.loginDomain) {
+        if (this.federatedLoginService.isLoginDomain) {
           this.federatedLoginService.detectContext();
           if (this.federatedLoginService.origin) {
             const origin = this.federatedLoginService.origin;

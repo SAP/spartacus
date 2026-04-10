@@ -6,7 +6,7 @@
 
 import { PathLocationStrategy, PlatformLocation } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
-import { FederatedLoginService } from './federated-login.service';
+import { FederatedLoginService } from './services';
 
 @Injectable({ providedIn: 'root' })
 export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
@@ -18,7 +18,7 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
   prepareExternalUrl(url: string) {
     const normalUrl = super.prepareExternalUrl(url);
     if (
-      !this.federatedOriginService.loginDomain ||
+      !this.federatedOriginService.isLoginDomain ||
       !this.federatedOriginService.origin
     ) {
       return normalUrl;
@@ -42,7 +42,7 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
     url: string,
     queryParams: string
   ) {
-    if (!this.federatedOriginService.loginDomain) {
+    if (!this.federatedOriginService.isLoginDomain) {
       return super.pushState(_state, _title, url, queryParams);
     }
 
@@ -63,7 +63,7 @@ export class FederatedLoginPathLocationStrategy extends PathLocationStrategy {
     queryParams: string
   ) {
     console.log(`replaceState\n  ${state}\n  ${title}\n  ${url}`);
-    if (!this.federatedOriginService.loginDomain) {
+    if (!this.federatedOriginService.isLoginDomain) {
       return super.replaceState(state, title, url, queryParams);
     }
 

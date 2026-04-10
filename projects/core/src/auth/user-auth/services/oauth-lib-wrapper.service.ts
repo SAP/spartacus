@@ -47,13 +47,13 @@ export class OAuthLibWrapperService {
         this.federatedOriginsService.getParameters();
     }
 
-    if (this.federatedOriginsService.loginDomain) {
+    if (this.federatedOriginsService.isLoginDomain) {
       console.log('config oauth', this.federatedOriginsService.origin);
     }
     let redirectUri =
       this.authConfigService.getOAuthLibConfig()?.redirectUri ??
       (!isSSR
-        ? this.federatedOriginsService.loginDomain
+        ? this.federatedOriginsService.isLoginDomain
           ? this.federatedOriginsService.origin
           : this.winRef.nativeWindow?.location.origin
         : '');
