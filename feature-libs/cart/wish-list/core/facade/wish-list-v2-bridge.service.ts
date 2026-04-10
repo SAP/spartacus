@@ -29,11 +29,6 @@ import {
 } from 'rxjs/operators';
 import { WishListService } from './wish-list.service';
 
-/**
- * Bridge service that implements WishListFacade.
- * - wishlistV2=false: delegates all calls to WishListService (V1, SavedCart API)
- * - wishlistV2=true:  uses new dedicated Wishlist OCC API via UserWishlistConnector
- */
 @Injectable()
 export class WishListV2BridgeService implements WishListFacade {
   private featureToggles = inject(FeatureToggles);
@@ -42,18 +37,8 @@ export class WishListV2BridgeService implements WishListFacade {
   private connector = inject(UserWishlistConnector);
   private productConnector = inject(ProductConnector);
 
-  /**
-   * V2-only: refresh trigger for re-fetching after mutations.
-   * Only used when wishlistV2=true.
-   */
   private refresh$ = new BehaviorSubject<void>(undefined);
 
-  /**
-   * V2-only: lazily-initialized singleton stream shared by getWishList(),
-   * addEntry(), and removeEntry(). Uses refCount:false so the cached wishlist
-   * ID is always available for mutations without a new HTTP round-trip.
-   * refresh$.next() triggers a transparent re-fetch of the wishlist + products.
-   */
   private _wishlistV2$: Observable<Wishlist> | undefined;
   private get wishlistV2$(): Observable<Wishlist> {
     this._wishlistV2$ ??= combineLatest([
@@ -72,10 +57,6 @@ export class WishListV2BridgeService implements WishListFacade {
     return this._wishlistV2$;
   }
 
-  /**
-   * Parallel-fetch full product details for each wishlist entry.
-   * If entries are empty, returns the wishlist as-is immediately.
-   */
   private enrichWithProducts(wishlist: Wishlist): Observable<Wishlist> {
     const entries = wishlist.entries ?? [];
     if (entries.length === 0) {
@@ -98,23 +79,19 @@ export class WishListV2BridgeService implements WishListFacade {
   }
 
   createWishList(userId: string, name?: string, description?: string): void {
-    if (!this.featureToggles.wishlistV2) {
+    if (!this.featureToggles.enableNewWishlistEndpoint) {
       this.v1Service.createWishList(userId, name, description);
     }
-    // V2: no-op, API creates wishlists automatically
   }
 
   loadWishList(userId: string, customerId: string): void {
-    if (!this.featureToggles.wishlistV2) {
+    if (!this.featureToggles.enableNewWishlistEndpoint) {
       this.v1Service.loadWishList(userId, customerId);
     }
-    // V2: no-op, data is loaded lazily via getWishList()
   }
 
   getWishList(): Observable<Cart> {
-    if (!this.featureToggles.wishlistV2) {
-      // startWith ensures the button renders immediately (empty entries).
-      // V1 stream updates reactively once the NgRx store loads the wish list.
+    if (!this.featureToggles.enableNewWishlistEndpoint) {
       return this.v1Service
         .getWishList()
         .pipe(startWith({ entries: [] } as Cart));
@@ -123,7 +100,7 @@ export class WishListV2BridgeService implements WishListFacade {
   }
 
   addEntry(productCode: string): void {
-    if (!this.featureToggles.wishlistV2) {
+    if (!this.featureToggles.enableNewWishlistEndpoint) {
       this.v1Service.addEntry(productCode);
       return;
     }
@@ -140,7 +117,7 @@ export class WishListV2BridgeService implements WishListFacade {
   }
 
   removeEntry(entry: OrderEntry): void {
-    if (!this.featureToggles.wishlistV2) {
+    if (!this.featureToggles.enableNewWishlistEndpoint) {
       this.v1Service.removeEntry(entry);
       return;
     }
@@ -158,7 +135,7 @@ export class WishListV2BridgeService implements WishListFacade {
   }
 
   getWishListLoading(): Observable<boolean> {
-    if (!this.featureToggles.wishlistV2) {
+    if (!this.featureToggles.enableNewWishlistEndpoint) {
       return this.v1Service.getWishListLoading();
     }
     return of(false);

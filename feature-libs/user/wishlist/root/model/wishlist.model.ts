@@ -5,14 +5,9 @@
  */
 
 export interface WishlistEntry {
-  /**
-   * String ID from the new Wishlist API (differs from legacy entryNumber: number)
-   */
   id: string;
-  /** Product code returned by the Wishlist entries endpoint */
   productCode?: string;
   addedAt?: string;
-  /** Full product details, enriched after fetching from the Products API */
   product?: any;
   [key: string]: any;
 }
