@@ -218,7 +218,7 @@ describe('OccUserWishlistAdapter', () => {
           .flush({ wishlists: [{ id: MOCK_WISHLIST_ID }] });
         httpMock.expectOne(ENTRIES_URL).flush({ wishlistEntries: [] });
 
-        expect(result!.entries).toEqual([]);
+        expect((result as Wishlist).entries).toEqual([]);
       });
     });
 
