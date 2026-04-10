@@ -191,6 +191,7 @@ describe('Graph utils', () => {
           "Checkout",
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
+          "OPF-Gift-Card",
           "OPF-Quick-Buy",
           "OPF-Global-Functions",
           "OPF-Cta",
