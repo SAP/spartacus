@@ -40,7 +40,7 @@ jobs:
           REPO_NAME=$(echo $REPO_URL | sed -E 's|.*/(.*)\.git|\1|')
           echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6.0.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Create storefronts
         run: |
           function setup_config_dir() {

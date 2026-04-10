@@ -20,7 +20,7 @@ concurrency:
 name: Pull Request
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
   
 jobs:
