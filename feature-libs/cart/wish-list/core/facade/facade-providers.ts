@@ -6,12 +6,14 @@
 
 import { Provider } from '@angular/core';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
+import { WishListV2BridgeService } from './wish-list-v2-bridge.service';
 import { WishListService } from './wish-list.service';
 
 export const facadeProviders: Provider[] = [
   WishListService,
+  WishListV2BridgeService,
   {
     provide: WishListFacade,
-    useExisting: WishListService,
+    useExisting: WishListV2BridgeService,
   },
 ];

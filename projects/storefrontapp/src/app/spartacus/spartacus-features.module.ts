@@ -347,6 +347,7 @@ if (environment.cpq) {
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yVocalizeDropdownItemCount: true,
         enableRemoveVoucherEndpoint: true,
+        wishlistV2: false,
       };
       return appFeatureToggles;
     }),
