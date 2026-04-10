@@ -18,6 +18,11 @@ concurrency:
   cancel-in-progress: true
 
 name: Pull Request
+
+permissions:
+  contents: write
+  pull-requests: write
+  
 jobs:
   change-to-draft:
     name: PR - Set status to draft
