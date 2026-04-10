@@ -23,18 +23,18 @@ export class FederatedLoginContextStorageService {
   storage = getStorage(StorageSyncType.LOCAL_STORAGE, this.winRef);
   storageKey = FEDERATED_LOGIN_STATE_KEY;
 
-  write(value: FederatedLoginContext) {
-    if (this.storage) {
-      persistToStorage(this.storageKey, value, this.storage);
-    }
-  }
-
   read() {
     if (this.storage) {
       return readFromStorage(
         this.storage,
         this.storageKey
       ) as FederatedLoginContext;
+    }
+  }
+
+  write(value: FederatedLoginContext) {
+    if (this.storage) {
+      persistToStorage(this.storageKey, value, this.storage);
     }
   }
 }

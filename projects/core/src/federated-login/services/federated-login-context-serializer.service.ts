@@ -12,10 +12,10 @@ import { FederatedLoginContext } from '../model/federated-login-context.mode';
 export class FederatedLoginContextSerializerService {
   config = inject(FederatedLoginConfig).federatedLogin;
 
-  serializeContext(context: FederatedLoginContext) {
+  serializeContext(context: FederatedLoginContext | undefined) {
     const value: string[] = [];
 
-    if (context.origin) {
+    if (context?.origin) {
       const key = Object.entries(this.config?.originMap ?? {}).find(
         ([_key, value]) => {
           return value === context.origin;
@@ -28,9 +28,9 @@ export class FederatedLoginContextSerializerService {
       value.push(key);
     }
 
-    value.push(context.language ?? '');
+    value.push(context?.language ?? '');
 
-    value.push(context.currency ?? '');
+    // value.push(context?.currency ?? ''); // TODO: currency not needed
 
     return value.join(':');
   }

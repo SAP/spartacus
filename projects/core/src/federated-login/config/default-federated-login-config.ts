@@ -16,7 +16,6 @@ export function defaultFederatedLoginConfigFactory(): FederatedLoginConfig {
         'login.local:4200',
       ],
       originMap: {
-        'electronics.de': 'https://electronics-storefront.de:4200',
         de: 'https://electronics-storefront.de:4200',
         es: 'https://electronics-storefront.es:4200',
         pd: 'https://powertools-storefront.de:4200',
