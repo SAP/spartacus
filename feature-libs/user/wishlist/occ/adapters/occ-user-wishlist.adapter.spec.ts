@@ -229,12 +229,10 @@ describe('OccUserWishlistAdapter', () => {
           .getWishlist(MOCK_USER_ID)
           .subscribe({ error: (e) => (caughtError = e) });
 
-        httpMock
-          .expectOne(LIST_URL)
-          .flush('Internal Server Error', {
-            status: 500,
-            statusText: 'Server Error',
-          });
+        httpMock.expectOne(LIST_URL).flush('Internal Server Error', {
+          status: 500,
+          statusText: 'Server Error',
+        });
 
         expect(caughtError).toBeDefined();
         expect(caughtError.status).toBe(500);

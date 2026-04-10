@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import {
   UserWishlistAdapter,
   UserWishlistConnector,
@@ -23,7 +23,7 @@ import { WishListStoreModule } from './store/wish-list-store.module';
     ...facadeProviders,
     UserWishlistConnector,
     { provide: UserWishlistAdapter, useClass: OccUserWishlistAdapter },
-    provideConfig(defaultOccUserWishlistConfig),
+    provideDefaultConfig(defaultOccUserWishlistConfig),
   ],
 })
 export class WishListCoreModule {}

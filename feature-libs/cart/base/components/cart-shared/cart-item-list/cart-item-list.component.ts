@@ -296,7 +296,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   getControl(item: OrderEntry): Observable<UntypedFormGroup> | undefined {
     return this.form.get(this.getControlName(item))?.valueChanges.pipe(
-      // eslint-disable-next-line import/no-deprecated
       startWith(null),
       tap((value) => {
         if (item.updateable && value && !this.readonly) {

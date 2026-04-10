@@ -226,10 +226,10 @@ describe('WishListV2BridgeService', () => {
         let cart: Cart | undefined;
         service.getWishList().subscribe((c) => (cart = c));
 
-        expect(cart!.code).toBe(MOCK_WISHLIST_ID);
-        expect(cart!.entries!.length).toBe(1);
+        expect((cart as Cart).code).toBe(MOCK_WISHLIST_ID);
+        expect(((cart as Cart).entries ?? []).length).toBe(1);
 
-        const entry = cart!.entries![0] as any;
+        const entry = ((cart as Cart).entries ?? [])[0] as any;
         expect(entry.entryNumber).toBe(0);
         expect(entry.wishlistEntryId).toBe(MOCK_ENTRY_ID);
         expect(entry.product).toEqual(mockProduct);
@@ -261,9 +261,13 @@ describe('WishListV2BridgeService', () => {
         service.getWishList().subscribe((c) => (cart = c));
 
         expect(productConnector.get).toHaveBeenCalledTimes(2);
-        expect(cart!.entries!.length).toBe(2);
-        expect((cart!.entries![0] as any).product).toEqual(mockProduct);
-        expect((cart!.entries![1] as any).product).toEqual(mockProduct2);
+        expect(((cart as Cart).entries ?? []).length).toBe(2);
+        expect((((cart as Cart).entries ?? [])[0] as any).product).toEqual(
+          mockProduct
+        );
+        expect((((cart as Cart).entries ?? [])[1] as any).product).toEqual(
+          mockProduct2
+        );
       });
 
       it('should skip product fetch and return empty entries when wishlist has no entries', () => {
@@ -274,7 +278,7 @@ describe('WishListV2BridgeService', () => {
         service.getWishList().subscribe((c) => (cart = c));
 
         expect(productConnector.get).not.toHaveBeenCalled();
-        expect(cart!.entries).toEqual([]);
+        expect((cart as Cart).entries).toEqual([]);
       });
 
       it('should fall back to { code: productCode } when a product fetch fails', () => {
@@ -284,7 +288,7 @@ describe('WishListV2BridgeService', () => {
         let cart: Cart | undefined;
         service.getWishList().subscribe((c) => (cart = c));
 
-        const entry = cart!.entries![0] as any;
+        const entry = ((cart as Cart).entries ?? [])[0] as any;
         expect(entry.product).toEqual({ code: MOCK_PRODUCT_CODE });
       });
 
@@ -295,7 +299,7 @@ describe('WishListV2BridgeService', () => {
         let cart: Cart | undefined;
         service.getWishList().subscribe((c) => (cart = c));
 
-        expect(cart!.entries).toEqual([]);
+        expect((cart as Cart).entries).toEqual([]);
       });
 
       it('should not emit for anonymous users', () => {
