@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# test-schematics-upgrade.sh
+# test-customer-upgrade.sh
 #
 # Automates end-to-end testing of Spartacus schematics upgrade:
 #   1. Create a fresh Angular app
@@ -16,11 +16,11 @@
 # ────────────────────────────────────────────────────────────────
 #
 #   # On CI — zero config needed (uses NPM_URL + NPM_TOKEN from config.sh / env):
-#   ./scripts/install/test-schematics-upgrade.sh
+#   ./ci-scripts/test-customer-upgrade.sh
 #
 #   # Local — SAP registry for FROM, local Verdaccio for TO:
-#   TO_REGISTRY=http://localhost:4873/ TO_VERSION=221121.10.0-3 \
-#     ./scripts/install/test-schematics-upgrade.sh
+#   IS_CI=false TO_REGISTRY=http://localhost:4873/ TO_VERSION=221121.10.0-3 \
+#     ./ci-scripts/test-customer-upgrade.sh
 #
 #   # Local — fully explicit (overrides everything):
 #   SPARTACUS_REGISTRY=https://73554900100900004337.dev.npmsrv.base.repositories.cloud.sap/ \
@@ -28,16 +28,17 @@
 #   TO_REGISTRY=http://localhost:4873/ \
 #   TO_VERSION=221121.10.0-3 \
 #   SKIP_START_CHECK=true \
-#     ./scripts/install/test-schematics-upgrade.sh
+#     ./ci-scripts/test-customer-upgrade.sh
 #
 # ────────────────────────────────────────────────────────────────
 # ENVIRONMENT VARIABLES (all optional — smart defaults apply)
 # ────────────────────────────────────────────────────────────────
 #
 #   ANGULAR_VERSION      - Angular CLI version (default: from config.sh or 21.1.0)
-#   FROM_VERSION         - Spartacus version to install first (default: 221121.7.0)
+#   FROM_VERSION         - Spartacus version to install first
+#                           (default: latest published release before TO_VERSION)
 #   TO_VERSION           - Spartacus version to upgrade to
-#                           (default: SPARTACUS_VERSION from config.sh)
+#                           (default: from projects/schematics/package.json, then config.sh)
 #   SPARTACUS_REGISTRY        - registry hosting Spartacus packages
 #                           Resolution: SPARTACUS_REGISTRY → NPM_URL → config.sh → ~/.npmrc
 #   SPARTACUS_REGISTRY_TOKEN  - auth token for SPARTACUS_REGISTRY
@@ -46,9 +47,12 @@
 #   TO_REGISTRY_TOKEN    - auth token for TO_REGISTRY (default: empty)
 #   BASE_URL             - OCC backend URL (default: https://40.76.109.9:9002)
 #   APP_NAME             - test app name (default: spartacus-fresh)
-#   WORK_DIR             - where to create the app (default: ~/Desktop or /tmp on CI)
+#   WORK_DIR             - where to create the app (default: $TMPDIR or /tmp)
 #   SKIP_START_CHECK     - "true" to skip ng serve verification (default: false)
 #   SERVE_TIMEOUT        - seconds to wait for ng serve (default: 120)
+#   IS_CI                - "true" for CI mode, "false" for local (default: true)
+#   STRICT_INSTALL       - "true" to fail on npm install errors after upgrade,
+#                           "false" to warn and continue (default: true)
 #
 
 set -euo pipefail
@@ -56,14 +60,12 @@ set -euo pipefail
 # ─── Resolve script directory (works even via symlink) ───
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ─── Detect CI vs local ───
-if [[ -n "${CI:-}" || -n "${JENKINS_URL:-}" || -n "${BUILD_NUMBER:-}" || -n "${GITHUB_ACTIONS:-}" ]]; then
-  IS_CI=true
-else
-  IS_CI=false
-fi
+# ─── CI mode ───
+# Set IS_CI=false to run locally. Defaults to true.
+IS_CI="${IS_CI:-true}"
 
 # ─── Source config.sh for NPM_URL / NPM_TOKEN / SPARTACUS_VERSION ───
+# config.sh lives in scripts/install/ — resolve relative to repo root.
 # Save caller's explicit env vars before sourcing, so config.sh doesn't overwrite them.
 _saved_SPARTACUS_REGISTRY="${SPARTACUS_REGISTRY:-}"
 _saved_SPARTACUS_REGISTRY_TOKEN="${SPARTACUS_REGISTRY_TOKEN:-}"
@@ -73,7 +75,9 @@ _saved_TO_REGISTRY_TOKEN="${TO_REGISTRY_TOKEN:-}"
 _saved_ANGULAR_VERSION="${ANGULAR_VERSION:-}"
 _saved_FROM_VERSION="${FROM_VERSION:-}"
 
-CONFIG_SH="${SCRIPT_DIR}/config.sh"
+# Resolve repo root: ci-scripts/ is one level below repo root
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+CONFIG_SH="${REPO_ROOT}/scripts/install/config.sh"
 if [[ -f "$CONFIG_SH" ]]; then
   source "$CONFIG_SH"
 fi
@@ -130,17 +134,43 @@ ANGULAR_VERSION="${ANGULAR_VERSION:-${ANGULAR_CLI_VERSION:-21.1.0}}"
 # Strip leading ^ from Angular CLI version if sourced from config.sh (e.g. "^21.1.0")
 ANGULAR_VERSION="${ANGULAR_VERSION#^}"
 
-FROM_VERSION="${FROM_VERSION:-221121.7.0}"
-if [[ -z "$FROM_VERSION" ]]; then
-  echo "❌ FROM_VERSION is empty. Set FROM_VERSION=<version>." >&2
-  exit 1
+# TO_VERSION: explicit → schematics package.json → SPARTACUS_VERSION from config.sh
+if [[ -z "${TO_VERSION:-}" ]]; then
+  # Read version from the schematics package.json (always matches current branch)
+  SCHEMATICS_PKG="${REPO_ROOT}/projects/schematics/package.json"
+  if [[ -f "$SCHEMATICS_PKG" ]]; then
+    TO_VERSION=$(node -p "require('${SCHEMATICS_PKG}').version" 2>/dev/null || true)
+  fi
 fi
-
-# TO_VERSION: explicit → SPARTACUS_VERSION from config.sh
 if [[ -z "${TO_VERSION:-}" && -n "${SPARTACUS_VERSION:-}" ]]; then
   TO_VERSION="$SPARTACUS_VERSION"
 fi
-TO_VERSION="${TO_VERSION:?TO_VERSION is required. Set it explicitly or ensure SPARTACUS_VERSION is in config.sh.}"
+TO_VERSION="${TO_VERSION:?TO_VERSION is required. Set it explicitly, or run from the Spartacus repo root.}"
+
+# FROM_VERSION: explicit → auto-detect latest published version lower than TO_VERSION
+if [[ -z "${FROM_VERSION:-}" && -n "$SPARTACUS_REGISTRY" ]]; then
+  # Query the registry for all available versions and pick the latest one < TO_VERSION
+  ENCODED_PKG=$(echo "@spartacus/schematics" | sed 's/@/%40/g; s/\//%2f/g')
+  FROM_VERSION=$(
+    curl -sf "${SPARTACUS_REGISTRY}${ENCODED_PKG}" \
+      ${SPARTACUS_REGISTRY_TOKEN:+-H "Authorization: Basic ${SPARTACUS_REGISTRY_TOKEN}"} 2>/dev/null \
+    | node -e "
+      let d='';
+      process.stdin.on('data',c=>d+=c);
+      process.stdin.on('end',()=>{
+        const versions = Object.keys(JSON.parse(d).versions || {})
+          .filter(v => !/[-]/.test(v))  // skip prereleases (e.g. 221121.10.0-3)
+          .sort((a,b) => a.localeCompare(b, undefined, {numeric:true}));
+        const to = '${TO_VERSION}'.replace(/-.*/, '');  // strip prerelease from TO
+        const lower = versions.filter(v => v.localeCompare(to, undefined, {numeric:true}) < 0);
+        if (lower.length) { console.log(lower[lower.length - 1]); }
+      });" 2>/dev/null || true
+  )
+  if [[ -n "$FROM_VERSION" ]]; then
+    echo "  ↳ Auto-detected FROM_VERSION=${FROM_VERSION} (latest release before ${TO_VERSION})"
+  fi
+fi
+FROM_VERSION="${FROM_VERSION:?FROM_VERSION is required. Set it explicitly or ensure the registry is reachable.}"
 
 # Sanity check: FROM and TO should differ
 if [[ "$FROM_VERSION" == "$TO_VERSION" ]]; then
@@ -155,11 +185,12 @@ if [[ -z "${WORK_DIR:-}" ]]; then
   if [[ "$IS_CI" == "true" ]]; then
     WORK_DIR="${WORKSPACE:-/tmp}"
   else
-    WORK_DIR="$HOME/Desktop"
+    WORK_DIR="${TMPDIR:-/tmp}"
   fi
 fi
 
 SKIP_START_CHECK="${SKIP_START_CHECK:-false}"
+STRICT_INSTALL="${STRICT_INSTALL:-true}"
 SERVE_TIMEOUT="${SERVE_TIMEOUT:-120}"
 APP_DIR="${WORK_DIR}/${APP_NAME}"
 SERVE_PORT="${SERVE_PORT:-4200}"
@@ -267,11 +298,12 @@ write_npmrc() {
   echo "  .npmrc → @spartacus:registry=${registry}"
 }
 
+SERVE_PID=""
 cleanup() {
   if [[ -n "$SERVE_PID" ]]; then
     kill "$SERVE_PID" 2>/dev/null || true
     wait "$SERVE_PID" 2>/dev/null || true
-    unset SERVE_PID
+    SERVE_PID=""
   fi
 }
 trap cleanup EXIT
@@ -305,7 +337,7 @@ verify_app_starts() {
       log_ok "App compiled successfully (${label})"
       kill "$SERVE_PID" 2>/dev/null || true
       wait "$SERVE_PID" 2>/dev/null || true
-      unset SERVE_PID
+      SERVE_PID=""
       return 0
     fi
 
@@ -315,7 +347,7 @@ verify_app_starts() {
         cat "${serve_log}"
         kill "$SERVE_PID" 2>/dev/null || true
         wait "$SERVE_PID" 2>/dev/null || true
-        unset SERVE_PID
+        SERVE_PID=""
         return 1
       fi
     fi
@@ -327,7 +359,7 @@ verify_app_starts() {
   cat "${serve_log}"
   kill "$SERVE_PID" 2>/dev/null || true
   wait "$SERVE_PID" 2>/dev/null || true
-  unset SERVE_PID
+  SERVE_PID=""
   return 1
 }
 
@@ -512,6 +544,7 @@ NG_UPDATE_EXIT=${PIPESTATUS[0]}
 if [[ $NG_UPDATE_EXIT -ne 0 ]]; then
   log_fail "ng update exited with code ${NG_UPDATE_EXIT}"
   cat ng-update.log
+  exit 1
 fi
 
 # Commit whatever ng update changed
@@ -548,9 +581,16 @@ fi
 # =====================================================
 log_step "Step 6: Building app with Spartacus ${TO_VERSION}"
 
-# Run npm install to ensure node_modules match updated package.json
+# Run npm install to ensure node_modules match the updated package.json.
+# Controlled by STRICT_INSTALL (default: true).
+# Set STRICT_INSTALL=false to continue despite install errors (useful for debugging).
 if ! npm install 2>&1; then
-  log_warn "npm install after upgrade had errors (continuing anyway)"
+  if [[ "$STRICT_INSTALL" == "true" ]]; then
+    log_fail "npm install failed after upgrade to ${TO_VERSION}"
+    exit 1
+  else
+    log_warn "npm install had errors after upgrade (continuing because STRICT_INSTALL=false)"
+  fi
 fi
 
 git_commit "chore: npm install after upgrade to ${TO_VERSION}"
