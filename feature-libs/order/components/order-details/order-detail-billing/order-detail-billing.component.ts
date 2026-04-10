@@ -6,13 +6,14 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   Order,
   billingAddressCard,
   paymentMethodCard,
 } from '@spartacus/order/root';
-import { Card, CardComponent } from '@spartacus/storefront';
+import { Card, CardComponent, OutletModule } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -21,12 +22,12 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-detail-billing',
   templateUrl: './order-detail-billing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe],
+  imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
 })
 export class OrderDetailBillingComponent {
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
-
+  readonly cartOutlets = CartOutlets;
   constructor(
     protected orderDetailsService: OrderDetailsService,
     protected translationService: TranslationService

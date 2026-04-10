@@ -265,6 +265,9 @@ export const SPARTACUS_OPF_ORDER = `@spartacus/opf/order`;
 export const SPARTACUS_OPF_QUICK_BUY = `@spartacus/opf/quick-buy`;
 export const SPARTACUS_OPF_QUICK_BUY_ROOT = `@spartacus/opf/quick-buy/root`;
 
+export const SPARTACUS_OPF_GIFT_CARD = `@spartacus/opf/gift-card`;
+export const SPARTACUS_OPF_GIFT_CARD_ROOT = `@spartacus/opf/gift-card/root`;
+export const SPARTACUS_OPF_GIFT_CARD_ASSETS = `@spartacus/opf/gift-card/assets`;
 export const SPARTACUS_OPF_TOKENISATION = `@spartacus/opf/tokenisation`;
 export const SPARTACUS_OPF_TOKENISATION_ROOT = `@spartacus/opf/tokenisation/root`;
 
@@ -396,6 +399,7 @@ export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
 export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
 export const OPF_GLOBAL_FUNCTIONS_FEATURE_NAME = 'OPF-Global-Functions';
 export const OPF_QUICK_BUY_FEATURE_NAME = 'OPF-Quick-Buy';
+export const OPF_GIFT_CARD_FEATURE_NAME = 'OPF-Gift-Card';
 export const OPF_TOKENISATION_FEATURE_NAME = 'OPF-Tokenisation';
 
 /***** Feature name end *****/
