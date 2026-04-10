@@ -149,6 +149,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
         map((entry) => this.getQuantityFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
+            // eslint-disable-next-line import/no-deprecated
             startWith(null),
             tap((valueChange) => {
               if (valueChange) {

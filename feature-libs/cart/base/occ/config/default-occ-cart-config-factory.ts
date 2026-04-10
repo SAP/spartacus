@@ -11,6 +11,7 @@ export function defaultOccCartConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
+          /* eslint-disable max-len */
           carts:
             'users/${userId}/carts?fields=carts(DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),totalUnitCount,deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user,saveTime,name,description)',
           cart: 'users/${userId}/carts/${cartId}?fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),totalUnitCount,deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user,saveTime,name,description',
@@ -29,6 +30,7 @@ export function defaultOccCartConfigFactory(): OccConfig {
           validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
           cartAccessCode: 'users/${userId}/carts/${cartId}/accessCode',
           cartGuestUser: 'users/${userId}/carts/${cartId}/guestuser',
+          /* eslint-enable */
         },
       },
     },
