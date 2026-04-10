@@ -37,6 +37,8 @@
 /.github/CODEOWNERS          @SAP/spartacus-admins
 /.github/workflows/          @SAP/spartacus-admins
 /.github/actions/            @SAP/spartacus-admins
+/.github/api-extractor-action/   @SAP/spartacus-admins
+/.github/cache-builded-libs/     @SAP/spartacus-admins
 /projects/storefrontstyles/vendor/bootstrap          @SAP/spartacus-admins
 
 # ================================================
