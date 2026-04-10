@@ -20,7 +20,8 @@ import { of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;
 
-const mockInvalidPassword = 'strongPass$!123';
+const mockSecurePassword = 'strongPas$!123';
+const mockInvalidPassword = 'strongPas$!123|';
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
   update = createSpy().and.returnValue(of({}));
@@ -189,14 +190,17 @@ describe('UpdatePasswordComponentService', () => {
     });
 
     describe('password validators', () => {
-      it('should have new validators when feature flag isEnabled', () => {
+      it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
         const newPasswordControl = service.form.get(
           'newPassword'
         ) as UntypedFormControl;
         const validations = {
           whenEmpty: newPasswordControl.validator?.({} as any),
-          whenNotEmpty: newPasswordControl.validator?.({
+          whenNotEmptyAndInvalid: newPasswordControl.validator?.({
             value: mockInvalidPassword,
+          } as any),
+          whenNotEmpty: newPasswordControl.validator?.({
+            value: mockSecurePassword,
           } as any),
         };
 
@@ -208,10 +212,12 @@ describe('UpdatePasswordComponentService', () => {
           cxMinOneSpecialCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+          cxMustEndWithLegalCharacter: true,
         });
-        expect(validations.whenNotEmpty).toEqual({
-          cxNoConsecutiveCharacters: true,
+        expect(validations.whenNotEmptyAndInvalid).toEqual({
+          cxMustEndWithLegalCharacter: true,
         });
+        expect(validations.whenNotEmpty).toEqual(null);
       });
     });
   });

@@ -1,0 +1,5 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <cx-opf-gift-card-order-summary
+    [cart]="cart"
+  ></cx-opf-gift-card-order-summary>
+</ng-container>

@@ -6,6 +6,9 @@ on:
       - 'epic/**'
       - release/*
 name: Cache libs (dist)
+permissions:
+  contents: read
+  actions: write
 jobs:
   detect_changes:
     name: Cache libs - Detect changes
@@ -24,6 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Cache builded libs
         uses: ./.github/cache-builded-libs

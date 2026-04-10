@@ -2,6 +2,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 name: API extractor
+permissions:
+  contents: read
+  pull-requests: write
+  actions: write
 jobs:
   detect_changes:
     name: API extractor - Detect changes
@@ -21,10 +25,10 @@ jobs:
     if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
+        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa #0.12.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@master
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Breaking change detection bot
         uses: ./.github/api-extractor-action
         env:
