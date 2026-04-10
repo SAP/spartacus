@@ -12,6 +12,7 @@ import {
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { SiteAdapter } from '../../site-context/connectors/site.adapter';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -67,6 +68,7 @@ describe('UserAddressService', () => {
         UserAddressService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: UserAddressConnector, useClass: MockUserAddressConnector },
+        { provide: SiteAdapter, useValue: {} },
       ],
     });
 
