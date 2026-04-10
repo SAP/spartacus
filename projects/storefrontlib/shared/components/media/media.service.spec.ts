@@ -726,8 +726,6 @@ describe('MediaService', () => {
       };
       const result = service.getMedia(image);
 
-      console.log(JSON.stringify(result));
-
       expect(result?.width).toBe(image.width);
       expect(result?.height).toBe(image.height);
     });

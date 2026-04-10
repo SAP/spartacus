@@ -13,6 +13,7 @@ import {
 import {
   CONSECUTIVE_CHARACTERS,
   EMAIL_PATTERN,
+  ENDS_WITH_LEGAL_CHARACTER_PATTERN,
   MAX_CHARACTERS_PATTERN,
   MIN_EIGHT_CHARACTERS_PATTERN,
   MIN_ONE_DIGIT_PATTERN,
@@ -204,6 +205,7 @@ export class CustomFormValidators {
     this.minSixCharactersLengthValidator,
   ];
 
+  // TODO: Insert mustEndWithLegalCharacter into this array when removing feature toogle: useEnhancedSecurePasswordValidators
   static securePasswordValidators = [
     this.minOneDigitValidator,
     this.minOneUpperCaseCharacterValidator,
@@ -319,6 +321,27 @@ export class CustomFormValidators {
     const amount = control.value as number;
 
     return amount >= 0 ? null : { cxNegativeAmount: true };
+  }
+
+  /**
+   * Checks if control's value ends with a legal letter, digit, or character.
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxMustEndWithLegalCharacter' validator error
+   * @memberof CustomFormValidators
+   */
+  static mustEndWithLegalCharacter(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const value = control.value as string;
+
+    return value &&
+      (!value.length || ENDS_WITH_LEGAL_CHARACTER_PATTERN.exec(value))
+      ? null
+      : { cxMustEndWithLegalCharacter: true };
   }
 
   /**

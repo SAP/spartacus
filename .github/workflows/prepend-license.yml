@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.GH_PR_TOKEN }}
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 #v5.6.0
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - name: Download reuse tool
         run: pip3 install --user reuse
       - name: Setup git config

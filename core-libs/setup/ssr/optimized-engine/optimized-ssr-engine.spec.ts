@@ -24,7 +24,7 @@ const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
 class MockExpressServerLogger implements Partial<ExpressServerLogger> {
   log(message: string, context: ExpressServerLoggerContext): void {
-    console.log(message, context);
+    console.log(message, context); // eslint-disable-line no-console
   }
 }
 

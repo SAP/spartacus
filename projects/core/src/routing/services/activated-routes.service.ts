@@ -22,7 +22,6 @@ export class ActivatedRoutesService {
   readonly routes$: Observable<ActivatedRouteSnapshot[]> =
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
-      // eslint-disable-next-line import/no-deprecated
       startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
       map(() => {
         let route: ActivatedRouteSnapshot | null =

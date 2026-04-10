@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// eslint-disable-next-line import/no-unassigned-import
 import '@angular/compiler';
 
 import { Component, Inject, InjectionToken, NgModule } from '@angular/core';

@@ -644,6 +644,18 @@
       "@spartacus/opps": ["../../integration-libs/opps/public_api"],
       "@spartacus/opps/root": ["../../integration-libs/opps/root/public_api"],
       "@spartacus/opf": ["../../integration-libs/opf/public_api"],
+      "@spartacus/opf/tokenisation": [
+        "../../integration-libs/opf/tokenisation/public_api"
+      ],
+      "@spartacus/opf/tokenisation/root": [
+        "../../integration-libs/opf/tokenisation/root/public_api"
+      ],
+      "@spartacus/opf/tokenisation/core": [
+        "../../integration-libs/opf/tokenisation/core/public_api"
+      ],
+      "@spartacus/opf/tokenisation/components": [
+        "../../integration-libs/opf/tokenisation/components/public_api"
+      ],
       "@spartacus/opf/quick-buy": [
         "../../integration-libs/opf/quick-buy/public_api"
       ],
@@ -686,6 +698,24 @@
       ],
       "@spartacus/opf/global-functions/core": [
         "../../integration-libs/opf/global-functions/core/public_api"
+      ],
+      "@spartacus/opf/gift-card": [
+        "../../integration-libs/opf/gift-card/public_api"
+      ],
+      "@spartacus/opf/gift-card/root": [
+        "../../integration-libs/opf/gift-card/root/public_api"
+      ],
+      "@spartacus/opf/gift-card/occ": [
+        "../../integration-libs/opf/gift-card/occ/public_api"
+      ],
+      "@spartacus/opf/gift-card/core": [
+        "../../integration-libs/opf/gift-card/core/public_api"
+      ],
+      "@spartacus/opf/gift-card/components": [
+        "../../integration-libs/opf/gift-card/components/public_api"
+      ],
+      "@spartacus/opf/gift-card/assets": [
+        "../../integration-libs/opf/gift-card/assets/public_api"
       ],
       "@spartacus/opf/cta": ["../../integration-libs/opf/cta/public_api"],
       "@spartacus/opf/cta/root": [
