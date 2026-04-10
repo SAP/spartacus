@@ -24,7 +24,7 @@ class MockSiteAdapter implements SiteAdapter {
   );
 
   loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(
-    (countryCode) => of(`loadRegions-${countryCode}`)
+    (countryCode: string) => of(`loadRegions-${countryCode}`)
   );
 
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
@@ -33,6 +33,12 @@ class MockSiteAdapter implements SiteAdapter {
 
   loadBaseSites = createSpy('SiteAdapter.loadBaseSites').and.callFake(() =>
     of(mockBaseSites)
+  );
+
+  loadCities = createSpy('SiteAdapter.loadCities').and.returnValue(of([]));
+
+  loadDistricts = createSpy('SiteAdapter.loadDistricts').and.returnValue(
+    of([])
   );
 }
 
