@@ -61,47 +61,55 @@ export function testCheckoutVariantAsGuest() {
       variantProduct,
       true
     );
-    guestCheckout.createAccountFromGuest(
-      variantUser.password,
-      variantUser.email
-    );
 
-    cy.selectUserMenuOption({
-      option: 'Personal Details',
+    // JDK21: identified bug CXSPA-10758, skip test until fix gets applied
+    cy.whenJDK21(() => {
+      cy.log('skip for JDK21, will be fix by CXSPA-10758');
+      checkout.signOut();
     });
+    cy.whenJDK17(() => {
+      guestCheckout.createAccountFromGuest(
+        variantUser.password,
+        variantUser.email
+      );
 
-    cy.selectUserMenuOption({
-      option: 'Address Book',
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
+
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
+
+      assertAddressForm(
+        {
+          firstName: variantUser.firstName,
+          lastName: variantUser.lastName,
+          phone: '',
+          address: variantUser.address,
+        } as AddressData,
+        'GB'
+      );
+
+      cy.selectUserMenuOption({
+        option: 'Payment Details',
+      });
+
+      cy.get('.cx-payment .cx-body').then(() => {
+        cy.get('cx-card').should('exist');
+      });
+
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
+
+      validateUpdateProfileForm(
+        'Mr.',
+        variantUser.firstName,
+        variantUser.lastName
+      );
+      checkout.signOut();
     });
-
-    assertAddressForm(
-      {
-        firstName: variantUser.firstName,
-        lastName: variantUser.lastName,
-        phone: '',
-        address: variantUser.address,
-      } as AddressData,
-      'GB'
-    );
-
-    cy.selectUserMenuOption({
-      option: 'Payment Details',
-    });
-
-    cy.get('.cx-payment .cx-body').then(() => {
-      cy.get('cx-card').should('exist');
-    });
-
-    cy.selectUserMenuOption({
-      option: 'Personal Details',
-    });
-
-    validateUpdateProfileForm(
-      'Mr.',
-      variantUser.firstName,
-      variantUser.lastName
-    );
-    checkout.signOut();
   });
 }
 
