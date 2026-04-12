@@ -30,7 +30,7 @@ export const assertAddressForm = (
   address: AddressData,
   state?: string
 ): void => {
-  state = state ? state : 'CA-QC';
+  state = state ? state : 'Quebec';
   cy.get('cx-address-book cx-card .card-header').contains('✓ DEFAULT');
   cy.get('cx-address-book cx-card .card-body')
     .first()
