@@ -12,7 +12,6 @@ import {
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { SiteAdapter } from '../../site-context/connectors/site.adapter';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -68,7 +67,6 @@ describe('UserAddressService', () => {
         UserAddressService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: UserAddressConnector, useClass: MockUserAddressConnector },
-        { provide: SiteAdapter, useValue: {} },
       ],
     });
 
@@ -144,14 +142,14 @@ describe('UserAddressService', () => {
       ])
     );
 
-    let country: Country;
+    let country: Country | null;
     service
       .getCountry('c1')
       .subscribe((data) => {
         country = data;
       })
       .unsubscribe();
-    expect(country).toEqual({ isocode: 'c1', name: 'n1' });
+    expect(country!).toEqual({ isocode: 'c1', name: 'n1' });
   });
 
   it('should be able to load regions based on country isocode', () => {

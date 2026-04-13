@@ -19,7 +19,6 @@ import {
   Command,
   CommandService,
 } from '../../util/command-query/command.service';
-import { SiteConnector } from '../../site-context/connectors/site.connector';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -33,8 +32,7 @@ export class UserAddressService {
     protected store: Store<StateWithUser>,
     protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
-    protected command: CommandService,
-    protected siteConnector: SiteConnector
+    protected command: CommandService
   ) {}
 
   /**
@@ -203,13 +201,63 @@ export class UserAddressService {
   getCities(
     regionIsocode: string
   ): Observable<{ isocode?: string; name?: string }[]> {
-    return this.siteConnector.getCities(regionIsocode);
+    return this.store.pipe(
+      select(UsersSelectors.getCitiesDataAndLoading),
+      map(({ cities, regionIsocode: storedRegion, loading, loaded }) => {
+        if (!regionIsocode && (loading || loaded)) {
+          this.clearCities();
+          return [];
+        } else if (loading && !loaded) {
+          return [];
+        } else if (!loading && regionIsocode !== storedRegion && regionIsocode) {
+          if (storedRegion) {
+            this.clearCities();
+          }
+          this.loadCities(regionIsocode);
+          return [];
+        }
+        return cities;
+      })
+    );
+  }
+
+  loadCities(regionIsocode: string): void {
+    this.store.dispatch(new UserActions.LoadCities(regionIsocode));
+  }
+
+  clearCities(): void {
+    this.store.dispatch(new UserActions.ClearCities());
   }
 
   getDistricts(
     cityIsocode: string
   ): Observable<{ isocode?: string; name?: string }[]> {
-    return this.siteConnector.getDistricts(cityIsocode);
+    return this.store.pipe(
+      select(UsersSelectors.getDistrictsDataAndLoading),
+      map(({ districts, cityIsocode: storedCity, loading, loaded }) => {
+        if (!cityIsocode && (loading || loaded)) {
+          this.clearDistricts();
+          return [];
+        } else if (loading && !loaded) {
+          return [];
+        } else if (!loading && cityIsocode !== storedCity && cityIsocode) {
+          if (storedCity) {
+            this.clearDistricts();
+          }
+          this.loadDistricts(cityIsocode);
+          return [];
+        }
+        return districts;
+      })
+    );
+  }
+
+  loadDistricts(cityIsocode: string): void {
+    this.store.dispatch(new UserActions.LoadDistricts(cityIsocode));
+  }
+
+  clearDistricts(): void {
+    this.store.dispatch(new UserActions.ClearDistricts());
   }
 
   /**

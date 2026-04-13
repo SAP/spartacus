@@ -16,7 +16,11 @@ import { PaymentDetails } from '../../../model/payment.model';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
+  CITIES,
+  CitiesState,
   CUSTOMER_COUPONS,
+  DISTRICTS,
+  DistrictsState,
   NOTIFICATION_PREFERENCES,
   PRODUCT_INTERESTS,
   REGIONS,
@@ -28,8 +32,10 @@ import {
   USER_PAYMENT_METHODS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
+import * as fromCitiesReducer from './cities.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
+import * as fromDistrictsReducer from './districts.reducer';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
 import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
@@ -57,6 +63,11 @@ export function getReducers(): ActionReducerMap<UserState, any> {
     regions: loaderReducer<RegionsState, any>(
       REGIONS,
       fromRegionsReducer.reducer
+    ),
+    cities: loaderReducer<CitiesState, any>(CITIES, fromCitiesReducer.reducer),
+    districts: loaderReducer<DistrictsState, any>(
+      DISTRICTS,
+      fromDistrictsReducer.reducer
     ),
     customerCoupons: loaderReducer<CustomerCouponSearchResult, any>(
       CUSTOMER_COUPONS,
