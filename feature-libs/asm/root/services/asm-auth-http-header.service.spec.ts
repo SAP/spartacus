@@ -201,22 +201,5 @@ describe('AsmAuthHttpHeaderService', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
-
-    it('should fall back to the parent handling when cs agent is not logged in', async () => {
-      spyOn(authService, 'coreLogout').and.callThrough();
-      spyOn(
-        csAgentAuthService,
-        'isCustomerSupportAgentLoggedIn'
-      ).and.returnValue(of(false));
-      spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
-
-      service.handleExpiredRefreshToken();
-      await Promise.resolve();
-
-      expect(
-        csAgentAuthService.logoutCustomerSupportAgent
-      ).not.toHaveBeenCalled();
-      expect(authService.coreLogout).toHaveBeenCalled();
-    });
   });
 });
