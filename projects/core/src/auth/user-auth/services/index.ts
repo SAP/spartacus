@@ -6,6 +6,7 @@
 
 export * from './auth-config.service';
 export * from './auth-flow-routes.service';
+export * from './auth-http-header-contributor';
 export * from './auth-http-header.service';
 export * from './auth-multisite-isolation.service';
 export * from './auth-redirect-storage.service';

@@ -5,18 +5,23 @@
  */
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
-  EMPTY,
-  Observable,
-  Subject,
-  Subscription,
   combineLatest,
   defer,
+  EMPTY,
+  from,
+  isObservable,
+  Observable,
+  of,
   queueScheduler,
+  Subject,
+  Subscription,
   using,
 } from 'rxjs';
 import {
+  concatMap,
+  defaultIfEmpty,
   filter,
   map,
   observeOn,
@@ -34,6 +39,10 @@ import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
+import {
+  AUTH_HTTP_HEADER_CONTRIBUTORS,
+  AuthHttpHeaderContributor,
+} from './auth-http-header-contributor';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
@@ -106,6 +115,8 @@ export class AuthHttpHeaderService implements OnDestroy {
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   protected subscriptions = new Subscription();
+  protected contributors =
+    inject(AUTH_HTTP_HEADER_CONTRIBUTORS, { optional: true }) ?? [];
 
   constructor(
     protected authService: AuthService,
@@ -126,13 +137,24 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Checks if request should be handled by this service (if it's OCC call).
    */
   public shouldCatchError(request: HttpRequest<any>): boolean {
-    return this.isOccUrl(request.url);
+    return (
+      this.isOccUrl(request.url) ||
+      this.authHttpHeaderContributors.some(
+        (contributor) => contributor.shouldCatchError?.(request) ?? false
+      )
+    );
   }
 
   public shouldAddAuthorizationHeader(request: HttpRequest<any>): boolean {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
-    return !hasAuthorizationHeader && isOccUrl;
+    return (
+      (!hasAuthorizationHeader && isOccUrl) ||
+      this.authHttpHeaderContributors.some(
+        (contributor) =>
+          contributor.shouldAddAuthorizationHeader?.(request) ?? false
+      )
+    );
   }
 
   /**
@@ -146,13 +168,18 @@ export class AuthHttpHeaderService implements OnDestroy {
     const isBaseSitesRequest = this.isBaseSitesRequest(request);
     const isOccUrl = this.isOccUrl(request.url);
     if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
-      return request.clone({
+      request = request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
         },
       });
     }
-    return request;
+
+    return this.authHttpHeaderContributors.reduce(
+      (alteredRequest, contributor) =>
+        contributor.alterRequest?.(alteredRequest, token) ?? alteredRequest,
+      request
+    );
   }
 
   protected isOccUrl(url: string): boolean {
@@ -216,6 +243,23 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
+    from(this.authHttpHeaderContributors)
+      .pipe(
+        concatMap((contributor) =>
+          this.resolveContributorRefreshTokenHandling(contributor)
+        ),
+        filter((handled) => handled),
+        take(1),
+        defaultIfEmpty(false)
+      )
+      .subscribe((handled) => {
+        if (!handled) {
+          this.handleExpiredRefreshTokenFallback();
+        }
+      });
+  }
+
+  protected handleExpiredRefreshTokenFallback(): void {
     // There might be 2 cases:
     // 1. when user is already on some page (router is stable) and performs an UI action
     // that triggers http call (i.e. button click to save data in backend)
@@ -238,6 +282,26 @@ export class AuthHttpHeaderService implements OnDestroy {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
+  }
+
+  protected resolveContributorRefreshTokenHandling(
+    contributor: AuthHttpHeaderContributor
+  ): Observable<boolean> {
+    const result = contributor.handleExpiredRefreshTokenIfApplicable?.();
+
+    if (isObservable(result)) {
+      return result;
+    }
+
+    if (result instanceof Promise) {
+      return from(result);
+    }
+
+    return of(result ?? false);
+  }
+
+  protected get authHttpHeaderContributors(): AuthHttpHeaderContributor[] {
+    return this.contributors ?? [];
   }
 
   /**

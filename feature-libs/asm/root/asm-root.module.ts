@@ -7,7 +7,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
-  AuthHttpHeaderService,
+  AUTH_HTTP_HEADER_CONTRIBUTORS,
   AuthService,
   AuthStorageService,
   ProtectedRoutesService,
@@ -34,8 +34,9 @@ import { AsmProtectedRoutesService } from './services/asm-protected-routes.servi
       useExisting: AsmAuthService,
     },
     {
-      provide: AuthHttpHeaderService,
+      provide: AUTH_HTTP_HEADER_CONTRIBUTORS,
       useExisting: AsmAuthHttpHeaderService,
+      multi: true,
     },
     {
       provide: ProtectedRoutesService,

@@ -6,6 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import {
+  AuthHttpHeaderContributor,
   AuthHttpHeaderService,
   AuthRedirectService,
   AuthService,
@@ -21,7 +22,10 @@ import { PunchoutDetectionService } from './punchout-detection.service';
 @Injectable({
   providedIn: 'root',
 })
-export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
+export class PunchoutAuthHttpHeaderService
+  extends AuthHttpHeaderService
+  implements AuthHttpHeaderContributor
+{
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected punchoutFacade = inject(PunchoutFacade);
   constructor(
@@ -45,6 +49,21 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
   }
 
   /**
+   * Returns whether punchout-specific refresh-token expiration handling was applied.
+   */
+  public handleExpiredRefreshTokenIfApplicable(): boolean {
+    if (this.punchoutDetectionService.isPunchoutSessionPage()) {
+      this.punchoutFacade.logoutPunchoutUser().subscribe();
+      return true;
+    }
+    if (this.punchoutDetectionService.isPunchoutSession()) {
+      this.punchoutFacade.endPunchoutSession().subscribe();
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * @override
    *
    * On backend errors indicating expired `refresh_token`, 2 punchout use cases:
@@ -54,14 +73,8 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
    * To be removed once CXSPA-9608 is closed.
    */
   public handleExpiredRefreshToken(): void {
-    if (this.punchoutDetectionService.isPunchoutSessionPage()) {
-      this.punchoutFacade.logoutPunchoutUser().subscribe();
-      return;
+    if (!this.handleExpiredRefreshTokenIfApplicable()) {
+      super.handleExpiredRefreshToken();
     }
-    if (this.punchoutDetectionService.isPunchoutSession()) {
-      this.punchoutFacade.endPunchoutSession().subscribe();
-      return;
-    }
-    super.handleExpiredRefreshToken();
   }
 }

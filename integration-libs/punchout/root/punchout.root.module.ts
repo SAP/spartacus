@@ -11,17 +11,20 @@ import {
   NgModule,
   provideAppInitializer,
 } from '@angular/core';
-import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
+import {
+  AUTH_HTTP_HEADER_CONTRIBUTORS,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   defaultPunchoutCmsComponentsConfig,
-  defaultPunchoutRoutingConfig,
   defaultPunchoutNavigationGuardConfig,
+  defaultPunchoutRoutingConfig,
 } from './config';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import {
-  PunchoutStatePersistenceService,
   PunchoutAuthHttpHeaderService,
+  PunchoutStatePersistenceService,
   PunchoutUiRestrictionService,
 } from './services';
 
@@ -39,8 +42,9 @@ import {
     }),
     ...interceptors,
     {
-      provide: AuthHttpHeaderService,
+      provide: AUTH_HTTP_HEADER_CONTRIBUTORS,
       useExisting: PunchoutAuthHttpHeaderService,
+      multi: true,
     },
     PunchoutUiRestrictionService,
     {
