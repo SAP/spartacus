@@ -193,9 +193,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addresses$ = this.userAddressService.getAddresses();
 
     this.subscription.add(
-      combineLatest([this.selectedRegion$, this.languageService.getActive()])
+      this.selectedRegion$
         .pipe(
-          switchMap(([regionIsocode]) => {
+          switchMap((regionIsocode) => {
             if (!regionIsocode) {
               return of([]);
             }
@@ -213,9 +213,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      combineLatest([this.selectedCity$, this.languageService.getActive()])
+      this.selectedCity$
         .pipe(
-          switchMap(([cityIsocode]) => {
+          switchMap((cityIsocode) => {
             if (!cityIsocode) {
               return of([]);
             }
@@ -322,8 +322,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.addressForm.get('district')?.reset();
     }
   }
-
-  protected updateChinesePlaceholders(): void {}
 
   toggleDefaultAddress(): void {
     this.addressForm['controls'].defaultAddress.setValue(
