@@ -23,12 +23,9 @@ export const getCitiesDataAndLoading: MemoizedSelector<
     cities: { isocode?: string; name?: string }[];
     regionIsocode: string | null;
   }
-> = createSelector(
-  getCitiesLoaderState,
-  (state: LoaderState<CitiesState>) => ({
-    loaded: StateUtils.loaderSuccessSelector(state),
-    loading: StateUtils.loaderLoadingSelector(state),
-    cities: StateUtils.loaderValueSelector(state).entities,
-    regionIsocode: StateUtils.loaderValueSelector(state).regionIsocode,
-  })
-);
+> = createSelector(getCitiesLoaderState, (state: LoaderState<CitiesState>) => ({
+  loaded: StateUtils.loaderSuccessSelector(state),
+  loading: StateUtils.loaderLoadingSelector(state),
+  cities: StateUtils.loaderValueSelector(state).entities,
+  regionIsocode: StateUtils.loaderValueSelector(state).regionIsocode,
+}));
