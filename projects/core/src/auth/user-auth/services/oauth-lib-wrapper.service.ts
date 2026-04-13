@@ -6,7 +6,7 @@
 
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
 import { FederatedLoginService } from '../../../federated-login';
@@ -26,6 +26,8 @@ export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
   federatedLoginService = inject(FederatedLoginService);
+
+  protected federatedLoginParamsSub: Subscription | undefined;
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -49,7 +51,8 @@ export class OAuthLibWrapperService {
 
     // reconfigure after getting language
     if (this.federatedLoginService.enabled) {
-      this.federatedLoginService
+      this.federatedLoginParamsSub?.unsubscribe();
+      this.federatedLoginParamsSub = this.federatedLoginService
         .getParameters()
         .subscribe((parameterString) => {
           const config = this.generateBaseConfig();
