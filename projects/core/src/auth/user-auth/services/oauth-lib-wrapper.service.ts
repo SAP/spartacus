@@ -39,7 +39,7 @@ export class OAuthLibWrapperService {
 
   protected initialize() {
     this.federatedLoginService.detectContext();
-    const config = this.generateConfig();
+    const config = this.generateCustomerLoginConfig();
     console.log(
       'startup config: ',
       `\n  ${config.loginUrl}\n  ${config.redirectUri}`
@@ -52,7 +52,7 @@ export class OAuthLibWrapperService {
       this.federatedLoginService
         .getParameters()
         .subscribe((parameterString) => {
-          const config = this.generateConfig();
+          const config = this.generateBaseConfig();
 
           config.loginUrl +=
             (config.loginUrl.includes('?') ? '&' : '?') + parameterString;
@@ -66,16 +66,23 @@ export class OAuthLibWrapperService {
     }
   }
 
-  protected generateConfig() {
+  protected generateCustomerLoginConfig() {
+    const config = this.generateBaseConfig();
     const isSSR = !this.winRef.isBrowser();
 
-    let redirectUri =
+    config.redirectUri =
       this.authConfigService.getOAuthLibConfig()?.redirectUri ??
       (!isSSR
         ? this.federatedLoginService.isLoginDomain
           ? this.federatedLoginService.origin
           : this.winRef.nativeWindow?.location.origin
         : '');
+
+    return config;
+  }
+
+  protected generateBaseConfig() {
+    const isSSR = !this.winRef.isBrowser();
 
     return {
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
@@ -88,18 +95,19 @@ export class OAuthLibWrapperService {
       issuer:
         this.authConfigService.getOAuthLibConfig()?.issuer ??
         this.authConfigService.getBaseUrl(),
-      redirectUri,
+      redirectUri:
+        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
+        (!isSSR ? this.winRef.nativeWindow?.location.origin : ''),
       ...this.authConfigService.getOAuthLibConfig(),
     };
   }
 
   protected changeClientWhenInitialize(clientId: string) {
-    const config = this.generateConfig();
+    const config = this.generateBaseConfig();
 
-    this.oAuthService.configure({
-      ...config,
-      clientId: clientId,
-    });
+    config.clientId = clientId;
+
+    this.oAuthService.configure(config);
   }
 
   /**
