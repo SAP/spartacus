@@ -137,24 +137,13 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Checks if request should be handled by this service (if it's OCC call).
    */
   public shouldCatchError(request: HttpRequest<any>): boolean {
-    return (
-      this.isOccUrl(request.url) ||
-      this.authHttpHeaderContributors.some(
-        (contributor) => contributor.shouldCatchError?.(request) ?? false
-      )
-    );
+    return this.isOccUrl(request.url);
   }
 
   public shouldAddAuthorizationHeader(request: HttpRequest<any>): boolean {
     const hasAuthorizationHeader = !!this.getAuthorizationHeader(request);
     const isOccUrl = this.isOccUrl(request.url);
-    return (
-      (!hasAuthorizationHeader && isOccUrl) ||
-      this.authHttpHeaderContributors.some(
-        (contributor) =>
-          contributor.shouldAddAuthorizationHeader?.(request) ?? false
-      )
-    );
+    return !hasAuthorizationHeader && isOccUrl;
   }
 
   /**
@@ -168,18 +157,13 @@ export class AuthHttpHeaderService implements OnDestroy {
     const isBaseSitesRequest = this.isBaseSitesRequest(request);
     const isOccUrl = this.isOccUrl(request.url);
     if (!hasAuthorizationHeader && isOccUrl && !isBaseSitesRequest) {
-      request = request.clone({
+      return request.clone({
         setHeaders: {
           ...this.createAuthorizationHeader(token),
         },
       });
     }
-
-    return this.authHttpHeaderContributors.reduce(
-      (alteredRequest, contributor) =>
-        contributor.alterRequest?.(alteredRequest, token) ?? alteredRequest,
-      request
-    );
+    return request;
   }
 
   protected isOccUrl(url: string): boolean {
@@ -293,11 +277,7 @@ export class AuthHttpHeaderService implements OnDestroy {
       return result;
     }
 
-    if (result instanceof Promise) {
-      return from(result);
-    }
-
-    return of(result ?? false);
+    return of(false);
   }
 
   protected get authHttpHeaderContributors(): AuthHttpHeaderContributor[] {

@@ -1,20 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  AuthRedirectService,
-  AuthService,
-  AuthStorageService,
-  AuthToken,
-  GlobalMessageService,
-  OAuthLibWrapperService,
-  OccEndpointsService,
-  RoutingService,
-} from '@spartacus/core';
+import { AuthService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import { PunchOutLevel, PunchOutOperation, PunchoutSession } from '../model';
 import { PunchoutAuthHttpHeaderService } from './punchout-auth-http-header.service';
 import { PunchoutDetectionService } from './punchout-detection.service';
-import { PunchoutStoreService } from './punchout-store.service';
 
 const mockSessionId = '123abc';
 const mockPunchoutSession: PunchoutSession = {
@@ -49,39 +39,6 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockAuthStorageService implements Partial<AuthStorageService> {
-  getToken() {
-    return of({ access_token: 'acc_token' } as AuthToken);
-  }
-}
-
-class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
-  refreshToken(): void {}
-}
-class MockRoutingService implements Partial<RoutingService> {
-  go = () => Promise.resolve(true);
-  goByUrl = () => Promise.resolve(true);
-}
-
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add() {}
-  remove() {}
-}
-
-class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getBaseUrl() {
-    return 'some-server/occ';
-  }
-  getRawEndpointValue(): string {
-    return 'some-endpoint';
-  }
-}
-
-class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
-  setRedirectUrl = jasmine.createSpy('setRedirectUrl');
-}
-
 class MockPunchoutFacade implements Partial<PunchoutFacade> {
   getPunchoutSession = () => of(mockPunchoutSession);
   logoutPunchoutUser = () => of(true);
@@ -90,10 +47,9 @@ class MockPunchoutFacade implements Partial<PunchoutFacade> {
 
 describe('PunchoutAuthHttpHeaderService', () => {
   let service: PunchoutAuthHttpHeaderService;
-  let authService: AuthService;
   let punchoutDetectionService: PunchoutDetectionService;
-  let punchoutStoreService: PunchoutStoreService;
   let punchoutfacade: PunchoutFacade;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -103,21 +59,10 @@ describe('PunchoutAuthHttpHeaderService', () => {
           useClass: MockPunchoutDetectionService,
         },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        { provide: AuthStorageService, useClass: MockAuthStorageService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
-        {
-          provide: OAuthLibWrapperService,
-          useClass: MockOAuthLibWrapperService,
-        },
-        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
     service = TestBed.inject(PunchoutAuthHttpHeaderService);
-    authService = TestBed.inject(AuthService);
     punchoutDetectionService = TestBed.inject(PunchoutDetectionService);
-    punchoutStoreService = TestBed.inject(PunchoutStoreService);
     punchoutfacade = TestBed.inject(PunchoutFacade);
   });
 
@@ -125,24 +70,23 @@ describe('PunchoutAuthHttpHeaderService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should handleExpiredRefreshToken call super coreLogout when not Punchout Session page', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
+  it('should return false when not in punchout page nor punchout session', (done) => {
     spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       false
     );
-    spyOn(punchoutStoreService, 'getPunchoutSessionId').and.returnValue('');
+    spyOn(punchoutDetectionService, 'isPunchoutSession').and.returnValue(false);
     spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
 
-    service.handleExpiredRefreshToken();
-    await Promise.resolve();
-    expect(authService.coreLogout).toHaveBeenCalled();
-    expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalled();
-    expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalled();
+    service.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
+      expect(handled).toBe(false);
+      expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalled();
+      expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalled();
+      done();
+    });
   });
 
-  it('should handleExpiredRefreshToken silently logout when Punchout Session page', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
+  it('should logout punchout user when on punchout session page', (done) => {
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       true
     );
@@ -150,16 +94,15 @@ describe('PunchoutAuthHttpHeaderService', () => {
     spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
     spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
 
-    service.handleExpiredRefreshToken();
-    await Promise.resolve();
-
-    expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalledWith();
-    expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalledWith();
-    expect(authService.coreLogout).not.toHaveBeenCalled();
+    service.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
+      expect(handled).toBe(true);
+      expect(punchoutfacade.logoutPunchoutUser).toHaveBeenCalledWith();
+      expect(punchoutfacade.endPunchoutSession).not.toHaveBeenCalledWith();
+      done();
+    });
   });
 
-  it('should handleExpiredRefreshToken endPunchoutSession when Punchout Session already exists', async () => {
-    spyOn(authService, 'coreLogout').and.callThrough();
+  it('should end punchout session when punchout session already exists', (done) => {
     spyOn(punchoutDetectionService, 'isPunchoutSessionPage').and.returnValue(
       false
     );
@@ -167,11 +110,11 @@ describe('PunchoutAuthHttpHeaderService', () => {
     spyOn(punchoutfacade, 'endPunchoutSession').and.callThrough();
     spyOn(punchoutfacade, 'logoutPunchoutUser').and.callThrough();
 
-    service.handleExpiredRefreshToken();
-    await Promise.resolve();
-
-    expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalledWith();
-    expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();
-    expect(authService.coreLogout).not.toHaveBeenCalled();
+    service.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
+      expect(handled).toBe(true);
+      expect(punchoutfacade.logoutPunchoutUser).not.toHaveBeenCalledWith();
+      expect(punchoutfacade.endPunchoutSession).toHaveBeenCalledWith();
+      done();
+    });
   });
 });

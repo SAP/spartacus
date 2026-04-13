@@ -90,45 +90,16 @@ describe('AuthHttpHeaderService', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
-  let primaryContributor: jasmine.SpyObj<AuthHttpHeaderContributor>;
   let secondaryContributor: jasmine.SpyObj<AuthHttpHeaderContributor>;
 
   beforeEach(() => {
-    primaryContributor = jasmine.createSpyObj<AuthHttpHeaderContributor>(
-      'primaryContributor',
-      [
-        'shouldAddAuthorizationHeader',
-        'shouldCatchError',
-        'alterRequest',
-        'handleExpiredRefreshTokenIfApplicable',
-      ]
-    );
     secondaryContributor = jasmine.createSpyObj<AuthHttpHeaderContributor>(
       'secondaryContributor',
-      [
-        'shouldAddAuthorizationHeader',
-        'shouldCatchError',
-        'alterRequest',
-        'handleExpiredRefreshTokenIfApplicable',
-      ]
+      ['handleExpiredRefreshTokenIfApplicable']
     );
 
-    primaryContributor.shouldAddAuthorizationHeader.and.returnValue(false);
-    primaryContributor.shouldCatchError.and.returnValue(false);
-    primaryContributor.alterRequest.and.callFake(
-      (request: HttpRequest<any>) => request
-    );
-    primaryContributor.handleExpiredRefreshTokenIfApplicable.and.returnValue(
-      false
-    );
-
-    secondaryContributor.shouldAddAuthorizationHeader.and.returnValue(false);
-    secondaryContributor.shouldCatchError.and.returnValue(false);
-    secondaryContributor.alterRequest.and.callFake(
-      (request: HttpRequest<any>) => request
-    );
     secondaryContributor.handleExpiredRefreshTokenIfApplicable.and.returnValue(
-      false
+      of(false)
     );
 
     TestBed.configureTestingModule({
@@ -144,11 +115,6 @@ describe('AuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
-        {
-          provide: AUTH_HTTP_HEADER_CONTRIBUTORS,
-          useValue: primaryContributor,
-          multi: true,
-        },
         {
           provide: AUTH_HTTP_HEADER_CONTRIBUTORS,
           useValue: secondaryContributor,
@@ -454,7 +420,7 @@ describe('AuthHttpHeaderService', () => {
     it('should skip default refresh token handling when a contributor handles it', () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       secondaryContributor.handleExpiredRefreshTokenIfApplicable.and.returnValue(
-        true
+        of(true)
       );
 
       service.handleExpiredRefreshToken();
@@ -463,45 +429,6 @@ describe('AuthHttpHeaderService', () => {
       expect(
         secondaryContributor.handleExpiredRefreshTokenIfApplicable
       ).toHaveBeenCalled();
-    });
-  });
-
-  describe('contributors', () => {
-    it('should allow contributors to add authorization headers for non-occ urls', () => {
-      secondaryContributor.shouldAddAuthorizationHeader.and.returnValue(true);
-
-      expect(
-        service.shouldAddAuthorizationHeader(
-          new HttpRequest('GET', 'some-server/custom-endpoint')
-        )
-      ).toBeTrue();
-    });
-
-    it('should allow contributors to catch errors for non-occ urls', () => {
-      secondaryContributor.shouldCatchError.and.returnValue(true);
-
-      expect(
-        service.shouldCatchError(
-          new HttpRequest('GET', 'some-server/custom-endpoint')
-        )
-      ).toBeTrue();
-    });
-
-    it('should apply contributor request alterations after the default logic', () => {
-      secondaryContributor.alterRequest.and.callFake(
-        (request: HttpRequest<any>) =>
-          request.clone({
-            setHeaders: {
-              'x-contributor': 'true',
-            },
-          })
-      );
-
-      const request = service.alterRequest(
-        new HttpRequest('GET', 'some-server/non-occ/cart')
-      );
-
-      expect(request.headers.get('x-contributor')).toEqual('true');
     });
   });
 

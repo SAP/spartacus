@@ -7,7 +7,6 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  AuthHttpHeaderContributor,
   AuthHttpHeaderService,
   AuthRedirectService,
   AuthService,
@@ -21,8 +20,7 @@ import {
   RoutingService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { CsAgentAuthService } from './csagent-auth.service';
 
 /**
@@ -32,10 +30,7 @@ import { CsAgentAuthService } from './csagent-auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AsmAuthHttpHeaderService
-  extends AuthHttpHeaderService
-  implements AuthHttpHeaderContributor
-{
+export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
   constructor(
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
@@ -118,41 +113,28 @@ export class AsmAuthHttpHeaderService
   }
 
   /**
-   * Returns whether ASM-specific refresh-token expiration handling was applied.
-   */
-  public handleExpiredRefreshTokenIfApplicable(): Observable<boolean> {
-    return this.csAgentAuthService
-      .isCustomerSupportAgentLoggedIn()
-      .pipe(take(1))
-      .pipe(
-        map((csAgentLoggedIn) => {
-          if (csAgentLoggedIn) {
-            this.authService.setLogoutProgress(true);
-            this.csAgentAuthService.logoutCustomerSupportAgent();
-            this.globalMessageService.add(
-              {
-                key: 'asm.csagentTokenExpired',
-              },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-            return true;
-          }
-          return false;
-        })
-      );
-  }
-
-  /**
    * @override
    *
    * On backend errors indicating expired `refresh_token` we need to logout
    * currently logged in user and CS agent.
    */
   public handleExpiredRefreshToken(): void {
-    this.handleExpiredRefreshTokenIfApplicable().subscribe((handled) => {
-      if (!handled) {
-        super.handleExpiredRefreshToken();
-      }
-    });
+    this.csAgentAuthService
+      .isCustomerSupportAgentLoggedIn()
+      .pipe(take(1))
+      .subscribe((csAgentLoggedIn) => {
+        if (csAgentLoggedIn) {
+          this.authService.setLogoutProgress(true);
+          this.csAgentAuthService.logoutCustomerSupportAgent();
+          this.globalMessageService.add(
+            {
+              key: 'asm.csagentTokenExpired',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        } else {
+          super.handleExpiredRefreshToken();
+        }
+      });
   }
 }

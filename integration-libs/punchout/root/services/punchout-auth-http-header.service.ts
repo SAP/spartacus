@@ -5,17 +5,9 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  AuthHttpHeaderContributor,
-  AuthHttpHeaderService,
-  AuthRedirectService,
-  AuthService,
-  AuthStorageService,
-  GlobalMessageService,
-  OAuthLibWrapperService,
-  OccEndpointsService,
-  RoutingService,
-} from '@spartacus/core';
+import { AuthHttpHeaderContributor } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { defaultIfEmpty, map } from 'rxjs/operators';
 import { PunchoutFacade } from '../facade';
 import { PunchoutDetectionService } from './punchout-detection.service';
 
@@ -23,58 +15,27 @@ import { PunchoutDetectionService } from './punchout-detection.service';
   providedIn: 'root',
 })
 export class PunchoutAuthHttpHeaderService
-  extends AuthHttpHeaderService
   implements AuthHttpHeaderContributor
 {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected punchoutFacade = inject(PunchoutFacade);
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService,
-    protected authRedirectService: AuthRedirectService
-  ) {
-    super(
-      authService,
-      authStorageService,
-      oAuthLibWrapperService,
-      routingService,
-      occEndpointsService,
-      globalMessageService,
-      authRedirectService
-    );
-  }
 
   /**
    * Returns whether punchout-specific refresh-token expiration handling was applied.
    */
-  public handleExpiredRefreshTokenIfApplicable(): boolean {
+  public handleExpiredRefreshTokenIfApplicable(): Observable<boolean> {
     if (this.punchoutDetectionService.isPunchoutSessionPage()) {
-      this.punchoutFacade.logoutPunchoutUser().subscribe();
-      return true;
+      return this.punchoutFacade.logoutPunchoutUser().pipe(
+        map(() => true),
+        defaultIfEmpty(true)
+      );
     }
     if (this.punchoutDetectionService.isPunchoutSession()) {
-      this.punchoutFacade.endPunchoutSession().subscribe();
-      return true;
+      return this.punchoutFacade.endPunchoutSession().pipe(
+        map(() => true),
+        defaultIfEmpty(true)
+      );
     }
-    return false;
-  }
-
-  /**
-   * @override
-   *
-   * On backend errors indicating expired `refresh_token`, 2 punchout use cases:
-   * - When initializing punchout session, previous token gets silently revoked, punchoutFacade can then create punchout session.
-   * - When punchout session already exists, punchout session gets ended.
-   * It is a workaround to address CXSPA-9608 - Public pages not displayed when token is invalid.
-   * To be removed once CXSPA-9608 is closed.
-   */
-  public handleExpiredRefreshToken(): void {
-    if (!this.handleExpiredRefreshTokenIfApplicable()) {
-      super.handleExpiredRefreshToken();
-    }
+    return of(false);
   }
 }
