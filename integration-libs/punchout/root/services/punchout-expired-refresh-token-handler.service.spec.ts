@@ -3,7 +3,7 @@ import { AuthService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { PunchoutFacade } from '../facade';
 import { PunchOutLevel, PunchOutOperation, PunchoutSession } from '../model';
-import { PunchoutAuthHttpHeaderService } from './punchout-auth-http-header.service';
+import { PunchoutExpiredRefreshTokenHandler } from './punchout-expired-refresh-token-handler.service';
 import { PunchoutDetectionService } from './punchout-detection.service';
 
 const mockSessionId = '123abc';
@@ -45,8 +45,8 @@ class MockPunchoutFacade implements Partial<PunchoutFacade> {
   endPunchoutSession = () => of();
 }
 
-describe('PunchoutAuthHttpHeaderService', () => {
-  let service: PunchoutAuthHttpHeaderService;
+describe('PunchoutExpiredRefreshTokenHandler', () => {
+  let service: PunchoutExpiredRefreshTokenHandler;
   let punchoutDetectionService: PunchoutDetectionService;
   let punchoutfacade: PunchoutFacade;
 
@@ -61,7 +61,7 @@ describe('PunchoutAuthHttpHeaderService', () => {
         { provide: AuthService, useClass: MockAuthService },
       ],
     });
-    service = TestBed.inject(PunchoutAuthHttpHeaderService);
+    service = TestBed.inject(PunchoutExpiredRefreshTokenHandler);
     punchoutDetectionService = TestBed.inject(PunchoutDetectionService);
     punchoutfacade = TestBed.inject(PunchoutFacade);
   });

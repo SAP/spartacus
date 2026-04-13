@@ -33,6 +33,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -54,6 +55,8 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
   providedIn: 'root',
 })
 export class AuthHttpHeaderService implements OnDestroy {
+  protected featureConfig = inject(FeatureConfigService);
+
   /**
    * Starts the refresh of the access token
    */
@@ -227,6 +230,11 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
+    if (!this.featureConfig.isEnabled('enableExpiredRefreshTokenHandlers')) {
+      this.handleExpiredRefreshTokenFallback();
+      return;
+    }
+
     from(this.authHttpHeaderHandlers)
       .pipe(
         concatMap((handler) =>

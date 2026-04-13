@@ -23,7 +23,7 @@ import {
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import {
-  PunchoutAuthHttpHeaderService,
+  PunchoutExpiredRefreshTokenHandler,
   PunchoutStatePersistenceService,
   PunchoutUiRestrictionService,
 } from './services';
@@ -43,7 +43,7 @@ import {
     ...interceptors,
     {
       provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
-      useExisting: PunchoutAuthHttpHeaderService,
+      useExisting: PunchoutExpiredRefreshTokenHandler,
       multi: true,
     },
     PunchoutUiRestrictionService,
