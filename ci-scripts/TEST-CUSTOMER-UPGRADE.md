@@ -23,6 +23,7 @@ IS_CI=false ./ci-scripts/test-customer-upgrade.sh
 ### Upgrade to a local Verdaccio build
 
 For full Verdaccio setup and publishing instructions, see:
+- [`publish-to-verdaccio.sh`](./publish-to-verdaccio.sh) — standalone script to build + publish to local Verdaccio
 - [Schematics README → Developing schematics](../projects/schematics/README.md#developing-schematics)
 - [Self-publishing Spartacus libraries](../docs/self-publishing-spartacus-libraries.md)
 
