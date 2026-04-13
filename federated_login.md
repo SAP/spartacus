@@ -88,7 +88,7 @@ https://wiki.one.int.sap/wiki/spaces/spar/pages/5804333987/Multi-Host+emulation+
 ```
 
 ```json .env-cmdrc
-    "CX_BASE_URL": "https://api.local:9002"
+    "CX_BASE_URL": "https://api.login.local:9002"
 ```
 
 ```ts projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.providers.ts
