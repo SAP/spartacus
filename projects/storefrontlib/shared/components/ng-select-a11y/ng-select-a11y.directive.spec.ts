@@ -1,5 +1,6 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
@@ -19,10 +20,29 @@ import { NgSelectA11yModule } from './ng-select-a11y.module';
     <div id="size-results"></div>
   `,
   imports: [NgSelectA11yModule, NgSelectModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 class MockComponent {
   isSearchable: boolean = false;
   selected = 1;
+}
+
+@Component({
+  template: `
+    <ng-select
+      [searchable]="false"
+      [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
+      [items]="[]"
+      [(ngModel)]="selected"
+    >
+    </ng-select>
+    <div id="size-results"></div>
+  `,
+  imports: [NgSelectA11yModule, NgSelectModule, FormsModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+class MockNoItemsComponent {
+  selected = null;
 }
 
 class MockFeatureConfigService {
@@ -48,6 +68,7 @@ describe('NgSelectA11yDirective', () => {
         NgSelectA11yModule,
         NgSelectModule,
         MockComponent,
+        MockNoItemsComponent,
         NgSelectA11yDirective,
       ],
       providers: [
@@ -119,6 +140,84 @@ describe('NgSelectA11yDirective', () => {
         expect(inputElement.value).toContain(`${component.selected}`);
         done();
       });
+    });
+  });
+
+  describe('vocalizeItemCount()', () => {
+    it('should create a .cx-ng-select-count span and set its text content', () => {
+      fixture.detectChanges();
+      const select = getNgSelect().nativeElement;
+      const span = select.querySelector('.cx-ng-select-count');
+      expect(span).toBeTruthy();
+      expect(span.textContent).toBe('of');
+    });
+
+    it('should call translate with the correct key and item count', () => {
+      const translationService = TestBed.inject(TranslationService);
+      spyOn(translationService, 'translate').and.returnValue(of('3 items'));
+      fixture.detectChanges();
+      // We expect count 3 because of the MockComponent defined at the top contains [items]="[1, 2, 3]"
+      expect(translationService.translate).toHaveBeenCalledWith(
+        'assistiveMessage.dropdownItemCount',
+        { count: 3 }
+      );
+    });
+
+    it('should use count 0 when items is an empty array', () => {
+      const translationService = TestBed.inject(TranslationService);
+      spyOn(translationService, 'translate').and.returnValue(of('0 items'));
+
+      const emptyFixture = TestBed.createComponent(MockNoItemsComponent);
+      emptyFixture.detectChanges();
+
+      expect(translationService.translate).toHaveBeenCalledWith(
+        'assistiveMessage.dropdownItemCount',
+        { count: 0 }
+      );
+    });
+
+    it('should reuse the existing .cx-ng-select-count span instead of creating a new one', () => {
+      fixture.detectChanges();
+      const select = getNgSelect().nativeElement;
+      const spans = select.querySelectorAll('.cx-ng-select-count');
+      expect(spans.length).toBe(1);
+    });
+
+    it('should apply cx-visually-hidden class and aria-hidden to the span', () => {
+      fixture.detectChanges();
+      const select = getNgSelect().nativeElement;
+      const span = select.querySelector('.cx-ng-select-count');
+      expect(span.classList).toContain('cx-visually-hidden');
+      expect(span.getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('should not create the span when feature flag a11yVocalizeDropdownItemCount is disabled', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [
+          NgSelectA11yModule,
+          NgSelectModule,
+          MockComponent,
+          NgSelectA11yDirective,
+        ],
+        providers: [
+          {
+            provide: FeatureConfigService,
+            useValue: {
+              isEnabled: (flag: string) =>
+                flag !== 'a11yVocalizeDropdownItemCount',
+            },
+          },
+          { provide: TranslationService, useClass: MockTranslationService },
+        ],
+      }).compileComponents();
+
+      const disabledFixture = TestBed.createComponent(MockComponent);
+      disabledFixture.detectChanges();
+      const select = disabledFixture.debugElement.query(
+        By.directive(NgSelectA11yDirective)
+      ).nativeElement;
+      expect(select.querySelector('.cx-ng-select-count')).toBeNull();
     });
   });
 });

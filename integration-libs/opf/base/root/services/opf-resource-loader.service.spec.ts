@@ -435,6 +435,7 @@ describe('OpfResourceLoaderService', () => {
         '<script>console.log("Script executed");</script>'
       );
 
+      // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith('Script executed');
     });
   });
@@ -453,6 +454,7 @@ describe('OpfResourceLoaderService', () => {
         '<script>console.log("Script executed");</script>'
       );
 
+      // eslint-disable-next-line no-console
       expect(console.log).not.toHaveBeenCalledWith('Script executed');
     });
   });
