@@ -209,7 +209,11 @@ export class UserAddressService {
           return [];
         } else if (loading && !loaded) {
           return [];
-        } else if (!loading && regionIsocode !== storedRegion && regionIsocode) {
+        } else if (
+          !loading &&
+          regionIsocode !== storedRegion &&
+          regionIsocode
+        ) {
           if (storedRegion) {
             this.clearCities();
           }
