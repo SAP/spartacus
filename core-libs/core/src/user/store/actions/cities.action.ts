@@ -48,10 +48,6 @@ export class LoadCitiesSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearCities implements Action {
   readonly type = CLEAR_CITIES;
-
-  constructor() {
-    // Intentional empty constructor
-  }
 }
 
 export type CitiesAction =
