@@ -19,7 +19,7 @@ import { AuthToken } from '../models/auth-token.model';
 import {
   EXPIRED_REFRESH_TOKEN_HANDLERS,
   ExpiredRefreshTokenHandler,
-} from './auth-http-header-contributor';
+} from './auth-http-header-handler';
 import { AuthHttpHeaderService } from './auth-http-header.service';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';

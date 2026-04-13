@@ -43,7 +43,7 @@ import { AuthToken } from '../models/auth-token.model';
 import {
   EXPIRED_REFRESH_TOKEN_HANDLERS,
   ExpiredRefreshTokenHandler,
-} from './auth-http-header-contributor';
+} from './auth-http-header-handler';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
