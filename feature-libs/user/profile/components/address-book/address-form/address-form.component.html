@@ -214,6 +214,7 @@
           [items]="cities"
           bindLabel="name"
           bindValue="isocode"
+          [disabled]="!selectedRegion$.value"
           placeholder="{{
             selectedRegion$.value
               ? ('addressForm.selectOne' | cxTranslate)
@@ -263,6 +264,7 @@
           [items]="districts"
           bindLabel="name"
           bindValue="isocode"
+          [disabled]="!selectedCity$.value"
           placeholder="{{
             selectedCity$.value
               ? ('addressForm.selectOne' | cxTranslate)
