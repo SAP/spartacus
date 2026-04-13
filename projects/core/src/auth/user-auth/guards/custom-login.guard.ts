@@ -8,6 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { CanActivate, GuardResult, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { FederatedLoginService } from '../../../federated-login/services/federated-login.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -55,6 +56,7 @@ export class CustomLoginGuard implements CanActivate {
   protected storage = getStorage(StorageSyncType.LOCAL_STORAGE, this.windowRef);
   protected globalMessageService = inject(GlobalMessageService);
   protected csrfStateService = inject(CsrfStateService);
+  protected federatedLoginService = inject(FederatedLoginService);
 
   canActivate(): Observable<GuardResult> {
     if (
@@ -83,6 +85,16 @@ export class CustomLoginGuard implements CanActivate {
 
         // retry until limit met
         this.setRedirectCount(currentCount + 1);
+        if (this.federatedLoginService.isLoginDomain) {
+          // redirect to the origin site login so that PKCE is available to the origin
+          const originLoginUrl =
+            this.federatedLoginService.origin +
+            (this.semanticPathService.get('login') ?? '');
+          if (originLoginUrl) {
+            this.windowRef.location.assign?.(originLoginUrl);
+          }
+        }
+
         return this.createRoute('login');
       })
     );
