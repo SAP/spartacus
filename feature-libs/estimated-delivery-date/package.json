@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/estimated-delivery-date",
-  "version": "221121.9.0",
+  "version": "221121.10.0",
   "description": "Estimated Delivery Date library for Spartacus",
   "keywords": [
     "spartacus",
@@ -28,12 +28,12 @@
     "@angular-devkit/schematics": "^21.2.3",
     "@angular/common": "^21.2.4",
     "@angular/core": "^21.2.4",
-    "@spartacus/cart": "221121.9.0",
-    "@spartacus/core": "221121.9.0",
-    "@spartacus/order": "221121.9.0",
-    "@spartacus/schematics": "221121.9.0",
-    "@spartacus/storefront": "221121.9.0",
-    "@spartacus/styles": "221121.9.0",
+    "@spartacus/cart": "221121.10.0",
+    "@spartacus/core": "221121.10.0",
+    "@spartacus/order": "221121.10.0",
+    "@spartacus/schematics": "221121.10.0",
+    "@spartacus/storefront": "221121.10.0",
+    "@spartacus/styles": "221121.10.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
