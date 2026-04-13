@@ -46,7 +46,9 @@ import {
   OpfQuickBuyRootModule,
 } from '@spartacus/opf/quick-buy/root';
 import {
+  defaultOpfGiftCardCartConfig,
   OPF_GIFT_CARD_FEATURE,
+  opfGiftCardIconConfig,
   OpfGiftCardRootModule,
 } from '@spartacus/opf/gift-card/root';
 import { environment } from '../../../../environments/environment';
@@ -61,9 +63,9 @@ import {
   opfGiftCardTranslationsEn,
 } from '@spartacus/opf/gift-card/assets';
 import {
-  defaultGiftCardCartOccEndpointsConfig,
+  defaultOccOpfGiftCardCartEndpointsConfig,
   defaultOccOpfGiftCardOrderEndpointsConfig,
-} from '@spartacus/opf/gift-card/occ';
+} from '@spartacus/opf/gift-card/root';
 import {
   OPF_TOKENISATION_FEATURE,
   OpfTokenisationRootModule,
@@ -80,10 +82,14 @@ if (environment.b2b) {
 }
 
 extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
-extensionProviders.push(provideConfig(defaultGiftCardCartOccEndpointsConfig));
+extensionProviders.push(
+  provideConfig(defaultOccOpfGiftCardCartEndpointsConfig)
+);
 extensionProviders.push(
   provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig)
 );
+extensionProviders.push(provideConfig(defaultOpfGiftCardCartConfig));
+extensionProviders.push(provideConfig(opfGiftCardIconConfig));
 
 @NgModule({
   imports: [
