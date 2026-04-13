@@ -40,8 +40,8 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import {
-  AUTH_HTTP_HEADER_CONTRIBUTORS,
-  AuthHttpHeaderContributor,
+  EXPIRED_REFRESH_TOKEN_HANDLERS,
+  ExpiredRefreshTokenHandler,
 } from './auth-http-header-contributor';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
@@ -115,8 +115,8 @@ export class AuthHttpHeaderService implements OnDestroy {
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   protected subscriptions = new Subscription();
-  protected contributors =
-    inject(AUTH_HTTP_HEADER_CONTRIBUTORS, { optional: true }) ?? [];
+  protected handlers =
+    inject(EXPIRED_REFRESH_TOKEN_HANDLERS, { optional: true }) ?? [];
 
   constructor(
     protected authService: AuthService,
@@ -227,10 +227,10 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
-    from(this.authHttpHeaderContributors)
+    from(this.authHttpHeaderHandlers)
       .pipe(
-        concatMap((contributor) =>
-          this.resolveContributorRefreshTokenHandling(contributor)
+        concatMap((handler) =>
+          this.resolveHandlerRefreshTokenHandling(handler)
         ),
         filter((handled) => handled),
         take(1),
@@ -268,10 +268,16 @@ export class AuthHttpHeaderService implements OnDestroy {
     });
   }
 
-  protected resolveContributorRefreshTokenHandling(
-    contributor: AuthHttpHeaderContributor
+  /**
+   * Resolves handler-specific refresh token expiration handling.
+   * This approach allows features like Punchout to handle expired tokens
+   * without needing to override the entire AuthHttpHeaderService via DI,
+   * which would create a conflict with other service overrides (e.g., ASM).
+   */
+  protected resolveHandlerRefreshTokenHandling(
+    handler: ExpiredRefreshTokenHandler
   ): Observable<boolean> {
-    const result = contributor.handleExpiredRefreshTokenIfApplicable?.();
+    const result = handler.handleExpiredRefreshTokenIfApplicable?.();
 
     if (isObservable(result)) {
       return result;
@@ -280,8 +286,8 @@ export class AuthHttpHeaderService implements OnDestroy {
     return of(false);
   }
 
-  protected get authHttpHeaderContributors(): AuthHttpHeaderContributor[] {
-    return this.contributors ?? [];
+  protected get authHttpHeaderHandlers(): ExpiredRefreshTokenHandler[] {
+    return this.handlers ?? [];
   }
 
   /**

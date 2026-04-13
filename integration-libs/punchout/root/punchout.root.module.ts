@@ -12,7 +12,7 @@ import {
   provideAppInitializer,
 } from '@angular/core';
 import {
-  AUTH_HTTP_HEADER_CONTRIBUTORS,
+  EXPIRED_REFRESH_TOKEN_HANDLERS,
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
@@ -42,7 +42,7 @@ import {
     }),
     ...interceptors,
     {
-      provide: AUTH_HTTP_HEADER_CONTRIBUTORS,
+      provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
       useExisting: PunchoutAuthHttpHeaderService,
       multi: true,
     },

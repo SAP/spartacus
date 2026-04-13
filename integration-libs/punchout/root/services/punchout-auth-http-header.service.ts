@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { AuthHttpHeaderContributor } from '@spartacus/core';
+import { ExpiredRefreshTokenHandler } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import { PunchoutFacade } from '../facade';
@@ -15,7 +15,7 @@ import { PunchoutDetectionService } from './punchout-detection.service';
   providedIn: 'root',
 })
 export class PunchoutAuthHttpHeaderService
-  implements AuthHttpHeaderContributor
+  implements ExpiredRefreshTokenHandler
 {
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected punchoutFacade = inject(PunchoutFacade);

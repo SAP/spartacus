@@ -8,12 +8,12 @@ import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
 
 /**
- * Extension point for feature-specific auth request handling.
+ * Handler for expired refresh token scenarios.
  */
-export interface AuthHttpHeaderContributor {
+export interface ExpiredRefreshTokenHandler {
   handleExpiredRefreshTokenIfApplicable?(): Observable<boolean>;
 }
 
-export const AUTH_HTTP_HEADER_CONTRIBUTORS = new InjectionToken<
-  AuthHttpHeaderContributor[]
->('AUTH_HTTP_HEADER_CONTRIBUTORS');
+export const EXPIRED_REFRESH_TOKEN_HANDLERS = new InjectionToken<
+  ExpiredRefreshTokenHandler[]
+>('EXPIRED_REFRESH_TOKEN_HANDLERS');

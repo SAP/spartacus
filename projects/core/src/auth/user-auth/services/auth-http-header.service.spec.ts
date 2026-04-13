@@ -16,8 +16,8 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import {
-  AUTH_HTTP_HEADER_CONTRIBUTORS,
-  AuthHttpHeaderContributor,
+  EXPIRED_REFRESH_TOKEN_HANDLERS,
+  ExpiredRefreshTokenHandler,
 } from './auth-http-header-contributor';
 import { AuthHttpHeaderService } from './auth-http-header.service';
 import { AuthRedirectService } from './auth-redirect.service';
@@ -90,10 +90,10 @@ describe('AuthHttpHeaderService', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
-  let secondaryContributor: jasmine.SpyObj<AuthHttpHeaderContributor>;
+  let secondaryContributor: jasmine.SpyObj<ExpiredRefreshTokenHandler>;
 
   beforeEach(() => {
-    secondaryContributor = jasmine.createSpyObj<AuthHttpHeaderContributor>(
+    secondaryContributor = jasmine.createSpyObj<ExpiredRefreshTokenHandler>(
       'secondaryContributor',
       ['handleExpiredRefreshTokenIfApplicable']
     );
@@ -116,7 +116,7 @@ describe('AuthHttpHeaderService', () => {
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         {
-          provide: AUTH_HTTP_HEADER_CONTRIBUTORS,
+          provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
           useValue: secondaryContributor,
           multi: true,
         },
