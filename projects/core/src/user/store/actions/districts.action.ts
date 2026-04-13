@@ -48,10 +48,6 @@ export class LoadDistrictsSuccess extends StateUtils.LoaderSuccessAction {
 
 export class ClearDistricts implements Action {
   readonly type = CLEAR_DISTRICTS;
-
-  constructor() {
-    // Intentional empty constructor
-  }
 }
 
 export type DistrictsAction =

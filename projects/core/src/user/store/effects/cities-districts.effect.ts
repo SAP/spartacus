@@ -23,7 +23,9 @@ export class CitiesDistrictsEffects {
   loadCities$: Observable<UserActions.CitiesAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_CITIES),
-      map((action: UserActions.LoadCities) => action.payload),
+      map(
+        ({ payload: regionIsocode }: UserActions.LoadCities) => regionIsocode
+      ),
       switchMap((regionIsocode: string) =>
         this.siteConnector.getCities(regionIsocode).pipe(
           map(
@@ -55,7 +57,7 @@ export class CitiesDistrictsEffects {
   loadDistricts$: Observable<UserActions.DistrictsAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_DISTRICTS),
-      map((action: UserActions.LoadDistricts) => action.payload),
+      map(({ payload: cityIsocode }: UserActions.LoadDistricts) => cityIsocode),
       switchMap((cityIsocode: string) =>
         this.siteConnector.getDistricts(cityIsocode).pipe(
           map(

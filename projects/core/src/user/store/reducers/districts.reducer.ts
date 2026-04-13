@@ -16,19 +16,16 @@ export function reducer(
   state = initialState,
   action: UserActions.DistrictsAction | UserActions.ClearUserMiscsData
 ): DistrictsState {
-  switch (action.type) {
-    case UserActions.LOAD_DISTRICTS_SUCCESS: {
-      const entities = action.payload.entities;
-      const cityIsocode = action.payload.cityIsocode;
-      if (entities || cityIsocode) {
-        return {
-          ...state,
-          entities,
-          cityIsocode,
-        };
-      }
-      return initialState;
+  if (action.type === UserActions.LOAD_DISTRICTS_SUCCESS) {
+    const { entities, cityIsocode } = action.payload;
+    if (entities || cityIsocode) {
+      return {
+        ...state,
+        entities,
+        cityIsocode,
+      };
     }
+    return initialState;
   }
 
   return state;
