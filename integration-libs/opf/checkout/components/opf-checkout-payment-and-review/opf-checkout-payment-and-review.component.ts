@@ -29,7 +29,10 @@ import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
+import {
+  OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT,
+  OpfCheckoutOutlets,
+} from '@spartacus/opf/checkout/root';
 import { BehaviorSubject, map, Observable, take } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
@@ -38,6 +41,7 @@ import {
   OpfCheckoutReviewCartDetailsModule,
 } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -71,12 +75,19 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected opfBaseFacade = inject(OpfBaseFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
-
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
   protected defaultTermsAndConditionsFieldValue = false;
 
   protected selectedPaymentProviderName$ = new BehaviorSubject<
     string | null | undefined
   >(undefined);
+
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
+
+  paymentOptionsDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
     .getCurrentPage()
