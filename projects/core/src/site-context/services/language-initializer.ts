@@ -5,9 +5,10 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { FederatedLoginService } from '../../federated-login/services';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
@@ -18,6 +19,7 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 @Injectable({ providedIn: 'root' })
 export class LanguageInitializer {
   siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+  federatedLoginService = inject(FederatedLoginService);
 
   constructor(
     protected languageService: LanguageService,
@@ -33,6 +35,7 @@ export class LanguageInitializer {
   initialize(): Promise<unknown> {
     return firstValueFrom(
       this.configInit.getStable('context').pipe(
+        switchMap(() => this.setFromFederatedLoginContext()),
         switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.languageStatePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
@@ -65,5 +68,14 @@ export class LanguageInitializer {
     if (!this.languageService.isInitialized() && contextParam) {
       this.languageService.setActive(contextParam);
     }
+  }
+
+  protected setFromFederatedLoginContext(): Observable<unknown> {
+    const lang = this.federatedLoginService.language;
+    if (this.federatedLoginService.enabled && lang) {
+      console.log('setting language', lang, this.languageService.isInitialized);
+      return of(this.languageService.setActive(lang));
+    }
+    return of(undefined);
   }
 }

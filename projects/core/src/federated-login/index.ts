@@ -5,7 +5,6 @@
  */
 
 export * from './config/federated-login-config';
-export * from './federated-login-language-initializer';
 export * from './federated-login-location.strategy';
 export * from './federated-login.module';
 export * from './model';
