@@ -196,7 +196,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.selectedRegion$
         .pipe(
           switchMap((regionIsocode) => {
-            if (!regionIsocode) {
+            if (!regionIsocode || !this.isChineseAddress) {
               return of([]);
             }
             return this.userAddressService.getCities(regionIsocode);
@@ -216,7 +216,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.selectedCity$
         .pipe(
           switchMap((cityIsocode) => {
-            if (!cityIsocode) {
+            if (!cityIsocode || !this.isChineseAddress) {
               return of([]);
             }
             return this.userAddressService.getDistricts(cityIsocode);
