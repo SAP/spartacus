@@ -13,9 +13,9 @@ export class FederatedLoginContextSerializerService {
   config = inject(FederatedLoginConfig).federatedLogin;
 
   serializeContext(context: FederatedLoginContext | undefined) {
-    const value: string[] = [];
-
     if (context?.origin) {
+      const value: string[] = [];
+
       const key = Object.entries(this.config?.originMap ?? {}).find(
         ([_key, value]) => {
           return value === context.origin;
@@ -26,13 +26,18 @@ export class FederatedLoginContextSerializerService {
         return '';
       }
       value.push(key);
+
+      value.push(context.language ?? '');
+
+      // TODO: currency not needed
+      if (context.currency) {
+        value.push(context.currency ?? '');
+      }
+
+      return value.join(':');
     }
 
-    value.push(context?.language ?? '');
-
-    // value.push(context?.currency ?? ''); // TODO: currency not needed
-
-    return value.join(':');
+    return '';
   }
 
   deserializeContext(serializedContext: string | null | undefined) {

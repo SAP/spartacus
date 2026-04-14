@@ -25,8 +25,8 @@ import { AuthConfigService } from './auth-config.service';
 export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
-  federatedLoginService = inject(FederatedLoginService);
 
+  federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
   // TODO: Remove platformId dependency in 4.0
@@ -40,7 +40,6 @@ export class OAuthLibWrapperService {
   }
 
   protected initialize() {
-    this.federatedLoginService.detectContext();
     const config = this.generateCustomerLoginConfig();
     console.log(
       'startup config: ',
@@ -50,12 +49,13 @@ export class OAuthLibWrapperService {
     this.oAuthService.configure(config);
 
     // reconfigure after getting language
+    this.federatedLoginService.detectContext();
     if (this.federatedLoginService.enabled) {
       this.federatedLoginParamsSub?.unsubscribe();
       this.federatedLoginParamsSub = this.federatedLoginService
         .getParameters()
         .subscribe((parameterString) => {
-          const config = this.generateBaseConfig();
+          const config = this.generateCustomerLoginConfig();
 
           config.loginUrl +=
             (config.loginUrl.includes('?') ? '&' : '?') + parameterString;

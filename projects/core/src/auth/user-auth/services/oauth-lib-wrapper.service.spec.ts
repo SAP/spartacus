@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureConfigService, FederatedLoginService } from '@spartacus/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { WindowRef } from '../../../window';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
@@ -65,6 +65,14 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = jasmine.createSpy();
 }
 
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  enabled = false;
+  isLoginDomain = false;
+  origin: string | undefined = undefined;
+  detectContext = jasmine.createSpy();
+  getParameters = jasmine.createSpy().and.returnValue(of('context=de:en'));
+}
+
 const store = {};
 const MockWindowRef = {
   localStorage: {
@@ -96,6 +104,7 @@ describe('OAuthLibWrapperService', () => {
   let winRef: WindowRef;
   let authConfigService: AuthConfigService;
   let featureConfigService: FeatureConfigService;
+  let federatedLoginService: MockFederatedLoginService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -105,6 +114,10 @@ describe('OAuthLibWrapperService', () => {
         { provide: OAuthService, useClass: MockOAuthService },
         { provide: WindowRef, useValue: MockWindowRef },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: FederatedLoginService,
+          useClass: MockFederatedLoginService,
+        },
       ],
     });
     service = TestBed.inject(OAuthLibWrapperService);
@@ -112,6 +125,9 @@ describe('OAuthLibWrapperService', () => {
     winRef = TestBed.inject(WindowRef);
     authConfigService = TestBed.inject(AuthConfigService);
     featureConfigService = TestBed.inject(FeatureConfigService);
+    federatedLoginService = TestBed.inject(
+      FederatedLoginService
+    ) as unknown as MockFederatedLoginService;
   });
 
   describe('initialize()', () => {
@@ -173,6 +189,76 @@ describe('OAuthLibWrapperService', () => {
           redirectUri: '',
         })
       );
+    });
+
+    it('should detect federated login context to ensure FederatedLoginService is initialized', () => {
+      (service as any)['initialize']();
+
+      expect(federatedLoginService.detectContext).toHaveBeenCalled();
+    });
+
+    it('should not subscribe to getParameters when federated login is disabled', () => {
+      (service as any)['initialize']();
+
+      expect(federatedLoginService.getParameters).not.toHaveBeenCalled();
+    });
+
+    describe('when federated login is enabled', () => {
+      beforeEach(() => {
+        federatedLoginService.enabled = true;
+      });
+
+      it('should re-configure the auth service with federated login context parameters on loginUrl', () => {
+        spyOn(oAuthService, 'configure').and.callThrough();
+        spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
+
+        (service as any)['initialize']();
+
+        expect(federatedLoginService.getParameters).toHaveBeenCalled();
+        expect(oAuthService.configure).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            loginUrl: 'login?context=de:en',
+          })
+        );
+      });
+
+      it('should append params with & when loginUrl already has a query string', () => {
+        spyOn(oAuthService, 'configure').and.callThrough();
+        spyOn(authConfigService, 'getLoginUrl').and.returnValue(
+          'login?foo=bar'
+        );
+        spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
+
+        (service as any)['initialize']();
+
+        expect(oAuthService.configure).toHaveBeenCalledWith(
+          jasmine.objectContaining({
+            loginUrl: 'login?foo=bar&context=de:en',
+          })
+        );
+      });
+
+      describe('when on a login domain', () => {
+        const originatingDomain = 'https://storefront.de';
+
+        beforeEach(() => {
+          federatedLoginService.isLoginDomain = true;
+          federatedLoginService.origin = originatingDomain;
+        });
+
+        it('should use origin as base href for redirectUri', () => {
+          spyOn(oAuthService, 'configure').and.callThrough();
+          spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
+
+          (service as any)['initialize']();
+
+          expect(oAuthService.configure).toHaveBeenCalledWith(
+            jasmine.objectContaining({
+              redirectUri: originatingDomain,
+            })
+          );
+        });
+      });
     });
   });
 

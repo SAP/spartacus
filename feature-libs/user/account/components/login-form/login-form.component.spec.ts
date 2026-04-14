@@ -34,6 +34,7 @@ class MockLoginFormComponentService
   isUpdating$ = isBusySubject;
   login = createSpy().and.stub();
   handleCustomLoginError = createSpy().and.stub();
+  showResetPassword = true;
 }
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -124,6 +125,20 @@ describe('LoginFormComponent', () => {
       isBusySubject.next(false);
       fixture.detectChanges();
       expect(el.query(By.css('cx-spinner'))).toBeNull();
+    });
+  });
+
+  describe('showResetPassword', () => {
+    it('should show the forgot password link when showResetPassword is true', () => {
+      component.showResetPassword.set(true);
+      fixture.detectChanges();
+      expect(el.query(By.css('a.btn-link'))).toBeTruthy();
+    });
+
+    it('should hide the forgot password link when showResetPassword is false', () => {
+      component.showResetPassword.set(false);
+      fixture.detectChanges();
+      expect(el.query(By.css('a.btn-link'))).toBeNull();
     });
   });
 
