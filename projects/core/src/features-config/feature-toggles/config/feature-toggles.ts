@@ -464,6 +464,12 @@ export interface FeatureTogglesInterface {
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
    */
   enableRemoveVoucherEndpoint?: boolean;
+
+  /**
+   * When enabled, shows sort fields only at the top of the table.
+   * When disabled, shows sort fields at both top and bottom.
+   */
+  showSortFieldsOnlyAtTop?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -519,4 +525,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showSortFieldsOnlyAtTop: false,
 };
