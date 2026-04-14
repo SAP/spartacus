@@ -17,6 +17,8 @@ import { OpfGiftCardApplyModule } from './components/opf-gift-card-apply';
 import { OpfGiftCardCheckoutModule } from './components/opf-gift-card-checkout';
 import { OpfGiftCardOrderConfirmationModule } from './components/opf-gift-card-order-confirmation';
 import { OpfGiftCardOrderDetailsModule } from './components/opf-gift-card-order-details';
+import { defaultOccOpfGiftCardCartEndpointsConfig } from './config/default-occ-opf-gift-card-cart-config';
+import { defaultOccOpfGiftCardOrderEndpointsConfig } from './config/default-occ-opf-gift-card-order-config';
 import { defaultOpfGiftCardCartConfig } from './config/default-gift-card-cart-config';
 import { opfGiftCardIconConfig } from './config/opf-gift-card-icon.config';
 
@@ -46,6 +48,8 @@ export function defaultOpfGiftCardComponentsConfig() {
     OpfGiftCardOrderConfirmationModule,
   ],
   providers: [
+    provideDefaultConfig(defaultOccOpfGiftCardCartEndpointsConfig),
+    provideDefaultConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
     provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
     provideDefaultConfig(defaultOpfGiftCardCartConfig),
   ],

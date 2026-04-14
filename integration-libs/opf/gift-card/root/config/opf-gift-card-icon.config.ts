@@ -14,7 +14,7 @@ export const opfGiftCardIconConfig: IconConfig = {
     resources: [
       {
         type: IconResourceType.SVG,
-        url: './assets/icons/opf-gift-card.svg',
+        url: 'assets/icons/opf-gift-card.svg',
         types: ['GIFT_CARD'],
       },
     ],
