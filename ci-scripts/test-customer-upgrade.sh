@@ -43,7 +43,7 @@
 #                           Resolution: SPARTACUS_REGISTRY → NPM_URL → config.sh → ~/.npmrc
 #   SPARTACUS_REGISTRY_TOKEN  - auth token for SPARTACUS_REGISTRY
 #                           Resolution: SPARTACUS_REGISTRY_TOKEN → NPM_TOKEN → config.sh → ~/.npmrc
-#   TO_REGISTRY          - registry hosting TO_VERSION (default: same as SPARTACUS_REGISTRY)
+#   TO_REGISTRY          - registry hosting TO_VERSION (default: http://localhost:4873/)
 #   TO_REGISTRY_TOKEN    - auth token for TO_REGISTRY (default: empty)
 #   BASE_URL             - OCC backend URL (default: https://40.76.109.9:9002)
 #   APP_NAME             - test app name (default: spartacus-fresh)
@@ -121,8 +121,8 @@ if [[ -z "${SPARTACUS_REGISTRY_TOKEN:-}" && -n "$SPARTACUS_REGISTRY" && -f "$HOM
 fi
 SPARTACUS_REGISTRY_TOKEN="${SPARTACUS_REGISTRY_TOKEN:-}"
 
-# 3) TO_REGISTRY defaults to SPARTACUS_REGISTRY
-TO_REGISTRY="${TO_REGISTRY:-$SPARTACUS_REGISTRY}"
+# 3) TO_REGISTRY defaults to local Verdaccio
+TO_REGISTRY="${TO_REGISTRY:-http://localhost:4873/}"
 TO_REGISTRY_TOKEN="${TO_REGISTRY_TOKEN:-}"
 # If TO is same as SPARTACUS_REGISTRY, share the token
 if [[ "$TO_REGISTRY" == "$SPARTACUS_REGISTRY" && -z "$TO_REGISTRY_TOKEN" ]]; then
@@ -371,7 +371,7 @@ printf "  ANGULAR_VERSION:    %s\n" "${ANGULAR_VERSION}"
 printf "  FROM_VERSION:       %s\n" "${FROM_VERSION}"
 printf "  SPARTACUS_REGISTRY: %s\n" "${SPARTACUS_REGISTRY:-(not set — will fail)}"
 printf "  TO_VERSION:         %s\n" "${TO_VERSION}"
-printf "  TO_REGISTRY:        %s\n" "${TO_REGISTRY:-(same as SPARTACUS_REGISTRY)}"
+printf "  TO_REGISTRY:        %s\n" "${TO_REGISTRY}"
 printf "  BASE_URL:           %s\n" "${BASE_URL}"
 printf "  APP_DIR:            %s\n" "${APP_DIR}"
 printf "  SKIP_START_CHECK:   %s\n" "${SKIP_START_CHECK}"
