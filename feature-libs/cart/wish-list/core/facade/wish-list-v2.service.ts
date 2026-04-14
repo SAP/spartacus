@@ -79,7 +79,11 @@ export class WishListV2Service implements WishListFacade {
   }
 
   // no-op: the backend creates the default wishlist automatically on first entry
-  createWishList(_userId: string, _name?: string, _description?: string): void {}
+  createWishList(
+    _userId: string,
+    _name?: string,
+    _description?: string
+  ): void {}
 
   // no-op: data is loaded lazily via getWishList()
   loadWishList(_userId: string, _customerId: string): void {}

@@ -464,7 +464,6 @@ export interface FeatureTogglesInterface {
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
    */
   enableRemoveVoucherEndpoint?: boolean;
-
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
