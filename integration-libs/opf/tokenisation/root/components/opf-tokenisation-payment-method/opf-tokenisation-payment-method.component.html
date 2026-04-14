@@ -22,6 +22,7 @@
                 [content]="card.content"
                 [index]="i"
                 (sendCard)="selectPaymentMethod(card.paymentMethod)"
+                (setDefaultCard)="setDefaultPaymentMethod(card.paymentMethod)"
               ></cx-card>
             </div>
           </div>

@@ -122,6 +122,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethod.id ?? '');
+    this.tokenisationFacade.loadPaymentMethods();
     this.globalMessageService?.add(
       { key: 'paymentMessages.setAsDefaultSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION

@@ -59,6 +59,7 @@ export class OpfTokenisationPaymentMethodComponent
       paymentDetails
     );
   }
+
   setPaymentDetails({
     paymentDetails,
     billingAddress,
@@ -78,6 +79,10 @@ export class OpfTokenisationPaymentMethodComponent
 
   back(): void {
     this.OpfTokenisationPaymentMethodService.back();
+  }
+
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.OpfTokenisationPaymentMethodService.setDefaultPaymentMethod(paymentDetails);
   }
 
   ngOnDestroy(): void {
