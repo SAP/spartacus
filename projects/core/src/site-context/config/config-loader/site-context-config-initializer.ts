@@ -58,8 +58,6 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
               this.isCurrentBaseSite(site, origin)
             );
 
-            console.log('federated login:', origin, '\nfound site', site);
-
             return site;
           }
         }

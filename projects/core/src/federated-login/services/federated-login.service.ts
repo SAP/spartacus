@@ -60,8 +60,6 @@ export class FederatedLoginService {
   }
 
   detectContext() {
-    console.log('detecting context');
-
     if (this.isLoginDomain) {
       const storedContext = this.contextStorage.read();
 

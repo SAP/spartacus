@@ -41,10 +41,6 @@ export class OAuthLibWrapperService {
 
   protected initialize() {
     const config = this.generateCustomerLoginConfig();
-    console.log(
-      'startup config: ',
-      `\n  ${config.loginUrl}\n  ${config.redirectUri}`
-    );
 
     this.oAuthService.configure(config);
 
@@ -60,10 +56,6 @@ export class OAuthLibWrapperService {
           config.loginUrl +=
             (config.loginUrl.includes('?') ? '&' : '?') + parameterString;
 
-          console.log(
-            'reconfiguring oauth config for language: ',
-            `\n  ${config.loginUrl}\n  ${config.redirectUri}`
-          );
           this.oAuthService.configure(config);
         });
     }
