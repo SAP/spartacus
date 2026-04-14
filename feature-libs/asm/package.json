@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/asm",
-  "version": "221121.7.0",
+  "version": "221121.10.0",
   "description": "ASM feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -32,14 +32,14 @@
     "@ng-select/ng-select": "^21.1.4",
     "@ngrx/effects": "^21.0.1",
     "@ngrx/store": "^21.0.1",
-    "@spartacus/cart": "221121.7.0",
-    "@spartacus/core": "221121.7.0",
-    "@spartacus/order": "221121.7.0",
-    "@spartacus/schematics": "221121.7.0",
-    "@spartacus/storefinder": "221121.7.0",
-    "@spartacus/storefront": "221121.7.0",
-    "@spartacus/styles": "221121.7.0",
-    "@spartacus/user": "221121.7.0",
+    "@spartacus/cart": "221121.10.0",
+    "@spartacus/core": "221121.10.0",
+    "@spartacus/order": "221121.10.0",
+    "@spartacus/schematics": "221121.10.0",
+    "@spartacus/storefinder": "221121.10.0",
+    "@spartacus/storefront": "221121.10.0",
+    "@spartacus/styles": "221121.10.0",
+    "@spartacus/user": "221121.10.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

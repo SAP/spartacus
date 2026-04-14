@@ -102,9 +102,6 @@ describe('CpqQuoteDiscountComponent', () => {
           maximumFractionDigits: 2,
         }).format(expectedDiscountedPrice ?? 0);
         const expectedDisplayValue = `${discounts[i].isoCode}${formattedPrice}`;
-        console.log(
-          `Expected: ${expectedDisplayValue}, Actual: ${discountsDisplayed[i].textContent}`
-        );
         expect(discountsDisplayed[i].textContent.trim()).toBe(
           expectedDisplayValue
         );

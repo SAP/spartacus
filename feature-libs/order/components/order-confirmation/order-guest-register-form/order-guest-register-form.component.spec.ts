@@ -38,15 +38,16 @@ class MockRoutingService implements Partial<RoutingService> {
 /** Mock control for FeatureConfigService.isEnabled() */
 const mockFeatureConfigServiceController: Pick<
   FeatureToggles,
-  'authorizationCodeFlowByDefault'
+  'authorizationCodeFlowByDefault' | 'useEnhancedSecurePasswordValidators'
 > = {
   authorizationCodeFlowByDefault: false,
+  useEnhancedSecurePasswordValidators: false,
 };
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = createSpy().and.callFake(
-    () =>
-      mockFeatureConfigServiceController.authorizationCodeFlowByDefault ?? false
+    (flag: keyof typeof mockFeatureConfigServiceController) =>
+      mockFeatureConfigServiceController[flag] ?? false
   );
 }
 
@@ -141,8 +142,6 @@ describe('OrderGuestRegisterFormComponent', () => {
 
   describe('password validators', () => {
     it('should have secure password validators', () => {
-      fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
       const passwordControl = component.guestRegisterForm.get(
         'password'
@@ -166,6 +165,50 @@ describe('OrderGuestRegisterFormComponent', () => {
       expect(validations.whenNotEmpty).toEqual({
         cxNoConsecutiveCharacters: true,
       });
+    });
+  });
+
+  describe('when useEnhancedSecurePasswordValidators is enabled', () => {
+    beforeAll(() => {
+      mockFeatureConfigServiceController.useEnhancedSecurePasswordValidators =
+        true;
+    });
+
+    afterAll(() => {
+      mockFeatureConfigServiceController.useEnhancedSecurePasswordValidators =
+        false;
+    });
+
+    it('should fail for password ending with ilegal character', () => {
+      fixture.detectChanges();
+      const passwordControl = component.guestRegisterForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validations = {
+        whenEndingWithIlegalCharacter: passwordControl.validator?.({
+          value: 'strongPas$!123&',
+        } as any),
+      };
+
+      expect(passwordControl).toBeTruthy();
+      expect(validations.whenEndingWithIlegalCharacter).toEqual({
+        cxMustEndWithLegalCharacter: true,
+      });
+    });
+
+    it('should pass for password ending with legal character', () => {
+      fixture.detectChanges();
+      const passwordControl = component.guestRegisterForm.get(
+        'password'
+      ) as UntypedFormControl;
+      const validations = {
+        whenEndingWithLegalCharacter: passwordControl.validator?.({
+          value: mockSecurePassword,
+        } as any),
+      };
+
+      expect(passwordControl).toBeTruthy();
+      expect(validations.whenEndingWithLegalCharacter).toEqual(null);
     });
   });
 });
