@@ -73,21 +73,38 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   getParameters = jasmine.createSpy().and.returnValue(of('context=de:en'));
 }
 
-const store = {};
-const MockWindowRef = {
-  localStorage: {
-    getItem: (key: string): string => {
-      return key in store ? store[key] : null;
-    },
-    setItem: (key: string, value: string) => {
-      store[key] = `${value}`;
-    },
-    removeItem: (key: string): void => {
-      if (key in store) {
-        store[key] = undefined;
-      }
-    },
-  },
+class MockStorage implements Storage {
+  _store: Record<string, string | null> = {};
+
+  get length() {
+    return Object.keys(this._store).length;
+  }
+
+  clear() {
+    this._store = {};
+  }
+
+  key(index: number): string | null {
+    return Object.keys(this._store)[index] ?? null;
+  }
+
+  getItem(key: string): string | null {
+    return key in this._store ? this._store[key] : null;
+  }
+
+  setItem(key: string, value: string) {
+    this._store[key] = value;
+  }
+
+  removeItem(key: string): void {
+    if (key in this._store) {
+      delete this._store[key];
+    }
+  }
+}
+
+const mockWindowRef = {
+  localStorage: new MockStorage(),
   isBrowser(): boolean {
     return true;
   },
@@ -112,7 +129,7 @@ describe('OAuthLibWrapperService', () => {
         OAuthLibWrapperService,
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         { provide: OAuthService, useClass: MockOAuthService },
-        { provide: WindowRef, useValue: MockWindowRef },
+        { provide: WindowRef, useValue: mockWindowRef },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: FederatedLoginService,

@@ -67,6 +67,16 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
     }),
     provideConfig({
       authentication: { client_id: 'mobile_android_login' },
+      federatedLogin: {
+        enabled: true,
+        contextParameterName: 'context',
+        loginDomains: ['login.local:4200'],
+        originMap: {
+          de: 'https://electronics-storefront.de:4200',
+          es: 'https://electronics-storefront.es:4200',
+          pd: 'https://powertools-storefront.de:4200',
+        },
+      },
     }),
 
     spartacusChannelSpecificConfigurationProviders,
