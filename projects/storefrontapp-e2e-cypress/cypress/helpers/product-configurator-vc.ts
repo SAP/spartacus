@@ -750,7 +750,9 @@ export function clickOnNextBtnAndWait(
 ): void {
   configuration.clickOnNextBtn(nextGroup);
   waitForRequest(GET_CONFIG_ALIAS, isPricingEnabled);
-  checkGhostAnimationNotDisplayed();
+  if (nextGroup) {
+    checkGhostAnimationNotDisplayed();
+  }
 }
 
 /**
