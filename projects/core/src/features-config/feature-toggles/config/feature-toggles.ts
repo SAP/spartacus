@@ -465,11 +465,6 @@ export interface FeatureTogglesInterface {
    */
   enableRemoveVoucherEndpoint?: boolean;
 
-  /**
-   * When enabled, the Wish List feature will use the new dedicated Wishlist OCC API
-   * instead of the SavedCart-based API.
-   */
-  enableNewWishlistEndpoint?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -525,5 +520,4 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
-  enableNewWishlistEndpoint: false,
 };
