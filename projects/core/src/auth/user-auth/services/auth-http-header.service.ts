@@ -5,7 +5,7 @@
  */
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import {
   combineLatest,
   defer,
@@ -47,6 +47,36 @@ import {
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
+
+// DEFAULT_AUTH_HTTP_HEADER_SERVICE and DELEGATED_AUTH_HTTP_HEADER_SERVICE will be removed after enableExpiredRefreshTokenHandlers is fully rolled out
+export const DEFAULT_AUTH_HTTP_HEADER_SERVICE =
+  new InjectionToken<AuthHttpHeaderService>(
+    'DEFAULT_AUTH_HTTP_HEADER_SERVICE',
+    {
+      providedIn: 'root',
+      factory: () =>
+        new AuthHttpHeaderService(
+          inject(AuthService),
+          inject(AuthStorageService),
+          inject(OAuthLibWrapperService),
+          inject(RoutingService),
+          inject(OccEndpointsService),
+          inject(GlobalMessageService),
+          inject(AuthRedirectService)
+        ),
+    }
+  );
+
+/**
+ * Optional delegation hook for `AuthHttpHeaderService`.
+ * Feature libraries (e.g. ASM) can provide their own `AuthHttpHeaderService`
+ * override under this token so that other libs (e.g. Punchout) can delegate
+ * to it without a hard compile-time import of the providing library.
+ */
+export const DELEGATED_AUTH_HTTP_HEADER_SERVICE =
+  new InjectionToken<AuthHttpHeaderService>(
+    'DELEGATED_AUTH_HTTP_HEADER_SERVICE'
+  );
 
 /**
  * Extendable service for `AuthInterceptor`.

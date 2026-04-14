@@ -10,6 +10,7 @@ import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
+  DELEGATED_AUTH_HTTP_HEADER_SERVICE,
   ProtectedRoutesService,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -35,6 +36,10 @@ import { AsmProtectedRoutesService } from './services/asm-protected-routes.servi
     },
     {
       provide: AuthHttpHeaderService,
+      useExisting: AsmAuthHttpHeaderService,
+    },
+    {
+      provide: DELEGATED_AUTH_HTTP_HEADER_SERVICE,
       useExisting: AsmAuthHttpHeaderService,
     },
     {
