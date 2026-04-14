@@ -48,7 +48,10 @@ import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
-// DEFAULT_AUTH_HTTP_HEADER_SERVICE and DELEGATED_AUTH_HTTP_HEADER_SERVICE will be removed after enableExpiredRefreshTokenHandlers is fully rolled out
+// Temporary compatibility tokens  to preserve legacy behavior of CXPSA-12514 fix.
+// Remove DEFAULT_AUTH_HTTP_HEADER_SERVICE and
+// DELEGATED_AUTH_HTTP_HEADER_SERVICE once
+// enableExpiredRefreshTokenHandlers feature toggle is fully rolled out.
 export const DEFAULT_AUTH_HTTP_HEADER_SERVICE =
   new InjectionToken<AuthHttpHeaderService>(
     'DEFAULT_AUTH_HTTP_HEADER_SERVICE',
@@ -85,7 +88,7 @@ export const DELEGATED_AUTH_HTTP_HEADER_SERVICE =
   providedIn: 'root',
 })
 export class AuthHttpHeaderService implements OnDestroy {
-  protected featureConfig = inject(FeatureConfigService);
+  private featureConfig = inject(FeatureConfigService);
 
   /**
    * Starts the refresh of the access token

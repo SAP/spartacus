@@ -38,6 +38,9 @@ import { AsmProtectedRoutesService } from './services/asm-protected-routes.servi
       provide: AuthHttpHeaderService,
       useExisting: AsmAuthHttpHeaderService,
     },
+    // The providers below preserve backward compatibility for the CXSPA-12514 fix
+    // and should be removed once the enableExpiredRefreshTokenHandlers feature
+    // toggle is fully rolled out.
     {
       provide: DELEGATED_AUTH_HTTP_HEADER_SERVICE,
       useExisting: AsmAuthHttpHeaderService,
