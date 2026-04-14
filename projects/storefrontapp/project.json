@@ -217,18 +217,6 @@
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
-      "options": {
-        "allowedHosts": [
-          "localhost",
-          "login.local",
-          "powertools-storefront.de",
-          "electronics-storefront.de",
-          "electronics-storefront.es"
-        ],
-        "liveReload": false,
-        "hmr": false,
-        "ssl": true
-      },
       "configurations": {
         "production": {
           "buildTarget": "storefrontapp:build:production,noSsr"
