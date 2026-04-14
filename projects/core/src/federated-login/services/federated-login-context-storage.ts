@@ -25,11 +25,12 @@ export class FederatedLoginContextStorageService {
 
   read() {
     if (this.storage) {
-      return readFromStorage(
+      return readFromStorage<FederatedLoginContext>(
         this.storage,
         this.storageKey
-      ) as FederatedLoginContext;
+      );
     }
+    return undefined;
   }
 
   write(value: FederatedLoginContext) {

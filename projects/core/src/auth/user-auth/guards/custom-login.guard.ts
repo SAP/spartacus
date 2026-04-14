@@ -85,15 +85,17 @@ export class CustomLoginGuard implements CanActivate {
 
         // retry until limit met
         this.setRedirectCount(currentCount + 1);
-        if (this.federatedLoginService.isLoginDomain) {
+        if (
+          this.federatedLoginService.isLoginDomain &&
+          this.federatedLoginService.origin
+        ) {
           // redirect to the origin site login so that PKCE is available to the origin
-          if (this.federatedLoginService.origin) {
-            const originLoginUrl =
-              this.federatedLoginService.origin +
-              (this.semanticPathService.get('login') ?? '');
-            this.windowRef.location.href = originLoginUrl;
-            return of(false);
-          }
+          const originLoginUrl =
+            this.federatedLoginService.origin +
+            (this.semanticPathService.get('login') ?? '');
+          this.windowRef.location.href = originLoginUrl;
+          // stop navigation
+          return of(false);
         }
 
         return this.createRoute('login');

@@ -14,22 +14,22 @@ export class FederatedLoginContextSerializerService {
 
   serializeContext(context: FederatedLoginContext | undefined) {
     if (context?.origin) {
-      const value: string[] = [];
+      const contextParts: string[] = [];
 
       const key = Object.entries(this.config?.originMap ?? {}).find(
-        ([_key, value]) => {
-          return value === context.origin;
+        ([_key, domain]) => {
+          return domain === context.origin;
         }
       )?.[0];
 
       if (!key) {
         return '';
       }
-      value.push(key);
+      contextParts.push(key);
 
-      value.push(context.language ?? '');
+      contextParts.push(context.language ?? '');
 
-      return value.join(':');
+      return contextParts.join(':');
     }
 
     return '';

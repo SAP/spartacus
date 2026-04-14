@@ -73,7 +73,6 @@ export class LanguageInitializer {
   protected setFromFederatedLoginContext(): Observable<unknown> {
     const lang = this.federatedLoginService.language;
     if (this.federatedLoginService.enabled && lang) {
-      console.log('setting language', lang, this.languageService.isInitialized);
       return of(this.languageService.setActive(lang));
     }
     return of(undefined);

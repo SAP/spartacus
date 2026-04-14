@@ -51,12 +51,13 @@ export class OAuthLibWrapperService {
       this.federatedLoginParamsSub = this.federatedLoginService
         .getParameters()
         .subscribe((parameterString) => {
-          const config = this.generateCustomerLoginConfig();
+          const updatedConfig = this.generateCustomerLoginConfig();
 
-          config.loginUrl +=
-            (config.loginUrl.includes('?') ? '&' : '?') + parameterString;
+          updatedConfig.loginUrl +=
+            (updatedConfig.loginUrl.includes('?') ? '&' : '?') +
+            parameterString;
 
-          this.oAuthService.configure(config);
+          this.oAuthService.configure(updatedConfig);
         });
     }
   }
@@ -65,13 +66,20 @@ export class OAuthLibWrapperService {
     const config = this.generateBaseConfig();
     const isSSR = !this.winRef.isBrowser();
 
-    config.redirectUri =
-      this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-      (!isSSR
-        ? this.federatedLoginService.isLoginDomain
-          ? this.federatedLoginService.origin
-          : this.winRef.nativeWindow?.location.origin
-        : '');
+    let redirectUri = this.authConfigService.getOAuthLibConfig()?.redirectUri;
+    if (redirectUri === null || redirectUri === undefined) {
+      if (isSSR) {
+        redirectUri = '';
+      } else {
+        if (this.federatedLoginService.isLoginDomain) {
+          redirectUri = this.federatedLoginService.origin;
+        } else {
+          redirectUri = this.winRef.nativeWindow?.location.origin;
+        }
+      }
+    }
+
+    config.redirectUri = redirectUri;
 
     return config;
   }

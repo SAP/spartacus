@@ -54,11 +54,10 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
             this.federatedLoginService.origin
           ) {
             const origin = this.federatedLoginService.origin;
-            const site = baseSites?.find((site) =>
+
+            return baseSites?.find((site) =>
               this.isCurrentBaseSite(site, origin)
             );
-
-            return site;
           }
         }
 
@@ -106,8 +105,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
     const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
       const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
-        const result = jsRegexp.test(url);
-        return result;
+        return jsRegexp.test(url);
       }
     });
 
