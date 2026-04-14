@@ -464,6 +464,13 @@ export interface FeatureTogglesInterface {
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
    */
   enableRemoveVoucherEndpoint?: boolean;
+
+  /**
+   * When enabled, displays required field asterisks for the Roles and Rights fields
+   * in the user form of the organization administration.
+   * Affects: UserFormComponent (feature-libs/organization/administration)
+   */
+  showUserRolesRightsRequiredAsterisk?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -519,4 +526,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showUserRolesRightsRequiredAsterisk: true,
 };

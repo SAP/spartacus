@@ -348,6 +348,7 @@ if (environment.cpq) {
         a11yVocalizeDropdownItemCount: true,
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
+        showUserRolesRightsRequiredAsterisk: true,
       };
       return appFeatureToggles;
     }),
