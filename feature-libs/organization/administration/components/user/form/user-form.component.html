@@ -100,9 +100,7 @@
     <fieldset required="true" class="full-width" formArrayName="roles">
       <legend class="label-content required">
         {{ 'orgUser.roles' | cxTranslate }}
-        <cx-form-required-asterisks
-          *cxFeature="'showUserRolesRightsRequiredAsterisk'"
-        />
+        <cx-form-required-asterisks *cxFeature="'showRequiredAsterisks'" />
       </legend>
 
       <label
@@ -126,9 +124,7 @@
     <fieldset required="true" class="full-width">
       <legend class="label-content required">
         {{ 'orgUser.rights' | cxTranslate }}
-        <cx-form-required-asterisks
-          *cxFeature="'showUserRolesRightsRequiredAsterisk'"
-        />
+        <cx-form-required-asterisks *cxFeature="'showRequiredAsterisks'" />
       </legend>
 
       <label
