@@ -74,7 +74,14 @@ import { RegisterComponentService } from './register-component.service';
 export class RegisterComponent implements OnInit, OnDestroy {
   // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
-  protected passwordValidators = CustomFormValidators.securePasswordValidators;
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'useEnhancedSecurePasswordValidators'
+  )
+    ? [
+        ...CustomFormValidators.securePasswordValidators,
+        CustomFormValidators.mustEndWithLegalCharacter,
+      ]
+    : CustomFormValidators.securePasswordValidators;
 
   titles$: Observable<Title[]>;
 

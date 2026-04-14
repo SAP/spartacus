@@ -447,6 +447,25 @@ export interface FeatureTogglesInterface {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation?: boolean;
 
   /**
+   * When enabled, adds vocalization of dropdown item count when dropdown gains focus.
+   * Affects: cxNgSelectA11y
+   */
+  a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
+   * CustomFormValidators.mustEndWithLegalCharacter
+   */
+  useEnhancedSecurePasswordValidators?: boolean;
+
+  /**
+   * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
+   * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableRemoveVoucherEndpoint?: boolean;
+
+  /**
    * Preserves keyboard focus on consent checkboxes after toggling.
    * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
    * and restores focus after the consent form is temporarily disabled.
@@ -506,4 +525,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
+  a11yVocalizeDropdownItemCount: false,
+  useEnhancedSecurePasswordValidators: false,
+  enableRemoveVoucherEndpoint: false,
 };

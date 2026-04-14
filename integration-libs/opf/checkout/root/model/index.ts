@@ -10,3 +10,4 @@ import './augmented-cart-outlets.model';
 export * from './augmented-cart-outlets.model';
 export * from './occ-opf-api-checkout-endpoints.model';
 export * from './opf-checkout.model';
+export * from './opf-checkout-outlets.model';

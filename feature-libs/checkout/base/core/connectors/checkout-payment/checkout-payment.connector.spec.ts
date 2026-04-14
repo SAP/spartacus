@@ -9,6 +9,7 @@ class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   createPaymentDetails = createSpy().and.returnValue(of({}));
   setPaymentDetails = createSpy().and.returnValue(of({}));
   getPaymentCardTypes = createSpy().and.returnValue(of([]));
+  deletePaymentDetails = createSpy().and.returnValue(of([]));
 }
 
 describe('CheckoutPaymentConnector', () => {
@@ -52,5 +53,10 @@ describe('CheckoutPaymentConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.getPaymentCardTypes).toHaveBeenCalledWith();
+  });
+
+  it('delete should call adapter', () => {
+    service.deletePaymentDetails('1', '2').pipe(take(1)).subscribe();
+    expect(adapter.deletePaymentDetails).toHaveBeenCalledWith('1', '2');
   });
 });
