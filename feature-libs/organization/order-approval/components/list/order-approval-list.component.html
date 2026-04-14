@@ -170,9 +170,11 @@
     <div class="cx-order-approval-sort bottom row">
       <div
         class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
-        [cxFeature]="'showSortFieldsOnlyAtTop'"
       >
-        <label class="cx-order-approval-form-group-label">
+        <label
+          class="cx-order-approval-form-group-label"
+          [cxFeature]="'showSortFieldsOnlyAtTop'"
+        >
           <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
           <cx-sorting
             [sortOptions]="orderApprovals.sorts"
