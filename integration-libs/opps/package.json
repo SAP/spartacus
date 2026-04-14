@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/opps",
-  "version": "221121.9.0",
+  "version": "221121.10.0",
   "description": "OPPS (Omni-Channel Personalization and Promotions Services) library for Spartacus",
   "keywords": [
     "spartacus",
@@ -29,9 +29,9 @@
     "@angular/common": "^21.2.4",
     "@angular/core": "^21.2.4",
     "@angular/router": "^21.2.4",
-    "@spartacus/core": "221121.9.0",
-    "@spartacus/schematics": "221121.9.0",
-    "@spartacus/storefront": "221121.9.0",
+    "@spartacus/core": "221121.10.0",
+    "@spartacus/schematics": "221121.10.0",
+    "@spartacus/storefront": "221121.10.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
