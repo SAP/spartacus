@@ -11,6 +11,7 @@ import { ConfigValidatorModule } from './config/config-validator/config-validato
 import { ConfigModule } from './config/config.module';
 import { ErrorHandlingModule } from './error-handling';
 import { FeaturesConfigModule } from './features-config/features-config.module';
+import { FederatedLoginModule } from './federated-login';
 import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
 import { I18nModule } from './i18n/i18n.module';
@@ -40,6 +41,7 @@ import { StateModule } from './state/state.module';
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
     SiteThemeModule.forRoot(),
+    FederatedLoginModule,
   ],
 })
 export class BaseCoreModule {
