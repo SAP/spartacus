@@ -126,7 +126,6 @@ describe('FederatedLoginContextSerializerService', () => {
       expect(result).toEqual({
         origin: 'https://shop1.example.com',
         language: 'en',
-        currency: 'USD',
       });
     });
 
@@ -135,7 +134,6 @@ describe('FederatedLoginContextSerializerService', () => {
       expect(result).toEqual({
         origin: 'https://shop1.example.com',
         language: 'en',
-        currency: 'USD',
       });
     });
   });

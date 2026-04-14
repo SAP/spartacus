@@ -7,5 +7,4 @@
 export interface FederatedLoginContext {
   origin?: string;
   language?: string;
-  currency?: string;
 }

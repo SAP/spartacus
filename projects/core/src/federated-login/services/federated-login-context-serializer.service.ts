@@ -29,11 +29,6 @@ export class FederatedLoginContextSerializerService {
 
       value.push(context.language ?? '');
 
-      // TODO: currency not needed
-      if (context.currency) {
-        value.push(context.currency ?? '');
-      }
-
       return value.join(':');
     }
 
@@ -41,7 +36,7 @@ export class FederatedLoginContextSerializerService {
   }
 
   deserializeContext(serializedContext: string | null | undefined) {
-    const [domain, language, currency] = serializedContext?.split(':', 3) ?? [];
+    const [domain, language] = serializedContext?.split(':', 2) ?? [];
     const contextValue: FederatedLoginContext = {};
 
     if (domain) {
@@ -49,9 +44,6 @@ export class FederatedLoginContextSerializerService {
     }
     if (language) {
       contextValue.language = language;
-    }
-    if (currency) {
-      contextValue.currency = currency;
     }
 
     return contextValue;

@@ -103,7 +103,6 @@ describe('FederatedLoginContextStorageService', () => {
       const context: FederatedLoginContext = {
         origin: 'https://shop.example.com',
         language: 'en',
-        currency: 'USD',
       };
       service.write(context);
 

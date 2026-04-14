@@ -36,10 +36,6 @@ export class FederatedLoginService {
     return this.contextValue?.language;
   }
 
-  get currency(): string | undefined {
-    return this.contextValue?.currency;
-  }
-
   /** Returns the context serialized and encoded as a parameter string */
   getParameters() {
     return this.languageService.getActive().pipe(
