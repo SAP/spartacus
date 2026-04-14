@@ -526,5 +526,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
-  showUserRolesRightsRequiredAsterisk: true,
+  showUserRolesRightsRequiredAsterisk: false,
 };
