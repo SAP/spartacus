@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unassigned-import
 import '@angular/compiler';
 
 import { Component, InjectionToken, NgModule, inject } from '@angular/core';

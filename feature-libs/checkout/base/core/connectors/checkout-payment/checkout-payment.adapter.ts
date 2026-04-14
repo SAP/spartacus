@@ -35,6 +35,17 @@ export abstract class CheckoutPaymentAdapter {
   ): Observable<unknown>;
 
   /**
+   * Abstract method used to delete payment details from cart
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract deletePaymentDetails(
+    userId: string,
+    cartId: string
+  ): Observable<unknown>;
+
+  /**
    * Abstract method used to get available card types
    */
   abstract getPaymentCardTypes(): Observable<CardType[]>;

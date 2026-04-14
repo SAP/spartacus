@@ -69,6 +69,12 @@ export interface CartOccEndpoints {
    */
   cartVoucher?: string | OccEndpoint;
   /**
+   * Endpoint for removing cart voucher
+   *
+   * @member {string}
+   */
+  cartRemoveVoucher?: string | OccEndpoint;
+  /**
    * Get cart validation results
    */
   validate?: string | OccEndpoint;

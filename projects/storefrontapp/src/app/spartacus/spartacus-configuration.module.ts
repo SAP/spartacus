@@ -37,7 +37,7 @@ registerLocaleData(localeZh);
  * In customers' applications, either B2B or B2C configuration is used, which is decided
  * at the installation time of Spartacus (i.e. when running `ng add @spartacus/schematics`).
  */
-let spartacusChannelSpecificConfigurationProviders = environment.b2b
+const spartacusChannelSpecificConfigurationProviders = environment.b2b
   ? spartacusB2bConfigurationProviders
   : spartacusB2cConfigurationProviders;
 

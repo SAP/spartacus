@@ -34,7 +34,6 @@ export const defaultOccProductConfig: OccConfig = {
         //   'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))&referenceType=${referenceType}',
         productReferences:
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
-        /* eslint-disable max-len */
         productSearch: {
           default:
             'products/search?fields=products(code,name,summary,configurable,configuratorType,multidimensional,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions,baseProduct,priceRange(maxPrice(formattedValue),minPrice(formattedValue))),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery,keywordRedirectUrl',
@@ -47,7 +46,6 @@ export const defaultOccProductConfig: OccConfig = {
           default: 'categories/${categoryCode}/products?fields=DEFAULT',
           code: 'categories/${categoryCode}/products?fields=products(code)',
         },
-        /* eslint-enable */
         productSuggestions: 'products/suggestions',
       },
     },

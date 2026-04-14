@@ -4,17 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SchematicsException } from '@angular-devkit/schematics';
-import {
-  CDP_SCHEMATICS_CONFIG,
-  OMF_SCHEMATICS_CONFIG,
-  OPPS_SCHEMATICS_CONFIG,
-  ORDER_DOCUMENT_FLOW_SCHEMATICS_CONFIG,
-  PUNCHOUT_SCHEMATICS_CONFIG,
-  QUOTE_SCHEMATICS_CONFIG,
-  S4_SERVICE_SCHEMATICS_CONFIG,
-  SUBSCRIPTION_BILLING_SCHEMATICS_CONFIG,
-} from './lib-configs';
 import {
   ASM_CUSTOMER_360_SCHEMATICS_CONFIG,
   ASM_SCHEMATICS_CONFIG,
@@ -27,33 +16,36 @@ import {
   CART_WISHLIST_SCHEMATICS_CONFIG,
 } from './lib-configs/cart-schematics-config';
 import {
+  CDC_B2B_SCHEMATICS_CONFIG,
+  CDC_SCHEMATICS_CONFIG,
+} from './lib-configs/integration-libs/cdc-schematics-config';
+import {
+  CDP_SCHEMATICS_CONFIG,
+  OMF_SCHEMATICS_CONFIG,
+  OPPS_SCHEMATICS_CONFIG,
+  ORDER_DOCUMENT_FLOW_SCHEMATICS_CONFIG,
+  PUNCHOUT_SCHEMATICS_CONFIG,
+  QUOTE_SCHEMATICS_CONFIG,
+  S4_SERVICE_SCHEMATICS_CONFIG,
+  SUBSCRIPTION_BILLING_SCHEMATICS_CONFIG,
+} from './lib-configs';
+import {
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
   CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
 } from './lib-configs/checkout-schematics-config';
-import { CUSTOMER_TICKETING_SCHEMATICS_CONFIG } from './lib-configs/customer-ticketing-schematics-config';
+import { Module, SchematicConfig } from './utils/lib-utils';
 import {
-  CDC_B2B_SCHEMATICS_CONFIG,
-  CDC_SCHEMATICS_CONFIG,
-} from './lib-configs/integration-libs/cdc-schematics-config';
-import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
-import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
-import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
-import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
-import {
+  OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG,
   OPF_BASE_SCHEMATICS_CONFIG,
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
-  OPF_B2B_CHECKOUT_SCHEMATICS_CONFIG,
   OPF_CTA_SCHEMATICS_CONFIG,
+  OPF_GIFT_CARD_SCHEMATICS_CONFIG,
   OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG,
   OPF_PAYMENT_SCHEMATICS_CONFIG,
   OPF_QUICK_BUY_SCHEMATICS_CONFIG,
+  OPF_TOKENISATION_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/opf-schematics-config';
-import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
-
-import { ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/estimated-delivery-date-schematics-config';
-import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
-import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
 import {
   ORGANIZATION_ACCOUNT_SUMMARY_SCHEMATICS_CONFIG,
   ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
@@ -61,8 +53,12 @@ import {
   ORGANIZATION_UNIT_ORDER_SCHEMATICS_CONFIG,
   ORGANIZATION_USER_REGISTRATION_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
-import { PDF_INVOICES_SCHEMATICS_CONFIG } from './lib-configs/pdf-invoices-schematics-config';
-import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickup-in-store-schematics-config';
+import {
+  PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
+  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
+  PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
+  PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
+} from './lib-configs/product-schematics-config';
 import {
   PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
@@ -73,16 +69,6 @@ import {
   PRODUCT_MULTI_DIMENSIONAL_SELECTOR_SCHEMATICS_CONFIG,
 } from './lib-configs/product-multi-dimensional-schematics-config';
 import {
-  PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
-  PRODUCT_FUTURE_STOCK_SCHEMATICS_CONFIG,
-  PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
-  PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
-} from './lib-configs/product-schematics-config';
-import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
-import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
-import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
-import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
-import {
   TRACKING_AEP_SCHEMATICS_CONFIG,
   TRACKING_GTM_SCHEMATICS_CONFIG,
   TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG,
@@ -91,7 +77,23 @@ import {
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
-import { Module, SchematicConfig } from './utils/lib-utils';
+
+import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
+import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
+import { CUSTOMER_TICKETING_SCHEMATICS_CONFIG } from './lib-configs/customer-ticketing-schematics-config';
+import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
+import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
+import { ESTIMATED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/estimated-delivery-date-schematics-config';
+import { ORDER_SCHEMATICS_CONFIG } from './lib-configs/order-schematics-config';
+import { PDF_INVOICES_SCHEMATICS_CONFIG } from './lib-configs/pdf-invoices-schematics-config';
+import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickup-in-store-schematics-config';
+import { QUALTRICS_SCHEMATICS_CONFIG } from './lib-configs/qualtrics-schematics-config';
+import { REQUESTED_DELIVERY_DATE_SCHEMATICS_CONFIG } from './lib-configs/requested-delivery-date-schematics-config';
+import { S4OM_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/s4om-schematics-config';
+import { SEGMENT_REFS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/segment-refs-schematics-config';
+import { SMARTEDIT_SCHEMATICS_CONFIG } from './lib-configs/smartedit-schematics-config';
+import { STOREFINDER_SCHEMATICS_CONFIG } from './lib-configs/storefinder-schematics-config';
+import { SchematicsException } from '@angular-devkit/schematics';
 
 /**
  * A list of all schematics feature configurations.
@@ -183,6 +185,8 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   OPF_CTA_SCHEMATICS_CONFIG,
   OPF_GLOBAL_FUNCTIONS_SCHEMATICS_CONFIG,
   OPF_QUICK_BUY_SCHEMATICS_CONFIG,
+  OPF_GIFT_CARD_SCHEMATICS_CONFIG,
+  OPF_TOKENISATION_SCHEMATICS_CONFIG,
 
   S4_SERVICE_SCHEMATICS_CONFIG,
 
