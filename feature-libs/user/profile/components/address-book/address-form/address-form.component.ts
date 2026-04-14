@@ -49,9 +49,7 @@ import {
   NgSelectA11yDirective,
   sortTitles,
 } from '@spartacus/storefront';
-import {
-  UserProfileFacade,
-} from '@spartacus/user/profile/root';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import {
   BehaviorSubject,
   Observable,
@@ -206,7 +204,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.cities = cities;
           if (this.addressData?.city?.isocode && !this.selectedCity$.value) {
             this.selectedCity$.next(this.addressData.city.isocode);
-            this.addressForm.get('town')?.setValue(this.addressData.city.isocode);
+            this.addressForm
+              .get('town')
+              ?.setValue(this.addressData.city.isocode);
           }
           this.cdr.markForCheck();
         })
