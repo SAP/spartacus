@@ -467,8 +467,9 @@ export interface FeatureTogglesInterface {
 
   /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
-   * `ExpiredRefreshTokenHandler` implementations before the default
-   * expired refresh token fallback behavior.
+   * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
+   * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
+   * Affects: `AuthHttpHeaderService`
    */
   enableExpiredRefreshTokenHandlers?: boolean;
 }

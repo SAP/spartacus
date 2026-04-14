@@ -9,6 +9,10 @@ import { Observable } from 'rxjs';
 
 /**
  * Handler for expired refresh token scenarios.
+ * Example use case: when a punchout session is active, this handler can use
+ * `handleExpiredRefreshTokenIfApplicable` to take over
+ * `handleExpiredRefreshToken()` behavior, for example by ending the punchout
+ * session.
  */
 export interface ExpiredRefreshTokenHandler {
   handleExpiredRefreshTokenIfApplicable?(): Observable<boolean>;
