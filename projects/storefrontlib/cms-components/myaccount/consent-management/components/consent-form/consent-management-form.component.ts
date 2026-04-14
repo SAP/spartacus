@@ -86,7 +86,14 @@ export class ConsentManagementFormComponent
   }
 
   ngAfterViewChecked(): void {
-    if (this.hadFocus && !this.disabled && this.checkboxInput?.nativeElement) {
+    if (
+      this.hadFocus &&
+      !this.disabled &&
+      this.checkboxInput?.nativeElement &&
+      this.featureConfigService.isEnabled(
+        'a11yConsentManagementFocusPreservation'
+      )
+    ) {
       this.hadFocus = false;
       this.checkboxInput.nativeElement.focus();
     }
