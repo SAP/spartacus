@@ -11,15 +11,6 @@ import * as wishList from '../../../helpers/wish-list';
 import * as wishListV2 from '../../../helpers/wish-list-v2';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-/**
- * This test suite covers the new Wish List V2 implementation, which uses the new /wishlists API endpoints.
- * Prerequisites: the running environment must have the wishlistV2 feature toggle enabled.
- *
- * Product state notes (server-side state persists between tests):
- *   products[0] (1934793 PowerShot A480)             – used by Add/Refresh tests; may accumulate
- *   products[1] (280916 Web Camera)                  – used by POST-body test; may accumulate
- *   products[2] (779841 FUN Flash Single Use Camera)  – never added without cleanup; always clean
- */
 describe('Wish list V2', () => {
   before(() => {
     cy.window().then((win) => {
