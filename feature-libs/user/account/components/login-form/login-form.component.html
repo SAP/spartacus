@@ -74,11 +74,13 @@
     />
   </ng-container>
 
-  @if (showResetPassword()) {
-    <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">
-      {{ 'loginForm.forgotPassword' | cxTranslate }}
-    </a>
-  }
+  <a
+    *ngIf="showResetPassword()"
+    [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl"
+    class="btn-link"
+  >
+    {{ 'loginForm.forgotPassword' | cxTranslate }}
+  </a>
 
   <button
     type="submit"
