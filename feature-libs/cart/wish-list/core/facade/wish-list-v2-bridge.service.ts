@@ -11,13 +11,12 @@ import {
   FeatureToggles,
   OCC_USER_ID_ANONYMOUS,
   Product,
-  ProductConnector,
-  ProductScope,
+  ProductSearchConnector,
   UserIdService,
 } from '@spartacus/core';
 import { UserWishlistConnector } from '@spartacus/user/wishlist/core';
 import { Wishlist, WishlistEntry } from '@spartacus/user/wishlist/root';
-import { BehaviorSubject, Observable, combineLatest, forkJoin, of } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -35,7 +34,7 @@ export class WishListV2BridgeService implements WishListFacade {
   private v1Service = inject(WishListService);
   private userIdService = inject(UserIdService);
   private connector = inject(UserWishlistConnector);
-  private productConnector = inject(ProductConnector);
+  private productSearchConnector = inject(ProductSearchConnector);
 
   private refresh$ = new BehaviorSubject<void>(undefined);
 
@@ -62,19 +61,25 @@ export class WishListV2BridgeService implements WishListFacade {
     if (entries.length === 0) {
       return of(wishlist);
     }
-    return forkJoin(
-      entries.map((entry) =>
-        this.productConnector
-          .get(entry.productCode ?? '', ProductScope.LIST)
-          .pipe(catchError(() => of({ code: entry.productCode } as Product)))
-      )
-    ).pipe(
-      map((products) => ({
-        ...wishlist,
-        entries: entries.map(
-          (entry, i): WishlistEntry => ({ ...entry, product: products[i] })
-        ),
-      }))
+    const codes = entries
+      .map((e) => e.productCode ?? '')
+      .filter((code) => !!code);
+    return this.productSearchConnector.searchByCodes(codes).pipe(
+      map(({ products }) => {
+        const productMap = new Map(products.map((p) => [p.code, p]));
+        return {
+          ...wishlist,
+          entries: entries.map(
+            (entry): WishlistEntry => ({
+              ...entry,
+              product:
+                productMap.get(entry.productCode ?? '') ??
+                ({ code: entry.productCode } as Product),
+            })
+          ),
+        };
+      }),
+      catchError(() => of(wishlist))
     );
   }
 

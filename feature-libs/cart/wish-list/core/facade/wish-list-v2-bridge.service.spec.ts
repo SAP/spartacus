@@ -10,13 +10,12 @@ import {
   FeatureToggles,
   OCC_USER_ID_ANONYMOUS,
   Product,
-  ProductConnector,
-  ProductScope,
+  ProductSearchConnector,
   UserIdService,
 } from '@spartacus/core';
 import { UserWishlistConnector } from '@spartacus/user/wishlist/core';
 import { Wishlist } from '@spartacus/user/wishlist/root';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { WishListService } from './wish-list.service';
 import { WishListV2BridgeService } from './wish-list-v2-bridge.service';
 
@@ -28,7 +27,7 @@ describe('WishListV2BridgeService', () => {
   let v1Service: jasmine.SpyObj<WishListService>;
   let userIdService: jasmine.SpyObj<UserIdService>;
   let connector: jasmine.SpyObj<UserWishlistConnector>;
-  let productConnector: jasmine.SpyObj<ProductConnector>;
+  let productSearchConnector: jasmine.SpyObj<ProductSearchConnector>;
 
   const MOCK_USER_ID = 'testUser';
   const MOCK_WISHLIST_ID = 'wishlist-uuid-123';
@@ -77,9 +76,9 @@ describe('WishListV2BridgeService', () => {
       'UserWishlistConnector',
       ['getWishlist', 'addEntry', 'removeEntry']
     );
-    productConnector = jasmine.createSpyObj<ProductConnector>(
-      'ProductConnector',
-      ['get']
+    productSearchConnector = jasmine.createSpyObj<ProductSearchConnector>(
+      'ProductSearchConnector',
+      ['searchByCodes']
     );
 
     v1Service.getWishList.and.returnValue(of(mockV1Cart));
@@ -90,7 +89,9 @@ describe('WishListV2BridgeService', () => {
       of({ id: 'new-entry', productCode: MOCK_PRODUCT_CODE })
     );
     connector.removeEntry.and.returnValue(of(undefined as void));
-    productConnector.get.and.returnValue(of(mockProduct));
+    productSearchConnector.searchByCodes.and.returnValue(
+      of({ products: [mockProduct] })
+    );
 
     TestBed.configureTestingModule({
       providers: [
@@ -99,7 +100,7 @@ describe('WishListV2BridgeService', () => {
         { provide: WishListService, useValue: v1Service },
         { provide: UserIdService, useValue: userIdService },
         { provide: UserWishlistConnector, useValue: connector },
-        { provide: ProductConnector, useValue: productConnector },
+        { provide: ProductSearchConnector, useValue: productSearchConnector },
       ],
     });
 
@@ -214,12 +215,11 @@ describe('WishListV2BridgeService', () => {
         expect(connector.getWishlist).toHaveBeenCalledWith(MOCK_USER_ID);
       });
 
-      it('should enrich each entry with product details using ProductScope.LIST', () => {
+      it('should enrich entries with product details via a single searchByCodes call', () => {
         service.getWishList().subscribe();
-        expect(productConnector.get).toHaveBeenCalledWith(
+        expect(productSearchConnector.searchByCodes).toHaveBeenCalledOnceWith([
           MOCK_PRODUCT_CODE,
-          ProductScope.LIST
-        );
+        ]);
       });
 
       it('should map wishlist to Cart with correct per-entry structure', () => {
@@ -238,7 +238,7 @@ describe('WishListV2BridgeService', () => {
         expect(entry.quantity).toBe(1);
       });
 
-      it('should handle multiple entries in parallel via forkJoin', () => {
+      it('should batch-fetch all products in one searchByCodes call', () => {
         const mockProduct2: Product = {
           code: '999999',
           name: 'Tripod T-500',
@@ -252,15 +252,18 @@ describe('WishListV2BridgeService', () => {
           ],
         };
         connector.getWishlist.and.returnValue(of(wishlistWithTwo));
-        productConnector.get.and.callFake(
-          (code: string): Observable<Product> =>
-            of(code === MOCK_PRODUCT_CODE ? mockProduct : mockProduct2)
+        productSearchConnector.searchByCodes.and.returnValue(
+          of({ products: [mockProduct, mockProduct2] })
         );
 
         let cart: Cart | undefined;
         service.getWishList().subscribe((c) => (cart = c));
 
-        expect(productConnector.get).toHaveBeenCalledTimes(2);
+        // single call with both codes
+        expect(productSearchConnector.searchByCodes).toHaveBeenCalledOnceWith([
+          MOCK_PRODUCT_CODE,
+          '999999',
+        ]);
         expect(((cart as Cart).entries ?? []).length).toBe(2);
         expect((((cart as Cart).entries ?? [])[0] as any).product).toEqual(
           mockProduct
@@ -277,17 +280,18 @@ describe('WishListV2BridgeService', () => {
         let cart: Cart | undefined;
         service.getWishList().subscribe((c) => (cart = c));
 
-        expect(productConnector.get).not.toHaveBeenCalled();
+        expect(productSearchConnector.searchByCodes).not.toHaveBeenCalled();
         expect((cart as Cart).entries).toEqual([]);
       });
 
-      it('should fall back to { code: productCode } when a product fetch fails', () => {
-        productConnector.get.and.returnValue(
-          throwError(() => new Error('404 Not Found'))
+      it('should fall back to original wishlist entries when searchByCodes fails', () => {
+        productSearchConnector.searchByCodes.and.returnValue(
+          throwError(() => new Error('Search API error'))
         );
         let cart: Cart | undefined;
         service.getWishList().subscribe((c) => (cart = c));
 
+        // catchError returns original wishlist → mapWishlistToCart uses entry.product (undefined) → falls back to { code: productCode }
         const entry = ((cart as Cart).entries ?? [])[0] as any;
         expect(entry.product).toEqual({ code: MOCK_PRODUCT_CODE });
       });
