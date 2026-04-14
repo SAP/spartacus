@@ -6,18 +6,23 @@
 
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
+  AfterViewChecked,
   Component,
+  ElementRef,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import {
   ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   ConsentTemplate,
+  FeatureConfigService,
   TranslatePipe,
 } from '@spartacus/core';
 
@@ -26,7 +31,9 @@ import {
   templateUrl: './consent-management-form.component.html',
   imports: [NgIf, NgTemplateOutlet, TranslatePipe],
 })
-export class ConsentManagementFormComponent implements OnInit, OnChanges {
+export class ConsentManagementFormComponent
+  implements OnInit, OnChanges, AfterViewChecked
+{
   consentGiven = false;
 
   @Input()
@@ -49,6 +56,12 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
     template: ConsentTemplate;
   }>();
 
+  @ViewChild('checkboxInput') checkboxInput: ElementRef<HTMLInputElement>;
+
+  private hadFocus = false;
+  private document = inject(ElementRef).nativeElement.ownerDocument;
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor() {
     // Intentional empty constructor
   }
@@ -60,6 +73,22 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.consent || changes.consentTemplate) {
       this.updateConsentGiven();
+    }
+    if (
+      changes.disabled?.currentValue === true &&
+      this.featureConfigService.isEnabled(
+        'a11yConsentManagementFocusPreservation'
+      )
+    ) {
+      this.hadFocus =
+        this.checkboxInput?.nativeElement === this.document.activeElement;
+    }
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.hadFocus && !this.disabled && this.checkboxInput?.nativeElement) {
+      this.hadFocus = false;
+      this.checkboxInput.nativeElement.focus();
     }
   }
 

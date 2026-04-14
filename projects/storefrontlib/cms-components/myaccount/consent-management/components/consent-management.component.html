@@ -35,7 +35,10 @@
       <div class="cx-consent-toggles">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <cx-consent-management-form
-            *ngFor="let consentTemplate of templateList"
+            *ngFor="
+              let consentTemplate of templateList;
+              trackBy: trackByTemplateId
+            "
             [consentTemplate]="consentTemplate"
             [requiredConsents]="requiredConsents"
             [disabled]="!!data.loading"

@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, HostBinding, HostListener } from '@angular/core';
+import { Directive, HostBinding, HostListener, inject } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 
@@ -25,6 +26,8 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   protected defaultConfig: VisibleFocusConfig = {
     disableMouseFocus: true,
   };
+
+  private featureConfigService = inject(FeatureConfigService);
 
   // @Input('cxVisibleFocus')
   protected config: VisibleFocusConfig;
@@ -68,12 +71,18 @@ export class VisibleFocusDirective extends BaseFocusDirective {
     // However, pressing Space/Enter on a checkbox or radio button is a toggle action
     // (not typing), so we treat it as navigation to preserve the focus outline.
     if (['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)) {
-      const inputType = (event.target as HTMLInputElement).type;
       if (
-        (event.code === 'Space' || event.code === 'Enter') &&
-        (inputType === 'checkbox' || inputType === 'radio')
+        this.featureConfigService.isEnabled(
+          'a11yConsentManagementFocusPreservation'
+        )
       ) {
-        return true;
+        const inputType = (event.target as HTMLInputElement).type;
+        if (
+          (event.code === 'Space' || event.code === 'Enter') &&
+          (inputType === 'checkbox' || inputType === 'radio')
+        ) {
+          return true;
+        }
       }
       return false;
     }
