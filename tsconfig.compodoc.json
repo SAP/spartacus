@@ -764,11 +764,6 @@
       "@spartacus/opf/gift-card/assets": [
         "integration-libs/opf/gift-card/assets/public_api"
       ],
-      "@spartacus/opps": ["integration-libs/opps/public_api"],
-      "@spartacus/opps/root": ["integration-libs/opps/root/public_api"],
-      "@spartacus/punchout/assets": [
-        "integration-libs/punchout/assets/public_api"
-      ],
       "@spartacus/opf/tokenisation/components": [
         "integration-libs/opf/tokenisation/components/public_api"
       ],

@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { Wishlist, WishlistEntry } from '@spartacus/user/wishlist/root';
 import { UserWishlistAdapter } from '@spartacus/user/wishlist/core';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
@@ -36,16 +36,18 @@ export class OccUserWishlistAdapter implements UserWishlistAdapter {
         map((response) => {
           const wishlists = response?.wishlists;
           if (!Array.isArray(wishlists) || wishlists.length === 0) {
-            return '';
+            return null;
           }
-          return wishlists[0].id ?? '';
+          return wishlists[0].id ?? null;
         }),
         switchMap((wishlistId) => {
-          if (!wishlistId) {
-            // No wishlist found — return empty
-            return [{ entries: [] } as Wishlist];
+          if (wishlistId === null) {
+            // No real wishlist exists yet.
+            // 'default' is only valid for mutations (POST/DELETE), not for GET entries.
+            // Return empty wishlist so the UI shows no items.
+            return of({ entries: [] } as Wishlist);
           }
-          // Step 2: fetch entries for the specific wishlist
+          // Step 2: fetch entries for the real wishlist
           const entriesUrl = this.occEndpoints.buildUrl('getWishlistEntries', {
             urlParams: { userId, wishlistId },
           });

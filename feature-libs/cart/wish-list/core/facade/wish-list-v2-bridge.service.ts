@@ -107,7 +107,7 @@ export class WishListV2BridgeService implements WishListFacade {
     combineLatest([this.userIdService.getUserId(), this.wishlistV2$])
       .pipe(
         take(1),
-        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? '' }))
+        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? 'default' }))
       )
       .subscribe(({ userId, wishlistId }) => {
         this.connector
@@ -125,7 +125,7 @@ export class WishListV2BridgeService implements WishListFacade {
     combineLatest([this.userIdService.getUserId(), this.wishlistV2$])
       .pipe(
         take(1),
-        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? '' }))
+        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? 'default' }))
       )
       .subscribe(({ userId, wishlistId }) => {
         this.connector
