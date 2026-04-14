@@ -103,10 +103,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
 
   private isCurrentBaseSite(site: BaseSite, url: string): boolean {
     const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
-      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
-      if (jsRegexp) {
-        return jsRegexp.test(url);
-      }
+      return this.javaRegExpConverter.toJsRegExp(javaRegexp)?.test(url);
     });
 
     return index !== -1;

@@ -70,12 +70,10 @@ export class OAuthLibWrapperService {
     if (redirectUri === null || redirectUri === undefined) {
       if (isSSR) {
         redirectUri = '';
+      } else if (this.federatedLoginService.isLoginDomain) {
+        redirectUri = this.federatedLoginService.origin;
       } else {
-        if (this.federatedLoginService.isLoginDomain) {
-          redirectUri = this.federatedLoginService.origin;
-        } else {
-          redirectUri = this.winRef.nativeWindow?.location.origin;
-        }
+        redirectUri = this.winRef.nativeWindow?.location.origin;
       }
     }
 
