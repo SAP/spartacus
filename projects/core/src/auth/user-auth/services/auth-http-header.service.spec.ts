@@ -100,15 +100,16 @@ describe('AuthHttpHeaderService', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let featureConfigService: FeatureConfigService;
-  let secondaryContributor: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+  let firstRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
 
   beforeEach(() => {
-    secondaryContributor = jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
-      'secondaryContributor',
-      ['handleExpiredRefreshTokenIfApplicable']
-    );
+    firstRegisteredHandler =
+      jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
+        'firstRegisteredHandler',
+        ['handleExpiredRefreshTokenIfApplicable']
+      );
 
-    secondaryContributor.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+    firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
       of(false)
     );
 
@@ -128,7 +129,7 @@ describe('AuthHttpHeaderService', () => {
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
-          useValue: secondaryContributor,
+          useValue: firstRegisteredHandler,
           multi: true,
         },
         provideHttpClient(withInterceptorsFromDi()),
@@ -431,7 +432,7 @@ describe('AuthHttpHeaderService', () => {
 
     it('should skip default refresh token handling when a handler handles it', () => {
       spyOn(authService, 'coreLogout').and.callThrough();
-      secondaryContributor.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+      firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
         of(true)
       );
 
@@ -439,7 +440,7 @@ describe('AuthHttpHeaderService', () => {
 
       expect(authService.coreLogout).not.toHaveBeenCalled();
       expect(
-        secondaryContributor.handleExpiredRefreshTokenIfApplicable
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
       ).toHaveBeenCalled();
     });
 
@@ -450,9 +451,104 @@ describe('AuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(
-        secondaryContributor.handleExpiredRefreshTokenIfApplicable
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
       ).not.toHaveBeenCalled();
       expect(authService.coreLogout).toHaveBeenCalled();
+    });
+
+    describe('with multiple handlers', () => {
+      let secondRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+
+      beforeEach(() => {
+        secondRegisteredHandler =
+          jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
+            'secondRegisteredHandler',
+            ['handleExpiredRefreshTokenIfApplicable']
+          );
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(false)
+        );
+
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            AuthHttpHeaderService,
+            { provide: AuthService, useClass: MockAuthService },
+            {
+              provide: OAuthLibWrapperService,
+              useClass: MockOAuthLibWrapperService,
+            },
+            { provide: RoutingService, useClass: MockRoutingService },
+            { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+            {
+              provide: GlobalMessageService,
+              useClass: MockGlobalMessageService,
+            },
+            { provide: AuthStorageService, useClass: MockAuthStorageService },
+            {
+              provide: AuthRedirectService,
+              useClass: MockAuthRedirectService,
+            },
+            {
+              provide: FeatureConfigService,
+              useClass: MockFeatureConfigService,
+            },
+            {
+              provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
+              useValue: firstRegisteredHandler,
+              multi: true,
+            },
+            {
+              provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
+              useValue: secondRegisteredHandler,
+              multi: true,
+            },
+            provideHttpClient(withInterceptorsFromDi()),
+            provideHttpClientTesting(),
+          ],
+        });
+
+        service = TestBed.inject(AuthHttpHeaderService);
+        authService = TestBed.inject(AuthService);
+        featureConfigService = TestBed.inject(FeatureConfigService);
+      });
+
+      it('should call secondRegisteredHandler when firstRegistredHandler does not handle the token expiration', () => {
+        spyOn(authService, 'coreLogout').and.callThrough();
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(false)
+        );
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(true)
+        );
+
+        service.handleExpiredRefreshToken();
+
+        expect(
+          firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).toHaveBeenCalled();
+        expect(
+          secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
+      });
+
+      it('should not call secondRegisteredHandler when firstRegistredHandler already handles the token expiration', () => {
+        spyOn(authService, 'coreLogout').and.callThrough();
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(true)
+        );
+
+        service.handleExpiredRefreshToken();
+
+        expect(
+          firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).toHaveBeenCalled();
+        expect(
+          secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).not.toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
+      });
     });
   });
 
