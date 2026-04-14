@@ -79,9 +79,10 @@
   </label>
 
   <label>
-    <span class="label-content">{{
-      'updateProfileForm.customerId' | cxTranslate
-    }}</span>
+    <span class="label-content"
+      >{{ 'updateProfileForm.customerId' | cxTranslate }}
+      <cx-form-required-asterisks />
+    </span>
     <input
       required="true"
       type="text"
