@@ -26,7 +26,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
-  federatedLoginService = inject(FederatedLoginService);
+  protected federatedLoginService = inject(FederatedLoginService);
 
   constructor(
     protected baseSiteService: BaseSiteService,
