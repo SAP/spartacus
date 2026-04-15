@@ -14,6 +14,10 @@ import {
 } from '@spartacus/core';
 import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
 import {
+  ANGULAR_ROUTE_ENUMERATOR,
+  AngularRouteEnumerator,
+} from '../model/angular-route-enumerator';
+import {
   ROUTE_PARAMS_ENUMERATOR,
   RouteParamsEnumerator,
   RouteParamsEnumeratorContext,
@@ -46,7 +50,28 @@ export class RoutesDiscoveryService {
   protected enumerators: RouteParamsEnumerator[] =
     inject(ROUTE_PARAMS_ENUMERATOR, { optional: true }) ?? [];
 
+  protected angularRouteEnumerators: AngularRouteEnumerator[] =
+    inject(ANGULAR_ROUTE_ENUMERATOR, { optional: true }) ?? [];
+
   protected readonly PATH_PARAM_PATTERN = /:\w+/;
+
+  async discoverAllRoutes(
+    context: RouteParamsEnumeratorContext,
+    options: RoutesDiscoveryOptions = {}
+  ): Promise<DiscoveredRoute[]> {
+    const semanticRoutes = await this.discoverRoutes(context, options);
+    const knownCxRoutes = new Set(semanticRoutes.map((r) => r.cxRoute));
+    const angularOnlyRoutes = this.router.config
+      .filter(
+        (route: Route) =>
+          !(route.data?.cxRoute && knownCxRoutes.has(route.data.cxRoute)) &&
+          route.path !== '**' &&
+          !(route.matcher && !route.path)
+      )
+      .flatMap((route: Route) => this.extractAngularRoutes(route));
+
+    return [...semanticRoutes, ...angularOnlyRoutes];
+  }
 
   /**
    * Discovers all valid URLs for the given context and options.
@@ -56,20 +81,6 @@ export class RoutesDiscoveryService {
     options: RoutesDiscoveryOptions = {}
   ): Promise<DiscoveredRoute[]> {
     const routes = this.routingConfig.routing?.routes || {};
-    const ngRoutes = this.getAngularOnlyRoutes();
-
-    console.log('----------SEMANTIC ROUTE DISCOVERY------------');
-    for (const [routeName, routeConfig] of Object.entries(routes)) {
-      console.log('Route name: ' + routeName);
-      console.log('Route config:' + routeConfig);
-    }
-
-    console.log('----------ANGULAR ONLY------------');
-    for (const [routeName, routeConfig] of Object.entries(ngRoutes)) {
-      console.log('Route name: ' + routeName);
-      console.log('Route config:' + routeConfig);
-    }
-
     const globalProtected = this.routingConfig.routing?.protected ?? false;
     const discovered: DiscoveredRoute[] = [];
 
@@ -253,12 +264,32 @@ export class RoutesDiscoveryService {
     return adapted;
   }
 
-  protected getAngularOnlyRoutes(): Route[] {
-    return this.router.config.filter(
-      (route) =>
-        route.path && // has a path
-        !route.path.includes(':') && // no dynamic params
-        route.path !== '**' // not wildcard
-    );
+  protected extractAngularRoutes(route: Route): DiscoveredRoute[] {
+    if (!route.path) {
+      return [];
+    }
+
+    // If the route has children, recurse and prepend the parent path
+    if (route.children?.length) {
+      return route.children.flatMap((child) =>
+        this.extractAngularRoutes(child).map((discovered) => ({
+          ...discovered,
+          path: `${route.path}/${discovered.path}`,
+        }))
+      );
+    }
+
+    // Leaf route — skip if it contains unresolvable parameters like :id
+    if (route.path.includes(':')) {
+      return [];
+    }
+
+    return [
+      {
+        cxRoute: route.data?.cxRoute ?? route.path,
+        params: {},
+        path: route.path,
+      },
+    ];
   }
 }

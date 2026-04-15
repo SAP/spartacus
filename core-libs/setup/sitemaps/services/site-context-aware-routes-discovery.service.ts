@@ -67,30 +67,25 @@ export class SiteContextAwareRoutesDiscoveryService {
         occBaseUrl: context.occBaseUrl,
       };
 
-      const discoveredRoutes =
-        await this.routesDiscoveryService.discoverRoutes(
-          enumeratorContext,
-          options
-        );
+      const allRoutes = await this.routesDiscoveryService.discoverAllRoutes(
+        enumeratorContext,
+        options
+      );
 
       console.log(
-        `[Sitemap] SiteContextAwareDiscovery: Discovered ${discoveredRoutes.length} routes for language '${language}'`
+        `[Sitemap] SiteContextAwareDiscovery: Discovered ${allRoutes.length} routes for language '${language}'`
       );
 
       // Duplicate discovered paths for each currency (only prefix differs)
       for (const currency of currenciesToIterate) {
-        const key = hasCurrencyInUrl
-          ? `${language}-${currency}`
-          : language;
+        const key = hasCurrencyInUrl ? `${language}-${currency}` : language;
 
         const urlPrefix = this.buildUrlPrefix(context, language, currency);
 
-        const urls: SiteContextAwareUrl[] = discoveredRoutes.map((route) => ({
+        const urls: SiteContextAwareUrl[] = allRoutes.map((route) => ({
           cxRoute: route.cxRoute,
           params: route.params,
-          fullPath: route.path
-            ? `${urlPrefix}/${route.path}`
-            : `${urlPrefix}/`,
+          fullPath: route.path ? `${urlPrefix}/${route.path}` : `${urlPrefix}/`,
           language,
           currency,
         }));
@@ -100,9 +95,7 @@ export class SiteContextAwareRoutesDiscoveryService {
       }
     }
 
-    console.log(
-      `[Sitemap] SiteContextAwareDiscovery: Total ${totalUrls} URLs`
-    );
+    console.log(`[Sitemap] SiteContextAwareDiscovery: Total ${totalUrls} URLs`);
 
     return { urlsByLanguageCurrency, totalUrls };
   }
@@ -130,4 +123,3 @@ export class SiteContextAwareRoutesDiscoveryService {
     return prefix ? `/${prefix}` : '';
   }
 }
-
