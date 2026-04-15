@@ -381,7 +381,7 @@ describe('OccUserWishlistAdapter', () => {
         .expectOne(REMOVE_URL)
         .flush(null, { status: 204, statusText: 'No Content' });
 
-      expect(completed).toBeTrue();
+      expect(completed).toBe(true);
     });
 
     it('should throw a normalized error on HTTP 404 Not Found', () => {

@@ -59,7 +59,7 @@ describe('UserWishlistAdapter', () => {
   describe('contract: abstract class can be extended with a concrete implementation', () => {
     it('should instantiate a concrete subclass without errors', () => {
       expect(adapter).toBeTruthy();
-      expect(adapter instanceof UserWishlistAdapter).toBeTrue();
+      expect(adapter instanceof UserWishlistAdapter).toBe(true);
     });
   });
 
@@ -137,7 +137,7 @@ describe('UserWishlistAdapter', () => {
         MOCK_WISHLIST_ID,
         MOCK_ENTRY_ID
       );
-      expect(called).toBeTrue();
+      expect(called).toBe(true);
     });
 
     it('should forward all three arguments to the implementation', () => {

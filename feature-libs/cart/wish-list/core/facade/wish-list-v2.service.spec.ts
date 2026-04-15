@@ -107,7 +107,8 @@ describe('WishListV2Service', () => {
 
     it('should enrich entries with product details via a single searchByCodes call', () => {
       service.getWishList().subscribe();
-      expect(productSearchConnector.searchByCodes).toHaveBeenCalledOnceWith([
+      expect(productSearchConnector.searchByCodes).toHaveBeenCalledTimes(1);
+      expect(productSearchConnector.searchByCodes).toHaveBeenCalledWith([
         MOCK_PRODUCT_CODE,
       ]);
     });
@@ -124,7 +125,7 @@ describe('WishListV2Service', () => {
       expect(entry.wishlistEntryId).toBe(MOCK_ENTRY_ID);
       expect(entry.product).toEqual(mockProduct);
       expect(entry.basePrice).toEqual(mockProduct.price);
-      expect(entry.updateable).toBeTrue();
+      expect(entry.updateable).toBe(true);
       expect(entry.quantity).toBe(1);
     });
 
@@ -149,7 +150,8 @@ describe('WishListV2Service', () => {
       let cart: Cart | undefined;
       service.getWishList().subscribe((c) => (cart = c));
 
-      expect(productSearchConnector.searchByCodes).toHaveBeenCalledOnceWith([
+      expect(productSearchConnector.searchByCodes).toHaveBeenCalledTimes(1);
+      expect(productSearchConnector.searchByCodes).toHaveBeenCalledWith([
         MOCK_PRODUCT_CODE,
         '999999',
       ]);
@@ -199,7 +201,7 @@ describe('WishListV2Service', () => {
       let emitted = false;
       service.getWishList().subscribe(() => (emitted = true));
 
-      expect(emitted).toBeFalse();
+      expect(emitted).toBe(false);
       expect(connector.getWishlist).not.toHaveBeenCalled();
     });
 
@@ -271,7 +273,7 @@ describe('WishListV2Service', () => {
     it('should return of(false)', () => {
       let result: boolean | undefined;
       service.getWishListLoading().subscribe((val) => (result = val));
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
   });
 });

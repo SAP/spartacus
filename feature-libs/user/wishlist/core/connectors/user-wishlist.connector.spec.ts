@@ -128,7 +128,7 @@ describe('UserWishlistConnector', () => {
       connector
         .removeEntry(MOCK_USER_ID, MOCK_WISHLIST_ID, MOCK_ENTRY_ID)
         .subscribe({ complete: () => (completed = true) });
-      expect(completed).toBeTrue();
+      expect(completed).toBe(true);
     });
 
     it('should not call getWishlist or addEntry', () => {
