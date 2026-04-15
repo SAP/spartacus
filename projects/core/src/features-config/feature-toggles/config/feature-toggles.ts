@@ -466,6 +466,11 @@ export interface FeatureTogglesInterface {
   enableRemoveVoucherEndpoint?: boolean;
 
   /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
+
+  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -527,5 +532,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
 };
