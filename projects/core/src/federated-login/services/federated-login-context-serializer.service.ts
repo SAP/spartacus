@@ -6,7 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { FederatedLoginConfig } from '../config/federated-login-config';
-import { FederatedLoginContext } from '../model/federated-login-context.mode';
+import { FederatedLoginContext } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class FederatedLoginContextSerializerService {

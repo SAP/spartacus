@@ -12,7 +12,7 @@ import {
   readFromStorage,
 } from '../../state/utils/browser-storage';
 import { WindowRef } from '../../window';
-import { FederatedLoginContext } from '../model/federated-login-context.mode';
+import { FederatedLoginContext } from '../model';
 
 export const FEDERATED_LOGIN_STATE_KEY = 'federatedLogin';
 

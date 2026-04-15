@@ -9,7 +9,7 @@ import { map } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { WindowRef } from '../../window/window-ref';
 import { FederatedLoginConfig } from '../config/federated-login-config';
-import { FederatedLoginContext } from '../model/federated-login-context.mode';
+import { FederatedLoginContext } from '../model';
 import { FederatedLoginContextSerializerService } from './federated-login-context-serializer.service';
 import { FederatedLoginContextStorageService } from './federated-login-context-storage';
 

@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './federated-login-context.mode';
+export * from './federated-login-context.model';
