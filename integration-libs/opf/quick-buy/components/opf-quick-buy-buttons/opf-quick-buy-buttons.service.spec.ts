@@ -52,7 +52,7 @@ describe('OpfQuickBuyButtonsService', () => {
   });
 
   describe('getPaymentGatewayConfiguration', () => {
-    it('should return the first PAYMENT_GATEWAY configuration when available', () => {
+    it('should return all PAYMENT_GATEWAY configurations when available', () => {
       const mockConfigurations = [
         { providerType: OpfPaymentProviderType.PAYMENT_METHOD },
         { providerType: OpfPaymentProviderType.PAYMENT_GATEWAY },
@@ -65,7 +65,10 @@ describe('OpfQuickBuyButtonsService', () => {
       );
 
       service.getPaymentGatewayConfiguration().subscribe((result) => {
-        expect(result).toEqual(mockConfigurations[1]);
+        expect(result).toEqual([
+          mockConfigurations[1],
+          mockConfigurations[2],
+        ] as any);
       });
     });
 
@@ -77,7 +80,7 @@ describe('OpfQuickBuyButtonsService', () => {
       );
 
       service.getPaymentGatewayConfiguration().subscribe((result) => {
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
       });
     });
 
@@ -90,7 +93,7 @@ describe('OpfQuickBuyButtonsService', () => {
       );
 
       service.getPaymentGatewayConfiguration().subscribe((result) => {
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
       });
     });
 
@@ -111,11 +114,13 @@ describe('OpfQuickBuyButtonsService', () => {
     const provider = OpfQuickBuyProviderType.APPLE_PAY;
 
     it('should return true when the provider is enabled', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
-        ],
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
+          ],
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -125,11 +130,13 @@ describe('OpfQuickBuyButtonsService', () => {
     });
 
     it('should return false when the provider is disabled', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: false },
-        ],
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: false },
+          ],
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -139,11 +146,13 @@ describe('OpfQuickBuyButtonsService', () => {
     });
 
     it('should return false when the provider is not found', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: 'otherProvider' as any, enabled: true },
-        ],
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: 'otherProvider' as any, enabled: true },
+          ],
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -167,9 +176,11 @@ describe('OpfQuickBuyButtonsService', () => {
 
     it('should return false when digitalWalletQuickBuy is null or empty', () => {
       const provider = OpfQuickBuyProviderType.APPLE_PAY;
-      const activeConfiguration = {
-        digitalWalletQuickBuy: null as any,
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: null as any,
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -189,12 +200,14 @@ describe('OpfQuickBuyButtonsService', () => {
     };
 
     it('should return config for specific provider', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
-          config,
-        ],
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
+            config,
+          ],
+        } as any,
+      ];
 
       const result = service.getQuickBuyProviderConfig(
         OpfQuickBuyProviderType.GOOGLE_PAY,

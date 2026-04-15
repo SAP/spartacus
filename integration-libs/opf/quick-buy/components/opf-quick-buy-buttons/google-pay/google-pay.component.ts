@@ -29,7 +29,7 @@ export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
-  @Input() activeConfiguration: OpfActiveConfiguration;
+  @Input() activeConfiguration: OpfActiveConfiguration[];
 
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 

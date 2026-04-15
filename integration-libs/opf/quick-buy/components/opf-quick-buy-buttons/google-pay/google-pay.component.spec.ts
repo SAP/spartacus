@@ -48,7 +48,7 @@ describe('OpfGooglePayComponent', () => {
 
     fixture = TestBed.createComponent(OpfGooglePayComponent);
     component = fixture.componentInstance;
-    component.activeConfiguration = {};
+    component.activeConfiguration = [];
   });
 
   async function detectChanges() {

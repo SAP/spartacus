@@ -31,7 +31,7 @@ import { ApplePayService } from './apple-pay.service';
   imports: [NgIf, AsyncPipe],
 })
 export class ApplePayComponent implements OnInit {
-  @Input() activeConfiguration: OpfActiveConfiguration;
+  @Input() activeConfiguration: OpfActiveConfiguration[];
 
   protected applePayService = inject(ApplePayService);
   protected currentProductService = inject(CurrentProductService);
@@ -43,10 +43,12 @@ export class ApplePayComponent implements OnInit {
   applePayDigitalWallet?: OpfQuickBuyDigitalWallet;
 
   ngOnInit(): void {
-    this.applePayDigitalWallet =
-      this.activeConfiguration?.digitalWalletQuickBuy?.find(
+    this.applePayDigitalWallet = this.activeConfiguration
+      ?.flatMap((config) => config.digitalWalletQuickBuy || [])
+      .find(
         (digitalWallet) =>
-          digitalWallet.provider === OpfQuickBuyProviderType.APPLE_PAY
+          digitalWallet.provider === OpfQuickBuyProviderType.APPLE_PAY &&
+          digitalWallet.enabled
       );
     if (
       !this.applePayDigitalWallet?.merchantId ||

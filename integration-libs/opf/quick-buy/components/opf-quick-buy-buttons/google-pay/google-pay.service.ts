@@ -169,8 +169,15 @@ export class OpfGooglePayService {
     ]);
   }
 
-  initClient(activeConfiguration: OpfActiveConfiguration): void {
-    this.setAllowedPaymentMethodsConfig(activeConfiguration);
+  initClient(activeConfigurations: OpfActiveConfiguration[]): void {
+    const googlePayGateway =
+      this.opfQuickBuyButtonsService.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        activeConfigurations
+      );
+    if (googlePayGateway) {
+      this.setAllowedPaymentMethodsConfig(googlePayGateway);
+    }
     this.updateGooglePaymentClient();
   }
 
@@ -498,9 +505,8 @@ export class OpfGooglePayService {
     const googlePayConfig =
       this.opfQuickBuyButtonsService.getQuickBuyProviderConfig(
         OpfQuickBuyProviderType.GOOGLE_PAY,
-        activeConfiguration
+        [activeConfiguration]
       );
-
     this.googlePaymentRequest.allowedPaymentMethods = [
       {
         parameters: {

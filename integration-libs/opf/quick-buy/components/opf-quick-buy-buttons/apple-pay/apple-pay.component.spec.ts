@@ -7,7 +7,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
-import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
 import { OpfPaymentErrorHandlerService } from '@spartacus/opf/payment/core';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
@@ -31,17 +30,6 @@ const mockProduct: Product = {
 
 const mockCart: Cart = {
   code: '123',
-};
-
-const mockActiveConfiguration: OpfActiveConfiguration = {
-  digitalWalletQuickBuy: [
-    {
-      merchantId: 'merchant.com.adyen.upscale.test',
-      provider: OpfQuickBuyProviderType.APPLE_PAY,
-      countryCode: 'US',
-    },
-    { merchantId: 'merchant.test.example' },
-  ],
 };
 
 describe('ApplePayComponent', () => {
@@ -110,14 +98,17 @@ describe('ApplePayComponent', () => {
       provider: OpfQuickBuyProviderType.APPLE_PAY,
       countryCode: mockCountryCode,
       merchantId: 'merchant.com.adyen.upscale.test',
+      enabled: true,
     };
-    component.activeConfiguration = { digitalWalletQuickBuy: [digitalWallet] };
+    component.activeConfiguration = [
+      { digitalWalletQuickBuy: [digitalWallet] } as any,
+    ];
 
     const mockObservable = of(true);
     mockApplePayService.isApplePaySupported.and.returnValue(mockObservable);
 
     fixture.detectChanges();
-    expect(component.isApplePaySupported$).toBe(mockObservable);
+    expect(component.isApplePaySupported$).toEqual(mockObservable);
   });
 
   it('should not initialize isApplePaySupported$ provider is not Apple pay', () => {
@@ -125,13 +116,14 @@ describe('ApplePayComponent', () => {
       provider: OpfQuickBuyProviderType.GOOGLE_PAY,
       countryCode: mockCountryCode,
       merchantId: 'merchant.com.adyen.upscale.test',
+      enabled: true,
     };
-    component.activeConfiguration = { digitalWalletQuickBuy: [digitalWallet] };
-
-    const mockObservable = of(true);
-    mockApplePayService.isApplePaySupported.and.returnValue(mockObservable);
+    component.activeConfiguration = [
+      { digitalWalletQuickBuy: [digitalWallet] } as any,
+    ];
 
     fixture.detectChanges();
+    expect(component.isApplePaySupported$).toBeUndefined();
     expect(mockApplePayService.isApplePaySupported).not.toHaveBeenCalled();
   });
 
@@ -139,21 +131,23 @@ describe('ApplePayComponent', () => {
     mockApplePayService.start.and.returnValue(
       of(<ApplePayJS.ApplePayPaymentAuthorizationResult>{ status: 1 })
     );
-    component.activeConfiguration = {
-      digitalWalletQuickBuy: [
-        {
-          provider: OpfQuickBuyProviderType.APPLE_PAY,
-          countryCode: mockCountryCode,
-          merchantId: 'merchant.com.adyen.upscale.test',
-        },
-      ],
+
+    const digitalWallet: OpfQuickBuyDigitalWallet = {
+      provider: OpfQuickBuyProviderType.APPLE_PAY,
+      countryCode: mockCountryCode,
+      merchantId: 'merchant.com.adyen.upscale.test',
+      enabled: true,
     };
-    component.activeConfiguration = mockActiveConfiguration;
+
+    component.activeConfiguration = [
+      {
+        digitalWalletQuickBuy: [digitalWallet],
+      } as any,
+    ];
+
     fixture.detectChanges();
 
     component.initTransaction();
-    expect(
-      mockOpfPaymentErrorHandlerService.handlePaymentError
-    ).not.toHaveBeenCalled();
+    expect(mockApplePayService.start).toHaveBeenCalled();
   });
 });

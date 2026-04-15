@@ -34,47 +34,43 @@ export class OpfQuickBuyButtonsService {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected multiCartFacade = inject(MultiCartFacade);
 
-  getPaymentGatewayConfiguration(): Observable<OpfActiveConfiguration> {
+  getPaymentGatewayConfiguration(): Observable<OpfActiveConfiguration[]> {
     return this.opfBaseFacade
       .getActiveConfigurationsState()
       .pipe(
-        map(
-          (config) =>
-            (config?.data?.value || []).filter(
-              (item) =>
-                item?.providerType === OpfPaymentProviderType.PAYMENT_GATEWAY
-            )[0]
+        map((config) =>
+          (config?.data?.value || []).filter(
+            (item) =>
+              item?.providerType === OpfPaymentProviderType.PAYMENT_GATEWAY
+          )
         )
       );
   }
 
   getQuickBuyProviderConfig(
     provider: OpfQuickBuyProviderType,
-    activeConfiguration: OpfActiveConfiguration
+    activeConfigurations: OpfActiveConfiguration[]
   ): OpfQuickBuyDigitalWallet | undefined {
-    let config;
-    if (activeConfiguration && activeConfiguration.digitalWalletQuickBuy) {
-      config = activeConfiguration?.digitalWalletQuickBuy.find(
-        (item) => item.provider === provider
-      );
-    }
-
-    return config;
+    return activeConfigurations
+      ?.flatMap((config) => config.digitalWalletQuickBuy ?? [])
+      .find((item) => item.provider === provider && item.enabled);
   }
 
   isQuickBuyProviderEnabled(
     provider: OpfQuickBuyProviderType,
-    activeConfiguration: OpfActiveConfiguration
+    activeConfigurations: OpfActiveConfiguration[]
   ): boolean {
-    let isEnabled = false;
-    if (activeConfiguration && activeConfiguration.digitalWalletQuickBuy) {
-      isEnabled = Boolean(
-        activeConfiguration?.digitalWalletQuickBuy.find(
-          (item) => item.provider === provider
-        )?.enabled
-      );
-    }
+    return !!this.getQuickBuyProviderConfig(provider, activeConfigurations);
+  }
 
-    return isEnabled;
+  getActiveConfigurationForProvider(
+    provider: OpfQuickBuyProviderType,
+    activeConfigurations: OpfActiveConfiguration[]
+  ): OpfActiveConfiguration | undefined {
+    return activeConfigurations?.find((config) =>
+      config.digitalWalletQuickBuy?.some(
+        (item) => item.provider === provider && item.enabled
+      )
+    );
   }
 }
