@@ -132,7 +132,10 @@ describe('OccUserWishlistAdapter', () => {
 
         expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
           'getWishlistEntries',
-          { urlParams: { userId: MOCK_USER_ID, wishlistId: MOCK_WISHLIST_ID } }
+          {
+            urlParams: { userId: MOCK_USER_ID, wishlistId: MOCK_WISHLIST_ID },
+            queryParams: { pageSize: 1000 },
+          }
         );
       });
 

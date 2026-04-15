@@ -50,6 +50,7 @@ export class OccUserWishlistAdapter implements UserWishlistAdapter {
           // Step 2: fetch entries for the real wishlist
           const entriesUrl = this.occEndpoints.buildUrl('getWishlistEntries', {
             urlParams: { userId, wishlistId },
+            queryParams: { pageSize: 1000 },
           });
           return this.http
             .get<
