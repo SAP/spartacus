@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Product } from '@spartacus/core';
+
 export interface WishlistEntry {
   id: string;
   productCode?: string;
   addedAt?: string;
-  product?: any;
-  [key: string]: any;
+  product?: Product;
 }
 
 export interface Wishlist {
   id?: string;
   entries?: WishlistEntry[];
-  [key: string]: any;
 }

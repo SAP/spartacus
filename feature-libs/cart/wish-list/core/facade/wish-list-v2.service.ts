@@ -129,7 +129,7 @@ export class WishListV2Service implements WishListFacade {
       entries: (wl.entries ?? []).map((e, idx) => ({
         entryNumber: idx,
         wishlistEntryId: e.id,
-        product: (e.product ?? { code: e.productCode }) as unknown as Product,
+        product: e.product ?? ({ code: e.productCode } as Product),
         basePrice: e.product?.price,
         updateable: true,
         quantity: 1,
