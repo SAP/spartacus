@@ -20,6 +20,7 @@ import {
   catchError,
   filter,
   map,
+  mergeMap,
   shareReplay,
   switchMap,
   take,
@@ -96,13 +97,12 @@ export class WishListV2Service implements WishListFacade {
     combineLatest([this.userIdService.getUserId(), this.wishlistV2$])
       .pipe(
         take(1),
-        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? 'default' }))
+        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? 'default' })),
+        mergeMap(({ userId, wishlistId }) =>
+          this.connector.addEntry(userId, wishlistId, productCode)
+        )
       )
-      .subscribe(({ userId, wishlistId }) => {
-        this.connector
-          .addEntry(userId, wishlistId, productCode)
-          .subscribe(() => this.refresh$.next());
-      });
+      .subscribe(() => this.refresh$.next());
   }
 
   removeEntry(entry: OrderEntry): void {
@@ -110,13 +110,12 @@ export class WishListV2Service implements WishListFacade {
     combineLatest([this.userIdService.getUserId(), this.wishlistV2$])
       .pipe(
         take(1),
-        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? 'default' }))
+        map(([userId, wl]) => ({ userId, wishlistId: wl.id ?? 'default' })),
+        mergeMap(({ userId, wishlistId }) =>
+          this.connector.removeEntry(userId, wishlistId, entryId)
+        )
       )
-      .subscribe(({ userId, wishlistId }) => {
-        this.connector
-          .removeEntry(userId, wishlistId, entryId)
-          .subscribe(() => this.refresh$.next());
-      });
+      .subscribe(() => this.refresh$.next());
   }
 
   getWishListLoading(): Observable<boolean> {
