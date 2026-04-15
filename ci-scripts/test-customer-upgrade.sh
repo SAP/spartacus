@@ -195,6 +195,9 @@ SERVE_TIMEOUT="${SERVE_TIMEOUT:-120}"
 APP_DIR="${WORK_DIR}/${APP_NAME}"
 SERVE_PORT="${SERVE_PORT:-4200}"
 
+# Grep pattern used to find @spartacus packages in package.json
+SPARTACUS_PKG_PATTERN='"@spartacus/'
+
 # --- All available Spartacus features (from schema.json enum) ---
 ALL_FEATURES=(
   "ASM"
@@ -260,10 +263,11 @@ YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-log_step()  { printf "\n${CYAN}━━━ %s ━━━${NC}\n\n" "$1"; }
-log_ok()    { printf "${GREEN}✅ %s${NC}\n" "$1"; }
-log_warn()  { printf "${YELLOW}⚠️  %s${NC}\n" "$1"; }
-log_fail()  { printf "${RED}❌ %s${NC}\n" "$1"; }
+# Assign positional params to local vars to satisfy shell analysis tools (Sonar)
+log_step()  { local msg="$1"; printf "\n${CYAN}━━━ %s ━━━${NC}\n\n" "$msg"; return 0; }
+log_ok()    { local msg="$1"; printf "${GREEN}✅ %s${NC}\n" "$msg"; return 0; }
+log_warn()  { local msg="$1"; printf "${YELLOW}⚠️  %s${NC}\n" "$msg"; return 0; }
+log_fail()  { local msg="$1"; printf "${RED}❌ %s${NC}\n" "$msg"; return 0; }
 
 # Safe git commit — won't fail under set -e when working tree is clean
 git_commit() {
@@ -464,7 +468,7 @@ npx ng add "@spartacus/schematics@${FROM_VERSION}" \
 log_ok "Spartacus ${FROM_VERSION} installed"
 
 printf "\nInstalled @spartacus packages:\n"
-grep '"@spartacus/' package.json | head -30
+grep "$SPARTACUS_PKG_PATTERN" package.json | head -30
 
 git_commit "chore: ng add Spartacus ${FROM_VERSION} (all features)"
 
@@ -535,7 +539,7 @@ printf "\n--- git status before ng update ---\n"
 git status --short
 
 printf "\n--- package.json BEFORE ng update ---\n"
-grep '"@spartacus/' package.json | head -40
+grep "$SPARTACUS_PKG_PATTERN" package.json | head -40
 
 # Run ng update — pipefail ensures we catch ng update failures through tee
 npx ng update "@spartacus/schematics@${TO_VERSION}" --force --allow-dirty 2>&1 | tee ng-update.log
@@ -551,7 +555,7 @@ fi
 git_commit "chore: ng update @spartacus/schematics@${TO_VERSION}"
 
 printf "\n--- package.json AFTER ng update ---\n"
-grep '"@spartacus/' package.json | head -40
+grep "$SPARTACUS_PKG_PATTERN" package.json | head -40
 
 # Show what ng update actually changed
 printf "\n--- git diff from ng update ---\n"
@@ -567,7 +571,7 @@ fi
 log_ok "ng update completed"
 
 # Verify all @spartacus packages were actually bumped
-MISMATCHED_EARLY=$(grep '"@spartacus/' package.json | grep -v "~${TO_VERSION}\|\"${TO_VERSION}" | grep -v "schematics" || true)
+MISMATCHED_EARLY=$(grep "$SPARTACUS_PKG_PATTERN" package.json | grep -v "~${TO_VERSION}\|\"${TO_VERSION}" | grep -v "schematics" || true)
 if [[ -n "$MISMATCHED_EARLY" ]]; then
   log_warn "Some @spartacus packages were NOT bumped by ng update:"
   echo "$MISMATCHED_EARLY"
@@ -619,7 +623,7 @@ printf "  To registry:       %s\n" "${TO_REGISTRY}"
 echo ""
 
 # Check all @spartacus packages are on target version
-MISMATCHED=$(grep '"@spartacus/' package.json | grep -v "~${TO_VERSION}\|\"${TO_VERSION}" | grep -v "schematics" || true)
+MISMATCHED=$(grep "$SPARTACUS_PKG_PATTERN" package.json | grep -v "~${TO_VERSION}\|\"${TO_VERSION}" | grep -v "schematics" || true)
 if [[ -n "$MISMATCHED" ]]; then
   log_warn "Some @spartacus packages are NOT on ${TO_VERSION}:"
   echo "$MISMATCHED"

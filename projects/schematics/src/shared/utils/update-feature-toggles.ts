@@ -28,6 +28,8 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 const INTERFACE_FILE =
   'node_modules/@spartacus/core/types/spartacus-core.d.ts';
 
+const EXTRACT_FEATURE_TOGGLES_REGEX = /provideFeatureToggles\(\{([\s\S]*?)\}\)/;
+
 /**
  * Collects all capture-group-1 matches for a global regex.
  * Replacement for [...str.matchAll(regex)].map(m => m[1])
@@ -155,9 +157,8 @@ function getValidKeys(
     return null;
   }
 
-  const match = content.match(
-    /interface FeatureTogglesInterface \{([\s\S]*?)^\}/m
-  );
+  const featureTogglesInterfaceRegex = /interface FeatureTogglesInterface \{([\s\S]*?)^\}/m;
+  const match = featureTogglesInterfaceRegex.exec(content);
   if (!match) {
     context.logger.info(
       `  ↳ Could not find FeatureTogglesInterface in ${INTERFACE_FILE} — skipping`
@@ -202,7 +203,7 @@ function findModuleFile(tree: Tree): string | null {
  * Only matches active (uncommented) toggle keys.
  */
 function getUsedKeys(content: string): Set<string> | null {
-  const match = content.match(/provideFeatureToggles\(\{([\s\S]*?)\}\)/);
+  const match = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
   if (!match) {
     return null;
   }
@@ -223,16 +224,17 @@ function commentOutUnknownToggles(
   content: string,
   unknownKeys: Set<string>
 ): string {
-  const blockMatch = content.match(/provideFeatureToggles\(\{([\s\S]*?)\}\)/);
+  const blockMatch = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
   if (!blockMatch) {
     return content;
   }
 
   const originalBlock = blockMatch[1];
+  const keyMatchRegex =/"(\w+)"\s*:/;
   const commentedBlock = originalBlock
     .split('\n')
     .map((line) => {
-      const keyOnLine = line.match(/"(\w+)"\s*:/);
+      const keyOnLine = keyMatchRegex.exec(line);
       if (keyOnLine && unknownKeys.has(keyOnLine[1])) {
         // Preserve indentation, comment out the line with [REMOVED] marker
         const indent = line.match(/^(\s*)/)?.[1] ?? '';
@@ -252,7 +254,7 @@ function commentOutUnknownToggles(
  * This prevents re-adding toggles that were just commented out.
  */
 function getAllMentionedKeys(content: string): Set<string> {
-  const match = content.match(/provideFeatureToggles\(\{([\s\S]*?)\}\)/);
+  const match = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
   if (!match) {
     return new Set();
   }
@@ -275,7 +277,7 @@ function getAllMentionedKeys(content: string): Set<string> {
  *   })
  */
 function addMissingToggles(content: string, missingKeys: string[]): string {
-  const blockMatch = content.match(/provideFeatureToggles\(\{([\s\S]*?)\}\)/);
+  const blockMatch = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
   if (!blockMatch) {
     return content;
   }
@@ -283,7 +285,8 @@ function addMissingToggles(content: string, missingKeys: string[]): string {
   const originalBlock = blockMatch[1];
 
   // Detect indentation from existing entries
-  const existingEntryMatch = originalBlock.match(/^(\s+)"\w+"\s*:/m);
+  const existingEntryRegex = /^(\s+)"\w+"\s*:/m;
+  const existingEntryMatch = existingEntryRegex.exec(originalBlock);
   const indent = existingEntryMatch ? existingEntryMatch[1] : '      ';
 
   // Build new toggle lines with [NEW] marker

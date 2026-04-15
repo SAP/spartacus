@@ -58,10 +58,11 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-print_header()  { printf "\n${GREEN}━━━ %s ━━━${NC}\n\n" "$1"; }
-print_step()    { printf "${YELLOW}➜${NC} %s\n" "$1"; }
-print_ok()      { printf "${GREEN}✅${NC} %s\n" "$1"; }
-print_fail()    { printf "${RED}❌${NC} %s\n" "$1"; }
+# Assign positional params to local vars to satisfy shell analysis tools (Sonar)
+print_header()  { local msg="$1"; printf "\n${GREEN}━━━ %s ━━━${NC}\n\n" "$msg"; return 0; }
+print_step()    { local msg="$1"; printf "${YELLOW}➜${NC} %s\n" "$msg"; return 0; }
+print_ok()      { local msg="$1"; printf "${GREEN}✅${NC} %s\n" "$msg"; return 0; }
+print_fail()    { local msg="$1"; printf "${RED}❌${NC} %s\n" "$msg"; return 0; }
 
 # ─── Cleanup ───
 cleanup() {
