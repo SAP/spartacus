@@ -35,7 +35,6 @@ const EXTRACT_FEATURE_TOGGLES_REGEX = /provideFeatureToggles\(\{([\s\S]*?)\}\)/;
 function collectMatches(str: string, regex: RegExp): string[] {
   const results: string[] = [];
   let m: RegExpExecArray | null;
-  // eslint-disable-next-line no-cond-assign
   while ((m = regex.exec(str)) !== null) {
     results.push(m[1]);
   }

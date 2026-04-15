@@ -178,8 +178,8 @@ describe('Update feature toggles migration', () => {
     expect(validLine).toBeTruthy();
     expect(commentedLine).toBeTruthy();
 
-    const validIndent = validLine!.match(/^(\s*)/)?.[1].length ?? 0;
-    const commentedIndent = commentedLine!.match(/^(\s*)/)?.[1].length ?? 0;
+    const validIndent = validLine?.match(/^(\s*)/)?.[1].length ?? 0;
+    const commentedIndent = commentedLine?.match(/^(\s*)/)?.[1].length ?? 0;
     expect(commentedIndent).toBe(validIndent);
   });
 
