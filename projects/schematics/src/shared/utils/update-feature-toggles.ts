@@ -207,7 +207,8 @@ function commentOutUnknownToggles(
       const keyOnLine = keyMatchRegex.exec(line);
       if (keyOnLine && unknownKeys.has(keyOnLine[1])) {
         // Preserve indentation, comment out the line with [REMOVED] marker
-        const indent = line.match(/^(\s*)/)?.[1] ?? '';
+        const indentRegex = /^(\s*)/;
+        const indent = indentRegex.exec(line)?.[1] ?? '';
         const trimmed = line.trimStart();
         return `${indent}// [REMOVED] ${trimmed}`;
       }
