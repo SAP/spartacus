@@ -23,8 +23,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
  * 3. Any USED toggle NOT in the VALID list is outdated → comment it out with [REMOVED].
  */
 
-const INTERFACE_FILE =
-  'node_modules/@spartacus/core/types/spartacus-core.d.ts';
+const INTERFACE_FILE = 'node_modules/@spartacus/core/types/spartacus-core.d.ts';
 
 const EXTRACT_FEATURE_TOGGLES_REGEX = /provideFeatureToggles\(\{([\s\S]*?)\}\)/;
 
@@ -127,7 +126,8 @@ function getValidKeys(
     return null;
   }
 
-  const featureTogglesInterfaceRegex = /interface FeatureTogglesInterface \{([\s\S]*?)^\}/m;
+  const featureTogglesInterfaceRegex =
+    /interface FeatureTogglesInterface \{([\s\S]*?)^\}/m;
   const match = featureTogglesInterfaceRegex.exec(content);
   if (!match) {
     context.logger.info(
