@@ -105,7 +105,7 @@ describe('Update feature toggles migration', () => {
     expect(content).not.toMatch(/^\s+"toggleRemoved"/m);
   });
 
-  it('should not modify the file when all toggles match exactly', async () => {
+  it('should not modify the file when all toggles are valid', async () => {
     tree.create(
       INTERFACE_FILE,
       buildInterfaceFile(['toggleA', 'toggleB'])
@@ -125,129 +125,23 @@ describe('Update feature toggles migration', () => {
 
     const content = newTree.readText(MODULE_FILE);
 
-    // Should be unchanged — no unknown toggles to remove, no new ones to add
+    // Should be unchanged — no unknown toggles to remove
     expect(content).toBe(moduleContent);
     expect(content).not.toContain('// [REMOVED]');
-    expect(content).not.toContain('// [NEW]');
   });
 
-  it('should add missing (new) toggles with value true', async () => {
-    // Interface declares toggleA, toggleB, toggleNew1, toggleNew2
+  it('should not modify the file when module has fewer toggles than interface', async () => {
+    // Interface has more toggles than the module — but that's fine, no action needed
     tree.create(
       INTERFACE_FILE,
       buildInterfaceFile(['toggleA', 'toggleB', 'toggleNew1', 'toggleNew2'])
     );
 
-    // Module only has toggleA and toggleB (missing toggleNew1, toggleNew2)
-    tree.create(
-      MODULE_FILE,
-      buildModuleFile({
-        toggleA: true,
-        toggleB: true,
-      })
-    );
-
-    const newTree = await runner.runSchematic(
-      MIGRATION_SCRIPT_NAME,
-      {},
-      tree
-    );
-
-    const content = newTree.readText(MODULE_FILE);
-
-    // Existing toggles should remain
-    expect(content).toContain('"toggleA": true,');
-    expect(content).toContain('"toggleB": true,');
-
-    // New toggles should be added with value true and [NEW] marker
-    expect(content).toContain('"toggleNew1": true, // [NEW]');
-    expect(content).toContain('"toggleNew2": true, // [NEW]');
-
-    // No removed-toggle comments
-    expect(content).not.toContain('// [REMOVED]');
-  });
-
-  it('should both comment out unknown and add missing toggles in one run', async () => {
-    // Interface declares toggleA and toggleNew
-    tree.create(
-      INTERFACE_FILE,
-      buildInterfaceFile(['toggleA', 'toggleNew'])
-    );
-
-    // Module has toggleA (valid), toggleOld (unknown), but not toggleNew (missing)
-    tree.create(
-      MODULE_FILE,
-      buildModuleFile({
-        toggleA: true,
-        toggleOld: true,
-      })
-    );
-
-    const newTree = await runner.runSchematic(
-      MIGRATION_SCRIPT_NAME,
-      {},
-      tree
-    );
-
-    const content = newTree.readText(MODULE_FILE);
-
-    // toggleA should remain
-    expect(content).toContain('"toggleA": true,');
-
-    // toggleOld should be commented out
-    expect(content).toMatch(/\/\/ \[REMOVED].*"toggleOld": true,/);
-    expect(content).not.toMatch(/^\s+"toggleOld"/m);
-
-    // toggleNew should be added with [NEW] marker
-    expect(content).toContain('"toggleNew": true, // [NEW]');
-  });
-
-  it('should not re-add a toggle that was just commented out', async () => {
-    // Interface declares only toggleA (toggleOld was removed)
-    tree.create(
-      INTERFACE_FILE,
-      buildInterfaceFile(['toggleA'])
-    );
-
-    // Module has both — toggleOld will be commented out
-    tree.create(
-      MODULE_FILE,
-      buildModuleFile({
-        toggleA: true,
-        toggleOld: true,
-      })
-    );
-
-    const newTree = await runner.runSchematic(
-      MIGRATION_SCRIPT_NAME,
-      {},
-      tree
-    );
-
-    const content = newTree.readText(MODULE_FILE);
-
-    // toggleOld should be commented out
-    expect(content).toMatch(/\/\/ \[REMOVED].*"toggleOld"/);
-
-    // toggleOld should NOT appear as an active uncommented entry
-    const activeToggles = content.match(/^\s+"(\w+)"\s*:/gm) || [];
-    const activeToggleNames = activeToggles.map((l) => {
-      const m = l.match(/"(\w+)"/);
-      return m ? m[1] : '';
+    const moduleContent = buildModuleFile({
+      toggleA: true,
+      toggleB: true,
     });
-    expect(activeToggleNames).not.toContain('toggleOld');
-  });
-
-  it('should add new toggles sorted alphabetically', async () => {
-    tree.create(
-      INTERFACE_FILE,
-      buildInterfaceFile(['existing', 'charlie', 'alpha', 'bravo'])
-    );
-
-    tree.create(
-      MODULE_FILE,
-      buildModuleFile({ existing: true })
-    );
+    tree.create(MODULE_FILE, moduleContent);
 
     const newTree = await runner.runSchematic(
       MIGRATION_SCRIPT_NAME,
@@ -257,82 +151,12 @@ describe('Update feature toggles migration', () => {
 
     const content = newTree.readText(MODULE_FILE);
 
-    // All new toggles should be present
-    expect(content).toContain('"alpha": true,');
-    expect(content).toContain('"bravo": true,');
-    expect(content).toContain('"charlie": true,');
-
-    // Verify alphabetical order
-    const alphaIdx = content.indexOf('"alpha"');
-    const bravoIdx = content.indexOf('"bravo"');
-    const charlieIdx = content.indexOf('"charlie"');
-    expect(alphaIdx).toBeLessThan(bravoIdx);
-    expect(bravoIdx).toBeLessThan(charlieIdx);
-  });
-
-  it('should skip gracefully when interface file is missing', async () => {
-    // No INTERFACE_FILE created
-    tree.create(
-      MODULE_FILE,
-      buildModuleFile({ toggleA: true })
-    );
-
-    const newTree = await runner.runSchematic(
-      MIGRATION_SCRIPT_NAME,
-      {},
-      tree
-    );
-
-    // Module file should be unchanged
-    const content = newTree.readText(MODULE_FILE);
-    expect(content).toContain('"toggleA": true,');
+    // Should be unchanged — missing toggles are NOT added
+    expect(content).toBe(moduleContent);
     expect(content).not.toContain('// [REMOVED]');
-    expect(content).not.toContain('// [NEW]');
   });
 
-  it('should skip gracefully when module file is missing', async () => {
-    tree.create(
-      INTERFACE_FILE,
-      buildInterfaceFile(['toggleA'])
-    );
-    // No MODULE_FILE created
-
-    // Should not throw
-    const newTree = await runner.runSchematic(
-      MIGRATION_SCRIPT_NAME,
-      {},
-      tree
-    );
-
-    expect(newTree).toBeTruthy();
-  });
-
-  it('should skip gracefully when no provideFeatureToggles call exists', async () => {
-    tree.create(
-      INTERFACE_FILE,
-      buildInterfaceFile(['toggleA'])
-    );
-
-    tree.create(
-      MODULE_FILE,
-      `import { NgModule } from '@angular/core';
-@NgModule({})
-export class SpartacusFeaturesModule {}
-`
-    );
-
-    const newTree = await runner.runSchematic(
-      MIGRATION_SCRIPT_NAME,
-      {},
-      tree
-    );
-
-    const content = newTree.readText(MODULE_FILE);
-    expect(content).not.toContain('// [REMOVED]');
-    expect(content).not.toContain('// [NEW]');
-  });
-
-  it('should comment out ALL unknown toggles and add new ones when none are valid', async () => {
+  it('should comment out ALL unknown toggles when none are valid', async () => {
     tree.create(
       INTERFACE_FILE,
       buildInterfaceFile(['newToggle'])
@@ -355,9 +179,6 @@ export class SpartacusFeaturesModule {}
     const content = newTree.readText(MODULE_FILE);
     expect(content).toMatch(/\/\/ \[REMOVED].*"oldToggle1"/);
     expect(content).toMatch(/\/\/ \[REMOVED].*"oldToggle2"/);
-
-    // newToggle should be added since it's in the interface but not in the module
-    expect(content).toContain('"newToggle": true, // [NEW]');
   });
 
   it('should preserve indentation when commenting out', async () => {
@@ -397,13 +218,68 @@ export class SpartacusFeaturesModule {}
     expect(commentedIndent).toBe(validIndent);
   });
 
+  it('should skip gracefully when interface file is missing', async () => {
+    tree.create(
+      MODULE_FILE,
+      buildModuleFile({ toggleA: true })
+    );
+
+    const newTree = await runner.runSchematic(
+      MIGRATION_SCRIPT_NAME,
+      {},
+      tree
+    );
+
+    const content = newTree.readText(MODULE_FILE);
+    expect(content).toContain('"toggleA": true,');
+    expect(content).not.toContain('// [REMOVED]');
+  });
+
+  it('should skip gracefully when module file is missing', async () => {
+    tree.create(
+      INTERFACE_FILE,
+      buildInterfaceFile(['toggleA'])
+    );
+
+    const newTree = await runner.runSchematic(
+      MIGRATION_SCRIPT_NAME,
+      {},
+      tree
+    );
+
+    expect(newTree).toBeTruthy();
+  });
+
+  it('should skip gracefully when no provideFeatureToggles call exists', async () => {
+    tree.create(
+      INTERFACE_FILE,
+      buildInterfaceFile(['toggleA'])
+    );
+
+    tree.create(
+      MODULE_FILE,
+      `import { NgModule } from '@angular/core';
+@NgModule({})
+export class SpartacusFeaturesModule {}
+`
+    );
+
+    const newTree = await runner.runSchematic(
+      MIGRATION_SCRIPT_NAME,
+      {},
+      tree
+    );
+
+    const content = newTree.readText(MODULE_FILE);
+    expect(content).not.toContain('// [REMOVED]');
+  });
+
   it('should find the module file in alternative locations', async () => {
     tree.create(
       INTERFACE_FILE,
       buildInterfaceFile(['toggleA'])
     );
 
-    // Put module in a non-standard location
     const altPath = 'src/app/spartacus-features.module.ts';
     tree.create(
       altPath,

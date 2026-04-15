@@ -7,22 +7,20 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 /**
- * Migration that updates feature toggles in `provideFeatureToggles({...})`
+ * Migration that comments out outdated feature toggles in `provideFeatureToggles({...})`
  * in the customer's spartacus-features module during upgrades.
  *
- * When upgrading Spartacus:
- * - Some feature toggles from the old version may no longer exist in the
- *   new version's FeatureTogglesInterface → they are commented out with [REMOVED].
- * - New feature toggles may have been introduced in the new version
- *   but are missing from the customer's app → they are added with value `true` and marked with [NEW].
+ * When upgrading Spartacus, some feature toggles from the old version may no longer
+ * exist in the new version's FeatureTogglesInterface. TypeScript would fail with
+ * "does not exist in type" errors. This migration comments out those outdated toggles
+ * automatically, prefixed with a [REMOVED] marker so customers can review and clean up.
  *
  * How it works:
  * 1. Read FeatureTogglesInterface from the installed @spartacus/core .d.ts
  *    to get the list of VALID toggle names.
  * 2. Read provideFeatureToggles({...}) from the app's source code
- *    to get the list of USED toggle names (including commented-out ones).
+ *    to get the list of USED toggle names.
  * 3. Any USED toggle NOT in the VALID list is outdated → comment it out with [REMOVED].
- * 4. Any VALID toggle NOT in the USED list is new → add it with value `true` and mark with [NEW].
  */
 
 const INTERFACE_FILE =
@@ -48,7 +46,7 @@ function collectMatches(str: string, regex: RegExp): string[] {
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.info(
-      '\n⌛️ Updating feature toggles in provideFeatureToggles...'
+      '\n⌛️ Commenting out outdated feature toggles in provideFeatureToggles...'
     );
 
     // ── Step 1: Get VALID toggle names from the interface ──
@@ -67,7 +65,7 @@ export function migrate(): Rule {
     }
 
     // ── Step 3: Get USED toggle names ──
-    let moduleContent = tree.read(modulePath)?.toString('utf-8');
+    const moduleContent = tree.read(modulePath)?.toString('utf-8');
     if (!moduleContent) {
       context.logger.info(`  ↳ Could not read ${modulePath} — skipping`);
       return tree;
@@ -86,56 +84,28 @@ export function migrate(): Rule {
       (key) => !validKeys.has(key)
     );
 
-    if (unknownKeys.length > 0) {
-      context.logger.info('  ↳ Unknown feature toggles to comment out:');
-      unknownKeys.forEach((key) => context.logger.info(`      - ${key}`));
-
-      moduleContent = commentOutUnknownToggles(
-        moduleContent,
-        new Set(unknownKeys)
-      );
-
-      context.logger.info(
-        `  ↳ Commented out ${unknownKeys.length} unknown toggle(s).`
-      );
-      context.logger.info(
-        '     Look for "// [REMOVED]" comments and remove them after review.'
-      );
-    } else {
+    if (unknownKeys.length === 0) {
       context.logger.info(
         '  ↳ No unknown feature toggles found. Nothing to remove.'
       );
+      return tree;
     }
 
-    // ── Step 5: Add missing (newly introduced) toggles ──
-    // Collect all mentioned keys including commented-out ones to avoid re-adding them
-    const allMentionedKeys = getAllMentionedKeys(moduleContent);
-    const missingKeys = Array.from(validKeys).filter(
-      (key) => !allMentionedKeys.has(key)
+    context.logger.info('  ↳ Unknown feature toggles to comment out:');
+    unknownKeys.forEach((key) => context.logger.info(`      - ${key}`));
+
+    const updatedContent = commentOutUnknownToggles(
+      moduleContent,
+      new Set(unknownKeys)
     );
+    tree.overwrite(modulePath, updatedContent);
 
-    if (missingKeys.length > 0) {
-      context.logger.info('  ↳ New feature toggles to add:');
-      missingKeys.forEach((key) => context.logger.info(`      + ${key}`));
-
-      moduleContent = addMissingToggles(moduleContent, missingKeys);
-
-      context.logger.info(
-        `  ↳ Added ${missingKeys.length} new toggle(s) with value \`true\`.`
-      );
-    } else {
-      context.logger.info(
-        '  ↳ No new feature toggles to add.'
-      );
-    }
-
-    // ── Step 6: Write changes if any ──
-    if (unknownKeys.length > 0 || missingKeys.length > 0) {
-      tree.overwrite(modulePath, moduleContent);
-      context.logger.info(
-        `✅ Feature toggles updated in ${modulePath}`
-      );
-    }
+    context.logger.info(
+      `✅ Commented out ${unknownKeys.length} unknown toggle(s) in ${modulePath}`
+    );
+    context.logger.info(
+      '   Look for "// [REMOVED]" comments and remove them after review.'
+    );
 
     return tree;
   };
@@ -230,7 +200,7 @@ function commentOutUnknownToggles(
   }
 
   const originalBlock = blockMatch[1];
-  const keyMatchRegex =/"(\w+)"\s*:/;
+  const keyMatchRegex = /"(\w+)"\s*:/;
   const commentedBlock = originalBlock
     .split('\n')
     .map((line) => {
@@ -246,66 +216,4 @@ function commentOutUnknownToggles(
     .join('\n');
 
   return content.replace(originalBlock, commentedBlock);
-}
-
-/**
- * Extracts ALL toggle key names mentioned inside the provideFeatureToggles({...})
- * block, including keys that have been commented out (e.g. `// [REMOVED] "oldToggle": true`).
- * This prevents re-adding toggles that were just commented out.
- */
-function getAllMentionedKeys(content: string): Set<string> {
-  const match = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
-  if (!match) {
-    return new Set();
-  }
-
-  const objectBody = match[1];
-  // Match both active and commented-out toggle keys
-  const keyRegex = /"(\w+)"\s*:/g;
-  return new Set(collectMatches(objectBody, keyRegex));
-}
-
-/**
- * Adds missing feature toggle entries to the provideFeatureToggles({...}) block.
- * New toggles are inserted with value `true` before the closing `})`,
- * matching the indentation of existing entries, and marked with [NEW].
- *
- * Example: if `newToggle` is missing, the block becomes:
- *   provideFeatureToggles({
- *     "existingToggle": true,
- *     "newToggle": true, // [NEW]
- *   })
- */
-function addMissingToggles(content: string, missingKeys: string[]): string {
-  const blockMatch = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
-  if (!blockMatch) {
-    return content;
-  }
-
-  const originalBlock = blockMatch[1];
-
-  // Detect indentation from existing entries
-  const existingEntryRegex = /^(\s+)"\w+"\s*:/m;
-  const existingEntryMatch = existingEntryRegex.exec(originalBlock);
-  const indent = existingEntryMatch ? existingEntryMatch[1] : '      ';
-
-  // Build new toggle lines with [NEW] marker
-  const newLines = missingKeys
-    .sort()
-    .map((key) => `${indent}"${key}": true, // [NEW]`)
-    .join('\n');
-
-  // Insert before the closing of the block (last line before `}`)
-  // Trim trailing whitespace/newlines from original block, append new entries
-  const trimmedBlock = originalBlock.replace(/\s*$/, '');
-  // Ensure there's a comma after the last existing entry if needed
-  const lastEntryNeedsComma =
-    trimmedBlock.length > 0 &&
-    !trimmedBlock.trimEnd().endsWith(',') &&
-    !trimmedBlock.trimEnd().endsWith('{');
-  const comma = lastEntryNeedsComma ? ',' : '';
-
-  const updatedBlock = `${trimmedBlock}${comma}\n${newLines}\n`;
-
-  return content.replace(originalBlock, updatedBlock);
 }
