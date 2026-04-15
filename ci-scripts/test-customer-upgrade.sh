@@ -279,6 +279,7 @@ git_commit() {
     git commit -m "${msg}" --no-verify
     log_ok "Committed: ${msg}"
   fi
+  return 0
 }
 
 # Write a project .npmrc that points @spartacus at the given registry.
@@ -300,6 +301,7 @@ write_npmrc() {
   } > .npmrc
 
   echo "  .npmrc → @spartacus:registry=${registry}"
+  return 0
 }
 
 SERVE_PID=""
@@ -309,6 +311,7 @@ cleanup() {
     wait "$SERVE_PID" 2>/dev/null || true
     SERVE_PID=""
   fi
+  return 0
 }
 trap cleanup EXIT
 
@@ -345,15 +348,15 @@ verify_app_starts() {
       return 0
     fi
 
-    if grep -q "Error:" "${serve_log}" 2>/dev/null; then
-      if grep -v "feature.toggle\|featureToggle\|FeatureToggle" "${serve_log}" | grep -q "Error:"; then
-        log_fail "Compilation errors found (${label})"
-        cat "${serve_log}"
-        kill "$SERVE_PID" 2>/dev/null || true
-        wait "$SERVE_PID" 2>/dev/null || true
-        SERVE_PID=""
-        return 1
-      fi
+    # Fail on compilation errors, but ignore feature-toggle-related errors
+    # (those are expected during upgrades and handled by the schematics migration)
+    if grep -q "Error:" "${serve_log}" 2>/dev/null && grep -v "feature.toggle\|featureToggle\|FeatureToggle" "${serve_log}" | grep -q "Error:"; then
+      log_fail "Compilation errors found (${label})"
+      cat "${serve_log}"
+      kill "$SERVE_PID" 2>/dev/null || true
+      wait "$SERVE_PID" 2>/dev/null || true
+      SERVE_PID=""
+      return 1
     fi
 
     echo "  ⏳ Waiting for compilation... (${elapsed}s/${SERVE_TIMEOUT}s)"

@@ -98,6 +98,7 @@ cleanup() {
   rm -rf "${REPO_ROOT}/scripts/install/storage"
 
   print_ok "Cleanup completed"
+  return 0
 }
 trap cleanup EXIT
 
@@ -141,6 +142,7 @@ start_verdaccio() {
   npm config set @spartacus:registry "$VERDACCIO_REGISTRY_URL"
 
   print_ok "Verdaccio started"
+  return 0
 }
 
 # ─── Step 2: Build libraries ───
@@ -167,6 +169,7 @@ build_libraries() {
   npm run build:schematics
 
   print_ok "All libraries built"
+  return 0
 }
 
 # ─── Step 3: Publish packages ───
@@ -248,6 +251,7 @@ publish_packages() {
   fi
 
   print_ok "All @spartacus packages published to Verdaccio"
+  return 0
 }
 
 # ─── Main ───
@@ -280,6 +284,7 @@ main() {
     print_step "Press Ctrl+C to stop Verdaccio and exit."
     wait "$VERDACCIO_PID"
   fi
+  return 0
 }
 
 main "$@"
