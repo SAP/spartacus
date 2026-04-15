@@ -10,7 +10,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -59,7 +58,7 @@ export class LoginFormComponent {
   csrf = this.service.csrf;
   action = this.service.action;
   method = this.service.method;
-  showResetPassword = signal(this.service.showResetPassword);
+  showResetPassword = this.service.showResetPassword;
 
   constructor(protected service: LoginFormComponentService) {
     this.service.handleCustomLoginError();

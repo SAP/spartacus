@@ -26,7 +26,7 @@ export class FederatedLoginService {
   /** Is the current domain a federated login domain */
   isLoginDomain = this.checkLoginDomain();
 
-  contextValue?: FederatedLoginContext;
+  protected contextValue?: FederatedLoginContext;
 
   get origin(): string | undefined {
     return this.contextValue?.origin;
@@ -74,8 +74,6 @@ export class FederatedLoginService {
         this.contextValue = { ...storedContext, ...deserializedContext };
         this.contextStorage.write(this.contextValue);
       }
-    } else {
-      // TODO: Do we need anything here?
     }
   }
 

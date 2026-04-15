@@ -130,14 +130,17 @@ describe('LoginFormComponent', () => {
 
   describe('showResetPassword', () => {
     it('should show the forgot password link when showResetPassword is true', () => {
-      component.showResetPassword.set(true);
-      fixture.detectChanges();
       expect(el.query(By.css('a.btn-link'))).toBeTruthy();
     });
 
     it('should hide the forgot password link when showResetPassword is false', () => {
-      component.showResetPassword.set(false);
+      service.showResetPassword = false;
+
+      fixture = TestBed.createComponent(LoginFormComponent);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
       fixture.detectChanges();
+
       expect(el.query(By.css('a.btn-link'))).toBeNull();
     });
   });

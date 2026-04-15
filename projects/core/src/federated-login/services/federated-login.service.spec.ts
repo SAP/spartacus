@@ -113,18 +113,20 @@ describe('FederatedLoginService', () => {
     });
 
     describe('context accessors', () => {
-      it('should return undefined when contextValue is not set', () => {
-        expect(service.language).toBeUndefined();
-        expect(service.origin).toBeUndefined();
-      });
-
-      it('should return values from contextValue when set', () => {
-        service.contextValue = {
+      it('should return undefined because contextValue is not set', () => {
+        contextStorageService.read.and.returnValue({
           origin: 'https://storefront1.de',
           language: 'de',
-        };
-        expect(service.origin).toBe('https://storefront1.de');
-        expect(service.language).toBe('de');
+        });
+        contextSerializerService.deserializeContext.and.returnValue({
+          origin: 'https://storefront1.de',
+          language: 'de',
+        });
+
+        service.detectContext();
+
+        expect(service.language).toBeUndefined();
+        expect(service.origin).toBeUndefined();
       });
     });
 
@@ -198,9 +200,8 @@ describe('FederatedLoginService', () => {
 
       it('should set contextValue from deserialized URL param', () => {
         service.detectContext();
-        expect(service.contextValue).toEqual(
-          jasmine.objectContaining({ origin: 'https://storefront1.de' })
-        );
+
+        expect(service.origin).toEqual('https://storefront1.de');
       });
 
       it('should merge stored context with deserialized context, giving deserialized priority', () => {
@@ -214,15 +215,13 @@ describe('FederatedLoginService', () => {
 
         service.detectContext();
 
-        expect(service.contextValue).toEqual({
-          origin: 'https://storefront1.de',
-          language: 'fr',
-        });
+        expect(service.origin).toEqual('https://storefront1.de');
+        expect(service.language).toEqual('fr');
       });
 
       it('should retain stored fields not overridden by deserialized context', () => {
         contextStorageService.read.and.returnValue({
-          currency: 'EUR',
+          origin: 'https://storefront1.de',
         } as FederatedLoginContext);
         contextSerializerService.deserializeContext.and.returnValue({
           language: 'en',
@@ -230,15 +229,17 @@ describe('FederatedLoginService', () => {
 
         service.detectContext();
 
-        expect(service.contextValue).toEqual(
-          jasmine.objectContaining({ currency: 'EUR', language: 'en' })
-        );
+        expect(service.origin).toEqual('https://storefront1.de');
+        expect(service.language).toEqual('en');
       });
     });
 
     describe('getParameters()', () => {
       it('should use service origin for the context value when serializing', async () => {
-        service.contextValue = { origin: 'https://storefront1.de' };
+        contextStorageService.read.and.returnValue({
+          origin: 'https://storefront1.de',
+        });
+        service.detectContext();
 
         await firstValueFrom(service.getParameters());
 
@@ -253,7 +254,9 @@ describe('FederatedLoginService', () => {
     beforeEach(() => {
       configureTestBed(buildWindowRef('shop.example.com'), {
         federatedLogin: {
-          ...mockConfig.federatedLogin,
+          ...(mockConfig.federatedLogin as NonNullable<
+            FederatedLoginConfig['federatedLogin']
+          >),
           enabled: false,
         },
       });
