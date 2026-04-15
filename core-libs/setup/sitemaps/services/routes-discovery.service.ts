@@ -5,19 +5,23 @@
  */
 
 import { inject, Injectable } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import {
   ParamsMapping,
   RoutingConfig,
   RoutingConfigService,
   SemanticPathService,
 } from '@spartacus/core';
+import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
 import {
   ROUTE_PARAMS_ENUMERATOR,
   RouteParamsEnumerator,
   RouteParamsEnumeratorContext,
 } from '../model/route-params-enumerator';
-import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
-import { DiscoveredRoute, RoutesDiscoveryOptions } from '../model/sitemap.model';
+import {
+  DiscoveredRoute,
+  RoutesDiscoveryOptions,
+} from '../model/sitemap.model';
 
 /**
  * Service for discovering all valid URLs from Spartacus routing configuration.
@@ -33,6 +37,7 @@ import { DiscoveredRoute, RoutesDiscoveryOptions } from '../model/sitemap.model'
  */
 @Injectable()
 export class RoutesDiscoveryService {
+  protected router = inject(Router);
   protected routingConfig = inject(RoutingConfig);
   protected routingConfigService = inject(RoutingConfigService);
   protected semanticPathService = inject(SemanticPathService);
@@ -51,6 +56,20 @@ export class RoutesDiscoveryService {
     options: RoutesDiscoveryOptions = {}
   ): Promise<DiscoveredRoute[]> {
     const routes = this.routingConfig.routing?.routes || {};
+    const ngRoutes = this.getAngularOnlyRoutes();
+
+    console.log('----------SEMANTIC ROUTE DISCOVERY------------');
+    for (const [routeName, routeConfig] of Object.entries(routes)) {
+      console.log('Route name: ' + routeName);
+      console.log('Route config:' + routeConfig);
+    }
+
+    console.log('----------ANGULAR ONLY------------');
+    for (const [routeName, routeConfig] of Object.entries(ngRoutes)) {
+      console.log('Route name: ' + routeName);
+      console.log('Route config:' + routeConfig);
+    }
+
     const globalProtected = this.routingConfig.routing?.protected ?? false;
     const discovered: DiscoveredRoute[] = [];
 
@@ -105,9 +124,7 @@ export class RoutesDiscoveryService {
 
   protected resolveOptions(
     options: RoutesDiscoveryOptions
-  ): Required<
-    Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>
-  > &
+  ): Required<Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>> &
     Pick<RoutesDiscoveryOptions, 'include' | 'exclude'> {
     const routesCfg = this.sitemapConfig.sitemap?.routes;
     const defaultCfg = defaultSitemapConfig.sitemap!.routes!;
@@ -236,5 +253,12 @@ export class RoutesDiscoveryService {
     return adapted;
   }
 
+  protected getAngularOnlyRoutes(): Route[] {
+    return this.router.config.filter(
+      (route) =>
+        route.path && // has a path
+        !route.path.includes(':') && // no dynamic params
+        route.path !== '**' // not wildcard
+    );
+  }
 }
-
