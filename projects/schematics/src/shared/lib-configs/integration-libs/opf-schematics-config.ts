@@ -520,19 +520,43 @@ function buildOpfGiftCardConfig(
   _options: SpartacusOpfOptions
 ): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
   return {
-    providers: {
-      import: [
-        {
-          moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
-          namedImports: [
-            OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG,
-            OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG,
-            OPF_GIFT_CARD_ICON_CONFIG,
-            OPF_GIFT_CARD_CART_CONFIG,
-          ],
-        },
-      ],
-      content: `${OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG}, ${OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG}, ${OPF_GIFT_CARD_ICON_CONFIG}, ${OPF_GIFT_CARD_CART_CONFIG}`,
-    },
+    providers: [
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_ICON_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_ICON_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_CART_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_CART_CONFIG}`,
+      },
+    ],
   };
 }
