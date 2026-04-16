@@ -21,6 +21,7 @@
                 [fitToContainer]="true"
                 [content]="card.content"
                 [index]="i"
+                (setDefaultCard)="setDefaultPaymentMethod(card.paymentMethod)"
                 (sendCard)="selectPaymentMethod(card.paymentMethod)"
               ></cx-card>
             </div>

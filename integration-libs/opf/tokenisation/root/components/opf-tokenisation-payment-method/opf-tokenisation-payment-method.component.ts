@@ -59,6 +59,13 @@ export class OpfTokenisationPaymentMethodComponent
       paymentDetails
     );
   }
+
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.OpfTokenisationPaymentMethodService.setDefaultPaymentMethod(
+      paymentDetails
+    );
+  }
+
   setPaymentDetails({
     paymentDetails,
     billingAddress,
