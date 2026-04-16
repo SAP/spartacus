@@ -59,32 +59,46 @@ export class RoutesDiscoveryService {
     context: RouteParamsEnumeratorContext,
     options: RoutesDiscoveryOptions = {}
   ): Promise<DiscoveredRoute[]> {
-    const semanticRoutes = await this.discoverRoutes(context, options);
+    const resolvedOptions = this.resolveOptions(options);
+    const configExcludes = this.sitemapConfig.sitemap?.routes?.excludes ?? [];
+    const semanticRoutes = await this.discoverSemanticRoutes(
+      context,
+      resolvedOptions
+    );
     const knownCxRoutes = new Set(semanticRoutes.map((r) => r.cxRoute));
-    const angularOnlyRoutes = this.router.config
-      .filter(
-        (route: Route) =>
-          !(route.data?.cxRoute && knownCxRoutes.has(route.data.cxRoute)) &&
-          route.path !== '**' &&
-          !(route.matcher && !route.path)
+    const angularOnlyRoutes = (
+      await Promise.all(
+        this.router.config
+          .filter(
+            (route: Route) =>
+              !(route.data?.cxRoute && knownCxRoutes.has(route.data.cxRoute)) &&
+              route.path !== '**' &&
+              !(route.matcher && !route.path) &&
+              (!resolvedOptions.include ||
+                resolvedOptions.include.includes(route.path!)) &&
+              !resolvedOptions.exclude?.includes(route.path!) &&
+              !configExcludes.includes(route.path!)
+          )
+          .map((route: Route) => this.discoverAngularRoutes(route, context))
       )
-      .flatMap((route: Route) => this.extractAngularRoutes(route));
+    ).flat();
 
     return [...semanticRoutes, ...angularOnlyRoutes];
   }
 
   /**
-   * Discovers all valid URLs for the given context and options.
+   * Discovers all valid semantic URLs for the given context and options.
    */
-  async discoverRoutes(
+  async discoverSemanticRoutes(
     context: RouteParamsEnumeratorContext,
-    options: RoutesDiscoveryOptions = {}
+    resolvedOptions: Required<
+      Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>
+    > &
+      Pick<RoutesDiscoveryOptions, 'include' | 'exclude'>
   ): Promise<DiscoveredRoute[]> {
     const routes = this.routingConfig.routing?.routes || {};
     const globalProtected = this.routingConfig.routing?.protected ?? false;
     const discovered: DiscoveredRoute[] = [];
-
-    const resolvedOptions = this.resolveOptions(options);
 
     for (const [routeName, routeConfig] of Object.entries(routes)) {
       if (
@@ -264,32 +278,61 @@ export class RoutesDiscoveryService {
     return adapted;
   }
 
-  protected extractAngularRoutes(route: Route): DiscoveredRoute[] {
+  protected async discoverAngularRoutes(
+    route: Route,
+    context: RouteParamsEnumeratorContext
+  ): Promise<DiscoveredRoute[]> {
     if (!route.path) {
       return [];
     }
 
-    // If the route has children, recurse and prepend the parent path
     if (route.children?.length) {
-      return route.children.flatMap((child) =>
-        this.extractAngularRoutes(child).map((discovered) => ({
-          ...discovered,
-          path: `${route.path}/${discovered.path}`,
-        }))
-      );
+      const childResults = (
+        await Promise.all(
+          route.children.map((child) =>
+            this.discoverAngularRoutes(child, context)
+          )
+        )
+      ).flat();
+
+      if (route.path.includes(':')) {
+        const enumerator = this.angularRouteEnumerators.find(
+          (e) => e.routePath === route.path
+        );
+        if (!enumerator) {
+          return [];
+        }
+        const { paths: parentPaths } = await enumerator.enumerate(context);
+        return parentPaths.flatMap((parentPath) =>
+          childResults.map((discovered) => ({
+            ...discovered,
+            path: `${parentPath}/${discovered.path}`,
+          }))
+        );
+      }
+
+      return childResults.map((discovered) => ({
+        ...discovered,
+        path: `${route.path}/${discovered.path}`,
+      }));
     }
 
-    // Leaf route — skip if it contains unresolvable parameters like :id
+    // Has :params — look for a matching enumerator
     if (route.path.includes(':')) {
-      return [];
+      const enumerator = this.angularRouteEnumerators.find(
+        (e) => e.routePath === route.path
+      );
+      if (!enumerator) {
+        return []; // no enumerator, skip
+      }
+      const result = await enumerator.enumerate(context);
+      return result.paths.map((path) => ({
+        cxRoute: route.path!,
+        params: {},
+        path,
+      }));
     }
 
-    return [
-      {
-        cxRoute: route.data?.cxRoute ?? route.path,
-        params: {},
-        path: route.path,
-      },
-    ];
+    return [{ cxRoute: route.path, params: {}, path: route.path }];
   }
 }

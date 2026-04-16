@@ -5,10 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
-import {
-  RoutingConfig,
-  RoutingConfigService,
-} from '@spartacus/core';
+import { RoutingConfig, RoutingConfigService } from '@spartacus/core';
 import { SitemapConfig } from '../config/sitemap-config';
 import {
   ROUTE_PARAMS_ENUMERATOR,
@@ -16,6 +13,7 @@ import {
   RouteParamsEnumeratorContext,
   RouteParamsEnumeratorResult,
 } from '../model/route-params-enumerator';
+import { RoutesDiscoveryOptions } from '../model/sitemap.model';
 import { RoutesDiscoveryService } from './routes-discovery.service';
 
 class MockProductEnumerator extends RouteParamsEnumerator {
@@ -27,7 +25,11 @@ class MockProductEnumerator extends RouteParamsEnumerator {
   ): Promise<RouteParamsEnumeratorResult> {
     return {
       params: [
-        { code: '301233', name: 'VIDEOTAPE 3 N 860 P', slug: 'videotape-3-n-860-p' },
+        {
+          code: '301233',
+          name: 'VIDEOTAPE 3 N 860 P',
+          slug: 'videotape-3-n-860-p',
+        },
         { code: '456', name: 'Camera', slug: 'camera' },
       ],
     };
@@ -50,6 +52,16 @@ describe('RoutesDiscoveryService', () => {
     language: 'en',
     currency: 'USD',
     occBaseUrl: 'http://localhost:9002',
+  };
+
+  const resolvedOptions: Required<
+    Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>
+  > &
+    Pick<RoutesDiscoveryOptions, 'include' | 'exclude'> = {
+    includeAuthFlowRoutes: false,
+    includeProtectedRoutes: false,
+    include: undefined,
+    exclude: undefined,
   };
 
   function configureTestBed(routingConfig: RoutingConfig) {
@@ -96,17 +108,17 @@ describe('RoutesDiscoveryService', () => {
         routing: {
           routes: {
             product: {
-              paths: [
-                'product/:productCode/:name',
-                'product/:productCode',
-              ],
+              paths: ['product/:productCode/:name', 'product/:productCode'],
               paramsMapping: { productCode: 'code', name: 'slug' },
             },
           },
         },
       });
 
-      const routes = await service.discoverRoutes(context);
+      const routes = await service.discoverSemanticRoutes(
+        context,
+        resolvedOptions
+      );
 
       // With paramsMapping { name: 'slug' }, the enumerator returns { code, name, slug }.
       // adaptParamsForMapping should ensure SemanticPathService
@@ -121,17 +133,17 @@ describe('RoutesDiscoveryService', () => {
         routing: {
           routes: {
             product: {
-              paths: [
-                'product/:productCode/:name',
-                'product/:productCode',
-              ],
+              paths: ['product/:productCode/:name', 'product/:productCode'],
               paramsMapping: { productCode: 'code' },
             },
           },
         },
       });
 
-      const routes = await service.discoverRoutes(context);
+      const routes = await service.discoverSemanticRoutes(
+        context,
+        resolvedOptions
+      );
 
       // Without name->slug mapping, SemanticPathService uses params.name directly
       expect(routes.length).toBe(2);
@@ -144,10 +156,7 @@ describe('RoutesDiscoveryService', () => {
         routing: {
           routes: {
             product: {
-              paths: [
-                'product/:productCode/:name',
-                'product/:productCode',
-              ],
+              paths: ['product/:productCode/:name', 'product/:productCode'],
               paramsMapping: { productCode: 'code', name: 'nonExistentField' },
             },
           },
@@ -158,7 +167,10 @@ describe('RoutesDiscoveryService', () => {
       // paramsMapping: { name: 'nonExistentField' } - params doesn't have 'nonExistentField'.
       // adaptParamsForMapping copies params.name -> params.nonExistentField,
       // so SemanticPathService can fill :name using params.nonExistentField.
-      const routes = await service.discoverRoutes(context);
+      const routes = await service.discoverSemanticRoutes(
+        context,
+        resolvedOptions
+      );
 
       expect(routes.length).toBe(2);
       expect(routes[0].path).toBe('product/301233/VIDEOTAPE 3 N 860 P');
@@ -166,4 +178,3 @@ describe('RoutesDiscoveryService', () => {
     });
   });
 });
-
