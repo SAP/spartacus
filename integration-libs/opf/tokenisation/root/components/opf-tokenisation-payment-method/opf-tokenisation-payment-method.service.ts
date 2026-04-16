@@ -79,7 +79,6 @@ export class OpfTokenisationPaymentMethodService {
 
   paymentDetails?: PaymentDetails;
   isGuestCheckout = false;
-  doneAutoSelect = false;
 
   showSavedCards$: Observable<boolean> = this.opfMetadataStoreService
     .getOpfMetadataState()
@@ -175,31 +174,17 @@ export class OpfTokenisationPaymentMethodService {
       ),
       this.selectedMethod$,
       this.translationService.translate('paymentForm.useThisPayment'),
-      this.translationService.translate('paymentCard.defaultPaymentMethod'),
       this.translationService.translate('paymentCard.selectedPayment'),
-      this.translationService.translate('paymentCard.setAsDefault'),
     ]).pipe(
-      tap(([paymentMethods, selectedMethod]) =>
-        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
-      ),
       map(
-        ([
-          paymentMethods,
-          selectedMethod,
-          textUseThisPayment,
-          textDefaultPaymentMethod,
-          textSelected,
-          textSetAsDefault,
-        ]) =>
+        ([paymentMethods, selectedMethod, textUseThisPayment, textSelected]) =>
           paymentMethods.map((payment) => ({
             content: this.createCard(
               payment.payment,
               {
                 textExpires: payment.expiryTranslation,
                 textUseThisPayment,
-                textDefaultPaymentMethod,
                 textSelected,
-                textSetAsDefault,
               },
               selectedMethod
             ),
@@ -207,26 +192,6 @@ export class OpfTokenisationPaymentMethodService {
           }))
       )
     );
-  }
-
-  selectDefaultPaymentMethod(
-    paymentMethods: { payment: PaymentDetails; expiryTranslation: string }[],
-    selectedMethod: PaymentDetails | undefined
-  ) {
-    if (
-      !this.doneAutoSelect &&
-      paymentMethods?.length &&
-      (!selectedMethod || Object.keys(selectedMethod).length === 0)
-    ) {
-      const defaultPaymentMethod = paymentMethods.find(
-        (paymentMethod) => paymentMethod.payment.defaultPayment
-      );
-      if (defaultPaymentMethod) {
-        selectedMethod = defaultPaymentMethod.payment;
-        this.savePaymentMethod(selectedMethod);
-      }
-      this.doneAutoSelect = true;
-    }
   }
 
   protected savePaymentMethod(paymentDetails: PaymentDetails): void {
@@ -296,33 +261,21 @@ export class OpfTokenisationPaymentMethodService {
   protected createCard(
     paymentDetails: PaymentDetails,
     cardLabels: {
-      textDefaultPaymentMethod: string;
       textExpires: string;
       textUseThisPayment: string;
       textSelected: string;
-      textSetAsDefault: string;
     },
     selected: PaymentDetails | undefined
   ): Card {
     const isSelected = selected?.id === paymentDetails.id;
     const role = !isSelected ? 'button' : 'application';
 
-    const actions = isSelected
-      ? []
-      : [{ name: cardLabels.textUseThisPayment, event: 'send' }];
-
-    // Add "Set as Default" option if card is not already default
-    if (!paymentDetails.defaultPayment && !isSelected) {
-      actions.push({ name: cardLabels.textSetAsDefault, event: 'default' });
-    }
-
     return {
       role,
-      title: paymentDetails.defaultPayment
-        ? cardLabels.textDefaultPaymentMethod
-        : '',
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
-      actions,
+      actions: isSelected
+        ? []
+        : [{ name: cardLabels.textUseThisPayment, event: 'send' }],
       header: isSelected ? cardLabels.textSelected : undefined,
       label: paymentDetails.defaultPayment
         ? 'paymentCard.defaultPaymentLabel'
@@ -348,12 +301,7 @@ export class OpfTokenisationPaymentMethodService {
     this.savePaymentMethod(paymentDetails);
     this.focusCardAfterSelecting();
   }
-  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
-    // Set as default in the backend
-    this.userPaymentService.setPaymentMethodAsDefault(paymentDetails.id ?? '');
-    // Then reload payment methods to get updated state
-    this.userPaymentService.loadPaymentMethods();
-  }
+
   next(): void {
     this.busy$.next(true);
     this.subscriptions.add(
