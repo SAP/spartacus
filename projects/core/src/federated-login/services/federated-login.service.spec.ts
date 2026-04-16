@@ -24,7 +24,7 @@ const mockConfig: FederatedLoginConfig = {
   federatedLogin: {
     enabled: true,
     contextParameterName: 'context',
-    loginDomains: ['login.example.com'],
+    loginHosts: ['login.example.com'],
     originMap: mockOriginMap,
   },
 };
@@ -50,9 +50,10 @@ class MockFederatedLoginContextStorageService
   write = createSpy().and.stub();
 }
 
-function buildWindowRef(host: string, search = ''): Partial<WindowRef> {
+function buildWindowRef(href: string): Partial<WindowRef> {
+  const url = new URL(href);
   return {
-    location: { host, search } as Location,
+    location: { href, origin: url.origin } as Location,
   };
 }
 
@@ -88,7 +89,7 @@ describe('FederatedLoginService', () => {
 
   describe('when on a non-login domain', () => {
     beforeEach(() => {
-      configureTestBed(buildWindowRef('shop.example.com'));
+      configureTestBed(buildWindowRef('https://shop.example.com'));
 
       contextSerializerService = TestBed.inject(
         FederatedLoginContextSerializerService
@@ -166,7 +167,9 @@ describe('FederatedLoginService', () => {
 
   describe('when on a login domain', () => {
     beforeEach(() => {
-      configureTestBed(buildWindowRef('login.example.com', '?cx=shop1%3Aen'));
+      configureTestBed(
+        buildWindowRef('https://login.example.com?cx=shop1%3Aen')
+      );
 
       contextSerializerService = TestBed.inject(
         FederatedLoginContextSerializerService
@@ -252,7 +255,7 @@ describe('FederatedLoginService', () => {
 
   describe('when federatedLogin is disabled in config', () => {
     beforeEach(() => {
-      configureTestBed(buildWindowRef('shop.example.com'), {
+      configureTestBed(buildWindowRef('https://shop.example.com'), {
         federatedLogin: {
           ...(mockConfig.federatedLogin as NonNullable<
             FederatedLoginConfig['federatedLogin']
@@ -275,7 +278,10 @@ describe('FederatedLoginService', () => {
         providers: [
           FederatedLoginService,
           { provide: FederatedLoginConfig, useValue: {} },
-          { provide: WindowRef, useValue: buildWindowRef('shop.example.com') },
+          {
+            provide: WindowRef,
+            useValue: buildWindowRef('https://shop.example.com'),
+          },
           { provide: LanguageService, useClass: MockLanguageService },
           {
             provide: FederatedLoginContextSerializerService,

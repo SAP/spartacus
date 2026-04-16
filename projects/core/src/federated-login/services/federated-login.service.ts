@@ -64,9 +64,10 @@ export class FederatedLoginService {
       const storedContext = this.contextStorage.read();
 
       if (this.config?.contextParameterName) {
-        const serializedContext = new HttpParams({
-          fromString: this.windowRef.location.search,
-        }).get(this.config?.contextParameterName);
+        // Using `location.href` for SSR support
+        const serializedContext = new URL(
+          this.windowRef.location.href as string
+        ).searchParams.get(this.config?.contextParameterName);
 
         const deserializedContext =
           this.contextSerializerService.deserializeContext(serializedContext);
@@ -78,9 +79,11 @@ export class FederatedLoginService {
   }
 
   protected checkLoginDomain() {
+    // Using `location.origin` for SSR support
     return (
-      this.config?.loginDomains.some(
-        (origin) => origin === this.windowRef.location.host
+      this.config?.loginHosts.some(
+        (host) =>
+          host === new URL(this.windowRef.location.origin as string).host
       ) ?? false
     );
   }

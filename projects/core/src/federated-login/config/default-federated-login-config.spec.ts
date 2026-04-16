@@ -11,7 +11,7 @@ const standardDefaultConfig: FederatedLoginConfig = {
   federatedLogin: {
     enabled: false,
     contextParameterName: 'context',
-    loginDomains: [],
+    loginHosts: [],
     originMap: {},
   },
 };

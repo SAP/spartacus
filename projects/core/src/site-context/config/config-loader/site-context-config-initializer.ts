@@ -6,7 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { FederatedLoginService } from '../../../federated-login';
 import { BaseSite } from '../../../model/misc.model';
@@ -46,6 +46,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected resolveConfig(): Observable<SiteContextConfig> {
     return this.baseSiteService.getAll().pipe(
       map((baseSites) => {
+        let url = this.currentUrl;
         if (this.federatedLoginService.enabled) {
           this.federatedLoginService.detectContext();
 
@@ -53,25 +54,20 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
             this.federatedLoginService.isLoginDomain &&
             this.federatedLoginService.origin
           ) {
-            const origin = this.federatedLoginService.origin;
-
-            return baseSites?.find((site) =>
-              this.isCurrentBaseSite(site, origin)
-            );
+            url = this.federatedLoginService.origin;
           }
         }
 
-        return baseSites?.find((site) =>
-          this.isCurrentBaseSite(site, this.currentUrl)
+        const baseSite = baseSites?.find((site) =>
+          this.isCurrentBaseSite(site, url)
         );
-      }),
-      filter((baseSite: any) => {
+
         if (!baseSite) {
           throw new Error(
-            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
+            `Error: Cannot get base site config! Current url (${url}) doesn't match any of url patterns of any base sites.`
           );
         }
-        return Boolean(baseSite);
+        return baseSite;
       }),
       map((baseSite) => this.getConfig(baseSite)),
       take(1)

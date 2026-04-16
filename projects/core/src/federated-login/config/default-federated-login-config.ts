@@ -11,7 +11,7 @@ export function defaultFederatedLoginConfigFactory(): FederatedLoginConfig {
     federatedLogin: {
       enabled: false,
       contextParameterName: 'context',
-      loginDomains: [],
+      loginHosts: [],
       originMap: {},
     },
   } satisfies FederatedLoginConfig;

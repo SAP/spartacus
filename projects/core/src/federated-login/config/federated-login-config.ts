@@ -18,8 +18,17 @@ export abstract class FederatedLoginConfig {
     /** URL parameter name to use when passing context from an originating domain to a login domain. */
     contextParameterName: string;
 
-    /** List of fully-qualified domains that serve as a federated login page. */
-    loginDomains: string[];
+    /**
+     * List of hosts that serve as a federated login page.
+     *
+     * Values are hostname and port.  Protocol is not used in default matching.
+     *
+     * i.e.
+     * ```
+     *   loginDomains: ['login.shop.com', 'test.login.local:4200']
+     * ```
+     */
+    loginHosts: string[];
 
     /**
      * Map of URL-safe keys to fully-qualified domains.
