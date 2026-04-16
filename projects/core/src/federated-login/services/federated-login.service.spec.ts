@@ -235,6 +235,20 @@ describe('FederatedLoginService', () => {
         expect(service.origin).toEqual('https://storefront1.de');
         expect(service.language).toEqual('en');
       });
+
+      it('should reject stored origin value that is not known', () => {
+        contextStorageService.read.and.returnValue({
+          origin: 'https://questionable-domain.com',
+        } as FederatedLoginContext);
+        contextSerializerService.deserializeContext.and.returnValue({
+          language: 'en',
+        });
+
+        service.detectContext();
+
+        expect(service.origin).toEqual(undefined);
+        expect(service.language).toEqual('en');
+      });
     });
 
     describe('getParameters()', () => {

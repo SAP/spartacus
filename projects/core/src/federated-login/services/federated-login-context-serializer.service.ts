@@ -16,11 +16,7 @@ export class FederatedLoginContextSerializerService {
     if (context?.origin) {
       const contextParts: string[] = [];
 
-      const key = Object.entries(this.config?.originMap ?? {}).find(
-        ([_key, domain]) => {
-          return domain === context.origin;
-        }
-      )?.[0];
+      const key = this.getContextKey(context.origin);
 
       if (!key) {
         return '';
@@ -40,12 +36,24 @@ export class FederatedLoginContextSerializerService {
     const contextValue: FederatedLoginContext = {};
 
     if (domain) {
-      contextValue.origin = this.config?.originMap[domain];
+      contextValue.origin = this.getOrigin(domain);
     }
     if (language) {
       contextValue.language = language;
     }
 
     return contextValue;
+  }
+
+  protected getOrigin(contextKey: string) {
+    return this.config?.originMap[contextKey];
+  }
+
+  protected getContextKey(origin: string) {
+    return Object.entries(this.config?.originMap ?? {}).find(
+      ([_key, originValue]) => {
+        return originValue === origin;
+      }
+    )?.[0];
   }
 }

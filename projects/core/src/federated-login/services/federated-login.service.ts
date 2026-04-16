@@ -61,7 +61,7 @@ export class FederatedLoginService {
 
   detectContext() {
     if (this.isLoginDomain) {
-      const storedContext = this.contextStorage.read();
+      const storedContext = this.validateContext(this.contextStorage.read());
 
       if (this.config?.contextParameterName) {
         // Using `location.href` for SSR support
@@ -86,5 +86,21 @@ export class FederatedLoginService {
           host === new URL(this.windowRef.location.origin as string).host
       ) ?? false
     );
+  }
+
+  /** Validate stored origin is part of the context map */
+  protected validateContext(contextValue: FederatedLoginContext | undefined) {
+    const isOriginValid = Object.values(this.config?.originMap ?? {}).some(
+      (mapValue) => mapValue === contextValue?.origin
+    );
+
+    if (isOriginValid) {
+      return contextValue;
+    } else {
+      return {
+        ...contextValue,
+        origin: undefined,
+      };
+    }
   }
 }
