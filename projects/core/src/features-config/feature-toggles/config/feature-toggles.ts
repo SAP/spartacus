@@ -464,6 +464,11 @@ export interface FeatureTogglesInterface {
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
    */
   enableRemoveVoucherEndpoint?: boolean;
+
+  /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -519,4 +524,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showRequiredAsterisks: false,
 };
