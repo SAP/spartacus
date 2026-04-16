@@ -18,12 +18,9 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccUserWishlistAdapter implements UserWishlistAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService
-  ) {}
 
   getWishlist(userId: string): Observable<Wishlist> {
     // Step 1: fetch wishlists list to get the default wishlist ID

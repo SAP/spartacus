@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Wishlist, WishlistEntry } from '@spartacus/user/wishlist/root';
 import { UserWishlistAdapter } from './user-wishlist.adapter';
 
 @Injectable()
 export class UserWishlistConnector {
-  constructor(protected adapter: UserWishlistAdapter) {}
+  protected adapter = inject(UserWishlistAdapter);
 
   getWishlist(userId: string): Observable<Wishlist> {
     return this.adapter.getWishlist(userId);
