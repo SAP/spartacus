@@ -6,7 +6,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '../../window';
-import { FederatedLoginContext } from '../model/federated-login-context.mode';
+import { FederatedLoginContext } from '../model';
 import {
   FEDERATED_LOGIN_STATE_KEY,
   FederatedLoginContextStorageService,

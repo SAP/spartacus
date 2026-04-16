@@ -9,7 +9,7 @@ import { firstValueFrom, of } from 'rxjs';
 import { LanguageService } from '../../site-context';
 import { WindowRef } from '../../window';
 import { FederatedLoginConfig } from '../config/federated-login-config';
-import { FederatedLoginContext } from '../model/federated-login-context.mode';
+import { FederatedLoginContext } from '../model';
 import { FederatedLoginContextSerializerService } from './federated-login-context-serializer.service';
 import { FederatedLoginContextStorageService } from './federated-login-context-storage';
 import { FederatedLoginService } from './federated-login.service';
