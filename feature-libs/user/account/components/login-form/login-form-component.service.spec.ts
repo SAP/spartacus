@@ -335,6 +335,29 @@ describe('LoginFormComponentService', () => {
           expect(router.navigate).not.toHaveBeenCalled();
         });
       });
+
+      describe('SSR (isBrowser = false)', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          spyOn(winRef, 'isBrowser').and.returnValue(false);
+          service.form.setValue({ userId, password, csrf });
+        });
+
+        it('should not set localStorage flag when submitting login form', () => {
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.localStorage?.setItem).not.toHaveBeenCalled();
+        });
+
+        it('should not remove localStorage flag when handling login error', () => {
+          service.handleCustomLoginError();
+          expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
+        });
+      });
     });
   });
 });
