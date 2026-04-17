@@ -139,6 +139,64 @@ export class MyCustomEnumerator extends RouteParamsEnumerator {
 
 ---
 
+## Angular-Only Route Enumerators
+
+Use `AngularRouteEnumerator` for custom Angular routes that exist **outside Spartacus routing config** — routes with no `cxRoute` key that can have dynamic segments (`:params`).
+
+```typescript
+import { Injectable } from '@angular/core';
+import {
+  AngularRouteEnumerator,
+  AngularRouteEnumeratorResult,
+  AngularRouteEnumeratorContext,
+} from '@spartacus/setup/sitemaps';
+
+@Injectable()
+export class HelpTopicEnumerator extends AngularRouteEnumerator {
+  // Must exactly match the Angular route's `path` string
+  readonly routePath = 'help/:topicId';
+
+  async enumerate(
+    _context: AngularRouteEnumeratorContext
+  ): Promise<AngularRouteEnumeratorResult> {
+    const topics = await fetchTopics();
+    return {
+      // Return fully-resolved paths — no :params remaining
+      paths: topics.map((t) => `help/${t.id}`),
+    };
+  }
+}
+```
+
+Register with `ANGULAR_ROUTE_ENUMERATOR` (typically in `app.config.server.ts`):
+
+```typescript
+import { ANGULAR_ROUTE_ENUMERATOR } from '@spartacus/setup/sitemaps';
+
+providers: [
+  { provide: ANGULAR_ROUTE_ENUMERATOR, useClass: HelpTopicEnumerator, multi: true },
+]
+```
+
+### Key constraints
+
+- `routePath` must be the **exact `path` string** from the Angular `Route` object (e.g. `'help/:topicId'`, not `'/help/:topicId'`).
+- `paths` in the result must be **fully resolved** — any path still containing `:` is filtered out.
+- Parameterized routes **without** a matching enumerator are skipped entirely, including all their children.
+- Parameterized routes **with** children also require an enumerator — it provides the parent path segments and children are appended to each.
+
+### Contrast with `RouteParamsEnumerator`
+
+| | `RouteParamsEnumerator` | `AngularRouteEnumerator` |
+|---|---|---|
+| Token | `ROUTE_PARAMS_ENUMERATOR` | `ANGULAR_ROUTE_ENUMERATOR` |
+| Targets | Spartacus semantic routes (have `cxRoute`) | Pure Angular routes (no `cxRoute`) |
+| Matched by | `cxRoute` name | `routePath` string |
+| Returns | `{ params: Record<string, unknown>[] }` | `{ paths: string[] }` (concrete paths) |
+| URL building | Via `SemanticPathService` | Paths returned directly |
+
+---
+
 ## Memory Management for Large Sites
 
 ### Per-BaseSite CLI Execution
@@ -326,6 +384,7 @@ sitemaps/
 ├── model/
 │   ├── sitemap.model.ts
 │   ├── route-params-enumerator.ts
+│   ├── angular-route-enumerator.ts
 │   └── streaming.model.ts
 ├── enumerators/
 │   ├── static-route-params-enumerator.ts

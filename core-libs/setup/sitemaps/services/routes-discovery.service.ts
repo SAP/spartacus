@@ -55,6 +55,9 @@ export class RoutesDiscoveryService {
 
   protected readonly PATH_PARAM_PATTERN = /:\w+/;
 
+    /**
+   * Discovers all valid semantic and Angular-only URLs with deduplication.
+   */
   async discoverAllRoutes(
     context: RouteParamsEnumeratorContext,
     options: RoutesDiscoveryOptions = {}
@@ -65,13 +68,12 @@ export class RoutesDiscoveryService {
       context,
       resolvedOptions
     );
-    const knownCxRoutes = new Set(semanticRoutes.map((r) => r.cxRoute));
     const angularOnlyRoutes = (
       await Promise.all(
         this.router.config
           .filter(
             (route: Route) =>
-              !(route.data?.cxRoute && knownCxRoutes.has(route.data.cxRoute)) &&
+              !route.data?.['cxRoute'] &&
               route.path !== '**' &&
               !(route.matcher && !route.path) &&
               (!resolvedOptions.include ||
@@ -91,10 +93,7 @@ export class RoutesDiscoveryService {
    */
   async discoverSemanticRoutes(
     context: RouteParamsEnumeratorContext,
-    resolvedOptions: Required<
-      Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>
-    > &
-      Pick<RoutesDiscoveryOptions, 'include' | 'exclude'>
+    resolvedOptions: ReturnType<typeof this.resolveOptions>
   ): Promise<DiscoveredRoute[]> {
     const routes = this.routingConfig.routing?.routes || {};
     const globalProtected = this.routingConfig.routing?.protected ?? false;
@@ -141,7 +140,7 @@ export class RoutesDiscoveryService {
     }
 
     console.log(
-      `[Sitemap] RoutesDiscoveryService: Discovered ${discovered.length} URLs`
+      `[Sitemap] RoutesDiscoveryService: Discovered ${discovered.length} semantic URLs`
     );
 
     return discovered;
@@ -303,12 +302,14 @@ export class RoutesDiscoveryService {
           return [];
         }
         const { paths: parentPaths } = await enumerator.enumerate(context);
-        return parentPaths.flatMap((parentPath) =>
-          childResults.map((discovered) => ({
-            ...discovered,
-            path: `${parentPath}/${discovered.path}`,
-          }))
-        );
+        return parentPaths
+          .filter((parentPath) => !this.PATH_PARAM_PATTERN.test(parentPath))
+          .flatMap((parentPath) =>
+            childResults.map((discovered) => ({
+              ...discovered,
+              path: `${parentPath}/${discovered.path}`,
+            }))
+          );
       }
 
       return childResults.map((discovered) => ({
@@ -326,11 +327,13 @@ export class RoutesDiscoveryService {
         return []; // no enumerator, skip
       }
       const result = await enumerator.enumerate(context);
-      return result.paths.map((path) => ({
-        cxRoute: route.path!,
-        params: {},
-        path,
-      }));
+      return result.paths
+        .filter((path) => !this.PATH_PARAM_PATTERN.test(path))
+        .map((path) => ({
+          cxRoute: route.path!,
+          params: {},
+          path,
+        }));
     }
 
     return [{ cxRoute: route.path, params: {}, path: route.path }];

@@ -5,11 +5,16 @@
  */
 
 import { InjectionToken } from '@angular/core';
-import { RouteParamsEnumeratorContext } from './route-params-enumerator';
 
 export interface AngularRouteEnumeratorResult {
   /** Concrete resolved paths (no :params remaining) */
   paths: string[];
+}
+
+export interface AngularRouteEnumeratorContext {
+  baseSiteId: string;
+  language: string;
+  currency: string;
 }
 
 export abstract class AngularRouteEnumerator {
@@ -17,7 +22,7 @@ export abstract class AngularRouteEnumerator {
   abstract readonly routePath: string;
 
   abstract enumerate(
-    context: RouteParamsEnumeratorContext
+    context: AngularRouteEnumeratorContext
   ): Promise<AngularRouteEnumeratorResult>;
 }
 

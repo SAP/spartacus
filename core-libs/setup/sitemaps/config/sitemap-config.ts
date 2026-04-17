@@ -119,6 +119,6 @@ export const defaultSitemapConfig: SitemapConfig = {
     catalogs: {
       excludes: [],
       versionId: '',
-    }
+    },
   },
 };
