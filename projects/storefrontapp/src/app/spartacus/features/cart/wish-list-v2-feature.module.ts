@@ -5,22 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-  wishListTranslationChunksConfig,
-  wishListTranslationsDe,
-  wishListTranslationsEn,
-  wishListTranslationsJa,
-  wishListTranslationsZh,
-} from '@spartacus/cart/wish-list/assets';
-import {
-  ADD_TO_WISHLIST_FEATURE,
-  CART_WISH_LIST_FEATURE,
-  WishListRootModule,
-} from '@spartacus/cart/wish-list/root';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { CART_WISH_LIST_FEATURE } from '@spartacus/cart/wish-list/root';
+import { provideConfig } from '@spartacus/core';
+import { WishListFeatureModule } from './wish-list-feature.module';
 
 @NgModule({
-  imports: [WishListRootModule],
+  imports: [WishListFeatureModule],
   providers: [
     provideConfig({
       featureModules: {
@@ -30,24 +20,6 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
               (m) => m.WishListWithV2Module
             ),
         },
-        [ADD_TO_WISHLIST_FEATURE]: {
-          module: () =>
-            import('@spartacus/cart/wish-list/components/add-to-wishlist').then(
-              (m) => m.AddToWishListModule
-            ),
-        },
-      },
-    }),
-    provideConfig(<I18nConfig>{
-      i18n: {
-        resources: {
-          en: wishListTranslationsEn,
-          ja: wishListTranslationsJa,
-          de: wishListTranslationsDe,
-          zh: wishListTranslationsZh,
-        },
-        chunks: wishListTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],
