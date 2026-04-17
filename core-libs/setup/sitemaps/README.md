@@ -141,7 +141,7 @@ export class MyCustomEnumerator extends RouteParamsEnumerator {
 
 ## Angular-Only Route Enumerators
 
-Use `AngularRouteEnumerator` for custom Angular routes that exist **outside Spartacus routing config** — routes with no `cxRoute` key that can have dynamic segments (`:params`).
+Use `AngularRouteEnumerator` for parameterized Angular routes that exist outside Spartacus routing config (no `cxRoute` in route `data`). Static routes are discovered automatically — only routes with `:param` segments require an enumerator. Without one, the route and all its children are skipped.
 
 ```typescript
 import { Injectable } from '@angular/core';
@@ -181,7 +181,7 @@ providers: [
 ### Key constraints
 
 - `routePath` must be the **exact `path` string** from the Angular `Route` object (e.g. `'help/:topicId'`, not `'/help/:topicId'`).
-- `paths` in the result must be **fully resolved** — any path still containing `:` is filtered out.
+- `paths` must not contain unresolved `:param` segments — the service silently drops any path matching `:\w+` before it reaches the sitemap.
 - Parameterized routes **without** a matching enumerator are skipped entirely, including all their children.
 - Parameterized routes **with** children also require an enumerator — it provides the parent path segments and children are appended to each.
 
