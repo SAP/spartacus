@@ -38,8 +38,10 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -69,7 +71,7 @@ export class OpfCheckoutBillingAddressFormService {
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
   protected readonly _$paymentOptionsDisabled = new BehaviorSubject(false);
   paymentOptionsDisabled$ = this._$paymentOptionsDisabled.asObservable();
-
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   get pickupNoDefaultAddress$(): Observable<void> {
     return this._noDefaultAddressFoundForPickupMode$.asObservable();
   }
@@ -180,15 +182,20 @@ export class OpfCheckoutBillingAddressFormService {
         }),
         filter((isStable: boolean) => isStable),
         switchMap(() => this.getPaymentAddress()),
-
-        tap((billingAddress: Address | undefined) => {
+        withLatestFrom(
+          this.opfPaymentEventsService.isGiftCardCoveredTotalAmountEvent$
+        ),
+        tap(([billingAddress, isGiftCardCovered]) => {
           if (!!billingAddress && !!billingAddress.id) {
             this.billingAddressId = billingAddress.id;
 
             this._$billingAddressSub.next(billingAddress);
-            this.opfCheckoutPaymentWrapperService.reloadPaymentMode();
+            if (!isGiftCardCovered) {
+              this.opfCheckoutPaymentWrapperService.reloadPaymentMode();
+            }
           }
         }),
+        map(([billingAddress]) => billingAddress),
         catchError((error: HttpErrorModel) => {
           this.globalMessageService.add(
             { key: 'opfCheckout.errors.updateBillingAddress' },
