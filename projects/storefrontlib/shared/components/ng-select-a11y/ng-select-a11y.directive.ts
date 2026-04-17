@@ -90,6 +90,17 @@ export class NgSelectA11yDirective implements AfterViewInit {
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
 
+    /*
+     * Hide the arrow indicator from screen readers to prevent it from
+     * announcing the unicode caret character (▼) as "black icon"
+     * introduced by a11yNgSelectUnicodeCarets feature
+     * */
+    const arrowWrapper =
+      this.elementRef.nativeElement.querySelector('.ng-arrow-wrapper');
+    if (arrowWrapper) {
+      this.renderer.setAttribute(arrowWrapper, ARIA_HIDDEN, 'true');
+    }
+
     const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
       map(() => 'true')
     );
