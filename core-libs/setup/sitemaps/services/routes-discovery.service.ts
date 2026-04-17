@@ -55,7 +55,7 @@ export class RoutesDiscoveryService {
 
   protected readonly PATH_PARAM_PATTERN = /:\w+/;
 
-    /**
+  /**
    * Discovers all valid semantic and Angular-only URLs with deduplication.
    */
   async discoverAllRoutes(
