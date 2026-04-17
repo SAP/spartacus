@@ -466,6 +466,11 @@ export interface FeatureTogglesInterface {
   enableRemoveVoucherEndpoint?: boolean;
 
   /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
+
+  /**
    * Preserves keyboard focus on consent checkboxes after toggling.
    * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
    * and restores focus after the consent form is temporarily disabled.
@@ -528,4 +533,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showRequiredAsterisks: false,
 };
