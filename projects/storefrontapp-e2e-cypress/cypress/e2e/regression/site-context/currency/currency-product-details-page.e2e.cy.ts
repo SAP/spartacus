@@ -8,7 +8,7 @@ import * as siteContextSelector from '../../../../helpers/site-context-selector'
 
 describe('Currency switch - product-details page', () => {
   const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
-  const jpCurrency = ' ¥12,750 ';
+  const jpCurrencyExp: RegExp = /^¥\s*12[,.]750$/;
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
@@ -38,7 +38,12 @@ describe('Currency switch - product-details page', () => {
         siteContextSelector.CURRENCY_LABEL
       );
 
-      cy.get('cx-product-summary .price').should('have.text', jpCurrency);
+      // Workaround for CI backend returning '¥ 12.750' while
+      // dev backend returns '¥12,750'
+      cy.get('cx-product-summary .price')
+        .invoke('text')
+        .invoke('trim')
+        .should('match', jpCurrencyExp);
     });
 
     it('should change currency in the modal', () => {
@@ -49,11 +54,13 @@ describe('Currency switch - product-details page', () => {
         siteContextSelector.CURRENCY_LABEL
       );
 
+      // Workaround for CI backend returning '¥ 12.750' while
+      // dev backend returns '¥12,750'
       cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .cx-price .cx-value').should(
-        'have.text',
-        jpCurrency
-      );
+      cy.get('cx-added-to-cart-dialog .cx-price .cx-value')
+        .invoke('text')
+        .invoke('trim')
+        .should('match', jpCurrencyExp);
     });
   });
 });
