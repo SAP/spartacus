@@ -451,6 +451,24 @@ export interface FeatureTogglesInterface {
    * Affects: cxNgSelectA11y
    */
   a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
+   * CustomFormValidators.mustEndWithLegalCharacter
+   */
+  useEnhancedSecurePasswordValidators?: boolean;
+
+  /**
+   * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
+   * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableRemoveVoucherEndpoint?: boolean;
+
+  /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -482,10 +500,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
-  navigationMenuCloseOnSameLinkClick: false,
+  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: false,
-  enableQuotePurchaseOrderNumber: false,
-  enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableQuotePurchaseOrderNumber: true,
+  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
@@ -504,4 +522,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yVocalizeDropdownItemCount: false,
+  useEnhancedSecurePasswordValidators: false,
+  enableRemoveVoucherEndpoint: false,
+  showRequiredAsterisks: false,
 };

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -24,7 +25,17 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResetPasswordComponentService {
-  protected passwordValidators = CustomFormValidators.securePasswordValidators;
+  // TODO: Delete FeatureConfigService injection
+  // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and not used anywhere else
+  private featureConfigService = inject(FeatureConfigService);
+  protected passwordValidators = this.featureConfigService.isEnabled(
+    'useEnhancedSecurePasswordValidators'
+  )
+    ? [
+        ...CustomFormValidators.securePasswordValidators,
+        CustomFormValidators.mustEndWithLegalCharacter,
+      ]
+    : CustomFormValidators.securePasswordValidators;
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

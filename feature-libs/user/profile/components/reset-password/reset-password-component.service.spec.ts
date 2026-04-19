@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  FeatureConfigService,
   FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
@@ -52,6 +53,7 @@ describe('ResetPasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let passwordConfirm: AbstractControl;
   let password: AbstractControl;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,6 +80,8 @@ describe('ResetPasswordComponentService', () => {
         },
       ],
     }).compileComponents();
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
   });
   describe(' - ', () => {
     beforeEach(() => {
@@ -228,10 +232,16 @@ describe('ResetPasswordComponentService', () => {
   });
 
   describe('password validators', () => {
-    it('should use securePasswordValidator', () => {
-      expect((service as any).passwordValidators).toEqual(
-        CustomFormValidators.securePasswordValidators
-      );
+    describe('when useEnhancedSecurePasswordValidators is enabled', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      });
+      it('should include mustEndWithLegalCharacter validator', () => {
+        service = TestBed.inject(ResetPasswordComponentService);
+        expect((service as any).passwordValidators).toContain(
+          CustomFormValidators.mustEndWithLegalCharacter
+        );
+      });
     });
   });
 });
