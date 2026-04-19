@@ -1,4 +1,4 @@
-%cx-opf-tokenisation-checkout-payment-method {
+cx-opf-tokenisation-payment-method {
   @include checkout-media-style();
 
   border: 1px solid var(--cx-color-medium);
@@ -115,14 +115,5 @@
     border-color: var(--cx-color-dark);
   }
 
-  .cx-card-actions {
-    .btn-link {
-      font-size: 0.75rem;
-      word-break: break-word;
-      white-space: normal;
-      text-align: start;
-      padding-inline-start: 0;
-      padding-inline-end: 0;
-    }
-  }
+
 }

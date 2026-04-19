@@ -174,7 +174,7 @@ export class OpfTokenisationPaymentMethodService {
         })
       ),
       this.selectedMethod$,
-      this.translationService.translate('paymentForm.useThisPayment'),
+      this.translationService.translate('paymentForm.useThisCard'),
       this.translationService.translate('paymentCard.selectedPayment'),
       this.translationService.translate('paymentCard.setAsDefault'),
     ]).pipe(

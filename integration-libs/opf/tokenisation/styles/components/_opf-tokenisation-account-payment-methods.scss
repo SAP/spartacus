@@ -40,4 +40,14 @@
   .cx-payment-inner {
     height: 100%;
   }
+
+  .cx-card-actions {
+    button.btn-tertiary {
+      font-size: 0.15rem;
+      white-space: nowrap;
+      text-align: start;
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+    }
+  }
 }

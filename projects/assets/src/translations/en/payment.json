@@ -23,6 +23,7 @@
     "expirationYear": "Expiration year {{ selected }}",
     "expirationMonth": "Expiration month {{ selected }}",
     "useThisPayment": "Use this payment",
+    "useThisCard": "Use this card",
     "addNewPayment": "Add New Payment",
     "paymentAddedSuccessfully": "New payment was added successfully",
     "changePayment": "Change Payment"
