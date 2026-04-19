@@ -19,6 +19,7 @@
     }
   }
 
+
   .cx-existing {
     display: flex;
     padding: 0rem 0 2.5rem 0;
@@ -42,6 +43,10 @@
   }
 
   .cx-card-actions {
+    .cx-card-action-item:first-child {
+      margin-inline-end: auto;
+    }
+
     button.btn-tertiary {
       white-space: nowrap;
       text-align: start;

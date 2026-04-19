@@ -1,8 +1,6 @@
 cx-opf-tokenisation-payment-method {
   @include checkout-media-style();
 
-  border: 1px solid var(--cx-color-medium);
-  border-radius: 10px;
   margin-top: 32px;
   margin-bottom: 30px;
   padding-inline-start: 1.875rem;
@@ -51,6 +49,23 @@ cx-opf-tokenisation-payment-method {
       &::before {
         font-size: var(--cx-font-size, 48px);
       }
+    }
+  }
+
+
+  .cx-card-actions {
+    align-items: center;
+    flex-wrap: wrap;
+
+    .cx-card-action-item:first-child {
+      margin-inline-end: auto;
+    }
+
+    button.btn-tertiary {
+      white-space: nowrap;
+      text-align: start;
+      padding-inline-start: 0;
+      padding-inline-end: 0;
     }
   }
 
@@ -109,10 +124,6 @@ cx-opf-tokenisation-payment-method {
         padding: 0;
       }
     }
-  }
-
-  @include cx-highContrastTheme {
-    border-color: var(--cx-color-dark);
   }
 
 
