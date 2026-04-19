@@ -34,6 +34,8 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string | undefined;
   loading$: Observable<boolean>;
+  showDeleteDialog = false;
+  paymentMethodToDelete: PaymentDetails | undefined;
   @Input() showHeader = true;
 
   protected tokenisationFacade = inject(OpfTokenisationFacade);
@@ -68,7 +70,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
       this.translation.translate('common.delete'),
-      this.translation.translate('paymentCard.deleteConfirmation'),
       this.translation.translate('paymentCard.expires', {
         month: expiryMonth,
         year: expiryYear,
@@ -79,7 +80,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
         ([
           textSetAsDefault,
           textDelete,
-          textDeleteConfirmation,
           textExpires,
           textDefaultPaymentMethod,
         ]) => {
@@ -87,13 +87,12 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           if (!defaultPayment) {
             actions.push({ name: textSetAsDefault, event: 'default' });
           }
-          actions.push({ name: textDelete, event: 'edit' });
+          actions.push({ name: textDelete, event: 'delete' });
           const card: Card = {
             role: 'application',
             header: defaultPayment ? textDefaultPaymentMethod : undefined,
             text: [cardNumber ?? '', textExpires],
             actions,
-            deleteMsg: textDeleteConfirmation,
             label: defaultPayment
               ? 'paymentCard.defaultPaymentLabel'
               : 'paymentCard.additionalPaymentLabel',
@@ -107,9 +106,24 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
     if (paymentMethod.id) {
-      this.tokenisationFacade.deletePaymentMethod(paymentMethod.id);
+      this.paymentMethodToDelete = paymentMethod;
+      this.showDeleteDialog = true;
       this.editCard = undefined;
     }
+  }
+
+  confirmDeletePaymentMethod(): void {
+    if (this.paymentMethodToDelete?.id) {
+      this.tokenisationFacade.deletePaymentMethod(
+        this.paymentMethodToDelete.id
+      );
+    }
+    this.closeDeleteDialog();
+  }
+
+  closeDeleteDialog(): void {
+    this.showDeleteDialog = false;
+    this.paymentMethodToDelete = undefined;
   }
 
   setEdit(paymentMethod: PaymentDetails): void {
