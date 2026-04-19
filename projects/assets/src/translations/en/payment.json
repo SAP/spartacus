@@ -29,8 +29,8 @@
     "changePayment": "Change Payment"
   },
   "paymentMethods": {
-    "paymentMethods": "Payment methods",
-    "paymentMethodSelected": "Payment method selected",
+    "paymentMethods": "Payment Methods",
+    "paymentMethodSelected": "Payment Method Selected",
     "newPaymentMethodsAreAddedDuringCheckout": "New payment methods are added during checkout.",
     "invalidField": "InvalidField: {{ field }}"
   },
