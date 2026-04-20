@@ -346,6 +346,7 @@ if (environment.cpq) {
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
+        a11yConsentManagementFocusPreservation: true,
         a11yVocalizeDropdownItemCount: true,
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
