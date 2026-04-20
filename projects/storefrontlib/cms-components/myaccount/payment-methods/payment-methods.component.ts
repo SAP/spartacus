@@ -42,6 +42,7 @@ export class PaymentMethodsComponent implements OnInit {
   editCard: string | undefined;
   iconTypes = ICON_TYPE;
   loading$: Observable<boolean>;
+  protected autoDefaultRequested = false;
 
   constructor(
     private userPaymentService: UserPaymentService,
@@ -52,12 +53,20 @@ export class PaymentMethodsComponent implements OnInit {
   ngOnInit(): void {
     this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(
       tap((paymentDetails) => {
-        // Set first payment method to DEFAULT if none is set
+        const hasDefault = paymentDetails.some(
+          (paymentDetail) => paymentDetail.defaultPayment
+        );
+        const hasPaymentMethods = paymentDetails.length > 0;
+        const paymentMethodId = paymentDetails[0]?.id;
+
         if (
-          paymentDetails.length > 0 &&
-          !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
+          !this.autoDefaultRequested &&
+          hasPaymentMethods &&
+          !hasDefault &&
+          paymentMethodId
         ) {
-          this.setDefaultPaymentMethod(paymentDetails[0]);
+          this.autoDefaultRequested = true;
+          this.userPaymentService.setPaymentMethodAsDefault(paymentMethodId);
         }
       })
     );
