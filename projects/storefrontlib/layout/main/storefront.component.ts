@@ -115,15 +115,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
-
-    // TODO: Remove this entire block once the a11yPreventWindowsHighContrastOverride feature flag is removed
-    if (
-      this.featureConfig.isEnabled('a11yPreventWindowsHighContrastOverride')
-    ) {
-      this.document?.documentElement.classList.add(
-        'cxFeat_a11yPreventWindowsHighContrastOverride'
-      );
-    }
   }
 
   ngOnInit(): void {
@@ -140,6 +131,16 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
 
     this.trapFocusOnMenuIfExpanded();
+
+    // TODO: Required to use feature flag with root styles.
+    //       Remove this entire block once the a11yPreventWindowsHighContrastOverride feature flag is removed
+    if (
+      this.featureConfig.isEnabled('a11yPreventWindowsHighContrastOverride')
+    ) {
+      this.document?.documentElement.classList.add(
+        'cxFeat_a11yPreventWindowsHighContrastOverride'
+      );
+    }
   }
 
   collapseMenuIfClickOutside(event: any): void {
