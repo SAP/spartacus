@@ -471,6 +471,14 @@ export interface FeatureTogglesInterface {
   showRequiredAsterisks?: boolean;
 
   /**
+   * Preserves keyboard focus on consent checkboxes after toggling.
+   * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
+   * and restores focus after the consent form is temporarily disabled.
+   * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
+   */
+  a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -529,6 +537,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
+  a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
