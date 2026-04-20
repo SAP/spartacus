@@ -82,7 +82,7 @@ export interface FeatureTogglesInterface {
    * This ensures the application maintains its intended styling when the OS accessibility
    * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
-  a11yBlockWindowsHighContrastOverride?: boolean;
+  a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
@@ -485,7 +485,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
-  a11yBlockWindowsHighContrastOverride: false,
+  a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,

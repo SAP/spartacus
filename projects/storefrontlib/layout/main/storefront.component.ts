@@ -114,11 +114,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ) {
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
-    useFeatureStyles('a11yBlockWindowsHighContrastOverride');
+    useFeatureStyles('a11yPreventWindowsHighContrastOverride');
 
-    if (this.featureConfig.isEnabled('a11yBlockWindowsHighContrastOverride')) {
+    if (
+      this.featureConfig.isEnabled('a11yPreventWindowsHighContrastOverride')
+    ) {
       this.document?.documentElement.classList.add(
-        'cxFeat_a11yBlockWindowsHighContrastOverride'
+        'cxFeat_a11yPreventWindowsHighContrastOverride'
       );
     }
   }

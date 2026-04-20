@@ -34,7 +34,7 @@
   }
 
   @include forFeature(
-    'a11yBlockWindowsHighContrastOverride',
+    'a11yPreventWindowsHighContrastOverride',
     'currentSelector'
   ) {
     @media (forced-colors: active) {
