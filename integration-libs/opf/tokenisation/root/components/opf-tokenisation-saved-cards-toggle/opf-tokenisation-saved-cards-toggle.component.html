@@ -22,8 +22,8 @@
         role="radio"
         type="radio"
         name="paymentId"
-        [value]="ctx.savedCardsId"
-        [checked]="ctx.selectedPaymentId === ctx.savedCardsId"
+        [value]="ctx.savedCardsId ?? SAVED_CARDS_ID"
+        [checked]="(isSavedCardsChecked$ | async) === true"
         [disabled]="ctx.disabled"
         (change)="onSavedCardsSelected()"
       />
