@@ -104,7 +104,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected featureConfig = inject(FeatureConfigService);
+  private featureConfig = inject(FeatureConfigService);
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
