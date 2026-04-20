@@ -8,6 +8,7 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { getSafeHost } from '../express-utils/express-request-safe-host';
 import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache/rendering-cache';
@@ -16,7 +17,6 @@ import {
   RenderingStrategy,
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
-  getDefaultRenderKey,
 } from './ssr-optimization-options';
 
 export type SsrCallbackFn = (
@@ -110,9 +110,20 @@ export class OptimizedSsrEngine {
   }
 
   protected getRenderingKey(request: Request): string {
-    return this.ssrOptions?.renderKeyResolver
-      ? this.ssrOptions.renderKeyResolver(request)
-      : getDefaultRenderKey(request);
+    if (this.ssrOptions?.renderKeyResolver) {
+      return this.ssrOptions.renderKeyResolver(request);
+    }
+
+    // SECURITY: Do not use X-Forwarded-Host directly as it is user-controlled.
+    if (this.ssrOptions?.useHostInCacheKey) {
+      const host = getSafeHost(request, this.ssrOptions.allowedHosts);
+      if (host) {
+        return `${host}:${request.originalUrl}`;
+      }
+    }
+
+    // Secure default: ignore host entirely
+    return request.originalUrl;
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {

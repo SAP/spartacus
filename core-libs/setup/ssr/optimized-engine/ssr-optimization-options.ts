@@ -203,6 +203,22 @@ export interface SsrOptimizationOptions {
      */
     limitCacheByMemory?: boolean;
   };
+
+  /**
+   * Toggles using the host in the cache key.
+   *
+   * By default, the host is not used in the cache key as it can be easily spoofed.
+   * However, some deployments may require host-based cache keys (e.g., multi-domain setups).
+   */
+  useHostInCacheKey?: boolean;
+
+  /**
+   * List of allowed hosts for host-based cache keys.
+   *
+   * If `useHostInCacheKey` is set to true, only hosts in this list will be used in the cache key.
+   * If the host is not in this list, it will fallback to the value of the `Host` header.
+   */
+  allowedHosts?: string[];
 }
 
 export enum RenderingStrategy {
@@ -262,4 +278,5 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   ssrFeatureToggles: {
     limitCacheByMemory: true,
   },
+  useHostInCacheKey: false,
 };
