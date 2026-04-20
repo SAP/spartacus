@@ -78,6 +78,13 @@ export interface FeatureTogglesInterface {
   a11yNgSelectUnicodeCarets?: boolean;
 
   /**
+   * When enabled, prevents Windows high contrast mode from overriding the Spartacus theme.
+   * This ensures the application maintains its intended styling when the OS accessibility
+   * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
+   */
+  a11yBlockWindowsHighContrastOverride?: boolean;
+
+  /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
    * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
    * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
@@ -478,6 +485,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
+  a11yBlockWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
