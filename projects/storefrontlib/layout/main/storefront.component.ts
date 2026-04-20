@@ -104,18 +104,19 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
   }
 
+  protected featureConfig = inject(FeatureConfigService);
+
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService,
-    protected featureConfig: FeatureConfigService
+    protected keyboardFocusService: KeyboardFocusService
   ) {
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
     useFeatureStyles('a11yBlockWindowsHighContrastOverride');
 
-    if (featureConfig.isEnabled('a11yBlockWindowsHighContrastOverride')) {
+    if (this.featureConfig.isEnabled('a11yBlockWindowsHighContrastOverride')) {
       this.document?.documentElement.classList.add(
         'cxFeat_a11yBlockWindowsHighContrastOverride'
       );
