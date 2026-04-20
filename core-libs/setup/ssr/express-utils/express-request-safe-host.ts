@@ -7,10 +7,15 @@
 import { Request } from 'express';
 
 /**
- * Returns a safe host from the request object.
+ * Returns a trusted host from the request object.
  *
- * It checks the `X-Forwarded-Host` header and validates it against the `allowedHosts` list.
- * If the header is missing, invalid, or not in the allowlist, it falls back to the `Host` header.
+ * It first checks the `X-Forwarded-Host` header and returns it only if it is valid
+ * and matches the `allowedHosts` list. If `X-Forwarded-Host` is missing, invalid,
+ * or not allowlisted, it then checks the `Host` header and returns it only if it is
+ * also valid and allowlisted.
+ *
+ * If neither header passes validation and allowlist checks, this function returns
+ * `undefined`, and callers should treat that as "no trusted host".
  *
  * @param req - Express Request object
  * @param allowedHosts - Optional list of allowed hosts
@@ -27,11 +32,7 @@ export function getSafeHost(req: Request, allowedHosts?: string[]): string | und
   const normalizedAllowedHosts = allowedHosts?.map(normalize);
 
   const isAllowed = (host: string, normalizedAllowed?: string[]): boolean => {
-    return (
-      normalizedAllowed?.some(
-        (allowed) => host === allowed || host.endsWith(`.${allowed}`)
-      ) ?? false
-    );
+    return normalizedAllowed?.some((allowed) => host === allowed) ?? false;
   };
 
   const extractFirst = (value?: string | string[]): string | undefined => {

@@ -88,7 +88,7 @@ export interface SsrOptimizationOptions {
 
   /**
    * Allows overriding default key generator for custom differentiating
-   * between rendered pages. By default it uses the full request URL.
+   * between rendered pages. By default, it is host-independent (originalUrl).
    *
    * @param req
    */
@@ -207,7 +207,7 @@ export interface SsrOptimizationOptions {
   /**
    * Toggles using the host in the cache key.
    *
-   * By default, the host is not used in the cache key as it can be easily spoofed.
+   * By default, the cache key is host-independent (originalUrl) as the host header can be spoofed.
    * However, some deployments may require host-based cache keys (e.g., multi-domain setups).
    */
   useHostInCacheKey?: boolean;
@@ -216,7 +216,7 @@ export interface SsrOptimizationOptions {
    * List of allowed hosts for host-based cache keys.
    *
    * If `useHostInCacheKey` is set to true, only hosts in this list will be used in the cache key.
-   * If the host is not in this list, it will fallback to the value of the `Host` header.
+   * Returns undefined if neither `X-Forwarded-Host` nor `Host` matching this list is found (safe fallback).
    */
   allowedHosts?: string[];
 }
@@ -247,8 +247,12 @@ type DefaultSsrOptimizationOptions = Omit<
   Required<SsrOptimizationOptions>,
   | 'debug' // debug is deprecated and not used anymore
   | 'ttl' // ttl is required but its default value is `undefined`
+  | 'renderKeyResolver' // renderKeyResolver is optional and defaults to undefined to allow for secure default logic in the engine
+  | 'allowedHosts' // allowedHosts is optional and defaults to undefined
 > & {
   ttl: number | undefined; // needed, otherwise we could not set the value `ttl: undefined` value (due to the Required<...>)
+  renderKeyResolver: ((req: Request) => string) | undefined;
+  allowedHosts: string[] | undefined;
 } & DeepRequired<
     // all nested properties of `ssrFeatureToggles` are required too
     Pick<
@@ -274,9 +278,10 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   ),
   logger: new DefaultExpressServerLogger(),
   shouldCacheRenderingResult: ({ entry: { err } }) => !err,
-  renderKeyResolver: getDefaultRenderKey,
+  renderKeyResolver: undefined,
   ssrFeatureToggles: {
     limitCacheByMemory: true,
   },
   useHostInCacheKey: false,
+  allowedHosts: undefined,
 };

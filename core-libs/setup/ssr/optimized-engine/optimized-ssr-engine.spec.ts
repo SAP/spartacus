@@ -95,7 +95,10 @@ class TestEngineRunner {
     }
   ): TestEngineRunner {
     const responseHeaders: { [key: string]: string } = {};
-    const requestHeaders = params?.httpHeaders ?? { host };
+    const requestHeaders: IncomingHttpHeaders = {
+      host,
+      ...(params?.httpHeaders || {}),
+    };
     /** used when resolving getRequestUrl() and getRequestOrigin() */
     const app = <Partial<Application>>{
       get:
@@ -109,8 +112,12 @@ class TestEngineRunner {
         protocol: 'https',
         originalUrl: url,
         headers: requestHeaders,
-        get: (header: string): string | string[] | null | undefined => {
-          return requestHeaders[header];
+        get: (header: string): string | undefined => {
+          const key = Object.keys(requestHeaders).find(
+            (k) => k.toLowerCase() === header.toLowerCase()
+          );
+          const value = key ? requestHeaders[key] : undefined;
+          return Array.isArray(value) ? value.join(', ') : value;
         },
         app,
         connection: <Partial<Socket>>{},
@@ -181,9 +188,12 @@ describe('OptimizedSsrEngine', () => {
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
       });
 
-      expect(consoleLogSpy.mock.lastCall[0]).toContain(
-        '[spartacus] SSR optimization engine initialized'
-      );
+      expect(consoleLogSpy.mock.lastCall).toEqual([
+        '[spartacus] SSR optimization engine initialized',
+        expect.objectContaining({
+          options: expect.any(Object),
+        }),
+      ]);
     });
   });
 
@@ -573,7 +583,7 @@ describe('OptimizedSsrEngine', () => {
 
         expect(
           engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith(`https://${host}${route}`);
+        ).toHaveBeenCalledWith(`${route}`);
       }));
 
       it('should NOT use the x-forwarded-host header by default to prevent cache poisoning', fakeAsync(() => {
@@ -645,6 +655,35 @@ describe('OptimizedSsrEngine', () => {
         ).toHaveBeenCalledWith(`${domain}:${route}`);
       }));
 
+      it('should use host header when x-forwarded-host is absent and host is allowlisted', fakeAsync(() => {
+        const domain = 'allowed.com';
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+          useHostInCacheKey: true,
+          allowedHosts: [domain],
+        });
+
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+
+        engineRunner.request(route, {
+          httpHeaders: {
+            host: domain,
+          },
+        });
+
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`${domain}:${route}`);
+      }));
+
       it('should use only first value from comma-separated x-forwarded-host', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           useHostInCacheKey: true,
@@ -698,7 +737,7 @@ describe('OptimizedSsrEngine', () => {
         ).toHaveBeenCalledWith(`${route}`);
       }));
 
-      it('should normalize hosts and support subdomains', fakeAsync(() => {
+      it('should normalize hosts but require strict matching (no implicit subdomains)', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           useHostInCacheKey: true,
           allowedHosts: ['example.com'],
@@ -710,18 +749,31 @@ describe('OptimizedSsrEngine', () => {
         );
 
         const route = 'home';
-        // Test case, port, trailing dot AND subdomain
+        // Test case, port, and trailing dot with matching host
         engineRunner.request(route, {
           httpHeaders: {
-            'x-forwarded-host': 'WWW.EXAMPLE.com:443.',
+            'x-forwarded-host': 'EXAMPLE.com:443.',
+          },
+        });
+
+        // Test non-matching subdomain
+        engineRunner.request(route, {
+          httpHeaders: {
+            'x-forwarded-host': 'www.example.com',
           },
         });
 
         tick(200);
 
+        // First one matches because example.com is allowlisted
         expect(
           engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith('www.example.com:home');
+        ).toHaveBeenCalledWith('example.com:home');
+
+        // Second one falls back to path-only because subdomain is not implicitly allowed anymore
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith('home');
       }));
 
       it('should reject invalid hostnames and too long hosts', fakeAsync(() => {
@@ -749,13 +801,15 @@ describe('OptimizedSsrEngine', () => {
 
         tick(200);
 
-        // Both should fallback to path only key
-        expect(
-          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith(route);
-        expect(
-          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledTimes(2);
+        const calls = (
+          engineRunner.optimizedSsrEngine[
+            'isConcurrencyLimitExceeded'
+          ] as jest.Mock
+        ).mock.calls;
+
+        calls.forEach((call) => {
+          expect(call[0]).toBe(route);
+        });
       }));
 
       it('should not generate different keys for many attacker-controlled hosts (prevents cache explosion)', fakeAsync(() => {
@@ -1168,7 +1222,7 @@ describe('OptimizedSsrEngine', () => {
     const differentUrl = 'b';
 
     const getRenderingKey = (requestUrlStr: string): string =>
-      `https://${host}${requestUrlStr}`;
+      `${requestUrlStr}`;
     const getRenderCallbacksCount = (
       engineRunner: TestEngineRunner,
       requestUrlStr: string
@@ -1595,9 +1649,12 @@ describe('OptimizedSsrEngine', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
-      expect(consoleLogSpy.mock.lastCall[0]).toEqual(
-        '[spartacus] SSR optimization engine initialized'
-      );
+      expect(consoleLogSpy.mock.lastCall).toEqual([
+        '[spartacus] SSR optimization engine initialized',
+        expect.objectContaining({
+          options: expect.any(Object),
+        }),
+      ]);
     });
   });
 });
