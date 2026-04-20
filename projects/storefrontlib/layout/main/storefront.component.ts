@@ -20,7 +20,11 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  RoutingService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
@@ -104,10 +108,18 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService,
+    protected featureConfig: FeatureConfigService
   ) {
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
+    useFeatureStyles('a11yBlockWindowsHighContrastOverride');
+
+    if (featureConfig.isEnabled('a11yBlockWindowsHighContrastOverride')) {
+      this.document?.documentElement.classList.add(
+        'cxFeat_a11yBlockWindowsHighContrastOverride'
+      );
+    }
   }
 
   ngOnInit(): void {

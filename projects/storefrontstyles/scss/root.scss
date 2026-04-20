@@ -32,4 +32,13 @@
   body {
     text-align: start;
   }
+
+  @include forFeature(
+    'a11yBlockWindowsHighContrastOverride',
+    'currentSelector'
+  ) {
+    @media (forced-colors: active) {
+      forced-color-adjust: none !important;
+    }
+  }
 }
