@@ -116,6 +116,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
 
+    // TODO: Remove this entire block once the a11yPreventWindowsHighContrastOverride feature flag is removed
     if (
       this.featureConfig.isEnabled('a11yPreventWindowsHighContrastOverride')
     ) {
