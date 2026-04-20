@@ -174,7 +174,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
         })
     );
 
-    // Close gift card form when other payment options are selected 
+    // Close gift card form when other payment options are selected
     // selectedPaymentOptionId is -1 for saved payment details.
     this.subscription.add(
       this.opfMetadataStoreService.getOpfMetadataState().subscribe((x) => {
