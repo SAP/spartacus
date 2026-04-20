@@ -1,3 +1,9 @@
 @import 'theme/high-contrast/dark/variables';
 @import 'theme/high-contrast/light/variables';
 @import 'theme/high-contrast/high-contrast';
+
+:root {
+  @media (forced-colors: active) {
+    forced-color-adjust: none;
+  }
+}
