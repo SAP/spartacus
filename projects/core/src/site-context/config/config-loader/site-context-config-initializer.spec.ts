@@ -214,6 +214,7 @@ describe(`SiteContextConfigInitializer`, () => {
       beforeEach(() => {
         federatedLoginService.isLoginDomain = true;
         federatedLoginService.origin = originatingDomain;
+        windowRef.location.href = 'https://login.com';
       });
 
       it('should match site by origin', async () => {
@@ -237,11 +238,15 @@ describe(`SiteContextConfigInitializer`, () => {
 
       it('should fall back to current URL matching when origin is undefined', async () => {
         federatedLoginService.origin = undefined;
-        windowRef.location.href = 'https://storefront.es';
+        let errorMessage = '';
 
-        const result = await initializer.configFactory();
+        try {
+          await initializer.configFactory();
+        } catch (e) {
+          errorMessage = e.message;
+        }
 
-        expect(result?.context?.baseSite).toEqual(['storefront2']);
+        expect(errorMessage).toContain(windowRef.location.href);
       });
     });
   });
