@@ -166,11 +166,11 @@ describe('OpfGiftCardApplyComponent', () => {
   });
 
   it('should toggle gift card form', () => {
-    const initial = component['showGiftCardForm'];
+    const initial = component['showGiftCardForm']();
 
     component.toggleGiftCardForm();
 
-    expect(component['showGiftCardForm']).toBe(!initial);
+    expect(component['showGiftCardForm']()).toBe(!initial);
   });
 
   it('should reset form', () => {

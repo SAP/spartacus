@@ -470,6 +470,19 @@ export interface FeatureTogglesInterface {
    * When disabled, shows sort fields at both top and bottom.
    */
   showSortFieldsOnlyAtTop?: boolean;
+  
+  /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
+
+  /**
+   * Preserves keyboard focus on consent checkboxes after toggling.
+   * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
+   * and restores focus after the consent form is temporarily disabled.
+   * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
+   */
+  a11yConsentManagementFocusPreservation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -501,10 +514,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
-  navigationMenuCloseOnSameLinkClick: false,
+  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: false,
-  enableQuotePurchaseOrderNumber: false,
-  enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableQuotePurchaseOrderNumber: true,
+  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
@@ -522,8 +535,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
+  a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
+  showRequiredAsterisks: false,
 };
