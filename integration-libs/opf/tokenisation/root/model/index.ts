@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export { OpfPaymentDetails } from './payment.model';
+export {
+  OpfPaymentDetails,
+  OpfSapPaymentMethod,
+  OpfSetDefaultPaymentPayload,
+} from './payment.model';
 export {
   OpfSavedCardsToggleContext,
   OpfNewPaymentsHeadingContext,

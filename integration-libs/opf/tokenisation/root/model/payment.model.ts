@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { PaymentDetails as CorePaymentDetails } from '@spartacus/core';
+import {
+  Address,
+  CardType,
+  PaymentDetails as CorePaymentDetails,
+} from '@spartacus/core';
 
 /**
  * OPF Tokenisation payment details model.
@@ -12,3 +16,25 @@ import { PaymentDetails as CorePaymentDetails } from '@spartacus/core';
  * This provides a single import point and allows future customization if needed.
  */
 export type OpfPaymentDetails = CorePaymentDetails;
+
+export interface OpfSapPaymentMethod {
+  code?: string;
+  name?: string;
+}
+
+export interface OpfSetDefaultPaymentPayload {
+  id: string;
+  accountHolderName?: string;
+  cardType?: CardType;
+  cardNumber?: string;
+  startMonth?: string;
+  startYear?: string;
+  expiryMonth?: string;
+  expiryYear?: string;
+  issueNumber?: string;
+  subscriptionId?: string;
+  saved?: boolean;
+  defaultPayment: true;
+  billingAddress?: Address;
+  sapPaymentMethod?: OpfSapPaymentMethod;
+}
