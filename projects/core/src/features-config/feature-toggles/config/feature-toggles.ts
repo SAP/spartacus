@@ -470,7 +470,7 @@ export interface FeatureTogglesInterface {
    * When disabled, shows sort fields at both top and bottom.
    */
   showSortFieldsOnlyAtTop?: boolean;
-  
+
   /**
    * When enabled, displays required field asterisks for form fields.
    */
