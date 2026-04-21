@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
+  FeatureDirective,
   PaginationModel,
   TranslatePipe,
 } from '@spartacus/core';
@@ -38,6 +39,7 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
