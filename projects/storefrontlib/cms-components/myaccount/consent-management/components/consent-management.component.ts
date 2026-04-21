@@ -347,6 +347,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return checkTimesLoaded$;
   }
 
+  trackByTemplateId(_index: number, item: ConsentTemplate): string {
+    return item.id ?? '';
+  }
+
   private isRequiredConsent(template: ConsentTemplate): boolean {
     return Boolean(
       template.id &&
