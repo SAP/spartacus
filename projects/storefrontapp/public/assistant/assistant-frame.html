@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assistant</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --theme-color: #0064d9;
+      --avatar-bg: #e8e4c4;
+      --bg: #fff;
+      --header-border: #ebebeb;
+      --text-primary: #1a1a1a;
+      --text-secondary: #8a8a8a;
+      --text-muted: #b0b0b0;
+      --bubble-user-bg: var(--theme-color);
+      --bubble-user-color: #fff;
+      --input-border: #dcdcdc;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────────── */
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--header-border);
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .header-menu-btn,
+    .header-action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      transition: background 0.15s;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .header-menu-btn:hover,
+    .header-action-btn:hover { background: #f2f2f2; }
+
+    .header-title {
+      flex: 1;
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: left;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    /* ── Messages area ───────────────────────────────────────────────────── */
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    /* Welcome hero — shown at top of messages */
+    .welcome-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 24px 16px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .hero-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--avatar-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .hero-avatar svg {
+      width: 42px;
+      height: 42px;
+    }
+
+    .hero-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 5px;
+    }
+
+    .hero-sub {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      max-width: 220px;
+    }
+
+    /* Date separator */
+    .date-sep {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px 10px;
+      flex-shrink: 0;
+    }
+    .date-sep::before,
+    .date-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #ebebeb;
+    }
+    .date-sep span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Message list */
+    .msg-list {
+      flex: 1;
+      padding: 4px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .msg-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .msg-row.user { flex-direction: row-reverse; }
+
+    /* Small agent avatar */
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--avatar-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .msg-avatar svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .bubble {
+      max-width: 75%;
+      padding: 10px 13px;
+      border-radius: 18px;
+      line-height: 1.55;
+      font-size: 0.88rem;
+      word-break: break-word;
+    }
+    .bubble.agent {
+      background: #f2f2f2;
+      color: var(--text-primary);
+      border-bottom-left-radius: 5px;
+    }
+    .bubble.user {
+      background: var(--bubble-user-bg);
+      color: var(--bubble-user-color);
+      border-bottom-right-radius: 5px;
+    }
+    .bubble.error {
+      background: #fdecea;
+      color: #c0392b;
+      border-bottom-left-radius: 5px;
+    }
+
+    /* Thinking / wave loading indicator */
+    .bubble.thinking { padding: 12px 16px; }
+    .thinking-dots { display: flex; gap: 6px; align-items: center; height: 16px; }
+    .thinking-dots span {
+      width: 7px;
+      height: 7px;
+      background: #999;
+      border-radius: 50%;
+      animation: wave-dot 1.4s ease-in-out infinite;
+      opacity: 0.4;
+    }
+    .thinking-dots span:nth-child(1) { animation-delay: 0s; }
+    .thinking-dots span:nth-child(2) { animation-delay: 0.18s; }
+    .thinking-dots span:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes wave-dot {
+      0%, 60%, 100% { transform: translateY(0);    opacity: 0.4; }
+      30%            { transform: translateY(-7px); opacity: 1;   }
+    }
+
+    /* Markdown in agent bubbles */
+    .bubble.agent p             { margin: 0 0 6px; }
+    .bubble.agent p:last-child  { margin-bottom: 0; }
+    .bubble.agent ul,
+    .bubble.agent ol            { margin: 4px 0 6px 18px; }
+    .bubble.agent li            { margin-bottom: 2px; }
+    .bubble.agent h1,
+    .bubble.agent h2,
+    .bubble.agent h3            { font-size: 0.88rem; font-weight: 700; margin: 6px 0 4px; }
+    .bubble.agent code          { background: #ddd; border-radius: 3px; padding: 1px 4px; font-size: 0.82rem; }
+    .bubble.agent pre           { background: #ddd; border-radius: 6px; padding: 8px 10px; overflow-x: auto; margin: 6px 0; }
+    .bubble.agent pre code      { background: none; padding: 0; }
+    .bubble.agent a             { color: var(--theme-color); }
+
+    /* ── Input section ───────────────────────────────────────────────────── */
+
+    .chat-input-section {
+      border-top: 1px solid var(--header-border);
+      background: var(--bg);
+      flex-shrink: 0;
+      padding: 10px 14px 6px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--input-border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      background: var(--bg);
+      transition: border-color 0.15s;
+    }
+    .chat-input-row:focus-within { border-color: #aaa; }
+
+    .chat-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: transparent;
+      resize: none;
+      line-height: 1.4;
+    }
+    .chat-input::placeholder { color: #b0b0b0; }
+    .chat-input:disabled { opacity: 0.5; }
+
+    /* Action buttons row below input */
+    .chat-actions {
+      display: flex;
+      align-items: center;
+      padding: 6px 2px 4px;
+      gap: 6px;
+    }
+
+    /* + button: outlined circle */
+    .action-btn.add {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid #ccc;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      transition: border-color 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .action-btn.add:hover { border-color: #aaa; color: #555; }
+
+    /* Send button: gray circle → blue circle when active */
+    .action-btn.send {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: #e0e0e0;
+      color: #555;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .action-btn.send:hover:not(:disabled):not(.active) { background: #d0d0d0; }
+    .action-btn.send.active {
+      background: var(--theme-color);
+      color: #fff;
+    }
+    .action-btn.send.active:hover { filter: brightness(1.08); }
+    .action-btn.send:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Footer ──────────────────────────────────────────────────────────── */
+
+    .chat-footer {
+      padding: 6px 14px 10px;
+      text-align: center;
+      background: var(--bg);
+      flex-shrink: 0;
+    }
+    .chat-footer a,
+    .chat-footer span {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .chat-footer a:hover { text-decoration: underline; }
+    .chat-footer .sep { margin: 0 6px; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="chat-header">
+    <button class="header-menu-btn" aria-label="Menu" title="Menu">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+        <rect width="16" height="2" rx="1" fill="currentColor"/>
+        <rect y="5" width="16" height="2" rx="1" fill="currentColor"/>
+        <rect y="10" width="16" height="2" rx="1" fill="currentColor"/>
+      </svg>
+    </button>
+    <span class="header-title" id="header-title">Virtual Assistant</span>
+    <div class="header-right">
+      <button id="fullscreen-btn" class="header-action-btn" title="Expand" aria-label="Toggle fullscreen">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M9 1h4v4M5 13H1V9M1 1l5 5M13 13l-5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button id="close-btn" class="header-action-btn" title="Close" aria-label="Close">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Messages -->
+  <main class="chat-messages" id="messages" role="log" aria-live="polite">
+
+    <!-- Welcome hero -->
+    <div class="welcome-hero" id="welcome-hero">
+      <div class="hero-avatar">
+        <!-- Bot icon -->
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="10" width="34" height="24" rx="8" fill="#3a3a3a"/>
+          <circle cx="14" cy="20" r="4" fill="white"/>
+          <circle cx="28" cy="20" r="4" fill="white"/>
+          <circle cx="14.8" cy="19.2" r="1.8" fill="#3a3a3a"/>
+          <circle cx="28.8" cy="19.2" r="1.8" fill="#3a3a3a"/>
+          <path d="M15 27 Q21 31 27 27" stroke="white" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+          <rect x="18" y="4" width="2" height="7" rx="1" fill="#3a3a3a"/>
+          <circle cx="19" cy="4" r="2.2" fill="#3a3a3a"/>
+          <rect x="2" y="16" width="3" height="7" rx="1.5" fill="#3a3a3a"/>
+          <rect x="37" y="16" width="3" height="7" rx="1.5" fill="#3a3a3a"/>
+        </svg>
+      </div>
+      <div class="hero-title" id="hero-title">Virtual Assistant</div>
+      <div class="hero-sub">Hey, I'm here to help!<br>Ask me something short and sweet to get started.</div>
+    </div>
+
+    <!-- Date separator -->
+    <div class="date-sep"><span>Today</span></div>
+
+    <!-- Message list -->
+    <div class="msg-list" id="msg-list">
+      <!-- Messages appended here -->
+    </div>
+
+  </main>
+
+  <!-- Input section -->
+  <div class="chat-input-section">
+    <div class="chat-input-row">
+      <input
+        id="input"
+        class="chat-input"
+        type="text"
+        placeholder="Type message..."
+        aria-label="Message input"
+        autocomplete="off"
+      />
+    </div>
+    <div class="chat-actions">
+      <!-- Plus button (placeholder for future attachment) -->
+      <button class="action-btn add" aria-label="Add" title="Add" tabindex="-1">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Send button -->
+      <button id="send-btn" class="action-btn send" aria-label="Send message" title="Send">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 12V2M2 7l5-5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="chat-footer">
+    <a href="#" tabindex="-1">Privacy Policy</a>
+    <span class="sep">|</span>
+    <span>AI Agent powered by SAP</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script>
+  (() => {
+    // ── Config from URL params ─────────────────────────────────────────────
+    const params     = new URLSearchParams(location.search);
+    const apiUrl     = (params.get('apiUrl') || '').replace(/\/$/, '');
+    const skill      = params.get('skill')      || 'merchandising-assistant';
+    const title      = params.get('title')      || 'Virtual Assistant';
+    const themeColor = params.get('themeColor') || '#0064d9';
+
+    // Apply config
+    document.documentElement.style.setProperty('--theme-color', themeColor);
+    document.getElementById('header-title').textContent = title;
+    document.getElementById('hero-title').textContent   = title;
+
+    // ── DOM refs ──────────────────────────────────────────────────────────
+    const msgList  = document.getElementById('msg-list');
+    const inputEl  = document.getElementById('input');
+    const sendBtn  = document.getElementById('send-btn');
+    const fsBtn    = document.getElementById('fullscreen-btn');
+    const closeBtn = document.getElementById('close-btn');
+
+    let contextId = null;
+
+    // ── Close button → notify parent widget ──────────────────────────────
+    closeBtn.addEventListener('click', () => {
+      window.parent.postMessage({ type: 'assistant-close' }, '*');
+    });
+
+    // ── Inbound: parent widget injects a prompt to auto-send ─────────────
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === 'assistant-prompt' && typeof e.data.prompt === 'string' && e.data.prompt) {
+        inputEl.value = e.data.prompt;
+        send();
+      }
+    });
+
+    // ── Expand / collapse (page-modal, not browser fullscreen) ───────────
+    let isExpanded = false;
+
+    const expandIcon  = '<path d="M5 9H1v4M9 1h4v4M1 13l5-5M13 1l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+    const collapseIcon = '<path d="M9 1h4v4M5 13H1V9M1 1l5 5M13 13l-5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>';
+
+    function updateFsIcon() {
+      fsBtn.querySelector('svg').innerHTML = isExpanded ? expandIcon : collapseIcon;
+      fsBtn.title       = isExpanded ? 'Collapse' : 'Expand';
+      fsBtn.ariaLabel   = isExpanded ? 'Collapse' : 'Expand';
+    }
+
+    fsBtn.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      window.parent.postMessage({ type: 'assistant-expand', expanded: isExpanded }, '*');
+      updateFsIcon();
+    });
+
+    // ── Send button active state ──────────────────────────────────────────
+    inputEl.addEventListener('input', () => {
+      sendBtn.classList.toggle('active', inputEl.value.trim().length > 0);
+    });
+
+    // ── Bot avatar SVG (reused in message rows) ───────────────────────────
+    function makeBotAvatarSvg() {
+      return `<svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="10" width="34" height="24" rx="8" fill="#3a3a3a"/>
+        <circle cx="14" cy="20" r="4" fill="white"/>
+        <circle cx="28" cy="20" r="4" fill="white"/>
+        <circle cx="14.8" cy="19.2" r="1.8" fill="#3a3a3a"/>
+        <circle cx="28.8" cy="19.2" r="1.8" fill="#3a3a3a"/>
+        <path d="M15 27 Q21 31 27 27" stroke="white" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        <rect x="18" y="4" width="2" height="7" rx="1" fill="#3a3a3a"/>
+        <circle cx="19" cy="4" r="2.2" fill="#3a3a3a"/>
+        <rect x="2" y="16" width="3" height="7" rx="1.5" fill="#3a3a3a"/>
+        <rect x="37" y="16" width="3" height="7" rx="1.5" fill="#3a3a3a"/>
+      </svg>`;
+    }
+
+    // ── Message helpers ───────────────────────────────────────────────────
+    function scrollToBottom() {
+      const messages = document.getElementById('messages');
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function makeAgentAvatar() {
+      const el = document.createElement('div');
+      el.className = 'msg-avatar';
+      el.innerHTML = makeBotAvatarSvg();
+      return el;
+    }
+
+    function appendBubble(text, type) {
+      const row = document.createElement('div');
+      row.className = `msg-row ${type}`;
+      if (type === 'agent') row.appendChild(makeAgentAvatar());
+      const div = document.createElement('div');
+      div.className = `bubble ${type}`;
+      if (type === 'agent') {
+        div.innerHTML = DOMPurify.sanitize(marked.parse(text));
+      } else {
+        div.textContent = text;
+      }
+      row.appendChild(div);
+      msgList.appendChild(row);
+      scrollToBottom();
+      return { row, div };
+    }
+
+    function appendThinking() {
+      const row = document.createElement('div');
+      row.className = 'msg-row agent';
+      row.appendChild(makeAgentAvatar());
+      const div = document.createElement('div');
+      div.className = 'bubble agent thinking';
+      div.innerHTML = '<div class="thinking-dots"><span></span><span></span><span></span></div>';
+      row.appendChild(div);
+      msgList.appendChild(row);
+      scrollToBottom();
+      return row;
+    }
+
+    function setLoading(isLoading) {
+      sendBtn.disabled = isLoading;
+      inputEl.disabled = isLoading;
+      if (!isLoading) {
+        inputEl.focus();
+        sendBtn.classList.toggle('active', inputEl.value.trim().length > 0);
+      }
+    }
+
+    // ── Streaming send ────────────────────────────────────────────────────
+    async function sendStreaming(text) {
+      const thinkingRow = appendThinking();
+      setLoading(true);
+
+      let agentRow   = null;
+      let agentDiv   = null;
+      let received   = '';
+      let rendered   = '';
+      let streamDone = false;
+      let animTimer  = null;
+
+      const CHARS_PER_TICK = 2;
+      const TICK_MS = 20;
+
+      function tick() {
+        if (rendered.length < received.length) {
+          rendered = received.slice(0, rendered.length + CHARS_PER_TICK);
+          agentDiv.innerHTML = DOMPurify.sanitize(marked.parse(rendered));
+          scrollToBottom();
+        }
+        if (streamDone && rendered.length >= received.length) {
+          agentDiv.innerHTML = DOMPurify.sanitize(marked.parse(rendered));
+          clearInterval(animTimer);
+          animTimer = null;
+        }
+      }
+
+      try {
+        const response = await fetch(`${apiUrl}/api/chat/stream`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, contextId, skill }),
+        });
+
+        if (!response.ok) {
+          let msg = `Server error ${response.status}`;
+          try { const d = await response.json(); msg = d.error ?? msg; } catch { /* not JSON */ }
+          throw new Error(msg);
+        }
+
+        const newCtx = response.headers.get('x-context-id');
+        if (newCtx) contextId = newCtx;
+
+        // Response confirmed — swap thinking row for agent bubble immediately
+        thinkingRow.remove();
+        agentRow = document.createElement('div');
+        agentRow.className = 'msg-row agent';
+        agentRow.appendChild(makeAgentAvatar());
+        agentDiv = document.createElement('div');
+        agentDiv.className = 'bubble agent';
+        agentRow.appendChild(agentDiv);
+        msgList.appendChild(agentRow);
+        scrollToBottom();
+
+        animTimer = setInterval(tick, TICK_MS);
+
+        const reader  = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const raw = line.slice(6).trim();
+            if (!raw) continue;
+            try {
+              const evt = JSON.parse(raw);
+              if (evt.contextId) { contextId = evt.contextId; continue; }
+              if (typeof evt.content === 'string' && evt.content) received += evt.content;
+            } catch { /* malformed */ }
+          }
+        }
+        streamDone = true;
+
+      } catch (err) {
+        if (animTimer) { clearInterval(animTimer); animTimer = null; }
+        // Remove any partial agent row created before the error
+        if (agentRow?.isConnected) agentRow.remove();
+        appendBubble(`Error: ${err.message}`, 'error');
+      } finally {
+        // Safety net: thinking row must always be removed regardless of code path
+        if (thinkingRow.isConnected) thinkingRow.remove();
+        setLoading(false);
+      }
+    }
+
+    // ── Send ──────────────────────────────────────────────────────────────
+    async function send() {
+      const text = inputEl.value.trim();
+      if (!text) return;
+      inputEl.value = '';
+      sendBtn.classList.remove('active');
+      appendBubble(text, 'user');
+      await sendStreaming(text);
+    }
+
+    sendBtn.addEventListener('click', send);
+    inputEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+
+    inputEl.focus();
+  })();
+  </script>
+</body>
+</html>

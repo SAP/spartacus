@@ -26,4 +26,5 @@ export interface Environment {
   estimatedDeliveryDate: boolean;
   s4Service: boolean;
   punchout: boolean;
+  assistantApiUrl: string;
 }
