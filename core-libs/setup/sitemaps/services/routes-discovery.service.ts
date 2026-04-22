@@ -5,19 +5,27 @@
  */
 
 import { inject, Injectable } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import {
   ParamsMapping,
   RoutingConfig,
   RoutingConfigService,
   SemanticPathService,
 } from '@spartacus/core';
+import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
+import {
+  ANGULAR_ROUTE_ENUMERATOR,
+  AngularRouteEnumerator,
+} from '../model/angular-route-enumerator';
 import {
   ROUTE_PARAMS_ENUMERATOR,
   RouteParamsEnumerator,
   RouteParamsEnumeratorContext,
 } from '../model/route-params-enumerator';
-import { defaultSitemapConfig, SitemapConfig } from '../config/sitemap-config';
-import { DiscoveredRoute, RoutesDiscoveryOptions } from '../model/sitemap.model';
+import {
+  DiscoveredRoute,
+  RoutesDiscoveryOptions,
+} from '../model/sitemap.model';
 
 /**
  * Service for discovering all valid URLs from Spartacus routing configuration.
@@ -33,6 +41,7 @@ import { DiscoveredRoute, RoutesDiscoveryOptions } from '../model/sitemap.model'
  */
 @Injectable()
 export class RoutesDiscoveryService {
+  protected router = inject(Router);
   protected routingConfig = inject(RoutingConfig);
   protected routingConfigService = inject(RoutingConfigService);
   protected semanticPathService = inject(SemanticPathService);
@@ -41,20 +50,54 @@ export class RoutesDiscoveryService {
   protected enumerators: RouteParamsEnumerator[] =
     inject(ROUTE_PARAMS_ENUMERATOR, { optional: true }) ?? [];
 
+  protected angularRouteEnumerators: AngularRouteEnumerator[] =
+    inject(ANGULAR_ROUTE_ENUMERATOR, { optional: true }) ?? [];
+
   protected readonly PATH_PARAM_PATTERN = /:\w+/;
 
   /**
-   * Discovers all valid URLs for the given context and options.
+   * Discovers all valid semantic and Angular-only URLs with deduplication.
    */
-  async discoverRoutes(
+  async discoverAllRoutes(
     context: RouteParamsEnumeratorContext,
     options: RoutesDiscoveryOptions = {}
+  ): Promise<DiscoveredRoute[]> {
+    const resolvedOptions = this.resolveOptions(options);
+    const configExcludes = this.sitemapConfig.sitemap?.routes?.excludes ?? [];
+    const semanticRoutes = await this.discoverSemanticRoutes(
+      context,
+      resolvedOptions
+    );
+    const angularOnlyRoutes = (
+      await Promise.all(
+        this.router.config
+          .filter(
+            (route: Route) =>
+              !route.data?.['cxRoute'] &&
+              route.path !== '**' &&
+              !(route.matcher && !route.path) &&
+              (!resolvedOptions.include ||
+                resolvedOptions.include.includes(route.path!)) &&
+              !resolvedOptions.exclude?.includes(route.path!) &&
+              !configExcludes.includes(route.path!)
+          )
+          .map((route: Route) => this.discoverAngularRoutes(route, context))
+      )
+    ).flat();
+
+    return [...semanticRoutes, ...angularOnlyRoutes];
+  }
+
+  /**
+   * Discovers all valid semantic URLs for the given context and options.
+   */
+  async discoverSemanticRoutes(
+    context: RouteParamsEnumeratorContext,
+    resolvedOptions: ReturnType<typeof this.resolveOptions>
   ): Promise<DiscoveredRoute[]> {
     const routes = this.routingConfig.routing?.routes || {};
     const globalProtected = this.routingConfig.routing?.protected ?? false;
     const discovered: DiscoveredRoute[] = [];
-
-    const resolvedOptions = this.resolveOptions(options);
 
     for (const [routeName, routeConfig] of Object.entries(routes)) {
       if (
@@ -97,7 +140,7 @@ export class RoutesDiscoveryService {
     }
 
     console.log(
-      `[Sitemap] RoutesDiscoveryService: Discovered ${discovered.length} URLs`
+      `[Sitemap] RoutesDiscoveryService: Discovered ${discovered.length} semantic URLs`
     );
 
     return discovered;
@@ -105,9 +148,7 @@ export class RoutesDiscoveryService {
 
   protected resolveOptions(
     options: RoutesDiscoveryOptions
-  ): Required<
-    Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>
-  > &
+  ): Required<Omit<RoutesDiscoveryOptions, 'include' | 'exclude'>> &
     Pick<RoutesDiscoveryOptions, 'include' | 'exclude'> {
     const routesCfg = this.sitemapConfig.sitemap?.routes;
     const defaultCfg = defaultSitemapConfig.sitemap!.routes!;
@@ -236,5 +277,65 @@ export class RoutesDiscoveryService {
     return adapted;
   }
 
-}
+  protected async discoverAngularRoutes(
+    route: Route,
+    context: RouteParamsEnumeratorContext
+  ): Promise<DiscoveredRoute[]> {
+    if (!route.path) {
+      return [];
+    }
 
+    if (route.children?.length) {
+      const childResults = (
+        await Promise.all(
+          route.children.map((child) =>
+            this.discoverAngularRoutes(child, context)
+          )
+        )
+      ).flat();
+
+      if (route.path.includes(':')) {
+        const enumerator = this.angularRouteEnumerators.find(
+          (e) => e.routePath === route.path
+        );
+        if (!enumerator) {
+          return [];
+        }
+        const { paths: parentPaths } = await enumerator.enumerate(context);
+        return parentPaths
+          .filter((parentPath) => !this.PATH_PARAM_PATTERN.test(parentPath))
+          .flatMap((parentPath) =>
+            childResults.map((discovered) => ({
+              ...discovered,
+              path: `${parentPath}/${discovered.path}`,
+            }))
+          );
+      }
+
+      return childResults.map((discovered) => ({
+        ...discovered,
+        path: `${route.path}/${discovered.path}`,
+      }));
+    }
+
+    // Has :params — look for a matching enumerator
+    if (route.path.includes(':')) {
+      const enumerator = this.angularRouteEnumerators.find(
+        (e) => e.routePath === route.path
+      );
+      if (!enumerator) {
+        return []; // no enumerator, skip
+      }
+      const result = await enumerator.enumerate(context);
+      return result.paths
+        .filter((path) => !this.PATH_PARAM_PATTERN.test(path))
+        .map((path) => ({
+          cxRoute: route.path!,
+          params: {},
+          path,
+        }));
+    }
+
+    return [{ cxRoute: route.path, params: {}, path: route.path }];
+  }
+}
