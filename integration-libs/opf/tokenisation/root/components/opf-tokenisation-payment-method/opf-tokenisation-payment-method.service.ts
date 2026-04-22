@@ -177,6 +177,7 @@ export class OpfTokenisationPaymentMethodService {
       this.translationService.translate('paymentForm.useThisCard'),
       this.translationService.translate('paymentCard.selectedPayment'),
       this.translationService.translate('paymentCard.setAsDefault'),
+      this.translationService.translate('paymentCard.defaultLabelOnCheckout'),
     ]).pipe(
       tap(([paymentMethods, selectedMethod]) =>
         this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
@@ -188,6 +189,7 @@ export class OpfTokenisationPaymentMethodService {
           textUseThisPayment,
           textSelected,
           textSetAsDefault,
+          textDefaultLabelOnCheckout,
         ]) =>
           paymentMethods.map((payment) => ({
             content: this.createCard(
@@ -197,6 +199,7 @@ export class OpfTokenisationPaymentMethodService {
                 textUseThisPayment,
                 textSelected,
                 textSetAsDefault,
+                textDefaultLabelOnCheckout,
               },
               selectedMethod
             ),
@@ -305,6 +308,7 @@ export class OpfTokenisationPaymentMethodService {
       textUseThisPayment: string;
       textSelected: string;
       textSetAsDefault: string;
+      textDefaultLabelOnCheckout: string;
     },
     selected: PaymentDetails | undefined
   ): Card {
@@ -321,7 +325,9 @@ export class OpfTokenisationPaymentMethodService {
 
     return {
       role,
-      title: paymentDetails.defaultPayment ? cardLabels.textSetAsDefault : '',
+      title: paymentDetails.defaultPayment
+        ? cardLabels.textDefaultLabelOnCheckout
+        : '',
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
       actions,
       header: isSelected ? cardLabels.textSelected : undefined,
