@@ -14,7 +14,7 @@
           >
             <div
               class="cx-payment-card-inner"
-              (click)="selectPaymentMethod(card.paymentMethod)"
+              (click)="onCardClick($event, card.paymentMethod)"
             >
               <cx-card
                 [border]="true"
