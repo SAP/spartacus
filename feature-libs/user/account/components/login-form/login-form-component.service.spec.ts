@@ -13,6 +13,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  OAUTH_REDIRECT_FLOW_KEY,
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
@@ -21,8 +22,17 @@ import { LoginFormComponentService } from './login-form-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockWinRef {
+  localStorage = jasmine.createSpyObj('localStorage', [
+    'setItem',
+    'removeItem',
+  ]);
+
   get nativeWindow(): Window {
     return {} as Window;
+  }
+
+  isBrowser(): boolean {
+    return true;
   }
 }
 
@@ -299,6 +309,10 @@ describe('LoginFormComponentService', () => {
           const submitSpy = spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).toHaveBeenCalledWith();
+          expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
+            OAUTH_REDIRECT_FLOW_KEY,
+            'true'
+          );
         });
 
         it('should reset the form', () => {
@@ -340,6 +354,9 @@ describe('LoginFormComponentService', () => {
         it('should add error message to global message service', () => {
           service.handleCustomLoginError();
 
+          expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+            OAUTH_REDIRECT_FLOW_KEY
+          );
           expect(globalMessageService.add).toHaveBeenCalledWith(
             {
               key: 'customLoginPage.badRequest.bad_credentials',
@@ -354,8 +371,32 @@ describe('LoginFormComponentService', () => {
         it('should not add error message to global message service if error is not present', () => {
           activatedRoute.snapshot.queryParams = { error: null };
           service.handleCustomLoginError();
+          expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
           expect(globalMessageService.add).not.toHaveBeenCalled();
           expect(router.navigate).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('SSR (isBrowser = false)', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          spyOn(winRef, 'isBrowser').and.returnValue(false);
+          service.form.setValue({ userId, password, csrf });
+        });
+
+        it('should not set localStorage flag when submitting login form', () => {
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.localStorage?.setItem).not.toHaveBeenCalled();
+        });
+
+        it('should not remove localStorage flag when handling login error', () => {
+          service.handleCustomLoginError();
+          expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
         });
       });
     });
