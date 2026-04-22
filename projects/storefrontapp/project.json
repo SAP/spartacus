@@ -139,7 +139,9 @@
         "ssr": {
           "entry": "projects/storefrontapp/src/server.ts"
         },
-        "scripts": []
+        "scripts": [
+          "projects/storefrontapp/public/scripts/cart-abandonment-tracker.js"
+        ]
       },
       "configurations": {
         "production": {
