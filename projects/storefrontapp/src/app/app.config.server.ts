@@ -9,14 +9,17 @@ import {
   importProvidersFrom,
   mergeApplicationConfig,
 } from '@angular/core';
-import { provideServerRendering } from '@angular/platform-server';
+import { provideServerRendering, RenderMode, withRoutes } from '@angular/ssr';
 import { TestConfigServerModule } from '@spartacus/setup/ssr';
 import { appConfig } from './app.config';
 import { AppServerModule } from './app.module.server';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering(),
+    provideServerRendering(
+      // Configure all routes to render server-side
+      withRoutes([{ path: '**', renderMode: RenderMode.Server }])
+    ),
 
     importProvidersFrom(AppServerModule),
 

@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { isPlatformServer } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { lastValueFrom, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
@@ -17,6 +18,8 @@ import { RoutingConfig } from '../config/routing-config';
 export class SecurePortalConfigInitializer implements ConfigInitializer {
   readonly scopes = ['routing'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
+
+  protected platformId = inject(PLATFORM_ID);
 
   constructor(
     protected baseSiteService: BaseSiteService,
@@ -32,7 +35,18 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
     return this.baseSiteService.get().pipe(
       tap((baseSite) => {
         if (!baseSite) {
-          throw new Error(`Error: Cannot get current base site config .`);
+          // On the server during build (due to prerendering and bootstrapping app), log a warning instead of throwing
+          // to allow the build process to continue
+          if (isPlatformServer(this.platformId)) {
+            /* eslint-disable-next-line no-console */
+            console.warn(
+              `[Spartacus] Cannot get current base site config during SSR/build. ` +
+                `This is expected during build-time route extraction. ` +
+                `Returning default routing config.`
+            );
+          } else {
+            throw new Error(`Error: Cannot get current base site config .`);
+          }
         }
       }),
       map((baseSite) => this.getRoutingConfig(baseSite)),

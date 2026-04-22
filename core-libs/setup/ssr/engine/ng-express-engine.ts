@@ -14,6 +14,11 @@ import { REQUEST, RESPONSE } from '../tokens/express.tokens';
 import { CxCommonEngine } from './cx-common-engine';
 
 /**
+ * Setup options for the legacy ngExpressEngine.
+ *
+ * @deprecated This type is part of the legacy ngExpressEngine system.
+ * Use CxAngularNodeAppEngine with the modern Promise-based API instead.
+ *
  * @license
  * The MIT License
  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
@@ -53,6 +58,11 @@ function getReqResProviders(req: Request, res?: Response): StaticProvider[] {
 }
 
 /**
+ * Render options for the legacy ngExpressEngine.
+ *
+ * @deprecated This interface is part of the legacy ngExpressEngine system.
+ * Use CxAngularNodeAppEngine with the modern Promise-based API instead.
+ *
  * @license
  * The MIT License
  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
@@ -66,7 +76,10 @@ export interface RenderOptions extends CommonEngineRenderOptions {
 }
 
 /**
- * This is an express engine for handling Angular Applications
+ * Express engine for handling Angular Applications.
+ *
+ * @deprecated This is the legacy callback-based ngExpressEngine implementation.
+ * Use CxAngularNodeAppEngine with the modern Promise-based API instead.
  *
  * Function `ngExpressEngine` was originally present in Angular for a long time and was removed in version Angular 17.
  * However, it is needed in Spartacus for backward compatibility reasons.

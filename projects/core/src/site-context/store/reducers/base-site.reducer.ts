@@ -63,6 +63,16 @@ export function reducer(
         entities,
       };
     }
+
+    // Handle failure by setting entities to empty object
+    // This prevents getAll() from hanging indefinitely when the API fails
+    // (e.g., during build-time route extraction when backend is not accessible)
+    case SiteContextActions.LOAD_BASE_SITES_FAIL: {
+      return {
+        ...state,
+        entities: state.entities ?? {},
+      };
+    }
   }
 
   return state;

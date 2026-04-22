@@ -4,34 +4,77 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ModuleWithProviders, NgModule, inject } from '@angular/core';
-import { TEST_CONFIG, TEST_CONFIG_COOKIE_NAME } from '@spartacus/core';
-import { REQUEST } from '../public_api';
+import { ModuleWithProviders, NgModule, REQUEST, inject } from '@angular/core';
+import {
+  provideConfigFactory,
+  provideFeatureTogglesFactory,
+  TEST_CONFIG,
+  TEST_CONFIG_COOKIE_NAME,
+} from '@spartacus/core';
+import { Request as ExpressRequest } from 'express';
+import { IncomingMessage } from 'http';
+import { REQUEST as LEGACY_REQUEST } from '../public_api';
 
-export function getCookie(cookie: string, name: string) {
+/** Extracts a cookie value by name from a cookie string. */
+export function getCookie(cookie: string, name: string): string {
   const regExp = new RegExp('(?:^|;\\s*)' + name + '=([^;]*)', 'g');
-  const result: RegExpExecArray | null = regExp.exec(cookie);
-
+  const result = regExp.exec(cookie);
   return (result && decodeURIComponent(result[1])) || '';
 }
 
-export function parseConfigJSON(config: string) {
+/** Parses a JSON config string, returning empty object on failure. */
+export function parseConfigJSON(config: string): object {
   try {
     return JSON.parse(decodeURIComponent(config));
-  } catch (_) {
+  } catch {
     return {};
   }
 }
 
 /**
- * A counterpart of the `TestConfigModule` from `@spartacus/core`,
- * but for the Server platform.
- * @see {@link TestConfigModule}
+ * Extracts the cookie header from various request types.
+ * Supports Express Request, Web standard Request, and raw IncomingMessage.
+ */
+function getCookieHeader(
+  request: Request | ExpressRequest | IncomingMessage | null
+): string | undefined {
+  if (!request) {
+    return undefined;
+  }
+
+  // Express Request: has get() method
+  if ('get' in request && typeof request.get === 'function') {
+    return request.get('Cookie');
+  }
+
+  // Web standard Request: has Headers instance
+  if (
+    'headers' in request &&
+    request.headers instanceof Headers &&
+    typeof request.headers.get === 'function'
+  ) {
+    return request.headers.get('cookie') ?? undefined;
+  }
+
+  // Raw IncomingMessage: has plain headers object
+  if ('headers' in request && typeof request.headers === 'object') {
+    const headers = request.headers as Record<string, string | string[]>;
+    const cookieHeader = headers['cookie'];
+    return Array.isArray(cookieHeader) ? cookieHeader[0] : cookieHeader;
+  }
+
+  return undefined;
+}
+
+/**
+ * Server-side counterpart of `TestConfigModule` from `@spartacus/core`.
  *
- * - It uses the cookie from the REQUEST object (but not from `document.cookie`).
- * - The `TestConfigModule` must be imported in the app module anyway.
+ * Reads test configuration from cookies in the request object, supporting
+ * both modern (Angular's REQUEST) and legacy (Spartacus's REQUEST) SSR systems.
  *
- * CAUTION: DON'T USE IT IN PRODUCTION! IT HASN'T BEEN REVIEWED FOR SECURITY ISSUES.
+ * CAUTION: FOR TESTING ONLY - NOT REVIEWED FOR PRODUCTION SECURITY.
+ *
+ * @see TestConfigModule
  */
 @NgModule({})
 export class TestConfigServerModule {
@@ -42,16 +85,31 @@ export class TestConfigServerModule {
         {
           provide: TEST_CONFIG,
           useFactory: () => {
-            const cookieName: string = inject(TEST_CONFIG_COOKIE_NAME);
-            const request = inject(REQUEST, { optional: true });
+            const cookieName = inject(TEST_CONFIG_COOKIE_NAME);
+            const request =
+              inject(LEGACY_REQUEST, { optional: true }) ??
+              (inject(REQUEST, { optional: true }) as
+                | Request
+                | IncomingMessage
+                | null);
+
             if (request && cookieName) {
-              const cookie = request.get('Cookie') ?? '';
+              const cookie = getCookieHeader(request) ?? '';
               const config = getCookie(cookie, cookieName);
               return parseConfigJSON(config);
             }
             return {};
           },
         },
+
+        // Inject test config into Spartacus config system
+        // eslint-disable-next-line @nx/workspace/use-provide-default-feature-toggles-factory
+        provideFeatureTogglesFactory(() => {
+          const testConfig = inject(TEST_CONFIG) ?? {};
+          return testConfig.features;
+        }),
+        // eslint-disable-next-line @nx/workspace/use-provide-default-config-factory
+        provideConfigFactory(() => inject(TEST_CONFIG) ?? {}),
       ],
     };
   }
