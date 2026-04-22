@@ -17,6 +17,7 @@ import {
   AuthService,
   CsrfStateService,
   FeatureConfigService,
+  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   OAUTH_REDIRECT_FLOW_KEY,
@@ -33,6 +34,7 @@ export class LoginFormComponentService {
   protected csrfStateService = inject(CsrfStateService);
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);
+  protected federatedLoginService = inject(FederatedLoginService);
   protected readonly customFormValidErrors = [
     'bad_credentials',
     'account_disabled',
@@ -54,6 +56,8 @@ export class LoginFormComponentService {
       state === true ? this.form.disable() : this.form.enable();
     })
   );
+
+  showResetPassword = !this.federatedLoginService.isLoginDomain;
 
   form: UntypedFormGroup = new UntypedFormGroup({
     userId: new UntypedFormControl('', [

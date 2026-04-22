@@ -11,6 +11,7 @@ import { ConfigValidatorModule } from './config/config-validator/config-validato
 import { ConfigModule } from './config/config.module';
 import { ErrorHandlingModule } from './error-handling';
 import { FeaturesConfigModule } from './features-config/features-config.module';
+import { FederatedLoginModule } from './federated-login';
 import { GlobalMessageModule } from './global-message/global-message.module';
 import { HttpModule } from './http/http.module';
 import { I18nModule } from './i18n/i18n.module';
@@ -19,8 +20,8 @@ import { BaseOccModule } from './occ/base-occ.module';
 import { MetaTagConfigModule } from './occ/config/meta-tag-config.module';
 import { ProcessModule } from './process/process.module';
 import { SiteContextModule } from './site-context/site-context.module';
-import { StateModule } from './state/state.module';
 import { SiteThemeModule } from './site-theme/site-theme.module';
+import { StateModule } from './state/state.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { SiteThemeModule } from './site-theme/site-theme.module';
     LazyLoadingModule.forRoot(),
     HttpModule.forRoot(),
     SiteThemeModule.forRoot(),
+    FederatedLoginModule,
   ],
 })
 export class BaseCoreModule {
