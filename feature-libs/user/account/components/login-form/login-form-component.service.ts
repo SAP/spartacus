@@ -82,7 +82,7 @@ export class LoginFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
-      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+      this.setOauthRedirectFlowFlag();
       nativeForm.submit();
       this.busy$.next(true);
     } else {
@@ -112,6 +112,7 @@ export class LoginFormComponentService {
     }
     const error = this.activatedRoute.snapshot.queryParams['error'];
     if (error) {
+      this.clearOauthRedirectFlowFlag();
       this.globalMessage.add(
         {
           key: this.customFormValidErrors.includes(error)
@@ -142,5 +143,17 @@ export class LoginFormComponentService {
     this.action = this.authConfigService?.getCustomLoginFormEndpoint();
     this.form.addControl('csrf', new FormControl('', Validators.required));
     this.form.get('csrf')?.setValue(this.csrf?.token);
+  }
+
+  protected setOauthRedirectFlowFlag(): void {
+    if (this.winRef.isBrowser()) {
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    }
+  }
+
+  protected clearOauthRedirectFlowFlag(): void {
+    if (this.winRef.isBrowser()) {
+      this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
+    }
   }
 }
