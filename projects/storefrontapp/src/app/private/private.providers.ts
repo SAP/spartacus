@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
+import { APP_INITIALIZER, importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { provideConfig, TestConfigModule } from '@spartacus/core';
+import { provideConfig, TestConfigModule, WindowRef } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { environment } from '../../environments/environment';
 import { TestOutletModule } from '../../test-outlets/test-outlet.module';
+import {
+  CartAbandonmentTrackerService,
+  initializeCartAbandonmentTracker,
+} from './cart-abandonment';
 
 /**
  * Private providers used only in our example Storefrontapp for testing purposes.
@@ -42,4 +46,12 @@ export const privateProviders = makeEnvironmentProviders([
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
     ...(environment.production ? [] : [StoreDevtoolsModule.instrument()]) // Enable Redux devtools only in non-production build
   ),
+
+  // Cart abandonment tracker initialization
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeCartAbandonmentTracker,
+    deps: [CartAbandonmentTrackerService, WindowRef],
+    multi: true,
+  },
 ]);
