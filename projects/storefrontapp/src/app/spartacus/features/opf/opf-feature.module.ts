@@ -48,7 +48,6 @@ import {
 import {
   defaultOpfGiftCardCartConfig,
   OPF_GIFT_CARD_FEATURE,
-  opfGiftCardIconConfig,
   OpfGiftCardRootModule,
 } from '@spartacus/opf/gift-card/root';
 import { environment } from '../../../../environments/environment';
@@ -89,7 +88,6 @@ extensionProviders.push(
   provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig)
 );
 extensionProviders.push(provideConfig(defaultOpfGiftCardCartConfig));
-extensionProviders.push(provideConfig(opfGiftCardIconConfig));
 
 @NgModule({
   imports: [
