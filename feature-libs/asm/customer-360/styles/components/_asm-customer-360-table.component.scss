@@ -154,4 +154,14 @@
       }
     }
   }
+
+  @media (max-width: 35.9375rem) {
+    .cx-asm-customer-360-table {
+      table-layout: auto;
+
+      td {
+        white-space: normal;
+      }
+    }
+  }
 }
