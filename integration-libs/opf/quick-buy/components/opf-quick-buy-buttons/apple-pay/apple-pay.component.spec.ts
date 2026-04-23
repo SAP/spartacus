@@ -100,9 +100,9 @@ describe('ApplePayComponent', () => {
       merchantId: 'merchant.com.adyen.upscale.test',
       enabled: true,
     };
-    component.activeConfiguration = [
-      { digitalWalletQuickBuy: [digitalWallet] } as any,
-    ];
+    component.activeConfiguration = {
+      digitalWalletQuickBuy: [digitalWallet],
+    };
 
     const mockObservable = of(true);
     mockApplePayService.isApplePaySupported.and.returnValue(mockObservable);
@@ -118,9 +118,9 @@ describe('ApplePayComponent', () => {
       merchantId: 'merchant.com.adyen.upscale.test',
       enabled: true,
     };
-    component.activeConfiguration = [
-      { digitalWalletQuickBuy: [digitalWallet] } as any,
-    ];
+    component.activeConfiguration = {
+      digitalWalletQuickBuy: [digitalWallet],
+    };
 
     fixture.detectChanges();
     expect(component.isApplePaySupported$).toBeUndefined();
@@ -139,11 +139,9 @@ describe('ApplePayComponent', () => {
       enabled: true,
     };
 
-    component.activeConfiguration = [
-      {
-        digitalWalletQuickBuy: [digitalWallet],
-      } as any,
-    ];
+    component.activeConfiguration = {
+      digitalWalletQuickBuy: [digitalWallet],
+    };
 
     fixture.detectChanges();
 

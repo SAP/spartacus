@@ -31,7 +31,9 @@ import { ApplePayService } from './apple-pay.service';
   imports: [NgIf, AsyncPipe],
 })
 export class ApplePayComponent implements OnInit {
-  @Input() activeConfiguration: OpfActiveConfiguration;
+  @Input() activeConfiguration:
+    | OpfActiveConfiguration
+    | OpfActiveConfiguration[];
 
   protected applePayService = inject(ApplePayService);
   protected currentProductService = inject(CurrentProductService);

@@ -10,6 +10,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { OpfGooglePayComponent } from './google-pay.component';
 import { OpfGooglePayService } from './google-pay.service';
 
@@ -48,7 +49,7 @@ describe('OpfGooglePayComponent', () => {
 
     fixture = TestBed.createComponent(OpfGooglePayComponent);
     component = fixture.componentInstance;
-    component.activeConfiguration = [];
+    component.activeConfiguration = {};
   });
 
   async function detectChanges() {
@@ -65,7 +66,7 @@ describe('OpfGooglePayComponent', () => {
 
     expect(mockOpfGooglePayService.loadResources).toHaveBeenCalled();
     expect(mockOpfGooglePayService.initClient).toHaveBeenCalledWith(
-      component.activeConfiguration
+      component.activeConfigurations
     );
   });
 
