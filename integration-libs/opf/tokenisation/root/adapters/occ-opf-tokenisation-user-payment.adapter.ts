@@ -21,7 +21,6 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
-
 @Injectable()
 export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter {
   protected logger = inject(LoggerService);
@@ -62,6 +61,7 @@ export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter 
     );
   }
 
+  // TODO: Unify this adapter with Core once Core fixes the paymentDetail PATCH request payload handling.
   override setDefault(userId: string, paymentMethodID: string): Observable<{}> {
     const patchUrl = this.occEndpoints.buildUrl('paymentDetail', {
       urlParams: { userId, paymentDetailId: paymentMethodID },
