@@ -258,8 +258,13 @@
             }
           }
           .header-account-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             span {
               margin: 0;
+              display: flex;
+              flex-wrap: wrap;
             }
           }
         }
