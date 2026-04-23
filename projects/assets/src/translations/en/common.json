@@ -205,6 +205,7 @@
       "cxMaxCharactersLength": "Password cannot have more than 128 characters",
       "cxContainsSpecialCharacters": "Password cannot contain special characters",
       "cxNoConsecutiveCharacters": "Password cannot contain consecutive identical characters",
+      "cxMustEndWithLegalCharacter": "Password must end with a legal letter, digit, or character",
       "invalidTokenCodeError": "This code is not valid",
       "date": {
         "required": "Field {{label}} is required",

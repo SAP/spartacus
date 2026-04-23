@@ -6,9 +6,10 @@
 
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
+import { FederatedLoginService } from '../../../federated-login';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -25,6 +26,9 @@ export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
+  federatedLoginService = inject(FederatedLoginService);
+  protected federatedLoginParamsSub: Subscription | undefined;
+
   // TODO: Remove platformId dependency in 4.0
   constructor(
     protected oAuthService: OAuthService,
@@ -36,8 +40,52 @@ export class OAuthLibWrapperService {
   }
 
   protected initialize() {
+    const config = this.generateCustomerLoginConfig();
+
+    this.oAuthService.configure(config);
+
+    // reconfigure after getting language
+    this.federatedLoginService.detectContext();
+    if (this.federatedLoginService.enabled) {
+      this.federatedLoginParamsSub?.unsubscribe();
+      this.federatedLoginParamsSub = this.federatedLoginService
+        .getParameters()
+        .subscribe((parameterString) => {
+          const updatedConfig = this.generateCustomerLoginConfig();
+
+          updatedConfig.loginUrl +=
+            (updatedConfig.loginUrl.includes('?') ? '&' : '?') +
+            parameterString;
+
+          this.oAuthService.configure(updatedConfig);
+        });
+    }
+  }
+
+  protected generateCustomerLoginConfig() {
+    const config = this.generateBaseConfig();
     const isSSR = !this.winRef.isBrowser();
-    this.oAuthService.configure({
+
+    let redirectUri = this.authConfigService.getOAuthLibConfig()?.redirectUri;
+    if (redirectUri === null || redirectUri === undefined) {
+      if (isSSR) {
+        redirectUri = '';
+      } else if (this.federatedLoginService.isLoginDomain) {
+        redirectUri = this.federatedLoginService.origin;
+      } else {
+        redirectUri = this.winRef.nativeWindow?.location.origin;
+      }
+    }
+
+    config.redirectUri = redirectUri;
+
+    return config;
+  }
+
+  protected generateBaseConfig() {
+    const isSSR = !this.winRef.isBrowser();
+
+    return {
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
       clientId: this.authConfigService.getClientId(),
@@ -50,35 +98,17 @@ export class OAuthLibWrapperService {
         this.authConfigService.getBaseUrl(),
       redirectUri:
         this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-        (!isSSR
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.winRef.nativeWindow!.location.origin
-          : ''),
+        (!isSSR ? this.winRef.nativeWindow?.location.origin : ''),
       ...this.authConfigService.getOAuthLibConfig(),
-    });
+    };
   }
 
   protected changeClientWhenInitialize(clientId: string) {
-    const isSSR = !this.winRef.isBrowser();
-    this.oAuthService.configure({
-      tokenEndpoint: this.authConfigService.getTokenEndpoint(),
-      loginUrl: this.authConfigService.getLoginUrl(),
-      clientId: clientId,
-      dummyClientSecret: this.authConfigService.getClientSecret(),
-      revocationEndpoint: this.authConfigService.getRevokeEndpoint(),
-      logoutUrl: this.authConfigService.getLogoutUrl(),
-      userinfoEndpoint: this.authConfigService.getUserinfoEndpoint(),
-      issuer:
-        this.authConfigService.getOAuthLibConfig()?.issuer ??
-        this.authConfigService.getBaseUrl(),
-      redirectUri:
-        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-        (!isSSR
-          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.winRef.nativeWindow!.location.origin
-          : ''),
-      ...this.authConfigService.getOAuthLibConfig(),
-    });
+    const config = this.generateBaseConfig();
+
+    config.clientId = clientId;
+
+    this.oAuthService.configure(config);
   }
 
   /**
