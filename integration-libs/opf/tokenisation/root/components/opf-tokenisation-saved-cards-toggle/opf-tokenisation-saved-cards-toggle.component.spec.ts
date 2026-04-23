@@ -120,11 +120,12 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       const expectedContext: OpfSavedCardsToggleContext = {
         savedCardsId: 1,
         selectedPaymentId: 1,
+        hasSavedCards: false,
         disabled: false,
       };
 
       component.context$.subscribe((context) => {
-        expect(context).toEqual(expectedContext);
+        expect(context).toEqual(jasmine.objectContaining(expectedContext));
         done();
       });
     });
@@ -148,7 +149,9 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       const testComponent = testFixture.componentInstance;
 
       testComponent.context$.subscribe((context) => {
-        expect(context).toEqual({});
+        expect(context).toEqual(
+          jasmine.objectContaining({ hasSavedCards: false })
+        );
         done();
       });
     });

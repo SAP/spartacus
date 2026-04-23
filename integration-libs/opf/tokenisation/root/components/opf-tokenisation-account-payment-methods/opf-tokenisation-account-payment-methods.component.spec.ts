@@ -58,6 +58,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       'getPaymentMethodsLoading',
       'loadPaymentMethods',
       'deletePaymentMethod',
+      'setPaymentMethodAsDefault',
     ]);
 
     const translationSpy = jasmine.createSpyObj('TranslationService', [
