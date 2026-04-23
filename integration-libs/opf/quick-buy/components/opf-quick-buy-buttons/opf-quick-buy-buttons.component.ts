@@ -37,11 +37,11 @@ export class OpfQuickBuyButtonsComponent implements OnInit {
 
   isPaymentMethodEnabled(
     provider: OpfQuickBuyProviderType,
-    activeConfiguration: OpfActiveConfiguration[]
+    activeConfigurations: OpfActiveConfiguration[]
   ): boolean {
     return this.opfQuickBuyButtonsService.isQuickBuyProviderEnabled(
       provider,
-      activeConfiguration
+      activeConfigurations
     );
   }
 }

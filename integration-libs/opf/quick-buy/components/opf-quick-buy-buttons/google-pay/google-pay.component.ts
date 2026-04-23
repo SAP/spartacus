@@ -39,7 +39,8 @@ export class OpfGooglePayComponent implements OnInit {
 
   get activeConfigurations(): OpfActiveConfiguration[] {
     const value = this.activeConfiguration;
-    return Array.isArray(value) ? value : value ? [value] : [];
+    if (!value) return [];
+    return Array.isArray(value) ? value : [value];
   }
   ngOnInit(): void {
     this.opfGooglePayService.loadResources().then(() => {
