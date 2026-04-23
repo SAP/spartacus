@@ -343,6 +343,25 @@
     }
     .chat-footer a:hover { text-decoration: underline; }
     .chat-footer .sep { margin: 0 6px; }
+
+    /* ── Template card shell ─────────────────────────────────────────── */
+    .template-row { align-items: flex-start; padding: 0; }
+    .template-card {
+      width: 100%; border: 1px solid #e8e8e8; border-radius: 12px;
+      overflow: hidden; font-size: 0.84rem; background: #fff;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+    .template-card-header { padding: 12px 14px 10px; border-bottom: 1px solid #f0f0f0; }
+    .template-card-header h3 { font-size: 0.92rem; font-weight: 700; margin: 0 0 2px; color: #1a1a1a; }
+    .template-card-header p  { font-size: 0.76rem; color: #8a8a8a; margin: 0; }
+    .template-card-section   { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; }
+    .template-card-footer    { padding: 10px 14px; font-size: 0.68rem; color: #b0b0b0; text-align: center; }
+    .template-cta-btn {
+      display: block; width: 100%; padding: 13px; background: #1a1a1a;
+      color: #fff; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.06em;
+      border: none; cursor: pointer; text-align: center; transition: background 0.2s;
+    }
+    .template-cta-btn:hover { background: #333; }
   </style>
 </head>
 <body>
@@ -444,11 +463,38 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
   <script>
+  // ── Template registry (module-level — template scripts call registerTemplate) ──
+  const TEMPLATES = {};
+
+  function registerTemplate(id, renderFn) {
+    TEMPLATES[id] = renderFn;
+  }
+
+  // Convention-based lazy loading: templates/{id}.js loaded on first use.
+  function ensureTemplate(id) {
+    if (TEMPLATES[id]) return Promise.resolve(true);
+    return new Promise(resolve => {
+      const escapedId = CSS.escape(id);
+      if (document.querySelector(`script[data-tpl="${escapedId}"]`)) {
+        // Script already injected but not yet registered — poll until it is
+        const wait = setInterval(() => {
+          if (TEMPLATES[id]) { clearInterval(wait); resolve(true); }
+        }, 20);
+        setTimeout(() => { clearInterval(wait); resolve(false); }, 3000);
+        return;
+      }
+      const s = document.createElement('script');
+      s.dataset.tpl = id;
+      s.src = `templates/${encodeURIComponent(id)}.js`;
+      s.onload  = () => resolve(!!TEMPLATES[id]);
+      s.onerror = () => resolve(false);
+      document.head.appendChild(s);
+    });
+  }
+
   (() => {
     // ── Config from URL params ─────────────────────────────────────────────
     const params     = new URLSearchParams(location.search);
-    const apiUrl     = (params.get('apiUrl') || '').replace(/\/$/, '');
-    const skill      = params.get('skill')      || 'merchandising-assistant';
     const title      = params.get('title')      || 'Virtual Assistant';
     const themeColor = params.get('themeColor') || '#0064d9';
 
@@ -476,6 +522,14 @@
       if (e.data?.type === 'assistant-prompt' && typeof e.data.prompt === 'string' && e.data.prompt) {
         inputEl.value = e.data.prompt;
         send();
+      }
+      if (e.data?.type === 'assistant-inject-response') {
+        // Remove thinking indicator if present
+        const thinking = msgList.querySelector('.thinking')?.closest('.msg-row');
+        if (thinking) thinking.remove();
+        setLoading(false);
+        if (e.data.agentReply)  appendBubble(e.data.agentReply, 'agent');
+        if (e.data.contextId)   contextId = e.data.contextId;
       }
     });
 
@@ -570,96 +624,12 @@
       }
     }
 
-    // ── Streaming send ────────────────────────────────────────────────────
+    // ── Send via Angular AgentService (postMessage delegation) ───────────
     async function sendStreaming(text) {
-      const thinkingRow = appendThinking();
+      appendThinking();
       setLoading(true);
-
-      let agentRow   = null;
-      let agentDiv   = null;
-      let received   = '';
-      let rendered   = '';
-      let streamDone = false;
-      let animTimer  = null;
-
-      const CHARS_PER_TICK = 2;
-      const TICK_MS = 20;
-
-      function tick() {
-        if (rendered.length < received.length) {
-          rendered = received.slice(0, rendered.length + CHARS_PER_TICK);
-          agentDiv.innerHTML = DOMPurify.sanitize(marked.parse(rendered));
-          scrollToBottom();
-        }
-        if (streamDone && rendered.length >= received.length) {
-          agentDiv.innerHTML = DOMPurify.sanitize(marked.parse(rendered));
-          clearInterval(animTimer);
-          animTimer = null;
-        }
-      }
-
-      try {
-        const response = await fetch(`${apiUrl}/api/chat/stream`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text, contextId, skill }),
-        });
-
-        if (!response.ok) {
-          let msg = `Server error ${response.status}`;
-          try { const d = await response.json(); msg = d.error ?? msg; } catch { /* not JSON */ }
-          throw new Error(msg);
-        }
-
-        const newCtx = response.headers.get('x-context-id');
-        if (newCtx) contextId = newCtx;
-
-        // Response confirmed — swap thinking row for agent bubble immediately
-        thinkingRow.remove();
-        agentRow = document.createElement('div');
-        agentRow.className = 'msg-row agent';
-        agentRow.appendChild(makeAgentAvatar());
-        agentDiv = document.createElement('div');
-        agentDiv.className = 'bubble agent';
-        agentRow.appendChild(agentDiv);
-        msgList.appendChild(agentRow);
-        scrollToBottom();
-
-        animTimer = setInterval(tick, TICK_MS);
-
-        const reader  = response.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop();
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            const raw = line.slice(6).trim();
-            if (!raw) continue;
-            try {
-              const evt = JSON.parse(raw);
-              if (evt.contextId) { contextId = evt.contextId; continue; }
-              if (typeof evt.content === 'string' && evt.content) received += evt.content;
-            } catch { /* malformed */ }
-          }
-        }
-        streamDone = true;
-
-      } catch (err) {
-        if (animTimer) { clearInterval(animTimer); animTimer = null; }
-        // Remove any partial agent row created before the error
-        if (agentRow?.isConnected) agentRow.remove();
-        appendBubble(`Error: ${err.message}`, 'error');
-      } finally {
-        // Safety net: thinking row must always be removed regardless of code path
-        if (thinkingRow.isConnected) thinkingRow.remove();
-        setLoading(false);
-      }
+      // Delegate to the Angular app — reply arrives via 'assistant-inject-response'
+      window.parent.postMessage({ type: 'assistant-send', message: text, contextId }, '*');
     }
 
     // ── Send ──────────────────────────────────────────────────────────────

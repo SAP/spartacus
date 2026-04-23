@@ -31,4 +31,8 @@ interface Env {
   CX_S4_SERVICE: boolean;
   CX_PUNCHOUT: boolean;
   CX_ASSISTANT_API_URL: string;
+  CX_AGENT_SERVICE_URL: string;
+  CX_AGENT_AUTH_URL: string;
+  CX_AGENT_CLIENT_ID: string;
+  CX_AGENT_CLIENT_SECRET: string;
 }

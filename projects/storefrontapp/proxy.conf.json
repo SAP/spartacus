@@ -1,0 +1,16 @@
+{
+  "/proxy/agent-auth": {
+    "target": "https://appfnddev.accounts400.ondemand.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/proxy/agent-auth": "/oauth2/token" },
+    "logLevel": "debug"
+  },
+  "/proxy/agent": {
+    "target": "https://promotions-personalization-agent.c-568e783.stage.kyma.ondemand.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/proxy/agent": "" },
+    "logLevel": "debug"
+  }
+}

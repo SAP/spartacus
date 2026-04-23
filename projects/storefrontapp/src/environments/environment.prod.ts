@@ -29,4 +29,8 @@ export const environment: Environment = {
   s4Service: buildProcess.env.CX_S4_SERVICE,
   punchout: buildProcess.env.CX_PUNCHOUT,
   assistantApiUrl: buildProcess.env.CX_ASSISTANT_API_URL ?? 'http://localhost:3000',
+  agentServiceUrl: buildProcess.env.CX_AGENT_SERVICE_URL,
+  agentAuthUrl: buildProcess.env.CX_AGENT_AUTH_URL,
+  agentClientId: buildProcess.env.CX_AGENT_CLIENT_ID,
+  agentClientSecret: buildProcess.env.CX_AGENT_CLIENT_SECRET,
 };

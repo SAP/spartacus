@@ -14,6 +14,8 @@ import {
   CartAbandonmentTrackerService,
   initializeCartAbandonmentTracker,
 } from './cart-abandonment';
+import { AssistantWidgetService } from '../assistant-widget.service';
+import { initializeAssistantWidget } from '../assistant-widget.initializer';
 
 /**
  * Private providers used only in our example Storefrontapp for testing purposes.
@@ -52,6 +54,14 @@ export const privateProviders = makeEnvironmentProviders([
     provide: APP_INITIALIZER,
     useFactory: initializeCartAbandonmentTracker,
     deps: [CartAbandonmentTrackerService, WindowRef],
+    multi: true,
+  },
+
+  // Assistant widget initialization
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeAssistantWidget,
+    deps: [AssistantWidgetService, WindowRef],
     multi: true,
   },
 ]);

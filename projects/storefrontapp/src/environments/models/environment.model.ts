@@ -27,4 +27,8 @@ export interface Environment {
   s4Service: boolean;
   punchout: boolean;
   assistantApiUrl: string;
+  agentServiceUrl: string;
+  agentAuthUrl: string;
+  agentClientId: string;
+  agentClientSecret: string;
 }

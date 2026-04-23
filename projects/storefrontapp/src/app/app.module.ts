@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, NgModule, provideAppInitializer } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideConfig } from '@spartacus/core';
 import { AppRoutingModule } from '@spartacus/storefront';
-import { AssistantWidgetService } from './assistant-widget.service';
 import { environment } from '../environments/environment';
 import { privateProviders } from './private/private.providers';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -33,8 +32,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
         },
       },
     }),
-
-    provideAppInitializer(() => inject(AssistantWidgetService).init()),
 
     privateProviders,
   ],

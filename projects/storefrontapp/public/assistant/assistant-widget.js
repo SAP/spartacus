@@ -184,49 +184,75 @@ class AssistantWidget extends HTMLElement {
           position: fixed;
           bottom: 104px;
           right: 28px;
-          max-width: 250px;
+          width: 330px;
           background: #fff;
-          border-radius: 16px 16px 4px 16px;
-          padding: 12px 14px;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+          border-radius: 18px;
+          padding: 20px 16px 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.18);
           z-index: 2147483639;
           display: flex;
-          align-items: flex-start;
-          gap: 8px;
-          cursor: pointer;
+          flex-direction: column;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
           animation: bubble-in 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         .speech-bubble[hidden] { display: none; }
-        .speech-bubble p {
+        .speech-bubble p:not(.speech-title) {
           flex: 1;
-          font-size: 0.84rem;
-          line-height: 1.45;
+          font-size: 0.88rem;
+          line-height: 1.5;
           color: #1c1e21;
           margin: 0;
         }
-        .speech-close {
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: #90949c;
-          font-size: 1.1rem;
-          padding: 0;
-          line-height: 1;
-          flex-shrink: 0;
-          margin-top: -1px;
-        }
-        .speech-close:hover { color: #1c1e21; }
-        .speech-bubble::after {
-          content: '';
+        .speech-badge {
           position: absolute;
-          bottom: -9px;
-          right: 20px;
-          border: 5px solid transparent;
-          border-top-color: #fff;
-          border-bottom: none;
-          filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+          top: -14px;
+          right: 14px;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #fff;
+          background: var(--bubble-badge-bg, linear-gradient(135deg, #c026d3 0%, #7c3aed 100%));
+          white-space: nowrap;
+          pointer-events: none;
+          letter-spacing: 0.02em;
         }
+        .speech-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #1c1e21;
+          margin: 0 0 12px;
+          line-height: 1.3;
+        }
+        .speech-text { margin-top: 0; }
+        .speech-title + .speech-text { margin-top: 0; }
+        .speech-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 14px;
+          width: 100%;
+        }
+        .speech-action-btn {
+          width: 100%;
+          padding: 12px 14px;
+          border-radius: 12px;
+          font-size: 0.88rem;
+          font-weight: 600;
+          cursor: pointer;
+          border: 1.5px solid #d8d8d8;
+          background: #fff;
+          color: #1c1e21;
+          text-align: center;
+          transition: background 0.15s, border-color 0.15s;
+        }
+        .speech-action-btn:hover { background: #f5f5f5; border-color: #bbb; }
+        .speech-action-btn[data-action-type="cancel"] { font-weight: 400; }
+        .speech-action-btn[data-variant="primary"] {
+          font-weight: 700;
+          border-color: #c0c0c0;
+        }
+        .speech-action-btn[data-variant="primary"]:hover { background: #f5f5f5; border-color: #aaa; }
         @keyframes bubble-in {
           from { opacity: 0; transform: translateY(12px) scale(0.93); }
           to   { opacity: 1; transform: translateY(0)    scale(1); }
@@ -288,14 +314,16 @@ class AssistantWidget extends HTMLElement {
         @media (max-width: 420px) {
           .panel        { width: calc(100vw - 16px); right: 8px; bottom: 96px; height: 70vh; }
           .fab          { right: 16px; bottom: 16px; }
-          .speech-bubble { right: 8px; max-width: calc(100vw - 16px); }
+          .speech-bubble { right: 8px; width: calc(100vw - 16px); }
         }
       </style>
 
       <!-- Speech bubble -->
       <div class="speech-bubble" hidden>
+        <div class="speech-badge" hidden></div>
+        <p class="speech-title" hidden></p>
         <p class="speech-text"></p>
-        <button class="speech-close" aria-label="Dismiss">×</button>
+        <div class="speech-actions" hidden></div>
       </div>
 
       <!-- FAB -->
@@ -346,9 +374,14 @@ class AssistantWidget extends HTMLElement {
     const panel       = shadow.querySelector('.panel');
     const iframe      = shadow.querySelector('.panel iframe');
     const badge       = shadow.querySelector('.fab-badge');
-    const bubble      = shadow.querySelector('.speech-bubble');
-    const bubbleText  = shadow.querySelector('.speech-text');
-    const bubbleClose = shadow.querySelector('.speech-close');
+    const bubble        = shadow.querySelector('.speech-bubble');
+    const bubbleText    = shadow.querySelector('.speech-text');
+    const bubbleBadge   = shadow.querySelector('.speech-badge');
+    const bubbleTitle   = shadow.querySelector('.speech-title');
+    const bubbleActions = shadow.querySelector('.speech-actions');
+
+    // Expose theme color to shadow DOM for primary action button
+    shadow.host.style.setProperty('--theme-color', cfg.themeColor);
 
     let panelOpen    = false;
     let unreadCount  = 0;
@@ -390,7 +423,24 @@ class AssistantWidget extends HTMLElement {
       if (e.origin !== frameOrigin || e.source !== iframe.contentWindow) return;
       if (e.data?.type === 'assistant-close')  closePanel();
       if (e.data?.type === 'assistant-expand') panel.classList.toggle('is-expanded', e.data.expanded);
+      if (e.data?.type === 'assistant-action') {
+        this.dispatchEvent(new CustomEvent('assistant-action', {
+          detail: { actionId: e.data.actionId, payload: e.data.payload },
+          bubbles: true,
+        }));
+      }
+      if (e.data?.type === 'assistant-send') {
+        this.dispatchEvent(new CustomEvent('assistant-send', {
+          detail: { message: e.data.message, contextId: e.data.contextId },
+          bubbles: true,
+        }));
+      }
     });
+
+    // Forward agent replies from Angular back into the iframe
+    this._relayToFrame = (payload) => {
+      iframe.contentWindow?.postMessage(payload, frameOrigin);
+    };
 
     // Click outside closes panel.
     // Must use composedPath() — e.target is retargeted to the host element
@@ -425,6 +475,11 @@ class AssistantWidget extends HTMLElement {
     const showBubble = () => {
       if (panelOpen) return;
       clearTimeout(dismissTimer);
+      // Reset complex fields for plain proactive bubbles
+      bubbleBadge.setAttribute('hidden', '');
+      bubbleTitle.setAttribute('hidden', '');
+      bubbleActions.setAttribute('hidden', '');
+      bubbleActions.innerHTML = '';
       bubbleText.textContent = PROACTIVE_MESSAGES[proactiveIndex % PROACTIVE_MESSAGES.length];
       proactiveIndex++;
       bubble.classList.remove('dismissing');
@@ -438,7 +493,6 @@ class AssistantWidget extends HTMLElement {
     };
 
     bubble.addEventListener('click', dismissBubble);
-    bubbleClose.addEventListener('click', (e) => { e.stopPropagation(); dismissBubble(); });
 
     // First bubble after 8 s, then every 30 s
     if (cfg.autoBubbleShowUp) {
@@ -449,12 +503,64 @@ class AssistantWidget extends HTMLElement {
     this._openPanel  = openPanel;
     this._closePanel = closePanel;
 
-    this._alertBubble = (message, options = {}) => {
-      const duration      = options.duration ?? 7000;
-      const onClickPrompt = options.onClickPrompt ?? null;
+    this._alertBubble = (messageOrOptions, legacyOptions = {}) => {
+      const isComplex = messageOrOptions !== null && typeof messageOrOptions === 'object';
+      const opts = isComplex ? messageOrOptions : { content: String(messageOrOptions), ...legacyOptions };
+      const duration = opts.duration ?? -1;
+      const actions  = [...(opts.actions ?? [])];
 
       clearTimeout(dismissTimer);
-      bubbleText.textContent = String(message);
+      bubble._promptHandler && bubble.removeEventListener('click', bubble._promptHandler);
+      bubble._promptHandler = null;
+      bubbleActions.innerHTML = '';
+
+      // Badge
+      if (opts.alert) {
+        bubbleBadge.textContent = opts.alert;
+        bubbleBadge.removeAttribute('hidden');
+      } else { bubbleBadge.setAttribute('hidden', ''); }
+
+      // Title
+      if (opts.title) {
+        bubbleTitle.textContent = opts.title;
+        bubbleTitle.removeAttribute('hidden');
+      } else { bubbleTitle.setAttribute('hidden', ''); }
+
+      // Body
+      bubbleText.textContent = opts.content ?? '';
+
+      // Actions
+      if (actions.length > 0) {
+        bubbleActions.removeAttribute('hidden');
+        for (const action of actions) {
+          const btn = document.createElement('button');
+          btn.className = 'speech-action-btn';
+          btn.dataset.variant    = action.variant ?? 'secondary';
+          btn.dataset.actionType = action.actionType;
+          btn.textContent = action.content;
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dismissBubble();
+            if (action.actionType === 'sendMessage' && action.value) {
+              openPanel();
+              iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: action.value }, frameOrigin);
+            }
+          });
+          bubbleActions.appendChild(btn);
+        }
+      } else {
+        bubbleActions.setAttribute('hidden', '');
+        // Legacy: whole-bubble click opens + sends
+        if (!isComplex && opts.onClickPrompt) {
+          bubble._promptHandler = () => {
+            dismissBubble();
+            openPanel();
+            iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: opts.onClickPrompt }, frameOrigin);
+          };
+          bubble.addEventListener('click', bubble._promptHandler, { once: true });
+        }
+      }
+
       bubble.classList.remove('dismissing');
       bubble.removeAttribute('hidden');
       unreadCount++;
@@ -462,21 +568,7 @@ class AssistantWidget extends HTMLElement {
         badge.textContent = String(unreadCount);
         badge.removeAttribute('hidden');
       }
-
-      // Override click: open panel + inject prompt (if provided)
-      bubble._promptHandler && bubble.removeEventListener('click', bubble._promptHandler);
-      if (onClickPrompt) {
-        bubble._promptHandler = () => {
-          dismissBubble();
-          openPanel();
-          iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: onClickPrompt }, frameOrigin);
-        };
-        bubble.addEventListener('click', bubble._promptHandler, { once: true });
-      } else {
-        bubble._promptHandler = null;
-      }
-
-      dismissTimer = setTimeout(dismissBubble, duration);
+      if (duration > 0) dismissTimer = setTimeout(dismissBubble, duration);
     };
   }
 
@@ -484,6 +576,7 @@ class AssistantWidget extends HTMLElement {
   show()                  { this._openPanel?.(); }
   hide()                  { this._closePanel?.(); }
   alert(message, options) { this._alertBubble?.(message, options); }
+  relayToFrame(payload)   { this._relayToFrame?.(payload); }
 
   // ── Utility ───────────────────────────────────────────────────────────────
   _esc(str) {

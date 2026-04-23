@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assistant Widget — Feature Tests</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; background: #f5f5f5; }
+    h1   { font-size: 1.1rem; font-weight: 700; margin: 0; }
+    .toolbar {
+      position: sticky; top: 0; z-index: 100;
+      background: #1a1a1a; color: #fff;
+      padding: 12px 20px; display: flex; align-items: center; gap: 16px;
+    }
+    .toolbar span { font-size: 0.78rem; color: #aaa; }
+    main { padding: 24px 20px; max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    section { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    h2 { font-size: 0.9rem; font-weight: 700; margin: 0 0 4px; color: #1a1a1a; }
+    p  { font-size: 0.8rem; color: #666; margin: 0 0 12px; }
+    .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    button {
+      padding: 7px 14px; border-radius: 8px; border: 1.5px solid #d8d8d8;
+      background: #fff; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      color: #1a1a1a; transition: background 0.15s;
+    }
+    button:hover { background: #f0f0f0; }
+    button.primary { background: #1a1a1a; color: #fff; border-color: transparent; }
+    button.primary:hover { background: #333; }
+    .log {
+      margin-top: 12px; background: #f8f8f8; border: 1px solid #e8e8e8;
+      border-radius: 8px; padding: 10px 12px; font-size: 0.76rem;
+      font-family: monospace; color: #555; min-height: 36px; max-height: 120px;
+      overflow-y: auto; white-space: pre-wrap; word-break: break-all;
+    }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
+    .badge.pass { background: #e6f9ec; color: #1a7a3a; }
+    .badge.fail { background: #fdecea; color: #b71c1c; }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <h1>Assistant Widget — Feature Tests</h1>
+  <span>Open browser console for additional output</span>
+</div>
+
+<main>
+
+  <!-- ── Bubble: legacy ── -->
+  <section>
+    <h2>Bubble — Legacy API (backward compat)</h2>
+    <p>Both calls must still work identically to before the changes.</p>
+    <div class="btns">
+      <button onclick="testLegacyPlain()">Plain string</button>
+      <button onclick="testLegacyWithPrompt()">String + onClickPrompt</button>
+    </div>
+    <div class="log" id="log-legacy">Click a button to run the test.</div>
+  </section>
+
+  <!-- ── Bubble: complex ── -->
+  <section>
+    <h2>Bubble — Complex API</h2>
+    <p>Rich card with badge, title, body, and action buttons.</p>
+    <div class="btns">
+      <button class="primary" onclick="testComplexFull()">Full bubble (badge + title + 2 actions)</button>
+      <button onclick="testComplexNoActions()">Title + body, no actions, no auto-dismiss</button>
+      <button onclick="testComplexBadgeOnly()">Badge only, no title</button>
+    </div>
+    <div class="log" id="log-complex">Click a button to run the test.</div>
+  </section>
+
+  <!-- ── assistant-action relay ── -->
+  <section>
+    <h2>Template CTA — <code>assistant-action</code> CustomEvent relay</h2>
+    <p>Verifies the widget dispatches a CustomEvent when an <code>assistant-action</code> postMessage is received from the iframe.</p>
+    <div class="btns">
+      <button onclick="testActionRelay()">Fire mock assistant-action</button>
+    </div>
+    <div class="log" id="log-action">Click a button to run the test.</div>
+  </section>
+
+  <!-- ── Template: render function ── -->
+  <section>
+    <h2>Display Template — Render function</h2>
+    <p>Directly calls <code>TEMPLATES['new-user-discount']</code> in the iframe context and injects the output here for visual inspection.</p>
+    <div class="btns">
+      <button class="primary" onclick="testTemplateRender()">Render new-user-discount</button>
+      <button onclick="testTemplateRenderMinimal()">Minimal data (no CTA)</button>
+      <button onclick="testTemplateUnknown()">Unknown template ID (error path)</button>
+    </div>
+    <div class="log" id="log-template-render">Click a button to run the test.</div>
+    <div id="template-preview" style="margin-top:12px;"></div>
+  </section>
+
+  <!-- ── Template: full SSE flow ── -->
+  <section>
+    <h2>Display Template — Full SSE flow (fetch mock)</h2>
+    <p>
+      Injects a fetch mock into the widget's iframe that returns a <code>displayTemplateId</code> SSE event.
+      Then sends a chat message — the template card should render instead of streaming text.
+    </p>
+    <div class="btns">
+      <button class="primary" onclick="injectMockFetch('new-user-discount')">Mock SSE → new-user-discount card</button>
+      <button onclick="injectMockFetch('unknown-template')">Mock SSE → unknown template (error fallback)</button>
+      <button onclick="restoreFetch()">Restore real fetch</button>
+    </div>
+    <p style="margin-top:8px;color:#888">After injecting a mock, open the chat widget (FAB button) and send any message.</p>
+    <div class="log" id="log-sse">Ready. Inject a mock fetch, then send a message in the chat.</div>
+  </section>
+
+</main>
+
+<!-- Widget under test -->
+<assistant-widget
+  id="cx-assistant-widget"
+  api-url="http://localhost:3000"
+  skill="merchandising-assistant"
+  title="Shopping Assistant"
+  theme-color="#1f7bc0">
+</assistant-widget>
+
+<script src="assistant-widget.js"></script>
+<script>
+/* ── Helpers ────────────────────────────────────────────────────── */
+function widget() {
+  return document.getElementById('cx-assistant-widget');
+}
+
+function iframeWin() {
+  const shadow = widget().shadowRoot;
+  return shadow?.querySelector('iframe')?.contentWindow ?? null;
+}
+
+function log(id, msg, pass) {
+  const el = document.getElementById(id);
+  const badge = pass === undefined ? '' : (pass ? '<span class="badge pass">PASS</span> ' : '<span class="badge fail">FAIL</span> ');
+  el.innerHTML += badge + msg + '\n';
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearLog(id) {
+  document.getElementById(id).textContent = '';
+}
+
+// Wait for the iframe's window to be accessible (it loads async)
+function waitForIframe(timeout = 3000) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+    const poll = setInterval(() => {
+      const win = iframeWin();
+      if (win?.TEMPLATES !== undefined) { clearInterval(poll); resolve(win); return; }
+      if (Date.now() - start > timeout) { clearInterval(poll); reject(new Error('Iframe not ready')); }
+    }, 50);
+  });
+}
+
+/* ── Listen for assistant-action events ─────────────────────────── */
+widget().addEventListener('assistant-action', (e) => {
+  log('log-action', `Received CustomEvent detail: ${JSON.stringify(e.detail)}`, true);
+  console.log('[test] assistant-action', e.detail);
+});
+
+/* ── Test: Legacy plain string ──────────────────────────────────── */
+function testLegacyPlain() {
+  clearLog('log-legacy');
+  widget().alert('Need help? Click to chat!');
+  log('log-legacy', 'Called alert("Need help? Click to chat!") — check bubble appears as plain text.', undefined);
+}
+
+/* ── Test: Legacy with onClickPrompt ────────────────────────────── */
+function testLegacyWithPrompt() {
+  clearLog('log-legacy');
+  widget().alert('Left something in your cart?', { onClickPrompt: 'Help me check out', duration: 8000 });
+  log('log-legacy', 'Called alert(string, { onClickPrompt }) — click bubble to open chat and auto-send prompt.', undefined);
+}
+
+/* ── Test: Complex full ─────────────────────────────────────────── */
+function testComplexFull() {
+  clearLog('log-complex');
+  widget().alert({
+    alert: '🎉 NEW USER',
+    alertColor: '#7c3aed',
+    title: 'Welcome, New Member! 🎉',
+    content: 'As a new user (registered less than a week ago), enjoy an exclusive 10% welcome discount on your first order!',
+    duration: 0,
+    actions: [
+      { actionType: 'sendMessage', variant: 'primary', content: 'Claim my welcome offer ✨', value: 'I want to claim my 10% new user discount' },
+      { actionType: 'cancel', content: "No thanks, I'll continue browsing" },
+    ],
+  });
+  log('log-complex', 'Bubble should show: purple badge top-right, bold title, body text, primary+secondary buttons.', undefined);
+}
+
+/* ── Test: Complex no actions ───────────────────────────────────── */
+function testComplexNoActions() {
+  clearLog('log-complex');
+  widget().alert({
+    title: 'Staying a while?',
+    content: 'We noticed you have been browsing. Let me know if you need any help!',
+    duration: 0,
+  });
+  log('log-complex', 'Bubble should show title + body only, no action buttons, no auto-dismiss.', undefined);
+}
+
+/* ── Test: Complex badge only ───────────────────────────────────── */
+function testComplexBadgeOnly() {
+  clearLog('log-complex');
+  widget().alert({
+    alert: '🔥 HOT DEAL',
+    alertColor: '#e05a00',
+    content: 'Flash sale ends in 10 minutes!',
+    actions: [
+      { actionType: 'sendMessage', variant: 'primary', content: 'Show me deals', value: 'What are the current flash sale items?' },
+    ],
+  });
+  log('log-complex', 'Bubble should show orange badge, no title, body text, one primary button.', undefined);
+}
+
+/* ── Test: assistant-action relay ───────────────────────────────── */
+function testActionRelay() {
+  clearLog('log-action');
+  log('log-action', 'Firing mock postMessage from iframe → parent widget...');
+
+  // Simulate the iframe posting an assistant-action message
+  const iWin = iframeWin();
+  if (!iWin) { log('log-action', 'ERROR: iframe not ready. Open the chat first.', false); return; }
+
+  // Post from parent window but with source spoofing is not possible — instead we
+  // call the relay path directly by posting a message the widget will accept
+  // (origin check uses frameOrigin derived from api-url, so we call via evaluate)
+  const script = `window.parent.postMessage(
+    { type: 'assistant-action', actionId: 'add-to-cart', payload: { productCode: 'ABC-123', qty: 2 } },
+    '*'
+  )`;
+  const el = document.createElement('script');
+  iWin.document.head.appendChild(el);  // attach to iframe doc (same origin only)
+  el.textContent = script;
+  el.remove();
+
+  log('log-action', 'Posted assistant-action from iframe. Waiting for CustomEvent on widget...', undefined);
+}
+
+/* ── Test: Template render function ─────────────────────────────── */
+async function testTemplateRender() {
+  clearLog('log-template-render');
+  document.getElementById('template-preview').innerHTML = '';
+  try {
+    const win = await waitForIframe();
+    await win.ensureTemplate('new-user-discount');
+    if (!win.TEMPLATES['new-user-discount']) {
+      log('log-template-render', 'FAIL: template not registered after ensureTemplate()', false); return;
+    }
+    const html = win.TEMPLATES['new-user-discount']({
+      memberSince: 'Apr 19, 2026',
+      discounts: [{ label: '10% Welcome Discount', note: 'First order only' }],
+      items: [
+        { name: 'Athleisure Cap × 1', qty: '', price: 34.99 },
+      ],
+      subtotal: 34.99,
+      lineDiscounts: [
+        { label: 'Promotional Discount (5%)', amount: -1.75 },
+        { label: 'New User Discount (10%)', amount: -3.50 },
+      ],
+      tax: 2.38,
+      taxRate: '8%',
+      totalSavings: -5.25,
+      total: 32.12,
+      ctaLabel: 'PLACE ORDER',
+      ctaPrompt: 'Place my order',
+    });
+    log('log-template-render', `PASS: render function returned ${html.length} chars of HTML.`, true);
+    // Inject into page for visual inspection (DOMPurify not available here, but data is trusted test data)
+    document.getElementById('template-preview').innerHTML = html;
+    // Inject template's own style too
+    const style = win.document.getElementById('tpl-style-new-user-discount');
+    if (style && !document.getElementById('tpl-style-new-user-discount')) {
+      const clone = document.createElement('style');
+      clone.id = 'tpl-style-new-user-discount';
+      clone.textContent = style.textContent;
+      document.head.appendChild(clone);
+    }
+  } catch (err) {
+    log('log-template-render', `ERROR: ${err.message}`, false);
+  }
+}
+
+async function testTemplateRenderMinimal() {
+  clearLog('log-template-render');
+  document.getElementById('template-preview').innerHTML = '';
+  try {
+    const win = await waitForIframe();
+    await win.ensureTemplate('new-user-discount');
+    const html = win.TEMPLATES['new-user-discount']({
+      memberSince: 'Apr 19, 2026',
+      items: [{ name: 'T-Shirt', qty: 2, price: 19.99 }],
+      subtotal: 39.98,
+      tax: 3.20,
+      taxRate: '8%',
+      totalSavings: 0,
+      total: 43.18,
+      // no ctaLabel, no discounts
+    });
+    log('log-template-render', `PASS: minimal render (no discounts, no CTA) returned ${html.length} chars.`, true);
+    document.getElementById('template-preview').innerHTML = html;
+  } catch (err) {
+    log('log-template-render', `ERROR: ${err.message}`, false);
+  }
+}
+
+async function testTemplateUnknown() {
+  clearLog('log-template-render');
+  document.getElementById('template-preview').innerHTML = '';
+  try {
+    const win = await waitForIframe();
+    const result = await win.ensureTemplate('does-not-exist');
+    log('log-template-render', `ensureTemplate('does-not-exist') returned: ${result}`, result === false);
+    if (result === false) log('log-template-render', 'PASS: unknown template returns false as expected.', true);
+  } catch (err) {
+    log('log-template-render', `ERROR: ${err.message}`, false);
+  }
+}
+
+/* ── Test: Full SSE flow with fetch mock ─────────────────────────── */
+const TEMPLATE_DATA = {
+  memberSince: 'Apr 19, 2026',
+  discounts: [{ label: '10% Welcome Discount', note: 'First order only' }],
+  items: [{ name: 'Athleisure Cap', qty: 1, price: 34.99 }],
+  subtotal: 34.99,
+  lineDiscounts: [
+    { label: 'Promotional Discount (5%)', amount: -1.75 },
+    { label: 'New User Discount (10%)', amount: -3.50 },
+  ],
+  tax: 2.38,
+  taxRate: '8%',
+  totalSavings: -5.25,
+  total: 32.12,
+  ctaLabel: 'PLACE ORDER',
+  ctaPrompt: 'Place my order',
+};
+
+async function injectMockFetch(templateId) {
+  clearLog('log-sse');
+  try {
+    const win = await waitForIframe();
+    if (!win._realFetch) win._realFetch = win.fetch;
+
+    const ssePayload = JSON.stringify({ displayTemplateId: templateId, data: TEMPLATE_DATA });
+
+    win.fetch = async (url, opts) => {
+      if (String(url).includes('/api/chat')) {
+        log('log-sse', `Intercepted fetch to: ${url}`);
+        const encoder = new TextEncoder();
+        const line = `data: ${ssePayload}\n\n`;
+        let called = false;
+        return {
+          ok: true,
+          headers: { get: () => null },
+          body: {
+            getReader: () => ({
+              read: async () => {
+                if (called) return { done: true, value: undefined };
+                called = true;
+                return { done: false, value: encoder.encode(line) };
+              },
+            }),
+          },
+        };
+      }
+      return win._realFetch(url, opts);
+    };
+
+    log('log-sse', `Mock fetch injected (templateId="${templateId}"). Open the chat and send any message.`, true);
+  } catch (err) {
+    log('log-sse', `ERROR: ${err.message}`, false);
+  }
+}
+
+async function restoreFetch() {
+  clearLog('log-sse');
+  try {
+    const win = await waitForIframe();
+    if (win._realFetch) {
+      win.fetch = win._realFetch;
+      delete win._realFetch;
+      log('log-sse', 'Real fetch restored.', true);
+    } else {
+      log('log-sse', 'Nothing to restore (mock was not injected).');
+    }
+  } catch (err) {
+    log('log-sse', `ERROR: ${err.message}`, false);
+  }
+}
+</script>
+</body>
+</html>
