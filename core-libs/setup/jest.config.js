@@ -16,6 +16,8 @@ module.exports = {
     // and: https://github.com/angular/angular-cli/pull/28726
     '^../third_party/beasties/index.js$':
       '<rootDir>/../../node_modules/beasties',
+    '^../third_party/domino/bundled-domino\\.mjs$':
+      '<rootDir>/__mocks__/bundled-domino.js',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transform: {
