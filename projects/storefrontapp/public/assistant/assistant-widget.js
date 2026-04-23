@@ -8,85 +8,85 @@
  *   <assistant-widget api-url="https://my-backend.com" skill="my-skill"></assistant-widget>
  *
  * Attributes:
- *   mode               "fab" (default) | "inline"
- *   api-url            Backend base URL (required)
- *   skill              Skill name (default: "merchandising-assistant")
- *   title              Widget title (default: "Virtual Assistant")
- *   theme-color        Header / accent color (default: "#0064d9")
+ *   mode                 "fab" (default) | "inline"
+ *   api-url              Backend base URL (required)
+ *   skill                Skill name (default: "merchandising-assistant")
+ *   title                Widget title (default: "Virtual Assistant")
+ *   theme-color          Header / accent color (default: "#0064d9")
  *   show-unread-count    Show badge with unread message count (default: "false")
  *   auto-bubble-show-up  Show proactive speech bubbles on a timer (default: "true")
  *
  * JavaScript API (call on the element instance):
- *   el.show()                       Open the chat panel
- *   el.hide()                       Close the chat panel
- *   el.alert(message, options?)     Show a speech bubble
- *     options.onClickPrompt  string   Auto-sent to chat when bubble is clicked
- *     options.duration       number   Auto-dismiss ms (default 7000)
+ *   el.show()                            Open the chat panel
+ *   el.hide()                            Close the chat panel
+ *   el.alert(message, options?)          Show a speech bubble
+ *   options.onClickPrompt      string    Auto-sent to chat when bubble is clicked
+ *   options.duration           number    Auto-dismiss ms (default 7000)
  */
 
 // Capture script base URL at parse time — document.currentScript is only
 // available during synchronous script execution, not inside callbacks.
 (() => {
   const scriptSrc = document.currentScript?.src || '';
-  const baseUrl   = new URL('.', scriptSrc || location.href).href;
+  const baseUrl = new URL('.', scriptSrc || location.href).href;
 
-class AssistantWidget extends HTMLElement {
-  static get observedAttributes() {
-    return ['mode', 'api-url', 'skill', 'title', 'theme-color', 'show-unread-count', 'auto-bubble-show-up'];
-  }
+  class AssistantWidget extends HTMLElement {
+    static get observedAttributes() {
+      return ['mode', 'api-url', 'skill', 'title', 'theme-color', 'show-unread-count', 'auto-bubble-show-up'];
+    }
 
-  connectedCallback() {
-    if (this._mounted) return;
-    this._mounted = true;
-    this._render();
-  }
-
-  attributeChangedCallback() {
-    // Re-render on attribute changes (e.g. SPA route changes)
-    if (this._mounted) {
-      this._mounted = false;
-      this.shadowRoot.innerHTML = '';
+    connectedCallback() {
+      if (this._mounted) return;
+      this._mounted = true;
       this._render();
     }
-  }
 
-  _config() {
-    return {
-      mode:           this.getAttribute('mode')             || 'fab',
-      apiUrl:         this.getAttribute('api-url')           || '',
-      skill:          this.getAttribute('skill')             || 'merchandising-assistant',
-      title:          this.getAttribute('title')             || 'Virtual Assistant',
-      themeColor:     this.getAttribute('theme-color')       || '#0064d9',
-      showUnreadCount:   this.getAttribute('show-unread-count')   === 'true',
-      autoBubbleShowUp:  this.getAttribute('auto-bubble-show-up') !== 'false',
-    };
-  }
-
-  _frameUrl(cfg) {
-    const url = new URL('assistant-frame.html', baseUrl);
-    url.searchParams.set('apiUrl',      cfg.apiUrl);
-    url.searchParams.set('skill',       cfg.skill);
-    url.searchParams.set('title',       cfg.title);
-    url.searchParams.set('themeColor',  cfg.themeColor);
-    return url.toString();
-  }
-
-  _render() {
-    const cfg      = this._config();
-    const frameUrl = this._frameUrl(cfg);
-    const shadow   = this.shadowRoot ?? this.attachShadow({ mode: 'open' });
-
-    if (cfg.mode === 'inline') {
-      this._renderInline(shadow, frameUrl, cfg);
-    } else {
-      this._renderFab(shadow, frameUrl, cfg);
+    attributeChangedCallback() {
+      // Re-render on attribute changes (e.g. SPA route changes)
+      if (this._mounted) {
+        this._mounted = false;
+        this.shadowRoot.innerHTML = '';
+        this._render();
+      }
     }
-  }
 
-  // ── Inline mode ───────────────────────────────────────────────────────────
+    _config() {
+      return {
+        mode: this.getAttribute('mode') || 'fab',
+        apiUrl: this.getAttribute('api-url') || '',
+        skill: this.getAttribute('skill') || 'merchandising-assistant',
+        title: this.getAttribute('title') || 'Virtual Assistant',
+        themeColor: this.getAttribute('theme-color') || '#0064d9',
+        showUnreadCount: this.getAttribute('show-unread-count') === 'true',
+        autoBubbleShowUp: this.getAttribute('auto-bubble-show-up') !== 'false',
+      };
+    }
 
-  _renderInline(shadow, frameUrl, cfg) {
-    shadow.innerHTML = `
+    _frameUrl(cfg) {
+      const url = new URL('assistant-frame.html', baseUrl);
+      url.searchParams.set('apiUrl', cfg.apiUrl);
+      url.searchParams.set('skill', cfg.skill);
+      url.searchParams.set('title', cfg.title);
+      url.searchParams.set('themeColor', cfg.themeColor);
+      return url.toString();
+    }
+
+    _render() {
+      const cfg = this._config();
+      const frameUrl = this._frameUrl(cfg);
+      const shadow = this.shadowRoot ?? this.attachShadow({ mode: 'open' });
+
+      if (cfg.mode === 'inline') {
+        this._renderInline(shadow, frameUrl, cfg);
+      } else {
+        this._renderFab(shadow, frameUrl, cfg);
+      }
+    }
+
+    // ── Inline mode ───────────────────────────────────────────────────────────
+
+    _renderInline(shadow, frameUrl, cfg) {
+      shadow.innerHTML = `
       <style>
         :host {
           display: block;
@@ -108,12 +108,12 @@ class AssistantWidget extends HTMLElement {
         allow="fullscreen"
         loading="lazy"
       ></iframe>`;
-  }
+    }
 
-  // ── FAB mode ──────────────────────────────────────────────────────────────
+    // ── FAB mode ──────────────────────────────────────────────────────────────
 
-  _renderFab(shadow, frameUrl, cfg) {
-    shadow.innerHTML = `
+    _renderFab(shadow, frameUrl, cfg) {
+      shadow.innerHTML = `
       <style>
         :host { display: contents; }
 
@@ -366,223 +366,223 @@ class AssistantWidget extends HTMLElement {
         ></iframe>
       </div>`;
 
-    this._wireFab(shadow, cfg);
-  }
-
-  _wireFab(shadow, cfg) {
-    const fab         = shadow.querySelector('.fab');
-    const panel       = shadow.querySelector('.panel');
-    const iframe      = shadow.querySelector('.panel iframe');
-    const badge       = shadow.querySelector('.fab-badge');
-    const bubble        = shadow.querySelector('.speech-bubble');
-    const bubbleText    = shadow.querySelector('.speech-text');
-    const bubbleBadge   = shadow.querySelector('.speech-badge');
-    const bubbleTitle   = shadow.querySelector('.speech-title');
-    const bubbleActions = shadow.querySelector('.speech-actions');
-
-    // Expose theme color to shadow DOM for primary action button
-    shadow.host.style.setProperty('--theme-color', cfg.themeColor);
-
-    let panelOpen    = false;
-    let unreadCount  = 0;
-    let dismissTimer = null;
-
-    const PROACTIVE_MESSAGES = [
-      `Hi there! I'm ${cfg.title} — ask me anything 💬`,
-      "Need help? I'm here for you ✨",
-      "Have a question? Let's chat 🤝",
-    ];
-    let proactiveIndex = 0;
-
-    // ── Open / close ──
-    const openPanel = () => {
-      if (panelOpen) return;
-      panelOpen = true;
-      fab.setAttribute('aria-expanded', 'true');
-      fab.classList.add('is-open');
-      panel.classList.add('is-open');
-      dismissBubble();
-      clearBadge();
-    };
-
-    const closePanel = () => {
-      if (!panelOpen) return;
-      panelOpen = false;
-      fab.setAttribute('aria-expanded', 'false');
-      fab.classList.remove('is-open');
-      panel.classList.remove('is-open', 'is-expanded');
-      fab.focus();
-    };
-
-    fab.addEventListener('click', () => panelOpen ? closePanel() : openPanel());
-
-    // Close button inside the iframe sends a postMessage — handle it here.
-    // Verify both origin and source so only our own iframe can trigger closePanel().
-    const frameOrigin = new URL(baseUrl).origin;
-    window.addEventListener('message', (e) => {
-      if (e.origin !== frameOrigin || e.source !== iframe.contentWindow) return;
-      if (e.data?.type === 'assistant-close')  closePanel();
-      if (e.data?.type === 'assistant-expand') panel.classList.toggle('is-expanded', e.data.expanded);
-      if (e.data?.type === 'assistant-action') {
-        this.dispatchEvent(new CustomEvent('assistant-action', {
-          detail: { actionId: e.data.actionId, payload: e.data.payload },
-          bubbles: true,
-        }));
-      }
-      if (e.data?.type === 'assistant-send') {
-        this.dispatchEvent(new CustomEvent('assistant-send', {
-          detail: { message: e.data.message, contextId: e.data.contextId },
-          bubbles: true,
-        }));
-      }
-    });
-
-    // Forward agent replies from Angular back into the iframe
-    this._relayToFrame = (payload) => {
-      iframe.contentWindow?.postMessage(payload, frameOrigin);
-    };
-
-    // Click outside closes panel.
-    // Must use composedPath() — e.target is retargeted to the host element
-    // for events originating inside Shadow DOM, making shadow.contains() unusable.
-    document.addEventListener('click', (e) => {
-      if (!panelOpen) return;
-      if (e.composedPath().includes(this)) return;
-      closePanel();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && panelOpen) { e.preventDefault(); closePanel(); }
-    });
-
-    // ── Badge ──
-    const clearBadge = () => {
-      unreadCount = 0;
-      badge.setAttribute('hidden', '');
-    };
-
-    // ── Proactive bubble ──
-    const dismissBubble = () => {
-      clearTimeout(dismissTimer);
-      if (bubble.hasAttribute('hidden')) return;
-      bubble.classList.add('dismissing');
-      bubble.addEventListener('animationend', () => {
-        bubble.setAttribute('hidden', '');
-        bubble.classList.remove('dismissing');
-      }, { once: true });
-    };
-
-    const showBubble = () => {
-      if (panelOpen) return;
-      clearTimeout(dismissTimer);
-      // Reset complex fields for plain proactive bubbles
-      bubbleBadge.setAttribute('hidden', '');
-      bubbleTitle.setAttribute('hidden', '');
-      bubbleActions.setAttribute('hidden', '');
-      bubbleActions.innerHTML = '';
-      bubbleText.textContent = PROACTIVE_MESSAGES[proactiveIndex % PROACTIVE_MESSAGES.length];
-      proactiveIndex++;
-      bubble.classList.remove('dismissing');
-      bubble.removeAttribute('hidden');
-      unreadCount++;
-      if (cfg.showUnreadCount) {
-        badge.textContent = String(unreadCount);
-        badge.removeAttribute('hidden');
-      }
-      dismissTimer = setTimeout(dismissBubble, 7000);
-    };
-
-    bubble.addEventListener('click', dismissBubble);
-
-    // First bubble after 8 s, then every 30 s
-    if (cfg.autoBubbleShowUp) {
-      setTimeout(() => { showBubble(); setInterval(showBubble, 30_000); }, 8_000);
+      this._wireFab(shadow, cfg);
     }
 
-    // ── Public API backing ────────────────────────────────────────────────
-    this._openPanel  = openPanel;
-    this._closePanel = closePanel;
+    _wireFab(shadow, cfg) {
+      const fab = shadow.querySelector('.fab');
+      const panel = shadow.querySelector('.panel');
+      const iframe = shadow.querySelector('.panel iframe');
+      const badge = shadow.querySelector('.fab-badge');
+      const bubble = shadow.querySelector('.speech-bubble');
+      const bubbleText = shadow.querySelector('.speech-text');
+      const bubbleBadge = shadow.querySelector('.speech-badge');
+      const bubbleTitle = shadow.querySelector('.speech-title');
+      const bubbleActions = shadow.querySelector('.speech-actions');
 
-    this._alertBubble = (messageOrOptions, legacyOptions = {}) => {
-      const isComplex = messageOrOptions !== null && typeof messageOrOptions === 'object';
-      const opts = isComplex ? messageOrOptions : { content: String(messageOrOptions), ...legacyOptions };
-      const duration = opts.duration ?? -1;
-      const actions  = [...(opts.actions ?? [])];
+      // Expose theme color to shadow DOM for primary action button
+      shadow.host.style.setProperty('--theme-color', cfg.themeColor);
 
-      clearTimeout(dismissTimer);
-      bubble._promptHandler && bubble.removeEventListener('click', bubble._promptHandler);
-      bubble._promptHandler = null;
-      bubbleActions.innerHTML = '';
+      let panelOpen = false;
+      let unreadCount = 0;
+      let dismissTimer = null;
 
-      // Badge
-      if (opts.alert) {
-        bubbleBadge.textContent = opts.alert;
-        bubbleBadge.removeAttribute('hidden');
-      } else { bubbleBadge.setAttribute('hidden', ''); }
+      const PROACTIVE_MESSAGES = [
+        `Hi there! I'm ${cfg.title} — ask me anything 💬`,
+        "Need help? I'm here for you ✨",
+        "Have a question? Let's chat 🤝",
+      ];
+      let proactiveIndex = 0;
 
-      // Title
-      if (opts.title) {
-        bubbleTitle.textContent = opts.title;
-        bubbleTitle.removeAttribute('hidden');
-      } else { bubbleTitle.setAttribute('hidden', ''); }
+      // ── Open / close ──
+      const openPanel = () => {
+        if (panelOpen) return;
+        panelOpen = true;
+        fab.setAttribute('aria-expanded', 'true');
+        fab.classList.add('is-open');
+        panel.classList.add('is-open');
+        dismissBubble();
+        clearBadge();
+      };
 
-      // Body
-      bubbleText.textContent = opts.content ?? '';
+      const closePanel = () => {
+        if (!panelOpen) return;
+        panelOpen = false;
+        fab.setAttribute('aria-expanded', 'false');
+        fab.classList.remove('is-open');
+        panel.classList.remove('is-open', 'is-expanded');
+        fab.focus();
+      };
 
-      // Actions
-      if (actions.length > 0) {
-        bubbleActions.removeAttribute('hidden');
-        for (const action of actions) {
-          const btn = document.createElement('button');
-          btn.className = 'speech-action-btn';
-          btn.dataset.variant    = action.variant ?? 'secondary';
-          btn.dataset.actionType = action.actionType;
-          btn.textContent = action.content;
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dismissBubble();
-            if (action.actionType === 'sendMessage' && action.value) {
-              openPanel();
-              iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: action.value }, frameOrigin);
-            }
-          });
-          bubbleActions.appendChild(btn);
+      fab.addEventListener('click', () => panelOpen ? closePanel() : openPanel());
+
+      // Close button inside the iframe sends a postMessage — handle it here.
+      // Verify both origin and source so only our own iframe can trigger closePanel().
+      const frameOrigin = new URL(baseUrl).origin;
+      window.addEventListener('message', (e) => {
+        if (e.origin !== frameOrigin || e.source !== iframe.contentWindow) return;
+        if (e.data?.type === 'assistant-close') closePanel();
+        if (e.data?.type === 'assistant-expand') panel.classList.toggle('is-expanded', e.data.expanded);
+        if (e.data?.type === 'assistant-action') {
+          this.dispatchEvent(new CustomEvent('assistant-action', {
+            detail: { actionId: e.data.actionId, payload: e.data.payload },
+            bubbles: true,
+          }));
         }
-      } else {
+        if (e.data?.type === 'assistant-send') {
+          this.dispatchEvent(new CustomEvent('assistant-send', {
+            detail: { message: e.data.message, contextId: e.data.contextId },
+            bubbles: true,
+          }));
+        }
+      });
+
+      // Forward agent replies from Angular back into the iframe
+      this._relayToFrame = (payload) => {
+        iframe.contentWindow?.postMessage(payload, frameOrigin);
+      };
+
+      // Click outside closes panel.
+      // Must use composedPath() — e.target is retargeted to the host element
+      // for events originating inside Shadow DOM, making shadow.contains() unusable.
+      document.addEventListener('click', (e) => {
+        if (!panelOpen) return;
+        if (e.composedPath().includes(this)) return;
+        closePanel();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panelOpen) { e.preventDefault(); closePanel(); }
+      });
+
+      // ── Badge ──
+      const clearBadge = () => {
+        unreadCount = 0;
+        badge.setAttribute('hidden', '');
+      };
+
+      // ── Proactive bubble ──
+      const dismissBubble = () => {
+        clearTimeout(dismissTimer);
+        if (bubble.hasAttribute('hidden')) return;
+        bubble.classList.add('dismissing');
+        bubble.addEventListener('animationend', () => {
+          bubble.setAttribute('hidden', '');
+          bubble.classList.remove('dismissing');
+        }, { once: true });
+      };
+
+      const showBubble = () => {
+        if (panelOpen) return;
+        clearTimeout(dismissTimer);
+        // Reset complex fields for plain proactive bubbles
+        bubbleBadge.setAttribute('hidden', '');
+        bubbleTitle.setAttribute('hidden', '');
         bubbleActions.setAttribute('hidden', '');
-        // Legacy: whole-bubble click opens + sends
-        if (!isComplex && opts.onClickPrompt) {
-          bubble._promptHandler = () => {
-            dismissBubble();
-            openPanel();
-            iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: opts.onClickPrompt }, frameOrigin);
-          };
-          bubble.addEventListener('click', bubble._promptHandler, { once: true });
+        bubbleActions.innerHTML = '';
+        bubbleText.textContent = PROACTIVE_MESSAGES[proactiveIndex % PROACTIVE_MESSAGES.length];
+        proactiveIndex++;
+        bubble.classList.remove('dismissing');
+        bubble.removeAttribute('hidden');
+        unreadCount++;
+        if (cfg.showUnreadCount) {
+          badge.textContent = String(unreadCount);
+          badge.removeAttribute('hidden');
         }
+        dismissTimer = setTimeout(dismissBubble, 7000);
+      };
+
+      bubble.addEventListener('click', dismissBubble);
+
+      // First bubble after 8 s, then every 30 s
+      if (cfg.autoBubbleShowUp) {
+        setTimeout(() => { showBubble(); setInterval(showBubble, 30_000); }, 8_000);
       }
 
-      bubble.classList.remove('dismissing');
-      bubble.removeAttribute('hidden');
-      unreadCount++;
-      if (cfg.showUnreadCount) {
-        badge.textContent = String(unreadCount);
-        badge.removeAttribute('hidden');
-      }
-      if (duration > 0) dismissTimer = setTimeout(dismissBubble, duration);
-    };
+      // ── Public API backing ────────────────────────────────────────────────
+      this._openPanel = openPanel;
+      this._closePanel = closePanel;
+
+      this._alertBubble = (messageOrOptions, legacyOptions = {}) => {
+        const isComplex = messageOrOptions !== null && typeof messageOrOptions === 'object';
+        const opts = isComplex ? messageOrOptions : { content: String(messageOrOptions), ...legacyOptions };
+        const duration = opts.duration ?? -1;
+        const actions = [...(opts.actions ?? [])];
+
+        clearTimeout(dismissTimer);
+        bubble._promptHandler && bubble.removeEventListener('click', bubble._promptHandler);
+        bubble._promptHandler = null;
+        bubbleActions.innerHTML = '';
+
+        // Badge
+        if (opts.alert) {
+          bubbleBadge.textContent = opts.alert;
+          bubbleBadge.removeAttribute('hidden');
+        } else { bubbleBadge.setAttribute('hidden', ''); }
+
+        // Title
+        if (opts.title) {
+          bubbleTitle.textContent = opts.title;
+          bubbleTitle.removeAttribute('hidden');
+        } else { bubbleTitle.setAttribute('hidden', ''); }
+
+        // Body
+        bubbleText.textContent = opts.content ?? '';
+
+        // Actions
+        if (actions.length > 0) {
+          bubbleActions.removeAttribute('hidden');
+          for (const action of actions) {
+            const btn = document.createElement('button');
+            btn.className = 'speech-action-btn';
+            btn.dataset.variant = action.variant ?? 'secondary';
+            btn.dataset.actionType = action.actionType;
+            btn.textContent = action.content;
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              dismissBubble();
+              if (action.actionType === 'sendMessage' && action.value) {
+                openPanel();
+                iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: action.value }, frameOrigin);
+              }
+            });
+            bubbleActions.appendChild(btn);
+          }
+        } else {
+          bubbleActions.setAttribute('hidden', '');
+          // Legacy: whole-bubble click opens + sends
+          if (!isComplex && opts.onClickPrompt) {
+            bubble._promptHandler = () => {
+              dismissBubble();
+              openPanel();
+              iframe.contentWindow.postMessage({ type: 'assistant-prompt', prompt: opts.onClickPrompt }, frameOrigin);
+            };
+            bubble.addEventListener('click', bubble._promptHandler, { once: true });
+          }
+        }
+
+        bubble.classList.remove('dismissing');
+        bubble.removeAttribute('hidden');
+        unreadCount++;
+        if (cfg.showUnreadCount) {
+          badge.textContent = String(unreadCount);
+          badge.removeAttribute('hidden');
+        }
+        if (duration > 0) dismissTimer = setTimeout(dismissBubble, duration);
+      };
+    }
+
+    // ── Public API ────────────────────────────────────────────────────────────
+    show() { this._openPanel?.(); }
+    hide() { this._closePanel?.(); }
+    alert(message, options) { this._alertBubble?.(message, options); }
+    relayToFrame(payload) { this._relayToFrame?.(payload); }
+
+    // ── Utility ───────────────────────────────────────────────────────────────
+    _esc(str) {
+      return str.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
+    }
   }
 
-  // ── Public API ────────────────────────────────────────────────────────────
-  show()                  { this._openPanel?.(); }
-  hide()                  { this._closePanel?.(); }
-  alert(message, options) { this._alertBubble?.(message, options); }
-  relayToFrame(payload)   { this._relayToFrame?.(payload); }
-
-  // ── Utility ───────────────────────────────────────────────────────────────
-  _esc(str) {
-    return str.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;');
-  }
-}
-
-customElements.define('assistant-widget', AssistantWidget);
+  customElements.define('assistant-widget', AssistantWidget);
 })();
