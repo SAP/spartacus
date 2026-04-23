@@ -266,10 +266,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
           ) {
             isPreselected = true;
             this.selectedPaymentId =
-              state.selectedPaymentOptionId === undefined ||
-              state.selectedPaymentOptionId === null
-                ? state.defaultSelectedPaymentOptionId
-                : state.selectedPaymentOptionId;
+              state.selectedPaymentOptionId ??
+              state.defaultSelectedPaymentOptionId;
             this.opfMetadataStoreService.updateOpfMetadata({
               selectedPaymentOptionId: this.selectedPaymentId,
             });

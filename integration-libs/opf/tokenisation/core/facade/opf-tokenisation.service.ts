@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { UserPaymentService } from '@spartacus/core';
 import { OpfTokenisationFacade } from '../../root/facade';
 import { OpfPaymentDetails } from '../../root/model';
-// import { OpfPaymentDetails } from '../../public_api';
 
 @Injectable()
 export class OpfTokenisationService implements OpfTokenisationFacade {
