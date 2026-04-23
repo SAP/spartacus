@@ -18,7 +18,7 @@ describe('OpfTokenisationNewPaymentsHeadingComponent', () => {
       'getPaymentMethods',
       'loadPaymentMethods',
     ]);
-    mockUserPaymentService.getPaymentMethods.and.returnValue(of([]));
+    mockUserPaymentService.getPaymentMethods.and.returnValue(of([{ id: '1' }]));
 
     await TestBed.configureTestingModule({
       imports: [OpfTokenisationNewPaymentsHeadingComponent, I18nTestingModule],
