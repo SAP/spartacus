@@ -16,6 +16,10 @@ module.exports = {
     // and: https://github.com/angular/angular-cli/pull/28726
     '^../third_party/beasties/index.js$':
       '<rootDir>/../../node_modules/beasties',
+    // Angular 21.2.9 changed platform-server's `setDomTypes()` to import domino from
+    // `bundled-domino.mjs` (ESM) and access `domino.impl`. Jest's CJS transform doesn't
+    // properly unwrap the ESM default export for .mjs files, so `domino.impl` is undefined
+    // at runtime. This redirects to a CJS wrapper that resolves the default export correctly.
     '^../third_party/domino/bundled-domino\\.mjs$':
       '<rootDir>/__mocks__/bundled-domino.js',
   },

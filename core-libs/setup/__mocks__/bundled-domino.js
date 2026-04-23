@@ -1,3 +1,10 @@
+// CJS wrapper for Angular platform-server's bundled domino (ESM).
+// The original `bundled-domino.mjs` uses `export { index as default }`.
+// When Jest transforms this via jest-preset-angular, the ESM-to-CJS interop
+// fails to unwrap the default export, so `import domino from '...'` yields
+// an object without `.impl`, breaking `setDomTypes()`.
+// This wrapper reads the original source, replaces the ESM export with
+// `module.exports`, and compiles it as CJS so the default export resolves correctly.
 const path = require('path');
 const dominoPath = path.resolve(
   __dirname,
