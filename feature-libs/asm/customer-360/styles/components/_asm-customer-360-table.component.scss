@@ -2,16 +2,6 @@
   display: block;
   padding: 0 18px;
 
-  @media (max-width: 575px) {
-    .cx-asm-customer-360-table {
-      table-layout: auto;
-
-      td {
-        white-space: normal;
-      }
-    }
-  }
-
   .cx-asm-customer-360-table {
     width: 100%;
     border-collapse: collapse;
@@ -161,6 +151,16 @@
       text-align: end;
       button {
         text-align: end;
+      }
+    }
+  }
+
+  @media (max-width: 575px) {
+    .cx-asm-customer-360-table {
+      table-layout: auto;
+
+      td {
+        white-space: normal;
       }
     }
   }
