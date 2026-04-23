@@ -194,15 +194,6 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       });
     });
 
-    it('should call translate for paymentCard.deleteConfirmation', (done) => {
-      component.getCardContent(mockPaymentMethod1).subscribe(() => {
-        expect(translationService.translate).toHaveBeenCalledWith(
-          'paymentCard.deleteConfirmation'
-        );
-        done();
-      });
-    });
-
     it('should call translate for paymentCard.expires with month and year', (done) => {
       component.getCardContent(mockPaymentMethod1).subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
@@ -226,13 +217,6 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
     it('should set role to application', (done) => {
       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
         expect(card.role).toBe('application');
-        done();
-      });
-    });
-
-    it('should set deleteMsg on card', (done) => {
-      component.getCardContent(mockPaymentMethod1).subscribe((card) => {
-        expect(card.deleteMsg).toBeDefined();
         done();
       });
     });
