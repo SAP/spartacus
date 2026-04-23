@@ -7,6 +7,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   RoutingModule as CoreRoutingModule,
+  FederatedLoginGuard,
   ProtectedRoutesGuard,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -26,6 +27,11 @@ export class RoutingModule {
         {
           provide: BEFORE_CMS_PAGE_GUARD,
           useExisting: ProtectedRoutesGuard,
+          multi: true,
+        },
+        {
+          provide: BEFORE_CMS_PAGE_GUARD,
+          useExisting: FederatedLoginGuard,
           multi: true,
         },
       ],
