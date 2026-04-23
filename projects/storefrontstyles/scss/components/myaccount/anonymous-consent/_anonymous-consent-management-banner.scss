@@ -52,7 +52,7 @@
   }
 
   &:has(.anonymous-consent-banner) ~ cx-scroll-to-top {
-    bottom: $cx-anonymous-consent-banner-height;
+    bottom: $cx-anonymous-consent-banner-offset;
   }
 }
 
@@ -60,5 +60,5 @@ html:has(
     cx-anonymous-consent-management-banner
       .anonymous-consent-banner:not(.anonymous-consent-banner-hidden)
   ) {
-  scroll-padding-bottom: $cx-anonymous-consent-banner-height;
+  scroll-padding-bottom: $cx-anonymous-consent-banner-offset;
 }

@@ -15,7 +15,7 @@
 
     .form-group,
     .form-check {
-      scroll-margin-bottom: $cx-anonymous-consent-banner-height;
+      scroll-margin-bottom: $cx-anonymous-consent-banner-offset;
     }
 
     input,
@@ -23,7 +23,7 @@
     button[type='submit'],
     .cx-login-link {
       &:focus {
-        scroll-margin-bottom: $cx-anonymous-consent-banner-height;
+        scroll-margin-bottom: $cx-anonymous-consent-banner-offset;
       }
     }
   }
