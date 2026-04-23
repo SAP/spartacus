@@ -225,10 +225,18 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
   describe('deletePaymentMethod', () => {
     it('should call facade.deletePaymentMethod with payment method id', () => {
       component.deletePaymentMethod(mockPaymentMethod1);
+      component.confirmDeletePaymentMethod();
 
       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
         'card-1'
       );
+    });
+
+    it('should set showDeleteDialog to true and store paymentMethodToDelete', () => {
+      component.deletePaymentMethod(mockPaymentMethod1);
+
+      expect(component.showDeleteDialog).toBe(true);
+      expect(component.paymentMethodToDelete).toBe(mockPaymentMethod1);
     });
 
     it('should set editCard to undefined after deletion', () => {

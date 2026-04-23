@@ -148,6 +148,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       TestBed.configureTestingModule({
         imports: [OpfTokenisationSavedCardsToggleComponent, I18nTestingModule],
         providers: [
+          { provide: UserPaymentService, useValue: userPaymentService },
           {
             provide: OpfMetadataStoreService,
             useValue: mockOpfMetadataStoreService,
@@ -266,6 +267,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
             I18nTestingModule,
           ],
           providers: [
+            { provide: UserPaymentService, useValue: userPaymentService },
             {
               provide: OpfMetadataStoreService,
               useValue: mockOpfMetadataStoreService,
@@ -286,6 +288,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
             I18nTestingModule,
           ],
           providers: [
+            { provide: UserPaymentService, useValue: userPaymentService },
             {
               provide: OpfMetadataStoreService,
               useValue: mockOpfMetadataStoreService,

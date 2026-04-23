@@ -5,7 +5,8 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, UserPaymentService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { OpfTokenisationNewPaymentsHeadingComponent } from './opf-tokenisation-new-payments-heading.component';
 
 describe('OpfTokenisationNewPaymentsHeadingComponent', () => {
@@ -13,8 +14,17 @@ describe('OpfTokenisationNewPaymentsHeadingComponent', () => {
   let fixture: ComponentFixture<OpfTokenisationNewPaymentsHeadingComponent>;
 
   beforeEach(async () => {
+    const mockUserPaymentService = jasmine.createSpyObj('UserPaymentService', [
+      'getPaymentMethods',
+      'loadPaymentMethods',
+    ]);
+    mockUserPaymentService.getPaymentMethods.and.returnValue(of([]));
+
     await TestBed.configureTestingModule({
       imports: [OpfTokenisationNewPaymentsHeadingComponent, I18nTestingModule],
+      providers: [
+        { provide: UserPaymentService, useValue: mockUserPaymentService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(
