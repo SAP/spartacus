@@ -45,7 +45,9 @@ export class OpfGiftCardPaymentMethodDetailComponent
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
       this.subscription?.add(
-        this.orderOutlet.context$.subscribe((context) => (this.order = context))
+        this.orderOutlet.context$.subscribe(
+          (context) => (this.order = context?.item)
+        )
       );
     }
   }
@@ -69,7 +71,10 @@ export class OpfGiftCardPaymentMethodDetailComponent
       this.order?.opfGiftCardSummary?.totalAppliedAmount?.value ?? 0;
     return totalAppliedAmount > 0;
   }
-
+  //if sapPaymentMethod is present, it means that gift card doesn't cover full amount,
+  get isPaymentMethodDetailsInfoPresent(): boolean {
+    return Boolean(this.order?.paymentInfo?.sapPaymentMethod?.name);
+  }
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
