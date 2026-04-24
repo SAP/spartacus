@@ -5,18 +5,18 @@
     "defaultTitle": "Title",
     "firstName": {
       "label": "First name",
-      "placeholder": "First Name"
+      "placeholder": "Enter first name"
     },
     "lastName": {
       "label": "Last name",
-      "placeholder": "Last Name"
+      "placeholder": "Enter last name"
     },
     "address1": "Address 1",
     "address2": "Address 2 (optional)",
     "country": "Country/Region",
     "city": {
       "label": "City",
-      "placeholder": "City"
+      "placeholder": "Enter city"
     },
     "state": "State",
     "zipCode": {
