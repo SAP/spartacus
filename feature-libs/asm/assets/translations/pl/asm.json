@@ -160,6 +160,7 @@
     },
     "csagentTokenExpired": "Sesja agenta obsługi klienta wygasła.",
     "endSession": "Zakończ sesję",
+    "endSessionAriaLabel": "Zakończ sesję, to jest akcja destrukcyjna",
     "endEmulation": "Zakończ emulację",
     "agentSessionTimer": {
       "label": "Przekroczenie czasu sesji",

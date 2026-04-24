@@ -160,6 +160,7 @@
     },
     "csagentTokenExpired": "Sua sessão de agente de suporte ao cliente expirou.",
     "endSession": "Terminar sessão",
+    "endSessionAriaLabel": "Terminar sessão, esta é uma ação destrutiva",
     "endEmulation": "Terminar emulação",
     "agentSessionTimer": {
       "label": "Timeout da sessão",

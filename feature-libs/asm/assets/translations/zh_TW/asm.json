@@ -160,6 +160,7 @@
     },
     "csagentTokenExpired": "您的客戶支援代理人工作階段已到期。",
     "endSession": "結束工作階段",
+    "endSessionAriaLabel": "結束工作階段，這是一個破壞性動作",
     "endEmulation": "結束模擬",
     "agentSessionTimer": {
       "label": "工作階段逾時",

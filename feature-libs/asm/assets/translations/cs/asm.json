@@ -160,6 +160,7 @@
     },
     "csagentTokenExpired": "Časový limit relace agenta zákaznické podpory vypršel.",
     "endSession": "Ukončit relaci",
+    "endSessionAriaLabel": "Ukončit relaci, toto je destruktivní akce",
     "endEmulation": "Ukončit emulaci",
     "agentSessionTimer": {
       "label": "Vypršel časový limit relace",

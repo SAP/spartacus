@@ -160,6 +160,7 @@
     },
     "csagentTokenExpired": "カスタマサポートエージェントセッションの期限が切れました。",
     "endSession": "セッション終了",
+    "endSessionAriaLabel": "セッション終了、これは破壊的なアクションです",
     "endEmulation": "エミュレーション終了",
     "agentSessionTimer": {
       "label": "セッションタイムアウト",

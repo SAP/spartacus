@@ -160,6 +160,7 @@
     },
     "csagentTokenExpired": "Срок сеанса агента службы поддержки клиентов истек.",
     "endSession": "Завершить сеанс",
+    "endSessionAriaLabel": "Завершить сеанс, это деструктивное действие",
     "endEmulation": "Завершить эмуляцию",
     "agentSessionTimer": {
       "label": "Тайм-аут сеанса",
