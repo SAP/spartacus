@@ -477,6 +477,16 @@ export interface FeatureTogglesInterface {
    * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
    */
   a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * When enabled, quick buy providers will read their
+   * configuration from the config and fall back to defaults if not provided.
+   * This enables customization via `provideConfig(<OpfQuickBuyConfig>{})`,
+   * instead of overwriting hardcoded values.
+   *
+   * Affects: `OpfGooglePayService`, `ApplePayService`
+   */
+  useOpfQuickBuyConfig?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -534,4 +544,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showRequiredAsterisks: false,
+  useOpfQuickBuyConfig: false,
 };

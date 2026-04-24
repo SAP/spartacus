@@ -7,7 +7,7 @@
 /// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { Address } from '@spartacus/core';
+import { Address, FeatureConfigService } from '@spartacus/core';
 
 import {
   OpfActiveConfiguration,
@@ -43,55 +43,65 @@ export class OpfGooglePayService {
   );
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
+  protected featureConfigService = inject(FeatureConfigService);
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
+  protected get googlePayProviderConfig(): OpfQuickBuyGooglePayProvider {
+    return this.opfQuickBuyConfig.providers!.googlePay;
+  }
+
+  private get useOpfQuickBuyConfig(): boolean {
+    return this.featureConfigService.isEnabled('useOpfQuickBuyConfig');
+  }
+
   private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
-    environment: 'TEST',
+    environment: this.useOpfQuickBuyConfig
+      ? this.googlePayProviderConfig.environment
+      : 'TEST',
   };
 
   private initialGooglePaymentRequest: google.payments.api.PaymentDataRequest =
-    {
-      /**
-       * TODO: Move this part into configuration layer.
-       */
-      apiVersion: 2,
-      apiVersionMinor: 0,
-      callbackIntents: [
-        'PAYMENT_AUTHORIZATION',
-        'SHIPPING_ADDRESS',
-        'SHIPPING_OPTION',
-      ],
+    this.useOpfQuickBuyConfig
+      ? (this.googlePayProviderConfig
+          .paymentRequest as google.payments.api.PaymentDataRequest)
+      : ({
+          apiVersion: 2,
+          apiVersionMinor: 0,
+          callbackIntents: [
+            'PAYMENT_AUTHORIZATION',
+            'SHIPPING_ADDRESS',
+            'SHIPPING_OPTION',
+          ],
+          merchantInfo: {
+            merchantName: OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
+          },
+          shippingOptionRequired: true,
+          shippingAddressRequired: true,
+          shippingAddressParameters: {
+            phoneNumberRequired: false,
+          },
+          emailRequired: true,
+        } as google.payments.api.PaymentDataRequest);
 
-      // @ts-ignore
-      merchantInfo: {
-        // merchantId: 'spartacusStorefront',
-        merchantName: OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
-      },
-      shippingOptionRequired: true,
-      shippingAddressRequired: true,
-      // @ts-ignore
-      shippingAddressParameters: {
-        phoneNumberRequired: false,
-      },
-      emailRequired: true,
-    };
-
-  protected readonly defaultGooglePayCardParameters: any = {
-    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-    allowedCardNetworks: [
-      'AMEX',
-      'DISCOVER',
-      'INTERAC',
-      'JCB',
-      'MASTERCARD',
-      'VISA',
-    ],
-    billingAddressRequired: true,
-    billingAddressParameters: {
-      format: 'FULL',
-    },
-  };
+  protected readonly defaultGooglePayCardParameters: any = this
+    .useOpfQuickBuyConfig
+    ? this.googlePayProviderConfig.cardParameters
+    : {
+        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+        allowedCardNetworks: [
+          'AMEX',
+          'DISCOVER',
+          'INTERAC',
+          'JCB',
+          'MASTERCARD',
+          'VISA',
+        ],
+        billingAddressRequired: true,
+        billingAddressParameters: {
+          format: 'FULL',
+        },
+      };
 
   private initialTransactionInfo: google.payments.api.TransactionInfo = {
     totalPrice: '0.00',

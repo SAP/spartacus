@@ -12,7 +12,11 @@ import {
   OpfQuickBuyService,
   OpfQuickBuyTransactionService,
 } from '@spartacus/opf/quick-buy/core';
-import { OpfQuickBuyDeliveryType } from '@spartacus/opf/quick-buy/root';
+import {
+  defaultOpfQuickBuyConfig,
+  OpfQuickBuyConfig,
+  OpfQuickBuyDeliveryType,
+} from '@spartacus/opf/quick-buy/root';
 import { Subject, of, throwError } from 'rxjs';
 import { OpfQuickBuyButtonsService } from '../opf-quick-buy-buttons.service';
 import { ApplePaySessionWrapperService } from './apple-pay-session/apple-pay-session-wrapper.service';
@@ -127,6 +131,10 @@ describe('ApplePayService', () => {
         {
           provide: OpfQuickBuyService,
           useValue: opfQuickBuyServiceMock,
+        },
+        {
+          provide: OpfQuickBuyConfig,
+          useValue: defaultOpfQuickBuyConfig,
         },
       ],
     });

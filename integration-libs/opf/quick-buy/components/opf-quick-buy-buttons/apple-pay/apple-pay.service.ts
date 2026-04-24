@@ -6,7 +6,7 @@
 
 /// <reference types="@types/applepayjs" />
 import { Injectable, inject } from '@angular/core';
-import { Address, WindowRef } from '@spartacus/core';
+import { Address, FeatureConfigService, WindowRef } from '@spartacus/core';
 import { Observable, forkJoin, of, throwError } from 'rxjs';
 import {
   catchError,
@@ -25,6 +25,8 @@ import {
   ApplePaySessionVerificationResponse,
   ApplePayTransactionInput,
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
+  OpfQuickBuyApplePayProvider,
+  OpfQuickBuyConfig,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyFacade,
   OpfQuickBuyLocation,
@@ -48,14 +50,28 @@ export class ApplePayService {
     OpfQuickBuyTransactionService
   );
   protected opfQuickBuyFacade = inject(OpfQuickBuyFacade);
+  protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
+  protected featureConfigService = inject(FeatureConfigService);
   protected paymentInProgress = false;
-  protected readonly defaultApplePayCardParameters: any = {
-    shippingMethods: [],
-    merchantCapabilities: ['supports3DS'],
-    supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-    requiredShippingContactFields: ['email', 'name', 'postalAddress'],
-    requiredBillingContactFields: ['email', 'name', 'postalAddress'],
-  };
+
+  protected get applePayProviderConfig(): OpfQuickBuyApplePayProvider {
+    return this.opfQuickBuyConfig.providers!.applePay;
+  }
+
+  protected get useOpfQuickBuyConfig(): boolean {
+    return this.featureConfigService.isEnabled('useOpfQuickBuyConfig');
+  }
+
+  protected readonly defaultApplePayCardParameters: any = this
+    .useOpfQuickBuyConfig
+    ? this.applePayProviderConfig.cardParameters
+    : {
+        shippingMethods: [],
+        merchantCapabilities: ['supports3DS'],
+        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
+        requiredShippingContactFields: ['email', 'name', 'postalAddress'],
+        requiredBillingContactFields: ['email', 'name', 'postalAddress'],
+      };
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
     context: OpfQuickBuyLocation.PRODUCT,

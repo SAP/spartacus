@@ -350,6 +350,7 @@ if (environment.cpq) {
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
         showRequiredAsterisks: true,
+        useOpfQuickBuyConfig: true,
       };
       return appFeatureToggles;
     }),
