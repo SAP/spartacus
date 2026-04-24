@@ -26,9 +26,9 @@ import {
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { IconComponent } from '../icon';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -56,19 +56,6 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   const mockActiveLang = 'en';
 
-  const MockLanguageService = {
-    active: mockActiveLang,
-    getAll(): Observable<Language[]> {
-      return of(mockLanguages);
-    },
-    getActive(): Observable<string> {
-      return of(this.active);
-    },
-    setActive(isocode: string): void {
-      this.active = isocode;
-    },
-  };
-
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
@@ -84,6 +71,19 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    const MockLanguageService = {
+      active: mockActiveLang,
+      getAll(): Observable<Language[]> {
+        return of(mockLanguages);
+      },
+      getActive(): Observable<string> {
+        return of(this.active);
+      },
+      setActive(isocode: string): void {
+        this.active = isocode;
+      },
+    };
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -172,5 +172,14 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     const selectBox = el.query(By.css('select'));
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
+  });
+
+  it('should have the selected attribute on the active language option', () => {
+    const options = el.queryAll(By.css('option'));
+    const withSelectedAttr = options.filter((opt) =>
+      opt.nativeElement.hasAttribute('selected')
+    );
+    expect(withSelectedAttr.length).toBe(1);
+    expect(withSelectedAttr[0].nativeElement.value).toBe(mockActiveLang);
   });
 });
