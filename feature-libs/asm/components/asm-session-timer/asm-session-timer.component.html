@@ -1,9 +1,17 @@
-<span class="label" aria-hidden="true">{{ 'asm.agentSessionTimer.label' | cxTranslate }}:</span>
+<span class="label" aria-hidden="true"
+  >{{ 'asm.agentSessionTimer.label' | cxTranslate }}:</span
+>
 <span
   class="time"
   role="timer"
   tabindex="0"
-  [attr.aria-label]="('asm.agentSessionTimer.label' | cxTranslate) + ': ' + (timeLeft | formatTimer) + ' ' + ('asm.agentSessionTimer.minutes' | cxTranslate)"
+  [attr.aria-label]="
+    ('asm.agentSessionTimer.label' | cxTranslate) +
+    ': ' +
+    (timeLeft | formatTimer) +
+    ' ' +
+    ('asm.agentSessionTimer.minutes' | cxTranslate)
+  "
   >{{ timeLeft | formatTimer }}
   {{ 'asm.agentSessionTimer.minutes' | cxTranslate }}</span
 >
