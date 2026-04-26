@@ -350,6 +350,7 @@ if (environment.cpq) {
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
         showRequiredAsterisks: true,
+        enableExpiredRefreshTokenHandlers: true,
       };
       return appFeatureToggles;
     }),
