@@ -123,7 +123,11 @@ cx-product-image-zoom-view {
       .cx-zoom-btn {
         margin: 0.5rem;
         border-radius: 100%;
+        background-color: var(--cx-color-medium);
+        position: absolute;
         padding: 0;
+        right: 0;
+        bottom: 0;
 
         @include media-breakpoint-down(sm) {
           display: none;
@@ -134,6 +138,7 @@ cx-product-image-zoom-view {
         }
 
         .cx-zoom-indicator {
+          color: var(--cx-color-background-dark);
           font-size: 2rem;
         }
       }
@@ -148,6 +153,7 @@ cx-product-image-zoom-view {
 
   @include cx-highContrastTheme-dark {
     .cx-image-container .cx-zoom-btn {
+      background-color: var(--cx-color-dark);
       color: var(--cx-color-light);
       --cx-color-visual-focus: #1f3a93;
     }
