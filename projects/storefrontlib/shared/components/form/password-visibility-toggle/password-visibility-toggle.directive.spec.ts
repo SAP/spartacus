@@ -6,9 +6,17 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { I18nTestingModule, WindowRef } from '@spartacus/core';
-import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
+import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';
+import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 
 const mockFormConfig: FormConfig = {
@@ -34,13 +42,7 @@ const mockFormConfig: FormConfig = {
       </form>
     </div>
   `,
-  imports: [
-    I18nTestingModule,
-    IconTestingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PasswordVisibilityToggleModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, PasswordVisibilityToggleModule],
 })
 class MockFormComponent {
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -61,8 +63,6 @@ describe('PasswordVisibilityToggleDirective', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        IconTestingModule,
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
@@ -75,7 +75,14 @@ describe('PasswordVisibilityToggleDirective', () => {
         },
         { provide: WindowRef, useClass: MockWinRef },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PasswordVisibilityToggleComponent, {
+        remove: { imports: [TranslatePipe, IconComponent, FeatureDirective] },
+        add: {
+          imports: [MockTranslatePipe, MockIconComponent, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

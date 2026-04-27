@@ -16,10 +16,15 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
-import { provideConfig } from '@spartacus/core';
+import { provideConfig, provideConfigFactory } from '@spartacus/core';
+import {
+  defaultCmsContentProviders,
+  layoutConfigFactory,
+  mediaConfig,
+} from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
-import { SpartacusB2bConfigurationModule } from './spartacus-b2b-configuration.module';
-import { SpartacusB2cConfigurationModule } from './spartacus-b2c-configuration.module';
+import { spartacusB2bConfigurationProviders } from './spartacus-b2b-configuration.providers';
+import { spartacusB2cConfigurationProviders } from './spartacus-b2c-configuration.providers';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -32,15 +37,21 @@ registerLocaleData(localeZh);
  * In customers' applications, either B2B or B2C configuration is used, which is decided
  * at the installation time of Spartacus (i.e. when running `ng add @spartacus/schematics`).
  */
-let SpartacusChannelSpecificConfigurationModule =
-  SpartacusB2cConfigurationModule;
-
-if (environment.b2b) {
-  SpartacusChannelSpecificConfigurationModule = SpartacusB2bConfigurationModule;
-}
+const spartacusChannelSpecificConfigurationProviders = environment.b2b
+  ? spartacusB2bConfigurationProviders
+  : spartacusB2cConfigurationProviders;
 
 @NgModule({
   providers: [
+    provideConfigFactory(layoutConfigFactory),
+    provideConfig(mediaConfig),
+    ...defaultCmsContentProviders,
+    provideConfig({
+      pwa: {
+        enabled: false,
+        addToHomeScreen: true,
+      },
+    }),
     provideConfig({
       // we bring in static translations to be up and running soon right away
       i18n: {
@@ -54,7 +65,8 @@ if (environment.b2b) {
         fallbackLang: 'en',
       },
     }),
+
+    spartacusChannelSpecificConfigurationProviders,
   ],
-  imports: [SpartacusChannelSpecificConfigurationModule],
 })
 export class SpartacusConfigurationModule {}

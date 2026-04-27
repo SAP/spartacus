@@ -7,13 +7,11 @@
     margin-inline-start: auto;
     margin-inline-end: auto;
 
-    @include forFeature('a11yWideScreenImprovements') {
-      @include media-breakpoint-up(xl) {
-        flex: none;
-        width: var(--cx-page-width-max);
-        margin-inline-start: 100%;
-        margin-inline-end: 100%;
-      }
+    @include media-breakpoint-up(xl) {
+      flex: none;
+      width: var(--cx-page-width-max);
+      margin-inline-start: 100%;
+      margin-inline-end: 100%;
     }
 
     @include media-breakpoint-down(md) {

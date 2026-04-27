@@ -26,12 +26,6 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
-   * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
-   *  together with aria-live="atomic"
-   */
-  a11yImprovedErrorMessage?: boolean;
-
-  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -42,25 +36,6 @@ export interface FeatureTogglesInterface {
    * Affects: CarouselComponent
    */
   a11yAddPaddingToCarouselPanel?: boolean;
-
-  /**
-   * Improves wide viewport layout issues.
-   * Affects the styles of: Order confirmation page, product configurator.
-   */
-  a11yWideScreenImprovements?: boolean;
-
-  /**
-   * Adjusts line spacing in menus and navigation dropdowns for better readability
-   * across different monitors, text sizes, and zoom levels.
-   * Affects: NavigationUIComponent
-   */
-  a11yOptimizedMenuSpacing?: boolean;
-
-  /**
-   * Fixes layering issues caused by native ng-select styles.
-   * Sets the dropdown's z-index property to be more in line with Spartacus.
-   */
-  a11yNgSelectLayering?: boolean;
 
   /**
    * Introduces read more directive for presenting elements with long text.
@@ -110,14 +85,6 @@ export interface FeatureTogglesInterface {
    * that domain values are not yet present.
    */
   enableReadDomainValuesOnDemand?: boolean;
-
-  /**
-   * When enabled, checks before accessing checkout
-   * if user has email assigned to the current cart.
-   * If not - redirects user to `/opf-checkout-email` page.
-   * After providing email user will be redirected back to checkout.
-   */
-  opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
 
   /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
@@ -395,18 +362,137 @@ export interface FeatureTogglesInterface {
    * Affects: `NotificationMessageComponent`, `CellComponent`, `UnitDetailsComponent`, `TableComponent`
    */
   a11yCardNotificationMessage?: boolean;
+
+  /**
+   * When enabled, allows searching cost centers by name in the organization.
+   */
+  enableB2BCostCenterSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B units by name in the organization administration.
+   * This search is performed on the client side since the full unit tree is already loaded.
+   */
+  enableB2BUnitSearch?: boolean;
+
+  /**
+   * When enabled, allows searching B2B customers by name in the organization.
+   */
+  enableB2BCustomerSearch?: boolean;
+
+  /**
+   * When enabled (default: true), carousel navigation buttons call preventDefault on mousedown
+   * to fix unwanted blur in Safari when the carousel is inside modals or search boxes (broken by default in Safari).
+   *
+   * Set to `false` if you rely on custom focus listeners (e.g. addEventListener('focus', ...)) on elements
+   * that contain or interact with the carousel, since preventing mousedown default can affect focus behavior.
+   * Affects: `CarouselComponent` (when preventNavigationFocus input is true, e.g. in SearchBoxComponent)
+   */
+  a11yCarouselPreventNavigationFocus?: boolean;
+
+  /**
+   * Sets the ng-select (readonly) input value from the selected option text,
+   * so that JAWS screen reader announces the selected value instead of "blank" when ngSelect's input element is in focus.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yNgSelectReadonlyInputValue?: boolean;
+
+  /**
+   * Fixes doubled screen reader output by providing a static title and aria-label to the password visibility toggle.
+   * Affects: `PasswordVisibilityToggleComponent`
+   */
+  a11yPasswordVisibilityToggle?: boolean;
+
+  /**
+   * When enabled, only active currencies will be displayed in the currency selector.
+   * Currencies are filtered based on the `active` property returned from the backend.
+   * Affects: `CurrencyService`
+   */
+  showOnlyActiveCurrencies?: boolean;
+
+  /**
+   * Improves accessibility of the "Added to Cart" dialog by using a semantic h2 heading
+   * instead of a div for the dialog title. This provides better screen reader navigation
+   * and follows WAI-ARIA dialog pattern best practices.
+   * Affects: AddedToCartDialogComponent
+   */
+  a11yAddedToCartDialogHeading?: boolean;
+
+  /**
+   * Ensures the facet component displays elements with proper listbox semantics.
+   * The screen reader should recognize links as listbox options and display visible-focus outlines correctly.
+   * Affects: FacetComponent
+   */
+  a11yListSemanticsForFacets?: boolean;
+
+  /**
+   * Hides empty outlet wrapper elements in the cart item list table when they have no content.
+   * Otherwise screen readers would interpret them as extra table columns.
+   * Affects: CartItemListComponent
+   */
+  a11yCartItemListHideEmptyOutlets?: boolean;
+
+  /**
+   * When enabled, adds arrow key navigation between reviews and uses proper list
+   * semantics so screen readers announce list position
+   * Affects: ProductReviewsComponent
+   */
+  a11yReviewsKeyboardControls?: boolean;
+
+  /**
+   * Use on existing form buttons that are programatically disabled/enabled.
+   * To use, duplicate button and use false in original and true in duplicate. The duplicated button
+   * should be initialized as enabled, clickable and use cx-form-errors in outcomes where original button
+   * is in disabled state.
+   */
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation?: boolean;
+
+  /**
+   * When enabled, adds vocalization of dropdown item count when dropdown gains focus.
+   * Affects: cxNgSelectA11y
+   */
+  a11yVocalizeDropdownItemCount?: boolean;
+
+  /**
+   * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
+   * CustomFormValidators.mustEndWithLegalCharacter
+   */
+  useEnhancedSecurePasswordValidators?: boolean;
+
+  /**
+   * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
+   * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableRemoveVoucherEndpoint?: boolean;
+
+  /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
+
+  /**
+   * Preserves keyboard focus on consent checkboxes after toggling.
+   * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
+   * and restores focus after the consent form is temporarily disabled.
+   * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
+   */
+  a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * When enabled, `AuthHttpHeaderService` executes DI-provided
+   * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
+   * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
+   * Affects: `AuthHttpHeaderService`
+   */
+  enableExpiredRefreshTokenHandlers?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
-  a11yWideScreenImprovements: true,
-  a11yOptimizedMenuSpacing: true,
-  a11yNgSelectLayering: true,
   a11yNgSelectUnicodeCarets: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
@@ -414,7 +500,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
-  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
@@ -431,13 +516,31 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
-  navigationMenuCloseOnSameLinkClick: false,
+  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: false,
-  enableQuotePurchaseOrderNumber: false,
-  enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableQuotePurchaseOrderNumber: true,
+  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  enableB2BUnitSearch: false,
+  enableB2BCostCenterSearch: false,
+  enableB2BCustomerSearch: false,
+  a11yCarouselPreventNavigationFocus: false,
+  a11yNgSelectReadonlyInputValue: false,
+  a11yPasswordVisibilityToggle: false,
+  showOnlyActiveCurrencies: false,
+  a11yAddedToCartDialogHeading: false,
+  a11yListSemanticsForFacets: false,
+  a11yCartItemListHideEmptyOutlets: false,
+  a11yReviewsKeyboardControls: false,
+  a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
+  a11yConsentManagementFocusPreservation: false,
+  a11yVocalizeDropdownItemCount: false,
+  useEnhancedSecurePasswordValidators: false,
+  enableRemoveVoucherEndpoint: false,
+  showRequiredAsterisks: false,
+  enableExpiredRefreshTokenHandlers: false,
 };

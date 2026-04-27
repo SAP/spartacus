@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,6 +12,7 @@ import {
   Address,
   BaseSiteService,
   Country,
+  MockTranslatePipe,
   TranslatePipe,
   UserAddressAdapter,
 } from '@spartacus/core';
@@ -50,11 +50,6 @@ class Service {
     this.isSameAsDelivery$.next(value);
   }
   setDefaultBillingAddress(): void {}
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
 }
 
 describe('OpfCheckoutBillingAddressFormComponent', () => {

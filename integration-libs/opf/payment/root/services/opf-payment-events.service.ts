@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -21,5 +22,18 @@ export class OpfPaymentEventsService {
    */
   emitReinitiatePaymentEvent(paymentOptionId?: number): void {
     this.reinitiatePaymentEvent.next(paymentOptionId);
+  }
+
+  protected isGiftCardCoveredTotalAmountEvent: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  isGiftCardCoveredTotalAmountEvent$: Observable<boolean> =
+    this.isGiftCardCoveredTotalAmountEvent.asObservable();
+
+  /**
+   * Emits an event to indicate if the gift card covers the total amount
+   * @param isCovered Boolean indicating if the gift card covers the total amount
+   */
+  emitIsGiftCardCoveredTotalAmountEvent(isCovered: boolean): void {
+    this.isGiftCardCoveredTotalAmountEvent.next(isCovered);
   }
 }

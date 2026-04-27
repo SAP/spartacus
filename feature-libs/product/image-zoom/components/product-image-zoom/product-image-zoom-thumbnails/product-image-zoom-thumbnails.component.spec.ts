@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FeatureDirective } from '@spartacus/core';
+import { CarouselComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
@@ -47,12 +49,13 @@ describe('ProductImageZoomThumbnailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ProductImageZoomThumbnailsComponent,
-        MockCarouselComponent,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+      imports: [ProductImageZoomThumbnailsComponent],
+    })
+      .overrideComponent(ProductImageZoomThumbnailsComponent, {
+        remove: { imports: [CarouselComponent, FeatureDirective] },
+        add: { imports: [MockCarouselComponent, MockFeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

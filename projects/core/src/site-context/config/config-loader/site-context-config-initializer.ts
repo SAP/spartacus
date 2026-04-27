@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
+import { FederatedLoginService } from '../../../federated-login';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { WindowRef } from '../../../window/window-ref';
@@ -24,6 +25,8 @@ import { SiteContextConfig } from '../site-context-config';
 export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
+
+  protected federatedLoginService = inject(FederatedLoginService);
 
   constructor(
     protected baseSiteService: BaseSiteService,
@@ -42,16 +45,29 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    */
   protected resolveConfig(): Observable<SiteContextConfig> {
     return this.baseSiteService.getAll().pipe(
-      map((baseSites) =>
-        baseSites?.find((site) => this.isCurrentBaseSite(site))
-      ),
-      filter((baseSite: any) => {
+      map((baseSites) => {
+        let url = this.currentUrl;
+        if (this.federatedLoginService.enabled) {
+          this.federatedLoginService.detectContext();
+
+          if (
+            this.federatedLoginService.isLoginDomain &&
+            this.federatedLoginService.origin
+          ) {
+            url = this.federatedLoginService.origin;
+          }
+        }
+
+        const baseSite = baseSites?.find((site) =>
+          this.isCurrentBaseSite(site, url)
+        );
+
         if (!baseSite) {
           throw new Error(
-            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
+            `Error: Cannot get base site config! Current url (${url}) doesn't match any of url patterns of any base sites.`
           );
         }
-        return Boolean(baseSite);
+        return baseSite;
       }),
       map((baseSite) => this.getConfig(baseSite)),
       take(1)
@@ -81,13 +97,9 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
     return result;
   }
 
-  private isCurrentBaseSite(site: BaseSite): boolean {
+  private isCurrentBaseSite(site: BaseSite, url: string): boolean {
     const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
-      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
-      if (jsRegexp) {
-        const result = jsRegexp.test(this.currentUrl);
-        return result;
-      }
+      return this.javaRegExpConverter.toJsRegExp(javaRegexp)?.test(url);
     });
 
     return index !== -1;

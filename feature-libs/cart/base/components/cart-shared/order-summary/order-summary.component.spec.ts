@@ -1,16 +1,15 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { OutletContextData } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/applied-coupons.component';
 import { OrderSummaryComponent } from './order-summary.component';
 
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  imports: [CommonModule, PromotionsModule, I18nTestingModule],
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -33,13 +32,7 @@ describe('OrderSummary', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        PromotionsModule,
-        I18nTestingModule,
-        OrderSummaryComponent,
-        MockAppliedCouponsComponent,
-      ],
+      imports: [OrderSummaryComponent],
       providers: [
         { provide: CartVoucherFacade, useValue: {} },
         {
@@ -47,7 +40,12 @@ describe('OrderSummary', () => {
           useValue: { context$ },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderSummaryComponent, {
+        remove: { imports: [TranslatePipe, AppliedCouponsComponent] },
+        add: { imports: [MockTranslatePipe, MockAppliedCouponsComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -98,6 +98,17 @@ describe('I18nextInitializer', () => {
       );
     });
 
+    it('should set config `showSupportNotice` to false', () => {
+      spyOn(i18next, 'init');
+
+      initializer.initialize();
+
+      expect(i18next.init).toHaveBeenCalledWith(
+        jasmine.objectContaining({ showSupportNotice: false }),
+        jasmine.any(Function)
+      );
+    });
+
     it('should set config  `ns` to empty array', () => {
       spyOn(i18next, 'init');
 

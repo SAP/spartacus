@@ -5,6 +5,9 @@
   .cx-message {
     border-radius: 8px;
     margin-bottom: 15px;
+    &:focus {
+      outline-color: #0050b3;
+    }
     .cx-message-content {
       margin-inline-start: 0;
       max-width: 100%;
@@ -32,7 +35,8 @@
       padding: 0.25rem 0;
       margin-inline-start: auto;
       position: unset;
-      color: #0064d8;
+      color: #0050b3;
+      opacity: 1;
       font-size: 16px;
     }
   }

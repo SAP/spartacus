@@ -84,6 +84,7 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
     bootstrap: setupOptions.bootstrap,
     providers: setupOptions.providers,
     enablePerformanceProfiler: setupOptions.enablePerformanceProfiler,
+    allowedHosts: setupOptions.allowedHosts,
   });
 
   return function (
@@ -109,7 +110,6 @@ export function ngExpressEngine(setupOptions: NgSetupOptions) {
         ...(renderOptions.providers ?? []),
         getReqResProviders(req, res),
       ];
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       renderOptions.publicPath =
         renderOptions.publicPath ??
         setupOptions.publicPath ??
