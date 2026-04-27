@@ -155,6 +155,6 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       })
       .join('/');
 
-    return contextRoutePart + url;
+    return contextRoutePart ? '/' + contextRoutePart + url : url;
   }
 }
