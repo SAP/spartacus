@@ -82,7 +82,7 @@ export class OpfQuickBuyButtonsService {
    * Normalizes ActiveConfiguration to always return an array.
    * Returns empty array if configurations are null/undefined.
    */
-  private normalizeConfigurations(
+  protected normalizeConfigurations(
     activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
   ): OpfActiveConfiguration[] | undefined {
     if (!activeConfiguration) {
