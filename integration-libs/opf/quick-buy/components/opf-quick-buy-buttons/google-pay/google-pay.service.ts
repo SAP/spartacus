@@ -169,7 +169,12 @@ export class OpfGooglePayService {
     ]);
   }
 
-  initClient(activeConfigurations: OpfActiveConfiguration[]): void {
+  initClient(
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
+  ): void {
+    const activeConfigurations = Array.isArray(activeConfiguration)
+      ? activeConfiguration
+      : [activeConfiguration];
     const googlePayGateway =
       this.opfQuickBuyButtonsService.getActiveConfigurationForProvider(
         OpfQuickBuyProviderType.GOOGLE_PAY,

@@ -65,9 +65,9 @@ describe('OpfGooglePayComponent', () => {
     await detectChanges();
 
     expect(mockOpfGooglePayService.loadResources).toHaveBeenCalled();
-    expect(mockOpfGooglePayService.initClient).toHaveBeenCalledWith(
-      component.activeConfigurations
-    );
+    expect(mockOpfGooglePayService.initClient).toHaveBeenCalledWith([
+      component.activeConfiguration,
+    ]);
   });
 
   it('should update ready to pay state when Google Pay is ready', async () => {

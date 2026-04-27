@@ -37,14 +37,12 @@ export class OpfGooglePayComponent implements OnInit {
 
   isReadyToPayState$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  get activeConfigurations(): OpfActiveConfiguration[] {
-    const value = this.activeConfiguration;
-    if (!value) return [];
-    return Array.isArray(value) ? value : [value];
-  }
   ngOnInit(): void {
+    const activeConfigurations = Array.isArray(this.activeConfiguration)
+      ? this.activeConfiguration
+      : [this.activeConfiguration];
     this.opfGooglePayService.loadResources().then(() => {
-      this.opfGooglePayService.initClient(this.activeConfigurations);
+      this.opfGooglePayService.initClient(activeConfigurations);
       this.opfGooglePayService.isReadyToPay().then((response: any) => {
         this.isReadyToPayState$.next(!!response?.result);
         this.changeDetectionRef.detectChanges();

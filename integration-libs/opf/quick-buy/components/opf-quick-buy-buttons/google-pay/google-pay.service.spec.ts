@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/// <reference types="@types/googlepay" />
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
@@ -249,8 +250,20 @@ describe('OpfGooglePayService', () => {
   });
 
   describe('initClient', () => {
-    it('should initialize the Google Payment client with configurations', () => {
+    it('should initialize the Google Payment client with configurations (array)', () => {
       const activeConfiguration: any[] = [];
+      service.initClient(activeConfiguration);
+
+      const client = service['googlePaymentClient'];
+
+      expect(client).toBeDefined();
+    });
+
+    it('should initialize the Google Payment client with single configuration', () => {
+      const activeConfiguration: OpfActiveConfiguration = {
+        merchantId: 'test-merchant',
+        providerType: 'PAYMENT_GATEWAY',
+      } as any;
       service.initClient(activeConfiguration);
 
       const client = service['googlePaymentClient'];

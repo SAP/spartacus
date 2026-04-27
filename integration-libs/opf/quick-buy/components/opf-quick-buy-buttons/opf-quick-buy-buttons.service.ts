@@ -34,7 +34,9 @@ export class OpfQuickBuyButtonsService {
   protected activeCartFacade = inject(ActiveCartFacade);
   protected multiCartFacade = inject(MultiCartFacade);
 
-  getPaymentGatewayConfiguration(): Observable<OpfActiveConfiguration[]> {
+  getPaymentGatewayConfiguration(): Observable<
+    OpfActiveConfiguration | OpfActiveConfiguration[]
+  > {
     return this.opfBaseFacade
       .getActiveConfigurationsState()
       .pipe(
@@ -49,28 +51,45 @@ export class OpfQuickBuyButtonsService {
 
   getQuickBuyProviderConfig(
     provider: OpfQuickBuyProviderType,
-    activeConfigurations: OpfActiveConfiguration[]
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
   ): OpfQuickBuyDigitalWallet | undefined {
-    return activeConfigurations
-      ?.flatMap((config) => config.digitalWalletQuickBuy ?? [])
+    const configs = this.normalizeConfigurations(activeConfiguration);
+    return configs
+      ?.flatMap((config) => config?.digitalWalletQuickBuy ?? [])
       .find((item) => item.provider === provider && item.enabled);
   }
 
   isQuickBuyProviderEnabled(
     provider: OpfQuickBuyProviderType,
-    activeConfigurations: OpfActiveConfiguration[]
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
   ): boolean {
-    return !!this.getQuickBuyProviderConfig(provider, activeConfigurations);
+    return !!this.getQuickBuyProviderConfig(provider, activeConfiguration);
   }
 
   getActiveConfigurationForProvider(
     provider: OpfQuickBuyProviderType,
-    activeConfigurations: OpfActiveConfiguration[]
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
   ): OpfActiveConfiguration | undefined {
-    return activeConfigurations?.find((config) =>
-      config.digitalWalletQuickBuy?.some(
+    const configs = this.normalizeConfigurations(activeConfiguration);
+    return configs?.find((config) =>
+      config?.digitalWalletQuickBuy?.some(
         (item) => item.provider === provider && item.enabled
       )
     );
+  }
+
+  /**
+   * Normalizes ActiveConfiguration to always return an array.
+   * Returns empty array if configurations are null/undefined.
+   */
+  private normalizeConfigurations(
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
+  ): OpfActiveConfiguration[] | undefined {
+    if (!activeConfiguration) {
+      return undefined;
+    }
+    return Array.isArray(activeConfiguration)
+      ? activeConfiguration
+      : [activeConfiguration];
   }
 }

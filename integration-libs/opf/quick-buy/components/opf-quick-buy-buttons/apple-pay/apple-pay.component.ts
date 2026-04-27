@@ -44,14 +44,11 @@ export class ApplePayComponent implements OnInit {
   isApplePaySupported$: Observable<boolean>;
   applePayDigitalWallet?: OpfQuickBuyDigitalWallet;
 
-  get activeConfigurations(): OpfActiveConfiguration[] {
-    const value = this.activeConfiguration;
-    if (!value) return [];
-    return Array.isArray(value) ? value : [value];
-  }
-
   ngOnInit(): void {
-    this.applePayDigitalWallet = this.activeConfigurations
+    const activeConfigurations = Array.isArray(this.activeConfiguration)
+      ? this.activeConfiguration
+      : [this.activeConfiguration];
+    this.applePayDigitalWallet = activeConfigurations
       ?.flatMap((config) => config.digitalWalletQuickBuy || [])
       .find(
         (digitalWallet) =>
