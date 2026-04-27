@@ -9,16 +9,25 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, merge, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
+import {
+  EXPIRED_REFRESH_TOKEN_HANDLERS,
+  ExpiredRefreshTokenHandler,
+} from './auth-http-header-handler';
 import { AuthHttpHeaderService } from './auth-http-header.service';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
+
+type ExpiredRefreshTokenHandlerSpy = Required<
+  Pick<ExpiredRefreshTokenHandler, 'handleExpiredRefreshTokenIfApplicable'>
+>;
 
 const testToken: AuthToken = {
   access_token: 'acc_token',
@@ -79,6 +88,10 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(true);
+}
+
 describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
@@ -86,8 +99,20 @@ describe('AuthHttpHeaderService', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
+  let featureConfigService: FeatureConfigService;
+  let firstRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
 
   beforeEach(() => {
+    firstRegisteredHandler =
+      jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
+        'firstRegisteredHandler',
+        ['handleExpiredRefreshTokenIfApplicable']
+      );
+
+    firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+      of(false)
+    );
+
     TestBed.configureTestingModule({
       providers: [
         AuthHttpHeaderService,
@@ -101,6 +126,12 @@ describe('AuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
+          useValue: firstRegisteredHandler,
+          multi: true,
+        },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -112,6 +143,7 @@ describe('AuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     getTokenFromStorage.next(testToken);
     logoutInProgressSubject.next(false);
@@ -396,6 +428,127 @@ describe('AuthHttpHeaderService', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+
+    it('should skip default refresh token handling when a handler handles it', () => {
+      spyOn(authService, 'coreLogout').and.callThrough();
+      firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        of(true)
+      );
+
+      service.handleExpiredRefreshToken();
+
+      expect(authService.coreLogout).not.toHaveBeenCalled();
+      expect(
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+      ).toHaveBeenCalled();
+    });
+
+    it('should skip handlers and execute fallback when feature toggle is disabled', () => {
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      spyOn(authService, 'coreLogout').and.callThrough();
+
+      service.handleExpiredRefreshToken();
+
+      expect(
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+      ).not.toHaveBeenCalled();
+      expect(authService.coreLogout).toHaveBeenCalled();
+    });
+
+    describe('with multiple handlers', () => {
+      let secondRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+
+      beforeEach(() => {
+        secondRegisteredHandler =
+          jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
+            'secondRegisteredHandler',
+            ['handleExpiredRefreshTokenIfApplicable']
+          );
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(false)
+        );
+
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          providers: [
+            AuthHttpHeaderService,
+            { provide: AuthService, useClass: MockAuthService },
+            {
+              provide: OAuthLibWrapperService,
+              useClass: MockOAuthLibWrapperService,
+            },
+            { provide: RoutingService, useClass: MockRoutingService },
+            { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+            {
+              provide: GlobalMessageService,
+              useClass: MockGlobalMessageService,
+            },
+            { provide: AuthStorageService, useClass: MockAuthStorageService },
+            {
+              provide: AuthRedirectService,
+              useClass: MockAuthRedirectService,
+            },
+            {
+              provide: FeatureConfigService,
+              useClass: MockFeatureConfigService,
+            },
+            {
+              provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
+              useValue: firstRegisteredHandler,
+              multi: true,
+            },
+            {
+              provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
+              useValue: secondRegisteredHandler,
+              multi: true,
+            },
+            provideHttpClient(withInterceptorsFromDi()),
+            provideHttpClientTesting(),
+          ],
+        });
+
+        service = TestBed.inject(AuthHttpHeaderService);
+        authService = TestBed.inject(AuthService);
+        featureConfigService = TestBed.inject(FeatureConfigService);
+      });
+
+      it('should call secondRegisteredHandler when firstRegistredHandler does not handle the token expiration', () => {
+        spyOn(authService, 'coreLogout').and.callThrough();
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(false)
+        );
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(true)
+        );
+
+        service.handleExpiredRefreshToken();
+
+        expect(
+          firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).toHaveBeenCalled();
+        expect(
+          secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
+      });
+
+      it('should not call secondRegisteredHandler when firstRegistredHandler already handles the token expiration', () => {
+        spyOn(authService, 'coreLogout').and.callThrough();
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          of(true)
+        );
+
+        service.handleExpiredRefreshToken();
+
+        expect(
+          firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).toHaveBeenCalled();
+        expect(
+          secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable
+        ).not.toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
+      });
     });
   });
 
