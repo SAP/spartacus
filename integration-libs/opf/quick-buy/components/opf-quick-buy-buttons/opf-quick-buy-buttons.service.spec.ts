@@ -52,7 +52,7 @@ describe('OpfQuickBuyButtonsService', () => {
   });
 
   describe('getPaymentGatewayConfiguration', () => {
-    it('should return the first PAYMENT_GATEWAY configuration when available', () => {
+    it('should return all PAYMENT_GATEWAY configurations when available', () => {
       const mockConfigurations = [
         { providerType: OpfPaymentProviderType.PAYMENT_METHOD },
         { providerType: OpfPaymentProviderType.PAYMENT_GATEWAY },
@@ -65,7 +65,10 @@ describe('OpfQuickBuyButtonsService', () => {
       );
 
       service.getPaymentGatewayConfiguration().subscribe((result) => {
-        expect(result).toEqual(mockConfigurations[1]);
+        expect(result).toEqual([
+          mockConfigurations[1],
+          mockConfigurations[2],
+        ] as any);
       });
     });
 
@@ -77,7 +80,7 @@ describe('OpfQuickBuyButtonsService', () => {
       );
 
       service.getPaymentGatewayConfiguration().subscribe((result) => {
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
       });
     });
 
@@ -90,7 +93,7 @@ describe('OpfQuickBuyButtonsService', () => {
       );
 
       service.getPaymentGatewayConfiguration().subscribe((result) => {
-        expect(result).toBeUndefined();
+        expect(result).toEqual([]);
       });
     });
 
@@ -110,12 +113,28 @@ describe('OpfQuickBuyButtonsService', () => {
   describe('isQuickBuyProviderEnabled', () => {
     const provider = OpfQuickBuyProviderType.APPLE_PAY;
 
-    it('should return true when the provider is enabled', () => {
+    it('should return true when the provider is enabled (array)', () => {
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
+          ],
+        } as any,
+      ];
+
+      const result = service.isQuickBuyProviderEnabled(
+        provider,
+        activeConfiguration
+      );
+      expect(result).toBeTruthy();
+    });
+
+    it('should return true when the provider is enabled (single object)', () => {
       const activeConfiguration = {
         digitalWalletQuickBuy: [
           { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
         ],
-      };
+      } as any;
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -125,11 +144,13 @@ describe('OpfQuickBuyButtonsService', () => {
     });
 
     it('should return false when the provider is disabled', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: false },
-        ],
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: false },
+          ],
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -139,11 +160,13 @@ describe('OpfQuickBuyButtonsService', () => {
     });
 
     it('should return false when the provider is not found', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: 'otherProvider' as any, enabled: true },
-        ],
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: 'otherProvider' as any, enabled: true },
+          ],
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -167,9 +190,11 @@ describe('OpfQuickBuyButtonsService', () => {
 
     it('should return false when digitalWalletQuickBuy is null or empty', () => {
       const provider = OpfQuickBuyProviderType.APPLE_PAY;
-      const activeConfiguration = {
-        digitalWalletQuickBuy: null as any,
-      };
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: null as any,
+        } as any,
+      ];
 
       const result = service.isQuickBuyProviderEnabled(
         provider,
@@ -188,19 +213,126 @@ describe('OpfQuickBuyButtonsService', () => {
       enabled: true,
     };
 
-    it('should return config for specific provider', () => {
-      const activeConfiguration = {
-        digitalWalletQuickBuy: [
-          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
-          config,
-        ],
-      };
+    it('should return config for specific provider (array)', () => {
+      const activeConfiguration = [
+        {
+          digitalWalletQuickBuy: [
+            { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
+            config,
+          ],
+        } as any,
+      ];
 
       const result = service.getQuickBuyProviderConfig(
         OpfQuickBuyProviderType.GOOGLE_PAY,
         activeConfiguration
       );
       expect(result).toBe(config);
+    });
+
+    it('should return config for specific provider (single object)', () => {
+      const activeConfiguration = {
+        digitalWalletQuickBuy: [
+          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
+          config,
+        ],
+      } as any;
+
+      const result = service.getQuickBuyProviderConfig(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        activeConfiguration
+      );
+      expect(result).toBe(config);
+    });
+
+    it('should return undefined when activeConfiguration is null', () => {
+      const result = service.getQuickBuyProviderConfig(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        null as any
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when activeConfiguration is undefined', () => {
+      const result = service.getQuickBuyProviderConfig(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        undefined as any
+      );
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getActiveConfigurationForProvider', () => {
+    const mockConfig = {
+      digitalWalletQuickBuy: [
+        { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: true },
+      ],
+    } as any;
+
+    it('should return configuration for specific provider (array)', () => {
+      const activeConfigurations = [mockConfig];
+
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.APPLE_PAY,
+        activeConfigurations
+      );
+      expect(result).toBe(mockConfig);
+    });
+
+    it('should return configuration for specific provider (single object)', () => {
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.APPLE_PAY,
+        mockConfig
+      );
+      expect(result).toBe(mockConfig);
+    });
+
+    it('should return undefined when provider is not found (array)', () => {
+      const activeConfigurations = [mockConfig];
+
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        activeConfigurations
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when provider is not found (single object)', () => {
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        mockConfig
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when activeConfiguration is null', () => {
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.APPLE_PAY,
+        null as any
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when activeConfiguration is undefined', () => {
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.APPLE_PAY,
+        undefined as any
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined when provider is disabled', () => {
+      const disabledConfig = {
+        digitalWalletQuickBuy: [
+          { provider: OpfQuickBuyProviderType.APPLE_PAY, enabled: false },
+        ],
+      } as any;
+
+      const result = service.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.APPLE_PAY,
+        disabledConfig
+      );
+      expect(result).toBeUndefined();
     });
   });
 });
