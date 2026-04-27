@@ -483,6 +483,14 @@ export interface FeatureTogglesInterface {
    * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
    */
   a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * When enabled, `AuthHttpHeaderService` executes DI-provided
+   * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
+   * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
+   * Affects: `AuthHttpHeaderService`
+   */
+  enableExpiredRefreshTokenHandlers?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -541,4 +549,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
+  enableExpiredRefreshTokenHandlers: false,
 };

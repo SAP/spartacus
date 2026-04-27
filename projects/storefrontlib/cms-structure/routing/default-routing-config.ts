@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FeatureToggles, RoutingConfig } from '@spartacus/core';
 import { inject } from '@angular/core';
+import { FeatureToggles, RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   const featureToggles = inject(FeatureToggles);
   const enableProductPageRouteAllowsNoProductName =
     featureToggles.defaultProductPageRouteAllowsNoProductName;
 
-  const routingConfig = {
+  const routingConfig: RoutingConfig = {
     routing: {
       routes: {
         home: { paths: [''] },
@@ -94,7 +94,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
    * which have to be the same as configured in oauth client
    */
   if (featureToggles.authorizationCodeFlowByDefault) {
-    (routingConfig.routing.routes as any)['loginForm'] = {
+    (routingConfig.routing?.routes as RoutesConfig)['loginForm'] = {
       paths: ['login'],
       protected: false,
       authFlow: true,

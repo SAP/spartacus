@@ -351,6 +351,7 @@ if (environment.cpq) {
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
+        enableExpiredRefreshTokenHandlers: true,
       };
       return appFeatureToggles;
     }),
