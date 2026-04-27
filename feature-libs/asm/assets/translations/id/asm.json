@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "Sesi agen dukungan pelanggan Anda telah habis.",
     "endSession": "Akhiri Sesi",
-    "endSessionAriaLabel": "Akhiri Sesi, ini adalah tindakan destruktif",
     "endEmulation": "Akhiri Emulasi",
     "agentSessionTimer": {
       "label": "Waktu Sesi Habis",

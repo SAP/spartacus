@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "Ihre Kundenbetreuersitzung ist abgelaufen.",
     "endSession": "Sitzung beenden",
-    "endSessionAriaLabel": "Sitzung beenden, dies ist eine destruktive Aktion",
     "endEmulation": "Emulation beenden",
     "agentSessionTimer": {
       "label": "Sitzungs-Timeout",

@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "Az ügyféltámogatási ügynökmunkamenete lejárt.",
     "endSession": "Munkamenet befejezése",
-    "endSessionAriaLabel": "Munkamenet befejezése, ez egy romboló művelet",
     "endEmulation": "Emulálás befejezése",
     "agentSessionTimer": {
       "label": "Munkamenet időtúllépése",

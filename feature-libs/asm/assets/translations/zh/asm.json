@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "您的客户支持代理已过期。",
     "endSession": "结束会话",
-    "endSessionAriaLabel": "结束会话，这是一个破坏性操作",
     "endEmulation": "结束模拟",
     "agentSessionTimer": {
       "label": "会话超时",

@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "La sessione dell'agente di supporto cliente è scaduta.",
     "endSession": "Termina sessione",
-    "endSessionAriaLabel": "Termina sessione, questa è un'azione distruttiva",
     "endEmulation": "Termina emulazione",
     "agentSessionTimer": {
       "label": "Timeout sessione",

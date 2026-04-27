@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "고객 지원 에이전트 세션이 만료되었습니다.",
     "endSession": "세션 종료",
-    "endSessionAriaLabel": "세션 종료, 이것은 파괴적인 작업입니다",
     "endEmulation": "에뮬레이션 종료",
     "agentSessionTimer": {
       "label": "세션 시간 제한",

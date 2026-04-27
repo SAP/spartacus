@@ -160,7 +160,6 @@
     },
     "csagentTokenExpired": "आपका ग्राहक सहायता एजेंट सत्र समाप्त हुआ.",
     "endSession": "समाप्ति सत्र",
-    "endSessionAriaLabel": "समाप्ति सत्र, यह एक विनाशकारी क्रिया है",
     "endEmulation": "अनुकरण समाप्ति",
     "agentSessionTimer": {
       "label": "सत्र समय समाप्ति",
