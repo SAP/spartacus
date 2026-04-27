@@ -68,7 +68,7 @@
   <div class="cx-zoom-btn-container" *cxFeature="'a11yKeyboardAccessibleZoom'">
     <button
       #zoomButton
-      *ngIf="imageLoaded | async"
+      [disabled]="!(imageLoaded | async)"
       [attr.aria-label]="
         isZoomed
           ? ('common.zoomOut' | cxTranslate)
