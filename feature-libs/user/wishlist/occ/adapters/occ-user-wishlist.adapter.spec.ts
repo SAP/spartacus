@@ -24,7 +24,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   ): string {
     const p = (attributes?.urlParams ?? {}) as Record<string, string>;
     switch (endpoint) {
-      case 'getUserWishlists':
+      case 'getWishlists':
         return `/users/${p['userId']}/wishlists`;
       case 'getWishlistEntries':
         return `/users/${p['userId']}/wishlists/${p['wishlistId']}/entries`;
@@ -96,7 +96,7 @@ describe('OccUserWishlistAdapter', () => {
 
   describe('getWishlist()', () => {
     describe('step 1: fetch wishlists list', () => {
-      it('should build the getUserWishlists URL with userId', () => {
+      it('should build the getWishlists URL with userId', () => {
         adapter.getWishlist(MOCK_USER_ID).subscribe();
 
         httpMock
@@ -105,7 +105,7 @@ describe('OccUserWishlistAdapter', () => {
         httpMock.expectOne(ENTRIES_URL).flush({ wishlistEntries: [] });
 
         expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-          'getUserWishlists',
+          'getWishlists',
           { urlParams: { userId: MOCK_USER_ID } }
         );
       });

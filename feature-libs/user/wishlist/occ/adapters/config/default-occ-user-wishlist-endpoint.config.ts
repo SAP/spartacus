@@ -10,7 +10,7 @@ export const defaultOccUserWishlistConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        getUserWishlists: 'users/${userId}/wishlists',
+        getWishlists: 'users/${userId}/wishlists',
         getWishlistEntries: 'users/${userId}/wishlists/${wishlistId}/entries',
         addWishlistEntry: 'users/${userId}/wishlists/${wishlistId}/entries',
         removeWishlistEntry:

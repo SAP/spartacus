@@ -24,7 +24,7 @@ export class OccUserWishlistAdapter implements UserWishlistAdapter {
 
   getWishlist(userId: string): Observable<Wishlist> {
     // Step 1: fetch wishlists list to get the default wishlist ID
-    const listUrl = this.occEndpoints.buildUrl('getUserWishlists', {
+    const listUrl = this.occEndpoints.buildUrl('getWishlists', {
       urlParams: { userId },
     });
     return this.http
