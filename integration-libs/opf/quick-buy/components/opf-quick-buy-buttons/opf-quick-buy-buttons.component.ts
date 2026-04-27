@@ -26,7 +26,9 @@ import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
 })
 export class OpfQuickBuyButtonsComponent implements OnInit {
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);
-  protected paymentGatewayConfig$: Observable<OpfActiveConfiguration>;
+  protected paymentGatewayConfig$: Observable<
+    OpfActiveConfiguration | OpfActiveConfiguration[]
+  >;
 
   PAYMENT_METHODS = OpfQuickBuyProviderType;
 
@@ -37,7 +39,7 @@ export class OpfQuickBuyButtonsComponent implements OnInit {
 
   isPaymentMethodEnabled(
     provider: OpfQuickBuyProviderType,
-    activeConfiguration: OpfActiveConfiguration
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
   ): boolean {
     return this.opfQuickBuyButtonsService.isQuickBuyProviderEnabled(
       provider,
