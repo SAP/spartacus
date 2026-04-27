@@ -5,10 +5,15 @@
     "
     [activeConfiguration]="paymentGatewayConfig"
   ></cx-opf-apple-pay>
-  <cx-opf-google-pay
-    *ngIf="
-      isPaymentMethodEnabled(PAYMENT_METHODS.GOOGLE_PAY, paymentGatewayConfig)
-    "
-    [activeConfiguration]="paymentGatewayConfig"
-  ></cx-opf-google-pay>
 </ng-container>
+
+<div class="cx-opf-quick-buy-buttons-fixed-space">
+  <ng-container *ngIf="paymentGatewayConfig$ | async as paymentGatewayConfig">
+    <cx-opf-google-pay
+      *ngIf="
+        isPaymentMethodEnabled(PAYMENT_METHODS.GOOGLE_PAY, paymentGatewayConfig)
+      "
+      [activeConfiguration]="paymentGatewayConfig"
+    ></cx-opf-google-pay>
+  </ng-container>
+</div>
