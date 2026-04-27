@@ -10,9 +10,9 @@ import { RouterLink } from '@angular/router';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeatureDirective,
   PaginationModel,
   TranslatePipe,
+  FeatureDirective,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
