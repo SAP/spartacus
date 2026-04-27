@@ -473,6 +473,27 @@ export interface FeatureTogglesInterface {
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
    */
   enableRemoveVoucherEndpoint?: boolean;
+
+  /**
+   * When enabled, displays required field asterisks for form fields.
+   */
+  showRequiredAsterisks?: boolean;
+
+  /**
+   * Preserves keyboard focus on consent checkboxes after toggling.
+   * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
+   * and restores focus after the consent form is temporarily disabled.
+   * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
+   */
+  a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * When enabled, `AuthHttpHeaderService` executes DI-provided
+   * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
+   * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
+   * Affects: `AuthHttpHeaderService`
+   */
+  enableExpiredRefreshTokenHandlers?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -504,10 +525,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
-  navigationMenuCloseOnSameLinkClick: false,
+  navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: false,
-  enableQuotePurchaseOrderNumber: false,
-  enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableQuotePurchaseOrderNumber: true,
+  enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
@@ -526,7 +547,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
+  a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showRequiredAsterisks: false,
+  enableExpiredRefreshTokenHandlers: false,
 };

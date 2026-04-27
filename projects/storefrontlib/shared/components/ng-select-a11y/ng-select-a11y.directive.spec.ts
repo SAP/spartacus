@@ -101,6 +101,13 @@ describe('NgSelectA11yDirective', () => {
     expect(innerDiv.getAttribute('aria-label')).toEqual('Size');
   });
 
+  it('should set aria-hidden on .ng-arrow-wrapper to prevent screen readers announcing the caret icon', () => {
+    fixture.detectChanges();
+    const select = getNgSelect().nativeElement;
+    const arrowWrapper = select.querySelector('.ng-arrow-wrapper');
+    expect(arrowWrapper.getAttribute('aria-hidden')).toBe('true');
+  });
+
   it('should set the input value from the selected option text', (done) => {
     directive['platformId'] = 'browser';
     fixture.detectChanges();
