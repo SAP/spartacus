@@ -5,6 +5,7 @@ import {
   AuthService,
   CSRFResponse,
   CsrfStateService,
+  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
@@ -31,6 +32,7 @@ class MockSemanticPathService {
 }
 class MockWindowRef {
   localStorage = mockStorage();
+  location = { href: '', assign: jasmine.createSpy() };
   isBrowser(): boolean {
     return true;
   }
@@ -40,6 +42,11 @@ class MockGlobalMessageService {
 }
 class MockAuthConfigService {
   customLoginEnabled = jasmine.createSpy().and.returnValue(true);
+}
+
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  isLoginDomain = false;
+  origin: string | undefined = undefined;
 }
 
 function mockStorage() {
@@ -63,6 +70,7 @@ describe('CustomLoginGuard', () => {
   let storage: Storage;
   let authConfigService: AuthConfigService;
   let mockWindowRef: MockWindowRef;
+  let federatedLoginService: MockFederatedLoginService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,6 +95,7 @@ describe('CustomLoginGuard', () => {
         { provide: WindowRef, useClass: MockWindowRef },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
+        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
       ],
     });
     guard = TestBed.inject(CustomLoginGuard);
@@ -96,8 +105,11 @@ describe('CustomLoginGuard', () => {
     spyOn(csrfStateService, 'set').and.callThrough();
     storage = TestBed.inject(WindowRef).localStorage as Storage;
     spyOn(storage, 'setItem').and.callThrough();
-    mockWindowRef = TestBed.inject(WindowRef) as MockWindowRef;
+    mockWindowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
     authConfigService = TestBed.inject(AuthConfigService);
+    federatedLoginService = TestBed.inject(
+      FederatedLoginService
+    ) as unknown as MockFederatedLoginService;
 
     jasmine.clock().install();
     jasmine.clock().mockDate(new Date(0));
@@ -230,6 +242,38 @@ describe('CustomLoginGuard', () => {
         jasmine.any(String),
         JSON.stringify({ t: 0, c: 0 })
       );
+    });
+
+    describe('when on a federated login', () => {
+      const mockOriginatingDomain = 'https://storefront.de';
+
+      beforeEach(() => {
+        federatedLoginService.isLoginDomain = true;
+        federatedLoginService.origin = mockOriginatingDomain;
+      });
+
+      it('should redirect to the origin login URL', async () => {
+        await lastValueFrom(guard.canActivate());
+
+        expect(mockWindowRef.location.href).toEqual(
+          `${mockOriginatingDomain}/login`
+        );
+      });
+
+      it('should prevent activation', async () => {
+        const expected = false;
+        const actual = await lastValueFrom(guard.canActivate());
+
+        expect(actual).toEqual(expected);
+      });
+
+      it('should proceed to login route if origin is undefined', async () => {
+        federatedLoginService.origin = undefined;
+        const expected = { root: '/login' } as unknown as UrlTree;
+        const actual = await lastValueFrom(guard.canActivate());
+
+        expect(actual).toEqual(expected);
+      });
     });
   });
 
