@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
+  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -69,6 +70,10 @@ class MockRouter implements Partial<Router> {
   navigate = createSpy().and.stub();
 }
 
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  isLoginDomain?: boolean | undefined = false;
+}
+
 describe('CdcLoginComponentService', () => {
   let cdcLoginService: CdcLoginFormComponentService;
   let cdcJsService: CdcJsService;
@@ -97,6 +102,7 @@ describe('CdcLoginComponentService', () => {
           provide: Router,
           useClass: MockRouter,
         },
+        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
       ],
     });
   }));

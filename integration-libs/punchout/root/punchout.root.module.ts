@@ -11,17 +11,25 @@ import {
   NgModule,
   provideAppInitializer,
 } from '@angular/core';
-import { AuthHttpHeaderService, provideDefaultConfig } from '@spartacus/core';
+import {
+  AuthHttpHeaderService,
+  DEFAULT_AUTH_HTTP_HEADER_SERVICE,
+  DELEGATED_AUTH_HTTP_HEADER_SERVICE,
+  EXPIRED_REFRESH_TOKEN_HANDLERS,
+  FeatureConfigService,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   defaultPunchoutCmsComponentsConfig,
-  defaultPunchoutRoutingConfig,
   defaultPunchoutNavigationGuardConfig,
+  defaultPunchoutRoutingConfig,
 } from './config';
 import { PunchoutNavigationModule } from './guards/punchout-navigation.module';
 import { interceptors } from './interceptors';
 import {
-  PunchoutStatePersistenceService,
   PunchoutAuthHttpHeaderService,
+  PunchoutExpiredRefreshTokenHandler,
+  PunchoutStatePersistenceService,
   PunchoutUiRestrictionService,
 } from './services';
 
@@ -38,9 +46,28 @@ import {
       punchoutPersistenceService.initSync();
     }),
     ...interceptors,
+    // below provider should be removed after enableExpiredRefreshTokenHandlers is fully rolled out
     {
       provide: AuthHttpHeaderService,
-      useExisting: PunchoutAuthHttpHeaderService,
+      useFactory: () => {
+        const featureConfig = inject(FeatureConfigService);
+        const delegatedAuthHttpHeaderService = inject(
+          DELEGATED_AUTH_HTTP_HEADER_SERVICE,
+          {
+            optional: true,
+          }
+        );
+        // delegatedService is expected to be used by ASM to address breaking changes of CXSPA-12514
+        return featureConfig.isEnabled('enableExpiredRefreshTokenHandlers')
+          ? (delegatedAuthHttpHeaderService ??
+              inject(DEFAULT_AUTH_HTTP_HEADER_SERVICE))
+          : inject(PunchoutAuthHttpHeaderService);
+      },
+    },
+    {
+      provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
+      useExisting: PunchoutExpiredRefreshTokenHandler,
+      multi: true,
     },
     PunchoutUiRestrictionService,
     {
