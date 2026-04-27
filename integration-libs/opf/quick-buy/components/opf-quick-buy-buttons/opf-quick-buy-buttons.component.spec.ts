@@ -11,6 +11,7 @@ import { OpfQuickBuyProviderType } from '../../root/model';
 import { OpfQuickBuyButtonsComponent } from './opf-quick-buy-buttons.component';
 import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
 import createSpy = jasmine.createSpy;
+import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
 
 const routerStateSubject = new BehaviorSubject<RouterState>({
   state: {
@@ -33,6 +34,8 @@ describe('OpfQuickBuyButtonsComponent', () => {
     opfQuickBuyButtonsServiceMock = jasmine.createSpyObj('OpfQuickBuyService', [
       'getPaymentGatewayConfiguration',
       'isQuickBuyProviderEnabled',
+      'getQuickBuyProviderConfig',
+      'getActiveConfigurationForProvider',
     ]);
 
     await TestBed.configureTestingModule({
@@ -70,7 +73,7 @@ describe('OpfQuickBuyButtonsComponent', () => {
 
   it('should determine if a payment method is enabled', () => {
     const provider = OpfQuickBuyProviderType.APPLE_PAY;
-    const activeConfiguration = {};
+    const activeConfiguration: OpfActiveConfiguration[] = [];
     opfQuickBuyButtonsServiceMock.isQuickBuyProviderEnabled.and.returnValue(
       true
     );
