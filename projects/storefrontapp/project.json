@@ -138,10 +138,7 @@
         "prerender": false,
         "ssr": {
           "entry": "projects/storefrontapp/src/server.ts"
-        },
-        "scripts": [
-          "projects/storefrontapp/public/scripts/cart-abandonment-tracker.js"
-        ]
+        }
       },
       "configurations": {
         "production": {
