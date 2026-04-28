@@ -259,6 +259,7 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.showErrorMessage('opfCheckout.errors.unknown');
     this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });
+    this.activeCartService.reloadActiveCart();
   }
 
   protected handleGeneralPaymentError(): Observable<Error> {
@@ -268,7 +269,7 @@ export class OpfCheckoutPaymentWrapperService {
     });
 
     this.showErrorMessage('opfPayment.errors.proceedPayment');
-
+    this.activeCartService.reloadActiveCart();
     return throwError('Payment failed');
   }
 

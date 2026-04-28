@@ -5,6 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -23,6 +24,7 @@ import {
 export class OpfPaymentErrorHandlerService {
   protected globalMessageService = inject(GlobalMessageService);
   protected routingService = inject(RoutingService);
+  protected activeCartService = inject(ActiveCartFacade);
 
   protected displayError(error: OpfPaymentError | undefined): void {
     this.globalMessageService.add(
@@ -70,6 +72,8 @@ export class OpfPaymentErrorHandlerService {
     this.displayError(error ? { ...error, message } : undefined);
     if (onFailureCallback) {
       onFailureCallback(error as unknown as OpfPaymentSubmitResponse);
+          this.activeCartService.reloadActiveCart();
+
     }
     if (returnPath?.length) {
       this.routingService.go({ cxRoute: returnPath });
