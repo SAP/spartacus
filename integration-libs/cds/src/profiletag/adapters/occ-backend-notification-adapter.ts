@@ -6,7 +6,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OccEndpointsService } from '@spartacus/core';
+import { OccEndpointsService, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapter';
@@ -15,14 +15,19 @@ import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapte
 export class OccBackendNotification implements CdsBackendNotificationAdapter {
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    private userIdService: UserIdService
   ) {}
   notifySuccessfulLogin(): Observable<void> {
-    return this.http
-      .post<{}>(
-        `${this.occEndpoints.getBaseUrl()}/users/current/loginnotification`,
-        {}
+    return this.userIdService.takeUserId(true).pipe(
+      switchMap((userId) =>
+        this.http
+          .post<{}>(
+            `${this.occEndpoints.getBaseUrl()}/users/${userId}/loginnotification`,
+            {}
+          )
+          .pipe(switchMap(() => EMPTY))
       )
-      .pipe(switchMap(() => EMPTY));
+    );
   }
 }
