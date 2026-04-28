@@ -12,6 +12,7 @@ import {
   CustomerCouponService,
   PaginationModel,
   TranslatePipe,
+  FeatureDirective,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -38,6 +39,7 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
