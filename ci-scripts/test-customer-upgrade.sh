@@ -45,7 +45,7 @@
 #                           Resolution: SPARTACUS_REGISTRY_TOKEN → NPM_TOKEN → config.sh → ~/.npmrc
 #   TO_REGISTRY          - registry hosting TO_VERSION (default: http://localhost:4873/)
 #   TO_REGISTRY_TOKEN    - auth token for TO_REGISTRY (default: empty)
-#   BASE_URL             - OCC backend URL (default: https://40.76.109.9:9002)
+#   BASE_URL             - OCC backend URL (default: BACKEND_URL from config, or https://40.76.109.9:9002)
 #   APP_NAME             - test app name (default: spartacus-fresh)
 #   WORK_DIR             - where to create the app (default: $TMPDIR or /tmp)
 #   SKIP_START_CHECK     - "true" to skip ng serve verification (default: false)
@@ -54,6 +54,11 @@
 #   STRICT_INSTALL       - "true" to fail on npm install errors after upgrade,
 #                           "false" to warn and continue (default: true)
 #
+# Feature flags (inherited from config.sh all default to false):
+#   ADD_B2B_LIBS, ADD_CDC, ADD_CPQ, ADD_QUOTE, ADD_S4OM, ADD_S4_SERVICE,
+#   ADD_CPQ_QUOTE, ADD_OPF, ADD_EPD_VISUALIZATION, ADD_PRODUCT_MULTI_DIMENSIONAL,
+#   ADD_PUNCHOUT, ADD_REQUESTED_DELIVERY_DATE, ADD_ESTIMATED_DELIVERY_DATE,
+#   ADD_PDF_INVOICES
 
 set -euo pipefail
 
@@ -177,7 +182,7 @@ if [[ "$FROM_VERSION" == "$TO_VERSION" ]]; then
   echo "⚠️  FROM_VERSION and TO_VERSION are both '${FROM_VERSION}'. ng update will be a no-op." >&2
 fi
 
-BASE_URL="${BASE_URL:-https://40.76.109.9:9002}"
+BASE_URL="${BASE_URL:-${BACKEND_URL:-https://40.76.109.9:9002}}"
 APP_NAME="${APP_NAME:-spartacus-fresh}"
 
 # WORK_DIR: ~/Desktop locally, /tmp on CI
@@ -198,63 +203,6 @@ SERVE_PORT="${SERVE_PORT:-4200}"
 # Grep pattern used to find @spartacus packages in package.json
 SPARTACUS_PKG_PATTERN='"@spartacus/'
 
-# --- All available Spartacus features (from schema.json enum) ---
-ALL_FEATURES=(
-  "ASM"
-  "ASM-Customer-360"
-  "Import-Export"
-  "Saved-Cart"
-  "Quick-Order"
-  "CDC"
-  "CDC-B2B"
-  "CDP"
-  "CDS"
-  "Cart"
-  "WishList"
-  "Checkout"
-  "Checkout-B2B"
-  "Checkout-Scheduled-Replenishment"
-  "Order"
-  "Order-Document-Flow"
-  "OPPS"
-  "Digital-Payments"
-  "OPF-Checkout"
-  "Punchout"
-  "Customer-Ticketing"
-  "Administration"
-  "Order-Approval"
-  "Organization-User-Registration"
-  "Unit-Order"
-  "Account-Summary"
-  "Bulk-Pricing"
-  "Image-Zoom"
-  "Future-Stock"
-  "PDF-Invoices"
-  "Product-Variants"
-  "Product-Multi-Dimensional-Selector"
-  "Product-Multi-Dimensional-List"
-  "VC-Configurator"
-  "Textfield-Configurator"
-  "CPQ-Configurator"
-  "Qualtrics"
-  "Requested-Delivery-Date"
-  "Estimated-Delivery-Date"
-  "S4HANA-Order-Management"
-  "cpq-quote"
-  "s4-service"
-  "Subscription-Billing"
-  "OMF"
-  "SmartEdit"
-  "Store-Finder"
-  "Personalization"
-  "Segment-Refs"
-  "TMS-GTM"
-  "TMS-AEPL"
-  "Pickup-In-Store"
-  "User-Account"
-  "User-Profile"
-  "Quote"
-)
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -303,6 +251,9 @@ write_npmrc() {
   echo "  .npmrc → @spartacus:registry=${registry}"
   return 0
 }
+
+# ─── Source feature installation functions ───
+source "${SCRIPT_DIR}/install-spartacus-features.sh"
 
 SERVE_PID=""
 cleanup() {
@@ -463,10 +414,22 @@ npm install --save-dev "@spartacus/schematics@${FROM_VERSION}"
 
 git_commit "chore: npm install @spartacus/schematics@${FROM_VERSION}"
 
-npx ng add "@spartacus/schematics@${FROM_VERSION}" \
-  --base-url="${BASE_URL}" \
-  --features "${ALL_FEATURES[@]}" \
-  --skip-confirmation
+# ── Mirror scripts/install/functions.sh pattern ──
+# Base ng add (no --features), then individual feature libs controlled by config flags.
+NG_ADD_BASE_ARGS=(
+  "--base-url=${BASE_URL}"
+  "--overwrite-app-component"
+  "--skip-confirmation"
+  "--no-interactive"
+)
+[[ -n "${BASE_SITE:-}" ]]       && NG_ADD_BASE_ARGS+=("--base-site" "$BASE_SITE")
+[[ -n "${OCC_PREFIX:-}" ]]      && NG_ADD_BASE_ARGS+=("--occ-prefix" "$OCC_PREFIX")
+[[ -n "${CURRENCY:-}" ]]        && NG_ADD_BASE_ARGS+=("--currency" "$CURRENCY")
+[[ -n "${URL_PARAMETERS:-}" ]]  && NG_ADD_BASE_ARGS+=("--url-parameters" "$URL_PARAMETERS")
+
+npx ng add "@spartacus/schematics@${FROM_VERSION}" "${NG_ADD_BASE_ARGS[@]}"
+
+install_spartacus_features "${FROM_VERSION}"
 
 log_ok "Spartacus ${FROM_VERSION} installed"
 
