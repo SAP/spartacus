@@ -51,11 +51,13 @@ export class ApplePayService {
   );
   protected opfQuickBuyFacade = inject(OpfQuickBuyFacade);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
   protected paymentInProgress = false;
 
+  // default config guarantees providers.applePay is always present
   protected get applePayProviderConfig(): OpfQuickBuyApplePayProvider {
-    return this.opfQuickBuyConfig.providers!.applePay;
+    return this.opfQuickBuyConfig.providers
+      ?.applePay as OpfQuickBuyApplePayProvider;
   }
 
   protected get useOpfQuickBuyConfig(): boolean {

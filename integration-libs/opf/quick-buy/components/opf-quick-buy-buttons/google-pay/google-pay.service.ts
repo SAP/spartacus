@@ -43,12 +43,14 @@ export class OpfGooglePayService {
   );
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
+  // default config guarantees providers.googlePay is always present
   protected get googlePayProviderConfig(): OpfQuickBuyGooglePayProvider {
-    return this.opfQuickBuyConfig.providers!.googlePay;
+    return this.opfQuickBuyConfig.providers
+      ?.googlePay as OpfQuickBuyGooglePayProvider;
   }
 
   private get useOpfQuickBuyConfig(): boolean {
