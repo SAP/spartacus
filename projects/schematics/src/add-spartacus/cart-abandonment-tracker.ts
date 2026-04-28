@@ -63,8 +63,8 @@ export function installCartAbandonmentTracker(options: SpartacusOptions): Rule {
         context.logger.info(`✓ Created ${trackerScriptTarget}`);
       }
 
-      // Update index.html to include the script tag
-      updateIndexHtml(tree, indexHtmlPath, context);
+      // Add script to angular.json/project.json scripts array
+      addScriptToWorkspaceConfig(tree, project, trackerScriptTarget, context);
 
       // Add APP_INITIALIZER provider to app configuration
       addAppInitializer(tree, projectRoot, context);
@@ -82,41 +82,104 @@ export function installCartAbandonmentTracker(options: SpartacusOptions): Rule {
   };
 }
 
+
 /**
- * Update index.html to include the tracker script tag
+ * Add script to angular.json or project.json scripts array
  */
-function updateIndexHtml(
+function addScriptToWorkspaceConfig(
   tree: Tree,
-  indexHtmlPath: string,
+  project: any,
+  scriptPath: string,
   context: SchematicContext
 ): void {
-  const indexHtmlBuffer = tree.read(indexHtmlPath);
-
-  if (!indexHtmlBuffer) {
-    context.logger.warn(`Could not read ${indexHtmlPath}`);
+  // Try project.json first (Nx projects)
+  const projectJsonPath = project.root ? `${project.root}/project.json` : 'project.json';
+  
+  if (tree.exists(projectJsonPath)) {
+    addScriptToProjectJson(tree, projectJsonPath, scriptPath, context);
     return;
   }
 
-  let indexHtmlContent = indexHtmlBuffer.toString();
+  // Fallback to angular.json (standard Angular CLI)
+  addScriptToAngularJson(tree, project, scriptPath, context);
+}
 
-  // Check if the script tag is already present
-  const scriptTag = '<script src="scripts/cart-abandonment-tracker.js"></script>';
-  if (indexHtmlContent.includes('cart-abandonment-tracker.js')) {
-    context.logger.info(`✓ Cart Abandonment Tracker script already in ${indexHtmlPath}`);
+/**
+ * Add script to project.json
+ */
+function addScriptToProjectJson(
+  tree: Tree,
+  projectJsonPath: string,
+  scriptPath: string,
+  context: SchematicContext
+): void {
+  const projectJsonBuffer = tree.read(projectJsonPath);
+  if (!projectJsonBuffer) {
+    context.logger.warn(`Could not read ${projectJsonPath}`);
     return;
   }
 
-  // Add the script tag before the closing </head> tag
-  const headCloseTag = '</head>';
-  if (indexHtmlContent.includes(headCloseTag)) {
-    indexHtmlContent = indexHtmlContent.replace(
-      headCloseTag,
-      `  ${scriptTag}\n  ${headCloseTag}`
-    );
-    tree.overwrite(indexHtmlPath, indexHtmlContent);
-    context.logger.info(`✓ Added Cart Abandonment Tracker script tag to ${indexHtmlPath}`);
+  const projectJson = JSON.parse(projectJsonBuffer.toString());
+  const buildTarget = projectJson.targets?.build;
+
+  if (!buildTarget || !buildTarget.options) {
+    context.logger.warn(`Could not find build target in ${projectJsonPath}`);
+    return;
+  }
+
+  // Initialize scripts array if it doesn't exist
+  if (!buildTarget.options.scripts) {
+    buildTarget.options.scripts = [];
+  }
+
+  // Add the script if not already present
+  if (!buildTarget.options.scripts.includes(scriptPath)) {
+    buildTarget.options.scripts.push(scriptPath);
+    tree.overwrite(projectJsonPath, JSON.stringify(projectJson, null, 2));
+    context.logger.info(`✓ Added cart-abandonment-tracker.js to ${projectJsonPath} scripts array`);
   } else {
-    context.logger.warn(`Could not find ${headCloseTag} in ${indexHtmlPath}`);
+    context.logger.info(`✓ Script already configured in ${projectJsonPath}`);
+  }
+}
+
+/**
+ * Add script to angular.json
+ */
+function addScriptToAngularJson(
+  tree: Tree,
+  project: any,
+  scriptPath: string,
+  context: SchematicContext
+): void {
+  const angularJsonPath = 'angular.json';
+  const angularJsonBuffer = tree.read(angularJsonPath);
+
+  if (!angularJsonBuffer) {
+    context.logger.warn(`Could not read ${angularJsonPath}`);
+    return;
+  }
+
+  const angularJson = JSON.parse(angularJsonBuffer.toString());
+  const projectName = project.name || Object.keys(angularJson.projects)[0];
+  const buildOptions = angularJson.projects?.[projectName]?.architect?.build?.options;
+
+  if (!buildOptions) {
+    context.logger.warn(`Could not find build options for project ${projectName} in ${angularJsonPath}`);
+    return;
+  }
+
+  // Initialize scripts array if it doesn't exist
+  if (!buildOptions.scripts) {
+    buildOptions.scripts = [];
+  }
+
+  // Add the script if not already present
+  if (!buildOptions.scripts.includes(scriptPath)) {
+    buildOptions.scripts.push(scriptPath);
+    tree.overwrite(angularJsonPath, JSON.stringify(angularJson, null, 2));
+    context.logger.info(`✓ Added cart-abandonment-tracker.js to ${angularJsonPath} scripts array`);
+  } else {
+    context.logger.info(`✓ Script already configured in ${angularJsonPath}`);
   }
 }
 
