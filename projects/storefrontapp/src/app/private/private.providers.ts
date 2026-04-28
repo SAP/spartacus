@@ -49,14 +49,6 @@ export const privateProviders = makeEnvironmentProviders([
     ...(environment.production ? [] : [StoreDevtoolsModule.instrument()]) // Enable Redux devtools only in non-production build
   ),
 
-  // Cart abandonment tracker initialization
-  {
-    provide: APP_INITIALIZER,
-    useFactory: initializeCartAbandonmentTracker,
-    deps: [CartAbandonmentTrackerService, WindowRef],
-    multi: true,
-  },
-
   // Assistant widget initialization
   {
     provide: APP_INITIALIZER,
