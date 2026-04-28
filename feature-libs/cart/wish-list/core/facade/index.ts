@@ -5,3 +5,4 @@
  */
 
 export * from './wish-list.service';
+export * from './wish-list-v2.service';
