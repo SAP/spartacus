@@ -32,4 +32,14 @@
   body {
     text-align: start;
   }
+
+  @include forFeature(
+    'a11yPreventWindowsHighContrastOverride',
+    'currentSelector'
+  ) {
+    // Prevents Windows high contrast mode from overriding the Spartacus theme
+    @media (forced-colors: active) {
+      forced-color-adjust: none !important;
+    }
+  }
 }
