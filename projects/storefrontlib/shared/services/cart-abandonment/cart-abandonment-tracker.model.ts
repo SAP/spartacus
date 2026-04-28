@@ -65,3 +65,7 @@ declare global {
     CartAbandonmentTracker?: CartAbandonmentTrackerClass;
   }
 }
+
+// Export an empty object to ensure this file is treated as a module
+// and the global augmentation is properly scoped
+export {};

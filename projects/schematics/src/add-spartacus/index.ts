@@ -56,6 +56,7 @@ import {
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addStorefrontComponentToAppComponent } from './add-storefront-component-to-app-component';
+import { installCartAbandonmentTracker } from './cart-abandonment-tracker';
 import { addSpartacusConfiguration } from './configuration';
 import { createAppModule } from './create-app-module';
 import { Schema as SpartacusOptions } from './schema';
@@ -561,6 +562,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       installStyles(options),
       updateMainComponent(getProjectFromWorkspace(tree, options), options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
+
+      installCartAbandonmentTracker(options),
 
       increaseBudgets(options),
       createStylePreprocessorOptions(options),
