@@ -118,9 +118,7 @@ describe('OccBackendNotification', () => {
         },
       });
 
-      httpMock.expectNone(
-        `${BASE_URL}/users/anonymous/loginnotification`
-      );
+      httpMock.expectNone(`${BASE_URL}/users/anonymous/loginnotification`);
     });
   });
 });
