@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OccEndpointsService, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -13,10 +13,11 @@ import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapte
 
 @Injectable()
 export class OccBackendNotification implements CdsBackendNotificationAdapter {
+  private userIdService = inject(UserIdService);
+
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
-    private userIdService: UserIdService
+    private occEndpoints: OccEndpointsService
   ) {}
   notifySuccessfulLogin(): Observable<void> {
     return this.userIdService
