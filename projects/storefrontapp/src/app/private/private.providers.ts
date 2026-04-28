@@ -8,10 +8,6 @@ import { APP_INITIALIZER, importProvidersFrom, makeEnvironmentProviders } from '
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { provideConfig, TestConfigModule, WindowRef } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import {
-  CartAbandonmentTrackerService,
-  initializeCartAbandonmentTracker,
-} from '@spartacus/storefront';
 import { AssistantWidgetService } from '../assistant-widget.service';
 import { initializeAssistantWidget } from '../assistant-widget.initializer';
 import { environment } from '../../environments/environment';
