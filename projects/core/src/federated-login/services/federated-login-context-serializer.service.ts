@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { decodeBase64, encodeBase64 } from '@spartacus/core';
+import { decodeBase64, encodeBase64 } from '../../util/base64';
 import { FederatedLoginConfig } from '../config/federated-login-config';
 import { FederatedLoginContext } from '../model';
 
