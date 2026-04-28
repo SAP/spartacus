@@ -473,6 +473,12 @@ export interface FeatureTogglesInterface {
   enableRemoveVoucherEndpoint?: boolean;
 
   /**
+   * When enabled, shows sort fields only at the top of the table.
+   * When disabled, shows sort fields at both top and bottom.
+   */
+  showSortFieldsOnlyAtTop?: boolean;
+
+  /**
    * When enabled, displays required field asterisks for form fields.
    */
   showRequiredAsterisks?: boolean;
@@ -549,6 +555,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
 };
