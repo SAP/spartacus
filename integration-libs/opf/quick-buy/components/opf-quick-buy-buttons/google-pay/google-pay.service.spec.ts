@@ -4,11 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/// <reference types="@types/googlepay" />
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { Address, PriceType } from '@spartacus/core';
-import { OpfResourceLoaderService } from '@spartacus/opf/base/root';
+import {
+  OpfActiveConfiguration,
+  OpfResourceLoaderService,
+} from '@spartacus/opf/base/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
@@ -84,7 +88,7 @@ describe('OpfGooglePayService', () => {
     ]);
     mockQuickBuyButtonsService = jasmine.createSpyObj(
       'OpfQuickBuyButtonsService',
-      ['getQuickBuyProviderConfig']
+      ['getQuickBuyProviderConfig', 'getActiveConfigurationForProvider']
     );
 
     const googlePayApiMock = {
@@ -135,7 +139,7 @@ describe('OpfGooglePayService', () => {
 
   describe('getClient', () => {
     it('should return the Google Payment client instance', () => {
-      const activeConfiguration = {};
+      const activeConfiguration: OpfActiveConfiguration[] = [];
       service.initClient(activeConfiguration);
 
       const client = service['getClient']();
@@ -215,7 +219,7 @@ describe('OpfGooglePayService', () => {
 
   describe('isReadyToPay', () => {
     it('should return info about readiness to pay from the Google Pay API', async () => {
-      const activeConfiguration = {};
+      const activeConfiguration: OpfActiveConfiguration[] = [];
 
       service.initClient(activeConfiguration);
 
@@ -236,8 +240,20 @@ describe('OpfGooglePayService', () => {
   });
 
   describe('initClient', () => {
-    it('should initialize the Google Payment client with configurations', () => {
-      const activeConfiguration = {};
+    it('should initialize the Google Payment client with configurations (array)', () => {
+      const activeConfiguration: any[] = [];
+      service.initClient(activeConfiguration);
+
+      const client = service['googlePaymentClient'];
+
+      expect(client).toBeDefined();
+    });
+
+    it('should initialize the Google Payment client with single configuration', () => {
+      const activeConfiguration: OpfActiveConfiguration = {
+        merchantId: 'test-merchant',
+        providerType: 'PAYMENT_GATEWAY',
+      } as any;
       service.initClient(activeConfiguration);
 
       const client = service['googlePaymentClient'];
