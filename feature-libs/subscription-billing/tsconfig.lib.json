@@ -16,8 +16,6 @@
     "lib": ["dom", "esnext"],
     "strict": true,
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
@@ -65,7 +63,13 @@
         "dist/cart/base/components/add-to-cart"
       ],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user": ["dist/user"],
+      "@spartacus/user/wishlist": ["dist/user/wishlist"],
+      "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],
+      "@spartacus/user/wishlist/occ": ["dist/user/wishlist/occ"],
+      "@spartacus/user/wishlist/core": ["dist/user/wishlist/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
