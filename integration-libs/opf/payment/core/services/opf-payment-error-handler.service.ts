@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Injectable, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   HttpResponseStatus,
   RoutingService,
 } from '@spartacus/core';
-import { Injectable, inject } from '@angular/core';
 import {
   OpfPaymentError,
   OpfPaymentErrorType,
