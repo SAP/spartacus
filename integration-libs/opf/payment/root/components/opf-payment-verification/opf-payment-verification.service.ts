@@ -191,7 +191,6 @@ export class OpfPaymentVerificationService {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
-    this.activeCartService.reloadActiveCart();
   }
 
   checkIfProcessingCartIdExist(): void {

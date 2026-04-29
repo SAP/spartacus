@@ -72,8 +72,6 @@ export class OpfPaymentErrorHandlerService {
     this.displayError(error ? { ...error, message } : undefined);
     if (onFailureCallback) {
       onFailureCallback(error as unknown as OpfPaymentSubmitResponse);
-          this.activeCartService.reloadActiveCart();
-
     }
     if (returnPath?.length) {
       this.routingService.go({ cxRoute: returnPath });
