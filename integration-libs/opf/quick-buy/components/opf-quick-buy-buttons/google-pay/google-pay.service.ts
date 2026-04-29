@@ -16,9 +16,9 @@ import {
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
+  defaultOpfQuickBuyConfig,
   OPF_GOOGLE_PAY_PROVIDER_NAME,
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
-  OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyConfig,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyGooglePayProvider,
@@ -57,53 +57,24 @@ export class OpfGooglePayService {
     return this.featureConfigService.isEnabled('useOpfQuickBuyConfig');
   }
 
+  private readonly defaultGooglePayConfig =
+    defaultOpfQuickBuyConfig.providers?.googlePay;
+
   private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
     environment: this.useOpfQuickBuyConfig
       ? this.googlePayProviderConfig.environment
-      : 'TEST',
+      : this.defaultGooglePayConfig?.environment,
   };
 
-  private initialGooglePaymentRequest: google.payments.api.PaymentDataRequest =
-    this.useOpfQuickBuyConfig
-      ? (this.googlePayProviderConfig
-          .paymentRequest as google.payments.api.PaymentDataRequest)
-      : ({
-          apiVersion: 2,
-          apiVersionMinor: 0,
-          callbackIntents: [
-            'PAYMENT_AUTHORIZATION',
-            'SHIPPING_ADDRESS',
-            'SHIPPING_OPTION',
-          ],
-          merchantInfo: {
-            merchantName: OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
-          },
-          shippingOptionRequired: true,
-          shippingAddressRequired: true,
-          shippingAddressParameters: {
-            phoneNumberRequired: false,
-          },
-          emailRequired: true,
-        } as google.payments.api.PaymentDataRequest);
+  private initialGooglePaymentRequest = (this.useOpfQuickBuyConfig
+    ? this.googlePayProviderConfig.paymentRequest
+    : this.defaultGooglePayConfig
+        ?.paymentRequest) as google.payments.api.PaymentDataRequest;
 
   protected readonly defaultGooglePayCardParameters: any = this
     .useOpfQuickBuyConfig
     ? this.googlePayProviderConfig.cardParameters
-    : {
-        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-        allowedCardNetworks: [
-          'AMEX',
-          'DISCOVER',
-          'INTERAC',
-          'JCB',
-          'MASTERCARD',
-          'VISA',
-        ],
-        billingAddressRequired: true,
-        billingAddressParameters: {
-          format: 'FULL',
-        },
-      };
+    : this.defaultGooglePayConfig?.cardParameters;
 
   private initialTransactionInfo: google.payments.api.TransactionInfo = {
     totalPrice: '0.00',

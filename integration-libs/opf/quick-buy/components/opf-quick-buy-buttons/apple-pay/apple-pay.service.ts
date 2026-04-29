@@ -24,6 +24,7 @@ import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
   ApplePayTransactionInput,
+  defaultOpfQuickBuyConfig,
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyApplePayProvider,
   OpfQuickBuyConfig,
@@ -67,13 +68,7 @@ export class ApplePayService {
   protected readonly defaultApplePayCardParameters: any = this
     .useOpfQuickBuyConfig
     ? this.applePayProviderConfig.cardParameters
-    : {
-        shippingMethods: [],
-        merchantCapabilities: ['supports3DS'],
-        supportedNetworks: ['visa', 'masterCard', 'amex', 'discover'],
-        requiredShippingContactFields: ['email', 'name', 'postalAddress'],
-        requiredBillingContactFields: ['email', 'name', 'postalAddress'],
-      };
+    : defaultOpfQuickBuyConfig.providers?.applePay?.cardParameters;
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
     context: OpfQuickBuyLocation.PRODUCT,
