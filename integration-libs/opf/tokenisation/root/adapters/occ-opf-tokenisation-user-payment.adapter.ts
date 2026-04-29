@@ -35,10 +35,10 @@ export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter 
   }
 
   override loadAll(userId: string): Observable<PaymentDetails[]> {
-    const url =
-      this.occEndpoints.buildUrl('paymentDetailsAll', {
-        urlParams: { userId },
-      }) + '?saved=true';
+    const url = this.occEndpoints.buildUrl('paymentDetailsAll', {
+      urlParams: { userId },
+      queryParams: { saved: true },
+    });
     const headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
