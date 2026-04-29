@@ -214,6 +214,13 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       });
     });
 
+    it('should include cardType name as textBold', (done) => {
+      component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+        expect(card.textBold).toBe(mockPaymentMethod1.cardType?.name);
+        done();
+      });
+    });
+
     it('should set role to application', (done) => {
       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
         expect(card.role).toBe('application');

@@ -66,6 +66,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     expiryMonth,
     expiryYear,
     cardNumber,
+    cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -91,6 +92,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           const card: Card = {
             role: 'application',
             header: defaultPayment ? textDefaultPaymentMethod : undefined,
+            textBold: cardType?.name,
             text: [cardNumber ?? '', textExpires],
             actions,
             label: defaultPayment
