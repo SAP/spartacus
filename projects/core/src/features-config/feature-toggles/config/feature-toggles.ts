@@ -78,6 +78,13 @@ export interface FeatureTogglesInterface {
   a11yNgSelectUnicodeCarets?: boolean;
 
   /**
+   * When enabled, prevents Windows high contrast mode from overriding the Spartacus theme.
+   * This ensures the application maintains its intended styling when the OS accessibility
+   * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
+   */
+  a11yPreventWindowsHighContrastOverride?: boolean;
+
+  /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
    * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
    * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
@@ -466,6 +473,12 @@ export interface FeatureTogglesInterface {
   enableRemoveVoucherEndpoint?: boolean;
 
   /**
+   * When enabled, shows sort fields only at the top of the table.
+   * When disabled, shows sort fields at both top and bottom.
+   */
+  showSortFieldsOnlyAtTop?: boolean;
+
+  /**
    * When enabled, displays required field asterisks for form fields.
    */
   showRequiredAsterisks?: boolean;
@@ -477,6 +490,14 @@ export interface FeatureTogglesInterface {
    * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
    */
   a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * When enabled, `AuthHttpHeaderService` executes DI-provided
+   * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
+   * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
+   * Affects: `AuthHttpHeaderService`
+   */
+  enableExpiredRefreshTokenHandlers?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -486,6 +507,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
+  a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
@@ -533,5 +555,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
+  enableExpiredRefreshTokenHandlers: false,
 };

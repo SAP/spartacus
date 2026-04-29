@@ -370,7 +370,6 @@
       type="text"
       class="form-control"
       placeholder="{{ 'asm.customerList.searchBox' | cxTranslate }}"
-      attr.aria-label="{{ 'asm.customerList.enterSearchBox' | cxTranslate }}"
     />
     <cx-icon
       [type]="iconTypes.SEARCH"
@@ -462,7 +461,7 @@
         'common.ngSelectDropdownOptionsList' | cxTranslate
       }}"
       [cxNgSelectA11y]="{
-        ariaLabel: getGroupName(customerListsPage, selectedUserGroupId),
+        ariaLabel: 'asm.customerList.title' | cxTranslate,
         ariaControls: 'asm-cusomer-list-table',
       }"
     >

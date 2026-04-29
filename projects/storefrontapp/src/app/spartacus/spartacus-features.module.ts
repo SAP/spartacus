@@ -339,6 +339,7 @@ if (environment.cpq) {
         a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
+        a11yPreventWindowsHighContrastOverride: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
         a11yListSemanticsForFacets: true,
@@ -349,7 +350,9 @@ if (environment.cpq) {
         a11yVocalizeDropdownItemCount: true,
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
+        showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
+        enableExpiredRefreshTokenHandlers: true,
       };
       return appFeatureToggles;
     }),
