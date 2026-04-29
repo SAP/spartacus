@@ -8,6 +8,10 @@ import { APP_INITIALIZER, importProvidersFrom, makeEnvironmentProviders } from '
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { provideConfig, TestConfigModule, WindowRef } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
+import {
+  CartAbandonmentTrackerService,
+  initializeCartAbandonmentTracker,
+} from '@spartacus/storefront';
 import { AssistantWidgetService } from '../assistant-widget.service';
 import { initializeAssistantWidget } from '../assistant-widget.initializer';
 import { environment } from '../../environments/environment';
@@ -44,6 +48,14 @@ export const privateProviders = makeEnvironmentProviders([
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
     ...(environment.production ? [] : [StoreDevtoolsModule.instrument()]) // Enable Redux devtools only in non-production build
   ),
+
+  // Cart abandonment tracker initialization
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeCartAbandonmentTracker,
+    deps: [CartAbandonmentTrackerService, WindowRef],
+    multi: true,
+  },
 
   // Assistant widget initialization
   {
