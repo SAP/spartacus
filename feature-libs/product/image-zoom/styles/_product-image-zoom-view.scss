@@ -187,19 +187,13 @@ cx-product-image-zoom-view {
     }
 
     @include cx-highContrastTheme-light {
-      .cx-image-container
-        .cx-zoom-btn-container
-        .cx-zoom-btn
-        .cx-zoom-indicator {
+      .cx-zoom-btn-container .cx-zoom-btn .cx-zoom-indicator {
         color: var(--cx-color-dark);
       }
     }
 
     @include cx-highContrastTheme-dark {
-      .cx-image-container
-        .cx-zoom-btn-container
-        .cx-zoom-btn
-        .cx-zoom-indicator {
+      .cx-zoom-btn-container .cx-zoom-btn .cx-zoom-indicator {
         color: var(--cx-color-light);
         --cx-color-visual-focus: #1f3a93;
       }
