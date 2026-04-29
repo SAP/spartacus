@@ -179,6 +179,38 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
         done();
       });
     });
+
+    it('should set first payment method as default when none is marked as default', (done) => {
+      tokenisationFacade.getPaymentMethods.and.returnValue(
+        of([mockPaymentMethod1, mockPaymentMethod2])
+      );
+
+      component.ngOnInit();
+
+      component.paymentMethods$.subscribe(() => {
+        expect(
+          tokenisationFacade.setPaymentMethodAsDefault
+        ).toHaveBeenCalledWith('card-1');
+        done();
+      });
+    });
+
+    it('should request auto-default only once across multiple emissions', (done) => {
+      tokenisationFacade.getPaymentMethods.and.returnValue(
+        of([mockPaymentMethod1, mockPaymentMethod2], [mockPaymentMethod1])
+      );
+
+      component.ngOnInit();
+
+      component.paymentMethods$.subscribe({
+        complete: () => {
+          expect(
+            tokenisationFacade.setPaymentMethodAsDefault
+          ).toHaveBeenCalledTimes(1);
+          done();
+        },
+      });
+    });
   });
 
   describe('loading$', () => {

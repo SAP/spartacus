@@ -6,7 +6,6 @@
 
 export {
   OpfPaymentDetails,
-  OpfSapPaymentMethod,
   OpfSetDefaultPaymentPayload,
 } from './payment.model';
 export {

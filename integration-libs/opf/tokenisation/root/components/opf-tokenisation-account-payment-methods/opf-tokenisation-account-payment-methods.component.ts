@@ -39,6 +39,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   showDeleteDialog = false;
   paymentMethodToDelete: PaymentDetails | undefined;
   @Input() showHeader = true;
+  protected autoDefaultRequested = false;
 
   protected tokenisationFacade = inject(OpfTokenisationFacade);
   protected translation = inject(TranslationService);
@@ -49,12 +50,20 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   ngOnInit(): void {
     this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
       tap((paymentDetails) => {
-        // Set first payment method to DEFAULT if none is set
+        const hasDefault = paymentDetails.some(
+          (paymentDetail) => paymentDetail.defaultPayment
+        );
+        const hasPaymentMethods = paymentDetails.length > 0;
+        const paymentMethodId = paymentDetails[0]?.id;
+
         if (
-          paymentDetails.length > 0 &&
-          !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
+          !this.autoDefaultRequested &&
+          hasPaymentMethods &&
+          !hasDefault &&
+          paymentMethodId
         ) {
-          this.setDefaultPaymentMethod(paymentDetails[0]);
+          this.autoDefaultRequested = true;
+          this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethodId);
         }
       })
     );
