@@ -9,6 +9,7 @@ import {
   CardType,
   PaymentDetails as CorePaymentDetails,
 } from '@spartacus/core';
+import { OpfPaymentMethodDetails } from '@spartacus/opf/payment/root';
 
 /**
  * OPF Tokenisation payment details model.
@@ -16,11 +17,6 @@ import {
  * This provides a single import point and allows future customization if needed.
  */
 export type OpfPaymentDetails = CorePaymentDetails;
-
-export interface OpfSapPaymentMethod {
-  code?: string;
-  name?: string;
-}
 
 export interface OpfSetDefaultPaymentPayload {
   id: string;
@@ -36,5 +32,5 @@ export interface OpfSetDefaultPaymentPayload {
   saved?: boolean;
   defaultPayment: true;
   billingAddress?: Address;
-  sapPaymentMethod?: OpfSapPaymentMethod;
+  sapPaymentMethod?: OpfPaymentMethodDetails;
 }

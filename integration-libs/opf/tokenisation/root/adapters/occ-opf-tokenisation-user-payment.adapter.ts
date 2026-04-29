@@ -100,17 +100,11 @@ export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter 
 
   protected buildBillingAddress(paymentDetail?: Occ.PaymentDetails): Address {
     const source = paymentDetail?.billingAddress;
-    const accountHolderName = this.getAccountHolderName(paymentDetail);
-    const [derivedFirstName, ...derivedLastNameParts] =
-      accountHolderName.split(' ');
 
     return {
       ...source,
-      firstName: source?.firstName?.trim() || derivedFirstName || 'N/A',
-      lastName:
-        source?.lastName?.trim() ||
-        derivedLastNameParts.join(' ').trim() ||
-        'N/A',
+      firstName: source?.firstName?.trim() || 'N/A',
+      lastName: source?.lastName?.trim() || 'N/A',
       line1: source?.line1?.trim() || 'N/A',
       town: source?.town?.trim() || 'N/A',
       postalCode: source?.postalCode?.trim() || '00000',
