@@ -3,6 +3,12 @@
   padding-inline-start: 3rem;
   padding-top: 0;
 
+  .cx-opf-quick-buy-buttons-fixed-space {
+    position: relative;
+    margin: 10px 0;
+    height: 48px;
+  }
+
   @include media-breakpoint-up(lg) {
     flex: none;
   }
