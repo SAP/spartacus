@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
@@ -17,6 +17,7 @@ import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfTokenisationFacade } from '../../facade';
 import { OpfTokenisationAccountPaymentMethodsComponent } from './opf-tokenisation-account-payment-methods.component';
+import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog/opf-tokenisation-delete-payment-dialog.component';
 
 @Component({
   selector: 'cx-card',
@@ -29,6 +30,16 @@ class MockCardComponent {}
   template: '',
 })
 class MockSpinnerComponent {}
+
+@Component({
+  selector: 'cx-opf-tokenisation-delete-payment-dialog',
+  template: '',
+})
+class MockDeletePaymentDialogComponent {
+  @Input() showDialog = false;
+  @Output() confirmDelete = new EventEmitter<void>();
+  @Output() cancelDelete = new EventEmitter<void>();
+}
 
 describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
   let component: OpfTokenisationAccountPaymentMethodsComponent;
@@ -58,6 +69,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       'getPaymentMethodsLoading',
       'loadPaymentMethods',
       'deletePaymentMethod',
+      'setPaymentMethodAsDefault',
     ]);
 
     const translationSpy = jasmine.createSpyObj('TranslationService', [
@@ -81,10 +93,20 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
     })
       .overrideComponent(OpfTokenisationAccountPaymentMethodsComponent, {
         remove: {
-          imports: [CardComponent, SpinnerComponent, TranslatePipe],
+          imports: [
+            CardComponent,
+            SpinnerComponent,
+            TranslatePipe,
+            OpfTokenisationDeletePaymentDialogComponent,
+          ],
         },
         add: {
-          imports: [MockCardComponent, MockSpinnerComponent, MockTranslatePipe],
+          imports: [
+            MockCardComponent,
+            MockSpinnerComponent,
+            MockTranslatePipe,
+            MockDeletePaymentDialogComponent,
+          ],
         },
       })
       .compileComponents();
@@ -157,6 +179,38 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
         done();
       });
     });
+
+    it('should set first payment method as default when none is marked as default', (done) => {
+      tokenisationFacade.getPaymentMethods.and.returnValue(
+        of([mockPaymentMethod1, mockPaymentMethod2])
+      );
+
+      component.ngOnInit();
+
+      component.paymentMethods$.subscribe(() => {
+        expect(
+          tokenisationFacade.setPaymentMethodAsDefault
+        ).toHaveBeenCalledWith('card-1');
+        done();
+      });
+    });
+
+    it('should request auto-default only once across multiple emissions', (done) => {
+      tokenisationFacade.getPaymentMethods.and.returnValue(
+        of([mockPaymentMethod1, mockPaymentMethod2], [mockPaymentMethod1])
+      );
+
+      component.ngOnInit();
+
+      component.paymentMethods$.subscribe({
+        complete: () => {
+          expect(
+            tokenisationFacade.setPaymentMethodAsDefault
+          ).toHaveBeenCalledTimes(1);
+          done();
+        },
+      });
+    });
   });
 
   describe('loading$', () => {
@@ -193,15 +247,6 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       });
     });
 
-    it('should call translate for paymentCard.deleteConfirmation', (done) => {
-      component.getCardContent(mockPaymentMethod1).subscribe(() => {
-        expect(translationService.translate).toHaveBeenCalledWith(
-          'paymentCard.deleteConfirmation'
-        );
-        done();
-      });
-    });
-
     it('should call translate for paymentCard.expires with month and year', (done) => {
       component.getCardContent(mockPaymentMethod1).subscribe(() => {
         expect(translationService.translate).toHaveBeenCalledWith(
@@ -222,28 +267,36 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       });
     });
 
+    it('should include cardType name as textBold', (done) => {
+      component.getCardContent(mockPaymentMethod1).subscribe((card) => {
+        expect(card.textBold).toBe(mockPaymentMethod1.cardType?.name);
+        done();
+      });
+    });
+
     it('should set role to application', (done) => {
       component.getCardContent(mockPaymentMethod1).subscribe((card) => {
         expect(card.role).toBe('application');
         done();
       });
     });
-
-    it('should set deleteMsg on card', (done) => {
-      component.getCardContent(mockPaymentMethod1).subscribe((card) => {
-        expect(card.deleteMsg).toBeDefined();
-        done();
-      });
-    });
   });
 
   describe('deletePaymentMethod', () => {
-    it('should call facade.deletePaymentMethod with payment method id', () => {
+    it('should call facade.deletePaymentMethod via confirmDeletePaymentMethod', () => {
       component.deletePaymentMethod(mockPaymentMethod1);
+      component.confirmDeletePaymentMethod();
 
       expect(tokenisationFacade.deletePaymentMethod).toHaveBeenCalledWith(
         'card-1'
       );
+    });
+
+    it('should set showDeleteDialog to true and store paymentMethodToDelete', () => {
+      component.deletePaymentMethod(mockPaymentMethod1);
+
+      expect(component.showDeleteDialog).toBe(true);
+      expect(component.paymentMethodToDelete).toBe(mockPaymentMethod1);
     });
 
     it('should set editCard to undefined after deletion', () => {
@@ -254,7 +307,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
       expect(component.editCard).toBeUndefined();
     });
 
-    it('should not call facade.deletePaymentMethod if id is undefined', () => {
+    it('should not open dialog if id is undefined', () => {
       const paymentMethod: PaymentDetails = {
         ...mockPaymentMethod1,
         id: undefined,
@@ -262,7 +315,7 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
 
       component.deletePaymentMethod(paymentMethod);
 
-      expect(tokenisationFacade.deletePaymentMethod).not.toHaveBeenCalled();
+      expect(component.showDeleteDialog).toBe(false);
     });
   });
 

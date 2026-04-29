@@ -59,6 +59,23 @@ export class OpfTokenisationPaymentMethodComponent
       paymentDetails
     );
   }
+
+  onCardClick(event: MouseEvent, paymentDetails: PaymentDetails): void {
+    const target = event.target as HTMLElement | null;
+
+    if (target?.closest('button, a, cx-generic-link')) {
+      return;
+    }
+
+    this.selectPaymentMethod(paymentDetails);
+  }
+
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.OpfTokenisationPaymentMethodService.setDefaultPaymentMethod(
+      paymentDetails
+    );
+  }
+
   setPaymentDetails({
     paymentDetails,
     billingAddress,

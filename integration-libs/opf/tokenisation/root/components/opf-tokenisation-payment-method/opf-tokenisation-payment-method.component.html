@@ -14,13 +14,14 @@
           >
             <div
               class="cx-payment-card-inner"
-              (click)="selectPaymentMethod(card.paymentMethod)"
+              (click)="onCardClick($event, card.paymentMethod)"
             >
               <cx-card
                 [border]="true"
                 [fitToContainer]="true"
                 [content]="card.content"
                 [index]="i"
+                (setDefaultCard)="setDefaultPaymentMethod(card.paymentMethod)"
                 (sendCard)="selectPaymentMethod(card.paymentMethod)"
               ></cx-card>
             </div>
