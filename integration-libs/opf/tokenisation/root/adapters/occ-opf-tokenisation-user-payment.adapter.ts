@@ -9,12 +9,14 @@ import { Injectable, inject } from '@angular/core';
 import {
   Address,
   ConverterService,
+  getLastValueSync,
   LoggerService,
   Occ,
   OccEndpointsService,
   OccUserPaymentAdapter,
   PAYMENT_DETAILS_NORMALIZER,
   PaymentDetails,
+  TranslationService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -24,6 +26,7 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
 export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter {
   protected logger = inject(LoggerService);
+  protected translationService = inject(TranslationService);
   protected rawPaymentDetailsById = new Map<string, Occ.PaymentDetails>();
 
   constructor(
@@ -94,8 +97,16 @@ export class OccOpfTokenisationUserPaymentAdapter extends OccUserPaymentAdapter 
     const firstName = paymentDetail?.billingAddress?.firstName?.trim() ?? '';
     const lastName = paymentDetail?.billingAddress?.lastName?.trim() ?? '';
     const fullName = `${firstName} ${lastName}`.trim();
+    const translatedAccountHolderName = getLastValueSync(
+      this.translationService.translate('paymentForm.accountHolderName.label')
+    );
+    const defaultAccountHolderName =
+      translatedAccountHolderName &&
+      translatedAccountHolderName !== 'paymentForm.accountHolderName.label'
+        ? translatedAccountHolderName
+        : 'Account Holder';
 
-    return fullName || 'Account Holder';
+    return fullName || defaultAccountHolderName;
   }
 
   protected buildBillingAddress(paymentDetail?: Occ.PaymentDetails): Address {

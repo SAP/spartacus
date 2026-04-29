@@ -5,7 +5,11 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog.component';
 
 describe('OpfTokenisationDeletePaymentDialogComponent', () => {
@@ -14,10 +18,7 @@ describe('OpfTokenisationDeletePaymentDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        OpfTokenisationDeletePaymentDialogComponent,
-        I18nTestingModule,
-      ],
+      imports: [OpfTokenisationDeletePaymentDialogComponent, I18nTestingModule],
     })
       .overrideComponent(OpfTokenisationDeletePaymentDialogComponent, {
         remove: { imports: [TranslatePipe] },
