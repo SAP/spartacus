@@ -37,8 +37,8 @@ class MockSpinnerComponent {}
 })
 class MockDeletePaymentDialogComponent {
   @Input() showDialog = false;
-  @Output() confirm = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() confirmDelete = new EventEmitter<void>();
+  @Output() cancelDelete = new EventEmitter<void>();
 }
 
 describe('OpfTokenisationAccountPaymentMethodsComponent', () => {

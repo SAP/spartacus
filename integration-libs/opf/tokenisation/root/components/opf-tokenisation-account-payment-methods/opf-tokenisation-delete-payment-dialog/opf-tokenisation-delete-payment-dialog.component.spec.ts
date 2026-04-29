@@ -43,17 +43,17 @@ describe('OpfTokenisationDeletePaymentDialogComponent', () => {
 
   describe('onConfirm', () => {
     it('should emit confirm event', () => {
-      spyOn(component.confirm, 'emit');
+      spyOn(component.confirmDelete, 'emit');
       component.onConfirm();
-      expect(component.confirm.emit).toHaveBeenCalled();
+      expect(component.confirmDelete.emit).toHaveBeenCalled();
     });
   });
 
   describe('onCancel', () => {
     it('should emit cancel event', () => {
-      spyOn(component.cancel, 'emit');
+      spyOn(component.cancelDelete, 'emit');
       component.onCancel();
-      expect(component.cancel.emit).toHaveBeenCalled();
+      expect(component.cancelDelete.emit).toHaveBeenCalled();
     });
   });
 });

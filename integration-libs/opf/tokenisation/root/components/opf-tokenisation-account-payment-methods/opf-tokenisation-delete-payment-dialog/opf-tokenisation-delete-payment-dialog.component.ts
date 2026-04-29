@@ -23,14 +23,14 @@ import { TranslatePipe } from '@spartacus/core';
 export class OpfTokenisationDeletePaymentDialogComponent {
   @Input() showDialog = false;
 
-  @Output() confirm = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() confirmDelete = new EventEmitter<void>();
+  @Output() cancelDelete = new EventEmitter<void>();
 
   onConfirm(): void {
-    this.confirm.emit();
+    this.confirmDelete.emit();
   }
 
   onCancel(): void {
-    this.cancel.emit();
+    this.cancelDelete.emit();
   }
 }
