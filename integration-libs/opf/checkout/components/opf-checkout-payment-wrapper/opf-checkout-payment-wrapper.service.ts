@@ -268,6 +268,7 @@ export class OpfCheckoutPaymentWrapperService {
     });
 
     this.showErrorMessage('opfPayment.errors.proceedPayment');
+
     return throwError('Payment failed');
   }
 

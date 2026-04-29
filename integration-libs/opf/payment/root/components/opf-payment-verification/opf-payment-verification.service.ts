@@ -35,7 +35,6 @@ import {
   OpfPaymentVerificationResult,
   OpfPaymentVerificationUrlInput,
 } from '../../model';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -44,7 +43,6 @@ export class OpfPaymentVerificationService {
   protected orderFacade = inject(OrderFacade);
   protected routingService = inject(RoutingService);
   protected globalMessageService = inject(GlobalMessageService);
-  protected activeCartService = inject(ActiveCartFacade);
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);

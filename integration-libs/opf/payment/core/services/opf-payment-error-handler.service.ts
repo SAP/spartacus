@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   HttpResponseStatus,
   RoutingService,
 } from '@spartacus/core';
+import { Injectable, inject } from '@angular/core';
 import {
   OpfPaymentError,
   OpfPaymentErrorType,
@@ -24,7 +23,6 @@ import {
 export class OpfPaymentErrorHandlerService {
   protected globalMessageService = inject(GlobalMessageService);
   protected routingService = inject(RoutingService);
-  protected activeCartService = inject(ActiveCartFacade);
 
   protected displayError(error: OpfPaymentError | undefined): void {
     this.globalMessageService.add(
