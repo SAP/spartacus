@@ -16,16 +16,12 @@ export class FederatedLoginContextSerializerService {
   serializeContext(context: FederatedLoginContext | undefined): string {
     if (context?.origin) {
       const contextParts: string[] = [];
-
       const key = this.getContextKey(context.origin);
-
       if (!key) {
         return '';
       }
       contextParts.push(key);
-
       contextParts.push(context.language ?? '');
-
       const contextString = contextParts.join(':');
 
       return encodeBase64(contextString, { urlSafe: true });

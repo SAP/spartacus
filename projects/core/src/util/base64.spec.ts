@@ -61,7 +61,7 @@ const missingPadding0 = {
 
 describe('base64 utilities', () => {
   describe('encodeBase64()', () => {
-    it('encodeTests', () => {
+    it('should generate encoded values with proper padding lengths', () => {
       expect(encodeBase64(padding0.stringValue)).toEqual(padding0.encoded);
       expect(encodeBase64(padding1.stringValue)).toEqual(padding1.encoded);
       expect(encodeBase64(padding2.stringValue)).toEqual(padding2.encoded);
