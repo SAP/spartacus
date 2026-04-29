@@ -22,6 +22,7 @@ class MockActiveCartFacade {
   getActive = jasmine
     .createSpy('getActive')
     .and.returnValue(of({ code: '123' }));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
 }
 
 class MockOrderFacade {
