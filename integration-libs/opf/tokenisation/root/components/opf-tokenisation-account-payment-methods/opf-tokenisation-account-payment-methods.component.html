@@ -39,54 +39,8 @@
   </div>
 </ng-container>
 
-<div
-  *ngIf="showDeleteDialog"
-  class="modal fade show"
-  tabindex="-1"
-  role="dialog"
-  aria-modal="true"
-  style="display: block"
-  (click)="closeDeleteDialog()"
->
-  <div
-    class="modal-dialog modal-dialog-centered"
-    style="max-width: 560px; width: 90vw"
-    (click)="$event.stopPropagation()"
-  >
-    <div class="modal-content rounded-0">
-      <div class="modal-header border-0 px-5 pb-2">
-        <h3 class="modal-title text-start mb-0">
-          {{ 'paymentCard.deletePaymentMethod' | cxTranslate }}
-        </h3>
-        <button
-          type="button"
-          class="close"
-          [attr.aria-label]="'common.close' | cxTranslate"
-          (click)="closeDeleteDialog()"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body px-5 pt-0">
-        <p class="cx-confirmation text-start mt-0 mb-0">
-          {{ 'paymentCard.deleteConfirmation' | cxTranslate }}
-        </p>
-      </div>
-      <div class="cx-modal-footer d-flex flex-column gap-2">
-        <button
-          class="btn btn-primary btn-block"
-          (click)="confirmDeletePaymentMethod()"
-        >
-          {{ 'common.delete' | cxTranslate }}
-        </button>
-        <button
-          class="btn btn-secondary btn-block"
-          (click)="closeDeleteDialog()"
-        >
-          {{ 'common.cancel' | cxTranslate }}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<div *ngIf="showDeleteDialog" class="modal-backdrop fade show"></div>
+<cx-opf-tokenisation-delete-payment-dialog
+  [showDialog]="showDeleteDialog"
+  (confirm)="confirmDeletePaymentMethod()"
+  (cancel)="closeDeleteDialog()"
+></cx-opf-tokenisation-delete-payment-dialog>

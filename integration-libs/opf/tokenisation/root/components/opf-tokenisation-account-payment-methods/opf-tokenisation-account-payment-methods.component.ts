@@ -17,6 +17,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../facade';
+import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog/opf-tokenisation-delete-payment-dialog.component';
 
 @Component({
   selector: 'cx-opf-tokenisation-account-payment-methods',
@@ -28,6 +29,7 @@ import { OpfTokenisationFacade } from '../../facade';
     CardComponent,
     AsyncPipe,
     TranslatePipe,
+    OpfTokenisationDeletePaymentDialogComponent,
   ],
 })
 export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
