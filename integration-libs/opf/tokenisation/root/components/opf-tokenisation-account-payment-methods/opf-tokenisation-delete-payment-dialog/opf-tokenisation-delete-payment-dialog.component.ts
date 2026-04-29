@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -18,19 +17,19 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-opf-tokenisation-delete-payment-dialog',
   templateUrl: './opf-tokenisation-delete-payment-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class OpfTokenisationDeletePaymentDialogComponent {
   @Input() showDialog = false;
 
   @Output() confirm = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+  @Output() dialogCancel = new EventEmitter<void>();
 
   onConfirm(): void {
     this.confirm.emit();
   }
 
   onCancel(): void {
-    this.cancel.emit();
+    this.dialogCancel.emit();
   }
 }

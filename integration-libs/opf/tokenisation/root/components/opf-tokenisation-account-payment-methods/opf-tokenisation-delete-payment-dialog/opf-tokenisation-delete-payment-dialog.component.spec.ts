@@ -51,9 +51,9 @@ describe('OpfTokenisationDeletePaymentDialogComponent', () => {
 
   describe('onCancel', () => {
     it('should emit cancel event', () => {
-      spyOn(component.cancel, 'emit');
+      spyOn(component.dialogCancel, 'emit');
       component.onCancel();
-      expect(component.cancel.emit).toHaveBeenCalled();
+      expect(component.dialogCancel.emit).toHaveBeenCalled();
     });
   });
 });
