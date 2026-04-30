@@ -171,7 +171,6 @@ describe('AuthStatePersistenceService', () => {
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
         key: 'auth',
-        context: 'electronics-spa',
       })
     );
   });

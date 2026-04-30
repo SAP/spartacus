@@ -9,7 +9,6 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
-import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
@@ -112,11 +111,8 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Reads synchronously state from storage and returns it.
    */
   protected readStateFromStorage() {
-    const baseSiteService = this.injector.get(BaseSiteService);
-    const baseSiteId = getLastValueSync(baseSiteService.getActive());
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
-      context: baseSiteId ?? undefined,
     });
   }
 
