@@ -25,9 +25,11 @@
                 class="cx-expired-error"
                 role="alert"
               >
-                <span class="cx-expired-error-icon" aria-hidden="true"
-                  >&#9888;</span
-                >
+                <cx-icon
+                  class="cx-expired-error-icon"
+                  [type]="iconTypes.ERROR"
+                  aria-hidden="true"
+                ></cx-icon>
                 <span class="cx-expired-error-message">
                   {{ 'paymentCard.expiredMessageForMyAccounts' | cxTranslate }}
                 </span>
