@@ -130,4 +130,3 @@ export class AuthStatePersistenceService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 }
-
