@@ -20,6 +20,31 @@
             *ngFor="let paymentMethod of paymentMethods; let i = index"
           >
             <div class="cx-payment-inner">
+               <div
+                *ngIf="isCardExpired(paymentMethod)"
+                class="cx-expired-error"
+                role="alert"
+              >
+                <cx-icon
+                  class="cx-expired-error-icon"
+                  [type]="iconTypes.ERROR"
+                  aria-hidden="true"
+                ></cx-icon>
+                <span class="cx-expired-error-message">
+                  {{ 'paymentCard.expiredMessageForMyAccounts' | cxTranslate }}
+                </span>
+              </div>
+              <div class="cx-card-with-expired-pill">
+                <div
+                  *ngIf="
+                    paymentMethod.defaultPayment && isCardExpired(paymentMethod)
+                  "
+                  class="cx-expired-pill-container"
+                >
+                  <span class="cx-expired-pill">
+                    {{ 'paymentCard.expired' | cxTranslate }}
+                  </span>
+                </div>
               <cx-card
                 [index]="i"
                 [border]="true"
