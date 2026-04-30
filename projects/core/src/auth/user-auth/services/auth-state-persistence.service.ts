@@ -7,7 +7,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
+import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
@@ -35,7 +37,8 @@ export class AuthStatePersistenceService implements OnDestroy {
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectStorageService: AuthRedirectStorageService
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected baseSiteService: BaseSiteService
   ) {}
 
   /**
@@ -51,18 +54,10 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
-        context$: this.getContext$(),
+        context$: this.baseSiteService.getActive().pipe(map((id) => [id])),
         onRead: (state) => this.onRead(state),
       })
     );
-  }
-
-  /**
-   * Returns the context used to scope the storage key per site.
-   * Override in a subclass to store auth state separately per site context.
-   */
-  protected getContext$(): Observable<string[]> | undefined {
-    return undefined;
   }
 
   /**
@@ -116,8 +111,10 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Reads synchronously state from storage and returns it.
    */
   protected readStateFromStorage() {
+    const baseSiteId = getLastValueSync(this.baseSiteService.getActive());
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
+      context: baseSiteId,
     });
   }
 
@@ -133,3 +130,4 @@ export class AuthStatePersistenceService implements OnDestroy {
     this.subscription.unsubscribe();
   }
 }
+
