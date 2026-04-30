@@ -59,7 +59,7 @@ export class FederatedLoginContextSerializerService {
   }
 
   protected getOrigin(contextKey: string) {
-    return this.config?.originMap[contextKey];
+    return this.config?.originMap?.[contextKey];
   }
 
   protected getContextKey(origin: string) {
