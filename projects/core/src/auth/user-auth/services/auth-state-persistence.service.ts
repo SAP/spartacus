@@ -51,9 +51,18 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
+        context$: this.getContext$(),
         onRead: (state) => this.onRead(state),
       })
     );
+  }
+
+  /**
+   * Returns the context used to scope the storage key per site.
+   * Override in a subclass to store auth state separately per site context.
+   */
+  protected getContext$(): Observable<string[]> | undefined {
+    return undefined;
   }
 
   /**
