@@ -91,7 +91,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   getCardContent(paymentMethod: PaymentDetails): Observable<Card> {
     const { defaultPayment, expiryMonth, expiryYear, cardNumber, cardType } =
       paymentMethod;
-    const expired = this.isCardExpired(paymentMethod);
 
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -120,7 +119,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
             textBold: cardType?.name,
             text: [cardNumber ?? '', textExpires],
             actions,
-            customClass: expired ? 'cx-card-expired' : undefined,
             label: defaultPayment
               ? 'paymentCard.defaultPaymentLabel'
               : 'paymentCard.additionalPaymentLabel',
@@ -139,7 +137,8 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     if (!expiryMonth || !expiryYear) {
       return false;
     }
-
+    // original logic
+    /*
     const now = new Date();
     const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
@@ -158,6 +157,24 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     return (
       normalizedYear < currentYear ||
       (normalizedYear === currentYear && parsedMonth < currentMonth)
+    );
+*/
+
+    // logic for testing. Cards with date before 12/29 are expired, cards with date 12/29 and after are not expired
+    const parsedMonth = parseInt(expiryMonth, 10);
+    const normalizedYear = this.normalizeExpiryYear(expiryYear);
+
+    if (
+      Number.isNaN(parsedMonth) ||
+      parsedMonth < 1 ||
+      parsedMonth > 12 ||
+      Number.isNaN(normalizedYear)
+    ) {
+      return false;
+    }
+
+    return (
+      normalizedYear < 2029 || (normalizedYear === 2029 && parsedMonth <= 12)
     );
   }
 
