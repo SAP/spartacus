@@ -53,7 +53,9 @@
     "switch": "Switch Card",
     "maestro": "Maestro Card",
     "amex": "American Express Card",
-    "credit": "Credit Card"
+    "credit": "Credit Card",
+    "expired": "EXPIRED",
+    "expiredMessageForMyAccounts": "This payment method has expired. Please delete it or add a new payment method during checkout."
   },
   "paymentTypes": {
     "title": "Payment method",

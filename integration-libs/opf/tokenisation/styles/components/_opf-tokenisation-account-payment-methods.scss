@@ -53,4 +53,53 @@
       padding-inline-end: 0;
     }
   }
+
+  // Expired card error message above the card
+  .cx-expired-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0;
+    background-color: var(--cx-color-danger-light, #fce4e4);
+    border: 1px solid var(--cx-color-danger, #db0002);
+    border-bottom: none;
+    color: var(--cx-color-danger, #db0002);
+    font-size: var(--cx-font-size, 0.875rem);
+    line-height: 1.4;
+    border-radius: 0;
+  }
+
+  .cx-expired-error-message {
+    flex: 1 1 auto;
+  }
+
+  .cx-expired-error-icon {
+    font-size: 1.125rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .cx-card-border:has(.cx-card-expired) {
+    .card-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      &::after {
+        content: 'EXPIRED';
+        margin-inline-start: auto;
+        padding: 0.125rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid var(--cx-color-danger, #db0002);
+        background-color: var(--cx-color-background, #fff);
+        color: var(--cx-color-danger, #db0002);
+        font-size: var(--cx-font-size, 0.75rem);
+        font-weight: var(--cx-font-weight-bold, 700);
+        line-height: 1.5;
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+    }
+  }
 }

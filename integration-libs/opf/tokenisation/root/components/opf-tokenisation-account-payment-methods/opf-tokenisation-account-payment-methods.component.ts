@@ -50,20 +50,12 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   ngOnInit(): void {
     this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
       tap((paymentDetails) => {
-        const hasDefault = paymentDetails.some(
-          (paymentDetail) => paymentDetail.defaultPayment
-        );
-        const hasPaymentMethods = paymentDetails.length > 0;
-        const paymentMethodId = paymentDetails[0]?.id;
-
+        // Set first payment method to DEFAULT if none is set
         if (
-          !this.autoDefaultRequested &&
-          hasPaymentMethods &&
-          !hasDefault &&
-          paymentMethodId
+          paymentDetails.length > 0 &&
+          !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
         ) {
-          this.autoDefaultRequested = true;
-          this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethodId);
+          this.setDefaultPaymentMethod(paymentDetails[0]);
         }
       })
     );
@@ -77,7 +69,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     expiryMonth,
     expiryYear,
     cardNumber,
-    cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -96,16 +87,24 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           textDefaultPaymentMethod,
         ]) => {
           const actions: { name: string; event: string }[] = [];
-          if (!defaultPayment) {
+
+          if (!defaultPayment && !expired) {
             actions.push({ name: textSetAsDefault, event: 'default' });
           }
+
           actions.push({ name: textDelete, event: 'delete' });
+
+          let header: string | undefined;
+          if (defaultPayment) {
+            header = textDefaultPaymentMethod;
+          }
+
           const card: Card = {
             role: 'application',
             header: defaultPayment ? textDefaultPaymentMethod : undefined,
-            textBold: cardType?.name,
             text: [cardNumber ?? '', textExpires],
             actions,
+            customClass: expired ? 'cx-card-expired' : undefined,
             label: defaultPayment
               ? 'paymentCard.defaultPaymentLabel'
               : 'paymentCard.additionalPaymentLabel',
@@ -148,10 +147,22 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
+    if (this.isCardExpired(paymentMethod)) {
+      return;
+    }
+
     this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethod.id ?? '');
     this.globalMessageService?.add(
       { key: 'paymentMessages.setAsDefaultSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+  }
+
+  protected normalizeExpiryYear(expiryYear: string): number {
+    const parsed = parseInt(expiryYear, 10);
+    if (parsed < 100) {
+      return 2000 + parsed;
+    }
+    return parsed;
   }
 }
