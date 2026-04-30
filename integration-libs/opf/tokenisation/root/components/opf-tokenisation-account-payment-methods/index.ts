@@ -5,3 +5,4 @@
  */
 export * from './opf-tokenisation-account-payment-methods.component';
 export * from './opf-tokenisation-account-payment-methods.module';
+export * from './opf-tokenisation-delete-payment-dialog';

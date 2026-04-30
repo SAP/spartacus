@@ -13,6 +13,7 @@ export interface OpfSavedCardsToggleContext {
   newPaymentHeadingKey?: string;
   selectedPaymentId?: number;
   savedCardsId?: number;
+  hasSavedCards?: boolean;
   disabled?: boolean | null;
   savedCardsSelected?: () => void;
   showSavedCardsList?: boolean;
@@ -24,4 +25,5 @@ export interface OpfSavedCardsToggleContext {
  */
 export interface OpfNewPaymentsHeadingContext {
   newPaymentHeading?: string | null;
+  hasSavedCards?: boolean;
 }
