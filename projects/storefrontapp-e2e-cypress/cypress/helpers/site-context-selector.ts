@@ -87,7 +87,9 @@ export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
   cy.window().then((win) => {
-    const savedState = JSON.parse(win.localStorage.getItem(getAuthStorageKey()));
+    const savedState = JSON.parse(
+      win.localStorage.getItem(getAuthStorageKey())
+    );
     cy.requireProductAddedToCart(savedState.token).then((resp) => {
       cy.requireDeliveryAddressAdded(user.address, savedState.token);
       cy.requireDeliveryMethodSelected(savedState.token);

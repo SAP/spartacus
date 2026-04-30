@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
 import { getAuthStorageKey } from '../../auth';
+import {
   CATEGORY_COLUMN,
   CHANGED_ON_COLUMN,
   COLUMN_HEADER_TICKET_LIST,

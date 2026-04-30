@@ -101,7 +101,9 @@ export function checkAppliedPromotions() {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.log(`CartId: ${cartId}`);
       cy.window()
-        .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
+        .then((win) =>
+          JSON.parse(win.localStorage.getItem(getAuthStorageKey()))
+        )
         .then(({ token }) => {
           const stateAuth = token;
           cy.requireDeliveryAddressAdded(defaultAddress, stateAuth, cartId);

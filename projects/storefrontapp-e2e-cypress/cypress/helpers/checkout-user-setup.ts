@@ -103,7 +103,9 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
 
   return cy.requireLoggedIn(standardUser).then(({ username, password }) => {
     return cy.window().then((win) => {
-      const authData = JSON.parse(win.localStorage.getItem(getAuthStorageKey()));
+      const authData = JSON.parse(
+        win.localStorage.getItem(getAuthStorageKey())
+      );
       const authToken = authData.token.access_token;
 
       return cy
