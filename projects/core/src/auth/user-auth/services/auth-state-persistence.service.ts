@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
@@ -32,13 +32,13 @@ export interface SyncedAuthState {
 })
 export class AuthStatePersistenceService implements OnDestroy {
   protected subscription = new Subscription();
+  private injector = inject(Injector);
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected userIdService: UserIdService,
     protected authStorageService: AuthStorageService,
-    protected authRedirectStorageService: AuthRedirectStorageService,
-    protected baseSiteService: BaseSiteService
+    protected authRedirectStorageService: AuthRedirectStorageService
   ) {}
 
   /**
@@ -50,11 +50,12 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Initializes the synchronization between state and browser storage.
    */
   public initSync() {
+    const baseSiteService = this.injector.get(BaseSiteService);
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
-        context$: this.baseSiteService.getActive().pipe(map((id) => [id])),
+        context$: baseSiteService.getActive().pipe(map((id) => [id])),
         onRead: (state) => this.onRead(state),
       })
     );
@@ -111,10 +112,11 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Reads synchronously state from storage and returns it.
    */
   protected readStateFromStorage() {
-    const baseSiteId = getLastValueSync(this.baseSiteService.getActive());
+    const baseSiteService = this.injector.get(BaseSiteService);
+    const baseSiteId = getLastValueSync(baseSiteService.getActive());
     return this.statePersistenceService.readStateFromStorage<SyncedAuthState>({
       key: this.key,
-      context: baseSiteId,
+      context: baseSiteId ?? undefined,
     });
   }
 
