@@ -110,7 +110,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           textDefaultPaymentMethod,
         ]) => {
           const actions: { name: string; event: string }[] = [];
-          if (!defaultPayment && !expired) {
+          if (!defaultPayment) {
             actions.push({ name: textSetAsDefault, event: 'default' });
           }
           actions.push({ name: textDelete, event: 'delete' });
@@ -140,25 +140,25 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
       return false;
     }
 
-    // Original expiration logic kept for reference during testing:
-    // const now = new Date();
-    // const currentMonth = now.getMonth() + 1;
-    // const currentYear = now.getFullYear();
-    // const normalizedYear = this.normalizeExpiryYear(expiryYear);
-    // return (
-    //   normalizedYear < currentYear ||
-    //   (normalizedYear === currentYear &&
-    //     parseInt(expiryMonth, 10) < currentMonth)
-    // );
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+    const parsedMonth = parseInt(expiryMonth, 10);
+    const normalizedYear = this.normalizeExpiryYear(expiryYear);
 
-    // Temporary testing workaround: treat cards with 03/30 as expired.
-    const testMonth = parseInt(expiryMonth, 10);
-    const testYear = parseInt(expiryYear, 10);
-    if (testMonth === 3 && (testYear === 30 || testYear === 2030)) {
-      return true;
+    if (
+      Number.isNaN(parsedMonth) ||
+      parsedMonth < 1 ||
+      parsedMonth > 12 ||
+      Number.isNaN(normalizedYear)
+    ) {
+      return false;
     }
 
-    return false;
+    return (
+      normalizedYear < currentYear ||
+      (normalizedYear === currentYear && parsedMonth < currentMonth)
+    );
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
@@ -192,9 +192,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    if (this.isCardExpired(paymentMethod)) {
-      return;
-    }
     this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethod.id ?? '');
     this.globalMessageService?.add(
       { key: 'paymentMessages.setAsDefaultSuccessfully' },
