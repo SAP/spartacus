@@ -34,7 +34,7 @@ cx-opf-tokenisation-payment-method {
   }
 
   .cx-payment-card-inner {
-    height: 100%;
+    height: auto;
     background-color: var(--cx-color-inverse);
     cursor: pointer;
 
@@ -48,11 +48,16 @@ cx-opf-tokenisation-payment-method {
     align-items: center;
     gap: 0.5rem;
     padding: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     color: var(--cx-color-danger, #db0002);
     font-size: var(--cx-font-size, 0.875rem);
     line-height: 1.4;
     border-radius: 0;
+  }
+
+  .cx-expired-error-slot {
+    min-height: 2.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .cx-expired-error-message {
@@ -76,7 +81,7 @@ cx-opf-tokenisation-payment-method {
 
   .cx-payment-card .cx-card .cx-card-title {
     display: block;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.35rem;
     font-weight: var(--cx-font-weight-bold);
   }
 
@@ -141,6 +146,7 @@ cx-opf-tokenisation-payment-method {
   .cx-checkout-body {
     display: flex;
     align-items: stretch;
+    row-gap: 1rem;
 
     &.row {
       @include media-breakpoint-down(md) {

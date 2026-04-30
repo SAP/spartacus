@@ -333,11 +333,13 @@ export class OpfTokenisationPaymentMethodService {
       actions.push({ name: cardLabels.textUseThisPayment, event: 'send' });
     }
 
+    const cardTitle = paymentDetails.defaultPayment
+      ? cardLabels.textDefaultLabelOnCheckout
+      : '\u00A0';
+
     return {
       role,
-      title: paymentDetails.defaultPayment
-        ? cardLabels.textDefaultLabelOnCheckout
-        : '',
+      title: cardTitle,
       textBold: paymentDetails.cardType?.name,
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
       actions,
