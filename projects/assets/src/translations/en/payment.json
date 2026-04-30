@@ -54,8 +54,8 @@
     "maestro": "Maestro Card",
     "amex": "American Express Card",
     "credit": "Credit Card",
-    "expired": "EXPIRED",
-    "expiredMessageForMyAccounts": "This payment method has expired. Please delete it or add a new payment method during checkout."
+    "expired": "Expired",
+    "expiredMessageForMyAccounts": "This card has expired. Please update your payment method."
   },
   "paymentTypes": {
     "title": "Payment method",
