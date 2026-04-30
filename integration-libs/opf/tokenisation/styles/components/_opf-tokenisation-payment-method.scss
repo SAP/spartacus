@@ -52,9 +52,10 @@ cx-opf-tokenisation-payment-method {
     }
   }
 
-  .cx-card-title {
+  .cx-payment-card .cx-card .cx-card-title {
     display: block;
     margin-bottom: 1.5rem;
+    font-weight: var(--cx-font-weight-bold);
   }
 
   .cx-card-actions {
