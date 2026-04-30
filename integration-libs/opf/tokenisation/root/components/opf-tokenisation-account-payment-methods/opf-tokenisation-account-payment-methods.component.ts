@@ -58,6 +58,9 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
+      map((paymentDetails) =>
+        this.sortPaymentMethodsForDisplay(paymentDetails)
+      ),
       tap((paymentDetails) => {
         // Set first payment method to DEFAULT if none is set
         if (
@@ -86,6 +89,30 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     this.editCard = undefined;
     this.loading$ = this.tokenisationFacade.getPaymentMethodsLoading();
     this.tokenisationFacade.loadPaymentMethods();
+  }
+
+  protected sortPaymentMethodsForDisplay(
+    paymentDetails: PaymentDetails[]
+  ): PaymentDetails[] {
+    const defaultPayments: PaymentDetails[] = [];
+    const activeNonDefaultPayments: PaymentDetails[] = [];
+    const expiredNonDefaultPayments: PaymentDetails[] = [];
+
+    paymentDetails.forEach((paymentDetail) => {
+      if (paymentDetail.defaultPayment) {
+        defaultPayments.push(paymentDetail);
+      } else if (this.isCardExpired(paymentDetail)) {
+        expiredNonDefaultPayments.push(paymentDetail);
+      } else {
+        activeNonDefaultPayments.push(paymentDetail);
+      }
+    });
+
+    return [
+      ...defaultPayments,
+      ...activeNonDefaultPayments,
+      ...expiredNonDefaultPayments,
+    ];
   }
 
   getCardContent(paymentMethod: PaymentDetails): Observable<Card> {
