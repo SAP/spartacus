@@ -9,6 +9,7 @@ import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
 import { goToB2COrderHistoryPage } from './order-history';
+import { getAuthStorageKey } from './auth';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -86,7 +87,7 @@ export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
   cy.window().then((win) => {
-    const savedState = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
+    const savedState = JSON.parse(win.localStorage.getItem(getAuthStorageKey()));
     cy.requireProductAddedToCart(savedState.token).then((resp) => {
       cy.requireDeliveryAddressAdded(user.address, savedState.token);
       cy.requireDeliveryMethodSelected(savedState.token);

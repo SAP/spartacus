@@ -7,6 +7,7 @@
 import { standardUser } from '../sample-data/shared-users';
 import { products } from './cart';
 import { generateMail, randomString } from './user';
+import { getAuthStorageKey } from './auth';
 
 /**
  * Interface for creating a test user with complete setup
@@ -102,7 +103,7 @@ export function setupUserAccountForCheckout(config: TestUserSetup = {}) {
 
   return cy.requireLoggedIn(standardUser).then(({ username, password }) => {
     return cy.window().then((win) => {
-      const authData = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
+      const authData = JSON.parse(win.localStorage.getItem(getAuthStorageKey()));
       const authToken = authData.token.access_token;
 
       return cy

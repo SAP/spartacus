@@ -10,8 +10,9 @@ import { config } from '../support/utils/login';
 import * as authForms from './auth-forms';
 import { generateMail, randomString } from './user';
 import { cmsEndpoints } from './cms-endpoints';
+import { getAuthStorageKey } from './auth';
 
-const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
+const AUTH_STORAGE_KEY = getAuthStorageKey();
 
 /**
  * Creates user, but doesn't log in

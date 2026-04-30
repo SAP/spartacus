@@ -6,6 +6,7 @@
 
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 import { switchSiteContext } from '../../../../support/utils/switch-site-context';
+import { getAuthStorageKey } from '../../../../helpers/auth';
 
 context('Currency switch - cart page', () => {
   const cartPath = siteContextSelector.CART_PATH;
@@ -23,7 +24,7 @@ context('Currency switch - cart page', () => {
       win.sessionStorage.clear();
 
       const savedState = JSON.parse(
-        win.localStorage.getItem('spartacus⚿⚿auth')
+        win.localStorage.getItem(getAuthStorageKey())
       );
       const accessToken = savedState.token.access_token;
       cy.addToCart('300938', '3', accessToken).then((cartCode) => {

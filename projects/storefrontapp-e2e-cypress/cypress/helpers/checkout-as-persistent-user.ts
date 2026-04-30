@@ -8,6 +8,7 @@ import { product } from '../sample-data/checkout-flow';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { verifyReviewOrderPage } from './checkout-flow';
 import { cmsEndpoints } from './cms-endpoints';
+import { getAuthStorageKey } from './auth';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -29,7 +30,7 @@ export function addShippingAddress() {
     )}/users/test-user-with-orders@sap.cx.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
+        JSON.parse(localStorage.getItem(getAuthStorageKey())).token.access_token
       }`,
     },
     body: {
@@ -87,7 +88,7 @@ export function addPaymentMethod() {
         )}/users/test-user-with-orders@sap.cx.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+            JSON.parse(localStorage.getItem(getAuthStorageKey())).token
               .access_token
           }`,
         },

@@ -6,10 +6,11 @@
 
 import * as sampleData from '../sample-data/checkout-flow';
 import { waitForPage } from './navigation';
+import { getAuthStorageKey } from './auth';
 
 export function waitForDeliveryAddressdata() {
   cy.window().then((win) => {
-    const { token } = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
+    const { token } = JSON.parse(win.localStorage.getItem(getAuthStorageKey()));
 
     cy.requireDeliveryAddressAdded(sampleData.user.address, token);
   });

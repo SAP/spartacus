@@ -12,6 +12,7 @@ import { SampleProduct } from '../sample-data/checkout-flow';
 import * as sampleData from '../sample-data/saved-cart';
 import { waitForProductPage } from './checkout-flow';
 import { waitForPage } from './navigation';
+import { getAuthStorageKey } from './auth';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -212,7 +213,7 @@ export function clickSavedCartButtonsFromCartPage(position: number) {
 
 export function waitForCartPageData(product: SampleProduct) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireProductAddedToCart(token, product);
     });
@@ -220,7 +221,7 @@ export function waitForCartPageData(product: SampleProduct) {
 
 export function waitForSavedCartListingPageData(product: SampleProduct) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product);
     });
@@ -228,7 +229,7 @@ export function waitForSavedCartListingPageData(product: SampleProduct) {
 
 export function waitForSavedCartDetailsPageData(product: SampleProduct) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product).then((cart) => {
         visitSavedCartDetailsPage(cart.code);
@@ -343,7 +344,7 @@ export function restoreCart(
   }
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartListingPage();
@@ -464,7 +465,7 @@ export function updateSavedCartAndDelete(
   deleteEntry: boolean = false
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartDetailsPage(cart.code);
@@ -566,7 +567,7 @@ export function updateSavedCartAndRestore(
   savedCartForm: any
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartDetailsPage(cart.code);

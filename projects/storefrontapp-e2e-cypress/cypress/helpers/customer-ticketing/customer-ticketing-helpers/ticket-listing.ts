@@ -5,6 +5,7 @@
  */
 
 import {
+import { getAuthStorageKey } from '../../auth';
   CATEGORY_COLUMN,
   CHANGED_ON_COLUMN,
   COLUMN_HEADER_TICKET_LIST,
@@ -310,7 +311,7 @@ export function waitForTicketListData(
   ticketDetails: TestTicketDetails
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       for (let i = 0; i < numberOfTicketsToRequest; i++) {
         cy.requireCustomerTicketList(token, ticketDetails);

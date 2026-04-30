@@ -37,6 +37,7 @@ import {
   waitForPage,
 } from './navigation';
 import { generateMail, randomString } from './user';
+import { getAuthStorageKey } from './auth';
 
 export const invalidUser: SampleUser = {
   firstName:
@@ -58,7 +59,7 @@ export function placeOrderForB2CCustomer(
 ): void {
   cy.whenJDK17(() => {
     cy.login(customer, pwd).then(() => {
-      const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+      const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
       console.info(auth);
       cy.addToCart(productCode, 1, auth.token.access_token).then((cartId) => {
         cy.requireDeliveryAddressAdded(
@@ -112,7 +113,7 @@ export function doPlaceOrderForB2CCustomer(
   // Start the Cypress chain inside the condition
   return cy.whenJDK17(() => {
     return cy.login(customer, pwd).then(() => {
-      const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+      const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
       console.info(auth);
       return cy
         .addToCart(productCode, 1, auth.token.access_token)
@@ -185,7 +186,7 @@ export function addProductToB2CCart(
   productCode: string
 ): void {
   cy.login(customer, pwd).then(() => {
-    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
     cy.addToCart(productCode, 1, auth.token.access_token);
   });
 }
@@ -196,7 +197,7 @@ export function addProductToB2BCart(
   productCode: string
 ): void {
   cy.login(customer, pwd).then(() => {
-    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
     cy.addProductToB2BCart(productCode, 1, auth.token.access_token);
   });
 }
@@ -304,7 +305,7 @@ export function removeCustomerCoupon(
   couponCode: string
 ): void {
   cy.login(customer, pwd).then(() => {
-    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
     // remove customer coupon
     cy.request({
       method: 'DELETE',
@@ -1108,7 +1109,7 @@ export function getToken(): Promise<string> {
     cy.wait(2000);
     cy.window().should('have.property', 'localStorage');
     cy.window().then((win) => {
-      const spartacusAuth = win.localStorage.getItem('spartacus⚿⚿auth');
+      const spartacusAuth = win.localStorage.getItem(getAuthStorageKey());
       if (spartacusAuth) {
         const authObj = JSON.parse(spartacusAuth);
         const token = authObj.token.access_token;

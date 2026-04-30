@@ -5,6 +5,7 @@
  */
 
 import { addProductToB2BCart, addToCart, createCart } from './utils/cart';
+import { getAuthStorageKey } from '../helpers/auth';
 
 declare namespace Cypress {
   interface Chainable {
@@ -159,7 +160,7 @@ Cypress.Commands.add(
     cy.window().should('have.property', 'localStorage');
 
     cy.window().then((win) => {
-      const spartacusAuth = win.localStorage.getItem('spartacus⚿⚿auth');
+      const spartacusAuth = win.localStorage.getItem(getAuthStorageKey());
       if (spartacusAuth) {
         const authObj = JSON.parse(spartacusAuth);
 

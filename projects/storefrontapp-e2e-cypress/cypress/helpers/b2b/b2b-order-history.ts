@@ -5,6 +5,7 @@
  */
 
 import * as sampleData from '../../sample-data/b2b-order-history';
+import { getAuthStorageKey } from '../auth';
 
 export function loginB2bUnitOrderViewer() {
   cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccount);
@@ -27,7 +28,7 @@ export function doPlaceB2BOrder(productData?: any) {
 
   return cy
     .window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       stateAuth = token;
       return cy.requireProductAddedToCart(stateAuth, productData);

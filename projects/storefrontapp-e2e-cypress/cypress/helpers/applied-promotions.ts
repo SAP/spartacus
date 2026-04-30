@@ -10,6 +10,7 @@ import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
 import { waitForProductPage } from './checkout-flow';
 import { waitForPage } from './navigation';
+import { getAuthStorageKey } from './auth';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -100,7 +101,7 @@ export function checkAppliedPromotions() {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.log(`CartId: ${cartId}`);
       cy.window()
-        .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+        .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
         .then(({ token }) => {
           const stateAuth = token;
           cy.requireDeliveryAddressAdded(defaultAddress, stateAuth, cartId);

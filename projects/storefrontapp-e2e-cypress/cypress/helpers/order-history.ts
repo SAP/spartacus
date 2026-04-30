@@ -14,6 +14,7 @@ import { cmsEndpoints } from './cms-endpoints';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 import { clickHamburger, waitForPage } from './navigation';
+import { getAuthStorageKey } from './auth';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -51,7 +52,7 @@ export function doPlaceOrder(productData?: any) {
 
   return cy
     .window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       stateAuth = token;
       return cy.requireProductAddedToCart(stateAuth, productData);
