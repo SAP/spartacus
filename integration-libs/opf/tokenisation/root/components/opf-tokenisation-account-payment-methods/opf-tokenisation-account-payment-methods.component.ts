@@ -187,7 +187,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     );
 */
 
-    // logic for testing. Cards with date before 12/29 are expired, cards with date 12/29 and after are not expired
+    // logic for testing. Only cards with date 03/30 are expired.
     const parsedMonth = parseInt(expiryMonth, 10);
     const normalizedYear = this.normalizeExpiryYear(expiryYear);
 
@@ -200,9 +200,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
       return false;
     }
 
-    return (
-      normalizedYear < 2029 || (normalizedYear === 2029 && parsedMonth <= 12)
-    );
+    return normalizedYear === 2030 && parsedMonth === 3;
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
