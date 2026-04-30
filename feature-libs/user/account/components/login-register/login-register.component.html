@@ -1,19 +1,19 @@
 <div class="register">
-  <fieldset>
-    <legend class="cx-section-title" id="register-section-label">
-      {{ 'loginForm.dontHaveAccount' | cxTranslate }}
-    </legend>
+  <p class="cx-section-title" id="register-section-label">
+    {{ 'loginForm.dontHaveAccount' | cxTranslate }}
+  </p>
 
-    <button
-      (click)="navigateTo(loginAsGuest ? 'checkoutLogin' : 'register')"
-      class="btn btn-block btn-secondary"
-      [ngClass]="loginAsGuest ? 'btn-guest' : 'btn-register'"
-      aria-describedby="register-section-label"
-    >
+  <button
+    (click)="navigateTo(loginAsGuest ? 'checkoutLogin' : 'register')"
+    class="btn btn-block btn-secondary"
+    [ngClass]="loginAsGuest ? 'btn-guest' : 'btn-register'"
+    aria-labelledby="register-section-label register-action-label"
+  >
+    <span id="register-action-label">
       {{
         (loginAsGuest ? 'loginForm.guestCheckout' : 'loginForm.register')
           | cxTranslate
       }}
-    </button>
-  </fieldset>
+    </span>
+  </button>
 </div>
