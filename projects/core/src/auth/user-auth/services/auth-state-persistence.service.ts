@@ -6,7 +6,7 @@
 
 import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { UserIdService } from '../facade/user-id.service';
@@ -54,7 +54,10 @@ export class AuthStatePersistenceService implements OnDestroy {
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
-        context$: baseSiteService.getActive().pipe(map((id) => [id])),
+        context$: baseSiteService.getActive().pipe(
+          map((id) => [id]),
+          startWith([''])
+        ),
         onRead: (state) => this.onRead(state),
       })
     );
