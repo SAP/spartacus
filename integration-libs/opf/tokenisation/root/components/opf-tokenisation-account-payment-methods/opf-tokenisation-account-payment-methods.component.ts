@@ -65,6 +65,20 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
         ) {
           this.setDefaultPaymentMethod(paymentDetails[0]);
+        const hasDefault = paymentDetails.some(
+          (paymentDetail) => paymentDetail.defaultPayment
+        );
+        const hasPaymentMethods = paymentDetails.length > 0;
+        const paymentMethodId = paymentDetails[0]?.id;
+
+        if (
+          !this.autoDefaultRequested &&
+          hasPaymentMethods &&
+          !hasDefault &&
+          paymentMethodId
+        ) {
+          this.autoDefaultRequested = true;
+          this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethodId);
         }
       })
     );
@@ -78,6 +92,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     expiryMonth,
     expiryYear,
     cardNumber,
+    cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
