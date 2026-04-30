@@ -23,6 +23,7 @@
     display: flex;
     padding: 0rem 0 2.5rem 0;
     align-items: stretch;
+    row-gap: 1rem;
 
     @include media-breakpoint-down(md) {
       padding: 0 0 3.125rem 0;
@@ -35,10 +36,24 @@
 
   .cx-payment-card {
     padding-top: 1.875rem;
+    display: flex;
   }
 
   .cx-payment-inner {
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+  }
+
+  .cx-card-with-expired-pill {
+    position: relative;
+    flex: 1;
+
+    cx-card {
+      display: block;
+      height: 100%;
+    }
   }
 
   .cx-card-actions {
@@ -60,11 +75,16 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     color: var(--cx-color-danger, #db0002);
     font-size: var(--cx-font-size, 0.875rem);
     line-height: 1.4;
     border-radius: 0;
+    position: absolute;
+    inset-block-start: -1.5rem;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    z-index: 1;
   }
 
   .cx-expired-error-message {
@@ -75,10 +95,6 @@
     font-size: 1.125rem;
     line-height: 1;
     flex-shrink: 0;
-  }
-
-  .cx-card-with-expired-pill {
-    position: relative;
   }
 
   .cx-expired-pill-container {
