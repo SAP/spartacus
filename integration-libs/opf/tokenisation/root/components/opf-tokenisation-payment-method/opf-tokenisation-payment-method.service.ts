@@ -328,6 +328,7 @@ export class OpfTokenisationPaymentMethodService {
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultLabelOnCheckout
         : '',
+      textBold: paymentDetails.cardType?.name,
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
       actions,
       header: isSelected ? cardLabels.textSelected : undefined,
