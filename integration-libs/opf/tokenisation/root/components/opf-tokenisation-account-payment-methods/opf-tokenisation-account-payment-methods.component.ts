@@ -22,6 +22,10 @@ import {
   IconComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import {
+  isTokenisationCardExpired,
+  sortPaymentMethodsForDisplay,
+} from '../../utils/opf-tokenisation-card-expiry.util';
 import { OpfTokenisationFacade } from '../../facade';
 import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog/opf-tokenisation-delete-payment-dialog.component';
 
@@ -58,9 +62,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
-      map((paymentDetails) =>
-        this.sortPaymentMethodsForDisplay(paymentDetails)
-      ),
+      map((paymentDetails) => sortPaymentMethodsForDisplay(paymentDetails)),
       tap((paymentDetails) => {
         // Set first payment method to DEFAULT if none is set
         if (
@@ -89,30 +91,6 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     this.editCard = undefined;
     this.loading$ = this.tokenisationFacade.getPaymentMethodsLoading();
     this.tokenisationFacade.loadPaymentMethods();
-  }
-
-  protected sortPaymentMethodsForDisplay(
-    paymentDetails: PaymentDetails[]
-  ): PaymentDetails[] {
-    const defaultPayments: PaymentDetails[] = [];
-    const activeNonDefaultPayments: PaymentDetails[] = [];
-    const expiredNonDefaultPayments: PaymentDetails[] = [];
-
-    paymentDetails.forEach((paymentDetail) => {
-      if (paymentDetail.defaultPayment) {
-        defaultPayments.push(paymentDetail);
-      } else if (this.isCardExpired(paymentDetail)) {
-        expiredNonDefaultPayments.push(paymentDetail);
-      } else {
-        activeNonDefaultPayments.push(paymentDetail);
-      }
-    });
-
-    return [
-      ...defaultPayments,
-      ...activeNonDefaultPayments,
-      ...expiredNonDefaultPayments,
-    ];
   }
 
   getCardContent(paymentMethod: PaymentDetails): Observable<Card> {
@@ -158,49 +136,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   }
 
   isCardExpired(paymentMethod: PaymentDetails): boolean {
-    const expiryMonth = paymentMethod.expiryMonth;
-    const expiryYear = paymentMethod.expiryYear;
-
-    if (!expiryMonth || !expiryYear) {
-      return false;
-    }
-    // original logic
-    /*
-    const now = new Date();
-    const currentMonth = now.getMonth() + 1;
-    const currentYear = now.getFullYear();
-    const parsedMonth = parseInt(expiryMonth, 10);
-    const normalizedYear = this.normalizeExpiryYear(expiryYear);
-
-    if (
-      Number.isNaN(parsedMonth) ||
-      parsedMonth < 1 ||
-      parsedMonth > 12 ||
-      Number.isNaN(normalizedYear)
-    ) {
-      return false;
-    }
-
-    return (
-      normalizedYear < currentYear ||
-      (normalizedYear === currentYear && parsedMonth < currentMonth)
-    );
-*/
-
-    // logic for testing. Only cards with date 03/30 are expired.
-    const parsedMonth = parseInt(expiryMonth, 10);
-    const normalizedYear = this.normalizeExpiryYear(expiryYear);
-
-    if (
-      Number.isNaN(parsedMonth) ||
-      parsedMonth < 1 ||
-      parsedMonth > 12 ||
-      Number.isNaN(normalizedYear)
-    ) {
-      return false;
-    }
-
-    return normalizedYear === 2030 && parsedMonth === 3;
+    return isTokenisationCardExpired(paymentMethod);
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
@@ -239,13 +175,5 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
       { key: 'paymentMessages.setAsDefaultSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-  }
-
-  protected normalizeExpiryYear(expiryYear: string): number {
-    const parsed = parseInt(expiryYear, 10);
-    if (parsed < 100) {
-      return 2000 + parsed;
-    }
-    return parsed;
   }
 }

@@ -50,6 +50,7 @@ import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
 } from '../../services';
+import { sortPaymentMethodsForDisplay } from '../../utils/opf-tokenisation-card-expiry.util';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
