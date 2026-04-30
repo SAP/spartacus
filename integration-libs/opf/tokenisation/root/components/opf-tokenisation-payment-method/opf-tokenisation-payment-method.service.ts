@@ -50,7 +50,10 @@ import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
 } from '../../services';
-import { sortPaymentMethodsForDisplay } from '../../utils/opf-tokenisation-card-expiry.util';
+import {
+  isTokenisationCardExpired,
+  sortPaymentMethodsForDisplay,
+} from '../../utils/opf-tokenisation-card-expiry.util';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
@@ -154,10 +157,12 @@ export class OpfTokenisationPaymentMethodService {
     return combineLatest([
       this.existingPaymentMethods$.pipe(
         switchMap((methods) => {
+          const sortedMethods = sortPaymentMethodsForDisplay(methods ?? []);
+
           return !methods?.length
             ? of([])
             : combineLatest(
-                methods.map((method) =>
+                sortedMethods.map((method) =>
                   combineLatest([
                     of(method),
                     this.translationService.translate('paymentCard.expires', {
@@ -208,6 +213,10 @@ export class OpfTokenisationPaymentMethodService {
           }))
       )
     );
+  }
+
+  isCardExpired(paymentDetails: PaymentDetails): boolean {
+    return isTokenisationCardExpired(paymentDetails);
   }
 
   selectDefaultPaymentMethod(

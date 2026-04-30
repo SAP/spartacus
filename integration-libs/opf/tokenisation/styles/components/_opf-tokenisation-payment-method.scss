@@ -43,6 +43,28 @@ cx-opf-tokenisation-payment-method {
     }
   }
 
+  .cx-expired-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    color: var(--cx-color-danger, #db0002);
+    font-size: var(--cx-font-size, 0.875rem);
+    line-height: 1.4;
+    border-radius: 0;
+  }
+
+  .cx-expired-error-message {
+    flex: 1 1 auto;
+  }
+
+  .cx-expired-error-icon {
+    font-size: 1.125rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
   .cx-card-img-container {
     .fab,
     .fas {

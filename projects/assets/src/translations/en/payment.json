@@ -55,7 +55,8 @@
     "amex": "American Express Card",
     "credit": "Credit Card",
     "expired": "Expired",
-    "expiredMessageForMyAccounts": "This card has expired. Please update your payment method."
+    "expiredMessageForMyAccounts": "This card has expired. Please update your payment method.",
+    "expiredMessageForCheckout": "This card has expired. Please update your payment method in My Account."
   },
   "paymentTypes": {
     "title": "Payment method",

@@ -16,6 +16,20 @@
               class="cx-payment-card-inner"
               (click)="onCardClick($event, card.paymentMethod)"
             >
+              <div
+                *ngIf="isCardExpired(card.paymentMethod)"
+                class="cx-expired-error"
+                role="alert"
+              >
+                <cx-icon
+                  class="cx-expired-error-icon"
+                  [type]="iconTypes.ERROR"
+                  aria-hidden="true"
+                ></cx-icon>
+                <span class="cx-expired-error-message">
+                  {{ 'paymentCard.expiredMessageForCheckout' | cxTranslate }}
+                </span>
+              </div>
               <cx-card
                 [border]="true"
                 [fitToContainer]="true"
