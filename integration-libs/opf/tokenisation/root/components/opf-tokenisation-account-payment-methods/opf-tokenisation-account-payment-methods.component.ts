@@ -15,7 +15,13 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../facade';
 import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog/opf-tokenisation-delete-payment-dialog.component';
 
@@ -28,6 +34,7 @@ import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-
     SpinnerComponent,
     NgFor,
     CardComponent,
+    IconComponent,
     AsyncPipe,
     TranslatePipe,
     OpfTokenisationDeletePaymentDialogComponent,
@@ -41,6 +48,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   paymentMethodToDelete: PaymentDetails | undefined;
   @Input() showHeader = true;
   protected autoDefaultRequested = false;
+  iconTypes = ICON_TYPE;
 
   protected tokenisationFacade = inject(OpfTokenisationFacade);
   protected translation = inject(TranslationService);

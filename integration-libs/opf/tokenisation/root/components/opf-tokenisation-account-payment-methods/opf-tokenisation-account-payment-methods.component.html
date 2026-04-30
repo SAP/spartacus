@@ -20,7 +20,7 @@
             *ngFor="let paymentMethod of paymentMethods; let i = index"
           >
             <div class="cx-payment-inner">
-               <div
+              <div
                 *ngIf="isCardExpired(paymentMethod)"
                 class="cx-expired-error"
                 role="alert"
@@ -45,17 +45,18 @@
                     {{ 'paymentCard.expired' | cxTranslate }}
                   </span>
                 </div>
-              <cx-card
-                [index]="i"
-                [border]="true"
-                [fitToContainer]="true"
-                [content]="getCardContent(paymentMethod) | async"
-                (deleteCard)="deletePaymentMethod(paymentMethod)"
-                (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
-                (editCard)="setEdit(paymentMethod)"
-                [editMode]="editCard === paymentMethod.id"
-                (cancelCard)="cancelCard()"
-              ></cx-card>
+                <cx-card
+                  [index]="i"
+                  [border]="true"
+                  [fitToContainer]="true"
+                  [content]="getCardContent(paymentMethod) | async"
+                  (deleteCard)="deletePaymentMethod(paymentMethod)"
+                  (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
+                  (editCard)="setEdit(paymentMethod)"
+                  [editMode]="editCard === paymentMethod.id"
+                  (cancelCard)="cancelCard()"
+                ></cx-card>
+              </div>
             </div>
           </div>
         </div>
