@@ -14,9 +14,8 @@ import {
 import { Injectable, inject } from '@angular/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 /**
  * HTTP Interceptor for Gift Card payment flow in split payment scenarios.
