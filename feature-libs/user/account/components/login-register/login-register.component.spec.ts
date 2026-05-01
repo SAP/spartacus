@@ -124,6 +124,58 @@ describe('LoginRegisterComponent', () => {
       expect(guestLinkElement).toBeTruthy();
     });
 
+    it('should provide accessible label association for Register button', () => {
+      const registerLinkElement: HTMLElement = getRegisterLink().nativeElement;
+
+      expect(registerLinkElement.getAttribute('aria-labelledby')).toBe(
+        'register-section-label register-action-label'
+      );
+      expect(
+        registerLinkElement.querySelector('#register-action-label')
+      ).toBeTruthy();
+    });
+
+    it('should provide accessible label association for Guest checkout button', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        providers: [
+          { provide: ActivatedRoute, useClass: MockActivatedRoute },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).overrideComponent(LoginRegisterComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      });
+      TestBed.overrideProvider(ActivatedRoute, {
+        useValue: {
+          snapshot: {
+            queryParams: {
+              forced: true,
+            },
+          },
+        },
+      });
+      TestBed.compileComponents();
+
+      createComponent();
+      callNgInit();
+
+      const guestLinkElement: HTMLElement =
+        getGuestCheckoutLink().nativeElement;
+
+      expect(guestLinkElement.getAttribute('aria-labelledby')).toBe(
+        'register-section-label register-action-label'
+      );
+      expect(
+        guestLinkElement.querySelector('#register-action-label')
+      ).toBeTruthy();
+    });
+
     it('should navigate to register', () => {
       spyOn(routingService, 'go');
       const registerLink = getRegisterLink();

@@ -353,6 +353,7 @@ if (environment.cpq) {
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
         enableExpiredRefreshTokenHandlers: true,
+        a11yActiveB2bLoginRegisterCpnt: true,
       };
       return appFeatureToggles;
     }),

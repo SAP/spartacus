@@ -21,7 +21,6 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
           'LoginComponent',
           'ReturningCustomerLoginComponent',
           'VerifyOTPTokenComponent',
-          'ReturningCustomerRegisterComponent',
           'MyAccountViewUserComponent',
           'ReturningCustomerOTPLoginComponent',
           'RegisterCustomerWithOTPComponent',

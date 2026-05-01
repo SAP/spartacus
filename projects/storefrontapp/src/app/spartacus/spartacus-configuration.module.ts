@@ -16,7 +16,11 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
-import { provideConfig, provideConfigFactory } from '@spartacus/core';
+import {
+  AuthConfig,
+  provideConfig,
+  provideConfigFactory,
+} from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfigFactory,
@@ -50,6 +54,11 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
       pwa: {
         enabled: false,
         addToHomeScreen: true,
+      },
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        client_id: 'mobile_android_public',
       },
     }),
     provideConfig({

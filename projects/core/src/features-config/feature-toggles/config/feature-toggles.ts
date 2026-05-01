@@ -85,6 +85,18 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
+   * Switches the B2B login/register experience to the accessibility-focused CMS composition.
+   *
+   * When enabled:
+   * - `ReturningCustomerRegisterComponent` becomes displayable.
+   * - `OrganizationUserRegistrationLink` and `NoAccountParagraphComponent` are hidden.
+   *
+   * When disabled:
+   * - `ReturningCustomerRegisterComponent` is not displayable.
+   */
+  a11yActiveB2bLoginRegisterCpnt?: boolean;
+
+  /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
    * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
    * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
@@ -508,6 +520,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
   a11yPreventWindowsHighContrastOverride: false,
+  a11yActiveB2bLoginRegisterCpnt: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
