@@ -11,6 +11,7 @@ import {
   OnInit,
   Optional,
   inject,
+  signal,
 } from '@angular/core';
 import {
   FormsModule,
@@ -28,8 +29,6 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
-  ICON_TYPE,
-  IconModule,
   OutletContextData,
   OutletModule,
 } from '@spartacus/storefront';
@@ -38,6 +37,7 @@ import { map, shareReplay } from 'rxjs/operators';
 
 import { CommonModule } from '@angular/common';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { OpfGiftCardFacade } from '../../facade';
 import { OpfGiftCardAppliedComponent } from '../opf-gift-card-applied';
 import { OpfGiftCardCheckoutPlaceOrderComponent } from '../opf-gift-card-checkout';
@@ -55,7 +55,6 @@ import { OpfGiftCards } from '../../model';
     ReactiveFormsModule,
     OpfGiftCardAppliedComponent,
     OpfGiftCardCheckoutPlaceOrderComponent,
-    IconModule,
     FormErrorsComponent,
   ],
 })
@@ -65,11 +64,10 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   protected giftCardFacade = inject(OpfGiftCardFacade);
   protected formBuilder = inject(UntypedFormBuilder);
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
+  protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected subscription = new Subscription();
   giftCardForm: UntypedFormGroup;
-  iconTypes = ICON_TYPE;
-
-  protected showGiftCardForm = false;
+  protected showGiftCardForm = signal(false);
   protected loadingSubject = new BehaviorSubject<boolean>(false);
   protected loading$ = this.loadingSubject.asObservable();
   protected cart$: Observable<Cart> = this.activeCartFacade.getActive();
@@ -144,7 +142,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   }
 
   toggleGiftCardForm() {
-    this.showGiftCardForm = !this.showGiftCardForm;
+    this.showGiftCardForm.set(!this.showGiftCardForm());
   }
 
   protected resetForm(): void {
@@ -176,6 +174,16 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
         })
     );
 
+    // Close gift card form when other payment options are selected
+    // selectedPaymentOptionId is -1 for saved payment details.
+    this.subscription.add(
+      this.opfMetadataStoreService.getOpfMetadataState().subscribe((x) => {
+        if ((x.selectedPaymentOptionId ?? 0) >= -1 && this.showGiftCardForm()) {
+          this.giftCardForm.reset();
+          this.toggleGiftCardForm();
+        }
+      })
+    );
     if (this.outlet?.context$) {
       this.subscription.add(
         this.outlet.context$.subscribe((context) => {

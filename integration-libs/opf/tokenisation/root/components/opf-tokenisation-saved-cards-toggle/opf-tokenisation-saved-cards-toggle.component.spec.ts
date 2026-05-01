@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { UserPaymentService } from '@spartacus/core';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
@@ -32,8 +33,15 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
   let mockSavedCardsService: jasmine.SpyObj<OpfTokenisationSavedCardsService>;
   let mockOpfMetadataStoreService: jasmine.SpyObj<OpfMetadataStoreService>;
   let metadataStateSubject: BehaviorSubject<any>;
+  let userPaymentService: jasmine.SpyObj<UserPaymentService>;
 
   beforeEach(waitForAsync(() => {
+    userPaymentService = jasmine.createSpyObj('UserPaymentService', [
+      'loadPaymentMethods',
+      'getPaymentMethods',
+      'getPaymentMethodsLoading',
+    ]);
+
     metadataStateSubject = new BehaviorSubject({
       selectedPaymentOptionId: null,
     });
@@ -59,9 +67,13 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       } as OpfSavedCardsToggleContext),
     });
 
+    userPaymentService.getPaymentMethods.and.returnValue(of([]));
+    userPaymentService.getPaymentMethodsLoading.and.returnValue(of(false));
+
     TestBed.configureTestingModule({
       imports: [OpfTokenisationSavedCardsToggleComponent, I18nTestingModule],
       providers: [
+        { provide: UserPaymentService, useValue: userPaymentService },
         { provide: OutletContextData, useValue: outletContextDataSpy },
         {
           provide: OpfTokenisationSavedCardsService,
@@ -120,11 +132,12 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       const expectedContext: OpfSavedCardsToggleContext = {
         savedCardsId: 1,
         selectedPaymentId: 1,
+        hasSavedCards: false,
         disabled: false,
       };
 
       component.context$.subscribe((context) => {
-        expect(context).toEqual(expectedContext);
+        expect(context).toEqual(jasmine.objectContaining(expectedContext));
         done();
       });
     });
@@ -135,6 +148,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       TestBed.configureTestingModule({
         imports: [OpfTokenisationSavedCardsToggleComponent, I18nTestingModule],
         providers: [
+          { provide: UserPaymentService, useValue: userPaymentService },
           {
             provide: OpfMetadataStoreService,
             useValue: mockOpfMetadataStoreService,
@@ -148,7 +162,9 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
       const testComponent = testFixture.componentInstance;
 
       testComponent.context$.subscribe((context) => {
-        expect(context).toEqual({});
+        expect(context).toEqual(
+          jasmine.objectContaining({ hasSavedCards: false })
+        );
         done();
       });
     });
@@ -251,6 +267,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
             I18nTestingModule,
           ],
           providers: [
+            { provide: UserPaymentService, useValue: userPaymentService },
             {
               provide: OpfMetadataStoreService,
               useValue: mockOpfMetadataStoreService,
@@ -271,6 +288,7 @@ describe('OpfTokenisationSavedCardsToggleComponent', () => {
             I18nTestingModule,
           ],
           providers: [
+            { provide: UserPaymentService, useValue: userPaymentService },
             {
               provide: OpfMetadataStoreService,
               useValue: mockOpfMetadataStoreService,

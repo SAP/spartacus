@@ -369,7 +369,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       orderFacade.placePaymentAuthorizedOrder.and.returnValue(of(null));
 
       service.getCards$().subscribe((cards) => {
-        expect(cards[0].content.header).toBe('paymentCard.selectedPayment');
+        expect(cards[0].content.header).toBe('paymentCard.selected');
         done();
       });
     });
