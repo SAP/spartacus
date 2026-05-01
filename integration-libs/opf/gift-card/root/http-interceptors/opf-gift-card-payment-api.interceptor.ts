@@ -5,6 +5,7 @@
  */
 
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -14,12 +15,17 @@ import { Injectable, inject } from '@angular/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 /**
- * HTTP Interceptor for Gift Card payment flow.
- * Reloads cart whenever the payments/active-configurations API is called.
- * This ensures cart data is fresh when payment options are loaded.
+ * HTTP Interceptor for Gift Card payment flow in split payment scenarios.
+ *
+ * Reloads cart ONLY when placePaymentAuthorizedOrder API fails.
+ * When payment auth fails, the backend automatically removes the gift card.
+ * Cart is reloaded to reflect the updated state with gift card removed.
+ *
+ * Intercepts: POST /orders/paymentAuthorizedOrderPlacement
  */
 @Injectable()
 export class OpfGiftCardPaymentApiInterceptor implements HttpInterceptor {
@@ -29,15 +35,17 @@ export class OpfGiftCardPaymentApiInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Check if this is the payments API call & reload the cart
-    if (request.url.includes('/payments')) {
-      return next.handle(request).pipe(
-        tap(() => {
-          this.activeCartService.reloadActiveCart();
-        })
-      );
+    // Only intercept placePaymentAuthorizedOrder API calls
+    if (!request.url.includes('/orders/paymentAuthorizedOrderPlacement')) {
+      return next.handle(request);
     }
 
-    return next.handle(request);
+    return next.handle(request).pipe(
+      // Reload cart only on placePaymentAuthorizedOrder failure
+      catchError((error: HttpErrorResponse) => {
+        this.activeCartService.reloadActiveCart();
+        return throwError(() => error);
+      })
+    );
   }
 }
