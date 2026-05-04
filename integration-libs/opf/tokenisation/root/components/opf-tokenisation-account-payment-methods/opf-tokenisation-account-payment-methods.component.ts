@@ -66,25 +66,12 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
       tap((paymentDetails) => {
         // Set first payment method to DEFAULT if none is set
         if (
+          !this.autoDefaultRequested &&
           paymentDetails.length > 0 &&
           !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
         ) {
+          this.autoDefaultRequested = true;
           this.setDefaultPaymentMethod(paymentDetails[0]);
-          const hasDefault = paymentDetails.some(
-            (paymentDetail) => paymentDetail.defaultPayment
-          );
-          const hasPaymentMethods = paymentDetails.length > 0;
-          const paymentMethodId = paymentDetails[0]?.id;
-
-          if (
-            !this.autoDefaultRequested &&
-            hasPaymentMethods &&
-            !hasDefault &&
-            paymentMethodId
-          ) {
-            this.autoDefaultRequested = true;
-            this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethodId);
-          }
         }
       })
     );
