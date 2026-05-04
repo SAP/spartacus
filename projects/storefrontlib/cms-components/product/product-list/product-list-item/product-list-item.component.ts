@@ -14,7 +14,13 @@ import {
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe, useFeatureStyles } from '@spartacus/core';
+import {
+  FeatureDirective,
+  TranslatePipe,
+  UrlPipe,
+  useFeatureStyles,
+} from '@spartacus/core';
+import { ReadMoreComponent } from '@spartacus/storefront';
 import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
 import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
@@ -38,10 +44,12 @@ import { ProductListService } from '../product-list.service';
   ],
   imports: [
     RouterLink,
+    FeatureDirective,
     LcpContextDirective,
     MediaComponent,
     OutletDirective,
     NgIf,
+    ReadMoreComponent,
     StarRatingComponent,
     InnerComponentsHostDirective,
     AsyncPipe,
@@ -69,6 +77,7 @@ export class ProductListItemComponent implements OnChanges {
     protected productListItemContextSource: ProductListItemContextSource
   ) {
     useFeatureStyles('consistentSizeProductCards');
+    useFeatureStyles('readMoreDirective');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {
