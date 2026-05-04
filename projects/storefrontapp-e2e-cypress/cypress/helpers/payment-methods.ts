@@ -113,7 +113,7 @@ export function testRenderEmptyPaymentDetailsPage() {
   loginRegisteredUser();
   visitPaymentDetailsPage();
   cy.get('cx-payment-methods').within(() => {
-    cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
+    cy.get('.cx-payment .cx-header').should('contain', 'Payment Methods');
     cy.get('.cx-payment .cx-body').should(
       'contain',
       'New payment methods are added during checkout.'
