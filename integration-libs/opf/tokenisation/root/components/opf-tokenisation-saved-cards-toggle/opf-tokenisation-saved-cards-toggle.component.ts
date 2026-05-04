@@ -6,14 +6,14 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, UserPaymentService } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   ICON_TYPE,
   IconComponent,
   OutletContextData,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OpfSavedCardsToggleContext } from '../../model';
 import {
@@ -38,13 +38,21 @@ export class OpfTokenisationSavedCardsToggleComponent {
   });
 
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected userPaymentService = inject(UserPaymentService);
 
   iconTypes = ICON_TYPE;
 
   readonly SAVED_CARDS_ID = SAVED_CARDS_ID;
 
-  readonly context$ =
-    this.outletContextData?.context$ ?? of({} as OpfSavedCardsToggleContext);
+  readonly context$ = combineLatest([
+    this.outletContextData?.context$ ?? of({} as OpfSavedCardsToggleContext),
+    this.userPaymentService.getPaymentMethods(),
+  ]).pipe(
+    map(([ctx, paymentMethods]) => ({
+      ...ctx,
+      hasSavedCards: Boolean(paymentMethods?.length),
+    }))
+  );
 
   /**
    * Whether the saved cards radio should be checked.

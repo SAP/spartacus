@@ -7,7 +7,7 @@
       <!-- Header -->
       <div class="cx-opf-gift-card-apply-header">
         <div class="cx-opf-gift-card-apply-title">
-          <cx-icon type="GIFT_CARD"></cx-icon>
+          <span class="gift-card-icon"></span>
           <div class="title">
             <span>{{ 'opfGiftCard.haveGiftCard' | cxTranslate }}</span>
           </div>
@@ -17,7 +17,7 @@
             type="button"
             class="cx-opf-gift-card-apply-add-link"
             [disabled]="!(isAddGiftCard$ | async)"
-            (click)="showGiftCardForm = !showGiftCardForm"
+            (click)="toggleGiftCardForm()"
           >
             {{ 'opfGiftCard.addGiftCard' | cxTranslate }}
           </button>
@@ -26,7 +26,7 @@
 
       <!-- Gift Card Form -->
       <form
-        *ngIf="showGiftCardForm"
+        *ngIf="showGiftCardForm()"
         [formGroup]="giftCardForm"
         (ngSubmit)="addGiftCard()"
         class="cx-opf-gift-card-apply-form"

@@ -5,18 +5,23 @@
  */
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import {
-  EMPTY,
-  Observable,
-  Subject,
-  Subscription,
   combineLatest,
   defer,
+  EMPTY,
+  from,
+  isObservable,
+  Observable,
+  of,
   queueScheduler,
+  Subject,
+  Subscription,
   using,
 } from 'rxjs';
 import {
+  concatMap,
+  defaultIfEmpty,
   filter,
   map,
   observeOn,
@@ -28,15 +33,53 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
+import {
+  EXPIRED_REFRESH_TOKEN_HANDLERS,
+  ExpiredRefreshTokenHandler,
+} from './auth-http-header-handler';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
+
+// Temporary compatibility tokens  to preserve legacy behavior of CXPSA-12514 fix.
+// Remove DEFAULT_AUTH_HTTP_HEADER_SERVICE and
+// DELEGATED_AUTH_HTTP_HEADER_SERVICE once
+// enableExpiredRefreshTokenHandlers feature toggle is fully rolled out.
+export const DEFAULT_AUTH_HTTP_HEADER_SERVICE =
+  new InjectionToken<AuthHttpHeaderService>(
+    'DEFAULT_AUTH_HTTP_HEADER_SERVICE',
+    {
+      providedIn: 'root',
+      factory: () =>
+        new AuthHttpHeaderService(
+          inject(AuthService),
+          inject(AuthStorageService),
+          inject(OAuthLibWrapperService),
+          inject(RoutingService),
+          inject(OccEndpointsService),
+          inject(GlobalMessageService),
+          inject(AuthRedirectService)
+        ),
+    }
+  );
+
+/**
+ * Optional delegation hook for `AuthHttpHeaderService`.
+ * Feature libraries (e.g. ASM) can provide their own `AuthHttpHeaderService`
+ * override under this token so that other libs (e.g. Punchout) can delegate
+ * to it without a hard compile-time import of the providing library.
+ */
+export const DELEGATED_AUTH_HTTP_HEADER_SERVICE =
+  new InjectionToken<AuthHttpHeaderService>(
+    'DELEGATED_AUTH_HTTP_HEADER_SERVICE'
+  );
 
 /**
  * Extendable service for `AuthInterceptor`.
@@ -45,6 +88,8 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
   providedIn: 'root',
 })
 export class AuthHttpHeaderService implements OnDestroy {
+  private featureConfig = inject(FeatureConfigService);
+
   /**
    * Starts the refresh of the access token
    */
@@ -106,6 +151,8 @@ export class AuthHttpHeaderService implements OnDestroy {
   ).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 
   protected subscriptions = new Subscription();
+  protected handlers =
+    inject(EXPIRED_REFRESH_TOKEN_HANDLERS, { optional: true }) ?? [];
 
   constructor(
     protected authService: AuthService,
@@ -216,6 +263,28 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
+    if (!this.featureConfig.isEnabled('enableExpiredRefreshTokenHandlers')) {
+      this.handleExpiredRefreshTokenFallback();
+      return;
+    }
+
+    from(this.authHttpHeaderHandlers)
+      .pipe(
+        concatMap((handler) =>
+          this.resolveHandlerRefreshTokenHandling(handler)
+        ),
+        filter((handled) => handled),
+        take(1),
+        defaultIfEmpty(false)
+      )
+      .subscribe((handled) => {
+        if (!handled) {
+          this.handleExpiredRefreshTokenFallback();
+        }
+      });
+  }
+
+  protected handleExpiredRefreshTokenFallback(): void {
     // There might be 2 cases:
     // 1. when user is already on some page (router is stable) and performs an UI action
     // that triggers http call (i.e. button click to save data in backend)
@@ -238,6 +307,28 @@ export class AuthHttpHeaderService implements OnDestroy {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
+  }
+
+  /**
+   * Resolves handler-specific refresh token expiration handling.
+   * This approach allows features like Punchout to handle expired tokens
+   * without needing to override the entire AuthHttpHeaderService via DI,
+   * which would create a conflict with other service overrides (e.g., ASM).
+   */
+  protected resolveHandlerRefreshTokenHandling(
+    handler: ExpiredRefreshTokenHandler
+  ): Observable<boolean> {
+    const result = handler.handleExpiredRefreshTokenIfApplicable?.();
+
+    if (isObservable(result)) {
+      return result;
+    }
+
+    return of(false);
+  }
+
+  protected get authHttpHeaderHandlers(): ExpiredRefreshTokenHandler[] {
+    return this.handlers ?? [];
   }
 
   /**

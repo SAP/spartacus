@@ -1269,6 +1269,16 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeSSIWithValues.incomplete).toBe(false);
     });
 
+    it('should set incomplete by single-selection-image type with retract option correctly', () => {
+      attributeSSIWithValues.selectedSingleValue =
+        Configurator.RetractValueCode;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeSSIWithValues
+      );
+
+      expect(attributeSSIWithValues.incomplete).toBe(true);
+    });
+
     it('should set incomplete by checkbox type correctly', () => {
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeCheckboxWOValue

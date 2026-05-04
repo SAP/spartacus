@@ -23,6 +23,7 @@ import {
   B2BUser,
   B2BUserRight,
   B2BUserRole,
+  FeatureDirective,
   Title,
   TranslatePipe,
 } from '@spartacus/core';
@@ -72,6 +73,7 @@ import { UserItemService } from '../services/user-item.service';
     NgFor,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UserFormComponent implements OnInit {
