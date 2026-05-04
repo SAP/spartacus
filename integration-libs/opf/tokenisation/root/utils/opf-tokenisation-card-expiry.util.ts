@@ -39,30 +39,9 @@ export function isTokenisationCardExpired(
   if (!expiryMonth || !expiryYear) {
     return false;
   }
-  // original logic
-  /*
-    const now = new Date();
-    const currentMonth = now.getMonth() + 1;
-    const currentYear = now.getFullYear();
-    const parsedMonth = parseInt(expiryMonth, 10);
-    const normalizedYear = this.normalizeExpiryYear(expiryYear);
-
-    if (
-      Number.isNaN(parsedMonth) ||
-      parsedMonth < 1 ||
-      parsedMonth > 12 ||
-      Number.isNaN(normalizedYear)
-    ) {
-      return false;
-    }
-
-    return (
-      normalizedYear < currentYear ||
-      (normalizedYear === currentYear && parsedMonth < currentMonth)
-    );
-*/
-
-  // logic for testing. Only cards with date 03/30 are expired.
+  const now = new Date();
+  const currentMonth = now.getMonth() + 1;
+  const currentYear = now.getFullYear();
   const parsedMonth = parseInt(expiryMonth, 10);
   const normalizedYear = normalizeExpiryYear(expiryYear);
 
@@ -75,7 +54,10 @@ export function isTokenisationCardExpired(
     return false;
   }
 
-  return normalizedYear === 2029 && parsedMonth === 12;
+  return (
+    normalizedYear < currentYear ||
+    (normalizedYear === currentYear && parsedMonth < currentMonth)
+  );
 }
 
 function normalizeExpiryYear(expiryYear: string): number {
