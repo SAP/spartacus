@@ -99,7 +99,6 @@ export class OpfGiftCardCheckoutPlaceOrderComponent
       GlobalMessageType.MSG_TYPE_ERROR
     );
     this.routingService.go({ cxRoute: OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE });
-    this.activeCartFacade.reloadActiveCart();
   }
 
   protected stopPlaceOrderSpinner(): void {

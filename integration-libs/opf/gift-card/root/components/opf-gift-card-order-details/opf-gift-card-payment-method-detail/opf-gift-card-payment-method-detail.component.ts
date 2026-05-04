@@ -45,9 +45,7 @@ export class OpfGiftCardPaymentMethodDetailComponent
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
       this.subscription?.add(
-        this.orderOutlet.context$.subscribe(
-          (context) => (this.order = context?.item)
-        )
+        this.orderOutlet.context$.subscribe((context) => (this.order = context))
       );
     }
   }

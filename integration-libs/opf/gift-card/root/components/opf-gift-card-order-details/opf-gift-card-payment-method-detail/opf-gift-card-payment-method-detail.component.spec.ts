@@ -5,12 +5,7 @@
  */
 
 import { Card, OutletContextData } from '@spartacus/storefront';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Subject, of } from 'rxjs';
 
 import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment-method-detail.component';
@@ -30,12 +25,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       'translate',
     ]);
 
-    contextSubject = new Subject<any>();
-
-    const mockOutletContext: Partial<OutletContextData<Order>> = {
-      context$: contextSubject.asObservable(),
-    };
-
     await TestBed.configureTestingModule({
       imports: [OpfGiftCardPaymentMethodDetailComponent],
       providers: [
@@ -43,10 +32,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         {
           provide: Store,
           useValue: { pipe: jasmine.createSpy('pipe').and.returnValue(of({})) },
-        },
-        {
-          provide: OutletContextData,
-          useValue: mockOutletContext,
         },
       ],
     }).compileComponents();
@@ -57,6 +42,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
     fixture = TestBed.createComponent(OpfGiftCardPaymentMethodDetailComponent);
     component = fixture.componentInstance;
 
+    contextSubject = new Subject<any>();
     mockOrder = {
       code: 'order-1',
       opfGiftCardSummary: {
@@ -88,25 +74,37 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should subscribe to orderOutlet context when provided', fakeAsync(() => {
+    it('should subscribe to orderOutlet context when provided', (done) => {
+      const mockOutletContext: Partial<OutletContextData<Order>> = {
+        context$: contextSubject.asObservable(),
+      };
+
+      component['orderOutlet'] = mockOutletContext as OutletContextData<Order>;
       component.ngOnInit();
 
-      contextSubject.next({ item: mockOrder } as any);
-      tick();
+      contextSubject.next(mockOrder);
 
-      expect(component.order).toEqual(mockOrder);
-    }));
+      setTimeout(() => {
+        expect(component.order).toEqual(mockOrder);
+        done();
+      }, 10);
+    });
 
     it('should not subscribe if orderOutlet is not provided', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'add');
       component['orderOutlet'] = undefined;
+      const subscriptionSpy = spyOn(component['subscription'], 'add');
 
       component.ngOnInit();
 
       expect(subscriptionSpy).not.toHaveBeenCalled();
     });
 
-    it('should handle multiple order updates from context', fakeAsync(() => {
+    it('should handle multiple order updates from context', (done) => {
+      const mockOutletContext: Partial<OutletContextData<Order>> = {
+        context$: contextSubject.asObservable(),
+      };
+
+      component['orderOutlet'] = mockOutletContext as OutletContextData<Order>;
       component.ngOnInit();
 
       const orders = [
@@ -114,14 +112,17 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         { ...mockOrder, code: 'order-2' },
       ];
 
-      contextSubject.next({ item: orders[0] } as any);
-      tick();
-      expect(component.order.code).toBe('order-1');
+      contextSubject.next(orders[0] as Order);
+      setTimeout(() => {
+        expect(component.order.code).toBe('order-1');
 
-      contextSubject.next({ item: orders[1] } as any);
-      tick();
-      expect(component.order.code).toBe('order-2');
-    }));
+        contextSubject.next(orders[1] as Order);
+        setTimeout(() => {
+          expect(component.order.code).toBe('order-2');
+          done();
+        }, 10);
+      }, 10);
+    });
   });
 
   describe('getPaymentMethodCardContent', () => {
@@ -277,17 +278,21 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       });
     });
 
-    it('should maintain subscription during component lifecycle', fakeAsync(() => {
+    it('should maintain subscription during component lifecycle', () => {
+      const mockOutletContext: Partial<OutletContextData<Order>> = {
+        context$: contextSubject.asObservable(),
+      };
+
+      component['orderOutlet'] = mockOutletContext as OutletContextData<Order>;
       component.ngOnInit();
 
       const initialSubscriptionCount = component['subscription'].closed;
 
-      contextSubject.next({ item: mockOrder } as any);
-      tick();
+      contextSubject.next(mockOrder);
 
       expect(component['subscription'].closed).toBe(initialSubscriptionCount);
       expect(component.order).toEqual(mockOrder);
-    }));
+    });
   });
 
   describe('Edge Cases', () => {
@@ -307,7 +312,12 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       expect(component.isGiftCardPayment).toBe(false);
     });
 
-    it('should handle rapid succession of order updates', fakeAsync(() => {
+    it('should handle rapid succession of order updates', (done) => {
+      const mockOutletContext: Partial<OutletContextData<Order>> = {
+        context$: contextSubject.asObservable(),
+      };
+
+      component['orderOutlet'] = mockOutletContext as OutletContextData<Order>;
       component.ngOnInit();
 
       const orders: unknown[] = [
@@ -340,13 +350,13 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         },
       ];
 
-      orders.forEach((order) => {
-        contextSubject.next({ item: order as Order });
-        tick();
-      });
+      orders.forEach((order) => contextSubject.next(order as Order));
 
-      expect((component.order as any).code).toBe('order-3');
-    }));
+      setTimeout(() => {
+        expect((component.order as any).code).toBe('order-3');
+        done();
+      }, 10);
+    });
 
     it('should handle decimal values in gift card amount', () => {
       component.order = {
