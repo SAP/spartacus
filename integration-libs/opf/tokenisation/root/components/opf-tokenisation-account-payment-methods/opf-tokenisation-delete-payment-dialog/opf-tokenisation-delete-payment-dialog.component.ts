@@ -18,7 +18,6 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-opf-tokenisation-delete-payment-dialog',
   templateUrl: './opf-tokenisation-delete-payment-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [NgIf, TranslatePipe],
 })
 export class OpfTokenisationDeletePaymentDialogComponent {

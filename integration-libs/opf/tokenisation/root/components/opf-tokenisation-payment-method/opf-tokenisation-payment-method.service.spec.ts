@@ -751,8 +751,8 @@ describe('OpfTokenisationPaymentMethodService', () => {
       const mockFocusable = document.createElement('button');
       spyOn(window, 'requestAnimationFrame').and.callFake(
         (cb: FrameRequestCallback) => {
-        cb(0);
-        return 0;
+          cb(0);
+          return 0;
         }
       );
 
