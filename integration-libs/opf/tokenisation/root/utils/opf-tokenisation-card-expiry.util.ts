@@ -34,8 +34,7 @@ export function isTokenisationCardExpired(
   this: any,
   paymentMethod: PaymentDetails
 ): boolean {
-  const expiryMonth = paymentMethod.expiryMonth;
-  const expiryYear = paymentMethod.expiryYear;
+  const { expiryMonth, expiryYear } = paymentMethod;
 
   if (!expiryMonth || !expiryYear) {
     return false;
@@ -76,7 +75,7 @@ export function isTokenisationCardExpired(
     return false;
   }
 
-  return normalizedYear === 2030 && parsedMonth === 3;
+  return normalizedYear === 2029 && parsedMonth === 12;
 }
 
 function normalizeExpiryYear(expiryYear: string): number {
