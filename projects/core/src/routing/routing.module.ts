@@ -105,7 +105,7 @@ function isNavigationDoneEvent(e: unknown): boolean {
  * until the navigation is fully resolved — preserving the same behavioral semantics
  * as the previous `enabledBlocking` approach while being compatible with hydration.
  *
- * Used by `RoutingModule.forRootV2()`. Pair with `AppRoutingModuleV2`.
+ * Used by `RoutingModule.forRootV2()`. Pair with `AppRoutingModuleV2`. This is best practice.
  */
 export function blockingInitialNavigationFactory(): () => Promise<void> {
   const router = inject(Router);
