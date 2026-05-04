@@ -98,7 +98,9 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
         month: expiryMonth,
         year: expiryYear,
       }),
-      this.translation.translate('paymentCard.defaultPaymentMethod'),
+      this.translation.translate(
+        'paymentCard.defaultPaymentMethodTokenisation'
+      ),
     ]).pipe(
       map(
         ([
