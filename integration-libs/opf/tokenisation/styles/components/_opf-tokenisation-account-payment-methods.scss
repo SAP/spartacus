@@ -1,4 +1,4 @@
-%cx-opf-tokenisation-payment-methods {
+%cx-opf-tokenisation-account-payment-methods {
   .cx-payment {
     @include media-breakpoint-down(sm) {
       padding-inline-start: 1.25rem;
@@ -39,5 +39,18 @@
 
   .cx-payment-inner {
     height: 100%;
+  }
+
+  .cx-card-actions {
+    .cx-card-action-item:first-child {
+      margin-inline-end: auto;
+    }
+
+    button.btn-tertiary {
+      white-space: nowrap;
+      text-align: start;
+      padding-inline-start: 0;
+      padding-inline-end: 0;
+    }
   }
 }

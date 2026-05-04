@@ -110,6 +110,11 @@ export const OPF_GIFT_CARD_ROOT_MODULE = 'OpfGiftCardRootModule';
 export const OPF_GIFT_CARD_TRANSLATIONS = 'opfGiftCardTranslations';
 export const OPF_GIFT_CARD_TRANSLATION_CHUNKS_CONFIG =
   'opfGiftCardTranslationChunksConfig';
+export const OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG =
+  'defaultOccOpfGiftCardCartEndpointsConfig';
+export const OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG =
+  'defaultOccOpfGiftCardOrderEndpointsConfig';
+export const OPF_GIFT_CARD_CART_CONFIG = 'defaultOpfGiftCardCartConfig';
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -451,6 +456,7 @@ export const OPF_GIFT_CARD_SCHEMATICS_CONFIG: SchematicConfig = {
       SPARTACUS_BOOTSTRAP_MIXINS,
     ],
   },
+  customConfig: buildOpfGiftCardConfig,
 };
 
 function buildOpfConfig(
@@ -506,5 +512,41 @@ function buildOpfB2bConfig(
       ],
       content: `${OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG}`,
     },
+  };
+}
+
+function buildOpfGiftCardConfig(
+  _options: SpartacusOpfOptions
+): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
+  return {
+    providers: [
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_CART_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_CART_CONFIG}`,
+      },
+    ],
   };
 }

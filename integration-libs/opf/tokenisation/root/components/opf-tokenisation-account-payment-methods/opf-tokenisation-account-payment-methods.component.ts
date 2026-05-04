@@ -8,14 +8,16 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
+  GlobalMessageType,
   PaymentDetails,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { OpfTokenisationFacade } from '../../facade';
+import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog/opf-tokenisation-delete-payment-dialog.component';
 
 @Component({
   selector: 'cx-opf-tokenisation-account-payment-methods',
@@ -27,13 +29,17 @@ import { OpfTokenisationFacade } from '../../facade';
     CardComponent,
     AsyncPipe,
     TranslatePipe,
+    OpfTokenisationDeletePaymentDialogComponent,
   ],
 })
 export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string | undefined;
   loading$: Observable<boolean>;
+  showDeleteDialog = false;
+  paymentMethodToDelete: PaymentDetails | undefined;
   @Input() showHeader = true;
+  protected autoDefaultRequested = false;
 
   protected tokenisationFacade = inject(OpfTokenisationFacade);
   protected translation = inject(TranslationService);
@@ -42,45 +48,95 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe();
+    this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
+      tap((paymentDetails) => {
+        const hasDefault = paymentDetails.some(
+          (paymentDetail) => paymentDetail.defaultPayment
+        );
+        const hasPaymentMethods = paymentDetails.length > 0;
+        const paymentMethodId = paymentDetails[0]?.id;
+
+        if (
+          !this.autoDefaultRequested &&
+          hasPaymentMethods &&
+          !hasDefault &&
+          paymentMethodId
+        ) {
+          this.autoDefaultRequested = true;
+          this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethodId);
+        }
+      })
+    );
     this.editCard = undefined;
     this.loading$ = this.tokenisationFacade.getPaymentMethodsLoading();
     this.tokenisationFacade.loadPaymentMethods();
   }
 
   getCardContent({
+    defaultPayment,
     expiryMonth,
     expiryYear,
     cardNumber,
+    cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
+      this.translation.translate('paymentCard.setAsDefault'),
       this.translation.translate('common.delete'),
-      this.translation.translate('paymentCard.deleteConfirmation'),
       this.translation.translate('paymentCard.expires', {
         month: expiryMonth,
         year: expiryYear,
       }),
+      this.translation.translate('paymentCard.defaultPaymentMethod'),
     ]).pipe(
-      map(([textDelete, textDeleteConfirmation, textExpires]) => {
-        const actions: { name: string; event: string }[] = [];
-        actions.push({ name: textDelete, event: 'edit' });
-        const card: Card = {
-          role: 'application',
-          text: [cardNumber ?? '', textExpires],
-          actions,
-          deleteMsg: textDeleteConfirmation,
-        };
+      map(
+        ([
+          textSetAsDefault,
+          textDelete,
+          textExpires,
+          textDefaultPaymentMethod,
+        ]) => {
+          const actions: { name: string; event: string }[] = [];
+          if (!defaultPayment) {
+            actions.push({ name: textSetAsDefault, event: 'default' });
+          }
+          actions.push({ name: textDelete, event: 'delete' });
+          const card: Card = {
+            role: 'application',
+            header: defaultPayment ? textDefaultPaymentMethod : undefined,
+            textBold: cardType?.name,
+            text: [cardNumber ?? '', textExpires],
+            actions,
+            label: defaultPayment
+              ? 'paymentCard.defaultPaymentLabel'
+              : 'paymentCard.additionalPaymentLabel',
+          };
 
-        return card;
-      })
+          return card;
+        }
+      )
     );
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
     if (paymentMethod.id) {
-      this.tokenisationFacade.deletePaymentMethod(paymentMethod.id);
+      this.paymentMethodToDelete = paymentMethod;
+      this.showDeleteDialog = true;
       this.editCard = undefined;
     }
+  }
+
+  confirmDeletePaymentMethod(): void {
+    if (this.paymentMethodToDelete?.id) {
+      this.tokenisationFacade.deletePaymentMethod(
+        this.paymentMethodToDelete.id
+      );
+    }
+    this.closeDeleteDialog();
+  }
+
+  closeDeleteDialog(): void {
+    this.showDeleteDialog = false;
+    this.paymentMethodToDelete = undefined;
   }
 
   setEdit(paymentMethod: PaymentDetails): void {
@@ -89,5 +145,13 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   cancelCard(): void {
     this.editCard = undefined;
+  }
+
+  setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
+    this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethod.id ?? '');
+    this.globalMessageService?.add(
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 }

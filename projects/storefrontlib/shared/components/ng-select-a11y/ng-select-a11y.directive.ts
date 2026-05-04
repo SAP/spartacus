@@ -84,11 +84,21 @@ export class NgSelectA11yDirective implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const inputCombobox =
-      this.elementRef.nativeElement.querySelector('[role="combobox"]');
+    const nativeEl = this.elementRef.nativeElement;
+    const inputCombobox = nativeEl.querySelector('[role="combobox"]');
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
+
+    /*
+     * Hide the arrow indicator from screen readers to prevent it from
+     * announcing the unicode caret character (▼) as "black icon"
+     * introduced by a11yNgSelectUnicodeCarets feature
+     * */
+    const arrowWrapper = nativeEl.querySelector('.ng-arrow-wrapper');
+    if (arrowWrapper) {
+      this.renderer.setAttribute(arrowWrapper, ARIA_HIDDEN, 'true');
+    }
 
     const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
       map(() => 'true')
@@ -116,7 +126,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
       });
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
-    const elementId = this.elementRef.nativeElement.id;
+    const elementId = nativeEl.id;
     const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
     if (ariaLabel) {
@@ -135,7 +145,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
         this.selectObserver = new MutationObserver(() => {
           this.setInputValue(inputCombobox);
         });
-        this.selectObserver.observe(this.elementRef.nativeElement, {
+        this.selectObserver.observe(nativeEl, {
           subtree: true,
           characterData: true,
           childList: true,
@@ -149,7 +159,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
             const selectObserver = new MutationObserver((changes, observer) => {
               this.appendValueToAriaLabel(changes, observer, inputCombobox);
             });
-            selectObserver.observe(this.elementRef.nativeElement, {
+            selectObserver.observe(nativeEl, {
               subtree: true,
               characterData: true,
               childList: true,

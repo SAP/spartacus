@@ -1,19 +1,17 @@
 <form>
   <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
   <div
-    role="search"
-    [attr.aria-label]="'asm.bindCart.assignCartId' | cxTranslate"
     [ngClass]="'cx-asm-assignCart-input-show-no-button'"
     [class.active]="valid$ | async"
     (click)="cartIdElement.focus()"
   >
     <input
+      id="cartNumber"
       autocomplete="off"
       #cartIdElement
       formcontrolname="cartNumber"
       [formControl]="cartId"
       (keydown.enter)="bindCartToCustomer()"
-      [attr.aria-label]="'asm.bindCart.enterCartId' | cxTranslate"
     />
   </div>
   <button
