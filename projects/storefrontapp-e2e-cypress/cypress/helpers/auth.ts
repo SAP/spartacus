@@ -9,9 +9,6 @@ export function getAuthStorageKey(): string {
   return `spartacus⚿${baseSite}⚿auth`;
 }
 
-//TODO: use this function in each place that storage key is used as string
-export const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
-
 export function getStateAuth() {
   return JSON.parse(localStorage.getItem(getAuthStorageKey()));
 }
