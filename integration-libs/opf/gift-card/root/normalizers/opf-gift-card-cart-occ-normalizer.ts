@@ -5,10 +5,7 @@
  */
 
 import { Converter, Occ } from '@spartacus/core';
-import {
-  OpfGiftCardSummary,
-  OpfGiftCards,
-} from '@spartacus/opf/gift-card/root';
+import { OpfGiftCardSummary, OpfGiftCards } from '../model';
 
 import { Cart } from '@spartacus/cart/base/root';
 import { Injectable } from '@angular/core';
