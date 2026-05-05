@@ -128,7 +128,8 @@
       {{ 'register.register' | cxTranslate }}
     </button>
     <button
-      [routerLink]="{ cxRoute: 'register' } | cxUrl"
+      type="button"
+      (click)="goBack()"
       class="btn btn-block btn-secondary btn-register"
     >
       {{ 'verificationTokenForm.back' | cxTranslate }}

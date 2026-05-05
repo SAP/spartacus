@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  OnInit,
   inject,
 } from '@angular/core';
 import {
@@ -62,7 +63,7 @@ import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
     TranslatePipe,
   ],
 })
-export class OneTimePasswordLoginFormComponent {
+export class OneTimePasswordLoginFormComponent implements OnInit {
   protected routingService = inject(RoutingService);
   protected verificationTokenFacade = inject(VerificationTokenFacade);
   protected winRef = inject(WindowRef);
@@ -88,6 +89,20 @@ export class OneTimePasswordLoginFormComponent {
   });
 
   @HostBinding('class.user-form') style = true;
+
+  ngOnInit(): void {
+    const state = this.winRef.nativeWindow?.history?.state;
+    if (state?.['loginId'] || state?.['password']) {
+      this.form.patchValue({
+        userId: state['loginId'] ?? '',
+        password: state['password'] ?? '',
+      });
+      this.winRef.nativeWindow?.history?.replaceState(
+        { loginId: '', password: '' },
+        ''
+      );
+    }
+  }
 
   onSubmit(): void {
     if (!this.form.valid) {
@@ -141,7 +156,6 @@ export class OneTimePasswordLoginFormComponent {
   }
 
   protected onCreateVerificationTokenComplete(): void {
-    this.form.reset();
     this.busy$.next(false);
   }
 

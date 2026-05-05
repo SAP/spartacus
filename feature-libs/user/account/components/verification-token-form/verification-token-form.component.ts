@@ -20,13 +20,11 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   FeatureConfigService,
   FeatureDirective,
   RoutingService,
   TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -55,9 +53,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
     FormErrorsComponent,
     FeatureDirective,
     NgClass,
-    RouterLink,
     AsyncPipe,
-    UrlPipe,
     TranslatePipe,
   ],
 })
@@ -210,5 +206,19 @@ export class VerificationTokenFormComponent implements OnInit {
         this.cdr.detectChanges();
       }
     }, 1000);
+  }
+
+  goBack(): void {
+    this.routingService.go(
+      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+        ? { cxRoute: 'login' }
+        : ['/login'],
+      {
+        state: {
+          loginId: this.target,
+          password: this.password,
+        },
+      }
+    );
   }
 }
