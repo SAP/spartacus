@@ -335,7 +335,7 @@ export class OpfTokenisationPaymentMethodService {
 
     const cardTitle = paymentDetails.defaultPayment
       ? cardLabels.textDefaultLabelOnCheckout
-      : '\u00A0';
+      : '';
 
     return {
       role,

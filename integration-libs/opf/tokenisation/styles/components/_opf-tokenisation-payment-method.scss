@@ -94,6 +94,21 @@
     font-weight: var(--cx-font-weight-bold);
   }
 
+  .cx-payment-card .cx-card .cx-card-container {
+    &::before {
+      content: '';
+      display: block;
+      min-height: 1.5rem;
+    }
+  }
+
+  .cx-payment-card .cx-card .cx-card-title + .cx-card-container {
+    &::before {
+      content: none;
+      min-height: 0;
+    }
+  }
+
   .cx-card-actions {
     align-items: center;
     flex-wrap: wrap;
