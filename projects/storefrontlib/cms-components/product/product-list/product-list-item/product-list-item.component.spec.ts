@@ -12,8 +12,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
+  FeatureConfigService,
   FeatureDirective,
-  I18nTestingModule,
+  Image,
+  ImageGroup,
   MockTranslatePipe,
   ProductService,
   RoutingService,
@@ -21,14 +23,12 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import {
-  IconComponent,
   ImageFetchPriority,
   InnerComponentsHostDirective,
   LCP_PRESENCE,
-  LcpContextDirectiveModule,
   LcpPresence,
   MediaComponent,
-  OutletModule,
+  MediaContainer,
   StarRatingComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -36,41 +36,30 @@ import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
-@Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
-})
+
 @Component({
   selector: 'cx-star-rating',
   template: '*****',
-  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockStarRatingComponent {
-  @Input() rating;
-  @Input() disabled;
+  @Input() rating: number;
+  @Input() disabled: boolean;
 }
 
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
-  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
-  @Input() container;
-  @Input() alt;
+  @Input() container:
+    | MediaContainer
+    | Image
+    | ImageGroup
+    | ImageGroup[]
+    | undefined;
+  @Input() alt: string;
   @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
-
-@Component({
-  selector: 'cx-icon',
-  template: '',
-  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
-})
-class MockCxIconComponent {
-  @Input() type;
-}
-
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
@@ -87,6 +76,7 @@ describe('ProductListItemComponent in product-list', () => {
   let componentInjector: Injector;
   let fixture: ComponentFixture<ProductListItemComponent>;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
+  let featureConfigService: FeatureConfigService;
 
   const mockProduct = {
     name: 'Test product',
@@ -132,7 +122,6 @@ describe('ProductListItemComponent in product-list', () => {
             MockMediaComponent,
             MockStarRatingComponent,
             MockUrlPipe,
-            MockCxIconComponent,
             MockFeatureDirective,
             MockTranslatePipe,
             MockInnerComponentsHostDirective,
@@ -143,7 +132,6 @@ describe('ProductListItemComponent in product-list', () => {
             MediaComponent,
             StarRatingComponent,
             UrlPipe,
-            IconComponent,
             FeatureDirective,
             TranslatePipe,
             InnerComponentsHostDirective,
@@ -151,6 +139,8 @@ describe('ProductListItemComponent in product-list', () => {
         },
       })
       .compileComponents();
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
   }));
 
   beforeEach(() => {
@@ -175,11 +165,12 @@ describe('ProductListItemComponent in product-list', () => {
     ).toContain(component.product.name);
   });
 
-  it('should display product summary', () => {
-    expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-product-summary')
-        .textContent
-    ).toContain(component.product.summary);
+  it('should display product summary with a paragraph', () => {
+    const el = fixture.debugElement.nativeElement.querySelector(
+      '.cx-product-summary'
+    );
+    expect(el.tagName).toBe('P');
+    expect(el.textContent).toContain(component.product.summary);
   });
 
   it('should display product formatted price', () => {
@@ -242,6 +233,21 @@ describe('ProductListItemComponent in product-list', () => {
     });
     expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
   });
+
+  describe('when productListItemSummaryReadMore is enabled', () => {
+    beforeEach(() => {
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+    });
+    it('should display product summary with a cx-read-more', () => {
+      const el =
+        fixture.debugElement.nativeElement.querySelector('cx-read-more');
+      expect(el).not.toBeNull();
+      expect(el.getAttribute('ng-reflect-text')).toBe(
+        component.product.summary
+      );
+    });
+  });
+
   describe('LCP context handling', () => {
     describe('when contains LCP element', () => {
       beforeEach(() => {

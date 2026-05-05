@@ -20,7 +20,7 @@ import {
   UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
-import { ReadMoreComponent } from '@spartacus/storefront';
+import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
 import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
 import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
