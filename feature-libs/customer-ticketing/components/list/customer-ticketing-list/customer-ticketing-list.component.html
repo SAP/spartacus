@@ -1,6 +1,6 @@
 <ng-container *ngIf="tickets$ | async as ticketList; else spinner">
   <span class="cx-ticketing-list-title">
-    <h2 class="cx-ticketing-list-title-text">
+    <h2 #pageTitle class="cx-ticketing-list-title-text" tabindex="-1">
       {{ 'customerTicketingList.requestTitle' | cxTranslate }}
       ({{ ticketList.pagination?.totalResults || 0 }})
     </h2>
