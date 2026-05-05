@@ -20,10 +20,10 @@ import {
   UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
-import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
 import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
 import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
 import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
 import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
 import { ProductListOutlets } from '../../product-outlets.model';

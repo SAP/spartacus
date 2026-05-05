@@ -53,14 +53,14 @@
           class="cx-product-summary"
           [innerHTML]="product.summary"
         ></p>
-        @if (product.summary) {
+        <ng-container *ngIf="product.summary">
           <cx-read-more
             *cxFeature="'productListItemSummaryReadMore'"
             class="text"
             [text]="product.summary"
             [maxLength]="summaryMaxLength"
           ></cx-read-more>
-        }
+        </ng-container>
       </div>
       <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">

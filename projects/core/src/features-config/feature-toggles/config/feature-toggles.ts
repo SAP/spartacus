@@ -39,7 +39,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent, ProductListItemComponent
+   * Affects: ProductReviewsComponent
    */
   readMoreDirective?: boolean;
 
