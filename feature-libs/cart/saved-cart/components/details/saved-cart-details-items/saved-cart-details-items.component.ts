@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,13 +26,16 @@ import {
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   HierarchyComponentService,
+  HierarchyModule,
   HierarchyNode,
 } from '@spartacus/storefront';
 import {
   EventService,
+  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
   TranslationService,
   FeatureConfigService,
 } from '@spartacus/core';
@@ -47,10 +50,15 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgFor,
+    NgClass,
     OutletDirective,
     AddToCartComponent,
     SpinnerComponent,
     AsyncPipe,
+    TranslatePipe,
+    HierarchyModule,
+    FeaturesConfigModule,
   ],
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {

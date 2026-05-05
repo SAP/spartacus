@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy, Component, OnInit,
   Optional, inject
@@ -26,12 +26,14 @@ import {
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
 } from '@spartacus/core';
 import {
   HierarchyComponentService,
+  HierarchyModule,
   HierarchyNode,
   InnerComponentsHostDirective,
   OutletDirective,
@@ -55,14 +57,17 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgFor,
+    NgClass,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     OutletDirective,
     SpinnerComponent,
     InnerComponentsHostDirective,
     AsyncPipe,
     TranslatePipe,
+    HierarchyModule,
+    FeaturesConfigModule,
   ],
 })
 export class CheckoutDeliveryModeComponent implements OnInit {

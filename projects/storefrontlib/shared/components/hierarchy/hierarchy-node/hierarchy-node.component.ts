@@ -19,6 +19,7 @@ import { HierarchyOptions } from '../hierarchy/hierarchy.model';
 @Component({
   selector: 'cx-hierarchy-node',
   templateUrl: './hierarchy-node.component.html',
+  standalone: false,
 })
 export class HierarchyNodeComponent<T> implements OnInit, OnChanges {
   @Input() options!: HierarchyOptions<T>;

@@ -14,6 +14,7 @@ import { TitleNode } from './title-node.model';
 @Component({
   selector: 'cx-hierarchy-node-title',
   templateUrl: './hierarchy-node-title.component.html',
+  standalone: false,
 })
 export class HierarchyNodeTitleComponent {
   @Input() options!: HierarchyOptions<TitleNode>;

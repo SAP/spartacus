@@ -25,19 +25,19 @@
         </ng-template>
       </div>
     </ng-container>
-  </ng-container>
 
-  <ng-template let-ctx #addToCartBtn>
-    <cx-add-to-cart
-      [productCode]="ctx.item.product?.code"
-      [product]="ctx.item.product"
-      [showQuantity]="false"
-      [options]="ctx.options"
-      [pickupStore]="ctx.item.deliveryPointOfService?.name"
-      [savedCart]="cart"
-    >
-    </cx-add-to-cart>
-  </ng-template>
+    <ng-template let-ctx #addToCartBtn>
+      <cx-add-to-cart
+        [productCode]="ctx.item.product?.code"
+        [product]="ctx.item.product"
+        [showQuantity]="false"
+        [options]="ctx.options"
+        [pickupStore]="ctx.item.deliveryPointOfService?.name"
+        [savedCart]="cart"
+      >
+      </cx-add-to-cart>
+    </ng-template>
+  </ng-container>
 </ng-container>
 
 <ng-container *cxFeature="'enableBundles'">

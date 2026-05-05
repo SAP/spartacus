@@ -18,14 +18,16 @@ import {
   OrderEntry,
   OrderEntryGroup,
 } from '@spartacus/cart/base/root';
-import { CmsPickupItemDetails, FeatureConfigService, TranslatePipe, UrlPipe, useFeatureStyles } from '@spartacus/core';
+import { CmsPickupItemDetails, FeatureConfigService, FeaturesConfigModule, TranslatePipe, UrlPipe, useFeatureStyles } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
 import {
   CmsComponentData,
   HierarchyComponentService,
+  HierarchyModule,
   ICON_TYPE,
   IconComponent,
   MediaComponent,
+  OutletDirective,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
@@ -49,6 +51,9 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
+    HierarchyModule,
+    FeaturesConfigModule,
+    OutletDirective,
   ],
 })
 export class PickUpItemsDetailsComponent implements OnInit {

@@ -37,48 +37,6 @@
           </div>
         </div>
       </div>
-      <div
-        [ngClass]="'d-none d-md-flex'"
-        class="row cx-delivery-pointof-service-item-header"
-      >
-        <div class="col-md-7 cx-image-container-header">
-          {{ 'cartItems.item' | cxTranslate }}
-        </div>
-        <div class="cx-price-header col-md-2">
-          {{ 'cartItems.itemPrice' | cxTranslate }}
-        </div>
-        <div class="cx-quantity-header col-md-1">
-          {{ 'cartItems.quantityFull' | cxTranslate }}
-        </div>
-        <div class="cx-total-header col-md-2">
-          {{ 'cartItems.total' | cxTranslate }}
-        </div>
-      </div>
-      <div
-        class="cx-delivery-pointof-service-item"
-        *ngFor="let item of deliveryPointOfService.value"
-      >
-        <div [ngClass]="'row'">
-          <!-- Item Image -->
-          <div class="col-2 cx-image-container col-offset-1">
-            <a tabindex="0">
-              <cx-media
-                [container]="item.product?.images?.PRIMARY"
-                format="cartIcon"
-              ></cx-media>
-            </a>
-          </div>
-          <!-- Item Information -->
-          <div class="cx-info col-9">
-            <div class="cx-info-container row">
-              <!-- Item Description -->
-              <div [ngClass]="'col-md-7 col-lg-7 col-xl-7'">
-                <div *ngIf="item.product?.name" class="cx-name">
-                  <p class="cx-name-value">{{ item.product?.name }}</p>
-                </div>
-                <div *ngIf="item.product?.code" class="cx-code">
-                  {{ 'ID' }} {{ item.product?.code }}
-                </div>
 
       <ng-container *cxFeature="'enableBundles'">
         <div class="cx-pickup-items-list">

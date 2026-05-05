@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -16,10 +16,13 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { AuthService, FeatureConfigService, RoutingService, TranslatePipe } from '@spartacus/core';
+import { AuthService, FeatureConfigService, FeaturesConfigModule, RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   HierarchyComponentService,
-  HierarchyNode, PromotionsComponent
+  HierarchyModule,
+  HierarchyNode,
+  OutletDirective,
+  PromotionsComponent,
 } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -32,11 +35,16 @@ import { CartValidationWarningsComponent } from '../validation/cart-warnings/car
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgFor,
+    NgClass,
     CartValidationWarningsComponent,
     PromotionsComponent,
     CartItemListComponent,
     AsyncPipe,
     TranslatePipe,
+    HierarchyModule,
+    FeaturesConfigModule,
+    OutletDirective,
   ],
 })
 export class CartDetailsComponent implements OnInit {

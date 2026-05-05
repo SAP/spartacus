@@ -13,6 +13,7 @@ import { HierarchyOptions } from './hierarchy.model';
 @Component({
   selector: 'cx-hierarchy',
   templateUrl: './hierarchy.component.html',
+  standalone: false,
 })
 export class HierarchyComponent implements OnInit {
   /**

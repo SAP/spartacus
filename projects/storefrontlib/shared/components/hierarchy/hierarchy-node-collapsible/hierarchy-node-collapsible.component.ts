@@ -14,6 +14,7 @@ import { HierarchyOptions } from '../hierarchy/hierarchy.model';
 @Component({
   selector: 'cx-hierarchy-node-collapsible',
   templateUrl: './hierarchy-node-collapsible.component.html',
+  standalone: false,
 })
 export class HierarchyNodeCollapsibleComponent<T> {
   @Input() options!: HierarchyOptions<T>;
