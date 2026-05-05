@@ -15,7 +15,17 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import {
+  isTokenisationCardExpired,
+  sortPaymentMethodsForDisplay,
+} from '../../utils/opf-tokenisation-card-expiry.util';
 import { OpfTokenisationFacade } from '../../facade';
 import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-delete-payment-dialog/opf-tokenisation-delete-payment-dialog.component';
 
@@ -27,6 +37,7 @@ import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-
     SpinnerComponent,
     NgFor,
     CardComponent,
+    IconComponent,
     AsyncPipe,
     TranslatePipe,
     OpfTokenisationDeletePaymentDialogComponent,
@@ -40,6 +51,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
   paymentMethodToDelete: PaymentDetails | undefined;
   @Input() showHeader = true;
   protected autoDefaultRequested = false;
+  iconTypes = ICON_TYPE;
 
   protected tokenisationFacade = inject(OpfTokenisationFacade);
   protected translation = inject(TranslationService);
@@ -49,6 +61,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
+      map((paymentDetails) => sortPaymentMethodsForDisplay(paymentDetails)),
       tap((paymentDetails) => {
         const hasDefault = paymentDetails.some(
           (paymentDetail) => paymentDetail.defaultPayment
@@ -56,6 +69,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
         const hasPaymentMethods = paymentDetails.length > 0;
         const paymentMethodId = paymentDetails[0]?.id;
 
+        // Set first payment method to DEFAULT if none is set
         if (
           !this.autoDefaultRequested &&
           hasPaymentMethods &&
@@ -63,7 +77,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           paymentMethodId
         ) {
           this.autoDefaultRequested = true;
-          this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethodId);
+          this.setDefaultPaymentMethod(paymentDetails[0]);
         }
       })
     );
@@ -72,13 +86,10 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
     this.tokenisationFacade.loadPaymentMethods();
   }
 
-  getCardContent({
-    defaultPayment,
-    expiryMonth,
-    expiryYear,
-    cardNumber,
-    cardType,
-  }: PaymentDetails): Observable<Card> {
+  getCardContent(paymentMethod: PaymentDetails): Observable<Card> {
+    const { defaultPayment, expiryMonth, expiryYear, cardNumber, cardType } =
+      paymentMethod;
+
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
       this.translation.translate('common.delete'),
@@ -86,7 +97,9 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
         month: expiryMonth,
         year: expiryYear,
       }),
-      this.translation.translate('paymentCard.defaultPaymentMethod'),
+      this.translation.translate(
+        'paymentCard.defaultPaymentMethodTokenisation'
+      ),
     ]).pipe(
       map(
         ([
@@ -115,6 +128,10 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
         }
       )
     );
+  }
+
+  isCardExpired(paymentMethod: PaymentDetails): boolean {
+    return isTokenisationCardExpired(paymentMethod);
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
