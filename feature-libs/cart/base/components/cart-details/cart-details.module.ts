@@ -9,11 +9,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
+import {
+  HierarchyModule,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
@@ -30,6 +35,9 @@ import { CartDetailsComponent } from './cart-details.component';
     I18nModule,
     CartValidationWarningsModule,
     CartDetailsComponent,
+    HierarchyModule,
+    OutletModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

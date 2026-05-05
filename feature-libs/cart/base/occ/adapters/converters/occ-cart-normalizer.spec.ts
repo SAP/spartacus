@@ -54,7 +54,38 @@ describe('OccCartNormalizer', () => {
     );
   });
 
-  it('should not contain duplicated pomotions', () => {
+  it('should convert cart entries and entry groups', () => {
+    const standaloneProduct = { code: 'test1' };
+    const bundleProduct = { code: 'test2' };
+
+    const cart = {
+      entries: [{ product: standaloneProduct }, { product: bundleProduct }],
+      entryGroups: [
+        {
+          type: 'STANDALONE',
+          entryGroupNumber: 1,
+          entries: [{ product: standaloneProduct }],
+        },
+        {
+          type: 'CONFIGURABLEBUNDLE',
+          entryGroupNumber: 2,
+          entries: [{ product: bundleProduct }],
+          entryGroups: [],
+        },
+      ],
+    };
+    occCartNormalizer.convert(cart);
+    expect(converter.convert).toHaveBeenCalledWith(
+      standaloneProduct,
+      PRODUCT_NORMALIZER
+    );
+    expect(converter.convert).toHaveBeenCalledWith(
+      bundleProduct,
+      PRODUCT_NORMALIZER
+    );
+  });
+
+  it('should not contain duplicated promotions', () => {
     const cart = {
       guid: '17',
       appliedOrderPromotions: [

@@ -15,7 +15,13 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { CardModule, IconModule, MediaModule } from '@spartacus/storefront';
+import {
+  CardModule,
+  HierarchyModule,
+  IconModule,
+  MediaModule,
+  OutletModule,
+} from '@spartacus/storefront';
 import { StoreModule } from '../../presentational';
 import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
 
@@ -30,6 +36,9 @@ import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
     CardModule,
     MediaModule,
     FeaturesConfigModule,
+    OutletModule,
+    FeaturesConfigModule,
+    HierarchyModule,
     ConfigModule.withConfig({
       cmsComponents: {
         OrderConfirmationPickUpComponent: {

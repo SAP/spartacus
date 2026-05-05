@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
+import { HierarchyNode } from '@spartacus/storefront';
 
 export type DeliveryPointOfServiceItems = {
   name: string;
@@ -17,4 +18,6 @@ export type DeliveryPointOfService = {
   name: string;
   value: Array<OrderEntry>;
   storeDetails: PointOfService;
+  entryGroups?: OrderEntryGroup[];
+  hierachyTrees?: HierarchyNode[];
 };

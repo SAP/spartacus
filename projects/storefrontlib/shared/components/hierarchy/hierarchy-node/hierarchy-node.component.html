@@ -1,0 +1,23 @@
+<div>
+  <!-- Title Node -->
+  <ng-container *ngIf="type === 'TITLE'">
+    <cx-hierarchy-node-title
+      [options]="{
+        tree: options.tree,
+        titleReadonly: options.titleReadonly,
+        onItemRemove: options.onItemRemove
+      }">
+    </cx-hierarchy-node-title>
+  </ng-container>
+  <!-- Collapsible Node -->
+  <ng-container *ngIf="type === 'COLLAPSIBLE'">
+    <cx-hierarchy-node-collapsible
+    [options]="{
+      tree: collasibleTree,
+      template: options.template,
+      onItemEdit: options.onItemEdit,
+      collasibleReadonly: options.collasibleReadonly
+    }">
+  </cx-hierarchy-node-collapsible>
+  </ng-container>
+</div>

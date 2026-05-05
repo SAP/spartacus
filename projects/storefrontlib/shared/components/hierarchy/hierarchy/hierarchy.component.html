@@ -1,0 +1,16 @@
+<ng-container *ngIf="!options.disabled">
+  <div class="cx-hierarchy" [ngStyle]="hierarchyStyle">
+    <cx-hierarchy-node
+      *ngFor="let child of options.tree.children; let i = index"
+      [options]="{
+        tree: child,
+        template: options.template,
+        onItemRemove: options.onItemRemove,
+        onItemEdit: options.onItemEdit,
+        titleReadonly: options.titleReadonly,
+        collasibleReadonly: options.collasibleReadonly
+      }"
+    ></cx-hierarchy-node>
+  </div>
+</ng-container>
+

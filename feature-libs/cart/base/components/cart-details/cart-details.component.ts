@@ -5,17 +5,22 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartOutlets,
   OrderEntry,
+  OrderEntryGroup,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService, TranslatePipe } from '@spartacus/core';
-import { PromotionsComponent } from '@spartacus/storefront';
+import { AuthService, FeatureConfigService, RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  HierarchyComponentService,
+  HierarchyNode, PromotionsComponent
+} from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
@@ -35,27 +40,47 @@ import { CartValidationWarningsComponent } from '../validation/cart-warnings/car
   ],
 })
 export class CartDetailsComponent implements OnInit {
+  private featureConfig = inject(FeatureConfigService);
+
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
+  bundles$: Observable<HierarchyNode[]>;
+  entryGroups$: Observable<OrderEntryGroup[]>;
+  readonly cartOutlets = CartOutlets;
 
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected cartConfig: CartConfigService
+    protected cartConfig: CartConfigService,
+    protected hierarchyService: HierarchyComponentService
   ) {}
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
 
-    this.entries$ = this.activeCartService
-      .getEntries()
-      .pipe(filter((entries) => entries.length > 0));
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
+      // which makes the cart use the new entry groups feature to provide bundle support.
+      this.entryGroups$ = this.activeCartService.getEntryGroups();
+      this.entries$ = this.hierarchyService.getEntriesFromGroups(
+        this.entryGroups$
+      );
+      this.bundles$ = this.hierarchyService.getBundlesFromGroups(
+        this.entryGroups$
+      );
+    } else {
+      // The user has NOT enabled feature toggle "enableBundles"
+      // which makes the cart use the OLD entries items. So new features that use entryGroups like bundles will not be supported until the user opts-in.
+      this.entries$ = this.activeCartService
+        .getEntries()
+        .pipe(filter((entries) => entries.length > 0));
+    }
 
     this.selectiveCartEnabled = this.cartConfig.isSelectiveCartEnabled();
 
@@ -85,5 +110,14 @@ export class CartDetailsComponent implements OnInit {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  removeBundle(entryGroupNumber: any): void {
+    this.activeCartService.removeEntryGroup(entryGroupNumber);
+  }
+
+  editBundle(entryGroupNumber: any): void {
+    // TODO: Implement edit Bundle in future Integration
+    console.log('Edit Bundle:' + entryGroupNumber);
   }
 }

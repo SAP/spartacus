@@ -4,7 +4,9 @@
   .cart-details-wrapper {
     padding: 2rem 0;
   }
-
+  .cart-bundle-details-wrapper {
+    padding: 2rem 0 0;
+  }
   .cx-promotions {
     @include type('7');
     color: var(--cx-color-success);
@@ -12,6 +14,22 @@
 
     li {
       line-height: 1.6;
+    }
+  }
+
+  .emptyList {
+    table {
+      margin: 1rem 0 0;
+
+      .cx-item-list-header {
+        border-bottom: 1px solid var(--cx-color-medium);
+      }
+    }
+  }
+
+  .noneEmptyList {
+    table {
+      margin-bottom: 0;
     }
   }
 }

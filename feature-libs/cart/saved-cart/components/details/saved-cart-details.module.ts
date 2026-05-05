@@ -22,6 +22,7 @@ import {
   MediaModule,
   OutletModule,
   SpinnerModule,
+  HierarchyModule,
 } from '@spartacus/storefront';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action/saved-cart-details-action.component';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items/saved-cart-details-items.component';
@@ -39,6 +40,7 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
     SpinnerModule,
     OutletModule,
     AddToCartModule,
+    HierarchyModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {

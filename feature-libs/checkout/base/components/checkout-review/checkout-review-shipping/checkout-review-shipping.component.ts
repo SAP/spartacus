@@ -5,13 +5,14 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
   CartOutlets,
   DeliveryMode,
   OrderEntry,
+  OrderEntryGroup,
 } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -20,6 +21,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -28,11 +30,13 @@ import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
 import {
   Card,
   CardComponent,
+  HierarchyComponentService,
+  HierarchyNode,
   ICON_TYPE,
   IconComponent,
   OutletDirective,
 } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -51,7 +55,9 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
     UrlPipe,
   ],
 })
-export class CheckoutReviewShippingComponent {
+export class CheckoutReviewShippingComponent implements OnInit {
+  private featureConfig = inject(FeatureConfigService);
+
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
@@ -67,11 +73,31 @@ export class CheckoutReviewShippingComponent {
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected hierarchyService: HierarchyComponentService
   ) {}
 
-  entries$: Observable<OrderEntry[]> =
-    this.activeCartFacade.getDeliveryEntries();
+  entries$: Observable<OrderEntry[]>;
+  bundles$: Observable<HierarchyNode[]>;
+  entryGroups$: Observable<OrderEntryGroup[]> = of([]);
+
+  ngOnInit() {
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
+      // which makes the cart use the new entry groups feature to provide bundle support.
+      this.entryGroups$ = this.activeCartFacade.getDeliveryEntryGroups();
+      this.entries$ = this.hierarchyService.getEntriesFromGroups(
+        this.entryGroups$
+      );
+      this.bundles$ = this.hierarchyService.getBundlesFromGroups(
+        this.entryGroups$
+      );
+    } else {
+      // The user has NOT enabled feature toggle "enableBundles"
+      // which makes the cart use the OLD entries items. So new features that use entryGroups like bundles will not be supported until the user opts-in.
+      this.entries$ = this.activeCartFacade.getDeliveryEntries();
+    }
+  }
 
   deliveryAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
@@ -108,7 +134,11 @@ export class CheckoutReviewShippingComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('checkoutMode.deliveryOptions'),
+      this.translationService.translate('checkoutMode.deliveryMethod'),
     ]).pipe(map(([textTitle]) => deliveryModeCard(textTitle, deliveryMode)));
+  }
+
+  removeBundle(entryGroupNumber: any): void {
+    this.activeCartFacade.removeEntryGroup(entryGroupNumber);
   }
 }

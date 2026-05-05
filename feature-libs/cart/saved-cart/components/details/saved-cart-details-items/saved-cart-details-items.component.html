@@ -1,23 +1,30 @@
-<ng-container *ngIf="savedCart$ | async as cart">
-  <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
-    <div class="cart-details-wrapper">
-      <ng-template
-        [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          cartId: cart.code,
-          cartIsLoading: !(cartLoaded$ | async),
-          items: cart.entries,
-          promotionLocation: CartLocation.SavedCart,
-          options: {
-            displayAddToCart: true,
-            addToCartString: (buyItAgainTranslation$ | async),
-            optionalBtn: addToCartBtn,
-            cartType: CartType.SELECTIVE,
-          },
-        }"
-      >
-      </ng-template>
-    </div>
+<ng-container *cxFeature="'!enableBundles'">
+  <ng-container *ngIf="savedCart$ | async as cart">
+    <ng-container *ngIf="cart.entryGroups; else emptyCartItems">
+      <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <div class="cart-details-wrapper">
+        <ng-template
+          [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            cartId: cart.code,
+            cartIsLoading: !(cartLoaded$ | async),
+            items: cart.entries,
+            promotionLocation: CartLocation.SavedCart,
+            options: {
+              displayAddToCart: true,
+              addToCartString: (buyItAgainTranslation$ | async),
+              optionalBtn: addToCartBtn,
+              cartType: CartType.SELECTIVE,
+            },
+          }"
+        >
+        </ng-template>
+      </div>
+    </ng-container>
   </ng-container>
 
   <ng-template let-ctx #addToCartBtn>
@@ -33,8 +40,84 @@
   </ng-template>
 </ng-container>
 
+<ng-container *cxFeature="'enableBundles'">
+  <ng-container *ngIf="savedCart$ | async as cart">
+    <ng-container *ngIf="cart.entryGroups; else emptyCartItems">
+      <div
+        *cxFeature="'!a11yRemoveStatusLoadedRole'"
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <div class="cart-bundle-details-wrapper" *ngIf="entries$ | async as entries">
+        <div [ngClass]="entries.length === 0 ? 'emptyList' : 'noneEmptyList'">
+          <ng-container>
+            <ng-template
+              [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                cartId: cart.code,
+                cartIsLoading: !(cartLoaded$ | async),
+                items: entries,
+                promotionLocation: CartLocation.SavedCart,
+                options: {
+                  displayAddToCart: true,
+                  addToCartString: (buyItAgainTranslation$ | async),
+                  optionalBtn: addToCartBtn,
+                  cartType: CartType.SELECTIVE,
+                },
+              }"
+            >
+            </ng-template>
+          </ng-container>
+        </div>
+      </div>
+      <ng-container *ngFor="let bundle of bundles$ | async">
+        <cx-hierarchy
+          [options]="{
+            tree: bundle,
+            template: bundlesTemplate,
+            onItemRemove: removeBundle.bind(this)
+          }"
+        >
+        </cx-hierarchy>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
 <ng-template #emptyCartItems>
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
+
+<ng-template let-ctx #addToCartBtn>
+  <cx-add-to-cart
+    [productCode]="ctx.item.product?.code"
+    [product]="ctx.item.product"
+    [showQuantity]="false"
+    [options]="ctx.options"
+    [pickupStore]="ctx.item.deliveryPointOfService?.name"
+  >
+  </cx-add-to-cart>
+</ng-template>
+
+<ng-template #bundlesTemplate let-items>
+  <div *ngIf="savedCart$ | async as cart">
+    <ng-template
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        hasHeader: false,
+        items: items,
+        cartId: cart.code,
+        promotionLocation: CartLocation.SavedCart,
+        options: {
+          displayAddToCart: true,
+          addToCartString: (buyItAgainTranslation$ | async),
+          optionalBtn: addToCartBtn,
+          cartType: CartType.SELECTIVE,
+        },
+      }"
+    >
+    </ng-template>
   </div>
 </ng-template>

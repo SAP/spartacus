@@ -5,7 +5,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
+import {
+  Cart,
+  OrderEntry,
+  OrderEntryGroup,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -38,7 +43,8 @@ export class SavedCartDetailsService {
 
   constructor(
     protected routingService: RoutingService,
-    protected savedCartService: SavedCartFacade
+    protected savedCartService: SavedCartFacade,
+    protected multiCartFacade: MultiCartFacade
   ) {}
 
   getSavedCartId(): Observable<string> {
@@ -47,5 +53,24 @@ export class SavedCartDetailsService {
 
   getCartDetails(): Observable<Cart | undefined> {
     return this.savedCart$;
+  }
+  /**
+   * Returns saved cart details entries
+   */
+  getSaveCartEntries(): Observable<OrderEntry[]> {
+    return this.savedCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns saved EntryGroups
+   */
+  getSaveEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.getSavedCartId().pipe(
+      switchMap((cartId) => this.multiCartFacade.getEntryGroups(cartId)),
+      distinctUntilChanged()
+    );
   }
 }

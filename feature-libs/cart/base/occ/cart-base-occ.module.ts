@@ -10,6 +10,7 @@ import {
   CartAccessCodeAdapter,
   CartAdapter,
   CartEntryAdapter,
+  CartEntryGroupAdapter,
   CartGuestUserAdapter,
   CartValidationAdapter,
   CartVoucherAdapter,
@@ -23,6 +24,7 @@ import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
 import { OrderEntryPromotionsNormalizer } from './adapters/converters/order-entry-promotions-normalizer';
 import { OccCartAccessCodeAdapter } from './adapters/occ-cart-access-code.adapter';
 import { OccCartEntryAdapter } from './adapters/occ-cart-entry.adapter';
+import { OccCartEntryGroupAdapter } from './adapters/occ-cart-entrygroup.adapter';
 import { OccCartGuestUserAdapter } from './adapters/occ-cart-guest-user.adapter';
 import { OccCartValidationAdapter } from './adapters/occ-cart-validation.adapter';
 import { OccCartVoucherAdapter } from './adapters/occ-cart-voucher.adapter';
@@ -50,6 +52,10 @@ import { defaultOccCartConfigFactory } from './config/default-occ-cart-config-fa
     {
       provide: CartEntryAdapter,
       useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartEntryGroupAdapter,
+      useClass: OccCartEntryGroupAdapter,
     },
     {
       provide: CartVoucherAdapter,

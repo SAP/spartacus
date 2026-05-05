@@ -28,6 +28,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  HierarchyComponentService,
   InnerComponentsHostDirective,
   OutletModule,
 } from '@spartacus/storefront';
@@ -117,6 +118,7 @@ class MockCartService implements Partial<ActiveCartFacade> {
   hasPickupItems = () => hasPickupItems$.asObservable();
   getPickupEntries = createSpy().and.returnValue(of([]));
   getActive = () => cart$.asObservable();
+  getDeliveryEntryGroups = createSpy().and.returnValue(of([{}]));
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -127,6 +129,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   selector: '[cxInnerComponentsHost]',
 })
 class MockInnerComponentsHostDirective {}
+
+class MockHierachyService implements Partial<HierarchyComponentService> {
+  getEntriesFromGroups = createSpy().and.returnValue(of([{}]));
+  getBundlesFromGroups = createSpy().and.returnValue(of([]));
+}
 
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
@@ -156,6 +163,10 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierachyService,
+        },
       ],
     })
       .overrideComponent(CheckoutDeliveryModeComponent, {
@@ -315,6 +326,13 @@ describe('CheckoutDeliveryModeComponent', () => {
       deliveryModeId: lastFocusedId,
     });
   }));
+
+  it('should set entries$ and bundles$ if enableBundles feature is enabled', () => {
+    component.ngOnInit();
+    expect(component.entryGroups$).toBeDefined();
+    expect(component.entries$).toBeDefined();
+    expect(component.bundles$).toBeDefined();
+  });
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>

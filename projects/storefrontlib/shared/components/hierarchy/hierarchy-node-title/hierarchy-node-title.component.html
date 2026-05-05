@@ -1,0 +1,11 @@
+<div class="cx-hierarchy-node-title">
+  <span class="node-title">{{ options.tree.name }}</span>
+  <button
+    *ngIf="!options.titleReadonly"
+    (click)="onItemRemove(options.tree.value?.key)"
+    class="btn btn-tertiary"
+    type="button"
+  >
+    {{ 'common.remove' | cxTranslate }}
+  </button>
+</div>

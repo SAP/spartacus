@@ -5,7 +5,10 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule, UrlPipe } from '@spartacus/core';
+import {
+  Address, Country, FeatureConfigService,
+  FeaturesConfigModule, I18nTestingModule, UrlPipe
+} from '@spartacus/core';
 import {
   IconTestingModule,
   MockIconComponent,
@@ -29,6 +32,7 @@ import {
 import {
   Card,
   CardComponent,
+  HierarchyComponentService,
   IconComponent,
   OutletModule,
 } from '@spartacus/storefront';
@@ -113,6 +117,12 @@ class MockCheckoutStepService {
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = createSpy().and.returnValue(of(mockEntries));
+  getDeliveryEntryGroups = createSpy().and.returnValue(of([{}]));
+}
+
+class MockHierachyService implements Partial<HierarchyComponentService> {
+  getEntriesFromGroups = createSpy().and.returnValue(of([{}]));
+  getBundlesFromGroups = createSpy().and.returnValue(of([]));
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -139,6 +149,10 @@ class MockCardComponent {
 describe('CheckoutReviewShippingComponent', () => {
   let component: CheckoutReviewShippingComponent;
   let fixture: ComponentFixture<CheckoutReviewShippingComponent>;
+  const mockFeatureConfigService = jasmine.createSpyObj(
+    'FeatureConfigService',
+    ['isEnabled']
+  );
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -146,6 +160,9 @@ describe('CheckoutReviewShippingComponent', () => {
         RouterModule.forRoot([]),
         IconTestingModule,
         OutletModule,
+        FeaturesConfigModule,
+      ],
+      declarations: [
         CheckoutReviewShippingComponent,
       ],
       providers: [
@@ -166,6 +183,11 @@ describe('CheckoutReviewShippingComponent', () => {
           provide: ChangeDetectorRef,
           useValue: { markForCheck: createSpy('markForCheck') },
         },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierachyService,
+        },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
     })
       .overrideComponent(CheckoutReviewShippingComponent, {
@@ -250,5 +272,12 @@ describe('CheckoutReviewShippingComponent', () => {
     expect(component.deliveryAddressStepRoute).toEqual(
       mockCheckoutStep.routeName
     );
+  });
+
+  it('should set entries$ and bundles$ if enableBundles feature is enabled', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    component.ngOnInit();
+    expect(component.entries$).toBeDefined();
+    expect(component.bundles$).toBeDefined();
   });
 });

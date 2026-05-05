@@ -6,19 +6,26 @@ import {
   ActiveCartFacade,
   Cart,
   OrderEntry,
+  OrderEntryGroup,
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
   CxDatePipe,
+  FeatureConfigService,
+  FeaturesConfigModule,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
+import {
+  HierarchyComponentService,
+  HierarchyNode,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CartCouponComponent } from '../cart-coupon';
 import { CartItemListComponent } from '../cart-shared';
@@ -35,8 +42,20 @@ class MockActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
   }
+  getEntryGroups(): Observable<OrderEntryGroup[]> {
+    return of([{}]);
+  }
   isStable(): Observable<boolean> {
     return of(true);
+  }
+}
+
+class MockHierachyService {
+  getEntriesFromGroups(): Observable<OrderEntry[]> {
+    return of([{}]);
+  }
+  getBundlesFromGroups(): Observable<HierarchyNode[]> {
+    return of([]);
   }
 }
 
@@ -103,9 +122,24 @@ describe('CartDetailsComponent', () => {
 
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
+  const mockFeatureConfigService = jasmine.createSpyObj(
+    'FeatureConfigService',
+    ['isEnabled']
+  );
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [PromotionsModule, CartDetailsComponent],
+      imports: [
+        PromotionsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+        CartDetailsComponent
+      ],
+      declarations: [
+        MockCartItemListComponent,
+        MockCartCouponComponent,
+        MockCartValidationWarningsComponent,
+      ],
       providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },
@@ -118,6 +152,11 @@ describe('CartDetailsComponent', () => {
           provide: CartConfigService,
           useValue: mockCartConfig,
         },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierachyService,
+        },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
     })
       .overrideComponent(CartDetailsComponent, {
@@ -208,5 +247,13 @@ describe('CartDetailsComponent', () => {
     const el = fixture.debugElement.query(By.css('.cx-total'));
     const cartName = el.nativeElement.innerText;
     expect(cartName).toEqual('cartDetails.cartName code:123');
+  });
+
+  it('should set entries$ and bundles$ if enableBundles feature is enabled', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    fixture.detectChanges();
+    expect(component.entryGroups$).toBeDefined();
+    expect(component.entries$).toBeDefined();
+    expect(component.bundles$).toBeDefined();
   });
 });

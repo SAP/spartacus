@@ -10,6 +10,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -18,18 +19,26 @@ import {
   CartType,
   DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
   PromotionLocation,
+  OrderEntry,
+  OrderEntryGroup,
+  ActiveCartFacade,
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
+  HierarchyComponentService,
+  HierarchyNode,
+} from '@spartacus/storefront';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   TranslationService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { OutletDirective, SpinnerComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap, filter, pluck } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -66,6 +75,10 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         }
       })
     );
+  entries$: Observable<OrderEntry[]>;
+  bundles$: Observable<HierarchyNode[]>;
+  entryGroups$: Observable<OrderEntryGroup[]>;
+  private featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
@@ -73,10 +86,29 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     protected eventSercvice: EventService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected hierarchyService: HierarchyComponentService,
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   ngOnInit(): void {
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      // The user has enabled feature toggle "enableBundles"
+      // which makes the cart use the new entry groups feature to provide bundle support.
+      this.entryGroups$ = this.savedCartDetailsService.getSaveEntryGroups();
+      this.entries$ = this.hierarchyService.getEntriesFromGroups(
+        this.entryGroups$
+      );
+      this.bundles$ = this.hierarchyService.getBundlesFromGroups(
+        this.entryGroups$
+      );
+    } else {
+      this.entries$ = this.savedCartDetailsService.getCartDetails().pipe(
+        pluck('entries'),
+        filter((entries: any) => entries.length > 0)
+      );
+    }
+
     this.subscription.add(
       this.eventSercvice
         .get(DeleteSavedCartSuccessEvent)
@@ -102,6 +134,10 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
+  }
+
+  removeBundle(entryGroupNumber: any): void {
+    this.activeCartService.removeEntryGroup(entryGroupNumber);
   }
 
   ngOnDestroy(): void {

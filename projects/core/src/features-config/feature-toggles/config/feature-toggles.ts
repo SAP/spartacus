@@ -154,6 +154,8 @@ export interface FeatureTogglesInterface {
    */
   disableCxPageSlotMarginAnimation?: boolean;
 
+  useExtendedMediaComponentConfiguration?: boolean;
+
   /**
    * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
    * in the following components instead of the old `<cx-carousel>`:
@@ -498,6 +500,11 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthHttpHeaderService`
    */
   enableExpiredRefreshTokenHandlers?: boolean;
+  a11yWrapReviewOrderInSection?: boolean;
+  /**
+   * Enables bunles feature, which allows to group products into bundles.
+   */
+  enableBundles?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -558,4 +565,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
+  useExtendedMediaComponentConfiguration: false,
+  a11yWrapReviewOrderInSection: false,
+  enableBundles: false
 };
