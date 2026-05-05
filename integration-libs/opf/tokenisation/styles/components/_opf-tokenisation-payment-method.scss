@@ -164,3 +164,9 @@
     }
   }
 }
+
+cx-global-message {
+  .alert-info > span:not(.alert-icon) {
+    text-transform: capitalize;
+  }
+}
