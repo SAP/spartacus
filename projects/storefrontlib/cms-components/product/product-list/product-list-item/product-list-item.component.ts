@@ -77,7 +77,7 @@ export class ProductListItemComponent implements OnChanges {
     protected productListItemContextSource: ProductListItemContextSource
   ) {
     useFeatureStyles('consistentSizeProductCards');
-    useFeatureStyles('readMoreDirective');
+    useFeatureStyles('productListItemSummaryReadMore');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {
