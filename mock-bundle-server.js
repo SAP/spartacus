@@ -13,6 +13,7 @@
 
 const express = require('express');
 const httpProxy = require('http-proxy');
+const https = require('https');
 
 const REAL_BACKEND = 'https://40.76.109.9:9002';
 const MOCK_PORT = 9090;
@@ -38,6 +39,33 @@ proxy.on('proxyRes', (proxyRes) => {
   proxyRes.headers['access-control-allow-headers'] = 'Content-Type,Authorization,x-anonymous-consents,x-profile-tag-debug,x-consent-reference';
   proxyRes.headers['access-control-expose-headers'] = '*';
 });
+
+// Helper: POST to real backend and return parsed JSON
+function createRealCart(baseSite, userId, reqHeaders) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(`${REAL_BACKEND}/occ/v2/${baseSite}/users/${userId}/carts`);
+    const options = {
+      hostname: url.hostname,
+      port: url.port || 9002,
+      path: url.pathname,
+      method: 'POST',
+      rejectUnauthorized: false,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(reqHeaders['authorization'] && { 'Authorization': reqHeaders['authorization'] }),
+      },
+    };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => (data += chunk));
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); } catch { resolve(null); }
+      });
+    });
+    req.on('error', reject);
+    req.end();
+  });
+}
 
 // ---------------------------------------------------------------------------
 // Mock data
@@ -154,14 +182,25 @@ function buildMockCart(cartId) {
 }
 
 // ---------------------------------------------------------------------------
-// Intercept: POST create cart — return mock cart so Spartacus uses our guid
+// Intercept: POST create cart — create real cart to get valid guid, inject bundle data
 // /occ/v2/{baseSite}/users/{userId}/carts
 // ---------------------------------------------------------------------------
-app.post('/occ/v2/:baseSite/users/:userId/carts', (req, res) => {
+app.post('/occ/v2/:baseSite/users/:userId/carts', async (req, res) => {
+  const { baseSite, userId } = req.params;
   console.log(`[mock] intercepted create cart: ${req.url}`);
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.json(buildMockCart(MOCK_CART_ID));
+  try {
+    const realCart = await createRealCart(baseSite, userId, req.headers);
+    const cartId = realCart?.guid || realCart?.code || MOCK_CART_ID;
+    console.log(`[mock] using real cartId: ${cartId}`);
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json(buildMockCart(cartId));
+  } catch (err) {
+    console.error('[mock] failed to create real cart, using fallback id', err.message);
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json(buildMockCart(MOCK_CART_ID));
+  }
 });
 
 // ---------------------------------------------------------------------------
