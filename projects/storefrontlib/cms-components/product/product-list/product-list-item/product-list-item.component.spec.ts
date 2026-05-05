@@ -13,7 +13,6 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   FeatureConfigService,
-  FeatureDirective,
   Image,
   ImageGroup,
   MockTranslatePipe,
@@ -31,7 +30,6 @@ import {
   MediaContainer,
   StarRatingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -68,6 +66,18 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
+let mockFeatureToggles: Record<string, boolean> = {};
+
+class MockFeatureConfigService {
+  isEnabled(feature: string): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = hasNegation ? feature.slice(1) : feature;
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 @Directive({ selector: '[cxInnerComponentsHost]' })
 class MockInnerComponentsHostDirective {}
 
@@ -76,7 +86,6 @@ describe('ProductListItemComponent in product-list', () => {
   let componentInjector: Injector;
   let fixture: ComponentFixture<ProductListItemComponent>;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
-  let featureConfigService: FeatureConfigService;
 
   const mockProduct = {
     name: 'Test product',
@@ -96,6 +105,7 @@ describe('ProductListItemComponent in product-list', () => {
   };
 
   beforeEach(waitForAsync(() => {
+    mockFeatureToggles = {};
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -113,16 +123,19 @@ describe('ProductListItemComponent in product-list', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     })
       .overrideComponent(ProductListItemComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Default,
+          changeDetection: ChangeDetectionStrategy.Eager,
           imports: [
             MockMediaComponent,
             MockStarRatingComponent,
             MockUrlPipe,
-            MockFeatureDirective,
             MockTranslatePipe,
             MockInnerComponentsHostDirective,
           ],
@@ -132,15 +145,12 @@ describe('ProductListItemComponent in product-list', () => {
             MediaComponent,
             StarRatingComponent,
             UrlPipe,
-            FeatureDirective,
             TranslatePipe,
             InnerComponentsHostDirective,
           ],
         },
       })
       .compileComponents();
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
   }));
 
   beforeEach(() => {
@@ -236,13 +246,19 @@ describe('ProductListItemComponent in product-list', () => {
 
   describe('when productListItemSummaryReadMore is enabled', () => {
     beforeEach(() => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      mockFeatureToggles['productListItemSummaryReadMore'] = true;
+      fixture = TestBed.createComponent(ProductListItemComponent);
+      component = fixture.componentInstance;
+      component.product = mockProduct;
+      component.ngOnChanges({
+        product: { currentValue: mockProduct } as SimpleChange,
+      });
+      fixture.detectChanges();
     });
     it('should display product summary with a cx-read-more', () => {
-      const el =
-        fixture.debugElement.nativeElement.querySelector('cx-read-more');
-      expect(el).not.toBeNull();
-      expect(el.getAttribute('ng-reflect-text')).toBe(
+      const readMoreEl = fixture.debugElement.query(By.css('cx-read-more'));
+      expect(readMoreEl).not.toBeNull();
+      expect(readMoreEl.componentInstance.text).toBe(
         component.product.summary
       );
     });
