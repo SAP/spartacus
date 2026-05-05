@@ -258,9 +258,7 @@ describe('ProductListItemComponent in product-list', () => {
     it('should display product summary with a cx-read-more', () => {
       const readMoreEl = fixture.debugElement.query(By.css('cx-read-more'));
       expect(readMoreEl).not.toBeNull();
-      expect(readMoreEl.componentInstance.text).toBe(
-        component.product.summary
-      );
+      expect(readMoreEl.componentInstance.text).toBe(component.product.summary);
     });
   });
 
