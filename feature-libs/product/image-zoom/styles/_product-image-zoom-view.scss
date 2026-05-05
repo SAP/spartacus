@@ -161,19 +161,4 @@ cx-product-image-zoom-view {
       --cx-color-visual-focus: #1f3a93;
     }
   }
-
-  @include forFeature('a11yKeyboardAccessibleZoom') {
-    @include cx-highContrastTheme-light {
-      .cx-zoom-btn-container .cx-zoom-btn .cx-zoom-indicator {
-        color: var(--cx-color-dark);
-      }
-    }
-
-    @include cx-highContrastTheme-dark {
-      .cx-zoom-btn-container .cx-zoom-btn .cx-zoom-indicator {
-        color: var(--cx-color-light);
-        --cx-color-visual-focus: #1f3a93;
-      }
-    }
-  }
 }
