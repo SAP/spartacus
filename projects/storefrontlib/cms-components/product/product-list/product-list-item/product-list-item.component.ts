@@ -62,6 +62,7 @@ export class ProductListItemComponent implements OnChanges {
   hideAddToCartButton = false;
 
   readonly ProductListOutlets = ProductListOutlets;
+  summaryMaxLength = 100;
 
   /**
    * The product item to be displayed in the list.
