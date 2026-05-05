@@ -32,7 +32,6 @@ import { OpfTokenisationDeletePaymentDialogComponent } from './opf-tokenisation-
 @Component({
   selector: 'cx-opf-tokenisation-account-payment-methods',
   templateUrl: './opf-tokenisation-account-payment-methods.component.html',
-  standalone: true,
   imports: [
     NgIf,
     SpinnerComponent,

@@ -31,7 +31,6 @@ export function sortPaymentMethodsForDisplay(
 }
 
 export function isTokenisationCardExpired(
-  this: any,
   paymentMethod: PaymentDetails
 ): boolean {
   const { expiryMonth, expiryYear } = paymentMethod;
