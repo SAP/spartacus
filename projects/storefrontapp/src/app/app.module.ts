@@ -16,6 +16,15 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   imports: [
     BrowserModule,
     StoreModule.forRoot({}),
+    provideConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductAddToCartComponent: {
+                    data: {
+                        inventoryDisplay: true,
+                    },
+                },
+            },
+        }),
     AppRoutingModule,
     EffectsModule.forRoot([]),
     SpartacusModule,
