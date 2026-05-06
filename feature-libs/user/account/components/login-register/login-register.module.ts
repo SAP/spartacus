@@ -16,6 +16,7 @@ import {
 } from '@spartacus/core';
 import { BtnLikeLinkModule, PageSlotModule } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from '../guards/login-as-guest.guard';
+import { LoginRegisterB2bComponent } from './login-register-b2b/login-register-b2b.component';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
@@ -34,6 +35,14 @@ import { LoginRegisterComponent } from './login-register.component';
         ReturningCustomerRegisterComponent: {
           component: LoginRegisterComponent,
           guards: [NotAuthGuard, LoginAsGuestGuard],
+        },
+      },
+    }),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ReturningB2bCustomerRegisterComponent: {
+          component: LoginRegisterB2bComponent,
+          guards: [NotAuthGuard],
         },
       },
     }),

@@ -35,27 +35,10 @@
       --cx-max-width: 50%;
     }
   }
-  // cx-page-slot.LeftContentSlot,
-  // cx-page-slot.RightContentSlot {
-  //   > cx-login-register {
-  //     display: none;
-  //   }
-  // }
 
-  .a11yRegisterLinkParagraph {
-    display: none;
-  }
-  // explicit default, not relying on browser
-  .a11yRegisterLink {
-    display: revert;
-  }
-
-  @include forFeature('a11yActiveB2bLoginRegisterCpnt') {
-    .a11yRegisterLinkParagraph {
-      display: inherit;
-    }
-
-    .a11yRegisterLink {
+  @include forFeature('a11yB2bRegisterComponent') {
+    cx-login-form ~ cx-paragraph,
+    cx-login-form ~ cx-link {
       display: none;
     }
   }
