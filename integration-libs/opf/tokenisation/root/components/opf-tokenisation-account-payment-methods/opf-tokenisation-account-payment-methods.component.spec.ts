@@ -50,16 +50,16 @@ describe('OpfTokenisationAccountPaymentMethodsComponent', () => {
   const mockPaymentMethod1: PaymentDetails = {
     id: 'card-1',
     cardNumber: '1234567812345678',
-    expiryMonth: '12',
-    expiryYear: '25',
+    expiryMonth: '03',
+    expiryYear: '30',
     cardType: { code: '8764', name: 'VISA' },
   };
 
   const mockPaymentMethod2: PaymentDetails = {
     id: 'card-2',
     cardNumber: '8765432187654321',
-    expiryMonth: '06',
-    expiryYear: '26',
+    expiryMonth: '03',
+    expiryYear: '30',
     cardType: { code: '8764', name: 'MASTERCARD' },
   };
 

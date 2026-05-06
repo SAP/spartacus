@@ -440,9 +440,11 @@ describe('ProductImageZoomViewComponent', () => {
 
       productImageZoomViewComponent.zoom();
       productImageZoomViewComponent['imageLoaded'].next(true);
-      tick();
 
-      expect(mockZoomButton.nativeElement.focus).toHaveBeenCalled();
+      setTimeout(() => {
+        expect(mockZoomButton.nativeElement.focus).toHaveBeenCalled();
+      }, 1);
+      tick(1);
     }));
   });
 });
