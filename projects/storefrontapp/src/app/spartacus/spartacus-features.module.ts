@@ -305,7 +305,6 @@ if (environment.cpq) {
         a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
         productReviewCharactersLeft: true,
-        a11yNgSelectAriaControls: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
         enableReadDomainValuesOnDemand: true,
