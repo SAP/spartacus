@@ -156,6 +156,7 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
   }
 
   protected onCreateVerificationTokenComplete(): void {
+    this.form.reset();
     this.busy$.next(false);
   }
 
