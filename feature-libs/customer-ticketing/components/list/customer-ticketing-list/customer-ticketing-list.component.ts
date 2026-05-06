@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
@@ -22,6 +22,7 @@ import {
   TicketList,
 } from '@spartacus/customer-ticketing/root';
 import {
+  FocusOnInitDirective,
   ICON_TYPE,
   PaginationComponent,
   SortingComponent,
@@ -43,6 +44,7 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
     NgClass,
     PaginationComponent,
     SpinnerComponent,
+    FocusOnInitDirective,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
@@ -50,15 +52,6 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
   ],
 })
 export class CustomerTicketingListComponent {
-  private titleFocused = false;
-
-  @ViewChild('pageTitle') set pageTitleRef(el: ElementRef<HTMLElement>) {
-    if (el && !this.titleFocused) {
-      this.titleFocused = true;
-      el.nativeElement.focus();
-    }
-  }
-
   constructor(
     protected customerTicketingFacade: CustomerTicketingFacade,
     protected routingService: RoutingService,
