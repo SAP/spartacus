@@ -1,45 +1,47 @@
 <ng-container *ngIf="context$ | async as ctx">
-  <div
-    class="cx-payment-options-section"
-    [attr.aria-label]="
-      ctx.savedPaymentHeading ||
-      ('opfCheckout.savedPaymentHeading' | cxTranslate)
-    "
-  >
-    <h3 class="cx-payment-section-heading">
-      {{
+  <ng-container *ngIf="ctx.hasSavedCards === true">
+    <div
+      class="cx-payment-options-section"
+      [attr.aria-label]="
         ctx.savedPaymentHeading ||
-          ('opfCheckout.savedPaymentHeading' | cxTranslate)
-      }}
-    </h3>
-  </div>
-
-  <div class="form-check cx-saved-cards-option">
-    <input
-      id="paymentId-saved-cards"
-      class="form-check-input"
-      role="radio"
-      type="radio"
-      name="paymentId"
-      [value]="ctx.savedCardsId"
-      [checked]="ctx.selectedPaymentId === ctx.savedCardsId"
-      [disabled]="ctx.disabled"
-      (change)="onSavedCardsSelected()"
-    />
-
-    <label
-      class="cx-payment-type-label form-check-label form-radio-label"
-      for="paymentId-saved-cards"
+        ('opfCheckout.savedPaymentHeading' | cxTranslate)
+      "
     >
-      <div class="cx-payment-type">
-        <cx-icon
-          [type]="iconTypes.CREDIT_CARD"
-          class="cx-payment-icon"
-        ></cx-icon>
-        <span>{{
-          ctx.savedCardsHeading || ('opfCheckout.cards' | cxTranslate)
-        }}</span>
-      </div>
-    </label>
-  </div>
+      <h3 class="cx-payment-section-heading">
+        {{
+          ctx.savedPaymentHeading ||
+            ('opfCheckout.savedPaymentHeading' | cxTranslate)
+        }}
+      </h3>
+    </div>
+
+    <div class="form-check cx-saved-cards-option">
+      <input
+        id="paymentId-saved-cards"
+        class="form-check-input"
+        role="radio"
+        type="radio"
+        name="paymentId"
+        [value]="ctx.savedCardsId ?? SAVED_CARDS_ID"
+        [checked]="(isSavedCardsChecked$ | async) === true"
+        [disabled]="ctx.disabled"
+        (change)="onSavedCardsSelected()"
+      />
+
+      <label
+        class="cx-payment-type-label form-check-label form-radio-label"
+        for="paymentId-saved-cards"
+      >
+        <div class="cx-payment-type">
+          <cx-icon
+            [type]="iconTypes.CREDIT_CARD"
+            class="cx-payment-icon"
+          ></cx-icon>
+          <span>{{
+            ctx.savedCardsHeading || ('opfCheckout.cards' | cxTranslate)
+          }}</span>
+        </div>
+      </label>
+    </div>
+  </ng-container>
 </ng-container>

@@ -53,13 +53,13 @@ describe('SiteContextUrlSerializer', () => {
 
   it('should serialize url with site context parameters', () => {
     const url = service.serialize(mockUrlTree);
-    expect(url).toEqual('de/pln/');
+    expect(url).toEqual('/de/pln/');
   });
 
   it('should serialize url with partial site context parameters', () => {
     delete mockUrlTree.siteContext['currency'];
     const url = service.serialize(mockUrlTree);
-    expect(url).toEqual('de/usd/');
+    expect(url).toEqual('/de/usd/');
   });
 
   describe('urlExtractContextParameters', () => {

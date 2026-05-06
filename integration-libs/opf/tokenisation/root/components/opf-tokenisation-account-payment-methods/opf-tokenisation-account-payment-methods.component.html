@@ -20,16 +20,43 @@
             *ngFor="let paymentMethod of paymentMethods; let i = index"
           >
             <div class="cx-payment-inner">
-              <cx-card
-                [index]="i"
-                [border]="true"
-                [fitToContainer]="true"
-                [content]="getCardContent(paymentMethod) | async"
-                (deleteCard)="deletePaymentMethod(paymentMethod)"
-                (editCard)="setEdit(paymentMethod)"
-                [editMode]="editCard === paymentMethod.id"
-                (cancelCard)="cancelCard()"
-              ></cx-card>
+              <div
+                *ngIf="isCardExpired(paymentMethod)"
+                class="cx-expired-error"
+                role="alert"
+              >
+                <cx-icon
+                  class="cx-expired-error-icon"
+                  [type]="iconTypes.ERROR"
+                  aria-hidden="true"
+                ></cx-icon>
+                <span class="cx-expired-error-message">
+                  {{ 'paymentCard.expiredMessageForMyAccounts' | cxTranslate }}
+                </span>
+              </div>
+              <div class="cx-card-with-expired-pill">
+                <div
+                  *ngIf="
+                    paymentMethod.defaultPayment && isCardExpired(paymentMethod)
+                  "
+                  class="cx-expired-pill-container"
+                >
+                  <span class="cx-expired-pill">
+                    {{ 'paymentCard.expired' | cxTranslate }}
+                  </span>
+                </div>
+                <cx-card
+                  [index]="i"
+                  [border]="true"
+                  [fitToContainer]="true"
+                  [content]="getCardContent(paymentMethod) | async"
+                  (deleteCard)="deletePaymentMethod(paymentMethod)"
+                  (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
+                  (editCard)="setEdit(paymentMethod)"
+                  [editMode]="editCard === paymentMethod.id"
+                  (cancelCard)="cancelCard()"
+                ></cx-card>
+              </div>
             </div>
           </div>
         </div>
@@ -37,3 +64,9 @@
     </div>
   </div>
 </ng-container>
+
+<cx-opf-tokenisation-delete-payment-dialog
+  [showDialog]="showDeleteDialog"
+  (confirmDelete)="confirmDeletePaymentMethod()"
+  (cancelDelete)="closeDeleteDialog()"
+></cx-opf-tokenisation-delete-payment-dialog>

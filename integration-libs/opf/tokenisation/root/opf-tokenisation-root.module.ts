@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  CmsConfig,
+  UserPaymentAdapter,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { OPF_TOKENISATION_FEATURE } from './feature-name';
 import { NgModule } from '@angular/core';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
@@ -13,6 +17,7 @@ import { OpfTokenisationSavedCardsToggleComponent } from './components/opf-token
 import { OpfTokenisationNewPaymentsHeadingComponent } from './components/opf-tokenisation-new-payments-heading/opf-tokenisation-new-payments-heading.component';
 import { OpfTokenisationPaymentMethodComponent } from './components/opf-tokenisation-payment-method';
 import { OpfTokenisationAccountPaymentMethodsModule } from './components/opf-tokenisation-account-payment-methods/opf-tokenisation-account-payment-methods.module';
+import { OccOpfTokenisationUserPaymentAdapter } from './adapters/occ-opf-tokenisation-user-payment.adapter';
 
 export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -29,6 +34,10 @@ export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   imports: [OpfTokenisationAccountPaymentMethodsModule],
   providers: [
     provideDefaultConfigFactory(defaultOpfTokenisationCmsComponentsConfig),
+    {
+      provide: UserPaymentAdapter,
+      useClass: OccOpfTokenisationUserPaymentAdapter,
+    },
     provideOutlet({
       id: OpfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS,
       component: OpfTokenisationSavedCardsToggleComponent,

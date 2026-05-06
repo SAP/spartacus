@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UserPaymentService } from '@spartacus/core';
 import { OpfTokenisationService } from './opf-tokenisation.service';
-import { OpfPaymentDetails } from '../../root/model';
+import { OpfPaymentDetails } from '@spartacus/opf/tokenisation/root';
 
 class MockUserPaymentService implements Partial<UserPaymentService> {
   getPaymentMethods() {
