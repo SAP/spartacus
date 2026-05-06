@@ -90,6 +90,31 @@ describe('OneTimePasswordLoginFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    it('should restore form values from history state', () => {
+      const replaceStateSpy = jasmine.createSpy('replaceState');
+      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+        history: {
+          state: { loginId: 'test@email.com', password: '1234' },
+          replaceState: replaceStateSpy,
+        },
+      } as unknown as Window);
+      component.ngOnInit();
+      expect(component.form.value.userId).toEqual('test@email.com');
+      expect(component.form.value.password).toEqual('1234');
+      expect(replaceStateSpy).toHaveBeenCalled();
+    });
+
+    it('should not patch form when history state has no credentials', () => {
+      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+        history: { state: {} },
+      } as unknown as Window);
+      component.ngOnInit();
+      expect(component.form.value.userId).toEqual('');
+      expect(component.form.value.password).toEqual('');
+    });
+  });
+
   describe('create OTP', () => {
     it('should not patch user id', () => {
       component.isUpdating$.subscribe().unsubscribe();
