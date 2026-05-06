@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './opf-gift-card-core.module';
-export * from './connectors/index';
-export * from './facade/index';
+export * from './opf-gift-card-payment-api.interceptor';

@@ -20,7 +20,8 @@ $opf-components-allowlist:
   cx-opf-b2b-checkout-review, cx-opf-b2b-checkout-delivery-address,
   cx-opf-b2b-checkout-cost-center, cx-opf-b2b-checkout-payment-and-review,
   cx-opf-b2b-checkout-place-order, cx-opf-gift-card,
-  cx-opf-b2b-checkout-place-order, cx-opf-tokenisation-account-payment-methods !default;
+  cx-opf-b2b-checkout-place-order, cx-opf-tokenisation-payment-method,
+  cx-opf-tokenisation-account-payment-methods !default;
 
 $skipComponentStyles: () !default;
 
