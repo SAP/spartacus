@@ -371,6 +371,9 @@
     }
 
     @include media-breakpoint-up(lg) {
+      @include forFeature(alignNavigationMenuWithHeader) {
+        height: 66px;
+      }
       ul.childs[depth='2'] {
         > li {
           &:not(:only-child):not(:last-child) {

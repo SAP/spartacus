@@ -10,6 +10,14 @@ $space: 0.5rem;
       var(--cx-color-background-dark) $header-height,
       var(--cx-color-light) 0
     );
+
+    @include forFeature(alignNavigationMenuWithHeader) {
+      background: linear-gradient(
+        to top,
+        var(--cx-color-text) $header-height,
+        var(--cx-color-light) 0
+      );
+    }
   }
 
   .header {
