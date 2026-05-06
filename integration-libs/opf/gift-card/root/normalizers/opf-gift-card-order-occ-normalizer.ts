@@ -7,7 +7,7 @@
 import { Converter, Occ } from '@spartacus/core';
 
 import { Injectable } from '@angular/core';
-import { OpfGiftCardSummary } from '@spartacus/opf/gift-card/root';
+import { OpfGiftCardSummary } from '../model/opf-gift-card.model';
 import { Order } from '@spartacus/order/root';
 
 /**

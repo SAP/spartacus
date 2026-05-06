@@ -14,7 +14,13 @@ import {
 } from '@angular/core';
 
 import { Address, PaymentDetails, TranslatePipe } from '@spartacus/core';
-import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-method.service';
 
@@ -26,6 +32,7 @@ import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-
     NgIf,
     NgFor,
     CardComponent,
+    IconComponent,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
@@ -43,6 +50,7 @@ export class OpfTokenisationPaymentMethodComponent
   isUpdating$: Observable<boolean>;
   selectedMethod$: Observable<PaymentDetails | undefined>;
   showSavedCards$: Observable<boolean>;
+  iconTypes = ICON_TYPE;
 
   ngOnInit(): void {
     this.OpfTokenisationPaymentMethodService.initialize();
@@ -59,6 +67,29 @@ export class OpfTokenisationPaymentMethodComponent
       paymentDetails
     );
   }
+
+  onCardClick(event: MouseEvent, paymentDetails: PaymentDetails): void {
+    const target = event.target as HTMLElement | null;
+
+    if (target?.closest('button, a, cx-generic-link')) {
+      return;
+    }
+
+    this.selectPaymentMethod(paymentDetails);
+  }
+
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.OpfTokenisationPaymentMethodService.setDefaultPaymentMethod(
+      paymentDetails
+    );
+  }
+
+  isCardExpired(paymentDetails: PaymentDetails): boolean {
+    return this.OpfTokenisationPaymentMethodService.isCardExpired(
+      paymentDetails
+    );
+  }
+
   setPaymentDetails({
     paymentDetails,
     billingAddress,
