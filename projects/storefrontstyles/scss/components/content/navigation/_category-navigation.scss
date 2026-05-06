@@ -20,8 +20,8 @@
   }
 
   cx-navigation-ui {
-    @include media-breakpoint-up(lg) {
-      @include forFeature(alignNavigationMenuWithHeader) {
+    @include forFeature(alignNavigationMenuWithHeader) {
+      @include media-breakpoint-up(lg) {
         height: $header-height;
       }
     }
