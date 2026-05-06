@@ -291,6 +291,10 @@
 
   @include media-breakpoint-up(lg) {
     background-color: var(--cx-color-text);
+
+    @include forFeature(alignNavigationMenuWithHeader) {
+      background-color: var(--cx-color-background-dark);
+    }
   }
 
   @extend %nav-heading;
@@ -372,7 +376,7 @@
 
     @include media-breakpoint-up(lg) {
       @include forFeature(alignNavigationMenuWithHeader) {
-        height: 66px;
+        height: $header-height;
       }
       ul.childs[depth='2'] {
         > li {
