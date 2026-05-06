@@ -50,13 +50,6 @@ export interface FeatureTogglesInterface {
   productReviewCharactersLeft?: boolean;
 
   /**
-   * The optional `aria-controls` attribute will override on the NgSelect implementation.
-   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
-   * This change ensures we can still use a custom id if preferable.
-   */
-  a11yNgSelectAriaControls?: boolean;
-
-  /**
    * Ensures on configurator overview page, that group titles are recognized as heading
    * in VPC mode when navigating with the 'H' key.
    */
@@ -501,7 +494,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productReviewCharactersLeft: true,
-  a11yNgSelectAriaControls: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
   storeFinderFacadeCleanup: true,
