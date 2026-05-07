@@ -41,7 +41,7 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import { ONE_TIME_PASSWORD_LOGIN_PURPOSE, OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-login-form',
@@ -92,26 +92,22 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
 
   ngOnInit(): void {
     const sessionState = this.getStoredLoginState();
-    if (sessionState?.loginId || sessionState?.password) {
+    if (sessionState) {
       this.form.patchValue({
-        userId: sessionState.loginId ?? '',
-        password: sessionState.password ?? '',
+        userId: sessionState.loginId,
+        password: sessionState.password,
       });
     }
     this.clearStoredLoginState();
   }
 
   protected getStoredLoginState(): { loginId: string; password: string } | null {
-    try {
-      const stored = this.winRef.sessionStorage?.getItem('cx_otp_login_state');
-      return stored ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
+    const stored = this.winRef.sessionStorage?.getItem(OTP_LOGIN_STATE_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : null;
   }
 
   protected clearStoredLoginState(): void {
-    this.winRef.sessionStorage?.removeItem('cx_otp_login_state');
+    this.winRef.sessionStorage?.removeItem(OTP_LOGIN_STATE_STORAGE_KEY);
   }
 
   onSubmit(): void {

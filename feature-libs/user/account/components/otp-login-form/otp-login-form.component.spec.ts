@@ -18,6 +18,7 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { of, throwError } from 'rxjs';
+import { OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -101,7 +102,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         'removeItem',
       ]);
       storageSpy.getItem.and.callFake((key) =>
-        key === 'cx_otp_login_state'
+        key === OTP_LOGIN_STATE_STORAGE_KEY
           ? JSON.stringify({ loginId: 'test@email.com', password: '1234' })
           : null
       );
@@ -135,7 +136,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         'removeItem',
       ]);
       storageSpy.getItem.and.callFake((key) =>
-        key === 'cx_otp_login_state'
+        key === OTP_LOGIN_STATE_STORAGE_KEY
           ? JSON.stringify({ loginId: 'test@email.com', password: '1234' })
           : null
       );
@@ -143,7 +144,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
         storageSpy
       );
       component.ngOnInit();
-      expect(storageSpy.removeItem).toHaveBeenCalledWith('cx_otp_login_state');
+      expect(storageSpy.removeItem).toHaveBeenCalledWith(OTP_LOGIN_STATE_STORAGE_KEY);
     });
   });
 
