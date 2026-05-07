@@ -325,7 +325,7 @@ if (environment.cpq) {
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
-        enableQuotePurchaseOrderNumber: false,
+        enableQuotePurchaseOrderNumber: true,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
