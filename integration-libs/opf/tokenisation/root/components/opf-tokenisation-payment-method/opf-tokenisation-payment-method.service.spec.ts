@@ -749,6 +749,12 @@ describe('OpfTokenisationPaymentMethodService', () => {
     it('should find and focus selected card after update completes', (done) => {
       const mockCard = document.createElement('cx-card');
       const mockFocusable = document.createElement('button');
+      spyOn(window, 'requestAnimationFrame').and.callFake(
+        (cb: FrameRequestCallback) => {
+          cb(0);
+          return 0;
+        }
+      );
 
       (windowRef.document as any).querySelectorAll = jasmine
         .createSpy()
@@ -764,10 +770,9 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
       (service as any).busy$.next(false);
 
-      setTimeout(() => {
-        expect(focusService.findFirstFocusable).toHaveBeenCalled();
-        done();
-      }, 50);
+      expect(focusService.findFirstFocusable).toHaveBeenCalledWith(mockCard);
+      expect(mockFocusable.focus).toHaveBeenCalled();
+      done();
     });
   });
 

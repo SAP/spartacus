@@ -234,9 +234,11 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     if (this.featureConfigService.isEnabled('a11yKeyboardAccessibleZoom')) {
       this.imageLoaded.next(false);
       this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
+        // Removed/disabled state removes focus from this element
+        // so we need to restore it.
         setTimeout(() => {
           this.zoomButton.nativeElement.focus();
-        });
+        }, 1);
       });
     }
   }

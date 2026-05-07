@@ -50,6 +50,10 @@ import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
 } from '../../services';
+import {
+  isTokenisationCardExpired,
+  sortPaymentMethodsForDisplay,
+} from '../../utils/opf-tokenisation-card-expiry.util';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
@@ -153,10 +157,12 @@ export class OpfTokenisationPaymentMethodService {
     return combineLatest([
       this.existingPaymentMethods$.pipe(
         switchMap((methods) => {
+          const sortedMethods = sortPaymentMethodsForDisplay(methods ?? []);
+
           return !methods?.length
             ? of([])
             : combineLatest(
-                methods.map((method) =>
+                sortedMethods.map((method) =>
                   combineLatest([
                     of(method),
                     this.translationService.translate('paymentCard.expires', {
@@ -207,6 +213,10 @@ export class OpfTokenisationPaymentMethodService {
           }))
       )
     );
+  }
+
+  isCardExpired(paymentDetails: PaymentDetails): boolean {
+    return isTokenisationCardExpired(paymentDetails);
   }
 
   selectDefaultPaymentMethod(
@@ -323,11 +333,14 @@ export class OpfTokenisationPaymentMethodService {
       actions.push({ name: cardLabels.textUseThisPayment, event: 'send' });
     }
 
+    const cardTitle = paymentDetails.defaultPayment
+      ? cardLabels.textDefaultLabelOnCheckout
+      : '';
+
     return {
       role,
-      title: paymentDetails.defaultPayment
-        ? cardLabels.textDefaultLabelOnCheckout
-        : '',
+      title: cardTitle,
+      textBold: paymentDetails.cardType?.name,
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
       actions,
       header: isSelected ? cardLabels.textSelected : undefined,
