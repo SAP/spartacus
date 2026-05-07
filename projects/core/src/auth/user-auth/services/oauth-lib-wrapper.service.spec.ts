@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   FeatureConfigService,
   FederatedLoginService,
+  OAUTH_REDIRECT_FLOW_KEY,
   SemanticPathService,
 } from '@spartacus/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
@@ -410,11 +411,23 @@ describe('OAuthLibWrapperService', () => {
 
       beforeEach(() => {
         federatedLoginService.enabled = true;
-        federatedLoginService.isLoginDomain = true;
         federatedLoginService.origin = originatingDomain;
       });
 
-      it('should redirect to origin login page', () => {
+      it('should set the flag for oAuth flow key', () => {
+        spyOn(winRef.localStorage as Storage, 'setItem').and.callThrough();
+
+        service.initLoginFlow();
+
+        expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
+          OAUTH_REDIRECT_FLOW_KEY,
+          'true'
+        );
+      });
+
+      it('should redirect to origin login page when on the login domain', () => {
+        federatedLoginService.isLoginDomain = true;
+
         service.initLoginFlow();
 
         expect(winRef.location.href).toEqual(`${originatingDomain}/sign-in`);
@@ -427,6 +440,7 @@ describe('OAuthLibWrapperService', () => {
       service.events$ = new BehaviorSubject<OAuthEvent>({
         type: 'token_received',
       });
+      spyOn(winRef.localStorage as Storage, 'removeItem').and.callThrough();
     });
 
     it('should call tryLogin method from the lib', () => {
@@ -447,7 +461,7 @@ describe('OAuthLibWrapperService', () => {
       });
     });
 
-    it('should return NEGATIVE token received event indication', async () => {
+    it('should return NEGATIVE token received event indication and clear the oAuth redirect key', async () => {
       (service.events$ as BehaviorSubject<OAuthEvent>).next({
         type: 'discovery_document_load_error',
       });
@@ -456,9 +470,12 @@ describe('OAuthLibWrapperService', () => {
         result: true,
         tokenReceived: false,
       });
+      expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+        OAUTH_REDIRECT_FLOW_KEY
+      );
     });
 
-    it('should reject promise if oAuthService.tryLogin throws an error', async () => {
+    it('should reject promise and clear the oAuth redirect key if oAuthService.tryLogin throws an error', async () => {
       const error = new Error('Login failed');
 
       spyOn(oAuthService, 'tryLogin').and.returnValue(Promise.reject(error));
@@ -473,6 +490,9 @@ describe('OAuthLibWrapperService', () => {
       expect(oAuthService.tryLogin).toHaveBeenCalledWith({
         disableOAuth2StateCheck: true,
       });
+      expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+        OAUTH_REDIRECT_FLOW_KEY
+      );
     });
   });
 

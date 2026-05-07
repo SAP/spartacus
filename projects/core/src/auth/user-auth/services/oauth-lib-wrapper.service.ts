@@ -178,17 +178,18 @@ export class OAuthLibWrapperService {
       this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
     }
 
-    if (
-      this.federatedLoginService.enabled &&
-      this.federatedLoginService.isLoginDomain
-    ) {
-      // redirect to the origin site login so that PKCE is available to the origin
-      const originLoginUrl =
-        this.federatedLoginService.origin +
-        (this.semanticPathService.get('login') ?? '');
-      this.winRef.location.href = originLoginUrl;
+    if (this.federatedLoginService.enabled) {
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
 
-      return new Promise(() => {});
+      if (this.federatedLoginService.isLoginDomain) {
+        // redirect to the origin site login so that PKCE is available to the origin
+        const originLoginUrl =
+          this.federatedLoginService.origin +
+          (this.semanticPathService.get('login') ?? '');
+        this.winRef.location.href = originLoginUrl;
+
+        return new Promise(() => {});
+      }
     }
 
     return this.oAuthService.initLoginFlow();
@@ -221,12 +222,16 @@ export class OAuthLibWrapperService {
           disableOAuth2StateCheck: true,
         })
         .then((result: boolean) => {
+          if (!tokenReceivedEvent) {
+            this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
+          }
           resolve({
             result: result,
             tokenReceived: !!tokenReceivedEvent,
           });
         })
         .catch((error) => {
+          this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
           reject(error);
         })
         .finally(() => {
