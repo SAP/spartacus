@@ -5,18 +5,48 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { Component, inject, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeatureToggles,
   I18nModule,
   NotAuthGuard,
-  provideDefaultConfig,
+  provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
 import { BtnLikeLinkModule, PageSlotModule } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from '../guards/login-as-guest.guard';
 import { LoginRegisterComponent } from './login-register.component';
+
+@Component({
+  selector: 'cx-empty-login-register-cms-component',
+  template: '',
+})
+export class EmptyLoginRegisterCmsComponent {}
+
+export function defaultLoginRegisterComponentsConfig(): CmsConfig {
+  const featureToggles = inject(FeatureToggles);
+
+  if (!featureToggles.a11yActiveB2bLoginRegisterCpnt) {
+    return {};
+  }
+
+  return {
+    cmsComponents: {
+      ReturningCustomerRegisterComponent: {
+        component: LoginRegisterComponent,
+        guards: [NotAuthGuard, LoginAsGuestGuard],
+      },
+      OrganizationUserRegistrationLink: {
+        component: EmptyLoginRegisterCmsComponent,
+      },
+      NoAccountParagraphComponent: {
+        component: EmptyLoginRegisterCmsComponent,
+      },
+    },
+  };
+}
 
 @NgModule({
   imports: [
@@ -29,14 +59,7 @@ import { LoginRegisterComponent } from './login-register.component';
     LoginRegisterComponent,
   ],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ReturningCustomerRegisterComponent: {
-          component: LoginRegisterComponent,
-          guards: [NotAuthGuard, LoginAsGuestGuard],
-        },
-      },
-    }),
+    provideDefaultConfigFactory(defaultLoginRegisterComponentsConfig),
   ],
 })
 export class LoginRegisterModule {}
