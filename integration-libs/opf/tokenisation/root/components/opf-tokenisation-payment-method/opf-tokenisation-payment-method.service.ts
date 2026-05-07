@@ -23,6 +23,7 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   Card,
@@ -83,7 +84,6 @@ export class OpfTokenisationPaymentMethodService {
 
   paymentDetails?: PaymentDetails;
   isGuestCheckout = false;
-  doneAutoSelect = false;
 
   showSavedCards$: Observable<boolean> = this.opfMetadataStoreService
     .getOpfMetadataState()
@@ -151,6 +151,21 @@ export class OpfTokenisationPaymentMethodService {
           }
         })
     );
+
+    // Auto-select the default non-expired card once when saved cards become visible
+    this.subscriptions.add(
+      this.showSavedCards$
+        .pipe(
+          filter((show) => show),
+          switchMap(() => this.existingPaymentMethods$),
+          filter((methods) => !!methods?.length),
+          take(1),
+          withLatestFrom(this.selectedMethod$)
+        )
+        .subscribe(([methods, selectedMethod]) => {
+          this.selectDefaultPaymentMethod(methods, selectedMethod);
+        })
+    );
   }
 
   getCards$(): Observable<{ content: Card; paymentMethod: PaymentDetails }[]> {
@@ -185,9 +200,6 @@ export class OpfTokenisationPaymentMethodService {
       this.translationService.translate('paymentCard.setAsDefault'),
       this.translationService.translate('paymentCard.defaultLabelOnCheckout'),
     ]).pipe(
-      tap(([paymentMethods, selectedMethod]) =>
-        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
-      ),
       map(
         ([
           paymentMethods,
@@ -220,25 +232,21 @@ export class OpfTokenisationPaymentMethodService {
   }
 
   selectDefaultPaymentMethod(
-    paymentMethods: { payment: PaymentDetails; expiryTranslation: string }[],
+    paymentMethods: PaymentDetails[],
     selectedMethod: PaymentDetails | undefined
-  ) {
+  ): void {
     if (
-      !this.doneAutoSelect &&
       paymentMethods?.length &&
       (!selectedMethod || Object.keys(selectedMethod).length === 0)
     ) {
       const defaultPaymentMethod = paymentMethods.find(
         (paymentMethod) =>
-          paymentMethod.payment.defaultPayment &&
-          !this.isCardExpired(paymentMethod.payment)
+          paymentMethod.defaultPayment && !this.isCardExpired(paymentMethod)
       );
       if (defaultPaymentMethod) {
-        selectedMethod = defaultPaymentMethod.payment;
-        this.selectedPaymentMethod$.next(selectedMethod);
-        this.savePaymentMethod(selectedMethod);
+        this.selectedPaymentMethod$.next(defaultPaymentMethod);
+        this.savePaymentMethod(defaultPaymentMethod);
       }
-      this.doneAutoSelect = true;
     }
   }
 
