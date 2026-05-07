@@ -144,7 +144,9 @@ describe('OneTimePasswordLoginFormComponent', () => {
         storageSpy
       );
       component.ngOnInit();
-      expect(storageSpy.removeItem).toHaveBeenCalledWith(OTP_LOGIN_STATE_STORAGE_KEY);
+      expect(storageSpy.removeItem).toHaveBeenCalledWith(
+        OTP_LOGIN_STATE_STORAGE_KEY
+      );
     });
   });
 

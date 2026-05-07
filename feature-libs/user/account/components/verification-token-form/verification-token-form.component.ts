@@ -37,7 +37,10 @@ import {
 } from '@spartacus/storefront';
 import { VerificationToken } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE, OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
 @Component({

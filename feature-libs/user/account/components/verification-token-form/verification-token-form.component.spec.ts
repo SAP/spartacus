@@ -29,7 +29,10 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE, OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
 import createSpy = jasmine.createSpy;

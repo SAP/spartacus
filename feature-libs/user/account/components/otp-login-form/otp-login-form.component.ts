@@ -41,7 +41,10 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE, OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-login-form',
@@ -101,8 +104,13 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
     this.clearStoredLoginState();
   }
 
-  protected getStoredLoginState(): { loginId: string; password: string } | null {
-    const stored = this.winRef.sessionStorage?.getItem(OTP_LOGIN_STATE_STORAGE_KEY);
+  protected getStoredLoginState(): {
+    loginId: string;
+    password: string;
+  } | null {
+    const stored = this.winRef.sessionStorage?.getItem(
+      OTP_LOGIN_STATE_STORAGE_KEY
+    );
     return stored ? JSON.parse(stored) : null;
   }
 
