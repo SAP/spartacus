@@ -178,6 +178,23 @@
       }
     }
   }
+
+  .cx-show-more-cards {
+    text-align: center;
+    margin-top: 0.5rem;
+
+    .btn-link {
+      display: block;
+      margin: 0 auto;
+      text-decoration: none;
+      color: var(--cx-color-primary);
+    }
+
+    .cx-card-count {
+      display: block;
+      color: var(--cx-color-primary);
+    }
+  }
 }
 
 cx-global-message {

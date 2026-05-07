@@ -10,7 +10,12 @@
         <div class="cx-checkout-body row">
           <div
             class="cx-payment-card col-md-12 col-lg-6"
-            *ngFor="let card of cards; let i = index"
+            *ngFor="
+              let card of showAll
+                ? cards
+                : (cards | slice: 0 : VISIBLE_CARDS_COUNT);
+              let i = index
+            "
           >
             <div
               class="cx-payment-card-inner"
@@ -45,6 +50,25 @@
               ></cx-card>
             </div>
           </div>
+        </div>
+
+        <div
+          *ngIf="cards.length > VISIBLE_CARDS_COUNT"
+          class="cx-show-more-cards"
+        >
+          <ng-container *ngIf="!showAll">
+            <button class="btn btn-link" (click)="showAll = true">
+              {{ 'paymentCard.showAll' | cxTranslate }}
+            </button>
+            <span class="cx-card-count"
+              >[{{ VISIBLE_CARDS_COUNT }}/{{ cards.length }}]</span
+            >
+          </ng-container>
+          <ng-container *ngIf="showAll">
+            <span class="cx-card-count"
+              >[{{ cards.length }}/{{ cards.length }}]</span
+            >
+          </ng-container>
         </div>
 
         <div class="row cx-checkout-btns">

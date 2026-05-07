@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,6 +31,7 @@ import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-
   imports: [
     NgIf,
     NgFor,
+    SlicePipe,
     CardComponent,
     IconComponent,
     SpinnerComponent,
@@ -51,6 +52,8 @@ export class OpfTokenisationPaymentMethodComponent
   selectedMethod$: Observable<PaymentDetails | undefined>;
   showSavedCards$: Observable<boolean>;
   iconTypes = ICON_TYPE;
+  showAll = false;
+  readonly VISIBLE_CARDS_COUNT = 2;
 
   ngOnInit(): void {
     this.OpfTokenisationPaymentMethodService.initialize();
