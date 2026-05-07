@@ -67,17 +67,19 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           (paymentDetail) => paymentDetail.defaultPayment
         );
         const hasPaymentMethods = paymentDetails.length > 0;
-        const paymentMethodId = paymentDetails[0]?.id;
+        const firstNonExpired = paymentDetails.find(
+          (paymentDetail) => !isTokenisationCardExpired(paymentDetail)
+        );
 
-        // Set first payment method to DEFAULT if none is set
+        // Set first non-expired payment method to DEFAULT if none is set
         if (
           !this.autoDefaultRequested &&
           hasPaymentMethods &&
           !hasDefault &&
-          paymentMethodId
+          firstNonExpired
         ) {
           this.autoDefaultRequested = true;
-          this.setDefaultPaymentMethod(paymentDetails[0]);
+          this.setDefaultPaymentMethod(firstNonExpired);
         }
       })
     );
@@ -109,7 +111,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           textDefaultPaymentMethod,
         ]) => {
           const actions: { name: string; event: string }[] = [];
-          if (!defaultPayment) {
+          if (!defaultPayment && !isTokenisationCardExpired(paymentMethod)) {
             actions.push({ name: textSetAsDefault, event: 'default' });
           }
           actions.push({ name: textDelete, event: 'delete' });
