@@ -74,15 +74,15 @@
                 {{ 'paymentCard.showAll' | cxTranslate }}
               </button>
               <span class="cx-card-count"
-                >[{{ VISIBLE_CARDS_COUNT }}/{{ cards.length }}]</span
+                >[ {{ VISIBLE_CARDS_COUNT }} / {{ cards.length }} ]</span
               >
             </ng-container>
             <ng-container *ngIf="showAll">
               <span class="btn btn-link cx-show-all-expanded">
                 {{ 'paymentCard.showAll' | cxTranslate }}
               </span>
-              <span class="cx-card-count"
-                >[{{ cards.length }}/{{ cards.length }}]</span
+              <span class="cx-card-count cx-card-count--expanded"
+                >[ {{ cards.length }} / {{ cards.length }} ]</span
               >
             </ng-container>
           </div>

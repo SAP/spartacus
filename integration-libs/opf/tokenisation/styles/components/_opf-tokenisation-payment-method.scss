@@ -208,6 +208,10 @@
     .cx-card-count {
       display: block;
       color: var(--cx-color-primary);
+
+      &.cx-card-count--expanded {
+        opacity: 0.4;
+      }
     }
   }
 }
