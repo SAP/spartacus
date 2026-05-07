@@ -50,6 +50,10 @@ import {
   OpfTokenisationSavedCardsService,
   SAVED_CARDS_ID,
 } from '../../services';
+import {
+  isTokenisationCardExpired,
+  sortPaymentMethodsForDisplay,
+} from '../../utils/opf-tokenisation-card-expiry.util';
 
 @Injectable()
 export class OpfTokenisationPaymentMethodService {
@@ -79,6 +83,7 @@ export class OpfTokenisationPaymentMethodService {
 
   paymentDetails?: PaymentDetails;
   isGuestCheckout = false;
+  doneAutoSelect = false;
 
   showSavedCards$: Observable<boolean> = this.opfMetadataStoreService
     .getOpfMetadataState()
@@ -152,10 +157,12 @@ export class OpfTokenisationPaymentMethodService {
     return combineLatest([
       this.existingPaymentMethods$.pipe(
         switchMap((methods) => {
+          const sortedMethods = sortPaymentMethodsForDisplay(methods ?? []);
+
           return !methods?.length
             ? of([])
             : combineLatest(
-                methods.map((method) =>
+                sortedMethods.map((method) =>
                   combineLatest([
                     of(method),
                     this.translationService.translate('paymentCard.expires', {
@@ -173,11 +180,23 @@ export class OpfTokenisationPaymentMethodService {
         })
       ),
       this.selectedMethod$,
-      this.translationService.translate('paymentForm.useThisPayment'),
-      this.translationService.translate('paymentCard.selectedPayment'),
+      this.translationService.translate('paymentForm.useThisCard'),
+      this.translationService.translate('paymentCard.selected'),
+      this.translationService.translate('paymentCard.setAsDefault'),
+      this.translationService.translate('paymentCard.defaultLabelOnCheckout'),
     ]).pipe(
+      tap(([paymentMethods, selectedMethod]) =>
+        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
+      ),
       map(
-        ([paymentMethods, selectedMethod, textUseThisPayment, textSelected]) =>
+        ([
+          paymentMethods,
+          selectedMethod,
+          textUseThisPayment,
+          textSelected,
+          textSetAsDefault,
+          textDefaultLabelOnCheckout,
+        ]) =>
           paymentMethods.map((payment) => ({
             content: this.createCard(
               payment.payment,
@@ -185,12 +204,46 @@ export class OpfTokenisationPaymentMethodService {
                 textExpires: payment.expiryTranslation,
                 textUseThisPayment,
                 textSelected,
+                textSetAsDefault,
+                textDefaultLabelOnCheckout,
               },
               selectedMethod
             ),
             paymentMethod: payment.payment,
           }))
       )
+    );
+  }
+
+  isCardExpired(paymentDetails: PaymentDetails): boolean {
+    return isTokenisationCardExpired(paymentDetails);
+  }
+
+  selectDefaultPaymentMethod(
+    paymentMethods: { payment: PaymentDetails; expiryTranslation: string }[],
+    selectedMethod: PaymentDetails | undefined
+  ) {
+    if (
+      !this.doneAutoSelect &&
+      paymentMethods?.length &&
+      (!selectedMethod || Object.keys(selectedMethod).length === 0)
+    ) {
+      const defaultPaymentMethod = paymentMethods.find(
+        (paymentMethod) => paymentMethod.payment.defaultPayment
+      );
+      if (defaultPaymentMethod) {
+        selectedMethod = defaultPaymentMethod.payment;
+        this.savePaymentMethod(selectedMethod);
+      }
+      this.doneAutoSelect = true;
+    }
+  }
+
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.userPaymentService.setPaymentMethodAsDefault(paymentDetails.id ?? '');
+    this.globalMessageService.add(
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 
@@ -264,18 +317,32 @@ export class OpfTokenisationPaymentMethodService {
       textExpires: string;
       textUseThisPayment: string;
       textSelected: string;
+      textSetAsDefault: string;
+      textDefaultLabelOnCheckout: string;
     },
     selected: PaymentDetails | undefined
   ): Card {
     const isSelected = selected?.id === paymentDetails.id;
     const role = !isSelected ? 'button' : 'application';
 
+    const actions: { name: string; event: string }[] = [];
+    if (!paymentDetails.defaultPayment) {
+      actions.push({ name: cardLabels.textSetAsDefault, event: 'default' });
+    }
+    if (!isSelected) {
+      actions.push({ name: cardLabels.textUseThisPayment, event: 'send' });
+    }
+
+    const cardTitle = paymentDetails.defaultPayment
+      ? cardLabels.textDefaultLabelOnCheckout
+      : '';
+
     return {
       role,
+      title: cardTitle,
+      textBold: paymentDetails.cardType?.name,
       text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
-      actions: isSelected
-        ? []
-        : [{ name: cardLabels.textUseThisPayment, event: 'send' }],
+      actions,
       header: isSelected ? cardLabels.textSelected : undefined,
       label: paymentDetails.defaultPayment
         ? 'paymentCard.defaultPaymentLabel'
