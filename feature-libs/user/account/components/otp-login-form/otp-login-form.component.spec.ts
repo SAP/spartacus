@@ -27,9 +27,16 @@ const verificationTokenCreation: VerificationTokenCreation = {
   password: '1234',
 };
 
+const mockSessionStorage: Record<string, string> = {};
+const mockSessionStorageApi = {
+  getItem: (key: string) => mockSessionStorage[key] ?? null,
+  setItem: (key: string, value: string) => (mockSessionStorage[key] = value),
+  removeItem: (key: string) => delete mockSessionStorage[key],
+};
+
 class MockWinRef {
   get nativeWindow(): Window {
-    return {} as Window;
+    return { sessionStorage: mockSessionStorageApi } as unknown as Window;
   }
 }
 
@@ -77,6 +84,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
   }));
 
   beforeEach(() => {
+    Object.keys(mockSessionStorage).forEach((k) => delete mockSessionStorage[k]);
     winRef = TestBed.inject(WindowRef);
     fixture = TestBed.createComponent(OneTimePasswordLoginFormComponent);
     service = TestBed.inject(VerificationTokenFacade);
@@ -91,27 +99,38 @@ describe('OneTimePasswordLoginFormComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should restore form values from history state', () => {
-      const replaceStateSpy = jasmine.createSpy('replaceState');
+    it('should restore form values from sessionStorage', () => {
+      mockSessionStorage['cx_otp_login_state'] = JSON.stringify({
+        loginId: 'test@email.com',
+        password: '1234',
+      });
       spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-        history: {
-          state: { loginId: 'test@email.com', password: '1234' },
-          replaceState: replaceStateSpy,
-        },
+        sessionStorage: mockSessionStorageApi,
       } as unknown as Window);
       component.ngOnInit();
       expect(component.form.value.userId).toEqual('test@email.com');
       expect(component.form.value.password).toEqual('1234');
-      expect(replaceStateSpy).toHaveBeenCalled();
     });
 
-    it('should not patch form when history state has no credentials', () => {
+    it('should not patch form when sessionStorage has no credentials', () => {
       spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-        history: { state: {} },
+        sessionStorage: mockSessionStorageApi,
       } as unknown as Window);
       component.ngOnInit();
       expect(component.form.value.userId).toEqual('');
       expect(component.form.value.password).toEqual('');
+    });
+
+    it('should clear sessionStorage after reading', () => {
+      mockSessionStorage['cx_otp_login_state'] = JSON.stringify({
+        loginId: 'test@email.com',
+        password: '1234',
+      });
+      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+        sessionStorage: mockSessionStorageApi,
+      } as unknown as Window);
+      component.ngOnInit();
+      expect(mockSessionStorage['cx_otp_login_state']).toBeUndefined();
     });
   });
 

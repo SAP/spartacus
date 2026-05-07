@@ -91,17 +91,28 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
   @HostBinding('class.user-form') style = true;
 
   ngOnInit(): void {
-    const state = this.winRef.nativeWindow?.history?.state;
-    if (state?.['loginId'] || state?.['password']) {
+    const sessionState = this.getStoredLoginState();
+    if (sessionState?.loginId || sessionState?.password) {
       this.form.patchValue({
-        userId: state['loginId'] ?? '',
-        password: state['password'] ?? '',
+        userId: sessionState.loginId ?? '',
+        password: sessionState.password ?? '',
       });
-      this.winRef.nativeWindow?.history?.replaceState(
-        { loginId: '', password: '' },
-        ''
-      );
     }
+    this.clearStoredLoginState();
+  }
+
+  protected getStoredLoginState(): { loginId: string; password: string } | null {
+    try {
+      const stored =
+        this.winRef.nativeWindow?.sessionStorage?.getItem('cx_otp_login_state');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  protected clearStoredLoginState(): void {
+    this.winRef.nativeWindow?.sessionStorage?.removeItem('cx_otp_login_state');
   }
 
   onSubmit(): void {

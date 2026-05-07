@@ -25,6 +25,7 @@ import {
   FeatureDirective,
   RoutingService,
   TranslatePipe,
+  WindowRef,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -67,6 +68,7 @@ export class VerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   protected routingService: RoutingService = inject(RoutingService);
+  protected winRef: WindowRef = inject(WindowRef);
 
   waitTime: number = 60;
 
@@ -209,14 +211,10 @@ export class VerificationTokenFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.routingService.go(
-      { cxRoute: 'login' },
-      {
-        state: {
-          loginId: this.target,
-          password: this.password,
-        },
-      }
+    this.winRef.nativeWindow?.sessionStorage?.setItem(
+      'cx_otp_login_state',
+      JSON.stringify({ loginId: this.target, password: this.password })
     );
+    this.routingService.go({ cxRoute: 'login' });
   }
 }

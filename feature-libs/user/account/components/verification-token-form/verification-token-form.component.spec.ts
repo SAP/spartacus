@@ -21,6 +21,7 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
+  WindowRef,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -34,6 +35,20 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
+
+const mockSessionStorage: Record<string, string> = {};
+const mockSessionStorageApi = {
+  getItem: (key: string) => mockSessionStorage[key] ?? null,
+  setItem: (key: string, value: string) => (mockSessionStorage[key] = value),
+  removeItem: (key: string) => delete mockSessionStorage[key],
+};
+
+class MockWinRef {
+  get nativeWindow(): Window {
+    return { sessionStorage: mockSessionStorageApi } as unknown as Window;
+  }
+}
+
 class MockFormComponentService
   implements Partial<VerificationTokenFormComponentService>
 {
@@ -69,6 +84,7 @@ describe('VerificationTokenFormComponent', () => {
   let service: VerificationTokenFormComponentService;
   let launchDialogService: LaunchDialogService;
   let routineservice: RoutingService;
+  let winRef: WindowRef;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -93,6 +109,7 @@ describe('VerificationTokenFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        { provide: WindowRef, useClass: MockWinRef },
         ChangeDetectorRef,
       ],
     })
@@ -108,10 +125,12 @@ describe('VerificationTokenFormComponent', () => {
   }));
 
   beforeEach(() => {
+    Object.keys(mockSessionStorage).forEach((k) => delete mockSessionStorage[k]);
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     routineservice = TestBed.inject(RoutingService);
+    winRef = TestBed.inject(WindowRef);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -252,6 +271,25 @@ describe('VerificationTokenFormComponent', () => {
         By.css('.rate-limit-error-display')
       );
       expect(errorMessageElement).toBeTruthy();
+    });
+  });
+
+  describe('goBack', () => {
+    it('should navigate to login and save credentials to sessionStorage', () => {
+      component.target = 'user@example.com';
+      component.password = 'myPass';
+      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+        sessionStorage: mockSessionStorageApi,
+      } as unknown as Window);
+
+      component.goBack();
+
+      expect(routineservice.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      const stored = JSON.parse(
+        mockSessionStorage['cx_otp_login_state'] ?? '{}'
+      );
+      expect(stored.loginId).toEqual('user@example.com');
+      expect(stored.password).toEqual('myPass');
     });
   });
 });
