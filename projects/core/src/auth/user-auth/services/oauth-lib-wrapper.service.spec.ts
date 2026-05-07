@@ -1,10 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService, FederatedLoginService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FederatedLoginService,
+  SemanticPathService,
+} from '@spartacus/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { BehaviorSubject, of } from 'rxjs';
 import { WindowRef } from '../../../window';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
+
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get(_routeName: string): string | undefined {
+    return '/sign-in';
+  }
+}
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getBaseUrl() {
@@ -70,7 +80,7 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   isLoginDomain = false;
   origin: string | undefined = undefined;
   detectContext = jasmine.createSpy();
-  getParameters = jasmine.createSpy().and.returnValue(of('context=de:en'));
+  getParameters = jasmine.createSpy().and.returnValue(of('ctx=de:en'));
 }
 
 class MockStorage implements Storage {
@@ -113,6 +123,7 @@ const mockWindowRef = {
       origin: 'test.com',
     },
   },
+  location: { href: undefined },
 };
 
 describe('OAuthLibWrapperService', () => {
@@ -135,6 +146,7 @@ describe('OAuthLibWrapperService', () => {
           provide: FederatedLoginService,
           useClass: MockFederatedLoginService,
         },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
     service = TestBed.inject(OAuthLibWrapperService);
@@ -234,7 +246,7 @@ describe('OAuthLibWrapperService', () => {
         expect(federatedLoginService.getParameters).toHaveBeenCalled();
         expect(oAuthService.configure).toHaveBeenCalledWith(
           jasmine.objectContaining({
-            loginUrl: 'login?context=de:en',
+            loginUrl: 'login?ctx=de:en',
           })
         );
       });
@@ -250,7 +262,7 @@ describe('OAuthLibWrapperService', () => {
 
         expect(oAuthService.configure).toHaveBeenCalledWith(
           jasmine.objectContaining({
-            loginUrl: 'login?foo=bar&context=de:en',
+            loginUrl: 'login?foo=bar&ctx=de:en',
           })
         );
       });
@@ -392,6 +404,22 @@ describe('OAuthLibWrapperService', () => {
 
       expect(storedOauthFlowKey).toBeTruthy();
     });
+
+    describe('when federated login', () => {
+      const originatingDomain = 'https://storefront.de';
+
+      beforeEach(() => {
+        federatedLoginService.enabled = true;
+        federatedLoginService.isLoginDomain = true;
+        federatedLoginService.origin = originatingDomain;
+      });
+
+      it('should redirect to origin login page', () => {
+        service.initLoginFlow();
+
+        expect(winRef.location.href).toEqual(`${originatingDomain}/sign-in`);
+      });
+    });
   });
 
   describe('tryLogin()', () => {
@@ -411,7 +439,7 @@ describe('OAuthLibWrapperService', () => {
       });
     });
 
-    it('should return POSTITIVE token received event indication', async () => {
+    it('should return POSITIVE token received event indication', async () => {
       const result = await service.tryLogin();
       expect(result).toEqual({
         result: true,

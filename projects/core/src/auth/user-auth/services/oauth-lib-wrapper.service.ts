@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
 import { FederatedLoginService } from '../../../federated-login';
+import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -26,6 +27,7 @@ export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
+  semanticPathService = inject(SemanticPathService);
   federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
@@ -173,9 +175,20 @@ export class OAuthLibWrapperService {
     if (
       !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
     ) {
-      if (this.winRef.localStorage) {
-        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-      }
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    }
+
+    if (
+      this.federatedLoginService.enabled &&
+      this.federatedLoginService.isLoginDomain
+    ) {
+      // redirect to the origin site login so that PKCE is available to the origin
+      const originLoginUrl =
+        this.federatedLoginService.origin +
+        (this.semanticPathService.get('login') ?? '');
+      this.winRef.location.href = originLoginUrl;
+
+      return new Promise(() => {});
     }
 
     return this.oAuthService.initLoginFlow();
