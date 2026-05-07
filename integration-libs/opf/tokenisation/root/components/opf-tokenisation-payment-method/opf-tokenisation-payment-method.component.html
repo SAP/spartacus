@@ -38,7 +38,10 @@
                 [content]="card.content"
                 [index]="i"
                 (setDefaultCard)="setDefaultPaymentMethod(card.paymentMethod)"
-                (sendCard)="!isCardExpired(card.paymentMethod) && selectPaymentMethod(card.paymentMethod)"
+                (sendCard)="
+                  !isCardExpired(card.paymentMethod) &&
+                    selectPaymentMethod(card.paymentMethod)
+                "
               ></cx-card>
             </div>
           </div>

@@ -229,10 +229,13 @@ export class OpfTokenisationPaymentMethodService {
       (!selectedMethod || Object.keys(selectedMethod).length === 0)
     ) {
       const defaultPaymentMethod = paymentMethods.find(
-        (paymentMethod) => paymentMethod.payment.defaultPayment
+        (paymentMethod) =>
+          paymentMethod.payment.defaultPayment &&
+          !this.isCardExpired(paymentMethod.payment)
       );
       if (defaultPaymentMethod) {
         selectedMethod = defaultPaymentMethod.payment;
+        this.selectedPaymentMethod$.next(selectedMethod);
         this.savePaymentMethod(selectedMethod);
       }
       this.doneAutoSelect = true;
