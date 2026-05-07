@@ -179,6 +179,12 @@
     }
   }
 
+  .cx-show-more-divider {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    border-top: 1px solid var(--cx-color-light);
+  }
+
   .cx-show-more-cards {
     text-align: center;
     margin-top: 0.5rem;
@@ -188,6 +194,15 @@
       margin: 0 auto;
       text-decoration: none;
       color: var(--cx-color-primary);
+    }
+
+    .cx-show-all-expanded {
+      display: block;
+      margin: 0 auto;
+      color: var(--cx-color-primary);
+      opacity: 0.4;
+      cursor: default;
+      pointer-events: none;
     }
 
     .cx-card-count {
