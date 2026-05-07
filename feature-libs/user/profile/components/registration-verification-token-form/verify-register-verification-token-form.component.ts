@@ -333,7 +333,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   goBack(): void {
     this.router.go(
-      { cxRoute: 'register' },
+      { cxRoute: 'login' },
       {
         state: {
           titleCode: this.titleCode,
