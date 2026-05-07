@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, Country, Region } from '../../model/address.model';
+import { Address, City, CityDistrict, Country, Region } from '../../model/address.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
@@ -64,12 +64,12 @@ export interface RegionsState {
 }
 
 export interface CitiesState {
-  entities: { isocode?: string; name?: string }[];
+  entities: City[];
   regionIsocode: string | null;
 }
 
 export interface DistrictsState {
-  entities: { isocode?: string; name?: string }[];
+  entities: CityDistrict[];
   cityIsocode: string | null;
 }
 

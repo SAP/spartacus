@@ -23,6 +23,18 @@ export interface Region {
   name?: string;
 }
 
+export interface City {
+  regionIso?: string;
+  isocode?: string;
+  name?: string;
+}
+
+export interface CityDistrict {
+  cityIso?: string;
+  isocode?: string;
+  name?: string;
+}
+
 export interface Address {
   id?: string;
 
@@ -38,10 +50,10 @@ export interface Address {
   line2?: string;
   postalCode?: string;
   town?: string;
-  city?: { isocode?: string; name?: string };
+  city?: City;
   region?: Region;
   district?: string;
-  cityDistrict?: { isocode?: string; name?: string };
+  cityDistrict?: CityDistrict;
   country?: Country;
   cellphone?: string;
 

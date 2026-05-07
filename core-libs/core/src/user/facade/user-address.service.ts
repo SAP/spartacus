@@ -12,6 +12,8 @@ import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
   AddressValidation,
+  City,
+  CityDistrict,
   Country,
   Region,
 } from '../../model/address.model';
@@ -198,14 +200,13 @@ export class UserAddressService {
     );
   }
 
-  getCities(
-    regionIsocode: string
-  ): Observable<{ isocode?: string; name?: string }[]> {
+  getCities(regionIsocode: string): Observable<City[]> {
     return this.store.pipe(
       select(UsersSelectors.getCitiesDataAndLoading),
       map(({ cities, regionIsocode: storedRegion, loading, loaded }) => {
         if (!regionIsocode && (loading || loaded)) {
           this.clearCities();
+          this.clearDistricts();
           return [];
         } else if (loading && !loaded) {
           return [];
@@ -216,6 +217,7 @@ export class UserAddressService {
         ) {
           if (storedRegion) {
             this.clearCities();
+            this.clearDistricts();
           }
           this.loadCities(regionIsocode);
           return [];
@@ -233,9 +235,7 @@ export class UserAddressService {
     this.store.dispatch(new UserActions.ClearCities());
   }
 
-  getDistricts(
-    cityIsocode: string
-  ): Observable<{ isocode?: string; name?: string }[]> {
+  getDistricts(cityIsocode: string): Observable<CityDistrict[]> {
     return this.store.pipe(
       select(UsersSelectors.getDistrictsDataAndLoading),
       map(({ districts, cityIsocode: storedCity, loading, loaded }) => {

@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Country, CountryType, Region } from '../../../model/address.model';
+import { Country, CountryType, Region, City, CityDistrict } from '../../../model/address.model';
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
   BASE_SITE_NORMALIZER,
@@ -111,27 +111,23 @@ export class OccSiteAdapter implements SiteAdapter {
       );
   }
 
-  loadCities(
-    regionIsocode: string
-  ): Observable<{ isocode?: string; name?: string }[]> {
+  loadCities(regionIsocode: string): Observable<City[]> {
     const url = this.occEndpointsService.buildUrl('chineseAddressCities', {
       urlParams: { regionId: regionIsocode },
     });
     return this.http
-      .get<{ cities: { isocode?: string; name?: string }[] }>(url, {
+      .get<{ cities: City[] }>(url, {
         params: { fields: 'cities(name,isocode)' },
       })
       .pipe(map((res) => res.cities ?? []));
   }
 
-  loadDistricts(
-    cityIsocode: string
-  ): Observable<{ isocode?: string; name?: string }[]> {
+  loadDistricts(cityIsocode: string): Observable<CityDistrict[]> {
     const url = this.occEndpointsService.buildUrl('chineseAddressDistricts', {
       urlParams: { cityId: cityIsocode },
     });
     return this.http
-      .get<{ districts: { isocode?: string; name?: string }[] }>(url, {
+      .get<{ districts: CityDistrict[] }>(url, {
         params: { fields: 'districts(name,isocode)' },
       })
       .pipe(map((res) => res.districts ?? []));

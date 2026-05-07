@@ -5,6 +5,7 @@
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { City } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { CitiesState, StateWithUser, UserState } from '../user-state';
@@ -20,7 +21,7 @@ export const getCitiesDataAndLoading: MemoizedSelector<
   {
     loaded: boolean;
     loading: boolean;
-    cities: { isocode?: string; name?: string }[];
+    cities: City[];
     regionIsocode: string | null;
   }
 > = createSelector(getCitiesLoaderState, (state: LoaderState<CitiesState>) => ({

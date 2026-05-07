@@ -29,6 +29,8 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Address,
   AddressValidation,
+  City,
+  CityDistrict,
   Country,
   ErrorModel,
   GlobalMessageService,
@@ -57,7 +59,7 @@ import {
   combineLatest,
   of,
 } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-address-form',
@@ -88,8 +90,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   isChineseAddress = false;
-  cities: { isocode?: string; name?: string }[] = [];
-  districts: { isocode?: string; name?: string }[] = [];
+  cities: City[] = [];
+  districts: CityDistrict[] = [];
   addresses$: Observable<Address[]>;
 
   @Input()
@@ -194,7 +196,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.selectedRegion$
         .pipe(
           switchMap((regionIsocode) => {
-            if (!regionIsocode || !this.isChineseAddress) {
+            if (!this.isChineseAddress) {
               return of([]);
             }
             return this.userAddressService.getCities(regionIsocode);
@@ -216,7 +218,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.selectedCity$
         .pipe(
           switchMap((cityIsocode) => {
-            if (!cityIsocode || !this.isChineseAddress) {
+            if (!this.isChineseAddress) {
               return of([]);
             }
             return this.userAddressService.getDistricts(cityIsocode);
@@ -234,11 +236,19 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.languageService.getActive().subscribe(() => {
-        if (this.isChineseAddress) {
-          this.cdr.markForCheck();
-        }
-      })
+      this.languageService
+        .getActive()
+        .pipe(skip(1))
+        .subscribe(() => {
+          if (this.isChineseAddress) {
+            if (this.selectedRegion$.value) {
+              this.userAddressService.clearCities();
+            }
+            if (this.selectedCity$.value) {
+              this.userAddressService.clearDistricts();
+            }
+          }
+        })
     );
   }
 

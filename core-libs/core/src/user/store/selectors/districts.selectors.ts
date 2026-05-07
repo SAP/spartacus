@@ -5,6 +5,7 @@
  */
 
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { CityDistrict } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { DistrictsState, StateWithUser, UserState } from '../user-state';
@@ -20,7 +21,7 @@ export const getDistrictsDataAndLoading: MemoizedSelector<
   {
     loaded: boolean;
     loading: boolean;
-    districts: { isocode?: string; name?: string }[];
+    districts: CityDistrict[];
     cityIsocode: string | null;
   }
 > = createSelector(
