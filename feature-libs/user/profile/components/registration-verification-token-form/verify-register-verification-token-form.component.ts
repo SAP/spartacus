@@ -333,9 +333,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
 
   goBack(): void {
     this.router.go(
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-        ? { cxRoute: 'register' }
-        : ['/login/register'],
+      { cxRoute: 'register' },
       {
         state: {
           titleCode: this.titleCode,

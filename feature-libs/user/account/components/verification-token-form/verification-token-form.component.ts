@@ -210,9 +210,7 @@ export class VerificationTokenFormComponent implements OnInit {
 
   goBack(): void {
     this.routingService.go(
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-        ? { cxRoute: 'login' }
-        : ['/login'],
+      { cxRoute: 'login' },
       {
         state: {
           loginId: this.target,
