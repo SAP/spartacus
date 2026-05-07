@@ -513,7 +513,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
-  enablePasswordExpiredErrorTranslation: false,
+  enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
