@@ -103,8 +103,7 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
 
   protected getStoredLoginState(): { loginId: string; password: string } | null {
     try {
-      const stored =
-        this.winRef.nativeWindow?.sessionStorage?.getItem('cx_otp_login_state');
+      const stored = this.winRef.sessionStorage?.getItem('cx_otp_login_state');
       return stored ? JSON.parse(stored) : null;
     } catch {
       return null;
@@ -112,7 +111,7 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
   }
 
   protected clearStoredLoginState(): void {
-    this.winRef.nativeWindow?.sessionStorage?.removeItem('cx_otp_login_state');
+    this.winRef.sessionStorage?.removeItem('cx_otp_login_state');
   }
 
   onSubmit(): void {

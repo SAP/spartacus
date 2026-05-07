@@ -36,16 +36,12 @@ import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 
-const mockSessionStorage: Record<string, string> = {};
-const mockSessionStorageApi = {
-  getItem: (key: string) => mockSessionStorage[key] ?? null,
-  setItem: (key: string, value: string) => (mockSessionStorage[key] = value),
-  removeItem: (key: string) => delete mockSessionStorage[key],
-};
-
 class MockWinRef {
   get nativeWindow(): Window {
-    return { sessionStorage: mockSessionStorageApi } as unknown as Window;
+    return {} as Window;
+  }
+  get sessionStorage(): Storage | undefined {
+    return undefined;
   }
 }
 
@@ -125,7 +121,6 @@ describe('VerificationTokenFormComponent', () => {
   }));
 
   beforeEach(() => {
-    Object.keys(mockSessionStorage).forEach((k) => delete mockSessionStorage[k]);
     fixture = TestBed.createComponent(VerificationTokenFormComponent);
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -278,18 +273,22 @@ describe('VerificationTokenFormComponent', () => {
     it('should navigate to login and save credentials to sessionStorage', () => {
       component.target = 'user@example.com';
       component.password = 'myPass';
-      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-        sessionStorage: mockSessionStorageApi,
-      } as unknown as Window);
+      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
+        'getItem',
+        'setItem',
+        'removeItem',
+      ]);
+      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
+        storageSpy
+      );
 
       component.goBack();
 
       expect(routineservice.go).toHaveBeenCalledWith({ cxRoute: 'login' });
-      const stored = JSON.parse(
-        mockSessionStorage['cx_otp_login_state'] ?? '{}'
+      expect(storageSpy.setItem).toHaveBeenCalledWith(
+        'cx_otp_login_state',
+        JSON.stringify({ loginId: 'user@example.com', password: 'myPass' })
       );
-      expect(stored.loginId).toEqual('user@example.com');
-      expect(stored.password).toEqual('myPass');
     });
   });
 });

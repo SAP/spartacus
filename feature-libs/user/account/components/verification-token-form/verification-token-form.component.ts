@@ -211,7 +211,7 @@ export class VerificationTokenFormComponent implements OnInit {
   }
 
   goBack(): void {
-    this.winRef.nativeWindow?.sessionStorage?.setItem(
+    this.winRef.sessionStorage?.setItem(
       'cx_otp_login_state',
       JSON.stringify({ loginId: this.target, password: this.password })
     );
