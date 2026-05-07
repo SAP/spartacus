@@ -69,6 +69,10 @@ export class OpfTokenisationPaymentMethodComponent
   }
 
   onCardClick(event: MouseEvent, paymentDetails: PaymentDetails): void {
+    if (this.isCardExpired(paymentDetails)) {
+      return;
+    }
+
     const target = event.target as HTMLElement | null;
 
     if (target?.closest('button, a, cx-generic-link')) {

@@ -325,11 +325,12 @@ export class OpfTokenisationPaymentMethodService {
     const isSelected = selected?.id === paymentDetails.id;
     const role = !isSelected ? 'button' : 'application';
 
+    const isExpired = this.isCardExpired(paymentDetails);
     const actions: { name: string; event: string }[] = [];
-    if (!paymentDetails.defaultPayment) {
+    if (!paymentDetails.defaultPayment && !isExpired) {
       actions.push({ name: cardLabels.textSetAsDefault, event: 'default' });
     }
-    if (!isSelected) {
+    if (!isSelected && !isExpired) {
       actions.push({ name: cardLabels.textUseThisPayment, event: 'send' });
     }
 
@@ -351,6 +352,9 @@ export class OpfTokenisationPaymentMethodService {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
+    if (this.isCardExpired(paymentDetails)) {
+      return;
+    }
     if (paymentDetails?.id === this.selectedPaymentMethod$.getValue()?.id) {
       return;
     }
