@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -16,7 +16,7 @@ import {
   OrderReturnRequestFacade,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { filter, first, map, pluck } from 'rxjs/operators';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { AmendOrderType } from '../amend-order.model';
 import { OrderAmendService } from '../amend-order.service';
@@ -50,7 +50,15 @@ export class OrderReturnService extends OrderAmendService {
       )
     );
   }
-
+  /**
+   * Returns EntryGroups
+   */
+  getOrderEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.getOrder().pipe(
+      pluck('entryGroups'),
+      filter((entryGroups) => !!entryGroups)
+    );
+  }
   save(): void {
     const orderCode = this.form.value.orderCode;
     const entries = this.form.value.entries;

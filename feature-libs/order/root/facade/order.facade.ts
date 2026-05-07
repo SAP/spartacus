@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ORDER_CORE_FEATURE } from '../feature-name';
@@ -24,6 +24,7 @@ import { Order } from '../model/order.model';
         'placeOrder',
         'placePaymentAuthorizedOrder',
         'getPickupEntries',
+        'getPickupEntryGroups',
         'getDeliveryEntries',
       ],
     }),
@@ -55,6 +56,11 @@ export abstract class OrderFacade {
    * Return order's pickup entries
    */
   abstract getPickupEntries(): Observable<OrderEntry[]>;
+
+  /**
+   * Return order's pickup entry groups
+   */
+  abstract getPickupEntryGroups(): Observable<OrderEntryGroup[]>;
 
   /**
    * Return order's delivery entries

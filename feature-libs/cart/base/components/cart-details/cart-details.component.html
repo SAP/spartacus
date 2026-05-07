@@ -5,7 +5,6 @@
     <h2 class="cx-total">
       {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
     </h2>
-
     <cx-promotions
       [promotions]="
         (cart.appliedOrderPromotions || []).concat(
@@ -60,6 +59,10 @@
     [cxOutletContext]="{
       items: items,
       hasHeader: false,
+      options: {
+        isSaveForLater: false,
+        optionalBtn: saveForLaterBtn,
+      },
     }"
   >
   </ng-template>

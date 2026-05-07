@@ -8,6 +8,7 @@ import {
   I18nModule,
   I18nTestingModule,
   UrlModule
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import {
   CardModule,
@@ -15,6 +16,8 @@ import {
   HierarchyComponentService,
   IconModule,
   MediaModule
+  HierarchyModule,
+  OutletModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { StoreModule } from '../../presentational/store';
@@ -102,6 +105,9 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
         CardModule,
         MediaModule,
         PickUpItemsDetailsComponent,
+        FeaturesConfigModule,
+        HierarchyModule,
+        OutletModule,
       ],
       providers: [
         {

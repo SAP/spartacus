@@ -65,52 +65,112 @@
         <h2 *ngIf="groupCartItems$ | async" class="cx-review-header">
           {{ 'checkoutMode.deliveryEntries' | cxTranslate }}
         </h2>
-        <div class="cx-list-item">
-          <ng-template
-            [cxAbstractOrderContext]="{
-              id: order.code,
-              type: abstractOrderType.ORDER,
+        <ng-container *cxFeature="'enableBundles'">
+          <div [ngClass]="deliveryUnConsignedStandAloneEntries?.length === 0 ? 'emptyList' : 'noneEmptyList'">
+            <ng-template
+              [cxAbstractOrderContext]="{
+                id: order.code,
+                type: abstractOrderType.ORDER,
+              }"
+              [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: deliveryUnConsignedStandAloneEntries,
+                readonly: true,
+                promotionLocation: promotionLocation,
+              }"
+            >
+            </ng-template>
+          </div>
+          <ng-container *ngFor="let bundle of deliveryHierarchyTrees">
+            <cx-hierarchy
+              [options]="{
+              tree: bundle,
+              template: bundlesTemplate,
+              titleReadonly: true,
+              collasibleReadonly: true,
             }"
-            [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-            [cxOutletContext]="{
-              items: deliveryUnConsignedEntries,
-              readonly: true,
-              promotionLocation: promotionLocation,
-              options: {
-                displayAddToCart: enableAddToCart$ | async,
-                addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn,
-              },
-            }"
-          >
-          </ng-template>
-        </div>
+              >
+            </cx-hierarchy>
+          </ng-container>
+        </ng-container>
+        <ng-container *cxFeature="'!enableBundles'">
+          <div class="cx-list-item">
+            <ng-template
+              [cxAbstractOrderContext]="{
+                id: order.code,
+                type: abstractOrderType.ORDER,
+              }"
+              [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: deliveryUnConsignedEntries,
+                readonly: true,
+                promotionLocation: promotionLocation,
+                options: {
+                  displayAddToCart: enableAddToCart$ | async,
+                  addToCartString: 'addToCart.buyItAgain' | cxTranslate,
+                  optionalBtn: addToCartBtn,
+                },
+              }"
+            >
+            </ng-template>
+          </div>
+        </ng-container>
       </ng-container>
       <!-- pickup unconsigned entries, b2b does not have pickup items -->
       <ng-container *ngIf="pickupUnconsignedEntries?.length">
         <h2 class="cx-review-header">
           {{ 'checkoutPickupInStore.heading' | cxTranslate }}
         </h2>
-        <div class="cx-list-item">
-          <ng-template
-            [cxAbstractOrderContext]="{
-              id: order.code,
-              type: abstractOrderType.ORDER,
+        <ng-container *cxFeature="'enableBundles'">
+          <div [ngClass]="pickupUnconsignedStandAloneEntries?.length === 0 ? 'emptyList' : 'noneEmptyList'">
+            <ng-template
+              [cxAbstractOrderContext]="{
+                id: order.code,
+                type: abstractOrderType.ORDER,
+              }"
+              [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: pickupUnconsignedStandAloneEntries,
+                readonly: true,
+                promotionLocation: promotionLocation,
+              }"
+            >
+            </ng-template>
+          </div>
+          <ng-container *ngFor="let bundle of pickupHierarchyTrees">
+            <cx-hierarchy
+              [options]="{
+              tree: bundle,
+              template: bundlesTemplate,
+              titleReadonly: true,
+              collasibleReadonly: true,
             }"
-            [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-            [cxOutletContext]="{
-              items: pickupUnconsignedEntries,
-              readonly: true,
-              promotionLocation: promotionLocation,
-              options: {
-                displayAddToCart: enableAddToCart$ | async,
-                addToCartString: 'addToCart.buyItAgain' | cxTranslate,
-                optionalBtn: addToCartBtn,
-              },
-            }"
-          >
-          </ng-template>
-        </div>
+              >
+            </cx-hierarchy>
+          </ng-container>
+        </ng-container>
+        <ng-container *cxFeature="'!enableBundles'">
+          <div class="cx-list-item">
+            <ng-template
+              [cxAbstractOrderContext]="{
+                id: order.code,
+                type: abstractOrderType.ORDER,
+              }"
+              [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+              [cxOutletContext]="{
+                items: pickupUnconsignedEntries,
+                readonly: true,
+                promotionLocation: promotionLocation,
+                options: {
+                  displayAddToCart: enableAddToCart$ | async,
+                  addToCartString: 'addToCart.buyItAgain' | cxTranslate,
+                  optionalBtn: addToCartBtn,
+                },
+              }"
+            >
+            </ng-template>
+          </div> 
+        </ng-container>
       </ng-container>
     </ng-container>
 
@@ -160,3 +220,16 @@
     </cx-add-to-cart>
   </ng-template>
 </ng-container>
+
+<ng-template #bundlesTemplate let-items>
+  <ng-template
+    [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+    [cxOutletContext]="{
+      items: items,
+      readonly: true,
+      hasHeader: false,
+      promotionLocation: promotionLocation,
+    }"
+  >
+  </ng-template>
+</ng-template>

@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -144,6 +144,31 @@ export class OrderService implements OrderFacade {
             (entry) => entry.deliveryPointOfService !== undefined
           ) || []
       )
+    );
+  }
+
+  getPickupEntryGroups(): Observable<OrderEntryGroup[]> {
+    return this.getFilteredEntryGroups(
+      (entry) => entry.deliveryPointOfService !== undefined
+    );
+  }
+  
+  private getFilteredEntryGroups(predicate: (entry: OrderEntry) => boolean): Observable<OrderEntryGroup[]> {
+    return this.getOrderDetails().pipe(
+      map((order) => {
+        function traverse(groups: OrderEntryGroup[]): OrderEntryGroup[] {
+          const result: OrderEntryGroup[] = [];
+          for (const group of groups || []) {
+            const filteredEntries = group.entries?.filter(predicate) || [];
+            const filteredGroups = traverse(group.entryGroups || []);
+            if (filteredEntries.length > 0 || filteredGroups.length > 0) {
+              result.push({ ...group, entries: filteredEntries, entryGroups: filteredGroups });
+            }
+          }
+          return result;
+        }
+        return traverse(order?.entryGroups || []);
+      })
     );
   }
 

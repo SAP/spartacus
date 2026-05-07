@@ -114,7 +114,8 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
     return (
       message &&
       (this.isIllegalArgumentErrorRelatedToQuoteDiscount(message) ||
-        this.isIllegalArgumentErrorRelatedToQuoteExpiration(message))
+        this.isIllegalArgumentErrorRelatedToQuoteExpiration(message) ||
+        this.isIllegalArgumentErrorRelatedToQuoteQuantity(message))
     );
   }
 
@@ -130,6 +131,13 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
   ): boolean {
     const expirationMask = /Invalid quote expiration time/;
     return message.match(expirationMask) !== null;
+  }
+
+  protected isIllegalArgumentErrorRelatedToQuoteQuantity(
+    message: string
+  ): boolean {
+    const quantityMask = /Item is not returnable for this quantity/;
+    return message.match(quantityMask) !== null;
   }
 
   protected handleQuoteThresholdErrors() {
@@ -173,6 +181,14 @@ export class QuoteBadRequestHandler extends HttpErrorHandler {
       this.globalMessageService.add(
         {
           key: 'quote.httpHandlers.expirationDateIssue',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+    if(this.isIllegalArgumentErrorRelatedToQuoteQuantity(message)) {
+      this.globalMessageService.add(
+        {
+          key: 'quote.httpHandlers.expirationQuantity',
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );

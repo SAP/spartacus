@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,6 +13,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  inject,
 } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import {
@@ -21,7 +22,8 @@ import {
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Address, TranslatePipe, TranslationService } from '@spartacus/core';
+import { Address, FeatureConfigService, TranslatePipe, TranslationService } from '@spartacus/core';
+import { OrderConsignmentService } from '@spartacus/order/core';
 import {
   Order,
   OrderFacade,
@@ -31,8 +33,10 @@ import {
 import {
   Card,
   CardComponent,
+  HierarchyModule,
+  HierarchyNode,
   OutletContextData,
-  OutletDirective,
+  OutletDirective
 } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -43,14 +47,18 @@ import { map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    NgClass,
     CardComponent,
     AbstractOrderContextDirective,
     OutletDirective,
     AsyncPipe,
     TranslatePipe,
+    HierarchyModule,
   ],
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
+  private featureConfig = inject(FeatureConfigService);
+
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;
@@ -65,15 +73,25 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
         this.entries = order?.entries?.filter(
           (entry) => !entry.deliveryPointOfService
         );
+
+        if (this.featureConfig.isEnabled('enableBundles') && order && this.entries) {
+          const { filteredEntries, hierarchyTrees }
+             = this.orderConsignmentService.processShippingEntries(order, this.entries);
+          this.entries = filteredEntries;
+          this.shippingHierarchyTrees = hierarchyTrees;
+        }
       })
     );
 
   protected subscription = new Subscription();
 
+  shippingHierarchyTrees: HierarchyNode[];
+
   constructor(
     protected orderFacade: OrderFacade,
     protected translationService: TranslationService,
     protected cd: ChangeDetectorRef,
+    protected orderConsignmentService: OrderConsignmentService,
     @Optional()
     protected outlet?: OutletContextData<{
       showItemList?: boolean;

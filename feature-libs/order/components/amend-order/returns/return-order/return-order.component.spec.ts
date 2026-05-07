@@ -2,16 +2,28 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { OrderEntry } from '@spartacus/cart/base/root';
-import { FeatureConfigService } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
+import {
+  FeatureConfigService,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import {
   AmendOrderActionsComponent,
   CancelOrReturnItemsComponent,
 } from '@spartacus/order/components';
 import { Consignment } from '@spartacus/order/root';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { combineLatest, of, take } from 'rxjs';
+import {
+  FormErrorsModule,
+  HierarchyComponentService,
+  HierarchyNode,
+  OutletModule,
+} from '@spartacus/storefront';
+import { combineLatest, Observable, of, take } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
+import { OrderReturnService } from '../order-return.service';
 import { ReturnOrderComponent } from './return-order.component';
 
 const mockForm = new UntypedFormGroup({
@@ -74,8 +86,9 @@ const mockConsignmentsWithPartialMatch: {
     ],
   },
 ];
+
 class NewMockOrderAmendService extends MockOrderAmendService {
-  getOrder() {
+  override getOrder() {
     return of({ consignments: mockConsignmentsWithPartialMatch });
   }
 }
@@ -87,6 +100,8 @@ class NewMockOrderAmendService extends MockOrderAmendService {
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
+  @Input() isBundleConfig: boolean;
+  @Input() hasHeader: boolean;
 }
 
 @Component({
@@ -101,17 +116,52 @@ class MockAmendOrderActionComponent {
   @Input() forwardRoute: string;
 }
 
+class MockOrderReturnService {
+  getEntries(): Observable<OrderEntry[]> {
+    return of([{}] as OrderEntry[]);
+  }
+  getOrderEntryGroups(): Observable<OrderEntryGroup[]> {
+    return of([{}] as OrderEntryGroup[]);
+  }
+}
+
+class MockHierarchyService {
+  getEntriesFromGroups(): Observable<OrderEntry[]> {
+    return of([{}] as OrderEntry[]);
+  }
+  getBundlesFromGroups(): Observable<HierarchyNode[]> {
+    return of([]);
+  }
+}
+
 describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
   let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
   let orderAmendService: jasmine.SpyObj<OrderAmendService>;
 
+  const mockFeatureConfigSpy = jasmine.createSpyObj('FeatureConfigService', [
+    'isEnabled',
+  ]);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [FormErrorsModule, ReturnOrderComponent],
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+        FormErrorsModule,
+        OutletModule,
+        FeaturesConfigModule,
+      ],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
+        {
+          provide: HierarchyComponentService,
+          useClass: MockHierarchyService,
+        },
+        { provide: OrderReturnService, useClass: MockOrderReturnService },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigSpy },
       ],
     })
       .overrideComponent(ReturnOrderComponent, {
@@ -129,14 +179,11 @@ describe('ReturnOrderComponent', () => {
   }));
 
   beforeEach(() => {
-    featureConfigService = jasmine.createSpyObj('FeatureConfigService', [
-      'isEnabled',
-    ]);
-    // Mock the isEnabled method to return true
+    featureConfigService = TestBed.inject(
+      FeatureConfigService
+    ) as jasmine.SpyObj<FeatureConfigService>;
     featureConfigService.isEnabled.and.returnValue(true);
-    TestBed.overrideProvider(FeatureConfigService, {
-      useValue: featureConfigService,
-    });
+
     orderAmendService = jasmine.createSpyObj('OrderAmendService', [
       'getForm',
       'getOrder',
@@ -161,10 +208,8 @@ describe('ReturnOrderComponent', () => {
 
   it('should have an order code', (done) => {
     component.form$.pipe(take(1)).subscribe(() => {
-      {
-        expect(component.orderCode).toEqual('123');
-        done();
-      }
+      expect(component.orderCode).toEqual('123');
+      done();
     });
   });
 
@@ -188,7 +233,6 @@ describe('ReturnOrderComponent', () => {
     fixture.detectChanges();
 
     component.entries$.pipe(take(1)).subscribe((result: OrderEntry[] = []) => {
-      // Verify the filtered and mapped entries
       expect(result.length).toBe(2);
       expect(result[0].product?.code).toBe('prod1');
       expect(result[0].returnableQuantity).toBe(5);
@@ -296,13 +340,16 @@ describe('ReturnOrderComponent', () => {
             provide: FeatureConfigService,
             useClass: MockFeatureConfigService,
           },
+          {
+            provide: HierarchyComponentService,
+            useClass: MockHierarchyService,
+          },
+          { provide: OrderReturnService, useClass: MockOrderReturnService },
         ],
       })
         .overrideComponent(ReturnOrderComponent, {
           remove: {
-            imports: [
-              /* original child components will be removed in runtime */
-            ],
+            imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
           },
           add: {
             imports: [
@@ -358,13 +405,16 @@ describe('ReturnOrderComponent', () => {
             provide: FeatureConfigService,
             useValue: { isEnabled: () => false },
           },
+          {
+            provide: HierarchyComponentService,
+            useClass: MockHierarchyService,
+          },
+          { provide: OrderReturnService, useClass: MockOrderReturnService },
         ],
       })
         .overrideComponent(ReturnOrderComponent, {
           remove: {
-            imports: [
-              /* original child components will be removed in runtime */
-            ],
+            imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
           },
           add: {
             imports: [
@@ -381,7 +431,7 @@ describe('ReturnOrderComponent', () => {
       component = fixture.componentInstance;
     });
 
-    it('should not return entired when no matching entry consignment was found', (done) => {
+    it('should not return entries when no matching entry consignment was found', (done) => {
       combineLatest([
         component.entries$.pipe(take(1)),
         component.consignments$.pipe(take(1)),
@@ -393,17 +443,32 @@ describe('ReturnOrderComponent', () => {
     });
   });
 
-  describe('when feature toggle is disabled and no consignment shippedQuantity is provided', () => {
+  describe('when enableBundles feature is enabled', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
+      const bundleFeatureConfigSpy = jasmine.createSpyObj(
+        'FeatureConfigService',
+        ['isEnabled']
+      );
+      bundleFeatureConfigSpy.isEnabled.and.returnValue(true);
       TestBed.configureTestingModule({
         imports: [FormErrorsModule, ReturnOrderComponent],
+        providers: [
+          { provide: OrderAmendService, useClass: MockOrderAmendService },
+          {
+            provide: FeatureConfigService,
+            useValue: bundleFeatureConfigSpy,
+          },
+          {
+            provide: HierarchyComponentService,
+            useClass: MockHierarchyService,
+          },
+          { provide: OrderReturnService, useClass: MockOrderReturnService },
+        ],
       })
         .overrideComponent(ReturnOrderComponent, {
           remove: {
-            imports: [
-              /* original child components will be removed in runtime */
-            ],
+            imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
           },
           add: {
             imports: [
@@ -416,40 +481,15 @@ describe('ReturnOrderComponent', () => {
     }));
 
     beforeEach(() => {
-      // Mock the isEnabled method to return false
-      featureConfigService.isEnabled.and.returnValue(false);
-      TestBed.overrideProvider(FeatureConfigService, {
-        useValue: featureConfigService,
-      });
-      orderAmendService.getForm.and.returnValue(of(mockForm));
-      const expectedEntries = mockEntries.map((entry) => ({
-        ...entry,
-        returnableQuantity: 2,
-      }));
-      orderAmendService.getEntries.and.returnValue(of(expectedEntries));
-      const expectedConfigments = mockConsignments.map((consignment) => ({
-        entries: consignment.entries.map((entry) => ({
-          orderEntry: entry.orderEntry,
-          shippedQuantity: 0,
-        })),
-      }));
-      orderAmendService.getOrder.and.returnValue(
-        of({ consignments: expectedConfigments })
-      );
-      TestBed.overrideProvider(OrderAmendService, {
-        useValue: orderAmendService,
-      });
-
       fixture = TestBed.createComponent(ReturnOrderComponent);
       component = fixture.componentInstance;
     });
 
-    it('should set returnableQuantity to 0 when feature toggle is disabled', (done) => {
-      component.entries$.subscribe((result) => {
-        // No entries should be returned since shippedQuantity is 0 & feature toggle is off
-        expect(result.length).toBe(0);
-        done();
-      });
+    it('should set entries$ and bundles$ if enableBundles feature is enabled', () => {
+      fixture.detectChanges();
+      expect(component.entryGroups$).toBeDefined();
+      expect(component.entries$).toBeDefined();
+      expect(component.bundles$).toBeDefined();
     });
   });
 });

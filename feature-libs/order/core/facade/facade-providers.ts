@@ -6,22 +6,24 @@
 
 import { Provider } from '@angular/core';
 import {
+  OrderAttachmentsFacade,
+  OrderConsignmentFacade,
   OrderFacade,
   OrderHistoryFacade,
   OrderReturnRequestFacade,
   ReorderOrderFacade,
   ReplenishmentOrderHistoryFacade,
   ScheduledReplenishmentOrderFacade,
-  OrderAttachmentsFacade,
 } from '@spartacus/order/root';
 import { MyAccountV2OrderHistoryService } from './my-account-v2-order-history.service';
+import { OrderAttachmentsService } from './order-attachments.service';
+import { OrderConsignmentService } from './order-consignment.service';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
 import { ReorderOrderService } from './reorder-order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
-import { OrderAttachmentsService } from './order-attachments.service';
 
 export const facadeProviders: Provider[] = [
   OrderReturnRequestService,
@@ -59,5 +61,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: OrderAttachmentsFacade,
     useExisting: OrderAttachmentsService,
+  },
+  OrderConsignmentService,
+  {
+    provide: OrderConsignmentFacade,
+    useExisting: OrderConsignmentService,
   },
 ];

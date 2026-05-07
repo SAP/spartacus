@@ -14,10 +14,13 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { CmsOrderDetailItemsComponent, TranslatePipe } from '@spartacus/core';
+import { CmsOrderDetailItemsComponent, FeatureConfigService, TranslatePipe } from '@spartacus/core';
+import { OrderConsignmentService } from '@spartacus/order/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
 import {
   CmsComponentData,
+  HierarchyModule,
+  HierarchyNode,
   OutletDirective,
   PromotionsComponent,
 } from '@spartacus/storefront';
@@ -40,9 +43,11 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
     AsyncPipe,
     TranslatePipe,
     CommonModule,
+    HierarchyModule,
   ],
 })
 export class OrderDetailItemsComponent {
+  private featureConfig = inject(FeatureConfigService);
   protected orderConsignmentsService = inject(
     MyAccountV2OrderConsignmentsService
   );
@@ -57,6 +62,10 @@ export class OrderDetailItemsComponent {
 
   pickupUnconsignedEntries: OrderEntry[] | undefined;
   deliveryUnConsignedEntries: OrderEntry[] | undefined;
+  pickupUnconsignedStandAloneEntries: OrderEntry[] | undefined;
+  deliveryUnConsignedStandAloneEntries: OrderEntry[] | undefined;
+  pickupHierarchyTrees: HierarchyNode[];
+  deliveryHierarchyTrees: HierarchyNode[];
 
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails().pipe(
     tap((order) => {
@@ -68,6 +77,21 @@ export class OrderDetailItemsComponent {
         order,
         false
       );
+
+      if (this.featureConfig.isEnabled('enableBundles') && order && Object.keys(order).length > 0) {
+        const { pickup, delivery } = this.orderConsignmentService.processUnconsignedEntries(
+          order,
+          {
+            pickup: this.pickupUnconsignedEntries || [],
+            delivery: this.deliveryUnConsignedEntries || [],
+          }
+        );
+
+        this.pickupUnconsignedStandAloneEntries = pickup.filteredEntries;
+        this.pickupHierarchyTrees = pickup.hierarchyTrees;
+        this.deliveryUnConsignedStandAloneEntries = delivery.filteredEntries;
+        this.deliveryHierarchyTrees = delivery.hierarchyTrees;
+      }
     })
   );
 
@@ -86,7 +110,8 @@ export class OrderDetailItemsComponent {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
+    protected component: CmsComponentData<CmsOrderDetailItemsComponent>,
+    protected orderConsignmentService: OrderConsignmentService,
   ) {}
 
   protected getGroupedConsignments(

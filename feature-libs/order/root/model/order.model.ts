@@ -9,6 +9,7 @@ import {
   DeliveryMode,
   DeliveryOrderEntryGroup,
   OrderEntry,
+  OrderEntryGroup,
   PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
@@ -25,6 +26,7 @@ import {
   Principal,
   SortModel,
 } from '@spartacus/core';
+import { HierarchyNode } from '@spartacus/storefront';
 
 export interface CancelOrReturnRequestEntryInput {
   orderEntryNumber?: number;
@@ -79,6 +81,8 @@ export interface Consignment {
   status?: string;
   statusDate?: Date;
   trackingID?: string;
+  entryGroups?: OrderEntryGroup[];
+  hierachyTrees?: HierarchyNode[];
 }
 
 export interface OrderHistory {
@@ -117,6 +121,7 @@ export interface Order {
   deliveryStatus?: string;
   deliveryStatusDisplay?: string;
   entries?: OrderEntry[];
+  entryGroups?: OrderEntryGroup[];
   guestCustomer?: boolean;
   guid?: string;
   net?: boolean;

@@ -164,6 +164,7 @@
       "cartValidationIssue": "There are problems with your entries. Please review your cart.",
       "quoteCartIssue": "Not possible to do changes to cart entries. Proceed to checkout",
       "absoluteDiscountIssue": "Choose a discount that does not exceed the total value",
+      "expirationQuantity": "Request for Return was not successful. Contact customer support.",
       "expirationDateIssue": "Choose an expiration date in the future",
       "threshold": {
         "underThresholdError": "Total price of requested quote does not meet the minimum threshold"

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -22,7 +22,6 @@ import {
 import {
   Address,
   FeatureConfigService,
-  FeaturesConfigModule,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -48,7 +47,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    NgFor,
     NgClass,
     CardComponent,
     RouterLink,
@@ -58,7 +56,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
     TranslatePipe,
     UrlPipe,
     HierarchyModule,
-    FeaturesConfigModule,
   ],
 })
 export class CheckoutReviewShippingComponent implements OnInit {

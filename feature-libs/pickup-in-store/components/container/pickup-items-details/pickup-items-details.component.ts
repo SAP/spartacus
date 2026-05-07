@@ -27,7 +27,7 @@ import {
   ICON_TYPE,
   IconComponent,
   MediaComponent,
-  OutletDirective,
+  OutletDirective
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
@@ -85,7 +85,7 @@ export class PickUpItemsDetailsComponent implements OnInit {
             this.context = data.context;
             this.itemsDetails =
               data.context === 'order'
-                ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrder()
+                ? this.deliveryPointsService.getDeliveryPointsOfServiceFromOrderWithEntryGroups()
                 : this.deliveryPointsService.getDeliveryPointsOfServiceFromCartWithEntryGroups();
           }),
           take(1)

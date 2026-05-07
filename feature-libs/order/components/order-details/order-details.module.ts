@@ -24,6 +24,7 @@ import { OrderOutlets, USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
   BtnLikeLinkModule,
   CardModule,
+  HierarchyModule,
   IconModule,
   KeyboardFocusModule,
   MessageComponentModule,
@@ -121,8 +122,9 @@ const moduleComponents = [
     AbstractOrderContextModule,
     BtnLikeLinkModule,
     MessageComponentModule,
+    HierarchyModule,
     ...moduleComponents,
-  ],
+],
   providers: [
     OrderOverviewComponentService,
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{

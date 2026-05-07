@@ -64,84 +64,6 @@ export class DeliveryPointsService {
     );
   }
 
-  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<
-    Array<DeliveryPointOfService>
-  > {
-    return combineLatest([
-      this.activeCartFacade.getPickupEntries(),
-      this.activeCartFacade.getPickupEntryGroups(),
-    ]).pipe(
-      filter(
-        ([entries, entryGroups]) => !!entries?.length && !!entryGroups?.length
-      ),
-      switchMap(([entries, entryGroups]) =>
-        this.getDeliveryPointsOfService(entries).pipe(
-          map((deliveryPoints) =>
-            deliveryPoints.map((deliveryPoint) => {
-              // Define a function to find matching entry groups while preserving the original structure
-              const findMatchingEntryGroups = (
-                group: OrderEntryGroup
-              ): OrderEntryGroup | null => {
-                // Check if current group matches
-                const matches = group.entries?.some((entry) =>
-                  deliveryPoint.value.some(
-                    (dEntry) => dEntry.entryNumber === entry.entryNumber
-                  )
-                );
-
-                if (matches) {
-                  // Create a copy of the group with its entryGroups
-                  return {
-                    ...group,
-                    entryGroups: group.entryGroups
-                      ?.map(findMatchingEntryGroups)
-                      .filter(Boolean) as OrderEntryGroup[],
-                  };
-                }
-
-                // Recursively check children if not a match
-                if (group.entryGroups?.length) {
-                  const filteredGroups = group.entryGroups
-                    .map(findMatchingEntryGroups)
-                    .filter(Boolean) as OrderEntryGroup[];
-                  if (filteredGroups.length > 0) {
-                    return { ...group, entryGroups: filteredGroups };
-                  }
-                }
-
-                return null;
-              };
-
-              // Apply the recursive function to filter and map entryGroups
-              const relatedEntryGroups = entryGroups
-                .map(findMatchingEntryGroups)
-                .filter(Boolean) as OrderEntryGroup[];
-
-              // Convert entryGroups to HierarchyNode
-              const bundles: HierarchyNode[] = [];
-              relatedEntryGroups.forEach((entryGroup) => {
-                if (entryGroup.type === 'CONFIGURABLEBUNDLE') {
-                  const root = new CollapsibleNode('ROOT', {
-                    children: [],
-                  });
-                  this.hierarchyService.buildHierarchyTree([entryGroup], root);
-                  bundles.push(root);
-                }
-              });
-
-              // Return the delivery point with matched entry groups
-              return {
-                ...deliveryPoint,
-                entryGroups: relatedEntryGroups,
-                hierachyTrees: bundles, // Add the bundles property here
-              };
-            })
-          )
-        )
-      )
-    );
-  }
-
   getDeliveryPointsOfServiceFromOrder(): Observable<
     Array<DeliveryPointOfService>
   > {
@@ -149,6 +71,85 @@ export class DeliveryPointsService {
       filter((entries) => !!entries && !!entries.length),
       switchMap((entries) => this.getDeliveryPointsOfService(entries))
     );
+  }
+
+  getDeliveryPointsOfServiceFromCartWithEntryGroups(): Observable<DeliveryPointOfService[]> {
+    return this.getDeliveryPointsOfServiceWithEntryGroups(
+      this.activeCartFacade.getPickupEntries(),
+      this.activeCartFacade.getPickupEntryGroups()
+    );
+  }
+  getDeliveryPointsOfServiceFromOrderWithEntryGroups(): Observable<DeliveryPointOfService[]> {
+    return this.getDeliveryPointsOfServiceWithEntryGroups(
+      this.orderFacade.getPickupEntries(),
+      this.orderFacade.getPickupEntryGroups()
+    );
+  }
+  
+  private getDeliveryPointsOfServiceWithEntryGroups(
+    entries$: Observable<OrderEntry[]>,
+    entryGroups$: Observable<OrderEntryGroup[]>
+  ): Observable<DeliveryPointOfService[]> {
+    return combineLatest([entries$, entryGroups$]).pipe(
+      filter(([entries, entryGroups]) => !!entries.length && !!entryGroups.length),
+      switchMap(([entries, entryGroups]) =>
+        this.getDeliveryPointsOfService(entries).pipe(
+          map((deliveryPoints) =>
+            deliveryPoints.map((deliveryPoint) => this.mapDeliveryPointWithGroups(deliveryPoint, entryGroups))
+          )
+        )
+      )
+    );
+  }
+
+  private mapDeliveryPointWithGroups(
+    deliveryPoint: DeliveryPointOfService,
+    entryGroups: OrderEntryGroup[]
+  ): DeliveryPointOfService {
+    // Define a function to find matching entry groups while preserving the original structure
+    const findMatchingEntryGroups = (group: OrderEntryGroup): OrderEntryGroup | null => {
+      // Check if current group matches
+      const matches = group.entries?.some((entry) =>
+        deliveryPoint.value.some((dEntry) => dEntry.entryNumber === entry.entryNumber)
+      );
+      if (matches) {
+        // Create a copy of the group with its entryGroups
+        return {
+          ...group,
+          entryGroups: group.entryGroups?.map(findMatchingEntryGroups).filter(Boolean) as OrderEntryGroup[],
+        };
+      }
+      // Recursively check children if not a match
+      if (group.entryGroups?.length) {
+        const filteredGroups = group.entryGroups
+          .map(findMatchingEntryGroups)
+          .filter(Boolean) as OrderEntryGroup[];
+        if (filteredGroups.length > 0) {
+          return { ...group, entryGroups: filteredGroups };
+        }
+      }
+      return null;
+    };
+
+    // Apply the recursive function to filter and map entryGroups
+    const relatedEntryGroups = entryGroups.map(findMatchingEntryGroups).filter(Boolean) as OrderEntryGroup[];
+
+    // Convert entryGroups to HierarchyNode
+    const bundles: HierarchyNode[] = [];
+    relatedEntryGroups.forEach((entryGroup) => {
+      if (entryGroup.type === 'CONFIGURABLEBUNDLE') {
+        const root = new CollapsibleNode('ROOT', { children: [] });
+        this.hierarchyService.buildHierarchyTree([entryGroup], root);
+        bundles.push(root);
+      }
+    });
+
+    // Return the delivery point with matched entry groups
+    return {
+      ...deliveryPoint,
+      entryGroups: relatedEntryGroups,
+      hierachyTrees: bundles,
+    };
   }
 
   getDeliveryPointsOfService(

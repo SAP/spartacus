@@ -1,100 +1,300 @@
-<table
-  class="cx-return-request-items"
-  *ngIf="returnRequest$ | async as returnRequest"
->
-  <caption class="cx-visually-hidden">
-    {{
-      'returnRequest.caption' | cxTranslate
-    }}
-  </caption>
-  <thead>
-    <tr>
-      <th role="columnheader" class="cx-item-list-desc">
-        {{ 'returnRequest.item' | cxTranslate }}
-      </th>
-      <th role="columnheader" class="cx-item-list-price">
-        {{ 'returnRequest.itemPrice' | cxTranslate }}
-      </th>
-      <th role="columnheader" class="cx-item-list-qty">
-        {{ 'returnRequest.returnQty' | cxTranslate }}
-      </th>
-      <th role="columnheader" class="cx-item-list-total">
-        {{ 'returnRequest.total' | cxTranslate }}
-      </th>
-    </tr>
-  </thead>
+<ng-container *cxFeature="'!enableBundles'">
+  <table
+    class="cx-return-request-items"
+    *ngIf="returnRequest$ | async as returnRequest"
+  >
+    <caption class="cx-visually-hidden">
+      {{
+        'returnRequest.caption' | cxTranslate
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th role="columnheader" class="cx-item-list-desc">
+          {{ 'returnRequest.item' | cxTranslate }}
+        </th>
+        <th role="columnheader" class="cx-item-list-price">
+          {{ 'returnRequest.itemPrice' | cxTranslate }}
+        </th>
+        <th role="columnheader" class="cx-item-list-qty">
+          {{ 'returnRequest.returnQty' | cxTranslate }}
+        </th>
+        <th role="columnheader" class="cx-item-list-total">
+          {{ 'returnRequest.total' | cxTranslate }}
+        </th>
+      </tr>
+    </thead>
 
-  <tbody class="cx-item-list-items">
-    <!-- TODO: This should be a separate component-->
-    <tr
-      class="cx-item-list-row cx-return-request-item-row"
-      *ngFor="let returnEntry of returnRequest.returnEntries; let i = index"
-    >
-      <td role="cell">
-        <!-- Item Image -->
-        <div class="cx-table-item-container">
-          <cx-media
-            [container]="returnEntry.orderEntry?.product.images?.PRIMARY"
-            format="thumbnail"
-          ></cx-media>
-          <!-- Item Description -->
-          <div class="cx-info">
-            <div *ngIf="returnEntry.orderEntry?.product.name" class="cx-name">
-              {{ returnEntry.orderEntry?.product.name }}
-            </div>
-            <div *ngIf="returnEntry.orderEntry?.product.code" class="cx-code">
-              {{ 'cartItems.id' | cxTranslate }}
-              {{ returnEntry.orderEntry?.product.code }}
-            </div>
-            <!-- Variants -->
-            <div
-              *ngFor="
-                let variant of (returnEntry.orderEntry?.product.baseOptions)[0]
-                  ?.selected?.variantOptionQualifiers
-              "
-              class="cx-property"
-            >
-              <div class="cx-label" *ngIf="variant.name">
-                {{ variant.name }}:
+    <tbody class="cx-item-list-items">
+      <!-- TODO: This should be a separate component-->
+      <tr
+        class="cx-item-list-row cx-return-request-item-row"
+        *ngFor="let returnEntry of returnRequest.returnEntries; let i = index"
+      >
+        <td role="cell">
+          <!-- Item Image -->
+          <div class="cx-table-item-container">
+            <cx-media
+              [container]="returnEntry.orderEntry?.product?.images?.PRIMARY"
+              format="thumbnail"
+            ></cx-media>
+            <!-- Item Description -->
+            <div class="cx-info">
+              <div
+                *ngIf="returnEntry.orderEntry?.product?.name"
+                class="cx-name"
+              >
+                {{ returnEntry.orderEntry?.product?.name }}
               </div>
-              <div class="cx-value" *ngIf="variant.value">
-                {{ variant.value }}
+              <div
+                *ngIf="returnEntry.orderEntry?.product?.code"
+                class="cx-code"
+              >
+                {{ 'cartItems.id' | cxTranslate }}
+                {{ returnEntry.orderEntry?.product?.code }}
+              </div>
+              <!-- Variants -->
+              <div
+                *ngFor="
+                  let variant of (returnEntry?.orderEntry?.product
+                    ?.baseOptions)[0]?.selected?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
+                </div>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </td>
-      <!-- Item Price -->
-      <td
-        role="cell"
-        class="cx-price"
-        *ngIf="returnEntry.orderEntry?.basePrice"
-      >
-        <div class="cx-mobile-header">
+        </td>
+        <!-- Item Price -->
+        <td
+          role="cell"
+          class="cx-price"
+          *ngIf="returnEntry.orderEntry?.basePrice"
+        >
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.itemPrice' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.orderEntry?.basePrice?.formattedValue }}
+          </div>
+        </td>
+        <!-- return Quantity -->
+        <td role="cell" class="cx-quantity">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.returnQty' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.expectedQuantity }}
+          </div>
+        </td>
+        <!-- Total Price -->
+        <td role="cell" class="cx-total">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.total' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.refundAmount?.formattedValue }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
+
+<!-- enableBundles -->
+<ng-container *cxFeature="'enableBundles'">
+  <table
+    class="cx-return-request-items cx-return-request-bundle-items"
+    *ngIf="entries$ | async as returnRequest"
+  >
+    <caption class="cx-visually-hidden">
+      {{
+        'returnRequest.caption' | cxTranslate
+      }}
+    </caption>
+    <thead>
+      <tr class="cx-item-tr-border">
+        <th role="columnheader" class="cx-item-list-desc">
+          {{ 'returnRequest.item' | cxTranslate }}
+        </th>
+        <th role="columnheader" class="cx-item-list-price">
           {{ 'returnRequest.itemPrice' | cxTranslate }}
-        </div>
-        <div class="cx-value">
-          {{ returnEntry.orderEntry?.basePrice?.formattedValue }}
-        </div>
-      </td>
-      <!-- return Quantity -->
-      <td role="cell" class="cx-quantity">
-        <div class="cx-mobile-header">
+        </th>
+        <th role="columnheader" class="cx-item-list-qty">
           {{ 'returnRequest.returnQty' | cxTranslate }}
-        </div>
-        <div class="cx-value">
-          {{ returnEntry.expectedQuantity }}
-        </div>
-      </td>
-      <!-- Total Price -->
-      <td role="cell" class="cx-total">
-        <div class="cx-mobile-header">
+        </th>
+        <th role="columnheader" class="cx-item-list-total">
           {{ 'returnRequest.total' | cxTranslate }}
-        </div>
-        <div class="cx-value">
-          {{ returnEntry.refundAmount?.formattedValue }}
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="cx-item-list-items">
+      <!-- TODO: This should be a separate component-->
+      <tr
+        class="cx-item-list-row cx-return-request-item-row"
+        *ngFor="let returnEntry of returnRequest; let i = index"
+      >
+        <td role="cell">
+          <!-- Item Image -->
+          <div class="cx-table-item-container">
+            <cx-media
+              [container]="returnEntry?.product?.images?.PRIMARY"
+              format="thumbnail"
+            ></cx-media>
+            <!-- Item Description -->
+            <div class="cx-info">
+              <div *ngIf="returnEntry?.product?.name" class="cx-name">
+                {{ returnEntry?.product?.name }}
+              </div>
+              <div *ngIf="returnEntry?.product?.code" class="cx-code">
+                {{ 'cartItems.id' | cxTranslate }}
+                {{ returnEntry?.product?.code }}
+              </div>
+              <!-- Variants -->
+              <div
+                *ngFor="
+                  let variant of (returnEntry?.product?.baseOptions)[0]
+                    ?.selected?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
+                </div>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <!-- Item Price -->
+        <td role="cell" class="cx-price" *ngIf="returnEntry?.basePrice">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.itemPrice' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry?.basePrice?.formattedValue }}
+          </div>
+        </td>
+        <!-- return Quantity -->
+        <td role="cell" class="cx-quantity">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.returnQty' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.expectedQuantity }}
+          </div>
+        </td>
+        <!-- Total Price -->
+        <td role="cell" class="cx-total">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.total' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.refundAmount?.formattedValue }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-container *ngFor="let bundle of bundles$ | async">
+    <cx-hierarchy
+      [options]="{
+        tree: bundle,
+        template: bundlesTemplate,
+        titleReadonly: true,
+        collasibleReadonly: true,
+      }"
+    >
+    </cx-hierarchy>
+  </ng-container>
+</ng-container>
+<ng-template #bundlesTemplate let-items>
+  <table
+    class="cx-return-request-items cx-return-request-bundle-items"
+    *ngIf="returnRequest$ | async as returnRequest"
+  >
+    <caption class="cx-visually-hidden">
+      {{
+        'returnRequest.caption' | cxTranslate
+      }}
+    </caption>
+    <tbody class="cx-item-list-items">
+      <!-- TODO: This should be a separate component-->
+      <tr
+        class="cx-item-list-row cx-return-request-item-row"
+        *ngFor="let returnEntry of items; let i = index"
+      >
+        <td role="cell">
+          <!-- Item Image -->
+          <div class="cx-table-item-container">
+            <cx-media
+              [container]="returnEntry?.product.images?.PRIMARY"
+              format="thumbnail"
+            ></cx-media>
+            <!-- Item Description -->
+            <div class="cx-info">
+              <div *ngIf="returnEntry?.product.name" class="cx-name">
+                {{ returnEntry?.product.name }}
+              </div>
+              <div *ngIf="returnEntry?.product.code" class="cx-code">
+                {{ 'cartItems.id' | cxTranslate }}
+                {{ returnEntry?.product.code }}
+              </div>
+              <!-- Variants -->
+              <div
+                *ngFor="
+                  let variant of (returnEntry?.product.baseOptions)[0]?.selected
+                    ?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
+                </div>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <!-- Item Price -->
+        <td role="cell" class="cx-price" *ngIf="returnEntry?.basePrice">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.itemPrice' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry?.basePrice?.formattedValue }}
+          </div>
+        </td>
+        <!-- return Quantity -->
+        <td role="cell" class="cx-quantity">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.returnQty' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.expectedQuantity }}
+          </div>
+        </td>
+        <!-- Total Price -->
+        <td role="cell" class="cx-total">
+          <div class="cx-mobile-header">
+            {{ 'returnRequest.total' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ returnEntry.refundAmount?.formattedValue }}
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>

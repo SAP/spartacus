@@ -14,34 +14,34 @@ import {
 } from '@angular/core';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
+  ActiveCartFacade,
   Cart,
   CartOutlets,
   CartType,
   DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
-  PromotionLocation,
   OrderEntry,
   OrderEntryGroup,
-  ActiveCartFacade,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
-  HierarchyComponentService,
-  HierarchyModule,
-  HierarchyNode,
-} from '@spartacus/storefront';
-import {
   EventService,
+  FeatureConfigService,
   FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   TranslatePipe,
   TranslationService,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { OutletDirective, SpinnerComponent } from '@spartacus/storefront';
+import {
+  HierarchyComponentService,
+  HierarchyModule,
+  HierarchyNode,
+  OutletDirective, SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap, filter, pluck } from 'rxjs/operators';
+import { filter, map, pluck, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({

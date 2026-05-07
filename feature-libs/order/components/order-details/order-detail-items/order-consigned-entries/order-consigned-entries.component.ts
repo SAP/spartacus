@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { AsyncPipe, NgClass, NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
@@ -15,11 +15,13 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
+  FeatureConfigService,
   FeatureDirective,
   TranslationService,
 } from '@spartacus/core';
+import { OrderConsignmentService } from '@spartacus/order/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
-import { OutletDirective } from '@spartacus/storefront';
+import { OutletDirective, HierarchyModule } from '@spartacus/storefront';
 import { map } from 'rxjs';
 import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 
@@ -28,6 +30,7 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
   templateUrl: './order-consigned-entries.component.html',
   imports: [
     NgFor,
+    NgClass,
     OutletDirective,
     NgIf,
     FeatureDirective,
@@ -37,9 +40,12 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
     AsyncPipe,
     TitleCasePipe,
     CxDatePipe,
+    HierarchyModule,
   ],
 })
-export class OrderConsignedEntriesComponent {
+export class OrderConsignedEntriesComponent implements OnInit{
+  private featureConfig = inject(FeatureConfigService);
+
   @Input() consignments: Consignment[];
   @Input() order: Order;
   @Input() enableAddToCart: boolean | undefined;
@@ -65,5 +71,15 @@ export class OrderConsignedEntriesComponent {
           }
         })
       );
+    }
+  constructor(
+    protected orderConsignmentService: OrderConsignmentService,
+  ) {}
+
+  ngOnInit() {
+    if (this.featureConfig.isEnabled('enableBundles')) {
+      this.consignments =
+        this.orderConsignmentService.assignEntryGroupsToConsignments(this.order, this.consignments);
+    }
   }
 }

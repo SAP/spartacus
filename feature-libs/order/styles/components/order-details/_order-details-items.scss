@@ -48,4 +48,51 @@
     padding: 15px 40px;
     margin: 0px 0 30px 0;
   }
+
+  cx-order-consigned-entries .cx-list-item {
+    margin-bottom: 1rem;
+    .emptyList {
+      table {
+        margin: 1rem 0 0;
+
+        .cx-item-list-header {
+          border-bottom: 1px solid var(--cx-color-medium);
+          .cx-item-list-desc {
+            width: 69%;
+          }
+        }
+      }
+    }
+
+    .noneEmptyList {
+      table {
+        margin-bottom: 0;
+      }
+    }
+
+    .cx-item-list-items tr {
+      td:nth-of-type(1) {
+        padding-inline-start: 1.25rem;
+      }
+      td:nth-last-of-type(1) {
+        padding-inline-end: 1.25rem;
+      }
+    }
+  }
+
+  .emptyList {
+    table {
+      margin: 1rem 0 0;
+
+      .cx-item-list-header {
+        border-bottom: 1px solid var(--cx-color-medium);
+      }
+    }
+  }
+
+  .noneEmptyList {
+    table {
+      margin-bottom: 0;
+    }
+  }
 }

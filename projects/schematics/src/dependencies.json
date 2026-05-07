@@ -42,6 +42,7 @@
     "@ngrx/router-store": "^21.0.1",
     "@ngrx/store": "^21.0.1",
     "@spartacus/core": "221121.10.0",
+    "@spartacus/cart": "221121.10.0",
     "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "^7.8.0"
   },

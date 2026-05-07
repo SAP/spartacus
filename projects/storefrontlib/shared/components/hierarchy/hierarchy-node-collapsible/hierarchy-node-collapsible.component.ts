@@ -5,8 +5,8 @@
  */
 
 import { Component, HostBinding, Input } from '@angular/core';
-import { CollapsibleNode } from './collapsible-node.model';
 import { HierarchyOptions } from '../hierarchy/hierarchy.model';
+import { CollapsibleNode } from './collapsible-node.model';
 
 /**
  * Hierarchy Selection node variant that is collapsible

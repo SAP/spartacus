@@ -75,12 +75,19 @@
   }
 
   .cx-delivery-mode-cart-item {
+    margin-bottom: 1rem;
     .emptyList {
       table {
         margin: 1rem 0 0;
 
         .cx-item-list-header {
           border-bottom: 1px solid var(--cx-color-medium);
+          .cx-item-list-desc {
+            width: 70%;
+          }
+          .cx-item-list-qty {
+            width: 15%;
+          }
         }
       }
     }

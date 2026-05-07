@@ -1,8 +1,32 @@
 <ng-container *ngIf="form$ | async as form">
   <ng-container *ngTemplateOutlet="actions"></ng-container>
 
-  <cx-amend-order-items *ngIf="entries$ | async as entries" [entries]="entries">
-  </cx-amend-order-items>
+  <ng-container *cxFeature="'!enableBundles'">
+    <cx-amend-order-items
+      *ngIf="entries$ | async as entries"
+      [entries]="entries"
+    >
+    </cx-amend-order-items>
+  </ng-container>
+  <ng-container *cxFeature="'enableBundles'">
+    <cx-amend-order-items
+      *ngIf="entries$ | async as entries"
+      [entries]="entries"
+      [isBundleConfig]="isBundleConfig"
+    >
+    </cx-amend-order-items>
+    <ng-container *ngFor="let bundle of bundles$ | async">
+      <cx-hierarchy
+        [options]="{
+          tree: bundle,
+          template: bundlesTemplate,
+          titleReadonly: hasActionButton,
+          collasibleReadonly: hasActionButton,
+        }"
+      >
+      </cx-hierarchy>
+    </ng-container>
+  </ng-container>
 
   <cx-form-errors [control]="form.get('entries')"></cx-form-errors>
 
@@ -16,5 +40,13 @@
       backRoute="orderDetails"
       forwardRoute="orderReturnConfirmation"
     ></cx-amend-order-actions>
+  </ng-template>
+
+  <ng-template #bundlesTemplate let-items>
+    <cx-amend-order-items
+      [entries]="items"
+      [hasHeader]="false"
+      [isBundleConfig]="isBundleConfig"
+    ></cx-amend-order-items>
   </ng-template>
 </ng-container>

@@ -1,20 +1,23 @@
 <div *ngIf="form$ | async as form">
   <button
-    *ngIf="!isConfirmation"
+    *ngIf="!isConfirmation && hasHeader"
     class="btn btn-link cx-action-link"
     (click)="setAll(form)"
   >
     {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
   </button>
 
-  <table class="cx-amend-order-items">
+  <table
+    class="cx-amend-order-items"
+    [class.cx-amend-order-bundle-items]="isBundleConfig"
+  >
     <caption class="cx-visually-hidden">
       {{
         'orderDetails.caption' | cxTranslate
       }}
     </caption>
-    <thead>
-      <tr>
+    <thead *ngIf="hasHeader">
+      <tr [class.cx-item-tr-border]="hasHeader">
         <th role="columnheader" class="cx-item-list-desc">
           {{ 'orderDetails.cancellationAndReturn.item' | cxTranslate }}
         </th>

@@ -75,7 +75,9 @@
           [options]="{
             tree: bundle,
             template: bundlesTemplate,
-            onItemRemove: removeBundle.bind(this)
+            titleReadonly: true,
+            collasibleReadonly: true,
+            onItemRemove: removeBundle.bind(this),
           }"
         >
         </cx-hierarchy>

@@ -12,8 +12,8 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { TitleNode } from '../hierarchy-node-title/title-node.model';
 import { CollapsibleNode } from '../hierarchy-node-collapsible/collapsible-node.model';
+import { TitleNode } from '../hierarchy-node-title/title-node.model';
 import { HierarchyOptions } from '../hierarchy/hierarchy.model';
 
 @Component({

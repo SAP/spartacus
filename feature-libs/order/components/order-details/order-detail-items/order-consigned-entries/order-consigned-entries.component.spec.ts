@@ -4,12 +4,14 @@ import { By } from '@angular/platform-browser';
 import { PromotionLocation } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
+  FeatureConfigService,
   FeaturesConfig,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
+import { OrderConsignmentService } from '@spartacus/order/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule, OutletModule } from '@spartacus/storefront';
 import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
@@ -20,44 +22,6 @@ const mockProduct = { product: { code: 'test' } };
 const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
-  deliveryAddress: {
-    firstName: 'John',
-    lastName: 'Smith',
-    line1: 'Buckingham Street 5',
-    line2: '1A',
-    phone: '(+11) 111 111 111',
-    postalCode: 'MA8902',
-    town: 'London',
-    country: {
-      isocode: 'UK',
-    },
-  },
-  deliveryMode: {
-    name: 'Standard order-detail-shipping',
-    description: '3-5 days',
-  },
-  paymentInfo: {
-    accountHolderName: 'John Smith',
-    cardNumber: '************6206',
-    expiryMonth: '12',
-    expiryYear: '2026',
-    cardType: {
-      name: 'Visa',
-    },
-    billingAddress: {
-      firstName: 'John',
-      lastName: 'Smith',
-      line1: 'Buckingham Street 5',
-      line2: '1A',
-      phone: '(+11) 111 111 111',
-      postalCode: 'MA8902',
-      town: 'London',
-      country: {
-        isocode: 'UK',
-      },
-    },
-  },
-  created: new Date('2019-02-11T13:02:58+0000'),
   consignments: [
     {
       code: 'a00000341',
@@ -88,8 +52,13 @@ describe('OrderConsignedEntriesComponent', () => {
   let component: OrderConsignedEntriesComponent;
   let fixture: ComponentFixture<OrderConsignedEntriesComponent>;
   let el: DebugElement;
+  let mockFeatureConfigService: jasmine.SpyObj<FeatureConfigService>;
+  let mockOrderConsignmentService: jasmine.SpyObj<OrderConsignmentService>;
 
   beforeEach(waitForAsync(() => {
+    mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+    mockOrderConsignmentService = jasmine.createSpyObj('OrderConsignmentService', ['assignEntryGroupsToConsignments']);
+
     TestBed.configureTestingModule({
       imports: [CardModule, OutletModule, OrderConsignedEntriesComponent],
       providers: [
@@ -99,6 +68,8 @@ describe('OrderConsignedEntriesComponent', () => {
             features: { level: '1.4', consignmentTracking: true },
           },
         },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
+        { provide: OrderConsignmentService, useValue: mockOrderConsignmentService },
       ],
     })
       .overrideComponent(OrderConsignedEntriesComponent, {
@@ -124,7 +95,12 @@ describe('OrderConsignedEntriesComponent', () => {
     component.order = mockOrder;
     component.consignments = mockOrder.consignments;
     component.promotionLocation = PromotionLocation.Order;
-  });
+
+    mockFeatureConfigService.isEnabled.and.returnValue(false);
+    mockOrderConsignmentService.assignEntryGroupsToConsignments.and.callFake(
+      (_order: any, consignments: any) => consignments
+    );
+      });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -133,5 +109,25 @@ describe('OrderConsignedEntriesComponent', () => {
   it('should order consignment entries be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
+  });
+
+  it('should not modify consignments if enableBundles is disabled', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(false);
+
+    component.ngOnInit();
+
+    expect(mockOrderConsignmentService.assignEntryGroupsToConsignments).not.toHaveBeenCalled();
+    expect(component.consignments).toEqual(mockOrder.consignments);
+  });
+
+  it('should assign entry groups to consignments if enableBundles is enabled', () => {
+    const modifiedConsignments = [{ code: 'modified' }] as Consignment[];
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    mockOrderConsignmentService.assignEntryGroupsToConsignments.and.returnValue(modifiedConsignments);
+
+    component.ngOnInit();
+
+    expect(mockOrderConsignmentService.assignEntryGroupsToConsignments).toHaveBeenCalledWith(mockOrder, mockOrder.consignments);
+    expect(component.consignments).toEqual(modifiedConsignments);
   });
 });

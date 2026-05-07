@@ -29,8 +29,11 @@ import { OrderAmendService } from '../amend-order.service';
 export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
   @Input() isConfirmation = false;
+  @Input() hasHeader = true;
+  @Input() isBundleConfig = false;
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService.getForm();
+  allEntries$: Observable<OrderEntry[]> = this.orderAmendService.getEntries();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
@@ -42,9 +45,11 @@ export class CancelOrReturnItemsComponent {
   }
 
   setAll(form: UntypedFormGroup): void {
-    this.entries.forEach((entry) =>
-      this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
-    );
+    this.allEntries$.subscribe((entries) => {
+      entries.forEach((entry) =>
+        this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
+      );
+    });
   }
 
   getItemPrice(entry: OrderEntry): Price {

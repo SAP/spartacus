@@ -5,11 +5,13 @@ import { RouterModule } from '@angular/router';
 import {
   CmsOrderDetailItemsComponent,
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
+import { OrderConsignmentService } from '@spartacus/order/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -147,6 +149,8 @@ describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
   let mockOrderDetailsService: OrderDetailsService;
+  let mockFeatureConfigService: jasmine.SpyObj<FeatureConfigService>;
+  let mockOrderConsignmentService: jasmine.SpyObj<OrderConsignmentService>;
   let el: DebugElement;
 
   beforeEach(waitForAsync(() => {
@@ -158,12 +162,29 @@ describe('OrderDetailItemsComponent', () => {
         return of(mockOrder);
       },
     };
+    mockFeatureConfigService = jasmine.createSpyObj('FeatureConfigService', ['isEnabled']);
+    mockOrderConsignmentService = jasmine.createSpyObj('OrderConsignmentService', [
+      'processUnconsignedEntries',
+    ]);
+    mockFeatureConfigService.isEnabled.and.returnValue(false);
+    mockOrderConsignmentService.processUnconsignedEntries.and.returnValue({
+      pickup: {
+        filteredEntries: [mockOrder.unconsignedEntries?.[0]],
+        hierarchyTrees: [],
+      },
+      delivery: {
+        filteredEntries: [mockOrder.unconsignedEntries?.[1]],
+        hierarchyTrees: [],
+      },
+    });
 
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([]), I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: OrderConsignmentService, useValue: mockOrderConsignmentService },
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
     })
       .overrideComponent(OrderDetailItemsComponent, {
@@ -202,7 +223,7 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize order ', () => {
-    let order: Order;
+    let order: Order | undefined;
     component.order$
       .subscribe((value) => {
         order = value;
@@ -213,37 +234,37 @@ describe('OrderDetailItemsComponent', () => {
 
   it('should get pickupConsignements', () => {
     component.order$.subscribe().unsubscribe();
-    expect(component.pickupConsignments).toContain(mockOrder.consignments[2]);
+    expect(component.pickupConsignments).toContain(mockOrder.consignments?.[2]);
   });
 
   it('should get grouped deliveryConsignments', () => {
     component.order$.subscribe().unsubscribe();
 
     expect(component.deliveryConsignments?.[0]).toEqual(
-      mockOrder.consignments[0]
+      mockOrder.consignments?.[0]
     );
     expect(component.deliveryConsignments?.[1]).toEqual(
-      mockOrder.consignments[4]
+      mockOrder.consignments?.[4]
     );
     expect(component.deliveryConsignments?.[2]).toEqual(
-      mockOrder.consignments[1]
+      mockOrder.consignments?.[1]
     );
     expect(component.deliveryConsignments?.[3]).toEqual(
-      mockOrder.consignments[3]
+      mockOrder.consignments?.[3]
     );
   });
 
   it('should get pickupUnconsignedEntries', () => {
     component.order$.subscribe().unsubscribe();
     expect(component.pickupUnconsignedEntries).toContain(
-      mockOrder.unconsignedEntries[0]
+      mockOrder.unconsignedEntries?.[0]
     );
   });
 
   it('should get deliveryUnConsignedEntries', () => {
     component.order$.subscribe().unsubscribe();
     expect(component.deliveryUnConsignedEntries).toContain(
-      mockOrder.unconsignedEntries[1]
+      mockOrder.unconsignedEntries?.[1]
     );
   });
 
@@ -255,7 +276,7 @@ describe('OrderDetailItemsComponent', () => {
     spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
       of(mockReplenishmentOrder)
     );
-    let order: ReplenishmentOrder;
+    let order: ReplenishmentOrder | undefined;
     mockOrderDetailsService
       .getOrderDetails()
       .subscribe((value) => (order = value))
@@ -263,4 +284,17 @@ describe('OrderDetailItemsComponent', () => {
     expect(order).toEqual(mockReplenishmentOrder);
     expect(el.query(By.css('.cx-promotions'))).toBeTruthy();
   });
+
+  it('should process unconsigned entries if enableBundles is true', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+
+    component.order$.subscribe().unsubscribe();
+
+    expect(mockOrderConsignmentService.processUnconsignedEntries).toHaveBeenCalled();
+    expect(component.pickupUnconsignedStandAloneEntries).toContain(mockOrder.unconsignedEntries?.[0]);
+    expect(component.pickupHierarchyTrees.length).toBe(0);
+    expect(component.deliveryUnConsignedStandAloneEntries).toContain(mockOrder.unconsignedEntries?.[1]);
+    expect(component.deliveryHierarchyTrees.length).toBe(0);
+  });
+
 });

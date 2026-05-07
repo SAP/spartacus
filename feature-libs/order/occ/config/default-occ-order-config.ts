@@ -11,7 +11,7 @@ export const defaultOccOrderConfig: OccConfig = {
     occ: {
       endpoints: {
         orderHistory: 'users/${userId}/orders',
-        orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL,entryGroups(FULL)',
         quoteCode: 'users/${userId}/orders/${orderId}?fields=sapQuoteCode',
         consignmentTracking:
           'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
@@ -20,7 +20,7 @@ export const defaultOccOrderConfig: OccConfig = {
           'users/${userId}/orderReturns?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         orderReturns: 'users/${userId}/orderReturns?fields=BASIC',
         orderReturnDetail:
-          'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
+          'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,order(entryGroups(FULL)),returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
         /** scheduled replenishment endpoints start */
         replenishmentOrderDetails:
@@ -34,9 +34,9 @@ export const defaultOccOrderConfig: OccConfig = {
         /** scheduled replenishment endpoints end */
 
         /** placing an order endpoints start **/
-        placeOrder: 'users/${userId}/orders?fields=FULL',
+        placeOrder: 'users/${userId}/orders?fields=FULL,entryGroups(FULL)',
         placePaymentAuthorizedOrder:
-          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL',
+          'users/${userId}/orders/paymentAuthorizedOrderPlacement?fields=FULL,entryGroups(FULL)',
         /** placing an order endpoints end **/
 
         /** order attachments endpoints start **/

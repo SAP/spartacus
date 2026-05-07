@@ -146,4 +146,5 @@ export abstract class OrderHistoryFacade {
    * Returns query parameters needed for order details route
    */
   abstract getQueryParams(order: Order): Params | null;
+
 }

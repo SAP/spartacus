@@ -24,6 +24,7 @@ import {
   FormErrorsModule,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
+  HierarchyModule,
   OutletModule,
   PasswordVisibilityToggleModule,
   PromotionsModule,
@@ -65,6 +66,7 @@ const orderConfirmationComponents = [
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
     ...orderConfirmationComponents,
+    HierarchyModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

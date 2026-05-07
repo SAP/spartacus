@@ -1,4 +1,5 @@
-<div [ngClass]="{ container: context === 'order' }">
+<div>
+  <div>
   <ng-container *ngIf="itemsDetails | async as deliveryPointsOfService">
     <p
       *ngIf="deliveryPointsOfService.length"
@@ -162,6 +163,22 @@
                   </span>
                   {{ item.quantity }}
                 </div>
+                <!-- Item Price -->
+                <div
+                  *ngIf="item.basePrice"
+                  class="cx-price"
+                  [ngClass]="'col-lg-2 col-md-2 col-sm-12 col-xs-12'"
+                >
+                  <div *ngIf="item.basePrice" class="cx-value">
+                    <span
+                      class="cx-label"
+                      [ngClass]="'d-md-none d-lg-none d-xl-none'"
+                    >
+                      {{ 'cartItems.itemPrice' | cxTranslate }}
+                    </span>
+                    {{ item.basePrice?.formattedValue }}
+                  </div>
+                </div>
                 <!-- Item Quantity -->
                 <div
                   class="cx-quantity"
@@ -212,6 +229,7 @@
       </ng-container>
     </div>
   </ng-container>
+</div>
 </div>
 
 <ng-template #bundlesTemplate let-items>

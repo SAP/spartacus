@@ -9,15 +9,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { MediaModule } from '@spartacus/storefront';
+import { HierarchyModule, MediaModule, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { ReturnRequestItemsComponent } from './return-request-items/return-request-items.component';
 import { ReturnRequestOverviewComponent } from './return-request-overview/return-request-overview.component';
 import { ReturnRequestTotalsComponent } from './return-request-totals/return-request-totals.component';
-
 const components = [
   ReturnRequestOverviewComponent,
   ReturnRequestItemsComponent,
@@ -32,6 +32,10 @@ const components = [
     I18nModule,
     MediaModule,
     ...components,
+    HierarchyModule,
+    PromotionsModule,
+    OutletModule,
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

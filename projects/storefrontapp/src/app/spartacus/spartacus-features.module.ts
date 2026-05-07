@@ -355,7 +355,7 @@ if (environment.cpq) {
         enableExpiredRefreshTokenHandlers: true,
         useExtendedMediaComponentConfiguration: false,
         a11yWrapReviewOrderInSection: false,
-        enableBundles: true
+        enableBundles: true,
       };
       return appFeatureToggles;
     }),
