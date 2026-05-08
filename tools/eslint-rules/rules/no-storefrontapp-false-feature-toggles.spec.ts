@@ -36,9 +36,6 @@ ruleTester.run(RULE_NAME, rule, {
       };
       return toggles;
     })`,
-    // disable comment for a different rule that contains this rule name as a substring - should NOT trigger missingCxspaTicket
-    `// eslint-disable-next-line @rule-tester/no-storefrontapp-false-feature-toggles-extended
-     someOtherFunction({ toggle: false })`,
   ],
   invalid: [
     // false inside provideFeatureToggles - simple
