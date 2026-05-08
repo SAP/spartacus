@@ -16,12 +16,9 @@
       <div class="cx-opf-gift-card-applied-balance">
         <p class="cx-opf-gift-card-applied-balance-info">
           {{ 'opfGiftCard.currentBalance' | cxTranslate }}:
-          {{ card.balance?.formattedValue || card.balance?.value }}.
+          {{ card.balance?.formattedValue }}.
           {{ 'opfGiftCard.balanceAfterPurchase' | cxTranslate }}:
-          {{
-            card.remainingBalance?.formattedValue ||
-              card.remainingBalance?.value
-          }}
+          {{ card.remainingBalance?.formattedValue }}
         </p>
       </div>
     </div>
