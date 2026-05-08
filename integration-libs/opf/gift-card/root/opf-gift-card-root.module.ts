@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 
 import { CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -22,9 +18,6 @@ import { OpfGiftCardOrderConfirmationModule } from './components/opf-gift-card-o
 import { OpfGiftCardOrderDetailsModule } from './components/opf-gift-card-order-details';
 import { OpfGiftCardOrderOccNormalizer } from './normalizers/opf-gift-card-order-occ-normalizer';
 import { OpfGiftCardPaymentApiInterceptor } from './http-interceptors';
-import { defaultOccOpfGiftCardCartEndpointsConfig } from './config/default-occ-opf-gift-card-cart-config';
-import { defaultOccOpfGiftCardOrderEndpointsConfig } from './config/default-occ-opf-gift-card-order-config';
-import { defaultOpfGiftCardCartConfig } from './config/default-gift-card-cart-config';
 
 export const OPF_GIFT_CARD_FEATURE_CMS_COMPONENTS: string[] = [
   'CheckoutOrderSummary',
@@ -66,10 +59,7 @@ export function defaultOpfGiftCardComponentsConfig() {
       useClass: OpfGiftCardPaymentApiInterceptor,
       multi: true,
     },
-    provideDefaultConfig(defaultOccOpfGiftCardCartEndpointsConfig),
-    provideDefaultConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
     provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
-    provideDefaultConfig(defaultOpfGiftCardCartConfig),
   ],
 })
 export class OpfGiftCardRootModule {}
