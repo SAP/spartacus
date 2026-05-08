@@ -188,6 +188,7 @@ export class OAuthLibWrapperService {
         this.federatedLoginService.origin +
         (this.semanticPathService.get('login') ?? '');
       this.winRef.location.href = originLoginUrl;
+      return undefined;
     }
 
     return this.oAuthService.initLoginFlow();
