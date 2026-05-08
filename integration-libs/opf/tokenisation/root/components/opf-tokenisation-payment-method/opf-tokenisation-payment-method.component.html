@@ -10,7 +10,12 @@
         <div class="cx-checkout-body row">
           <div
             class="cx-payment-card col-md-12 col-lg-6"
-            *ngFor="let card of cards; let i = index"
+            *ngFor="
+              let card of showAll
+                ? cards
+                : (cards | slice: 0 : VISIBLE_CARDS_COUNT);
+              let i = index
+            "
           >
             <div
               class="cx-payment-card-inner"
@@ -28,7 +33,7 @@
                     aria-hidden="true"
                   ></cx-icon>
                   <span class="cx-expired-error-message">
-                    {{ 'paymentCard.expiredMessageForCheckout' | cxTranslate }}
+                    {{ 'paymentCard.expiredMessage' | cxTranslate }}
                   </span>
                 </div>
               </div>
@@ -38,7 +43,10 @@
                 [content]="card.content"
                 [index]="i"
                 (setDefaultCard)="setDefaultPaymentMethod(card.paymentMethod)"
-                (sendCard)="selectPaymentMethod(card.paymentMethod)"
+                (sendCard)="
+                  !isCardExpired(card.paymentMethod) &&
+                    selectPaymentMethod(card.paymentMethod)
+                "
               ></cx-card>
             </div>
           </div>
@@ -57,6 +65,28 @@
             </button>
           </div>
         </div>
+
+        <ng-container *ngIf="cards.length > VISIBLE_CARDS_COUNT">
+          <hr class="cx-show-more-divider" />
+          <div class="cx-show-more-cards">
+            <ng-container *ngIf="!showAll">
+              <button class="btn btn-link" (click)="showAll = true">
+                {{ 'paymentCard.showAll' | cxTranslate }}
+              </button>
+              <span class="cx-card-count"
+                >[ {{ VISIBLE_CARDS_COUNT }} / {{ cards.length }} ]</span
+              >
+            </ng-container>
+            <ng-container *ngIf="showAll">
+              <span class="btn btn-link cx-show-all-expanded">
+                {{ 'paymentCard.showAll' | cxTranslate }}
+              </span>
+              <span class="cx-card-count cx-card-count--expanded"
+                >[ {{ cards.length }} / {{ cards.length }} ]</span
+              >
+            </ng-container>
+          </div>
+        </ng-container>
       </ng-template>
     </ng-container>
   </ng-container>
