@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/user",
-  "version": "221121.11.0-1",
+  "version": "221121.11.0-2",
   "description": "User feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -32,10 +32,10 @@
     "@angular/router": "^21.2.9",
     "@ng-select/ng-select": "^21.1.4",
     "@ngrx/store": "^21.0.1",
-    "@spartacus/core": "221121.11.0-1",
-    "@spartacus/schematics": "221121.11.0-1",
-    "@spartacus/storefront": "221121.11.0-1",
-    "@spartacus/styles": "221121.11.0-1",
+    "@spartacus/core": "221121.11.0-2",
+    "@spartacus/schematics": "221121.11.0-2",
+    "@spartacus/storefront": "221121.11.0-2",
+    "@spartacus/styles": "221121.11.0-2",
     "rxjs": "^7.8.0"
   },
   "engines": {
