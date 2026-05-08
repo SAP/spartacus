@@ -21,4 +21,11 @@ export default defineConfig([
       ],
     },
   },
+  {
+    files: ['**/spartacus-features.module.ts'],
+    plugins: { '@nx': nxPlugin },
+    rules: {
+      '@nx/workspace-no-storefrontapp-false-feature-toggles': 'error',
+    },
+  },
 ]);
