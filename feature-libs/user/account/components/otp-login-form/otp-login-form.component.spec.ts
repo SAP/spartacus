@@ -103,7 +103,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       ]);
       storageSpy.getItem.and.callFake((key) =>
         key === OTP_LOGIN_STATE_STORAGE_KEY
-          ? JSON.stringify({ loginId: 'test@email.com', password: '1234' })
+          ? JSON.stringify({ loginId: 'test@email.com' })
           : null
       );
       spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
@@ -111,7 +111,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       );
       component.ngOnInit();
       expect(component.form.value.userId).toEqual('test@email.com');
-      expect(component.form.value.password).toEqual('1234');
+      expect(component.form.value.password).toEqual('');
     });
 
     it('should not patch form when sessionStorage has no credentials', () => {
@@ -137,7 +137,7 @@ describe('OneTimePasswordLoginFormComponent', () => {
       ]);
       storageSpy.getItem.and.callFake((key) =>
         key === OTP_LOGIN_STATE_STORAGE_KEY
-          ? JSON.stringify({ loginId: 'test@email.com', password: '1234' })
+          ? JSON.stringify({ loginId: 'test@email.com' })
           : null
       );
       spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(

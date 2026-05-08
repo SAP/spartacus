@@ -216,7 +216,7 @@ export class VerificationTokenFormComponent implements OnInit {
   goBack(): void {
     this.winRef.sessionStorage?.setItem(
       OTP_LOGIN_STATE_STORAGE_KEY,
-      JSON.stringify({ loginId: this.target, password: this.password })
+      JSON.stringify({ loginId: this.target })
     );
     this.routingService.go({ cxRoute: 'login' });
   }

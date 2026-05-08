@@ -273,7 +273,7 @@ describe('VerificationTokenFormComponent', () => {
   });
 
   describe('goBack', () => {
-    it('should navigate to login and save credentials to sessionStorage', () => {
+    it('should navigate to login and save loginId to sessionStorage', () => {
       component.target = 'user@example.com';
       component.password = 'myPass';
       const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
@@ -290,7 +290,7 @@ describe('VerificationTokenFormComponent', () => {
       expect(routineservice.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(storageSpy.setItem).toHaveBeenCalledWith(
         OTP_LOGIN_STATE_STORAGE_KEY,
-        JSON.stringify({ loginId: 'user@example.com', password: 'myPass' })
+        JSON.stringify({ loginId: 'user@example.com' })
       );
     });
   });

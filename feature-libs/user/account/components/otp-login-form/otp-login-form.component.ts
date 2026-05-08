@@ -98,16 +98,12 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
     if (sessionState) {
       this.form.patchValue({
         userId: sessionState.loginId,
-        password: sessionState.password,
       });
     }
     this.clearStoredLoginState();
   }
 
-  protected getStoredLoginState(): {
-    loginId: string;
-    password: string;
-  } | null {
+  protected getStoredLoginState(): { loginId: string } | null {
     const stored = this.winRef.sessionStorage?.getItem(
       OTP_LOGIN_STATE_STORAGE_KEY
     );
