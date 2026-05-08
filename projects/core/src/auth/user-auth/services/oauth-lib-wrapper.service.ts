@@ -27,8 +27,8 @@ export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
-  semanticPathService = inject(SemanticPathService);
-  federatedLoginService = inject(FederatedLoginService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
   // TODO: Remove platformId dependency in 4.0
@@ -173,23 +173,24 @@ export class OAuthLibWrapperService {
    */
   initLoginFlow() {
     if (
-      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') ||
+      this.federatedLoginService.enabled
     ) {
       this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
     }
 
-    if (this.federatedLoginService.enabled) {
-      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-
-      if (this.federatedLoginService.isLoginDomain) {
-        // redirect to the origin site login so that PKCE is available to the origin
-        const originLoginUrl =
-          this.federatedLoginService.origin +
-          (this.semanticPathService.get('login') ?? '');
-        this.winRef.location.href = originLoginUrl;
-
-        return new Promise(() => {});
-      }
+    if (
+      this.federatedLoginService.enabled &&
+      this.federatedLoginService.isLoginDomain
+    ) {
+      // redirect to the origin site login so that PKCE is available to the origin
+      const originLoginUrl =
+        this.federatedLoginService.origin +
+        (this.semanticPathService.get('login') ?? '');
+      this.winRef.location.href = originLoginUrl;
+      return new Promise<never>(() => {
+        /* intentionally empty */
+      });
     }
 
     return this.oAuthService.initLoginFlow();
