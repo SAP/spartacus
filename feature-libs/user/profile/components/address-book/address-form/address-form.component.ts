@@ -204,7 +204,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         )
         .subscribe((cities) => {
           this.cities = cities;
-          if (this.addressData?.city?.isocode && !this.selectedCity$.value) {
+          if (
+            this.addressData?.city?.isocode &&
+            !this.selectedCity$.value &&
+            this.selectedRegion$.value === this.addressData.region?.isocode
+          ) {
             this.selectedCity$.next(this.addressData.city.isocode);
             this.addressForm
               .get('town')
@@ -221,12 +225,20 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             if (!this.isChineseAddress) {
               return of([]);
             }
+            if (cityIsocode) {
+              this.addressForm.get('district')?.enable();
+            } else {
+              this.addressForm.get('district')?.disable();
+            }
             return this.userAddressService.getDistricts(cityIsocode);
           })
         )
         .subscribe((districts) => {
           this.districts = districts;
-          if (this.addressData?.cityDistrict?.isocode) {
+          if (
+            this.addressData?.cityDistrict?.isocode &&
+            this.selectedCity$.value === this.addressData.city?.isocode
+          ) {
             this.addressForm
               .get('district')
               ?.setValue(this.addressData.cityDistrict.isocode);
@@ -241,6 +253,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         .pipe(skip(1))
         .subscribe(() => {
           if (this.isChineseAddress) {
+            this.userAddressService.clearRegions();
             if (this.selectedRegion$.value) {
               this.userAddressService.clearCities();
             }
@@ -301,11 +314,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.isChineseAddress) {
       cellphoneControl?.setValidators([Validators.required]);
       districtControl?.setValidators([Validators.required]);
+      districtControl?.disable();
       townControl?.reset();
       districtControl?.reset();
     } else {
       cellphoneControl?.clearValidators();
       districtControl?.clearValidators();
+      townControl?.reset();
       districtControl?.reset();
       townControl?.enable();
       districtControl?.enable();

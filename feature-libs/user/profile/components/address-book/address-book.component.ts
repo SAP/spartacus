@@ -5,11 +5,12 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
+  LanguageService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -19,8 +20,8 @@ import {
   getAddressNumbers,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, skip } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormComponent } from './address-form/address-form.component';
 
@@ -37,7 +38,7 @@ import { AddressFormComponent } from './address-form/address-form.component';
     TranslatePipe,
   ],
 })
-export class AddressBookComponent implements OnInit {
+export class AddressBookComponent implements OnInit, OnDestroy {
   addresses$: Observable<Address[]>;
   cards$: Observable<Card[]>;
   addressesStateLoading$: Observable<boolean>;
@@ -47,16 +48,30 @@ export class AddressBookComponent implements OnInit {
   showEditAddressForm = false;
   editCard: string | null;
 
+  private subscription = new Subscription();
+
   constructor(
     public service: AddressBookComponentService,
     protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
     this.service.loadAddresses();
+
+    this.subscription.add(
+      this.languageService
+        .getActive()
+        .pipe(skip(1))
+        .subscribe(() => this.service.loadAddresses())
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   addAddressButtonHandle(): void {
