@@ -10,7 +10,7 @@ export const RULE_NAME = 'no-storefrontapp-false-feature-toggles';
 
 const DISABLE_NEXT_LINE_REGEX = /eslint-disable-next-line\s+(.+)/;
 const CXSPA_REGEX = /CXSPA-\d+/;
-const RULE_PATTERN = /no-storefrontapp-false-feature-toggles/;
+export const RULE_PATTERN = /no-storefrontapp-false-feature-toggles(?!-)/;
 
 function getProvideFeatureTogglesAncestor(
   node: TSESTree.Node

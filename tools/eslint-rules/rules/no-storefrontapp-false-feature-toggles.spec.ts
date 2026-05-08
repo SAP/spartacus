@@ -5,7 +5,11 @@
  */
 
 import { RuleTester } from '@angular-eslint/test-utils';
-import { rule, RULE_NAME } from './no-storefrontapp-false-feature-toggles';
+import {
+  rule,
+  RULE_NAME,
+  RULE_PATTERN,
+} from './no-storefrontapp-false-feature-toggles';
 
 const ruleTester = new RuleTester();
 
@@ -32,6 +36,9 @@ ruleTester.run(RULE_NAME, rule, {
       };
       return toggles;
     })`,
+    // disable comment for a different rule that contains this rule name as a substring - should NOT trigger missingCxspaTicket
+    `// eslint-disable-next-line @rule-tester/no-storefrontapp-false-feature-toggles-extended
+     someOtherFunction({ toggle: false })`,
   ],
   invalid: [
     // false inside provideFeatureToggles - simple
@@ -83,4 +90,32 @@ ruleTester.run(RULE_NAME, rule, {
       errors: [{ messageId: 'missingCxspaTicket' }],
     },
   ],
+});
+
+describe('RULE_PATTERN', () => {
+  it('matches the bare rule name', () => {
+    expect(RULE_PATTERN.test('no-storefrontapp-false-feature-toggles')).toBe(
+      true
+    );
+  });
+
+  it('matches the fully-qualified rule name', () => {
+    expect(
+      RULE_PATTERN.test('@nx/workspace-no-storefrontapp-false-feature-toggles')
+    ).toBe(true);
+  });
+
+  it('does not match when the rule name contains the pattern as a prefix', () => {
+    expect(
+      RULE_PATTERN.test('no-storefrontapp-false-feature-toggles-extended')
+    ).toBe(false);
+  });
+
+  it('does not match the fully-qualified extended rule name', () => {
+    expect(
+      RULE_PATTERN.test(
+        '@nx/workspace-no-storefrontapp-false-feature-toggles-extended'
+      )
+    ).toBe(false);
+  });
 });
