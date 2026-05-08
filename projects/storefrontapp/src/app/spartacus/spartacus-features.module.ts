@@ -307,7 +307,6 @@ if (environment.cpq) {
         productReviewCharactersLeft: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
-        enableReadDomainValuesOnDemand: true,
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
         consistentSizeProductCards: true,
