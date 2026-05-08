@@ -222,11 +222,7 @@
           "buildTarget": "storefrontapp:build:production,noSsr"
         },
         "development": {
-          "buildTarget": "storefrontapp:build:development,noSsr",
-          "sslKey": "/Users/I774549/Documents/ForWork/sp/spartacus/localhost.key",
-          "sslCert": "/Users/I774549/Documents/ForWork/sp/spartacus/localhost.crt",
-          "port": 4200,
-          "ssl": true
+          "buildTarget": "storefrontapp:build:development,noSsr"
         }
       },
       "defaultConfiguration": "development"
