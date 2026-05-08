@@ -82,7 +82,7 @@ export interface Consignment {
   statusDate?: Date;
   trackingID?: string;
   entryGroups?: OrderEntryGroup[];
-  hierachyTrees?: HierarchyNode[];
+  hierarchyTrees?: HierarchyNode[];
 }
 
 export interface OrderHistory {

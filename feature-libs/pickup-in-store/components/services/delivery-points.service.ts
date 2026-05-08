@@ -148,7 +148,7 @@ export class DeliveryPointsService {
     return {
       ...deliveryPoint,
       entryGroups: relatedEntryGroups,
-      hierachyTrees: bundles,
+      hierarchyTrees: bundles,
     };
   }
 

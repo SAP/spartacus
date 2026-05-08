@@ -74,7 +74,7 @@ export class OrderConsignmentService implements OrderConsignmentFacade {
       return {
         ...consignment,
         entryGroups: matchedEntryGroups,
-        hierachyTrees: hierarchyTrees,
+        hierarchyTrees: hierarchyTrees,
         entries: filteredEntries, // Add filtered entries here
       };
     });

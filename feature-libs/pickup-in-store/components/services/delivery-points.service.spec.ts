@@ -265,10 +265,10 @@ describe('DeliveryPointsService', () => {
         result.forEach((deliveryPoint, index) => {
           expect(deliveryPoint.name).toBe(index === 0 ? 'A Store' : 'B Store');
           expect(deliveryPoint.entryGroups).toBeDefined();
-          expect(deliveryPoint.hierachyTrees).toBeDefined();
+          expect(deliveryPoint.hierarchyTrees).toBeDefined();
 
-          if (deliveryPoint.hierachyTrees) {
-            deliveryPoint.hierachyTrees.forEach((tree) => {
+          if (deliveryPoint.hierarchyTrees) {
+            deliveryPoint.hierarchyTrees.forEach((tree) => {
               expect(tree.children.length).toBeGreaterThan(0);
             });
           }

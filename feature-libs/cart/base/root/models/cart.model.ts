@@ -178,15 +178,6 @@ export interface OrderEntryGroup {
   entryGroups?: OrderEntryGroup[];
 }
 
-export interface OrderEntryGroup {
-  entryGroupNumber?: number;
-  erroneous?: boolean;
-  label?: string;
-  type?: `${OrderEntryGroupType}`;
-  entries?: OrderEntry[];
-  entryGroups?: OrderEntryGroup[];
-}
-
 export interface PickupOrderEntryGroup {
   deliveryPointOfService?: PointOfService;
   distance?: number;

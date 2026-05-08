@@ -146,17 +146,17 @@ export class CheckoutDeliveryModeComponent implements OnInit {
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected hierachyService: HierarchyComponentService
+    protected hierarchyService: HierarchyComponentService
   ) {}
   ngOnInit() {
     if (this.featureConfigService?.isEnabled('enableBundles')) {
       // The user has enabled feature toggle "enableBundles"
       // which makes the cart use the new entry groups feature to provide bundle support.
       this.entryGroups$ = this.activeCartFacade.getDeliveryEntryGroups();
-      this.entries$ = this.hierachyService.getEntriesFromGroups(
+      this.entries$ = this.hierarchyService.getEntriesFromGroups(
         this.entryGroups$
       );
-      this.bundles$ = this.hierachyService.getBundlesFromGroups(
+      this.bundles$ = this.hierarchyService.getBundlesFromGroups(
         this.entryGroups$
       );
     }
