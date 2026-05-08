@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
 import { FederatedLoginService } from '../../../federated-login';
+import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -26,7 +27,8 @@ export class OAuthLibWrapperService {
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
-  federatedLoginService = inject(FederatedLoginService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
   // TODO: Remove platformId dependency in 4.0
@@ -171,11 +173,21 @@ export class OAuthLibWrapperService {
    */
   initLoginFlow() {
     if (
-      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') ||
+      this.federatedLoginService.enabled
     ) {
-      if (this.winRef.localStorage) {
-        this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
-      }
+      this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
+    }
+
+    if (
+      this.federatedLoginService.enabled &&
+      this.federatedLoginService.isLoginDomain
+    ) {
+      // redirect to the origin site login so that PKCE is available to the origin
+      const originLoginUrl =
+        this.federatedLoginService.origin +
+        (this.semanticPathService.get('login') ?? '');
+      this.winRef.location.href = originLoginUrl;
     }
 
     return this.oAuthService.initLoginFlow();
@@ -208,12 +220,16 @@ export class OAuthLibWrapperService {
           disableOAuth2StateCheck: true,
         })
         .then((result: boolean) => {
+          if (!tokenReceivedEvent) {
+            this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
+          }
           resolve({
             result: result,
             tokenReceived: !!tokenReceivedEvent,
           });
         })
         .catch((error) => {
+          this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
           reject(error);
         })
         .finally(() => {
