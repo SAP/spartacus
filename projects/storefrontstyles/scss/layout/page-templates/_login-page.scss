@@ -36,9 +36,9 @@
     }
   }
 
-  @include forFeature('a11yB2bRegisterComponent') {
-    cx-login-form ~ cx-paragraph,
-    cx-login-form ~ cx-link {
+  @include forFeature('a11yB2BRegisterComponent') {
+    cx-login-form ~ cx-paragraph:has(div > p.cx-section-title),
+    cx-login-form ~ cx-link.cx-organization-user-register-button {
       display: none;
     }
   }

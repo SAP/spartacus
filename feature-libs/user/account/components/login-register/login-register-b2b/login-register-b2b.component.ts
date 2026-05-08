@@ -9,8 +9,8 @@ import { FeatureDirective } from '@spartacus/core';
 import { LoginRegisterComponent } from '../login-register.component';
 
 @Component({
-  selector: 'cx-returning-b2b-customer-register',
+  selector: 'cx-login-register-b2b',
   templateUrl: './login-register-b2b.component.html',
   imports: [LoginRegisterComponent, FeatureDirective],
 })
-export class LoginRegisterB2bComponent {}
+export class LoginRegisterB2BComponent {}
