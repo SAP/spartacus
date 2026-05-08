@@ -307,7 +307,6 @@ if (environment.cpq) {
         productReviewCharactersLeft: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
-        enableReadDomainValuesOnDemand: true,
         storeFinderFacadeCleanup: true,
         defaultProductPageRouteAllowsNoProductName: true,
         consistentSizeProductCards: true,
@@ -325,15 +324,18 @@ if (environment.cpq) {
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
-        enableQuotePurchaseOrderNumber: false,
+        enableQuotePurchaseOrderNumber: true,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
+        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
         enableB2BUnitSearch: false,
+        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
         enableB2BCostCenterSearch: false,
+        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
         enableB2BCustomerSearch: false,
         a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
