@@ -86,10 +86,10 @@ export const appConfig: ApplicationConfig = {
     )) as UnitTestTree;
   });
 
-  it('should provide `provideClientHydration(withEventReplay(), withNoHttpTransferCache())` in app.config.ts', async () => {
+  it('should provide `provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())` in app.config.ts', async () => {
     const appConfig = tree.readText('/src/app/app.config.ts');
     expect(appConfig).toContain(
-      'provideClientHydration(withEventReplay(), withNoHttpTransferCache())'
+      'provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())'
     );
     expect(appConfig).toMatchSnapshot();
   });

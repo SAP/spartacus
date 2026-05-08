@@ -55,6 +55,7 @@ function addWithNoHttpTransferCacheToAppConfig(sourceFile: SourceFile): void {
         'provideClientHydration',
         'withNoHttpTransferCache',
         'withEventReplay',
+        'withIncrementalHydration',
       ],
     },
   ]);
@@ -114,6 +115,9 @@ function ensureHydrationArguments(callExpression: CallExpression): void {
   const hasNoHttpTransferCache = argTexts.some((arg) =>
     arg.includes('withNoHttpTransferCache')
   );
+  const hasIncrementalHydration = argTexts.some((arg) =>
+    arg.includes('withIncrementalHydration')
+  );
 
   const newArgs: string[] = [];
 
@@ -123,6 +127,10 @@ function ensureHydrationArguments(callExpression: CallExpression): void {
 
   if (!hasNoHttpTransferCache) {
     newArgs.push('withNoHttpTransferCache()');
+  }
+
+  if (!hasIncrementalHydration) {
+    newArgs.push('withIncrementalHydration()');
   }
 
   if (newArgs.length > 0) {
@@ -144,6 +152,6 @@ function addProvideClientHydrationCall(providersArray: Node): void {
   }
 
   providersArray.addElement(
-    'provideClientHydration(withEventReplay(), withNoHttpTransferCache())'
+    'provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())'
   );
 }

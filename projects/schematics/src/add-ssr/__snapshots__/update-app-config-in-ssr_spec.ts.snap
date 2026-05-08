@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`updateAppConfigInSsr should provide \`provideClientHydration(withEventReplay(), withNoHttpTransferCache())\` in app.config.ts 1`] = `
+exports[`updateAppConfigInSsr should provide \`provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())\` in app.config.ts 1`] = `
 "
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from "@angular/platform-browser";
+import { provideClientHydration, withEventReplay, withIncrementalHydration, withNoHttpTransferCache } from "@angular/platform-browser";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache())
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())
   ]
 };
 "
