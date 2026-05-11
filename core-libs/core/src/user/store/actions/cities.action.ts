@@ -6,6 +6,7 @@
 
 import { Action } from '@ngrx/store';
 import { ErrorAction } from '../../../error-handling';
+import { City } from '../../../model/address.model';
 import { StateUtils } from '../../../state/utils/index';
 import { CITIES } from '../user-state';
 
@@ -38,7 +39,7 @@ export class LoadCitiesSuccess extends StateUtils.LoaderSuccessAction {
 
   constructor(
     public payload: {
-      entities: { isocode?: string; name?: string }[];
+      entities: City[];
       regionIsocode: string;
     }
   ) {

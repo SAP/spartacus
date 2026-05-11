@@ -200,6 +200,10 @@ export class UserAddressService {
     );
   }
 
+  /**
+   * Returns cities for the given region
+   * @param regionIsocode a region ISO code
+   */
   getCities(regionIsocode: string): Observable<City[]> {
     return this.store.pipe(
       select(UsersSelectors.getCitiesDataAndLoading),
@@ -227,14 +231,25 @@ export class UserAddressService {
     );
   }
 
+  /**
+   * Retrieves cities for the given region
+   * @param regionIsocode a region ISO code
+   */
   loadCities(regionIsocode: string): void {
     this.store.dispatch(new UserActions.LoadCities(regionIsocode));
   }
 
+  /**
+   * Clears cities in store
+   */
   clearCities(): void {
     this.store.dispatch(new UserActions.ClearCities());
   }
 
+  /**
+   * Returns districts for the given city
+   * @param cityIsocode a city ISO code
+   */
   getDistricts(cityIsocode: string): Observable<CityDistrict[]> {
     return this.store.pipe(
       select(UsersSelectors.getDistrictsDataAndLoading),
@@ -256,10 +271,17 @@ export class UserAddressService {
     );
   }
 
+  /**
+   * Retrieves districts for the given city
+   * @param cityIsocode a city ISO code
+   */
   loadDistricts(cityIsocode: string): void {
     this.store.dispatch(new UserActions.LoadDistricts(cityIsocode));
   }
 
+  /**
+   * Clears districts in store
+   */
   clearDistricts(): void {
     this.store.dispatch(new UserActions.ClearDistricts());
   }

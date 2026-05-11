@@ -87,7 +87,7 @@ export class CitiesDistrictsEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private siteConnector: SiteConnector
+    protected actions$: Actions,
+    protected siteConnector: SiteConnector
   ) {}
 }

@@ -18,7 +18,7 @@ export function reducer(
 ): CitiesState {
   if (action.type === UserActions.LOAD_CITIES_SUCCESS) {
     const { entities, regionIsocode } = action.payload;
-    if (entities || regionIsocode) {
+    if (entities && regionIsocode) {
       return {
         ...state,
         entities,

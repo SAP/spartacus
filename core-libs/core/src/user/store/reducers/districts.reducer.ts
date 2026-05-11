@@ -18,7 +18,7 @@ export function reducer(
 ): DistrictsState {
   if (action.type === UserActions.LOAD_DISTRICTS_SUCCESS) {
     const { entities, cityIsocode } = action.payload;
-    if (entities || cityIsocode) {
+    if (entities && cityIsocode) {
       return {
         ...state,
         entities,

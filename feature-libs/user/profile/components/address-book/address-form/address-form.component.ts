@@ -345,6 +345,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (city?.isocode) {
       this.selectedCity$.next(city.isocode);
       this.addressForm.get('district')?.reset();
+    } else {
+      this.selectedCity$.next('');
+      this.addressForm.get('district')?.reset();
     }
   }
 

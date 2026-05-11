@@ -186,7 +186,11 @@
                 'common.ngSelectDropdownOptionsList' | cxTranslate
               }}"
               [cxNgSelectA11y]="{
-                ariaLabel: 'addressForm.state' | cxTranslate,
+                ariaLabel:
+                  (isChineseAddress
+                    ? 'addressForm.province'
+                    : 'addressForm.state'
+                  ) | cxTranslate,
               }"
             >
             </ng-select>
