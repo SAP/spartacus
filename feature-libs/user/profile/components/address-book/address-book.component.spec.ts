@@ -13,6 +13,7 @@ import {
   FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
+  LanguageService,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -27,6 +28,12 @@ import { AddressBookComponentService } from './address-book.component.service';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
+}
+
+class MockLanguageService {
+  getActive() {
+    return of('en');
+  }
 }
 
 const mockAddress: Address = {
@@ -112,6 +119,7 @@ describe('AddressBookComponent', () => {
           useClass: MockComponentService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: LanguageService, useClass: MockLanguageService },
       ],
     })
       .overrideComponent(AddressBookComponent, {
