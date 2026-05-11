@@ -84,7 +84,11 @@ describe('OpfTokenisationPaymentMethodService', () => {
     savedCardsService = jasmine.createSpyObj(
       'OpfTokenisationSavedCardsService',
       ['markCardAsSelected', 'clearSelectedPaymentMethodId'],
-      { selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(undefined) }
+      {
+        selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
+          undefined
+        ),
+      }
     );
     orderFacade = jasmine.createSpyObj('OrderFacade', [
       'placePaymentAuthorizedOrder',
