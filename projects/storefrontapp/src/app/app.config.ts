@@ -27,7 +27,11 @@ import { AppModule } from './app.module';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration()),
+    provideClientHydration(
+      withEventReplay(),
+      withNoHttpTransferCache(),
+      withIncrementalHydration()
+    ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideBrowserGlobalErrorListeners(),
 
