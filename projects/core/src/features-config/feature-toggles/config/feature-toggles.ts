@@ -56,13 +56,6 @@ export interface FeatureTogglesInterface {
   productReviewCharactersLeft?: boolean;
 
   /**
-   * The optional `aria-controls` attribute will override on the NgSelect implementation.
-   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
-   * This change ensures we can still use a custom id if preferable.
-   */
-  a11yNgSelectAriaControls?: boolean;
-
-  /**
    * Ensures on configurator overview page, that group titles are recognized as heading
    * in VPC mode when navigating with the 'H' key.
    */
@@ -89,15 +82,6 @@ export interface FeatureTogglesInterface {
    * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
   a11yPreventWindowsHighContrastOverride?: boolean;
-
-  /**
-   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
-   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
-   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
-   * on demand by clicking on `Show Options` button in case the back-end signals
-   * that domain values are not yet present.
-   */
-  enableReadDomainValuesOnDemand?: boolean;
 
   /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
@@ -517,10 +501,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
-  a11yNgSelectAriaControls: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
-  enableReadDomainValuesOnDemand: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
@@ -538,7 +520,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
-  enablePasswordExpiredErrorTranslation: false,
+  enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,

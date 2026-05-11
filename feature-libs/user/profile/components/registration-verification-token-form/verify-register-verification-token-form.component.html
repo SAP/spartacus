@@ -3,8 +3,7 @@
     <span class="label-content">
       {{ 'verificationTokenForm.verificationCode.label' | cxTranslate }}
       <cx-form-required-asterisks />
-      ></span
-    >
+    </span>
     <input
       required="true"
       class="form-control"
@@ -65,9 +64,8 @@
     <label>
       <span class="label-content"
         >{{ 'register.password.label' | cxTranslate }}
-        <cx-form-required-asterisks />
-        ></span
-      >
+        <cx-form-required-asterisks
+      /></span>
       <input
         required="true"
         class="form-control"
@@ -96,9 +94,8 @@
     <label>
       <span class="label-content"
         >{{ 'register.confirmPassword.label' | cxTranslate }}
-        <cx-form-required-asterisks />
-        ></span
-      >
+        <cx-form-required-asterisks
+      /></span>
       <input
         required="true"
         class="form-control"
@@ -128,7 +125,8 @@
       {{ 'register.register' | cxTranslate }}
     </button>
     <button
-      [routerLink]="{ cxRoute: 'register' } | cxUrl"
+      type="button"
+      (click)="goBack()"
       class="btn btn-block btn-secondary btn-register"
     >
       {{ 'verificationTokenForm.back' | cxTranslate }}
