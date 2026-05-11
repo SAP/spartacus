@@ -32,6 +32,14 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
    */
   protected cardSelected$ = new BehaviorSubject<boolean>(false);
 
+  /**
+   * Persists the ID of the last saved card the user selected for payment.
+   * Survives component destruction so selection is retained when navigating back.
+   */
+  readonly selectedPaymentMethodId$ = new BehaviorSubject<string | undefined>(
+    undefined
+  );
+
   constructor() {
     this.listenForPaymentTransitions();
   }
@@ -50,9 +58,21 @@ export class OpfTokenisationSavedCardsService implements OnDestroy {
 
   /**
    * Marks that a specific card has been selected from the saved cards list
+   * and persists its ID so it can be restored after navigation.
    */
-  markCardAsSelected(): void {
+  markCardAsSelected(id?: string): void {
     this.cardSelected$.next(true);
+    if (id !== undefined) {
+      this.selectedPaymentMethodId$.next(id);
+    }
+  }
+
+  /**
+   * Clears the persisted selected card ID.
+   * Call this when the user fully leaves saved-cards mode.
+   */
+  clearSelectedPaymentMethodId(): void {
+    this.selectedPaymentMethodId$.next(undefined);
   }
 
   /**
