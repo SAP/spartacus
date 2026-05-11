@@ -7,6 +7,7 @@
 import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -21,7 +22,8 @@ import {
   IconComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-method.service';
 
 @Component({
@@ -46,6 +48,7 @@ export class OpfTokenisationPaymentMethodComponent
   protected OpfTokenisationPaymentMethodService = inject(
     OpfTokenisationPaymentMethodService
   );
+  protected cdr = inject(ChangeDetectorRef);
 
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   isUpdating$: Observable<boolean>;
@@ -63,6 +66,26 @@ export class OpfTokenisationPaymentMethodComponent
       this.OpfTokenisationPaymentMethodService.selectedMethod$;
     this.showSavedCards$ =
       this.OpfTokenisationPaymentMethodService.showSavedCards$;
+
+    // Auto-expand "show all" if the restored/selected card is beyond the initially
+    // visible limit (e.g. when navigating back with a 3rd-or-later card selected).
+    combineLatest([this.cards$, this.selectedMethod$])
+      .pipe(
+        filter(
+          ([cards, selected]) =>
+            cards.length > this.VISIBLE_CARDS_COUNT && !!selected?.id
+        ),
+        take(1)
+      )
+      .subscribe(([cards, selected]) => {
+        const selectedIndex = cards.findIndex(
+          (c) => c.paymentMethod.id === selected?.id
+        );
+        if (selectedIndex >= this.VISIBLE_CARDS_COUNT) {
+          this.showAll = true;
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {

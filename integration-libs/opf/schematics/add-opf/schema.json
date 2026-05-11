@@ -30,8 +30,7 @@
         "OPF-Payment",
         "OPF-Cta",
         "OPF-Global-Functions",
-        "OPF-Quick-Buy",
-        "OPF-Tokenisation"
+        "OPF-Quick-Buy"
       ],
       "items": {
         "enum": [
