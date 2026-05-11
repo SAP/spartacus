@@ -18,6 +18,7 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { of, throwError } from 'rxjs';
+import { OTP_LOGIN_STATE_STORAGE_KEY } from '../user-account-constants';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -30,6 +31,9 @@ const verificationTokenCreation: VerificationTokenCreation = {
 class MockWinRef {
   get nativeWindow(): Window {
     return {} as Window;
+  }
+  get sessionStorage(): Storage | undefined {
+    return undefined;
   }
 }
 
@@ -88,6 +92,62 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
   it('should create component', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should restore form values from sessionStorage', () => {
+      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
+        'getItem',
+        'setItem',
+        'removeItem',
+      ]);
+      storageSpy.getItem.and.callFake((key) =>
+        key === OTP_LOGIN_STATE_STORAGE_KEY
+          ? JSON.stringify({ loginId: 'test@email.com' })
+          : null
+      );
+      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
+        storageSpy
+      );
+      component.ngOnInit();
+      expect(component.form.value.userId).toEqual('test@email.com');
+      expect(component.form.value.password).toEqual('');
+    });
+
+    it('should not patch form when sessionStorage has no credentials', () => {
+      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
+        'getItem',
+        'setItem',
+        'removeItem',
+      ]);
+      storageSpy.getItem.and.returnValue(null);
+      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
+        storageSpy
+      );
+      component.ngOnInit();
+      expect(component.form.value.userId).toEqual('');
+      expect(component.form.value.password).toEqual('');
+    });
+
+    it('should clear sessionStorage after reading', () => {
+      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
+        'getItem',
+        'setItem',
+        'removeItem',
+      ]);
+      storageSpy.getItem.and.callFake((key) =>
+        key === OTP_LOGIN_STATE_STORAGE_KEY
+          ? JSON.stringify({ loginId: 'test@email.com' })
+          : null
+      );
+      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
+        storageSpy
+      );
+      component.ngOnInit();
+      expect(storageSpy.removeItem).toHaveBeenCalledWith(
+        OTP_LOGIN_STATE_STORAGE_KEY
+      );
+    });
   });
 
   describe('create OTP', () => {

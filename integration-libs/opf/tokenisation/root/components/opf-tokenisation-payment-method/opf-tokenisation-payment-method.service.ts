@@ -148,11 +148,15 @@ export class OpfTokenisationPaymentMethodService {
           // If we're no longer in saved cards mode, clear the selected card
           if (selectedId !== SAVED_CARDS_ID) {
             this.selectedPaymentMethod$.next(undefined);
+            this.savedCardsService.clearSelectedPaymentMethodId();
           }
         })
     );
 
-    // Auto-select the default non-expired card once when saved cards become visible
+    // Auto-select the default non-expired card once when saved cards become visible.
+    // If the user navigated back with a previously selected card, restore it from the
+    // root-level savedCardsService (which survives component destruction).
+    // Otherwise fall back to the default-card logic.
     this.subscriptions.add(
       this.showSavedCards$
         .pipe(
@@ -160,9 +164,22 @@ export class OpfTokenisationPaymentMethodService {
           switchMap(() => this.existingPaymentMethods$),
           filter((methods) => !!methods?.length),
           take(1),
-          withLatestFrom(this.selectedMethod$)
+          withLatestFrom(
+            this.selectedMethod$,
+            this.savedCardsService.selectedPaymentMethodId$
+          )
         )
-        .subscribe(([methods, selectedMethod]) => {
+        .subscribe(([methods, selectedMethod, persistedId]) => {
+          // Restore previously selected card when navigating back
+          if (persistedId && !selectedMethod?.id) {
+            const previouslySelected = methods.find(
+              (m) => m.id === persistedId
+            );
+            if (previouslySelected && !this.isCardExpired(previouslySelected)) {
+              this.selectedPaymentMethod$.next(previouslySelected);
+              return;
+            }
+          }
           this.selectDefaultPaymentMethod(methods, selectedMethod);
         })
     );
@@ -371,7 +388,8 @@ export class OpfTokenisationPaymentMethodService {
     }
 
     // Mark that a saved card was selected (used to trigger delete only on provider switch)
-    this.savedCardsService.markCardAsSelected();
+    // Also persists the ID for restoration when navigating back
+    this.savedCardsService.markCardAsSelected(paymentDetails.id);
 
     this.globalMessageService.add(
       {

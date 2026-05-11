@@ -7,7 +7,7 @@ import {
   GlobalMessageService,
   WindowRef,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { OpfTokenisationPaymentMethodComponent } from './opf-tokenisation-payment-method.component';
 import { OpfTokenisationPaymentMethodService } from './opf-tokenisation-payment-method.service';
 import {
@@ -129,9 +129,14 @@ describe('OpfTokenisationPaymentMethodComponent', () => {
         { provide: OpfMetadataStoreService, useValue: opfMetadataStoreService },
         {
           provide: OpfTokenisationSavedCardsService,
-          useValue: jasmine.createSpyObj('OpfTokenisationSavedCardsService', [
-            'markCardAsSelected',
-          ]),
+          useValue: {
+            ...jasmine.createSpyObj('OpfTokenisationSavedCardsService', [
+              'markCardAsSelected',
+            ]),
+            selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
+              undefined
+            ),
+          },
         },
         {
           provide: SelectFocusUtility,
