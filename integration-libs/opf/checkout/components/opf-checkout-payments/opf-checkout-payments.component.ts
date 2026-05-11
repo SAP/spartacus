@@ -108,7 +108,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   onlyPaymentWrapperMode? = false;
 
   @Input()
-  showBeforePaymentOptionsOutlet = true;
+  showBeforePaymentOptionsOutlet? = true;
 
   @Input()
   customPaymentTemplate?: TemplateRef<any>;
