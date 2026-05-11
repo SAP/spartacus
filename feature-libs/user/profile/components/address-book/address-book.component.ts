@@ -126,8 +126,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           textMobile,
         ]) => {
           const region = this.buildRegion(address);
-          const countryName =
-            address.country?.name || address.country?.isocode || '';
+          const countryName = address.country?.isocode || '';
           const townName = address.city?.name || address.town || '';
           const districtName =
             address.cityDistrict?.name || address.district || '';
