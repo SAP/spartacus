@@ -35,7 +35,14 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, IconComponent, UrlPipe, TranslatePipe, ResponsiveAriaLabelDirective],
+  imports: [
+    NgIf,
+    RouterLink,
+    IconComponent,
+    UrlPipe,
+    TranslatePipe,
+    ResponsiveAriaLabelDirective,
+  ],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
