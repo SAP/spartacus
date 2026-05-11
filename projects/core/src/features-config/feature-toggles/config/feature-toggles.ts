@@ -488,9 +488,15 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthHttpHeaderService`
    */
   enableExpiredRefreshTokenHandlers?: boolean;
+
+  /**
+   * When enabled, sytling is changed on navigation header and menu to be more cohesive.
+   */
+  alignNavigationMenuWithHeader?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
