@@ -7,10 +7,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import {
   LoggerService,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_CURRENT,
   SiteContextActions,
   isNotUndefined,
   tryNormalizeHttpError,
@@ -31,7 +32,10 @@ import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
-import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
+import {
+  getCartHasPendingProcessesSelectorFactory,
+  getMultiCartState,
+} from '../selectors/multi-cart.selector';
 
 @Injectable()
 export class CartEffects {
@@ -299,18 +303,21 @@ export class CartEffects {
       )
   );
 
-  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
-    createEffect(() =>
-      this.actions$.pipe(
-        ofType(
-          SiteContextActions.LANGUAGE_CHANGE,
-          SiteContextActions.CURRENCY_CHANGE
-        ),
-        mergeMap(() => {
-          return [new CartActions.ResetCartDetails()];
-        })
-      )
-    );
+  refreshCartDetailsOnSiteContextChange$: Observable<any> = createEffect(() =>
+    this.contextChange$.pipe(
+      withLatestFrom(
+        this.store.pipe(
+          select(getMultiCartState),
+          map((state) => state?.index?.[CartType.ACTIVE])
+        )
+      ),
+      mergeMap(([_, cartId]) => {
+        return [
+          new CartActions.LoadCart({ cartId, userId: OCC_USER_ID_CURRENT }),
+        ];
+      })
+    )
+  );
 
   addEmail$: Observable<
     | CartActions.AddEmailToCartSuccess
