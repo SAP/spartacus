@@ -17,7 +17,7 @@
           "
         >
           <ng-template
-            *ngIf="!onlyPaymentWrapperMode"
+            *ngIf="showBeforePaymentOptionsOutlet"
             [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
             [cxOutletContext]="outletContext$"
           >
