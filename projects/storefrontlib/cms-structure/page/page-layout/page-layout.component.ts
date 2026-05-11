@@ -54,5 +54,6 @@ export class PageLayoutComponent {
 
   constructor(protected pageLayoutService: PageLayoutService) {
     useFeatureStyles('disableCxPageSlotMarginAnimation');
+    useFeatureStyles('a11yActiveB2bLoginRegisterCpnt');
   }
 }
