@@ -47,6 +47,10 @@ export class ToggleLinkCellComponent extends CellComponent {
   protected routingService = inject(RoutingService);
   private featureService = inject(FeatureConfigService);
 
+  protected get isA11yOrgUnitTreeAriaLabelEnabled(): boolean {
+    return this.featureService.isEnabled('a11yOrgUnitTreeAriaLabel');
+  }
+
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
     protected unitTreeService: UnitTreeService
