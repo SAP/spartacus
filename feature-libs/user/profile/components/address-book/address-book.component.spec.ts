@@ -265,12 +265,42 @@ describe('AddressBookComponent', () => {
     expect(component.deleteAddress).toHaveBeenCalledWith(mockAddress.id);
   });
 
+  it('should not call updateUserAddress when editAddressSubmit receives falsy address', () => {
+    component.currentAddress = mockAddress;
+    component.editAddressSubmit(undefined as any);
+    expect(
+      addressBookComponentService.updateUserAddress
+    ).not.toHaveBeenCalled();
+  });
+
+  describe('getCardContent', () => {
+    it('should use city name and country name when available', () => {
+      const addressWithNames: Address = {
+        ...mockAddress,
+        city: { name: 'Beijing', isocode: 'CN-11-1' },
+        country: { name: 'China', isocode: 'CN' },
+        region: { name: 'Beijing Region', isocode: 'CN-11' },
+      };
+      let card: any;
+      component.getCardContent(addressWithNames).subscribe((c) => (card = c));
+      expect(card.text.some((t: string) => t.includes('Beijing'))).toBeTrue();
+    });
+  });
+
   describe('setAddressAsDefault', () => {
     it('should set Address as default', () => {
       component.setAddressAsDefault(mockAddress);
       expect(
         addressBookComponentService.setAddressAsDefault
       ).toHaveBeenCalledWith(mockAddress.id);
+    });
+
+    it('should use empty string as id fallback when address has no id', () => {
+      const addressWithoutId: Address = { ...mockAddress, id: undefined };
+      component.setAddressAsDefault(addressWithoutId);
+      expect(
+        addressBookComponentService.setAddressAsDefault
+      ).toHaveBeenCalledWith('');
     });
   });
 
