@@ -1,5 +1,5 @@
 <ng-container *ngIf="context$ | async as ctx">
-  <ng-container *ngIf="ctx.hasSavedCards === true && !isB2B">
+  <ng-container *ngIf="ctx.hasSavedCards === true">
     <div
       class="cx-payment-options-section"
       [attr.aria-label]="

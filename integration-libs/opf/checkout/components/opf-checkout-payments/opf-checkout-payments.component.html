@@ -17,6 +17,7 @@
           "
         >
           <ng-template
+            *ngIf="!isB2B"
             [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_BEFORE_PAYMENT_OPTIONS"
             [cxOutletContext]="outletContext$"
           >

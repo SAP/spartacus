@@ -6,7 +6,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TranslatePipe, UserPaymentService } from '@spartacus/core';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { OpfNewPaymentsHeadingContext } from '../../model';
 import { Observable, combineLatest, of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
@@ -24,8 +23,6 @@ export class OpfTokenisationNewPaymentsHeadingComponent {
   >(OutletContextData as any, { optional: true });
 
   protected userPaymentService = inject(UserPaymentService);
-
-  readonly isB2B = !!inject(CheckoutPaymentTypeFacade, { optional: true });
 
   readonly context$: Observable<OpfNewPaymentsHeadingContext> = combineLatest([
     this.outletContextData?.context$ ?? of({} as OpfNewPaymentsHeadingContext),
