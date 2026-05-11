@@ -37,6 +37,11 @@
 
         .cx-message {
           margin: 0;
+          .cx-message-header {
+            button {
+              position: absolute;
+            }
+          }
         }
       }
 
