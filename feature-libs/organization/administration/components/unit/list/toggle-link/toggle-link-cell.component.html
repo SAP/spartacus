@@ -7,8 +7,8 @@
   [attr.aria-haspopup]="isSwitchable"
   [attr.data-depth]="model.depthLevel"
   cxResponsiveAriaLabel
-  [ariaLabelSmall]="isA11yOrgUnitTreeAriaLabelEnabled ? combinedName + ', ' + ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 }) : undefined"
-  [ariaLabelLarge]="isA11yOrgUnitTreeAriaLabelEnabled ? combinedName + ', ' + ('orgUnit.uid' | cxTranslate) + ': ' + item?.uid + ', ' + ('orgUnit.active' | cxTranslate) + ': ' + ((item?.active ? 'organization.enabled' : 'organization.disabled') | cxTranslate) + ', ' + ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 }) : undefined"
+  [ariaLabelSmall]="combinedName + ', ' + ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 })"
+  [ariaLabelLarge]="combinedName + ', ' + ('orgUnit.uid' | cxTranslate) + ': ' + item?.uid + ', ' + ('orgUnit.active' | cxTranslate) + ': ' + ((item?.active ? 'organization.enabled' : 'organization.disabled') | cxTranslate) + ', ' + ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 })"
   role="treeitem"
 >
   <button

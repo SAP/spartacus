@@ -14,12 +14,12 @@ import { BREAKPOINT } from '../../config/layout-config';
   standalone: true,
   host: {
     '[attr.aria-label]':
-      'ariaLabelSmall() ? (isLargeScreen() ? ariaLabelLarge() : ariaLabelSmall()) : null',
+      'isLargeScreen() ? ariaLabelLarge() : ariaLabelSmall()',
   },
 })
 export class ResponsiveAriaLabelDirective {
-  readonly ariaLabelLarge = input<string>();
-  readonly ariaLabelSmall = input<string>();
+  readonly ariaLabelLarge = input.required<string>();
+  readonly ariaLabelSmall = input.required<string>();
 
   protected readonly isLargeScreen = toSignal(
     inject(BreakpointService).isUp(BREAKPOINT.lg),

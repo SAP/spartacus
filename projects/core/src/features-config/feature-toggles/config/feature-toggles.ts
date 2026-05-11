@@ -367,13 +367,6 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
-   * When enabled, the unit tree list rows announce name, ID, status and tree level
-   * via aria-label to improve screen reader experience.
-   * Affects: `ToggleLinkCellComponent`
-   */
-  a11yOrgUnitTreeAriaLabel?: boolean;
-
-  /**
    * When enabled, allows searching cost centers by name in the organization.
    */
   enableB2BCostCenterSearch?: boolean;
@@ -548,7 +541,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
-  a11yOrgUnitTreeAriaLabel: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
