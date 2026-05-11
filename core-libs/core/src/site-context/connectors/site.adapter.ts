@@ -5,7 +5,13 @@
  */
 
 import { Observable } from 'rxjs';
-import { City, CityDistrict, Country, CountryType, Region } from '../../model/address.model';
+import {
+  City,
+  CityDistrict,
+  Country,
+  CountryType,
+  Region,
+} from '../../model/address.model';
 import { BaseSite, Currency, Language } from '../../model/misc.model';
 
 export abstract class SiteAdapter {

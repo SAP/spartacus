@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, City, CityDistrict, Country, Region } from '../../model/address.model';
+import {
+  Address,
+  City,
+  CityDistrict,
+  Country,
+  Region,
+} from '../../model/address.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';

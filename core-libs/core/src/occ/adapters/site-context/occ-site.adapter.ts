@@ -8,7 +8,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Country, CountryType, Region, City, CityDistrict } from '../../../model/address.model';
+import {
+  Country,
+  CountryType,
+  Region,
+  City,
+  CityDistrict,
+} from '../../../model/address.model';
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
   BASE_SITE_NORMALIZER,
