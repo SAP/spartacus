@@ -25,7 +25,6 @@ import {
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import {
   ICON_TYPE,
   IconComponent,
@@ -80,7 +79,6 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   );
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected userPaymentService = inject(UserPaymentService);
-  readonly isB2B = !!inject(CheckoutPaymentTypeFacade, { optional: true });
 
   protected subscription = new Subscription();
 
