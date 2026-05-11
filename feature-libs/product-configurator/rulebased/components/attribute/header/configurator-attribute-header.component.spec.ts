@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Config, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -93,10 +93,6 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
-class MockConfig {
-  features = [{ enableReadDomainValuesOnDemand: false }];
-}
-
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
@@ -104,7 +100,6 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorUISettingsConfig: ConfiguratorUISettingsConfig;
-  let featuresConfig: Config;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -170,7 +165,6 @@ describe('ConfigAttributeHeaderComponent', () => {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
-        { provide: Config, useClass: MockConfig },
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
@@ -199,8 +193,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     component.isNavigationToGroupEnabled = true;
     component['logError'] = () => {};
-    featuresConfig = TestBed.inject(Config);
-    (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = false;
     fixture.detectChanges();
 
     configurationGroupsService = TestBed.inject(
@@ -340,9 +332,8 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-configurator-show-options'
       );
     });
-    it('should render "Show Options" button if domainOnDemand is true in case enableReadDomainValuesOnDemand feature flag is enabled', () => {
+    it('should render "Show Options" button if domainOnDemand is true', () => {
       component.attribute.domainOnDemand = true;
-      (featuresConfig.features ?? {}).enableReadDomainValuesOnDemand = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

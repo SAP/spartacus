@@ -44,6 +44,12 @@ export interface FeatureTogglesInterface {
   readMoreDirective?: boolean;
 
   /**
+   * Introduces the read more directive in product list item summary
+   * Affects: ProductListItemComponent
+   */
+  productListItemSummaryReadMore?: boolean;
+
+  /**
    * Introduces characters left for product review form elements.
    * Affects: ProductReviewsComponent
    */
@@ -76,15 +82,6 @@ export interface FeatureTogglesInterface {
    * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
   a11yPreventWindowsHighContrastOverride?: boolean;
-
-  /**
-   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
-   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
-   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
-   * on demand by clicking on `Show Options` button in case the back-end signals
-   * that domain values are not yet present.
-   */
-  enableReadDomainValuesOnDemand?: boolean;
 
   /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
@@ -508,10 +505,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectUnicodeCarets: false,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
+  productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
-  enableReadDomainValuesOnDemand: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
@@ -529,7 +526,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
-  enablePasswordExpiredErrorTranslation: false,
+  enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
