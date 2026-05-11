@@ -7,6 +7,7 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslatePipe, UserPaymentService } from '@spartacus/core';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   ICON_TYPE,
@@ -39,6 +40,8 @@ export class OpfTokenisationSavedCardsToggleComponent {
 
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected userPaymentService = inject(UserPaymentService);
+
+  readonly isB2B = !!inject(CheckoutPaymentTypeFacade, { optional: true });
 
   iconTypes = ICON_TYPE;
 
