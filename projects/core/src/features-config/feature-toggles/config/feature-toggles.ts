@@ -50,6 +50,12 @@ export interface FeatureTogglesInterface {
   readMoreDirective?: boolean;
 
   /**
+   * Introduces the read more directive in product list item summary
+   * Affects: ProductListItemComponent
+   */
+  productListItemSummaryReadMore?: boolean;
+
+  /**
    * Introduces characters left for product review form elements.
    * Affects: ProductReviewsComponent
    */
@@ -500,6 +506,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectUnicodeCarets: false,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
+  productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,

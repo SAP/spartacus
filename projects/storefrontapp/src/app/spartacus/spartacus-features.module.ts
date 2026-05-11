@@ -305,6 +305,7 @@ if (environment.cpq) {
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
+        productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
