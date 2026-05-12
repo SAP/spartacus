@@ -44,8 +44,14 @@ jobs:
           token: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           ref: "release/${{ steps.current-run-major-version.outputs.MAJOR_VERSION}}.x"
       - name: push the tag to the repository
+        env:
+          WHAT_VERSION: ${{ github.event.inputs.what_version }}
         run: |
-          git tag ${{ github.event.inputs.what_version }}
+          if [[ ! "$WHAT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9._-]+)?$ ]]; then
+            echo "Error: what_version '$WHAT_VERSION' does not match expected format (e.g. 5.0.1)"
+            exit 1
+          fi
+          git tag "$WHAT_VERSION"
           git push origin --tags
   publish_sample_data:
     name: Publishing Spartacus Sample Data
