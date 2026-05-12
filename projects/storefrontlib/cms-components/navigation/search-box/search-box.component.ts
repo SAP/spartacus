@@ -29,9 +29,10 @@ import {
   UrlPipe,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   filter,
   first,
   map,
@@ -149,6 +150,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected subscriptions = new Subscription();
 
+  protected searchQuery$ = new Subject<string>();
+
   get isMobile(): Observable<boolean> | undefined {
     return this.breakpointService.isDown(BREAKPOINT.sm);
   }
@@ -231,6 +234,21 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       );
 
     this.subscriptions.add(UIEventSubscription);
+
+    // Debounce search input and use switchMap to automatically cancel pending requests
+    const searchSubscription = this.searchQuery$
+      .pipe(
+        debounceTime(300),
+        // switchMap automatically unsubscribes from previous inner observable (search request)
+        // when a new value is emitted, effectively canceling the previous HTTP request
+        switchMap((query) => {
+          this.searchBoxComponentService.search(query, this.config);
+          return of(null);
+        })
+      )
+      .subscribe();
+
+    this.subscriptions.add(searchSubscription);
   }
 
   /**
@@ -247,8 +265,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
-    this.searchBoxComponentService.search(query, this.config);
-
+    this.searchQuery$.next(query ?? '');
     this.checkOuterResults();
     // force the searchBox to open
     this.open();
