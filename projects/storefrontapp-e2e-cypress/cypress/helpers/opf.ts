@@ -130,7 +130,7 @@ export function checkAddressForAllRequiredFields(
       cy.get('.cx-card-label').eq(1).should('contain', address.address.line2);
       cy.get('.cx-card-label')
         .eq(2)
-        .should('contain', `${address.address.city}, US-FL, US`);
+        .should('contain', `${address.address.city}, Florida, United States`);
       cy.get('.cx-card-label').eq(3).should('contain', address.address.postal);
       cy.get('.cx-card-label').eq(4).should('contain', address.phone);
     });
