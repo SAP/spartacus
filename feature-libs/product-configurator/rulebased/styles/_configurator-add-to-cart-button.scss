@@ -5,9 +5,11 @@
   width: 100%;
   background-color: var(--cx-color-background);
   border-top: solid 1px var(--cx-color-light);
+
   @include cx-highContrastTheme {
     border-top: solid 1px var(--cx-color-dark);
   }
+
   box-shadow: 0 0 5px var(--cx-color-light);
 
   .cx-add-to-cart-btn-container,
@@ -24,14 +26,17 @@
 
   .cx-add-to-cart-btn-container {
     .cx-quantity-add-to-cart-container {
-      @include media-breakpoint-down(sm) {
-        inline-size: 100%;
-      }
-
       inline-size: 40%;
       padding-inline-start: 16px;
 
-      @include media-breakpoint-down(sm) {
+      // Below ~400 CSS px the quantity spinner + add-to-cart button no
+      // longer fit alongside each other inside the 40% column, so let the
+      // container fill the available width and drop its inline-start
+      // padding. This moves the quantity spinner to the inline-start edge
+      // and keeps both controls on the same line without producing a
+      // horizontal scrollbar (WCAG 1.4.10 Reflow at 320 CSS px).
+      @media (max-width: 400px) {
+        inline-size: 100%;
         padding-inline-start: 0px;
       }
 
@@ -54,6 +59,7 @@
 
           cx-item-counter {
             background-color: var(--cx-color-inverse);
+
             @include cx-highContrastTheme {
               background-color: var(--cx-color-background);
             }
