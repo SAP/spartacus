@@ -44,5 +44,10 @@ For Spartacus with Server-Side Rendering (SSR), run the following command:
 ```bash
 ng add @spartacus/schematics@221121.7 --ssr
 ```
-This will set up SSR-specific configurations.
+
+This will set up SSR-specific configurations, including:
+
+- `provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())` — enables Angular hydration with event replay, disables the HTTP transfer cache (required for Spartacus state transfer), and enables incremental hydration for `@defer` blocks.
+
+> **Note:** `withIncrementalHydration()` requires Angular 20 or later. JS chunks for custom components inside `@defer (hydrate on <trigger>)` blocks are only downloaded when the trigger fires. See [Enable Incremental Hydration](./migration.md#enable-incremental-hydration-optional-ssr-only) in the migration guide for details and limitations.
 
