@@ -130,39 +130,39 @@ describe('VisibleFocusDirective', () => {
       );
     });
 
-    it('should not have "mouse-focus" class when keydown is triggered after mousedown', () => {
+    it('should not have "mouse-focus" class when keyup is triggered after mousedown', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
-      host.triggerEventHandler('keydown', MockMouseEvent);
+      host.triggerEventHandler('keyup', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
       );
     });
 
-    it('should have "mouse-focus" class when keydown is used for OS functions', () => {
+    it('should have "mouse-focus" class when keyup is used for OS functions', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
-      host.triggerEventHandler('keydown', MockOskeyEvent);
+      host.triggerEventHandler('keyup', MockOskeyEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
     });
 
-    it('should have "mouse-focus" class when keydown is used for filling in a FORM', () => {
+    it('should have "mouse-focus" class when keyup is used for filling in a FORM', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
-      host.triggerEventHandler('keydown', MockFillFormEvent);
+      host.triggerEventHandler('keyup', MockFillFormEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
@@ -175,15 +175,15 @@ describe('VisibleFocusDirective', () => {
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
-      host.triggerEventHandler('keydown', MockTabKeyEvent);
+      host.triggerEventHandler('keyup', MockTabKeyEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
       );
     });
 
-    it('should have "mouse-focus" class when mousedown is triggered after keydown', () => {
-      host.triggerEventHandler('keydown', MockMouseEvent);
+    it('should have "mouse-focus" class when mousedown is triggered after keyup', () => {
+      host.triggerEventHandler('keyup', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
