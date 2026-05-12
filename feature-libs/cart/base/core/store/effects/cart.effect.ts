@@ -311,13 +311,8 @@ export class CartEffects {
           map((state) => state?.index?.[CartType.ACTIVE])
         )
       ),
-      mergeMap(([_, cartId]) => {
-        if(!cartId)
-          return [];
-        return [
-          new CartActions.LoadCart({ cartId, userId: OCC_USER_ID_CURRENT }),
-        ];
-      })
+      filter(([_, cartId]) => !!cartId),
+      map(([_, cartId]) => new CartActions.LoadCart({ cartId: cartId as string, userId: OCC_USER_ID_CURRENT }))
     )
   );
 

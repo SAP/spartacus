@@ -6,12 +6,13 @@ import {
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
+import { Store, StoreModule } from '@ngrx/store';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import {
   CLIENT_AUTH_FEATURE,
   LoggerService,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_CURRENT,
   OccConfig,
   SiteContextActions,
   USER_FEATURE,
@@ -24,7 +25,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
 
@@ -68,7 +69,7 @@ describe('Cart effect', () => {
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
-
+  let store: Store<StateWithMultiCart>;
   beforeEach(() => {
     loadMock = createSpy().and.returnValue(of(testCart));
 
@@ -107,6 +108,7 @@ describe('Cart effect', () => {
     });
 
     cartEffects = TestBed.inject(fromEffects.CartEffects);
+    store = TestBed.inject(Store);
   });
 
   describe('loadCart$', () => {
@@ -419,15 +421,18 @@ describe('Cart effect', () => {
 
     siteContextChangeActions.forEach((actionName) => {
       it(`should reset cart details on ${actionName}`, () => {
+        store.dispatch(
+          new CartActions.SetCartTypeIndex({ cartType: CartType.ACTIVE, cartId })
+        );
         const action = new SiteContextActions[actionName]();
-        const resetCartDetailsCompletion = new CartActions.ResetCartDetails();
+        const resetCartDetailsCompletion = new CartActions.LoadCart({userId: OCC_USER_ID_CURRENT, cartId});
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
           b: resetCartDetailsCompletion,
         });
 
-        expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
+        expect(cartEffects.refreshCartDetailsOnSiteContextChange$).toBeObservable(
           expected
         );
       });
