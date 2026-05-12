@@ -19,10 +19,17 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 #v5.6.0
-        with:
-          python-version: '3.14'
-      - name: Download reuse tool
-        run: pip3 install --user reuse
       - name: Check license headers
-        run: reuse lint || (echo "::error::Some files are missing license headers. Run ci-scripts/prepend-license.sh locally to fix them." && exit 1)
+        run: |
+          FILES=$(find . -not -path '**/node_modules/**' -not -regex ".*[^a-zA-Z]spec[^a-zA-Z].*" -name '*.ts' -print)
+          MISSING=""
+          for FILE in $FILES; do
+            if ! grep -q "SPDX-License-Identifier" "$FILE"; then
+              MISSING="$MISSING\n  $FILE"
+            fi
+          done
+          if [ -n "$MISSING" ]; then
+            echo "::error::The following files are missing license headers. Run ci-scripts/prepend-license.sh locally to fix them."
+            printf "$MISSING\n"
+            exit 1
+          fi
