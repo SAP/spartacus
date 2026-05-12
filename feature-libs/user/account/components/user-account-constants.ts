@@ -5,3 +5,4 @@
  */
 
 export const ONE_TIME_PASSWORD_LOGIN_PURPOSE = 'LOGIN';
+export const OTP_LOGIN_STATE_STORAGE_KEY = 'cx_otp_login_state';

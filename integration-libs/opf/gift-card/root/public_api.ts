@@ -9,3 +9,5 @@ export * from './feature-name';
 export * from './model/index';
 export * from './config/index';
 export * from './opf-gift-card-root.module';
+export * from './normalizers/index';
+export * from './http-interceptors/index';
