@@ -115,6 +115,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
+    useFeatureStyles('alignNavigationMenuWithHeader');
   }
 
   ngOnInit(): void {
