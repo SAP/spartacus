@@ -26,6 +26,12 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Enables the dedicated B2B register section on the login page,
+   * replacing the CMS-driven paragraph and link.
+   */
+  a11yB2BRegisterComponent?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -44,17 +50,16 @@ export interface FeatureTogglesInterface {
   readMoreDirective?: boolean;
 
   /**
+   * Introduces the read more directive in product list item summary
+   * Affects: ProductListItemComponent
+   */
+  productListItemSummaryReadMore?: boolean;
+
+  /**
    * Introduces characters left for product review form elements.
    * Affects: ProductReviewsComponent
    */
   productReviewCharactersLeft?: boolean;
-
-  /**
-   * The optional `aria-controls` attribute will override on the NgSelect implementation.
-   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
-   * This change ensures we can still use a custom id if preferable.
-   */
-  a11yNgSelectAriaControls?: boolean;
 
   /**
    * Ensures on configurator overview page, that group titles are recognized as heading
@@ -78,13 +83,11 @@ export interface FeatureTogglesInterface {
   a11yNgSelectUnicodeCarets?: boolean;
 
   /**
-   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
-   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
-   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
-   * on demand by clicking on `Show Options` button in case the back-end signals
-   * that domain values are not yet present.
+   * When enabled, prevents Windows high contrast mode from overriding the Spartacus theme.
+   * This ensures the application maintains its intended styling when the OS accessibility
+   * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
-  enableReadDomainValuesOnDemand?: boolean;
+  a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
@@ -466,24 +469,53 @@ export interface FeatureTogglesInterface {
   enableRemoveVoucherEndpoint?: boolean;
 
   /**
+   * When enabled, shows sort fields only at the top of the table.
+   * When disabled, shows sort fields at both top and bottom.
+   */
+  showSortFieldsOnlyAtTop?: boolean;
+
+  /**
    * When enabled, displays required field asterisks for form fields.
    */
   showRequiredAsterisks?: boolean;
+
+  /**
+   * Preserves keyboard focus on consent checkboxes after toggling.
+   * Treats Space/Enter on checkbox/radio as navigation in VisibleFocusDirective
+   * and restores focus after the consent form is temporarily disabled.
+   * Affects: VisibleFocusDirective, ConsentManagementFormComponent, ConsentManagementComponent
+   */
+  a11yConsentManagementFocusPreservation?: boolean;
+
+  /**
+   * When enabled, `AuthHttpHeaderService` executes DI-provided
+   * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
+   * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
+   * Affects: `AuthHttpHeaderService`
+   */
+  enableExpiredRefreshTokenHandlers?: boolean;
+
+  /**
+   * When enabled, sytling is changed on navigation header and menu to be more cohesive.
+   */
+  alignNavigationMenuWithHeader?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
+  a11yB2BRegisterComponent: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
+  a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
+  productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
-  a11yNgSelectAriaControls: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
-  enableReadDomainValuesOnDemand: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
@@ -501,7 +533,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
-  enablePasswordExpiredErrorTranslation: false,
+  enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
@@ -521,8 +553,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
+  a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
+  showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
+  enableExpiredRefreshTokenHandlers: false,
 };

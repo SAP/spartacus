@@ -60,6 +60,10 @@ describe('OpfTokenisationSavedCardsService', () => {
       expect((service as any).cardSelected$.value).toBe(false);
     });
 
+    it('should have selectedPaymentMethodId$ initialized to undefined', () => {
+      expect(service.selectedPaymentMethodId$.value).toBeUndefined();
+    });
+
     it('should initialize subscription', () => {
       expect((service as any).subscription).toBeDefined();
     });
@@ -123,6 +127,41 @@ describe('OpfTokenisationSavedCardsService', () => {
       service.markCardAsSelected();
 
       expect((service as any).cardSelected$.value).toBe(true);
+    });
+
+    it('should persist the provided id in selectedPaymentMethodId$', () => {
+      service.markCardAsSelected('card-123');
+
+      expect(service.selectedPaymentMethodId$.value).toBe('card-123');
+    });
+
+    it('should not change selectedPaymentMethodId$ when called without an id', () => {
+      service.selectedPaymentMethodId$.next('existing-id');
+      service.markCardAsSelected();
+
+      expect(service.selectedPaymentMethodId$.value).toBe('existing-id');
+    });
+
+    it('should overwrite a previous id when called with a new one', () => {
+      service.markCardAsSelected('card-1');
+      service.markCardAsSelected('card-2');
+
+      expect(service.selectedPaymentMethodId$.value).toBe('card-2');
+    });
+  });
+
+  describe('clearSelectedPaymentMethodId', () => {
+    it('should reset selectedPaymentMethodId$ to undefined', () => {
+      service.markCardAsSelected('card-abc');
+      service.clearSelectedPaymentMethodId();
+
+      expect(service.selectedPaymentMethodId$.value).toBeUndefined();
+    });
+
+    it('should be safe to call when already undefined', () => {
+      service.clearSelectedPaymentMethodId();
+
+      expect(service.selectedPaymentMethodId$.value).toBeUndefined();
     });
   });
 

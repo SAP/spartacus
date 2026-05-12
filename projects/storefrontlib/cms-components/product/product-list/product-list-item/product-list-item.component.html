@@ -48,7 +48,19 @@
 
     <div class="row">
       <div class="col-12 col-md-7 col-xl-7">
-        <p class="cx-product-summary" [innerHTML]="product.summary"></p>
+        <p
+          *cxFeature="'!productListItemSummaryReadMore'"
+          class="cx-product-summary"
+          [innerHTML]="product.summary"
+        ></p>
+        <ng-container *ngIf="product.summary">
+          <cx-read-more
+            *cxFeature="'productListItemSummaryReadMore'"
+            class="text"
+            [text]="product.summary"
+            [maxLength]="summaryMaxLength"
+          ></cx-read-more>
+        </ng-container>
       </div>
       <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">

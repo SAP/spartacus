@@ -291,6 +291,10 @@
 
   @include media-breakpoint-up(lg) {
     background-color: var(--cx-color-text);
+
+    @include forFeature(alignNavigationMenuWithHeader) {
+      background-color: var(--cx-color-background-dark);
+    }
   }
 
   @extend %nav-heading;
