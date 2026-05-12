@@ -1,0 +1,28 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+name: Check license headers
+
+permissions:
+  contents: read
+
+jobs:
+  check_license_headers:
+    name: Check license headers are present
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 #v5.6.0
+        with:
+          python-version: '3.14'
+      - name: Download reuse tool
+        run: pip3 install --user reuse
+      - name: Check license headers
+        run: reuse lint || (echo "::error::Some files are missing license headers. Run ci-scripts/prepend-license.sh locally to fix them." && exit 1)
