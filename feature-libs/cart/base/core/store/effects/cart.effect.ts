@@ -303,7 +303,7 @@ export class CartEffects {
       )
   );
 
-  refreshCartDetailsOnSiteContextChange$: Observable<any> = createEffect(() =>
+  refreshCartDetailsOnSiteContextChange$: Observable<CartActions.LoadCart> = createEffect(() =>
     this.contextChange$.pipe(
       withLatestFrom(
         this.store.pipe(
@@ -311,11 +311,8 @@ export class CartEffects {
           map((state) => state?.index?.[CartType.ACTIVE])
         )
       ),
-      mergeMap(([_, cartId]) => {
-        return [
-          new CartActions.LoadCart({ cartId, userId: OCC_USER_ID_CURRENT }),
-        ];
-      })
+      filter(([_, cartId]) => !!cartId),
+      map(([_, cartId]) => new CartActions.LoadCart({ cartId: cartId as string, userId: OCC_USER_ID_CURRENT }))
     )
   );
 
