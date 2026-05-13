@@ -10,7 +10,7 @@ import { FederatedLoginConfig } from './federated-login-config';
 const standardDefaultConfig: FederatedLoginConfig = {
   federatedLogin: {
     enabled: false,
-    contextParameterName: 'context',
+    contextParameterName: 'ctx',
     loginHosts: [],
     originMap: {},
   },
