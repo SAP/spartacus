@@ -5,6 +5,7 @@
  */
 
 export * from './applicable';
+export * from './base64';
 export * from './command-query/index';
 export * from './converter.service';
 export * from './create-from';
