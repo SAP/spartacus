@@ -4,21 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 
+import { CART_NORMALIZER } from '@spartacus/cart/base/root';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { OPF_GIFT_CARD_FEATURE } from './feature-name';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { OpfGiftCardApplyModule } from './components/opf-gift-card-apply';
+import { OpfGiftCardCartOccNormalizer } from './normalizers';
 import { OpfGiftCardCheckoutModule } from './components/opf-gift-card-checkout';
 import { OpfGiftCardOrderConfirmationModule } from './components/opf-gift-card-order-confirmation';
 import { OpfGiftCardOrderDetailsModule } from './components/opf-gift-card-order-details';
-import { defaultOccOpfGiftCardCartEndpointsConfig } from './config/default-occ-opf-gift-card-cart-config';
-import { defaultOccOpfGiftCardOrderEndpointsConfig } from './config/default-occ-opf-gift-card-order-config';
-import { defaultOpfGiftCardCartConfig } from './config/default-gift-card-cart-config';
+import { OpfGiftCardOrderOccNormalizer } from './normalizers/opf-gift-card-order-occ-normalizer';
+import { OpfGiftCardPaymentApiInterceptor } from './http-interceptors';
 
 export const OPF_GIFT_CARD_FEATURE_CMS_COMPONENTS: string[] = [
   'CheckoutOrderSummary',
@@ -45,10 +44,22 @@ export function defaultOpfGiftCardComponentsConfig() {
     OpfGiftCardOrderConfirmationModule,
   ],
   providers: [
-    provideDefaultConfig(defaultOccOpfGiftCardCartEndpointsConfig),
-    provideDefaultConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
+    {
+      provide: ORDER_NORMALIZER,
+      useExisting: OpfGiftCardOrderOccNormalizer,
+      multi: true,
+    },
+    {
+      provide: CART_NORMALIZER,
+      useExisting: OpfGiftCardCartOccNormalizer,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OpfGiftCardPaymentApiInterceptor,
+      multi: true,
+    },
     provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
-    provideDefaultConfig(defaultOpfGiftCardCartConfig),
   ],
 })
 export class OpfGiftCardRootModule {}

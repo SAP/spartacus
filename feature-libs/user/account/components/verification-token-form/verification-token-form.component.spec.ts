@@ -21,6 +21,7 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
+  WindowRef,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -28,12 +29,25 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
+
+class MockWinRef {
+  get nativeWindow(): Window {
+    return {} as Window;
+  }
+  get sessionStorage(): Storage | undefined {
+    return undefined;
+  }
+}
+
 class MockFormComponentService
   implements Partial<VerificationTokenFormComponentService>
 {
@@ -69,6 +83,7 @@ describe('VerificationTokenFormComponent', () => {
   let service: VerificationTokenFormComponentService;
   let launchDialogService: LaunchDialogService;
   let routineservice: RoutingService;
+  let winRef: WindowRef;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -93,6 +108,7 @@ describe('VerificationTokenFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        { provide: WindowRef, useClass: MockWinRef },
         ChangeDetectorRef,
       ],
     })
@@ -112,6 +128,7 @@ describe('VerificationTokenFormComponent', () => {
     service = TestBed.inject(VerificationTokenFormComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     routineservice = TestBed.inject(RoutingService);
+    winRef = TestBed.inject(WindowRef);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -252,6 +269,29 @@ describe('VerificationTokenFormComponent', () => {
         By.css('.rate-limit-error-display')
       );
       expect(errorMessageElement).toBeTruthy();
+    });
+  });
+
+  describe('goBack', () => {
+    it('should navigate to login and save loginId to sessionStorage', () => {
+      component.target = 'user@example.com';
+      component.password = 'myPass';
+      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
+        'getItem',
+        'setItem',
+        'removeItem',
+      ]);
+      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
+        storageSpy
+      );
+
+      component.goBack();
+
+      expect(routineservice.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      expect(storageSpy.setItem).toHaveBeenCalledWith(
+        OTP_LOGIN_STATE_STORAGE_KEY,
+        JSON.stringify({ loginId: 'user@example.com' })
+      );
     });
   });
 });

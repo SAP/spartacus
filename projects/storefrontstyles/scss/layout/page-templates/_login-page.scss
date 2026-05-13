@@ -35,4 +35,11 @@
       --cx-max-width: 50%;
     }
   }
+
+  @include forFeature('a11yB2BRegisterComponent') {
+    cx-login-form ~ cx-paragraph:has(div > p.cx-section-title),
+    cx-login-form ~ cx-link.cx-organization-user-register-button {
+      display: none;
+    }
+  }
 }
