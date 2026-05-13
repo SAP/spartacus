@@ -1,0 +1,35 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+name: Check license headers
+
+permissions:
+  contents: read
+
+jobs:
+  check_license_headers:
+    name: Check license headers are present
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Check license headers
+        run: |
+          FILES=$(find . -not -path '**/node_modules/**' -not -regex ".*[^a-zA-Z]spec[^a-zA-Z].*" -name '*.ts' -print)
+          MISSING=""
+          for FILE in $FILES; do
+            if ! grep -q "SPDX-License-Identifier" "$FILE"; then
+              MISSING="$MISSING\n  $FILE"
+            fi
+          done
+          if [ -n "$MISSING" ]; then
+            echo "::error::The following files are missing license headers. Run ci-scripts/prepend-license.sh locally to fix them."
+            printf "$MISSING\n"
+            exit 1
+          fi

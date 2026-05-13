@@ -81,14 +81,14 @@ if (environment.b2b) {
 }
 
 extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
-extensionProviders.push(
-  provideConfig(defaultOccOpfGiftCardCartEndpointsConfig)
-);
-extensionProviders.push(
-  provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig)
-);
-extensionProviders.push(provideConfig(defaultOpfGiftCardCartConfig));
 
+if (!environment.b2b && environment.opf) {
+  extensionProviders.push(
+    provideConfig(defaultOccOpfGiftCardCartEndpointsConfig),
+    provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
+    provideConfig(defaultOpfGiftCardCartConfig)
+  );
+}
 @NgModule({
   imports: [
     OpfBaseRootModule,
