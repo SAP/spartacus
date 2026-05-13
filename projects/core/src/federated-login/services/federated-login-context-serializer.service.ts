@@ -5,6 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
+import { decodeBase64, encodeBase64 } from '../../util/base64';
 import { FederatedLoginConfig } from '../config/federated-login-config';
 import { FederatedLoginContext } from '../model';
 
@@ -12,31 +13,43 @@ import { FederatedLoginContext } from '../model';
 export class FederatedLoginContextSerializerService {
   config = inject(FederatedLoginConfig).federatedLogin;
 
-  serializeContext(context: FederatedLoginContext | undefined) {
+  serializeContext(context: FederatedLoginContext | undefined): string {
     if (context?.origin) {
       const contextParts: string[] = [];
-
       const key = this.getContextKey(context.origin);
-
       if (!key) {
         return '';
       }
       contextParts.push(key);
-
       contextParts.push(context.language ?? '');
+      const contextString = contextParts.join(':');
 
-      return contextParts.join(':');
+      return encodeBase64(contextString, { urlSafe: true });
     }
 
     return '';
   }
 
-  deserializeContext(serializedContext: string | null | undefined) {
-    const [domain, language] = serializedContext?.split(':', 2) ?? [];
+  deserializeContext(
+    encodedContext: string | null | undefined
+  ): FederatedLoginContext {
+    if (!encodedContext) {
+      return {};
+    }
+
+    const serializedContext = decodeBase64(encodedContext, {
+      urlSafe: true,
+    });
+    const index = serializedContext.lastIndexOf(':');
+    const originKey =
+      index !== -1 ? serializedContext.substring(0, index) : serializedContext;
+    const language =
+      index !== -1 ? serializedContext.substring(index + 1) : undefined;
+
     const contextValue: FederatedLoginContext = {};
 
-    if (domain) {
-      contextValue.origin = this.getOrigin(domain);
+    if (originKey) {
+      contextValue.origin = this.getOrigin(originKey);
     }
     if (language) {
       contextValue.language = language;
@@ -46,7 +59,7 @@ export class FederatedLoginContextSerializerService {
   }
 
   protected getOrigin(contextKey: string) {
-    return this.config?.originMap[contextKey];
+    return this.config?.originMap?.[contextKey];
   }
 
   protected getContextKey(origin: string) {
