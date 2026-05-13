@@ -303,18 +303,25 @@ export class CartEffects {
       )
   );
 
-  refreshCartDetailsOnSiteContextChange$: Observable<CartActions.LoadCart> = createEffect(() =>
-    this.contextChange$.pipe(
-      withLatestFrom(
-        this.store.pipe(
-          select(getMultiCartState),
-          map((state) => state?.index?.[CartType.ACTIVE])
+  refreshCartDetailsOnSiteContextChange$: Observable<CartActions.LoadCart> =
+    createEffect(() =>
+      this.contextChange$.pipe(
+        withLatestFrom(
+          this.store.pipe(
+            select(getMultiCartState),
+            map((state) => state?.index?.[CartType.ACTIVE])
+          )
+        ),
+        filter(([_, cartId]) => !!cartId),
+        map(
+          ([_, cartId]) =>
+            new CartActions.LoadCart({
+              cartId: cartId as string,
+              userId: OCC_USER_ID_CURRENT,
+            })
         )
-      ),
-      filter(([_, cartId]) => !!cartId),
-      map(([_, cartId]) => new CartActions.LoadCart({ cartId: cartId as string, userId: OCC_USER_ID_CURRENT }))
-    )
-  );
+      )
+    );
 
   addEmail$: Observable<
     | CartActions.AddEmailToCartSuccess

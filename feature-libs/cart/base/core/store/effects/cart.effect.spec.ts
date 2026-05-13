@@ -422,19 +422,25 @@ describe('Cart effect', () => {
     siteContextChangeActions.forEach((actionName) => {
       it(`should reset cart details on ${actionName}`, () => {
         store.dispatch(
-          new CartActions.SetCartTypeIndex({ cartType: CartType.ACTIVE, cartId })
+          new CartActions.SetCartTypeIndex({
+            cartType: CartType.ACTIVE,
+            cartId,
+          })
         );
         const action = new SiteContextActions[actionName]();
-        const resetCartDetailsCompletion = new CartActions.LoadCart({userId: OCC_USER_ID_CURRENT, cartId});
+        const resetCartDetailsCompletion = new CartActions.LoadCart({
+          userId: OCC_USER_ID_CURRENT,
+          cartId,
+        });
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
           b: resetCartDetailsCompletion,
         });
 
-        expect(cartEffects.refreshCartDetailsOnSiteContextChange$).toBeObservable(
-          expected
-        );
+        expect(
+          cartEffects.refreshCartDetailsOnSiteContextChange$
+        ).toBeObservable(expected);
       });
     });
   });
