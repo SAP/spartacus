@@ -30,49 +30,49 @@ for d in "${EXCLUDE_DIRS[@]}"; do
   EXCLUDE_ARGS+=(-path "./$d" -prune -o)
 done
 
-#echo "=== Step 1: Move folders ==="
-#for mapping in "${MAPPINGS[@]}"; do
-#  src="${mapping%%:*}"
-#  dest="${mapping##*:}"
-#  if [ -d "$src" ]; then
-#    mkdir -p "$(dirname "$dest")"
-#    echo "Moving $src -> $dest"
-#    if ! mv "$src" "$dest"; then
-#      echo "ERROR: Failed to move $src -> $dest"
-#      exit 1
-#    fi
-#  else
-#    echo "SKIP: $src does not exist (already moved?)"
-#  fi
-#done
-#echo "Step 1 complete."
-#
-#echo ""
-#echo "=== Step 2: Replace references in files ==="
-#for mapping in "${MAPPINGS[@]}"; do
-#  old="${mapping%%:*}"
-#  new="${mapping##*:}"
-#
-#  # Skip no-op mappings
-#  if [ "$old" = "$new" ]; then
-#    echo "SKIP: '$old' == '$new', nothing to replace"
-#    continue
-#  fi
-#
-#  echo "Replacing '$old' -> '$new' ..."
-#
-#  # Fast: one grep pass to find matching files, then sed in batch
-#  find . "${EXCLUDE_ARGS[@]}" -type f \
-#    ! -name '*.png' ! -name '*.jpg' ! -name '*.jpeg' ! -name '*.ico' \
-#    ! -name '*.woff' ! -name '*.woff2' ! -name '*.ttf' ! -name '*.eot' \
-#    ! -name '*.gif' ! -name '*.svg' \
-#    ! -path "./$SCRIPT_NAME" \
-#    -print0 2>/dev/null | \
-#    xargs -0 grep -rl --binary-files=without-match "$old" 2>/dev/null | \
-#    xargs -I{} sed -i '' "s|$old|$new|g" {}
-#  echo "  Done with '$old'."
-#done
-#echo "Step 2 complete."
+echo "=== Step 1: Move folders ==="
+for mapping in "${MAPPINGS[@]}"; do
+  src="${mapping%%:*}"
+  dest="${mapping##*:}"
+  if [ -d "$src" ]; then
+    mkdir -p "$(dirname "$dest")"
+    echo "Moving $src -> $dest"
+    if ! mv "$src" "$dest"; then
+      echo "ERROR: Failed to move $src -> $dest"
+      exit 1
+    fi
+  else
+    echo "SKIP: $src does not exist (already moved?)"
+  fi
+done
+echo "Step 1 complete."
+
+echo ""
+echo "=== Step 2: Replace references in files ==="
+for mapping in "${MAPPINGS[@]}"; do
+  old="${mapping%%:*}"
+  new="${mapping##*:}"
+
+  # Skip no-op mappings
+  if [ "$old" = "$new" ]; then
+    echo "SKIP: '$old' == '$new', nothing to replace"
+    continue
+  fi
+
+  echo "Replacing '$old' -> '$new' ..."
+
+  # Fast: one grep pass to find matching files, then sed in batch
+  find . "${EXCLUDE_ARGS[@]}" -type f \
+    ! -name '*.png' ! -name '*.jpg' ! -name '*.jpeg' ! -name '*.ico' \
+    ! -name '*.woff' ! -name '*.woff2' ! -name '*.ttf' ! -name '*.eot' \
+    ! -name '*.gif' ! -name '*.svg' \
+    ! -path "./$SCRIPT_NAME" \
+    -print0 2>/dev/null | \
+    xargs -0 grep -rl --binary-files=without-match "$old" 2>/dev/null | \
+    xargs -I{} sed -i '' "s|$old|$new|g" {}
+  echo "  Done with '$old'."
+done
+echo "Step 2 complete."
 
 echo ""
 echo "=== Step 3: Remove old entries from workspaces in package.json ==="
