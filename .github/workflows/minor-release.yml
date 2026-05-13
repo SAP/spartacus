@@ -33,14 +33,15 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com' 
 
+      - name: Validate Version
+        uses: ./.github/actions/validate-version
+        with:
+          version: ${{ github.event.inputs.version }}
+
       - name: Set Version
         env:
           INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
-          if [[ ! "$INPUT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9._-]+)?$ ]]; then
-            echo "Error: version '$INPUT_VERSION' does not match expected format (e.g. 2211.20.0 or 2211.20.0-1)"
-            exit 1
-          fi
           echo "version=$INPUT_VERSION" >> $GITHUB_ENV
 
       - name: Create Release Branch
