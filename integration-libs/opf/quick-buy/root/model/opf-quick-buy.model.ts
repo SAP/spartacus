@@ -77,10 +77,10 @@ export type OpfGooglePayCardParametersConfig = Pick<
 >;
 
 export interface OpfQuickBuyGooglePayProvider {
-  resourceUrl: string;
-  environment: google.payments.api.Environment;
-  paymentRequest: OpfGooglePayPaymentRequestConfig;
-  cardParameters: OpfGooglePayCardParametersConfig;
+  resourceUrl?: string;
+  environment?: google.payments.api.Environment;
+  paymentRequest?: OpfGooglePayPaymentRequestConfig;
+  cardParameters?: OpfGooglePayCardParametersConfig;
 }
 
 export type OpfApplePayCardParametersConfig = Pick<

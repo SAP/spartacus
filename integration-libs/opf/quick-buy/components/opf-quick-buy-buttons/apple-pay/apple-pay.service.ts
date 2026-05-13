@@ -6,7 +6,7 @@
 
 /// <reference types="@types/applepayjs" />
 import { Injectable, inject } from '@angular/core';
-import { Address, FeatureConfigService, WindowRef } from '@spartacus/core';
+import { Address, WindowRef } from '@spartacus/core';
 import { Observable, forkJoin, of, throwError } from 'rxjs';
 import {
   catchError,
@@ -24,7 +24,6 @@ import {
   ApplePaySessionVerificationRequest,
   ApplePaySessionVerificationResponse,
   ApplePayTransactionInput,
-  defaultOpfQuickBuyConfig,
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyApplePayProvider,
   OpfQuickBuyConfig,
@@ -52,7 +51,6 @@ export class ApplePayService {
   );
   protected opfQuickBuyFacade = inject(OpfQuickBuyFacade);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
-  private featureConfigService = inject(FeatureConfigService);
   protected paymentInProgress = false;
 
   // default config guarantees providers.applePay is always present
@@ -61,14 +59,8 @@ export class ApplePayService {
       ?.applePay as OpfQuickBuyApplePayProvider;
   }
 
-  protected get useOpfQuickBuyConfig(): boolean {
-    return this.featureConfigService.isEnabled('useOpfQuickBuyConfig');
-  }
-
-  protected readonly defaultApplePayCardParameters: any = this
-    .useOpfQuickBuyConfig
-    ? this.applePayProviderConfig.cardParameters
-    : defaultOpfQuickBuyConfig.providers?.applePay?.cardParameters;
+  protected readonly defaultApplePayCardParameters: any =
+    this.applePayProviderConfig.cardParameters;
 
   protected initialTransactionDetails: QuickBuyTransactionDetails = {
     context: OpfQuickBuyLocation.PRODUCT,

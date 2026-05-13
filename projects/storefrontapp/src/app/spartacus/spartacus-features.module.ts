@@ -351,7 +351,6 @@ if (environment.cpq) {
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
         showRequiredAsterisks: true,
-        useOpfQuickBuyConfig: true,
         enableExpiredRefreshTokenHandlers: true,
       };
       return appFeatureToggles;

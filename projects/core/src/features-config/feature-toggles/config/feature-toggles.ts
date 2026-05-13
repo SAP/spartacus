@@ -486,16 +486,6 @@ export interface FeatureTogglesInterface {
   a11yConsentManagementFocusPreservation?: boolean;
 
   /**
-   * When enabled, quick buy providers will read their
-   * configuration from the config and fall back to defaults if not provided.
-   * This enables customization via `provideConfig(<OpfQuickBuyConfig>{})`,
-   * instead of overwriting hardcoded values.
-   *
-   * Affects: `OpfGooglePayService`, `ApplePayService`
-   */
-  useOpfQuickBuyConfig?: boolean;
-
-  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -560,6 +550,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showRequiredAsterisks: false,
-  useOpfQuickBuyConfig: false,
   enableExpiredRefreshTokenHandlers: false,
 };

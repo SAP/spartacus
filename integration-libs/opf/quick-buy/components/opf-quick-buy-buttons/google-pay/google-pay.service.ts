@@ -7,7 +7,7 @@
 /// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { Address, FeatureConfigService } from '@spartacus/core';
+import { Address } from '@spartacus/core';
 
 import {
   OpfActiveConfiguration,
@@ -16,7 +16,6 @@ import {
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
-  defaultOpfQuickBuyConfig,
   OPF_GOOGLE_PAY_PROVIDER_NAME,
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
   OpfQuickBuyConfig,
@@ -43,7 +42,6 @@ export class OpfGooglePayService {
   );
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
-  private featureConfigService = inject(FeatureConfigService);
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
@@ -53,28 +51,15 @@ export class OpfGooglePayService {
       ?.googlePay as OpfQuickBuyGooglePayProvider;
   }
 
-  private get useOpfQuickBuyConfig(): boolean {
-    return this.featureConfigService.isEnabled('useOpfQuickBuyConfig');
-  }
-
-  private readonly defaultGooglePayConfig =
-    defaultOpfQuickBuyConfig.providers?.googlePay;
-
   private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
-    environment: this.useOpfQuickBuyConfig
-      ? this.googlePayProviderConfig.environment
-      : this.defaultGooglePayConfig?.environment,
+    environment: this.googlePayProviderConfig.environment,
   };
 
-  private initialGooglePaymentRequest = (this.useOpfQuickBuyConfig
-    ? this.googlePayProviderConfig.paymentRequest
-    : this.defaultGooglePayConfig
-        ?.paymentRequest) as google.payments.api.PaymentDataRequest;
+  private initialGooglePaymentRequest = this.googlePayProviderConfig
+    .paymentRequest as google.payments.api.PaymentDataRequest;
 
-  protected readonly defaultGooglePayCardParameters: any = this
-    .useOpfQuickBuyConfig
-    ? this.googlePayProviderConfig.cardParameters
-    : this.defaultGooglePayConfig?.cardParameters;
+  protected readonly defaultGooglePayCardParameters: any =
+    this.googlePayProviderConfig.cardParameters;
 
   private initialTransactionInfo: google.payments.api.TransactionInfo = {
     totalPrice: '0.00',
