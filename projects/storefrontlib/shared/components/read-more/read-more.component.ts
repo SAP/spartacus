@@ -34,13 +34,13 @@ export class ReadMoreComponent implements OnChanges {
   // Text length that, when exceeded, triggers truncation and adds a Read More link.
   @Input() maxLength = 300;
   // Text to be rendered (decorated with Read More/Read Less links)
-  @Input() text: string = '';
+  @Input() text: string | undefined = '';
 
   showReadMore: boolean = false;
   isCollapsed: boolean = true;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['text'].currentValue.length > this.maxLength) {
+    if (changes['text']?.currentValue?.length > this.maxLength) {
       this.showReadMore = true;
     }
   }
