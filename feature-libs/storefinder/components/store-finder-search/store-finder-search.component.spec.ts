@@ -8,7 +8,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 const query = {

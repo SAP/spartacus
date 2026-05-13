@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { FutureStockService } from '../../core/services';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';

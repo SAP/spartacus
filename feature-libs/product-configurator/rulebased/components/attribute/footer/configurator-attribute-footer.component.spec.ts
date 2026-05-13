@@ -10,7 +10,7 @@ import {
   IconLoaderService,
   IconModule,
 } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';

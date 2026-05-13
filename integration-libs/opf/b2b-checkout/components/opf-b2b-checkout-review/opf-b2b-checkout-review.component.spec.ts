@@ -34,7 +34,7 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.component';
 

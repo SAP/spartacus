@@ -43,5 +43,5 @@
     "scss/comment-no-loud": true,
     "selector-disallowed-list": ["/\\app-root/"]
   },
-  "ignoreFiles": ["projects/storefrontstyles/vendor/**/*.scss"]
+  "ignoreFiles": ["core-libs/storefrontstyles/vendor/**/*.scss"]
 }

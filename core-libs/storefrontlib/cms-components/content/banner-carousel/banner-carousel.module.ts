@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
+import { CarouselModule, MediaModule } from '../../../shared/components';
+import { BannerCarouselComponent } from './banner-carousel.component';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    PageComponentModule,
+    CarouselModule,
+    MediaModule,
+    BannerCarouselComponent,
+  ],
+  providers: [
+    provideDefaultConfig({
+      cmsComponents: {
+        RotatingImagesComponent: {
+          component: BannerCarouselComponent,
+        },
+      },
+    } as CmsConfig),
+  ],
+  exports: [BannerCarouselComponent],
+})
+export class BannerCarouselModule {}

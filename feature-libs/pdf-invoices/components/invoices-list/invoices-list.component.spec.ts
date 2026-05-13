@@ -25,7 +25,7 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { InvoicesListComponent } from './invoices-list.component';

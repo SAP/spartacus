@@ -25,7 +25,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-level-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';

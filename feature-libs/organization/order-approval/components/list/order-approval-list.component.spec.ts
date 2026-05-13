@@ -20,9 +20,9 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { SortingComponent } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';

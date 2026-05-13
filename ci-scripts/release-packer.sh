@@ -16,7 +16,7 @@ function configure_project {
     mv !(sub-folder) sub-folder
 }
 
-# Clear root containing the old package so the next package can be published 
+# Clear root containing the old package so the next package can be published
 function clear_root {
     rm -rf !(sub-folder)
     cp -r sub-folder/.pipeline .
@@ -38,9 +38,9 @@ function pack {
         echo "Package cannot be empty"
         exit 1
     elif [[ $PACKAGE == 'styles' ]]; then
-        cp -r projects/storefrontstyles/* ../.
+        cp -r core-libs/storefrontstyles/* ../.
     elif [[ $PACKAGE == 'schematics' ]]; then
-        cp -r projects/schematics/* ../.
+        cp -r core-libs/schematics/* ../.
     elif [[ $PACKAGE == 'storefront' ]]; then
         append_npmignore "dist/storefrontlib" "$CONTENT"
         cp -r dist/storefrontlib/* ../.
@@ -54,7 +54,7 @@ if [[ $1 == 'configure' ]]; then
     configure_project
 elif [[ $1 == 'build' ]]; then
     build_libs
-else 
+else
     clear_root
     pack "$1"
-fi 
+fi

@@ -41,7 +41,7 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';

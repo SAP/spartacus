@@ -5,7 +5,7 @@
 set -e
 
 # Configuration
-REGULAR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+REGULAR_TOGGLES_FILE="core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts"
 SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 
 echo "🔍 Checking for newly added feature toggles..."
@@ -20,24 +20,24 @@ echo "================================================="
 # ```
 extract_regular_toggles_from_content() {
     local content="$1"
-    
+
     # Find the start of defaultFeatureToggles object
     local start_line=$(echo "$content" | grep -n "export const defaultFeatureToggles" | cut -d: -f1)
     if [[ -z "$start_line" ]]; then
         echo ""
         return
     fi
-    
+
     # Find the closing brace (end of the object)
     local end_line=$(echo "$content" | tail -n +$start_line | grep -n "^};" | head -1 | cut -d: -f1)
     if [[ -z "$end_line" ]]; then
         echo ""
         return
     fi
-    
+
     # Calculate actual line numbers
     end_line=$((start_line + end_line - 1))
-    
+
     # Extract toggles between the braces
     echo "$content" | sed -n "$((start_line + 1)),$((end_line - 1))p" | \
         grep -E "^\s*[a-zA-Z].*:\s*(true|false)" | \
@@ -55,14 +55,14 @@ extract_regular_toggles_from_content() {
 # ```
 extract_ssr_toggles_from_content() {
     local content="$1"
-    
+
     # Find the start of ssrFeatureToggles object
     local start_line=$(echo "$content" | grep -n "ssrFeatureToggles: {" | cut -d: -f1)
     if [[ -z "$start_line" ]]; then
         echo ""
         return
     fi
-    
+
     # Check if it's a single-line empty object: ssrFeatureToggles: {},
     local start_line_content=$(echo "$content" | sed -n "${start_line}p")
     if echo "$start_line_content" | grep -q "ssrFeatureToggles: {},"; then
@@ -70,17 +70,17 @@ extract_ssr_toggles_from_content() {
         echo ""
         return
     fi
-    
+
     # Find the closing brace (end of the object)
     local end_line=$(echo "$content" | tail -n +$start_line | grep -n "^\s*}," | head -1 | cut -d: -f1)
     if [[ -z "$end_line" ]]; then
         echo ""
         return
     fi
-    
+
     # Calculate actual line numbers
     end_line=$((start_line + end_line - 1))
-    
+
     # Extract toggles between the braces
     echo "$content" | sed -n "$((start_line + 1)),$((end_line - 1))p" | \
         grep -E "^\s*[a-zA-Z].*:\s*(true|false)" | \

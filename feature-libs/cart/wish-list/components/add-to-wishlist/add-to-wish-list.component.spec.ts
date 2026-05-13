@@ -29,7 +29,7 @@ import {
   CurrentProductService,
   IconComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;

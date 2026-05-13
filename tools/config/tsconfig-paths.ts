@@ -188,7 +188,7 @@ function handleTestConfigs(
         });
         return acc;
       },
-      { [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'] } as {
+      { [SPARTACUS_SCHEMATICS]: ['../../core-libs/schematics/index'] } as {
         [key: string]: [string];
       }
     );
@@ -315,13 +315,13 @@ function handleRootConfigs(
     (acc, curr) => {
       curr.entryPoints.forEach((entryPoint) => {
         acc[entryPoint.entryPoint] = [
-          // We reference source files entry points in these configs. E.g. `projects/storefrontlib/public_api`
+          // We reference source files entry points in these configs. E.g. `core-libs/storefrontlib/public_api`
           joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
         ];
       });
       return acc;
     },
-    { [SPARTACUS_SCHEMATICS]: ['projects/schematics/index'] } as {
+    { [SPARTACUS_SCHEMATICS]: ['core-libs/schematics/index'] } as {
       [key: string]: [string];
     }
   );

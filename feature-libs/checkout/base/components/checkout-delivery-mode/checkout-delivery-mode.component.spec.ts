@@ -31,7 +31,7 @@ import {
   InnerComponentsHostDirective,
   OutletModule,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';

@@ -28,7 +28,7 @@ import {
   LaunchDialogService,
   SiteContextComponentService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 

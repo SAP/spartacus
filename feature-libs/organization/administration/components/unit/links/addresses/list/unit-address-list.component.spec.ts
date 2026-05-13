@@ -9,7 +9,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { SubListComponent } from '@spartacus/organization/administration/components';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { UnitAddressListComponent } from './unit-address-list.component';
 import { UnitAddressListService } from './unit-address-list.service';

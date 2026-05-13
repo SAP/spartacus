@@ -14,7 +14,7 @@ import {
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { StoreListComponent } from './store-list.component';

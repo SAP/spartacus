@@ -13,7 +13,7 @@ import {
   User,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import createSpy = jasmine.createSpy;

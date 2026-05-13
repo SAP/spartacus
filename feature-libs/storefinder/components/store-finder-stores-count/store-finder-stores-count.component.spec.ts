@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import createSpy = jasmine.createSpy;

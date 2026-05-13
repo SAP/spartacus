@@ -31,7 +31,7 @@ import {
   NgSelectA11yModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   CheckoutBillingAddressFormComponent,

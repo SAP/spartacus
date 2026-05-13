@@ -50,7 +50,7 @@ const integrationLibsFolders: string[] = [
 
 const commands = [
   'publish',
-  'build projects/schematics',
+  'build core-libs/schematics',
   'build asm/schematics',
   'build cart/schematics',
   'build order/schematics',
@@ -140,8 +140,8 @@ type PackagePublishingResult = {
  */
 function getPackageJsonFiles(): string[] {
   const sourceFiles = [
-    'projects/storefrontstyles/package.json',
-    'projects/schematics/package.json',
+    'core-libs/storefrontstyles/package.json',
+    'core-libs/schematics/package.json',
   ];
   const distFiles = globSync(`dist/!(node_modules)/package.json`);
   return [...sourceFiles, ...distFiles];
@@ -327,7 +327,7 @@ async function buildSchematicsAndPublish(buildCmd: string): Promise<void> {
 
 function testAllSchematics(): void {
   try {
-    execSync('npm --prefix projects/schematics run test --coverage', {
+    execSync('npm --prefix core-libs/schematics run test --coverage', {
       stdio: 'inherit',
     });
 
@@ -418,7 +418,7 @@ async function executeCommand(command: Command): Promise<void> {
         task: () => publishAllPackages(),
       });
       break;
-    case 'build projects/schematics':
+    case 'build core-libs/schematics':
       await notifyOnComplete({
         taskName: 'Schematics build',
         task: () => buildSchematics({ publish: true }),

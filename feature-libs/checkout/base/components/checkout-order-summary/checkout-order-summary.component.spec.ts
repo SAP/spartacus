@@ -5,7 +5,7 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import createSpy = jasmine.createSpy;

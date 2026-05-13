@@ -14,7 +14,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.component';
 

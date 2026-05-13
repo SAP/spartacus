@@ -19,7 +19,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { FormErrorsComponent, SpinnerComponent } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   OrderApproval,

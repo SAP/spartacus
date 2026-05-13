@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export * from './config';
+export * from './pagination.builder';
+export * from './pagination.component';
+export * from './pagination.model';
+export * from './pagination.module';

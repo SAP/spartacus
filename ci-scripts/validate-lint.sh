@@ -10,7 +10,7 @@ function validateStylesLint {
 
 function validateTsConfigFile {
     echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
-    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
+    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "core-libs/storefrontlib/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
     if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
     then
         echo "ERROR: ${TSCONFIGFILE_TO_VALIDATE} file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
@@ -26,7 +26,7 @@ function validateNoHardCodedText {
     npm run i18n-lint
 }
 
-LOCAL_ENV_LIB_PATH="projects/storefrontlib/public_api"
+LOCAL_ENV_LIB_PATH="core-libs/storefrontlib/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
 
@@ -71,7 +71,7 @@ else
 fi
 
 echo "Validating that the storefrontlib does not import itself."
-results=$(grep -rl --include "*.ts" "from 'storefrontlib'" projects/storefrontlib || true)
+results=$(grep -rl --include "*.ts" "from 'storefrontlib'" core-libs/storefrontlib || true)
 if [[ -z "$results" ]]; then
     echo "Success: storefrontlib does not seem to import itself."
 else

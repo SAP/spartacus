@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-level-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmBindCartComponent } from '../public_api';
 import { AsmComponentService } from '../services/asm-component.service';

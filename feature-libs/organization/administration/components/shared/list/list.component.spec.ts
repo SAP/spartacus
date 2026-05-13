@@ -29,12 +29,12 @@ import {
   Table,
   TableComponent,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/shared/components/split-view/testing/spit-view-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'core-libs/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'core-libs/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { SplitViewTestingModule } from 'core-libs/storefrontlib/shared/components/split-view/testing/spit-view-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';

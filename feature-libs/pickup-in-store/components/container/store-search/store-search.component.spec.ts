@@ -5,7 +5,7 @@ import { FeatureDirective } from '@spartacus/core';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockCurrentLocationService } from '../../services/current-location.service.spec';
 
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefrontlib/shared/test/mock-feature-directive';
 import { StoreSearchComponent } from './store-search.component';
 
 describe('StoreSearchComponent', () => {
