@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  OnInit,
   inject,
 } from '@angular/core';
 import {
@@ -40,7 +41,10 @@ import {
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-login-form',
@@ -62,7 +66,7 @@ import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
     TranslatePipe,
   ],
 })
-export class OneTimePasswordLoginFormComponent {
+export class OneTimePasswordLoginFormComponent implements OnInit {
   protected routingService = inject(RoutingService);
   protected verificationTokenFacade = inject(VerificationTokenFacade);
   protected winRef = inject(WindowRef);
@@ -88,6 +92,32 @@ export class OneTimePasswordLoginFormComponent {
   });
 
   @HostBinding('class.user-form') style = true;
+
+  ngOnInit(): void {
+    const sessionState = this.getStoredLoginState();
+    if (sessionState) {
+      this.form.patchValue({
+        userId: sessionState.loginId,
+      });
+    }
+    this.clearStoredLoginState();
+  }
+
+  protected getStoredLoginState(): { loginId: string } | null {
+    const stored = this.winRef.sessionStorage?.getItem(
+      OTP_LOGIN_STATE_STORAGE_KEY
+    );
+    if (!stored) return null;
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return null;
+    }
+  }
+
+  protected clearStoredLoginState(): void {
+    this.winRef.sessionStorage?.removeItem(OTP_LOGIN_STATE_STORAGE_KEY);
+  }
 
   onSubmit(): void {
     if (!this.form.valid) {

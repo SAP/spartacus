@@ -29,8 +29,8 @@
     "changePayment": "Change Payment"
   },
   "paymentMethods": {
-    "paymentMethods": "Payment Methods",
-    "paymentMethodSelected": "Payment Method Selected",
+    "paymentMethods": "Payment methods",
+    "paymentMethodSelected": "Payment method selected",
     "newPaymentMethodsAreAddedDuringCheckout": "New payment methods are added during checkout.",
     "invalidField": "InvalidField: {{ field }}"
   },
@@ -41,6 +41,7 @@
     "defaultLabelOnCheckout": "Default",
     "expires": "Expires: {{ month }}/{{ year }}",
     "defaultPaymentMethod": "✓ DEFAULT",
+    "defaultPaymentMethodTokenisation": "✓ Default",
     "defaultPaymentLabel": "Default payment method",
     "additionalPaymentLabel": "Additional payment method {{ number }}",
     "selected": "Selected",
@@ -53,7 +54,12 @@
     "switch": "Switch Card",
     "maestro": "Maestro Card",
     "amex": "American Express Card",
-    "credit": "Credit Card"
+    "credit": "Credit Card",
+    "expired": "Expired",
+    "expiredMessageForMyAccounts": "This card has expired. Please update your payment method.",
+    "expiredMessageForCheckout": "This card has expired. Please update your payment method in My Account.",
+    "expiredMessage": "This card has expired.",
+    "showAll": "Show All"
   },
   "paymentTypes": {
     "title": "Payment method",

@@ -1,5 +1,5 @@
 <ng-container *ngIf="isCollapsed">
-  {{ text.slice(0, maxLength) }}
+  {{ text?.slice(0, maxLength) }}
 </ng-container>
 <ng-container *ngIf="!isCollapsed">
   {{ text }}
@@ -9,6 +9,7 @@
   class="btn-link"
   *ngIf="showReadMore"
   (click)="isCollapsed = !isCollapsed"
+  [attr.aria-expanded]="!isCollapsed"
 >
   {{ (isCollapsed ? readMoreI18nKey! : readLessI18nKey!) | cxTranslate }}
 </button>
