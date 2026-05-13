@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,9 +22,10 @@ import {
 } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
+  BREAKPOINT,
+  BreakpointService,
   IconComponent,
   OutletContextData,
-  ResponsiveAriaLabelDirective,
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { take } from 'rxjs';
@@ -35,14 +36,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    IconComponent,
-    UrlPipe,
-    TranslatePipe,
-    ResponsiveAriaLabelDirective,
-  ],
+  imports: [CommonModule, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
@@ -53,6 +47,10 @@ export class ToggleLinkCellComponent extends CellComponent {
   protected elementRef = inject(ElementRef);
   protected routingService = inject(RoutingService);
   private featureService = inject(FeatureConfigService);
+
+  protected readonly isLargeScreen$ = inject(BreakpointService).isUp(
+    BREAKPOINT.lg
+  );
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
