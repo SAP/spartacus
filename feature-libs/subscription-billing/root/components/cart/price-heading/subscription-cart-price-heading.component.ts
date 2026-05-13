@@ -25,7 +25,10 @@ export class SubscriptionCartPriceHeadingComponent {
   cartItems = toSignal(this.outletData?.context$ ?? EMPTY);
   subscriptionItem = computed(() => {
     return this.cartItems()?.items?.find((item: OrderEntry) =>
-      item.product ? this.productService.isSubscription(item.product) : false
+      item.product
+        ? this.productService.isSubscription(item.product) &&
+          item.cpqDiscounts?.length === 0
+        : false
     );
   });
 }

@@ -25,7 +25,10 @@ export class SubscriptionCartPriceBodyComponent {
   parent = computed(() => this.outletData().parent);
   subscriptionItemExists = computed(() => {
     return this.outletData().items?.find((item: OrderEntry) =>
-      item.product ? this.productService.isSubscription(item.product) : false
+      item.product
+        ? this.productService.isSubscription(item.product) &&
+          item.cpqDiscounts?.length === 0
+        : false
     );
   });
   item = computed(() => {
