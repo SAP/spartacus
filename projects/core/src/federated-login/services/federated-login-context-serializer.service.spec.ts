@@ -5,6 +5,7 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { encodeBase64 } from '@spartacus/core';
 import { FederatedLoginConfig } from '../config/federated-login-config';
 import { FederatedLoginContextSerializerService } from './federated-login-context-serializer.service';
 
@@ -12,6 +13,10 @@ const mockOriginMap: Record<string, string> = {
   shop1: 'https://shop1.example.com',
   shop2: 'https://shop2.example.com',
 };
+
+function encode(str: string) {
+  return encodeBase64(str, { urlSafe: true });
+}
 
 describe('FederatedLoginContextSerializerService', () => {
   let service: FederatedLoginContextSerializerService;
@@ -46,11 +51,12 @@ describe('FederatedLoginContextSerializerService', () => {
     });
 
     it('should return "<key>:<language>" when origin maps to a known key', () => {
+      const expected = encode('shop1:en');
       const result = service.serializeContext({
         origin: 'https://shop1.example.com',
         language: 'en',
       });
-      expect(result).toBe('shop1:en');
+      expect(result).toBe(expected);
     });
 
     it('should return empty string when origin is not found in originMap', () => {
@@ -62,10 +68,11 @@ describe('FederatedLoginContextSerializerService', () => {
     });
 
     it('should include an empty language segment when language is not provided', () => {
+      const expected = encode('shop1:');
       const result = service.serializeContext({
         origin: 'https://shop1.example.com',
       });
-      expect(result).toBe('shop1:');
+      expect(result).toBe(expected);
     });
 
     it('should return empty string when context is undefined', () => {
@@ -74,17 +81,19 @@ describe('FederatedLoginContextSerializerService', () => {
     });
 
     it('should use the correct key for a different originMap entry', () => {
+      const expected = encode('shop2:de');
       const result = service.serializeContext({
         origin: 'https://shop2.example.com',
         language: 'de',
       });
-      expect(result).toBe('shop2:de');
+      expect(result).toBe(expected);
     });
   });
 
   describe('deserializeContext()', () => {
     it('should return origin and language for a valid serialized string', () => {
-      const result = service.deserializeContext('shop1:en');
+      const input = encode('shop1:en');
+      const result = service.deserializeContext(input);
       expect(result).toEqual({
         origin: 'https://shop1.example.com',
         language: 'en',
@@ -92,13 +101,31 @@ describe('FederatedLoginContextSerializerService', () => {
     });
 
     it('should return only language when domain segment is empty', () => {
-      const result = service.deserializeContext(':en');
+      const input = encode(':en');
+      const result = service.deserializeContext(input);
       expect(result).toEqual({ language: 'en' });
     });
 
     it('should return only origin when language segment is absent', () => {
-      const result = service.deserializeContext('shop1:');
+      const input = encode('shop1:');
+      const result = service.deserializeContext(input);
       expect(result).toEqual({ origin: 'https://shop1.example.com' });
+    });
+
+    it('should return only origin when there are no separators', () => {
+      const input = encode('shop1');
+      const result = service.deserializeContext(input);
+      expect(result).toEqual({ origin: 'https://shop1.example.com' });
+    });
+
+    it('should split on only the last separator', () => {
+      mockOriginMap['shop1:postfix'] = 'https://shop3.example.com';
+      const input = encode('shop1:postfix:en');
+      const result = service.deserializeContext(input);
+      expect(result).toEqual({
+        origin: 'https://shop3.example.com',
+        language: 'en',
+      });
     });
 
     it('should return empty object when serialized context is an empty string', () => {
@@ -117,24 +144,9 @@ describe('FederatedLoginContextSerializerService', () => {
     });
 
     it('should return origin as undefined when domain key is not in originMap', () => {
-      const result = service.deserializeContext('unknown:en');
+      const input = encode('unknown:en');
+      const result = service.deserializeContext(input);
       expect(result).toEqual({ origin: undefined, language: 'en' });
-    });
-
-    it('should include currency when a third segment is present', () => {
-      const result = service.deserializeContext('shop1:en:USD');
-      expect(result).toEqual({
-        origin: 'https://shop1.example.com',
-        language: 'en',
-      });
-    });
-
-    it('should ignore segments beyond the third', () => {
-      const result = service.deserializeContext('shop1:en:USD:extra');
-      expect(result).toEqual({
-        origin: 'https://shop1.example.com',
-        language: 'en',
-      });
     });
   });
 
@@ -149,7 +161,7 @@ describe('FederatedLoginContextSerializerService', () => {
       expect(actualDeserialized).toEqual(original);
     });
 
-    it('should recover only origin when n language is provided', () => {
+    it('should recover only origin when no language is provided', () => {
       const original = { origin: 'https://shop1.example.com' };
       const serialized = service.serializeContext(original);
       const actualDeserialized = service.deserializeContext(serialized);
