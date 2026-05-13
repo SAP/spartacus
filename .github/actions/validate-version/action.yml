@@ -1,0 +1,18 @@
+name: 'Validate Version'
+description: 'Validates that a version string matches the expected semver format (e.g. 2211.20.0 or 2211.20.0-1)'
+inputs:
+  version:
+    description: 'Version string to validate'
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Validate version format
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+      run: |
+        if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9._-]+)?$ ]]; then
+          echo "Error: version '$VERSION' does not match expected format (e.g. 2211.20.0 or 2211.20.0-1)"
+          exit 1
+        fi
