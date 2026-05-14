@@ -9,13 +9,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   LoggerService,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_CURRENT,
   SiteContextActions,
   isNotUndefined,
   tryNormalizeHttpError,
-  withdrawOn
+  withdrawOn,
 } from '@spartacus/core';
 import { Observable, concat, from, of } from 'rxjs';
 import {
@@ -39,6 +40,14 @@ import {
 
 @Injectable()
 export class CartEffects {
+  private actions$ = inject(Actions);
+  private cartConnector = inject(CartConnector);
+  private store = inject(Store<StateWithMultiCart>);
+  private featureToggles = inject(FeatureToggles);
+
+  private enableCartReloadOnContextChange =
+    this.featureToggles.enableCartReloadOnContextChange;
+
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
@@ -303,20 +312,34 @@ export class CartEffects {
       )
   );
 
+  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
+    createEffect(() =>
+      this.contextChange$.pipe(
+        filter(() => !this.enableCartReloadOnContextChange),
+        mergeMap(() => [new CartActions.ResetCartDetails()])
+      )
+    );
+
   refreshCartDetailsOnSiteContextChange$: Observable<
     CartActions.LoadCart | CartActions.ResetCartDetailsByIds
   > = createEffect(() =>
     this.contextChange$.pipe(
-      withLatestFrom(
-        this.store.pipe(select(getMultiCartState))
-      ),
+      filter(() => !!this.enableCartReloadOnContextChange),
+      withLatestFrom(this.store.pipe(select(getMultiCartState))),
       mergeMap(([_, multiCartState]) => {
         const activeCartId = multiCartState?.index?.[CartType.ACTIVE];
         const allCartIds = Object.keys(multiCartState?.carts?.entities ?? {});
         const nonActiveCartIds = allCartIds.filter((id) => id !== activeCartId);
 
-        const actions: (CartActions.LoadCart | CartActions.ResetCartDetailsByIds)[] = nonActiveCartIds.length
-          ? [new CartActions.ResetCartDetailsByIds({ cartIds: nonActiveCartIds })]
+        const actions: (
+          | CartActions.LoadCart
+          | CartActions.ResetCartDetailsByIds
+        )[] = nonActiveCartIds.length
+          ? [
+              new CartActions.ResetCartDetailsByIds({
+                cartIds: nonActiveCartIds,
+              }),
+            ]
           : [];
 
         if (activeCartId) {
@@ -404,10 +427,4 @@ export class CartEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cartConnector: CartConnector,
-    private store: Store<StateWithMultiCart>
-  ) {}
 }

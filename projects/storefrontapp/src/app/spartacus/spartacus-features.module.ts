@@ -357,6 +357,7 @@ if (environment.cpq) {
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
         enableExpiredRefreshTokenHandlers: true,
+        enableCartReloadOnContextChange: true
       };
       return appFeatureToggles;
     }),
