@@ -16,6 +16,7 @@ import {
   OccConfig,
   SiteContextActions,
   USER_FEATURE,
+  provideFeatureToggles,
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
@@ -104,6 +105,7 @@ describe('Cart effect', () => {
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
+        provideFeatureToggles({ enableCartReloadOnContextChange: true }),
       ],
     });
 
