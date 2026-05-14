@@ -34,11 +34,11 @@ echo "=== Step 1: Move folders ==="
 for mapping in "${MAPPINGS[@]}"; do
   src="${mapping%%:*}"
   dest="${mapping##*:}"
-  if [ -d "$src" ]; then
+  if [[ -d "$src" ]]; then
     mkdir -p "$(dirname "$dest")"
     echo "Moving $src -> $dest"
     if ! mv "$src" "$dest"; then
-      echo "ERROR: Failed to move $src -> $dest"
+      echo "ERROR: Failed to move $src -> $dest" >&2
       exit 1
     fi
   else
@@ -54,7 +54,7 @@ for mapping in "${MAPPINGS[@]}"; do
   new="${mapping##*:}"
 
   # Skip no-op mappings
-  if [ "$old" = "$new" ]; then
+  if [[ "$old" = "$new" ]]; then
     echo "SKIP: '$old' == '$new', nothing to replace"
     continue
   fi
