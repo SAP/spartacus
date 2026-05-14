@@ -1,0 +1,16 @@
+<div *ngIf="canPrompt$ | async">
+  <div class="cx-add-to-home-screen-banner">
+    <div class="cx-add-to-home-screen-banner-inner">
+      <p>
+        {{ 'pwa.addToHomeScreenDescription' | cxTranslate }}
+      </p>
+      <ul>
+        <li>{{ 'pwa.noInstallationNeeded' | cxTranslate }}</li>
+        <li>{{ 'pwa.fastAccessToApplication' | cxTranslate }}</li>
+      </ul>
+      <button (click)="prompt()" class="btn btn-primary">
+        {{ 'pwa.addToHomeScreen' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>

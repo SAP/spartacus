@@ -1,0 +1,44 @@
+%cx-banner-carousel {
+  // let's do a FULL size carousel
+  .carousel-panel {
+    overflow: hidden;
+  }
+  .inline-navigation {
+    position: relative;
+    .carousel-panel {
+      position: relative;
+
+      // force a max-height for the carousel and underlying items
+      &,
+      .item {
+        max-height: 600px;
+      }
+
+      .previous,
+      .next {
+        position: absolute;
+        z-index: 10;
+        height: 100%;
+        width: 5vw;
+        transition: all 0.4s;
+        &:not([disabled]):hover {
+          font-size: 3rem;
+        }
+      }
+      .next {
+        right: 0;
+      }
+    }
+    .indicators {
+      margin-top: -60px;
+      z-index: 1;
+    }
+  }
+
+  cx-banner {
+    a {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

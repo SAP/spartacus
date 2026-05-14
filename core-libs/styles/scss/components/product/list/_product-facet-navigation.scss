@@ -1,0 +1,10 @@
+%cx-product-facet-navigation {
+  min-width: 0;
+
+  // hides the filter button in desktop experience
+  @include media-breakpoint-up(lg) {
+    button.dialog-trigger {
+      display: none;
+    }
+  }
+}

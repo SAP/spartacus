@@ -1,0 +1,18 @@
+@import '../../theme';
+
+ul[role='tablist'] {
+  .nav-link {
+    border: none;
+    &.active {
+      background-color: var(--cx-color-inverse);
+      color: var(--cx-color-primary);
+      border-width: 0 0 5px 0;
+      border-style: solid;
+
+      div {
+        color: var(--cx-color-primary);
+        font-weight: 600;
+      }
+    }
+  }
+}

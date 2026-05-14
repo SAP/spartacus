@@ -1,0 +1,3 @@
+<span (click)="prompt()">
+  <ng-content *ngIf="canPrompt$ | async"></ng-content>
+</span>

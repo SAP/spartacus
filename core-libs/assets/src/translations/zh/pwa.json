@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "向设备主屏幕添加 SAP 店面以实现快速回访",
+    "noInstallationNeeded": "无需安装",
+    "fastAccessToApplication": "快速访问应用程序",
+    "addToHomeScreen": "添加到主屏幕",
+    "addedToHomeScreen": "SAP 店面已添加到主屏幕"
+  }
+}

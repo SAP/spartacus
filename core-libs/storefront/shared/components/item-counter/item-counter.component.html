@@ -1,0 +1,35 @@
+<button
+  type="button"
+  (click)="decrement()"
+  [attr.aria-disabled]="control.disabled || control.value <= min"
+  [tabindex]="control.disabled || control.value <= min ? -1 : 0"
+  [cxFocus]="{ key: 'decrement' }"
+  attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
+  title="{{ 'itemCounter.removeOne' | cxTranslate }}"
+>
+  -
+</button>
+<input
+  #qty
+  type="number"
+  [min]="min"
+  [max]="max"
+  [step]="step"
+  [readonly]="readonly"
+  [tabindex]="readonly ? -1 : 0"
+  [formControl]="control"
+  (keyup.enter)="updateValue()"
+  [cxFocus]="{ key: 'qty' }"
+  attr.aria-label="{{ 'itemCounter.quantity' | cxTranslate }}"
+  [attr.aria-describedby]="ariaDescribedById"
+/>
+<button
+  type="button"
+  (click)="increment()"
+  [attr.aria-disabled]="control.disabled || control.value >= max"
+  [cxFocus]="{ key: 'increment' }"
+  attr.aria-label="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+  title="{{ 'itemCounter.addOneMore' | cxTranslate }}"
+>
+  +
+</button>

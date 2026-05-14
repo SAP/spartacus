@@ -1,0 +1,41 @@
+%cx-product-view {
+  .cx-product-layout {
+    @include button-reset();
+
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid var(--cx-color-dark);
+
+    &.cx-product-grid {
+      .fas {
+        font-size: 24px;
+      }
+    }
+
+    &.cx-product-list {
+      .fas {
+        font-size: 25px;
+      }
+    }
+
+    .fas {
+      color: var(--cx-color-secondary);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &:focus,
+    &:hover {
+      box-shadow: none;
+
+      .fas {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+}

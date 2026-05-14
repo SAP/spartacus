@@ -1,0 +1,34 @@
+@import '../../theme';
+
+%cx-consent-management {
+  .cx-consent-action-links {
+    text-align: end;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1.5rem;
+    & > div {
+      @include media-breakpoint-only(xs) {
+        padding: 0;
+      }
+    }
+
+    .cx-action-link {
+      margin: 0 0.35rem;
+    }
+  }
+
+  .cx-consent-toggles {
+    display: flex;
+    justify-content: center;
+    @include media-breakpoint-only(xs) {
+      margin: 0 -24px;
+      border-top: 1px solid var(--cx-color-light);
+    }
+
+    & > div {
+      @include media-breakpoint-only(xs) {
+        padding-top: 15px;
+      }
+    }
+  }
+}

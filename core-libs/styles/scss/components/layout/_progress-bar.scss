@@ -1,0 +1,92 @@
+%progress-bar {
+  &:before,
+  &:after {
+    height: 2px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    content: '';
+    position: fixed;
+    z-index: 2;
+  }
+  &:before {
+    background-color: var(--cx-color-light);
+  }
+
+  &:after {
+    background-color: var(--cx-color-dark);
+  }
+}
+
+// @deprecated since 2211.41.0 - use instead `%progress-bar-loading-animation `
+%progress-bar-loading {
+  @keyframes loading {
+    0% {
+      margin-inline-start: 0px;
+      margin-inline-end: 100%;
+    }
+    50% {
+      margin-inline-start: 25%;
+      margin-inline-end: 0%;
+    }
+    100% {
+      margin-inline-start: 100%;
+      margin-inline-end: 0;
+    }
+  }
+
+  &:after {
+    animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+// @deprecated since 2211.41.0  - use instead `%progress-bar-loaded-animation `
+%progress-bar-loaded {
+  @keyframes loaded {
+    0% {
+      margin-inline-start: 50%;
+      margin-inline-end: 100%;
+    }
+    100% {
+      margin-inline-start: 100%;
+      margin-inline-end: 0;
+    }
+  }
+  &:after {
+    animation: loaded 0.5s;
+  }
+}
+
+%progress-bar-loading-animation {
+  @keyframes progress-bar-loading-animation {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(-25%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  &:after {
+    animation: progress-bar-loading-animation 2s cubic-bezier(0.4, 0, 0.2, 1)
+      infinite;
+  }
+}
+
+%progress-bar-loaded-animation {
+  @keyframes progress-bar-loaded-animation {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  &:after {
+    animation: progress-bar-loaded-animation 0.5s;
+  }
+}

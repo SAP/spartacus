@@ -1,0 +1,36 @@
+%cx-base-dialog {
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  outline: 0;
+}
+
+.cx-sidebar-start {
+  @extend %cx-base-dialog;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cx-sidebar-end {
+  @extend %cx-base-dialog;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cx-dialog-popover {
+  @extend %cx-base-dialog;
+}
+
+.cx-dialog-popover-center {
+  @extend %cx-base-dialog;
+  display: grid;
+  place-items: center;
+}
+
+.cx-dialog-popover-center-backdrop {
+  @extend .cx-dialog-popover-center;
+  background-color: rgba(0, 0, 0, 0.5);
+}

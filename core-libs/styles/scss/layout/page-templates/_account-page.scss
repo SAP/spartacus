@@ -1,0 +1,16 @@
+%AccountPageTemplate {
+  --cx-max-width: 100%;
+  @extend %LoginPageTemplate !optional;
+
+  cx-paragraph h4 {
+    text-align: center;
+  }
+
+  cx-cart-item {
+    .cx-image-container {
+      a {
+        padding: 0 3vw;
+      }
+    }
+  }
+}

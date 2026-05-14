@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "ID",
+    "quantity": "Množství",
+    "quantityFull": "Množství",
+    "productDetails": "Detaily produktu",
+    "specification": "Specifikace",
+    "reviews": "Recenze",
+    "shipping": "Doručení",
+    "share": "Sdílet",
+    "showReviews": "Zobrazit recenze",
+    "noReviews": "Zatím žádné recenze",
+    "productPrice": "Cena produktu",
+    "noProductImage": "Nejsou k dispozici žádné obrázky, {{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "Filtrovat podle",
+      "action": "Filtrovat podle"
+    },
+    "activeFilter": "{{filter}} filtr. Kliknutím na toto tlačítko odeberete filtr.",
+    "appliedFilter": "Použitý filtr:",
+    "showLess": "Zobrazit méně…",
+    "showMore": "Zobrazit více…",
+    "sortBy": "Řadit podle",
+    "sortResults": "Řadit výsledky",
+    "backToTopBtn": "ZPĚT NAHORU",
+    "showMoreBtn": "ZOBRAZIT VÍCE",
+    "productSearchPagination": "Stránkování vyhledávání produktů",
+    "productListResults": "Seznam výsledků produktů"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "Filtrovat podle",
+      "action": "Filtrovat podle",
+      "facet": "Filtrovat produkty podle aspektů",
+      "name": "Filtrovat podle {{name}}"
+    },
+    "appliedFilter": "Použitý filtr:",
+    "showLess": "Zobrazit méně…",
+    "showMore": "Zobrazit více…",
+    "sortBy": "Řadit podle",
+    "ariaLabelShowLess": "Tlačítko Zobrazit méně. Kliknutím na toto tlačítko omezíte možnosti pro aktivní skupinu.",
+    "ariaLabelShowMore": "Tlačítko Zobrazit více. Kliknutím na toto tlačítko rozšíříte možnosti pro aktivní skupinu.",
+    "ariaLabelItemsAvailable": "{{name}}, {{state}} {{count}} položka k dispozici",
+    "ariaLabelItemsAvailable_other": "K dispozici položek: {{name}}, {{state}} {{count}}",
+    "decreaseOptionsVisibility": "Možnosti byly v aktivní skupině skryty. Můžete si je přečíst na předchozí záložce. Přechodem na další záložku zobrazíte další skupinu.",
+    "increaseOptionsVisibility": "Do aktivní skupiny bylo přidáno víc možností. Můžete si je přečíst na předchozí záložce. Přechodem na další záložku zobrazíte další skupinu.",
+    "backToResults": "Zpět na výsledky",
+    "productFacets": "Aspekty produktu"
+  },
+  "productSummary": {
+    "id": "ID",
+    "showReviews": "Zobrazit recenze",
+    "showReviewsDetailed": "Zobrazit počet recenzí: {{count}} s hodnocením {{rating}} z 5 hvězdiček",
+    "share": "Sdílet",
+    "newItemPrice": "Nová cena položky"
+  },
+  "productReview": {
+    "overallRating": "Celkové hodnocení",
+    "reviewTitle": "Název recenze",
+    "writeYourComments": "Napište své komentáře",
+    "rating": "Hodnocení",
+    "ratingRequired": "Hodnocení produktu, vyžadováno",
+    "addRate": "Přidat hodnocení: {{count}} hvězdička",
+    "addRate_other": "Přidat hodnocení: Počet hvězdiček: {{count}}",
+    "reviewerName": "Jméno recenzenta (volitelné)",
+    "writeReview": "Napsat recenzi",
+    "more": "Zobrazit více recenzí",
+    "less": "Zobrazit méně recenzí",
+    "thankYouForReview": "Děkujeme za recenzi! Upozorňujeme, že recenze mohou vyžadovat přezkoumání, než se zde objeví.",
+    "postReviewFail": "Při odesílání recenze se něco pokazilo. Zkuste to později.",
+    "ratedOutOf": "Hodnoceno: {{rating}} z 5"
+  },
+  "productCarousel": {
+    "carouselLabel": "Karusel, {{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "Položka přidána do košíku",
+    "itemsAddedToYourCart": "Položky přidány do košíku",
+    "itemsIncrementedInYourCart": "Tato položka již byla ve vašem košíku. Množství bylo upraveno.",
+    "items": "položky",
+    "updatingCart": "Aktualizace košíku…",
+    "addToCart": "Přidat do košíku",
+    "viewCart": "Zobrazit košík",
+    "proceedToCheckout": "Pokračovat k pokladně",
+    "quantity": "Množství",
+    "quantityFull": "Množství",
+    "outOfStock": "Není skladem",
+    "inStock": "Na skladě",
+    "selectStyleAndSize": "Vyberte styl a velikost ke kontrole zásob",
+    "removeFromCart": "Odebrat produkt z košíku",
+    "closeModal": "Zavřít modální okno",
+    "buyItAgain": "Koupit znovu",
+    "addToActiveCart": "Přidat do aktivního košíku"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "Detaily produktu",
+      "ProductSpecsTabComponent": "Specifikace",
+      "ProductReviewsTabComponent": "Recenze",
+      "deliveryTab": "Doručení",
+      "SparePartsTabComponent": " Náhradní díly"
+    },
+    "tabPanelContainerRegion": "Skupina záložek s více detaily produktu",
+    "tabPanelContainerRegionGroup": "Skupina s více detaily produktu"
+  },
+  "addToWishList": {
+    "add": "Přidat na seznam přání",
+    "remove": "Odebrat ze seznamu přání",
+    "anonymous": "Chcete-li přidávat do seznamu přání, přihlaste se.",
+    "addedToWishList": "Produkt přidán na seznam přání",
+    "removedFromWishList": "Produkt odebrán ze seznamu přání"
+  },
+  "stockNotification": {
+    "notifyMe": "UPOZORNĚTE MĚ",
+    "stopNotify": "UKONČIT UPOZORŇOVÁNÍ",
+    "getNotify": "Nechte si zaslat upozornění, až bude tento produkt skladem.",
+    "getNotifySuffix": "pro upozornění, až bude tento produkt skladem.",
+    "activateChannelsPrefix": "Abyste byli upozorněni, je třeba aktivovat ",
+    "channelsLink": "Kanály oznámení",
+    "activateChannelsSuffix": ".",
+    "notified": "Až bude tento produkt opět skladem, pošleme vám upozornění.",
+    "getNotified": "Nechte se upozornit, až bude tento produkt opět skladem.",
+    "unsubscribeSuccess": "Dostanete upozornění, až bude tento produkt opět skladem.",
+    "subscriptionDialog": {
+      "header": "Přihlášení k upozornění při nedostupnosti produktu",
+      "notifiedPrefix": "Budete upozorněni:",
+      "notifiedSuffix": "jakmile bude tento produkt opět skladem.",
+      "manageChannelsPrefix": "Nastavte si preferované kanály oznámení na ",
+      "manageChannelsLink": "stránce Preference oznámení",
+      "manageChannelsSuffix": " .",
+      "manageSubscriptionsPrefix": "Své odběry můžete spravovat na stránce ",
+      "manageSubscriptionsLink": "O co mám zájem",
+      "manageSubscriptionsSuffix": " .",
+      "okBtn": "OK",
+      "subscribing": "Registrujeme vás do upozornění při nedostupnosti tohoto produktu."
+    }
+  },
+  "itemCounter": {
+    "removeOne": "Odebrat jeden",
+    "addOneMore": "Přidat ještě jeden",
+    "quantity": "Množství"
+  },
+  "productView": {
+    "gridView": "Výběrem přepnete na zobrazení mřížky",
+    "listView": "Výběrem přepnete na zobrazení seznamu"
+  }
+}

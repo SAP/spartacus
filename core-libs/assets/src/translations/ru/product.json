@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "Ид.",
+    "quantity": "Колич.",
+    "quantityFull": "Количество",
+    "productDetails": "Сведения о продукте",
+    "specification": "Характеристики",
+    "reviews": "Отзывы",
+    "shipping": "Доставка",
+    "share": "Поделиться",
+    "showReviews": "Показать отзывы",
+    "noReviews": "Нет отзывов",
+    "productPrice": "Цена продукта",
+    "noProductImage": "Нет изображения, {{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "Фильтровать по",
+      "action": "Фильтровать по"
+    },
+    "activeFilter": "{{filter}} фильтр; нажмите кнопку, чтобы снять фильтр",
+    "appliedFilter": "Примененный фильтр:",
+    "showLess": "Показать меньше...",
+    "showMore": "Показать больше...",
+    "sortBy": "Сортировать по",
+    "sortResults": "Сортировка результатов",
+    "backToTopBtn": "ВВЕРХ",
+    "showMoreBtn": "ПОКАЗАТЬ ЕЩЕ",
+    "productSearchPagination": "Разбивка на страницы для поиска продуктов",
+    "productListResults": "Список результатов для продуктов"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "Фильтровать по",
+      "action": "Фильтровать по",
+      "facet": "Результаты фильтрации по фасетам",
+      "name": "Фильтровать по {{name}}"
+    },
+    "appliedFilter": "Примененный фильтр:",
+    "showLess": "Показать меньше...",
+    "showMore": "Показать больше...",
+    "sortBy": "Сортировать по",
+    "ariaLabelShowLess": "Показать меньше, кнопка; нажмите кнопку, чтобы уменьшить число опций в активной группе",
+    "ariaLabelShowMore": "Показать больше, кнопка; нажмите кнопку, чтобы показать все опции в активной группе",
+    "ariaLabelItemsAvailable": "{{name}}, {{state}} {{count}} позиция доступна",
+    "ariaLabelItemsAvailable_other": "{{name}}, {{state}} {{count}} поз. доступно",
+    "decreaseOptionsVisibility": "Опции скрыты из активной группы; вернитесь на предыдущую вкладку, чтобы просмотреть их, или на следующую, чтобы перейти к следующей группе",
+    "increaseOptionsVisibility": "Опции добавлены в активную группу; вернитесь на предыдущую вкладку, чтобы просмотреть их, или на следующую, чтобы перейти к следующей группе",
+    "backToResults": "Назад к результатам",
+    "productFacets": "Фасеты продукта"
+  },
+  "productSummary": {
+    "id": "Ид.",
+    "showReviews": "Показать отзывы",
+    "showReviewsDetailed": "Показать отзывы: {{count}}, рейтинг {{rating}} из 5 звезд",
+    "share": "Поделиться",
+    "newItemPrice": "Новая цена позиции"
+  },
+  "productReview": {
+    "overallRating": "Общий рейтинг",
+    "reviewTitle": "Заголовок отзыва",
+    "writeYourComments": "Оставьте свой комментарий",
+    "rating": "Рейтинг",
+    "ratingRequired": "Рейтинг продукта, обязательно",
+    "addRate": "Добавить рейтинг: {{count}} звезда",
+    "addRate_other": "Добавить рейтинг: {{count}} звезд(ы)",
+    "reviewerName": "Имя автора отзыва (необязательно)",
+    "writeReview": "Напишите отзыв",
+    "more": "Показать больше отзывов",
+    "less": "Показать меньше отзывов",
+    "thankYouForReview": "Спасибо за отзыв! Обратите внимание: мы проверяем отзывы перед тем, как они отобразятся здесь.",
+    "postReviewFail": "Что-то пошло не так при публикации отзыва. Попробуйте позже.",
+    "ratedOutOf": "Рейтинг: {{rating}} из 5"
+  },
+  "productCarousel": {
+    "carouselLabel": "Карусель, {{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "Позиция добавлена в корзину",
+    "itemsAddedToYourCart": "Позиции добавлены в корзину",
+    "itemsIncrementedInYourCart": "Эта позиция уже в вашей корзине. Количество обновлено.",
+    "items": "поз.",
+    "updatingCart": "Корзина обновляется...",
+    "addToCart": "Добавить в корзину",
+    "viewCart": "Просмотреть корзину",
+    "proceedToCheckout": "Оформить заказ",
+    "quantity": "Колич.",
+    "quantityFull": "Количество",
+    "outOfStock": "Нет в наличии",
+    "inStock": "В наличии",
+    "selectStyleAndSize": "Выберите стиль и размер, чтобы проверить наличие",
+    "removeFromCart": "Удалить продукт из корзины",
+    "closeModal": "Закрыть модальное окно",
+    "buyItAgain": "Купить повторно",
+    "addToActiveCart": "Добавить в активную корзину"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "Сведения о продукте",
+      "ProductSpecsTabComponent": "Характеристики",
+      "ProductReviewsTabComponent": "Отзывы",
+      "deliveryTab": "Доставка",
+      "SparePartsTabComponent": " Запасные части"
+    },
+    "tabPanelContainerRegion": "Группа вкладок с подробными сведениями о продукте",
+    "tabPanelContainerRegionGroup": "Группа с подробными сведениями о продукте"
+  },
+  "addToWishList": {
+    "add": "Добавить в список желаний",
+    "remove": "Удалить из списка желаний",
+    "anonymous": "Войдите, чтобы добавить в список желаний",
+    "addedToWishList": "Продукт добавлен в список желаний",
+    "removedFromWishList": "Продукт удален из списка желаний"
+  },
+  "stockNotification": {
+    "notifyMe": "УВЕДОМИТЬ МЕНЯ",
+    "stopNotify": "ПРЕКРАТИТЬ УВЕДОМЛЕНИЯ",
+    "getNotify": "Уведомить меня, когда продукт будет доступен.",
+    "getNotifySuffix": ", чтобы получить уведомление, когда продукт будет доступен.",
+    "activateChannelsPrefix": "Чтобы получать уведомления, активируйте функцию ",
+    "channelsLink": "Каналы уведомления",
+    "activateChannelsSuffix": ".",
+    "notified": "Вы получите уведомление, когда продукт снова будет в наличии.",
+    "getNotified": ", чтобы получить уведомление, когда продукт снова будет в наличии.",
+    "unsubscribeSuccess": "Вы не будете получать уведомления, когда продукт снова будет в наличии.",
+    "subscriptionDialog": {
+      "header": "Подписка на продукт не в наличии",
+      "notifiedPrefix": "Вы получите уведомление:",
+      "notifiedSuffix": "как только продукт снова будет в наличии.",
+      "manageChannelsPrefix": "Управляйте предпочтительными каналами уведомлений на странице ",
+      "manageChannelsLink": "Предпочтения по уведомлениям",
+      "manageChannelsSuffix": " .",
+      "manageSubscriptionsPrefix": "Управлять своими подписками можно на странице ",
+      "manageSubscriptionsLink": "Мои интересы",
+      "manageSubscriptionsSuffix": " .",
+      "okBtn": "OK",
+      "subscribing": "Выполняется подписка на уведомления о наличии для продукта"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "Удалить 1",
+    "addOneMore": "Добавить еще 1",
+    "quantity": "Количество"
+  },
+  "productView": {
+    "gridView": "Нажмите, чтобы перейти к виду сетки",
+    "listView": "Нажмите, чтобы перейти к виду списка"
+  }
+}

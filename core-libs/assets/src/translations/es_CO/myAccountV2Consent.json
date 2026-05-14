@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "Administración de consentimientos",
+    "dateDescription": "Fecha de aprobación ",
+    "clearAll": "Desactivar todo",
+    "selectAll": "Activar todo",
+    "message": {
+      "success": {
+        "given": "Consentimiento otorgado correctamente.",
+        "withdrawn": "Consentimiento retirado correctamente."
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+%cx-product-intro {
+  @include media-breakpoint-up(lg) {
+    padding-top: 20px;
+    padding-inline-end: 20px;
+    padding-bottom: 0px;
+    padding-inline-start: 20px;
+  }
+
+  .code {
+    @include type('7');
+    color: var(--cx-color-secondary);
+    margin: 0 0 20px 0;
+  }
+
+  .rating {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    .count {
+      margin-top: 0;
+      margin-inline-end: 20px;
+      margin-bottom: 0;
+      margin-inline-start: 5px;
+    }
+
+    cx-star-rating {
+      padding: 0 0 15px 0;
+    }
+  }
+}

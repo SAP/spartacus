@@ -1,0 +1,244 @@
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  FileNameStyleGuide,
+  Style,
+} from '@schematics/angular/application/schema';
+import { ProjectType } from '@schematics/angular/utility/workspace-models';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import * as path from 'path';
+import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
+import {
+  getAngularJsonFile,
+  getDefaultProjectNameFromWorkspace,
+  getProject,
+  getProjectFromWorkspace,
+  getProjectTargets,
+  getSourceRoot,
+  getWorkspace,
+  isWorkspaceProject,
+  isWorkspaceSchema,
+  validateSpartacusInstallation,
+} from './workspace-utils';
+
+const collectionPath = path.join(__dirname, '../../collection.json');
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
+
+describe('Workspace utils', () => {
+  let appTree: UnitTestTree;
+  const workspaceOptions: WorkspaceOptions = {
+    name: 'workspace',
+    version: '0.5.0',
+  };
+  const appOptions: ApplicationOptions = {
+    name: 'schematics-test',
+    inlineStyle: false,
+    inlineTemplate: false,
+    style: Style.Scss,
+    skipTests: false,
+    projectRoot: '',
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
+  };
+  const defaultOptions: SpartacusOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [],
+  };
+
+  beforeAll(async () => {
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+
+    appTree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+  });
+
+  describe('getSourceRoot', () => {
+    it('should return the source root of the default project', async () => {
+      const sourceRoot = getSourceRoot(appTree, {});
+      expect(sourceRoot).toEqual('src');
+    });
+  });
+
+  describe('getWorkspace', () => {
+    it('should return data about project', async () => {
+      const workspaceInfo = getWorkspace(appTree);
+      expect(workspaceInfo.path).toEqual('/angular.json');
+    });
+  });
+
+  describe('getAngularJsonFile', () => {
+    it('should return workspace', async () => {
+      const workspace = getAngularJsonFile(appTree);
+      expect(workspace).not.toBeUndefined();
+    });
+
+    it('should throw an error if Angular not found', async () => {
+      expect(() => getAngularJsonFile(appTree, [])).toThrow(
+        new SchematicsException(`Could not find Angular`)
+      );
+    });
+
+    it('should throw an error if not found path', async () => {
+      expect(() =>
+        getAngularJsonFile({
+          ...appTree,
+          read: (_path) => null,
+          exists: (_path) => true,
+        } as Tree)
+      ).toThrow(new SchematicsException(`Could not find (/angular.json)`));
+    });
+  });
+
+  describe('getProjectFromWorkspace', () => {
+    it('should return workspace project object', async () => {
+      const workspaceProjectObject = getProjectFromWorkspace(
+        appTree,
+        defaultOptions
+      );
+      expect(workspaceProjectObject.projectType).toEqual('application');
+      expect(workspaceProjectObject.sourceRoot).toEqual('src');
+    });
+
+    it('should throw an error if project is not passed', async () => {
+      expect(() =>
+        getProjectFromWorkspace(appTree as Tree, {} as SpartacusOptions)
+      ).toThrow(new SchematicsException('Option "project" is required.'));
+    });
+
+    it('should throw an error if project is not defined in this workspace', async () => {
+      expect(() =>
+        getProjectFromWorkspace(appTree, {
+          project: 'projectKey',
+        } as SpartacusOptions)
+      ).toThrow(
+        new SchematicsException(`Project is not defined in this workspace.`)
+      );
+    });
+  });
+
+  describe('getDefaultProjectNameFromWorkspace', () => {
+    it('should return default project name from workspace', () => {
+      const workspaceName = getDefaultProjectNameFromWorkspace(appTree);
+      expect(workspaceName).toEqual('schematics-test');
+    });
+  });
+
+  describe('getProjectTargets', () => {
+    it('should return project targets', () => {
+      const projectTargets = getProjectTargets(
+        getProjectFromWorkspace(appTree, defaultOptions)
+      );
+      expect(projectTargets).toMatchSnapshot();
+    });
+
+    it('should throw an error if not found', () => {
+      expect(() =>
+        getProjectTargets({
+          projectType: ProjectType.Application,
+          root: 'root',
+          prefix: 'prefix',
+          sourceRoot: '',
+        })
+      ).toThrow(new Error('Project target not found.'));
+    });
+  });
+
+  describe('getProject', () => {
+    it('should return project', () => {
+      const project = getProject(appTree, 'schematics-test');
+      expect(project).toMatchSnapshot();
+    });
+
+    it('should return undefined for unknown name', () => {
+      const project = getProject(appTree, 'unknownName');
+      expect(project).toBeUndefined();
+    });
+  });
+
+  describe('isWorkspaceSchema', () => {
+    it('should return true', () => {
+      const project = isWorkspaceSchema({
+        projectType: ProjectType.Application,
+        root: 'root',
+        prefix: 'prefix',
+        projects: {},
+      });
+      expect(project).toEqual(true);
+    });
+
+    it('should return false if it does not', () => {
+      const project = isWorkspaceSchema({
+        projectType: ProjectType.Application,
+        root: 'root',
+        prefix: 'prefix',
+      });
+      expect(project).toEqual(false);
+    });
+  });
+
+  describe('isWorkspaceProject', () => {
+    it('should return true for a compatible type', () => {
+      expect(
+        isWorkspaceProject({
+          projectType: ProjectType.Application,
+        })
+      ).toEqual(true);
+      expect(
+        isWorkspaceProject({
+          projectType: ProjectType.Library,
+        })
+      ).toEqual(true);
+    });
+
+    it('should return false for missing type', () => {
+      expect(
+        isWorkspaceProject({
+          otherProperty: 'otherProperty',
+        })
+      ).toEqual(false);
+      expect(isWorkspaceProject(null)).toEqual(false);
+    });
+  });
+
+  describe('validateSpartacusInstallation', () => {
+    it('should throw an error if key is missing', () => {
+      expect(() => validateSpartacusInstallation({ dependencies: {} })).toThrow(
+        new SchematicsException(
+          `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
+        )
+      );
+    });
+
+    it('should not throw an error if key exists', () => {
+      expect(() =>
+        validateSpartacusInstallation({
+          dependencies: { [SPARTACUS_CORE]: '/..' },
+        })
+      ).not.toThrow();
+    });
+  });
+});

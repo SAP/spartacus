@@ -1,0 +1,24 @@
+/*!
+ * Bootstrap v4.6.2 (https://getbootstrap.com/)
+ * Copyright 2011-2022 The Bootstrap Authors
+ * Copyright 2011-2022 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ *
+ * DO NOT MODIFY THIS FILE. It preserves compatibility with Bootstrap 4.6 docs.
+ */
+
+// Deprecate mixin
+//
+// This mixin can be used to deprecate mixins or functions.
+// `$enable-deprecation-messages` is a global variable, `$ignore-warning` is a variable that can be passed to
+// some deprecated mixins to suppress the warning (for example if the mixin is still be used in the current version of Bootstrap)
+@mixin deprecate(
+  $name,
+  $deprecate-version,
+  $remove-version,
+  $ignore-warning: false
+) {
+  @if ($enable-deprecation-messages != false and $ignore-warning != true) {
+    @warn "#{$name} has been deprecated as of #{$deprecate-version}. It will be removed entirely in #{$remove-version}.";
+  }
+}

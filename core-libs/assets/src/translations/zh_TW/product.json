@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "ID",
+    "quantity": "數量",
+    "quantityFull": "數量",
+    "productDetails": "產品明細",
+    "specification": "規格",
+    "reviews": "評論",
+    "shipping": "出貨",
+    "share": "分享",
+    "showReviews": "顯示評論",
+    "noReviews": "尚未有評論",
+    "productPrice": "產品價格",
+    "noProductImage": "沒有可用的圖像，{{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "篩選依據",
+      "action": "篩選依據"
+    },
+    "activeFilter": "{{filter}} 篩選，按一下此按鈕將移除篩選",
+    "appliedFilter": "套用的篩選：",
+    "showLess": "顯示較少...",
+    "showMore": "顯示更多...",
+    "sortBy": "排序依據",
+    "sortResults": "排序結果",
+    "backToTopBtn": "返回最上方",
+    "showMoreBtn": "顯示更多",
+    "productSearchPagination": "產品搜尋分頁",
+    "productListResults": "產品結果清單"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "篩選依據",
+      "action": "篩選依據",
+      "facet": "按層面篩選結果",
+      "name": "按 {{name}} 篩選"
+    },
+    "appliedFilter": "套用的篩選：",
+    "showLess": "顯示更少...",
+    "showMore": "顯示更多...",
+    "sortBy": "排序依據",
+    "ariaLabelShowLess": "顯示更少，按鈕，按一下此按鈕將減少啟用中群組的選項",
+    "ariaLabelShowMore": "顯示更多，按鈕，按一下此按鈕將顯示啟用中群組的所有選項",
+    "ariaLabelItemsAvailable": "{{name}}，{{state}} {{count}} 個項目可供使用",
+    "ariaLabelItemsAvailable_other": "{{name}}，{{state}} {{count}} 個項目可供使用",
+    "decreaseOptionsVisibility": "啟用中群組已隱藏選項，按一下 Tab 鍵向後讀取，或按一下 Tab 鍵向前至下一個群組",
+    "increaseOptionsVisibility": "已將更多選項新增至啟用中群組，按一下 Tab 鍵向後讀取，或按一下 Tab 鍵向前至下一個群組",
+    "backToResults": "返回結果",
+    "productFacets": "產品層面"
+  },
+  "productSummary": {
+    "id": "ID",
+    "showReviews": "顯示評論",
+    "showReviewsDetailed": "顯示 {{count}} 個評論，評分 {{rating}}/5 顆星",
+    "share": "分享",
+    "newItemPrice": "新項目價格"
+  },
+  "productReview": {
+    "overallRating": "整體評分",
+    "reviewTitle": "評論標題",
+    "writeYourComments": "撰寫您的備註",
+    "rating": "評分",
+    "ratingRequired": "產品評比，必要",
+    "addRate": "新增評分：{{count}} 顆星",
+    "addRate_other": "新增評分：{{count}} 顆星",
+    "reviewerName": "評論者名稱 (選擇性)",
+    "writeReview": "寫入評論",
+    "more": "顯示更多評論",
+    "less": "顯示更少評論",
+    "thankYouForReview": "感謝您的評論！請注意，評論可能需要先審查才會在此顯示。",
+    "postReviewFail": "發佈您的評論時發生錯誤。請稍後再試一次。",
+    "ratedOutOf": "評分：{{rating}}/5"
+  },
+  "productCarousel": {
+    "carouselLabel": "轉盤，{{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "已將項目新增至您的購物車",
+    "itemsAddedToYourCart": "已將項目新增至您的購物車",
+    "itemsIncrementedInYourCart": "您的購物車已有此項目。已更新數量。",
+    "items": "項目",
+    "updatingCart": "正在更新購物車...",
+    "addToCart": "新增至購物車",
+    "viewCart": "檢視購物車",
+    "proceedToCheckout": "進行結帳",
+    "quantity": "數量",
+    "quantityFull": "數量",
+    "outOfStock": "缺貨",
+    "inStock": "有存貨",
+    "selectStyleAndSize": "選擇樣式和大小以檢查庫存",
+    "removeFromCart": "從購物車移除產品",
+    "closeModal": "關閉強制回應視窗",
+    "buyItAgain": "再次購買",
+    "addToActiveCart": "新增至啟用中購物車"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "產品明細",
+      "ProductSpecsTabComponent": "規格",
+      "ProductReviewsTabComponent": "評論",
+      "deliveryTab": "出貨",
+      "SparePartsTabComponent": " 備用零件"
+    },
+    "tabPanelContainerRegion": "包含更多產品明細的標籤群組",
+    "tabPanelContainerRegionGroup": "包含更多產品明細的群組"
+  },
+  "addToWishList": {
+    "add": "新增至願望清單",
+    "remove": "從願望清單移除",
+    "anonymous": "登入以新增至願望清單",
+    "addedToWishList": "已將產品新增至願望清單",
+    "removedFromWishList": "已從願望清單移除產品"
+  },
+  "stockNotification": {
+    "notifyMe": "通知我",
+    "stopNotify": "停止通知",
+    "getNotify": "供應此產品時收到通知。",
+    "getNotifySuffix": "供應此產品時收到通知。",
+    "activateChannelsPrefix": "若要收到通知，您必須啟用 ",
+    "channelsLink": "通知管道",
+    "activateChannelsSuffix": "。",
+    "notified": "此產品到貨時，您將收到通知。",
+    "getNotified": "此產品到貨時，收到通知。",
+    "unsubscribeSuccess": "您將不會收到此產品的到貨通知。",
+    "subscriptionDialog": {
+      "header": "缺貨訂閱",
+      "notifiedPrefix": "您將在下列情況下收到通知：",
+      "notifiedSuffix": "此產品到貨時。",
+      "manageChannelsPrefix": "管理您的偏好通知管道，位置為 ",
+      "manageChannelsLink": "通知偏好",
+      "manageChannelsSuffix": " 頁面。",
+      "manageSubscriptionsPrefix": "您可管理訂閱，位置為 ",
+      "manageSubscriptionsLink": "我的興趣",
+      "manageSubscriptionsSuffix": " 頁面。",
+      "okBtn": "確定",
+      "subscribing": "為您訂閱此產品的缺貨通知"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "移除一個",
+    "addOneMore": "再新增一個",
+    "quantity": "數量"
+  },
+  "productView": {
+    "gridView": "選擇以更改為格線檢視",
+    "listView": "選擇以更改為清單檢視"
+  }
+}

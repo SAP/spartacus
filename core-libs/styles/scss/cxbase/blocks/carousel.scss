@@ -1,0 +1,41 @@
+@import '../../theme';
+@import '../../mixins';
+
+// None of the styles here below are customizable at component level
+// analyze how deep we want to customize these
+
+.carousel-indicators {
+  bottom: 0;
+  margin-bottom: 0;
+
+  li {
+    margin-inline-start: 7px;
+    @include media-breakpoint-up(xl) {
+      margin-inline-start: 25px;
+    }
+  }
+
+  > .active {
+    background-color: theme-color('primary');
+  }
+
+  > li {
+    background-color: theme-color('light');
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    @include media-breakpoint-up(xl) {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.carousel-inner {
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  @include media-breakpoint-up(lg) {
+    margin-inline-start: 30px;
+    margin-inline-end: 30px;
+  }
+}

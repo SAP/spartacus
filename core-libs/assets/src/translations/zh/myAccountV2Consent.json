@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "Consent Management",
+    "dateDescription": "批准日期 ",
+    "clearAll": "全部禁用",
+    "selectAll": "全部启用",
+    "message": {
+      "success": {
+        "given": "已成功给予许可。",
+        "withdrawn": "已成功撤销许可。"
+      }
+    }
+  }
+}

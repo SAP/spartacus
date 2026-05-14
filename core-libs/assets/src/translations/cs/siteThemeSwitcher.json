@@ -1,0 +1,10 @@
+{
+  "siteThemeSwitcher": {
+    "theme": "Motiv",
+    "themes": {
+      "default": "Standardní",
+      "highContrastDark": "HC-tmavý",
+      "highContrastLight": "HC-světlý"
+    }
+  }
+}

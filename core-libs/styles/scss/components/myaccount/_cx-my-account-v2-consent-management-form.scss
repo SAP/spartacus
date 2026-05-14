@@ -1,0 +1,20 @@
+%cx-my-account-v2-consent-management-form {
+  .name {
+    @include type('6');
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .description {
+    @include type();
+    display: block;
+  }
+
+  .consent-container {
+    display: block;
+  }
+
+  .checkbox-input {
+    top: -0.2rem;
+  }
+}

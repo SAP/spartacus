@@ -1,0 +1,28 @@
+<div class="form-check consent-container">
+  <div class="">
+    <label>
+      <input
+        type="checkbox"
+        class="checkbox-input"
+        [id]="consentTemplate.id"
+        [name]="consentTemplate.id"
+        [checked]="consentGiven"
+        (change)="onConsentChange()"
+        [disabled]="isRequired(consentTemplate?.id)"
+      />
+      <label [for]="consentTemplate.id"></label>
+      <span class="name">
+        <ng-container *ngIf="consentTemplate?.name">
+          {{ consentTemplate?.name }}
+        </ng-container>
+      </span>
+      <span class="description">
+        {{ consentTemplate?.description }}
+      </span>
+      <span class="description" *ngIf="consentGiven">
+        {{ 'myAccountV2Consent.dateDescription' | cxTranslate
+        }}{{ consentApprovedTime }}
+      </span>
+    </label>
+  </div>
+</div>

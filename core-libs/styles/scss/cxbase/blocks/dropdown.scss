@@ -1,0 +1,15 @@
+@import '../../theme';
+
+$cx-dropdown-toggle-border-color: 'inverse' !important;
+$cx-dropdown-toggle-border-hover-color: 'primary' !default;
+
+$cx-dropdown-toggle-border-width: 0 2px 2px 0 !default;
+
+.dropdown-menu {
+  border-radius: 0;
+  margin-top: 11px;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+  background-color: transparent;
+}

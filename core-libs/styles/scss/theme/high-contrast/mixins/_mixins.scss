@@ -1,0 +1,18 @@
+@mixin cx-highContrastTheme() {
+  .cx-theme-high-contrast-dark &,
+  .cx-theme-high-contrast-light & {
+    @content;
+  }
+}
+
+@mixin cx-highContrastTheme-dark() {
+  .cx-theme-high-contrast-dark & {
+    @content;
+  }
+}
+
+@mixin cx-highContrastTheme-light() {
+  .cx-theme-high-contrast-light & {
+    @content;
+  }
+}

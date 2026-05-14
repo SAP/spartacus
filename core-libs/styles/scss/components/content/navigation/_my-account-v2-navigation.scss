@@ -1,0 +1,84 @@
+%cx-my-account-v2-navigation {
+  background: var(--cx-color-inverse);
+  font-family: sans-serif;
+  padding: 5px 5px 5px 5px;
+  width: 100%;
+  a {
+    font-size: var(--cx-font-medium);
+    font-weight: bold;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    text-indent: 5px;
+    padding: 16px !important;
+    &:hover {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+  }
+
+  cx-navigation-ui {
+    background: var(--cx-color-inverse);
+    flex-direction: column;
+    width: 100%;
+    // Node Heading
+    span,
+    h4 {
+      text-indent: 5px;
+      font-weight: bold;
+      display: block;
+      padding: 10px 5px 15px 5px;
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-medium);
+      width: 100%;
+      height: 40px;
+      margin-top: 20px;
+      margin-bottom: 0px;
+      line-height: normal;
+    }
+
+    > nav > ul {
+      > li {
+        a {
+          border: 1px solid var(--cx-color-medium);
+          border-top: none; //to avoid double border
+        }
+        margin-bottom: 20px;
+      }
+    }
+  }
+  // The links in the my-account-v2-navigation are meant to be decorated with an icon.
+  // Instead of leveraging Spartacus `<cx-icon>` component to display icons,
+  // we use here a pure CSS classes approach. The classes are defined in CMS
+  // via the `styleClasses` option. The final HTML looks like in the following example:
+  // <a href="..." class="fas fa-shoping-cart">Order Information</a>
+  .fas {
+    font-family: sans-serif, 'Font Awesome 5 Free';
+    font-size: var(--cx-font-medium);
+    display: inline-block;
+  }
+}
+
+@media screen and (max-width: 544px) {
+  cx-navigation-ui h4,
+  cx-navigation-ui span {
+    font-size: 14px;
+  }
+  cx-my-account-v2-navigation a,
+  cx-my-account-v2-navigation .fas {
+    height: auto;
+    padding: 19px 0 19px 2px;
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 444px) {
+  cx-navigation-ui h4,
+  cx-navigation-ui span {
+    font-size: 11px;
+  }
+  cx-my-account-v2-navigation a,
+  cx-my-account-v2-navigation .fas {
+    font-size: 10px;
+    word-wrap: break-word;
+  }
+}

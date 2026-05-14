@@ -1,0 +1,9 @@
+{
+  "$schema": "../../../../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "update-ssr": {
+      "description": "remove ssr",
+      "factory": "./update-ssr-files#updateServerFiles"
+    }
+  }
+}

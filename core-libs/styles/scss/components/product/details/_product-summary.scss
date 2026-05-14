@@ -1,0 +1,42 @@
+%cx-product-summary {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+
+  @include media-breakpoint-down(md) {
+    padding-top: 1.5em;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: 20px;
+    padding-inline-end: 20px;
+    padding-bottom: 0px;
+    padding-inline-start: 20px;
+  }
+
+  .price {
+    display: inline-block;
+    @include type('3');
+    margin: 0 0 11px 0;
+  }
+
+  .quantity {
+    label {
+      @include type('8');
+      margin: 15px 0 10px 0;
+    }
+
+    .info {
+      @include type('7');
+      margin-top: 0;
+      margin-inline-end: 15px;
+      margin-bottom: 0;
+      margin-inline-start: 15px;
+      color: var(--cx-color-secondary);
+    }
+  }
+
+  cx-add-to-cart {
+    margin: 20px 0 10px 0;
+  }
+}

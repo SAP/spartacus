@@ -1,0 +1,19 @@
+@import '../../theme';
+
+.cx-section {
+  margin-bottom: var(--cx-margin-bottom, 50px);
+  &:last-child {
+    margin-bottom: var(--cx-margin-bottom, 0px);
+  }
+}
+
+.cx-section-title {
+  @include type('4');
+  font-weight: var(--cx-font-weight, var(--cx-font-weight-semi));
+  margin-bottom: var(--cx-margin-bottom, 25px);
+  text-transform: var(--cx-text-transform, none);
+}
+
+.cx-section-title-alt {
+  text-transform: var(--cx-text-transform, none);
+}

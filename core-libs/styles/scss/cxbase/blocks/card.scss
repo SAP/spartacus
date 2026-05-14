@@ -1,0 +1,46 @@
+@import '../../theme';
+
+.card {
+  border-radius: 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body-title {
+  padding-bottom: 10px;
+  @include type('4');
+}
+
+.card-header {
+  background-color: var(--cx-color-secondary);
+  @include type('8');
+  color: var(--cx-color-inverse);
+  line-height: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 0;
+
+  &:first-child {
+    border-radius: 0;
+  }
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+    color: var(--cx-color-text);
+  }
+}
+
+.card-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.25rem 0 0 0;
+}
+
+.card-label-bold {
+  font-weight: var(--cx-font-weight-bold);
+}
+
+.card-link {
+  @include type('8');
+}

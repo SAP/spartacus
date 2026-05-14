@@ -1,0 +1,415 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Lib utils addLibraryFeature custom config option should add the custom config when set 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdsConfig } from "@spartacus/cds";
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
+import { XxxModuleRoot } from "@spartacus/xxx/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: translationsEn },
+      chunks: translationChunk,
+    },
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      profileTag: {
+        javascriptUrl:
+          'random',
+        configUrl:
+          'random',
+        allowInsecureCookies: true,
+      },
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature should NOT add i18n if the config is not present 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from "@spartacus/core";
+import { XxxModuleRoot } from "@spartacus/xxx/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  })]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature should add i18n config in feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
+import { XxxModuleRoot } from "@spartacus/xxx/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: translationsEn },
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature when the lazy loading is configured should add it in the lazy loading way 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
+import { XxxModuleRoot } from "@spartacus/xxx/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: translationsEn },
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils assets options should update angular.json file with assets 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "type": "component",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:directive": {
+          "type": "directive",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "buildTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`Lib utils assets options should update angular.json file with assets 2`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "type": "component",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:directive": {
+          "type": "directive",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/xxx.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "buildTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            },
+            "styles": [
+              "src/styles/spartacus/xxx.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@spartacus/smartedit/assets",
+                "output": "assets/"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
+exports[`Lib utils when the eager loading is configured should add it in the eager way 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { XxxModule } from "@spartacus/xxx";
+import { translationChunk, translationsEn } from "@spartacus/xxx/assets";
+import { XxxModuleRoot } from "@spartacus/xxx/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot,
+    XxxModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: translationsEn },
+      chunks: translationChunk,
+    },
+  })]
+})
+export class XxxFeatureModule { }
+"
+`;

@@ -1,0 +1,22 @@
+# Outputs
+src/**/*.js
+**/*.js.map
+**/*.d.ts
+index.js
+
+# IDEs
+.idea/
+jsconfig.json
+.vscode/
+
+# Misc
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Mac OSX Finder files.
+**/.DS_Store
+.DS_Store
+
+# FeatureToggles
+src/feature-toggles.copied-from-core-lib.ts

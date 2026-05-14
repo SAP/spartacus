@@ -1,0 +1,32 @@
+%ErrorPageTemplate {
+  padding-bottom: 3rem;
+  cx-page-slot {
+    cx-responsive-banner {
+      max-width: 400px;
+    }
+
+    cx-link {
+      text-decoration: underline;
+    }
+
+    cx-paragraph {
+      max-height: 170px;
+    }
+
+    max-width: var(--cx-page-width-max);
+    margin: auto;
+
+    > * {
+      text-align: center;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    --cx-max-width: 100%;
+  }
+
+  &.MiddleContent,
+  &.BottomContent {
+    display: block;
+  }
+}

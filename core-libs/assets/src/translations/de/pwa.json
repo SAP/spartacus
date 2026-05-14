@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "Fügen Sie SAP Storefront der Startseite Ihres Geräts hinzu, um einen schnelleren Aufruf zu ermöglichen",
+    "noInstallationNeeded": "Keine Installation erforderlich",
+    "fastAccessToApplication": "Schnellzugriff auf die Anwendung",
+    "addToHomeScreen": "Zur Startseite hinzufügen",
+    "addedToHomeScreen": "SAP Storefront wurde Ihrer Startseite hinzugefügt"
+  }
+}

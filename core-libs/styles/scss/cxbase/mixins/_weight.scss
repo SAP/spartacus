@@ -1,0 +1,15 @@
+@mixin weight($weight: 'normal') {
+  @if type-of($weight) != 'string' {
+    font-weight: $weight;
+  } @else {
+    @if $weight == 'light' {
+      font-weight: var(--cx-font-weight-light);
+    } @else if $weight == 'semi' {
+      font-weight: var(--cx-font-weight-semi);
+    } @else if $weight == 'normal' or $weight == 'reg' {
+      font-weight: var(--cx-font-weight-normal);
+    } @else if $weight == 'bold' {
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
+}

@@ -1,0 +1,45 @@
+%ContentPage1Template {
+  // @extend %pageBody !optional;
+
+  max-width: var(--cx-page-width-max);
+  padding-top: 2rem;
+  padding-inline-end: 1.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.5rem;
+  margin: auto;
+  cx-page-slot {
+    &.Section2A,
+    &.Section2B {
+      display: block;
+    }
+  }
+
+  .global-alerts {
+    .alert-info {
+      display: block;
+      padding: 20px 1.25rem;
+    }
+  }
+
+  .textpage-faqs {
+    .pagetop-link {
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .item_container {
+      .faq-menulink {
+        display: block;
+      }
+    }
+
+    td {
+      padding-bottom: 26px;
+      vertical-align: baseline;
+
+      &:first-child {
+        padding-inline-end: 10px;
+      }
+    }
+  }
+}

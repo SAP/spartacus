@@ -1,0 +1,226 @@
+@import '../../sass-true/sass/true';
+@import '../scss/features';
+
+@include describe('Feature flags') {
+  @include describe('getFeatureCssClass') {
+    @include it('should prepend "cxFeat_" to the feature name') {
+      @include assert-equal(
+        'cxFeat_someFeatureFlag',
+        getFeatureCssClass('someFeatureFlag')
+      );
+    }
+  }
+
+  @include describe('forFeature') {
+    @include it('should prepend the feature class to the ancestor selector') {
+      @include assert {
+        @include output(false) {
+          .test {
+            color: yellow;
+
+            @include forFeature('someFeatureFlag') {
+              color: green;
+            }
+          }
+        }
+        @include expect(false) {
+          .test {
+            color: yellow;
+          }
+          .cxFeat_someFeatureFlag .test {
+            color: green;
+          }
+        }
+      }
+    }
+
+    @include it(
+      'should prepend the feature class to the ancestor selector, when deep nesting used'
+    ) {
+      @include assert {
+        @include output(false) {
+          .deep {
+            .nest {
+              color: yellow;
+              @include forFeature('someFeatureFlag') {
+                color: green;
+              }
+            }
+          }
+        }
+        @include expect(false) {
+          .deep .nest {
+            color: yellow;
+          }
+          .cxFeat_someFeatureFlag .deep .nest {
+            color: green;
+          }
+        }
+      }
+
+      @include it(
+        'should prepend the feature class to the ancestor selector, when multiple selectors used'
+      ) {
+        @include assert {
+          @include output(false) {
+            .deep1,
+            .deep2 {
+              .nest1,
+              .nest2 {
+                color: yellow;
+                @include forFeature('someFeatureFlag') {
+                  color: green;
+                }
+              }
+            }
+          }
+          @include expect(false) {
+            .deep1 .nest1,
+            .deep1 .nest2,
+            .deep2 .nest1,
+            .deep2 .nest2 {
+              color: yellow;
+            }
+
+            .cxFeat_someFeatureFlag .deep1 .nest1,
+            .cxFeat_someFeatureFlag .deep1 .nest2,
+            .cxFeat_someFeatureFlag .deep2 .nest1,
+            .cxFeat_someFeatureFlag .deep2 .nest2 {
+              color: green;
+            }
+          }
+        }
+      }
+      @include it(
+        'should prepend the feature class to the ancestor selector, when complex selectors used'
+      ) {
+        @include assert {
+          @include output(false) {
+            .deep1 + .deep2 {
+              .nest1 ~ .nest2 {
+                color: yellow;
+                @include forFeature('someFeatureFlag') {
+                  color: green;
+                }
+              }
+            }
+          }
+          @include expect(false) {
+            .deep1 + .deep2 .nest1 ~ .nest2 {
+              color: yellow;
+            }
+
+            .cxFeat_someFeatureFlag .deep1 + .deep2 .nest1 ~ .nest2 {
+              color: green;
+            }
+          }
+        }
+      }
+    }
+
+    @include describe('when 2nd argument is "currentSelector"') {
+      @include it('should append the feature class to the current selector') {
+        @include assert {
+          @include output(false) {
+            .test {
+              color: yellow;
+              @include forFeature('someFeatureFlag', 'currentSelector') {
+                color: green;
+              }
+            }
+          }
+          @include expect(false) {
+            .test {
+              color: yellow;
+            }
+            .test.cxFeat_someFeatureFlag {
+              color: green;
+            }
+          }
+        }
+      }
+      @include it(
+        'should append the feature class to the current selector, when deep nesting used'
+      ) {
+        @include assert {
+          @include output(false) {
+            .deep {
+              .nest {
+                color: yellow;
+                @include forFeature('someFeatureFlag', 'currentSelector') {
+                  color: green;
+                }
+              }
+            }
+          }
+          @include expect(false) {
+            .deep .nest {
+              color: yellow;
+            }
+            .deep .nest.cxFeat_someFeatureFlag {
+              color: green;
+            }
+          }
+        }
+      }
+      @include it(
+        'should append the feature class to the current selector, when multiple selectors used'
+      ) {
+        @include assert {
+          @include output(false) {
+            .deep1,
+            .deep2 {
+              .nest1,
+              .nest2 {
+                color: yellow;
+                @include forFeature('someFeatureFlag', 'currentSelector') {
+                  color: green;
+                }
+              }
+            }
+          }
+          @include expect(false) {
+            .deep1 .nest1,
+            .deep1 .nest2,
+            .deep2 .nest1,
+            .deep2 .nest2 {
+              color: yellow;
+            }
+
+            .deep1 .nest1.cxFeat_someFeatureFlag,
+            .deep1 .nest2.cxFeat_someFeatureFlag,
+            .deep2 .nest1.cxFeat_someFeatureFlag,
+            .deep2 .nest2.cxFeat_someFeatureFlag {
+              color: green;
+            }
+          }
+        }
+      }
+      @include it(
+        'should append the feature class to the current selector, when complex selectors used'
+      ) {
+        @include assert {
+          @include output(false) {
+            .deep1 + .deep2 {
+              .nest1 ~ .nest2 {
+                color: yellow;
+                @include forFeature('someFeatureFlag', 'currentSelector') {
+                  color: green;
+                }
+              }
+            }
+          }
+          @include expect(false) {
+            .deep1 + .deep2 .nest1 ~ .nest2 {
+              color: yellow;
+            }
+
+            .deep1 + .deep2 .nest1 ~ .nest2.cxFeat_someFeatureFlag {
+              color: green;
+            }
+          }
+        }
+      }
+    }
+  }
+}

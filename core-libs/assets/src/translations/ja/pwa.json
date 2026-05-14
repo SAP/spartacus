@@ -1,0 +1,9 @@
+{
+  "pwa": {
+    "addToHomeScreenDescription": "迅速に再訪できるように、デバイスのホーム画面に SAP Storefront を追加します",
+    "noInstallationNeeded": "インストールは不要です",
+    "fastAccessToApplication": "アプリケーションへの迅速なアクセス",
+    "addToHomeScreen": "ホーム画面に追加",
+    "addedToHomeScreen": "SAP Storefront がホーム画面に追加されました"
+  }
+}

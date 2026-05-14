@@ -1,0 +1,8 @@
+<button
+  *ngIf="!(bannerVisible$ | async)"
+  #open
+  class="btn btn-link"
+  (click)="openDialog()"
+>
+  {{ 'anonymousConsents.dialog.title' | cxTranslate }}
+</button>

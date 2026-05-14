@@ -1,0 +1,35 @@
+// Icons in an Right to Left context might require to be flipped.
+// Most icons will remain as-is, only icons that express a direction (i.e. caret-left)
+// are usually flipped.
+[dir='ltr'] cx-icon.flip-at-ltr,
+[dir='rtl'] cx-icon.flip-at-rtl {
+  transform: scaleX(-1);
+}
+
+.cx-icon {
+  @extend %cx-icon;
+}
+
+%cx-icon {
+  align-self: center;
+  line-height: normal;
+
+  &.small {
+    &:before {
+      font-size: 0.9rem;
+    }
+  }
+
+  svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+
+  &.small {
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

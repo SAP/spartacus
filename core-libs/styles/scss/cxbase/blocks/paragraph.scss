@@ -1,0 +1,12 @@
+.cx-notice {
+  padding: 32px 0;
+  text-align: center;
+  @include type();
+  color: var(--cx-color-text);
+  background-color: var(--cx-color-inverse);
+  margin-bottom: -1.5rem;
+
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
+}

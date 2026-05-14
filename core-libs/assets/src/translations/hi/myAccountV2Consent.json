@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "सहमति प्रबंधन",
+    "dateDescription": "अनुमोदन दिनांक ",
+    "clearAll": "सभी अक्षम करें",
+    "selectAll": "सभी सक्षम करें",
+    "message": {
+      "success": {
+        "given": "स्वीकृति सफलतापूर्वक दी गई.",
+        "withdrawn": "स्वीकृति सफलतापूर्वक हटाई गई."
+      }
+    }
+  }
+}

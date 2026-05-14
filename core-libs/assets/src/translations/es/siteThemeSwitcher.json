@@ -1,0 +1,10 @@
+{
+  "siteThemeSwitcher": {
+    "theme": "Tema",
+    "themes": {
+      "default": "Por defecto",
+      "highContrastDark": "HC-Dark",
+      "highContrastLight": "HC-Light"
+    }
+  }
+}

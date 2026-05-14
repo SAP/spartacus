@@ -1,0 +1,37 @@
+%SearchResultsListPageTemplate {
+  max-width: var(--cx-page-width-max);
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  height: 100%;
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+  .ProductLeftRefinements {
+    max-width: 25%;
+    padding-top: 60px;
+    padding-inline-end: 15px;
+    padding-bottom: 15px;
+    padding-inline-start: 15px;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+  .SearchResultsListSlot {
+    max-width: 75%;
+
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-width: none;
+    }
+  }
+  .Section2 {
+    padding: 0 1rem;
+  }
+  .Section4 {
+    padding: 0 1rem;
+  }
+}

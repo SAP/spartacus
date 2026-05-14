@@ -1,0 +1,54 @@
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  // spinner size is added to the root so that it can be overridden on individual elements
+  --cx-spinner-size: 40px;
+}
+
+%spinner {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--cx-spinner-size);
+  height: var(--cx-spinner-size);
+  margin-top: calc(-1 * (var(--cx-spinner-size) / 2));
+  margin-inline-start: calc(-1 * (var(--cx-spinner-size) / 2));
+  border-radius: 50%;
+  border: 2px solid var(--cx-color-light);
+  border-top-color: var(--cx-color-primary);
+  animation: spin 0.6s linear infinite;
+  z-index: 1;
+
+  // add smooth transition
+  opacity: var(--cx-opacity, 0);
+  transition: all var(--cx-transition-duration, 0.6s);
+
+  // We prevent pointer events on this pseudo class to avoid any direct mouse
+  // interaction. Mouse interaction with the spinner class affects developer
+  // experience badly, as you can't inspect the actual elements. Also, users
+  // would be blocked to use the context menu to open a link or image in a
+  // new tab.
+  pointer-events: none;
+}
+
+%overlay {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: calc(-1 * var(--cx-margin, 0.5vw));
+
+  // we need a transparent color since the opacity
+  // is already used for animation purposes
+  background-color: hsla(60, 1%, 21%, 0.7);
+
+  opacity: var(--cx-opacity, 0);
+  transition: all var(--cx-transition-duration, 0.6s);
+}

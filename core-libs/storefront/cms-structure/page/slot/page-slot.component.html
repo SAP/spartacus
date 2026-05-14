@@ -1,0 +1,17 @@
+<ng-template
+  *ngIf="position"
+  [cxOutlet]="position"
+  [cxOutletContext]="{ components$: components$ }"
+>
+  <ng-container *ngFor="let component of components">
+    <ng-template
+      *ngIf="component.flexType"
+      [cxOutlet]="component.flexType"
+      [cxOutletContext]="{ component: component }"
+      [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
+      (loaded)="isLoaded($event)"
+    >
+      <ng-container [cxComponentWrapper]="component"></ng-container>
+    </ng-template>
+  </ng-container>
+</ng-template>

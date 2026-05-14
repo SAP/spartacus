@@ -1,0 +1,64 @@
+%cx-my-coupons {
+  .cx-coupon-deck {
+    padding: 1.25rem 0 0 0;
+  }
+
+  .cx-coupon-spinner {
+    padding: 5rem 0 5rem 0;
+  }
+
+  .cx-coupon-card {
+    padding-bottom: 30px;
+  }
+
+  .cx-my-coupons-form-group {
+    padding: 0;
+    margin-bottom: 0;
+    align-items: center;
+    display: flex;
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+    cx-sorting {
+      width: 100%;
+    }
+  }
+
+  .cx-my-coupons-sort {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      padding-top: 0;
+    }
+    &.top {
+      padding: 1rem 0;
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+    }
+
+    &.bottom {
+      padding: 2rem 0 1rem 0;
+      border-width: 1px 0 0 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+    }
+  }
+
+  .cx-mycoupon-thead-mobile {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .cx-my-coupons-notes {
+    a {
+      color: var(--cx-color-dark);
+      @include type('8');
+    }
+  }
+}

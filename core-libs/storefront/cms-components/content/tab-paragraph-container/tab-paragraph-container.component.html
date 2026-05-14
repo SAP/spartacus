@@ -1,0 +1,14 @@
+<ng-container *ngIf="components$ | async as components">
+  <cx-tab [tabs]="tabs$ | async" [config]="tabConfig$ | async">
+    <ng-template
+      *ngFor="let component of components; let i = index"
+      [cxOutlet]="component.flexType"
+      #tabRef
+    >
+      <ng-container
+        [cxComponentWrapper]="component"
+        (cxComponentRef)="tabCompLoaded($event, component.uid)"
+      ></ng-container>
+    </ng-template>
+  </cx-tab>
+</ng-container>

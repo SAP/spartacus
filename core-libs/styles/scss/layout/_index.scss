@@ -1,0 +1,21 @@
+@import './page-fold';
+@import './ghost';
+@import './screen-reader';
+
+@import './page-templates/common-template';
+@import './page-templates/landing-page-2';
+@import './page-templates/content-page-1';
+@import './page-templates/category-page';
+@import './page-templates/product-detail';
+@import './page-templates/product-list';
+@import './page-templates/search-results-list';
+@import './page-templates/login-page';
+@import './page-templates/error-page';
+@import './page-templates/account-page';
+@import './page-templates/search-results-grid';
+@import './page-templates/order-confirmation-page';
+@import './page-templates/myaccount-v2-page';
+
+%CheckoutLoginPageTemplate {
+  @extend %LoginPageTemplate !optional;
+}

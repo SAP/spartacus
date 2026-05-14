@@ -1,0 +1,8 @@
+:root {
+  --cx-spatial-base: 0.5rem;
+
+  --cx-spatial-sm: calc(var(--cx-spatial-base) / 2);
+  --cx-spatial-md: calc(2 * var(--cx-spatial-base));
+  --cx-spatial-lg: calc(4 * var(--cx-spatial-base));
+  --cx-spatial-xl: calc(8 * var(--cx-spatial-base));
+}

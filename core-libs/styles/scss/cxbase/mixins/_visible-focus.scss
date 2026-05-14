@@ -1,0 +1,24 @@
+@mixin visible-focus {
+  outline-style: solid;
+  outline-color: var(--cx-color-visual-focus);
+  outline-width: var(--cx-visual-focus-width, 2px);
+  outline-offset: 2px;
+  transition: none;
+  box-shadow: 0 0 0 2px var(--cx-color-inverse);
+
+  @include media-breakpoint-down(md) {
+    outline-offset: -2px;
+    .ng-select-container {
+      position: initial;
+    }
+    &[type='radio'],
+    &[type='checkbox'],
+    &.btn-tertiary {
+      outline-offset: 2px;
+    }
+    & > cx-media {
+      transition: none;
+      padding: 2px;
+    }
+  }
+}

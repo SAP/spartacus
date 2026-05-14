@@ -1,0 +1,24 @@
+@import './search/index';
+@import './list/index';
+@import './details/index';
+@import './carousel/index';
+@import './star-rating';
+
+$product-components-allowlist: mergeAll(
+  (
+    $product-list-allowlist,
+    cx-searchbox,
+    cx-product-carousel,
+    cx-product-carousel-item,
+    cx-product-references,
+    cx-product-images,
+    cx-product-summary,
+    cx-product-attributes,
+    cx-product-reviews,
+    cx-product-intro,
+    cx-star-rating,
+    cx-tab-paragraph-container,
+    cx-stock-notification,
+    cx-stock-notification-dialog
+  )
+) !default;

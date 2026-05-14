@@ -1,0 +1,65 @@
+%cx-claim-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+  .cx-coupon-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+
+    .cx-coupon-container {
+      @extend .modal-content;
+      .cx-dialog-item {
+        padding-inline-end: 1.75rem;
+        padding-inline-start: 1.75rem;
+      }
+
+      .cx-dialog-header {
+        padding-top: 2rem;
+        padding-inline-end: 1.75rem;
+        padding-bottom: 0.85rem;
+        padding-inline-start: 5.75rem;
+        border-width: 0;
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
+      }
+
+      .cx-dialog-title {
+        @include type('3');
+      }
+
+      .cx-dialog-body {
+        padding-top: 1rem;
+        padding-inline-end: 5.75rem;
+        padding-bottom: 0;
+        padding-inline-start: 5.75rem;
+        @include media-breakpoint-down(sm) {
+          padding: 0;
+        }
+        @include cx-highContrastTheme {
+          background-color: var(--cx-color-background);
+        }
+      }
+
+      .cx-dialog-row {
+        margin: 0;
+        display: flex;
+        padding: 0 0 2.875rem;
+        max-width: 100%;
+        margin-top: 2.875rem;
+        margin-bottom: 1.5rem;
+
+        @include media-breakpoint-down(sm) {
+          padding: 0;
+        }
+      }
+
+      .cx-dialog-row--reset-button {
+        padding: 0 12px 0 0;
+      }
+
+      .cx-dialog-row-submit-button {
+        padding: 0 0 0 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+%LandingPage2Template {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1700px;
+  margin: auto;
+
+  cx-page-slot {
+    cx-banner {
+      cx-media {
+        img {
+          display: flex;
+          height: auto;
+        }
+      }
+    }
+
+    &.Section1 {
+      max-width: var(--cx-page-width-max);
+      margin: auto;
+      margin-top: 30px;
+
+      @include media-breakpoint-down(md) {
+        margin-top: 0;
+      }
+    }
+
+    &.Section2A {
+      margin-inline-start: auto;
+    }
+
+    &.Section2B {
+      margin-inline-end: auto;
+    }
+
+    &.Section2A,
+    &.Section2B {
+      --cx-flex-basis: 50%;
+      max-width: 570px;
+      @include media-breakpoint-down(md) {
+        --cx-flex-basis: 100%;
+        max-width: 100%;
+        > * {
+          --cx-flex-basis: 50%;
+        }
+      }
+
+      @include media-breakpoint-only(xs) {
+        > * {
+          --cx-flex-basis: 100%;
+        }
+      }
+    }
+
+    &.Section3 {
+      max-width: var(--cx-page-width-max);
+      margin: auto;
+    }
+
+    &.Section4 {
+      color: var(--cx-color, var(--cx-color-light));
+      flex-wrap: nowrap;
+
+      @include media-breakpoint-down(md) {
+        flex-wrap: wrap;
+        > * {
+          --cx-flex-basis: 50%;
+          border-bottom: solid 1px currentColor;
+          border-inline-end: solid 1px currentColor;
+        }
+      }
+
+      @include media-breakpoint-only(xs) {
+        > * {
+          --cx-flex-basis: 100%;
+        }
+      }
+    }
+  }
+}

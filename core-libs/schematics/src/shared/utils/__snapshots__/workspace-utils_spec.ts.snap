@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Workspace utils getProject should return project 1`] = `
+{
+  "architect": {
+    "build": {
+      "builder": "@angular/build:application",
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+        },
+        "production": {
+          "budgets": [
+            {
+              "maximumError": "3.5mb",
+              "maximumWarning": "500kB",
+              "type": "initial",
+            },
+            {
+              "maximumError": "8kB",
+              "maximumWarning": "4kB",
+              "type": "anyComponentStyle",
+            },
+          ],
+          "outputHashing": "all",
+        },
+      },
+      "defaultConfiguration": "production",
+      "options": {
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "public",
+          },
+        ],
+        "browser": "src/main.ts",
+        "inlineStyleLanguage": "scss",
+        "polyfills": [
+          "zone.js",
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "node_modules/",
+          ],
+          "sass": {
+            "silenceDeprecations": [
+              "import",
+            ],
+          },
+        },
+        "styles": [
+          "src/styles.scss",
+        ],
+        "tsConfig": "tsconfig.app.json",
+      },
+    },
+    "serve": {
+      "builder": "@angular/build:dev-server",
+      "configurations": {
+        "development": {
+          "buildTarget": "schematics-test:build:development",
+        },
+        "production": {
+          "buildTarget": "schematics-test:build:production",
+        },
+      },
+      "defaultConfiguration": "development",
+    },
+    "test": {
+      "builder": "@angular/build:unit-test",
+      "options": {
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "node_modules/",
+          ],
+        },
+      },
+    },
+  },
+  "prefix": "app",
+  "projectType": "application",
+  "root": "",
+  "schematics": {
+    "@schematics/angular:component": {
+      "addTypeToClassName": false,
+      "style": "scss",
+      "type": "component",
+    },
+    "@schematics/angular:directive": {
+      "addTypeToClassName": false,
+      "type": "directive",
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": ".",
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": ".",
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": ".",
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": ".",
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": ".",
+    },
+    "@schematics/angular:service": {
+      "addTypeToClassName": false,
+      "type": "service",
+    },
+  },
+  "sourceRoot": "src",
+}
+`;
+
+exports[`Workspace utils getProjectTargets should return project targets 1`] = `
+{
+  "build": {
+    "builder": "@angular/build:application",
+    "configurations": {
+      "development": {
+        "extractLicenses": false,
+        "optimization": false,
+        "sourceMap": true,
+      },
+      "production": {
+        "budgets": [
+          {
+            "maximumError": "3.5mb",
+            "maximumWarning": "500kB",
+            "type": "initial",
+          },
+          {
+            "maximumError": "8kB",
+            "maximumWarning": "4kB",
+            "type": "anyComponentStyle",
+          },
+        ],
+        "outputHashing": "all",
+      },
+    },
+    "defaultConfiguration": "production",
+    "options": {
+      "assets": [
+        {
+          "glob": "**/*",
+          "input": "public",
+        },
+      ],
+      "browser": "src/main.ts",
+      "inlineStyleLanguage": "scss",
+      "polyfills": [
+        "zone.js",
+      ],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "node_modules/",
+        ],
+        "sass": {
+          "silenceDeprecations": [
+            "import",
+          ],
+        },
+      },
+      "styles": [
+        "src/styles.scss",
+      ],
+      "tsConfig": "tsconfig.app.json",
+    },
+  },
+  "serve": {
+    "builder": "@angular/build:dev-server",
+    "configurations": {
+      "development": {
+        "buildTarget": "schematics-test:build:development",
+      },
+      "production": {
+        "buildTarget": "schematics-test:build:production",
+      },
+    },
+    "defaultConfiguration": "development",
+  },
+  "test": {
+    "builder": "@angular/build:unit-test",
+    "options": {
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "node_modules/",
+        ],
+      },
+    },
+  },
+}
+`;

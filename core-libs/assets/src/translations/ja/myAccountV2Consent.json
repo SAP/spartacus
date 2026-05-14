@@ -1,0 +1,14 @@
+{
+  "myAccountV2Consent": {
+    "header": "同意管理",
+    "dateDescription": "承認日 ",
+    "clearAll": "すべての無効化",
+    "selectAll": "すべて有効化",
+    "message": {
+      "success": {
+        "given": "正常に同意されました。",
+        "withdrawn": "同意が正常に取り消されました。"
+      }
+    }
+  }
+}

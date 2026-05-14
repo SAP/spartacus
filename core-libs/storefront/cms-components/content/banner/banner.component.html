@@ -1,0 +1,36 @@
+<ng-container *cxLcpContext="let lcpContext">
+  <ng-container *ngIf="data$ | async as data">
+    <ng-container *ngIf="routerLink">
+      <cx-generic-link
+        [url]="routerLink"
+        [target]="getTarget(data)"
+        [ariaLabel]="getLinkAriaLabel(data)"
+        [attr.title]="!data.headline ? getImageAltText(data) : null"
+      >
+      </cx-generic-link>
+      <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+      <cx-media
+        [container]="getImage(data)"
+        [elementType]="'picture'"
+        [fetchPriority]="lcpContext.fetchPriority$ | async"
+      ></cx-media>
+      <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+    </ng-container>
+
+    <ng-container *ngIf="!routerLink">
+      <div class="no-link">
+        <p
+          class="headline"
+          *ngIf="data.headline"
+          [innerHTML]="data.headline"
+        ></p>
+        <cx-media
+          [container]="getImage(data)"
+          [elementType]="'picture'"
+          [fetchPriority]="lcpContext.fetchPriority$ | async"
+        ></cx-media>
+        <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

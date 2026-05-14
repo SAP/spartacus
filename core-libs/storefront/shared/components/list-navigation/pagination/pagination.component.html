@@ -1,0 +1,17 @@
+<a
+  *ngFor="let item of pages; let i = index"
+  [class]="item.type"
+  [class.disabled]="isInactive(item)"
+  [class.current]="isCurrent(item)"
+  [routerLink]="pageRoute"
+  [queryParams]="getQueryParams(item)"
+  [tabindex]="isInactive(item) ? -1 : 0"
+  [attr.aria-current]="isCurrent(item)"
+  [attr.aria-disabled]="isInactive(item)"
+  (click)="pageChange(item)"
+  [attr.aria-label]="getAriaLabel$(item) | async"
+  [attr.title]="getAriaLabel$(item) | async"
+  [cxFocus]="{ key: paginationID + i.toString() }"
+>
+  {{ item.label }}
+</a>

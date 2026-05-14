@@ -1,0 +1,52 @@
+// LAMBDA v0.1
+// This is a test theme configuration. These variables are used in global and
+// component CSS files.
+//
+// You can:
+//   1) Set new values for Bootstrap variables - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
+//   2) Set new values for cxbase variables - cxbase/_variables.scss
+//   3) Set new values for component variables - app/__/_.scss
+// You cannot:
+//   1) Add new variables
+
+@import '../../cxbase/functions';
+@import '../../cxbase/mixins';
+
+//fonts (see _fonts.scss to import)
+$font-family-sans-serif: 'Comic Sans MS', sans-serif;
+
+// change theme-colors here
+$primary: #987654 !default;
+$secondary: #76927a !default;
+$success: #73cb11 !default;
+$danger: #c400ba !default;
+$warning: #e28d03 !default;
+$info: #3ff9ff !default;
+$light: #fffc49 !default;
+$dark: #004409 !default;
+$background: #e4e4e4 !default;
+$inverse: #ffffff !default;
+$text: #3407fd !default;
+$transparent: transparent !default;
+
+$theme-colors: (
+  'brand': purple,
+  'accent': pink,
+);
+
+//bring in variable defaults
+@import '../../cxbase/variables';
+
+$body-color: $text;
+$body-bg: $inverse;
+
+// COMPONENT VARIABLE OVERRIDES
+// For example, the following would override the cx-storefront background
+// set in src/app/ui/layout/main/main.component.scss
+$cx-header-background-color: 'brand';
+$cx-header-color: 'accent';
+$cx-footer-background-color: 'brand';
+$cx-footer-color: 'accent';
+
+// custom hamburger type
+$cx-hamburger-type: arrow-r;

@@ -1,0 +1,149 @@
+{
+  "productDetails": {
+    "id": "标识",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "productDetails": "产品详细信息",
+    "specification": "规格",
+    "reviews": "评论",
+    "shipping": "发货",
+    "share": "共享",
+    "showReviews": "显示评论",
+    "noReviews": "尚无评论",
+    "productPrice": "产品价格",
+    "noProductImage": "没有可用图像，{{ product }}"
+  },
+  "productList": {
+    "filterBy": {
+      "label": "过滤条件",
+      "action": "过滤条件"
+    },
+    "activeFilter": "{{filter}} 过滤器，单击此按钮将移除过滤器",
+    "appliedFilter": "已应用过滤器：",
+    "showLess": "显示更少...",
+    "showMore": "显示更多...",
+    "sortBy": "排序依据",
+    "sortResults": "排序结果",
+    "backToTopBtn": "返回顶部",
+    "showMoreBtn": "显示更多",
+    "productSearchPagination": "产品搜索分页",
+    "productListResults": "产品搜索列表"
+  },
+  "productFacetNavigation": {
+    "filterBy": {
+      "label": "过滤条件",
+      "action": "过滤条件",
+      "facet": "按构面过滤结果",
+      "name": "按 {{name}} 过滤"
+    },
+    "appliedFilter": "已应用过滤器：",
+    "showLess": "显示更少...",
+    "showMore": "显示更多...",
+    "sortBy": "排序依据",
+    "ariaLabelShowLess": "“显示更少”按钮，单击此按钮将减少已激活组的选项",
+    "ariaLabelShowMore": "“显示更多”按钮，单击此按钮将显示已激活组的所有选项",
+    "ariaLabelItemsAvailable": "{{count}} 个 {{name}}（{{state}} 状态）商品可购买",
+    "ariaLabelItemsAvailable_other": "{{count}} 个 {{name}}（{{state}} 状态）商品可购买",
+    "decreaseOptionsVisibility": "已激活组隐藏了选项，后退阅读这些选项或前进进入下一个组",
+    "increaseOptionsVisibility": "为已激活组添加了更多选项，后退阅读这些选项或前进进入下一个组",
+    "backToResults": "返回结果",
+    "productFacets": "产品构面"
+  },
+  "productSummary": {
+    "id": "标识",
+    "showReviews": "显示评论",
+    "showReviewsDetailed": "显示 {{count}} 条评论（评级为 {{rating}}，共 5 颗星）",
+    "share": "共享",
+    "newItemPrice": "新商品价格"
+  },
+  "productReview": {
+    "overallRating": "整体评级",
+    "reviewTitle": "评论标题",
+    "writeYourComments": "写下您的备注",
+    "rating": "评级",
+    "ratingRequired": "产品评级（必需）",
+    "addRate": "添加评级：{{count}} 颗星",
+    "addRate_other": "添加评级：{{count}} 颗星",
+    "reviewerName": "评论人姓名（可选）",
+    "writeReview": "发表评论",
+    "more": "显示更多评论",
+    "less": "显示更少评论",
+    "thankYouForReview": "感谢您的评论！请注意，评论可能先需要审核才能在此显示。",
+    "postReviewFail": "发布评论时出错。请稍后重试。",
+    "ratedOutOf": "评级为 {{rating}}，共 5 级"
+  },
+  "productCarousel": {
+    "carouselLabel": "轮播控件，{{title}}"
+  },
+  "addToCart": {
+    "itemAddedToYourCart": "商品已加入购物车",
+    "itemsAddedToYourCart": "商品已加入购物车",
+    "itemsIncrementedInYourCart": "此商品已在购物车中。数量已更新。",
+    "items": "商品",
+    "updatingCart": "正在更新购物车...",
+    "addToCart": "加入购物车",
+    "viewCart": "查看购物车",
+    "proceedToCheckout": "继续结账",
+    "quantity": "数量",
+    "quantityFull": "数量",
+    "outOfStock": "缺货",
+    "inStock": "有现货",
+    "selectStyleAndSize": "选择样式和尺寸以查看库存",
+    "removeFromCart": "从购物车中移除产品",
+    "closeModal": "关闭模式",
+    "buyItAgain": "再次购买",
+    "addToActiveCart": "加入已激活购物车"
+  },
+  "TabPanelContainer": {
+    "tabs": {
+      "ProductDetailsTabComponent": "产品详细信息",
+      "ProductSpecsTabComponent": "规格",
+      "ProductReviewsTabComponent": "评论",
+      "deliveryTab": "发货",
+      "SparePartsTabComponent": " 备件"
+    },
+    "tabPanelContainerRegion": "提供更多产品详细信息的选项卡组",
+    "tabPanelContainerRegionGroup": "提供更多产品详细信息的组"
+  },
+  "addToWishList": {
+    "add": "加入愿望清单",
+    "remove": "从愿望清单中移除",
+    "anonymous": "登录即可加入愿望清单",
+    "addedToWishList": "产品已加入愿望清单",
+    "removedFromWishList": "产品已从愿望清单中移除"
+  },
+  "stockNotification": {
+    "notifyMe": "通知我",
+    "stopNotify": "停止通知",
+    "getNotify": "此产品可购买时通知。",
+    "getNotifySuffix": "在此产品可购买时通知。",
+    "activateChannelsPrefix": "要获得通知，您需要激活 ",
+    "channelsLink": "通知渠道",
+    "activateChannelsSuffix": "。",
+    "notified": "此产品补货时，您将会收到通知。",
+    "getNotified": "此产品补货时通知。",
+    "unsubscribeSuccess": "您将不会收到此产品的补货通知。",
+    "subscriptionDialog": {
+      "header": "缺货订阅",
+      "notifiedPrefix": "您将在以下情况收到通知：",
+      "notifiedSuffix": "此产品补货后。",
+      "manageChannelsPrefix": "在 ",
+      "manageChannelsLink": "“通知首选项”",
+      "manageChannelsSuffix": " 页面上管理您的首选通知渠道。",
+      "manageSubscriptionsPrefix": "您可以在 ",
+      "manageSubscriptionsLink": "“我的关注对象”",
+      "manageSubscriptionsSuffix": " 页面上管理您的订阅。",
+      "okBtn": "确定",
+      "subscribing": "订阅此产品的缺货通知"
+    }
+  },
+  "itemCounter": {
+    "removeOne": "移除一个",
+    "addOneMore": "再添加一个",
+    "quantity": "数量"
+  },
+  "productView": {
+    "gridView": "选择以更改为网格视图",
+    "listView": "选择以更改为列表视图"
+  }
+}

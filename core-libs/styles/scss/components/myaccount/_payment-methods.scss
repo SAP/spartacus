@@ -1,0 +1,43 @@
+%cx-payment-methods {
+  .cx-payment {
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 1.25rem;
+      padding-inline-end: 1.25rem;
+    }
+  }
+
+  .cx-header {
+    padding: 2.5rem 0 0 0;
+  }
+
+  .cx-card-img-container {
+    .fab,
+    .fas {
+      &::before {
+        font-size: var(--cx-font-size, 48px);
+      }
+    }
+  }
+
+  .cx-existing {
+    display: flex;
+    padding: 0rem 0 2.5rem 0;
+    align-items: stretch;
+
+    @include media-breakpoint-down(md) {
+      padding: 0 0 3.125rem 0;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 0 4.375rem 0;
+    }
+  }
+
+  .cx-payment-card {
+    padding-top: 1.875rem;
+  }
+
+  .cx-payment-inner {
+    height: 100%;
+  }
+}

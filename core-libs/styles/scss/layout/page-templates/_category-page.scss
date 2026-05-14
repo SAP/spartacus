@@ -1,0 +1,22 @@
+%CategoryPageTemplate {
+  max-width: var(--cx-page-width-max);
+  margin: auto;
+
+  .Section1 {
+    margin-top: 30px;
+
+    @include media-breakpoint-down(md) {
+      margin-top: 0;
+    }
+  }
+
+  .Section2 {
+    > * {
+      --cx-flex-basis: 33%;
+
+      @include media-breakpoint-down(md) {
+        --cx-flex-basis: 50%;
+      }
+    }
+  }
+}

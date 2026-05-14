@@ -1,0 +1,52 @@
+@import '../../theme';
+
+%cx-my-account-v2-notification-preference {
+  .np-content-center {
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+
+  .np-flex {
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .np-row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    right: -1rem;
+    left: -1rem;
+  }
+
+  .header {
+    @include type('3');
+    margin-bottom: 1.75rem;
+  }
+
+  .pref-info {
+    @include type();
+    margin-bottom: 0.7rem;
+  }
+
+  .notification-channels {
+    display: flex;
+    align-items: center;
+  }
+
+  .check-box {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: 0.125rem;
+  }
+
+  .check-label {
+    @include type('5');
+    margin-top: 0.625rem;
+  }
+
+  .note {
+    @include type('5');
+  }
+}

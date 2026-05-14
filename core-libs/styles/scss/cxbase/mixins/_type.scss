@@ -1,0 +1,29 @@
+@import 'weight';
+
+@mixin type($size: 'default', $weight: 'default') {
+  $size_: $font-size-base;
+  $weight_: $font-weight-normal;
+  $lineheight_: $line-height-base;
+  // $marginbottom_: $paragraph-margin-bottom;
+  @if variable-exists(type) {
+    $list: map-get($type, $size);
+    //do size
+    @if map-has-key($type, $size) {
+      $size_: nth($list, 1);
+      $weight_: nth($list, 2);
+      $lineheight_: $headings-line-height;
+      $marginbottom_: $headings-margin-bottom;
+    }
+    //check weight
+    @if $weight != 'default' {
+      $weight_: $weight;
+    }
+  } @else {
+    @warn "Variable $type does not exist";
+  }
+  font-size: var(--cx-font-size, $size_);
+  @include weight($weight_);
+  // removing margin as it is assigned per component
+  //add line-height
+  line-height: var(--cx-line-height, $lineheight_);
+}

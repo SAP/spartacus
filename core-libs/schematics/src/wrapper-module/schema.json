@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
+    "markerModuleName": {
+      "type": "string",
+      "description": "The marker module for which to find or generate the wrapper module."
+    },
+    "featureModuleName": {
+      "type": "string",
+      "description": "Name of the feature module which to add to the wrapper module."
+    }
+  },
+  "required": ["markerModuleName", "featureModuleName"]
+}
