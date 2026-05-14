@@ -417,30 +417,65 @@ describe('Cart effect', () => {
   });
 
   describe('resetCartDetailsOnSiteContextChange$', () => {
+    const nonActiveCartId = 'nonActiveCartId';
     const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
     siteContextChangeActions.forEach((actionName) => {
-      it(`should reset cart details on ${actionName}`, () => {
+      it(`should reload active cart and reset non-active carts on ${actionName}`, () => {
         store.dispatch(
-          new CartActions.SetCartTypeIndex({
-            cartType: CartType.ACTIVE,
-            cartId,
-          })
+          new CartActions.SetCartTypeIndex({ cartType: CartType.ACTIVE, cartId })
         );
-        const action = new SiteContextActions[actionName]();
-        const resetCartDetailsCompletion = new CartActions.LoadCart({
-          userId: OCC_USER_ID_CURRENT,
-          cartId,
-        });
+        store.dispatch(new CartActions.SetCartData({ cart: testCart, cartId: nonActiveCartId }));
 
+        const action = new SiteContextActions[actionName]();
         actions$ = hot('-a', { a: action });
-        const expected = cold('-b', {
-          b: resetCartDetailsCompletion,
+        const expected = cold('-(bc)', {
+          b: new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] }),
+          c: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
         });
 
         expect(
           cartEffects.refreshCartDetailsOnSiteContextChange$
         ).toBeObservable(expected);
+      });
+
+      it(`should only emit LoadCart on ${actionName} when no non-active carts`, () => {
+        store.dispatch(
+          new CartActions.SetCartTypeIndex({ cartType: CartType.ACTIVE, cartId })
+        );
+
+        const action = new SiteContextActions[actionName]();
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
+        });
+
+        expect(
+          cartEffects.refreshCartDetailsOnSiteContextChange$
+        ).toBeObservable(expected);
+      });
+
+      it(`should only reset non-active carts on ${actionName} when no active cart`, () => {
+        store.dispatch(new CartActions.SetCartData({ cart: testCart, cartId: nonActiveCartId }));
+
+        const action = new SiteContextActions[actionName]();
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] }),
+        });
+
+        expect(
+          cartEffects.refreshCartDetailsOnSiteContextChange$
+        ).toBeObservable(expected);
+      });
+
+      it(`should not emit on ${actionName} when no carts in state`, () => {
+        const action = new SiteContextActions[actionName]();
+        actions$ = hot('-a', { a: action });
+
+        expect(
+          cartEffects.refreshCartDetailsOnSiteContextChange$
+        ).toBeObservable(cold('-'));
       });
     });
   });

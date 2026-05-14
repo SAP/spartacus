@@ -315,9 +315,9 @@ export class CartEffects {
         const allCartIds = Object.keys(multiCartState?.carts?.entities ?? {});
         const nonActiveCartIds = allCartIds.filter((id) => id !== activeCartId);
 
-        const actions: (CartActions.LoadCart | CartActions.ResetCartDetailsByIds)[] = nonActiveCartIds.map(
-          (_) => new CartActions.ResetCartDetailsByIds({cartIds: nonActiveCartIds})
-        );
+        const actions: (CartActions.LoadCart | CartActions.ResetCartDetailsByIds)[] = nonActiveCartIds.length
+          ? [new CartActions.ResetCartDetailsByIds({ cartIds: nonActiveCartIds })]
+          : [];
 
         if (activeCartId) {
           actions.push(
