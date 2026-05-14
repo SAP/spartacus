@@ -94,4 +94,9 @@ npm install
 echo "Step 4 complete."
 
 echo ""
+echo "=== Step 5: git add ==="
+git add .
+echo "Step 5 complete."
+
+echo ""
 echo "=== All done! ==="
