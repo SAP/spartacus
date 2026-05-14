@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +36,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, IconComponent, UrlPipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
