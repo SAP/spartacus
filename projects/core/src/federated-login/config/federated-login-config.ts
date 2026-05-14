@@ -16,7 +16,7 @@ export abstract class FederatedLoginConfig {
     enabled?: boolean;
 
     /** URL parameter name to use when passing context from an originating domain to a login domain. */
-    contextParameterName: string;
+    contextParameterName?: string;
 
     /**
      * List of hosts that serve as a federated login page.
@@ -28,7 +28,7 @@ export abstract class FederatedLoginConfig {
      *   loginDomains: ['login.shop.com', 'test.login.local:4200']
      * ```
      */
-    loginHosts: string[];
+    loginHosts?: string[];
 
     /**
      * Map of URL-safe keys to fully-qualified domains.
@@ -42,7 +42,7 @@ export abstract class FederatedLoginConfig {
      *   sf2: 'https://storefront2.com',
      * }
      */
-    originMap: Record<string, string>;
+    originMap?: Record<string, string>;
   };
 }
 
