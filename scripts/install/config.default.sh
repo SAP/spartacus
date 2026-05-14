@@ -19,7 +19,7 @@ CURRENCY="USD,EUR"
 
 SPARTACUS_PROJECTS=(
         "dist/core:core-libs/core"
-        "dist/storefrontlib:core-libs/storefront"
+        "dist/storefront:core-libs/storefront"
         "dist/assets:core-libs/assets"
         "dist/checkout:feature-libs/checkout"
         "dist/product:feature-libs/product"

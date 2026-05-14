@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/storefrontlib",
+  "dest": "../../dist/storefront",
   "lib": {
     "entryFile": "./public_api.ts",
     "styleIncludePaths": ["../", "../styles/scss"]

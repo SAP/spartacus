@@ -29,7 +29,10 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": ["core-libs/core/**/*.ts", "core-libs/core/**/*.html"]
+        "lintFilePatterns": [
+          "core-libs/core/**/*.ts",
+          "core-libs/core/**/*.html"
+        ]
       }
     }
   },

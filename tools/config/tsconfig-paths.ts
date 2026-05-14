@@ -273,7 +273,7 @@ function handleLibConfigs(
             (acc, entry) => {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefrontlib/public_api']
+                // In tsconfig.lib.json files we reference built paths. eg. `@spartacus/storefront`: ['dist/storefront/public_api']
                 [entry.entryPoint]: [
                   joinPaths('dist', dependency.distDir, entry.directory),
                 ],

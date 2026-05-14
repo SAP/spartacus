@@ -282,7 +282,7 @@ Use the following template:
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefront"]
     }
   },
   "angularCompilerOptions": {
