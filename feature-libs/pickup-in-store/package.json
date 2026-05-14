@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/pickup-in-store",
-  "version": "221121.10.0",
+  "version": "221121.11.0",
   "description": "",
   "keywords": [
     "spartacus",
@@ -32,14 +32,14 @@
     "@angular/router": "^21.2.9",
     "@ngrx/effects": "^21.0.1",
     "@ngrx/store": "^21.0.1",
-    "@spartacus/cart": "221121.10.0",
-    "@spartacus/core": "221121.10.0",
-    "@spartacus/order": "221121.10.0",
-    "@spartacus/schematics": "221121.10.0",
-    "@spartacus/storefinder": "221121.10.0",
-    "@spartacus/storefront": "221121.10.0",
-    "@spartacus/styles": "221121.10.0",
-    "@spartacus/user": "221121.10.0",
+    "@spartacus/cart": "221121.11.0",
+    "@spartacus/core": "221121.11.0",
+    "@spartacus/order": "221121.11.0",
+    "@spartacus/schematics": "221121.11.0",
+    "@spartacus/storefinder": "221121.11.0",
+    "@spartacus/storefront": "221121.11.0",
+    "@spartacus/styles": "221121.11.0",
+    "@spartacus/user": "221121.11.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
