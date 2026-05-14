@@ -133,37 +133,57 @@ describe('FederatedLoginGuard', () => {
       });
 
       describe('when there is no context', () => {
+        let activatedRoute: ActivatedRouteSnapshot;
+        let routerState: RouterStateSnapshot;
+
         beforeEach(() => {
           federatedLoginService.origin = undefined;
+          activatedRoute = {} as ActivatedRouteSnapshot;
+          routerState = {
+            url: '/login?ctx=',
+          } as RouterStateSnapshot;
+          (semanticPathService.get as jasmine.Spy).and.returnValue(
+            '/not-found'
+          );
         });
 
         it('should redirect to the notFound route', async () => {
           const guardResult = await firstValueFrom(
-            guard.canActivate(
-              {} as ActivatedRouteSnapshot,
-              {
-                url: '/product/123',
-              } as RouterStateSnapshot
-            )
+            guard.canActivate(activatedRoute, routerState)
           );
 
           expect(semanticPathService.get).toHaveBeenCalledWith('notFound');
-          expect(router.parseUrl).toHaveBeenCalledWith('/notFound');
+          expect(router.parseUrl).toHaveBeenCalledWith('/not-found');
           expect(guardResult).toEqual({
-            root: '/notFound',
+            root: '/not-found',
           } as unknown as UrlTree);
         });
 
-        it('should continue with route to avoid an infinite loop when already on the notFound route', async () => {
-          (semanticPathService.get as jasmine.Spy).and.returnValue('/notFound');
+        it('should avoid an infinite loop when already on the notFound route', async () => {
+          routerState.url = '/not-found';
 
           const guardResult = await firstValueFrom(
-            guard.canActivate(
-              {} as ActivatedRouteSnapshot,
-              {
-                url: '/notFound',
-              } as RouterStateSnapshot
-            )
+            guard.canActivate(activatedRoute, routerState)
+          );
+
+          expect(guardResult).toBe(true);
+        });
+
+        it('should avoid an infinite loop when already on the notFound route with site context path', async () => {
+          routerState.url = '/electronics-spa/en/USD/not-found';
+
+          const guardResult = await firstValueFrom(
+            guard.canActivate(activatedRoute, routerState)
+          );
+
+          expect(guardResult).toBe(true);
+        });
+
+        it('should avoid an infinite loop when the notFound route is not configured', async () => {
+          (semanticPathService.get as jasmine.Spy).and.returnValue(undefined);
+
+          const guardResult = await firstValueFrom(
+            guard.canActivate(activatedRoute, routerState)
           );
 
           expect(guardResult).toBe(true);
