@@ -16,7 +16,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { OrderGuestRegisterFormComponent } from './order-guest-register-form.component';
 import createSpy = jasmine.createSpy;
 

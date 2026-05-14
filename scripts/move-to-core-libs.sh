@@ -14,8 +14,8 @@ MAPPINGS=(
   "projects/assets:core-libs/assets"
   "projects/core:core-libs/core"
   "projects/schematics:core-libs/schematics"
-  "projects/storefrontlib:core-libs/storefrontlib"
-  "projects/storefrontstyles:core-libs/storefrontstyles"
+  "projects/storefrontlib:core-libs/storefront"
+  "projects/storefrontstyles:core-libs/styles"
 )
 
 # Directories to exclude from search-and-replace

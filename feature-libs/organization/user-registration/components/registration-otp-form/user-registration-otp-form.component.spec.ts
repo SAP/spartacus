@@ -20,7 +20,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { Observable, of, throwError } from 'rxjs';
 import { UserRegistrationFormService } from '../form';
 import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
