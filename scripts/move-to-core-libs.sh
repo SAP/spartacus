@@ -62,6 +62,7 @@ for mapping in "${MAPPINGS[@]}"; do
   echo "Replacing '$old' -> '$new' ..."
 
   # Fast: one grep pass to find matching files, then sed in batch
+  # Use word boundary after folder name to avoid matching e.g. projects/schematics-test when replacing projects/schematics
   find . "${EXCLUDE_ARGS[@]}" -type f \
     ! -name '*.png' ! -name '*.jpg' ! -name '*.jpeg' ! -name '*.ico' \
     ! -name '*.woff' ! -name '*.woff2' ! -name '*.ttf' ! -name '*.eot' \
@@ -69,7 +70,10 @@ for mapping in "${MAPPINGS[@]}"; do
     ! -path "./$SCRIPT_NAME" \
     -print0 2>/dev/null | \
     xargs -0 grep -rl --binary-files=without-match "$old" 2>/dev/null | \
-    xargs -I{} sed -i '' "s|$old|$new|g" {}
+    while IFS= read -r file; do
+      # Replace only when followed by / " ' ) , : space or end-of-line
+      sed -i '' -E "s|${old}([/\"'),:[:space:]])|${new}\1|g; s|${old}$|${new}|g" "$file"
+    done
   echo "  Done with '$old'."
 done
 echo "Step 2 complete."
