@@ -34,11 +34,11 @@ echo "=== Step 1: Move folders ==="
 for mapping in "${MAPPINGS[@]}"; do
   src="${mapping%%:*}"
   dest="${mapping##*:}"
-  if [ -d "$src" ]; then
+  if [[ -d "$src" ]]; then
     mkdir -p "$(dirname "$dest")"
     echo "Moving $src -> $dest"
     if ! mv "$src" "$dest"; then
-      echo "ERROR: Failed to move $src -> $dest"
+      echo "ERROR: Failed to move $src -> $dest" >&2
       exit 1
     fi
   else
@@ -54,7 +54,7 @@ for mapping in "${MAPPINGS[@]}"; do
   new="${mapping##*:}"
 
   # Skip no-op mappings
-  if [ "$old" = "$new" ]; then
+  if [[ "$old" = "$new" ]]; then
     echo "SKIP: '$old' == '$new', nothing to replace"
     continue
   fi
@@ -75,6 +75,26 @@ done
 echo "Step 2 complete."
 
 echo ""
+echo "=== Step 2b: Fix relative paths affected by renames ==="
+for mapping in "${MAPPINGS[@]}"; do
+  old_folder=$(basename "${mapping%%:*}")
+  new_folder=$(basename "${mapping##*:}")
+
+  if [[ "$old_folder" != "$new_folder" ]]; then
+    # Find any file that references the old folder name as a relative sibling path (../<old_folder>)
+    find . "${EXCLUDE_ARGS[@]}" -type f \( -name '*.json' -o -name '*.ts' -o -name '*.js' \) \
+      ! -path "./$SCRIPT_NAME" \
+      -print0 2>/dev/null | \
+      xargs -0 grep -rl "\.\./\.*$old_folder" 2>/dev/null | \
+      while IFS= read -r file; do
+        sed -i '' "s|\.\./\(\.*/\)*$old_folder|../$new_folder|g" "$file"
+        echo "  Updated: $file (../$old_folder -> ../$new_folder)"
+      done
+  fi
+done
+echo "Step 2b complete."
+
+echo ""
 echo "=== Step 3: Remove old entries from workspaces in package.json ==="
 DEST_PATHS_JSON=$(printf '%s\n' "${MAPPINGS[@]}" | sed 's/.*://' | jq -R . | jq -s .)
 
@@ -92,6 +112,11 @@ echo ""
 echo "=== Step 4: npm install ==="
 npm install
 echo "Step 4 complete."
+
+echo ""
+echo "=== Step 5: git add ==="
+git add .
+echo "Step 5 complete."
 
 echo ""
 echo "=== All done! ==="

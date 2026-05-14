@@ -3,6 +3,6 @@
   "dest": "../../dist/storefrontlib",
   "lib": {
     "entryFile": "./public_api.ts",
-    "styleIncludePaths": ["../", "../storefrontstyles/scss"]
+    "styleIncludePaths": ["../", "../styles/scss"]
   }
 }
