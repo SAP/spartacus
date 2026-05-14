@@ -75,6 +75,24 @@ done
 echo "Step 2 complete."
 
 echo ""
+echo "=== Step 2b: Fix relative paths affected by renames ==="
+for mapping in "${MAPPINGS[@]}"; do
+  old_folder=$(basename "${mapping%%:*}")
+  new_folder=$(basename "${mapping##*:}")
+
+  if [[ "$old_folder" != "$new_folder" ]]; then
+    # Find any file that references the old folder name as a relative sibling path (../<old_folder>)
+    find . "${EXCLUDE_ARGS[@]}" -type f \( -name '*.json' -o -name '*.ts' -o -name '*.js' \) \
+      ! -path "./$SCRIPT_NAME" \
+      -print0 2>/dev/null | \
+      xargs -0 grep -rl "\.\./\.*$old_folder" 2>/dev/null | \
+      xargs -I{} sed -i '' "s|\.\./\(\.*/\)*$old_folder|../$new_folder|g" {}
+    echo "  Fixed relative references: ../$old_folder -> ../$new_folder"
+  fi
+done
+echo "Step 2b complete."
+
+echo ""
 echo "=== Step 3: Remove old entries from workspaces in package.json ==="
 DEST_PATHS_JSON=$(printf '%s\n' "${MAPPINGS[@]}" | sed 's/.*://' | jq -R . | jq -s .)
 
