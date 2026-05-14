@@ -95,6 +95,29 @@ done
 echo "Step 2b complete."
 
 echo ""
+echo "=== Step 2c: Fix dist/ paths for renamed folders ==="
+for mapping in "${MAPPINGS[@]}"; do
+  old_folder=$(basename "${mapping%%:*}")
+  new_folder=$(basename "${mapping##*:}")
+
+  if [[ "$old_folder" != "$new_folder" ]]; then
+    echo "Replacing 'dist/$old_folder' -> 'dist/$new_folder' ..."
+    find . "${EXCLUDE_ARGS[@]}" -type f \
+      ! -name '*.png' ! -name '*.jpg' ! -name '*.jpeg' ! -name '*.ico' \
+      ! -name '*.woff' ! -name '*.woff2' ! -name '*.ttf' ! -name '*.eot' \
+      ! -name '*.gif' ! -name '*.svg' \
+      ! -path "./$SCRIPT_NAME" \
+      -print0 2>/dev/null | \
+      xargs -0 grep -rl --binary-files=without-match "dist/$old_folder" 2>/dev/null | \
+      while IFS= read -r file; do
+        sed -i '' "s|dist/$old_folder|dist/$new_folder|g" "$file"
+        echo "  Updated: $file"
+      done
+  fi
+done
+echo "Step 2c complete."
+
+echo ""
 echo "=== Step 3: Remove old entries from workspaces in package.json ==="
 DEST_PATHS_JSON=$(printf '%s\n' "${MAPPINGS[@]}" | sed 's/.*://' | jq -R . | jq -s .)
 
@@ -109,14 +132,19 @@ console.log('Remaining workspaces:', pkg.workspaces);
 echo "Step 3 complete."
 
 echo ""
-echo "=== Step 4: npm install ==="
-npm install
+echo "=== Step 4: npm run config:update ==="
+npm run config:update
 echo "Step 4 complete."
 
 echo ""
-echo "=== Step 5: git add ==="
-git add .
+echo "=== Step 5: npm install ==="
+npm install
 echo "Step 5 complete."
+
+echo ""
+echo "=== Step 6: git add ==="
+git add .
+echo "Step 6 complete."
 
 echo ""
 echo "=== All done! ==="
