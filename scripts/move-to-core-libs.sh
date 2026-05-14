@@ -86,8 +86,10 @@ for mapping in "${MAPPINGS[@]}"; do
       ! -path "./$SCRIPT_NAME" \
       -print0 2>/dev/null | \
       xargs -0 grep -rl "\.\./\.*$old_folder" 2>/dev/null | \
-      xargs -I{} sed -i '' "s|\.\./\(\.*/\)*$old_folder|../$new_folder|g" {}
-    echo "  Fixed relative references: ../$old_folder -> ../$new_folder"
+      while IFS= read -r file; do
+        sed -i '' "s|\.\./\(\.*/\)*$old_folder|../$new_folder|g" "$file"
+        echo "  Updated: $file (../$old_folder -> ../$new_folder)"
+      done
   fi
 done
 echo "Step 2b complete."
