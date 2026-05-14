@@ -28,6 +28,7 @@ export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 export const MERGE_CART_ABORT = '[Cart] Merge Cart Abort';
 
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
+export const RESET_CART_DETAILS_BY_IDS = '[Cart] Reset Cart Details By Ids';
 
 export const REMOVE_CART = '[Cart] Remove Cart';
 
@@ -246,6 +247,16 @@ export class ResetCartDetails extends StateUtils.ProcessesLoaderResetAction {
 }
 
 /**
+ * On site context change we want to clear value and flags only for selected carts.
+ */
+export class ResetCartDetailsByIds extends StateUtils.EntityProcessesLoaderResetAction {
+  readonly type = RESET_CART_DETAILS_BY_IDS;
+  constructor(public payload: { cartIds: string[] }) {
+    super(MULTI_CART_DATA, payload.cartIds);
+  }
+}
+
+/**
  * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
  * For removing particular cart in both places use DeleteCart actions.
  */
@@ -287,6 +298,7 @@ export type CartAction =
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails
+  | ResetCartDetailsByIds
   | AddEmailToCart
   | AddEmailToCartFail
   | AddEmailToCartSuccess
