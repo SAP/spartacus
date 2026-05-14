@@ -15,7 +15,7 @@ import {
   SiteContextActions,
   isNotUndefined,
   tryNormalizeHttpError,
-  withdrawOn,
+  withdrawOn
 } from '@spartacus/core';
 import { Observable, concat, from, of } from 'rxjs';
 import {
@@ -303,25 +303,35 @@ export class CartEffects {
       )
   );
 
-  refreshCartDetailsOnSiteContextChange$: Observable<CartActions.LoadCart> =
-    createEffect(() =>
-      this.contextChange$.pipe(
-        withLatestFrom(
-          this.store.pipe(
-            select(getMultiCartState),
-            map((state) => state?.index?.[CartType.ACTIVE])
-          )
-        ),
-        filter(([_, cartId]) => !!cartId),
-        map(
-          ([_, cartId]) =>
+  refreshCartDetailsOnSiteContextChange$: Observable<
+    CartActions.LoadCart | CartActions.ResetCartDetailsByIds
+  > = createEffect(() =>
+    this.contextChange$.pipe(
+      withLatestFrom(
+        this.store.pipe(select(getMultiCartState))
+      ),
+      mergeMap(([_, multiCartState]) => {
+        const activeCartId = multiCartState?.index?.[CartType.ACTIVE];
+        const allCartIds = Object.keys(multiCartState?.carts?.entities ?? {});
+        const nonActiveCartIds = allCartIds.filter((id) => id !== activeCartId);
+
+        const actions: (CartActions.LoadCart | CartActions.ResetCartDetailsByIds)[] = nonActiveCartIds.map(
+          (_) => new CartActions.ResetCartDetailsByIds({cartIds: nonActiveCartIds})
+        );
+
+        if (activeCartId) {
+          actions.push(
             new CartActions.LoadCart({
-              cartId: cartId as string,
+              cartId: activeCartId,
               userId: OCC_USER_ID_CURRENT,
             })
-        )
-      )
-    );
+          );
+        }
+
+        return actions;
+      })
+    )
+  );
 
   addEmail$: Observable<
     | CartActions.AddEmailToCartSuccess
