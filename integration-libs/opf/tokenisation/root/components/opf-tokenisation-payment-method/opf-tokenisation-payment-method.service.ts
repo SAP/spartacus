@@ -23,6 +23,7 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import {
   Card,
@@ -83,7 +84,6 @@ export class OpfTokenisationPaymentMethodService {
 
   paymentDetails?: PaymentDetails;
   isGuestCheckout = false;
-  doneAutoSelect = false;
 
   showSavedCards$: Observable<boolean> = this.opfMetadataStoreService
     .getOpfMetadataState()
@@ -148,7 +148,39 @@ export class OpfTokenisationPaymentMethodService {
           // If we're no longer in saved cards mode, clear the selected card
           if (selectedId !== SAVED_CARDS_ID) {
             this.selectedPaymentMethod$.next(undefined);
+            this.savedCardsService.clearSelectedPaymentMethodId();
           }
+        })
+    );
+
+    // Auto-select the default non-expired card once when saved cards become visible.
+    // If the user navigated back with a previously selected card, restore it from the
+    // root-level savedCardsService (which survives component destruction).
+    // Otherwise fall back to the default-card logic.
+    this.subscriptions.add(
+      this.showSavedCards$
+        .pipe(
+          filter((show) => show),
+          switchMap(() => this.existingPaymentMethods$),
+          filter((methods) => !!methods?.length),
+          take(1),
+          withLatestFrom(
+            this.selectedMethod$,
+            this.savedCardsService.selectedPaymentMethodId$
+          )
+        )
+        .subscribe(([methods, selectedMethod, persistedId]) => {
+          // Restore previously selected card when navigating back
+          if (persistedId && !selectedMethod?.id) {
+            const previouslySelected = methods.find(
+              (m) => m.id === persistedId
+            );
+            if (previouslySelected && !this.isCardExpired(previouslySelected)) {
+              this.selectedPaymentMethod$.next(previouslySelected);
+              return;
+            }
+          }
+          this.selectDefaultPaymentMethod(methods, selectedMethod);
         })
     );
   }
@@ -185,9 +217,6 @@ export class OpfTokenisationPaymentMethodService {
       this.translationService.translate('paymentCard.setAsDefault'),
       this.translationService.translate('paymentCard.defaultLabelOnCheckout'),
     ]).pipe(
-      tap(([paymentMethods, selectedMethod]) =>
-        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
-      ),
       map(
         ([
           paymentMethods,
@@ -220,22 +249,21 @@ export class OpfTokenisationPaymentMethodService {
   }
 
   selectDefaultPaymentMethod(
-    paymentMethods: { payment: PaymentDetails; expiryTranslation: string }[],
+    paymentMethods: PaymentDetails[],
     selectedMethod: PaymentDetails | undefined
-  ) {
+  ): void {
     if (
-      !this.doneAutoSelect &&
       paymentMethods?.length &&
       (!selectedMethod || Object.keys(selectedMethod).length === 0)
     ) {
       const defaultPaymentMethod = paymentMethods.find(
-        (paymentMethod) => paymentMethod.payment.defaultPayment
+        (paymentMethod) =>
+          paymentMethod.defaultPayment && !this.isCardExpired(paymentMethod)
       );
       if (defaultPaymentMethod) {
-        selectedMethod = defaultPaymentMethod.payment;
-        this.savePaymentMethod(selectedMethod);
+        this.selectedPaymentMethod$.next(defaultPaymentMethod);
+        this.savePaymentMethod(defaultPaymentMethod);
       }
-      this.doneAutoSelect = true;
     }
   }
 
@@ -325,11 +353,12 @@ export class OpfTokenisationPaymentMethodService {
     const isSelected = selected?.id === paymentDetails.id;
     const role = !isSelected ? 'button' : 'application';
 
+    const isExpired = this.isCardExpired(paymentDetails);
     const actions: { name: string; event: string }[] = [];
-    if (!paymentDetails.defaultPayment) {
+    if (!paymentDetails.defaultPayment && !isExpired) {
       actions.push({ name: cardLabels.textSetAsDefault, event: 'default' });
     }
-    if (!isSelected) {
+    if (!isSelected && !isExpired) {
       actions.push({ name: cardLabels.textUseThisPayment, event: 'send' });
     }
 
@@ -351,12 +380,16 @@ export class OpfTokenisationPaymentMethodService {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
+    if (this.isCardExpired(paymentDetails)) {
+      return;
+    }
     if (paymentDetails?.id === this.selectedPaymentMethod$.getValue()?.id) {
       return;
     }
 
     // Mark that a saved card was selected (used to trigger delete only on provider switch)
-    this.savedCardsService.markCardAsSelected();
+    // Also persists the ID for restoration when navigating back
+    this.savedCardsService.markCardAsSelected(paymentDetails.id);
 
     this.globalMessageService.add(
       {

@@ -19,23 +19,31 @@
     list-style: none;
   }
 
-  cx-navigation-ui > nav > ul {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-
-    > li {
+  cx-navigation-ui {
+    @include forFeature(alignNavigationMenuWithHeader) {
       @include media-breakpoint-up(lg) {
-        padding-inline-end: 15px;
-        padding-inline-start: 15px;
+        height: $header-height;
       }
+    }
 
-      list-style: none;
+    > nav > ul {
       display: flex;
+      flex-wrap: wrap;
+      padding: 0;
 
-      @include media-breakpoint-up(lg) {
-        > .wrapper {
-          margin-top: $header-height;
+      > li {
+        @include media-breakpoint-up(lg) {
+          padding-inline-end: 15px;
+          padding-inline-start: 15px;
+        }
+
+        list-style: none;
+        display: flex;
+
+        @include media-breakpoint-up(lg) {
+          > .wrapper {
+            margin-top: $header-height;
+          }
         }
       }
     }
