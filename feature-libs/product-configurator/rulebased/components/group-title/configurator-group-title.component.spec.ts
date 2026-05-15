@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
   BreakpointService,
+  HamburgerMenuComponent,
   HamburgerMenuService,
   IconLoaderService,
 } from '@spartacus/storefront';
@@ -72,7 +73,7 @@ class MockBreakpointService {
 @Component({
   selector: 'cx-hamburger-menu',
   template: '',
-  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+  imports: [ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
 
@@ -97,11 +98,9 @@ describe('ConfiguratorGroupTitleComponent', () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorGroupTitleComponent,
-        MockHamburgerMenuComponent,
       ],
       providers: [
         HamburgerMenuService,
@@ -131,7 +130,12 @@ describe('ConfiguratorGroupTitleComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorGroupTitleComponent, {
+        remove: { imports: [HamburgerMenuComponent] },
+        add: { imports: [MockHamburgerMenuComponent] },
+      })
+      .compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);

@@ -4,14 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 import {
   OPF_B2B_CHECKOUT_FEATURE_NAME,
   OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
   OPF_CTA_FEATURE_NAME,
+  OPF_GIFT_CARD_FEATURE_NAME,
   OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
   OPF_PAYMENT_FEATURE_NAME,
   OPF_QUICK_BUY_FEATURE_NAME,
+  OPF_TOKENISATION_FEATURE_NAME,
   ORDER_FEATURE_NAME,
   SPARTACUS_BOOTSTRAP_FUNCTIONS,
   SPARTACUS_BOOTSTRAP_MIXINS,
@@ -26,6 +29,9 @@ import {
   SPARTACUS_OPF_CHECKOUT_ROOT,
   SPARTACUS_OPF_CTA,
   SPARTACUS_OPF_CTA_ROOT,
+  SPARTACUS_OPF_GIFT_CARD,
+  SPARTACUS_OPF_GIFT_CARD_ASSETS,
+  SPARTACUS_OPF_GIFT_CARD_ROOT,
   SPARTACUS_OPF_GLOBAL_FUNCTIONS,
   SPARTACUS_OPF_GLOBAL_FUNCTIONS_ROOT,
   SPARTACUS_OPF_ORDER,
@@ -34,9 +40,11 @@ import {
   SPARTACUS_OPF_PAYMENT_ROOT,
   SPARTACUS_OPF_QUICK_BUY,
   SPARTACUS_OPF_QUICK_BUY_ROOT,
+  SPARTACUS_OPF_TOKENISATION,
+  SPARTACUS_OPF_TOKENISATION_ROOT,
 } from '../../libs-constants';
+
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
-import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 import { ORDER_MODULE } from '../order-schematics-config';
 
 export interface SpartacusOpfOptions extends LibraryOptions {
@@ -83,6 +91,11 @@ export const OPF_QUICK_BUY_FEATURE_NAME_CONSTANT = 'OPF_QUICK_BUY_FEATURE';
 export const OPF_QUICK_BUY_MODULE = 'OpfQuickBuyModule';
 export const OPF_QUICK_BUY_ROOT_MODULE = 'OpfQuickBuyRootModule';
 
+export const OPF_TOKENISATION_FEATURE_NAME_CONSTANT =
+  'OPF_TOKENISATION_FEATURE';
+export const OPF_TOKENISATION_MODULE = 'OpfTokenisationModule';
+export const OPF_TOKENISATION_ROOT_MODULE = 'OpfTokenisationRootModule';
+
 export const OPF_PAYMENT_FEATURE_NAME_CONSTANT = 'OPF_PAYMENT_FEATURE';
 export const OPF_PAYMENT_MODULE = 'OpfPaymentModule';
 export const OPF_PAYMENT_ROOT_MODULE = 'OpfPaymentRootModule';
@@ -90,6 +103,18 @@ export const OPF_PAYMENT_TRANSLATIONS = 'opfPaymentTranslations';
 export const OPF_PAYMENT_TRANSLATION_CHUNKS_CONFIG =
   'opfPaymentTranslationChunksConfig';
 export const OPF_ORDER_MODULE = 'OpfOrderModule';
+
+export const OPF_GIFT_CARD_FEATURE_NAME_CONSTANT = 'OPF_GIFT_CARD_FEATURE';
+export const OPF_GIFT_CARD_MODULE = 'OpfGiftCardModule';
+export const OPF_GIFT_CARD_ROOT_MODULE = 'OpfGiftCardRootModule';
+export const OPF_GIFT_CARD_TRANSLATIONS = 'opfGiftCardTranslations';
+export const OPF_GIFT_CARD_TRANSLATION_CHUNKS_CONFIG =
+  'opfGiftCardTranslationChunksConfig';
+export const OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG =
+  'defaultOccOpfGiftCardCartEndpointsConfig';
+export const OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG =
+  'defaultOccOpfGiftCardOrderEndpointsConfig';
+export const OPF_GIFT_CARD_CART_CONFIG = 'defaultOpfGiftCardCartConfig';
 
 export const OPF_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
@@ -208,6 +233,7 @@ export const OPF_CHECKOUT_SCHEMATICS_CONFIG: SchematicConfig = {
     OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
     OPF_QUICK_BUY_FEATURE_NAME,
     ORDER_FEATURE_NAME,
+    OPF_GIFT_CARD_FEATURE_NAME,
   ],
   importAfter: [
     {
@@ -365,6 +391,74 @@ export const OPF_QUICK_BUY_SCHEMATICS_CONFIG: SchematicConfig = {
   },
 };
 
+export const OPF_TOKENISATION_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: OPF_TOKENISATION_FEATURE_NAME,
+    mainScope: SPARTACUS_OPF,
+    featureScope: SPARTACUS_OPF_TOKENISATION,
+  },
+  folderName: OPF_FOLDER_NAME,
+  moduleName: OPF_MODULE_NAME,
+  featureModule: {
+    name: OPF_TOKENISATION_MODULE,
+    importPath: SPARTACUS_OPF_TOKENISATION,
+  },
+  rootModule: {
+    name: OPF_TOKENISATION_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_TOKENISATION_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_OPF_TOKENISATION_ROOT,
+    namedImports: [OPF_TOKENISATION_FEATURE_NAME_CONSTANT],
+  },
+  styles: {
+    scssFileName: OPF_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
+  },
+};
+
+export const OPF_GIFT_CARD_SCHEMATICS_CONFIG: SchematicConfig = {
+  library: {
+    featureName: OPF_GIFT_CARD_FEATURE_NAME,
+    mainScope: SPARTACUS_OPF,
+    featureScope: SPARTACUS_OPF_GIFT_CARD,
+  },
+  folderName: OPF_FOLDER_NAME,
+  moduleName: OPF_MODULE_NAME,
+  featureModule: {
+    name: OPF_GIFT_CARD_MODULE,
+    importPath: SPARTACUS_OPF_GIFT_CARD,
+  },
+  rootModule: {
+    name: OPF_GIFT_CARD_ROOT_MODULE,
+    importPath: SPARTACUS_OPF_GIFT_CARD_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+    namedImports: [OPF_GIFT_CARD_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: OPF_GIFT_CARD_TRANSLATIONS,
+    chunks: OPF_GIFT_CARD_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_OPF_GIFT_CARD_ASSETS,
+  },
+  styles: {
+    scssFileName: OPF_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_OPF,
+    importStyles: [
+      SPARTACUS_BOOTSTRAP_FUNCTIONS,
+      SPARTACUS_BOOTSTRAP_VARIABLES,
+      SPARTACUS_BOOTSTRAP_MIXINS,
+    ],
+  },
+  customConfig: buildOpfGiftCardConfig,
+};
+
 function buildOpfConfig(
   options: SpartacusOpfOptions
 ): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
@@ -418,5 +512,41 @@ function buildOpfB2bConfig(
       ],
       content: `${OPF_B2B_CHECKOUT_DEFAULT_OCC_ENDPOINTS_CONFIG}`,
     },
+  };
+}
+
+function buildOpfGiftCardConfig(
+  _options: SpartacusOpfOptions
+): AdditionalFeatureConfiguration<SpartacusOpfOptions> {
+  return {
+    providers: [
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_DEFAULT_OCC_CART_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_DEFAULT_OCC_ORDER_CONFIG}`,
+      },
+      {
+        import: [
+          {
+            moduleSpecifier: SPARTACUS_OPF_GIFT_CARD_ROOT,
+            namedImports: [OPF_GIFT_CARD_CART_CONFIG],
+          },
+        ],
+        content: `${OPF_GIFT_CARD_CART_CONFIG}`,
+      },
+    ],
   };
 }

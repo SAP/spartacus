@@ -206,10 +206,7 @@
       padding: 10px 0;
     }
     ul.childs > li > cx-generic-link > a {
-      padding: 5px 0;
-      @include forFeature('a11yOptimizedMenuSpacing') {
-        padding: 0;
-      }
+      padding: 0;
     }
     ul.childs > li > button:hover {
       color: var(--cx-color-text);
@@ -294,6 +291,10 @@
 
   @include media-breakpoint-up(lg) {
     background-color: var(--cx-color-text);
+
+    @include forFeature(alignNavigationMenuWithHeader) {
+      background-color: var(--cx-color-background-dark);
+    }
   }
 
   @extend %nav-heading;

@@ -25,6 +25,7 @@ export function defaultOccCartConfigFactory(): OccConfig {
           addEmail: 'users/${userId}/carts/${cartId}/email',
           deleteCart: 'users/${userId}/carts/${cartId}',
           cartVoucher: 'users/${userId}/carts/${cartId}/vouchers',
+          cartRemoveVoucher: 'users/${userId}/carts/${cartId}/removeVoucher',
           saveCart: '/users/${userId}/carts/${cartId}/save',
           validate: 'users/${userId}/carts/${cartId}/validate?fields=DEFAULT',
           cartAccessCode: 'users/${userId}/carts/${cartId}/accessCode',

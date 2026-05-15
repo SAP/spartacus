@@ -2,7 +2,7 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LoggerService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
 import { PagedListComponent } from './paged-list.component';
 
@@ -48,11 +48,15 @@ describe('PagedList Component', () => {
     TestBed.configureTestingModule({
       imports: [
         PagedListComponent,
-        MockCxIconComponent,
         MockHeaderTemplateComponent,
         MockTemplateComponent,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PagedListComponent, {
+        remove: { imports: [IconComponent] },
+        add: { imports: [MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

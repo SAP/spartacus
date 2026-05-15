@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as asmCustomer360 from '../../../helpers/customer360';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as checkout from '../../../helpers/checkout-flow';
+import {
+  addProductToCart,
+  waitForProductPage,
+} from '../../../helpers/checkout-flow';
+import * as asmCustomer360 from '../../../helpers/customer360';
 import { waitForPage } from '../../../helpers/navigation';
-import { waitForProductPage } from '../../../helpers/checkout-flow';
-import { addProductToCart } from '../../../helpers/checkout-flow';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
   interceptDelete,
   interceptPost,
@@ -236,7 +238,7 @@ context('Assisted Service Module', () => {
           cy.wait('@applyCoupon').its('response.statusCode').should('eq', 200);
           cy.get('button').should('not.contain', 'Apply to Cart');
           cy.get('button').contains('Remove').should('be.visible');
-          cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
+          cy.intercept('POST', '**/removeVoucher').as('removeCoupon');
           cy.get('button').contains('Remove').click();
           cy.whenJDK17(() => {
             cy.wait('@removeCoupon')

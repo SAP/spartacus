@@ -40,7 +40,9 @@
           "OPF-Payment",
           "OPF-Cta",
           "OPF-Global-Functions",
-          "OPF-Quick-Buy"
+          "OPF-Quick-Buy",
+          "OPF-Gift-Card",
+          "OPF-Tokenisation"
         ],
         "type": "string"
       },
@@ -82,6 +84,16 @@
             "value": "OPF-Quick-Buy",
             "label": "OPF Quick Buy",
             "checked": true
+          },
+          {
+            "value": "OPF-Tokenisation",
+            "label": "OPF Tokenisation",
+            "checked": false
+          },
+          {
+            "value": "OPF-Gift-Card",
+            "label": "OPF Gift Card",
+            "checked": false
           }
         ]
       }

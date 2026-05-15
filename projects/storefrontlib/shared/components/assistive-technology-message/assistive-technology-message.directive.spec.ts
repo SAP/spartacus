@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
@@ -31,7 +31,7 @@ import createSpy = jasmine.createSpy;
       Action
     </button>
   `,
-  imports: [AtMessageModule, I18nTestingModule],
+  imports: [AtMessageModule, MockTranslatePipe],
 })
 class MockComponent {}
 
@@ -47,7 +47,7 @@ describe('AtMessageDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AtMessageModule, I18nTestingModule, MockComponent],
+      imports: [MockComponent],
       providers: [
         {
           provide: GlobalMessageService,

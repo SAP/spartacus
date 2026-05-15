@@ -9,10 +9,11 @@
   "author": "",
   "license": "ISC",
   "overrides": {
-    "form-data": "^4.0.4"
+    "form-data": "^4.0.4",
+    "undici": "^6.24.0"
   },
   "dependencies": {
-    "@actions/cache": "^4.0.5",
+    "@actions/cache": "^6.0.0",
     "@actions/core": "^1.9.1",
     "@actions/exec": "^1.0.4",
     "@actions/github": "^6.0.0",

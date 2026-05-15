@@ -22,6 +22,14 @@
       }
     }
 
+    .search-wrapper {
+      .search-input,
+      .search-btn,
+      .search-clear {
+        visibility: visible;
+      }
+    }
+
     cx-table.vertical-stacked,
     cx-table.vertical {
       table {
@@ -103,6 +111,32 @@
 
   @extend %organizationTitle !optional;
 
+  cx-split-view:not([active-view='1']) .list .header .actions {
+    flex-wrap: nowrap;
+
+    .search-wrapper {
+      flex: 1 1 12.5rem;
+      min-width: 10rem;
+      max-width: 12.5rem;
+      margin-inline-end: 0;
+
+      .search-input {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+
+    > .link:first-of-type {
+      margin-inline-start: 0;
+    }
+
+    > .link,
+    .create {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+  }
+
   cx-split-view:not([active-view='1']) .list table {
     th,
     td {
@@ -125,6 +159,21 @@
     }
   }
 
+  // Unit list: show uid(ID) column instead of active(STATUS) when detail panel is open
+  &.orgUnit cx-split-view:not([active-view='1']) .list table {
+    th,
+    td {
+      &.uid {
+        opacity: 1;
+        width: auto;
+      }
+      &.active {
+        opacity: 0;
+        width: 0.1%;
+      }
+    }
+  }
+
   cx-split-view[active-view='1'] {
     .uid .text {
       margin-inline-end: 1rem;
@@ -140,6 +189,98 @@
   .is-empty {
     margin: 0;
     padding: 20px;
+  }
+
+  .cx-no-results {
+    text-align: center;
+    padding: 60px 20px;
+    margin: 0;
+    color: var(--cx-color-text);
+    font-size: 16px;
+    font-weight: 600;
+    border-top: solid 1px var(--cx-color-light);
+  }
+
+  .cx-list-content {
+    position: relative;
+    min-height: 200px;
+
+    &.is-loading {
+      cx-table {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .cx-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    z-index: 10;
+  }
+
+  // Disabled state for elements during loading
+  .sort-wrapper.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  a.create.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  button.create:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .cx-dots-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    span {
+      width: 12px;
+      height: 12px;
+      background-color: var(--cx-color-primary);
+      border-radius: 50%;
+      animation: cx-dots-bounce 1.4s infinite ease-in-out both;
+
+      &:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+
+      &:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0s;
+      }
+    }
+  }
+
+  @keyframes cx-dots-bounce {
+    0%,
+    80%,
+    100% {
+      transform: scale(0.6);
+      opacity: 0.5;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   @include media-breakpoint-up(md) {
@@ -192,7 +333,7 @@
     }
   }
 
-  cx-view[position='0'] > cx-table.vertical {
+  cx-view[position='0'] cx-table.vertical {
     table {
       border-top: solid 1px var(--cx-color-light);
       border-bottom: solid 1px var(--cx-color-light);
@@ -523,8 +664,8 @@
 %viewHeader {
   .list {
     .header {
-      padding: 0 6px 38px 6px;
-      min-height: 130px;
+      padding: 0 0 4px 0;
+      min-height: auto;
 
       h3 {
         text-transform: uppercase;
@@ -540,28 +681,58 @@
 
       .actions {
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 0.25rem;
 
-        label {
-          align-items: center;
-          display: inline-flex;
+        // Keep projected action buttons (e.g. Expand All / Collapse All) on the right,
+        // aligned with the Create (Add) button.
+        // The first .link pushes itself and subsequent siblings to the right
+        // when no search-wrapper is present to do so.
+        > .link:first-of-type {
+          margin-inline-start: auto;
+        }
+        > .link {
+          align-self: flex-end;
+          margin-bottom: 0.75rem;
+        }
 
-          @include media-breakpoint-down(sm) {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-content: center;
-            padding-bottom: 0;
-          }
+        // Common label style for search and sort
+        .label-text {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          font-size: 14px;
+        }
 
-          span {
-            margin-inline-end: 0.5rem;
-          }
+        // Sort wrapper - vertical layout
+        .sort-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+
           .sort {
-            margin-inline-end: auto;
-            min-width: 170px;
+            min-width: 200px;
+            width: 200px;
+            height: 40px;
+
+            .ng-select-container {
+              height: 40px !important;
+              min-height: 40px !important;
+            }
           }
+        }
+
+        // Align create button with projected action buttons
+        .create {
+          align-self: flex-end;
+          height: 40px;
+          margin-bottom: 12px;
+        }
+        // When no projected .link buttons exist, push create button to the right
+        &:not(:has(> .link)) > .create {
+          margin-inline-start: auto;
         }
 
         button {
@@ -573,19 +744,83 @@
           text-transform: uppercase;
         }
 
-        // UX team proposed to make header actions in mobile view block style,
-        // I think it's taken too much space.
-        // @include media-breakpoint-down(sm) {
-        //   flex-wrap: wrap;
-        //   ng-select,button { flex: 100%; }
-        // }
-
         // sort
         ng-select {
-          // margin: 20px 0;
           .ng-select-container.ng-has-value {
             // align the height of the select with buttons
             max-height: 40px;
+          }
+        }
+
+        // search
+        .search-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          // Push all subsequent items (projected actions + create) to the right
+          margin-inline-end: auto;
+
+          .search-label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+          }
+
+          .search-input {
+            min-width: 200px;
+            width: 200px;
+            height: 40px;
+            max-height: 40px;
+            box-sizing: border-box;
+            padding-inline-end: 36px;
+          }
+
+          .search-btn {
+            position: absolute;
+            inset-inline-end: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cx-icon {
+              font-size: 16px;
+              color: var(--cx-color-secondary);
+            }
+
+            &:hover cx-icon {
+              color: var(--cx-color-primary);
+            }
+          }
+
+          .search-clear {
+            position: absolute;
+            inset-inline-end: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cx-icon {
+              font-size: 14px;
+              color: var(--cx-color-secondary);
+            }
+
+            &:hover cx-icon {
+              color: var(--cx-color-primary);
+            }
           }
         }
       }

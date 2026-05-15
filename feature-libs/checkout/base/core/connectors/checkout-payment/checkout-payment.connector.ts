@@ -29,6 +29,13 @@ export class CheckoutPaymentConnector {
     return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
   }
 
+  public deletePaymentDetails(
+    userId: string,
+    cartId: string
+  ): Observable<unknown> {
+    return this.adapter.deletePaymentDetails(userId, cartId);
+  }
+
   getPaymentCardTypes(): Observable<CardType[]> {
     return this.adapter.getPaymentCardTypes();
   }

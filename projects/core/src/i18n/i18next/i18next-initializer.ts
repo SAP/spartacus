@@ -55,6 +55,9 @@ export class I18nextInitializer implements OnDestroy {
         escapeValue: false,
         skipOnVariables: false,
       },
+
+      // @ts-ignore -- In CXSPA-12377 we'll remove this @ts-ignore, after we upgrade to the latest i18next version
+      showSupportNotice: false,
     };
 
     if (this.config.i18n?.backend) {

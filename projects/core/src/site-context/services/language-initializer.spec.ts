@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { FederatedLoginService } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -19,6 +20,11 @@ class MockLanguageService implements Partial<LanguageService> {
     return false;
   }
   setActive = createSpy().and.stub();
+}
+
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  language: string | undefined = undefined;
+  enabled = false;
 }
 
 class MockLanguageStatePersistenceService
@@ -43,6 +49,7 @@ describe('LanguageInitializer', () => {
   let initializer: LanguageInitializer;
   let languageService: LanguageService;
   let languageStatePersistenceService: LanguageStatePersistenceService;
+  let federatedLoginService: MockFederatedLoginService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -61,6 +68,7 @@ describe('LanguageInitializer', () => {
           provide: SiteContextRoutesHandler,
           useClass: MockSiteContextRoutesHandler,
         },
+        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
       ],
     });
 
@@ -68,6 +76,9 @@ describe('LanguageInitializer', () => {
       LanguageStatePersistenceService
     );
     languageService = TestBed.inject(LanguageService);
+    federatedLoginService = TestBed.inject(
+      FederatedLoginService
+    ) as MockFederatedLoginService;
     initializer = TestBed.inject(LanguageInitializer);
   });
 
@@ -93,6 +104,29 @@ describe('LanguageInitializer', () => {
       spyOn(languageService, 'isInitialized').and.returnValue(true);
       await initializer.initialize();
       expect(languageService.setActive).not.toHaveBeenCalled();
+    });
+
+    describe('when federated login is enabled', () => {
+      beforeEach(() => {
+        federatedLoginService.enabled = true;
+      });
+
+      it('should set the language from federated login context', async () => {
+        federatedLoginService.language = 'de';
+
+        await initializer.initialize();
+
+        expect(languageService.setActive).toHaveBeenCalledWith('de');
+      });
+
+      it('should not set the language from federated login there is no language context', async () => {
+        federatedLoginService.enabled = true;
+        federatedLoginService.language = undefined;
+
+        await initializer.initialize();
+
+        expect(languageService.setActive).not.toHaveBeenCalledWith(undefined);
+      });
     });
   });
 });
