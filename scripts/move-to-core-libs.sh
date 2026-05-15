@@ -143,8 +143,8 @@ console.log('Remaining workspaces:', pkg.workspaces);
 echo "Step 3 complete."
 
 echo ""
-echo "=== Step 4: npm run config:update ==="
-npm run config:update
+echo "=== Step 4: Regenerate dependencies.json ==="
+npm run generate:deps
 echo "Step 4 complete."
 
 echo ""
