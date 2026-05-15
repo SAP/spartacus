@@ -323,6 +323,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     } else {
       cellphoneControl?.clearValidators();
       districtControl?.clearValidators();
+      this.addressForm.get('region')?.get('isocode')?.reset();
       townControl?.reset();
       districtControl?.reset();
       townControl?.enable();
