@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "0.0.0",
+  "version": "2605.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "workspaces": [
@@ -290,7 +290,7 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
-    "axios": "1.15.0",
+    "axios": "1.15.2",
     "express-rate-limit": "^8.3.0",
     "flatted": "^3.4.2",
     "koa": "^3.1.2",

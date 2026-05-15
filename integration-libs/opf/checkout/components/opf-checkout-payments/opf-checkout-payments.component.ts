@@ -108,6 +108,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   onlyPaymentWrapperMode? = false;
 
   @Input()
+  showBeforePaymentOptionsOutlet? = true;
+
+  @Input()
   customPaymentTemplate?: TemplateRef<any>;
 
   @Input()
@@ -264,10 +267,15 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             (state.termsAndConditionsChecked ||
               !this.explicitTermsAndConditions)
           ) {
-            isPreselected = true;
-            this.selectedPaymentId =
+            const resolvedId =
               state.selectedPaymentOptionId ??
               state.defaultSelectedPaymentOptionId;
+
+            if (resolvedId !== undefined) {
+              isPreselected = true;
+            }
+
+            this.selectedPaymentId = resolvedId;
             this.opfMetadataStoreService.updateOpfMetadata({
               selectedPaymentOptionId: this.selectedPaymentId,
             });

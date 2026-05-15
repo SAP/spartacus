@@ -26,6 +26,12 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Enables the dedicated B2B register section on the login page,
+   * replacing the CMS-driven paragraph and link.
+   */
+  a11yB2BRegisterComponent?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -42,6 +48,12 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   readMoreDirective?: boolean;
+
+  /**
+   * Introduces the read more directive in product list item summary
+   * Affects: ProductListItemComponent
+   */
+  productListItemSummaryReadMore?: boolean;
 
   /**
    * Introduces characters left for product review form elements.
@@ -76,15 +88,6 @@ export interface FeatureTogglesInterface {
    * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
   a11yPreventWindowsHighContrastOverride?: boolean;
-
-  /**
-   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
-   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
-   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
-   * on demand by clicking on `Show Options` button in case the back-end signals
-   * that domain values are not yet present.
-   */
-  enableReadDomainValuesOnDemand?: boolean;
 
   /**
    * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
@@ -491,21 +494,28 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthHttpHeaderService`
    */
   enableExpiredRefreshTokenHandlers?: boolean;
+
+  /**
+   * When enabled, sytling is changed on navigation header and menu to be more cohesive.
+   */
+  alignNavigationMenuWithHeader?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
+  a11yB2BRegisterComponent: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
+  productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
-  enableReadDomainValuesOnDemand: true,
   storeFinderFacadeCleanup: true,
   defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
@@ -523,7 +533,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
-  enablePasswordExpiredErrorTranslation: false,
+  enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,

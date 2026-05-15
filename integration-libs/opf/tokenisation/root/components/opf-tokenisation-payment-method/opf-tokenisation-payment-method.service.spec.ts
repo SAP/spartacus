@@ -83,7 +83,12 @@ describe('OpfTokenisationPaymentMethodService', () => {
     ]);
     savedCardsService = jasmine.createSpyObj(
       'OpfTokenisationSavedCardsService',
-      ['markCardAsSelected']
+      ['markCardAsSelected', 'clearSelectedPaymentMethodId'],
+      {
+        selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
+          undefined
+        ),
+      }
     );
     orderFacade = jasmine.createSpyObj('OrderFacade', [
       'placePaymentAuthorizedOrder',
@@ -310,6 +315,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(
         (service as any).selectedPaymentMethod$.getValue()
       ).toBeUndefined();
+      expect(savedCardsService.clearSelectedPaymentMethodId).toHaveBeenCalled();
     });
 
     it('should not clear selected payment method when staying on saved cards', () => {
@@ -486,6 +492,74 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(card.text).toContain(mockPaymentDetails.cardNumber);
       expect(card.text).toContain('Expires 12/2028');
     });
+
+    it('should not include setAsDefault action for an expired card', () => {
+      const expiredPayment: PaymentDetails = {
+        ...mockPaymentDetails,
+        expiryMonth: '01',
+        expiryYear: '2020',
+        defaultPayment: false,
+      };
+      spyOn(service, 'isCardExpired').and.returnValue(true);
+
+      const card = (service as any).createCard(
+        expiredPayment,
+        {
+          textExpires: 'Expires 01/2020',
+          textUseThisPayment: 'Use this',
+          textSelected: 'Selected',
+          textSetAsDefault: 'Set as default',
+          textDefaultLabelOnCheckout: 'Default',
+        },
+        undefined
+      );
+
+      expect(card.actions?.map((a: any) => a.event)).not.toContain('default');
+    });
+
+    it('should not include useThisCard action for an expired card', () => {
+      const expiredPayment: PaymentDetails = {
+        ...mockPaymentDetails,
+        expiryMonth: '01',
+        expiryYear: '2020',
+        defaultPayment: false,
+      };
+      spyOn(service, 'isCardExpired').and.returnValue(true);
+
+      const card = (service as any).createCard(
+        expiredPayment,
+        {
+          textExpires: 'Expires 01/2020',
+          textUseThisPayment: 'Use this',
+          textSelected: 'Selected',
+          textSetAsDefault: 'Set as default',
+          textDefaultLabelOnCheckout: 'Default',
+        },
+        undefined
+      );
+
+      expect(card.actions?.map((a: any) => a.event)).not.toContain('send');
+    });
+
+    it('should include both actions for a non-expired, non-selected, non-default card', () => {
+      spyOn(service, 'isCardExpired').and.returnValue(false);
+
+      const card = (service as any).createCard(
+        { ...mockPaymentDetails, defaultPayment: false },
+        {
+          textExpires: 'Expires 12/2028',
+          textUseThisPayment: 'Use this',
+          textSelected: 'Selected',
+          textSetAsDefault: 'Set as default',
+          textDefaultLabelOnCheckout: 'Default',
+        },
+        undefined
+      );
+
+      const events = card.actions?.map((a: any) => a.event);
+      expect(events).toContain('default');
+      expect(events).toContain('send');
+    });
   });
 
   describe('selectPaymentMethod()', () => {
@@ -519,12 +593,14 @@ describe('OpfTokenisationPaymentMethodService', () => {
       );
     });
 
-    it('should call markCardAsSelected on savedCardsService', () => {
+    it('should call markCardAsSelected on savedCardsService with payment id', () => {
       checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
 
       service.selectPaymentMethod(mockPaymentDetails);
 
-      expect(savedCardsService.markCardAsSelected).toHaveBeenCalled();
+      expect(savedCardsService.markCardAsSelected).toHaveBeenCalledWith(
+        mockPaymentDetails.id
+      );
     });
 
     it('should call savePaymentMethod with payment details', () => {
