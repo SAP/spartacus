@@ -149,13 +149,18 @@ echo "Step 4 complete."
 
 echo ""
 echo "=== Step 5: npm install ==="
-npm install
+npm run prettier:fix
 echo "Step 5 complete."
 
 echo ""
-echo "=== Step 6: git add ==="
-git add .
+echo "=== Step 6: npm install ==="
+npm install
 echo "Step 6 complete."
+
+echo ""
+echo "=== Step 7: git add ==="
+git add .
+echo "Step 7 complete."
 
 echo ""
 echo "=== All done! ==="
