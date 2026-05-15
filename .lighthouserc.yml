@@ -24,7 +24,6 @@ ci:
       first-contentful-paint:
         - warn
         - minScore: 0.3
-      first-meaningful-paint: 'warn'
       font-display: 'warn'
       image-alt: 'warn'
       image-size-responsive: 'warn'
@@ -38,7 +37,6 @@ ci:
         - warn
         - minScore: 0.14
       maskable-icon: 'warn'
-      max-potential-fid: 'warn'
       meta-description: 'warn'
       modern-image-formats: 'warn'
       non-composited-animations: 'warn'
