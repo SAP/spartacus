@@ -29,7 +29,8 @@
     },
     "cellphone": {
       "label": "携帯電話番号 (オプション)",
-      "placeholder": "例 (###) - ### - ####"
+      "placeholder": "例 (###) - ### - ####",
+      "requiredLabel": "携帯電話番号"
     },
     "saveAsDefault": "デフォルトとして保存",
     "chooseAddress": "住所の選択",

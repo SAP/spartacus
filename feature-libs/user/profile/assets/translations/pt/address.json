@@ -29,7 +29,8 @@
     },
     "cellphone": {
       "label": "Número de celular (opcional)",
-      "placeholder": "por exemplo, (###) - ### - ####"
+      "placeholder": "por exemplo, (###) - ### - ####",
+      "requiredLabel": "Número de celular"
     },
     "saveAsDefault": "Gravar como padrão",
     "chooseAddress": "Escolher endereço",

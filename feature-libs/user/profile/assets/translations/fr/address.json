@@ -29,7 +29,8 @@
     },
     "cellphone": {
       "label": "Numéro de mobile (facultatif)",
-      "placeholder": "par exemple (###) - ### - ####"
+      "placeholder": "par exemple (###) - ### - ####",
+      "requiredLabel": "Numéro de mobile"
     },
     "saveAsDefault": "Sauvegarder par défaut",
     "chooseAddress": "Sélectionner l'adresse",

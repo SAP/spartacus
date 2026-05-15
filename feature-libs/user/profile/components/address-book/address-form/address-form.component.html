@@ -195,6 +195,11 @@
             >
             </ng-select>
             <cx-form-errors
+              [translationParams]="{
+                label: (isChineseAddress
+                  ? ('addressForm.province' | cxTranslate)
+                  : ('addressForm.state' | cxTranslate)),
+              }"
               [control]="addressForm.get('region.isocode')"
             ></cx-form-errors>
           </label>
@@ -347,7 +352,7 @@
         <cx-form-errors
           *ngIf="isChineseAddress"
           [translationParams]="{
-            label: 'addressForm.cellphone.label' | cxTranslate,
+            label: 'addressForm.cellphone.requiredLabel' | cxTranslate,
           }"
           [control]="addressForm.get('cellphone')"
         ></cx-form-errors>

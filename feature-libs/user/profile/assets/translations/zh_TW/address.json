@@ -31,7 +31,8 @@
     },
     "cellphone": {
       "label": "行動電話號碼 (選擇性)",
-      "placeholder": "範例：(###) - ### - ####"
+      "placeholder": "範例：(###) - ### - ####",
+      "requiredLabel": "行動電話號碼"
     },
     "saveAsDefault": "儲存為預設",
     "chooseAddress": "選擇地址",

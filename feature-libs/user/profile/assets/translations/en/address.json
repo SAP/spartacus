@@ -31,7 +31,8 @@
     },
     "cellphone": {
       "label": "Mobile number (optional)",
-      "placeholder": "e.g. (###) - ### - ####"
+      "placeholder": "e.g. (###) - ### - ####",
+      "requiredLabel": "Mobile number"
     },
     "saveAsDefault": "Save as default",
     "chooseAddress": "Choose address",

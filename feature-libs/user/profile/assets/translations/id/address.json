@@ -29,7 +29,8 @@
     },
     "cellphone": {
       "label": "Nomor ponsel (opsional)",
-      "placeholder": "misalnya (+62) - ### - #### - ####"
+      "placeholder": "misalnya (+62) - ### - #### - ####",
+      "requiredLabel": "Nomor ponsel"
     },
     "saveAsDefault": "Simpan sebagai default",
     "chooseAddress": "Pilih alamat",

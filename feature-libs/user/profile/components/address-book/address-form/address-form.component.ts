@@ -182,9 +182,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
+      this.countrySelected(this.addressData.country);
       this.addressForm.patchValue(this.addressData);
 
-      this.countrySelected(this.addressData.country);
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
@@ -224,11 +224,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           switchMap((cityIsocode) => {
             if (!this.isChineseAddress) {
               return of([]);
-            }
-            if (cityIsocode) {
-              this.addressForm.get('district')?.enable();
-            } else {
-              this.addressForm.get('district')?.disable();
             }
             return this.userAddressService.getDistricts(cityIsocode);
           })
@@ -314,7 +309,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.isChineseAddress) {
       cellphoneControl?.setValidators([Validators.required]);
       districtControl?.setValidators([Validators.required]);
-      districtControl?.disable();
       this.addressForm.get('region')?.get('isocode')?.reset();
       this.selectedRegion$.next('');
       this.selectedCity$.next('');

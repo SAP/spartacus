@@ -31,7 +31,8 @@
     },
     "cellphone": {
       "label": "手机号码",
-      "placeholder": "例如 (###) - ### - ####"
+      "placeholder": "例如 (###) - ### - ####",
+      "requiredLabel": "手机号码"
     },
     "saveAsDefault": "另存为默认值",
     "chooseAddress": "选择地址",
