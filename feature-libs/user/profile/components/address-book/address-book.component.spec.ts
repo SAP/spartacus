@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -55,6 +55,10 @@ const mockUser: User = {
 };
 
 const isLoading = new BehaviorSubject<boolean>(false);
+const addSuccess$ = new Subject<void>();
+const addFail$ = new Subject<void>();
+const updateSuccess$ = new Subject<void>();
+const updateFail$ = new Subject<void>();
 
 class MockComponentService {
   loadAddresses = jasmine.createSpy();
@@ -70,6 +74,18 @@ class MockComponentService {
   }
   getUserId(): Observable<string> {
     return of(mockUser.uid || '');
+  }
+  getAddUserAddressSuccess(): Observable<void> {
+    return addSuccess$.asObservable();
+  }
+  getAddUserAddressFail(): Observable<void> {
+    return addFail$.asObservable();
+  }
+  getUpdateUserAddressSuccess(): Observable<void> {
+    return updateSuccess$.asObservable();
+  }
+  getUpdateUserAddressFail(): Observable<void> {
+    return updateFail$.asObservable();
   }
 }
 
@@ -271,6 +287,48 @@ describe('AddressBookComponent', () => {
     expect(
       addressBookComponentService.updateUserAddress
     ).not.toHaveBeenCalled();
+    expect(component.showEditAddressForm).toBeFalsy();
+  });
+
+  describe('addAddressSubmit', () => {
+    it('should close the form when addUserAddress succeeds', () => {
+      component.showAddAddressForm = true;
+      component.addAddressSubmit(mockAddress);
+      addSuccess$.next();
+      expect(component.showAddAddressForm).toBeFalsy();
+    });
+
+    it('should keep the form open when addUserAddress fails', () => {
+      component.showAddAddressForm = true;
+      component.addAddressSubmit(mockAddress);
+      addFail$.next();
+      expect(component.showAddAddressForm).toBe(true);
+    });
+
+    it('should close the form immediately when address is undefined', () => {
+      component.showAddAddressForm = true;
+      component.addAddressSubmit(undefined as any);
+      expect(component.showAddAddressForm).toBeFalsy();
+      expect(addressBookComponentService.addUserAddress).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('editAddressSubmit', () => {
+    it('should close the form when updateUserAddress succeeds', () => {
+      component.currentAddress = mockAddress;
+      component.showEditAddressForm = true;
+      component.editAddressSubmit(mockAddress);
+      updateSuccess$.next();
+      expect(component.showEditAddressForm).toBeFalsy();
+    });
+
+    it('should keep the form open when updateUserAddress fails', () => {
+      component.currentAddress = mockAddress;
+      component.showEditAddressForm = true;
+      component.editAddressSubmit(mockAddress);
+      updateFail$.next();
+      expect(component.showEditAddressForm).toBe(true);
+    });
   });
 
   describe('getCardContent', () => {
@@ -283,7 +341,7 @@ describe('AddressBookComponent', () => {
       };
       let card: any;
       component.getCardContent(addressWithNames).subscribe((c) => (card = c));
-      expect(card.text.some((t: string) => t.includes('Beijing'))).toBeTrue();
+      expect(card.text.some((t: string) => t.includes('Beijing'))).toBe(true);
     });
   });
 

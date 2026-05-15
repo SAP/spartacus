@@ -20,8 +20,8 @@ import {
   getAddressNumbers,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, skip } from 'rxjs/operators';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
+import { map, skip, take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormComponent } from './address-form/address-form.component';
 
@@ -86,8 +86,23 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   addAddressSubmit(address: Address): void {
-    this.showAddAddressForm = false;
+    if (!address) {
+      this.showAddAddressForm = false;
+      return;
+    }
     this.service.addUserAddress(address);
+    this.subscription.add(
+      merge(
+        this.service.getAddUserAddressSuccess().pipe(map(() => true)),
+        this.service.getAddUserAddressFail().pipe(map(() => false))
+      )
+        .pipe(take(1))
+        .subscribe((success) => {
+          if (success) {
+            this.showAddAddressForm = false;
+          }
+        })
+    );
   }
 
   addAddressCancel(): void {
@@ -95,9 +110,24 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   editAddressSubmit(address: Address): void {
-    this.showEditAddressForm = false;
-    if (address && this.currentAddress['id']) {
+    if (!address) {
+      this.showEditAddressForm = false;
+      return;
+    }
+    if (this.currentAddress['id']) {
       this.service.updateUserAddress(this.currentAddress['id'], address);
+      this.subscription.add(
+        merge(
+          this.service.getUpdateUserAddressSuccess().pipe(map(() => true)),
+          this.service.getUpdateUserAddressFail().pipe(map(() => false))
+        )
+          .pipe(take(1))
+          .subscribe((success) => {
+            if (success) {
+              this.showEditAddressForm = false;
+            }
+          })
+      );
     }
   }
 

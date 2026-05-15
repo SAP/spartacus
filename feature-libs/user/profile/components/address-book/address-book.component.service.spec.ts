@@ -1,6 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, User, UserAddressService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { provideMockActions } from '@ngrx/effects/testing';
+import {
+  Address,
+  User,
+  UserActions,
+  UserAddressService,
+} from '@spartacus/core';
+import { Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 
@@ -42,8 +48,10 @@ class MockUserAddressService {
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
+  let actions$: Subject<any>;
 
   beforeEach(() => {
+    actions$ = new Subject();
     TestBed.configureTestingModule({
       providers: [
         AddressBookComponentService,
@@ -51,6 +59,7 @@ describe('AddressBookComponentService', () => {
           provide: UserAddressService,
           useClass: MockUserAddressService,
         },
+        provideMockActions(() => actions$),
       ],
     });
 
@@ -112,5 +121,57 @@ describe('AddressBookComponentService', () => {
     expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith(
       'addressId'
     );
+  });
+
+  describe('action observables', () => {
+    it('should getAddUserAddressSuccess() emit on ADD_USER_ADDRESS_SUCCESS', (done) => {
+      service
+        .getAddUserAddressSuccess()
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeUndefined();
+          done();
+        });
+      actions$.next(new UserActions.AddUserAddressSuccess({}));
+    });
+
+    it('should getAddUserAddressFail() emit on ADD_USER_ADDRESS_FAIL', (done) => {
+      service
+        .getAddUserAddressFail()
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeUndefined();
+          done();
+        });
+      actions$.next(new UserActions.AddUserAddressFail({}));
+    });
+
+    it('should getUpdateUserAddressSuccess() emit on UPDATE_USER_ADDRESS_SUCCESS', (done) => {
+      service
+        .getUpdateUserAddressSuccess()
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeUndefined();
+          done();
+        });
+      actions$.next(
+        new UserActions.UpdateUserAddressSuccess({
+          userId: '1',
+          addressId: '1',
+          address: {},
+        })
+      );
+    });
+
+    it('should getUpdateUserAddressFail() emit on UPDATE_USER_ADDRESS_FAIL', (done) => {
+      service
+        .getUpdateUserAddressFail()
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBeUndefined();
+          done();
+        });
+      actions$.next(new UserActions.UpdateUserAddressFail({}));
+    });
   });
 });
