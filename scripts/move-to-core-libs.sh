@@ -71,8 +71,9 @@ for mapping in "${MAPPINGS[@]}"; do
     -print0 2>/dev/null | \
     xargs -0 grep -rl --binary-files=without-match "$old" 2>/dev/null | \
     while IFS= read -r file; do
-      # Replace only when followed by / " ' ) , : space or end-of-line
-      sed -i '' -E "s|${old}([/\"'),:[:space:]])|${new}\1|g; s|${old}$|${new}|g" "$file"
+      # Replace only when NOT followed by a word character (letter, digit) or hyphen
+      # This prevents e.g. projects/schematics from matching projects/schematics-test
+      sed -i '' -E "s|${old}([^a-zA-Z0-9_-])|${new}\1|g; s|${old}$|${new}|g" "$file"
     done
   echo "  Done with '$old'."
 done
