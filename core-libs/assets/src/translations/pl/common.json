@@ -147,7 +147,8 @@
         "uid": "UID jest nieprawidłowy.",
         "code": "Kod jest nieprawidłowy.",
         "email": "Adres e-mail jest nieprawidłowy.",
-        "loginId": "Adres e-mail jest nieprawidłowy."
+        "loginId": "Adres e-mail jest nieprawidłowy.",
+        "cellphone": "Wprowadzony numer telefonu komórkowego jest nieprawidłowy."
       }
     },
     "cartNotFound": "Koszyk nie odnaleziony.",

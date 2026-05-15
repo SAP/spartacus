@@ -147,7 +147,8 @@
         "uid": "L'UID n'est pas valide.",
         "code": "Le code n'est pas valide.",
         "email": "L'e-mail n'est pas valide.",
-        "loginId": "L'e-mail n'est pas valide."
+        "loginId": "L'e-mail n'est pas valide.",
+        "cellphone": "Le numéro de téléphone mobile saisi n'est pas valide."
       }
     },
     "cartNotFound": "Panier non trouvé",

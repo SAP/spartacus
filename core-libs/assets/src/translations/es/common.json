@@ -147,7 +147,8 @@
         "uid": "El UID no es válido.",
         "code": "El código no es válido.",
         "email": "El correo electrónico no es válido.",
-        "loginId": "El correo electrónico no es válido."
+        "loginId": "El correo electrónico no es válido.",
+        "cellphone": "El número de teléfono móvil ingresado no es válido."
       }
     },
     "cartNotFound": "No se encontró la cesta.",

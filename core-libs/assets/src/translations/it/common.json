@@ -147,7 +147,8 @@
         "uid": "L'UID non è valido.",
         "code": "Il codice non è valido.",
         "email": "L'e-mail non è valida.",
-        "loginId": "L'e-mail non è valida."
+        "loginId": "L'e-mail non è valida.",
+        "cellphone": "Il numero di cellulare inserito non è valido."
       }
     },
     "cartNotFound": "Carta non trovata.",

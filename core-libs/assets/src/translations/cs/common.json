@@ -147,7 +147,8 @@
         "uid": "UID je neplatné.",
         "code": "Kód je neplatný.",
         "email": "E-mail je neplatný.",
-        "loginId": "E-mail je neplatný."
+        "loginId": "E-mail je neplatný.",
+        "cellphone": "Zadané číslo mobilního telefonu je neplatné."
       }
     },
     "cartNotFound": "Karta nebyla nalezena.",

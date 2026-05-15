@@ -147,7 +147,8 @@
         "uid": "UID 无效。",
         "code": "代码无效。",
         "email": "电子邮件无效。",
-        "loginId": "电子邮件无效。"
+        "loginId": "电子邮件无效。",
+        "cellphone": "输入的手机号码无效。"
       }
     },
     "cartNotFound": "找不到购物车。",

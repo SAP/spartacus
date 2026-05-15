@@ -147,7 +147,8 @@
         "uid": "Az egyedi azonosító nem érvényes.",
         "code": "A kód nem érvényes.",
         "email": "Az e-mail nem érvényes.",
-        "loginId": "Az e-mail nem érvényes."
+        "loginId": "Az e-mail nem érvényes.",
+        "cellphone": "A megadott mobilszám érvénytelen."
       }
     },
     "cartNotFound": "A kosár nem található.",

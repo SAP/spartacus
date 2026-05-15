@@ -147,7 +147,8 @@
         "uid": "UID 無效。",
         "code": "代碼無效。",
         "email": "電子郵件無效。",
-        "loginId": "電子郵件無效。"
+        "loginId": "電子郵件無效。",
+        "cellphone": "輸入的行動電話號碼無效。"
       }
     },
     "cartNotFound": "找不到購物車。",
