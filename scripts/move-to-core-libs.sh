@@ -148,7 +148,7 @@ npm run generate:deps
 echo "Step 4 complete."
 
 echo ""
-echo "=== Step 5: npm install ==="
+echo "=== Step 5: prettier fix ==="
 npm run prettier:fix
 echo "Step 5 complete."
 
