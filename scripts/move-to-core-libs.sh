@@ -36,6 +36,12 @@ for mapping in "${MAPPINGS[@]}"; do
   dest="${mapping##*:}"
   if [[ -d "$src" ]]; then
     mkdir -p "$(dirname "$dest")"
+    # If destination already exists (e.g., build artifacts), remove it first
+    # to prevent mv from nesting source inside destination
+    if [[ -d "$dest" ]]; then
+      echo "WARNING: $dest already exists — removing it before move"
+      rm -rf "$dest"
+    fi
     echo "Moving $src -> $dest"
     if ! mv "$src" "$dest"; then
       echo "ERROR: Failed to move $src -> $dest" >&2
