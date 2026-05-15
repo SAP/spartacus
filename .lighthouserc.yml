@@ -24,7 +24,6 @@ ci:
       first-contentful-paint:
         - warn
         - minScore: 0.3
-      first-meaningful-paint: 'warn'
       font-display: 'warn'
       image-alt: 'warn'
       image-size-responsive: 'warn'
@@ -37,8 +36,8 @@ ci:
       mainthread-work-breakdown:
         - warn
         - minScore: 0.14
-      maskable-icon: 'warn'
-      max-potential-fid: 'warn'
+      document-latency-insight: 'warn'
+      network-dependency-tree-insight: 'warn'
       meta-description: 'warn'
       modern-image-formats: 'warn'
       non-composited-animations: 'warn'
@@ -48,12 +47,9 @@ ci:
         - maxLength: 2
       robots-txt: 'warn'
       server-response-time: 'warn'
-      service-worker: 'warn'
       speed-index:
         - warn
         - minScore: 0.1
-      tap-targets: 'warn'
-      themed-omnibox: 'warn'
       total-byte-weight:
         - warn
         - minScore: 0.55
@@ -66,7 +62,6 @@ ci:
       unused-javascript: 'warn'
       uses-optimized-images: 'warn'
       uses-rel-preconnect: 'warn'
-      uses-webp-images: 'warn'
       valid-source-maps: 'warn'
       uses-text-compression: 'warn'
       inspector-issues: 'warn'
