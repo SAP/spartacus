@@ -97,6 +97,9 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure azure pipeline build packages list"
 
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper || true
+
           RELEASE_PACKAGES=$($RELEASE_PACKAGES_LIST_GENERATOR)
 
           FORMATTED_RELEASE_PACKAGES=""
@@ -155,3 +158,8 @@ jobs:
           git add .
           git commit -m "include remaining pipeline files"
           git push origin "$BRANCH_TO_SYNC"
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper || true

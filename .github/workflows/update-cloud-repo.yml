@@ -181,3 +181,8 @@ jobs:
               "head": "'"$branch_name"'",
               "base": "main"
             }'
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper || true
