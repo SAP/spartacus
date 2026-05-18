@@ -147,8 +147,7 @@
         "uid": "UID ist nicht gültig.",
         "code": "Code ist nicht gültig.",
         "email": "E-Mail ist nicht gültig.",
-        "loginId": "E-Mail ist nicht gültig.",
-        "cellphone": "Die eingegebene Mobiltelefonnummer ist ungültig."
+        "loginId": "E-Mail ist nicht gültig."
       }
     },
     "cartNotFound": "Warenkorb nicht gefunden.",

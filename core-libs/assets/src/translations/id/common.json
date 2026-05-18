@@ -147,8 +147,7 @@
         "uid": "UID tidak valid.",
         "code": "Kode tidak valid.",
         "email": "Email tidak valid.",
-        "loginId": "Email tidak valid.",
-        "cellphone": "Nomor ponsel yang dimasukkan tidak valid."
+        "loginId": "Email tidak valid."
       }
     },
     "cartNotFound": "Keranjang tidak ditemukan.",
