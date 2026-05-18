@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "Numer telefonu komórkowego (opcjonalny)",
-      "placeholder": "np. (###) - ### - ###",
-      "requiredLabel": "Numer telefonu komórkowego"
+      "placeholder": "np. (###) - ### - ###"
     },
     "saveAsDefault": "Zapisz jako domyślny",
     "chooseAddress": "Wybierz adres",

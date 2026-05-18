@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "Número de teléfono móvil (opcional)",
-      "placeholder": "Por ejemplo: (123) - 456 - 7890",
-      "requiredLabel": "Número de teléfono móvil"
+      "placeholder": "Por ejemplo: (123) - 456 - 7890"
     },
     "saveAsDefault": "Guardar como predeterminada",
     "chooseAddress": "Elegir dirección",

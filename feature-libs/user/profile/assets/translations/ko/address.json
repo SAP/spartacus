@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "휴대폰 번호(옵션)",
-      "placeholder": "예: (###) - ### - ####",
-      "requiredLabel": "휴대폰 번호"
+      "placeholder": "예: (###) - ### - ####"
     },
     "saveAsDefault": "기본값으로 저장",
     "chooseAddress": "주소 선택",

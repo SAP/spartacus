@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "Mobilszám (opcionális)",
-      "placeholder": "pl. (###) - ### - ####",
-      "requiredLabel": "Mobilszám"
+      "placeholder": "pl. (###) - ### - ####"
     },
     "saveAsDefault": "Mentés alapértelmezettként",
     "chooseAddress": "Cím kiválasztása",

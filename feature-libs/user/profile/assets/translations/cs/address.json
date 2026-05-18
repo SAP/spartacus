@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "Číslo mobilního telefonu (volitelné)",
-      "placeholder": "např. (###) - ### - ####",
-      "requiredLabel": "Číslo mobilního telefonu"
+      "placeholder": "např. (###) - ### - ####"
     },
     "saveAsDefault": "Uložit jako standardní",
     "chooseAddress": "Zvolte adresu",

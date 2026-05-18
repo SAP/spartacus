@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "Numero di cellulare (facoltativo)",
-      "placeholder": "ad es. (###) - ### - ####",
-      "requiredLabel": "Numero di cellulare"
+      "placeholder": "ad es. (###) - ### - ####"
     },
     "saveAsDefault": "Salva come predefinito",
     "chooseAddress": "Scegli indirizzo",

@@ -29,8 +29,7 @@
     },
     "cellphone": {
       "label": "मोबाइल नंबर (वैकल्पिक)",
-      "placeholder": "उदाहरण (###) - ### - ####",
-      "requiredLabel": "मोबाइल नंबर"
+      "placeholder": "उदाहरण (###) - ### - ####"
     },
     "saveAsDefault": "डिफ़ॉल्ट के रूप में सहेजें",
     "chooseAddress": "पता चुनें",
