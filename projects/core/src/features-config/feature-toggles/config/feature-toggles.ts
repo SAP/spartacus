@@ -544,7 +544,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
-  opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yFacetFilterByLabel: false,
@@ -569,4 +568,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
 };
