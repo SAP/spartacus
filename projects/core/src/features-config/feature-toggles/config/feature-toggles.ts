@@ -10,14 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * When enabled, `OpfPaymentVerificationComponent` calls
-   * `checkIfProcessingCartIdExist()` only on verification error.
-   *
-   * Legacy behavior called it immediately during init.
-   */
-  opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -507,6 +499,14 @@ export interface FeatureTogglesInterface {
    * When enabled, sytling is changed on navigation header and menu to be more cohesive.
    */
   alignNavigationMenuWithHeader?: boolean;
+
+  /**
+   * When enabled, `OpfPaymentVerificationComponent` calls
+   * `checkIfProcessingCartIdExist()` only on verification error.
+   *
+   * Legacy behavior called it immediately during init.
+   */
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
