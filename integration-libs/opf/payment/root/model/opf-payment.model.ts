@@ -64,6 +64,9 @@ export interface OpfPaymentGlobalMethods {
   initiatePayment?(
     configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
   ): Promise<OpfPaymentSessionData>;
+  updatePaymentTransaction?(
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Promise<OpfPaymentSessionData>;
   verifyPayment?(
     paymentSessionId: string,
     paymentVerificationPayload: OpfPaymentVerificationPayload
@@ -163,6 +166,18 @@ export interface OpfPaymentAfterRedirectScriptResponse {
 export interface OpfPaymentInitiationConfig {
   otpKey?: string;
   config?: OpfPaymentConfig;
+}
+
+export interface OpfPaymentUpdateConfig {
+  paymentSessionId: string;
+  otpKey?: string;
+  config?: OpfPaymentUpdatePayload;
+}
+
+export interface OpfPaymentUpdatePayload {
+  channel?: string;
+  browserInfo?: OpfPaymentBrowserInfo;
+  additionalData?: Array<OpfKeyValueMap>;
 }
 
 export interface OpfPaymentConfig {
