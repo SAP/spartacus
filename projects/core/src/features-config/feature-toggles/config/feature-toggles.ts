@@ -499,6 +499,14 @@ export interface FeatureTogglesInterface {
    * When enabled, sytling is changed on navigation header and menu to be more cohesive.
    */
   alignNavigationMenuWithHeader?: boolean;
+
+  /**
+   * When enabled, `OpfPaymentVerificationComponent` calls
+   * `checkIfProcessingCartIdExist()` only on verification error.
+   *
+   * Legacy behavior called it immediately during init.
+   */
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -560,4 +568,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
 };
