@@ -86,13 +86,13 @@ describe('OpfPaymentVerificationComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call checkIfProcessingCartIdExist', () => {
+    it('should not call checkIfProcessingCartIdExist on init success path', () => {
       opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
 
       component.ngOnInit();
       expect(
         opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
-      ).toHaveBeenCalled();
+      ).not.toHaveBeenCalled();
     });
 
     it('should handle success scenario', () => {
@@ -149,6 +149,9 @@ describe('OpfPaymentVerificationComponent', () => {
 
       component.ngOnInit();
 
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalled();
       expect(component.onError).toHaveBeenCalledWith(mockError);
     });
 

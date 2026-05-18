@@ -39,8 +39,6 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breakOutOfIframeIfNeeded();
 
-    this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
-
     this.subscription = this.opfPaymentVerificationService
       .verifyResultUrl(this.route)
       .pipe(
@@ -60,7 +58,10 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe({
-        error: (error: HttpErrorModel | undefined) => this.onError(error),
+        error: (error: HttpErrorModel | undefined) => {
+          this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
+          this.onError(error);
+        },
         next: (success: boolean) => {
           if (!success) {
             this.onError(undefined);
