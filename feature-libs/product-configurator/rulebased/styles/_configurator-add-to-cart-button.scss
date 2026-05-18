@@ -1,3 +1,7 @@
+// Approximate height of the fixed cx-configurator-add-to-cart-button bar.
+// Used as scroll-padding so keyboard-focused elements are not obscured by it.
+$cx-configurator-add-to-cart-button-offset: 6.25rem !default; // ~100px
+
 %cx-configurator-add-to-cart-button {
   position: fixed;
   z-index: calc(var(--cx-popover-z-index) + 10);
@@ -66,4 +70,11 @@
       }
     }
   }
+}
+
+// Reserve space at the bottom of the scroll container so that elements which
+// receive keyboard focus are not visually obscured by the
+// fixed cx-configurator-add-to-cart-button bar when scrolled into view.
+html:has(cx-configurator-add-to-cart-button) {
+  scroll-padding-bottom: $cx-configurator-add-to-cart-button-offset;
 }
