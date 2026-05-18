@@ -21,7 +21,14 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, filter, pairwise, skip, switchMap, take } from 'rxjs/operators';
+import {
+  map,
+  filter,
+  pairwise,
+  skip,
+  withLatestFrom,
+  take,
+} from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormComponent } from './address-form/address-form.component';
 
@@ -98,9 +105,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           pairwise(),
           filter(([prev, curr]) => prev === true && curr === false),
           take(1),
-          switchMap(() => this.service.getAddressesError().pipe(take(1)))
+          withLatestFrom(this.service.getAddressesError())
         )
-        .subscribe((hasError) => {
+        .subscribe(([_, hasError]) => {
           if (!hasError) {
             this.showAddAddressForm = false;
           }
@@ -126,9 +133,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             pairwise(),
             filter(([prev, curr]) => prev === true && curr === false),
             take(1),
-            switchMap(() => this.service.getAddressesError().pipe(take(1)))
+            withLatestFrom(this.service.getAddressesError())
           )
-          .subscribe((hasError) => {
+          .subscribe(([_, hasError]) => {
             if (!hasError) {
               this.showEditAddressForm = false;
             }
