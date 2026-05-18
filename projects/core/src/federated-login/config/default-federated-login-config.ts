@@ -10,7 +10,7 @@ export function defaultFederatedLoginConfigFactory(): FederatedLoginConfig {
   return {
     federatedLogin: {
       enabled: false,
-      contextParameterName: 'context',
+      contextParameterName: 'ctx',
       loginHosts: [],
       originMap: {},
     },

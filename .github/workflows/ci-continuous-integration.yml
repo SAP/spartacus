@@ -107,8 +107,10 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Run peerDependencies check
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
-          bash ci-scripts/check-peer-deps.sh ${{ github.event.pull_request.base.ref }}
+          bash ci-scripts/check-peer-deps.sh "$BASE_REF"
       - name: Collect peer dependency changes
         id: collect-peer-deps
         run: |
