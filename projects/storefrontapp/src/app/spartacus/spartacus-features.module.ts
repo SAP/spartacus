@@ -334,7 +334,7 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
-        searchBoxRecentSearchesRemoval: false,
+        searchBoxRecentSearchesRemoval: true,
         // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
         enableB2BUnitSearch: false,
         // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
