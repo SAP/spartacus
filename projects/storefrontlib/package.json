@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "221121.10.0",
+  "version": "221121.11.0",
   "keywords": [
     "spartacus",
     "storefront",
@@ -24,7 +24,7 @@
     "@ngrx/router-store": "^21.0.1",
     "@ngrx/store": "^21.0.1",
     "@spartacus/cart": "2211.31.1",
-    "@spartacus/core": "221121.10.0",
+    "@spartacus/core": "221121.11.0",
     "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "^7.8.0"
   },
