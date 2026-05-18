@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "0.0.0",
+  "version": "2605.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "workspaces": [
@@ -249,6 +249,7 @@
     "fs-extra": "^11.3.1",
     "glob": "^11.1.0",
     "http-proxy": "^1.18.1",
+    "@lhci/cli": "^0.15.1",
     "http-server": "^14.1.1",
     "i18n-lint": "^1.1.0",
     "jasmine-core": "~5.13.0",
