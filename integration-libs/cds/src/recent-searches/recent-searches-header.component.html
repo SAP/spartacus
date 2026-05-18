@@ -1,7 +1,7 @@
 <ng-container *ngIf="context$ | async as ctx">
   <h3 class="recentSearches-header">
     <div>
-      {{ 'searchBox.recentSearches' | cxTranslate }}
+      {{ 'cdsRecentSearches.header' | cxTranslate }}
     </div>
     <button
       *cxFeature="'searchBoxRecentSearchesRemoval'"
@@ -9,7 +9,7 @@
       (click)="ctx.clearRecentSearches?.($event)"
       (keydown.arrowdown)="ctx.focusPreviousGroup?.($any($event))"
     >
-      {{ 'common.clear' | cxTranslate }}
+      {{ 'cdsRecentSearches.clear' | cxTranslate }}
     </button>
   </h3>
 </ng-container>

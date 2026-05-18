@@ -2,7 +2,7 @@
   <ng-container *ngIf="results?.length">
     <div class="recent-searches">
       <h3>
-        {{ 'searchBox.recentSearches' | cxTranslate }}
+        {{ 'cdsRecentSearches.header' | cxTranslate }}
       </h3>
       <button
         *cxFeature="'searchBoxRecentSearchesRemoval'"
@@ -10,7 +10,7 @@
         (mousedown)="$event.stopPropagation()"
         class="recent-searches-btn btn btn-tertiary"
       >
-        {{ 'common.clear' | cxTranslate }}
+        {{ 'cdsRecentSearches.clear' | cxTranslate }}
       </button>
       <ul
         tabindex="0"

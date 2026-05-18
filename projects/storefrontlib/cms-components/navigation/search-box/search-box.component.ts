@@ -143,7 +143,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLElement;
     const contains = this.elementRef.nativeElement.contains(target);
 
-    if (this.isClearRecentSearchesButton(target)) {
+    if (
+      this.searchBoxRecentSearchesRemovalEnabled &&
+      this.isClearRecentSearchesButton(target)
+    ) {
       return;
     }
 
@@ -156,7 +159,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Handler for clicks on the results div
    * Closes the search box, but ignores clicks on close buttons
    */
-  handleResultsClick(event: MouseEvent): void {
+  protected handleResultsClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
 
     // Don't close if clicking on a close button in recent-searches
@@ -208,9 +211,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   /**
    * Tracks whether the search box currently has a non-empty query.
-   * Used to decide if results should be rendered at all.
+   * Used with searchBoxRecentSearchesRemoval to decide if results should be rendered.
    */
   protected hasQuery = false;
+
+  /**
+   * Whether the results panel should be visible for the current state.
+   * When searchBoxRecentSearchesRemoval is disabled, matches develop behavior.
+   */
+  isResultsPanelVisible(): boolean {
+    if (!this.searchBoxRecentSearchesRemovalEnabled) {
+      return true;
+    }
+    return this.hasQuery;
+  }
 
   /**
    * Cached flag indicating if the current viewport is mobile (BREAKPOINT.sm and below).
@@ -322,12 +336,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const configSubscription = this.config$.subscribe();
     this.subscriptions.add(configSubscription);
 
-    const isMobile$ = this.isMobile;
-    if (isMobile$) {
-      const isMobileSubscription = isMobile$.subscribe(
-        (isMobile) => (this.isMobileState = isMobile ?? false)
-      );
-      this.subscriptions.add(isMobileSubscription);
+    if (this.searchBoxRecentSearchesRemovalEnabled) {
+      const isMobile$ = this.isMobile;
+      if (isMobile$) {
+        const isMobileSubscription = isMobile$.subscribe(
+          (isMobile) => (this.isMobileState = isMobile ?? false)
+        );
+        this.subscriptions.add(isMobileSubscription);
+      }
     }
 
     const routeStateSubscription = this.routingService
@@ -377,20 +393,25 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the searchBox and opens the search result page.
    */
   search(query: string): void {
-    const trimmedQuery = query?.trim() ?? '';
+    if (this.searchBoxRecentSearchesRemovalEnabled) {
+      const trimmedQuery = query?.trim() ?? '';
 
-    // When query is empty, clear results and close the panel
-    if (!trimmedQuery) {
-      this.hasQuery = false;
-      this.searchBoxComponentService.clearResults();
-      this.close(true);
+      if (!trimmedQuery) {
+        this.hasQuery = false;
+        this.searchBoxComponentService.clearResults();
+        this.close(true);
+        return;
+      }
+
+      this.hasQuery = true;
+      this.searchBoxComponentService.search(trimmedQuery, this.config);
+      this.checkOuterResults();
+      this.open();
       return;
     }
 
-    this.hasQuery = true;
-    this.searchBoxComponentService.search(trimmedQuery, this.config);
+    this.searchBoxComponentService.search(query, this.config);
     this.checkOuterResults();
-    // force the searchBox to open
     this.open();
   }
 
@@ -399,14 +420,15 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     if (!this.searchBoxActive) {
-      const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
-      const trimmed = inputValue.trim();
-      const isMobile = this.isMobileState;
+      if (this.searchBoxRecentSearchesRemovalEnabled) {
+        const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
+        const trimmed = inputValue.trim();
 
-      // On desktop, do not open results when there is no query.
-      // On mobile, always allow opening to show the panel.
-      if (isMobile === false && !trimmed) {
-        return;
+        // On desktop, do not open results when there is no query.
+        // On mobile, always allow opening to show the panel.
+        if (this.isMobileState === false && !trimmed) {
+          return;
+        }
       }
 
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
@@ -434,10 +456,34 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Blur handler for the search input and suggestion links.
+   * Uses feature-specific logic when searchBoxRecentSearchesRemoval is enabled.
+   */
+  onSearchBlur(event: FocusEvent): void {
+    if (this.searchBoxRecentSearchesRemovalEnabled) {
+      this.handleInputBlur(event);
+    } else {
+      this.close();
+    }
+  }
+
+  /**
+   * Click handler for the results panel.
+   * Uses feature-specific logic when searchBoxRecentSearchesRemoval is enabled.
+   */
+  onResultsPanelClick(event: MouseEvent): void {
+    if (this.searchBoxRecentSearchesRemovalEnabled) {
+      this.handleResultsClick(event);
+    } else {
+      this.close(true);
+    }
+  }
+
+  /**
    * Handles blur event on the search input
    * Prevents closing if the blur is caused by clicking the clear recent searches button
    */
-  handleInputBlur(event: FocusEvent): void {
+  protected handleInputBlur(event: FocusEvent): void {
     const relatedTarget = event.relatedTarget as HTMLElement;
     const activeElement = this.winRef.document.activeElement as HTMLElement;
 
@@ -515,9 +561,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   // Return result list as HTMLElement array
   protected getResultElements(): HTMLElement[] {
+    const recentSearchesSelector = this.searchBoxRecentSearchesRemovalEnabled
+      ? '.recent-searches ul > li a, .recent-searches ul > li button.close'
+      : '.recent-searches ul > li a';
+
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a, .recent-searches ul > li button.close, .trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
+        `.products ul:not(.hidden) > li a, .suggestions ul  > li a, ${recentSearchesSelector}, .trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])`
       )
     );
   }
@@ -547,7 +597,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     groups.push(
       Array.from(
         this.winRef.document.querySelectorAll(
-          '.recent-searches ul > li a, .recent-searches ul > li button.close'
+          this.searchBoxRecentSearchesRemovalEnabled
+            ? '.recent-searches ul > li a, .recent-searches ul > li button.close'
+            : '.recent-searches ul > li a'
         )
       )
     );
@@ -591,6 +643,34 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   protected propagateEvent(event: KeyboardEvent) {
+    if (!this.searchBoxRecentSearchesRemovalEnabled) {
+      if (event.code) {
+        switch (event.code) {
+          case 'Escape':
+          case 'Enter':
+            this.close(true);
+            return;
+          case 'ArrowUp':
+            this.focusPreviousChild(event);
+            return;
+          case 'ArrowDown':
+            this.focusNextChild(event);
+            return;
+          case 'ArrowLeft':
+            this.focusPreviousGroup(event);
+            return;
+          case 'ArrowRight':
+            this.focusNextGroup(event);
+            return;
+          default:
+            return;
+        }
+      } else if (event.type === 'blur') {
+        this.close();
+      }
+      return;
+    }
+
     if (event.type === 'blur') {
       this.close();
       return;
@@ -851,7 +931,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   clear(el: HTMLInputElement): void {
     this.disableClose();
     el.value = '';
-    this.hasQuery = false;
+    if (this.searchBoxRecentSearchesRemovalEnabled) {
+      this.hasQuery = false;
+    }
     this.searchBoxComponentService.clearResults();
 
     // Use Timeout to run after blur event to prevent the searchbox from closing on mobile

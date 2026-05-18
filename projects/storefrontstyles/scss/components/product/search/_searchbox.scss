@@ -379,10 +379,8 @@
   .search-panel-close-btn {
     display: none;
   }
-  @include forFeature('searchBoxRecentSearchesRemoval') {
-    .recent-searches-btn {
-      display: none;
-    }
+  .recent-searches-btn {
+    display: none;
   }
   &.search-box-v2 {
     input {
@@ -409,16 +407,14 @@
         top: 20px;
       }
     }
-    @include forFeature('searchBoxRecentSearchesRemoval') {
-      .recent-searches-btn {
-        position: absolute;
-        padding: 0;
-        min-height: 21px;
-        @include media-breakpoint-down(sm) {
-          display: block;
-          right: 0;
-          top: 0;
-        }
+    .recent-searches-btn {
+      position: absolute;
+      padding: 0;
+      min-height: 21px;
+      @include media-breakpoint-down(sm) {
+        display: block;
+        right: 0;
+        top: 0;
       }
     }
     position: unset;
