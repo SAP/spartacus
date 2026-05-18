@@ -34,18 +34,17 @@ export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
  * Clicks on 'Proceed to Checkout' in the cart
  */
 export function clickOnProceedToCheckoutBtnInCart(): void {
-  const paymentTypeAlias = waitForPage('/checkout/payment-type', 'paymentType');
   cy.findByText(/proceed to checkout/i)
     .click()
     .then(() => {
-      cy.wait(`@${paymentTypeAlias}`);
+      cy.location('pathname').should('contain', '/checkout/payment-type');
       cy.get('.cx-payment-type-container').should('contain', 'Payment method');
       cy.get('cx-payment-type').should('be.visible');
     });
 }
 
 /**
- * Selects the order by the oder number alias.
+ * Selects the order by the order number alias.
  *
  * @param {string} shopName - shop name
  *
