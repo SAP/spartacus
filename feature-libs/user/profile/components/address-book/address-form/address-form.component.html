@@ -340,7 +340,12 @@
     <div class="form-group col-md-6">
       <label>
         <span class="label-content" [class.required]="isChineseAddress"
-          >{{ 'addressForm.cellphone.label' | cxTranslate }}
+          >{{
+            (isChineseAddress
+              ? 'addressForm.cellphone.requiredLabel'
+              : 'addressForm.cellphone.label'
+            ) | cxTranslate
+          }}
           <cx-form-required-asterisks *ngIf="isChineseAddress" />
         </span>
         <input
