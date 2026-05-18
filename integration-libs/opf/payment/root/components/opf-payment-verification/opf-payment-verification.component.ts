@@ -12,7 +12,11 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorModel, WindowRef } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  HttpErrorModel,
+  WindowRef,
+} from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -32,12 +36,21 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   );
   protected vcr = inject(ViewContainerRef);
   protected winRef = inject(WindowRef);
+  private featureConfigService = inject(FeatureConfigService);
 
   protected subscription?: Subscription;
   protected isHostedFieldPattern = false;
 
   ngOnInit(): void {
     this.breakOutOfIframeIfNeeded();
+
+    const checkProcessingCartOnErrorOnly = this.featureConfigService.isEnabled(
+      'opfPaymentVerificationCheckProcessingCartOnErrorOnly'
+    );
+
+    if (!checkProcessingCartOnErrorOnly) {
+      this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
+    }
 
     this.subscription = this.opfPaymentVerificationService
       .verifyResultUrl(this.route)
@@ -59,7 +72,9 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         error: (error: HttpErrorModel | undefined) => {
-          this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
+          if (checkProcessingCartOnErrorOnly) {
+            this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
+          }
           this.onError(error);
         },
         next: (success: boolean) => {

@@ -329,6 +329,8 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: true,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
+        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13313
+        opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
         a11yFacetFilterByLabel: true,

@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
+  FeatureConfigService,
   HttpErrorModel,
   MockTranslatePipe,
   TranslatePipe,
@@ -30,6 +31,7 @@ describe('OpfPaymentVerificationComponent', () => {
   let routeMock: jasmine.SpyObj<ActivatedRoute>;
   let opfPaymentVerificationServiceMock: jasmine.SpyObj<OpfPaymentVerificationService>;
   let windowRefMock: jasmine.SpyObj<WindowRef>;
+  let featureConfigServiceMock: jasmine.SpyObj<FeatureConfigService>;
 
   beforeEach(() => {
     routeMock = jasmine.createSpyObj('ActivatedRoute', [], {
@@ -55,6 +57,10 @@ describe('OpfPaymentVerificationComponent', () => {
     windowRefMock = jasmine.createSpyObj('WindowRef', [], {
       nativeWindow: mockNativeWindow,
     });
+    featureConfigServiceMock = jasmine.createSpyObj('FeatureConfigService', [
+      'isEnabled',
+    ]);
+    featureConfigServiceMock.isEnabled.and.returnValue(true);
 
     TestBed.configureTestingModule({
       imports: [OpfPaymentVerificationComponent],
@@ -63,6 +69,10 @@ describe('OpfPaymentVerificationComponent', () => {
         {
           provide: OpfPaymentVerificationService,
           useValue: opfPaymentVerificationServiceMock,
+        },
+        {
+          provide: FeatureConfigService,
+          useValue: featureConfigServiceMock,
         },
         { provide: WindowRef, useValue: windowRefMock },
       ],
@@ -197,6 +207,40 @@ describe('OpfPaymentVerificationComponent', () => {
       expect(
         opfPaymentVerificationServiceMock.runHostedPagePattern
       ).not.toHaveBeenCalled();
+    });
+
+    it('should call checkIfProcessingCartIdExist on init when feature toggle is disabled', () => {
+      featureConfigServiceMock.isEnabled.and.returnValue(false);
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
+
+      component.ngOnInit();
+
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalled();
+    });
+
+    it('should not call checkIfProcessingCartIdExist in error path when feature toggle is disabled', () => {
+      featureConfigServiceMock.isEnabled.and.returnValue(false);
+      const mockError: HttpErrorModel = { status: 500, message: 'Error' };
+      const mockVerifyResult = {
+        paymentSessionId: '1',
+        paramsMap: [],
+        afterRedirectScriptFlag: 'false',
+      };
+
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResult)
+      );
+      opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
+        throwError(() => mockError)
+      );
+
+      component.ngOnInit();
+
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalledTimes(1);
     });
   });
 
