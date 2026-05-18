@@ -33,6 +33,7 @@ export interface SearchBoxOutlet {
 
 const MAX_RECENT_SEARCHES = 5;
 const CLOSE_BUTTON_SELECTOR = 'button.close';
+const CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS = 200;
 
 @Component({
   selector: 'cx-recent-searches',
@@ -173,14 +174,14 @@ export class RecentSearchesComponent implements OnInit {
       // Remove listener after a delay
       setTimeout(() => {
         button.removeEventListener('click', stopClick, true);
-      }, 200);
+      }, CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS);
     }
 
     this.removeFromRecentSearch(phrase);
 
     setTimeout(() => {
       this.enterKeyPressedOnCloseButton = false;
-    }, 200);
+    }, CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS);
   }
 
   handleCloseButtonClick(phrase: string): void {

@@ -644,30 +644,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected propagateEvent(event: KeyboardEvent) {
     if (!this.searchBoxRecentSearchesRemovalEnabled) {
-      if (event.code) {
-        switch (event.code) {
-          case 'Escape':
-          case 'Enter':
-            this.close(true);
-            return;
-          case 'ArrowUp':
-            this.focusPreviousChild(event);
-            return;
-          case 'ArrowDown':
-            this.focusNextChild(event);
-            return;
-          case 'ArrowLeft':
-            this.focusPreviousGroup(event);
-            return;
-          case 'ArrowRight':
-            this.focusNextGroup(event);
-            return;
-          default:
-            return;
-        }
-      } else if (event.type === 'blur') {
-        this.close();
-      }
+      this.propagateEventLegacy(event);
       return;
     }
 
@@ -680,18 +657,39 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.handleKeyboardEvent(event);
+    this.handleKeyboardEvent(event, { skipEnterOnCloseButton: true });
   }
 
-  protected handleKeyboardEvent(event: KeyboardEvent): void {
+  /**
+   * Keyboard/blur handling when searchBoxRecentSearchesRemoval is disabled (develop behavior).
+   */
+  protected propagateEventLegacy(event: KeyboardEvent): void {
+    if (event.code) {
+      this.handleKeyboardEvent(event);
+      return;
+    }
+
+    if (event.type === 'blur') {
+      this.close();
+    }
+  }
+
+  protected handleKeyboardEvent(
+    event: KeyboardEvent,
+    options: { skipEnterOnCloseButton?: boolean } = {}
+  ): void {
     switch (event.code) {
       case 'Escape':
         this.close(true);
         break;
       case 'Enter':
-        if (!this.shouldSkipEnterOnCloseButton(event)) {
-          this.close(true);
+        if (
+          options.skipEnterOnCloseButton &&
+          this.shouldSkipEnterOnCloseButton(event)
+        ) {
+          break;
         }
+        this.close(true);
         break;
       case 'ArrowUp':
         this.focusPreviousChild(event);
