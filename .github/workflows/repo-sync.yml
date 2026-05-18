@@ -97,9 +97,6 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure azure pipeline build packages list"
 
-          rm -f ~/.git-credentials
-          git config --global --unset credential.helper || true
-
           RELEASE_PACKAGES=$($RELEASE_PACKAGES_LIST_GENERATOR)
 
           FORMATTED_RELEASE_PACKAGES=""
