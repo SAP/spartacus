@@ -20,8 +20,8 @@ import {
   getAddressNumbers,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { combineLatest, merge, Observable, Subscription } from 'rxjs';
-import { map, skip, take } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, filter, pairwise, skip, switchMap, take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormComponent } from './address-form/address-form.component';
 
@@ -92,13 +92,16 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     }
     this.service.addUserAddress(address);
     this.subscription.add(
-      merge(
-        this.service.getAddUserAddressSuccess().pipe(map(() => true)),
-        this.service.getAddUserAddressFail().pipe(map(() => false))
-      )
-        .pipe(take(1))
-        .subscribe((success) => {
-          if (success) {
+      this.service
+        .getAddressesStateLoading()
+        .pipe(
+          pairwise(),
+          filter(([prev, curr]) => prev === true && curr === false),
+          take(1),
+          switchMap(() => this.service.getAddressesError().pipe(take(1)))
+        )
+        .subscribe((hasError) => {
+          if (!hasError) {
             this.showAddAddressForm = false;
           }
         })
@@ -117,13 +120,16 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     if (this.currentAddress['id']) {
       this.service.updateUserAddress(this.currentAddress['id'], address);
       this.subscription.add(
-        merge(
-          this.service.getUpdateUserAddressSuccess().pipe(map(() => true)),
-          this.service.getUpdateUserAddressFail().pipe(map(() => false))
-        )
-          .pipe(take(1))
-          .subscribe((success) => {
-            if (success) {
+        this.service
+          .getAddressesStateLoading()
+          .pipe(
+            pairwise(),
+            filter(([prev, curr]) => prev === true && curr === false),
+            take(1),
+            switchMap(() => this.service.getAddressesError().pipe(take(1)))
+          )
+          .subscribe((hasError) => {
+            if (!hasError) {
               this.showEditAddressForm = false;
             }
           })

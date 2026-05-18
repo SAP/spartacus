@@ -25,6 +25,7 @@ import { UserAddressConnector } from '../connectors/address/user-address.connect
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
+import { StateUtils } from '../../state/utils/index';
 
 @Injectable({
   providedIn: 'root',
@@ -134,6 +135,13 @@ export class UserAddressService {
 
   getAddressesLoadedSuccess(): Observable<boolean> {
     return this.store.pipe(select(UsersSelectors.getAddressesLoadedSuccess));
+  }
+
+  getAddressesError(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getAddressesLoaderState),
+      map((state) => StateUtils.loaderErrorSelector(state))
+    );
   }
   /**
    * Retrieves delivery countries

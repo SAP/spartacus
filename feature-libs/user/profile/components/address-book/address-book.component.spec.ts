@@ -55,10 +55,7 @@ const mockUser: User = {
 };
 
 const isLoading = new BehaviorSubject<boolean>(false);
-const addSuccess$ = new Subject<void>();
-const addFail$ = new Subject<void>();
-const updateSuccess$ = new Subject<void>();
-const updateFail$ = new Subject<void>();
+const isError = new BehaviorSubject<boolean>(false);
 
 class MockComponentService {
   loadAddresses = jasmine.createSpy();
@@ -69,23 +66,14 @@ class MockComponentService {
   getAddressesStateLoading(): Observable<boolean> {
     return isLoading.asObservable();
   }
+  getAddressesError(): Observable<boolean> {
+    return isError.asObservable();
+  }
   getAddresses(): Observable<Address[]> {
     return of([mockAddress, mockAddress, mockAddress]);
   }
   getUserId(): Observable<string> {
     return of(mockUser.uid || '');
-  }
-  getAddUserAddressSuccess(): Observable<void> {
-    return addSuccess$.asObservable();
-  }
-  getAddUserAddressFail(): Observable<void> {
-    return addFail$.asObservable();
-  }
-  getUpdateUserAddressSuccess(): Observable<void> {
-    return updateSuccess$.asObservable();
-  }
-  getUpdateUserAddressFail(): Observable<void> {
-    return updateFail$.asObservable();
   }
 }
 
@@ -291,17 +279,25 @@ describe('AddressBookComponent', () => {
   });
 
   describe('addAddressSubmit', () => {
+    beforeEach(() => {
+      isLoading.next(false);
+      isError.next(false);
+    });
+
     it('should close the form when addUserAddress succeeds', () => {
       component.showAddAddressForm = true;
       component.addAddressSubmit(mockAddress);
-      addSuccess$.next();
+      isLoading.next(true);
+      isLoading.next(false);
       expect(component.showAddAddressForm).toBeFalsy();
     });
 
     it('should keep the form open when addUserAddress fails', () => {
       component.showAddAddressForm = true;
       component.addAddressSubmit(mockAddress);
-      addFail$.next();
+      isError.next(true);
+      isLoading.next(true);
+      isLoading.next(false);
       expect(component.showAddAddressForm).toBe(true);
     });
 
@@ -314,11 +310,17 @@ describe('AddressBookComponent', () => {
   });
 
   describe('editAddressSubmit', () => {
+    beforeEach(() => {
+      isLoading.next(false);
+      isError.next(false);
+    });
+
     it('should close the form when updateUserAddress succeeds', () => {
       component.currentAddress = mockAddress;
       component.showEditAddressForm = true;
       component.editAddressSubmit(mockAddress);
-      updateSuccess$.next();
+      isLoading.next(true);
+      isLoading.next(false);
       expect(component.showEditAddressForm).toBeFalsy();
     });
 
@@ -326,7 +328,9 @@ describe('AddressBookComponent', () => {
       component.currentAddress = mockAddress;
       component.showEditAddressForm = true;
       component.editAddressSubmit(mockAddress);
-      updateFail$.next();
+      isError.next(true);
+      isLoading.next(true);
+      isLoading.next(false);
       expect(component.showEditAddressForm).toBe(true);
     });
   });
