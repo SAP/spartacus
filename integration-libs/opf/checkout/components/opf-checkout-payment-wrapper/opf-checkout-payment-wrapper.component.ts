@@ -187,7 +187,10 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {
-          if (this.isHostedFields(paymentSessionData)) {
+          if (
+            !(paymentSessionData instanceof Error) &&
+            paymentSessionData?.paymentSessionId
+          ) {
             this.globalFunctionsService.registerGlobalFunctions({
               domain: OpfGlobalFunctionsDomain.CHECKOUT,
               paymentSessionId: (paymentSessionData as OpfPaymentSessionData)
@@ -208,16 +211,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
           this.isPaymentDataReady = false;
         },
       })
-    );
-  }
-
-  protected isHostedFields(
-    paymentSessionData: OpfPaymentSessionData | Error
-  ): boolean {
-    return !!(
-      !(paymentSessionData instanceof Error) &&
-      paymentSessionData?.paymentSessionId &&
-      paymentSessionData?.pattern === OpfPaymentRenderPattern.HOSTED_FIELDS
     );
   }
 }
