@@ -5,10 +5,6 @@ on:
       version:
         description: 'Enter the version to use'
         required: true
-      npm_token:
-        description: 'Enter your npm token'
-        required: true
-        secret: true
       repo_url:
         description: 'Enter the repository URL (default will be used if empty)'
         required: false
@@ -32,7 +28,9 @@ jobs:
           GH_TEMPORARY_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |
           if [ -z "$INPUT_REPO_URL" ]; then
-            REPO_URL="https://${GH_TEMPORARY_TOKEN}@github.com/SAP-samples/cloud-commerce-sample-setup.git"
+            git config --global credential.helper store
+            printf 'https://oauth2:%s@github.com\n' "${GH_TEMPORARY_TOKEN}" > ~/.git-credentials
+            REPO_URL="https://github.com/SAP-samples/cloud-commerce-sample-setup.git"
           else
             REPO_URL="$INPUT_REPO_URL"
           fi
@@ -47,7 +45,7 @@ jobs:
       - name: Create storefronts
         env:
           INPUT_VERSION: ${{ github.event.inputs.version }}
-          INPUT_NPM_TOKEN: ${{ github.event.inputs.npm_token }}
+          INPUT_NPM_TOKEN: ${{ secrets.SAP_COMMON_NPM_TOKEN }}
         run: |
           function setup_config_dir() {
             [ -d "${CONFIG_DIR}" ]
@@ -183,3 +181,8 @@ jobs:
               "head": "'"$branch_name"'",
               "base": "main"
             }'
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper || true
