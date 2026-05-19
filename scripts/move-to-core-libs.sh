@@ -141,16 +141,16 @@ echo "Step 2c complete."
 
 echo ""
 echo "=== Step 3: Remove old entries from workspaces in package.json ==="
-DEST_PATHS_JSON=$(printf '%s\n' "${MAPPINGS[@]}" | sed 's/.*://' | jq -R . | jq -s .)
+DEST_PATHS=$(printf '%s\n' "${MAPPINGS[@]}" | sed 's/.*://')
 
 node -e "
 const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-const toRemove = new Set(${DEST_PATHS_JSON});
+const toRemove = new Set(process.argv.slice(1));
 pkg.workspaces = pkg.workspaces.filter(w => !toRemove.has(w));
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
 console.log('Remaining workspaces:', pkg.workspaces);
-"
+" $DEST_PATHS
 echo "Step 3 complete."
 
 echo ""
