@@ -49,7 +49,7 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 import { SAVED_CARDS_ID } from '@spartacus/opf/tokenisation/root';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -327,6 +327,65 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     });
     this.emitOutletContext();
     this.paymentChange.emit(payment);
+    this.triggerPaymentTransactionUpdate();
+  }
+
+  protected triggerPaymentTransactionUpdate(): void {
+    this.subscription.add(
+      this.opfMetadataStoreService
+        .getOpfMetadataState()
+        .pipe(take(1))
+        .subscribe((metadata) => {
+          const paymentSessionId = metadata?.opfPaymentSessionId;
+          const updatePaymentTransaction = this.resolveUpdatePaymentFunction();
+
+          if (!paymentSessionId) {
+            return;
+          }
+
+          if (updatePaymentTransaction) {
+            updatePaymentTransaction({ paymentSessionId }).catch(() => {
+              // intentionally swallowed for non-blocking event-driven update
+            });
+            return;
+          }
+
+          this.retryUpdatePaymentTrigger(paymentSessionId);
+        })
+    );
+  }
+
+  protected retryUpdatePaymentTrigger(
+    paymentSessionId: string,
+    attemptsLeft = 10
+  ): void {
+    if (!attemptsLeft) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      const updatePaymentTransaction = this.resolveUpdatePaymentFunction();
+
+      if (!updatePaymentTransaction) {
+        this.retryUpdatePaymentTrigger(paymentSessionId, attemptsLeft - 1);
+        return;
+      }
+
+      updatePaymentTransaction({ paymentSessionId }).catch(() => {
+        // intentionally swallowed for non-blocking event-driven update
+      });
+    }, 250);
+  }
+
+  protected resolveUpdatePaymentFunction():
+    | ((config: { paymentSessionId: string }) => Promise<unknown>)
+    | undefined {
+    const globalFn = (window as any)?.Opf?.payments?.['global']
+      ?.updatePaymentTransaction;
+    const checkoutFn = (window as any)?.Opf?.payments?.['checkout']
+      ?.updatePaymentTransaction;
+
+    return globalFn || checkoutFn;
   }
 
   getPaginationModel(

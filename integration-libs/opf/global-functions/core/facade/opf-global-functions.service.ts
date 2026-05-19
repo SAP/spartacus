@@ -69,6 +69,7 @@ import {
   finalize,
   last,
   map,
+  retry,
   switchMap,
   take,
   skip,
@@ -103,6 +104,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
   protected static readonly PAYMENT_SESSION_ID_REQUIRED_ERROR =
     'paymentSessionId is required';
+  protected static readonly UPDATE_PAYMENT_TRANSACTION_RETRY_COUNT = 2;
+  protected static readonly UPDATE_PAYMENT_TRANSACTION_RETRY_DELAY = 300;
 
   registerGlobalFunctions({
     domain,
@@ -123,6 +126,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerStopLoadIndicator(domain);
         this.registerReinitiatePaymentForm(domain);
         this.registerHandle3DSRedirect(domain, paymentSessionId, vcr);
+        this.registerUpdatePaymentTransaction(domain);
         break;
       case OpfGlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
@@ -171,7 +175,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     const window = this.winRef.nativeWindow as any;
     if (!window.Opf?.payments[domain]) {
       window.Opf = window?.Opf ?? {};
-      window.Opf.payments = {};
+      window.Opf.payments = window.Opf.payments ?? {};
       window.Opf.payments[domain] = {};
     }
     return window.Opf.payments[domain];
@@ -714,11 +718,20 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),
     };
 
-    return this.opfPaymentFacade.updatePaymentTransaction({
-      ...updatePaymentConfig,
-      otpKey: updatePaymentConfig.otpKey ?? otpKey,
-      config: configWithDefaults,
-    });
+    return this.opfPaymentFacade
+      .updatePaymentTransaction({
+        ...updatePaymentConfig,
+        otpKey: updatePaymentConfig.otpKey ?? otpKey,
+        config: configWithDefaults,
+      })
+      .pipe(
+        retry({
+          count:
+            OpfGlobalFunctionsService.UPDATE_PAYMENT_TRANSACTION_RETRY_COUNT,
+          delay:
+            OpfGlobalFunctionsService.UPDATE_PAYMENT_TRANSACTION_RETRY_DELAY,
+        })
+      );
   }
 
   protected registerVerifyPayment(domain: OpfGlobalFunctionsDomain): void {
@@ -746,26 +759,32 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         if (!updatePaymentConfig?.paymentSessionId) {
           return Promise.reject(new Error('paymentSessionId is required'));
         }
-
-        const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
-
-        const userId$ = this.userIdService.getUserId().pipe(take(1));
-
-        return lastValueFrom(
-          combineLatest([userId$, cartId$]).pipe(
-            switchMap(([userId, cartId]) =>
-              this.updatePaymentTransactionWithCart(
-                userId,
-                cartId,
-                updatePaymentConfig
-              )
-            )
-          )
-        ).catch((error) => {
-          throw this.createUpdatePaymentTransactionError(error);
-        });
+        return this.executeUpdatePaymentTransaction(updatePaymentConfig)
+          .then((sessionData) => sessionData)
+          .catch((error) => {
+            throw this.createUpdatePaymentTransactionError(error);
+          });
       });
     };
+  }
+
+  protected executeUpdatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Promise<OpfPaymentSessionData> {
+    const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
+    const userId$ = this.userIdService.getUserId().pipe(take(1));
+
+    return lastValueFrom(
+      combineLatest([userId$, cartId$]).pipe(
+        switchMap(([userId, cartId]) =>
+          this.updatePaymentTransactionWithCart(
+            userId,
+            cartId,
+            updatePaymentConfig
+          )
+        )
+      )
+    );
   }
 
   protected createUpdatePaymentTransactionError(error: unknown): Error {
