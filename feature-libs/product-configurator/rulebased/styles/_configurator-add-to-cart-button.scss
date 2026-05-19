@@ -29,13 +29,13 @@
       inline-size: 40%;
       padding-inline-start: 16px;
 
-      // Below ~400 CSS px the quantity spinner + add-to-cart button no
-      // longer fit alongside each other inside the 40% column, so let the
-      // container fill the available width and drop its inline-start
-      // padding. This moves the quantity spinner to the inline-start edge
-      // and keeps both controls on the same line without producing a
-      // horizontal scrollbar (WCAG 1.4.10 Reflow at 320 CSS px).
-      @media (max-width: 400px) {
+      // Below media-breakpoint "small" (576 CSS px) the quantity spinner and the
+      // add-to-cart button no longer fit alongside each other inside the 40% column,
+      // so let the container fill the available width and drop its inline-start padding.
+      // This moves the quantity spinner to the inline-start edge and keeps both controls 
+      // on the same line without producing a horizontal scrollbar 
+      // (WCAG 1.4.10 Reflow at 320 CSS px).
+      @include media-breakpoint-down(sm) {
         inline-size: 100%;
         padding-inline-start: 0px;
       }
