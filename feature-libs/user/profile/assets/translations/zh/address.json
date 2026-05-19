@@ -19,8 +19,6 @@
       "placeholder": "城市"
     },
     "state": "州/省",
-    "province": "省份",
-    "district": "区/县",
     "zipCode": {
       "label": "邮政编码",
       "placeholder": "邮政编码"
@@ -31,16 +29,13 @@
     },
     "cellphone": {
       "label": "手机号码",
-      "placeholder": "例如 (###) - ### - ####",
-      "requiredLabel": "手机号码"
+      "placeholder": "例如 (###) - ### - ####"
     },
     "saveAsDefault": "另存为默认值",
     "chooseAddress": "选择地址",
     "streetAddress": "街道地址",
     "aptSuite": "公寓号",
     "selectOne": "选择一个...",
-    "selectProvinceFirst": "请先选择省份",
-    "selectCityFirst": "请先选择城市",
     "setAsDefault": "设置默认送货地址",
     "titleRequired": "标题为必填项。",
     "userAddressAddSuccess": "新地址添加成功！",
