@@ -505,7 +505,7 @@ export interface FeatureTogglesInterface {
    * deleting items from the cart (more specifically on the following sequence : logout - log back in - context change)
    */
   enableCartReloadOnContextChange?: boolean;
-  
+
    /* When enabled, `OpfPaymentVerificationComponent` calls
    * `checkIfProcessingCartIdExist()` only on verification error.
    *
@@ -573,6 +573,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
-  enableCartReloadOnContextChange: false
+  enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
 };
