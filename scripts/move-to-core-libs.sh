@@ -5,6 +5,17 @@ ROOT=$(pwd)
 SCRIPT_NAME="scripts/move-to-core-libs.sh"
 
 # ============================================================
+# OS detection — needed for sed -i differences
+# ============================================================
+sed_inplace() {
+  if [[ "${OSTYPE}" == "darwin"* ]]; then
+    sed -i '' "$@"
+  else
+    sed -i "$@"
+  fi
+}
+
+# ============================================================
 # CONFIGURATION - Edit mappings here: "source:destination"
 # If you want to rename a folder, just change the destination:
 #   "projects/storefrontlib:core-libs/storefront"
@@ -79,7 +90,7 @@ for mapping in "${MAPPINGS[@]}"; do
     while IFS= read -r file; do
       # Replace only when NOT followed by a word character (letter, digit) or hyphen
       # This prevents e.g. projects/schematics from matching projects/schematics-test
-      sed -i '' -E "s|${old}([^a-zA-Z0-9_-])|${new}\1|g; s|${old}$|${new}|g" "$file"
+      sed_inplace -E "s|${old}([^a-zA-Z0-9_-])|${new}\1|g; s|${old}$|${new}|g" "$file"
     done
   echo "  Done with '$old'."
 done
@@ -98,7 +109,7 @@ for mapping in "${MAPPINGS[@]}"; do
       -print0 2>/dev/null | \
       xargs -0 grep -rl "\.\./\.*$old_folder" 2>/dev/null | \
       while IFS= read -r file; do
-        sed -i '' "s|\.\./\(\.*/\)*$old_folder|../$new_folder|g" "$file"
+        sed_inplace "s|\.\./\(\.*/\)*$old_folder|../$new_folder|g" "$file"
         echo "  Updated: $file (../$old_folder -> ../$new_folder)"
       done
   fi
@@ -121,7 +132,7 @@ for mapping in "${MAPPINGS[@]}"; do
       -print0 2>/dev/null | \
       xargs -0 grep -rl --binary-files=without-match "dist/$old_folder" 2>/dev/null | \
       while IFS= read -r file; do
-        sed -i '' "s|dist/$old_folder|dist/$new_folder|g" "$file"
+        sed_inplace "s|dist/$old_folder|dist/$new_folder|g" "$file"
         echo "  Updated: $file"
       done
   fi
