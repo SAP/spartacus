@@ -425,14 +425,24 @@ describe('Cart effect', () => {
     siteContextChangeActions.forEach((actionName) => {
       it(`should reload active cart and reset non-active carts on ${actionName}`, () => {
         store.dispatch(
-          new CartActions.SetCartTypeIndex({ cartType: CartType.ACTIVE, cartId })
+          new CartActions.SetCartTypeIndex({
+            cartType: CartType.ACTIVE,
+            cartId,
+          })
         );
-        store.dispatch(new CartActions.SetCartData({ cart: testCart, cartId: nonActiveCartId }));
+        store.dispatch(
+          new CartActions.SetCartData({
+            cart: testCart,
+            cartId: nonActiveCartId,
+          })
+        );
 
         const action = new SiteContextActions[actionName]();
         actions$ = hot('-a', { a: action });
         const expected = cold('-(bc)', {
-          b: new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] }),
+          b: new CartActions.ResetCartDetailsByIds({
+            cartIds: [nonActiveCartId],
+          }),
           c: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
         });
 
@@ -443,7 +453,10 @@ describe('Cart effect', () => {
 
       it(`should only emit LoadCart on ${actionName} when no non-active carts`, () => {
         store.dispatch(
-          new CartActions.SetCartTypeIndex({ cartType: CartType.ACTIVE, cartId })
+          new CartActions.SetCartTypeIndex({
+            cartType: CartType.ACTIVE,
+            cartId,
+          })
         );
 
         const action = new SiteContextActions[actionName]();
@@ -458,12 +471,19 @@ describe('Cart effect', () => {
       });
 
       it(`should only reset non-active carts on ${actionName} when no active cart`, () => {
-        store.dispatch(new CartActions.SetCartData({ cart: testCart, cartId: nonActiveCartId }));
+        store.dispatch(
+          new CartActions.SetCartData({
+            cart: testCart,
+            cartId: nonActiveCartId,
+          })
+        );
 
         const action = new SiteContextActions[actionName]();
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
-          b: new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] }),
+          b: new CartActions.ResetCartDetailsByIds({
+            cartIds: [nonActiveCartId],
+          }),
         });
 
         expect(
