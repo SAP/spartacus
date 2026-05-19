@@ -114,9 +114,7 @@ export class OpfTokenisationAccountPaymentMethodsComponent implements OnInit {
           if (!defaultPayment && !isTokenisationCardExpired(paymentMethod)) {
             actions.push({ name: textSetAsDefault, event: 'default' });
           }
-          if (!defaultPayment || isTokenisationCardExpired(paymentMethod)) {
-            actions.push({ name: textDelete, event: 'delete' });
-          }
+          actions.push({ name: textDelete, event: 'delete' });
           const card: Card = {
             role: 'application',
             header: defaultPayment ? textDefaultPaymentMethod : undefined,

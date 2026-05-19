@@ -20,13 +20,12 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   FeatureConfigService,
   FeatureDirective,
   RoutingService,
   TranslatePipe,
-  UrlPipe,
+  WindowRef,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -38,7 +37,10 @@ import {
 } from '@spartacus/storefront';
 import { VerificationToken } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
-import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
+import {
+  ONE_TIME_PASSWORD_LOGIN_PURPOSE,
+  OTP_LOGIN_STATE_STORAGE_KEY,
+} from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
 @Component({
@@ -55,9 +57,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
     FormErrorsComponent,
     FeatureDirective,
     NgClass,
-    RouterLink,
     AsyncPipe,
-    UrlPipe,
     TranslatePipe,
   ],
 })
@@ -71,6 +71,7 @@ export class VerificationTokenFormComponent implements OnInit {
     inject(LaunchDialogService);
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   protected routingService: RoutingService = inject(RoutingService);
+  protected winRef: WindowRef = inject(WindowRef);
 
   waitTime: number = 60;
 
@@ -210,5 +211,13 @@ export class VerificationTokenFormComponent implements OnInit {
         this.cdr.detectChanges();
       }
     }, 1000);
+  }
+
+  goBack(): void {
+    this.winRef.sessionStorage?.setItem(
+      OTP_LOGIN_STATE_STORAGE_KEY,
+      JSON.stringify({ loginId: this.target })
+    );
+    this.routingService.go({ cxRoute: 'login' });
   }
 }

@@ -26,6 +26,12 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Enables the dedicated B2B register section on the login page,
+   * replacing the CMS-driven paragraph and link.
+   */
+  a11yB2BRegisterComponent?: boolean;
+
+  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
@@ -42,6 +48,12 @@ export interface FeatureTogglesInterface {
    * Affects: ProductReviewsComponent
    */
   readMoreDirective?: boolean;
+
+  /**
+   * Introduces the read more directive in product list item summary
+   * Affects: ProductListItemComponent
+   */
+  productListItemSummaryReadMore?: boolean;
 
   /**
    * Introduces characters left for product review form elements.
@@ -482,17 +494,33 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthHttpHeaderService`
    */
   enableExpiredRefreshTokenHandlers?: boolean;
+
+  /**
+   * When enabled, sytling is changed on navigation header and menu to be more cohesive.
+   */
+  alignNavigationMenuWithHeader?: boolean;
+
+  /**
+   * When enabled, `OpfPaymentVerificationComponent` calls
+   * `checkIfProcessingCartIdExist()` only on verification error.
+   *
+   * Legacy behavior called it immediately during init.
+   */
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
+  alignNavigationMenuWithHeader: false,
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
+  a11yB2BRegisterComponent: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
+  productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
@@ -540,4 +568,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
 };

@@ -83,7 +83,12 @@ describe('OpfTokenisationPaymentMethodService', () => {
     ]);
     savedCardsService = jasmine.createSpyObj(
       'OpfTokenisationSavedCardsService',
-      ['markCardAsSelected']
+      ['markCardAsSelected', 'clearSelectedPaymentMethodId'],
+      {
+        selectedPaymentMethodId$: new BehaviorSubject<string | undefined>(
+          undefined
+        ),
+      }
     );
     orderFacade = jasmine.createSpyObj('OrderFacade', [
       'placePaymentAuthorizedOrder',
@@ -310,6 +315,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(
         (service as any).selectedPaymentMethod$.getValue()
       ).toBeUndefined();
+      expect(savedCardsService.clearSelectedPaymentMethodId).toHaveBeenCalled();
     });
 
     it('should not clear selected payment method when staying on saved cards', () => {
@@ -587,12 +593,14 @@ describe('OpfTokenisationPaymentMethodService', () => {
       );
     });
 
-    it('should call markCardAsSelected on savedCardsService', () => {
+    it('should call markCardAsSelected on savedCardsService with payment id', () => {
       checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
 
       service.selectPaymentMethod(mockPaymentDetails);
 
-      expect(savedCardsService.markCardAsSelected).toHaveBeenCalled();
+      expect(savedCardsService.markCardAsSelected).toHaveBeenCalledWith(
+        mockPaymentDetails.id
+      );
     });
 
     it('should call savePaymentMethod with payment details', () => {

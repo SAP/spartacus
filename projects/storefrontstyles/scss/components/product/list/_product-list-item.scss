@@ -17,6 +17,20 @@
     }
   }
 
+  @include forFeature('productListItemSummaryReadMore') {
+    @include media-breakpoint-up(md) {
+      height: auto;
+
+      .cx-product-summary {
+        display: block;
+        -webkit-line-clamp: unset;
+        line-clamp: unset;
+        -webkit-box-orient: unset;
+        overflow: visible;
+      }
+    }
+  }
+
   .cx-product-search-list {
     border-width: 0 0 1px 0;
     border-style: solid;

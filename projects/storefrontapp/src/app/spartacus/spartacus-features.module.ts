@@ -296,14 +296,17 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yStoreFinderLabel: true,
+        a11yB2BRegisterComponent: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
+        productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
@@ -331,9 +334,9 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
-        enableB2BUnitSearch: false,
-        enableB2BCostCenterSearch: false,
-        enableB2BCustomerSearch: false,
+        enableB2BUnitSearch: true,
+        enableB2BCostCenterSearch: true,
+        enableB2BCustomerSearch: true,
         a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
@@ -351,6 +354,7 @@ if (environment.cpq) {
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
         enableExpiredRefreshTokenHandlers: true,
+        opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
       };
       return appFeatureToggles;
     }),
