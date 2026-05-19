@@ -35,7 +35,7 @@ describe(
     });
 
     it('account summaries details / initial panel', () => {
-      const EXPAND_BTN_SELECTOR = '.actions > button:nth-child(1)';
+      const EXPAND_BTN_SELECTOR = '.actions > button:first-of-type';
       cy.get(EXPAND_BTN_SELECTOR).click();
       cy.get('[id="Custom Retail"]').click();
       cy.get(
