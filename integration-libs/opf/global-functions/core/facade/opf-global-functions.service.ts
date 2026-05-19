@@ -48,6 +48,8 @@ import {
   OpfPaymentMethod,
   OpfPaymentSessionData,
   OpfPaymentConfig,
+  OpfPaymentUpdateConfig,
+  OpfPaymentUpdatePayload,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -142,6 +144,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerStopLoadIndicatorGlobal(domain);
         this.registerThrowPaymentErrorGlobal(domain);
         this.registerInitiatePayment(domain);
+        this.registerUpdatePaymentTransaction(domain);
         this.registerVerifyPayment(domain);
         this.registerSubmit(domain);
         this.registerSubmitComplete(domain);
@@ -592,7 +595,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           : this.activeCartFacade.getActiveCartId().pipe(take(1));
 
         const userId$ = this.userIdService.getUserId().pipe(take(1));
-
         return lastValueFrom(
           combineLatest([userId$, cartId$]).pipe(
             switchMap(([userId, cartId]) =>
@@ -678,6 +680,47 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return this.opfPaymentFacade.initiatePayment(fullConfig);
   }
 
+  protected updatePaymentTransactionWithCart(
+    userId: string,
+    cartId: string | undefined,
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Observable<OpfPaymentSessionData> {
+    if (!cartId) {
+      return throwError(
+        () => new Error('Cart ID is required. No active cart found.')
+      );
+    }
+
+    return this.cartAccessCodeFacade.getCartAccessCode(userId, cartId).pipe(
+      map((response) => this.extractOtpKey(response)),
+      filter((otpKey) => Boolean(otpKey)),
+      switchMap((otpKey) =>
+        this.buildAndUpdatePaymentConfig(updatePaymentConfig, otpKey as string)
+      ),
+      take(1)
+    );
+  }
+
+  protected buildAndUpdatePaymentConfig(
+    updatePaymentConfig: OpfPaymentUpdateConfig,
+    otpKey: string
+  ): Observable<OpfPaymentSessionData> {
+    const paymentConfig = updatePaymentConfig.config ?? {};
+
+    const configWithDefaults: OpfPaymentUpdatePayload = {
+      ...paymentConfig,
+      channel: paymentConfig.channel ?? OpfPaymentChannel.BROWSER,
+      browserInfo:
+        paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),
+    };
+
+    return this.opfPaymentFacade.updatePaymentTransaction({
+      ...updatePaymentConfig,
+      otpKey: updatePaymentConfig.otpKey ?? otpKey,
+      config: configWithDefaults,
+    });
+  }
+
   protected registerVerifyPayment(domain: OpfGlobalFunctionsDomain): void {
     this.getGlobalFunctionContainer(domain).verifyPayment = (
       paymentSessionId: string,
@@ -691,6 +734,56 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         );
       });
     };
+  }
+
+  protected registerUpdatePaymentTransaction(
+    domain: OpfGlobalFunctionsDomain
+  ): void {
+    this.getGlobalFunctionContainer(domain).updatePaymentTransaction = (
+      updatePaymentConfig: OpfPaymentUpdateConfig
+    ): Promise<OpfPaymentSessionData> => {
+      return this.ngZone.run(() => {
+        if (!updatePaymentConfig?.paymentSessionId) {
+          return Promise.reject(new Error('paymentSessionId is required'));
+        }
+
+        const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
+
+        const userId$ = this.userIdService.getUserId().pipe(take(1));
+
+        return lastValueFrom(
+          combineLatest([userId$, cartId$]).pipe(
+            switchMap(([userId, cartId]) =>
+              this.updatePaymentTransactionWithCart(
+                userId,
+                cartId,
+                updatePaymentConfig
+              )
+            )
+          )
+        ).catch((error) => {
+          throw this.createUpdatePaymentTransactionError(error);
+        });
+      });
+    };
+  }
+
+  protected createUpdatePaymentTransactionError(error: unknown): Error {
+    const message = this.extractErrorMessage(error);
+    return new Error(
+      message
+        ? `Failed to update payment transaction: ${message}`
+        : 'Failed to update payment transaction'
+    );
+  }
+
+  protected extractErrorMessage(error: unknown): string | undefined {
+    if (!error) {
+      return undefined;
+    }
+    const errorObj = error as any;
+    // Extract message from normalized HttpErrorModel structure
+    return errorObj?.details?.[0]?.message || errorObj?.message;
   }
 
   protected registerUpdateCartGuestUserEmail(
