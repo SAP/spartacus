@@ -1,4 +1,4 @@
-name: No Global npm Install
+name: No Untracked npm Install
 
 permissions:
   contents: read
@@ -10,7 +10,7 @@ on:
 
 jobs:
   check-no-global-install:
-    name: Check for global npm installs
+    name: Check for untracked npm installs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check diff for global npm installs
+      - name: Check diff for global npm installs or npx --yes
         id: check
         run: |
           MATCHES=$(git diff origin/${{ github.base_ref }}...HEAD -- . \
@@ -26,11 +26,11 @@ jobs:
             ':(exclude).github/**' \
             | grep '^+' \
             | grep -v '^+++' \
-            | grep -E 'npm (i|install|add) ?(--global|-g)\b' || true)
+            | grep -E '(npm (i|install|add) ?(--global|-g)\b|npx .*(--yes|-y)\b)' || true)
 
           if [ -n "$MATCHES" ]; then
             echo "found=true" >> "$GITHUB_OUTPUT"
-            echo "❌ Global npm install detected:"
+            echo "❌ Untracked npm install detected:"
             echo "$MATCHES"
             exit 1
           fi
@@ -52,9 +52,9 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
-            const commentBody = `# 🚨 Global npm Install Detected 🚨
+            const commentBody = `# 🚨 Untracked npm Install Detected 🚨
 
-            Your changes contain a \`npm install -g\` (or \`npm i -g\`) call. Global installs are not visible to security scanners (Blackduck, Checkmarx) and must not be used in this repository.
+            Your changes contain a \`npm install -g\` (or \`npm i -g\`) call, or a \`npx --yes\` / \`npx -y\` call. Both patterns install packages outside of \`package.json\`, making them invisible to security scanners (Blackduck, Checkmarx).
 
             ## What to do instead
 
@@ -73,12 +73,12 @@ jobs:
             \`\`\`
             This ensures the package is tracked, versioned, and visible to security scanners.
 
-            **3. Invoke the binary from \`node_modules/.bin\` — not via \`npx\`**
+            **3. Invoke the binary safely**
             \`\`\`sh
-            # ❌ Avoid — npx falls back to downloading from the registry if the package is not found locally
-            npx your-package
+            # ✅ Preferred — npx with --no fails if the package is not in node_modules (no silent download)
+            npx --no your-package
 
-            # ✅ Use the local bin directly
+            # ✅ Also fine — invoke the local bin directly
             ./node_modules/.bin/your-package
 
             # ✅ Or resolve the repo root first (e.g. in shell scripts)
@@ -86,7 +86,10 @@ jobs:
             "\${BIN}/your-package"
             \`\`\`
 
-            ❌ **Merge is blocked until global npm installs are removed.**`;
+            > **Why not plain \`npx your-package\`?** Without \`--no\`, if the package is missing from \`node_modules\` npx will prompt and then download it from the registry — bypassing \`package.json\` tracking entirely.
+            > **Why not \`npx --yes\`?** It silently downloads and executes an untracked package with no confirmation.
+
+            ❌ **Merge is blocked until untracked npm installs are removed.**`;
 
             github.rest.issues.createComment({
               issue_number: issue_number,
