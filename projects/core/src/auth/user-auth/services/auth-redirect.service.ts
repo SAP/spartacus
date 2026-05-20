@@ -17,7 +17,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-
+import { FeatureToggles } from '@spartacus/core';
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
  */
@@ -25,6 +25,8 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
   providedIn: 'root',
 })
 export class AuthRedirectService implements OnDestroy {
+  protected redirectOnlyOnTrueNavigations =
+    !!inject(FeatureToggles).redirectOnlyOnTrueNavigationEnd;
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -64,13 +66,16 @@ export class AuthRedirectService implements OnDestroy {
           (event) =>
             event instanceof NavigationEnd ||
             (event instanceof NavigationCancel &&
-              event.code === NavigationCancellationCode.Redirect)
+              event.code === NavigationCancellationCode.Redirect) ||
+            !this.redirectOnlyOnTrueNavigations
         ),
         startWith(null),
         pairwise(),
         filter(
           ([prev, curr]) =>
-            curr instanceof NavigationEnd && !(prev instanceof NavigationCancel)
+            (curr instanceof NavigationEnd &&
+              !(prev instanceof NavigationCancel)) ||
+            !this.redirectOnlyOnTrueNavigations
         )
       )
       .subscribe(([, curr]) => {
