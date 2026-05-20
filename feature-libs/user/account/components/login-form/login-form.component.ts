@@ -58,7 +58,6 @@ export class LoginFormComponent {
   csrf = this.service.csrf;
   action = this.service.action;
   method = this.service.method;
-  showResetPassword = this.service.showResetPassword;
 
   constructor(protected service: LoginFormComponentService) {
     this.service.handleCustomLoginError();

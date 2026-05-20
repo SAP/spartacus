@@ -9,7 +9,6 @@ import {
   AuthConfigService,
   AuthService,
   FeatureConfigService,
-  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -51,10 +50,6 @@ class MockAuthService implements Partial<AuthService> {
 class MockGlobalMessageService {
   add = createSpy().and.stub();
   remove = createSpy().and.stub();
-}
-
-class MockFederatedLoginService implements Partial<FederatedLoginService> {
-  isLoginDomain?: boolean | undefined = false;
 }
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
@@ -125,7 +120,6 @@ describe('LoginFormComponentService', () => {
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: Router, useClass: MockRouter },
-        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
       ],
     }).compileComponents();
   }));
@@ -141,37 +135,6 @@ describe('LoginFormComponentService', () => {
 
   it('should create service', () => {
     expect(service).toBeTruthy();
-  });
-
-  describe('showResetPassword', () => {
-    it('should be true when isLoginDomain is false', () => {
-      expect(service.showResetPassword).toBeTrue();
-    });
-
-    it('should be false when isLoginDomain is true', waitForAsync(() => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        providers: [
-          LoginFormComponentService,
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: AuthConfigService, useClass: MockAuthConfigService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-          { provide: ActivatedRoute, useClass: MockActivatedRoute },
-          { provide: Router, useClass: MockRouter },
-          {
-            provide: FederatedLoginService,
-            useValue: { isLoginDomain: true },
-          },
-        ],
-      }).compileComponents();
-
-      service = TestBed.inject(LoginFormComponentService);
-
-      expect(service.showResetPassword).toBe(false);
-    }));
   });
 
   describe('login', () => {
@@ -272,10 +235,6 @@ describe('LoginFormComponentService', () => {
             {
               provide: Router,
               useClass: MockRouter,
-            },
-            {
-              provide: FederatedLoginService,
-              useClass: MockFederatedLoginService,
             },
           ],
         }).compileComponents();
