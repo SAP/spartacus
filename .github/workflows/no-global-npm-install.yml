@@ -23,6 +23,7 @@ jobs:
         run: |
           MATCHES=$(git diff origin/${{ github.base_ref }}...HEAD -- . \
             ':(exclude)*.md' \
+            ':(exclude).github/**' \
             | grep '^+' \
             | grep -v '^+++' \
             | grep -E 'npm (i|install|add) ?(--global|-g)\b' || true)
