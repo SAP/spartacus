@@ -190,6 +190,9 @@
             >{{ 'productReview.rating' | cxTranslate }}
             <cx-form-required-asterisks />
           </span>
+          <span id="starRatingLabel" class="cx-visually-hidden">{{
+            'productReview.ratingRequired' | cxTranslate
+          }}</span>
           <input
             required="true"
             type="number"
@@ -203,7 +206,7 @@
           />
           <cx-star-rating
             tabindex="0"
-            [attr.aria-label]="'productReview.ratingRequired' | cxTranslate"
+            aria-labelledby="starRatingLabel"
             (change)="setRating($event)"
             [disabled]="false"
           ></cx-star-rating>
