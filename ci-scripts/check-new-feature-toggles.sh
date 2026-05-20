@@ -4,16 +4,12 @@
 
 set -e
 
-npx --yes eslint
-
 # Configuration
 REGULAR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
 SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 
 echo "🔍 Checking for newly added feature toggles..."
 echo "================================================="
-
-npm i -g eslint
 
 # Function to extract regular feature toggles from a file content
 # It looks for a code block:
