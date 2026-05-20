@@ -1,7 +1,10 @@
 <ng-container *ngIf="result$ | async as results">
   <ng-container *ngIf="results?.length">
     <div class="recent-searches">
-      <h3>
+      <h3 *cxFeature="'!searchBoxRecentSearchesRemoval'">
+        {{ 'searchBox.recentSearches' | cxTranslate }}
+      </h3>
+      <h3 *cxFeature="'searchBoxRecentSearchesRemoval'">
         {{ 'cdsRecentSearches.header' | cxTranslate }}
       </h3>
       <button
