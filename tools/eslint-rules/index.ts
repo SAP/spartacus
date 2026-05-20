@@ -48,6 +48,11 @@ import {
   rule as noStorefrontappFalseFeatureToggles,
   RULE_NAME as noStorefrontappFalseFeatureTogglesName,
 } from './rules/no-storefrontapp-false-feature-toggles';
+
+import {
+  rule as noSelfPublicApiImport,
+  RULE_NAME as noSelfPublicApiImportName,
+} from './rules/no-self-public-api-import';
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -85,5 +90,6 @@ module.exports = {
     [noConstEnumName]: noConstEnum,
     [featureConfigServiceMustBePrivateName]: featureConfigServiceMustBePrivate,
     [noStorefrontappFalseFeatureTogglesName]: noStorefrontappFalseFeatureToggles,
+    [noSelfPublicApiImportName]: noSelfPublicApiImport,
   },
 };
