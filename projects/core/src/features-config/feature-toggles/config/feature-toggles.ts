@@ -506,6 +506,19 @@ export interface FeatureTogglesInterface {
    * When enabled, sytling is changed on navigation header and menu to be more cohesive.
    */
   alignNavigationMenuWithHeader?: boolean;
+
+  /**
+   * When enabled, fixes a known issue where the cart sometimes does not reload properly on context(language or currency) change,
+   * deleting items from the cart (more specifically on the following sequence : logout - log back in - context change)
+   */
+  enableCartReloadOnContextChange?: boolean;
+
+  /* When enabled, `OpfPaymentVerificationComponent` calls
+   * `checkIfProcessingCartIdExist()` only on verification error.
+   *
+   * Legacy behavior called it immediately during init.
+   */
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -569,5 +582,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   useExtendedMediaComponentConfiguration: false,
   a11yWrapReviewOrderInSection: false,
-  enableBundles: false
+  enableBundles: false,
+  enableCartReloadOnContextChange: false,
+  opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
 };

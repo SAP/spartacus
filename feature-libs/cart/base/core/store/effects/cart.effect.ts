@@ -7,10 +7,12 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/base/root';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   LoggerService,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_CURRENT,
   SiteContextActions,
   isNotUndefined,
   tryNormalizeHttpError,
@@ -31,10 +33,18 @@ import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
-import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
+import {
+  getCartHasPendingProcessesSelectorFactory,
+  getMultiCartState,
+} from '../selectors/multi-cart.selector';
 
 @Injectable()
 export class CartEffects {
+  private featureToggles = inject(FeatureToggles);
+
+  private enableCartReloadOnContextChange =
+    this.featureToggles.enableCartReloadOnContextChange;
+
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
@@ -303,16 +313,47 @@ export class CartEffects {
 
   resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
     createEffect(() =>
-      this.actions$.pipe(
-        ofType(
-          SiteContextActions.LANGUAGE_CHANGE,
-          SiteContextActions.CURRENCY_CHANGE
-        ),
-        mergeMap(() => {
-          return [new CartActions.ResetCartDetails()];
-        })
+      this.contextChange$.pipe(
+        filter(() => !this.enableCartReloadOnContextChange),
+        mergeMap(() => [new CartActions.ResetCartDetails()])
       )
     );
+
+  refreshCartDetailsOnSiteContextChange$: Observable<
+    CartActions.LoadCart | CartActions.ResetCartDetailsByIds
+  > = createEffect(() =>
+    this.contextChange$.pipe(
+      filter(() => !!this.enableCartReloadOnContextChange),
+      withLatestFrom(this.store.pipe(select(getMultiCartState))),
+      mergeMap(([_, multiCartState]) => {
+        const activeCartId = multiCartState?.index?.[CartType.ACTIVE];
+        const allCartIds = Object.keys(multiCartState?.carts?.entities ?? {});
+        const nonActiveCartIds = allCartIds.filter((id) => id !== activeCartId);
+
+        const actions: (
+          | CartActions.LoadCart
+          | CartActions.ResetCartDetailsByIds
+        )[] = nonActiveCartIds.length
+          ? [
+              new CartActions.ResetCartDetailsByIds({
+                cartIds: nonActiveCartIds,
+              }),
+            ]
+          : [];
+
+        if (activeCartId) {
+          actions.push(
+            new CartActions.LoadCart({
+              cartId: activeCartId,
+              userId: OCC_USER_ID_CURRENT,
+            })
+          );
+        }
+
+        return actions;
+      })
+    )
+  );
 
   addEmail$: Observable<
     | CartActions.AddEmailToCartSuccess
