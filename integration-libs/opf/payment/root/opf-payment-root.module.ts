@@ -6,9 +6,10 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
+import { LOCATION_INITIALIZED_MULTI, provideDefaultConfig } from '@spartacus/core';
 import { OpfPaymentMethodDetailsModule } from './components/opf-payment-method-details';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
+import { captureOpfPaymentVerificationQueryFactory } from './components/opf-payment-verification/opf-payment-verification.service';
 import { defaultOpfPaymentRoutingConfig } from './config';
 
 @NgModule({
@@ -33,6 +34,13 @@ import { defaultOpfPaymentRoutingConfig } from './config';
       },
     ]),
   ],
-  providers: [provideDefaultConfig(defaultOpfPaymentRoutingConfig)],
+  providers: [
+    provideDefaultConfig(defaultOpfPaymentRoutingConfig),
+    {
+      provide: LOCATION_INITIALIZED_MULTI,
+      useFactory: captureOpfPaymentVerificationQueryFactory,
+      multi: true,
+    },
+  ],
 })
 export class OpfPaymentRootModule {}
