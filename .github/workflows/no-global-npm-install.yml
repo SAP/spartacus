@@ -1,0 +1,95 @@
+name: No Global npm Install
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-no-global-install:
+    name: Check for global npm installs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Check diff for global npm installs
+        id: check
+        run: |
+          MATCHES=$(git diff origin/${{ github.base_ref }}...HEAD -- . \
+            ':(exclude)*.md' \
+            | grep '^+' \
+            | grep -v '^+++' \
+            | grep -E 'npm (i|install|add) ?(--global|-g)\b' || true)
+
+          if [ -n "$MATCHES" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "❌ Global npm install detected:"
+            echo "$MATCHES"
+            exit 1
+          fi
+
+          echo "found=false" >> "$GITHUB_OUTPUT"
+          echo "✅ No global npm installs found."
+
+  comment-on-failure:
+    needs: check-no-global-install
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post PR comment on failure
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const commentBody = `# 🚨 Global npm Install Detected 🚨
+
+            Your changes contain a \`npm install -g\` (or \`npm i -g\`) call. Global installs are not visible to security scanners (Blackduck, Checkmarx) and must not be used in this repository.
+
+            ## What to do instead
+
+            **1. Add the dependency to \`package.json\`**
+            \`\`\`json
+            {
+              "devDependencies": {
+                "your-package": "^1.2.3"
+              }
+            }
+            \`\`\`
+
+            **2. Run \`npm install\` to install from the manifest**
+            \`\`\`sh
+            npm install
+            \`\`\`
+            This ensures the package is tracked, versioned, and visible to security scanners.
+
+            **3. Invoke the binary from \`node_modules/.bin\` — not via \`npx\`**
+            \`\`\`sh
+            # ❌ Avoid — npx falls back to downloading from the registry if the package is not found locally
+            npx your-package
+
+            # ✅ Use the local bin directly
+            ./node_modules/.bin/your-package
+
+            # ✅ Or resolve the repo root first (e.g. in shell scripts)
+            BIN="$(cd "$(dirname "\${BASH_SOURCE[0]}")/../.." && pwd)/node_modules/.bin"
+            "\${BIN}/your-package"
+            \`\`\`
+
+            ❌ **Merge is blocked until global npm installs are removed.**`;
+
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
+              body: commentBody
+            });
