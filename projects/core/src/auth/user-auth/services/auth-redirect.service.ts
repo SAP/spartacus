@@ -5,9 +5,14 @@
  */
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationCancellationCode,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, pairwise, startWith, take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
@@ -45,12 +50,32 @@ export class AuthRedirectService implements OnDestroy {
   protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
   protected subscription: Subscription;
 
+  /**
+   * Normal navigations produce [NavigationEnd, NavigationEnd] pairs — saved in localStorage
+   * Guard UrlTree redirects produce [NavigationCancel, NavigationEnd] pairs — skipped
+   * The [NavigationCancel, NavigationEnd] pair must be caught to prevent
+   * guard-driven redirects (post-logout navigation to '/') from
+   * overwriting the saved redirect URL
+   */
   protected init() {
-    this.subscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.setRedirectUrl(event.urlAfterRedirects);
-      }
-    });
+    this.subscription = this.router.events
+      .pipe(
+        filter(
+          (event) =>
+            event instanceof NavigationEnd ||
+            (event instanceof NavigationCancel &&
+              event.code === NavigationCancellationCode.Redirect)
+        ),
+        startWith(null),
+        pairwise(),
+        filter(
+          ([prev, curr]) =>
+            curr instanceof NavigationEnd && !(prev instanceof NavigationCancel)
+        )
+      )
+      .subscribe(([, curr]) => {
+        this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
+      });
   }
 
   ngOnDestroy() {

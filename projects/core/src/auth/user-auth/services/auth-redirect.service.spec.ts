@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Navigation, Router, RouterModule } from '@angular/router';
+import { CanActivateFn, Navigation, Router, RouterModule, UrlTree } from '@angular/router';
 import {
   SiteContextUrlParams,
   SiteContextUrlSerializer,
@@ -64,10 +64,16 @@ describe('AuthRedirectService', () => {
       imports: [
         RouterModule.forRoot([
           { path: 'login', component: TestComponent },
-
           { path: 'some/url', redirectTo: 'some/url/after/redirects' },
           { path: 'some/url/after/redirects', component: TestComponent },
           { path: 'other/url', component: TestComponent },
+          {
+            path: 'guarded/url',
+            component: TestComponent,
+            canActivate: [
+              (): UrlTree => TestBed.inject(Router).parseUrl('/other/url'),
+            ] as CanActivateFn[],
+          },
         ]),
       ],
     });
@@ -126,6 +132,17 @@ describe('AuthRedirectService', () => {
     await zone.run(() => router.navigateByUrl('/other/url'));
 
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
+      '/other/url'
+    );
+  });
+
+  it('should NOT save redirect url when NavigationEnd was caused by a guard redirect (UrlTree)', async () => {
+    await zone.run(() => router.navigateByUrl('/some/url/after/redirects'));
+    (authRedirectStorageService.setRedirectUrl as jasmine.Spy).calls.reset();
+
+    await zone.run(() => router.navigateByUrl('/guarded/url'));
+
+    expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith(
       '/other/url'
     );
   });
