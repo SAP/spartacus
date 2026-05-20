@@ -12,6 +12,8 @@ jobs:
   check-no-global-install:
     name: Check for untracked npm installs
     runs-on: ubuntu-latest
+    outputs:
+      matches: ${{ steps.check.outputs.matches }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
@@ -30,6 +32,11 @@ jobs:
 
           if [ -n "$MATCHES" ]; then
             echo "found=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "matches<<EOF"
+              echo "$MATCHES"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
             echo "❌ Untracked npm install detected:"
             echo "$MATCHES"
             exit 1
@@ -52,9 +59,16 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
 
+            const matches = `${{ needs.check-no-global-install.outputs.matches }}`;
             const commentBody = `# 🚨 Untracked npm Install Detected 🚨
 
             Your changes contain a \`npm install -g\` (or \`npm i -g\`) call, or a \`npx --yes\` / \`npx -y\` call. Both patterns install packages outside of \`package.json\`, making them invisible to security scanners (Blackduck, Checkmarx).
+
+            ## Offending lines
+
+            \`\`\`
+            ${matches}
+            \`\`\`
 
             ## What to do instead
 
