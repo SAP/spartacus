@@ -15,7 +15,7 @@ export abstract class OrderConfig {
   orderAttachments?: {
     previewMimeTypes: string[];
   };
-  showOrderQuoteLink?: boolean;
+ showOrderQuoteLink: true,
 }
 
 declare module '@spartacus/core' {
