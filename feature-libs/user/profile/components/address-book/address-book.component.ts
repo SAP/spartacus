@@ -168,11 +168,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           textPhone,
           textMobile,
         ]) => {
-          const region = this.buildRegion(address);
-          const countryName = this.buildCountryName(address);
-          const townName = this.buildTownName(address);
-          const districtName = this.buildDistrictName(address);
-
           const actions: { name: string; event: string }[] = [];
           if (!address.defaultAddress) {
             actions.push({ name: setAsDefaultText, event: 'default' });
@@ -181,10 +176,11 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           actions.push({ name: textDelete, event: 'delete' });
 
           const numbers = getAddressNumbers(address, textPhone, textMobile);
-
-          const locationParts = [townName, region, countryName]
-            .filter(Boolean)
-            .join(', ');
+          const locationLine = this.buildLocationLine(address);
+          const districtName =
+            address.country?.isocode === 'CN'
+              ? address.cityDistrict?.name || address.district || ''
+              : '';
 
           return {
             role: 'application',
@@ -192,7 +188,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             text: [
               address.line1,
               address.line2,
-              locationParts,
+              locationLine,
               districtName,
               address.postalCode,
               numbers,
@@ -209,26 +205,19 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     );
   }
 
-  private buildRegion(address: Address): string {
+  protected buildLocationLine(address: Address): string {
     if (address.country?.isocode === 'CN') {
-      return address.region?.name || address.region?.isocode || '';
+      const region = address.region?.name || address.region?.isocode || '';
+      const townName = address.city?.name || address.town || '';
+      const countryName =
+        address.country?.name || address.country?.isocode || '';
+      return [townName, region, countryName].filter(Boolean).join(', ');
     }
-    return address.region?.isocode || '';
-  }
-
-  protected buildCountryName(address: Address): string {
-    if (address.country?.isocode === 'CN') {
-      return address.country?.name || address.country?.isocode || '';
+    let region = '';
+    if (address.region && address.region.isocode) {
+      region = address.region.isocode + ', ';
     }
-    return address.country?.isocode || '';
-  }
-
-  protected buildTownName(address: Address): string {
-    return address.city?.name || address.town || '';
-  }
-
-  protected buildDistrictName(address: Address): string {
-    return address.cityDistrict?.name || address.district || '';
+    return address.town + ', ' + region + address.country?.isocode;
   }
 
   setAddressAsDefault(address: Address): void {
