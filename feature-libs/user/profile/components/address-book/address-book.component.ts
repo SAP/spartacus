@@ -207,11 +207,11 @@ export class AddressBookComponent implements OnInit, OnDestroy {
 
   protected buildLocationLine(address: Address): string {
     if (address.country?.isocode === 'CN') {
-      const region = address.region?.name || address.region?.isocode || '';
+      const cnRegion = address.region?.name || address.region?.isocode || '';
       const townName = address.city?.name || address.town || '';
       const countryName =
         address.country?.name || address.country?.isocode || '';
-      return [townName, region, countryName].filter(Boolean).join(', ');
+      return [townName, cnRegion, countryName].filter(Boolean).join(', ');
     }
     let region = '';
     if (address.region && address.region.isocode) {
