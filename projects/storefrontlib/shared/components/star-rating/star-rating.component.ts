@@ -24,6 +24,7 @@ import { ICON_TYPE } from '../../../cms-components/misc/index';
  */
 @Component({
   selector: 'cx-star-rating',
+  host: { role: 'group' },
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, TranslatePipe],
