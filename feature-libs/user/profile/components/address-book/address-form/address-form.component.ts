@@ -192,6 +192,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     this.addresses$ = this.userAddressService.getAddresses();
 
+    this.initCitiesSubscription();
+    this.initDistrictsSubscription();
+    this.initLanguageSubscription();
+  }
+
+  protected initCitiesSubscription(): void {
     this.subscription.add(
       this.selectedRegion$
         .pipe(
@@ -217,7 +223,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         })
     );
+  }
 
+  protected initDistrictsSubscription(): void {
     this.subscription.add(
       this.selectedCity$
         .pipe(
@@ -241,7 +249,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         })
     );
+  }
 
+  protected initLanguageSubscription(): void {
     this.subscription.add(
       this.languageService
         .getActive()
