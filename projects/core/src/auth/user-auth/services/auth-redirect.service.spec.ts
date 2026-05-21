@@ -164,7 +164,9 @@ describe('AuthRedirectService', () => {
 
       await zone.run(() => router.navigateByUrl('/guarded/url'));
 
-      expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith('/other/url');
+      expect(
+        authRedirectStorageService.setRedirectUrl
+      ).not.toHaveBeenCalledWith('/other/url');
     });
   });
 
