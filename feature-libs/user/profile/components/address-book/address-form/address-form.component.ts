@@ -134,7 +134,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
-    town: [null, Validators.required],
+    town: ['', Validators.required],
     region: this.fb.group({
       isocode: [null, Validators.required],
     }),
