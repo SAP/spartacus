@@ -294,6 +294,9 @@ describe('AddressBookComponent', () => {
       component.addAddressSubmit(mockAddress);
       isLoading.next(true);
       isLoading.next(false);
+      expect(addressBookComponentService.addUserAddress).toHaveBeenCalledWith(
+        mockAddress
+      );
       expect(component.showAddAddressForm).toBeFalsy();
       expect(
         addressBookComponentService.getAddressesStateLoading
@@ -307,6 +310,9 @@ describe('AddressBookComponent', () => {
       isError.next(true);
       isLoading.next(true);
       isLoading.next(false);
+      expect(addressBookComponentService.addUserAddress).toHaveBeenCalledWith(
+        mockAddress
+      );
       expect(component.showAddAddressForm).toBe(true);
       expect(
         addressBookComponentService.getAddressesStateLoading
@@ -345,6 +351,9 @@ describe('AddressBookComponent', () => {
       component.editAddressSubmit(mockAddress);
       isLoading.next(true);
       isLoading.next(false);
+      expect(
+        addressBookComponentService.updateUserAddress
+      ).toHaveBeenCalledWith(mockAddress.id, mockAddress);
       expect(component.showEditAddressForm).toBeFalsy();
       expect(
         addressBookComponentService.getAddressesStateLoading
@@ -359,6 +368,9 @@ describe('AddressBookComponent', () => {
       isError.next(true);
       isLoading.next(true);
       isLoading.next(false);
+      expect(
+        addressBookComponentService.updateUserAddress
+      ).toHaveBeenCalledWith(mockAddress.id, mockAddress);
       expect(component.showEditAddressForm).toBe(true);
       expect(
         addressBookComponentService.getAddressesStateLoading
