@@ -30,14 +30,7 @@ import {
 } from '@spartacus/opf/global-functions/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
-import {
-  concatMap,
-  filter,
-  finalize,
-  map,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,

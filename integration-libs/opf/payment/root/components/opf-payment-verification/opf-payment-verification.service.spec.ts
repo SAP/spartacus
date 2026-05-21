@@ -98,15 +98,17 @@ describe('OpfPaymentVerificationService', () => {
     routingConfigServiceMock = jasmine.createSpyObj('RoutingConfigService', [
       'getRouteConfig',
     ]);
-    routingConfigServiceMock.getRouteConfig.and.callFake((routeName: string) => {
-      if (routeName === 'paymentVerificationResult') {
-        return { paths: ['opf/payment-verification-redirect/result'] };
+    routingConfigServiceMock.getRouteConfig.and.callFake(
+      (routeName: string) => {
+        if (routeName === 'paymentVerificationResult') {
+          return { paths: ['opf/payment-verification-redirect/result'] };
+        }
+        if (routeName === 'paymentVerificationCancel') {
+          return { paths: ['opf/payment-verification-redirect/cancel'] };
+        }
+        return undefined;
       }
-      if (routeName === 'paymentVerificationCancel') {
-        return { paths: ['opf/payment-verification-redirect/cancel'] };
-      }
-      return undefined;
-    });
+    );
 
     TestBed.configureTestingModule({
       providers: [
