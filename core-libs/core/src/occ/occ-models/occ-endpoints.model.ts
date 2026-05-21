@@ -98,13 +98,13 @@ export interface OccEndpoints {
    */
   regions?: string | OccEndpoint;
   /**
-   * Fetch cities for a Chinese address region
+   * Fetch cities for an address region
    */
-  chineseAddressCities?: string | OccEndpoint;
+  addressCities?: string | OccEndpoint;
   /**
-   * Fetch districts for a Chinese address city
+   * Fetch districts for an address city
    */
-  chineseAddressDistricts?: string | OccEndpoint;
+  addressDistricts?: string | OccEndpoint;
   /**
    * Payment details root endpoint.
    *

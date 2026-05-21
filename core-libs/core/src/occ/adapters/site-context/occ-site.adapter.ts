@@ -118,7 +118,7 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   loadCities(regionIsocode: string): Observable<City[]> {
-    const url = this.occEndpointsService.buildUrl('chineseAddressCities', {
+    const url = this.occEndpointsService.buildUrl('addressCities', {
       urlParams: { regionId: regionIsocode },
     });
     return this.http
@@ -129,7 +129,7 @@ export class OccSiteAdapter implements SiteAdapter {
   }
 
   loadDistricts(cityIsocode: string): Observable<CityDistrict[]> {
-    const url = this.occEndpointsService.buildUrl('chineseAddressDistricts', {
+    const url = this.occEndpointsService.buildUrl('addressDistricts', {
       urlParams: { cityId: cityIsocode },
     });
     return this.http
