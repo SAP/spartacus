@@ -81,7 +81,7 @@ export function testCheckoutVariantAsGuest() {
         phone: '',
         address: variantUser.address,
       } as AddressData,
-      'United Kingdom'
+      'GB'
     );
 
     cy.selectUserMenuOption({

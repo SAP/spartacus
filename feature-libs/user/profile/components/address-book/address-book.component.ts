@@ -170,7 +170,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
         ]) => {
           const region = this.buildRegion(address);
           const countryName =
-            address.country?.name || address.country?.isocode || '';
+            address.country?.isocode === 'CN'
+              ? address.country?.name || address.country?.isocode || ''
+              : address.country?.isocode || '';
           const townName = address.city?.name || address.town || '';
           const districtName =
             address.cityDistrict?.name || address.district || '';

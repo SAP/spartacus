@@ -73,7 +73,7 @@ export function testCheckoutMultiDAsGuest() {
         cellphone: '',
         address: multiDUser.address,
       },
-      'California'
+      'US'
     );
 
     cy.selectUserMenuOption({

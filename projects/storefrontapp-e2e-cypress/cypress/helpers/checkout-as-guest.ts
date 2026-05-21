@@ -69,7 +69,7 @@ export function testCheckoutAsGuest() {
         phone: '',
         address: guestUser.address,
       } as AddressData,
-      'California'
+      'US-CA'
     );
 
     cy.selectUserMenuOption({
