@@ -25,8 +25,10 @@ import { FeatureToggles } from '@spartacus/core';
   providedIn: 'root',
 })
 export class AuthRedirectService implements OnDestroy {
-  protected redirectOnlyOnTrueNavigations =
+  protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
+  protected redirectToggle =
     !!inject(FeatureToggles).redirectOnlyOnTrueNavigationEnd;
+
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -49,7 +51,6 @@ export class AuthRedirectService implements OnDestroy {
   ) {
     this.init();
   }
-  protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
   protected subscription: Subscription;
 
   /**
@@ -64,18 +65,16 @@ export class AuthRedirectService implements OnDestroy {
       .pipe(
         filter(
           (event) =>
-            event instanceof NavigationEnd ||
-            (event instanceof NavigationCancel &&
-              event.code === NavigationCancellationCode.Redirect) ||
-            !this.redirectOnlyOnTrueNavigations
+            !this.redirectToggle ||
+            this.isNavEnd(event) ||
+            this.isRedirect(event)
         ),
         startWith(null),
         pairwise(),
         filter(
           ([prev, curr]) =>
-            (curr instanceof NavigationEnd &&
-              !(prev instanceof NavigationCancel)) ||
-            !this.redirectOnlyOnTrueNavigations
+            !this.redirectToggle ||
+            (this.isNavEnd(curr) && !this.isRedirect(prev))
         )
       )
       .subscribe(([, curr]) => {
@@ -130,6 +129,13 @@ export class AuthRedirectService implements OnDestroy {
       );
     }
   }
+
+  protected isNavEnd = (event: any): event is NavigationEnd =>
+    event instanceof NavigationEnd;
+
+  protected isRedirect = (event: any): event is NavigationCancel =>
+    event instanceof NavigationCancel &&
+    event.code === NavigationCancellationCode.Redirect;
 
   /**
    * Sets the redirect URL to undefined.

@@ -1,7 +1,14 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn, Navigation, Router, RouterModule, UrlTree } from '@angular/router';
 import {
+  CanActivateFn,
+  Navigation,
+  Router,
+  RouterModule,
+  UrlTree,
+} from '@angular/router';
+import {
+  FeatureToggles,
   SiteContextUrlParams,
   SiteContextUrlSerializer,
 } from '@spartacus/core';
@@ -46,37 +53,41 @@ describe('AuthRedirectService', () => {
   let authRedirectStorageService: AuthRedirectStorageService;
   let siteContextUrlSerializer: SiteContextUrlSerializer;
 
-  beforeEach(() => {
+  const routes = [
+    { path: 'login', component: TestComponent },
+    { path: 'some/url', redirectTo: 'some/url/after/redirects' },
+    { path: 'some/url/after/redirects', component: TestComponent },
+    { path: 'other/url', component: TestComponent },
+    {
+      path: 'guarded/url',
+      component: TestComponent,
+      canActivate: [
+        (): UrlTree => TestBed.inject(Router).parseUrl('/other/url'),
+      ] as CanActivateFn[],
+    },
+  ];
+
+  function configureTestingModule(
+    featureToggles: Partial<FeatureToggles> = {}
+  ) {
     TestBed.configureTestingModule({
       providers: [
         AuthRedirectService,
         AuthRedirectStorageService,
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
         {
           provide: SiteContextUrlSerializer,
           useClass: MockSiteContextUrlSerializer,
         },
+        { provide: FeatureToggles, useValue: featureToggles },
       ],
-      imports: [
-        RouterModule.forRoot([
-          { path: 'login', component: TestComponent },
-          { path: 'some/url', redirectTo: 'some/url/after/redirects' },
-          { path: 'some/url/after/redirects', component: TestComponent },
-          { path: 'other/url', component: TestComponent },
-          {
-            path: 'guarded/url',
-            component: TestComponent,
-            canActivate: [
-              (): UrlTree => TestBed.inject(Router).parseUrl('/other/url'),
-            ] as CanActivateFn[],
-          },
-        ]),
-      ],
+      imports: [RouterModule.forRoot(routes)],
     });
+  }
+
+  beforeEach(() => {
+    configureTestingModule();
     service = TestBed.inject(AuthRedirectService);
     routingService = TestBed.inject(RoutingService);
     router = TestBed.inject(Router);
@@ -136,15 +147,25 @@ describe('AuthRedirectService', () => {
     );
   });
 
-  it('should NOT save redirect url when NavigationEnd was caused by a guard redirect (UrlTree)', async () => {
-    await zone.run(() => router.navigateByUrl('/some/url/after/redirects'));
-    (authRedirectStorageService.setRedirectUrl as jasmine.Spy).calls.reset();
+  describe('when redirectOnlyOnTrueNavigationEnd is enabled', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      configureTestingModule({ redirectOnlyOnTrueNavigationEnd: true });
+      TestBed.inject(AuthRedirectService);
+      authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
+      router = TestBed.inject(Router);
+      zone = TestBed.inject(NgZone);
+      spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
+    });
 
-    await zone.run(() => router.navigateByUrl('/guarded/url'));
+    it('should NOT save redirect url when NavigationEnd was caused by a guard redirect (UrlTree)', async () => {
+      await zone.run(() => router.navigateByUrl('/some/url/after/redirects'));
+      (authRedirectStorageService.setRedirectUrl as jasmine.Spy).calls.reset();
 
-    expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith(
-      '/other/url'
-    );
+      await zone.run(() => router.navigateByUrl('/guarded/url'));
+
+      expect(authRedirectStorageService.setRedirectUrl).not.toHaveBeenCalledWith('/other/url');
+    });
   });
 
   describe('saveCurrentNavigationUrl', () => {
