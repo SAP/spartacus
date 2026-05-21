@@ -298,9 +298,7 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.getAddressesStateLoading
       ).toHaveBeenCalled();
-      expect(
-        addressBookComponentService.getAddressesError
-      ).toHaveBeenCalled();
+      expect(addressBookComponentService.getAddressesError).toHaveBeenCalled();
     });
 
     it('should keep the form open when addUserAddress fails', () => {
@@ -313,9 +311,7 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.getAddressesStateLoading
       ).toHaveBeenCalled();
-      expect(
-        addressBookComponentService.getAddressesError
-      ).toHaveBeenCalled();
+      expect(addressBookComponentService.getAddressesError).toHaveBeenCalled();
     });
 
     it('should close the form immediately when address is undefined', () => {
@@ -353,9 +349,7 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.getAddressesStateLoading
       ).toHaveBeenCalled();
-      expect(
-        addressBookComponentService.getAddressesError
-      ).toHaveBeenCalled();
+      expect(addressBookComponentService.getAddressesError).toHaveBeenCalled();
     });
 
     it('should keep the form open when updateUserAddress fails', () => {
@@ -369,9 +363,7 @@ describe('AddressBookComponent', () => {
       expect(
         addressBookComponentService.getAddressesStateLoading
       ).toHaveBeenCalled();
-      expect(
-        addressBookComponentService.getAddressesError
-      ).toHaveBeenCalled();
+      expect(addressBookComponentService.getAddressesError).toHaveBeenCalled();
     });
   });
 
