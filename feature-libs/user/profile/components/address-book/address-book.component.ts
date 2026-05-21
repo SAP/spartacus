@@ -212,7 +212,10 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   private buildRegion(address: Address): string {
-    return address.region?.name || address.region?.isocode || '';
+    if (address.country?.isocode === 'CN') {
+      return address.region?.name || address.region?.isocode || '';
+    }
+    return address.region?.isocode || '';
   }
 
   setAddressAsDefault(address: Address): void {
