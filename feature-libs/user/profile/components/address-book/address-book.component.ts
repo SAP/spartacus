@@ -169,13 +169,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           textMobile,
         ]) => {
           const region = this.buildRegion(address);
-          const countryName =
-            address.country?.isocode === 'CN'
-              ? address.country?.name || address.country?.isocode || ''
-              : address.country?.isocode || '';
-          const townName = address.city?.name || address.town || '';
-          const districtName =
-            address.cityDistrict?.name || address.district || '';
+          const countryName = this.buildCountryName(address);
+          const townName = this.buildTownName(address);
+          const districtName = this.buildDistrictName(address);
 
           const actions: { name: string; event: string }[] = [];
           if (!address.defaultAddress) {
@@ -218,6 +214,21 @@ export class AddressBookComponent implements OnInit, OnDestroy {
       return address.region?.name || address.region?.isocode || '';
     }
     return address.region?.isocode || '';
+  }
+
+  protected buildCountryName(address: Address): string {
+    if (address.country?.isocode === 'CN') {
+      return address.country?.name || address.country?.isocode || '';
+    }
+    return address.country?.isocode || '';
+  }
+
+  protected buildTownName(address: Address): string {
+    return address.city?.name || address.town || '';
+  }
+
+  protected buildDistrictName(address: Address): string {
+    return address.cityDistrict?.name || address.district || '';
   }
 
   setAddressAsDefault(address: Address): void {
