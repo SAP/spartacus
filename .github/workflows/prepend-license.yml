@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: '3.14'
       - name: Download reuse tool
-        run: pip3 install --user reuse
+        run: pip3 install --user -r ci-scripts/requirements.txt
       - name: Setup git config
         run: |
           git config user.name 'github-actions[bot]'
