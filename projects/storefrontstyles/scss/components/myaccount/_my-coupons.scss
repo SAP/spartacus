@@ -59,6 +59,13 @@
     a {
       color: var(--cx-color-dark);
       @include type('8');
+      @include forFeature('enableCouponNotificationChannelsLinkStyling') {
+        color: var(--cx-color-primary);
+        text-decoration: underline;
+        &:hover {
+          color: var(--cx-color-primary-accent);
+        }
+      }
     }
   }
 }
