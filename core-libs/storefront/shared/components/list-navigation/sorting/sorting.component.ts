@@ -8,13 +8,16 @@ import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
+  inject,
   Input,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import { SortModel, TranslatePipe } from '@spartacus/core';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.directive';
 
 @Component({
@@ -28,6 +31,7 @@ import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.direc
     NgFor,
     NgOptionComponent,
     TranslatePipe,
+    FocusDirective,
   ],
 })
 export class SortingComponent {
@@ -47,12 +51,35 @@ export class SortingComponent {
   @Output()
   sortListEvent: EventEmitter<string>;
 
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   constructor() {
     this.sortListEvent = new EventEmitter<string>();
   }
 
   sortList(sortCode: string): void {
+    // Bridge the bubble gap: `cxFocus`/persist-focus listens for the native
+    // non-bubbling `focus` on `<ng-select>`, but the actual focus target is
+    // the inner `[role="combobox"]`. We dispatch a synthetic `focus` on
+    // `<ng-select>` so persist-focus captures the key for the upcoming
+    // destroy/remount cycle. Done here (and not from a focusin listener)
+    // so the key is only set on user-driven sort actions — programmatic
+    // restores don't re-set it, preserving `clearOnRestore`'s route-leak
+    // protection.
+    this.elementRef.nativeElement
+      .querySelector<HTMLElement>('ng-select')
+      ?.dispatchEvent(new FocusEvent('focus'));
+
     this.sortListEvent.emit(sortCode);
+
+    // Covers the case where the parent does not destroy/recreate this
+    // component on sort (e.g. PLP, where the parent reacts to a queryParam
+    // change without remounting). `cxFocus`/persist-focus only restores on
+    // mount, so without an explicit refocus the combobox would lose focus
+    // after the parent's view re-evaluates. setTimeout (macrotask) is
+    // needed because ng-select's async `change` work resets focus and a
+    // microtask runs too early.
+    setTimeout(() => this.focusCombobox());
   }
 
   get selectedLabel() {
@@ -62,5 +89,11 @@ export class SortingComponent {
           ?.name ?? this.sortLabels?.[this.selectedOption]
       );
     }
+  }
+
+  private focusCombobox(): void {
+    this.elementRef.nativeElement
+      .querySelector<HTMLElement>('[role="combobox"]')
+      ?.focus({ preventScroll: true });
   }
 }

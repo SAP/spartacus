@@ -93,11 +93,33 @@ export class PersistFocusDirective
 
   /**
    * Focus the element explicitly if it was focused before.
+   *
+   * When `PersistFocusConfig.focusTargetSelector` is provided and matches a
+   * descendant of the host, that descendant receives focus instead of the
+   * host. This supports wrapper components (e.g. `<ng-select>`) where the
+   * actual interactive element lives inside the host.
+   *
+   * When `PersistFocusConfig.clearOnRestore` is `true`, the persisted key is
+   * cleared after restoration so the state cannot leak to a fresh instance of
+   * the same key on a different route.
    */
   ngAfterViewInit() {
-    if (this.isPersisted) {
-      this.host.focus({ preventScroll: true });
+    if (!this.isPersisted) {
+      return;
     }
+    this.focusTarget.focus({ preventScroll: true });
+
+    if (this.config?.clearOnRestore) {
+      this.service.clear(this.group ?? undefined);
+    }
+  }
+
+  protected get focusTarget(): HTMLElement {
+    const selector = this.config?.focusTargetSelector;
+    const inner = selector
+      ? this.host.querySelector<HTMLElement>(selector)
+      : null;
+    return inner ?? this.host;
   }
 
   protected get isPersisted(): boolean {
