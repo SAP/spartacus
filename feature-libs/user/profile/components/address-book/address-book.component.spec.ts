@@ -282,6 +282,11 @@ describe('AddressBookComponent', () => {
     beforeEach(() => {
       isLoading.next(false);
       isError.next(false);
+      spyOn(
+        addressBookComponentService,
+        'getAddressesStateLoading'
+      ).and.callThrough();
+      spyOn(addressBookComponentService, 'getAddressesError').and.callThrough();
     });
 
     it('should close the form when addUserAddress succeeds', () => {
@@ -290,6 +295,12 @@ describe('AddressBookComponent', () => {
       isLoading.next(true);
       isLoading.next(false);
       expect(component.showAddAddressForm).toBeFalsy();
+      expect(
+        addressBookComponentService.getAddressesStateLoading
+      ).toHaveBeenCalled();
+      expect(
+        addressBookComponentService.getAddressesError
+      ).toHaveBeenCalled();
     });
 
     it('should keep the form open when addUserAddress fails', () => {
@@ -299,6 +310,12 @@ describe('AddressBookComponent', () => {
       isLoading.next(true);
       isLoading.next(false);
       expect(component.showAddAddressForm).toBe(true);
+      expect(
+        addressBookComponentService.getAddressesStateLoading
+      ).toHaveBeenCalled();
+      expect(
+        addressBookComponentService.getAddressesError
+      ).toHaveBeenCalled();
     });
 
     it('should close the form immediately when address is undefined', () => {
@@ -306,6 +323,12 @@ describe('AddressBookComponent', () => {
       component.addAddressSubmit(undefined as any);
       expect(component.showAddAddressForm).toBeFalsy();
       expect(addressBookComponentService.addUserAddress).not.toHaveBeenCalled();
+      expect(
+        addressBookComponentService.getAddressesStateLoading
+      ).not.toHaveBeenCalled();
+      expect(
+        addressBookComponentService.getAddressesError
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -313,6 +336,11 @@ describe('AddressBookComponent', () => {
     beforeEach(() => {
       isLoading.next(false);
       isError.next(false);
+      spyOn(
+        addressBookComponentService,
+        'getAddressesStateLoading'
+      ).and.callThrough();
+      spyOn(addressBookComponentService, 'getAddressesError').and.callThrough();
     });
 
     it('should close the form when updateUserAddress succeeds', () => {
@@ -322,6 +350,12 @@ describe('AddressBookComponent', () => {
       isLoading.next(true);
       isLoading.next(false);
       expect(component.showEditAddressForm).toBeFalsy();
+      expect(
+        addressBookComponentService.getAddressesStateLoading
+      ).toHaveBeenCalled();
+      expect(
+        addressBookComponentService.getAddressesError
+      ).toHaveBeenCalled();
     });
 
     it('should keep the form open when updateUserAddress fails', () => {
@@ -332,6 +366,12 @@ describe('AddressBookComponent', () => {
       isLoading.next(true);
       isLoading.next(false);
       expect(component.showEditAddressForm).toBe(true);
+      expect(
+        addressBookComponentService.getAddressesStateLoading
+      ).toHaveBeenCalled();
+      expect(
+        addressBookComponentService.getAddressesError
+      ).toHaveBeenCalled();
     });
   });
 
