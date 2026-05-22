@@ -335,12 +335,9 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         searchBoxRecentSearchesRemoval: true,
-        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
-        enableB2BUnitSearch: false,
-        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
-        enableB2BCostCenterSearch: false,
-        // eslint-disable-next-line @nx/workspace-no-storefrontapp-false-feature-toggles -- CXSPA-13064
-        enableB2BCustomerSearch: false,
+        enableB2BUnitSearch: true,
+        enableB2BCostCenterSearch: true,
+        enableB2BCustomerSearch: true,
         a11yCarouselPreventNavigationFocus: true,
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
