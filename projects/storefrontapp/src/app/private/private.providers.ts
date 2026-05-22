@@ -40,15 +40,7 @@ export const privateProviders = makeEnvironmentProviders([
   importProvidersFrom(
     TestOutletModule, // Custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }),
-    provideConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductAddToCartComponent: {
-                    data: {
-                        inventoryDisplay: true,
-                    },
-                },
-            },
-        }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
+    // Injects config dynamically from e2e tests. Should be imported after other config modules.
     ...(environment.production ? [] : [StoreDevtoolsModule.instrument()]) // Enable Redux devtools only in non-production build
   ),
 ]);
