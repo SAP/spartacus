@@ -237,6 +237,16 @@ export class AuthService {
   }
 
   /**
+   * Refreshes the CSRF token by making a request to the server.
+   * This is typically used to ensure that the client has a valid CSRF token for subsequent requests,
+   * especially after a user logs in or when the token is about to expire.
+   * @returns {Observable<string>} An observable that emits the refreshed CSRF token.
+   */
+  refreshCsrfToken() {
+    return this.crossSiteRequestForgeryService.getCsrfToken();
+  }
+
+  /**
    * Indicates whether the ASM module is enabled.
    */
   protected isAsmEnabled(): boolean {

@@ -356,6 +356,7 @@ if (environment.cpq) {
         enableExpiredRefreshTokenHandlers: true,
         enableCartReloadOnContextChange: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+        authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
       };
       return appFeatureToggles;
     }),

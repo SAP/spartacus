@@ -8,6 +8,7 @@ import {
 import {
   AuthConfigService,
   AuthService,
+  CsrfStateService,
   FeatureConfigService,
   FederatedLoginService,
   GlobalMessageService,
@@ -17,7 +18,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import createSpy = jasmine.createSpy;
 
@@ -46,6 +47,13 @@ class MockAuthService implements Partial<AuthService> {
       token: 'token',
     })
   );
+  refreshCsrfToken = createSpy().and.returnValue(
+    of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'new-token',
+    })
+  );
 }
 
 class MockGlobalMessageService {
@@ -71,12 +79,18 @@ class MockActivatedRoute implements Partial<ActivatedRoute> {
 
 class MockRouter implements Partial<Router> {
   navigate = createSpy().and.stub();
+  navigateByUrl = createSpy().and.stub();
 }
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getCustomLoginFormEndpoint() {
     return 'https://localhost:9002/authorizationserver/login';
   }
+}
+
+class MockCsrfStateService implements Partial<CsrfStateService> {
+  get = createSpy().and.returnValue({ token: 'token' });
+  set = createSpy().and.stub();
 }
 
 function createForm(username: string, password: string, csrf: string) {
@@ -277,6 +291,10 @@ describe('LoginFormComponentService', () => {
               provide: FederatedLoginService,
               useClass: MockFederatedLoginService,
             },
+            {
+              provide: CsrfStateService,
+              useClass: MockCsrfStateService,
+            },
           ],
         }).compileComponents();
       }));
@@ -288,7 +306,6 @@ describe('LoginFormComponentService', () => {
         service = TestBed.inject(LoginFormComponentService);
         authService = TestBed.inject(AuthService);
         winRef = TestBed.inject(WindowRef);
-        // featureConfigService = TestBed.inject(FeatureConfigService);
       });
 
       describe('success', () => {
@@ -304,7 +321,7 @@ describe('LoginFormComponentService', () => {
           });
         });
 
-        it('should request email', () => {
+        it('should submit native form with refreshed CSRF token', waitForAsync(() => {
           const form = createForm(userId, password, csrf);
           const submitSpy = spyOn(form, 'submit');
           service.login(form);
@@ -313,7 +330,15 @@ describe('LoginFormComponentService', () => {
             OAUTH_REDIRECT_FLOW_KEY,
             'true'
           );
-        });
+        }));
+
+        it('should update csrf form field with fresh token before submit', waitForAsync(() => {
+          service.form.get('csrf')?.setValue('old-token');
+          const form = createForm(userId, password, 'old-token');
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(service.form.get('csrf')?.value).toBe('new-token');
+        }));
 
         it('should reset the form', () => {
           spyOn(service.form, 'reset').and.stub();
@@ -347,6 +372,105 @@ describe('LoginFormComponentService', () => {
           const form = createForm(userId, password, csrf);
           service.login(form);
           expect(service.form.reset).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when CSRF refresh fails on login submit', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(() => {
+          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
+            throwError(() => ({ status: 403 }))
+          );
+          service.form.setValue({ userId, password, csrf });
+        });
+
+        it('should NOT submit the form', waitForAsync(() => {
+          const form = createForm(userId, password, csrf);
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).not.toHaveBeenCalled();
+        }));
+
+        it('should show error message on CSRF refresh failure', waitForAsync(() => {
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            {
+              key: 'customLoginPage.badRequest.csrf_token_refresh_failed',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        }));
+
+        it('should reset busy state to false on CSRF refresh failure', waitForAsync(() => {
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          let busyValue: boolean | undefined;
+          service.isUpdating$.subscribe((v) => (busyValue = v));
+          service.login(form);
+          expect(busyValue).toBe(false);
+        }));
+      });
+
+      describe('when authorizationCodeFlowByDefaultCsrfTokenRefresh is disabled', () => {
+        beforeEach(waitForAsync(() => {
+          TestBed.resetTestingModule();
+          TestBed.configureTestingModule({
+            providers: [
+              LoginFormComponentService,
+              {
+                provide: FeatureConfigService,
+                useClass: class {
+                  isEnabled(feature: string): boolean {
+                    return (
+                      feature !==
+                      'authorizationCodeFlowByDefaultCsrfTokenRefresh'
+                    );
+                  }
+                },
+              },
+              { provide: AuthConfigService, useClass: MockAuthConfigService },
+              { provide: AuthService, useClass: MockAuthService },
+              { provide: WindowRef, useClass: MockWinRef },
+              {
+                provide: GlobalMessageService,
+                useClass: MockGlobalMessageService,
+              },
+              { provide: ActivatedRoute, useClass: MockActivatedRoute },
+              { provide: Router, useClass: MockRouter },
+              {
+                provide: FederatedLoginService,
+                useClass: MockFederatedLoginService,
+              },
+              {
+                provide: CsrfStateService,
+                useClass: MockCsrfStateService,
+              },
+            ],
+          }).compileComponents();
+        }));
+
+        beforeEach(() => {
+          service = TestBed.inject(LoginFormComponentService);
+          authService = TestBed.inject(AuthService);
+          winRef = TestBed.inject(WindowRef);
+        });
+
+        it('should submit synchronously without refreshing CSRF token', () => {
+          service.form.setValue({
+            userId: 'test@email.com',
+            password: 'secret',
+            csrf: 'token',
+          });
+          const form = createForm('test@email.com', 'secret', 'token');
+          const submitSpy = spyOn(form, 'submit');
+          service.login(form);
+          expect(submitSpy).toHaveBeenCalled();
+          expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
         });
       });
 

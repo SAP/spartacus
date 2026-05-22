@@ -24,8 +24,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, from } from 'rxjs';
-import { tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, from } from 'rxjs';
+import { catchError, take, tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
@@ -86,9 +86,39 @@ export class LoginFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
-      this.setOauthRedirectFlowFlag();
-      nativeForm.submit();
-      this.busy$.next(true);
+      if (
+        this.featureConfigService.isEnabled(
+          'authorizationCodeFlowByDefaultCsrfTokenRefresh'
+        )
+      ) {
+        this.busy$.next(true);
+        this.auth
+          .refreshCsrfToken()
+          .pipe(
+            take(1),
+            tap((csrfToken) => {
+              this.csrfStateService.set(csrfToken);
+              this.form.get('csrf')?.setValue(csrfToken.token);
+              this.setOauthRedirectFlowFlag();
+              nativeForm.submit();
+            }),
+            catchError(() => {
+              this.busy$.next(false);
+              this.globalMessage.add(
+                {
+                  key: 'customLoginPage.badRequest.csrf_token_refresh_failed',
+                },
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+              return EMPTY;
+            })
+          )
+          .subscribe();
+      } else {
+        this.setOauthRedirectFlowFlag();
+        nativeForm.submit();
+        this.busy$.next(true);
+      }
     } else {
       this.busy$.next(true);
 
