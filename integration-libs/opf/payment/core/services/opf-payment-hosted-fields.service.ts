@@ -106,7 +106,7 @@ export class OpfPaymentHostedFieldsService {
           returnPath,
           submitInput?.callbacks?.onFailure
         );
-        return throwError(error);
+        return throwError(() => error);
       }),
       backOff({
         /**
@@ -195,19 +195,19 @@ export class OpfPaymentHostedFieldsService {
     } else if (response.status === OpfPaymentSubmitStatus.REJECTED) {
       return from(Promise.resolve(callbacks.onFailure(response))).pipe(
         concatMap(() =>
-          throwError({
+          throwError(() => ({
             ...opfDefaultPaymentError,
             type: OpfPaymentErrorType.PAYMENT_REJECTED,
-          })
+          }))
         )
       );
     } else {
       return from(Promise.resolve(callbacks.onFailure(response))).pipe(
         concatMap(() =>
-          throwError({
+          throwError(() => ({
             ...opfDefaultPaymentError,
             type: OpfPaymentErrorType.STATUS_NOT_RECOGNIZED,
-          })
+          }))
         )
       );
     }

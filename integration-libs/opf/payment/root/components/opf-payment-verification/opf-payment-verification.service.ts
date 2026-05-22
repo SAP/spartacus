@@ -304,7 +304,7 @@ export class OpfPaymentVerificationService {
     return this.opfPaymentFacade.getAfterRedirectScripts(paymentSessionId).pipe(
       concatMap((response) => {
         if (!response?.afterRedirectScript) {
-          return throwError(this.opfDefaultPaymentError);
+          return throwError(() => this.opfDefaultPaymentError);
         }
         return from(
           this.renderAfterRedirectScripts(response.afterRedirectScript)
