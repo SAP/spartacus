@@ -45,6 +45,11 @@ import {
   OPF_QUICK_BUY_FEATURE,
   OpfQuickBuyRootModule,
 } from '@spartacus/opf/quick-buy/root';
+import {
+  defaultOpfGiftCardCartConfig,
+  OPF_GIFT_CARD_FEATURE,
+  OpfGiftCardRootModule,
+} from '@spartacus/opf/gift-card/root';
 import { environment } from '../../../../environments/environment';
 import {
   defaultOpfB2bCheckoutConfig,
@@ -52,6 +57,14 @@ import {
   OPF_B2B_CHECKOUT_FEATURE,
   OpfB2bCheckoutRootModule,
 } from '@spartacus/opf/b2b-checkout/root';
+import {
+  opfGiftCardTranslationChunksConfig,
+  opfGiftCardTranslationsEn,
+} from '@spartacus/opf/gift-card/assets';
+import {
+  defaultOccOpfGiftCardCartEndpointsConfig,
+  defaultOccOpfGiftCardOrderEndpointsConfig,
+} from '@spartacus/opf/gift-card/root';
 import {
   OPF_TOKENISATION_FEATURE,
   OpfTokenisationRootModule,
@@ -69,6 +82,13 @@ if (environment.b2b) {
 
 extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
 
+if (!environment.b2b && environment.opf) {
+  extensionProviders.push(
+    provideConfig(defaultOccOpfGiftCardCartEndpointsConfig),
+    provideConfig(defaultOccOpfGiftCardOrderEndpointsConfig),
+    provideConfig(defaultOpfGiftCardCartConfig)
+  );
+}
 @NgModule({
   imports: [
     OpfBaseRootModule,
@@ -78,6 +98,7 @@ extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
     OpfCtaRootModule,
     OpfGlobalFunctionsRootModule,
     OpfQuickBuyRootModule,
+    OpfGiftCardRootModule,
     OpfTokenisationRootModule,
   ],
   providers: [
@@ -115,6 +136,10 @@ extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
           module: () =>
             import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
         },
+        [OPF_GIFT_CARD_FEATURE]: {
+          module: () =>
+            import('@spartacus/opf/gift-card').then((m) => m.OpfGiftCardModule),
+        },
         [OPF_TOKENISATION_FEATURE]: {
           module: () =>
             import('@spartacus/opf/tokenisation').then(
@@ -144,6 +169,15 @@ extensionProviders.push(provideConfig(defaultOccOpfCartConfig));
           zh: opfPaymentTranslationsZh,
         },
         chunks: opfPaymentTranslationChunksConfig,
+        fallbackLang: 'en',
+      },
+    }),
+    provideConfig(<I18nConfig>{
+      i18n: {
+        resources: {
+          en: opfGiftCardTranslationsEn,
+        },
+        chunks: opfGiftCardTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),

@@ -12,6 +12,11 @@ on:
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 
+permissions:
+  contents: read
+  pull-requests: write
+  actions: write
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   GH_TOKEN: ${{ github.token }}
@@ -31,7 +36,7 @@ jobs:
     # and the job returns a success code.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Prevent retries
         uses: ./.github/actions/prevent-retries
   validate_e2e_execution:
@@ -40,7 +45,7 @@ jobs:
     outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
           fetch-depth: 0
       - name: Determine whether to run e2es
@@ -54,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Setup Node and Cache
         uses: ./.github/actions/setup-node-and-cache
         with:
@@ -62,6 +67,10 @@ jobs:
           cache-key: ${{ github.event.pull_request.base.sha }}
       - name: Install Cypress packages
         run: (cd projects/storefrontapp-e2e-cypress && npm ci)
+      - name: Snapshot source files before build
+        uses: ./.github/actions/build-integrity-check
+        with:
+          phase: snapshot
       - name: Build Spartacus libraries
         run: |
           source ci-scripts/npm-commands.sh
@@ -78,8 +87,12 @@ jobs:
             rm build.log
             exit 1
           fi
+      - name: Verify source file integrity after build
+        uses: ./.github/actions/build-integrity-check
+        with:
+          phase: verify
       - name: Cache built libraries
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0
         with:
           path: |
             dist
@@ -104,7 +117,7 @@ jobs:
             cache_key: ci-b2c
             name: B2C SSR
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Setup Node and Cache
         uses: ./.github/actions/setup-node-and-cache
         with:
@@ -128,7 +141,7 @@ jobs:
             build_csr
           fi
       - name: Cache built app (${{ matrix.spa_env }}-${{ matrix.build_type }})
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0
         with:
           path: |
             dist/storefrontapp
@@ -142,7 +155,7 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -161,7 +174,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -183,7 +196,7 @@ jobs:
         containers: [1, 2, 3, 4]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -205,7 +218,7 @@ jobs:
         containers: [1, 2, 3]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -233,7 +246,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       # Currently only A11Y screenshots are collected, but this can be extended
       # to merge screenshots from other test suites (B2C, B2B, etc.) as needed
       - name: Merge A11Y screenshots
@@ -243,7 +256,7 @@ jobs:
           total-containers: 3
         if: ${{ needs.a11y_e2e_tests.result != 'skipped' }}
       - name: Post PR comment with screenshot details
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
         if: ${{ github.event_name == 'pull_request' && needs.a11y_e2e_tests.result == 'failure' }}
         with:
           script: |
@@ -256,7 +269,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Aggregate Required Job Results
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
         with:
           script: |
             github.rest.issues.createComment({

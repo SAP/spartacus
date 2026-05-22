@@ -2,7 +2,7 @@
   <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
   {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
 </div>
-<ng-container *ngIf="!config.features?.enableReadDomainValuesOnDemand">
+<div class="cx-header-label-container">
   <label
     id="{{ createAttributeUiKey('label', attribute.name) }}"
     [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
@@ -19,32 +19,11 @@
       >{{ getLabel(expMode, attribute.label, attribute.name) }}</span
     ></label
   >
-</ng-container>
-<ng-container *ngIf="config.features?.enableReadDomainValuesOnDemand">
-  <div class="cx-header-label-container">
-    <label
-      id="{{ createAttributeUiKey('label', attribute.name) }}"
-      [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
-      [attr.aria-label]="
-        !attribute.required
-          ? ('configurator.a11y.attribute'
-            | cxTranslate: { attribute: attribute.label })
-          : ('configurator.a11y.requiredAttribute'
-            | cxTranslate: { param: attribute.label })
-      "
-      ><span
-        [class.cx-required-icon]="attribute.required"
-        [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-        >{{ getLabel(expMode, attribute.label, attribute.name) }}</span
-      ></label
-    >
-
-    <cx-configurator-show-options
-      *ngIf="attribute.domainOnDemand"
-      [attributeComponentContext]="attributeComponentContext"
-    ></cx-configurator-show-options>
-  </div>
-</ng-container>
+  <cx-configurator-show-options
+    *ngIf="attribute.domainOnDemand"
+    [attributeComponentContext]="attributeComponentContext"
+  ></cx-configurator-show-options>
+</div>
 
 <cx-configurator-show-more
   *ngIf="attribute.description"

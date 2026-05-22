@@ -35,6 +35,7 @@ import {
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
 import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
+import { OpfCheckoutBillingAddressFormService } from '@spartacus/opf/checkout/components';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -46,6 +47,12 @@ class MockOpfCheckoutPaymentsComponent {
   @Input() isHeadingDisplayed: boolean;
   @Input() isPaymentRenderBelow: boolean;
   @Input() isPaymentInfoMessageEnabled: boolean;
+}
+
+class MockOpfCheckoutBillingAddressFormService
+  implements Partial<OpfCheckoutBillingAddressFormService>
+{
+  paymentOptionsDisabled$ = of(false);
 }
 
 class MockCheckoutPaymentTypeFacade
@@ -122,6 +129,10 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
           useClass: MockOpfMetadataStoreService,
         },
         { provide: OpfPaymentFacade, useClass: MockOpfPaymentFacade },
+        {
+          provide: OpfCheckoutBillingAddressFormService,
+          useClass: MockOpfCheckoutBillingAddressFormService,
+        },
         { provide: UserIdService, useValue: {} },
         { provide: GlobalMessageService, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },

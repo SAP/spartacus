@@ -191,6 +191,7 @@ describe('HttpErrorInterceptor', () => {
           return req.method === 'GET';
         });
         mockReq.flush({}, { status: 123, statusText: 'unknown' });
+        // eslint-disable-next-line no-console
         expect(console.warn).toHaveBeenCalledWith(
           `An unknown http error occurred\n`,
           'Http failure response for /unknown: 123 unknown'

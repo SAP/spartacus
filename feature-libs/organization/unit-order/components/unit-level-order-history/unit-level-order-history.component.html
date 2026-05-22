@@ -183,7 +183,9 @@
           </table>
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-unit-level-order-history-sort bottom">
-            <label class="cx-unit-level-order-history-form-group form-group"
+            <label
+              class="cx-unit-level-order-history-form-group form-group"
+              *cxFeature="'showSortFieldsOnlyAtTop'"
               ><span>
                 {{ 'unitLevelOrderHistory.sortBy' | cxTranslate }}
               </span>

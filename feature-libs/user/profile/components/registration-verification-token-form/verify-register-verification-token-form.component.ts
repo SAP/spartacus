@@ -22,7 +22,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   AuthConfigService,
   FeatureConfigService,
@@ -31,7 +30,6 @@ import {
   OAuthFlow,
   RoutingService,
   TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
@@ -62,9 +60,7 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
     FormErrorsComponent,
     NgIf,
     NgClass,
-    RouterLink,
     SpinnerComponent,
-    UrlPipe,
     TranslatePipe,
   ],
 })
@@ -88,7 +84,14 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
-    return CustomFormValidators.securePasswordValidators;
+    return this.featureConfigService.isEnabled(
+      'useEnhancedSecurePasswordValidators'
+    )
+      ? [
+          ...CustomFormValidators.securePasswordValidators,
+          CustomFormValidators.mustEndWithLegalCharacter,
+        ]
+      : CustomFormValidators.securePasswordValidators;
   }
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
@@ -326,5 +329,19 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       event.preventDefault();
       this.openInfoDailog();
     }
+  }
+
+  goBack(): void {
+    this.router.go(
+      { cxRoute: 'register' },
+      {
+        state: {
+          titleCode: this.titleCode,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.target,
+        },
+      }
+    );
   }
 }

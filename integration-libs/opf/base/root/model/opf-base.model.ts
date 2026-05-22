@@ -84,4 +84,5 @@ export enum OpfDynamicScriptResourceType {
 export enum OpfPaymentProviderType {
   PAYMENT_GATEWAY = 'PAYMENT_GATEWAY',
   PAYMENT_METHOD = 'PAYMENT_METHOD',
+  STORED_VALUE_PAYMENT = 'STORED_VALUE_PAYMENT',
 }
