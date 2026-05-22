@@ -61,11 +61,11 @@ export class AuthRedirectService implements OnDestroy {
    * overwriting the saved redirect URL
    */
   protected init() {
-    this.subscription = this.router.events
+    if (this.featureToggles.redirectOnlyOnTrueNavigationEnd) {
+     this.subscription = this.router.events
       .pipe(
         filter(
           (event) =>
-            !this.redirectToggle ||
             this.isNavEnd(event) ||
             this.isRedirect(event)
         ),
@@ -73,13 +73,20 @@ export class AuthRedirectService implements OnDestroy {
         pairwise(),
         filter(
           ([prev, curr]) =>
-            !this.redirectToggle ||
             (this.isNavEnd(curr) && !this.isRedirect(prev))
         )
       )
       .subscribe(([, curr]) => {
         this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
       });
+    } else {
+        this.subscription = this.router.events.subscribe((event: Event) => {
+      if (this.isNavEnd(event)) {
+        this.setRedirectUrl(event.urlAfterRedirects);
+      }
+    });
+    }
+   
   }
 
   ngOnDestroy() {
