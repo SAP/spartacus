@@ -17,7 +17,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureConfigService } from '@spartacus/core';
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
  */
@@ -26,8 +26,7 @@ import { FeatureToggles } from '@spartacus/core';
 })
 export class AuthRedirectService implements OnDestroy {
   protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
-  private featureConfigService =
-    inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
@@ -61,32 +60,15 @@ export class AuthRedirectService implements OnDestroy {
    * overwriting the saved redirect URL
    */
   protected init() {
-    if (this.featureToggles.redirectOnlyOnTrueNavigationEnd) {
-     this.subscription = this.router.events
-      .pipe(
-        filter(
-          (event) =>
-            this.isNavEnd(event) ||
-            this.isRedirect(event)
-        ),
-        startWith(null),
-        pairwise(),
-        filter(
-          ([prev, curr]) =>
-            (this.isNavEnd(curr) && !this.isRedirect(prev))
-        )
-      )
-      .subscribe(([, curr]) => {
-        this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
-      });
+    if (this.featureConfigService.isEnabled('redirectOnlyOnTrueNavigationEnd')) {
+      this.manageSavedRedirectUriOnTrueNavigations();
     } else {
-        this.subscription = this.router.events.subscribe((event: Event) => {
-      if (this.isNavEnd(event)) {
-        this.setRedirectUrl(event.urlAfterRedirects);
-      }
-    });
+      this.subscription = this.router.events.subscribe((event: any) => {
+        if (this.isNavEnd(event)) {
+          this.setRedirectUrl(event.urlAfterRedirects);
+        }
+      });
     }
-   
   }
 
   ngOnDestroy() {
@@ -135,6 +117,21 @@ export class AuthRedirectService implements OnDestroy {
         this.getUrlWithoutSiteContextParams(url)
       );
     }
+  }
+
+  private manageSavedRedirectUriOnTrueNavigations(): void {
+    this.subscription = this.router.events
+    .pipe(
+      filter((event) => this.isNavEnd(event) || this.isRedirect(event)),
+      startWith(null),
+      pairwise(),
+      filter(
+        ([prev, curr]) => this.isNavEnd(curr) && !this.isRedirect(prev)
+      )
+    )
+    .subscribe(([, curr]) => {
+      this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
+    });
   }
 
   protected isNavEnd = (event: any): event is NavigationEnd =>
