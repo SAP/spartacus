@@ -5,7 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
+import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { OpfGiftCardOrderDetailBillingComponent } from './opf-gift-card-order-detail-billing/opf-gift-card-order-detail-billing.component';
 import { OpfGiftCardOrderDetailTotalsComponent } from './opf-gift-card-order-detail-totals/opf-gift-card-order-detail-totals.component';
 import { OpfGiftCardPaymentMethodDetailComponent } from './opf-gift-card-payment-method-detail/opf-gift-card-payment-method-detail.component';
@@ -18,7 +18,9 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
     OpfGiftCardOrderDetailBillingComponent,
     OpfGiftCardOrderDetailTotalsComponent,
     OpfGiftCardPaymentMethodDetailComponent,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsTotalsComponent: {
           component: OpfGiftCardOrderDetailTotalsComponent,
@@ -26,8 +28,6 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
         },
       },
     }),
-  ],
-  providers: [
     provideOutlet({
       id: CartOutlets.ORDER_DETAILS_AFTER_PAYMENT_METHOD,
       component: OpfGiftCardOrderDetailBillingComponent,
