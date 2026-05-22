@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc index.ts"
+    "build": "tsc -p ."
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "@actions/github": "^6.0.0"
   },
   "devDependencies": {
+    "@types/node": "^22.0.0",
     "typescript": "^5.0.0"
   }
 }
