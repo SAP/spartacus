@@ -26,8 +26,8 @@ import { FeatureToggles } from '@spartacus/core';
 })
 export class AuthRedirectService implements OnDestroy {
   protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
-  protected redirectToggle =
-    !!inject(FeatureToggles).redirectOnlyOnTrueNavigationEnd;
+  private featureConfigService =
+    inject(FeatureConfigService);
 
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
