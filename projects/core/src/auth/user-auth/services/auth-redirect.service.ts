@@ -60,7 +60,9 @@ export class AuthRedirectService implements OnDestroy {
    * overwriting the saved redirect URL
    */
   protected init() {
-    if (this.featureConfigService.isEnabled('redirectOnlyOnTrueNavigationEnd')) {
+    if (
+      this.featureConfigService.isEnabled('redirectOnlyOnTrueNavigationEnd')
+    ) {
       this.manageSavedRedirectUriOnTrueNavigations();
     } else {
       this.subscription = this.router.events.subscribe((event: any) => {
@@ -121,17 +123,15 @@ export class AuthRedirectService implements OnDestroy {
 
   private manageSavedRedirectUriOnTrueNavigations(): void {
     this.subscription = this.router.events
-    .pipe(
-      filter((event) => this.isNavEnd(event) || this.isRedirect(event)),
-      startWith(null),
-      pairwise(),
-      filter(
-        ([prev, curr]) => this.isNavEnd(curr) && !this.isRedirect(prev)
+      .pipe(
+        filter((event) => this.isNavEnd(event) || this.isRedirect(event)),
+        startWith(null),
+        pairwise(),
+        filter(([prev, curr]) => this.isNavEnd(curr) && !this.isRedirect(prev))
       )
-    )
-    .subscribe(([, curr]) => {
-      this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
-    });
+      .subscribe(([, curr]) => {
+        this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
+      });
   }
 
   protected isNavEnd = (event: any): event is NavigationEnd =>

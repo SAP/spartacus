@@ -8,7 +8,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import {
-  FeatureToggles,
+  FeatureConfigService,
   SiteContextUrlParams,
   SiteContextUrlSerializer,
 } from '@spartacus/core';
@@ -67,20 +67,18 @@ describe('AuthRedirectService', () => {
     },
   ];
 
-  function configureTestingModule(
-    featureToggles: Partial<FeatureToggles> = {}
-  ) {
+  function configureTestingModule() {
     TestBed.configureTestingModule({
       providers: [
         AuthRedirectService,
         AuthRedirectStorageService,
+        FeatureConfigService,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
         {
           provide: SiteContextUrlSerializer,
           useClass: MockSiteContextUrlSerializer,
         },
-        { provide: FeatureToggles, useValue: featureToggles },
       ],
       imports: [RouterModule.forRoot(routes)],
     });
@@ -150,12 +148,15 @@ describe('AuthRedirectService', () => {
   describe('when redirectOnlyOnTrueNavigationEnd is enabled', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
-      configureTestingModule({ redirectOnlyOnTrueNavigationEnd: true });
-      TestBed.inject(AuthRedirectService);
+      configureTestingModule();
       authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
       router = TestBed.inject(Router);
       zone = TestBed.inject(NgZone);
+      const featureConfigService = TestBed.inject(FeatureConfigService);
       spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+
+      TestBed.inject(AuthRedirectService);
     });
 
     it('should NOT save redirect url when NavigationEnd was caused by a guard redirect (UrlTree)', async () => {
