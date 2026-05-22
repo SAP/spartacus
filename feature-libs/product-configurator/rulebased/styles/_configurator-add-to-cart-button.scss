@@ -1,3 +1,7 @@
+// Approximate height of the fixed cx-configurator-add-to-cart-button bar.
+// Used as scroll-padding so keyboard-focused elements are not obscured by it.
+$cx-configurator-add-to-cart-button-offset: 6.25rem !default; // ~100px
+
 %cx-configurator-add-to-cart-button {
   position: fixed;
   z-index: calc(var(--cx-popover-z-index) + 10);
@@ -5,9 +9,11 @@
   width: 100%;
   background-color: var(--cx-color-background);
   border-top: solid 1px var(--cx-color-light);
+
   @include cx-highContrastTheme {
     border-top: solid 1px var(--cx-color-dark);
   }
+
   box-shadow: 0 0 5px var(--cx-color-light);
 
   .cx-add-to-cart-btn-container,
@@ -24,14 +30,17 @@
 
   .cx-add-to-cart-btn-container {
     .cx-quantity-add-to-cart-container {
-      @include media-breakpoint-down(sm) {
-        inline-size: 100%;
-      }
-
       inline-size: 40%;
       padding-inline-start: 16px;
 
+      // Below media-breakpoint "small" (576 CSS px) the quantity spinner and the
+      // add-to-cart button no longer fit alongside each other inside the 40% column,
+      // so let the container fill the available width and drop its inline-start padding.
+      // This moves the quantity spinner to the inline-start edge and keeps both controls
+      // on the same line without producing a horizontal scrollbar
+      // (WCAG 1.4.10 Reflow at 320 CSS px).
       @include media-breakpoint-down(sm) {
+        inline-size: 100%;
         padding-inline-start: 0px;
       }
 
@@ -54,6 +63,7 @@
 
           cx-item-counter {
             background-color: var(--cx-color-inverse);
+
             @include cx-highContrastTheme {
               background-color: var(--cx-color-background);
             }
@@ -66,4 +76,11 @@
       }
     }
   }
+}
+
+// Reserve space at the bottom of the scroll container so that elements which
+// receive keyboard focus are not visually obscured by the
+// fixed cx-configurator-add-to-cart-button bar when scrolled into view.
+html:has(cx-configurator-add-to-cart-button) {
+  scroll-padding-bottom: $cx-configurator-add-to-cart-button-offset;
 }

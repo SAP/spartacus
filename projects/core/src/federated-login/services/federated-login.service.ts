@@ -81,7 +81,7 @@ export class FederatedLoginService {
   protected checkLoginDomain() {
     // Using `location.origin` for SSR support
     return (
-      this.config?.loginHosts.some(
+      this.config?.loginHosts?.some(
         (host) =>
           host === new URL(this.windowRef.location.origin as string).host
       ) ?? false

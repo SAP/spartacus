@@ -96,7 +96,7 @@ export class FederatedLoginGuard implements CanActivate {
     const destination = this.semanticPathService.get('notFound') ?? '';
 
     // avoid infinite loop
-    if (state.url === destination) {
+    if (!destination || state.url.endsWith(destination)) {
       return of(true);
     }
 
