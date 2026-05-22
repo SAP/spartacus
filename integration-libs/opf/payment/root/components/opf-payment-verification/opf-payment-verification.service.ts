@@ -10,7 +10,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  RoutingConfigService,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 
 import {
@@ -35,6 +37,8 @@ import {
   OpfPaymentVerificationResult,
   OpfPaymentVerificationUrlInput,
 } from '../../model';
+const OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY =
+  'opfPaymentVerificationQuerySearch';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +51,8 @@ export class OpfPaymentVerificationService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected opfResourceLoaderService = inject(OpfResourceLoaderService);
   protected globalFunctionsService = inject(OpfGlobalFunctionsFacade);
+  protected winRef = inject(WindowRef);
+  protected routingConfigService = inject(RoutingConfigService);
 
   opfDefaultPaymentError: HttpErrorModel = {
     statusText: 'Payment Verification Error',
@@ -60,6 +66,35 @@ export class OpfPaymentVerificationService {
           return { key: pair[0], value: pair[1] as string };
         })
       : [];
+  }
+
+  /**
+   * Stores the redirect query string before OAuth bootstrap mutates `location.search`.
+   */
+  captureRedirectQueryString(): void {
+    if (!this.winRef.isBrowser()) {
+      return;
+    }
+
+    const pathname = this.winRef.location.pathname ?? '';
+    const isRedirectUrl = [OpfPage.RESULT_PAGE, OpfPage.CANCEL_PAGE].some(
+      (routeName) =>
+        (this.routingConfigService.getRouteConfig(routeName)?.paths ?? []).some(
+          (path) => pathname.endsWith(path.startsWith('/') ? path : `/${path}`)
+        )
+    );
+
+    if (!isRedirectUrl) {
+      return;
+    }
+
+    const search = this.winRef.location.search ?? '';
+    if (search) {
+      this.winRef.sessionStorage?.setItem(
+        OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY,
+        search
+      );
+    }
   }
 
   protected findInParamsMap(
@@ -81,10 +116,14 @@ export class OpfPaymentVerificationService {
     let paramsMap: Array<OpfKeyValueMap>;
     const is3DSRedirect = this.check3DSRedirectState();
 
+    const redirectQueryParams$ = this.winRef.isBrowser()
+      ? of(this.getParamsMap(this.getRedirectQueryParams()))
+      : route.queryParams.pipe(map((params) => this.getParamsMap(params)));
+
     return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
-      ? route.queryParams.pipe(
-          concatMap((params: Params) => {
-            paramsMap = this.getParamsMap(params);
+      ? redirectQueryParams$.pipe(
+          concatMap((parsedParamsMap: Array<OpfKeyValueMap>) => {
+            paramsMap = parsedParamsMap;
 
             if (is3DSRedirect) {
               const storedState = this.get3DSRedirectState();
@@ -118,6 +157,32 @@ export class OpfPaymentVerificationService {
           ...this.opfDefaultPaymentError,
           message: 'opfPayment.errors.cancelPayment',
         }));
+  }
+
+  protected getRedirectQueryParams(): Params {
+    const captured = this.winRef.sessionStorage?.getItem(
+      OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY
+    );
+
+    if (captured) {
+      this.winRef.sessionStorage?.removeItem(
+        OPF_PAYMENT_VERIFICATION_QUERY_SEARCH_KEY
+      );
+    }
+
+    const search = captured ?? this.winRef.location.search ?? '';
+    if (!search) {
+      return {};
+    }
+
+    const query = search.startsWith('?') ? search.slice(1) : search;
+    const params: Params = {};
+
+    new URLSearchParams(query).forEach((value, key) => {
+      params[key] = value;
+    });
+
+    return params;
   }
 
   protected getPaymentSessionId(
@@ -336,4 +401,9 @@ export class OpfPaymentVerificationService {
         })
       );
   }
+}
+
+export function captureOpfPaymentVerificationQueryFactory(): () => void {
+  const service = inject(OpfPaymentVerificationService);
+  return () => service.captureRedirectQueryString();
 }

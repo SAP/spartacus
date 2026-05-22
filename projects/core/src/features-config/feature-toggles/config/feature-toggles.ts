@@ -501,7 +501,12 @@ export interface FeatureTogglesInterface {
   alignNavigationMenuWithHeader?: boolean;
 
   /**
-   * When enabled, `OpfPaymentVerificationComponent` calls
+   * When enabled, fixes a known issue where the cart sometimes does not reload properly on context(language or currency) change,
+   * deleting items from the cart (more specifically on the following sequence : logout - log back in - context change)
+   */
+  enableCartReloadOnContextChange?: boolean;
+
+  /* When enabled, `OpfPaymentVerificationComponent` calls
    * `checkIfProcessingCartIdExist()` only on verification error.
    *
    * Legacy behavior called it immediately during init.
@@ -568,5 +573,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
   enableExpiredRefreshTokenHandlers: false,
+  enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
 };
