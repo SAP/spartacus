@@ -38,3 +38,30 @@ export class RoutingModule {
     };
   }
 }
+
+/**
+ * New hydration-compatible routing module.
+ *
+ * Uses `CoreRoutingModule.forRootV2()` which provides an `APP_INITIALIZER`
+ * that manually triggers navigation instead of relying on `enabledBlocking`.
+ *
+ * Use together with `AppRoutingModuleV2` and `BaseStorefrontModuleV2`.
+ */
+@NgModule({
+  imports: [CoreRoutingModule.forRootV2(), CmsRouteModule],
+})
+export class RoutingModuleV2 {
+  static forRoot(): ModuleWithProviders<RoutingModuleV2> {
+    return {
+      ngModule: RoutingModuleV2,
+      providers: [
+        provideDefaultConfigFactory(defaultRoutesConfigFactory),
+        {
+          provide: BEFORE_CMS_PAGE_GUARD,
+          useExisting: ProtectedRoutesGuard,
+          multi: true,
+        },
+      ],
+    };
+  }
+}
