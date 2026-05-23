@@ -5,6 +5,7 @@
  */
 
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+import { getAuthStorageKey } from '../../../helpers/auth';
 
 describe('Saved carts Continuum tests', { testIsolation: false }, () => {
   isolateTestsBefore();
@@ -20,7 +21,7 @@ describe('Saved carts Continuum tests', { testIsolation: false }, () => {
   });
 
   it('Save for later modal', () => {
-    const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+    const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
     cy.addToCart('779841', 1, auth.token.access_token);
     cy.visit('/cart');
     cy.get('button').contains('Save cart for later').click();

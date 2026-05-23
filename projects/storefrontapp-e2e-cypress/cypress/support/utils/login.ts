@@ -5,6 +5,7 @@
  */
 
 import { whenJDK17 } from './jdk-versions';
+import { getAuthStorageKey } from '../../helpers/auth';
 
 export const USERID_CURRENT = 'current';
 export const config = {
@@ -187,7 +188,7 @@ export function setSessionData(data) {
   const authData = { token: data, userId: USERID_CURRENT };
 
   cy.window().then((win) => {
-    const storageKey = 'spartacus⚿⚿auth';
+    const storageKey = getAuthStorageKey();
     let state;
     try {
       state = JSON.parse(win.localStorage.getItem(storageKey));

@@ -7,6 +7,7 @@
 import * as myCoupons from '../../../helpers/coupons/my-coupons';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+import { getAuthStorageKey } from '../../../helpers/auth';
 
 describe('Coupons Accessibility', { testIsolation: false }, () => {
   isolateTestsBefore();
@@ -51,7 +52,7 @@ describe('Coupons Accessibility', { testIsolation: false }, () => {
 
     describe('Cart Coupon', () => {
       before(() => {
-        const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+        const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
         cy.addToCart('779841', 1, auth.token.access_token);
       });
 

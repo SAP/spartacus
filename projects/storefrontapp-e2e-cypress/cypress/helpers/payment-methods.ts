@@ -6,6 +6,7 @@
 
 import { addProductFromPdp, loginRegisteredUser } from './cart';
 import { waitForPage } from './navigation';
+import { getAuthStorageKey } from './auth';
 
 interface PaymentDetail {
   accountHolderName: string;
@@ -98,7 +99,7 @@ export function addPaymentMethod(paymentDetail: PaymentDetail) {
         )}/users/current/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+            JSON.parse(localStorage.getItem(getAuthStorageKey())).token
               .access_token
           }`,
         },

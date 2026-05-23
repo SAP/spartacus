@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-//TODO: use this const in each place that storage key is used as string
-export const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
+export function getAuthStorageKey(): string {
+  const baseSite = Cypress.env('BASE_SITE') || 'electronics-spa';
+  return `spartacus⚿${baseSite}⚿auth`;
+}
 
 export function getStateAuth() {
-  return JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY));
+  return JSON.parse(localStorage.getItem(getAuthStorageKey()));
 }

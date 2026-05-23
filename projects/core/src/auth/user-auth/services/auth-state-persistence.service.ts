@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { UserIdService } from '../facade/user-id.service';
 import { AuthToken } from '../models/auth-token.model';
@@ -30,6 +31,7 @@ export interface SyncedAuthState {
 })
 export class AuthStatePersistenceService implements OnDestroy {
   protected subscription = new Subscription();
+  private injector = inject(Injector);
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
@@ -47,10 +49,15 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Initializes the synchronization between state and browser storage.
    */
   public initSync() {
+    const baseSiteService = this.injector.get(BaseSiteService);
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,
         state$: this.getAuthState(),
+        context$: baseSiteService.getActive().pipe(
+          map((id) => [id]),
+          startWith([''])
+        ),
         onRead: (state) => this.onRead(state),
       })
     );

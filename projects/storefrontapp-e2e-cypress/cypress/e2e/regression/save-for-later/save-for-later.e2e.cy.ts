@@ -17,6 +17,7 @@ import {
   verifyMiniCartQty,
 } from '../../../helpers/save-for-later';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { getAuthStorageKey } from '../../../helpers/auth';
 
 context('Save for later', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -66,7 +67,7 @@ context('Save for later', () => {
 
       it('should place order and keep save for later', () => {
         const stateAuth = JSON.parse(
-          localStorage.getItem('spartacus⚿⚿auth')
+          localStorage.getItem(getAuthStorageKey())
         ).token;
         addProductToCart(products[0]);
         addProductToCart(products[1]);

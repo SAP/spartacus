@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { getAuthStorageKey } from '../../auth';
 import {
   CATEGORY_COLUMN,
   CHANGED_ON_COLUMN,
@@ -310,7 +311,7 @@ export function waitForTicketListData(
   ticketDetails: TestTicketDetails
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       for (let i = 0; i < numberOfTicketsToRequest; i++) {
         cy.requireCustomerTicketList(token, ticketDetails);

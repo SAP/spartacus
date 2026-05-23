@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { getAuthStorageKey } from '../helpers/auth';
 
 declare global {
   namespace Cypress {
@@ -36,7 +37,7 @@ Cypress.Commands.add('requirePaymentMethodAdded', (cartId) => {
         )}/users/current/carts/${cartCode}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
+            JSON.parse(localStorage.getItem(getAuthStorageKey())).token
               .access_token
           }`,
         },

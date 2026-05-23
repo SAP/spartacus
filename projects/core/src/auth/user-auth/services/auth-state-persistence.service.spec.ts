@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
@@ -35,6 +36,12 @@ class MockAuthRedirectStorageService
   setRedirectUrl() {}
 }
 
+class MockBaseSiteService implements Partial<BaseSiteService> {
+  getActive() {
+    return of('electronics-spa');
+  }
+}
+
 describe('AuthStatePersistenceService', () => {
   let service: AuthStatePersistenceService;
   let persistenceService: StatePersistenceService;
@@ -59,6 +66,7 @@ describe('AuthStatePersistenceService', () => {
           provide: AuthRedirectStorageService,
           useClass: MockAuthRedirectStorageService,
         },
+        { provide: BaseSiteService, useClass: MockBaseSiteService },
         StatePersistenceService,
       ],
     });
@@ -125,6 +133,7 @@ describe('AuthStatePersistenceService', () => {
       jasmine.objectContaining({
         key: 'auth',
         state$,
+        context$: jasmine.anything(),
       })
     );
     expect(service['getAuthState']).toHaveBeenCalled();
@@ -157,7 +166,7 @@ describe('AuthStatePersistenceService', () => {
       redirectUrl: 'redirect_url',
     });
 
-    expect(service.isUserLoggedIn()).toBeTrue();
+    expect(service.isUserLoggedIn()).toBe(true);
 
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({

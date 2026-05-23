@@ -7,7 +7,7 @@
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
 import { addProductToCart as addToCart } from '../applied-promotions';
-import { AUTH_STORAGE_KEY, getStateAuth } from '../auth';
+import { getAuthStorageKey, getStateAuth } from '../auth';
 import { cartUser } from '../cart';
 import { loginAsGuest } from '../checkout-as-guest';
 import * as checkout from '../checkout-flow';
@@ -132,7 +132,7 @@ export function claimCoupon(couponCode: string) {
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY)).token.access_token
+        JSON.parse(localStorage.getItem(getAuthStorageKey())).token.access_token
       }`,
     },
   }).then((response) => {

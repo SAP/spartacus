@@ -18,6 +18,7 @@ import {
 } from '../order-history';
 import * as SavedCart from '../saved-cart';
 import { loginB2bUser as login } from './b2b-checkout';
+import { getAuthStorageKey } from '../auth';
 
 export function verifyCartPageTabbingOrder() {
   addProductToCart(sampleData.products[0], 1);
@@ -332,7 +333,7 @@ export function restoreCart(
   }
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartListingPage();
@@ -453,7 +454,7 @@ export function updateSavedCartAndDelete(
   deleteEntry: boolean = false
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartDetailsPage(cart.code);
@@ -557,7 +558,7 @@ export function updateSavedCartAndRestore(
   addToActiveCart: boolean
 ) {
   cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then((win) => JSON.parse(win.localStorage.getItem(getAuthStorageKey())))
     .then(({ token }) => {
       cy.requireSavedCart(token, product, savedCartForm).then((cart) => {
         visitSavedCartDetailsPage(cart.code);

@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { getAuthStorageKey } from '../../helpers/auth';
 
 const delay = 3000;
 
@@ -27,7 +28,7 @@ export function waitForOrderToBePlacedRequest(
   const {
     userId,
     token: { access_token },
-  } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+  } = JSON.parse(localStorage.getItem(getAuthStorageKey()));
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(
@@ -76,7 +77,7 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   const {
     userId,
     token: { access_token },
-  } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+  } = JSON.parse(localStorage.getItem(getAuthStorageKey()));
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(

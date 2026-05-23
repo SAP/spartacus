@@ -6,6 +6,7 @@
 
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+import { getAuthStorageKey } from '../../../helpers/auth';
 /**
  * This test checks accessibility concerns on the cart page using Access Continuum
  */
@@ -29,7 +30,7 @@ describe('Cart Page Accessibility', { testIsolation: false }, () => {
     });
 
     it('Cart with Products', () => {
-      const auth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
+      const auth = JSON.parse(localStorage.getItem(getAuthStorageKey()));
       cy.addToCart('300938', 1, auth.token.access_token);
       cy.visit('/cart');
       cy.get('.cx-item-list-row');
