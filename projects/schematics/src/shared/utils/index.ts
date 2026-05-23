@@ -21,3 +21,4 @@ export * from './schematics-config-utils';
 export * from './test-utils';
 export * from './workspace-utils';
 export * from './generate-default-workspace';
+export * from './update-feature-toggles';

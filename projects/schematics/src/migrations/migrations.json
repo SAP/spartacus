@@ -119,6 +119,16 @@
       "version": "221121.7.0",
       "factory": "./221121_7/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
+    },
+    "00-migration-v221121_9-update-feature-toggles": {
+      "version": "221121.9.0",
+      "factory": "../shared/utils/update-feature-toggles#migrate",
+      "description": "Update feature toggles: comment out removed toggles with [REMOVED] and add new ones with [NEW]"
+    },
+    "00-migration-v221121_10-update-feature-toggles": {
+      "version": "221121.10.0",
+      "factory": "../shared/utils/update-feature-toggles#migrate",
+      "description": "Update feature toggles: comment out removed toggles with [REMOVED] and add new ones with [NEW]"
     }
   }
 }
