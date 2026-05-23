@@ -7,14 +7,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
+import { catchError } from 'rxjs/operators';
+import { MOCK_PAYMENT_DETAILS } from './mock-occ-payment-details';
 import { LoggerService } from '../../../logger';
 import { PaymentDetails } from '../../../model/payment.model';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
-import { Occ } from '../../occ-models/occ.models';
+
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
@@ -29,22 +29,27 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     protected converter: ConverterService
   ) {}
 
-  loadAll(userId: string): Observable<PaymentDetails[]> {
-    const url =
-      this.occEndpoints.buildUrl('paymentDetailsAll', {
-        urlParams: { userId },
-      }) + '?saved=true';
-    const headers = new HttpHeaders({
-      ...CONTENT_TYPE_JSON_HEADER,
+  loadAll(_userId: string): Observable<PaymentDetails[]> {
+    // MOCKED RESPONSE FOR TESTING
+    return new Observable<PaymentDetails[]>((observer) => {
+      observer.next(MOCK_PAYMENT_DETAILS);
+      observer.complete();
     });
-
-    return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
-      catchError((error: any) => {
-        throw tryNormalizeHttpError(error, this.logger);
-      }),
-      map((methodList) => methodList.payments ?? []),
-      this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
-    );
+    // Commented this code to use mocked response for testing
+    // const url =
+    //   this.occEndpoints.buildUrl('paymentDetailsAll', {
+    //     urlParams: { userId },
+    //   }) + '?saved=true';
+    // const headers = new HttpHeaders({
+    //   ...CONTENT_TYPE_JSON_HEADER,
+    // });
+    // return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
+    //   catchError((error: any) => {
+    //     throw tryNormalizeHttpError(error, this.logger);
+    //   }),
+    //   map((methodList) => methodList.payments ?? []),
+    //   this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
+    // );
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {
