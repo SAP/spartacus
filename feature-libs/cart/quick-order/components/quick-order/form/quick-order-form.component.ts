@@ -95,10 +95,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
-
-      requestAnimationFrame(() => {
-        this.quickOrderInput.nativeElement.focus();
-      });
     }
 
     const product = this.form.get('product')?.value;
@@ -110,6 +106,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
     this.close();
     this.cd?.detectChanges();
+
+    requestAnimationFrame(() => {
+      this.quickOrderInput.nativeElement.focus();
+    });
   }
 
   add(product: Product, event: Event): void {
