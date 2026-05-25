@@ -15,7 +15,7 @@ export const NEW_VERSION_DOC_HOME = `../../docs/migration/${NEW_VERSION}`;
 export const API_ELEMENT_MIGRATION_COMMENTS_FILE_PATH = `${NEW_VERSION_DOC_HOME}/migration-comments-api-elements.json`;
 export const MEMBERS_MIGRATION_COMMENTS_FILE_PATH = `${NEW_VERSION_DOC_HOME}/migration-comments-members.json`;
 export const RENAMED_API_LOOKUP_FILE_PATH = `${NEW_VERSION_DOC_HOME}/renamed-api-mappings.json`;
-export const MIGRATION_SCHEMATICS_HOME = `../../projects/schematics/src/migrations/${NEW_VERSION}`;
+export const MIGRATION_SCHEMATICS_HOME = `../../core-libs/schematics/src/migrations/${NEW_VERSION}`;
 export const SCHEMATICS_COMMENT_PREFIX = '// TODO:Spartacus -';
 
 // Shared Functions

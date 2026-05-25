@@ -6,7 +6,7 @@ set -e
 
 # Configuration
 # Files containing feature toggles
-REGULAR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+REGULAR_TOGGLES_FILE="core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts"
 SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 RELEASE_TRACKING_FILE="tools/config/const.ts"
 OVERRIDES_FILE="tools/config/feature-toggle-dates-overrides.json"
@@ -346,7 +346,7 @@ if [[ ${#TOGGLES_TO_REMOVE[@]} -gt 0 ]] || [[ ${#TOGGLES_TO_ENABLE[@]} -gt 0 ]];
     
     echo "💡 To apply changes, manually edit:"
     echo "   Regular Feature Toggles:"
-    echo "      projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+    echo "      core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts"
     echo "   SSR Feature Toggles:"
     echo "      core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 fi

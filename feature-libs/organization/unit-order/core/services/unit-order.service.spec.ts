@@ -7,7 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { UnitOrderActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';

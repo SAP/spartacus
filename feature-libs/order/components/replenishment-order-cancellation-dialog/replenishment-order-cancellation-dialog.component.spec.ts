@@ -18,7 +18,7 @@ import {
   IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockKeyboardFocusDirective } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
+import { MockKeyboardFocusDirective } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
