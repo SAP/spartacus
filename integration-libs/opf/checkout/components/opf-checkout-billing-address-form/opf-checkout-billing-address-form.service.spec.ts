@@ -262,14 +262,15 @@ describe('OpfCheckoutBillingAddressFormService', () => {
       lastName: 'Billing',
       line1: '999 Billing Rd',
     };
+    const expectedAddress = service['getAddressWithId'](submittedAddress);
 
     spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
       of({ sapBillingAddress: undefined } as Cart)
     );
 
     service.setBillingAddress(submittedAddress).subscribe((result) => {
-      expect(result).toEqual(submittedAddress);
-      expect(service['_$billingAddressSub'].value).toEqual(submittedAddress);
+      expect(result).toEqual(expectedAddress);
+      expect(service['_$billingAddressSub'].value).toEqual(expectedAddress);
       done();
     });
   });
