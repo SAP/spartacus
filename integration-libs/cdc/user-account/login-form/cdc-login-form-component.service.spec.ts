@@ -16,7 +16,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { LoginFormComponentService } from '@spartacus/user/account/components';
-import { FormErrorsModule } from 'projects/storefrontlib/shared';
+import { FormErrorsModule } from 'core-libs/storefront/shared';
 import { of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 import createSpy = jasmine.createSpy;

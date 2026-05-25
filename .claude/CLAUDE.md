@@ -9,9 +9,9 @@ Monorepo: `npm workspaces` and `Nx`
 ### Libraries
 - `feature-libs/` - Optional features for standard SAP Commerce backend (cart, checkout, order, etc.)
 - `integration-libs/` - Features requiring special backend addons (cdc, cds, digital-payments, opf)
-- `projects/core/` - Core non-UI lib
-- `projects/storefrontlib/` - Core UI lib and CMS engine and some components
-- `projects/storefrontstyles/` - Core styles lib and some components' styles
+- `core-libs/core/` - Core non-UI lib
+- `core-libs/storefront/` - Core UI lib and CMS engine and some components
+- `core-libs/styles/` - Core styles lib and some components' styles
 - `core-libs/setup/` - Core setup utilities lib
 - `core-libs/setup/ssr` - Core SSR lib
 
