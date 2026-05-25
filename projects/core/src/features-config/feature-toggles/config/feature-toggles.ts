@@ -507,10 +507,10 @@ export interface FeatureTogglesInterface {
   enableCartReloadOnContextChange?: boolean;
 
   /* When enabled, `OpfPaymentVerificationComponent` calls
-    * `checkIfProcessingCartIdExist()` only on verification error.
-    *
-    * Legacy behavior called it immediately during init.
-    */
+   * `checkIfProcessingCartIdExist()` only on verification error.
+   *
+   * Legacy behavior called it immediately during init.
+   */
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 
   /**
