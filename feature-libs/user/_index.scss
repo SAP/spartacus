@@ -65,3 +65,9 @@ body {
     margin-top: 0.5rem;
   }
 }
+
+.cx-truncate-with-elipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
