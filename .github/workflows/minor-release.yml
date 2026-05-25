@@ -88,10 +88,10 @@ jobs:
           major="$MAJOR"
           minor="$MINOR"
           patch="$PATCH"
-          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" projects/storefrontstyles/scss/_versioning.scss
-          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" projects/storefrontstyles/scss/_versioning.scss
-          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" projects/storefrontstyles/scss/_versioning.scss
-          echo "Updated versions in projects/storefrontstyles/scss/_versioning.scss."
+          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" core-libs/styles/scss/_versioning.scss
+          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" core-libs/styles/scss/_versioning.scss
+          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" core-libs/styles/scss/_versioning.scss
+          echo "Updated versions in core-libs/styles/scss/_versioning.scss."
 
       - name: Update Publishing Version
         env:

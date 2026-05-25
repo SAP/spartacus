@@ -5,7 +5,7 @@
 set -e
 
 # Configuration
-REGULAR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+REGULAR_TOGGLES_FILE="core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts"
 SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 
 echo "🔍 Checking for newly added feature toggles..."

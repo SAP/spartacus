@@ -100,7 +100,7 @@ echo ""
 
 echo "📝 Step 6: Running prettier for schematics..."
 cd ../..
-prettier --config ./.prettierrc --list-different "projects/schematics/src/migrations/**/*.ts" --write
+prettier --config ./.prettierrc --list-different "core-libs/schematics/src/migrations/**/*.ts" --write
 cd -
 echo ""
 
@@ -109,13 +109,13 @@ echo "🎉 Successfully regenerated breaking changes for version ${VERSION}!"
 echo ""
 echo "Generated files:"
 echo "  - docs/migration/${VERSION}/generated-typescript-changes-doc.md"
-echo "  - projects/schematics/src/migrations/${VERSION}/*/data/*.migration.ts"
+echo "  - core-libs/schematics/src/migrations/${VERSION}/*/data/*.migration.ts"
 echo ""
 echo "Next steps:"
 echo "  1. Review the generated documentation"
 echo "  2. Manually review Config abstract classes (may be non-breaking)"
 echo "  3. Manually review TypeAlias changes (not all are breaking)"
 echo "  4. Check constructor deprecations have proper overload signatures"
-echo "  5. Prepare or copy the appropriate "migrate" functions into "projects/schematics/src/migrations/${VERSION}/*/""
-echo "  6. Add new entries into "projects/schematics/src/migrations/migrations.json" for the new version"
+echo "  5. Prepare or copy the appropriate "migrate" functions into "core-libs/schematics/src/migrations/${VERSION}/*/""
+echo "  6. Add new entries into "core-libs/schematics/src/migrations/migrations.json" for the new version"
 echo "  7. Test the migration schematics with a sample project"

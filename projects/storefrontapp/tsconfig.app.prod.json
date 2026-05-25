@@ -501,7 +501,7 @@
       "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc/components": ["dist/cdc/components"],
       "@spartacus/cdc/assets": ["dist/cdc/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/assets": ["dist/assets"]
     }

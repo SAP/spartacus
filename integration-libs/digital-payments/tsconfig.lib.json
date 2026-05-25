@@ -85,7 +85,7 @@
       "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
       "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/wishlist": ["dist/user/wishlist"],
       "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],

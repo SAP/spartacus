@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { I18nTestingModule, UrlPipe } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { ActiveLinkCellComponent } from '..';
 
 const mockContext = {
