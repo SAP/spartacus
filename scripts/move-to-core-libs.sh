@@ -32,7 +32,7 @@ MAPPINGS=(
 
 # Directories to exclude from search-and-replace
 EXCLUDE_DIRS=(
-  node_modules dist .git .idea .vscode .angular .cache .nx tmp coverage unit-tests-reports
+  node_modules dist .git .idea .angular .cache .nx tmp coverage unit-tests-reports
 )
 # ============================================================
 
