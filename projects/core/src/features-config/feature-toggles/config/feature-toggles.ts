@@ -507,11 +507,19 @@ export interface FeatureTogglesInterface {
   enableCartReloadOnContextChange?: boolean;
 
   /* When enabled, `OpfPaymentVerificationComponent` calls
-   * `checkIfProcessingCartIdExist()` only on verification error.
-   *
-   * Legacy behavior called it immediately during init.
-   */
+    * `checkIfProcessingCartIdExist()` only on verification error.
+    *
+    * Legacy behavior called it immediately during init.
+    */
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
+
+  /**
+   * When enabled, the Quick Order search input keeps focus after
+   * the reset button is cleared, instead of losing focus to the
+   * next tabbable element.
+   * Affects: QuickOrderFormComponent
+   */
+  a11yQuickOrderResetFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -575,4 +583,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  a11yQuickOrderResetFocus: false,
 };
