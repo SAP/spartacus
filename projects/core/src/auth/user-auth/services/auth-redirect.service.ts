@@ -121,7 +121,7 @@ export class AuthRedirectService implements OnDestroy {
     }
   }
 
-  private manageSavedRedirectUriOnTrueNavigations(): void {
+  protected manageSavedRedirectUriOnTrueNavigations(): void {
     this.subscription = this.router.events
       .pipe(
         filter((event) => this.isNavEnd(event) || this.isRedirect(event)),
