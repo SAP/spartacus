@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "paths": {
       "@spartacus/schematics": [
-        "projects/schematics/index"
+        "core-libs/schematics/index"
       ],
       "@spartacus/setup": [
         "core-libs/setup/public_api"
@@ -951,21 +951,21 @@
         "integration-libs/cdc/assets/public_api"
       ],
       "@spartacus/storefront": [
-        "projects/storefrontlib/public_api"
+        "core-libs/storefront/public_api"
       ],
       "@spartacus/core": [
-        "projects/core/public_api"
+        "core-libs/core/public_api"
       ],
       "@spartacus/assets": [
-        "projects/assets/src/public_api"
+        "core-libs/assets/src/public_api"
       ]
     }
   },
   "exclude": [
     "./dist/**/*.*",
-    "./projects/assets/**/*.*",
+    "./core-libs/assets/**/*.*",
     "./projects/storefrontapp/**/*.*",
-    "./projects/storefrontstyles/**/*.*",
+    "./core-libs/styles/**/*.*",
     "./projects/vendor/**/*.*"
   ]
 }

@@ -10,7 +10,7 @@ import {
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
 import { REORDER_ORDER_NORMALIZER } from '@spartacus/order/root';
-import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { MockOccEndpointsService } from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { OccReorderOrderAdapter } from './occ-reorder-order.adapter';
 import {
   provideHttpClient,

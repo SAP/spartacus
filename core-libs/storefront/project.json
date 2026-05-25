@@ -1,0 +1,44 @@
+{
+  "name": "storefrontlib",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "core-libs/storefront",
+  "projectType": "library",
+  "prefix": "cx",
+  "targets": {
+    "build": {
+      "executor": "./tools/build-lib:declaration-merging",
+      "options": {
+        "tsConfig": "core-libs/storefront/tsconfig.lib.json",
+        "project": "core-libs/storefront/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "core-libs/storefront/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "core-libs/storefront/test.ts",
+        "tsConfig": "core-libs/storefront/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "core-libs/storefront/karma.conf.js",
+        "codeCoverageExclude": ["dist/**/*"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["./core-libs/styles/scss"]
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "core-libs/storefront/**/*.ts",
+          "core-libs/storefront/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:ui"]
+}
