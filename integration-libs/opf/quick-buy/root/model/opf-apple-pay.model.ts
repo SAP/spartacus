@@ -9,7 +9,6 @@ import { Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 export interface ApplePaySessionVerificationRequest {
-  cartId: string;
   validationUrl: string;
   initiative: 'web';
   initiativeContext: string;

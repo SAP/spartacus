@@ -167,7 +167,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         otpKey: mockOtpKey,
         config: {
           configurationId: mockPaymentOptionId.toString(),
-          cartId: mockCartId,
           resultURL: mockUrl,
           cancelURL: mockUrl,
           browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
@@ -480,13 +479,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   it('should set payment initiation config', () => {
     const mockOtpKey = 'otpKey';
     const mockPaymentOptionId = 123;
-    const mockActiveCartId = 'cartId';
     routingServiceMock.getFullUrl.and.returnValue(mockUrl);
 
-    activeCartServiceMock.getActiveCartId.and.returnValue(of(mockActiveCartId));
-
     const config = service['getPaymentInitiationConfig'](
-      mockActiveCartId,
       mockOtpKey,
       mockPaymentOptionId,
       getBrowserInfo(windowRefMock.nativeWindow)
@@ -496,7 +491,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       otpKey: mockOtpKey,
       config: {
         configurationId: mockPaymentOptionId.toString(),
-        cartId: mockActiveCartId,
         resultURL: mockUrl,
         cancelURL: mockUrl,
         browserInfo: getBrowserInfo(windowRefMock.nativeWindow),

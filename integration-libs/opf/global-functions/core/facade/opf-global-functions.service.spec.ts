@@ -318,10 +318,8 @@ describe('OpfGlobalFunctionsService', () => {
         { key: 'allow3DS2', value: 'true' },
         { key: 'originUrl', value: 'https://originUrl/' },
       ];
-      const cartId = 'mock-cart';
 
       windowOpf.payments['checkout'].submit({
-        cartId,
         additionalData,
         submitSuccess,
         submitPending,
@@ -345,10 +343,8 @@ describe('OpfGlobalFunctionsService', () => {
         { key: 'allow3DS2', value: 'true' },
         { key: 'originUrl', value: 'https://originUrl/' },
       ];
-      const cartId = 'mock-cart';
 
       windowOpf.payments['checkout'].submit({
-        cartId,
         additionalData,
         submitSuccess,
         submitPending,
@@ -375,10 +371,8 @@ describe('OpfGlobalFunctionsService', () => {
         { key: 'allow3DS2', value: 'true' },
         { key: 'originUrl', value: 'https://originUrl/' },
       ];
-      const cartId = 'mock-cart';
 
       windowOpf.payments['checkout'].submitComplete({
-        cartId,
         additionalData,
         submitSuccess,
         submitPending,
@@ -402,10 +396,8 @@ describe('OpfGlobalFunctionsService', () => {
         { key: 'allow3DS2', value: 'true' },
         { key: 'originUrl', value: 'https://originUrl/' },
       ];
-      const cartId = 'mock-cart';
 
       windowOpf.payments['checkout'].submitComplete({
-        cartId,
         additionalData,
         submitSuccess,
         submitPending,
@@ -718,7 +710,6 @@ describe('OpfGlobalFunctionsService', () => {
 
       const result = await windowOpf.payments['global'].initiatePayment({
         configurationId: '2301',
-        cartId: 'test-cart-id',
       });
 
       expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
@@ -727,9 +718,7 @@ describe('OpfGlobalFunctionsService', () => {
 
     it('should reject initiatePayment when configurationId is missing', async () => {
       await expectAsync(
-        windowOpf.payments['global'].initiatePayment({
-          cartId: 'test-cart-id',
-        } as any)
+        windowOpf.payments['global'].initiatePayment({} as any)
       ).toBeRejectedWithError('configurationId is required');
     });
 
@@ -838,12 +827,12 @@ describe('OpfGlobalFunctionsService', () => {
     });
 
     it('should normalize payment config from object', () => {
-      const config = { configurationId: '2301', cartId: 'test-cart' };
+      const config = { configurationId: '2301' };
       const result = service['normalizePaymentConfig'](config);
       expect(result).toEqual(config);
     });
 
-    it('should handle initiatePayment with provided cartId', async () => {
+    it('should handle initiatePayment with provided config', async () => {
       const mockSessionData: OpfPaymentSessionData = {
         paymentSessionId: 'test-session-id',
       };
@@ -853,7 +842,6 @@ describe('OpfGlobalFunctionsService', () => {
 
       const result = await windowOpf.payments['global'].initiatePayment({
         configurationId: '2301',
-        cartId: 'provided-cart-id',
       });
 
       expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
@@ -916,12 +904,10 @@ describe('OpfGlobalFunctionsService', () => {
         { key: 'allow3DS2', value: 'true' },
         { key: 'originUrl', value: 'https://originUrl/' },
       ];
-      const cartId = 'mock-cart';
 
       windowOpf.payments[
         OpfGlobalFunctionsDomain.REDIRECT
       ].submitCompleteRedirect({
-        cartId,
         additionalData,
         submitSuccess,
         submitPending,
@@ -945,12 +931,10 @@ describe('OpfGlobalFunctionsService', () => {
         { key: 'allow3DS2', value: 'true' },
         { key: 'originUrl', value: 'https://originUrl/' },
       ];
-      const cartId = 'mock-cart';
 
       windowOpf.payments[
         OpfGlobalFunctionsDomain.REDIRECT
       ].submitCompleteRedirect({
-        cartId,
         additionalData,
         submitSuccess,
         submitPending,

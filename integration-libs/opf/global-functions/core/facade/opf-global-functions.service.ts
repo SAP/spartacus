@@ -265,7 +265,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     vcr?: ViewContainerRef
   ): void {
     this.getGlobalFunctionContainer(domain).submit = (options: {
-      cartId?: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
@@ -396,7 +395,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     vcr?: ViewContainerRef
   ): void {
     this.getGlobalFunctionContainer(domain).submitComplete = (options: {
-      cartId?: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
@@ -470,7 +468,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         // this is intentional
       },
     }: {
-      cartId: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
@@ -587,9 +584,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
           return Promise.reject(new Error('configurationId is required'));
         }
 
-        const cartId$ = paymentConfig.cartId
-          ? of(paymentConfig.cartId)
-          : this.activeCartFacade.getActiveCartId().pipe(take(1));
+        const cartId$ = this.activeCartFacade.getActiveCartId().pipe(take(1));
 
         const userId$ = this.userIdService.getUserId().pipe(take(1));
 
@@ -630,11 +625,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       map((response) => this.extractOtpKey(response)),
       filter((otpKey) => Boolean(otpKey)),
       switchMap((otpKey) =>
-        this.buildAndInitiatePaymentConfig(
-          paymentConfig,
-          cartId,
-          otpKey as string
-        )
+        this.buildAndInitiatePaymentConfig(paymentConfig, otpKey as string)
       ),
       take(1)
     );
@@ -649,12 +640,10 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
   protected buildAndInitiatePaymentConfig(
     paymentConfig: OpfPaymentConfig,
-    cartId: string,
     otpKey: string
   ): Observable<OpfPaymentSessionData> {
     const configWithDefaults: OpfPaymentConfig = {
       ...paymentConfig,
-      cartId: paymentConfig.cartId ?? cartId,
       channel: paymentConfig.channel ?? OpfPaymentChannel.BROWSER,
       browserInfo:
         paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),
