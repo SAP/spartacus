@@ -10,7 +10,7 @@ import { provideConfig } from '@spartacus/core';
 import { defaultB2bOccConfig } from '@spartacus/setup';
 import { environment } from '../../environments/environment';
 
-let baseSite = ['powertools-spa', 'powertools-standalone'];
+const baseSite = ['powertools-spa', 'powertools-standalone'];
 
 if (environment.epdVisualization) {
   baseSite.unshift('powertools-epdvisualization-spa');

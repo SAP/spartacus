@@ -88,6 +88,7 @@
 
   <cx-opf-checkout-payments
     [onlyPaymentWrapperMode]="true"
+    [showBeforePaymentOptionsOutlet]="false"
     [renderPaymentWrapper]="
       !explicitTermsAndConditions.value ||
       (explicitTermsAndConditions.value && !termsAndConditionInvalid)

@@ -59,7 +59,7 @@
     <div class="cx-filter-nav-div">
       <div class="cx-filter-list">
         <div class="cx-filter-back-button" (click)="backFilterSubNav()">
-          <button type="button">
+          <button type="button" [attr.title]="'common.back' | cxTranslate">
             <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
           </button>
           <span>{{ 'unitLevelOrderHistory.filterByBuyer' | cxTranslate }}</span>
@@ -131,7 +131,7 @@
     <div class="cx-filter-nav-div">
       <div class="cx-filter-list">
         <div class="cx-filter-back-button" (click)="backFilterSubNav()">
-          <button type="button">
+          <button type="button" [attr.title]="'common.back' | cxTranslate">
             <cx-icon aria-hidden="true" [type]="iconTypes.CARET_LEFT"></cx-icon>
           </button>
           <span>{{ 'unitLevelOrderHistory.filterByUnit' | cxTranslate }}</span>

@@ -282,7 +282,7 @@ Use the following template:
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefront"]
     }
   },
   "angularCompilerOptions": {
@@ -349,7 +349,7 @@ And replace `asm` instances with the name of yours lib.
 
 Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
-- `projects/schematics/package.json` - add the library to the package group
+- `core-libs/schematics/package.json` - add the library to the package group
 
 - `ci-scripts/unit-tests.sh`
 
@@ -448,7 +448,7 @@ There are couple of required changes to make sure schematics will work properly
   ```
   Values from `x-prompt.items` with `checked: true` should reflect the features that will be installed by default in 'no-interactive' mode (`default` array). 
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
-- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file.
+- create your schematics configuration in e.g. `core-libs/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `core-libs/schematics/src/shared/schematics-config-mappings.ts` file.
 
 ### Testing Schematics
 

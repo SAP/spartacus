@@ -20,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressFormComponent } from './address-form.component';
