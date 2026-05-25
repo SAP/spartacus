@@ -38,7 +38,7 @@ export const environment: Environment = {
   requestedDeliveryDate: buildProcess.env.CX_REQUESTED_DELIVERY_DATE ?? false,
   estimatedDeliveryDate: buildProcess.env.CX_ESTIMATED_DELIVERY_DATE ?? false,
   pdfInvoices: buildProcess.env.CX_PDF_INVOICES ?? false,
-  myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? true,
+  myAccountV2: buildProcess.env.CX_MY_ACCOUNT_V2 ?? false,
   s4Service: buildProcess.env.CX_S4_SERVICE ?? false,
   punchout: buildProcess.env.CX_PUNCHOUT ?? false,
 };
