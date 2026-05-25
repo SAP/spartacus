@@ -16,7 +16,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { Card, CardComponent } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';

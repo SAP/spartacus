@@ -5,10 +5,11 @@
  */
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, UserPaymentService } from '@spartacus/core';
 import { OpfNewPaymentsHeadingContext } from '../../model';
-import { Observable, of } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-tokenisation-new-payments-heading',
@@ -21,6 +22,15 @@ export class OpfTokenisationNewPaymentsHeadingComponent {
     OutletContextData<OpfNewPaymentsHeadingContext>
   >(OutletContextData as any, { optional: true });
 
-  readonly context$: Observable<OpfNewPaymentsHeadingContext> =
-    this.outletContextData?.context$ ?? of({} as OpfNewPaymentsHeadingContext);
+  protected userPaymentService = inject(UserPaymentService);
+
+  readonly context$: Observable<OpfNewPaymentsHeadingContext> = combineLatest([
+    this.outletContextData?.context$ ?? of({} as OpfNewPaymentsHeadingContext),
+    this.userPaymentService.getPaymentMethods(),
+  ]).pipe(
+    map(([ctx, paymentMethods]) => ({
+      ...ctx,
+      hasSavedCards: Boolean(paymentMethods?.length),
+    }))
+  );
 }

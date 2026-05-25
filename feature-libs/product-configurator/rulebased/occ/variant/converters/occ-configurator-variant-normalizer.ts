@@ -540,6 +540,7 @@ export class OccConfiguratorVariantNormalizer
       Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
       Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT,
       Configurator.UiType.DROPDOWN,
+      Configurator.UiType.SINGLE_SELECTION_IMAGE,
     ];
     const inputTypes = [
       Configurator.UiType.NUMERIC,
@@ -554,8 +555,6 @@ export class OccConfiguratorVariantNormalizer
     const uiType = attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED;
     if (singleValueTypes.includes(uiType)) {
       this.compileAttributeIncompleteSingleLevel(attribute);
-    } else if (uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE) {
-      this.compileAttributeIncompleteSingleSelectionImage(attribute);
     } else if (inputTypes.includes(uiType)) {
       this.compileAttributeIncompleteInputTypes(attribute);
     } else if (multiValueTypes.includes(uiType)) {
@@ -573,13 +572,7 @@ export class OccConfiguratorVariantNormalizer
       attribute.incomplete = true;
     }
   }
-  protected compileAttributeIncompleteSingleSelectionImage(
-    attribute: Configurator.Attribute
-  ): void {
-    if (!attribute.selectedSingleValue) {
-      attribute.incomplete = true;
-    }
-  }
+
   protected compileAttributeIncompleteInputTypes(
     attribute: Configurator.Attribute
   ): void {

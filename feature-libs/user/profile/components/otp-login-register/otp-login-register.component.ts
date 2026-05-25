@@ -140,6 +140,20 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
       })
     );
 
+    const state = history.state;
+    if (state?.['email']) {
+      this.registerForm.patchValue({
+        titleCode: state['titleCode'] ?? null,
+        firstName: state['firstName'] ?? '',
+        lastName: state['lastName'] ?? '',
+        email: state['email'] ?? '',
+      });
+      history.replaceState(
+        { titleCode: '', firstName: '', lastName: '', email: '' },
+        ''
+      );
+    }
+
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
       this.globalMessageService

@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
   EntitiesModel,
+  FeatureDirective,
   RoutingService,
   SearchConfig,
   TranslatePipe,
@@ -36,6 +37,7 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
+    FeatureDirective,
   ],
 })
 export class OrderApprovalListComponent implements OnInit {

@@ -11,7 +11,7 @@ import {
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { LoginRegisterComponent } from './login-register.component';
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);

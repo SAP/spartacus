@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { OppsConfig } from 'integration-libs/opps/root/config/opps-config';
-import { WindowRef } from 'projects/core/src/window';
+import { WindowRef } from 'core-libs/core/src/window';
 import { OppsCouponCodesService } from './opps-coupon-codes.service';
 const mockLocation = {
   href: 'http://localhost:4200/electronics-spa/en/USD/?test-param=summer',

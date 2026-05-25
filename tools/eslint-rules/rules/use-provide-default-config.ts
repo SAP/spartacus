@@ -19,7 +19,7 @@
 
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 
-// NOTE: The rule will be available in ESLint configs as "@nrwl/nx/workspace/use-provide-default-config"
+// NOTE: The rule will be available in ESLint configs as "@nx/workspace-use-provide-default-config"
 export const RULE_NAME = 'use-provide-default-config';
 
 export const rule = ESLintUtils.RuleCreator(() => __filename)({
