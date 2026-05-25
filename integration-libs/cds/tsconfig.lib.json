@@ -78,7 +78,7 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/assets": ["dist/order/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/tracking": ["dist/tracking"],
       "@spartacus/tracking/tms": ["dist/tracking/tms"],
       "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],

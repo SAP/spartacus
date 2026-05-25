@@ -6,7 +6,7 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
 import { Observable, of } from 'rxjs';
 import { CartActions } from '../store/actions/index';
 import { CartVoucherService } from './cart-voucher.service';
