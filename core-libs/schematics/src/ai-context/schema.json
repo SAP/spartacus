@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SpartacusAiContextSchematics",
+  "title": "Spartacus AI Context",
+  "type": "object",
+  "properties": {
+    "aiTools": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["agents", "claude", "cursor"]
+      },
+      "default": [],
+      "description": "Which AI tools to configure with Spartacus best practices.",
+      "x-prompt": {
+        "type": "list",
+        "multiselect": true,
+        "message": "Which AI tools should I configure with Spartacus best practices?",
+        "items": [
+          {
+            "value": "agents",
+            "label": "AGENTS.md (Cursor, Codex, JetBrains, Continue, Aider, ...)"
+          },
+          {
+            "value": "claude",
+            "label": "Claude (CLAUDE.md + .claude/skills/spartacus/)"
+          },
+          {
+            "value": "cursor",
+            "label": "Cursor (.cursor/skills/spartacus/)"
+          }
+        ]
+      }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": []
+}
