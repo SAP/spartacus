@@ -10,7 +10,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';

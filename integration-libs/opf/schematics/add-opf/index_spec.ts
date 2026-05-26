@@ -113,7 +113,7 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
+        '../../../../core-libs/schematics/src/collection.json'
       )
     );
 

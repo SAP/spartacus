@@ -13,7 +13,7 @@ import {
   OrganizationItemStatus,
   UserGroup,
 } from '@spartacus/organization/administration/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { Observable, of } from 'rxjs';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';

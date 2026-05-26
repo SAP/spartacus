@@ -16,10 +16,9 @@ import {
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
-  OPF_GOOGLE_PAY_PROVIDER_NAME,
+  defaultOpfQuickBuyConfig,
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
   OpfQuickBuyConfig,
-  OpfQuickBuyGooglePayProvider,
   OpfQuickBuyLocation,
   OpfQuickBuyProviderType,
 } from '@spartacus/opf/quick-buy/root';
@@ -54,7 +53,6 @@ describe('OpfGooglePayService', () => {
   let mockQuickBuyTransactionService: jasmine.SpyObj<OpfQuickBuyTransactionService>;
   let mockPaymentFacade: jasmine.SpyObj<OpfPaymentFacade>;
   let mockQuickBuyButtonsService: jasmine.SpyObj<OpfQuickBuyButtonsService>;
-  let mockOpfQuickBuyConfig: jasmine.SpyObj<OpfQuickBuyConfig>;
 
   beforeEach(() => {
     mockResourceLoaderService = jasmine.createSpyObj(
@@ -93,14 +91,6 @@ describe('OpfGooglePayService', () => {
       ['getQuickBuyProviderConfig', 'getActiveConfigurationForProvider']
     );
 
-    mockOpfQuickBuyConfig = {
-      providers: {
-        [OPF_GOOGLE_PAY_PROVIDER_NAME]: {
-          resourceUrl: 'fakeUrl',
-        } as OpfQuickBuyGooglePayProvider,
-      },
-    };
-
     const googlePayApiMock = {
       payments: {
         api: {
@@ -138,7 +128,7 @@ describe('OpfGooglePayService', () => {
         },
         {
           provide: OpfQuickBuyConfig,
-          useValue: mockOpfQuickBuyConfig,
+          useValue: defaultOpfQuickBuyConfig,
         },
       ],
     });

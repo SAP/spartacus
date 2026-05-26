@@ -7,7 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ReturnRequestList } from '@spartacus/order/root';
-import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions';
 import { ORDER_FEATURE } from '../store/order-state';
