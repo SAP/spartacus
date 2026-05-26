@@ -18,6 +18,26 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
+      - name: Debug GH_PR_TOKEN identity
+        env:
+          TOKEN: ${{ secrets.GH_PR_TOKEN }}
+        run: |
+          echo "=== GH_PR_TOKEN ===" && \
+          curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user | jq '{login, email, name}'
+      - name: Debug GH_TEMPORARY_TOKEN identity
+        env:
+          TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+        run: |
+          echo "=== GH_TEMPORARY_TOKEN ===" && \
+          curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user | jq '{login, email, name}'
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
