@@ -124,10 +124,31 @@ export class OpfCheckoutPaymentWrapperService {
           )
         )
       ),
-      switchMap((params) => this.opfPaymentFacade.initiatePayment(params)),
+      switchMap((params) => {
+        // this.opfPaymentFacade.initiatePayment(params);
+        const configurationId = String(paymentOptionId);
+        const metadata = this.opfMetadataStoreService.opfMetadataState.value;
+        const paymentSessionId =
+          metadata?.opfPaymentSessionIdByConfigurationId?.[configurationId] ??
+          metadata?.opfPaymentSessionId;
+
+        if (!paymentSessionId) {
+          return throwError(() => new Error('paymentSessionId is required'));
+        }
+
+        return this.opfPaymentFacade.updatePaymentTransaction({
+          paymentSessionId,
+          otpKey: params.otpKey,
+          config: {
+            browserInfo: params.config?.browserInfo,
+          },
+        });
+      }),
       tap((paymentOptionConfig: OpfPaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
-          this.storePaymentSessionId(paymentOptionConfig);
+          // this.storePaymentSessionId(paymentOptionConfig);
+
+          this.storePaymentSessionId(paymentOptionConfig, paymentOptionId);
           this.renderPaymentGateway(paymentOptionConfig);
         }
       }),
@@ -144,14 +165,48 @@ export class OpfCheckoutPaymentWrapperService {
     );
   }
 
-  protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
-    const paymentSessionId =
-      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-      paymentOptionConfig.paymentSessionId
+  // protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
+  //   const paymentSessionId =
+  //     paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+  //     paymentOptionConfig.paymentSessionId
+  //       ? paymentOptionConfig.paymentSessionId
+  //       : undefined;
+  //   this.opfMetadataStoreService.updateOpfMetadata({
+  //     opfPaymentSessionId: paymentSessionId,
+  //   });
+  // }
+
+  protected storePaymentSessionId(
+    paymentOptionConfig: OpfPaymentSessionData,
+    paymentOptionId?: number
+  ) {
+    const resolvedPaymentOptionId =
+      paymentOptionConfig?.paymentOptionId ??
+      paymentOptionId ??
+      this.lastPaymentOptionId;
+    const configurationId =
+      resolvedPaymentOptionId !== undefined
+        ? String(resolvedPaymentOptionId)
+        : undefined;
+    const sessionIdByConfigurationId = {
+      ...(this.opfMetadataStoreService.opfMetadataState.value
+        ?.opfPaymentSessionIdByConfigurationId ?? {}),
+      ...(configurationId && paymentOptionConfig?.paymentSessionId
+        ? { [configurationId]: paymentOptionConfig.paymentSessionId }
+        : {}),
+    };
+
+    const isFullPagePattern =
+      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE;
+    const paymentSessionId = paymentOptionConfig.paymentSessionId
+      ? paymentOptionConfig.paymentSessionId
+      : isFullPagePattern
         ? paymentOptionConfig.paymentSessionId
         : undefined;
+
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
+      opfPaymentSessionIdByConfigurationId: sessionIdByConfigurationId,
     });
   }
 
