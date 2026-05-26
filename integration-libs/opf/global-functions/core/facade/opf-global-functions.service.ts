@@ -582,6 +582,10 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   }
 
   protected registerInitiatePayment(domain: OpfGlobalFunctionsDomain): void {
+    /**
+     * Exposes global initiatePayment for explicit first-session creation.
+     * For session updates, use updatePaymentTransaction.
+     */
     this.getGlobalFunctionContainer(domain).initiatePayment = (
       configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
     ): Promise<OpfPaymentSessionData> => {
@@ -752,6 +756,10 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected registerUpdatePaymentTransaction(
     domain: OpfGlobalFunctionsDomain
   ): void {
+    /**
+     * Exposes global updatePaymentTransaction for existing sessions.
+     * Backend is responsible for any internal fallback strategy.
+     */
     this.getGlobalFunctionContainer(domain).updatePaymentTransaction = (
       updatePaymentConfig: OpfPaymentUpdateConfig
     ): Promise<OpfPaymentSessionData> => {

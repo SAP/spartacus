@@ -61,9 +61,21 @@ export interface OpfPaymentGlobalMethods {
   setDeliveryMode?(mode: string): Promise<DeliveryMode | undefined>;
   getDeliveryMode?(): Promise<DeliveryMode | undefined>;
   deleteAddress?(addressId: string): Promise<void>;
+  /**
+   * Starts a new payment session for a configuration.
+   *
+   * Should be used when no payment session exists yet,
+   * or when they intentionally want to bootstrap a fresh session.
+   */
   initiatePayment?(
     configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
   ): Promise<OpfPaymentSessionData>;
+  /**
+   * Updates an existing payment transaction/session.
+   *
+   * Should be used for subsequent updates once a
+   * payment session ID is available.
+   */
   updatePaymentTransaction?(
     updatePaymentConfig: OpfPaymentUpdateConfig
   ): Promise<OpfPaymentSessionData>;
