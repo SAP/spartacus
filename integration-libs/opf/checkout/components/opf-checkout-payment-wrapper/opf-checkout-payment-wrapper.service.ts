@@ -126,12 +126,8 @@ export class OpfCheckoutPaymentWrapperService {
       ),
       switchMap((params) => {
         // this.opfPaymentFacade.initiatePayment(params);
-        const paymentOptionIdKey = String(paymentOptionId);
         const metadata = this.opfMetadataStoreService.opfMetadataState.value;
-        const paymentSessionId =
-          metadata?.opfPaymentSessionIdByPaymentOptionId?.[
-            paymentOptionIdKey
-          ] ?? metadata?.opfPaymentSessionId;
+        const paymentSessionId = metadata?.opfPaymentSessionId;
 
         if (!paymentSessionId) {
           return throwError(() => new Error('paymentSessionId is required'));
@@ -181,22 +177,7 @@ export class OpfCheckoutPaymentWrapperService {
     paymentOptionConfig: OpfPaymentSessionData,
     paymentOptionId?: number
   ) {
-    const resolvedPaymentOptionId =
-      paymentOptionConfig?.paymentOptionId ??
-      paymentOptionId ??
-      this.lastPaymentOptionId;
-    const paymentOptionIdKey =
-      resolvedPaymentOptionId !== undefined
-        ? String(resolvedPaymentOptionId)
-        : undefined;
-
-    const sessionIdByPaymentOptionId = {
-      ...(this.opfMetadataStoreService.opfMetadataState.value
-        ?.opfPaymentSessionIdByPaymentOptionId ?? {}),
-      ...(paymentOptionIdKey && paymentOptionConfig?.paymentSessionId
-        ? { [paymentOptionIdKey]: paymentOptionConfig.paymentSessionId }
-        : {}),
-    };
+    void paymentOptionId;
 
     const isFullPagePattern =
       paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE;
@@ -208,8 +189,6 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
-      // opfPaymentSessionIdByConfigurationId: sessionIdByConfigurationId,
-      opfPaymentSessionIdByPaymentOptionId: sessionIdByPaymentOptionId,
     });
   }
 
