@@ -31,7 +31,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
+import { ProcessesLoaderState } from 'core-libs/core/src/state/utils/processes-loader';
 import {
   BehaviorSubject,
   EMPTY,

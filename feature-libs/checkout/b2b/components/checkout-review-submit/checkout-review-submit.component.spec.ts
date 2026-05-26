@@ -40,7 +40,7 @@ import {
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { MockIconComponent } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { MockIconComponent } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 

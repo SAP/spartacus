@@ -32,11 +32,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GH_PR_TOKEN }}
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 #v5.6.0
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.14'
       - name: Download reuse tool
-        run: pip3 install --user reuse
+        run: pip3 install --user -r ci-scripts/requirements.txt
       - name: Setup git config
         run: |
           git config user.name 'github-actions[bot]'

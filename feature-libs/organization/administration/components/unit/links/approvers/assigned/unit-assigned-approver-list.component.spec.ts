@@ -9,8 +9,8 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { SubListComponent } from '@spartacus/organization/administration/components';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { UnitAssignedApproverListComponent } from './unit-assigned-approver-list.component';
 import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';

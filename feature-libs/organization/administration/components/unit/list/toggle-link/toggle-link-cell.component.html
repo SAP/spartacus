@@ -6,6 +6,24 @@
   (keydown)="onKeydown($event)"
   [attr.aria-haspopup]="isSwitchable"
   [attr.data-depth]="model.depthLevel"
+  [attr.aria-label]="
+    (isLargeScreen$ | async)
+      ? combinedName +
+        ', ' +
+        ('orgUnit.uid' | cxTranslate) +
+        ': ' +
+        item?.uid +
+        ', ' +
+        ('orgUnit.active' | cxTranslate) +
+        ': ' +
+        ((item?.active ? 'organization.enabled' : 'organization.disabled')
+          | cxTranslate) +
+        ', ' +
+        ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 })
+      : combinedName +
+        ', ' +
+        ('orgUnit.tree.level' | cxTranslate: { level: model.depthLevel + 1 })
+  "
   role="treeitem"
 >
   <button

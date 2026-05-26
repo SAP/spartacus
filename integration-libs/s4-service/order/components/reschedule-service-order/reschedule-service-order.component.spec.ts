@@ -21,8 +21,8 @@ import {
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
 import { DatePickerComponent } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, throwError } from 'rxjs';
 import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
 import createSpy = jasmine.createSpy;
