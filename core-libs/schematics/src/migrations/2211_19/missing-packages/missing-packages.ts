@@ -14,7 +14,8 @@ const MISSING_PACKAGE_DATA: MissingPackageMigration[] = [];
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    for (const migrationData of MISSING_PACKAGE_DATA) { // NOSONAR typescript:S4158
+    for (const migrationData of MISSING_PACKAGE_DATA) {
+      // NOSONAR typescript:S4158
       migrateMissingPackage(tree, context, migrationData);
     }
   };
