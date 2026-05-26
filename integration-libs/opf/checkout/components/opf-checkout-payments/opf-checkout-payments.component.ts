@@ -8,14 +8,15 @@ import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   TemplateRef,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -32,7 +33,7 @@ import {
   PaginationComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   OpfActiveConfiguration,
   OpfActiveConfigurationsPagination,
@@ -68,7 +69,7 @@ import { tap } from 'rxjs/operators';
     OutletModule,
   ],
 })
-export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
+export class OpfCheckoutPaymentsComponent implements OnInit {
   protected opfBaseService = inject(OpfBaseFacade);
   protected opfConfig = inject(OpfConfig);
   protected translation = inject(TranslationService);
@@ -79,8 +80,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   );
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected userPaymentService = inject(UserPaymentService);
-
-  protected subscription = new Subscription();
+  protected destroyRef = inject(DestroyRef);
 
   protected paginationIndex = 0;
   @Input()
@@ -258,41 +258,39 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
    */
   protected preselectPaymentOption(): void {
     let isPreselected = false;
-    this.subscription.add(
-      this.opfMetadataStoreService
-        .getOpfMetadataState()
-        .subscribe((state: OpfMetadataModel) => {
-          if (
-            !isPreselected &&
-            (state.termsAndConditionsChecked ||
-              !this.explicitTermsAndConditions)
-          ) {
-            const resolvedId =
-              state.selectedPaymentOptionId ??
-              state.defaultSelectedPaymentOptionId;
+    this.opfMetadataStoreService
+      .getOpfMetadataState()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((state: OpfMetadataModel) => {
+        if (
+          !isPreselected &&
+          (state.termsAndConditionsChecked || !this.explicitTermsAndConditions)
+        ) {
+          const resolvedId =
+            state.selectedPaymentOptionId ??
+            state.defaultSelectedPaymentOptionId;
 
-            if (resolvedId !== undefined) {
-              isPreselected = true;
-            }
-
-            this.selectedPaymentId = resolvedId;
-            this.opfMetadataStoreService.updateOpfMetadata({
-              selectedPaymentOptionId: this.selectedPaymentId,
-            });
-            this.emitOutletContext();
-          } else if (
-            !state.termsAndConditionsChecked &&
-            this.explicitTermsAndConditions
-          ) {
-            isPreselected = false;
-            this.selectedPaymentId = undefined;
-            this.emitOutletContext();
-          } else if (isPreselected) {
-            this.selectedPaymentId = state.selectedPaymentOptionId;
-            this.emitOutletContext();
+          if (resolvedId !== undefined) {
+            isPreselected = true;
           }
-        })
-    );
+
+          this.selectedPaymentId = resolvedId;
+          this.opfMetadataStoreService.updateOpfMetadata({
+            selectedPaymentOptionId: this.selectedPaymentId,
+          });
+          this.emitOutletContext();
+        } else if (
+          !state.termsAndConditionsChecked &&
+          this.explicitTermsAndConditions
+        ) {
+          isPreselected = false;
+          this.selectedPaymentId = undefined;
+          this.emitOutletContext();
+        } else if (isPreselected) {
+          this.selectedPaymentId = state.selectedPaymentOptionId;
+          this.emitOutletContext();
+        }
+      });
   }
 
   protected displayError(errorKey: string): void {
@@ -354,9 +352,5 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.updateActiveConfiguration();
     this.preselectPaymentOption();
     this.emitOutletContext();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

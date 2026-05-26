@@ -8,12 +8,13 @@ import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
-  OnDestroy,
   OnInit,
   Optional,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 
 import {
@@ -22,7 +23,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { combineLatest, map, Observable, Subscription } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-gift-card-order-detail-billing',
@@ -31,11 +32,9 @@ import { combineLatest, map, Observable, Subscription } from 'rxjs';
   imports: [NgIf, CardComponent, AsyncPipe, CommonModule, TranslatePipe],
   standalone: true,
 })
-export class OpfGiftCardOrderDetailBillingComponent
-  implements OnInit, OnDestroy
-{
+export class OpfGiftCardOrderDetailBillingComponent implements OnInit {
   protected translationService = inject(TranslationService);
-  protected subscription = new Subscription();
+  protected destroyRef = inject(DestroyRef);
   @Input()
   order: Order;
 
@@ -44,9 +43,9 @@ export class OpfGiftCardOrderDetailBillingComponent
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.subscription?.add(
-        this.orderOutlet.context$.subscribe((context) => (this.order = context))
-      );
+      this.orderOutlet.context$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((context) => (this.order = context));
     }
   }
 
@@ -74,9 +73,5 @@ export class OpfGiftCardOrderDetailBillingComponent
     const totalAppliedAmount =
       this.order?.opfGiftCardSummary?.totalAppliedAmount?.value ?? 0;
     return totalAppliedAmount > 0;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

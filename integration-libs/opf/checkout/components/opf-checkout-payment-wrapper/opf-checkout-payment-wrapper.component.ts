@@ -15,6 +15,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   Input,
@@ -23,6 +24,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   DomSanitizer,
   SafeHtml,
@@ -45,7 +47,7 @@ import {
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { merge, Subscription } from 'rxjs';
+import { merge } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -80,6 +82,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected vcr = inject(ViewContainerRef);
   protected cdr = inject(ChangeDetectorRef);
   protected opfConfig = inject(OpfConfig);
+  protected destroyRef = inject(DestroyRef);
   protected isPaymentDataReady = false;
   protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
@@ -89,8 +92,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
   RENDER_PATTERN = OpfPaymentRenderPattern;
-
-  sub: Subscription = new Subscription();
 
   bypassSecurityTrustHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -118,7 +119,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.globalFunctionsService.unregisterGlobalFunctions(
       OpfGlobalFunctionsDomain.CHECKOUT
     );
-    this.sub.unsubscribe();
   }
 
   retryInitiatePayment(): void {
@@ -135,42 +135,39 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   protected listenForReinitiatePaymentEvent(): void {
-    this.sub.add(
-      this.opfPaymentEventsService?.reinitiatePaymentEvent$.subscribe(
-        (paymentOptionId) => {
-          this.handleReinitiatePayment(paymentOptionId);
-        }
-      )
-    );
+    this.opfPaymentEventsService.reinitiatePaymentEvent$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((paymentOptionId) => {
+        this.handleReinitiatePayment(paymentOptionId);
+      });
   }
 
   protected listenForSiteContextChanges(): void {
-    this.sub.add(
-      merge(
-        this.languageService.getActive().pipe(
-          skip(1), // Skip the initial value
-          distinctUntilChanged()
-        ),
-        this.currencyService.getActive().pipe(
-          skip(1), // Skip the initial value
-          distinctUntilChanged()
-        )
+    merge(
+      this.languageService.getActive().pipe(
+        skip(1), // Skip the initial value
+        distinctUntilChanged()
+      ),
+      this.currencyService.getActive().pipe(
+        skip(1), // Skip the initial value
+        distinctUntilChanged()
       )
-        .pipe(
-          switchMap(() =>
-            // Wait for cart to be stable before proceeding
-            this.activeCartService.isStable().pipe(
-              filter((isStable: boolean) => isStable),
-              take(1)
-            )
+    )
+      .pipe(
+        switchMap(() =>
+          // Wait for cart to be stable before proceeding
+          this.activeCartService.isStable().pipe(
+            filter((isStable: boolean) => isStable),
+            take(1)
           )
-        )
-        .subscribe(() => {
-          this.opfPaymentEventsService.emitReinitiatePaymentEvent(
-            this.selectedPaymentId
-          );
-        })
-    );
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        this.opfPaymentEventsService.emitReinitiatePaymentEvent(
+          this.selectedPaymentId
+        );
+      });
   }
 
   protected handleReinitiatePayment(paymentOptionId?: number): void {
@@ -184,8 +181,10 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     const idToUse = paymentOptionId ?? this.selectedPaymentId;
     this.isPaymentDataReady = false;
 
-    this.sub.add(
-      this.service.initiatePayment(idToUse).subscribe({
+    this.service
+      .initiatePayment(idToUse)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
         next: (paymentSessionData) => {
           if (this.isHostedFields(paymentSessionData)) {
             this.globalFunctionsService.registerGlobalFunctions({
@@ -207,8 +206,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
         error: () => {
           this.isPaymentDataReady = false;
         },
-      })
-    );
+      });
   }
 
   protected isHostedFields(

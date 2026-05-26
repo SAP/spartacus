@@ -9,9 +9,9 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -41,14 +41,8 @@ import {
 import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { SpinnerComponent } from '@spartacus/storefront';
-import {
-  BehaviorSubject,
-  filter,
-  Observable,
-  Subscription,
-  switchMap,
-  take,
-} from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, filter, Observable, switchMap, take } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -66,7 +60,7 @@ import { map, tap } from 'rxjs/operators';
   ],
 })
 export class OpfB2bCheckoutPaymentTypeComponent
-  implements OnInit, AfterViewInit, OnDestroy
+  implements OnInit, AfterViewInit
 {
   protected opfPaymentFacade = inject(OpfPaymentFacade);
   protected userIdService = inject(UserIdService);
@@ -77,6 +71,7 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected globalMessageService = inject(GlobalMessageService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected fb = inject(FormBuilder);
+  protected destroyRef = inject(DestroyRef);
 
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
@@ -86,7 +81,6 @@ export class OpfB2bCheckoutPaymentTypeComponent
 
   cartPoNumber$: Observable<string | undefined>;
 
-  protected subscription: Subscription = new Subscription();
   protected poNumberValue: string | undefined;
   protected selectedPaymentOption: string | undefined = undefined;
 
@@ -180,12 +174,12 @@ export class OpfB2bCheckoutPaymentTypeComponent
       (selectedOption) => (this.selectedPaymentOption = selectedOption)
     );
 
-    this.subscription.add(
-      this.cartPoNumber$.subscribe((poNumber) => {
+    this.cartPoNumber$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((poNumber) => {
         this.poNumberValue = poNumber;
         this.form.patchValue({ poNumber });
-      })
-    );
+      });
   }
 
   ngAfterViewInit(): void {
@@ -216,9 +210,5 @@ export class OpfB2bCheckoutPaymentTypeComponent
         })
       )
       .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

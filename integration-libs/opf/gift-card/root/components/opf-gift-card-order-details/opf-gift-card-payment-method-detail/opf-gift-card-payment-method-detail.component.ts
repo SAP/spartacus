@@ -8,14 +8,15 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   Input,
-  OnDestroy,
   OnInit,
   Optional,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
-import { Observable, Subscription, combineLatest, map } from 'rxjs';
+import { Observable, combineLatest, map } from 'rxjs';
 
 import {
   RoutingService,
@@ -30,12 +31,10 @@ import { Order } from '@spartacus/order/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, CardComponent, AsyncPipe, TranslatePipe],
 })
-export class OpfGiftCardPaymentMethodDetailComponent
-  implements OnInit, OnDestroy
-{
+export class OpfGiftCardPaymentMethodDetailComponent implements OnInit {
   protected translationService = inject(TranslationService);
+  protected destroyRef = inject(DestroyRef);
 
-  protected subscription = new Subscription();
   @Input()
   order: Order;
 
@@ -44,9 +43,9 @@ export class OpfGiftCardPaymentMethodDetailComponent
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.subscription?.add(
-        this.orderOutlet.context$.subscribe((context) => (this.order = context))
-      );
+      this.orderOutlet.context$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((context) => (this.order = context));
     }
   }
 
@@ -72,8 +71,5 @@ export class OpfGiftCardPaymentMethodDetailComponent
   //if sapPaymentMethod is present, it means that gift card doesn't cover full amount,
   get isPaymentMethodDetailsInfoPresent(): boolean {
     return Boolean(this.order?.paymentInfo?.sapPaymentMethod?.name);
-  }
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }

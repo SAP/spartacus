@@ -7,17 +7,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
+  DestroyRef,
   OnInit,
   Optional,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormsModule,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -32,7 +32,7 @@ import {
   OutletContextData,
   OutletModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 import { CommonModule } from '@angular/common';
@@ -58,15 +58,26 @@ import { OpfGiftCards } from '../../model';
     FormErrorsComponent,
   ],
 })
-export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
+export class OpfGiftCardApplyComponent implements OnInit {
   protected globalMessageService = inject(GlobalMessageService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected giftCardFacade = inject(OpfGiftCardFacade);
-  protected formBuilder = inject(UntypedFormBuilder);
+  protected formBuilder = inject(NonNullableFormBuilder);
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
-  protected subscription = new Subscription();
-  giftCardForm: UntypedFormGroup;
+  protected destroyRef = inject(DestroyRef);
+
+  giftCardForm = this.formBuilder.group({
+    cardNumber: [
+      '',
+      [Validators.required, Validators.minLength(8), Validators.maxLength(64)],
+    ],
+    pin: [
+      '',
+      [Validators.required, Validators.minLength(3), Validators.maxLength(28)],
+    ],
+  });
+
   protected showGiftCardForm = signal(false);
   protected loadingSubject = new BehaviorSubject<boolean>(false);
   protected loading$ = this.loadingSubject.asObservable();
@@ -77,27 +88,6 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
     map((cart): OpfGiftCards[] => cart?.opfGiftCards ?? [])
   );
 
-  protected buildForm(): void {
-    this.giftCardForm = this.formBuilder.group({
-      cardNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(64),
-        ],
-      ],
-      pin: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(28),
-        ],
-      ],
-    });
-  }
-
   constructor(@Optional() protected outlet?: OutletContextData) {}
 
   addGiftCard(): void {
@@ -106,7 +96,7 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const { cardNumber, pin } = this.giftCardForm.value;
+    const { cardNumber, pin } = this.giftCardForm.getRawValue();
     this.loadingSubject.next(true);
 
     this.giftCardFacade
@@ -164,37 +154,33 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.giftCardFacade
-        .isGiftCardCoveredTotalAmount(this.cart$)
-        .subscribe((isCovered) => {
-          this.opfPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent(
-            isCovered
-          );
-        })
-    );
+    this.giftCardFacade
+      .isGiftCardCoveredTotalAmount(this.cart$)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((isCovered) => {
+        this.opfPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent(
+          isCovered
+        );
+      });
 
     // Close gift card form when other payment options are selected
     // selectedPaymentOptionId is -1 for saved payment details.
-    this.subscription.add(
-      this.opfMetadataStoreService.getOpfMetadataState().subscribe((x) => {
+    this.opfMetadataStoreService
+      .getOpfMetadataState()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((x) => {
         if ((x.selectedPaymentOptionId ?? 0) >= -1 && this.showGiftCardForm()) {
           this.giftCardForm.reset();
           this.toggleGiftCardForm();
         }
-      })
-    );
-    if (this.outlet?.context$) {
-      this.subscription.add(
-        this.outlet.context$.subscribe((context) => {
-          this.isBillingAddressPresent$ = context?.disabled;
-        })
-      );
-    }
-    this.buildForm();
-  }
+      });
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.outlet?.context$) {
+      this.outlet.context$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((context) => {
+          this.isBillingAddressPresent$ = context?.disabled;
+        });
+    }
   }
 }

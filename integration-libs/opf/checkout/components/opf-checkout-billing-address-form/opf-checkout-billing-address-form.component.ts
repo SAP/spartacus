@@ -8,10 +8,11 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
@@ -28,7 +29,8 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
@@ -47,19 +49,17 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
     GetAddressCardContent,
   ],
 })
-export class OpfCheckoutBillingAddressFormComponent
-  implements OnInit, OnDestroy
-{
+export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected service = inject(OpfCheckoutBillingAddressFormService);
   protected userAddressService = inject(UserAddressService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected checkoutStepService = inject(CheckoutStepService);
   protected activatedRoute = inject(ActivatedRoute);
+  protected destroyRef = inject(DestroyRef);
 
   protected cart: Cart | null = null;
 
   iconTypes = ICON_TYPE;
-  subscription = new Subscription();
 
   billingAddress$ = this.service.billingAddress$;
   isLoadingAddress$ = this.service.isLoadingAddress$;
@@ -71,19 +71,22 @@ export class OpfCheckoutBillingAddressFormComponent
   countries$: Observable<Country[]>;
 
   ngOnInit() {
-    this.subscription.add(
-      this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart))
-    );
+    this.activeCartFacade
+      .getActive()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((cart) => (this.cart = cart));
+
     this.countries$ = this.service.getCountries();
     this.userAddressService.loadAddresses();
     this.service.setDefaultBillingAddress();
     this.service.getAddresses();
-    this.subscription.add(
-      this.service.pickupNoDefaultAddress$.subscribe(() => {
+
+    this.service.pickupNoDefaultAddress$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
         this.isEditBillingAddress = true;
         this.isAddingBillingAddressInProgress = true;
-      })
-    );
+      });
   }
 
   cancelAndHideForm(): void {
@@ -98,11 +101,11 @@ export class OpfCheckoutBillingAddressFormComponent
   }
 
   onBackToAddress(): void {
-    this.subscription.add(
-      this.service.paymentOptionsDisabled$.subscribe((isDisabled) =>
+    this.service.paymentOptionsDisabled$
+      .pipe(take(1))
+      .subscribe((isDisabled) =>
         isDisabled ? this.back() : this.cancelAndHideForm()
-      )
-    );
+      );
   }
 
   editCustomBillingAddress(): void {
@@ -143,9 +146,5 @@ export class OpfCheckoutBillingAddressFormComponent
         this.service.setPaymentOptionsDisabled(true);
       },
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

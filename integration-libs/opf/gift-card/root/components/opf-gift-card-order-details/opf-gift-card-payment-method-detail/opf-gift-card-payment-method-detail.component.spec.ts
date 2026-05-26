@@ -63,10 +63,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should initialize subscription', () => {
-      expect(component['subscription']).toBeTruthy();
-    });
-
     it('should have order property', () => {
       component.order = mockOrder;
       expect(component.order).toEqual(mockOrder);
@@ -88,15 +84,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         expect(component.order).toEqual(mockOrder);
         done();
       }, 10);
-    });
-
-    it('should not subscribe if orderOutlet is not provided', () => {
-      component['orderOutlet'] = undefined;
-      const subscriptionSpy = spyOn(component['subscription'], 'add');
-
-      component.ngOnInit();
-
-      expect(subscriptionSpy).not.toHaveBeenCalled();
     });
 
     it('should handle multiple order updates from context', (done) => {
@@ -276,22 +263,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         expect(card.text?.[0]).toBe('Gift Card Payment');
         done();
       });
-    });
-
-    it('should maintain subscription during component lifecycle', () => {
-      const mockOutletContext: Partial<OutletContextData<Order>> = {
-        context$: contextSubject.asObservable(),
-      };
-
-      component['orderOutlet'] = mockOutletContext as OutletContextData<Order>;
-      component.ngOnInit();
-
-      const initialSubscriptionCount = component['subscription'].closed;
-
-      contextSubject.next(mockOrder);
-
-      expect(component['subscription'].closed).toBe(initialSubscriptionCount);
-      expect(component.order).toEqual(mockOrder);
     });
   });
 

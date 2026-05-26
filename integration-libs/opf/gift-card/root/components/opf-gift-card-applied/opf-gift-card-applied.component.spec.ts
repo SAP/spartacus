@@ -182,8 +182,8 @@ describe('OpfGiftCardApplyComponent', () => {
     component['resetForm']();
 
     expect(component.giftCardForm.value).toEqual({
-      cardNumber: null,
-      pin: null,
+      cardNumber: '',
+      pin: '',
     });
   });
 
@@ -191,14 +191,6 @@ describe('OpfGiftCardApplyComponent', () => {
     expect(
       mockPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent
     ).toHaveBeenCalledWith(false);
-  });
-
-  it('should unsubscribe on destroy', () => {
-    spyOn(component['subscription'], 'unsubscribe');
-
-    component.ngOnDestroy();
-
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });
 
   it('should return applied gift cards from cart$', (done) => {
