@@ -11,13 +11,7 @@
         [placeholder]="'searchBox.placeholder' | cxTranslate"
         autocomplete="off"
         aria-describedby="initialDescription"
-        [attr.aria-controls]="
-          searchBoxRecentSearchesRemovalEnabled
-            ? hasQuery
-              ? 'results'
-              : null
-            : 'results'
-        "
+        [attr.aria-controls]="getAriaControls()"
         [attr.tabindex]="getTabIndex(isMobile | async)"
         (click)="open()"
         (input)="search(searchInput.value)"
@@ -60,7 +54,7 @@
 </div>
 
 <span
-  *ngIf="searchBoxRecentSearchesRemovalEnabled"
+  *cxFeature="'searchBoxRecentSearchesRemoval'"
   id="initialDescription"
   class="cx-visually-hidden"
 >
@@ -143,12 +137,7 @@
     </div>
 
     <!--  RECENT SEARCHES-->
-    <ng-container
-      *ngIf="
-        searchBoxRecentSearchesRemovalEnabled;
-        else legacyRecentSearchesStructure
-      "
-    >
+    <ng-container *cxFeature="'searchBoxRecentSearchesRemoval'">
       <ng-template
         *ngIf="config.recentSearches && !isNoResults(result)"
         [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
@@ -160,7 +149,7 @@
       ></ng-template>
     </ng-container>
 
-    <ng-template #legacyRecentSearchesStructure>
+    <ng-container *cxFeature="'!searchBoxRecentSearchesRemoval'">
       <ng-template
         *ngIf="config.recentSearches"
         [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES"
@@ -170,7 +159,7 @@
           maxRecentSearches: config.maxRecentSearches,
         }"
       ></ng-template>
-    </ng-template>
+    </ng-container>
     <!--RESULT  PRODUCTS-->
     <div class="products">
       <h3 *ngIf="result.products?.length">
@@ -247,16 +236,7 @@
         >
           {{ 'searchBox.trendingSearches' | cxTranslate }}
         </h3>
-        <h3
-          class="recentSearches-header"
-          *cxFeature="'!searchBoxRecentSearchesRemoval'"
-        >
-          {{ 'searchBox.recentSearches' | cxTranslate }}
-        </h3>
-        <ng-template
-          *cxFeature="'searchBoxRecentSearchesRemoval'"
-          [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER"
-        >
+        <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER">
           <h3 class="recentSearches-header">
             {{ 'searchBox.recentSearches' | cxTranslate }}
           </h3>
@@ -275,7 +255,7 @@
     </div>
 
     <span
-      *ngIf="!searchBoxRecentSearchesRemovalEnabled"
+      *cxFeature="'!searchBoxRecentSearchesRemoval'"
       id="initialDescription"
       class="cx-visually-hidden"
     >

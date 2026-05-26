@@ -50,6 +50,16 @@ cx-category-navigation {
 
 cx-page-slot.cx-bottom-header-slot {
   display: flex;
+  flex-wrap: wrap;
+
+  > cx-breadcrumb {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  > cx-merchandising-carousel:not(:has(cx-carousel)) {
+    display: none;
+  }
 
   > * {
     flex: 1 1 var(--cx-flex-basis, 100%);

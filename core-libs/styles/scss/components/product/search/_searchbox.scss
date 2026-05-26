@@ -308,6 +308,18 @@
       margin-bottom: 20px;
       @include forFeature('searchBoxRecentSearchesRemoval') {
         position: relative;
+
+        cx-recent-searches-header .recentSearches-header {
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            align-items: center;
+
+            button {
+              min-height: 20px;
+              padding: 0;
+            }
+          }
+        }
       }
       ul {
         display: flex;
@@ -407,7 +419,9 @@
         top: 20px;
       }
     }
-    .recent-searches-btn {
+    .recent-searches-btn,
+    .recent-searches cx-recent-searches-header .clear-recent-searches-btn {
+      display: none;
       position: absolute;
       padding: 0;
       min-height: 21px;

@@ -51,9 +51,7 @@ import { MediaComponent } from '../../../shared/components/media/media.component
 import { IconComponent } from '../../misc/icon/icon.component';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponentService } from './search-box-component.service';
-import {
-  SearchBoxOutlets,
-} from './search-box-outlets.model';
+import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -114,7 +112,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return true;
   }
 
-
   /**
    * Listener for clickout out of searchInput and searchPanel
    * */
@@ -122,7 +119,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   clickout(event: UIEvent) {
     const target = event.target as HTMLElement;
     const contains = this.elementRef.nativeElement.contains(target);
-
 
     if (!contains) {
       this.softClose();
@@ -134,7 +130,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Closes the search box, but ignores clicks on close buttons
    */
   protected handleResultsClick(_event: MouseEvent): void {
-
     this.close(true);
   }
 
@@ -184,17 +179,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.hasQuery;
   }
 
+  protected getAriaControls(): string | null {
+    if (!this.searchBoxRecentSearchesRemovalEnabled) {
+      return 'results';
+    }
+    return this.hasQuery ? 'results' : null;
+  }
+
   /**
    * Cached flag indicating if the current viewport is mobile (BREAKPOINT.sm and below).
    * Used to vary behavior between mobile and desktop.
    */
   protected isMobileState: boolean | null = null;
 
-  /**
-   * Cached check whether the searchBoxRecentSearchesRemoval feature is enabled.
-   * Used to switch between legacy and new recent-searches structures.
-   */
-  protected readonly searchBoxRecentSearchesRemovalEnabled =
+  private readonly searchBoxRecentSearchesRemovalEnabled =
     this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval');
 
   /**
@@ -225,11 +223,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService,
-    protected featureConfigService: FeatureConfigService
+    private featureConfigService: FeatureConfigService
   ) {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
   }
-
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
@@ -522,9 +519,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     );
     groups.push(
       Array.from(
-        this.winRef.document.querySelectorAll(
-          '.recent-searches ul > li a'
-        )
+        this.winRef.document.querySelectorAll('.recent-searches ul > li a')
       )
     );
 
@@ -622,7 +617,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         break;
     }
   }
-
 
   // Focus on previous item in results list
   focusPreviousChild(event: UIEvent) {

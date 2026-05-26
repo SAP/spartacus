@@ -23,6 +23,7 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { RecentSearchesHeaderComponent } from './recent-searches-header.component';
 import { RecentSearchesService } from './recent-searches.service';
 
 export interface SearchBoxOutlet {
@@ -49,6 +50,7 @@ const CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS = 200;
     UrlPipe,
     IconComponent,
     FeatureDirective,
+    RecentSearchesHeaderComponent,
   ],
 })
 export class RecentSearchesComponent implements OnInit {
@@ -140,15 +142,6 @@ export class RecentSearchesComponent implements OnInit {
       return;
     }
     this.recentSearchesService.removePhrase(phrase);
-  }
-
-  clearPhrases(event?: MouseEvent) {
-    if (event) {
-      event.stopPropagation();
-      event.preventDefault();
-      event.stopImmediatePropagation?.();
-    }
-    this.recentSearchesService.clearPhrases();
   }
 
   handleCloseButtonEnter(event: KeyboardEvent, phrase: string): void {

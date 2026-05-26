@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { SearchBoxComponentService } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';

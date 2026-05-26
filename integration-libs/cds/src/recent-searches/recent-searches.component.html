@@ -4,17 +4,9 @@
       <h3 *cxFeature="'!searchBoxRecentSearchesRemoval'">
         {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
-      <h3 *cxFeature="'searchBoxRecentSearchesRemoval'">
-        {{ 'cdsRecentSearches.header' | cxTranslate }}
-      </h3>
-      <button
+      <cx-recent-searches-header
         *cxFeature="'searchBoxRecentSearchesRemoval'"
-        (click)="clearPhrases($event)"
-        (mousedown)="$event.stopPropagation()"
-        class="recent-searches-btn btn btn-tertiary"
-      >
-        {{ 'cdsRecentSearches.clear' | cxTranslate }}
-      </button>
+      ></cx-recent-searches-header>
       <ul
         tabindex="0"
         [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"
@@ -57,7 +49,9 @@
             (keydown.enter)="handleCloseButtonEnter($any($event), recentSearch)"
             (keydown.escape)="shareEvent($any($event))"
             (blur)="shareEvent($any($event))"
-            (click)="handleCloseButtonClick(recentSearch); $event.stopPropagation()"
+            (click)="
+              handleCloseButtonClick(recentSearch); $event.stopPropagation()
+            "
           >
             <span aria-hidden="true">
               <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
