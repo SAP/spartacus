@@ -13,6 +13,27 @@ jobs:
     name: PR - Check PR title
     runs-on: ubuntu-latest
     steps:
+      - name: Debug config variables
+        env:
+          GHT_USER: ${{ vars.GHT_USER }}
+          GHT_EMAIL: ${{ vars.GHT_EMAIL }}
+          GHT_CCV2_USERNAME: ${{ vars.GHT_CCV2_USERNAME }}
+          GHT_CCV2_EMAIL: ${{ vars.GHT_CCV2_EMAIL }}
+          GHT_SPARTACUS_REPO: ${{ vars.GHT_SPARTACUS_REPO }}
+          GHT_CCV2_REPO: ${{ vars.GHT_CCV2_REPO }}
+          SLACK_NOTIFICATION_CHANNEL: ${{ vars.SLACK_NOTIFICATION_CHANNEL }}
+          FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL: ${{ vars.FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL }}
+          SLACK_TOGGLE_REVIEWER_ID: ${{ vars.SLACK_TOGGLE_REVIEWER_ID }}
+        run: |
+          echo "GHT_USER=$GHT_USER"
+          echo "GHT_EMAIL=$GHT_EMAIL"
+          echo "GHT_CCV2_USERNAME=$GHT_CCV2_USERNAME"
+          echo "GHT_CCV2_EMAIL=$GHT_CCV2_EMAIL"
+          echo "GHT_SPARTACUS_REPO=$GHT_SPARTACUS_REPO"
+          echo "GHT_CCV2_REPO=$GHT_CCV2_REPO"
+          echo "SLACK_NOTIFICATION_CHANNEL=$SLACK_NOTIFICATION_CHANNEL"
+          echo "FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL=$FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL"
+          echo "SLACK_TOGGLE_REVIEWER_ID=$SLACK_TOGGLE_REVIEWER_ID"
       - name: Validate PR title
         id: validate
         env:
