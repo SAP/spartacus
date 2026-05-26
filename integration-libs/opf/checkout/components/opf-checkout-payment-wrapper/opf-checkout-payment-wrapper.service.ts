@@ -33,6 +33,7 @@ import {
   OpfPaymentBrowserInfo,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
+  OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
 import { OrderFacade } from '@spartacus/order/root';
@@ -144,7 +145,11 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
-    const paymentSessionId = paymentOptionConfig.paymentSessionId;
+    const paymentSessionId =
+      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+      paymentOptionConfig.paymentSessionId
+        ? paymentOptionConfig.paymentSessionId
+        : undefined;
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
     });
