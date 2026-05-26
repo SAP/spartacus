@@ -126,11 +126,12 @@ export class OpfCheckoutPaymentWrapperService {
       ),
       switchMap((params) => {
         // this.opfPaymentFacade.initiatePayment(params);
-        const configurationId = String(paymentOptionId);
+        const paymentOptionIdKey = String(paymentOptionId);
         const metadata = this.opfMetadataStoreService.opfMetadataState.value;
         const paymentSessionId =
-          metadata?.opfPaymentSessionIdByConfigurationId?.[configurationId] ??
-          metadata?.opfPaymentSessionId;
+          metadata?.opfPaymentSessionIdByPaymentOptionId?.[
+            paymentOptionIdKey
+          ] ?? metadata?.opfPaymentSessionId;
 
         if (!paymentSessionId) {
           return throwError(() => new Error('paymentSessionId is required'));
@@ -184,15 +185,16 @@ export class OpfCheckoutPaymentWrapperService {
       paymentOptionConfig?.paymentOptionId ??
       paymentOptionId ??
       this.lastPaymentOptionId;
-    const configurationId =
+    const paymentOptionIdKey =
       resolvedPaymentOptionId !== undefined
         ? String(resolvedPaymentOptionId)
         : undefined;
-    const sessionIdByConfigurationId = {
+
+    const sessionIdByPaymentOptionId = {
       ...(this.opfMetadataStoreService.opfMetadataState.value
-        ?.opfPaymentSessionIdByConfigurationId ?? {}),
-      ...(configurationId && paymentOptionConfig?.paymentSessionId
-        ? { [configurationId]: paymentOptionConfig.paymentSessionId }
+        ?.opfPaymentSessionIdByPaymentOptionId ?? {}),
+      ...(paymentOptionIdKey && paymentOptionConfig?.paymentSessionId
+        ? { [paymentOptionIdKey]: paymentOptionConfig.paymentSessionId }
         : {}),
     };
 
@@ -206,7 +208,8 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
-      opfPaymentSessionIdByConfigurationId: sessionIdByConfigurationId,
+      // opfPaymentSessionIdByConfigurationId: sessionIdByConfigurationId,
+      opfPaymentSessionIdByPaymentOptionId: sessionIdByPaymentOptionId,
     });
   }
 
