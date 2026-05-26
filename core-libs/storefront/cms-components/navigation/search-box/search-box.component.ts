@@ -12,7 +12,6 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  Inject,
   inject,
   Input,
   OnDestroy,
@@ -53,7 +52,6 @@ import { IconComponent } from '../../misc/icon/icon.component';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponentService } from './search-box-component.service';
 import {
-  RECENT_SEARCHES_HEADER_CLEAR_SERVICE,
   SearchBoxOutlets,
 } from './search-box-outlets.model';
 import {
@@ -75,10 +73,6 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxTrendingSearches: 5,
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
-const CLOSE_BUTTON_SELECTOR = 'button.close';
-const CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR =
-  'button.clear-recent-searches-btn';
-const RECENT_SEARCHES_BUTTON_SELECTOR = '.recent-searches-btn';
 
 @Component({
   selector: 'cx-searchbox',
@@ -120,20 +114,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  /**
-   * Checks if the given element is a clear recent searches button
-   */
-  protected isClearRecentSearchesButton(element: HTMLElement | null): boolean {
-    if (!element) {
-      return false;
-    }
-    return (
-      element.classList?.contains('clear-recent-searches-btn') ||
-      element.classList?.contains('recent-searches-btn') ||
-      !!element.closest?.(CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR) ||
-      !!element.closest?.(RECENT_SEARCHES_BUTTON_SELECTOR)
-    );
-  }
 
   /**
    * Listener for clickout out of searchInput and searchPanel
@@ -143,12 +123,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLElement;
     const contains = this.elementRef.nativeElement.contains(target);
 
-    if (
-      this.searchBoxRecentSearchesRemovalEnabled &&
-      this.isClearRecentSearchesButton(target)
-    ) {
-      return;
-    }
 
     if (!contains) {
       this.softClose();
@@ -159,23 +133,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Handler for clicks on the results div
    * Closes the search box, but ignores clicks on close buttons
    */
-  protected handleResultsClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-
-    // Don't close if clicking on a close button in recent-searches
-    const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR) as HTMLElement;
-    if (closeButton) {
-      event.stopPropagation();
-      event.preventDefault();
-      return;
-    }
-
-    // Don't close if clicking on the clear recent searches button
-    if (this.isClearRecentSearchesButton(target)) {
-      event.stopPropagation();
-      event.preventDefault();
-      return;
-    }
+  protected handleResultsClick(_event: MouseEvent): void {
 
     this.close(true);
   }
@@ -267,35 +225,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService,
-    protected featureConfigService: FeatureConfigService,
-    @Optional()
-    @Inject(RECENT_SEARCHES_HEADER_CLEAR_SERVICE)
-    protected recentSearchesHeaderClearService: { clearPhrases(): void } | null
+    protected featureConfigService: FeatureConfigService
   ) {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
   }
 
-  /**
-   * Context for the RECENT_SEARCHES_HEADER outlet (title + optional Clear button).
-   * When RECENT_SEARCHES_HEADER_CLEAR_SERVICE is provided (for example, by CDS),
-   * clearRecentSearches is set and will call through to that service.
-   */
-  protected get recentSearchesHeaderContext(): {
-    clearRecentSearches?(event?: MouseEvent): void;
-    focusPreviousGroup?(event: UIEvent): void;
-  } {
-    return {
-      clearRecentSearches: (event?: MouseEvent) => {
-        if (event) {
-          event.stopPropagation();
-          event.preventDefault();
-          event.stopImmediatePropagation?.();
-        }
-        this.recentSearchesHeaderClearService?.clearPhrases();
-      },
-      focusPreviousGroup: (event: UIEvent) => this.focusPreviousGroup(event),
-    };
-  }
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
@@ -485,16 +419,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   protected handleInputBlur(event: FocusEvent): void {
     const relatedTarget = event.relatedTarget as HTMLElement;
-    const activeElement = this.winRef.document.activeElement as HTMLElement;
 
-    // Check if the blur is caused by clicking the clear recent searches button
-    // Check both relatedTarget (where focus is going) and activeElement (current focus)
+    // If focus is moving to an element within the search box host, don't close
     if (
-      this.isClearRecentSearchesButton(relatedTarget) ||
-      this.isClearRecentSearchesButton(activeElement)
+      relatedTarget &&
+      this.elementRef.nativeElement.contains(relatedTarget)
     ) {
-      // Don't close when clicking clear buttons - let the button click handler manage the state
-      // The search box should remain open after clearing recent searches
       return;
     }
 
@@ -561,13 +491,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   // Return result list as HTMLElement array
   protected getResultElements(): HTMLElement[] {
-    const recentSearchesSelector = this.searchBoxRecentSearchesRemovalEnabled
-      ? '.recent-searches ul > li a, .recent-searches ul > li button.close'
-      : '.recent-searches ul > li a';
-
     return Array.from(
       this.winRef.document.querySelectorAll(
-        `.products ul:not(.hidden) > li a, .suggestions ul  > li a, ${recentSearchesSelector}, .trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])`
+        `.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a, .trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])`
       )
     );
   }
@@ -597,9 +523,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     groups.push(
       Array.from(
         this.winRef.document.querySelectorAll(
-          this.searchBoxRecentSearchesRemovalEnabled
-            ? '.recent-searches ul > li a, .recent-searches ul > li button.close'
-            : '.recent-searches ul > li a'
+          '.recent-searches ul > li a'
         )
       )
     );
@@ -657,7 +581,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.handleKeyboardEvent(event, { skipEnterOnCloseButton: true });
+    this.handleKeyboardEvent(event);
   }
 
   /**
@@ -674,21 +598,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected handleKeyboardEvent(
-    event: KeyboardEvent,
-    options: { skipEnterOnCloseButton?: boolean } = {}
-  ): void {
+  protected handleKeyboardEvent(event: KeyboardEvent): void {
     switch (event.code) {
       case 'Escape':
         this.close(true);
         break;
       case 'Enter':
-        if (
-          options.skipEnterOnCloseButton &&
-          this.shouldSkipEnterOnCloseButton(event)
-        ) {
-          break;
-        }
         this.close(true);
         break;
       case 'ArrowUp':
@@ -708,11 +623,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected shouldSkipEnterOnCloseButton(event: KeyboardEvent): boolean {
-    const target = event.target as HTMLElement;
-    const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
-    return !!closeButton;
-  }
 
   // Focus on previous item in results list
   focusPreviousChild(event: UIEvent) {

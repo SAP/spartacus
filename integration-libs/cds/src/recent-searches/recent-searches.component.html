@@ -57,7 +57,7 @@
             (keydown.enter)="handleCloseButtonEnter($any($event), recentSearch)"
             (keydown.escape)="shareEvent($any($event))"
             (blur)="shareEvent($any($event))"
-            (click)="handleCloseButtonClick(recentSearch)"
+            (click)="handleCloseButtonClick(recentSearch); $event.stopPropagation()"
           >
             <span aria-hidden="true">
               <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
