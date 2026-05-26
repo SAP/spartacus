@@ -1,4 +1,4 @@
-import { Component, Pipe, PipeTransform } from '@angular/core';
+import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AbstractControl,
@@ -41,14 +41,14 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
-const mockInvalidPassword = 'strongPass$!123';
+const mockInvalidPassword = 'strongPas$!123|';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -281,10 +281,10 @@ describe('RegisterComponent', () => {
       fixture = TestBed.createComponent(RegisterComponent);
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;
-      const submitButton: HTMLElement = el.querySelector(
+      const submitButton: HTMLElement | null = el.querySelector(
         'button[type="submit"]'
       );
-      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+      expect(submitButton?.hasAttribute('disabled')).toBeFalsy();
     });
   });
 
@@ -292,13 +292,11 @@ describe('RegisterComponent', () => {
     it('should load titles', () => {
       component.ngOnInit();
 
-      let titleList: Title[];
       component.titles$
         .subscribe((data) => {
-          titleList = data;
+          expect(data).toEqual(mockTitlesList);
         })
         .unsubscribe();
-      expect(titleList).toEqual(mockTitlesList);
     });
 
     it('should handle error when title code is required from the backend config', () => {
@@ -448,7 +446,7 @@ describe('RegisterComponent', () => {
   });
 
   describe('captcha', () => {
-    let captchaComponent;
+    let captchaComponent: DebugElement;
     beforeEach(() => {
       captchaComponent = fixture.debugElement.query(By.css('cx-captcha'));
       spyOn(component, 'registerUser').and.callThrough();
@@ -486,7 +484,7 @@ describe('RegisterComponent', () => {
   });
 
   describe('password validators', () => {
-    it('should have new validators when feature flag is enabled', () => {
+    it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
       (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
 
       fixture = TestBed.createComponent(RegisterComponent);
@@ -499,8 +497,11 @@ describe('RegisterComponent', () => {
 
       const validations = {
         whenEmpty: passwordControl.validator?.({} as any),
-        whenNotEmpty: passwordControl.validator?.({
+        whenNotEmptyAndInvalid: passwordControl.validator?.({
           value: mockInvalidPassword,
+        } as any),
+        whenNotEmpty: passwordControl.validator?.({
+          value: mockSecurePassword,
         } as any),
       };
       expect(passwordControl).toBeTruthy();
@@ -511,10 +512,12 @@ describe('RegisterComponent', () => {
         cxMinOneUpperCaseCharacter: true,
         cxMinEightCharactersLength: true,
         cxMaxCharactersLength: true,
+        cxMustEndWithLegalCharacter: true,
       });
-      expect(validations.whenNotEmpty).toEqual({
-        cxNoConsecutiveCharacters: true,
+      expect(validations.whenNotEmptyAndInvalid).toEqual({
+        cxMustEndWithLegalCharacter: true,
       });
+      expect(validations.whenNotEmpty).toEqual(null);
     });
   });
 });

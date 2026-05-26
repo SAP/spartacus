@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-12 col-md-4">
+    <a
+      [attr.aria-label]="
+        !product.images?.hasOwnProperty('PRIMARY')
+          ? ('productDetails.noProductImage'
+            | cxTranslate: { product: product.name })
+          : undefined
+      "
+      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      class="cx-product-image-container"
+    >
+      <cx-media
+        class="cx-product-image"
+        [container]="product.images?.PRIMARY"
+        format="product"
+        [alt]="product.name || product.summary"
+        *cxLcpContext="let lcpContext"
+        [fetchPriority]="
+          itemIndex === 0 ? (lcpContext.fetchPriority$ | async) : undefined
+        "
+      ></cx-media>
+    </a>
+  </div>
+  <div class="col-12 col-md-8">
+    <h2 class="cx-product-name">
+      <a
+        [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+        [innerHTML]="product.nameHtml"
+      ></a>
+    </h2>
+
+    <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
+      <cx-star-rating
+        *ngIf="product.averageRating"
+        [rating]="product?.averageRating"
+      ></cx-star-rating>
+      <div *ngIf="!product.averageRating" class="cx-product-no-review">
+        {{ 'productDetails.noReviews' | cxTranslate }}
+      </div>
+      <div
+        class="cx-product-price"
+        [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+      >
+        {{ product.price?.formattedValue }}
+      </div>
+    </ng-template>
+
+    <div class="row">
+      <div class="col-12 col-md-7 col-xl-7">
+        <p
+          *cxFeature="'!productListItemSummaryReadMore'"
+          class="cx-product-summary"
+          [innerHTML]="product.summary"
+        ></p>
+        <ng-container *ngIf="product.summary">
+          <cx-read-more
+            *cxFeature="'productListItemSummaryReadMore'"
+            class="text"
+            [text]="product.summary"
+            [maxLength]="summaryMaxLength"
+          ></cx-read-more>
+        </ng-container>
+      </div>
+      <div class="col-12 col-md-5 col-xl-5">
+        <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
+          <ng-container *ngIf="!hideAddToCartButton">
+            <ng-container cxInnerComponentsHost></ng-container>
+          </ng-container>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,8 @@
 import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
@@ -6,18 +10,15 @@ import { TestBed } from '@angular/core/testing';
 import { Cart, CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   ConverterService,
+  FeatureToggles,
   OccConfig,
   OccEndpointsService,
 } from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'projects/core/src/occ/adapters/user/unit-test.helper';
+} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 
 const userId = '123';
 const cartId = '456';
@@ -32,8 +33,11 @@ describe('OccCartVoucherAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
+  let mockFeatureToggles: Partial<FeatureToggles>;
 
-  beforeEach(() => {
+  function setup(featureToggles: Partial<FeatureToggles> = {}) {
+    mockFeatureToggles = featureToggles;
+
     TestBed.configureTestingModule({
       providers: [
         OccCartVoucherAdapter,
@@ -42,6 +46,7 @@ describe('OccCartVoucherAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        { provide: FeatureToggles, useValue: mockFeatureToggles },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -54,13 +59,16 @@ describe('OccCartVoucherAdapter', () => {
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'buildUrl').and.callThrough();
-  });
+  }
 
   afterEach(() => {
     httpMock.verify();
+    TestBed.resetTestingModule();
   });
 
   describe('add voucher to cart', () => {
+    beforeEach(() => setup());
+
     it('should add voucher to cart for given user id, cart id and voucher id', () => {
       let result;
       service.add(userId, cartId, voucherId).subscribe((res) => (result = res));
@@ -84,26 +92,62 @@ describe('OccCartVoucherAdapter', () => {
   });
 
   describe('remove a voucher from cart', () => {
-    it('should remove voucher from cart for given user id, cart id and voucher id', () => {
-      let result;
-      service
-        .remove(userId, cartId, voucherId)
-        .subscribe((res) => (result = res));
+    describe('when enableRemoveVoucherEndpoint is false (default)', () => {
+      beforeEach(() => setup({ enableRemoveVoucherEndpoint: false }));
 
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'DELETE';
-      });
+      it('should use DELETE /vouchers/{voucherId}', () => {
+        let result;
+        service
+          .remove(userId, cartId, voucherId)
+          .subscribe((res) => (result = res));
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('cartVoucher', {
-        urlParams: {
-          userId: userId,
-          cartId: cartId,
-        },
+        const mockReq = httpMock.expectOne((req) => {
+          return req.method === 'DELETE';
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'cartVoucher',
+          {
+            urlParams: {
+              userId: userId,
+              cartId: cartId,
+            },
+          }
+        );
+        expect(mockReq.cancelled).toBeFalsy();
+        mockReq.flush(cartData);
+        expect(result).toEqual(cartData);
       });
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
+    });
+
+    describe('when enableRemoveVoucherEndpoint is true', () => {
+      beforeEach(() => setup({ enableRemoveVoucherEndpoint: true }));
+
+      it('should use POST /removeVoucher with voucherId in body', () => {
+        let result;
+        service
+          .remove(userId, cartId, voucherId)
+          .subscribe((res) => (result = res));
+
+        const mockReq = httpMock.expectOne((req) => {
+          return req.method === 'POST';
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'cartRemoveVoucher',
+          {
+            urlParams: {
+              userId: userId,
+              cartId: cartId,
+            },
+          }
+        );
+        expect(mockReq.request.body).toEqual({ voucherId });
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(cartData);
+        expect(result).toEqual(cartData);
+      });
     });
   });
 });

@@ -35,7 +35,11 @@
 #  Admin files
 # ================================================
 /.github/CODEOWNERS          @SAP/spartacus-admins
-/projects/storefrontstyles/vendor/bootstrap          @SAP/spartacus-admins
+/.github/workflows/          @SAP/spartacus-admins
+/.github/actions/            @SAP/spartacus-admins
+/.github/api-extractor-action/   @SAP/spartacus-admins
+/.github/cache-builded-libs/     @SAP/spartacus-admins
+/core-libs/styles/vendor/bootstrap          @SAP/spartacus-admins
 
 # ================================================
 #  Folders where anyone with write access to the repo can approve Pull Requests
@@ -55,7 +59,7 @@
 #  User domain
 # ================================================
 /feature-libs/user/          @SAP/spartacus-codeowners @SAP/spartacus-holidays
-/projects/storefrontlib/cms-components/myaccount/         @SAP/spartacus-codeowners @SAP/spartacus-holidays
+/core-libs/storefront/cms-components/myaccount/         @SAP/spartacus-codeowners @SAP/spartacus-holidays
 /run-spartacus-cust-e2es.sh    @SAP/spartacus-codeowners @SAP/spartacus-holidays 
 
 # ================================================

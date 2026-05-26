@@ -5,6 +5,10 @@
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
       "@spartacus/user": ["dist/user"],
+      "@spartacus/user/wishlist": ["dist/user/wishlist"],
+      "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],
+      "@spartacus/user/wishlist/occ": ["dist/user/wishlist/occ"],
+      "@spartacus/user/wishlist/core": ["dist/user/wishlist/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
@@ -433,6 +437,12 @@
       "@spartacus/opf/global-functions/core": [
         "dist/opf/global-functions/core"
       ],
+      "@spartacus/opf/gift-card": ["dist/opf/gift-card"],
+      "@spartacus/opf/gift-card/root": ["dist/opf/gift-card/root"],
+      "@spartacus/opf/gift-card/occ": ["dist/opf/gift-card/occ"],
+      "@spartacus/opf/gift-card/core": ["dist/opf/gift-card/core"],
+      "@spartacus/opf/gift-card/components": ["dist/opf/gift-card/components"],
+      "@spartacus/opf/gift-card/assets": ["dist/opf/gift-card/assets"],
       "@spartacus/opf/cta": ["dist/opf/cta"],
       "@spartacus/opf/cta/root": ["dist/opf/cta/root"],
       "@spartacus/opf/cta/opf-api": ["dist/opf/cta/opf-api"],
@@ -491,7 +501,7 @@
       "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc/components": ["dist/cdc/components"],
       "@spartacus/cdc/assets": ["dist/cdc/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/assets": ["dist/assets"]
     }

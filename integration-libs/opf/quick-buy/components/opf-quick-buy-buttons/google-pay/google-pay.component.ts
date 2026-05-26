@@ -29,15 +29,20 @@ export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);
   protected changeDetectionRef = inject(ChangeDetectorRef);
 
-  @Input() activeConfiguration: OpfActiveConfiguration;
+  @Input() activeConfiguration:
+    | OpfActiveConfiguration
+    | OpfActiveConfiguration[];
 
   @ViewChild('googlePayButtonContainer') googlePayButtonContainer: ElementRef;
 
   isReadyToPayState$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   ngOnInit(): void {
+    const activeConfigurations = Array.isArray(this.activeConfiguration)
+      ? this.activeConfiguration
+      : [this.activeConfiguration];
     this.opfGooglePayService.loadResources().then(() => {
-      this.opfGooglePayService.initClient(this.activeConfiguration);
+      this.opfGooglePayService.initClient(activeConfigurations);
       this.opfGooglePayService.isReadyToPay().then((response: any) => {
         this.isReadyToPayState$.next(!!response?.result);
         this.changeDetectionRef.detectChanges();

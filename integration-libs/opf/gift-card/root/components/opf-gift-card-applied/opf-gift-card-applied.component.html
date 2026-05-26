@@ -1,0 +1,26 @@
+<div class="cx-opf-gift-card-applied-list" *ngIf="opfGiftCards.length > 0">
+  <div class="cx-opf-gift-card-applied-item" *ngFor="let card of opfGiftCards">
+    <div class="cx-opf-gift-card-applied-content">
+      <div class="cx-opf-gift-card-applied-header">
+        <p class="cx-opf-gift-card-applied-number">{{ card.maskedNumber }}</p>
+        <button
+          type="button"
+          class="btn btn-tertiary cx-opf-gift-card-applied-remove-btn"
+          [attr.aria-label]="'opfGiftCard.remove' | cxTranslate"
+          (click)="removeGiftCard(card.id)"
+        >
+          {{ 'opfGiftCard.remove' | cxTranslate }}
+        </button>
+      </div>
+
+      <div class="cx-opf-gift-card-applied-balance">
+        <p class="cx-opf-gift-card-applied-balance-info">
+          {{ 'opfGiftCard.currentBalance' | cxTranslate }}:
+          {{ card.balance?.formattedValue }}.
+          {{ 'opfGiftCard.balanceAfterPurchase' | cxTranslate }}:
+          {{ card.remainingBalance?.formattedValue }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
