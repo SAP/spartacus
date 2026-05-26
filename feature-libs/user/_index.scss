@@ -71,3 +71,22 @@ body {
   overflow: hidden;
   white-space: nowrap;
 }
+
+.cx-truncation-tooltip {
+  display: none;
+  position: fixed;
+  transform: translateY(calc(-100% - 4px));
+  background: var(--cx-color-background-dark);
+  color: var(--cx-color-inverse);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  font-size: 0.875rem;
+
+  &--visible {
+    display: block;
+  }
+}

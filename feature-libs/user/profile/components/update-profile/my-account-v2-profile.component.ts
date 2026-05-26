@@ -26,6 +26,7 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
+import { TruncationTooltipDirective } from './truncation-tooltip.directive';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
@@ -44,6 +45,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    TruncationTooltipDirective,
   ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {

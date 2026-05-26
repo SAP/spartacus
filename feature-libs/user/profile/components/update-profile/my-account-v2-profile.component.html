@@ -117,9 +117,10 @@
         <input
           required="true"
           type="text"
-          class="form-control cx-truncate-with-elipsis"
+          class="form-control"
           name="customerId"
           formControlName="customerId"
+          cxTruncationTooltip
           [attr.aria-invalid]="
             form.get('customerId')?.touched && form.get('customerId')?.invalid
           "
