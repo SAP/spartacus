@@ -127,13 +127,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handler for clicks on the results div
-   * Closes the search box, but ignores clicks on close buttons
+   * Search input element reference.
    */
-  protected handleResultsClick(_event: MouseEvent): void {
-    this.close(true);
-  }
-
   @ViewChild('searchInput') searchInputEl: any;
 
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
@@ -395,18 +390,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.handleInputBlur(event);
     } else {
       this.close();
-    }
-  }
-
-  /**
-   * Click handler for the results panel.
-   * Uses feature-specific logic when searchBoxRecentSearchesRemoval is enabled.
-   */
-  onResultsPanelClick(event: MouseEvent): void {
-    if (this.searchBoxRecentSearchesRemovalEnabled) {
-      this.handleResultsClick(event);
-    } else {
-      this.close(true);
     }
   }
 

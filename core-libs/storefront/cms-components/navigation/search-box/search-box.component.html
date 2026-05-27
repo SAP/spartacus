@@ -66,7 +66,7 @@
     *ngIf="isResultsPanelVisible()"
     class="results"
     id="results"
-    (click)="onResultsPanelClick($any($event))"
+    (click)="close(true)"
   >
     <button
       class="btn btn-tertiary search-panel-close-btn"

@@ -39,7 +39,6 @@ export interface SearchBoxOutlet {
 
 const MAX_RECENT_SEARCHES = 5;
 const CLOSE_BUTTON_SELECTOR = 'button.close';
-const CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS = 200;
 
 @Component({
   selector: 'cx-recent-searches',
@@ -64,7 +63,6 @@ export class RecentSearchesComponent implements OnInit {
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
   private readonly featureConfigService = inject(FeatureConfigService);
-  protected enterKeyPressedOnCloseButton = false;
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
@@ -111,43 +109,18 @@ export class RecentSearchesComponent implements OnInit {
       return;
     }
 
-    if (this.shouldSkipBlurEvent(event)) {
-      return;
-    }
-
-    if (this.shouldSkipEnterEvent(event)) {
-      return;
-    }
-
-    // Only share keyboard events, not blur events (blur events are handled separately)
+    // Only share keyboard events. Blur events are handled by SearchBoxComponent's own handlers.
     if (event.type === 'keydown' || event.type === 'keyup') {
-      this.searchBoxComponentService.shareEvent(event as KeyboardEvent);
+      const keyboardEvent = event as KeyboardEvent;
+      // Skip sharing Enter when focus is on the remove (X) button.
+      if (
+        keyboardEvent.code === 'Enter' &&
+        (keyboardEvent.target as HTMLElement)?.closest?.(CLOSE_BUTTON_SELECTOR)
+      ) {
+        return;
+      }
+      this.searchBoxComponentService.shareEvent(keyboardEvent);
     }
-  }
-
-  protected shouldSkipBlurEvent(event: KeyboardEvent | FocusEvent): boolean {
-    if (event.type !== 'blur') {
-      return false;
-    }
-    const target = event.target as HTMLElement;
-    const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
-    return !!(closeButton && this.enterKeyPressedOnCloseButton);
-  }
-
-  protected shouldSkipEnterEvent(event: KeyboardEvent | FocusEvent): boolean {
-    if (event.type !== 'keydown') {
-      return false;
-    }
-    const keyboardEvent = event as KeyboardEvent;
-    if (keyboardEvent.code !== 'Enter') {
-      return false;
-    }
-    const target = event.target as HTMLElement;
-    return !!(
-      target &&
-      (target.classList?.contains('close') ||
-        target.closest?.(CLOSE_BUTTON_SELECTOR))
-    );
   }
 
   removeFromRecentSearch(phrase?: string) {
@@ -158,36 +131,11 @@ export class RecentSearchesComponent implements OnInit {
   }
 
   handleCloseButtonEnter(event: KeyboardEvent, phrase: string): void {
-    this.enterKeyPressedOnCloseButton = true;
-
     event.stopPropagation();
     event.preventDefault();
     event.stopImmediatePropagation?.();
 
-    const button = (event.target as HTMLElement)?.closest?.(
-      CLOSE_BUTTON_SELECTOR
-    ) as HTMLButtonElement;
-    if (button) {
-      // Add capture-phase listener to prevent click from bubbling to results div
-      const stopClick = (e: MouseEvent) => {
-        e.stopPropagation();
-        e.preventDefault();
-        e.stopImmediatePropagation?.();
-        button.removeEventListener('click', stopClick, true);
-      };
-      button.addEventListener('click', stopClick, true);
-
-      // Remove listener after a delay
-      setTimeout(() => {
-        button.removeEventListener('click', stopClick, true);
-      }, CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS);
-    }
-
     this.removeFromRecentSearch(phrase);
-
-    setTimeout(() => {
-      this.enterKeyPressedOnCloseButton = false;
-    }, CLOSE_BUTTON_ENTER_CLEANUP_DELAY_MS);
   }
 
   handleCloseButtonClick(phrase: string): void {
