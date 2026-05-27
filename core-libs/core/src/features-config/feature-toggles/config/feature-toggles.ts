@@ -574,7 +574,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
   searchBoxRecentSearchesRemoval: false,
-  cdsBottomHeaderSlotAdjustPosition: true,
+  cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
