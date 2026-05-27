@@ -136,11 +136,7 @@ export class OpfCheckoutPaymentWrapperService {
       switchMap((params) => {
         if (useUpdatePaymentTransaction) {
           const metadata = this.opfMetadataStoreService.opfMetadataState.value;
-          const paymentSessionId = metadata?.opfPaymentSessionId;
-
-          if (!paymentSessionId) {
-            return throwError(() => new Error('paymentSessionId is required'));
-          }
+          const paymentSessionId = metadata?.opfPaymentSessionId ?? '';
 
           return this.opfPaymentFacade.updatePaymentTransaction({
             paymentSessionId,

@@ -281,9 +281,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             }
 
             this.selectedPaymentId = resolvedId;
-            this.opfMetadataStoreService.updateOpfMetadata({
-              selectedPaymentOptionId: this.selectedPaymentId,
-            });
+            if (
+              resolvedId !== undefined &&
+              resolvedId !== state.selectedPaymentOptionId
+            ) {
+              this.opfMetadataStoreService.updateOpfMetadata({
+                selectedPaymentOptionId: resolvedId,
+              });
+            }
             this.emitOutletContext();
           } else if (
             !state.termsAndConditionsChecked &&
