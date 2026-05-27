@@ -18,7 +18,7 @@
     "@actions/exec": "^1.0.4",
     "@actions/github": "^6.0.0",
     "@actions/glob": "^0.5.0",
-    "@actions/io": "^1.0.2",
+    "@actions/io": "^3.0.0",
     "diff-lines": "^1.1.1",
     "normalize-newline": "^4.0.0"
   },
