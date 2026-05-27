@@ -335,6 +335,7 @@ if (environment.cpq) {
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
         searchBoxRecentSearchesRemoval: true,
+        cdsBottomHeaderSlotAdjustPosition: true,
         enableB2BUnitSearch: true,
         enableB2BCostCenterSearch: true,
         enableB2BCustomerSearch: true,

@@ -94,6 +94,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
+  private readonly featureConfigService = inject(FeatureConfigService);
   readonly searchBoxOutlets = SearchBoxOutlets;
   @Input() config: SearchBoxConfig;
 
@@ -222,8 +223,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
-    protected routingService: RoutingService,
-    private featureConfigService: FeatureConfigService
+    protected routingService: RoutingService
   ) {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
   }

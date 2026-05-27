@@ -50,15 +50,18 @@ cx-category-navigation {
 
 cx-page-slot.cx-bottom-header-slot {
   display: flex;
-  flex-wrap: wrap;
 
-  > cx-breadcrumb {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
+  @include forFeature('cdsBottomHeaderSlotAdjustPosition') {
+    flex-wrap: wrap;
 
-  > cx-merchandising-carousel:not(:has(cx-carousel)) {
-    display: none;
+    > cx-breadcrumb {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+
+    > cx-merchandising-carousel:not(:has(cx-carousel)) {
+      display: none;
+    }
   }
 
   > * {

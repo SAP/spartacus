@@ -151,13 +151,18 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
-   * Feature flag to enable removal functionality for recent searches in the search box.
-   * When enabled, adds individual removal buttons (X) to each recent search item and global "Clear" button
-   * that allows to remove all recent searches.
+   * Enables removal UI for recent searches in `SearchBoxComponent`.
    *
-   *  Affects the styles and functionality of: SearchBoxComponent.
+   * When enabled, `RecentSearchesComponent` renders per-item (X) buttons and a "Clear" action (CDS),
+   * using optional `window.Y_TRACKING.recentSearches.removePhrase()` / `.clearPhrases()`.
    */
   searchBoxRecentSearchesRemoval?: boolean;
+
+  /**
+   * Fixes CDS bottom header slot positioning.
+   * Affects `cx-page-slot.cx-bottom-header-slot` styles in `_common-template.scss`.
+   */
+  cdsBottomHeaderSlotAdjustPosition?: boolean;
 
   /**
    * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
@@ -569,6 +574,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
   searchBoxRecentSearchesRemoval: false,
+  cdsBottomHeaderSlotAdjustPosition: true,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
