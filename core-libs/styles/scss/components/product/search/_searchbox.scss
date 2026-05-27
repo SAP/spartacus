@@ -306,21 +306,6 @@
     .trending-searches,
     .suggestions {
       margin-bottom: 20px;
-      @include forFeature('searchBoxRecentSearchesRemoval') {
-        position: relative;
-
-        cx-recent-searches-header .recentSearches-header {
-          @include media-breakpoint-down(sm) {
-            display: flex;
-            align-items: center;
-
-            button {
-              min-height: 20px;
-              padding: 0;
-            }
-          }
-        }
-      }
       ul {
         display: flex;
         flex-wrap: wrap;
@@ -337,6 +322,24 @@
           line-height: 2rem;
           display: block;
           max-width: 100%;
+        }
+      }
+    }
+
+    .recent-searches {
+      @include forFeature('searchBoxRecentSearchesRemoval') {
+        position: relative;
+
+        cx-recent-searches-header .recentSearches-header {
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            align-items: center;
+
+            button {
+              min-height: 20px;
+              padding: 0;
+            }
+          }
         }
       }
     }
@@ -391,9 +394,6 @@
   .search-panel-close-btn {
     display: none;
   }
-  .recent-searches-btn {
-    display: none;
-  }
   &.search-box-v2 {
     input {
       @include media-breakpoint-down(sm) {
@@ -419,16 +419,17 @@
         top: 20px;
       }
     }
-    .recent-searches-btn,
-    .recent-searches cx-recent-searches-header .clear-recent-searches-btn {
-      display: none;
-      position: absolute;
-      padding: 0;
-      min-height: 21px;
-      @include media-breakpoint-down(sm) {
-        display: block;
-        right: 0;
-        top: 0;
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches cx-recent-searches-header .clear-recent-searches-btn {
+        display: none;
+        position: absolute;
+        padding: 0;
+        min-height: 21px;
+        @include media-breakpoint-down(sm) {
+          display: block;
+          right: 0;
+          top: 0;
+        }
       }
     }
     position: unset;

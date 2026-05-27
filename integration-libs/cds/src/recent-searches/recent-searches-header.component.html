@@ -1,12 +1,6 @@
 <h3 class="recentSearches-header">
-  <div *cxFeature="'!searchBoxRecentSearchesRemoval'">
-    {{ 'searchBox.recentSearches' | cxTranslate }}
-  </div>
-  <div *cxFeature="'searchBoxRecentSearchesRemoval'">
-    {{ 'cdsRecentSearches.header' | cxTranslate }}
-  </div>
+  {{ 'cdsRecentSearches.header' | cxTranslate }}
   <button
-    *cxFeature="'searchBoxRecentSearchesRemoval'"
     class="btn btn-tertiary clear-recent-searches-btn"
     (click)="clearPhrases($event)"
     (mousedown)="$event.stopPropagation()"

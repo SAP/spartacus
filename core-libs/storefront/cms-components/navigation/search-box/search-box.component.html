@@ -236,11 +236,19 @@
         >
           {{ 'searchBox.trendingSearches' | cxTranslate }}
         </h3>
-        <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER">
-          <h3 class="recentSearches-header">
-            {{ 'searchBox.recentSearches' | cxTranslate }}
-          </h3>
-        </ng-template>
+        <ng-container *cxFeature="'searchBoxRecentSearchesRemoval'">
+          <ng-template [cxOutlet]="searchBoxOutlets.RECENT_SEARCHES_HEADER">
+            <h3 class="recentSearches-header">
+              {{ 'cdsRecentSearches.header' | cxTranslate }}
+            </h3>
+          </ng-template>
+        </ng-container>
+        <h3
+          *cxFeature="'!searchBoxRecentSearchesRemoval'"
+          class="recentSearches-header"
+        >
+          {{ 'searchBox.recentSearches' | cxTranslate }}
+        </h3>
         <h3 class="products-header" *ngIf="result.products?.length">
           {{ 'searchBox.products' | cxTranslate }}
         </h3>

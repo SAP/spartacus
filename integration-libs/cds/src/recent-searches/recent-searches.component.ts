@@ -13,7 +13,12 @@ import {
   Optional,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeatureDirective,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   HighlightPipe,
@@ -58,6 +63,7 @@ export class RecentSearchesComponent implements OnInit {
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected enterKeyPressedOnCloseButton = false;
 
   constructor(
@@ -96,6 +102,13 @@ export class RecentSearchesComponent implements OnInit {
   shareEvent(event: KeyboardEvent | FocusEvent) {
     if (!event) {
       throw new Error('Missing Event');
+    }
+
+    if (
+      !this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')
+    ) {
+      this.searchBoxComponentService.shareEvent(event as KeyboardEvent);
+      return;
     }
 
     if (this.shouldSkipBlurEvent(event)) {

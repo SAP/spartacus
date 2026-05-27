@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import { SearchBoxComponentService } from '@spartacus/storefront';
 import { RecentSearchesService } from './recent-searches.service';
 
@@ -13,7 +13,7 @@ import { RecentSearchesService } from './recent-searches.service';
   selector: 'cx-recent-searches-header',
   templateUrl: './recent-searches-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, FeatureDirective],
+  imports: [TranslatePipe],
 })
 export class RecentSearchesHeaderComponent {
   protected recentSearchesService = inject(RecentSearchesService);
