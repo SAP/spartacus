@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { WindowRef } from '../../../window/window-ref';
 import {
   CanonicalUrlOptions,
