@@ -93,7 +93,6 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   // initiatePayment(
-
   updatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
@@ -146,7 +145,6 @@ export class OpfCheckoutPaymentWrapperService {
       tap((paymentOptionConfig: OpfPaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
           // this.storePaymentSessionId(paymentOptionConfig);
-
           this.storePaymentSessionId(paymentOptionConfig, paymentOptionId);
           this.renderPaymentGateway(paymentOptionConfig);
         }
