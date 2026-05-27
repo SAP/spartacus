@@ -151,16 +151,37 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
-   * Enables removal UI for recent searches in `SearchBoxComponent`.
+   * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
    *
-   * When enabled, `RecentSearchesComponent` renders per-item (X) buttons and a "Clear" action (CDS),
-   * using optional `window.Y_TRACKING.recentSearches.removePhrase()` / `.clearPhrases()`.
+   * Before (disabled):
+   * - `SearchBoxComponent` can show the results panel on desktop with an empty query.
+   * - Recent searches are a simple link list without removal controls.
+   * - Recent searches still render when there are no suggestions or products.
+   *
+   * After (enabled):
+   * - On desktop, the results panel renders only for a non-empty query; clearing the query clears results and closes the panel.
+   * - `RecentSearchesComponent` adds per-item (X) buttons and a "Clear" action via CDS `removePhrase()` / `clearPhrases()`.
+   * - Recent searches are hidden in no-results states.
    */
   searchBoxRecentSearchesRemoval?: boolean;
 
   /**
-   * Fixes CDS bottom header slot positioning.
-   * Affects `cx-page-slot.cx-bottom-header-slot` styles in `_common-template.scss`.
+   * Corrects `BottomHeaderSlot` layout when CDS registers `MerchandisingCarouselComponent`
+   * beside `BreadcrumbComponent` (e.g. on search results pages in sample data).
+   *
+   * Before (disabled):
+   * - `BottomHeaderSlot` lays out all children in a single flex row with no wrapping.
+   * - `cx-breadcrumb` and `cx-merchandising-carousel` each grow to ~50% of the slot width.
+   * - Breadcrumb title and trail are centered only within that half, so the block looks
+   *   left-aligned on the page (unlike develop without CDS, where the carousel is absent
+   *   and the breadcrumb is the sole child at full width).
+   * - `cx-merchandising-carousel` stays in the flex row even when it has no data and
+   *   renders no inner `cx-carousel`, leaving empty space beside the breadcrumb.
+   *
+   * After (enabled):
+   * - `cx-breadcrumb` always spans 100% of the slot width on its own row.
+   * - `cx-merchandising-carousel` is shown on a separate row only when it renders an
+   *   inner `cx-carousel`; otherwise the host is hidden and does not affect layout.
    */
   cdsBottomHeaderSlotAdjustPosition?: boolean;
 
