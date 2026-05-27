@@ -20,8 +20,8 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import * as fromClientAuthReducers from 'projects/core/src/auth/client-auth/store/reducers/index';
-import * as fromUserReducers from 'projects/core/src/user/store/reducers/index';
+import * as fromClientAuthReducers from 'core-libs/core/src/auth/client-auth/store/reducers/index';
+import * as fromUserReducers from 'core-libs/core/src/user/store/reducers/index';
 import { Observable, of, throwError } from 'rxjs';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';

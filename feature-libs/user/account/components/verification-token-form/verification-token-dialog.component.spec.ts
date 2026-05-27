@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 
 @Pipe({ name: 'cxTranslate' })

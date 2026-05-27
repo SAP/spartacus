@@ -51,6 +51,14 @@ cx-product-image-zoom-dialog {
         }
       }
     }
+    @include forFeature('a11yKeyboardAccessibleZoom') {
+      .btn:focus,
+      .close:focus,
+      [cxFocusableCarouselItem]:focus {
+        --cx-visual-focus-width: 2px;
+        @include visible-focus();
+      }
+    }
   }
   @include cx-highContrastTheme {
     .cx-dialog-content {

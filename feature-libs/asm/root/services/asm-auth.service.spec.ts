@@ -12,7 +12,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { getReducers } from 'projects/core/src/process/store/reducers/index';
+import { getReducers } from 'core-libs/core/src/process/store/reducers/index';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {

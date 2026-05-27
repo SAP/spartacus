@@ -14,7 +14,7 @@
     "types": [],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefront"]
     }
   },
   "angularCompilerOptions": {
