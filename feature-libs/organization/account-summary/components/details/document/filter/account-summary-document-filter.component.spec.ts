@@ -19,7 +19,7 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { DatePickerComponent, FormErrorsModule } from '@spartacus/storefront';
 
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 const mockQueryParams: DocumentQueryParams = {

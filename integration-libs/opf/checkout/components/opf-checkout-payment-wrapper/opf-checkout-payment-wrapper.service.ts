@@ -269,7 +269,7 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.showErrorMessage('opfPayment.errors.proceedPayment');
 
-    return throwError('Payment failed');
+    return throwError(() => 'Payment failed');
   }
 
   protected showErrorMessage(errorMessage: string): void {

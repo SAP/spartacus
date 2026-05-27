@@ -31,7 +31,7 @@ import {
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'projects/core/src/occ/adapters/user/unit-test.helper';
+} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { OccOrderHistoryAdapter } from './occ-order-history.adapter';
 
 const userId = '123';

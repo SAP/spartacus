@@ -94,7 +94,7 @@
       "@spartacus/user/account/core": ["dist/user/account/core"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
       "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"],
       "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],

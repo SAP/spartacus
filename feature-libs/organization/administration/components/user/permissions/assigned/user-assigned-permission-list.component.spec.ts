@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { MockTranslatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { SubListComponent } from '../../../shared';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UserAssignedPermissionListComponent } from './user-assigned-permission-list.component';

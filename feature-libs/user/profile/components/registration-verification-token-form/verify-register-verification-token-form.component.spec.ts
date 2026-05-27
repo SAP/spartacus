@@ -30,7 +30,7 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
