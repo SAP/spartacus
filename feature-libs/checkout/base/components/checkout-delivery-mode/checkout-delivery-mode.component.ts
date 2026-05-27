@@ -17,12 +17,16 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
+  WindowRef,
 } from '@spartacus/core';
 import {
+  FocusDirective,
   InnerComponentsHostDirective,
+  KeyboardFocusService,
   OutletDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -52,9 +56,14 @@ import { CheckoutStepService } from '../services/checkout-step.service';
     InnerComponentsHostDirective,
     AsyncPipe,
     TranslatePipe,
+    FocusDirective,
+    FeatureDirective,
   ],
 })
 export class CheckoutDeliveryModeComponent {
+  protected keyboardFocusService = inject(KeyboardFocusService);
+  protected winRef = inject(WindowRef);
+
   protected globalMessageService = inject(GlobalMessageService);
   protected busy$ = new BehaviorSubject(false);
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);

@@ -1,8 +1,9 @@
-import { Component, Directive, Type } from '@angular/core';
+import { Component, Directive, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
+  flushMicrotasks,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
@@ -28,16 +29,21 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  FocusConfig,
+  FocusDirective,
   InnerComponentsHostDirective,
+  KeyboardFocusService,
   OutletModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-spinner',
@@ -128,6 +134,15 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 })
 class MockInnerComponentsHostDirective {}
 
+class MockKeyboardFocusService {
+  isMouseFocus = jasmine.createSpy('isMouseFocus').and.returnValue(false);
+}
+
+@Directive({ selector: '[cxFocus]' })
+class MockFocusDirective {
+  @Input() cxFocus: FocusConfig | undefined;
+}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -135,6 +150,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
+  let keyboardFocusService: MockKeyboardFocusService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -156,6 +172,11 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: KeyboardFocusService,
+          useClass: MockKeyboardFocusService,
+        },
+        provideMockFeatureToggles({ a11yDeliveryModeFocusPreservation: true }),
       ],
     })
       .overrideComponent(CheckoutDeliveryModeComponent, {
@@ -165,15 +186,18 @@ describe('CheckoutDeliveryModeComponent', () => {
             CxDatePipe,
             FeatureDirective,
             InnerComponentsHostDirective,
+            SpinnerComponent,
+            FocusDirective,
           ],
         },
         add: {
           imports: [
             MockTranslatePipe,
             MockDatePipe,
-            MockSpinnerComponent,
             MockFeatureDirective,
+            MockSpinnerComponent,
             MockInnerComponentsHostDirective,
+            MockFocusDirective,
           ],
         },
       })
@@ -185,6 +209,9 @@ describe('CheckoutDeliveryModeComponent', () => {
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService
+    ) as unknown as MockKeyboardFocusService;
   }));
 
   beforeEach(() => {
@@ -400,6 +427,79 @@ describe('CheckoutDeliveryModeComponent', () => {
       expect(fixture.debugElement.nativeElement.textContent).toContain(
         'checkoutMode.deliveryEntries'
       );
+    });
+  });
+
+  describe('afterNextRender keyboard focus', () => {
+    let mockFocusElement: { focus: jasmine.Spy };
+
+    beforeEach(() => {
+      mockFocusElement = { focus: jasmine.createSpy('focus') };
+      spyOn(document, 'getElementById').and.returnValue(
+        mockFocusElement as any
+      );
+    });
+
+    it('should focus the checked radio button on keyboard navigation', fakeAsync(() => {
+      keyboardFocusService.isMouseFocus.and.returnValue(false);
+      component.mode.get('deliveryModeId')?.setValue(mockDeliveryMode1.code);
+
+      fixture.detectChanges();
+      flushMicrotasks();
+
+      expect(document.getElementById).toHaveBeenCalledWith(
+        `deliveryMode-${mockDeliveryMode1.code}`
+      );
+      expect(mockFocusElement.focus).toHaveBeenCalled();
+    }));
+
+    it('should not focus on mouse navigation', fakeAsync(() => {
+      keyboardFocusService.isMouseFocus.and.returnValue(true);
+      component.mode.get('deliveryModeId')?.setValue(mockDeliveryMode1.code);
+
+      fixture.detectChanges();
+      flushMicrotasks();
+
+      expect(mockFocusElement.focus).not.toHaveBeenCalled();
+    }));
+
+    it('should not focus when no delivery mode is selected', fakeAsync(() => {
+      keyboardFocusService.isMouseFocus.and.returnValue(false);
+      supportedDeliveryModes$.next([]);
+
+      fixture.detectChanges();
+      flushMicrotasks();
+
+      expect(mockFocusElement.focus).not.toHaveBeenCalled();
+    }));
+  });
+
+  describe('[cxFocus] directive bindings', () => {
+    beforeEach(() => {
+      supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+      component.isUpdating$ = of(false);
+      fixture.detectChanges();
+    });
+
+    it('should bind autofocus: true and refreshFocus to fieldset', () => {
+      const fieldset = fixture.debugElement.query(By.css('fieldset'));
+      const directive = fieldset.injector.get(MockFocusDirective);
+
+      expect(directive.cxFocus).toEqual(
+        jasmine.objectContaining({ autofocus: true, refreshFocus: false })
+      );
+    });
+
+    it('should bind key matching mode.code to each radio input', () => {
+      const radios = fixture.debugElement.queryAll(By.css('input[type=radio]'));
+
+      expect(radios.length).toBe(mockSupportedDeliveryModes.length);
+      radios.forEach((radio, i) => {
+        const directive = radio.injector.get(MockFocusDirective);
+        expect(directive.cxFocus).toEqual(
+          jasmine.objectContaining({ key: mockSupportedDeliveryModes[i].code })
+        );
+      });
     });
   });
 });
