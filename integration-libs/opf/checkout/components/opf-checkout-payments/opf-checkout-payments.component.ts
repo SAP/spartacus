@@ -17,6 +17,7 @@ import {
   inject,
 } from '@angular/core';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   PaginationModel,
@@ -79,6 +80,10 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   );
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected userPaymentService = inject(UserPaymentService);
+  private featureConfigService = inject(FeatureConfigService);
+
+  protected readonly useUpdatePaymentTransactionFeature =
+    'opfCheckoutUseUpdatePaymentTransaction';
 
   protected subscription = new Subscription();
 
@@ -331,6 +336,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   }
 
   protected triggerPaymentTransactionUpdate(): void {
+    if (
+      !this.featureConfigService.isEnabled(
+        this.useUpdatePaymentTransactionFeature
+      )
+    ) {
+      return;
+    }
+
     this.subscription.add(
       this.opfMetadataStoreService
         .getOpfMetadataState()

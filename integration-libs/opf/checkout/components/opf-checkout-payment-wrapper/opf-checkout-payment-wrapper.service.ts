@@ -11,6 +11,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -58,6 +59,10 @@ export class OpfCheckoutPaymentWrapperService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected winRef = inject(WindowRef);
+  private featureConfigService = inject(FeatureConfigService);
+
+  protected readonly useUpdatePaymentTransactionFeature =
+    'opfCheckoutUseUpdatePaymentTransaction';
 
   protected lastPaymentOptionId?: number;
 
@@ -92,10 +97,13 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
-  // initiatePayment(
-  updatePayment(
+  initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
+    const useUpdatePaymentTransaction = this.featureConfigService.isEnabled(
+      this.useUpdatePaymentTransactionFeature
+    );
+
     this.lastPaymentOptionId = paymentOptionId;
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
@@ -126,26 +134,30 @@ export class OpfCheckoutPaymentWrapperService {
         )
       ),
       switchMap((params) => {
-        // this.opfPaymentFacade.initiatePayment(params);
-        const metadata = this.opfMetadataStoreService.opfMetadataState.value;
-        const paymentSessionId = metadata?.opfPaymentSessionId;
+        if (useUpdatePaymentTransaction) {
+          const metadata = this.opfMetadataStoreService.opfMetadataState.value;
+          const paymentSessionId = metadata?.opfPaymentSessionId;
 
-        if (!paymentSessionId) {
-          return throwError(() => new Error('paymentSessionId is required'));
+          if (!paymentSessionId) {
+            return throwError(() => new Error('paymentSessionId is required'));
+          }
+
+          return this.opfPaymentFacade.updatePaymentTransaction({
+            paymentSessionId,
+            otpKey: params.otpKey,
+            config: {
+              browserInfo: params.config?.browserInfo,
+            },
+          });
         }
-
-        return this.opfPaymentFacade.updatePaymentTransaction({
-          paymentSessionId,
-          otpKey: params.otpKey,
-          config: {
-            browserInfo: params.config?.browserInfo,
-          },
-        });
+        return this.opfPaymentFacade.initiatePayment(params);
       }),
       tap((paymentOptionConfig: OpfPaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
-          // this.storePaymentSessionId(paymentOptionConfig);
-          this.storePaymentSessionId(paymentOptionConfig, paymentOptionId);
+          this.storePaymentSessionId(
+            paymentOptionConfig,
+            useUpdatePaymentTransaction
+          );
           this.renderPaymentGateway(paymentOptionConfig);
         }
       }),
@@ -162,28 +174,14 @@ export class OpfCheckoutPaymentWrapperService {
     );
   }
 
-  // protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
-  //   const paymentSessionId =
-  //     paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-  //     paymentOptionConfig.paymentSessionId
-  //       ? paymentOptionConfig.paymentSessionId
-  //       : undefined;
-  //   this.opfMetadataStoreService.updateOpfMetadata({
-  //     opfPaymentSessionId: paymentSessionId,
-  //   });
-  // }
-
   protected storePaymentSessionId(
     paymentOptionConfig: OpfPaymentSessionData,
-    paymentOptionId?: number
+    useUpdatePaymentTransaction = false
   ) {
-    void paymentOptionId;
-
-    const isFullPagePattern =
-      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE;
-    const paymentSessionId = paymentOptionConfig.paymentSessionId
+    const paymentSessionId = useUpdatePaymentTransaction
       ? paymentOptionConfig.paymentSessionId
-      : isFullPagePattern
+      : paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+          paymentOptionConfig.paymentSessionId
         ? paymentOptionConfig.paymentSessionId
         : undefined;
 
@@ -194,8 +192,7 @@ export class OpfCheckoutPaymentWrapperService {
 
   reloadPaymentMode(): void {
     if (this.lastPaymentOptionId) {
-      // this.initiatePayment(this.lastPaymentOptionId).subscribe();
-      this.updatePayment(this.lastPaymentOptionId).subscribe();
+      this.initiatePayment(this.lastPaymentOptionId).subscribe();
     }
   }
 

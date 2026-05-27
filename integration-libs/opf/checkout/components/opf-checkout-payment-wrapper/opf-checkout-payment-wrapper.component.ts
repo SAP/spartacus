@@ -109,8 +109,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.initiatePaymentMode();
-    this.updatePaymentMode();
+    this.initiatePaymentMode();
     this.listenForReinitiatePaymentEvent();
     this.listenForSiteContextChanges();
   }
@@ -177,19 +176,16 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected handleReinitiatePayment(paymentOptionId?: number): void {
     const idToUse = paymentOptionId ?? this.selectedPaymentId;
     if (idToUse) {
-      // this.initiatePaymentMode(idToUse);
-      this.updatePaymentMode(idToUse);
+      this.initiatePaymentMode(idToUse);
     }
   }
 
-  // protected initiatePaymentMode(paymentOptionId?: number): void {
-  protected updatePaymentMode(paymentOptionId?: number): void {
+  protected initiatePaymentMode(paymentOptionId?: number): void {
     const idToUse = paymentOptionId ?? this.selectedPaymentId;
     this.isPaymentDataReady = false;
 
     this.sub.add(
-      // this.service.initiatePayment(idToUse).subscribe({
-      this.service.updatePayment(idToUse).subscribe({
+      this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {
           if (this.isHostedFields(paymentSessionData)) {
             this.globalFunctionsService.registerGlobalFunctions({
