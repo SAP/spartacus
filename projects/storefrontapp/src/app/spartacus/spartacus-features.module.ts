@@ -357,6 +357,7 @@ if (environment.cpq) {
         enableCartReloadOnContextChange: true,
         a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+        redirectOnlyOnTrueNavigationEnd: true,
       };
       return appFeatureToggles;
     }),

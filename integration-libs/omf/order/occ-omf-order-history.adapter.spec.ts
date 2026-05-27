@@ -25,7 +25,7 @@ import { Order, ORDER_NORMALIZER, OrderConfig } from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'projects/core/src/occ/adapters/user/unit-test.helper';
+} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { of } from 'rxjs';
 import { OmfConfig } from './config/omf-config';
 import { OccOmfOrderHistoryAdapter } from './occ-omf-order-history.adapter';

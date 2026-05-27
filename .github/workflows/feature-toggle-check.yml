@@ -121,5 +121,5 @@ jobs:
                       text: "Edit Feature Toggles"
                       emoji: true
                     value: "edit_toggles"
-                    url: "${{ github.server_url }}/${{ github.repository }}/edit/${{ github.ref_name }}/projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+                    url: "${{ github.server_url }}/${{ github.repository }}/edit/${{ github.ref_name }}/core-libs/core/src/features-config/feature-toggles/config/feature-toggles.ts"
         if: steps.toggle-check.outputs.exit_code != '0'

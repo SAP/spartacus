@@ -53,7 +53,7 @@
       "args": [
         "${fileBasenameNoExtension}",
         "--config",
-        "projects/schematics/jest.schematics.config.js"
+        "core-libs/schematics/jest.schematics.config.js"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

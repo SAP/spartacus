@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/// <reference types="@types/googlepay" />
+/// <reference types="@types/applepayjs" />
+
 import { Cart } from '@spartacus/cart/base/root';
 import { PointOfService, Product } from '@spartacus/core';
 
@@ -53,6 +56,43 @@ export enum OpfQuickBuyProviderType {
 
 export const OPF_GOOGLE_PAY_PROVIDER_NAME = 'googlePay';
 
+export type OpfGooglePayPaymentRequestConfig = Pick<
+  google.payments.api.PaymentDataRequest,
+  | 'apiVersion'
+  | 'apiVersionMinor'
+  | 'merchantInfo'
+  | 'emailRequired'
+  | 'shippingAddressRequired'
+  | 'shippingOptionRequired'
+  | 'shippingAddressParameters'
+  | 'callbackIntents'
+>;
+
+export type OpfGooglePayCardParametersConfig = Pick<
+  google.payments.api.CardParameters,
+  | 'allowedAuthMethods'
+  | 'allowedCardNetworks'
+  | 'billingAddressRequired'
+  | 'billingAddressParameters'
+>;
+
 export interface OpfQuickBuyGooglePayProvider {
   resourceUrl?: string;
+  environment?: google.payments.api.Environment;
+  paymentRequest?: OpfGooglePayPaymentRequestConfig;
+  cardParameters?: OpfGooglePayCardParametersConfig;
+}
+
+export type OpfApplePayCardParametersConfig = Pick<
+  ApplePayJS.ApplePayPaymentRequest,
+  | 'merchantCapabilities'
+  | 'supportedNetworks'
+  | 'requiredShippingContactFields'
+  | 'requiredBillingContactFields'
+  | 'shippingMethods'
+>;
+
+export interface OpfQuickBuyApplePayProvider {
+  resourceUrl: string;
+  cardParameters: OpfApplePayCardParametersConfig;
 }

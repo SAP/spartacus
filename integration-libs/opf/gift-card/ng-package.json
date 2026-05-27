@@ -2,6 +2,6 @@
   "lib": {
     "entryFile": "public_api.ts",
     "cssUrl": "inline",
-    "styleIncludePaths": ["../../../projects/storefrontstyles/scss"]
+    "styleIncludePaths": ["../../../core-libs/styles/scss"]
   }
 }
