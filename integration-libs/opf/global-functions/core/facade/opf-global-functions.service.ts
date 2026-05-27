@@ -764,10 +764,10 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       updatePaymentConfig: OpfPaymentUpdateConfig
     ): Promise<OpfPaymentSessionData> => {
       return this.ngZone.run(() => {
-        if (!updatePaymentConfig?.paymentSessionId) {
-          return Promise.reject(new Error('paymentSessionId is required'));
-        }
-        return this.executeUpdatePaymentTransaction(updatePaymentConfig)
+        return this.executeUpdatePaymentTransaction({
+          ...updatePaymentConfig,
+          paymentSessionId: updatePaymentConfig?.paymentSessionId ?? '',
+        })
           .then((sessionData) => sessionData)
           .catch((error) => {
             throw this.createUpdatePaymentTransactionError(error);
