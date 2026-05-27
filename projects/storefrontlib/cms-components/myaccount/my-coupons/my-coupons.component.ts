@@ -94,7 +94,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     protected couponService: CustomerCouponService,
     protected myCouponsComponentService: MyCouponsComponentService
   ) {
-    useFeatureStyles('enableCouponNotificationChannelsLinkStyling');
+    useFeatureStyles('a11yCouponNotificationChannelsLinkStyling');
   }
 
   ngOnInit(): void {

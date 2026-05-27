@@ -517,7 +517,7 @@ export interface FeatureTogglesInterface {
    * When enabled, the "Notification Channels" link in the My Coupons page
    * is styled as a link (blue, underlined) instead of plain text.
    */
-  enableCouponNotificationChannelsLinkStyling?: boolean;
+  a11yCouponNotificationChannelsLinkStyling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -581,5 +581,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
-  enableCouponNotificationChannelsLinkStyling: false,
+  a11yCouponNotificationChannelsLinkStyling: false,
 };

@@ -355,7 +355,7 @@ if (environment.cpq) {
         showRequiredAsterisks: true,
         enableExpiredRefreshTokenHandlers: true,
         enableCartReloadOnContextChange: true,
-        enableCouponNotificationChannelsLinkStyling: true,
+        a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
       };
       return appFeatureToggles;
