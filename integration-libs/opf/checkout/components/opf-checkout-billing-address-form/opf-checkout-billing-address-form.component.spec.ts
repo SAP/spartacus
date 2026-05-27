@@ -162,12 +162,17 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   it('should reset flags and call setBillingAddress on onSubmitAddress', () => {
     spyOn(service, 'setBillingAddress').and.returnValue(of());
+    const setIsSameAsDeliveryValueSpy = spyOn(
+      service,
+      'setIsSameAsDeliveryValue'
+    );
     const address = { id: '1', streetName: '456 Elm St' };
 
     component.onSubmitAddress(address);
 
     expect(component.isEditBillingAddress).toBe(false);
     expect(component.isAddingBillingAddressInProgress).toBe(false);
+    expect(setIsSameAsDeliveryValueSpy).toHaveBeenCalledWith(false);
     expect(service.setBillingAddress).toHaveBeenCalledWith(address);
   });
 
