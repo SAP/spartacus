@@ -64,7 +64,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
 
         if (!baseSite) {
           throw new Error(
-            `Error: Cannot get base site config! Current url (${url}) doesn't match any of url patterns of any base sites.`
+            `Error: Cannot get base site config! Current url (${encodeURI(url)}) doesn't match any of url patterns of any base sites.`
           );
         }
         return baseSite;
