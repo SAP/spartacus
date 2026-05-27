@@ -521,6 +521,11 @@ export interface FeatureTogglesInterface {
    * Legacy behavior called it immediately during init.
    */
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
+
+  /**
+   * When enabled, fixes a known issue where the last remembered route after logout is the route to which the logout has redirected
+   */
+  redirectOnlyOnTrueNavigationEnd?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -585,4 +590,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  redirectOnlyOnTrueNavigationEnd: false,
 };
