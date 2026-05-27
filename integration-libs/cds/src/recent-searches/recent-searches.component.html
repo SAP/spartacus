@@ -50,7 +50,7 @@
             (keydown.escape)="shareEvent($any($event))"
             (blur)="shareEvent($any($event))"
             (click)="
-              handleCloseButtonClick(recentSearch); $event.stopPropagation()
+              removeFromRecentSearch(recentSearch); $event.stopPropagation()
             "
           >
             <span aria-hidden="true">

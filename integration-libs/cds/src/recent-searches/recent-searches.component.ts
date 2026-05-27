@@ -123,7 +123,7 @@ export class RecentSearchesComponent implements OnInit {
     }
   }
 
-  removeFromRecentSearch(phrase?: string) {
+  removeFromRecentSearch(phrase?: string): void {
     if (!phrase) {
       return;
     }
@@ -135,10 +135,6 @@ export class RecentSearchesComponent implements OnInit {
     event.preventDefault();
     event.stopImmediatePropagation?.();
 
-    this.removeFromRecentSearch(phrase);
-  }
-
-  handleCloseButtonClick(phrase: string): void {
     this.removeFromRecentSearch(phrase);
   }
 
