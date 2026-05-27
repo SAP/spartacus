@@ -264,10 +264,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    const configSubscription = this.config$.subscribe();
-    this.subscriptions.add(configSubscription);
-
     if (this.searchBoxRecentSearchesRemovalEnabled) {
+      const configSubscription = this.config$.subscribe();
+      this.subscriptions.add(configSubscription);
+
       const isMobile$ = this.isMobile;
       if (isMobile$) {
         const isMobileSubscription = isMobile$.subscribe(

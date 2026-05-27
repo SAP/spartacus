@@ -242,7 +242,7 @@ describe('SearchBoxComponent', () => {
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(serviceSpy.chosenWord.subscribe).toHaveBeenCalled();
       expect(serviceSpy.sharedEvent.subscribe).toHaveBeenCalled();
-      expect(searchBoxComponent['subscriptions'].add).toHaveBeenCalledTimes(4);
+      expect(searchBoxComponent['subscriptions'].add).toHaveBeenCalledTimes(3);
     });
 
     it('should dispatch new results when search is executed', () => {
