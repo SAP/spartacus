@@ -28,6 +28,7 @@ const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
 export function navigateToOrganizationUserRegisterPage() {
   clickHamburger();
   whenJDK17(() => {
+    cy.getLoginRegisterLink().click();
     cy.get('cx-login-register button').click();
   });
   whenJDK21(() => {
