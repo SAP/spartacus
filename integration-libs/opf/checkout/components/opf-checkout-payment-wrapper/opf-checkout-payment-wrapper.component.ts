@@ -183,7 +183,6 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   // protected initiatePaymentMode(paymentOptionId?: number): void {
-
   protected updatePaymentMode(paymentOptionId?: number): void {
     const idToUse = paymentOptionId ?? this.selectedPaymentId;
     this.isPaymentDataReady = false;
