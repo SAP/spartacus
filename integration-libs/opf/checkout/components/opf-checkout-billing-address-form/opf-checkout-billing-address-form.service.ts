@@ -141,7 +141,9 @@ export class OpfCheckoutBillingAddressFormService {
             this._$billingAddressSub.next(sapBillingAddress);
             this.setIsSameAsDeliveryValue(false);
           } else if (deliveryAddress) {
+            // Saves delivery as billing on the cart (subject gets updated again when PUT completes).
             this.setBillingAddress(deliveryAddress);
+            // Without this the address card goes blank for a bit — we hide loading before PUT is done.
             this._$billingAddressSub.next(deliveryAddress);
             this.setIsSameAsDeliveryValue(true);
           }
