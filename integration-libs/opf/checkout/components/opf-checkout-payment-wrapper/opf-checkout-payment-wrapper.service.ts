@@ -92,7 +92,9 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
-  initiatePayment(
+  // initiatePayment(
+
+  updatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
     this.lastPaymentOptionId = paymentOptionId;
@@ -194,7 +196,8 @@ export class OpfCheckoutPaymentWrapperService {
 
   reloadPaymentMode(): void {
     if (this.lastPaymentOptionId) {
-      this.initiatePayment(this.lastPaymentOptionId).subscribe();
+      // this.initiatePayment(this.lastPaymentOptionId).subscribe();
+      this.updatePayment(this.lastPaymentOptionId).subscribe();
     }
   }
 
