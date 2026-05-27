@@ -355,6 +355,7 @@ if (environment.cpq) {
         showRequiredAsterisks: true,
         enableExpiredRefreshTokenHandlers: true,
         enableCartReloadOnContextChange: true,
+        a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
       };
