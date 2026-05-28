@@ -114,7 +114,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     const product = this.form.get('product')?.value;
 
     if (!!product) {
-      this.form.reset();
+      this.featureToggles.a11yQuickOrderResetFocus
+        ? this.form.reset({}, { emitEvent: false })
+        : this.form.reset();
     }
 
     // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
