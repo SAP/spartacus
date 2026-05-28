@@ -513,13 +513,6 @@ export interface FeatureTogglesInterface {
    */
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 
-  /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
-   * instead of `initiatePayment` while selecting/re-initiating payment.
-   *
-   * Legacy behavior uses `initiatePayment`.
-   */
-  opfCheckoutUseUpdatePaymentTransaction?: boolean;
-
   /**
    * When enabled, the "Notification Channels" link in the My Coupons page
    * is styled as a link (blue, underlined) instead of plain text.
@@ -532,6 +525,13 @@ export interface FeatureTogglesInterface {
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
   pageLinkSanitizeCanonicalUrl?: boolean;
+
+  /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
+   * instead of `initiatePayment` while selecting/re-initiating payment.
+   *
+   * Legacy behavior uses `initiatePayment`.
+   */
+  opfCheckoutUseUpdatePaymentTransaction?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -596,7 +596,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yCouponNotificationChannelsLinkStyling: false,
-  opfCheckoutUseUpdatePaymentTransaction: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  opfCheckoutUseUpdatePaymentTransaction: false,
 };
