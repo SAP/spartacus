@@ -558,6 +558,8 @@ export interface FeatureTogglesInterface {
    * When enabled, fixes a known issue where the last remembered route after logout is the route to which the logout has redirected
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
+
+  pageLinkSanitizeCanonicalUrl?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -625,4 +627,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
+  pageLinkSanitizeCanonicalUrl: false,
 };

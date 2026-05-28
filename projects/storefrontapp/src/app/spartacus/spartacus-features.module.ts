@@ -360,6 +360,7 @@ if (environment.cpq) {
         a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
+        pageLinkSanitizeCanonicalUrl: true,
       };
       return appFeatureToggles;
     }),
