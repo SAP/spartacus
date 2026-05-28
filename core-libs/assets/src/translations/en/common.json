@@ -109,8 +109,7 @@
     "badRequest": {
       "bad_credentials": "Bad credentials. Please login again.",
       "account_disabled": "User is disabled. Please contact administration.",
-      "unknown_error": "An unknown error occurred. Please try again later.",
-      "csrf_token_refresh_failed": "Your session has expired. Please try signing in again."
+      "unknown_error": "An unknown error occurred. Please try again later."
     }
   },
   "httpHandlers": {
