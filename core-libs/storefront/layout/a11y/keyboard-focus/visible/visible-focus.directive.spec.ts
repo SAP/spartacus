@@ -53,25 +53,17 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = jasmine.createSpy('isEnabled').and.returnValue(false);
 }
 
-const buttonTarget = { tagName: 'BUTTON', getAttribute: () => null };
+const buttonTarget = { tagName: 'BUTTON' };
 const inputTarget = {
   tagName: 'INPUT',
-  getAttribute: () => null,
-  type: 'text',
-};
-const comboboxTarget = {
-  tagName: 'INPUT',
-  getAttribute: (name: string) => (name === 'role' ? 'combobox' : null),
   type: 'text',
 };
 const checkboxTarget = {
   tagName: 'INPUT',
-  getAttribute: () => null,
   type: 'checkbox',
 };
 const radioTarget = {
   tagName: 'INPUT',
-  getAttribute: () => null,
   type: 'radio',
 };
 
@@ -102,14 +94,6 @@ const MockTabKeyEvent = {
   metaKey: false,
   code: 'Tab',
   target: inputTarget,
-};
-
-const MockComboboxKeyEvent = {
-  preventDefault: () => {},
-  stopPropagation: () => {},
-  metaKey: false,
-  code: 'KeyA',
-  target: comboboxTarget,
 };
 
 const MockCheckboxSpaceEvent = {
@@ -267,26 +251,6 @@ describe('VisibleFocusDirective', () => {
     it('should not add "mouse-focus" class when mousedown is triggered', () => {
       const host = fixture.debugElement.query(By.css('#c'));
       host.triggerEventHandler('mousedown', MockMouseEvent);
-      fixture.detectChanges();
-      expect((host.nativeElement as HTMLElement).classList).not.toContain(
-        'mouse-focus'
-      );
-    });
-  });
-
-  describe('combobox input', () => {
-    let host: DebugElement;
-    beforeEach(() => {
-      host = fixture.debugElement.query(By.css('#a'));
-      host.triggerEventHandler('mousedown', MockMouseEvent);
-      fixture.detectChanges();
-    });
-
-    it('should remove "mouse-focus" class when any key is pressed on a role="combobox" input', () => {
-      expect((host.nativeElement as HTMLElement).classList).toContain(
-        'mouse-focus'
-      );
-      host.triggerEventHandler('keydown', MockComboboxKeyEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'

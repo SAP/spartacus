@@ -70,12 +70,7 @@ export class VisibleFocusDirective extends BaseFocusDirective {
     // If the user fill in a form, we don't considering it part of storefront navigation.
     // However, pressing Space/Enter on a checkbox or radio button is a toggle action
     // (not typing), so we treat it as navigation to preserve the focus outline.
-    // Likewise, an input with role="combobox" (e.g. ng-select) is a dropdown trigger
-    // rather than a typing field — every key interaction on it is navigation.
     if (['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)) {
-      if ((event.target as HTMLElement).getAttribute('role') === 'combobox') {
-        return true;
-      }
       if (
         this.featureConfigService.isEnabled(
           'a11yConsentManagementFocusPreservation'
