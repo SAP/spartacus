@@ -27,7 +27,6 @@ export class CpqConfiguratorNormalizer
     source: Cpq.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
-    source.version = 'V2';
     const resultTarget: Configurator.Configuration = {
       ...target,
       configId: source.configurationId ? source.configurationId : '', //if empty, will later be populated with final value

@@ -314,8 +314,8 @@ export class ConfiguratorBasicEffects {
                 ),
                 take(1),
                 map((currentGroupId) => {
-                  // Group ids of conflict groups (Configurator.GroupType.CONFLICT_GROUP) always start with 'CONFLICT'
                   const groupIdFromPayload =
+                    currentGroupId ??
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
                       payload.interactionState.isConflictResolutionMode
@@ -329,6 +329,15 @@ export class ConfiguratorBasicEffects {
                       ),
                       undefined
                     );
+                  console.log('currentGroupId: ', currentGroupId);
+                  console.log('groupIdFromPayload: ', groupIdFromPayload);
+                  console.log(
+                    'parentGroupFromPayload: ',
+                    parentGroupFromPayload
+                  );
+                  console.log(
+                    '#####################################################'
+                  );
                   return {
                     currentGroupId,
                     groupIdFromPayload,

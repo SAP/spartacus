@@ -129,6 +129,7 @@ const cpqConfiguration: Cpq.Configuration = {
   currencyISOCode: 'USD',
   currencySign: '$',
   responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
+  version: 'V2',
 };
 
 const ERROR_MSG = 'This is an error message';

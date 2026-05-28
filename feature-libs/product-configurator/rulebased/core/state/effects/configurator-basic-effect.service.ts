@@ -61,16 +61,14 @@ export class ConfiguratorBasicEffectService {
         )
         .shift();
     }
-    if (groupWithAttributes === undefined) {
-      groupWithAttributes = groups
-        .filter(
-          (currentGroup) =>
-            currentGroup.attributes &&
-            currentGroup.attributes.length > 0 &&
-            currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP
-        )
-        .shift();
-    }
+    groupWithAttributes ??= groups
+      .filter(
+        (currentGroup) =>
+          currentGroup.attributes &&
+          currentGroup.attributes.length > 0 &&
+          currentGroup.groupType !== Configurator.GroupType.CONFLICT_GROUP
+      )
+      .shift();
     let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
