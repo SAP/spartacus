@@ -22,11 +22,11 @@ import {
   FormErrorsComponent,
   NgSelectA11yDirective,
   SpinnerComponent,
+  TruncationTooltipDirective,
 } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
-import { TruncationTooltipDirective } from '@spartacus/storefront';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
