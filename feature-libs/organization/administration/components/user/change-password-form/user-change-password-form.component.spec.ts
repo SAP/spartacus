@@ -26,8 +26,8 @@ import {
   FocusDirective,
   FormErrorsComponent,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';

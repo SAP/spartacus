@@ -12,7 +12,7 @@ import { LoggerService, OccConfig, OccEndpointsService } from '@spartacus/core';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from 'projects/core/src/occ/adapters/user/unit-test.helper';
+} from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 
 import { OccOrderDocumentFlowAdapter } from '@spartacus/order/document-flow/occ';
 import {

@@ -25,7 +25,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 

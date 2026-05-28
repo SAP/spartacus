@@ -9,7 +9,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { ListComponent } from '@spartacus/organization/administration/components';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { AccountSummaryListComponent } from './account-summary-list.component';
 
 describe('AccountSummaryListComponent', () => {

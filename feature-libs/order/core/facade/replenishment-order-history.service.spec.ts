@@ -10,7 +10,7 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
-import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
 import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
