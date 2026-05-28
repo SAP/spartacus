@@ -546,7 +546,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   protected propagateEvent(event: KeyboardEvent) {
     if (!this.searchBoxRecentSearchesRemovalEnabled) {
-      this.propagateEventLegacy(event);
+      if (event.code) {
+        this.handleKeyboardEvent(event);
+        return;
+      }
+      if (event.type === 'blur') {
+        this.close();
+      }
       return;
     }
 
@@ -560,20 +566,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
 
     this.handleKeyboardEvent(event);
-  }
-
-  /**
-   * Keyboard/blur handling when searchBoxRecentSearchesRemoval is disabled (develop behavior).
-   */
-  protected propagateEventLegacy(event: KeyboardEvent): void {
-    if (event.code) {
-      this.handleKeyboardEvent(event);
-      return;
-    }
-
-    if (event.type === 'blur') {
-      this.close();
-    }
   }
 
   protected handleKeyboardEvent(event: KeyboardEvent): void {

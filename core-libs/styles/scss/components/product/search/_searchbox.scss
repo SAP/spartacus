@@ -326,8 +326,8 @@
       }
     }
 
-    .recent-searches {
-      @include forFeature('searchBoxRecentSearchesRemoval') {
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches {
         position: relative;
 
         cx-recent-searches-header .recentSearches-header {
