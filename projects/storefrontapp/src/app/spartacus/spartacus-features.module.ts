@@ -334,6 +334,8 @@ if (environment.cpq) {
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
+        searchBoxRecentSearchesRemoval: true,
+        cdsBottomHeaderSlotAdjustPosition: true,
         enableB2BUnitSearch: true,
         enableB2BCostCenterSearch: true,
         enableB2BCustomerSearch: true,
@@ -358,6 +360,7 @@ if (environment.cpq) {
         a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
+        pageLinkSanitizeCanonicalUrl: true,
       };
       return appFeatureToggles;
     }),
