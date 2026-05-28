@@ -280,7 +280,9 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
     return this.opfEndpointsService.buildUrl('initiatePayment');
   }
 
-  protected getUpdatePaymentTransactionEndpoint(paymentSessionId: string): string {
+  protected getUpdatePaymentTransactionEndpoint(
+    paymentSessionId: string
+  ): string {
     return this.opfEndpointsService.buildUrl('updatePaymentTransaction', {
       urlParams: { paymentSessionId },
     });
