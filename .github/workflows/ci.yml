@@ -17,7 +17,7 @@ env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: "20"
   CONTINUUM_REGISTRY_TOKEN: ${{ secrets.CONTINUUM_REGISTRY_TOKEN }}
-  COMMON_SAP_ARTIFACTORY_TOKEN: ${{ secrets.COMMON_SAP_ARTIFACTORY_TOKEN }}
+  SAP_COMMON_NPM_TOKEN: ${{ secrets.SAP_COMMON_NPM_TOKEN }}
 
 concurrency:
   group: ci-${{ github.head_ref || github.run_id }}
@@ -129,7 +129,7 @@ jobs:
         if: always() && steps.toggle-check.outputs.new_toggles_found == 'true'
         id: slack-user
         run: |
-          USER_ID=$(echo '${{ secrets.SLACK_TOGGLE_REVIEWER_ID }}' | tr -d '[:space:]')
+          USER_ID=$(echo '${{ vars.SLACK_TOGGLE_REVIEWER_ID }}' | tr -d '[:space:]')
           echo "user_id=$USER_ID" >> $GITHUB_OUTPUT
           echo "Cleaned user ID prepared for Slack mention"
       - name: Send Slack notification for new toggles
@@ -139,7 +139,7 @@ jobs:
           method: chat.postMessage
           token: ${{ secrets.SLACK_TOKEN }}
           payload: |
-            channel: ${{ secrets.FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL }}
+            channel: ${{ vars.FEATURE_TOGGLE_SLACK_NOTIFICATION_CHANNEL }}
             text: "New Feature Toggles Added"
             blocks:
               - type: "section"
@@ -416,7 +416,7 @@ jobs:
           token: ${{ secrets.SLACK_TOKEN }}
           payload: |
             {
-              "channel": "${{ secrets.SLACK_NOTIFICATION_CHANNEL }}",
+              "channel": "${{ vars.SLACK_NOTIFICATION_CHANNEL }}",
               "blocks": [
                 {
                   "type": "section",

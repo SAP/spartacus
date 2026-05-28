@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { WindowRef } from '../../../window/window-ref';
 import {
   CanonicalUrlOptions,
@@ -21,6 +22,8 @@ export class PageLinkService {
     protected winRef: WindowRef
   ) {}
 
+  private featureToggles = inject(FeatureToggles);
+
   /**
    * Returns the canonical for the page.
    *
@@ -32,10 +35,23 @@ export class PageLinkService {
       ...this.pageMetaConfig?.pageMeta?.canonicalUrl,
       ...options,
     };
-    return this.buildCanonicalUrl(
-      url ?? this.winRef.location.href ?? '',
-      config
-    );
+    const rawUrl = url ?? this.winRef.location.href ?? '';
+    const safeUrl = this.featureToggles.pageLinkSanitizeCanonicalUrl
+      ? this.sanitizeUrl(rawUrl)
+      : rawUrl;
+    return this.buildCanonicalUrl(safeUrl, config);
+  }
+
+  protected sanitizeUrl(rawUrl: string): string {
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        return '';
+      }
+      return parsed.toString();
+    } catch {
+      return '';
+    }
   }
 
   protected buildCanonicalUrl(
