@@ -2,30 +2,41 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-
 name: Add license header to files
 
 permissions:
   contents: write
   pull-requests: write
-  
+
 jobs:
-  add_license_header:
-    name: Add license header to files
+  detect_changes:
+    name: Add license - Detect changes
     runs-on: ubuntu-latest
+    outputs:
+      RUN_CHECKS: ${{ steps.detect_code_changes.outputs.RUN_CHECKS }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+      - name: Detect code changes
+        id: detect_code_changes
+        uses: ./.github/actions/detect-changes
+
+  add_license_header:
+    needs: [detect_changes]
+    name: Add license header to files
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GH_PR_TOKEN }}
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 #v5.6.0
+          token: ${{ secrets.GH_TEMPORARY_TOKEN }}
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.14'
       - name: Download reuse tool
-        run: pip3 install --user reuse
+        run: pip3 install --user -r ci-scripts/requirements.txt
       - name: Setup git config
         run: |
           git config user.name 'github-actions[bot]'
@@ -33,8 +44,10 @@ jobs:
       - name: Adding license header to files
         run: ci-scripts/prepend-license.sh
       - name: push added headers
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          git pull origin ${{ github.event.pull_request.head.ref }}
+          git pull origin "$HEAD_REF"
 
           if [ -z $(git status --porcelain) ];
           then

@@ -6,7 +6,7 @@ import {
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';

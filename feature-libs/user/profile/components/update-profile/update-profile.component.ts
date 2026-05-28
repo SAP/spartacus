@@ -17,7 +17,11 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
@@ -48,6 +52,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UpdateProfileComponent {

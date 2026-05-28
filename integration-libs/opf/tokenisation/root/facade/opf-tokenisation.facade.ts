@@ -20,6 +20,7 @@ import { OpfPaymentDetails } from '../model';
         'getPaymentMethodsLoading',
         'loadPaymentMethods',
         'deletePaymentMethod',
+        'setPaymentMethodAsDefault',
       ],
     }),
 })
@@ -45,4 +46,10 @@ export abstract class OpfTokenisationFacade {
    * @param paymentMethodId a payment method ID
    */
   abstract deletePaymentMethod(paymentMethodId: string): void;
+
+  /**
+   * Sets the payment as a default one
+   * @param paymentMethodId a payment method ID
+   */
+  abstract setPaymentMethodAsDefault(paymentMethodId: string): void;
 }

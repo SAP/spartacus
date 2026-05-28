@@ -14,9 +14,9 @@ import {
 } from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
-  ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { OpfCheckoutPaymentsModule } from '@spartacus/opf/checkout/components';
 import { SpinnerModule } from '@spartacus/storefront';
@@ -30,7 +30,10 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
     FeaturesConfigModule,
     OpfCheckoutPaymentsModule,
     ReactiveFormsModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    OpfB2bCheckoutPaymentTypeComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OpfCheckoutPaymentType: {
           component: OpfB2bCheckoutPaymentTypeComponent,
@@ -38,7 +41,6 @@ import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-t
         },
       },
     }),
-    OpfB2bCheckoutPaymentTypeComponent,
   ],
   exports: [OpfB2bCheckoutPaymentTypeComponent],
 })

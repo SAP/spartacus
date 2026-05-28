@@ -14,7 +14,7 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';

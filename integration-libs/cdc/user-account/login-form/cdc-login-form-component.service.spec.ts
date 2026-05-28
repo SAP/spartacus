@@ -9,13 +9,14 @@ import { Store } from '@ngrx/store';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
+  FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
 import { LoginFormComponentService } from '@spartacus/user/account/components';
-import { FormErrorsModule } from 'projects/storefrontlib/shared';
+import { FormErrorsModule } from 'core-libs/storefront/shared';
 import { of, throwError } from 'rxjs';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 import createSpy = jasmine.createSpy;
@@ -69,6 +70,10 @@ class MockRouter implements Partial<Router> {
   navigate = createSpy().and.stub();
 }
 
+class MockFederatedLoginService implements Partial<FederatedLoginService> {
+  isLoginDomain?: boolean | undefined = false;
+}
+
 describe('CdcLoginComponentService', () => {
   let cdcLoginService: CdcLoginFormComponentService;
   let cdcJsService: CdcJsService;
@@ -97,6 +102,7 @@ describe('CdcLoginComponentService', () => {
           provide: Router,
           useClass: MockRouter,
         },
+        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
       ],
     });
   }));

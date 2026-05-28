@@ -7,4 +7,3 @@
 export * from './opf-gift-card-core.module';
 export * from './connectors/index';
 export * from './facade/index';
-export * from './normalizers/index';

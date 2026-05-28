@@ -18,7 +18,6 @@ import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
   OPF_GOOGLE_PAY_PROVIDER_NAME,
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
-  OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyConfig,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyGooglePayProvider,
@@ -46,52 +45,21 @@ export class OpfGooglePayService {
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
+  // default config guarantees providers.googlePay is always present
+  protected get googlePayProviderConfig(): OpfQuickBuyGooglePayProvider {
+    return this.opfQuickBuyConfig.providers
+      ?.googlePay as OpfQuickBuyGooglePayProvider;
+  }
+
   private googlePaymentClientOptions: google.payments.api.PaymentOptions = {
-    environment: 'TEST',
+    environment: this.googlePayProviderConfig.environment,
   };
 
-  private initialGooglePaymentRequest: google.payments.api.PaymentDataRequest =
-    {
-      /**
-       * TODO: Move this part into configuration layer.
-       */
-      apiVersion: 2,
-      apiVersionMinor: 0,
-      callbackIntents: [
-        'PAYMENT_AUTHORIZATION',
-        'SHIPPING_ADDRESS',
-        'SHIPPING_OPTION',
-      ],
+  private initialGooglePaymentRequest = this.googlePayProviderConfig
+    .paymentRequest as google.payments.api.PaymentDataRequest;
 
-      // @ts-ignore
-      merchantInfo: {
-        // merchantId: 'spartacusStorefront',
-        merchantName: OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
-      },
-      shippingOptionRequired: true,
-      shippingAddressRequired: true,
-      // @ts-ignore
-      shippingAddressParameters: {
-        phoneNumberRequired: false,
-      },
-      emailRequired: true,
-    };
-
-  protected readonly defaultGooglePayCardParameters: any = {
-    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-    allowedCardNetworks: [
-      'AMEX',
-      'DISCOVER',
-      'INTERAC',
-      'JCB',
-      'MASTERCARD',
-      'VISA',
-    ],
-    billingAddressRequired: true,
-    billingAddressParameters: {
-      format: 'FULL',
-    },
-  };
+  protected readonly defaultGooglePayCardParameters: any =
+    this.googlePayProviderConfig.cardParameters;
 
   private initialTransactionInfo: google.payments.api.TransactionInfo = {
     totalPrice: '0.00',
@@ -169,8 +137,20 @@ export class OpfGooglePayService {
     ]);
   }
 
-  initClient(activeConfiguration: OpfActiveConfiguration): void {
-    this.setAllowedPaymentMethodsConfig(activeConfiguration);
+  initClient(
+    activeConfiguration: OpfActiveConfiguration | OpfActiveConfiguration[]
+  ): void {
+    const activeConfigurations = Array.isArray(activeConfiguration)
+      ? activeConfiguration
+      : [activeConfiguration];
+    const googlePayGateway =
+      this.opfQuickBuyButtonsService.getActiveConfigurationForProvider(
+        OpfQuickBuyProviderType.GOOGLE_PAY,
+        activeConfigurations
+      );
+    if (googlePayGateway) {
+      this.setAllowedPaymentMethodsConfig(googlePayGateway);
+    }
     this.updateGooglePaymentClient();
   }
 
@@ -498,9 +478,8 @@ export class OpfGooglePayService {
     const googlePayConfig =
       this.opfQuickBuyButtonsService.getQuickBuyProviderConfig(
         OpfQuickBuyProviderType.GOOGLE_PAY,
-        activeConfiguration
+        [activeConfiguration]
       );
-
     this.googlePaymentRequest.allowedPaymentMethods = [
       {
         parameters: {
