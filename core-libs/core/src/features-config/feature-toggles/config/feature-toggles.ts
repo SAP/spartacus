@@ -568,6 +568,22 @@ export interface FeatureTogglesInterface {
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
   pageLinkSanitizeCanonicalUrl?: boolean;
+
+  /**
+   * When enabled, the address book and address form support hierarchical
+   * address formats (e.g. Chinese addresses), which require selecting
+   * region (province), city and district as chained dropdowns,
+   * and skip OCC address verification for the supported countries.
+   *
+   * Also makes `OccUserAddressAdapter.loadAll()` request the FULL address
+   * fields set, so that nested `city` / `cityDistrict` references are returned.
+   *
+   * Affects:
+   * - `AddressBookComponent`
+   * - `AddressFormComponent`
+   * - `OccUserAddressAdapter`
+   */
+  enableHierarchicalAddressFormat?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -637,4 +653,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  enableHierarchicalAddressFormat: false,
 };

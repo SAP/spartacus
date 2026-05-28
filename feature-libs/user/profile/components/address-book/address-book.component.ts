@@ -5,9 +5,10 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   Address,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
@@ -57,11 +58,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
+  protected languageService = inject(LanguageService);
+  protected featureConfigService = inject(FeatureConfigService);
+
   constructor(
     public service: AddressBookComponentService,
     protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    protected languageService: LanguageService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -69,12 +72,16 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
     this.service.loadAddresses();
 
-    this.subscription.add(
-      this.languageService
-        .getActive()
-        .pipe(skip(1))
-        .subscribe(() => this.service.loadAddresses())
-    );
+    if (
+      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.subscription.add(
+        this.languageService
+          .getActive()
+          .pipe(skip(1))
+          .subscribe(() => this.service.loadAddresses())
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -93,6 +100,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   addAddressSubmit(address: Address): void {
+    if (
+      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.showAddAddressForm = false;
+      this.service.addUserAddress(address);
+      return;
+    }
     if (!address) {
       this.showAddAddressForm = false;
       return;
@@ -120,6 +134,15 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   editAddressSubmit(address: Address): void {
+    if (
+      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.showEditAddressForm = false;
+      if (address && this.currentAddress['id']) {
+        this.service.updateUserAddress(this.currentAddress['id'], address);
+      }
+      return;
+    }
     if (!address) {
       this.showEditAddressForm = false;
       return;
@@ -176,23 +199,44 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           actions.push({ name: textDelete, event: 'delete' });
 
           const numbers = getAddressNumbers(address, textPhone, textMobile);
-          const locationLine = this.buildLocationLine(address);
-          const districtName =
-            address.country?.isocode === 'CN'
-              ? address.cityDistrict?.name || address.district || ''
-              : '';
 
-          return {
-            role: 'application',
-            textBold: address.firstName + ' ' + address.lastName,
-            text: [
+          let text: (string | undefined)[];
+          if (
+            this.featureConfigService.isEnabled(
+              'enableHierarchicalAddressFormat'
+            )
+          ) {
+            const locationLine = this.buildLocationLine(address);
+            const districtName =
+              address.country?.isocode === 'CN'
+                ? address.cityDistrict?.name || address.district || ''
+                : '';
+            text = [
               address.line1,
               address.line2,
               locationLine,
               districtName,
               address.postalCode,
               numbers,
-            ].filter(Boolean) as string[],
+            ].filter(Boolean) as string[];
+          } else {
+            let region = '';
+            if (address.region && address.region.isocode) {
+              region = address.region.isocode + ', ';
+            }
+            text = [
+              address.line1,
+              address.line2,
+              address.town + ', ' + region + address.country?.isocode,
+              address.postalCode,
+              numbers,
+            ];
+          }
+
+          return {
+            role: 'application',
+            textBold: address.firstName + ' ' + address.lastName,
+            text,
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,

@@ -33,6 +33,7 @@ import {
   CityDistrict,
   Country,
   ErrorModel,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
@@ -81,7 +82,7 @@ import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 export class AddressFormComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   protected cdr = inject(ChangeDetectorRef);
-  protected userProfileFacade = inject(UserProfileFacade);
+  protected featureConfigService = inject(FeatureConfigService);
 
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
@@ -150,7 +151,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
     protected translation: TranslationService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected userProfileFacade: UserProfileFacade
   ) {}
 
   ngOnInit() {
@@ -182,8 +184,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
-      this.countrySelected(this.addressData.country);
-      this.addressForm.patchValue(this.addressData);
+      if (
+        this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+      ) {
+        this.countrySelected(this.addressData.country);
+        this.addressForm.patchValue(this.addressData);
+      } else {
+        this.addressForm.patchValue(this.addressData);
+        this.countrySelected(this.addressData.country);
+      }
 
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
@@ -192,9 +201,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     this.addresses$ = this.userAddressService.getAddresses();
 
-    this.initCitiesSubscription();
-    this.initDistrictsSubscription();
-    this.initLanguageSubscription();
+    if (
+      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.initCitiesSubscription();
+      this.initDistrictsSubscription();
+      this.initLanguageSubscription();
+    }
   }
 
   protected initCitiesSubscription(): void {
@@ -311,6 +324,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   countrySelected(country: Country | undefined): void {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode ?? '');
+
+    if (
+      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      return;
+    }
+
     this.isChineseAddress = country?.isocode === 'CN';
 
     const cellphoneControl = this.addressForm.get('cellphone');
@@ -341,7 +361,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   regionSelected(region: Region): void {
     this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
-    if (this.isChineseAddress) {
+    if (
+      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat') &&
+      this.isChineseAddress
+    ) {
       this.selectedRegion$.next(region.isocode ?? '');
       this.addressForm.get('town')?.reset();
       this.selectedCity$.next('');
@@ -387,7 +410,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.addressForm.dirty) {
-        if (this.isChineseAddress) {
+        if (
+          this.featureConfigService.isEnabled(
+            'enableHierarchicalAddressFormat'
+          ) &&
+          this.isChineseAddress
+        ) {
           this.submitAddress.emit(this.addressForm.value);
         } else {
           this.subscription.add(

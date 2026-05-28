@@ -12,6 +12,7 @@ import {
   Address,
   AddressValidation,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   LanguageService,
@@ -118,6 +119,10 @@ class MockLanguageService {
   }
 }
 
+class MockFeatureConfigService {
+  isEnabled = jasmine.createSpy().and.returnValue(true);
+}
+
 const dialogClose$ = new BehaviorSubject<any>('');
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -170,6 +175,10 @@ describe('AddressFormComponent', () => {
         {
           provide: LanguageService,
           useClass: MockLanguageService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     })

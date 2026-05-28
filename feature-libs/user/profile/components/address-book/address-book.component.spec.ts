@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import {
   Address,
   CxDatePipe,
+  FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
@@ -34,6 +35,10 @@ class MockLanguageService {
   getActive() {
     return of('en');
   }
+}
+
+class MockFeatureConfigService {
+  isEnabled = jasmine.createSpy().and.returnValue(true);
 }
 
 const mockAddress: Address = {
@@ -124,6 +129,10 @@ describe('AddressBookComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LanguageService, useClass: MockLanguageService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     })
       .overrideComponent(AddressBookComponent, {
