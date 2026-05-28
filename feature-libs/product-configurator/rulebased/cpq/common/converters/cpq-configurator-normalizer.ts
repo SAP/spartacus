@@ -16,6 +16,8 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
+  protected static readonly VERSION_WITH_FULL_TAB_ATTRIBUTES = 2;
+
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
@@ -25,6 +27,7 @@ export class CpqConfiguratorNormalizer
     source: Cpq.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
+    source.version = 'V2';
     const resultTarget: Configurator.Configuration = {
       ...target,
       configId: source.configurationId ? source.configurationId : '', //if empty, will later be populated with final value
@@ -46,10 +49,11 @@ export class CpqConfiguratorNormalizer
       warningMessages: this.generateWarningMessages(source),
       pricingEnabled: true,
     };
+
     source.tabs?.forEach((tab) =>
       this.convertGroup(
         tab,
-        source.attributes ?? [],
+        this.getTabAttributes(source, tab),
         source.currencyISOCode,
         resultTarget.groups,
         resultTarget.flatGroups
@@ -70,13 +74,13 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    const numberOfIssues: number =
+    return (
       (source.incompleteAttributes?.length ?? 0) +
       (source.incompleteMessages?.length ?? 0) +
       (source.invalidMessages?.length ?? 0) +
       (source.failedValidations?.length ?? 0) +
-      (source.errorMessages?.length ?? 0);
-    return numberOfIssues;
+      (source.errorMessages?.length ?? 0)
+    );
   }
 
   protected generateWarningMessages(source: Cpq.Configuration): string[] {
@@ -101,11 +105,9 @@ export class CpqConfiguratorNormalizer
     flatGroupList: Configurator.Group[]
   ) {
     const attributes: Configurator.Attribute[] = [];
-    if (source.isSelected) {
-      sourceAttributes.forEach((sourceAttribute) =>
-        this.convertAttribute(sourceAttribute, source.id, currency, attributes)
-      );
-    }
+    sourceAttributes.forEach((sourceAttribute) =>
+      this.convertAttribute(sourceAttribute, source.id, currency, attributes)
+    );
 
     const group: Configurator.Group = {
       id: source.id.toString(),
@@ -223,7 +225,7 @@ export class CpqConfiguratorNormalizer
       const selectedValues = values
         .map((entry) => entry)
         .filter((entry) => entry.selected);
-      if (selectedValues && selectedValues.length === 1) {
+      if (selectedValues?.length === 1) {
         attribute.selectedSingleValue = selectedValues[0].valueCode;
       }
     }
@@ -295,13 +297,12 @@ export class CpqConfiguratorNormalizer
   ): Configurator.UiType {
     const displayAs = sourceAttribute.displayAs;
 
-    const displayAsProduct: boolean =
+    const displayAsProduct: boolean = !!(
       sourceAttribute.values &&
       this.cpqConfiguratorNormalizerUtilsService.hasAnyProducts(
         sourceAttribute.values
       )
-        ? true
-        : false;
+    );
     const isEnabled: boolean = sourceAttribute.isEnabled ?? false;
 
     if (
@@ -395,10 +396,7 @@ export class CpqConfiguratorNormalizer
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined
-            ? true
-            : false;
-
+          attribute.values?.find((value) => value.selected) !== undefined;
         if (!isOneValueSelected) {
           attribute.incomplete = true;
         }
@@ -422,5 +420,32 @@ export class CpqConfiguratorNormalizer
         value.paV_ID === 0) ??
       false
     );
+  }
+
+  protected hasFullTabAttributes(version?: string): boolean {
+    if (!version) {
+      return false;
+    }
+
+    const normalizedVersion = version.trim().toUpperCase();
+    const majorVersion = Number.parseInt(
+      normalizedVersion.replace('V', ''),
+      10
+    );
+
+    return (
+      !Number.isNaN(majorVersion) &&
+      majorVersion >= CpqConfiguratorNormalizer.VERSION_WITH_FULL_TAB_ATTRIBUTES
+    );
+  }
+
+  protected getTabAttributes(
+    source: Cpq.Configuration,
+    tab: Cpq.Tab
+  ): Cpq.Attribute[] {
+    if (this.hasFullTabAttributes(source.version)) {
+      return tab.attributes ?? [];
+    }
+    return tab.isSelected ? (source.attributes ?? []) : [];
   }
 }

@@ -284,4 +284,125 @@ describe('ConfiguratorStateUtils', () => {
       );
     });
   });
+
+  describe('mergeConfigurationGroups', () => {
+    it('should return existing groups if incoming groups are empty', () => {
+      const existingGroups = [ConfiguratorTestUtils.createGroup('group1')];
+
+      expect(
+        ConfiguratorStateUtils.mergeConfigurationGroups(existingGroups, [])
+      ).toBe(existingGroups);
+    });
+
+    it('should return incoming groups if existing groups are empty', () => {
+      const incomingGroups = [ConfiguratorTestUtils.createGroup('group1')];
+      expect(
+        ConfiguratorStateUtils.mergeConfigurationGroups([], incomingGroups)
+      ).toEqual(incomingGroups);
+    });
+
+    it('should keep attributes of previously loaded groups when incoming group has no attributes', () => {
+      const existingAttribute: Configurator.Attribute = { name: 'attr1' };
+      const existingGroups: Configurator.Group[] = [
+        {
+          ...ConfiguratorTestUtils.createGroup('tab1'),
+          attributes: [existingAttribute],
+        },
+        ConfiguratorTestUtils.createGroup('tab2'),
+      ];
+      const incomingGroups: Configurator.Group[] = [
+        {
+          ...ConfiguratorTestUtils.createGroup('tab1'),
+          attributes: [],
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('tab2'),
+          attributes: [{ name: 'attr2' }],
+        },
+      ];
+
+      const mergedGroups = ConfiguratorStateUtils.mergeConfigurationGroups(
+        existingGroups,
+        incomingGroups
+      );
+
+      expect(mergedGroups[0].attributes).toEqual([existingAttribute]);
+      expect(mergedGroups[1].attributes?.[0].name).toBe('attr2');
+    });
+
+    it('should keep incoming group unchanged when no existing group matches', () => {
+      const existingGroups: Configurator.Group[] = [
+        ConfiguratorTestUtils.createGroup('existing'),
+      ];
+      const incomingGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('incoming'),
+        attributes: [{ name: 'incomingAttr' }],
+      };
+
+      const mergedGroups = ConfiguratorStateUtils.mergeConfigurationGroups(
+        existingGroups,
+        [incomingGroup]
+      );
+
+      expect(mergedGroups[0]).toBe(incomingGroup);
+    });
+
+    it('should recursively merge subgroups and preserve loaded subgroup attributes', () => {
+      const existingSubGroup: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('sub-1'),
+        attributes: [{ name: 'persistedAttr' }],
+      };
+      const existingGroups: Configurator.Group[] = [
+        {
+          ...ConfiguratorTestUtils.createGroup('root'),
+          subGroups: [existingSubGroup],
+        },
+      ];
+      const incomingGroups: Configurator.Group[] = [
+        {
+          ...ConfiguratorTestUtils.createGroup('root'),
+          subGroups: [
+            {
+              ...ConfiguratorTestUtils.createGroup('sub-1'),
+              attributes: [],
+            },
+          ],
+        },
+      ];
+
+      const mergedGroups = ConfiguratorStateUtils.mergeConfigurationGroups(
+        existingGroups,
+        incomingGroups
+      );
+
+      expect(mergedGroups[0].subGroups[0].attributes?.[0].name).toBe(
+        'persistedAttr'
+      );
+    });
+  });
+
+  describe('findGroupById', () => {
+    it('should find nested group recursively', () => {
+      const groups: Configurator.Group[] = [
+        {
+          ...ConfiguratorTestUtils.createGroup('root'),
+          subGroups: [ConfiguratorTestUtils.createGroup('nested')],
+        },
+      ];
+
+      expect(
+        ConfiguratorStateUtils['findGroupById'](groups, 'nested')?.id
+      ).toBe('nested');
+    });
+
+    it('should return undefined when group cannot be found', () => {
+      const groups: Configurator.Group[] = [
+        ConfiguratorTestUtils.createGroup('root'),
+      ];
+
+      expect(
+        ConfiguratorStateUtils['findGroupById'](groups, 'missing')
+      ).toBeUndefined();
+    });
+  });
 });

@@ -7,6 +7,64 @@
 import { Configurator } from '../model/configurator.model';
 
 export class ConfiguratorStateUtils {
+  static mergeConfigurationGroups(
+    existingGroups: Configurator.Group[],
+    incomingGroups: Configurator.Group[]
+  ): Configurator.Group[] {
+    if (!incomingGroups?.length) {
+      return existingGroups;
+    }
+    if (!existingGroups?.length) {
+      return incomingGroups;
+    }
+
+    return incomingGroups.map((incomingGroup) => {
+      const existingGroup = this.findGroupById(
+        existingGroups,
+        incomingGroup.id
+      );
+      if (!existingGroup) {
+        return incomingGroup;
+      }
+
+      return {
+        ...existingGroup,
+        ...incomingGroup,
+        attributes: incomingGroup.attributes?.length
+          ? incomingGroup.attributes
+          : existingGroup.attributes,
+        subGroups: this.mergeConfigurationGroups(
+          existingGroup.subGroups ?? [],
+          incomingGroup.subGroups ?? []
+        ),
+      };
+    });
+  }
+
+  protected static findGroupById(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const group = groups.find((currentGroup) => currentGroup.id === groupId);
+    if (group) {
+      return group;
+    }
+
+    for (const currentGroup of groups) {
+      if (currentGroup.subGroups?.length) {
+        const groupFromSubGroups = this.findGroupById(
+          currentGroup.subGroups,
+          groupId
+        );
+        if (groupFromSubGroups) {
+          return groupFromSubGroups;
+        }
+      }
+    }
+
+    return undefined;
+  }
+
   static mergeGroupsWithSupplements(
     groups: Configurator.Group[],
     attributeSupplements: Configurator.AttributeSupplement[]

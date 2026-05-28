@@ -223,7 +223,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result.totalNumberOfIssues).toBe(0);
       expect(result.groups.length).toBe(2);
       expect(result.groups[0].id).toBe(cpqGroupId.toString());
-      expect(result.groups[0].attributes?.length).toBe(1);
+      expect(result.groups[0].attributes?.length).toBe(0);
       expect(result.groups[1].id).toBe(cpqGroupId2.toString());
       expect(result.groups[1].attributes?.length).toBe(0);
       expect(result.priceSummary?.currentTotal?.formattedValue).toBe(
@@ -234,6 +234,31 @@ describe('CpqConfiguratorNormalizer', () => {
         '$2,333.33'
       );
       expect(result.configId).toBe('');
+    });
+
+    it('should use tab attributes for CPQ version V2 or higher', () => {
+      const result = cpqConfiguratorNormalizer.convert({
+        ...cpqConfiguration,
+        version: 'V2',
+        tabs: [
+          {
+            ...cpqTab,
+            attributes: [cpqAttribute],
+          },
+          {
+            ...cpqTab2,
+            attributes: [cpqAttribute2],
+          },
+        ],
+      });
+      expect(result.groups[0].attributes?.length).toBe(1);
+      expect(result.groups[0].attributes?.[0].name).toBe(
+        cpqAttributePaId.toString()
+      );
+      expect(result.groups[1].attributes?.length).toBe(1);
+      expect(result.groups[1].attributes?.[0].name).toBe(
+        cpqAttributePaId2.toString()
+      );
     });
 
     it('should set configuration id if provided', () => {
@@ -1233,6 +1258,72 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(
         cpqConfiguratorNormalizer['hasValueToBeIgnored'](cpqAttr, cpqValueA)
       ).toBe(false);
+    });
+  });
+
+  describe('hasFullTabAttributes', () => {
+    it('should return false if version is undefined', () => {
+      expect(cpqConfiguratorNormalizer['hasFullTabAttributes'](undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return true if version is V2 or higher', () => {
+      expect(cpqConfiguratorNormalizer['hasFullTabAttributes'](' V2 ')).toBe(
+        true
+      );
+      expect(cpqConfiguratorNormalizer['hasFullTabAttributes']('v3')).toBe(
+        true
+      );
+    });
+
+    it('should return false if version is invalid', () => {
+      expect(cpqConfiguratorNormalizer['hasFullTabAttributes']('invalid')).toBe(
+        false
+      );
+    });
+  });
+
+  describe('getTabAttributes', () => {
+    it('should return tab attributes when version supports full tab payload', () => {
+      const source: Cpq.Configuration = {
+        ...cpqConfiguration,
+        version: 'V2',
+      };
+      const tab: Cpq.Tab = {
+        ...cpqTab2,
+        isSelected: false,
+        attributes: [cpqAttribute2],
+      };
+      const result = cpqConfiguratorNormalizer['getTabAttributes'](source, tab);
+      expect(result).toEqual([cpqAttribute2]);
+    });
+
+    it('should return global source attributes for selected tab when version is not defined', () => {
+      const source: Cpq.Configuration = {
+        ...cpqConfiguration,
+        version: undefined,
+      };
+      const tab: Cpq.Tab = {
+        ...cpqTab,
+        isSelected: true,
+        attributes: [cpqAttribute2],
+      };
+      const result = cpqConfiguratorNormalizer['getTabAttributes'](source, tab);
+      expect(result).toEqual(source.attributes);
+    });
+
+    it('should return empty array for non-selected tab when version is not defined', () => {
+      const source: Cpq.Configuration = {
+        ...cpqConfiguration,
+        version: undefined,
+      };
+      const tab: Cpq.Tab = {
+        ...cpqTab2,
+        isSelected: false,
+      };
+      const result = cpqConfiguratorNormalizer['getTabAttributes'](source, tab);
+      expect(result).toEqual([]);
     });
   });
   describe('generateErrorMessages', () => {

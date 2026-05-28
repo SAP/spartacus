@@ -230,6 +230,48 @@ describe('Configurator reducer', () => {
         CONFIGURATION.groups[0].id
       );
     });
+
+    it('should merge tab attributes without clearing previously loaded tabs', () => {
+      const tab1Group: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('tab1'),
+        attributes: [{ name: 'attr-tab1' }],
+      };
+      const tab2GroupEmpty: Configurator.Group =
+        ConfiguratorTestUtils.createGroup('tab2');
+
+      const initialConfiguration: Configurator.Configuration = {
+        ...CONFIGURATION,
+        groups: [tab1Group, tab2GroupEmpty],
+      };
+      const stateAfterFirstTab = StateReduce.configuratorReducer(
+        undefined,
+        new ConfiguratorActions.ReadConfigurationSuccess(initialConfiguration)
+      );
+
+      const tab2LoadedConfiguration: Configurator.Configuration = {
+        ...CONFIGURATION,
+        groups: [
+          { ...tab1Group, attributes: [] },
+          {
+            ...tab2GroupEmpty,
+            attributes: [{ name: 'attr-tab2' }],
+          },
+        ],
+      };
+      const stateAfterSecondTab = StateReduce.configuratorReducer(
+        stateAfterFirstTab,
+        new ConfiguratorActions.ReadConfigurationSuccess(
+          tab2LoadedConfiguration
+        )
+      );
+
+      expect(stateAfterSecondTab.groups[0].attributes?.[0].name).toBe(
+        'attr-tab1'
+      );
+      expect(stateAfterSecondTab.groups[1].attributes?.[0].name).toBe(
+        'attr-tab2'
+      );
+    });
   });
 
   describe('UpdateConfigurationSuccess action', () => {
@@ -490,6 +532,25 @@ describe('Configurator reducer', () => {
 
       expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
     });
+
+    it('should trigger conflict solver dialog when immediate conflict resolution is active and configuration is inconsistent', () => {
+      const state = StateReduce.configuratorReducer(
+        {
+          ...CONFIGURATION,
+          immediateConflictResolution: true,
+          consistent: false,
+          interactionState: {},
+        },
+        new ConfiguratorActions.SetCurrentGroup({
+          entityKey: PRODUCT_CODE,
+          currentGroup: CURRENT_GROUP,
+        })
+      );
+
+      expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
+      expect(state.interactionState.showConflictSolverDialog).toBe(true);
+      expect(state.interactionState.issueNavigationDone).toBe(true);
+    });
   });
 
   describe('SetMenuParentGroup action', () => {
@@ -549,6 +610,24 @@ describe('Configurator reducer', () => {
         group1: true,
         group2: true,
         group3: true,
+        group4: true,
+      });
+    });
+
+    it('should reduce Group Visited if existing visited groups are undefined', () => {
+      const initialState = {
+        ...StateReduce.initialState,
+        interactionState: {},
+      };
+
+      const action = new ConfiguratorActions.SetGroupsVisited({
+        entityKey: PRODUCT_CODE,
+        visitedGroups: ['group4'],
+      });
+
+      const state = StateReduce.configuratorReducer(initialState, action);
+
+      expect(state.interactionState.groupsVisited).toEqual({
         group4: true,
       });
     });
@@ -638,6 +717,35 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.overview).toEqual(overview);
+    });
+
+    it('should copy price summary and reset issueNavigationDone', () => {
+      const priceSummary: Configurator.PriceSummary = {};
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+        priceSummary,
+      };
+      const action = new ConfiguratorActions.UpdateConfigurationOverviewSuccess(
+        {
+          ownerKey: CONFIGURATION.owner.key,
+          overview: overview,
+        }
+      );
+      const stateWithIssueNavigationDone = {
+        ...StateReduce.initialState,
+        interactionState: {
+          ...StateReduce.initialState.interactionState,
+          issueNavigationDone: true,
+        },
+      };
+      const state = StateReduce.configuratorReducer(
+        stateWithIssueNavigationDone,
+        action
+      );
+
+      expect(state.priceSummary).toBe(priceSummary);
+      expect(state.interactionState.issueNavigationDone).toBe(false);
     });
   });
 
@@ -741,6 +849,20 @@ describe('Configurator reducer', () => {
       );
 
       expect(state.interactionState.showConflictSolverDialog).toBe(true);
+    });
+
+    it('should disable conflict solver dialog for consistent configurations', () => {
+      const action = new ConfiguratorActions.CheckConflictDialoge(OWNER.key);
+      const state = StateReduce.configuratorReducer(
+        {
+          ...CONFIGURATION_IMMEDIATE_CONFLICT_RESOLUTION,
+          consistent: true,
+          interactionState: {},
+        },
+        action
+      );
+
+      expect(state.interactionState.showConflictSolverDialog).toBe(false);
     });
   });
 });

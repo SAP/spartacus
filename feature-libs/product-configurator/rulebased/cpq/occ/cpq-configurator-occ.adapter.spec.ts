@@ -1,13 +1,19 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { CartModification } from '@spartacus/cart/base/root';
+import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import {
+  CONFIGURATOR_FEATURE,
+  Configurator,
+  StateWithConfigurator,
+} from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CpqConfiguratorOccAdapter } from './cpq-configurator-occ.adapter';
@@ -85,6 +91,29 @@ const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderE
 
 const asSpy = (f: any) => <jasmine.Spy>f;
 
+function getMockConfiguratorState(
+  configuration?: Configurator.Configuration
+): StateWithConfigurator {
+  const entities: {
+    [id: string]: StateUtils.ProcessesLoaderState<Configurator.Configuration>;
+  } = {};
+  if (configuration) {
+    entities[configuration.owner.key] = {
+      processesCount: 0,
+      loading: false,
+      error: false,
+      value: configuration,
+      success: true,
+    };
+  }
+
+  return {
+    [CONFIGURATOR_FEATURE]: {
+      configurations: { entities },
+    },
+  };
+}
+
 describe('CpqConfiguratorOccAdapter', () => {
   let adapterUnderTest: CpqConfiguratorOccAdapter;
   let mockedOccService: CpqConfiguratorOccService;
@@ -151,6 +180,9 @@ describe('CpqConfiguratorOccAdapter', () => {
           provide: CpqConfiguratorOccService,
           useValue: mockedOccService,
         },
+        provideMockStore({
+          initialState: getMockConfiguratorState(),
+        }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -188,6 +220,185 @@ describe('CpqConfiguratorOccAdapter', () => {
           groupId
         );
       });
+  });
+
+  it('should read configuration from store if tab was loaded before for V2+', () => {
+    const loadedGroupId = 'loaded-tab';
+    const configurationWithLoadedTab: Configurator.Configuration = {
+      ...productConfiguration,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(loadedGroupId),
+          attributes: [{ name: 'attr1' }],
+        },
+      ],
+    };
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        CpqConfiguratorOccAdapter,
+        {
+          provide: CpqConfiguratorOccService,
+          useValue: mockedOccService,
+        },
+        provideMockStore({
+          initialState: getMockConfiguratorState(configurationWithLoadedTab),
+        }),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+
+    const adapter = TestBed.inject(CpqConfiguratorOccAdapter);
+    asSpy(mockedOccService.readConfiguration).calls.reset();
+
+    adapter
+      .readConfiguration(
+        configurationWithLoadedTab.configId,
+        loadedGroupId,
+        owner
+      )
+      .subscribe((config) => {
+        expect(config.owner).toEqual(owner);
+        expect(config.groups[0].attributes?.length).toBe(1);
+        expect(config.interactionState.currentGroup).toBe(loadedGroupId);
+        expect(mockedOccService.readConfiguration).not.toHaveBeenCalled();
+      });
+  });
+
+  it('should call OCC read if configuration ID does not match store entry', () => {
+    const loadedGroupId = 'loaded-tab';
+    const configurationWithLoadedTab: Configurator.Configuration = {
+      ...productConfiguration,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(loadedGroupId),
+          attributes: [{ name: 'attr1' }],
+        },
+      ],
+    };
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        CpqConfiguratorOccAdapter,
+        {
+          provide: CpqConfiguratorOccService,
+          useValue: mockedOccService,
+        },
+        provideMockStore({
+          initialState: getMockConfiguratorState(configurationWithLoadedTab),
+        }),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+
+    const adapter = TestBed.inject(CpqConfiguratorOccAdapter);
+    asSpy(mockedOccService.readConfiguration).calls.reset();
+
+    adapter
+      .readConfiguration('different-config-id', loadedGroupId, owner)
+      .subscribe();
+
+    expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+      'different-config-id',
+      loadedGroupId
+    );
+  });
+
+  it('should call OCC read if requested group has no attributes in store', () => {
+    const loadedGroupId = 'loaded-tab';
+    const configurationWithEmptyGroup: Configurator.Configuration = {
+      ...productConfiguration,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(loadedGroupId),
+          attributes: [],
+        },
+      ],
+    };
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        CpqConfiguratorOccAdapter,
+        {
+          provide: CpqConfiguratorOccService,
+          useValue: mockedOccService,
+        },
+        provideMockStore({
+          initialState: getMockConfiguratorState(configurationWithEmptyGroup),
+        }),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+
+    const adapter = TestBed.inject(CpqConfiguratorOccAdapter);
+    asSpy(mockedOccService.readConfiguration).calls.reset();
+
+    adapter
+      .readConfiguration(
+        configurationWithEmptyGroup.configId,
+        loadedGroupId,
+        owner
+      )
+      .subscribe();
+
+    expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+      configurationWithEmptyGroup.configId,
+      loadedGroupId
+    );
+  });
+
+  it('should call OCC read if requested group is missing in store', () => {
+    const loadedGroupId = 'loaded-tab';
+    const missingGroupId = 'missing-tab';
+    const configurationWithoutRequestedGroup: Configurator.Configuration = {
+      ...productConfiguration,
+      groups: [
+        {
+          ...ConfiguratorTestUtils.createGroup(loadedGroupId),
+          attributes: [],
+        },
+      ],
+    };
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [
+        CpqConfiguratorOccAdapter,
+        {
+          provide: CpqConfiguratorOccService,
+          useValue: mockedOccService,
+        },
+        provideMockStore({
+          initialState: getMockConfiguratorState(
+            configurationWithoutRequestedGroup
+          ),
+        }),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+
+    const adapter = TestBed.inject(CpqConfiguratorOccAdapter);
+    asSpy(mockedOccService.readConfiguration).calls.reset();
+
+    adapter
+      .readConfiguration(
+        configurationWithoutRequestedGroup.configId,
+        missingGroupId,
+        owner
+      )
+      .subscribe();
+
+    expect(mockedOccService.readConfiguration).toHaveBeenCalledWith(
+      configurationWithoutRequestedGroup.configId,
+      missingGroupId
+    );
   });
 
   // this ensures that there is a dummy response until the API is implemented,
