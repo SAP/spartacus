@@ -84,7 +84,7 @@
       "@spartacus/storefinder/core": ["dist/storefinder/core"],
       "@spartacus/storefinder/components": ["dist/storefinder/components"],
       "@spartacus/storefinder/assets": ["dist/storefinder/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/wishlist": ["dist/user/wishlist"],
       "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],

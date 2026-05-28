@@ -9,7 +9,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY } from 'rxjs';
 import {
   DisableInfoModule,

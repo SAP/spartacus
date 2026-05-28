@@ -173,6 +173,20 @@ export default defineConfig(
           message: "Please import directly from 'rxjs' instead",
         },
       ],
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector: 'MemberExpression[object.property.name="nativeElement"]',
+          message:
+            '[Spartacus] Do not access properties directly on nativeElement. Use Renderer2 instead (e.g. this.renderer.setStyle(this.el.nativeElement, ...)).',
+        },
+        {
+          selector:
+            'PropertyDefinition[accessibility="private"][value.type="CallExpression"][value.callee.name="inject"]:not([value.arguments.0.name="FeatureConfigService"])',
+          message:
+            '[Spartacus] Injected dependencies should use "protected" instead of "private" to allow customers to extend the class.',
+        },
+      ],
       'no-shadow': 'off',
       'no-throw-literal': 'error',
       'no-undef-init': 'error',
@@ -210,6 +224,7 @@ export default defineConfig(
       '@angular-eslint/template/no-negated-async': 'off',
       '@angular-eslint/template/eqeqeq': 'error',
       '@angular-eslint/template/prefer-control-flow': 'off',
+      '@angular-eslint/template/prefer-self-closing-tags': 'warn',
     },
   },
   {
@@ -237,6 +252,7 @@ export default defineConfig(
     rules: {
       '@nx/workspace-no-const-enum': 'error',
       '@nx/workspace-feature-config-service-must-be-private': 'error',
+      '@nx/workspace-no-self-public-api-import': 'warn',
     },
   },
 );
