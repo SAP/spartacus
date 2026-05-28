@@ -1,9 +1,12 @@
 <ng-container *ngIf="result$ | async as results">
   <ng-container *ngIf="results?.length">
     <div class="recent-searches">
-      <h3>
+      <h3 *cxFeature="'!searchBoxRecentSearchesRemoval'">
         {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
+      <cx-recent-searches-header
+        *cxFeature="'searchBoxRecentSearchesRemoval'"
+      ></cx-recent-searches-header>
       <ul
         tabindex="0"
         [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"
@@ -33,6 +36,27 @@
             (click)="updateChosenWord(recentSearch)"
           >
           </a>
+
+          <button
+            *cxFeature="'searchBoxRecentSearchesRemoval'"
+            class="close"
+            type="button"
+            [attr.aria-label]="'common.remove' | cxTranslate"
+            (keydown.arrowup)="shareEvent($any($event))"
+            (keydown.arrowdown)="shareEvent($any($event))"
+            (keydown.arrowleft)="shareEvent($any($event))"
+            (keydown.arrowright)="shareEvent($any($event))"
+            (keydown.enter)="handleCloseButtonEnter($any($event), recentSearch)"
+            (keydown.escape)="shareEvent($any($event))"
+            (blur)="shareEvent($any($event))"
+            (click)="
+              removeFromRecentSearch(recentSearch); $event.stopPropagation()
+            "
+          >
+            <span aria-hidden="true">
+              <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            </span>
+          </button>
         </li>
       </ul>
     </div>
