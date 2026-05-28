@@ -148,7 +148,7 @@ jobs:
 
       - name: Sync branch to a private repo
         env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
           RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
@@ -163,7 +163,7 @@ jobs:
       - name: Create Pull Request to develop
         if: ${{ github.event.inputs.create_pr == 'true' }}
         env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
           RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
           SOURCE_BRANCH: ${{ github.event.inputs.source }}
           VERSION: ${{ env.version }}
