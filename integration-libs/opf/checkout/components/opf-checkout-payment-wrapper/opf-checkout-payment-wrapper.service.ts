@@ -62,7 +62,7 @@ export class OpfCheckoutPaymentWrapperService {
   private featureConfigService = inject(FeatureConfigService);
 
   protected lastPaymentOptionId?: number;
-  protected readonly useUpdatePaymentTransactionFeature =
+  protected readonly isUpdatePaymentTransactionFeatureEnabled =
     'opfCheckoutUseUpdatePaymentTransaction';
 
   protected renderPaymentMethodEvent$ =
@@ -100,7 +100,7 @@ export class OpfCheckoutPaymentWrapperService {
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
     const useUpdatePaymentTransaction = this.featureConfigService.isEnabled(
-      this.useUpdatePaymentTransactionFeature
+      this.isUpdatePaymentTransactionFeatureEnabled
     );
 
     this.lastPaymentOptionId = paymentOptionId;
