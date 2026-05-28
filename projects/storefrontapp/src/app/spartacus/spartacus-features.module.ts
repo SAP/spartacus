@@ -343,6 +343,7 @@ if (environment.cpq) {
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         a11yPreventWindowsHighContrastOverride: true,
+        a11yQuickOrderResetFocus: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
         a11yListSemanticsForFacets: true,
