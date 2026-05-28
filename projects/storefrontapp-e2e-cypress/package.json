@@ -78,7 +78,7 @@
     "@cypress/webpack-preprocessor": "^7.0.0",
     "@testing-library/cypress": "10.0.3",
     "babel-loader": "^10.0.0",
-    "cypress": "^14.0.0",
+    "cypress": "^15.16.0",
     "cypress-file-upload": "^5.0.8",
     "selenium-webdriver": "^4.7.1",
     "ts-loader": "^9.4.2",
