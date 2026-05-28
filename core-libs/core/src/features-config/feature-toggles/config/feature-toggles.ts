@@ -512,6 +512,19 @@ export interface FeatureTogglesInterface {
    * Legacy behavior called it immediately during init.
    */
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
+
+  /**
+   * When enabled, the "Notification Channels" link in the My Coupons page
+   * is styled as a link (blue, underlined) instead of plain text.
+   */
+  a11yCouponNotificationChannelsLinkStyling?: boolean;
+
+  /**
+   * When enabled, fixes a known issue where the last remembered route after logout is the route to which the logout has redirected
+   */
+  redirectOnlyOnTrueNavigationEnd?: boolean;
+
+  pageLinkSanitizeCanonicalUrl?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -575,4 +588,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  a11yCouponNotificationChannelsLinkStyling: false,
+  redirectOnlyOnTrueNavigationEnd: false,
+  pageLinkSanitizeCanonicalUrl: false,
 };
