@@ -138,6 +138,7 @@ export class OpfCheckoutBillingAddressFormComponent implements OnInit {
       return;
     }
 
+    this.service.setIsSameAsDeliveryValue(false);
     this.service.setBillingAddress(address).subscribe({
       next: () => {
         this.service.setPaymentOptionsDisabled(false);

@@ -5,14 +5,19 @@
  */
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationCancellationCode,
+  NavigationEnd,
+  Router,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, pairwise, startWith, take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { SiteContextUrlSerializer } from '../../../site-context/services/site-context-url-serializer';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-
+import { FeatureConfigService } from '../../../features-config';
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
  */
@@ -20,6 +25,9 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
   providedIn: 'root',
 })
 export class AuthRedirectService implements OnDestroy {
+  protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
+  private featureConfigService = inject(FeatureConfigService);
+
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -42,15 +50,27 @@ export class AuthRedirectService implements OnDestroy {
   ) {
     this.init();
   }
-  protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
   protected subscription: Subscription;
 
+  /**
+   * Normal navigations produce [NavigationEnd, NavigationEnd] pairs — saved in localStorage
+   * Guard UrlTree redirects produce [NavigationCancel, NavigationEnd] pairs — skipped
+   * The [NavigationCancel, NavigationEnd] pair must be caught to prevent
+   * guard-driven redirects (post-logout navigation to '/') from
+   * overwriting the saved redirect URL
+   */
   protected init() {
-    this.subscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.setRedirectUrl(event.urlAfterRedirects);
-      }
-    });
+    if (
+      this.featureConfigService.isEnabled('redirectOnlyOnTrueNavigationEnd')
+    ) {
+      this.manageSavedRedirectUriOnTrueNavigations();
+    } else {
+      this.subscription = this.router.events.subscribe((event: any) => {
+        if (this.isNavEnd(event)) {
+          this.setRedirectUrl(event.urlAfterRedirects);
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -100,6 +120,26 @@ export class AuthRedirectService implements OnDestroy {
       );
     }
   }
+
+  protected manageSavedRedirectUriOnTrueNavigations(): void {
+    this.subscription = this.router.events
+      .pipe(
+        filter((event) => this.isNavEnd(event) || this.isRedirect(event)),
+        startWith(null),
+        pairwise(),
+        filter(([prev, curr]) => this.isNavEnd(curr) && !this.isRedirect(prev))
+      )
+      .subscribe(([, curr]) => {
+        this.setRedirectUrl((curr as NavigationEnd).urlAfterRedirects);
+      });
+  }
+
+  protected isNavEnd = (event: any): event is NavigationEnd =>
+    event instanceof NavigationEnd;
+
+  protected isRedirect = (event: any): event is NavigationCancel =>
+    event instanceof NavigationCancel &&
+    event.code === NavigationCancellationCode.Redirect;
 
   /**
    * Sets the redirect URL to undefined.

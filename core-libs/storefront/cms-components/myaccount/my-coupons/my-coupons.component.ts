@@ -13,6 +13,7 @@ import {
   PaginationModel,
   TranslatePipe,
   FeatureDirective,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -92,7 +93,9 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   constructor(
     protected couponService: CustomerCouponService,
     protected myCouponsComponentService: MyCouponsComponentService
-  ) {}
+  ) {
+    useFeatureStyles('a11yCouponNotificationChannelsLinkStyling');
+  }
 
   ngOnInit(): void {
     this.couponResult$ = this.couponService
