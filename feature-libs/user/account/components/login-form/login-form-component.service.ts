@@ -106,10 +106,11 @@ export class LoginFormComponentService {
               this.busy$.next(false);
               this.globalMessage.add(
                 {
-                  key: 'customLoginPage.badRequest.csrf_token_refresh_failed',
+                  key: 'httpHandlers.sessionExpired',
                 },
                 GlobalMessageType.MSG_TYPE_ERROR
               );
+              this.clearOauthRedirectFlowFlag()
               return EMPTY;
             })
           )
