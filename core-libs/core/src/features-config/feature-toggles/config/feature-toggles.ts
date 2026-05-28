@@ -549,6 +549,14 @@ export interface FeatureTogglesInterface {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 
   /**
+   * When enabled, the Quick Order search input keeps focus after
+   * the reset button is cleared, instead of losing focus to the
+   * next tabbable element.
+   * Affects: QuickOrderFormComponent
+   */
+  a11yQuickOrderResetFocus?: boolean;
+
+  /**
    * When enabled, the "Notification Channels" link in the My Coupons page
    * is styled as a link (blue, underlined) instead of plain text.
    */
@@ -625,6 +633,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
