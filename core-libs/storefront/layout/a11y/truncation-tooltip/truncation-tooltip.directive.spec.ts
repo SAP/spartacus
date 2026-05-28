@@ -86,14 +86,18 @@ describe('TruncationTooltipDirective', () => {
       makeFitting();
       inputEl.triggerEventHandler('mouseenter', null);
 
-      expect(tooltip()?.classList).not.toContain('cx-truncation-tooltip--visible');
+      expect(tooltip()?.classList).not.toContain(
+        'cx-truncation-tooltip--visible'
+      );
     });
 
     it('should not show tooltip on focus when text is not truncated', () => {
       makeFitting();
       inputEl.triggerEventHandler('focus', null);
 
-      expect(tooltip()?.classList).not.toContain('cx-truncation-tooltip--visible');
+      expect(tooltip()?.classList).not.toContain(
+        'cx-truncation-tooltip--visible'
+      );
     });
 
     it('should show tooltip on mouseenter when text is truncated', () => {
@@ -135,13 +139,17 @@ describe('TruncationTooltipDirective', () => {
     it('should hide tooltip on mouseleave', () => {
       inputEl.triggerEventHandler('mouseleave', null);
 
-      expect(tooltip()?.classList).not.toContain('cx-truncation-tooltip--visible');
+      expect(tooltip()?.classList).not.toContain(
+        'cx-truncation-tooltip--visible'
+      );
     });
 
     it('should hide tooltip on blur', () => {
       inputEl.triggerEventHandler('blur', null);
 
-      expect(tooltip()?.classList).not.toContain('cx-truncation-tooltip--visible');
+      expect(tooltip()?.classList).not.toContain(
+        'cx-truncation-tooltip--visible'
+      );
     });
   });
 
