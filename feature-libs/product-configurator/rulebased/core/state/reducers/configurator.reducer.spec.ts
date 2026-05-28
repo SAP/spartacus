@@ -231,45 +231,43 @@ describe('Configurator reducer', () => {
       );
     });
 
-    it('should merge tab attributes without clearing previously loaded tabs', () => {
-      const tab1Group: Configurator.Group = {
-        ...ConfiguratorTestUtils.createGroup('tab1'),
-        attributes: [{ name: 'attr-tab1' }],
+    it('should merge group attributes without clearing previously loaded groups', () => {
+      const group1: Configurator.Group = {
+        ...ConfiguratorTestUtils.createGroup('group1'),
+        attributes: [{ name: 'attr-group1' }],
       };
-      const tab2GroupEmpty: Configurator.Group =
-        ConfiguratorTestUtils.createGroup('tab2');
+      const group2: Configurator.Group =
+        ConfiguratorTestUtils.createGroup('group2');
 
       const initialConfiguration: Configurator.Configuration = {
         ...CONFIGURATION,
-        groups: [tab1Group, tab2GroupEmpty],
+        groups: [group1, group2],
       };
-      const stateAfterFirstTab = StateReduce.configuratorReducer(
+      const stateAfterFirstGroup = StateReduce.configuratorReducer(
         undefined,
         new ConfiguratorActions.ReadConfigurationSuccess(initialConfiguration)
       );
 
-      const tab2LoadedConfiguration: Configurator.Configuration = {
+      const loadedConfiguration: Configurator.Configuration = {
         ...CONFIGURATION,
         groups: [
-          { ...tab1Group, attributes: [] },
+          { ...group1, attributes: [] },
           {
-            ...tab2GroupEmpty,
-            attributes: [{ name: 'attr-tab2' }],
+            ...group2,
+            attributes: [{ name: 'attr-group2' }],
           },
         ],
       };
-      const stateAfterSecondTab = StateReduce.configuratorReducer(
-        stateAfterFirstTab,
-        new ConfiguratorActions.ReadConfigurationSuccess(
-          tab2LoadedConfiguration
-        )
+      const stateAfterSecondGroup = StateReduce.configuratorReducer(
+        stateAfterFirstGroup,
+        new ConfiguratorActions.ReadConfigurationSuccess(loadedConfiguration)
       );
 
-      expect(stateAfterSecondTab.groups[0].attributes?.[0].name).toBe(
-        'attr-tab1'
+      expect(stateAfterSecondGroup.groups[0].attributes?.[0].name).toBe(
+        'attr-group1'
       );
-      expect(stateAfterSecondTab.groups[1].attributes?.[0].name).toBe(
-        'attr-tab2'
+      expect(stateAfterSecondGroup.groups[1].attributes?.[0].name).toBe(
+        'attr-group2'
       );
     });
   });
@@ -614,7 +612,7 @@ describe('Configurator reducer', () => {
       });
     });
 
-    it('should reduce Group Visited if existing visited groups are undefined', () => {
+    it('should reduce group visited if existing visited groups are undefined', () => {
       const initialState = {
         ...StateReduce.initialState,
         interactionState: {},

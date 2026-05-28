@@ -45,19 +45,16 @@ export class ConfiguratorStateUtils {
     groups: Configurator.Group[],
     groupId: string
   ): Configurator.Group | undefined {
-    const group = groups.find((currentGroup) => currentGroup.id === groupId);
+    const group = groups.find((group) => group.id === groupId);
     if (group) {
       return group;
     }
 
-    for (const currentGroup of groups) {
-      if (currentGroup.subGroups?.length) {
-        const groupFromSubGroups = this.findGroupById(
-          currentGroup.subGroups,
-          groupId
-        );
-        if (groupFromSubGroups) {
-          return groupFromSubGroups;
+    for (const group of groups) {
+      if (group.subGroups?.length) {
+        const subgroups = this.findGroupById(group.subGroups, groupId);
+        if (subgroups) {
+          return subgroups;
         }
       }
     }

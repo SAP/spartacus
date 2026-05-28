@@ -1326,6 +1326,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(result).toEqual([]);
     });
   });
+
   describe('generateErrorMessages', () => {
     it('should create no error message for incomplete attribute', () => {
       const messageObs = cpqConfiguratorNormalizer['generateErrorMessages'](

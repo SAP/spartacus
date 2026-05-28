@@ -305,18 +305,18 @@ describe('ConfiguratorStateUtils', () => {
       const existingAttribute: Configurator.Attribute = { name: 'attr1' };
       const existingGroups: Configurator.Group[] = [
         {
-          ...ConfiguratorTestUtils.createGroup('tab1'),
+          ...ConfiguratorTestUtils.createGroup('group1'),
           attributes: [existingAttribute],
         },
-        ConfiguratorTestUtils.createGroup('tab2'),
+        ConfiguratorTestUtils.createGroup('group2'),
       ];
       const incomingGroups: Configurator.Group[] = [
         {
-          ...ConfiguratorTestUtils.createGroup('tab1'),
+          ...ConfiguratorTestUtils.createGroup('group1'),
           attributes: [],
         },
         {
-          ...ConfiguratorTestUtils.createGroup('tab2'),
+          ...ConfiguratorTestUtils.createGroup('group2'),
           attributes: [{ name: 'attr2' }],
         },
       ];
