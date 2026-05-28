@@ -18,6 +18,8 @@ import {
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
   BASE_SITE_NORMALIZER,
+  CITY_DISTRICT_NORMALIZER,
+  CITY_NORMALIZER,
   COUNTRY_NORMALIZER,
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
@@ -121,21 +123,19 @@ export class OccSiteAdapter implements SiteAdapter {
     const url = this.occEndpointsService.buildUrl('addressCities', {
       urlParams: { regionId: regionIsocode },
     });
-    return this.http
-      .get<{ cities: City[] }>(url, {
-        params: { fields: 'cities(name,isocode)' },
-      })
-      .pipe(map((res) => res.cities ?? []));
+    return this.http.get<{ cities: City[] }>(url).pipe(
+      map((res) => res.cities ?? []),
+      this.converterService.pipeableMany(CITY_NORMALIZER)
+    );
   }
 
   loadDistricts(cityIsocode: string): Observable<CityDistrict[]> {
     const url = this.occEndpointsService.buildUrl('addressDistricts', {
       urlParams: { cityId: cityIsocode },
     });
-    return this.http
-      .get<{ districts: CityDistrict[] }>(url, {
-        params: { fields: 'districts(name,isocode)' },
-      })
-      .pipe(map((res) => res.districts ?? []));
+    return this.http.get<{ districts: CityDistrict[] }>(url).pipe(
+      map((res) => res.districts ?? []),
+      this.converterService.pipeableMany(CITY_DISTRICT_NORMALIZER)
+    );
   }
 }

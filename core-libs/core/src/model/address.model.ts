@@ -35,6 +35,13 @@ export interface CityDistrict {
   name?: string;
 }
 
+/**
+ * Country isocodes whose addresses use a hierarchical (multi-level)
+ * format: country → region → city → district. For these countries the
+ * address form shows chained dropdowns and skips OCC address verification.
+ */
+export const supportedCountriesUsesHierarchicalAddressFormat = ['CN'];
+
 export interface Address {
   id?: string;
 

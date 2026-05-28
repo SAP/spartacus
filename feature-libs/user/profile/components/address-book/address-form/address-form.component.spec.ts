@@ -389,10 +389,10 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should set isChineseAddress and add validators when CN is selected', () => {
+  it('should set isHierarchicalAddressFormat and add validators when CN is selected', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.countrySelected({ isocode: 'CN' });
-    expect(component.isChineseAddress).toBe(true);
+    expect(component.isHierarchicalAddressFormat).toBe(true);
     expect(component.addressForm.get('cellphone')?.validator).toBeTruthy();
     expect(component.addressForm.get('district')?.validator).toBeTruthy();
   });
@@ -401,13 +401,13 @@ describe('AddressFormComponent', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     component.countrySelected({ isocode: 'CN' });
     component.countrySelected({ isocode: 'US' });
-    expect(component.isChineseAddress).toBe(false);
+    expect(component.isHierarchicalAddressFormat).toBe(false);
     expect(component.addressForm.get('cellphone')?.validator).toBeNull();
     expect(component.addressForm.get('district')?.validator).toBeNull();
   });
 
   it('should reset town and district when region changes for CN address', () => {
-    component.isChineseAddress = true;
+    component.isHierarchicalAddressFormat = true;
     component.addressForm.get('town')?.setValue('old-town');
     component.addressForm.get('district')?.setValue('old-district');
     component.regionSelected({ isocode: 'CN-11' });
@@ -416,7 +416,7 @@ describe('AddressFormComponent', () => {
   });
 
   it('should not reset town and district when region changes for non-CN address', () => {
-    component.isChineseAddress = false;
+    component.isHierarchicalAddressFormat = false;
     component.addressForm.get('town')?.setValue('old-town');
     component.regionSelected({ isocode: 'US-CA' });
     expect(component.addressForm.get('town')?.value).toEqual('old-town');

@@ -38,6 +38,7 @@ import {
   GlobalMessageType,
   LanguageService,
   Region,
+  supportedCountriesUsesHierarchicalAddressFormat,
   Title,
   TranslatePipe,
   TranslationService,
@@ -90,7 +91,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedRegion$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   selectedCity$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  isChineseAddress = false;
+  isHierarchicalAddressFormat = false;
   cities: City[] = [];
   districts: CityDistrict[] = [];
   addresses$: Observable<Address[]>;
@@ -215,7 +216,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.selectedRegion$
         .pipe(
           switchMap((regionIsocode) => {
-            if (!this.isChineseAddress || !regionIsocode) {
+            if (!this.isHierarchicalAddressFormat || !regionIsocode) {
               return of([]);
             }
             return this.userAddressService.getCities(regionIsocode);
@@ -243,7 +244,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.selectedCity$
         .pipe(
           switchMap((cityIsocode) => {
-            if (!this.isChineseAddress) {
+            if (!this.isHierarchicalAddressFormat) {
               return of([]);
             }
             return this.userAddressService.getDistricts(cityIsocode);
@@ -270,7 +271,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         .getActive()
         .pipe(skip(1))
         .subscribe(() => {
-          if (this.isChineseAddress) {
+          if (this.isHierarchicalAddressFormat) {
             this.userAddressService.clearRegions();
             if (this.selectedRegion$.value) {
               this.userAddressService.clearCities();
@@ -331,29 +332,29 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isChineseAddress = country?.isocode === 'CN';
+    this.isHierarchicalAddressFormat =
+      supportedCountriesUsesHierarchicalAddressFormat.includes(
+        country?.isocode ?? ''
+      );
 
     const cellphoneControl = this.addressForm.get('cellphone');
     const districtControl = this.addressForm.get('district');
     const townControl = this.addressForm.get('town');
-    if (this.isChineseAddress) {
+
+    this.addressForm.get('region')?.get('isocode')?.reset();
+    townControl?.reset();
+    districtControl?.reset();
+    this.selectedRegion$.next('');
+    this.selectedCity$.next('');
+
+    if (this.isHierarchicalAddressFormat) {
       cellphoneControl?.setValidators([Validators.required]);
       districtControl?.setValidators([Validators.required]);
-      this.addressForm.get('region')?.get('isocode')?.reset();
-      this.selectedRegion$.next('');
-      this.selectedCity$.next('');
-      townControl?.reset();
-      districtControl?.reset();
     } else {
       cellphoneControl?.clearValidators();
       districtControl?.clearValidators();
-      this.addressForm.get('region')?.get('isocode')?.reset();
-      townControl?.reset('');
-      districtControl?.reset();
       townControl?.enable();
       districtControl?.enable();
-      this.selectedRegion$.next('');
-      this.selectedCity$.next('');
     }
     cellphoneControl?.updateValueAndValidity();
     districtControl?.updateValueAndValidity();
@@ -363,7 +364,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
     if (
       this.featureConfigService.isEnabled('enableHierarchicalAddressFormat') &&
-      this.isChineseAddress
+      this.isHierarchicalAddressFormat
     ) {
       this.selectedRegion$.next(region.isocode ?? '');
       this.addressForm.get('town')?.reset();
@@ -414,7 +415,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.featureConfigService.isEnabled(
             'enableHierarchicalAddressFormat'
           ) &&
-          this.isChineseAddress
+          this.isHierarchicalAddressFormat
         ) {
           this.submitAddress.emit(this.addressForm.value);
         } else {

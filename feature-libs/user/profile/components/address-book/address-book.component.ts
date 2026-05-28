@@ -12,6 +12,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LanguageService,
+  supportedCountriesUsesHierarchicalAddressFormat,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -208,7 +209,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           ) {
             const locationLine = this.buildLocationLine(address);
             const districtName =
-              address.country?.isocode === 'CN'
+              supportedCountriesUsesHierarchicalAddressFormat.includes(
+                address.country?.isocode ?? ''
+              )
                 ? address.cityDistrict?.name || address.district || ''
                 : '';
             text = [
@@ -250,12 +253,19 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   protected buildLocationLine(address: Address): string {
-    if (address.country?.isocode === 'CN') {
-      const cnRegion = address.region?.name || address.region?.isocode || '';
+    if (
+      supportedCountriesUsesHierarchicalAddressFormat.includes(
+        address.country?.isocode ?? ''
+      )
+    ) {
+      const hierarchicalRegion =
+        address.region?.name || address.region?.isocode || '';
       const townName = address.city?.name || address.town || '';
       const countryName =
         address.country?.name || address.country?.isocode || '';
-      return [townName, cnRegion, countryName].filter(Boolean).join(', ');
+      return [townName, hierarchicalRegion, countryName]
+        .filter(Boolean)
+        .join(', ');
     }
     let region = '';
     if (address.region && address.region.isocode) {

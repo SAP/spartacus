@@ -15,8 +15,10 @@ export const defaultOccSiteContextConfig: OccConfig = {
         countries: 'countries',
         regions:
           'countries/${isoCode}/regions?fields=regions(name,isocode,isocodeShort)',
-        addressCities: 'regions/${regionId}/cities',
-        addressDistricts: 'cities/${cityId}/districts',
+        addressCities:
+          'regions/${regionId}/cities?fields=cities(name,isocode)',
+        addressDistricts:
+          'cities/${cityId}/districts?fields=districts(name,isocode)',
         baseSites: 'basesites?fields=FULL',
       },
     },
