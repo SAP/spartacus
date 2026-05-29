@@ -13,13 +13,15 @@ import { UserStoreModule } from './store/user-store.module';
 
 @NgModule({
   imports: [UserStoreModule, UserEventModule],
-  providers: [UserEventBuilder],
+  providers: [
+    UserEventBuilder,
+    provideDefaultConfig(defaultHierarchicalAddressConfig),
+  ],
 })
 export class UserModule {
   static forRoot(): ModuleWithProviders<UserModule> {
     return {
       ngModule: UserModule,
-      providers: [provideDefaultConfig(defaultHierarchicalAddressConfig)],
     };
   }
 }
