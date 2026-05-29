@@ -11,6 +11,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
@@ -31,6 +32,8 @@ import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.direc
   ],
 })
 export class SortingComponent {
+  @ViewChild('ngSelect') select: NgSelectComponent;
+
   @Input()
   sortOptions: SortModel[] | undefined;
   @Input()
@@ -53,6 +56,7 @@ export class SortingComponent {
 
   sortList(sortCode: string): void {
     this.sortListEvent.emit(sortCode);
+    requestAnimationFrame(() => this.select.focus());
   }
 
   get selectedLabel() {
