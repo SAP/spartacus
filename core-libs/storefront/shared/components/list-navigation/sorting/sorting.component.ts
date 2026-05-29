@@ -51,7 +51,7 @@ export class SortingComponent {
   @Output()
   sortListEvent: EventEmitter<string>;
 
-  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
     this.sortListEvent = new EventEmitter<string>();
@@ -91,7 +91,7 @@ export class SortingComponent {
     }
   }
 
-  private focusCombobox(): void {
+  protected focusCombobox(): void {
     this.elementRef.nativeElement
       .querySelector<HTMLElement>('[role="combobox"]')
       ?.focus({ preventScroll: true });
