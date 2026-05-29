@@ -8,8 +8,6 @@ import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   ElementRef,
-  HostBinding,
-  HostListener,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -19,6 +17,13 @@ import {
 @Directive({
   selector: '[cxTruncationTooltip]',
   standalone: true,
+  host: {
+    class: 'cx-truncate-with-elipsis',
+    '(mouseenter)': 'show()',
+    '(focus)': 'show()',
+    '(mouseleave)': 'hide()',
+    '(blur)': 'hide()',
+  },
 })
 // Truncates the host input text with an ellipsis and shows a tooltip with the
 // full value on hover or focus, but only when the text is actually truncated.
@@ -28,8 +33,6 @@ export class TruncationTooltipDirective implements OnInit, OnDestroy {
   private document = inject(DOCUMENT);
   private tooltipEl: HTMLElement;
 
-  @HostBinding('class.cx-truncate-with-elipsis') readonly truncate = true;
-
   ngOnInit(): void {
     this.tooltipEl = this.renderer.createElement('span');
     this.renderer.addClass(this.tooltipEl, 'cx-truncation-tooltip');
@@ -37,8 +40,6 @@ export class TruncationTooltipDirective implements OnInit, OnDestroy {
     this.renderer.appendChild(this.document.body, this.tooltipEl);
   }
 
-  @HostListener('mouseenter')
-  @HostListener('focus')
   show(): void {
     const input = this.el.nativeElement;
     // Only show tooltip when text is truncated (content wider than visible area)
@@ -51,8 +52,6 @@ export class TruncationTooltipDirective implements OnInit, OnDestroy {
     this.renderer.addClass(this.tooltipEl, 'cx-truncation-tooltip--visible');
   }
 
-  @HostListener('mouseleave')
-  @HostListener('blur')
   hide(): void {
     this.renderer.removeClass(this.tooltipEl, 'cx-truncation-tooltip--visible');
   }
