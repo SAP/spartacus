@@ -671,7 +671,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
-    it('should raise UpdateConfigurationFinalize, UpdatePrices and SearchVariants without ChangeGroup when current group is already a conflict group', () => {
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup when current group is a conflict group id', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: productConfiguration.owner.key,
@@ -688,17 +688,23 @@ describe('ConfiguratorEffect', () => {
         );
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
         ...productConfigurationWithConflict,
-        interactionState: { currentGroup: GROUP_ID_CONFLICT_2 },
+        interactionState: { currentGroup: GROUP_ID_CONFLICT_1 },
       });
       const searchVariantsAction = new ConfiguratorActions.SearchVariants(
         productConfigurationWithConflict
       );
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfigurationWithConflict,
+        groupId: GROUP_ID_CONFLICT_1,
+        parentGroupId: GROUP_ID_CONFLICT_HEADER,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bcde)', {
         b: finalizeSuccess,
         c: updatePrices,
         d: searchVariantsAction,
+        e: changeGroup,
       });
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected

@@ -306,7 +306,7 @@ export class ConfiguratorBasicEffects {
           return this.store.pipe(
             select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
             take(1),
-            filter((hasPendingChanges) => hasPendingChanges === false),
+            filter((hasPendingChanges) => !hasPendingChanges),
             switchMap(() =>
               this.store.pipe(
                 select(
@@ -314,8 +314,14 @@ export class ConfiguratorBasicEffects {
                 ),
                 take(1),
                 map((currentGroupId) => {
+                  const applicableCurrentGroupId =
+                    currentGroupId &&
+                    !currentGroupId.startsWith(Configurator.ConflictIdPrefix)
+                      ? currentGroupId
+                      : undefined;
+
                   const groupIdFromPayload =
-                    currentGroupId ??
+                    applicableCurrentGroupId ??
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
                       payload.interactionState.isConflictResolutionMode
@@ -326,10 +332,10 @@ export class ConfiguratorBasicEffects {
                       this.configuratorGroupUtilsService.getGroupById(
                         payload.groups,
                         groupIdFromPayload
-                      ),
-                      undefined
+                      )
                     );
-                  console.log('currentGroupId: ', currentGroupId);
+
+                  console.log('currentGroupId: ', applicableCurrentGroupId);
                   console.log('groupIdFromPayload: ', groupIdFromPayload);
                   console.log(
                     'parentGroupFromPayload: ',
@@ -338,8 +344,9 @@ export class ConfiguratorBasicEffects {
                   console.log(
                     '#####################################################'
                   );
+
                   return {
-                    currentGroupId,
+                    applicableCurrentGroupId,
                     groupIdFromPayload,
                     parentGroupFromPayload,
                   };
@@ -360,7 +367,7 @@ export class ConfiguratorBasicEffects {
                     });
                   const searchVariantsAction =
                     new ConfiguratorActions.SearchVariants(payload);
-                  return container.currentGroupId ===
+                  return container.applicableCurrentGroupId ===
                     container.groupIdFromPayload
                     ? [
                         updateFinalizeSuccessAction,
@@ -401,7 +408,7 @@ export class ConfiguratorBasicEffects {
               )
             ),
             take(1),
-            filter((hasPendingChanges) => hasPendingChanges === false),
+            filter((hasPendingChanges) => !hasPendingChanges),
             map(
               () =>
                 new ConfiguratorActions.UpdateConfigurationFinalizeFail(
@@ -451,7 +458,7 @@ export class ConfiguratorBasicEffects {
             )
           ),
           take(1),
-          filter((hasPendingChanges) => hasPendingChanges === false),
+          filter((hasPendingChanges) => !hasPendingChanges),
           switchMap(() => {
             return this.configuratorCommonsConnector
               .readConfiguration(
