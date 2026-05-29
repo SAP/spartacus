@@ -4,14 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  PLATFORM_ID,
-  inject,
-} from '@angular/core';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   Address,
   FeatureConfigService,
@@ -68,7 +62,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   private featureConfigService = inject(FeatureConfigService);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
-  private platformId = inject(PLATFORM_ID);
 
   constructor(
     public service: AddressBookComponentService,
@@ -82,7 +75,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.service.loadAddresses();
 
     if (
-      isPlatformBrowser(this.platformId) &&
       this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
     ) {
       this.subscription.add(
@@ -217,7 +209,10 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             )
           ) {
             const locationLine = this.buildLocationLine(address);
-            const districtName = this.usesHierarchicalAddressFormat(address)
+            const districtName = (
+              this.hierarchicalAddressConfig.hierarchicalAddress
+                ?.countriesUsingHierarchicalAddressFormat ?? []
+            ).includes(address.country?.isocode ?? '')
               ? address.cityDistrict?.name || address.district || ''
               : '';
             text = [
@@ -259,7 +254,12 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   protected buildLocationLine(address: Address): string {
-    if (this.usesHierarchicalAddressFormat(address)) {
+    if (
+      (
+        this.hierarchicalAddressConfig.hierarchicalAddress
+          ?.countriesUsingHierarchicalAddressFormat ?? []
+      ).includes(address.country?.isocode ?? '')
+    ) {
       const hierarchicalRegion =
         address.region?.name || address.region?.isocode || '';
       const townName = address.city?.name || address.town || '';
@@ -274,13 +274,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
       region = address.region.isocode + ', ';
     }
     return address.town + ', ' + region + address.country?.isocode;
-  }
-
-  protected usesHierarchicalAddressFormat(address: Address): boolean {
-    return (
-      this.hierarchicalAddressConfig.hierarchicalAddress
-        ?.countriesUsingHierarchicalAddressFormat ?? []
-    ).includes(address.country?.isocode ?? '');
   }
 
   setAddressAsDefault(address: Address): void {

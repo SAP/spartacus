@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, isPlatformBrowser, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,7 +16,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
 import {
@@ -88,7 +87,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   private featureConfigService = inject(FeatureConfigService);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
-  private platformId = inject(PLATFORM_ID);
 
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
@@ -271,9 +269,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   protected initLanguageSubscription(): void {
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
     this.subscription.add(
       this.languageService
         .getActive()

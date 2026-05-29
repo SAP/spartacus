@@ -34,7 +34,9 @@ const suggestedAddresses: AddressValidation = {
 };
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine.createSpy().and.returnValue(true);
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
 }
 
 describe('OccUserAddressAdapter', () => {
@@ -165,7 +167,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should request FULL address fields when enableHierarchicalAddressFormat is enabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBe('addresses(FULL)');
@@ -173,7 +175,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should not request fields param when enableHierarchicalAddressFormat is disabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBeNull();
