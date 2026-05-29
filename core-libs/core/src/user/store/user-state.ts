@@ -56,8 +56,8 @@ export interface UserState {
   countries: DeliveryCountriesState;
   payments: StateUtils.LoaderState<PaymentDetails[]>;
   regions: StateUtils.LoaderState<RegionsState>;
-  cities?: StateUtils.LoaderState<CitiesState>;
-  districts?: StateUtils.LoaderState<DistrictsState>;
+  cities: StateUtils.LoaderState<CitiesState>;
+  districts: StateUtils.LoaderState<DistrictsState>;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
