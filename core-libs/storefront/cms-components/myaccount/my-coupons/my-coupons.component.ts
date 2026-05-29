@@ -5,7 +5,13 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   CustomerCouponSearchResult,
@@ -16,7 +22,7 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
 import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
@@ -25,6 +31,7 @@ import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { CouponCardComponent } from './coupon-card/coupon-card.component';
 import { MyCouponsComponentService } from './my-coupons.component.service';
+import { AutoFocusService } from '../../../layout/a11y/keyboard-focus/autofocus';
 
 @Component({
   selector: 'cx-my-coupons',
@@ -89,6 +96,8 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   }>;
 
   protected launchDialogService = inject(LaunchDialogService);
+  protected autoFocusService = inject(AutoFocusService);
+  protected host = inject(ElementRef<HTMLElement>);
 
   constructor(
     protected couponService: CustomerCouponService,
@@ -141,11 +150,19 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       const couponCode = resultStr.substring(index + 1);
       if (couponCode !== undefined && couponCode.length > 0) {
-        this.launchDialogService.openDialogAndSubscribe(
+        const dialog = this.launchDialogService.openDialog(
           LAUNCH_CALLER.CLAIM_DIALOG,
+          undefined,
           undefined,
           { coupon: couponCode, pageSize: this.PAGE_SIZE }
         );
+        if (dialog) {
+          this.subscriptions.add(
+            dialog.pipe(take(1)).subscribe(() => {
+              this.restoreFocus(this.host.nativeElement);
+            })
+          );
+        }
       }
     }
   }
@@ -189,6 +206,24 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
       this.couponService.subscribeCustomerCoupon(couponId);
     } else {
       this.couponService.unsubscribeCustomerCoupon(couponId);
+    }
+  }
+
+  /**
+   * When the dialog is opened via a URL fragment (no trigger element), focus is lost
+   * after closing. We find the first focusable child and focus it manually.
+   * If none exists, a temporary `tabindex="-1"` is added to the host so it can
+   * receive programmatic focus without joining the tab order.
+   */
+  protected restoreFocus(element: HTMLElement): void {
+    const target = this.autoFocusService.findFirstFocusable(element) ?? element;
+    const hadTabindex = target.hasAttribute('tabindex');
+    if (!hadTabindex) {
+      target.setAttribute('tabindex', '-1');
+    }
+    target.focus();
+    if (!hadTabindex) {
+      target.removeAttribute('tabindex');
     }
   }
 

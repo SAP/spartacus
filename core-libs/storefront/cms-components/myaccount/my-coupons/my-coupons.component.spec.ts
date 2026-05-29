@@ -26,8 +26,9 @@ import {
   SortingComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
+import { AutoFocusService } from '../../../layout/a11y/keyboard-focus/autofocus';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponent } from './my-coupons.component';
@@ -157,7 +158,7 @@ class MockSortingComponent {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
+  openDialog(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
     return EMPTY;
   }
 }
@@ -369,9 +370,57 @@ describe('MyCouponsComponent', () => {
 
   it('should be able to open coupon claim dialog if has hash str in location', () => {
     spyOn(component, 'getHashStr').and.returnValue(String('#testcode'));
+    spyOn(launchDialogService, 'openDialog').and.returnValue(EMPTY);
     component.ngOnInit();
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
     fixture.detectChanges();
-    expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.CLAIM_DIALOG,
+      undefined,
+      undefined,
+      { coupon: 'testcode', pageSize: 10 }
+    );
+  });
+
+  describe('restoreFocus', () => {
+    let autoFocusService: AutoFocusService;
+    let dialogClose$: Subject<any>;
+
+    beforeEach(() => {
+      autoFocusService = TestBed.inject(AutoFocusService);
+      dialogClose$ = new Subject();
+      spyOn(component, 'getHashStr').and.returnValue('#testcode');
+      spyOn(launchDialogService, 'openDialog').and.returnValue(dialogClose$);
+    });
+
+    it('should focus the first focusable child when the dialog closes', () => {
+      const focusableChild = document.createElement('button');
+      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
+        focusableChild
+      );
+      spyOn(focusableChild, 'focus');
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      dialogClose$.next('reason');
+
+      expect(autoFocusService.findFirstFocusable).toHaveBeenCalledWith(
+        component['host'].nativeElement
+      );
+      expect(focusableChild.focus).toHaveBeenCalled();
+    });
+
+    it('should temporarily set tabindex="-1" on the host when no focusable child exists', () => {
+      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
+      const host = component['host'].nativeElement;
+      spyOn(host, 'focus');
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      dialogClose$.next('reason');
+
+      // tabindex must be cleaned up after focus
+      expect(host.hasAttribute('tabindex')).toBeFalsy();
+      expect(host.focus).toHaveBeenCalled();
+    });
   });
 });
