@@ -60,7 +60,7 @@ export class OpfCheckoutPaymentWrapperService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected winRef = inject(WindowRef);
-  private featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
 
   protected lastPaymentOptionId?: number;
   protected readonly isUpdatePaymentTransactionFeatureEnabled =
@@ -155,7 +155,7 @@ export class OpfCheckoutPaymentWrapperService {
           this.storePaymentSessionId(
             paymentOptionConfig,
             useUpdatePaymentTransaction,
-            this.getPaymentConfigurationId(paymentOptionId)
+            String(paymentOptionId)
           );
           this.renderPaymentGateway(paymentOptionConfig);
         }
@@ -178,12 +178,16 @@ export class OpfCheckoutPaymentWrapperService {
     useUpdatePaymentTransaction = false,
     paymentConfigurationId?: string
   ): void {
-    const paymentSessionId = useUpdatePaymentTransaction
-      ? paymentOptionConfig.paymentSessionId
-      : paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-          paymentOptionConfig.paymentSessionId
-        ? paymentOptionConfig.paymentSessionId
-        : undefined;
+    let paymentSessionId: string | undefined;
+
+    if (useUpdatePaymentTransaction) {
+      paymentSessionId = paymentOptionConfig.paymentSessionId;
+    } else if (
+      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+      paymentOptionConfig.paymentSessionId
+    ) {
+      paymentSessionId = paymentOptionConfig.paymentSessionId;
+    }
 
     this.updatePaymentSessionMetadata(paymentSessionId, paymentConfigurationId);
   }
@@ -245,10 +249,6 @@ export class OpfCheckoutPaymentWrapperService {
         ? paymentConfigurationId
         : undefined,
     });
-  }
-
-  protected getPaymentConfigurationId(paymentOptionId: number): string {
-    return String(paymentOptionId);
   }
 
   reloadPaymentMode(): void {

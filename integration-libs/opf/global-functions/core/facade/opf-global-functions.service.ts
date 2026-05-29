@@ -638,7 +638,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
     return this.cartAccessCodeFacade.getCartAccessCode(userId, cartId).pipe(
       map((response) => this.extractOtpKey(response)),
-      filter((otpKey) => Boolean(otpKey)),
+      filter(Boolean),
       switchMap((otpKey) =>
         this.buildAndInitiatePaymentConfig(
           paymentConfig,
@@ -701,7 +701,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
     return this.cartAccessCodeFacade.getCartAccessCode(userId, cartId).pipe(
       map((response) => this.extractOtpKey(response)),
-      filter((otpKey) => Boolean(otpKey)),
+      filter(Boolean),
       switchMap((otpKey) =>
         this.buildAndUpdatePaymentConfig(updatePaymentConfig, otpKey as string)
       ),
