@@ -155,7 +155,7 @@ export class OpfCheckoutPaymentWrapperService {
           this.storePaymentSessionId(
             paymentOptionConfig,
             useUpdatePaymentTransaction,
-            String(paymentOptionId)
+            this.getPaymentConfigurationId(paymentOptionId)
           );
           this.renderPaymentGateway(paymentOptionConfig);
         }
@@ -177,7 +177,7 @@ export class OpfCheckoutPaymentWrapperService {
     paymentOptionConfig: OpfPaymentSessionData,
     useUpdatePaymentTransaction = false,
     paymentConfigurationId?: string
-  ) {
+  ): void {
     const paymentSessionId = useUpdatePaymentTransaction
       ? paymentOptionConfig.paymentSessionId
       : paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
@@ -185,12 +185,7 @@ export class OpfCheckoutPaymentWrapperService {
         ? paymentOptionConfig.paymentSessionId
         : undefined;
 
-    this.opfMetadataStoreService.updateOpfMetadata({
-      opfPaymentSessionId: paymentSessionId,
-      opfPaymentSessionConfigurationId: paymentSessionId
-        ? paymentConfigurationId
-        : undefined,
-    });
+    this.updatePaymentSessionMetadata(paymentSessionId, paymentConfigurationId);
   }
 
   protected getOrCreatePaymentSessionId(paymentConfig: {
@@ -212,11 +207,10 @@ export class OpfCheckoutPaymentWrapperService {
           return throwError(() => new Error('Missing payment session ID'));
         }
 
-        this.opfMetadataStoreService.updateOpfMetadata({
-          opfPaymentSessionId: generatedPaymentSessionId,
-          opfPaymentSessionConfigurationId:
-            paymentConfig.config?.configurationId,
-        });
+        this.updatePaymentSessionMetadata(
+          generatedPaymentSessionId,
+          paymentConfig.config?.configurationId
+        );
 
         return of(generatedPaymentSessionId);
       })
@@ -233,12 +227,28 @@ export class OpfCheckoutPaymentWrapperService {
     }
 
     if (!paymentConfigurationId) {
-      return metadata.opfPaymentSessionId;
+      return undefined;
     }
 
     return metadata.opfPaymentSessionConfigurationId === paymentConfigurationId
       ? metadata.opfPaymentSessionId
       : undefined;
+  }
+
+  protected updatePaymentSessionMetadata(
+    paymentSessionId?: string,
+    paymentConfigurationId?: string
+  ): void {
+    this.opfMetadataStoreService.updateOpfMetadata({
+      opfPaymentSessionId: paymentSessionId,
+      opfPaymentSessionConfigurationId: paymentSessionId
+        ? paymentConfigurationId
+        : undefined,
+    });
+  }
+
+  protected getPaymentConfigurationId(paymentOptionId: number): string {
+    return String(paymentOptionId);
   }
 
   reloadPaymentMode(): void {
