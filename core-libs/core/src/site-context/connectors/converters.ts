@@ -7,12 +7,7 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '../../util/converter.service';
 import { BaseSite, Currency, Language } from '../../model/misc.model';
-import {
-  City,
-  CityDistrict,
-  Country,
-  Region,
-} from '../../model/address.model';
+import { City, CityDistrict, Country, Region } from '../../model/address.model';
 
 export const LANGUAGE_NORMALIZER = new InjectionToken<Converter<any, Language>>(
   'LanguageNormalizer'

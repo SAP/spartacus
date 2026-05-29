@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -73,6 +73,7 @@ import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
+    NgTemplateOutlet,
     FormRequiredAsterisksComponent,
     NgSelectComponent,
     NgSelectA11yDirective,

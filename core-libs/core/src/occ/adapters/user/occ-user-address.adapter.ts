@@ -54,15 +54,13 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       ? { headers, params: { fields: 'addresses(FULL)' } }
       : { headers };
 
-    return this.http
-      .get<Occ.AddressList>(url, options)
-      .pipe(
-        catchError((error: any) => {
-          throw tryNormalizeHttpError(error, this.logger);
-        }),
-        map((addressList) => addressList.addresses ?? []),
-        this.converter.pipeableMany(ADDRESS_NORMALIZER)
-      );
+    return this.http.get<Occ.AddressList>(url, options).pipe(
+      catchError((error: any) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      }),
+      map((addressList) => addressList.addresses ?? []),
+      this.converter.pipeableMany(ADDRESS_NORMALIZER)
+    );
   }
 
   add(userId: string, address: Address): Observable<{}> {
