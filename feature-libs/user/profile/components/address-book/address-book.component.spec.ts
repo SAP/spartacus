@@ -13,6 +13,7 @@ import {
   FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
+  HierarchicalAddressConfig,
   I18nTestingModule,
   LanguageService,
   MockDatePipe,
@@ -132,6 +133,14 @@ describe('AddressBookComponent', () => {
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
+        },
+        {
+          provide: HierarchicalAddressConfig,
+          useValue: {
+            hierarchicalAddress: {
+              countriesUsingHierarchicalAddressFormat: ['CN'],
+            },
+          },
         },
       ],
     })

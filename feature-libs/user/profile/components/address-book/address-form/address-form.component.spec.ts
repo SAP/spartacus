@@ -14,6 +14,7 @@ import {
   Country,
   FeatureConfigService,
   GlobalMessageService,
+  HierarchicalAddressConfig,
   I18nTestingModule,
   LanguageService,
   Region,
@@ -179,6 +180,14 @@ describe('AddressFormComponent', () => {
         {
           provide: FeatureConfigService,
           useClass: MockFeatureConfigService,
+        },
+        {
+          provide: HierarchicalAddressConfig,
+          useValue: {
+            hierarchicalAddress: {
+              countriesUsingHierarchicalAddressFormat: ['CN'],
+            },
+          },
         },
       ],
     })

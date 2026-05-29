@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,6 +16,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  PLATFORM_ID,
   ViewChild,
 } from '@angular/core';
 import {
@@ -34,11 +35,12 @@ import {
   Country,
   ErrorModel,
   FeatureConfigService,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
+  HierarchicalAddressConfig,
   LanguageService,
   Region,
-  supportedCountriesUsesHierarchicalAddressFormat,
   Title,
   TranslatePipe,
   TranslationService,
@@ -77,13 +79,16 @@ import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
     NgSelectA11yDirective,
     FormErrorsComponent,
     AsyncPipe,
+    FeatureDirective,
     TranslatePipe,
   ],
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   protected cdr = inject(ChangeDetectorRef);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
+  protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
+  private platformId = inject(PLATFORM_ID);
 
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
@@ -266,6 +271,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   protected initLanguageSubscription(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.subscription.add(
       this.languageService
         .getActive()
@@ -332,10 +340,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.isHierarchicalAddressFormat =
-      supportedCountriesUsesHierarchicalAddressFormat.includes(
-        country?.isocode ?? ''
-      );
+    this.isHierarchicalAddressFormat = (
+      this.hierarchicalAddressConfig.hierarchicalAddress
+        ?.countriesUsingHierarchicalAddressFormat ?? []
+    ).includes(country?.isocode ?? '');
 
     const cellphoneControl = this.addressForm.get('cellphone');
     const districtControl = this.addressForm.get('district');

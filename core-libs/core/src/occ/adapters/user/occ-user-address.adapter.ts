@@ -32,7 +32,7 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
   protected logger = inject(LoggerService);
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected http: HttpClient,

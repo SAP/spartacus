@@ -33,7 +33,7 @@ const suggestedAddresses: AddressValidation = {
   suggestedAddresses: [address],
 };
 
-class MockFeatureConfigService {
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = jasmine.createSpy().and.returnValue(true);
 }
 
@@ -42,7 +42,7 @@ describe('OccUserAddressAdapter', () => {
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
-  let featureConfigService: MockFeatureConfigService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,9 +66,7 @@ describe('OccUserAddressAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    featureConfigService = TestBed.inject(
-      FeatureConfigService
-    ) as unknown as MockFeatureConfigService;
+    featureConfigService = TestBed.inject(FeatureConfigService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
@@ -167,7 +165,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should request FULL address fields when enableHierarchicalAddressFormat is enabled', () => {
-      featureConfigService.isEnabled.and.returnValue(true);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBe('addresses(FULL)');
@@ -175,7 +173,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should not request fields param when enableHierarchicalAddressFormat is disabled', () => {
-      featureConfigService.isEnabled.and.returnValue(false);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBeNull();
