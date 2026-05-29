@@ -45,6 +45,7 @@ export class TruncationTooltipDirective implements OnInit, OnDestroy {
     // Only show tooltip when text is truncated (content wider than visible area)
     if (input.scrollWidth <= input.clientWidth) return;
 
+    // Position the tooltip rectangle above the input field
     const rect = input.getBoundingClientRect();
     this.renderer.setProperty(this.tooltipEl, 'textContent', input.value);
     this.renderer.setStyle(this.tooltipEl, 'top', `${rect.top}px`);
