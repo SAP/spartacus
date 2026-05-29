@@ -29,5 +29,9 @@ declare module '@spartacus/opf/base/root' {
      * Endpoint to initiate payment provider.
      */
     initiatePayment?: string | OpfApiEndpoint;
+    /**
+     * Endpoint to update an existing payment transaction/session.
+     */
+    updatePaymentTransaction?: string | OpfApiEndpoint;
   }
 }

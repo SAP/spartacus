@@ -354,16 +354,68 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       pattern: OpfPaymentRenderPattern.FULL_PAGE,
       paymentSessionId: mockPaymentSessionId,
     };
-    (service as any).storePaymentSessionId(mockPaymentSessionData);
+    (service as any).storePaymentSessionId(
+      mockPaymentSessionData,
+      false,
+      String(mockPaymentOptionId)
+    );
     expect(opfMetadataStoreServiceMock.updateOpfMetadata).toHaveBeenCalledWith({
       opfPaymentSessionId: mockPaymentSessionId,
+      opfPaymentSessionConfigurationId: String(mockPaymentOptionId),
     });
 
     mockPaymentSessionData.pattern = OpfPaymentRenderPattern.HOSTED_FIELDS;
     (service as any).storePaymentSessionId(mockPaymentSessionData);
     expect(opfMetadataStoreServiceMock.updateOpfMetadata).toHaveBeenCalledWith({
       opfPaymentSessionId: undefined,
+      opfPaymentSessionConfigurationId: undefined,
     });
+  });
+
+  it('should return stored paymentSessionId only for matching configurationId', () => {
+    (opfMetadataStoreServiceMock as any).opfMetadataState = {
+      value: {
+        opfPaymentSessionId: 'stored-session',
+        opfPaymentSessionConfigurationId: '123',
+      },
+    };
+
+    expect((service as any).getStoredPaymentSessionId('123')).toEqual(
+      'stored-session'
+    );
+    expect((service as any).getStoredPaymentSessionId('999')).toBeUndefined();
+    expect((service as any).getStoredPaymentSessionId()).toBeUndefined();
+  });
+
+  it('should initiate and store a new session when stored configurationId does not match', (done) => {
+    (opfMetadataStoreServiceMock as any).opfMetadataState = {
+      value: {
+        opfPaymentSessionId: 'stored-session',
+        opfPaymentSessionConfigurationId: '123',
+      },
+    };
+
+    opfPaymentFacadeMock.initiatePayment.and.returnValue(
+      of({ paymentSessionId: 'new-session' })
+    );
+
+    (service as any)
+      .getOrCreatePaymentSessionId({
+        config: {
+          configurationId: '999',
+        },
+      })
+      .subscribe((paymentSessionId: string) => {
+        expect(paymentSessionId).toEqual('new-session');
+        expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
+        expect(
+          opfMetadataStoreServiceMock.updateOpfMetadata
+        ).toHaveBeenCalledWith({
+          opfPaymentSessionId: 'new-session',
+          opfPaymentSessionConfigurationId: '999',
+        });
+        done();
+      });
   });
 
   it('should render payment gateway with a hidden form and submit button', () => {
