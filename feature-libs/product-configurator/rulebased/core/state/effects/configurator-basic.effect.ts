@@ -335,16 +335,6 @@ export class ConfiguratorBasicEffects {
                       )
                     );
 
-                  console.log('currentGroupId: ', applicableCurrentGroupId);
-                  console.log('groupIdFromPayload: ', groupIdFromPayload);
-                  console.log(
-                    'parentGroupFromPayload: ',
-                    parentGroupFromPayload
-                  );
-                  console.log(
-                    '#####################################################'
-                  );
-
                   return {
                     applicableCurrentGroupId,
                     groupIdFromPayload,
