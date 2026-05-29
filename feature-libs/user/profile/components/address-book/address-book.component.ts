@@ -209,10 +209,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             )
           ) {
             const locationLine = this.buildLocationLine(address);
-            const districtName = (
-              this.hierarchicalAddressConfig.hierarchicalAddress
-                ?.countriesUsingHierarchicalAddressFormat ?? []
-            ).includes(address.country?.isocode ?? '')
+            const districtName = this.usesHierarchicalAddressFormat(address)
               ? address.cityDistrict?.name || address.district || ''
               : '';
             text = [
@@ -254,12 +251,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   protected buildLocationLine(address: Address): string {
-    if (
-      (
-        this.hierarchicalAddressConfig.hierarchicalAddress
-          ?.countriesUsingHierarchicalAddressFormat ?? []
-      ).includes(address.country?.isocode ?? '')
-    ) {
+    if (this.usesHierarchicalAddressFormat(address)) {
       const hierarchicalRegion =
         address.region?.name || address.region?.isocode || '';
       const townName = address.city?.name || address.town || '';
@@ -274,6 +266,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
       region = address.region.isocode + ', ';
     }
     return address.town + ', ' + region + address.country?.isocode;
+  }
+
+  protected usesHierarchicalAddressFormat(address: Address): boolean {
+    return (
+      this.hierarchicalAddressConfig.hierarchicalAddress
+        ?.countriesUsingHierarchicalAddressFormat ?? []
+    ).includes(address.country?.isocode ?? '');
   }
 
   setAddressAsDefault(address: Address): void {
