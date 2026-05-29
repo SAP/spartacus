@@ -116,6 +116,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
     useFeatureStyles('alignNavigationMenuWithHeader');
+    useFeatureStyles('cdsBottomHeaderSlotAdjustPosition');
   }
 
   ngOnInit(): void {
