@@ -592,4 +592,38 @@ describe('AddressFormComponent', () => {
 
     expect(defaultAddressCheckbox()).toBe(null);
   });
+
+  describe('toggle off behavior', () => {
+    let featureConfigService: FeatureConfigService;
+
+    beforeEach(() => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+    });
+
+    it('countrySelected should not set isHierarchicalAddressFormat', () => {
+      component.isHierarchicalAddressFormat = true;
+      component.countrySelected({ isocode: 'CN' });
+      expect(component.isHierarchicalAddressFormat).toBe(true);
+    });
+
+    it('verifyAddress should call OCC verifyAddress when toggle is off', () => {
+      spyOn(userAddressService, 'verifyAddress').and.returnValue(
+        of({ decision: 'ACCEPT' })
+      );
+      component.ngOnInit();
+      component.addressForm.setValue(mockAddress);
+      component.addressForm.markAsDirty();
+      component.verifyAddress();
+      expect(userAddressService.verifyAddress).toHaveBeenCalled();
+    });
+
+    it('countrySelected should not enter the hierarchical branch when toggle is off', () => {
+      // toggle is off, so isHierarchicalAddressFormat must stay at its current
+      // value even when CN is selected
+      component.isHierarchicalAddressFormat = false;
+      component.countrySelected({ isocode: 'CN' });
+      expect(component.isHierarchicalAddressFormat).toBe(false);
+    });
+  });
 });

@@ -409,6 +409,42 @@ describe('AddressBookComponent', () => {
       component.getCardContent(addressWithNames).subscribe((c) => (card = c));
       expect(card.text.some((t: string) => t.includes('Beijing'))).toBe(true);
     });
+
+    it('should use legacy region+country format when toggle is off', () => {
+      const featureConfigService = TestBed.inject(FeatureConfigService);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      let card: any;
+      component.getCardContent(mockAddress).subscribe((c) => (card = c));
+      expect(card.text.some((t: string) => t.includes('JP-27, JP'))).toBe(true);
+    });
+  });
+
+  describe('toggle off behavior', () => {
+    let featureConfigService: FeatureConfigService;
+
+    beforeEach(() => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+    });
+
+    it('addAddressSubmit should close the form immediately and add the address', () => {
+      component.showAddAddressForm = true;
+      component.addAddressSubmit(mockAddress);
+      expect(component.showAddAddressForm).toBe(false);
+      expect(addressBookComponentService.addUserAddress).toHaveBeenCalledWith(
+        mockAddress
+      );
+    });
+
+    it('editAddressSubmit should close the form immediately and update the address', () => {
+      component.currentAddress = mockAddress;
+      component.showEditAddressForm = true;
+      component.editAddressSubmit(mockAddress);
+      expect(component.showEditAddressForm).toBe(false);
+      expect(
+        addressBookComponentService.updateUserAddress
+      ).toHaveBeenCalledWith(mockAddress.id, mockAddress);
+    });
   });
 
   describe('setAddressAsDefault', () => {
