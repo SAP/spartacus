@@ -180,11 +180,10 @@ export class OpfCheckoutPaymentWrapperService {
   ): void {
     let paymentSessionId: string | undefined;
 
-    if (useUpdatePaymentTransaction) {
-      paymentSessionId = paymentOptionConfig.paymentSessionId;
-    } else if (
-      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-      paymentOptionConfig.paymentSessionId
+    if (
+      useUpdatePaymentTransaction ||
+      (paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+        paymentOptionConfig.paymentSessionId)
     ) {
       paymentSessionId = paymentOptionConfig.paymentSessionId;
     }
