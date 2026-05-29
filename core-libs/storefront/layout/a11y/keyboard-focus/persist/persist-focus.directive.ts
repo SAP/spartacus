@@ -11,7 +11,9 @@ import {
   HostBinding,
   HostListener,
   OnInit,
+  inject,
 } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { BlockFocusDirective } from '../block/block-focus.directive';
 import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
@@ -48,6 +50,8 @@ export class PersistFocusDirective
   implements OnInit, AfterViewInit
 {
   protected defaultConfig: PersistFocusConfig = {};
+
+  private persistFeatureConfigService = inject(FeatureConfigService);
 
   /**
    * The persistence key can be passed directly or through the `FocusConfig.key`.
@@ -107,10 +111,16 @@ export class PersistFocusDirective
     if (!this.isPersisted) {
       return;
     }
-    this.focusTarget.focus({ preventScroll: true });
 
-    if (this.config?.clearOnRestore) {
-      this.service.clear(this.group ?? undefined);
+    if (
+      this.persistFeatureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')
+    ) {
+      this.focusTarget.focus({ preventScroll: true });
+      if (this.config?.clearOnRestore) {
+        this.service.clear(this.group ?? undefined);
+      }
+    } else {
+      this.host.focus({ preventScroll: true });
     }
   }
 

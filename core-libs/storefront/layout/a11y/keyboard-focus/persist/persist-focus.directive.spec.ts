@@ -1,6 +1,7 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeatureConfigService } from '@spartacus/core';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
@@ -43,10 +44,17 @@ class MockPersistFocusService {
   clear(): void {}
 }
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 describe('PersistFocusDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: PersistFocusService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -56,12 +64,17 @@ describe('PersistFocusDirective', () => {
           provide: PersistFocusService,
           useClass: MockPersistFocusService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(PersistFocusService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(service, 'get').and.callThrough();
     spyOn(service, 'set').and.callThrough();
@@ -167,6 +180,35 @@ describe('PersistFocusDirective', () => {
 
     it('should not clear the persisted key when not set', () => {
       (service.get as jasmine.Spy).and.returnValue('key-d');
+
+      fixture.detectChanges();
+
+      expect(service.clear).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('a11yRestoreFocusOnNgSelect toggle disabled', () => {
+    beforeEach(() => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    });
+
+    it('should focus host directly (not inner descendant) when toggle is off', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-e');
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#e')
+      ).nativeElement;
+      const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
+      spyOn(host, 'focus');
+      spyOn(inner, 'focus');
+
+      fixture.detectChanges();
+
+      expect(host.focus).toHaveBeenCalled();
+      expect(inner.focus).not.toHaveBeenCalled();
+    });
+
+    it('should NOT clear the persisted key even when clearOnRestore is true', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-g');
 
       fixture.detectChanges();
 

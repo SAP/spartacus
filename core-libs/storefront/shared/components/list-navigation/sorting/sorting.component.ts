@@ -16,7 +16,11 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { SortModel, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  SortModel,
+  TranslatePipe,
+} from '@spartacus/core';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.directive';
 
@@ -52,12 +56,18 @@ export class SortingComponent {
   sortListEvent: EventEmitter<string>;
 
   protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor() {
     this.sortListEvent = new EventEmitter<string>();
   }
 
   sortList(sortCode: string): void {
+    if (!this.featureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')) {
+      this.sortListEvent.emit(sortCode);
+      return;
+    }
+
     // Bridge the bubble gap: `cxFocus`/persist-focus listens for the native
     // non-bubbling `focus` on `<ng-select>`, but the actual focus target is
     // the inner `[role="combobox"]`. We dispatch a synthetic `focus` on

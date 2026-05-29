@@ -84,6 +84,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @HostListener('keydown')
   onKeyDown() {
+    if (!this.featureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')) {
+      return;
+    }
     Promise.resolve().then(() => {
       this.elementRef.nativeElement
         .closest('.mouse-focus')
