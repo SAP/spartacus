@@ -7,3 +7,4 @@ coverage
 /.nx/cache
 /.nx/workspace-data
 core-libs/styles/vendor/**/*.scss
+core-libs/schematics/src/migrations/2211_19/missing-packages/missing-packages.ts
