@@ -154,7 +154,8 @@ export class OpfCheckoutPaymentWrapperService {
         if (!(paymentOptionConfig instanceof Error)) {
           this.storePaymentSessionId(
             paymentOptionConfig,
-            useUpdatePaymentTransaction
+            useUpdatePaymentTransaction,
+            String(paymentOptionId)
           );
           this.renderPaymentGateway(paymentOptionConfig);
         }
@@ -174,7 +175,8 @@ export class OpfCheckoutPaymentWrapperService {
 
   protected storePaymentSessionId(
     paymentOptionConfig: OpfPaymentSessionData,
-    useUpdatePaymentTransaction = false
+    useUpdatePaymentTransaction = false,
+    paymentConfigurationId?: string
   ) {
     const paymentSessionId = useUpdatePaymentTransaction
       ? paymentOptionConfig.paymentSessionId
@@ -185,6 +187,9 @@ export class OpfCheckoutPaymentWrapperService {
 
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
+      opfPaymentSessionConfigurationId: paymentSessionId
+        ? paymentConfigurationId
+        : undefined,
     });
   }
 
@@ -192,7 +197,9 @@ export class OpfCheckoutPaymentWrapperService {
     otpKey?: string;
     config?: OpfPaymentConfig;
   }): Observable<string> {
-    const paymentSessionId = this.getStoredPaymentSessionId();
+    const paymentSessionId = this.getStoredPaymentSessionId(
+      paymentConfig.config?.configurationId
+    );
 
     if (paymentSessionId) {
       return of(paymentSessionId);
@@ -207,6 +214,8 @@ export class OpfCheckoutPaymentWrapperService {
 
         this.opfMetadataStoreService.updateOpfMetadata({
           opfPaymentSessionId: generatedPaymentSessionId,
+          opfPaymentSessionConfigurationId:
+            paymentConfig.config?.configurationId,
         });
 
         return of(generatedPaymentSessionId);
@@ -214,9 +223,22 @@ export class OpfCheckoutPaymentWrapperService {
     );
   }
 
-  protected getStoredPaymentSessionId(): string | undefined {
-    return this.opfMetadataStoreService.opfMetadataState.value
-      ?.opfPaymentSessionId;
+  protected getStoredPaymentSessionId(
+    paymentConfigurationId?: string
+  ): string | undefined {
+    const metadata = this.opfMetadataStoreService.opfMetadataState.value;
+
+    if (!metadata?.opfPaymentSessionId) {
+      return undefined;
+    }
+
+    if (!paymentConfigurationId) {
+      return metadata.opfPaymentSessionId;
+    }
+
+    return metadata.opfPaymentSessionConfigurationId === paymentConfigurationId
+      ? metadata.opfPaymentSessionId
+      : undefined;
   }
 
   reloadPaymentMode(): void {
