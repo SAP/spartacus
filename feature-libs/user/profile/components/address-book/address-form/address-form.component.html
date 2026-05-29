@@ -158,7 +158,7 @@
     </label>
   </div>
   <div class="row">
-    <ng-container *ngIf="isChineseAddress">
+    <ng-container *ngIf="isHierarchicalAddressFormat">
       <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
         <ng-container *ngIf="regions.length !== 0">
           <div class="form-group col-md-6">
@@ -206,7 +206,7 @@
           <cx-form-required-asterisks />
         </span>
         <ng-select
-          *ngIf="isChineseAddress; else cityTextInput"
+          *ngIf="isHierarchicalAddressFormat; else cityTextInput"
           class="city-select"
           id="city-select"
           formControlName="town"
@@ -250,7 +250,7 @@
         ></cx-form-errors>
       </label>
     </div>
-    <div class="form-group col-md-6" *ngIf="isChineseAddress">
+    <div class="form-group col-md-6" *ngIf="isHierarchicalAddressFormat">
       <label>
         <span class="label-content required"
           >{{ 'addressForm.district' | cxTranslate }}
@@ -312,7 +312,7 @@
       </label>
     </div>
     <ng-container
-      *ngIf="!isChineseAddress && (regions$ | async) as regions"
+      *ngIf="!isHierarchicalAddressFormat && (regions$ | async) as regions"
       formGroupName="region"
     >
       <ng-container *ngIf="regions.length !== 0">
@@ -368,14 +368,14 @@
     </div>
     <div class="form-group col-md-6">
       <label>
-        <span class="label-content" [class.required]="isChineseAddress"
+        <span class="label-content" [class.required]="isHierarchicalAddressFormat"
           >{{
-            (isChineseAddress
+            (isHierarchicalAddressFormat
               ? 'addressForm.cellphone.requiredLabel'
               : 'addressForm.cellphone.label'
             ) | cxTranslate
           }}
-          <cx-form-required-asterisks *ngIf="isChineseAddress" />
+          <cx-form-required-asterisks *ngIf="isHierarchicalAddressFormat" />
         </span>
         <input
           type="tel"
@@ -384,7 +384,7 @@
           formControlName="cellphone"
         />
         <cx-form-errors
-          *ngIf="isChineseAddress"
+          *ngIf="isHierarchicalAddressFormat"
           [translationParams]="{
             label: 'addressForm.cellphone.requiredLabel' | cxTranslate,
           }"
