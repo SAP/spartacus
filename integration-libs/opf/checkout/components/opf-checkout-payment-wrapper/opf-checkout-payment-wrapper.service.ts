@@ -32,6 +32,7 @@ import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/r
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentBrowserInfo,
+  OpfPaymentConfig,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
   OpfPaymentRenderPattern,
@@ -189,13 +190,7 @@ export class OpfCheckoutPaymentWrapperService {
 
   protected getOrCreatePaymentSessionId(paymentConfig: {
     otpKey?: string;
-    config?: {
-      browserInfo?: OpfPaymentBrowserInfo;
-      cartId?: string;
-      configurationId?: string;
-      resultURL?: string;
-      cancelURL?: string;
-    };
+    config?: OpfPaymentConfig;
   }): Observable<string> {
     const paymentSessionId = this.getStoredPaymentSessionId();
 
