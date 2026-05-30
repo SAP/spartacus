@@ -14,6 +14,7 @@ import {
   OpfPaymentSessionData,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitInput,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '../model';
@@ -30,6 +31,7 @@ import { Cart } from '@spartacus/cart/base/root';
         'submitCompletePayment',
         'getAfterRedirectScripts',
         'initiatePayment',
+        'updatePaymentTransaction',
         'setCartPaymentOption',
       ],
     }),
@@ -89,6 +91,15 @@ export abstract class OpfPaymentFacade {
    */
   abstract initiatePayment(
     paymentConfig: OpfPaymentInitiationConfig
+  ): Observable<OpfPaymentSessionData>;
+
+  /**
+   * Abstract method used to update an existing payment transaction/session.
+   *
+   * @param {OpfPaymentUpdateConfig} updatePaymentConfig
+   */
+  abstract updatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
   ): Observable<OpfPaymentSessionData>;
 
   /**

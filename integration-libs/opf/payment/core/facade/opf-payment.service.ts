@@ -13,6 +13,7 @@ import {
   OpfPaymentSessionData,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitInput,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -87,6 +88,17 @@ export class OpfPaymentService implements OpfPaymentFacade {
     this.opfPaymentConnector.initiatePayment(payload.paymentConfig)
   );
 
+  protected updatePaymentTransactionCommand: Command<
+    {
+      updatePaymentConfig: OpfPaymentUpdateConfig;
+    },
+    OpfPaymentSessionData
+  > = this.commandService.create((payload) =>
+    this.opfPaymentConnector.updatePaymentTransaction(
+      payload.updatePaymentConfig
+    )
+  );
+
   protected setCartPaymentOptionCommand: Command<
     {
       userId: string;
@@ -134,6 +146,14 @@ export class OpfPaymentService implements OpfPaymentFacade {
     paymentConfig: OpfPaymentInitiationConfig
   ): Observable<OpfPaymentSessionData> {
     return this.initiatePaymentCommand.execute({ paymentConfig });
+  }
+
+  updatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
+  ): Observable<OpfPaymentSessionData> {
+    return this.updatePaymentTransactionCommand.execute({
+      updatePaymentConfig,
+    });
   }
 
   setCartPaymentOption(
