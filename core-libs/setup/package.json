@@ -27,7 +27,7 @@
     "@spartacus/user": "221121.11.0"
   },
   "optionalDependencies": {
-    "@angular/platform-server": "^21.2.9",
+    "@angular/platform-server": "^21.2.13",
     "express": "^5.1.0"
   },
   "engines": {
