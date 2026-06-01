@@ -14,7 +14,10 @@ import { getUserState } from './feature.selector';
 export const getDistrictsLoaderState: MemoizedSelector<
   StateWithUser,
   LoaderState<DistrictsState>
-> = createSelector(getUserState, (state: UserState) => state.districts);
+> = createSelector(
+  getUserState,
+  (state: UserState) => state.districts ?? StateUtils.initialLoaderState
+);
 
 export const getDistrictsDataAndLoading: MemoizedSelector<
   StateWithUser,
@@ -29,7 +32,7 @@ export const getDistrictsDataAndLoading: MemoizedSelector<
   (state: LoaderState<DistrictsState>) => ({
     loaded: StateUtils.loaderSuccessSelector(state),
     loading: StateUtils.loaderLoadingSelector(state),
-    districts: StateUtils.loaderValueSelector(state).entities,
-    cityIsocode: StateUtils.loaderValueSelector(state).cityIsocode,
+    districts: StateUtils.loaderValueSelector(state)?.entities ?? [],
+    cityIsocode: StateUtils.loaderValueSelector(state)?.cityIsocode ?? null,
   })
 );

@@ -57,7 +57,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   showEditAddressForm = false;
   editCard: string | null;
 
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   protected languageService = inject(LanguageService);
   private featureConfigService = inject(FeatureConfigService);
