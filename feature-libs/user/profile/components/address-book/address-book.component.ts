@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AsyncPipe, isPlatformBrowser, NgFor, NgIf } from '@angular/common';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import {
   Address,
   FeatureConfigService,
@@ -62,6 +68,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   private featureConfigService = inject(FeatureConfigService);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
+  protected platformId = inject(PLATFORM_ID);
 
   constructor(
     public service: AddressBookComponentService,
@@ -75,6 +82,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.service.loadAddresses();
 
     if (
+      isPlatformBrowser(this.platformId) &&
       this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
     ) {
       this.subscription.add(
