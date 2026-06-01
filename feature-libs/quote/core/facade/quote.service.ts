@@ -420,30 +420,33 @@ export class QuoteService implements QuoteFacade {
       }
     );
 
-protected getQuotesStateQuery = ({ currentPage$, sort$ }: QuotesStateParams) =>
-  this.queryService.create<QuoteList>(
-    () =>
-      combineLatest([
-        this.userIdService.takeUserId(),
-        currentPage$,
-        sort$,
-      ]).pipe(
-        switchMap(([userId, currentPage, sort]) =>
-          this.quoteConnector.getQuotes(userId, {
-            currentPage,
-            sort,
-            pageSize: this.viewConfig.view?.defaultPageSize,
+  protected getQuotesStateQuery = ({
+    currentPage$,
+    sort$,
+  }: QuotesStateParams) =>
+    this.queryService.create<QuoteList>(
+      () =>
+        combineLatest([
+          this.userIdService.takeUserId(),
+          currentPage$,
+          sort$,
+        ]).pipe(
+          switchMap(([userId, currentPage, sort]) =>
+            this.quoteConnector.getQuotes(userId, {
+              currentPage,
+              sort,
+              pageSize: this.viewConfig.view?.defaultPageSize,
+            })
+          ),
+          tap(() => {
+            this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
           })
         ),
-        tap(() => {
-          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
-        })
-      ),
-    {
-      reloadOn: [],  // Changes to currentPage$/sort$ are now handled reactively within the factory itself, so reloadOn is no longer needed.
-      resetOn: [LoginEvent],
-    }
-  );
+      {
+        reloadOn: [], // Changes to currentPage$/sort$ are now handled reactively within the factory itself, so reloadOn is no longer needed.
+        resetOn: [LoginEvent],
+      }
+    );
 
   protected setFocusForCreateOrEditAction(action: QuoteActionType) {
     if (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) {
