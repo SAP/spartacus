@@ -6,13 +6,13 @@ import { cold, hot } from 'jasmine-marbles';
 import {
   GlobalMessageService,
   GlobalMessageType,
-} from 'projects/core/src/global-message';
+} from 'core-libs/core/src/global-message';
 import {
   UserActions,
   UserAddressAdapter,
   UserAddressConnector,
   UserAddressService,
-} from 'projects/core/src/user';
+} from 'core-libs/core/src/user';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import * as fromUserAddressesEffect from './cdc-user-addresses.effect';
 import { CdcUserAddressesEffects } from './cdc-user-addresses.effect';

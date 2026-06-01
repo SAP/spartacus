@@ -25,7 +25,7 @@
     "esModuleInterop": true,
     "paths": {
       "@spartacus/schematics": [
-        "projects/schematics/index"
+        "core-libs/schematics/index"
       ],
       "@spartacus/setup": [
         "core-libs/setup/public_api"
@@ -776,11 +776,11 @@
       "@spartacus/assets": [
         "projects/assets/src/public_api"
       ],
-      "@spartacus/core": [
-        "projects/core/public_api"
-      ],
       "@spartacus/storefront": [
-        "projects/storefrontlib/public_api"
+        "core-libs/storefront/public_api"
+      ],
+      "@spartacus/core": [
+        "core-libs/core/public_api"
       ],
       "@spartacus/opf/b2b-checkout": [
         "integration-libs/opf/b2b-checkout/public_api"
@@ -961,7 +961,7 @@
       ],
       "@spartacus/order/document-flow/root": [
         "feature-libs/order/document-flow/root/public_api"
-      ]
+      ],
     },
     "useDefineForClassFields": false
   },

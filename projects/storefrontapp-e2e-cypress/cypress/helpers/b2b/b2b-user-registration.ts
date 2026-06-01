@@ -29,7 +29,7 @@ export function navigateToOrganizationUserRegisterPage() {
   clickHamburger();
   whenJDK17(() => {
     cy.getLoginRegisterLink().click();
-    cy.get(ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR).find('a').click();
+    cy.get('cx-login-register button.btn-register').click();
   });
   whenJDK21(() => {
     const registerPage = waitForPage('/login/register', 'getRegisterPage');

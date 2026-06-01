@@ -16,9 +16,9 @@ import {
   PopoverModule,
   SplitViewService,
 } from '@spartacus/storefront';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { ViewComponent } from 'core-libs/storefront/shared/components/split-view/view/view.component';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { MessageComponent } from '../message/message.component';

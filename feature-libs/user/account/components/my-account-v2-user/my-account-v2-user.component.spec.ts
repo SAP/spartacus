@@ -11,7 +11,7 @@ import {
   UrlPipe,
   User,
 } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { Observable, of } from 'rxjs';
 import { UserAccountFacade } from '../../root/facade';
 import { MyAccountV2UserComponent } from './my-account-v2-user.component';
