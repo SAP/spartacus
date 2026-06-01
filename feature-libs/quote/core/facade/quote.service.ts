@@ -440,7 +440,7 @@ protected getQuotesStateQuery = ({ currentPage$, sort$ }: QuotesStateParams) =>
         })
       ),
     {
-      reloadOn: [],  // currentPage$/sort$ 的变化直接在 factory 内响应，不再需要 reloadOn
+      reloadOn: [],  // Changes to currentPage$/sort$ are now handled reactively within the factory itself, so reloadOn is no longer needed.
       resetOn: [LoginEvent],
     }
   );
