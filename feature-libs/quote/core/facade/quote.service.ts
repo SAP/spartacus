@@ -21,7 +21,6 @@ import {
   QueryService,
   QueryState,
   RoutingService,
-  uniteLatest,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -48,7 +47,6 @@ import {
 import {
   catchError,
   concatMap,
-  distinctUntilChanged,
   filter,
   map,
   mergeMap,
@@ -422,34 +420,30 @@ export class QuoteService implements QuoteFacade {
       }
     );
 
-  protected getQuotesStateQuery = ({
-    currentPage$,
-    sort$,
-  }: QuotesStateParams) =>
-    this.queryService.create<QuoteList>(
-      () =>
-        this.userIdService.takeUserId().pipe(
-          //use withLatestFrom and reloadOn to get full functionality of query
-          withLatestFrom(currentPage$, sort$),
-          distinctUntilChanged(),
-          switchMap(([userId, currentPage, sort]) => {
-            return this.quoteConnector.getQuotes(userId, {
-              currentPage,
-              sort,
-              pageSize: this.viewConfig.view?.defaultPageSize,
-            });
-          }),
-          tap(() => {
-            this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+protected getQuotesStateQuery = ({ currentPage$, sort$ }: QuotesStateParams) =>
+  this.queryService.create<QuoteList>(
+    () =>
+      combineLatest([
+        this.userIdService.takeUserId(),
+        currentPage$,
+        sort$,
+      ]).pipe(
+        switchMap(([userId, currentPage, sort]) =>
+          this.quoteConnector.getQuotes(userId, {
+            currentPage,
+            sort,
+            pageSize: this.viewConfig.view?.defaultPageSize,
           })
         ),
-      {
-        reloadOn: [
-          uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
-        ],
-        resetOn: [LoginEvent],
-      }
-    );
+        tap(() => {
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+        })
+      ),
+    {
+      reloadOn: [],  // currentPage$/sort$ 的变化直接在 factory 内响应，不再需要 reloadOn
+      resetOn: [LoginEvent],
+    }
+  );
 
   protected setFocusForCreateOrEditAction(action: QuoteActionType) {
     if (action === QuoteActionType.EDIT || action === QuoteActionType.CREATE) {
