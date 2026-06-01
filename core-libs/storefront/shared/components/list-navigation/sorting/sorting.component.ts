@@ -8,7 +8,6 @@ import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   inject,
   Input,
@@ -40,7 +39,7 @@ import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.direc
   ],
 })
 export class SortingComponent {
-  ngSelect = viewChild<NgSelectComponent>('ngSelectComponent');
+  ngSelectComponent = viewChild.required(NgSelectComponent);
 
   @Input()
   sortOptions: SortModel[] | undefined;
@@ -58,7 +57,6 @@ export class SortingComponent {
   @Output()
   sortListEvent: EventEmitter<string>;
 
-  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private featureConfigService = inject(FeatureConfigService);
 
   constructor() {
@@ -71,10 +69,26 @@ export class SortingComponent {
       return;
     }
 
+    // Bridge the bubble gap: `cxFocus`/persist-focus listens for the native
+    // non-bubbling `focus` on `<ng-select>`, but the actual focus target is
+    // the inner `[role="combobox"]`. We dispatch a synthetic `focus` on
+    // `<ng-select>` so persist-focus captures the key for the upcoming
+    // destroy/remount cycle. Done here (and not from a focusin listener)
+    // so the key is only set on user-driven sort actions — programmatic
+    // restores don't re-set it, preserving `clearOnRestore`'s route-leak
+    // protection.
+    this.ngSelectComponent().element.dispatchEvent(new FocusEvent('focus'));
+
     this.sortListEvent.emit(sortCode);
-    requestAnimationFrame(() => {
-      this.ngSelect()?.focus();
-    });
+
+    // Covers the case where the parent does not destroy/recreate this
+    // component on sort (e.g. PLP, where the parent reacts to a queryParam
+    // change without remounting). `cxFocus`/persist-focus only restores on
+    // mount, so without an explicit refocus the combobox would lose focus
+    // after the parent's view re-evaluates. requestAnimationFrame is
+    // needed because ng-select's async `change` work resets focus and a
+    // microtask runs too early.
+    requestAnimationFrame(() => this.focusCombobox());
   }
 
   get selectedLabel() {
@@ -84,5 +98,13 @@ export class SortingComponent {
           ?.name ?? this.sortLabels?.[this.selectedOption]
       );
     }
+  }
+
+  protected focusCombobox(): void {
+    // Renderer2 does not expose way for focusing elements
+    // eslint-disable-next-line no-restricted-syntax
+    this.ngSelectComponent()
+      .element.querySelector<HTMLElement>('[role="combobox"]')
+      ?.focus({ preventScroll: true });
   }
 }

@@ -1,5 +1,11 @@
 import { Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
@@ -54,21 +60,19 @@ describe('SortingComponent', () => {
   });
 
   describe('sortList() focus management (a11yRestoreFocusOnNgSelect)', () => {
-    it('should focus the inner combobox after sort when toggle is enabled', (done) => {
+    it('should focus the inner combobox after sort when toggle is enabled', fakeAsync(() => {
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
       ) as HTMLElement;
       spyOn(combobox, 'focus');
 
       component.sortList('relevance');
+      tick(16);
 
-      setTimeout(() => {
-        expect(combobox.focus).toHaveBeenCalled();
-        done();
-      }, 50);
-    });
+      expect(combobox.focus).toHaveBeenCalled();
+    }));
 
-    it('should NOT focus the inner combobox after sort when toggle is disabled', (done) => {
+    it('should NOT focus the inner combobox after sort when toggle is disabled', fakeAsync(() => {
       spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
@@ -76,12 +80,10 @@ describe('SortingComponent', () => {
       spyOn(combobox, 'focus');
 
       component.sortList('relevance');
+      tick(16);
 
-      setTimeout(() => {
-        expect(combobox.focus).not.toHaveBeenCalled();
-        done();
-      }, 50);
-    });
+      expect(combobox.focus).not.toHaveBeenCalled();
+    }));
   });
 
   describe('selectedLabel', () => {
