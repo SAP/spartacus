@@ -290,7 +290,7 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
-    "axios": "1.15.2",
+    "axios": "1.16.0",
     "express-rate-limit": "^8.3.0",
     "@verdaccio/middleware": {
       "express-rate-limit": "5.5.1"
