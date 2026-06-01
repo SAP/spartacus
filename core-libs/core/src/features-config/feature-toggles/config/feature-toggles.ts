@@ -584,6 +584,13 @@ export interface FeatureTogglesInterface {
    * - `OccUserAddressAdapter`
    */
   enableHierarchicalAddressFormat?: boolean;
+
+  /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
+   * instead of `initiatePayment` while selecting/re-initiating payment.
+   *
+   * Legacy behavior uses `initiatePayment`.
+   */
+  opfCheckoutUseUpdatePaymentTransaction?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -654,4 +661,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,
+  opfCheckoutUseUpdatePaymentTransaction: false,
 };

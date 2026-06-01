@@ -363,6 +363,7 @@ if (environment.cpq) {
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
+        opfCheckoutUseUpdatePaymentTransaction: true,
       };
       return appFeatureToggles;
     }),

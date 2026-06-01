@@ -16,8 +16,8 @@
   "dependencies": {
     "@actions/cache": "^6.0.0",
     "@actions/core": "^3.0.0",
-    "@actions/exec": "^1.1.1",
-    "@actions/github": "^6.0.0"
+    "@actions/exec": "^3.0.0",
+    "@actions/github": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
