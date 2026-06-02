@@ -843,7 +843,7 @@ describe('QuoteService', () => {
 
   it('should download proposal document after calling quoteConnector.downloadAttachment', (done) => {
     const vendorQuoteCode = vendorQuote.code;
-    const vendorQuoteAttachmentId = vendorQuote.sapAttachments![0].id;
+    const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
     classUnderTest
       .downloadAttachment(vendorQuoteCode, vendorQuoteAttachmentId)
       .pipe(take(1))
