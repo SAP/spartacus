@@ -315,6 +315,89 @@ describe('QuoteService', () => {
       });
   });
 
+  describe('getQuotesState - reactive request triggering', () => {
+    it('should fire exactly one HTTP request on initial page load', (done) => {
+      const currentPage$ = new BehaviorSubject<number>(0);
+      const sort$ = new BehaviorSubject<string>('byCode');
+
+      classUnderTest
+        .getQuotesState({ currentPage$, sort$ })
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
+          expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
+            currentPage: 0,
+            sort: 'byCode',
+            pageSize: pagination.pageSize,
+          });
+          expect(state.data).toEqual(quoteList);
+          done();
+        });
+    });
+
+    it('should trigger a new request when currentPage changes', (done) => {
+      const currentPage$ = new BehaviorSubject<number>(0);
+      const sort$ = new BehaviorSubject<string>('byCode');
+
+      const quotesState$ = classUnderTest.getQuotesState({
+        currentPage$,
+        sort$,
+      });
+
+      // Subscribe and wait for initial emission, then change page
+      quotesState$.pipe(take(1)).subscribe(() => {
+        // Reset call count after the initial request
+        (quoteConnector.getQuotes as jasmine.Spy).calls.reset();
+
+        // Change the current page
+        currentPage$.next(1);
+
+        // Now subscribe again to get the result of the page change
+        quotesState$.pipe(take(1)).subscribe((state) => {
+          expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
+          expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
+            currentPage: 1,
+            sort: 'byCode',
+            pageSize: pagination.pageSize,
+          });
+          expect(state.data).toEqual(quoteList);
+          done();
+        });
+      });
+    });
+
+    it('should trigger a new request when sort changes', (done) => {
+      const currentPage$ = new BehaviorSubject<number>(0);
+      const sort$ = new BehaviorSubject<string>('byCode');
+
+      const quotesState$ = classUnderTest.getQuotesState({
+        currentPage$,
+        sort$,
+      });
+
+      // Subscribe and wait for initial emission, then change sort
+      quotesState$.pipe(take(1)).subscribe(() => {
+        // Reset call count after the initial request
+        (quoteConnector.getQuotes as jasmine.Spy).calls.reset();
+
+        // Change the sort
+        sort$.next('byDate');
+
+        // Now subscribe again to get the result of the sort change
+        quotesState$.pipe(take(1)).subscribe((state) => {
+          expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
+          expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
+            currentPage: 0,
+            sort: 'byDate',
+            pageSize: pagination.pageSize,
+          });
+          expect(state.data).toEqual(quoteList);
+          done();
+        });
+      });
+    });
+  });
+
   it('should return quote details query state after calling quoteConnector.getQuote', () => {
     classUnderTest
       .getQuoteDetailsQueryState()
@@ -760,7 +843,7 @@ describe('QuoteService', () => {
 
   it('should download proposal document after calling quoteConnector.downloadAttachment', (done) => {
     const vendorQuoteCode = vendorQuote.code;
-    const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
+    const vendorQuoteAttachmentId = vendorQuote.sapAttachments![0].id;
     classUnderTest
       .downloadAttachment(vendorQuoteCode, vendorQuoteAttachmentId)
       .pipe(take(1))
