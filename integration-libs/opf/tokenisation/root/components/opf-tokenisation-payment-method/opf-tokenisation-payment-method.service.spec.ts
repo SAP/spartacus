@@ -41,6 +41,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
   let checkoutDeliveryAddressFacade: jasmine.SpyObj<CheckoutDeliveryAddressFacade>;
   let focusService: jasmine.SpyObj<SelectFocusUtility>;
   let windowRef: jasmine.SpyObj<WindowRef>;
+  let metadataStateSubject: BehaviorSubject<any>;
 
   const mockPaymentDetails: PaymentDetails = {
     id: 'payment-1',
@@ -72,6 +73,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       'loadPaymentMethods',
       'getPaymentMethods',
       'getPaymentMethodsLoading',
+      'setPaymentMethodAsDefault',
     ]);
     checkoutPaymentFacade = jasmine.createSpyObj('CheckoutPaymentFacade', [
       'getPaymentDetailsState',
@@ -122,6 +124,10 @@ describe('OpfTokenisationPaymentMethodService', () => {
       document: mockDocument,
     });
 
+    metadataStateSubject = new BehaviorSubject<any>(
+      mockMetadataStateSavedCards
+    );
+
     // Default mock returns
     userPaymentService.getPaymentMethods.and.returnValue(of([]));
     userPaymentService.getPaymentMethodsLoading.and.returnValue(of(false));
@@ -129,7 +135,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       of({ loading: false, error: false, data: undefined })
     );
     opfMetadataStoreService.getOpfMetadataState.and.returnValue(
-      of(mockMetadataStateSavedCards)
+      metadataStateSubject.asObservable()
     );
     checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
       of({ loading: false, error: false, data: mockAddress })
@@ -185,17 +191,13 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
   describe('showSavedCards$', () => {
     it('should emit true when selectedPaymentOptionId is SAVED_CARDS_ID', (done) => {
-      opfMetadataStoreService.getOpfMetadataState.and.returnValue(
-        of({
-          selectedPaymentOptionId: SAVED_CARDS_ID,
-          termsAndConditionsChecked: false,
-          isPaymentInProgress: false,
-          opfPaymentSessionId: undefined,
-          isTermsAndConditionsAlertClosed: false,
-        })
-      );
-      // Re-create service to pick up new mock
-      service = TestBed.inject(OpfTokenisationPaymentMethodService);
+      metadataStateSubject.next({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
 
       service.showSavedCards$.subscribe((value) => {
         expect(value).toBeTruthy();
@@ -425,28 +427,22 @@ describe('OpfTokenisationPaymentMethodService', () => {
         id: 'card-2',
         defaultPayment: false,
       };
-      const metadataSubject = new BehaviorSubject<any>({
-        selectedPaymentOptionId: SAVED_CARDS_ID,
-        termsAndConditionsChecked: false,
-        isPaymentInProgress: false,
-        opfPaymentSessionId: undefined,
-        isTermsAndConditionsAlertClosed: false,
-      });
 
-      opfMetadataStoreService.getOpfMetadataState.and.returnValue(
-        metadataSubject.asObservable()
+      userPaymentService.getPaymentMethods.and.returnValue(
+        of([cardOne, cardTwo])
       );
-      userPaymentService.getPaymentMethods.and.returnValue(of([cardOne, cardTwo]));
       checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
 
-      (savedCardsService.selectedPaymentMethodId$ as BehaviorSubject<
-        string | undefined
-      >).next('card-2');
+      (
+        savedCardsService.selectedPaymentMethodId$ as BehaviorSubject<
+          string | undefined
+        >
+      ).next('card-2');
       (service as any).selectedPaymentMethod$.next(cardTwo);
 
       service.initialize();
 
-      metadataSubject.next({
+      metadataStateSubject.next({
         selectedPaymentOptionId: 'other-option',
         termsAndConditionsChecked: false,
         isPaymentInProgress: false,
@@ -454,7 +450,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
         isTermsAndConditionsAlertClosed: false,
       });
 
-      metadataSubject.next({
+      metadataStateSubject.next({
         selectedPaymentOptionId: SAVED_CARDS_ID,
         termsAndConditionsChecked: false,
         isPaymentInProgress: false,
