@@ -15,7 +15,16 @@ const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 
 // UI types
+const single_selection_image = 'single_selection_image';
 const radioGroup = 'radioGroup';
+
+// List of attributes
+const COLOUR_HT = 'COLOUR_HT';
+const ROOM_SIZE = 'ROOM_SIZE';
+
+// List of attribute values
+const WHITE = 'COLOUR_HT_WHITE';
+const TITAN = 'COLOUR_HT_TITAN';
 
 // Group Status
 const ERROR = 'ERROR';
@@ -65,6 +74,39 @@ context('Product Configuration', () => {
     configurationVc.registerConfigurationUpdateRoute();
     configurationOverviewVc.registerConfigurationOverviewRoute();
     cy.visit('/');
+  });
+
+  describe('Configure product', () => {
+    it('should support image attribute type - single selection', () => {
+      configurationVc.goToConfigurationPage(
+        electronicsShop,
+        testProductMultiLevel,
+        commerceRelease.isPricingEnabled
+      );
+      configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
+      configurationVc.selectAttributeAndWait(
+        COLOUR_HT,
+        single_selection_image,
+        WHITE,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.checkImageSelected(
+        single_selection_image,
+        COLOUR_HT,
+        WHITE
+      );
+      configurationVc.selectAttributeAndWait(
+        COLOUR_HT,
+        single_selection_image,
+        TITAN,
+        commerceRelease.isPricingEnabled
+      );
+      configurationVc.checkImageSelected(
+        single_selection_image,
+        COLOUR_HT,
+        TITAN
+      );
+    });
   });
 
   describe('Navigate to product configuration page', () => {

@@ -155,7 +155,7 @@ export function manageDependencies(
       const tsFilesPaths = globSync(`${library.directory}/**/*.ts`, {
         // Ignore assets json translation scripts
         // TODO: Remove when translation script will be moved to lib builder
-        ignore: [`projects/assets/generate-translations-*.ts`],
+        ignore: [`core-libs/assets/generate-translations-*.ts`],
       });
 
       tsFilesPaths.forEach((fileName) => {

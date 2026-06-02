@@ -13,7 +13,7 @@ import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { MockOccEndpointsService } from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { OccUnitOrderAdapter } from './occ-unit-order.adapter';
 
 const userId = '123';

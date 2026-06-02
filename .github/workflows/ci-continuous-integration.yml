@@ -6,9 +6,6 @@ on:
       - develop-*
       - release/*
       - epic/**
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow
 
@@ -27,9 +24,22 @@ concurrency:
 
 name: Continuous Integration
 jobs:
+  detect_changes:
+    name: CI - Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      RUN_CI_CHECKS: ${{ steps.detect_code_changes.outputs.RUN_CHECKS }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+      - name: Detect code changes
+        id: detect_code_changes
+        uses: ./.github/actions/detect-changes
+
   unit_tests:
+    needs: [detect_changes]
     name: CI - Unit tests
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
@@ -54,6 +64,7 @@ jobs:
         run: |
           ci-scripts/unit-tests.sh          
   sonarqube_scan:
+    needs: [detect_changes]
     name: CI - SonarQube Scan
     runs-on: ubuntu-latest
     steps:
@@ -70,10 +81,12 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' && needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
   linting:
+    needs: [detect_changes]
     name: CI - Validations and static code checks
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
       - name: Setup node
@@ -96,8 +109,10 @@ jobs:
         run: |
           ci-scripts/validate-lint.sh
   check_peer_dependencies:
+    needs: [detect_changes]
     name: CI - Check peerDependencies
     runs-on: ubuntu-latest
+    if: ${{ needs.detect_changes.outputs.RUN_CI_CHECKS == 'true' }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
@@ -107,8 +122,10 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Run peerDependencies check
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
-          bash ci-scripts/check-peer-deps.sh ${{ github.event.pull_request.base.ref }}
+          bash ci-scripts/check-peer-deps.sh "$BASE_REF"
       - name: Collect peer dependency changes
         id: collect-peer-deps
         run: |

@@ -8,7 +8,7 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { SubListComponent } from '../../../shared';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UserGroupAssignedPermissionListComponent } from './user-group-assigned-permission-list.component';

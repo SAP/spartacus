@@ -86,7 +86,7 @@
     "webpack": "^5.94.0"
   },
   "overrides": {
-    "axios": "1.15.0"
+    "axios": "1.16.0"
   },
   "optionalDependencies": {
     "@continuum/continuum-javascript-professional": "^7.0.0"

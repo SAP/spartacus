@@ -6,3 +6,4 @@
 
 export * from './login-register.component';
 export * from './login-register.module';
+export * from './login-register-b2b/login-register-b2b.component';

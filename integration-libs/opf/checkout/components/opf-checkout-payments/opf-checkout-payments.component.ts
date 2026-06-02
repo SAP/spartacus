@@ -108,6 +108,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   onlyPaymentWrapperMode? = false;
 
   @Input()
+  showBeforePaymentOptionsOutlet? = true;
+
+  @Input()
   customPaymentTemplate?: TemplateRef<any>;
 
   @Input()
@@ -259,20 +262,24 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
       this.opfMetadataStoreService
         .getOpfMetadataState()
         .subscribe((state: OpfMetadataModel) => {
-          if (
-            !isPreselected &&
-            (state.termsAndConditionsChecked ||
-              !this.explicitTermsAndConditions)
-          ) {
-            isPreselected = true;
-            this.selectedPaymentId =
-              state.selectedPaymentOptionId === SAVED_CARDS_ID ||
-              !state.selectedPaymentOptionId
-                ? state.defaultSelectedPaymentOptionId
-                : state.selectedPaymentOptionId;
-            this.opfMetadataStoreService.updateOpfMetadata({
-              selectedPaymentOptionId: this.selectedPaymentId,
-            });
+          if (this.shouldResolvePreselection(state, isPreselected)) {
+            const resolvedId =
+              state.selectedPaymentOptionId ??
+              state.defaultSelectedPaymentOptionId;
+
+            if (resolvedId !== undefined) {
+              isPreselected = true;
+            }
+
+            this.selectedPaymentId = resolvedId;
+            if (
+              resolvedId !== undefined &&
+              resolvedId !== state.selectedPaymentOptionId
+            ) {
+              this.opfMetadataStoreService.updateOpfMetadata({
+                selectedPaymentOptionId: resolvedId,
+              });
+            }
             this.emitOutletContext();
           } else if (
             !state.termsAndConditionsChecked &&
@@ -286,6 +293,16 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             this.emitOutletContext();
           }
         })
+    );
+  }
+
+  protected shouldResolvePreselection(
+    state: OpfMetadataModel,
+    isPreselected: boolean
+  ): boolean {
+    return (
+      !isPreselected &&
+      (state.termsAndConditionsChecked || !this.explicitTermsAndConditions)
     );
   }
 

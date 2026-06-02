@@ -12,7 +12,11 @@
   >
     {{ 'asm.asmCustomer360ViewButton' | cxTranslate }}
   </button>
-  <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
+  <button
+    formcontrolname="logoutCustomer"
+    (click)="logoutCustomer()"
+    [attr.aria-label]="'asm.endSessionAriaLabel' | cxTranslate"
+  >
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>

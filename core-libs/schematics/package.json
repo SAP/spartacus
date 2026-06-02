@@ -1,0 +1,90 @@
+{
+  "name": "@spartacus/schematics",
+  "version": "221121.11.0",
+  "description": "Spartacus schematics",
+  "keywords": [
+    "spartacus",
+    "schematics"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/core-libs/schematics",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && npm --prefix ../../ run generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean": "../../node_modules/.bin/rimraf --glob \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\" && npm run copy-feature-toggles",
+    "copy-feature-toggles": "node copy-feature-toggles",
+    "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "@angular/pwa": "^21.2.12",
+    "@angular/ssr": "^21.2.12",
+    "semver": "^7.7.3",
+    "ts-morph": "^27.0.2",
+    "tslib": "^2.8.1"
+  },
+  "peerDependencies": {
+    "@angular-devkit/core": "^21.2.12",
+    "@angular-devkit/schematics": "^21.2.12",
+    "@angular/compiler": "^21.2.14",
+    "@schematics/angular": "^21.2.8",
+    "jsonc-parser": "^3.3.1",
+    "parse5": "^8.0.0",
+    "typescript": "^5.9.3"
+  },
+  "peerDependenciesMeta": {
+    "canvas": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^22.22.0"
+  },
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "ng-update": {
+    "migrations": "./src/migrations/migrations.json",
+    "packageGroup": [
+      "@spartacus/core",
+      "@spartacus/storefront",
+      "@spartacus/styles",
+      "@spartacus/assets",
+      "@spartacus/setup",
+      "@spartacus/asm",
+      "@spartacus/cart",
+      "@spartacus/cdc",
+      "@spartacus/cdp",
+      "@spartacus/cds",
+      "@spartacus/checkout",
+      "@spartacus/cpq-quote",
+      "@spartacus/customer-ticketing",
+      "@spartacus/digital-payments",
+      "@spartacus/epd-visualization",
+      "@spartacus/estimated-delivery-date",
+      "@spartacus/omf",
+      "@spartacus/opf",
+      "@spartacus/opps",
+      "@spartacus/order",
+      "@spartacus/organization",
+      "@spartacus/pdf-invoices",
+      "@spartacus/pickup-in-store",
+      "@spartacus/product",
+      "@spartacus/product-configurator",
+      "@spartacus/product-multi-dimensional",
+      "@spartacus/punchout",
+      "@spartacus/qualtrics",
+      "@spartacus/quote",
+      "@spartacus/requested-delivery-date",
+      "@spartacus/s4-service",
+      "@spartacus/s4om",
+      "@spartacus/segment-refs",
+      "@spartacus/smartedit",
+      "@spartacus/storefinder",
+      "@spartacus/subscription-billing",
+      "@spartacus/tracking",
+      "@spartacus/user"
+    ]
+  },
+  "schematics": "./src/collection.json"
+}

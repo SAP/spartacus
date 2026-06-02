@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+BIN="${REPO_ROOT}/node_modules/.bin"
+
+ng() { "${BIN}/ng" "$@"; }
+export -f ng
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
 
@@ -57,12 +62,7 @@ function prepare_install {
         kill ${VERDACCIO_PID}
     fi
 
-    npm i -g verdaccio@5
-    npm i -g npm-cli-login
-    npm i -g serve@13.0.4
-    npm i -g pm2
-    npm i -g concurrently
-    npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
+    npm install
 
     ng config -g cli.packageManager npm
 
@@ -413,14 +413,14 @@ function install_from_sources {
     printh "Building libraries."
     ( cd ${CLONE_DIR} && npm run build:libs)
 
-    verdaccio --config ./config.yaml &
+    "${BIN}/verdaccio" --config ./config.yaml &
 
     VERDACCIO_PID=$!
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
     sleep 15
 
-    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
+    ("${BIN}/npm-cli-login" -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
 
     printh "Publish Packages"
     for project in ${project_packages[@]}; do
@@ -507,10 +507,10 @@ function start_csr_unix {
         build_csr
          if [ -n "${SSL_CERT_PATH}" ] && [ -n "${SSL_KEY_PATH}" ]; then
             printh "Starting csr app in SSL mode"
-            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} --ssl-cert ${SSL_CERT_PATH} --ssl-key ${SSL_KEY_PATH}
+            "${BIN}/pm2" start --name "${CSR_APP_NAME}-${CSR_PORT}" "${BIN}/serve" -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} --ssl-cert ${SSL_CERT_PATH} --ssl-key ${SSL_KEY_PATH}
         else
             printh "Starting csr app in non-SSL mode"
-            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} 
+            "${BIN}/pm2" start --name "${CSR_APP_NAME}-${CSR_PORT}" "${BIN}/serve" -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
         fi
     fi
 }
@@ -527,7 +527,7 @@ function start_ssr_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && "${BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -543,13 +543,13 @@ function start_ssr_pwa_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && pm2 start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && "${BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
 function start_windows_apps {
     build_csr
-    concurrently "serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
+    "${BIN}/concurrently" "${BIN}/serve ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/csr --single -p ${CSR_PORT}" --names "${CSR_APP_NAME}-{CSR_PORT}}"
 }
 
 function start_apps {
@@ -576,9 +576,9 @@ function start_apps {
 }
 
 function stop_apps {
-    pm2 stop "${CSR_APP_NAME}-${CSR_PORT}"
-    pm2 stop "${SSR_APP_NAME}-${SSR_PORT}"
-    pm2 stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
+    "${BIN}/pm2" stop "${CSR_APP_NAME}-${CSR_PORT}"
+    "${BIN}/pm2" stop "${SSR_APP_NAME}-${SSR_PORT}"
+    "${BIN}/pm2" stop "${SSR_PWA_APP_NAME}-${SSR_PORT}"
 }
 
 function cmd_help {

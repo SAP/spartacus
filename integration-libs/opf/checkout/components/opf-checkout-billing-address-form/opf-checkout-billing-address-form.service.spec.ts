@@ -118,12 +118,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     });
   });
 
-  it('should get addresses when only payment address is present', () => {
-    spyOn(mockBillingAddressFacade, 'setBillingAddress').and.returnValue(
-      of(true)
-    );
-    spyOn(mockActiveCartFacade, 'isStable').and.returnValue(of(true));
-
+  it('should show custom billing and uncheck same as delivery when sapBillingAddress exists', () => {
     service.getAddresses();
 
     expect(service['_$isLoadingAddress'].value).toBeFalsy();
@@ -247,7 +242,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     });
   });
 
-  it('should set billing address to delivery address if payment address is not available', () => {
+  it('should set billing address to delivery and check same as delivery when sapBillingAddress is missing', () => {
     spyOn(service as any, 'getDeliveryAddress').and.returnValue(
       of(mockDeliveryAddress)
     );
@@ -257,8 +252,27 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     service.getAddresses();
 
     expect(service.setBillingAddress).toHaveBeenCalledWith(mockDeliveryAddress);
-
     expect(service['_$billingAddressSub'].value).toEqual(mockDeliveryAddress);
+    expect(service.isSameAsDeliveryValue).toBeTruthy();
+  });
+
+  it('should use submitted address when cart does not return sapBillingAddress', (done) => {
+    const submittedAddress: Address = {
+      firstName: 'Custom',
+      lastName: 'Billing',
+      line1: '999 Billing Rd',
+    };
+    const expectedAddress = service['getAddressWithId'](submittedAddress);
+
+    spyOn(mockActiveCartFacade, 'getActive').and.returnValue(
+      of({ sapBillingAddress: undefined } as Cart)
+    );
+
+    service.setBillingAddress(submittedAddress).subscribe((result) => {
+      expect(result).toEqual(expectedAddress);
+      expect(service['_$billingAddressSub'].value).toEqual(expectedAddress);
+      done();
+    });
   });
 
   it('should return EMPTY when address is undefined', () => {

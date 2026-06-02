@@ -97,7 +97,8 @@
       {{ 'verificationTokenForm.verify' | cxTranslate }}
     </button>
     <button
-      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+      type="button"
+      (click)="goBack()"
       class="btn btn-block btn-secondary btn-register"
     >
       {{ 'verificationTokenForm.back' | cxTranslate }}

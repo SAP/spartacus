@@ -33,13 +33,22 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com' 
 
+      - name: Validate Version
+        uses: ./.github/actions/validate-version
+        with:
+          version: ${{ github.event.inputs.version }}
+
       - name: Set Version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
         run: |
-          echo "version=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "version=$INPUT_VERSION" >> $GITHUB_ENV
 
       - name: Create Release Branch
+        env:
+          VERSION: ${{ env.version }}
         run: |
-          version="${{ env.version }}"
+          version="$VERSION"
           if [[ $version == *-* ]]; then
             IFS='-' read -ra VERSION_AND_PRERELEASE <<< "$version"
             prerelease="${VERSION_AND_PRERELEASE[*]:1}"
@@ -71,18 +80,24 @@ jobs:
           git checkout -b $release_branch
 
       - name: Update SCSS Versioning
+        env:
+          MAJOR: ${{ env.major }}
+          MINOR: ${{ env.minor }}
+          PATCH: ${{ env.patch }}
         run: |
-          major=${{ env.major }}
-          minor=${{ env.minor }}
-          patch=${{ env.patch }}
-          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" projects/storefrontstyles/scss/_versioning.scss
-          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" projects/storefrontstyles/scss/_versioning.scss
-          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" projects/storefrontstyles/scss/_versioning.scss
-          echo "Updated versions in projects/storefrontstyles/scss/_versioning.scss."
+          major="$MAJOR"
+          minor="$MINOR"
+          patch="$PATCH"
+          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" core-libs/styles/scss/_versioning.scss
+          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" core-libs/styles/scss/_versioning.scss
+          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" core-libs/styles/scss/_versioning.scss
+          echo "Updated versions in core-libs/styles/scss/_versioning.scss."
 
       - name: Update Publishing Version
+        env:
+          VERSION: ${{ env.version }}
         run: |
-          version="${{ env.version }}" # Use the full version
+          version="$VERSION"
           sed -i "s/export const PUBLISHING_VERSION = '.*';/export const PUBLISHING_VERSION = '$version';/" ./tools/config/const.ts
           echo "Updated PUBLISHING_VERSION in ./tools/config/const.ts."
       
@@ -104,17 +119,23 @@ jobs:
           npm run test:all-schematics
 
       - name: Push Changes
+        env:
+          VERSION: ${{ env.version }}
+          RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
         run: |
           git add .
-          git commit -m "Release ${{ env.version }}"
-          git push origin "${{ env.RELEASE_BRANCH }}"
-        
-      - name: Tag the release
-        run: |
-          git fetch origin "${{ env.RELEASE_BRANCH }}"
-          git checkout "${{ env.RELEASE_BRANCH }}"
+          git commit -m "Release $VERSION"
+          git push origin "$RELEASE_BRANCH"
 
-          TAG="${{ env.version }}"
+      - name: Tag the release
+        env:
+          RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
+          VERSION: ${{ env.version }}
+        run: |
+          git fetch origin "$RELEASE_BRANCH"
+          git checkout "$RELEASE_BRANCH"
+
+          TAG="$VERSION"
 
           # Check if tag already exists
           if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
@@ -127,31 +148,36 @@ jobs:
 
       - name: Sync branch to a private repo
         env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          echo "Triggering repo-sync.yml with branch: ${{ env.RELEASE_BRANCH }}"
-          
+          echo "Triggering repo-sync.yml with branch: $RELEASE_BRANCH"
+
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/repo-sync.yml/dispatches \
-            -d "{\"ref\":\"${{ env.RELEASE_BRANCH }}\",\"inputs\":{\"branch_to_sync\":\"${{ env.RELEASE_BRANCH }}\"}}"
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/repo-sync.yml/dispatches" \
+            -d "{\"ref\":\"${RELEASE_BRANCH}\",\"inputs\":{\"branch_to_sync\":\"${RELEASE_BRANCH}\"}}"
 
       - name: Create Pull Request to develop
         if: ${{ github.event.inputs.create_pr == 'true' }}
         env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
+          SOURCE_BRANCH: ${{ github.event.inputs.source }}
+          VERSION: ${{ env.version }}
         run: |
-          echo "Creating pull request from ${{ env.RELEASE_BRANCH }} to ${{ github.event.inputs.source }}..."
+          echo "Creating pull request from $RELEASE_BRANCH to $SOURCE_BRANCH..."
 
           # Check if a PR already exists
-          existing_pr=$(gh pr list --head "${{ env.RELEASE_BRANCH }}" --base "${{ github.event.inputs.source }}" --json number --jq '.[].number')
+          existing_pr=$(gh pr list --head "$RELEASE_BRANCH" --base "$SOURCE_BRANCH" --json number --jq '.[].number')
           if [[ -n "$existing_pr" ]]; then
             echo "PR already exists: #$existing_pr"
           else
             gh pr create \
-              --head "${{ env.RELEASE_BRANCH }}" \
-              --base "${{ github.event.inputs.source }}" \
-              --title "chore(release): ${{ env.version }}" \
+              --head "$RELEASE_BRANCH" \
+              --base "$SOURCE_BRANCH" \
+              --title "chore(release): $VERSION" \
               --body "Automated PR to merge release changes back into the source branch."
           fi

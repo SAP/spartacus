@@ -5,6 +5,10 @@
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
       "@spartacus/user": ["dist/user"],
+      "@spartacus/user/wishlist": ["dist/user/wishlist"],
+      "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],
+      "@spartacus/user/wishlist/occ": ["dist/user/wishlist/occ"],
+      "@spartacus/user/wishlist/core": ["dist/user/wishlist/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/root": ["dist/user/profile/root"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
@@ -497,7 +501,7 @@
       "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc/components": ["dist/cdc/components"],
       "@spartacus/cdc/assets": ["dist/cdc/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/assets": ["dist/assets"]
     }

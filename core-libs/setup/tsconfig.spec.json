@@ -7,10 +7,22 @@
     "module": "preserve",
     "types": ["jest"],
     "paths": {
-      "@spartacus/schematics": ["../../projects/schematics/index"],
+      "@spartacus/schematics": ["../../core-libs/schematics/index"],
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
       "@spartacus/user": ["../../feature-libs/user/public_api"],
+      "@spartacus/user/wishlist": [
+        "../../feature-libs/user/wishlist/public_api"
+      ],
+      "@spartacus/user/wishlist/root": [
+        "../../feature-libs/user/wishlist/root/public_api"
+      ],
+      "@spartacus/user/wishlist/occ": [
+        "../../feature-libs/user/wishlist/occ/public_api"
+      ],
+      "@spartacus/user/wishlist/core": [
+        "../../feature-libs/user/wishlist/core/public_api"
+      ],
       "@spartacus/user/profile": ["../../feature-libs/user/profile/public_api"],
       "@spartacus/user/profile/root": [
         "../../feature-libs/user/profile/root/public_api"
@@ -817,9 +829,9 @@
         "../../integration-libs/cdc/components/public_api"
       ],
       "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/public_api"],
-      "@spartacus/core": ["../../projects/core/public_api"],
-      "@spartacus/assets": ["../../projects/assets/src/public_api"]
+      "@spartacus/storefront": ["../../core-libs/storefront/public_api"],
+      "@spartacus/core": ["../../core-libs/core/public_api"],
+      "@spartacus/assets": ["../../core-libs/assets/src/public_api"]
     },
     "moduleResolution": "bundler"
   },
