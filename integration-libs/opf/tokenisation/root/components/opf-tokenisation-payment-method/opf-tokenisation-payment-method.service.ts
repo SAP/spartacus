@@ -136,7 +136,8 @@ export class OpfTokenisationPaymentMethodService {
         this.deliveryAddress = address;
       });
 
-    // Clear selected card when switching away from saved cards
+    // Clear only local selected card when switching away from saved cards.
+    // Keep persisted selected ID so we can restore it when user returns.
     this.subscriptions.add(
       this.opfMetadataStoreService
         .getOpfMetadataState()
@@ -145,10 +146,9 @@ export class OpfTokenisationPaymentMethodService {
           distinctUntilChanged()
         )
         .subscribe((selectedId) => {
-          // If we're no longer in saved cards mode, clear the selected card
+          // If we're no longer in saved cards mode, clear local selected card
           if (selectedId !== SAVED_CARDS_ID) {
             this.selectedPaymentMethod$.next(undefined);
-            this.savedCardsService.clearSelectedPaymentMethodId();
           }
         })
     );
@@ -161,12 +161,15 @@ export class OpfTokenisationPaymentMethodService {
       this.showSavedCards$
         .pipe(
           filter((show) => show),
-          switchMap(() => this.existingPaymentMethods$),
-          filter((methods) => !!methods?.length),
-          take(1),
-          withLatestFrom(
-            this.selectedMethod$,
-            this.savedCardsService.selectedPaymentMethodId$
+          switchMap(() =>
+            this.existingPaymentMethods$.pipe(
+              filter((methods) => !!methods?.length),
+              take(1),
+              withLatestFrom(
+                this.selectedMethod$,
+                this.savedCardsService.selectedPaymentMethodId$
+              )
+            )
           )
         )
         .subscribe(([methods, selectedMethod, persistedId]) => {
@@ -177,6 +180,7 @@ export class OpfTokenisationPaymentMethodService {
             );
             if (previouslySelected && !this.isCardExpired(previouslySelected)) {
               this.selectedPaymentMethod$.next(previouslySelected);
+              this.savePaymentMethod(previouslySelected);
               return;
             }
           }
@@ -263,16 +267,30 @@ export class OpfTokenisationPaymentMethodService {
       if (defaultPaymentMethod) {
         this.selectedPaymentMethod$.next(defaultPaymentMethod);
         this.savePaymentMethod(defaultPaymentMethod);
+        return;
+      }
+
+      const singleNonExpiredCard =
+        paymentMethods.length === 1 && !this.isCardExpired(paymentMethods[0])
+          ? paymentMethods[0]
+          : undefined;
+
+      if (singleNonExpiredCard) {
+        this.setDefaultPaymentMethod(singleNonExpiredCard, false);
+        this.selectedPaymentMethod$.next(singleNonExpiredCard);
+        this.savePaymentMethod(singleNonExpiredCard);
       }
     }
   }
 
-  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails, notify = true): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentDetails.id ?? '');
-    this.globalMessageService.add(
-      { key: 'paymentMessages.setAsDefaultSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    if (notify) {
+      this.globalMessageService.add(
+        { key: 'paymentMessages.setAsDefaultSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 
   protected savePaymentMethod(paymentDetails: PaymentDetails): void {
