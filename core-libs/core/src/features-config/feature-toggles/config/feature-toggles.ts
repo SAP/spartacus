@@ -491,6 +491,15 @@ export interface FeatureTogglesInterface {
   a11yVocalizeDropdownItemCount?: boolean;
 
   /**
+   * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
+   * as navigation rather than form filling. This preserves the focus outline
+   * (removes the `mouse-focus` class) when the user opens a dropdown with the
+   * mouse and then navigates with the keyboard.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yRestoreFocusOnNgSelect?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -633,6 +642,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yRestoreFocusOnNgSelect: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
