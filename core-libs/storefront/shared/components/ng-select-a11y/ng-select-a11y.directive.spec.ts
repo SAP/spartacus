@@ -227,4 +227,45 @@ describe('NgSelectA11yDirective', () => {
       expect(select.querySelector('.cx-ng-select-count')).toBeNull();
     });
   });
+
+  describe('onKeyDown()', () => {
+    it('should remove "mouse-focus" class from the closest ancestor when toggle is enabled', async () => {
+      fixture.detectChanges();
+      const ngSelectEl = getNgSelect().nativeElement;
+      const ancestor = ngSelectEl.closest('div') as HTMLElement;
+      ancestor.classList.add('mouse-focus');
+
+      ngSelectEl.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true }));
+      await Promise.resolve();
+
+      expect(ancestor.classList).not.toContain('mouse-focus');
+    });
+
+    it('should NOT remove "mouse-focus" class when toggle is disabled', async () => {
+      const featureConfigService = TestBed.inject(FeatureConfigService);
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+
+      fixture.detectChanges();
+      const ngSelectEl = getNgSelect().nativeElement;
+      const ancestor = ngSelectEl.closest('div') as HTMLElement;
+      ancestor.classList.add('mouse-focus');
+
+      ngSelectEl.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true }));
+      await Promise.resolve();
+
+      expect(ancestor.classList).toContain('mouse-focus');
+    });
+
+    it('should be a no-op when no ancestor has the "mouse-focus" class', async () => {
+      fixture.detectChanges();
+      const ngSelectEl = getNgSelect().nativeElement;
+
+      expect(() => {
+        ngSelectEl.dispatchEvent(
+          new KeyboardEvent('keydown', { bubbles: true })
+        );
+      }).not.toThrow();
+      await Promise.resolve();
+    });
+  });
 });
