@@ -41,6 +41,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
   let checkoutDeliveryAddressFacade: jasmine.SpyObj<CheckoutDeliveryAddressFacade>;
   let focusService: jasmine.SpyObj<SelectFocusUtility>;
   let windowRef: jasmine.SpyObj<WindowRef>;
+  let metadataStateSubject: BehaviorSubject<any>;
 
   const mockPaymentDetails: PaymentDetails = {
     id: 'payment-1',
@@ -72,6 +73,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       'loadPaymentMethods',
       'getPaymentMethods',
       'getPaymentMethodsLoading',
+      'setPaymentMethodAsDefault',
     ]);
     checkoutPaymentFacade = jasmine.createSpyObj('CheckoutPaymentFacade', [
       'getPaymentDetailsState',
@@ -122,6 +124,10 @@ describe('OpfTokenisationPaymentMethodService', () => {
       document: mockDocument,
     });
 
+    metadataStateSubject = new BehaviorSubject<any>(
+      mockMetadataStateSavedCards
+    );
+
     // Default mock returns
     userPaymentService.getPaymentMethods.and.returnValue(of([]));
     userPaymentService.getPaymentMethodsLoading.and.returnValue(of(false));
@@ -129,7 +135,7 @@ describe('OpfTokenisationPaymentMethodService', () => {
       of({ loading: false, error: false, data: undefined })
     );
     opfMetadataStoreService.getOpfMetadataState.and.returnValue(
-      of(mockMetadataStateSavedCards)
+      metadataStateSubject.asObservable()
     );
     checkoutDeliveryAddressFacade.getDeliveryAddressState.and.returnValue(
       of({ loading: false, error: false, data: mockAddress })
@@ -185,17 +191,13 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
   describe('showSavedCards$', () => {
     it('should emit true when selectedPaymentOptionId is SAVED_CARDS_ID', (done) => {
-      opfMetadataStoreService.getOpfMetadataState.and.returnValue(
-        of({
-          selectedPaymentOptionId: SAVED_CARDS_ID,
-          termsAndConditionsChecked: false,
-          isPaymentInProgress: false,
-          opfPaymentSessionId: undefined,
-          isTermsAndConditionsAlertClosed: false,
-        })
-      );
-      // Re-create service to pick up new mock
-      service = TestBed.inject(OpfTokenisationPaymentMethodService);
+      metadataStateSubject.next({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
 
       service.showSavedCards$.subscribe((value) => {
         expect(value).toBeTruthy();
@@ -315,7 +317,9 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(
         (service as any).selectedPaymentMethod$.getValue()
       ).toBeUndefined();
-      expect(savedCardsService.clearSelectedPaymentMethodId).toHaveBeenCalled();
+      expect(
+        savedCardsService.clearSelectedPaymentMethodId
+      ).not.toHaveBeenCalled();
     });
 
     it('should not clear selected payment method when staying on saved cards', () => {
@@ -337,6 +341,128 @@ describe('OpfTokenisationPaymentMethodService', () => {
 
       expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
         mockPaymentDetails
+      );
+    });
+
+    it('should auto-select first saved card when backend marks it as default', () => {
+      const firstSavedCard: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'first-card',
+        defaultPayment: true,
+      };
+      userPaymentService.getPaymentMethods.and.returnValue(
+        of([firstSavedCard])
+      );
+      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+
+      service.initialize();
+
+      expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
+        firstSavedCard
+      );
+      expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
+        firstSavedCard
+      );
+    });
+
+    it('should reflect backend default card selection in checkout saved cards state', () => {
+      const nonDefaultCard: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-1',
+        defaultPayment: false,
+      };
+      const backendDefaultCard: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-2',
+        defaultPayment: true,
+      };
+      userPaymentService.getPaymentMethods.and.returnValue(
+        of([nonDefaultCard, backendDefaultCard])
+      );
+      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+
+      service.initialize();
+
+      expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
+        backendDefaultCard
+      );
+      expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
+        backendDefaultCard
+      );
+    });
+
+    it('should auto-set and select the only saved card when no default exists yet', () => {
+      const firstAndOnlyCard: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'only-card',
+        defaultPayment: false,
+      };
+      userPaymentService.getPaymentMethods.and.returnValue(
+        of([firstAndOnlyCard])
+      );
+      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+
+      service.initialize();
+
+      expect(userPaymentService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
+        'only-card'
+      );
+      expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
+        firstAndOnlyCard
+      );
+      expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
+        firstAndOnlyCard
+      );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it('should restore persisted selected card when toggling back to saved cards', () => {
+      const cardOne: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-1',
+        defaultPayment: false,
+      };
+      const cardTwo: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-2',
+        defaultPayment: false,
+      };
+
+      userPaymentService.getPaymentMethods.and.returnValue(
+        of([cardOne, cardTwo])
+      );
+      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+
+      (
+        savedCardsService.selectedPaymentMethodId$ as BehaviorSubject<
+          string | undefined
+        >
+      ).next('card-2');
+      (service as any).selectedPaymentMethod$.next(cardTwo);
+
+      service.initialize();
+
+      metadataStateSubject.next({
+        selectedPaymentOptionId: 'other-option',
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
+
+      metadataStateSubject.next({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
+
+      expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
+        cardTwo
+      );
+      expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
+        cardTwo
       );
     });
   });
@@ -611,6 +737,77 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
         mockPaymentDetails
       );
+    });
+  });
+
+  describe('selectDefaultPaymentMethod()', () => {
+    it('should set single non-expired saved card as default when none is flagged as default', () => {
+      const singleCardWithoutDefault: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'single-card',
+        defaultPayment: false,
+      };
+
+      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+
+      service.selectDefaultPaymentMethod([singleCardWithoutDefault], undefined);
+
+      expect(userPaymentService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
+        'single-card'
+      );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
+        singleCardWithoutDefault
+      );
+      expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
+        singleCardWithoutDefault
+      );
+    });
+
+    it('should not auto-set default when multiple cards exist and none is flagged as default', () => {
+      const firstCard: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-1',
+        defaultPayment: false,
+      };
+      const secondCard: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-2',
+        defaultPayment: false,
+      };
+
+      service.selectDefaultPaymentMethod([firstCard, secondCard], undefined);
+
+      expect(
+        userPaymentService.setPaymentMethodAsDefault
+      ).not.toHaveBeenCalled();
+      expect(checkoutPaymentFacade.setPaymentDetails).not.toHaveBeenCalled();
+      expect(
+        (service as any).selectedPaymentMethod$.getValue()
+      ).toBeUndefined();
+    });
+  });
+
+  describe('setDefaultPaymentMethod()', () => {
+    it('should show confirmation message when set by user action', () => {
+      service.setDefaultPaymentMethod(mockPaymentDetails);
+
+      expect(userPaymentService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
+        mockPaymentDetails.id
+      );
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'paymentMessages.setAsDefaultSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('should not show confirmation message when notify is false', () => {
+      service.setDefaultPaymentMethod(mockPaymentDetails, false);
+
+      expect(userPaymentService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
+        mockPaymentDetails.id
+      );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
