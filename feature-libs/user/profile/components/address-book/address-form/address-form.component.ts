@@ -235,6 +235,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         )
         .subscribe((cities) => {
           this.cities = cities;
+          const townControl = this.addressForm.get('town');
+          if (this.isHierarchicalAddressFormat && !this.selectedRegion$.value) {
+            townControl?.disable();
+          } else {
+            townControl?.enable();
+          }
           if (
             this.addressData?.city?.isocode &&
             !this.selectedCity$.value &&

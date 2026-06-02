@@ -221,7 +221,6 @@
             [items]="cities"
             bindLabel="name"
             bindValue="isocode"
-            [disabled]="!selectedRegion$.value"
             placeholder="{{
               selectedRegion$.value
                 ? ('addressForm.selectOne' | cxTranslate)
