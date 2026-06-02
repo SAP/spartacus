@@ -196,6 +196,19 @@ describe('OpfPaymentVerificationService', () => {
     });
   });
 
+  describe('clearPaymentSessionForReinitiation', () => {
+    it('should clear stored payment session metadata', () => {
+      service.clearPaymentSessionForReinitiation();
+
+      expect(
+        opfMetadataStoreServiceMock.updateOpfMetadata
+      ).toHaveBeenCalledWith({
+        opfPaymentSessionId: undefined,
+        opfPaymentSessionConfigurationId: undefined,
+      });
+    });
+  });
+
   describe('verifyResultUrl', () => {
     const mockPaymentSessionId = 'sessionId';
     const mockRouteSnapshot: ActivatedRoute = {
