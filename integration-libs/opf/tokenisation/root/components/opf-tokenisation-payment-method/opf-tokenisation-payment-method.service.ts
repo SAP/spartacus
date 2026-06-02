@@ -136,7 +136,8 @@ export class OpfTokenisationPaymentMethodService {
         this.deliveryAddress = address;
       });
 
-    // Clear selected card when switching away from saved cards
+    // Clear only local selected card when switching away from saved cards.
+    // Keep persisted selected ID so we can restore it when user returns.
     this.subscriptions.add(
       this.opfMetadataStoreService
         .getOpfMetadataState()
@@ -145,10 +146,9 @@ export class OpfTokenisationPaymentMethodService {
           distinctUntilChanged()
         )
         .subscribe((selectedId) => {
-          // If we're no longer in saved cards mode, clear the selected card
+          // If we're no longer in saved cards mode, clear local selected card
           if (selectedId !== SAVED_CARDS_ID) {
             this.selectedPaymentMethod$.next(undefined);
-            this.savedCardsService.clearSelectedPaymentMethodId();
           }
         })
     );
@@ -161,12 +161,15 @@ export class OpfTokenisationPaymentMethodService {
       this.showSavedCards$
         .pipe(
           filter((show) => show),
-          switchMap(() => this.existingPaymentMethods$),
-          filter((methods) => !!methods?.length),
-          take(1),
-          withLatestFrom(
-            this.selectedMethod$,
-            this.savedCardsService.selectedPaymentMethodId$
+          switchMap(() =>
+            this.existingPaymentMethods$.pipe(
+              filter((methods) => !!methods?.length),
+              take(1),
+              withLatestFrom(
+                this.selectedMethod$,
+                this.savedCardsService.selectedPaymentMethodId$
+              )
+            )
           )
         )
         .subscribe(([methods, selectedMethod, persistedId]) => {
@@ -177,6 +180,7 @@ export class OpfTokenisationPaymentMethodService {
             );
             if (previouslySelected && !this.isCardExpired(previouslySelected)) {
               this.selectedPaymentMethod$.next(previouslySelected);
+              this.savePaymentMethod(previouslySelected);
               return;
             }
           }

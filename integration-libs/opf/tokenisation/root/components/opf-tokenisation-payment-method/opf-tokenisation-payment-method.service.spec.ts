@@ -315,7 +315,9 @@ describe('OpfTokenisationPaymentMethodService', () => {
       expect(
         (service as any).selectedPaymentMethod$.getValue()
       ).toBeUndefined();
-      expect(savedCardsService.clearSelectedPaymentMethodId).toHaveBeenCalled();
+      expect(
+        savedCardsService.clearSelectedPaymentMethodId
+      ).not.toHaveBeenCalled();
     });
 
     it('should not clear selected payment method when staying on saved cards', () => {
@@ -410,6 +412,62 @@ describe('OpfTokenisationPaymentMethodService', () => {
         firstAndOnlyCard
       );
       expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it('should restore persisted selected card when toggling back to saved cards', () => {
+      const cardOne: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-1',
+        defaultPayment: false,
+      };
+      const cardTwo: PaymentDetails = {
+        ...mockPaymentDetails,
+        id: 'card-2',
+        defaultPayment: false,
+      };
+      const metadataSubject = new BehaviorSubject<any>({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
+
+      opfMetadataStoreService.getOpfMetadataState.and.returnValue(
+        metadataSubject.asObservable()
+      );
+      userPaymentService.getPaymentMethods.and.returnValue(of([cardOne, cardTwo]));
+      checkoutPaymentFacade.setPaymentDetails.and.returnValue(of(undefined));
+
+      (savedCardsService.selectedPaymentMethodId$ as BehaviorSubject<
+        string | undefined
+      >).next('card-2');
+      (service as any).selectedPaymentMethod$.next(cardTwo);
+
+      service.initialize();
+
+      metadataSubject.next({
+        selectedPaymentOptionId: 'other-option',
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
+
+      metadataSubject.next({
+        selectedPaymentOptionId: SAVED_CARDS_ID,
+        termsAndConditionsChecked: false,
+        isPaymentInProgress: false,
+        opfPaymentSessionId: undefined,
+        isTermsAndConditionsAlertClosed: false,
+      });
+
+      expect((service as any).selectedPaymentMethod$.getValue()).toEqual(
+        cardTwo
+      );
+      expect(checkoutPaymentFacade.setPaymentDetails).toHaveBeenCalledWith(
+        cardTwo
+      );
     });
   });
 
