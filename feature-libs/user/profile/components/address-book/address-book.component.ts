@@ -209,7 +209,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             )
           ) {
             const locationLine = this.buildLocationLine(address);
-            const districtName = this.usesHierarchicalAddressFormat(address)
+            const districtName = this.isHierarchicalAddressFormat(address)
               ? address.cityDistrict?.name || address.district || ''
               : '';
             text = [
@@ -251,7 +251,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   protected buildLocationLine(address: Address): string {
-    if (this.usesHierarchicalAddressFormat(address)) {
+    if (this.isHierarchicalAddressFormat(address)) {
       const hierarchicalRegion =
         address.region?.name || address.region?.isocode || '';
       const townName = address.city?.name || address.town || '';
@@ -268,7 +268,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     return address.town + ', ' + region + address.country?.isocode;
   }
 
-  protected usesHierarchicalAddressFormat(address: Address): boolean {
+  protected isHierarchicalAddressFormat(address: Address): boolean {
     return (
       this.hierarchicalAddressConfig.hierarchicalAddress
         ?.countriesUsingHierarchicalAddressFormat ?? []
