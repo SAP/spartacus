@@ -18,7 +18,7 @@ const defaultBaseSite = [
   'apparel-uk-spa',
   'apparel-uk-standalone',
 ];
-const baseSite = environment.epdVisualization
+export const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
   : defaultBaseSite;
 

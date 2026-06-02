@@ -6,16 +6,18 @@
 
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
+import { BaseSiteService } from 'core-libs/core/src/site-context/facade/base-site.service';
 import { Observable, Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
 import { FederatedLoginService } from '../../../federated-login';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
-import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
+import { AuthStorageService } from './auth-storage.service';
+import { DynamicAuthConfigService } from './dynamic-auth-config.service';
 
 /**
  * Wrapper service on the library OAuthService. Normalizes the lib API for services.
@@ -31,8 +33,13 @@ export class OAuthLibWrapperService {
   protected semanticPathService = inject(SemanticPathService);
   protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
+  protected authStorageService = inject(AuthStorageService);
 
+  protected dynamicAuthConfigService = inject(DynamicAuthConfigService, {
+    optional: true,
+  });
   protected subscription: Subscription | undefined;
+
   protected baseSiteService = inject(BaseSiteService);
 
   // TODO: Remove platformId dependency in 4.0
@@ -48,21 +55,32 @@ export class OAuthLibWrapperService {
   protected initialize() {
     const config = this.generateCustomerLoginConfig();
 
-    // this.oAuthService.configure(config);
-    this.subscription?.unsubscribe();
-    this.subscription = this.baseSiteService
-      .getActive()
-      .subscribe((baseSite) => {
-        const dynamicConfig = {
-          ...config,
-          clientId: config.clientId + `_${baseSite}`,
-          redirectUri: config.redirectUri + `/${encodeURIComponent(baseSite)}`,
-        };
+    if (this.dynamicAuthConfigService) {
+      console.log('1');
+      this.subscription?.unsubscribe();
+      this.subscription = this.dynamicAuthConfigService
+        .getConfig(config)
+        .subscribe((dynamicConfig) => {
+          this.oAuthService.configure(dynamicConfig);
+          console.log('setting config', dynamicConfig);
+        });
+      console.log('2');
+    } else {
+      // this.oAuthService.configure(config);
 
-        console.log('setting config', dynamicConfig);
-
-        this.oAuthService.configure(dynamicConfig);
-      });
+      this.subscription?.unsubscribe();
+      this.subscription = this.baseSiteService
+        .getActive()
+        .subscribe((baseSite) =>
+          this.oAuthService.configure({
+            ...config,
+            clientId: config.clientId + `_${baseSite}`,
+            redirectUri:
+              config.redirectUri + `/${encodeURIComponent(baseSite)}`,
+          })
+        );
+      console.log('setting config', config);
+    }
 
     // reconfigure after getting language
     this.federatedLoginService.detectContext();
@@ -78,6 +96,7 @@ export class OAuthLibWrapperService {
             parameterString;
 
           this.oAuthService.configure(updatedConfig);
+          console.log('setting config', updatedConfig);
         });
     }
   }

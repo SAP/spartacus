@@ -12,6 +12,10 @@
   </ng-container>
 </ng-container>
 
+<a role="link" [routerLink]="{ cxRoute: 'logout' } | cxUrl">{{
+  'logout' | cxTranslate
+}}</a>
+
 <ng-template #login>
   <ng-container *ngIf="!(usingASMClient$ | async)">
     <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
