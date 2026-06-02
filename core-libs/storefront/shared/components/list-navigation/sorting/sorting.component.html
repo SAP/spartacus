@@ -1,4 +1,10 @@
 <ng-select
+  #ngSelectComponent
+  [cxFocus]="{
+    key: 'sorting',
+    focusTargetSelector: '[role=combobox]',
+    clearOnRestore: true,
+  }"
   [searchable]="false"
   [clearable]="false"
   placeholder="{{ placeholder }}"
