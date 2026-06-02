@@ -169,11 +169,6 @@ export function doPlaceOrderForB2CCustomerForJDK21(
           );
           cy.requirePaymentMethodAdded(cartId);
           return cy.requirePlacedOrderForJDK21(response.access_token, cartId); // Return promise for JDK21
-          cy.log(
-            'aaaa=',
-            cy.requirePlacedOrderForJDK21(response.access_token, cartId)
-          );
-          cy.pause();
         });
     });
   });
