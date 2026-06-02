@@ -27,18 +27,20 @@ jobs:
       - name: Push a branch to the private repository
         env:
           BRANCH_TO_SYNC: ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
-          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_USER: ${{ vars.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GHT_SPARTACUS_REPO: ${{ secrets.GHT_SPARTACUS_REPO }}
+          GHT_SPARTACUS_REPO: ${{ vars.GHT_SPARTACUS_REPO }}
         run: |
-          git push -u "https://${GHT_USER}:${GHT_PRIVATE_REPO_TOKEN}@github.tools.sap/cx-commerce-storefronts/${GHT_SPARTACUS_REPO}.git" "$BRANCH_TO_SYNC" -f
+          git config --global credential.helper store
+          printf 'https://%s:%s@github.tools.sap\n' "${GHT_USER}" "${GHT_PRIVATE_REPO_TOKEN}" > ~/.git-credentials
+          git push -u "https://github.tools.sap/cx-commerce-storefronts/${GHT_SPARTACUS_REPO}.git" "$BRANCH_TO_SYNC" -f
       - name: Include remaining pipeline files to the private remote's branch
         env:
           BRANCH_TO_SYNC: ${{ github.event.inputs.branch_to_sync || env.DEFAULT_BRANCH_TO_SYNC }}
-          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_USER: ${{ vars.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GHT_SPARTACUS_REPO: ${{ secrets.GHT_SPARTACUS_REPO }}
-          GHT_EMAIL: ${{ secrets.GHT_EMAIL }}
+          GHT_SPARTACUS_REPO: ${{ vars.GHT_SPARTACUS_REPO }}
+          GHT_EMAIL: ${{ vars.GHT_EMAIL }}
         run: |
           PIPELINE_CONFIG_PATH="./.pipeline/config.yml"
           AZURE_CONFIG_PATH="./azure-pipelines.yml"
@@ -49,7 +51,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Clone repo"
 
-          git clone -b "$BRANCH_TO_SYNC" "https://${GHT_USER}:${GHT_PRIVATE_REPO_TOKEN}@github.tools.sap/cx-commerce-storefronts/${GHT_SPARTACUS_REPO}.git"
+          git clone -b "$BRANCH_TO_SYNC" "https://github.tools.sap/cx-commerce-storefronts/${GHT_SPARTACUS_REPO}.git"
           cd "$GHT_SPARTACUS_REPO"
 
           git config --global user.email "$GHT_EMAIL"
@@ -153,3 +155,8 @@ jobs:
           git add .
           git commit -m "include remaining pipeline files"
           git push origin "$BRANCH_TO_SYNC"
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper || true

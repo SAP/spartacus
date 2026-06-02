@@ -11,17 +11,17 @@ This skill covers developing and testing Angular schematics for Spartacus librar
 
 | Path | Purpose |
 |------|---------|
-| `projects/schematics/` | Main installation and migration schematics |
-| `projects/schematics/src/migrations/` | Version-specific migration scripts |
-| `projects/schematics/src/shared/` | Shared utilities |
-| `projects/schematics/src/shared/lib-configs/` | Feature schematics configurations |
+| `core-libs/schematics/` | Main installation and migration schematics |
+| `core-libs/schematics/src/migrations/` | Version-specific migration scripts |
+| `core-libs/schematics/src/shared/` | Shared utilities |
+| `core-libs/schematics/src/shared/lib-configs/` | Feature schematics configurations |
 | `<lib>/schematics/` | Feature-specific installation schematics in each library |
 
 ## Testing Commands
 
 ```bash
 # Core Schematics lib
-cd projects/schematics && npm run test
+cd core-libs/schematics && npm run test
 
 
 # All libs' schematics

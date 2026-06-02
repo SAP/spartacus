@@ -52,6 +52,11 @@ class MockPaymentsComponent {
   @Input() elementsPerPage: number;
   @Input() explicitTermsAndConditions: boolean | undefined;
   @Input() disabled: boolean;
+  @Input() isHeadingDisplayed: boolean;
+  @Input() isPaymentRenderBelow: boolean;
+  @Input() isPaymentInfoMessageEnabled: boolean;
+  @Input() showBeforePaymentOptionsOutlet: boolean;
+  @Input() forceDefaultPaymentOptionInputSelection: boolean;
 }
 
 @Component({
@@ -128,6 +133,7 @@ class MockCheckoutPaymentTypeFacade {
 describe('OpfCheckoutPaymentAndReviewComponent', () => {
   let component: OpfCheckoutPaymentAndReviewComponent;
   let fixture: ComponentFixture<OpfCheckoutPaymentAndReviewComponent>;
+  let opfMetadataStoreService: OpfMetadataStoreService;
 
   const mockCheckoutStepService = {
     getCheckoutStepUrl: jasmine
@@ -222,6 +228,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OpfCheckoutPaymentAndReviewComponent);
     component = fixture.componentInstance;
+    opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
 
     mockActiveCartFacade.hasDeliveryItems.calls.reset();
     mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
@@ -230,6 +237,63 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should expose terms and conditions form state', () => {
+    expect(component.termsAndConditionInvalid).toBe(true);
+    expect(component.termsAndConditionsFieldValue).toBe(false);
+
+    component.checkoutSubmitForm.get('termsAndConditions')?.setValue(true);
+
+    expect(component.termsAndConditionInvalid).toBe(false);
+    expect(component.termsAndConditionsFieldValue).toBe(true);
+  });
+
+  it('should toggle terms and conditions by updating metadata', () => {
+    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    component.checkoutSubmitForm.get('termsAndConditions')?.setValue(true);
+
+    component.toggleTermsAndConditions();
+
+    expect(updateSpy).toHaveBeenCalledWith({
+      termsAndConditionsChecked: true,
+    });
+  });
+
+  it('should update selected payment provider name', () => {
+    let selectedProviderName: string | null | undefined;
+    (component as any).selectedPaymentProviderName$.subscribe((value: any) => {
+      selectedProviderName = value;
+    });
+
+    component.onPaymentProviderSelected('Mock provider');
+
+    expect(selectedProviderName).toBe('Mock provider');
+  });
+
+  it('should detect cms component existence in page', () => {
+    const cmsComponentUid = 'OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT';
+
+    expect((component as any).isCmsComponentInPage(cmsComponentUid, {})).toBe(
+      false
+    );
+    expect(
+      (component as any).isCmsComponentInPage(cmsComponentUid, {
+        slots: [cmsComponentUid],
+      })
+    ).toBe(true);
+  });
+
+  it('should initialize metadata state and pickup delivery mode in ngOnInit', () => {
+    const updateSpy = spyOn(opfMetadataStoreService, 'updateOpfMetadata');
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+
+    component.ngOnInit();
+
+    expect(updateSpy).toHaveBeenCalledWith({
+      termsAndConditionsChecked: false,
+    });
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
   });
 
   it('should get delivery address card', () => {

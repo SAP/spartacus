@@ -235,7 +235,8 @@
       "collapseAll": "Collapse all",
       "expand": "Expand",
       "collapse": "collapse",
-      "explore": "Explore sub-units"
+      "explore": "Explore sub-units",
+      "level": "Level {{level}}"
     },
     "children": {
       "create": {

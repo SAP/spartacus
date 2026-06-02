@@ -8,6 +8,7 @@ import {
 } from '@spartacus/cart/quick-order/root';
 import {
   FeatureConfigService,
+  FeatureToggles,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
@@ -104,6 +105,10 @@ describe('QuickOrderFormComponent', () => {
           },
         },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: FeatureToggles,
+          useValue: { a11yQuickOrderResetFocus: true },
+        },
       ],
     })
       .overrideComponent(QuickOrderFormComponent, {
