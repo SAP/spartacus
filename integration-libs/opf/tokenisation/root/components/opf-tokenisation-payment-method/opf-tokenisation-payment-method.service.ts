@@ -263,16 +263,30 @@ export class OpfTokenisationPaymentMethodService {
       if (defaultPaymentMethod) {
         this.selectedPaymentMethod$.next(defaultPaymentMethod);
         this.savePaymentMethod(defaultPaymentMethod);
+        return;
+      }
+
+      const singleNonExpiredCard =
+        paymentMethods.length === 1 && !this.isCardExpired(paymentMethods[0])
+          ? paymentMethods[0]
+          : undefined;
+
+      if (singleNonExpiredCard) {
+        this.setDefaultPaymentMethod(singleNonExpiredCard, false);
+        this.selectedPaymentMethod$.next(singleNonExpiredCard);
+        this.savePaymentMethod(singleNonExpiredCard);
       }
     }
   }
 
-  setDefaultPaymentMethod(paymentDetails: PaymentDetails): void {
+  setDefaultPaymentMethod(paymentDetails: PaymentDetails, notify = true): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentDetails.id ?? '');
-    this.globalMessageService.add(
-      { key: 'paymentMessages.setAsDefaultSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+    if (notify) {
+      this.globalMessageService.add(
+        { key: 'paymentMessages.setAsDefaultSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 
   protected savePaymentMethod(paymentDetails: PaymentDetails): void {
