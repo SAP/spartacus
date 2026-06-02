@@ -17,7 +17,11 @@ import {
   TranslatePipe,
   FeatureDirective,
 } from '@spartacus/core';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-store-finder-search',
@@ -31,6 +35,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
     NgTemplateOutlet,
     TranslatePipe,
     FeatureDirective,
+    FocusDirective,
   ],
 })
 export class StoreFinderSearchComponent {
