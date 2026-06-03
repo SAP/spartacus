@@ -51,7 +51,11 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
         this.domainService.updatePaymentTransaction(updatePaymentConfig)
     );
     this.registerVerifyPayment(container);
-    this.sharedRegistrationsService.registerSubmit(container, paymentSessionId, vcr);
+    this.sharedRegistrationsService.registerSubmit(
+      container,
+      paymentSessionId,
+      vcr
+    );
     this.sharedRegistrationsService.registerSubmitComplete(
       container,
       paymentSessionId,
@@ -169,4 +173,3 @@ export class OpfGlobalFunctionsGlobalDomainRegistrationsService {
       this.domainService.deleteAddress(addressId);
   }
 }
-

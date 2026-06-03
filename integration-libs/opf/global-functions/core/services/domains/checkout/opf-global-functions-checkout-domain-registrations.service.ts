@@ -22,7 +22,11 @@ export class OpfGlobalFunctionsCheckoutDomainRegistrationsService {
     container: OpfPaymentGlobalMethods,
     { paymentSessionId, vcr }: OpfRegisterGlobalFunctionsInput
   ): void {
-    this.sharedRegistrationsService.registerSubmit(container, paymentSessionId, vcr);
+    this.sharedRegistrationsService.registerSubmit(
+      container,
+      paymentSessionId,
+      vcr
+    );
     this.sharedRegistrationsService.registerSubmitComplete(
       container,
       paymentSessionId,
@@ -48,8 +52,11 @@ export class OpfGlobalFunctionsCheckoutDomainRegistrationsService {
       this.domainService.startLoadIndicator(vcr);
   }
 
-  protected registerStopLoadIndicator(container: OpfPaymentGlobalMethods): void {
-    container.stopLoadIndicator = (): void => this.domainService.stopLoadIndicator();
+  protected registerStopLoadIndicator(
+    container: OpfPaymentGlobalMethods
+  ): void {
+    container.stopLoadIndicator = (): void =>
+      this.domainService.stopLoadIndicator();
   }
 
   protected registerThrowPaymentError(
@@ -61,7 +68,9 @@ export class OpfGlobalFunctionsCheckoutDomainRegistrationsService {
     ): void => this.domainService.throwPaymentError(vcr, opfErrorDialogOptions);
   }
 
-  protected registerReinitiatePaymentForm(container: OpfPaymentGlobalMethods): void {
+  protected registerReinitiatePaymentForm(
+    container: OpfPaymentGlobalMethods
+  ): void {
     container.reinitiatePaymentForm = (paymentOptionId?: number) =>
       this.domainService.reinitiatePaymentForm(paymentOptionId);
   }
@@ -74,4 +83,3 @@ export class OpfGlobalFunctionsCheckoutDomainRegistrationsService {
       this.domainService.handle3DSRedirect(threeDsURL, paymentSessionId);
   }
 }
-

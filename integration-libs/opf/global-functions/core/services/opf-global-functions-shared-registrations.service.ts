@@ -25,7 +25,9 @@ export class OpfGlobalFunctionsSharedRegistrationsService {
     paymentSessionId?: string,
     vcr?: ViewContainerRef
   ): void {
-    container.submit = (options: OpfSharedPaymentSubmitOptions): Promise<boolean> =>
+    container.submit = (
+      options: OpfSharedPaymentSubmitOptions
+    ): Promise<boolean> =>
       this.sharedService.submit(options, paymentSessionId, vcr);
   }
 

@@ -30,7 +30,15 @@ import {
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, combineLatest, lastValueFrom, throwError } from 'rxjs';
-import { filter, finalize, last, map, retry, switchMap, take } from 'rxjs/operators';
+import {
+  filter,
+  finalize,
+  last,
+  map,
+  retry,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 
 export type OpfSharedPaymentSubmitOptions = {
   cartId?: string;
@@ -78,7 +86,8 @@ export class OpfGlobalFunctionsSharedService {
   }
 
   requirePaymentSessionId(paymentSessionId?: string): string {
-    const finalPaymentSessionId = this.resolvePaymentSessionId(paymentSessionId);
+    const finalPaymentSessionId =
+      this.resolvePaymentSessionId(paymentSessionId);
 
     if (!finalPaymentSessionId) {
       throw new Error(
@@ -250,7 +259,10 @@ export class OpfGlobalFunctionsSharedService {
   startLoaderSpinner(
     vcr: ViewContainerRef
   ): void | Observable<ComponentRef<any> | undefined> {
-    return this.launchDialogService.launch(LAUNCH_CALLER.PLACE_ORDER_SPINNER, vcr);
+    return this.launchDialogService.launch(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      vcr
+    );
   }
 
   stopLoaderSpinner(
@@ -278,7 +290,11 @@ export class OpfGlobalFunctionsSharedService {
     return lastValueFrom(
       combineLatest([userId$, cartId$]).pipe(
         switchMap(([userId, cartId]) =>
-          this.updatePaymentTransactionWithCart(userId, cartId, updatePaymentConfig)
+          this.updatePaymentTransactionWithCart(
+            userId,
+            cartId,
+            updatePaymentConfig
+          )
         )
       )
     );
@@ -333,8 +349,10 @@ export class OpfGlobalFunctionsSharedService {
       })
       .pipe(
         retry({
-          count: OpfGlobalFunctionsSharedService.UPDATE_PAYMENT_TRANSACTION_RETRY_COUNT,
-          delay: OpfGlobalFunctionsSharedService.UPDATE_PAYMENT_TRANSACTION_RETRY_DELAY,
+          count:
+            OpfGlobalFunctionsSharedService.UPDATE_PAYMENT_TRANSACTION_RETRY_COUNT,
+          delay:
+            OpfGlobalFunctionsSharedService.UPDATE_PAYMENT_TRANSACTION_RETRY_DELAY,
         })
       );
   }

@@ -16,7 +16,6 @@ import { OpfGlobalFunctionsSharedRegistrationsService } from '../services/opf-gl
 import { OpfGlobalFunctionsSharedService } from '../services/opf-global-functions-shared.service';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 
-
 export const facadeProviders: Provider[] = [
   OpfGlobalFunctionsSharedService,
   OpfGlobalFunctionsSharedRegistrationsService,

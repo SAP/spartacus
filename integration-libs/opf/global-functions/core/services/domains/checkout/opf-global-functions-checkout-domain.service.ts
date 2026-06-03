@@ -89,7 +89,10 @@ export class OpfGlobalFunctionsCheckoutDomainService {
     });
   }
 
-  handle3DSRedirect(threeDsURL: string, paymentSessionId?: string): Promise<void> {
+  handle3DSRedirect(
+    threeDsURL: string,
+    paymentSessionId?: string
+  ): Promise<void> {
     return this.ngZone.run(() => {
       const finalPaymentSessionId =
         this.sharedService.requirePaymentSessionId(paymentSessionId);
@@ -135,7 +138,9 @@ export class OpfGlobalFunctionsCheckoutDomainService {
 
         return storedId
           ? of(storedId)
-          : throwError(() => new Error('No payment option ID found in storage'));
+          : throwError(
+              () => new Error('No payment option ID found in storage')
+            );
       })
     );
   }
