@@ -10,14 +10,14 @@
       <div class="col-sm-12 col-md-8 col-lg-6">
         <button
           class="btn btn-link cx-action-link"
-          [disabled]="data.loading"
+          [attr.aria-disabled]="data.loading"
           (click)="rejectAll(templateList)"
         >
           {{ 'consentManagementForm.clearAll' | cxTranslate }}
         </button>
         <button
           class="btn btn-link cx-action-link"
-          [disabled]="data.loading"
+          [attr.aria-disabled]="data.loading"
           (click)="allowAll(templateList)"
         >
           {{ 'consentManagementForm.selectAll' | cxTranslate }}
@@ -28,7 +28,7 @@
       class="cx-spinner"
       *ngIf="data.allConsentsLoading || (data.loading && !templateList?.length)"
     >
-      <cx-spinner></cx-spinner>
+      <cx-spinner />
     </div>
 
     <ng-container *ngIf="!data.allConsentsLoading">
