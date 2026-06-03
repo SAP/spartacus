@@ -15,9 +15,11 @@ import {
   OPF_BASE_FEATURE_NAME,
   OPF_CHECKOUT_FEATURE_NAME,
   OPF_CTA_FEATURE_NAME,
+  OPF_GIFT_CARD_FEATURE_NAME,
   OPF_GLOBAL_FUNCTIONS_FEATURE_NAME,
   OPF_PAYMENT_FEATURE_NAME,
   OPF_QUICK_BUY_FEATURE_NAME,
+  OPF_TOKENISATION_FEATURE_NAME,
   SPARTACUS_CHECKOUT,
   SPARTACUS_OPF,
   SPARTACUS_SCHEMATICS,
@@ -96,13 +98,22 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     ...libraryNoFeaturesOptions,
     features: [OPF_QUICK_BUY_FEATURE_NAME],
   };
+  const opfGiftCardFeatureOptions: SpartacusOpfOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [OPF_GIFT_CARD_FEATURE_NAME],
+  };
+
+  const opfTokenisationFeatureOptions: SpartacusOpfOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [OPF_TOKENISATION_FEATURE_NAME],
+  };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
+        '../../../../core-libs/schematics/src/collection.json'
       )
     );
 
@@ -160,7 +171,9 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
             ...opfPaymentFeatureOptions,
             ...opfCtaFeatureOptions,
             ...opfGlobalFunctionsFeatureOptions,
+            ...opfGiftCardFeatureOptions,
             ...opfQuickBuyFeatureOptions,
+            ...opfTokenisationFeatureOptions,
           },
           appTree
         );

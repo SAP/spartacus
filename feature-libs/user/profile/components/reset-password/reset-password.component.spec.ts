@@ -6,9 +6,14 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
@@ -40,19 +45,26 @@ describe('ResetPasswordComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
         ResetPasswordComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {
           provide: ResetPasswordComponentService,
           useClass: MockResetPasswordService,
         },
+        {
+          provide: TranslationService,
+          useClass: MockTranslationService,
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ResetPasswordComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -23,7 +23,7 @@ import {
   PaginationComponent,
   TableComponent,
 } from '@spartacus/storefront';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
 import { CardComponent } from '../card/card.component';
 import { CardTestingModule } from '../card/card.testing.module';
@@ -84,6 +84,15 @@ class MockBaseListService {
   }
   hasGhostData() {
     return false;
+  }
+  isSearchEnabled(): boolean {
+    return false;
+  }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');

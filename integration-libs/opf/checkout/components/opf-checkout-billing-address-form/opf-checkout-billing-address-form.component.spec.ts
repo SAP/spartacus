@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,6 +12,7 @@ import {
   Address,
   BaseSiteService,
   Country,
+  MockTranslatePipe,
   TranslatePipe,
   UserAddressAdapter,
 } from '@spartacus/core';
@@ -50,11 +50,6 @@ class Service {
     this.isSameAsDelivery$.next(value);
   }
   setDefaultBillingAddress(): void {}
-}
-
-@Pipe({ name: 'cxTranslate' })
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
 }
 
 describe('OpfCheckoutBillingAddressFormComponent', () => {
@@ -167,12 +162,17 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   it('should reset flags and call setBillingAddress on onSubmitAddress', () => {
     spyOn(service, 'setBillingAddress').and.returnValue(of());
+    const setIsSameAsDeliveryValueSpy = spyOn(
+      service,
+      'setIsSameAsDeliveryValue'
+    );
     const address = { id: '1', streetName: '456 Elm St' };
 
     component.onSubmitAddress(address);
 
     expect(component.isEditBillingAddress).toBe(false);
     expect(component.isAddingBillingAddressInProgress).toBe(false);
+    expect(setIsSameAsDeliveryValueSpy).toHaveBeenCalledWith(false);
     expect(service.setBillingAddress).toHaveBeenCalledWith(address);
   });
 

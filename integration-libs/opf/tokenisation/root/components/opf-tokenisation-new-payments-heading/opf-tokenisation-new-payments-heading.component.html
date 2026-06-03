@@ -1,0 +1,17 @@
+<ng-container *ngIf="context$ | async as ctx">
+  <ng-container *ngIf="ctx.hasSavedCards === true">
+    <div
+      class="cx-payment-options-section"
+      [attr.aria-label]="
+        ctx.newPaymentHeading || ('opfCheckout.newPaymentHeading' | cxTranslate)
+      "
+    >
+      <h3 class="cx-payment-section-heading">
+        {{
+          ctx.newPaymentHeading ||
+            ('opfCheckout.newPaymentHeading' | cxTranslate)
+        }}
+      </h3>
+    </div>
+  </ng-container>
+</ng-container>

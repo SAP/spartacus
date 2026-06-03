@@ -38,8 +38,10 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -69,7 +71,7 @@ export class OpfCheckoutBillingAddressFormService {
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
   protected readonly _$paymentOptionsDisabled = new BehaviorSubject(false);
   paymentOptionsDisabled$ = this._$paymentOptionsDisabled.asObservable();
-
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   get pickupNoDefaultAddress$(): Observable<void> {
     return this._noDefaultAddressFoundForPickupMode$.asObservable();
   }
@@ -130,19 +132,20 @@ export class OpfCheckoutBillingAddressFormService {
     combineLatest([this.getDeliveryAddress(), this.getPaymentAddress()])
       .pipe(take(1))
       .subscribe(
-        ([deliveryAddress, paymentAddress]: [
+        ([deliveryAddress, sapBillingAddress]: [
           Address | undefined,
           Address | undefined,
         ]) => {
-          if (!paymentAddress && !!deliveryAddress) {
+          if (sapBillingAddress) {
+            this.billingAddressId = sapBillingAddress.id;
+            this._$billingAddressSub.next(sapBillingAddress);
+            this.setIsSameAsDeliveryValue(false);
+          } else if (deliveryAddress) {
+            // Saves delivery as billing on the cart (subject gets updated again when PUT completes).
             this.setBillingAddress(deliveryAddress);
+            // Without this the address card goes blank for a bit — we hide loading before PUT is done.
             this._$billingAddressSub.next(deliveryAddress);
-          }
-
-          if (!!paymentAddress && !!deliveryAddress) {
-            this.billingAddressId = paymentAddress.id;
-            this._$billingAddressSub.next(paymentAddress);
-            this._$isSameAsDelivery.next(false);
+            this.setIsSameAsDeliveryValue(true);
           }
 
           this._$isLoadingAddress.next(false);
@@ -169,9 +172,10 @@ export class OpfCheckoutBillingAddressFormService {
 
   setBillingAddress(address: Address): Observable<Address | undefined> {
     this._$isLoadingAddress.next(true);
+    const submittedAddress = this.getAddressWithId(address);
 
     return this.checkoutBillingAddressFacade
-      .setBillingAddress(this.getAddressWithId(address))
+      .setBillingAddress(submittedAddress)
       .pipe(
         switchMap(() => {
           this.activeCartService.reloadActiveCart();
@@ -179,16 +183,27 @@ export class OpfCheckoutBillingAddressFormService {
           return this.activeCartService.isStable();
         }),
         filter((isStable: boolean) => isStable),
-        switchMap(() => this.getPaymentAddress()),
-
-        tap((billingAddress: Address | undefined) => {
-          if (!!billingAddress && !!billingAddress.id) {
-            this.billingAddressId = billingAddress.id;
+        switchMap(() =>
+          this.getPaymentAddress().pipe(
+            map((sapBillingAddress) => sapBillingAddress ?? submittedAddress)
+          )
+        ),
+        withLatestFrom(
+          this.opfPaymentEventsService.isGiftCardCoveredTotalAmountEvent$
+        ),
+        tap(([billingAddress, isGiftCardCovered]) => {
+          if (billingAddress) {
+            if (billingAddress.id) {
+              this.billingAddressId = billingAddress.id;
+            }
 
             this._$billingAddressSub.next(billingAddress);
-            this.opfCheckoutPaymentWrapperService.reloadPaymentMode();
+            if (!isGiftCardCovered) {
+              this.opfCheckoutPaymentWrapperService.reloadPaymentMode();
+            }
           }
         }),
+        map(([billingAddress]) => billingAddress),
         catchError((error: HttpErrorModel) => {
           this.globalMessageService.add(
             { key: 'opfCheckout.errors.updateBillingAddress' },

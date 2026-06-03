@@ -2,12 +2,18 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureDirective,
+  MockTranslatePipe,
+  MockTranslationService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
@@ -25,14 +31,20 @@ describe('CSAgentLoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
         CSAgentLoginFormComponent,
         DotSpinnerComponent,
-        MockFeatureDirective,
       ],
-    }).compileComponents();
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
+    })
+      .overrideComponent(CSAgentLoginFormComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

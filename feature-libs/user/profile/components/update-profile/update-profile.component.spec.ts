@@ -10,12 +10,18 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfig,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  FormErrorsModule,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
@@ -24,14 +30,6 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nTestingModule,
-    FormErrorsModule,
-    UrlTestingModule,
-    NgSelectModule,
-  ],
 })
 class MockCxSpinnerComponent {}
 
@@ -73,9 +71,7 @@ describe('UpdateProfileComponent', () => {
       imports: [
         CommonModule,
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
-        UrlTestingModule,
         NgSelectModule,
         UpdateProfileComponent,
         MockCxSpinnerComponent,
@@ -94,8 +90,22 @@ describe('UpdateProfileComponent', () => {
           },
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UpdateProfileComponent, {
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent, NgSelectA11yDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxSpinnerComponent,
+            MockNgSelectA11yDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

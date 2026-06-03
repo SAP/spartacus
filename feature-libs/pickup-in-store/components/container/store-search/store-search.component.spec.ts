@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { FeatureDirective } from '@spartacus/core';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockCurrentLocationService } from '../../services/current-location.service.spec';
 
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { StoreSearchComponent } from './store-search.component';
 
 describe('StoreSearchComponent', () => {
@@ -14,14 +15,19 @@ describe('StoreSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreSearchComponent, MockFeatureDirective],
+      imports: [StoreSearchComponent],
       providers: [
         {
           provide: CurrentLocationService,
           useClass: MockCurrentLocationService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreSearchComponent, {
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+        add: { imports: [MockTranslatePipe, MockFeatureDirective] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

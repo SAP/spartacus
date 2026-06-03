@@ -167,7 +167,7 @@ describe('OccSubscriptionBillingAdapter', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `users/${mockCustomerId}/subscriptionbills?pageSize=${PAGE_SIZE}&currentPage=${currentPage}&sort=${sort}`
+            `users/${mockCustomerId}/subscriptionbills?fields=FULL&pageSize=${PAGE_SIZE}&currentPage=${currentPage}&sort=${sort}`
         );
       });
 

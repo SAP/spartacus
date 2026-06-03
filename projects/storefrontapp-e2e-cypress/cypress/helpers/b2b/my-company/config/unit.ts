@@ -108,15 +108,6 @@ export const unitConfig: MyCompanyConfig = {
       sortLabel: 'Name',
     },
     {
-      label: 'Status',
-      variableName: 'Active',
-      inputType: INPUT_TYPE.TEXT,
-      createValue: 'Active',
-      updateValue: 'Active',
-      showInTable: true,
-      showInDetails: true,
-    },
-    {
       label: 'ID',
       variableName: 'id',
       inputType: INPUT_TYPE.TEXT,
@@ -126,6 +117,15 @@ export const unitConfig: MyCompanyConfig = {
       showInDetails: true,
       useInUrl: true,
       formLabel: 'ID*',
+    },
+    {
+      label: 'Status',
+      variableName: 'Active',
+      inputType: INPUT_TYPE.TEXT,
+      createValue: 'Active',
+      updateValue: 'Active',
+      showInTable: true,
+      showInDetails: true,
     },
     {
       label: 'Approval process',

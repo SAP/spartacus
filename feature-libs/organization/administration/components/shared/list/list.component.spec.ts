@@ -29,12 +29,12 @@ import {
   Table,
   TableComponent,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
-import { SplitViewTestingModule } from 'projects/storefrontlib/shared/components/split-view/testing/spit-view-testing.module';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
+import { PaginationTestingModule } from 'core-libs/storefront/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { SplitViewTestingModule } from 'core-libs/storefront/shared/components/split-view/testing/spit-view-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
@@ -71,6 +71,8 @@ const mockEmptyList: EntitiesModel<Mock> = {
 class MockBaseListService {
   view = createSpy('view');
   sort = createSpy('sort');
+  search = createSpy('search');
+  clearSearch = createSpy('clearSearch');
   getData() {
     return EMPTY;
   }
@@ -82,6 +84,15 @@ class MockBaseListService {
   }
   hasGhostData() {
     return false;
+  }
+  isSearchEnabled(): boolean {
+    return false;
+  }
+  getMinSearchCharacters(): number {
+    return 3;
+  }
+  getSearchPlaceholderKey(): string {
+    return 'organization.search.placeholder';
   }
   onCreateButtonClick(): void {}
   getCreateButtonType = createSpy('getCreateButtonType');
@@ -387,6 +398,78 @@ describe('ListComponent', () => {
         expect(hlink).toBeNull();
         let button = el.query(By.css('button.button.primary.create'));
         expect(button).toBeNull();
+      });
+    });
+  });
+
+  describe('Search functionality', () => {
+    beforeEach(() => {
+      spyOn(service, 'getData').and.returnValue(of(mockList));
+      fixture = TestBed.createComponent(MockListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    describe('isSearchEnabled', () => {
+      it('should initialize isSearchEnabled from service', () => {
+        // MockBaseListService.isSearchEnabled() returns false by default
+        expect(component.isSearchEnabled).toBe(false);
+      });
+
+      it('should reflect service isSearchEnabled value', () => {
+        spyOn(service, 'isSearchEnabled').and.returnValue(true);
+        const newFixture = TestBed.createComponent(MockListComponent);
+        const newComponent = newFixture.componentInstance;
+        expect(newComponent.isSearchEnabled).toBe(true);
+      });
+    });
+
+    describe('onSearchQueryChange()', () => {
+      it('should not trigger search when pagination is undefined', () => {
+        component.isSearchEnabled = true;
+        component.onSearchQueryChange(undefined, 'test');
+        // Should not throw and search should not be called immediately (debounced)
+        expect(service.search).not.toHaveBeenCalled();
+      });
+
+      it('should not trigger search when search is disabled', () => {
+        component.isSearchEnabled = false;
+        component.onSearchQueryChange({ currentPage: 0 }, 'test');
+        expect(service.search).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('clearSearch()', () => {
+      it('should clear searchQuery and call service.clearSearch', () => {
+        component.searchQuery = 'test';
+        component.clearSearch({ currentPage: 0 });
+        expect(component.searchQuery).toBe('');
+        expect(service.clearSearch).toHaveBeenCalledWith({ currentPage: 0 });
+      });
+
+      it('should not call service.clearSearch when pagination is undefined', () => {
+        component.clearSearch(undefined);
+        expect(service.clearSearch).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('UI', () => {
+      it('should not show search box when search is disabled', () => {
+        component.isSearchEnabled = false;
+        fixture.detectChanges();
+        const searchWrapper = fixture.debugElement.query(
+          By.css('.search-wrapper')
+        );
+        expect(searchWrapper).toBeFalsy();
+      });
+
+      it('should show search box when search is enabled', () => {
+        component.isSearchEnabled = true;
+        fixture.detectChanges();
+        const searchWrapper = fixture.debugElement.query(
+          By.css('.search-wrapper')
+        );
+        expect(searchWrapper).toBeTruthy();
       });
     });
   });

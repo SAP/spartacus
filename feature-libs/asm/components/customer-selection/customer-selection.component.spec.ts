@@ -12,8 +12,10 @@ import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import {
   FeatureConfigService,
+  FeatureDirective,
   GlobalMessageService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
@@ -23,9 +25,8 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
-import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
 class MockGlobalMessageService {
@@ -121,11 +122,8 @@ describe('CustomerSelectionComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         CustomerSelectionComponent,
-        DotSpinnerComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: AsmService, useClass: MockAsmService },
@@ -137,7 +135,16 @@ describe('CustomerSelectionComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerSelectionComponent, {
+        remove: {
+          imports: [TranslatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
   }));

@@ -53,11 +53,18 @@
         "unknown": "Server validation error."
       }
     },
-    "information": "More information about {{title}}"
+    "information": "More information about {{title}}",
+    "search": {
+      "label": "Search",
+      "placeholder": "Name",
+      "clear": "Clear search",
+      "noResults": "No results found for \"{{query}}\"",
+      "noResultsFound": "No results found"
+    }
   },
   "orgCostCenter": {
     "groupName": "Cost Centers",
-    "header": "All cost centers ({{count}})",
+    "header": "Cost centers ({{count}})",
     "code": "Code",
     "active": "Status",
     "name": "Name",
@@ -179,10 +186,13 @@
   },
   "orgUnit": {
     "groupName": "Units",
-    "header": "All units ({{count}})",
+    "header": "Units ({{count}})",
     "unit": "Unit",
     "name": "Name",
     "uid": "ID",
+    "search": {
+      "placeholder": "Name or ID"
+    },
     "approvalProcess": "Approval process",
     "parentUnit": "Parent Unit",
     "active": "Status",
@@ -225,7 +235,8 @@
       "collapseAll": "Collapse all",
       "expand": "Expand",
       "collapse": "collapse",
-      "explore": "Explore sub-units"
+      "explore": "Explore sub-units",
+      "level": "Level {{level}}"
     },
     "children": {
       "create": {
@@ -456,7 +467,7 @@
   },
   "orgUser": {
     "groupName": "Users",
-    "header": "All users ({{count}})",
+    "header": "Users ({{count}})",
     "disabled": "(disabled)",
     "uid": "Email",
     "active": "Status",

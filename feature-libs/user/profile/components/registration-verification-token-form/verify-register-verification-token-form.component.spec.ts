@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectorRef,
-  DebugElement,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectorRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -22,23 +17,27 @@ import {
   AuthConfigService,
   FeatureConfigService,
   GlobalMessageService,
-  I18nTestingModule,
+  MockTranslatePipe,
+  MockTranslationService,
   OAuthFlow,
   RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
-  CustomFormValidators,
   FormErrorsModule,
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
-const mockInvalidPassword = 'strongPass$!123';
+const mockInvalidPassword = 'strongPas$!123|';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -67,10 +66,6 @@ class MockFormComponentService
     of({ tokenId: 'testTokenId', expiresIn: '300' })
   );
   displayMessage = createSpy('displayMessage').and.stub();
-}
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform() {}
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -107,11 +102,9 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         RouterTestingModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
         RegistrationVerificationTokenFormComponent,
-        MockUrlPipe,
       ],
       providers: [
         {
@@ -134,9 +127,15 @@ describe('RegistrationVerificationTokenFormComponent', () => {
           provide: RegistrationVerificationTokenFormComponentService,
           useClass: MockRegistrationVerificationTokenFormComponentService,
         },
+        { provide: TranslationService, useClass: MockTranslationService },
         ChangeDetectorRef,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RegistrationVerificationTokenFormComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -312,12 +311,12 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   });
 
   describe('password validators', () => {
-    describe('when validators feature flag is enabled', () => {
+    describe('when useEnhancedSecurePasswordValidators is enabled', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
       });
 
-      it('should have new validators', () => {
+      it('should include new cxMustEndWithLegalCharacter validator', () => {
         fixture = TestBed.createComponent(
           RegistrationVerificationTokenFormComponent
         );
@@ -329,8 +328,11 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         ) as UntypedFormControl;
         const validations = {
           whenEmpty: passwordControl.validator?.({} as any),
-          whenNotEmpty: passwordControl.validator?.({
+          whenNotEmptyAndInvalid: passwordControl.validator?.({
             value: mockInvalidPassword,
+          } as any),
+          whenNotEmpty: passwordControl.validator?.({
+            value: mockSecurePassword,
           } as any),
         };
 
@@ -342,17 +344,12 @@ describe('RegistrationVerificationTokenFormComponent', () => {
           cxMinOneUpperCaseCharacter: true,
           cxMinEightCharactersLength: true,
           cxMaxCharactersLength: true,
+          cxMustEndWithLegalCharacter: true,
         });
-        expect(validations.whenNotEmpty).toEqual({
-          cxNoConsecutiveCharacters: true,
+        expect(validations.whenNotEmptyAndInvalid).toEqual({
+          cxMustEndWithLegalCharacter: true,
         });
-      });
-
-      it('test getPasswordValidators method', () => {
-        const passwordValidators = component.getPasswordValidators();
-        expect(passwordValidators).toEqual(
-          CustomFormValidators.securePasswordValidators
-        );
+        expect(validations.whenNotEmpty).toEqual(null);
       });
     });
   });

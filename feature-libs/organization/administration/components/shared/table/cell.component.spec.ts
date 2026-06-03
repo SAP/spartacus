@@ -12,8 +12,8 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { CellComponent } from './cell.component';
 
 const mockContext: TableDataOutletContext = {

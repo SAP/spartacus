@@ -11,7 +11,7 @@ import {
   Order,
   OrderHistoryListView,
 } from '@spartacus/order/root';
-import * as fromProcessReducers from 'projects/core/src/process/store/reducers/index';
+import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderActions } from '../store';

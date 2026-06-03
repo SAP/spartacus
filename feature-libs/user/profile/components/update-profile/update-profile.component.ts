@@ -17,13 +17,18 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
   NgSelectA11yDirective,
   SpinnerComponent,
+  TruncationTooltipDirective,
 } from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
@@ -48,6 +53,8 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
+    TruncationTooltipDirective,
   ],
 })
 export class UpdateProfileComponent {

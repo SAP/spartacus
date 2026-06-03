@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { FocusDirective } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
 import {
   CardComponent,

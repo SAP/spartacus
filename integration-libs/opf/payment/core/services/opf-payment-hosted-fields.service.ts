@@ -28,6 +28,7 @@ import {
   OpfPaymentErrorType,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
+  OpfPaymentChannel,
   OpfPaymentSubmitCompleteInput,
   OpfPaymentSubmitCompleteRequest,
   OpfPaymentSubmitCompleteResponse,
@@ -71,7 +72,7 @@ export class OpfPaymentHostedFieldsService {
     const submitRequest: OpfPaymentSubmitRequest = {
       paymentMethod,
       additionalData,
-      channel: 'BROWSER',
+      channel: OpfPaymentChannel.BROWSER,
       browserInfo: getBrowserInfo(this.winRef.nativeWindow),
       savePaymentMethod,
     };
@@ -105,7 +106,7 @@ export class OpfPaymentHostedFieldsService {
           returnPath,
           submitInput?.callbacks?.onFailure
         );
-        return throwError(error);
+        return throwError(() => error);
       }),
       backOff({
         /**
@@ -194,19 +195,19 @@ export class OpfPaymentHostedFieldsService {
     } else if (response.status === OpfPaymentSubmitStatus.REJECTED) {
       return from(Promise.resolve(callbacks.onFailure(response))).pipe(
         concatMap(() =>
-          throwError({
+          throwError(() => ({
             ...opfDefaultPaymentError,
             type: OpfPaymentErrorType.PAYMENT_REJECTED,
-          })
+          }))
         )
       );
     } else {
       return from(Promise.resolve(callbacks.onFailure(response))).pipe(
         concatMap(() =>
-          throwError({
+          throwError(() => ({
             ...opfDefaultPaymentError,
             type: OpfPaymentErrorType.STATUS_NOT_RECOGNIZED,
-          })
+          }))
         )
       );
     }

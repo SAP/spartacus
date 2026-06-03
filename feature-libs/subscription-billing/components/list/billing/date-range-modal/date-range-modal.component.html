@@ -1,0 +1,85 @@
+<div
+  class="modal-dialog modal-dialog-centered"
+  role="dialog"
+  [cxFocus]="focusConfig"
+  aria-labelledby="dateRangeModalTitle"
+  (esc)="onDialogClose('Modal dismissed with ESC key')"
+>
+  <div class="modal-content">
+    <!-- Modal Header -->
+    <div class="cx-dialog-header modal-header cx-dialog-header-cancel">
+      <div id="dialogTitle" class="cx-dialog-title modal-title">
+        <h3>
+          {{ 'subscriptionBillsList.dateRangeModalTitle' | cxTranslate }}
+        </h3>
+      </div>
+      <button
+        type="button"
+        class="close"
+        attr.aria-label="{{ 'subscriptionActions.closeModal' | cxTranslate }}"
+        (click)="onDialogClose('Modal dismissed')"
+      >
+        <span><cx-icon [type]="iconTypes.CLOSE"></cx-icon></span>
+      </button>
+    </div>
+    <div class="cx-dialog-body modal-body">
+      <div class="billing-list-filter-section">
+        <div class="date-filters-wrapper">
+          <div class="from-date-filter date-filters">
+            <span class="sort-label label-text">
+              {{ 'subscriptionBillsList.filterFromDateLabel' | cxTranslate }}
+            </span>
+            <cx-date-picker
+              [control]="$any(billsDateFilterForm.get('from'))"
+              [label]="'subscriptionBillsList.filterFromDateLabel'"
+              (update)="onFilterDateChange()"
+              [min]="minDate"
+              [max]="maxDate"
+            ></cx-date-picker>
+          </div>
+          <div class="to-date-filter date-filters">
+            <span class="sort-label label-text">
+              {{ 'subscriptionBillsList.filterToDateLabel' | cxTranslate }}
+            </span>
+            <cx-date-picker
+              [control]="$any(billsDateFilterForm.get('to'))"
+              [label]="'subscriptionBillsList.filterToDateLabel'"
+              (update)="onFilterDateChange()"
+              [min]="minDate"
+              [max]="maxDate"
+            ></cx-date-picker>
+          </div>
+          <div class="reset-filter-wrapper">
+            <button
+              class="btn btn-block btn-tertiary"
+              (click)="onResetFilterDate()"
+            >
+              {{ 'subscriptionBillsList.reset' | cxTranslate }}
+            </button>
+          </div>
+          <div class="date-filters-buttons-wrapper">
+            <div class="date-filters-buttons reset">
+              <button
+                type="button"
+                class="btn btn-block btn-secondary"
+                (click)="onDialogClose('Modal dismissed')"
+              >
+                {{ 'subscriptionBillsList.cancel' | cxTranslate }}
+              </button>
+            </div>
+            <div class="date-filters-buttons submit">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                [disabled]="!billsDateFilterForm.valid"
+                (click)="onDateFilterSubmit()"
+              >
+                {{ 'subscriptionBillsList.submit' | cxTranslate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

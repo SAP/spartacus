@@ -5,15 +5,16 @@ import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  MockTranslationService,
   RoutingService,
   TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
 import createSpy = jasmine.createSpy;
@@ -45,11 +46,11 @@ describe('StoreFinderStoresCountComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SpinnerModule,
-        I18nTestingModule,
         StoreFinderStoresCountComponent,
         RouterModule.forRoot([]),
       ],
       providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: StoreFinderService,
           useClass: MockStoreFinderService,

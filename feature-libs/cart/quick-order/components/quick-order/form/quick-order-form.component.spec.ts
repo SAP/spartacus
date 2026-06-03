@@ -8,16 +8,17 @@ import {
 } from '@spartacus/cart/quick-order/root';
 import {
   FeatureConfigService,
+  FeatureToggles,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Product,
   Translatable,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
 
@@ -74,7 +75,6 @@ class MockFeatureConfigService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -91,14 +91,7 @@ describe('QuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        QuickOrderFormComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ReactiveFormsModule, FormErrorsModule, QuickOrderFormComponent],
       providers: [
         ChangeDetectorRef,
         WindowRef,
@@ -112,8 +105,19 @@ describe('QuickOrderFormComponent', () => {
           },
         },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: FeatureToggles,
+          useValue: { a11yQuickOrderResetFocus: true },
+        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuickOrderFormComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
   });

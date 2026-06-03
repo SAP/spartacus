@@ -79,15 +79,17 @@
   </label>
 
   <label>
-    <span class="label-content">{{
-      'updateProfileForm.customerId' | cxTranslate
-    }}</span>
+    <span class="label-content"
+      >{{ 'updateProfileForm.customerId' | cxTranslate }}
+      <cx-form-required-asterisks *cxFeature="'showRequiredAsterisks'" />
+    </span>
     <input
       required="true"
       type="text"
       class="form-control"
       name="customerId"
       formControlName="customerId"
+      cxTruncationTooltip
       [attr.aria-invalid]="
         form.get('customerId')?.touched && form.get('customerId')?.invalid
       "

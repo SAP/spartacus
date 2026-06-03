@@ -4,16 +4,21 @@ import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockTranslatePipe,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import {
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import { MockKeyboardFocusDirective } from 'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
@@ -27,7 +32,6 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -75,13 +79,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        KeyboardFocusTestingModule,
-        ReplenishmentOrderCancellationDialogComponent,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [ReplenishmentOrderCancellationDialogComponent],
       providers: [
         {
           provide: ReplenishmentOrderHistoryFacade,
@@ -90,7 +88,18 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReplenishmentOrderCancellationDialogComponent, {
+        remove: { imports: [FocusDirective, TranslatePipe, IconComponent] },
+        add: {
+          imports: [
+            MockKeyboardFocusDirective,
+            MockTranslatePipe,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
