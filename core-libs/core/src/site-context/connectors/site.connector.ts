@@ -6,7 +6,13 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Country, CountryType, Region } from '../../model/address.model';
+import {
+  City,
+  CityDistrict,
+  Country,
+  CountryType,
+  Region,
+} from '../../model/address.model';
 import { BaseSite, Currency, Language } from '../../model/misc.model';
 import { SiteAdapter } from './site.adapter';
 
@@ -30,6 +36,14 @@ export class SiteConnector {
 
   getRegions(countryIsoCode: string): Observable<Region[]> {
     return this.adapter.loadRegions(countryIsoCode);
+  }
+
+  getCities(regionIsocode: string): Observable<City[]> {
+    return this.adapter.loadCities(regionIsocode);
+  }
+
+  getDistricts(cityIsocode: string): Observable<CityDistrict[]> {
+    return this.adapter.loadDistricts(cityIsocode);
   }
 
   getBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
