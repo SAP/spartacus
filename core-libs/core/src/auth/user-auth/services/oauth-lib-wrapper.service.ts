@@ -11,7 +11,6 @@ import { filter, take } from 'rxjs/operators';
 import { FeatureConfigService } from '../../../features-config/index';
 import { FederatedLoginService } from '../../../federated-login';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
-import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
@@ -32,9 +31,6 @@ export class OAuthLibWrapperService {
   protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
-  protected subscription: Subscription | undefined;
-  protected baseSiteService = inject(BaseSiteService);
-
   // TODO: Remove platformId dependency in 4.0
   constructor(
     protected oAuthService: OAuthService,
@@ -48,21 +44,7 @@ export class OAuthLibWrapperService {
   protected initialize() {
     const config = this.generateCustomerLoginConfig();
 
-    // this.oAuthService.configure(config);
-    this.subscription?.unsubscribe();
-    this.subscription = this.baseSiteService
-      .getActive()
-      .subscribe((baseSite) => {
-        const dynamicConfig = {
-          ...config,
-          clientId: config.clientId + `_${baseSite}`,
-          redirectUri: config.redirectUri + `/${encodeURIComponent(baseSite)}`,
-        };
-
-        console.log('setting config', dynamicConfig);
-
-        this.oAuthService.configure(dynamicConfig);
-      });
+    this.oAuthService.configure(config);
 
     // reconfigure after getting language
     this.federatedLoginService.detectContext();

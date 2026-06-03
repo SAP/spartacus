@@ -111,6 +111,7 @@ import { StoreFinderFeatureModule } from './features/storefinder/storefinder-fea
 import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { oAuthLibWrapperServiceOverride } from './my-oauth-lib-srapper.service';
 
 const featureModules = [];
 
@@ -294,6 +295,7 @@ if (environment.cpq) {
       provide: USE_MY_ACCOUNT_V2_NOTIFICATION_PREFERENCE,
       useValue: environment.myAccountV2,
     },
+    oAuthLibWrapperServiceOverride,
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         alignNavigationMenuWithHeader: true,
