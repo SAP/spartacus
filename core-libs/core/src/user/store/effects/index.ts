@@ -5,6 +5,7 @@
  */
 
 import { BillingCountriesEffect } from './billing-countries.effect';
+import { CitiesDistrictsEffects } from './cities-districts.effect';
 import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 import { CustomerCouponEffects } from './customer-coupon.effect';
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
@@ -20,6 +21,7 @@ export const effects: any[] = [
   ClearMiscsDataEffect,
   DeliveryCountriesEffects,
   RegionsEffects,
+  CitiesDistrictsEffects,
   UserAddressesEffects,
   UserPaymentMethodsEffects,
   BillingCountriesEffect,

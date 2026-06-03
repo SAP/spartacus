@@ -35,7 +35,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
 
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
-import { USE_MY_ACCOUNT_V2_EMAIL } from './use-my-account-v2-email.ts';
+import { USE_MY_ACCOUNT_V2_EMAIL } from './use-my-account-v2-email';
 
 const myAccountV2EmailMapping: CmsConfig = {
   cmsComponents: {
