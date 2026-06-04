@@ -16,6 +16,7 @@ export const defaultOpfApiPaymentConfig: OpfApiConfig = {
         getAfterRedirectScripts:
           'payments/${paymentSessionId}/after-redirect-scripts',
         initiatePayment: 'payments',
+        updatePaymentTransaction: 'payments/${paymentSessionId}',
       },
     },
   },

@@ -11,6 +11,7 @@ import {
   OpfPaymentSubmitCompleteResponse,
   OpfPaymentSubmitRequest,
   OpfPaymentSubmitResponse,
+  OpfPaymentUpdateConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
@@ -64,5 +65,13 @@ export abstract class OpfPaymentAdapter {
    */
   abstract initiatePayment(
     paymentConfig: OpfPaymentInitiationConfig
+  ): Observable<OpfPaymentSessionData>;
+
+  /**
+   * Abstract method used to update an existing payment transaction/session.
+   *
+   */
+  abstract updatePaymentTransaction(
+    updatePaymentConfig: OpfPaymentUpdateConfig
   ): Observable<OpfPaymentSessionData>;
 }

@@ -3,7 +3,7 @@ FROM node:22
 COPY package.json /
 COPY package-lock.json /
 
-RUN npm i
+RUN npm ci
 
 COPY index.ts /
 COPY tsconfig.json /

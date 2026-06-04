@@ -54,16 +54,16 @@ The 6.0 migration files can be taken as a template or en example: https://github
 
 The full documentation about those files can be found here: https://wiki.one.int.sap/wiki/x/9WSWtQ
 
-`gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*_0/constructor-deprecations`
+`gen-const` : generates the array of migration data for the constructor migration schematic in `core-libs/schematics/src/migrations/*_0/constructor-deprecations`
 
 
-`gen-deleted` : generates the array of migration data for the removed public api schematic in `projects/schematics/src/migrations/*_0/removed-public-api-deprecations`
+`gen-deleted` : generates the array of migration data for the removed public api schematic in `core-libs/schematics/src/migrations/*_0/removed-public-api-deprecations`
 
 
-`gen-moved` : generates the array of migration data for the renamed public api schematic in `projects/schematics/src/migrations/*_0/rename-symbol`
+`gen-moved` : generates the array of migration data for the renamed public api schematic in `core-libs/schematics/src/migrations/*_0/rename-symbol`
 
 
-`gen-methods-props` : generates the array of migration data for the deprecated methods and properties schematic in `projects/schematics/src/migrations/*_0/methods-and-properties-deprecations`
+`gen-methods-props` : generates the array of migration data for the deprecated methods and properties schematic in `core-libs/schematics/src/migrations/*_0/methods-and-properties-deprecations`
 
 # Generate doc
 `gen-doc` : generated the human readable doc listing all the breaking changes in the markdown format.

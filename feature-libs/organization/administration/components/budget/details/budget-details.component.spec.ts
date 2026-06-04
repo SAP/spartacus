@@ -9,7 +9,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { Budget } from '@spartacus/organization/administration/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
 import { CardComponent, MessageComponent, MessageService } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
