@@ -290,24 +290,17 @@
     "webpack-cli": "^6.0.0"
   },
   "overrides": {
-    "@verdaccio/middleware": {
-      "express-rate-limit": "5.5.1"
-    },
     "axios": "1.16.0",
-    "express-rate-limit": "8.5.1",
-    "flatted": "3.4.2",
     "i18n-lint": {
       "minimatch": "3.1.5"
     },
     "karma": {
       "minimatch": "3.1.5"
     },
-    "lodash": "4.18.1",
     "minimatch": "10.2.4",
     "rollup-plugin-dts": "6.2.3",
     "tmp": "0.2.6",
     "test-exclude": "8.0.0",
-    "undici": "7.24.6",
-    "vite": "7.3.2"
+    "undici": "7.24.6"
   }
 }
