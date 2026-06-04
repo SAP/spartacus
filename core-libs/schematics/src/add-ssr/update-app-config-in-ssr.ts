@@ -103,7 +103,7 @@ function findProvideClientHydrationCall(
 }
 
 /**
- * Ensure provideClientHydration has withEventReplay() and withNoHttpTransferCache()
+ * Ensure provideClientHydration has withEventReplay(), withNoHttpTransferCache(), and withIncrementalHydration()
  */
 function ensureHydrationArguments(callExpression: CallExpression): void {
   const args = callExpression.getArguments();
@@ -144,7 +144,7 @@ function ensureHydrationArguments(callExpression: CallExpression): void {
 }
 
 /**
- * Add provideClientHydration(withEventReplay(), withNoHttpTransferCache()) to providers
+ * Add provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration()) to providers
  */
 function addProvideClientHydrationCall(providersArray: Node): void {
   if (!Node.isArrayLiteralExpression(providersArray)) {
