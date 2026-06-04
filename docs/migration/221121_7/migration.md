@@ -288,7 +288,9 @@ When the page is server-rendered, the component's content appears immediately in
 
 ##### Important Limitations
 
-- **`@experimental` before Angular v20**: `withIncrementalHydration()` existed in Angular 19 but was marked `@experimental`. It became a stable `@publicApi` in Angular v20. Use of the experimental API in v19 is unsupported and behaviour may differ from the stable release.
+- **`@developerPreview` before Angular v20**: `withIncrementalHydration()` existed in Angular 19 but was marked `@developerPreview` (experimental). It became a stable `@publicApi` in Angular v20. Use of the preview API in v19 is unsupported and behaviour may differ from the stable release.
+
+- **Deprecated in Angular v22+**: Since Angular v22, incremental hydration is enabled by default in `provideClientHydration()` and calling `withIncrementalHydration()` is no longer necessary. The function is deprecated and planned for removal in Angular v24. If you upgrade to Angular v22 or later, you can safely remove the `withIncrementalHydration()` call. To opt out of incremental hydration on v22+, use `withNoIncrementalHydration()` instead.
 
 - **Only standalone dependencies are deferred**: Angular's `@defer` documentation states: *"Non-standalone dependencies cannot be deferred and are still eagerly loaded, even if they are inside of `@defer` blocks."* ([source](https://angular.dev/guide/templates/defer)). This means if your component inside a `@defer` block is declared in an NgModule's `imports` array, it will be included in the eagerly loaded bundle regardless. For Spartacus apps, this applies to any component that uses Spartacus NgModule-based features: the NgModule code is already eagerly loaded by `SpartacusFeaturesModule`. Incremental hydration will still trigger correctly, but there is no JS chunk deferral benefit for that code.
 

@@ -50,4 +50,6 @@ This will set up SSR-specific configurations, including:
 - `provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration())` — enables Angular hydration with event replay, disables the HTTP transfer cache (required for Spartacus state transfer), and enables incremental hydration for `@defer` blocks.
 
 > **Note:** `withIncrementalHydration()` requires Angular 20 or later. JS chunks for custom components inside `@defer (hydrate on <trigger>)` blocks are only downloaded when the trigger fires. See [Enable Incremental Hydration](./migration.md#enable-incremental-hydration-optional-ssr-only) in the migration guide for details and limitations.
+>
+> **Angular 22+ users:** `withIncrementalHydration()` is deprecated since Angular v22 — incremental hydration is enabled by default in `provideClientHydration()` and this call can be safely removed. It is planned for removal in Angular v24. To opt out, use `withNoIncrementalHydration()`.
 
