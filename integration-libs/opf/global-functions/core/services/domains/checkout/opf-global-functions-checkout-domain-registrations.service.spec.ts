@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ComponentRef, ElementRef, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  ElementRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
 import {
@@ -13,9 +18,16 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
-import { OpfMetadataModel, OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentEventsService, OpfPaymentFacade, OpfPaymentMethod } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentFacade,
+  OpfPaymentMethod,
+} from '@spartacus/opf/payment/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
@@ -41,11 +53,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     return of(undefined as any);
   }
   clear() {}
-  openDialog(
-    _caller: any,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef
-  ) {
+  openDialog(_caller: any, _openElement?: ElementRef, _vcr?: ViewContainerRef) {
     return of(1);
   }
 }
@@ -71,7 +79,9 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine.createSpy('getActiveCartId').and.returnValue(of('test-cart-id'));
+  getActiveCartId = jasmine
+    .createSpy('getActiveCartId')
+    .and.returnValue(of('test-cart-id'));
   getActive = jasmine.createSpy('getActive').and.returnValue(of({} as any));
   takeActive = jasmine.createSpy('takeActive').and.returnValue(of({} as any));
   isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
@@ -95,7 +105,8 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
   }
 }
 
-class MockOpfQuickBuyTransactionService implements Partial<OpfQuickBuyTransactionService> {}
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService> {}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
@@ -125,19 +136,32 @@ describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
         ...facadeProviders,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
-        { provide: OpfPaymentEventsService, useValue: jasmine.createSpyObj('OpfPaymentEventsService', ['emitReinitiatePaymentEvent']) },
+        {
+          provide: OpfPaymentEventsService,
+          useValue: jasmine.createSpyObj('OpfPaymentEventsService', [
+            'emitReinitiatePaymentEvent',
+          ]),
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OpfCtaFacade, useClass: MockOpfCtaFacade },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
-        { provide: OpfQuickBuyTransactionService, useClass: MockOpfQuickBuyTransactionService },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
-    service = TestBed.inject(OpfGlobalFunctionsCheckoutDomainRegistrationsService);
+    service = TestBed.inject(
+      OpfGlobalFunctionsCheckoutDomainRegistrationsService
+    );
     launchDialogService = TestBed.inject(LaunchDialogService);
     componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
     container = {};

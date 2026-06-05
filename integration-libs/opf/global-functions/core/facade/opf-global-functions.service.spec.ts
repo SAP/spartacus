@@ -17,7 +17,10 @@ import {
   CartAccessCodeFacade,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OpfMetadataModel, OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import {
@@ -109,8 +112,7 @@ class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
 }
 
 class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{}
+  implements Partial<OpfQuickBuyTransactionService> {}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
@@ -157,11 +159,17 @@ describe('OpfGlobalFunctionsService', () => {
         ...facadeProviders,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
-        { provide: OpfPaymentEventsService, useValue: opfPaymentEventsServiceMock },
+        {
+          provide: OpfPaymentEventsService,
+          useValue: opfPaymentEventsServiceMock,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OpfCtaFacade, useClass: MockOpfCtaFacade },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },

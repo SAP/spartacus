@@ -16,7 +16,10 @@ import {
   CartAccessCodeFacade,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OpfMetadataModel, OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY } from 'rxjs';
@@ -85,8 +88,7 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockOpfQuickBuyTransactionService
-  implements Partial<OpfQuickBuyTransactionService>
-{}
+  implements Partial<OpfQuickBuyTransactionService> {}
 
 function createOpfPaymentFacadeMock(): jasmine.SpyObj<OpfPaymentFacade> {
   return jasmine.createSpyObj('OpfPaymentFacade', [
@@ -118,16 +120,24 @@ describe('OpfGlobalFunctionsGlobalDomainRegistrationsService', () => {
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: OpfCtaFacade, useClass: MockOpfCtaFacade },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OpfQuickBuyTransactionService, useClass: MockOpfQuickBuyTransactionService },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
-    service = TestBed.inject(OpfGlobalFunctionsGlobalDomainRegistrationsService);
+    service = TestBed.inject(
+      OpfGlobalFunctionsGlobalDomainRegistrationsService
+    );
     container = {};
   });
 

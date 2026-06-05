@@ -4,16 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ComponentRef, ElementRef, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  ElementRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
-import { ActiveCartFacade, CartAccessCodeFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
 import {
   OpfMetadataModel,
   OpfMetadataStoreService,
   defaultOpfErrorDialogOptions,
 } from '@spartacus/opf/base/root';
-import { OpfPaymentEventsService, OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentFacade,
+} from '@spartacus/opf/payment/root';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
@@ -118,7 +129,10 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: UserIdService, useClass: MockUserIdService },
@@ -172,9 +186,9 @@ describe('OpfGlobalFunctionsCheckoutDomainService', () => {
       const testPaymentOptionId = 123;
       const result = await service.reinitiatePaymentForm(testPaymentOptionId);
 
-      expect(opfPaymentEventsService.emitReinitiatePaymentEvent).toHaveBeenCalledWith(
-        testPaymentOptionId
-      );
+      expect(
+        opfPaymentEventsService.emitReinitiatePaymentEvent
+      ).toHaveBeenCalledWith(testPaymentOptionId);
       expect(result).toBe(true);
     });
   });

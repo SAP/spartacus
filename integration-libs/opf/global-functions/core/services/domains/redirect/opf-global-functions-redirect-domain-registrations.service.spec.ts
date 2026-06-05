@@ -57,7 +57,9 @@ describe('OpfGlobalFunctionsRedirectDomainRegistrationsService', () => {
         },
       ],
     });
-    service = TestBed.inject(OpfGlobalFunctionsRedirectDomainRegistrationsService);
+    service = TestBed.inject(
+      OpfGlobalFunctionsRedirectDomainRegistrationsService
+    );
     container = {};
   });
 

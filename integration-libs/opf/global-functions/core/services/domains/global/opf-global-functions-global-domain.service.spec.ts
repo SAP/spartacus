@@ -18,7 +18,10 @@ import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { of } from 'rxjs';
 import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
 import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
-import { OpfMetadataModel, OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY } from 'rxjs';
 import { OpfGlobalFunctionsGlobalDomainService } from './opf-global-functions-global-domain.service';
@@ -88,7 +91,9 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActiveCartId = jasmine.createSpy('getActiveCartId').and.returnValue(of('test-cart-id'));
+  getActiveCartId = jasmine
+    .createSpy('getActiveCartId')
+    .and.returnValue(of('test-cart-id'));
   takeActive = jasmine.createSpy('takeActive').and.returnValue(of(mockCart));
   isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
   reloadActiveCart = jasmine.createSpy('reloadActiveCart');
@@ -155,7 +160,10 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: OpfCtaFacade, useClass: MockOpfCtaFacade },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserIdService, useClass: MockUserIdService },
@@ -168,7 +176,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsGlobalDomainService);
-    opfQuickBuyTransactionService = TestBed.inject(OpfQuickBuyTransactionService);
+    opfQuickBuyTransactionService = TestBed.inject(
+      OpfQuickBuyTransactionService
+    );
   });
 
   it('should be created', () => {
@@ -177,9 +187,13 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
   describe('scriptReady', () => {
     it('should emit script ready event', () => {
-      const opfCtaFacade = TestBed.inject(OpfCtaFacade) as unknown as MockOpfCtaFacade;
+      const opfCtaFacade = TestBed.inject(
+        OpfCtaFacade
+      ) as unknown as MockOpfCtaFacade;
       service.scriptReady('test-script');
-      expect(opfCtaFacade.emitScriptReadyEvent).toHaveBeenCalledWith('test-script');
+      expect(opfCtaFacade.emitScriptReadyEvent).toHaveBeenCalledWith(
+        'test-script'
+      );
     });
   });
 
@@ -235,17 +249,17 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
       const result = await service.setDeliveryAddress(mockAddress);
 
-      expect(opfQuickBuyTransactionService.setDeliveryAddress).toHaveBeenCalledWith(
-        mockAddress
-      );
+      expect(
+        opfQuickBuyTransactionService.setDeliveryAddress
+      ).toHaveBeenCalledWith(mockAddress);
       expect(result).toBe('test-address-id');
     });
 
     it('should handle setDeliveryMode', async () => {
       const result = await service.setDeliveryMode('standard');
-      expect(opfQuickBuyTransactionService.setDeliveryMode).toHaveBeenCalledWith(
-        'standard'
-      );
+      expect(
+        opfQuickBuyTransactionService.setDeliveryMode
+      ).toHaveBeenCalledWith('standard');
       expect(result).toEqual(mockDeliveryMode);
     });
 
@@ -256,9 +270,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
     it('should handle deleteAddress', async () => {
       await service.deleteAddress('test-address-id');
-      expect(opfQuickBuyTransactionService.deleteUserAddresses).toHaveBeenCalledWith([
-        'test-address-id',
-      ]);
+      expect(
+        opfQuickBuyTransactionService.deleteUserAddresses
+      ).toHaveBeenCalledWith(['test-address-id']);
     });
   });
 
@@ -273,7 +287,9 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
     it('should handle createCartGuestUser', async () => {
       const result = await service.createCartGuestUser();
-      expect(opfQuickBuyTransactionService.createCartGuestUser).toHaveBeenCalled();
+      expect(
+        opfQuickBuyTransactionService.createCartGuestUser
+      ).toHaveBeenCalled();
       expect(result).toBe(true);
     });
   });
@@ -283,10 +299,15 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
       const mockPayload: OpfPaymentVerificationPayload = {
         responseMap: [{ key: 'key1', value: 'value1' }],
       };
-      const mockResponse: OpfPaymentVerificationResponse = { result: 'success' };
+      const mockResponse: OpfPaymentVerificationResponse = {
+        result: 'success',
+      };
       opfPaymentFacadeMock.verifyPayment.and.returnValue(of(mockResponse));
 
-      const result = await service.verifyPayment('test-session-id', mockPayload);
+      const result = await service.verifyPayment(
+        'test-session-id',
+        mockPayload
+      );
 
       expect(opfPaymentFacadeMock.verifyPayment).toHaveBeenCalledWith(
         'test-session-id',

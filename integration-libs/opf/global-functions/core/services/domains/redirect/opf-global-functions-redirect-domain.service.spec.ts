@@ -73,7 +73,9 @@ describe('OpfGlobalFunctionsRedirectDomainService', () => {
 
   describe('submitCompleteRedirect', () => {
     it('should delegate to shared service runSubmitComplete with review return path', async () => {
-      spyOn(sharedService, 'runSubmitComplete').and.returnValue(Promise.resolve(true));
+      spyOn(sharedService, 'runSubmitComplete').and.returnValue(
+        Promise.resolve(true)
+      );
 
       await service.submitCompleteRedirect(
         [],

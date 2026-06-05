@@ -20,10 +20,10 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   OpfErrorDialogOptions,
+  OpfMetadataStoreService,
   OpfPage,
   defaultOpfErrorDialogOptions,
 } from '@spartacus/opf/base/root';
-import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {

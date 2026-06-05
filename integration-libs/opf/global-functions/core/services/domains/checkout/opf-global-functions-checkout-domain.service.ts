@@ -15,10 +15,10 @@ import { RoutingService, WindowRef } from '@spartacus/core';
 import {
   OpfErrorDialogOptions,
   OpfMetadataModel,
+  OpfMetadataStoreService,
   OpfPage,
   defaultOpfErrorDialogOptions,
 } from '@spartacus/opf/base/root';
-import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import {
   OpfPaymentEventsService,
   OpfPaymentSessionData,

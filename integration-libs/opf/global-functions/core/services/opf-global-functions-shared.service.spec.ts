@@ -4,12 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ComponentRef, ElementRef, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  ElementRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { ActiveCartFacade, CartAccessCodeFacade } from '@spartacus/cart/base/root';
-import { OpfMetadataModel, OpfMetadataStoreService } from '@spartacus/opf/base/root';
-import { OpfPaymentFacade, OpfPaymentMethod } from '@spartacus/opf/payment/root';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
+import {
+  OpfPaymentFacade,
+  OpfPaymentMethod,
+} from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
@@ -109,7 +123,10 @@ describe('OpfGlobalFunctionsSharedService', () => {
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
         { provide: UserIdService, useClass: MockUserIdService },
@@ -179,7 +196,8 @@ describe('OpfGlobalFunctionsSharedService', () => {
         mockPaymentSessionId
       );
 
-      const callArgs = opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
       expect((callArgs.callbacks as any).onCancel).toBe(submitCancel);
     });
 
@@ -192,17 +210,21 @@ describe('OpfGlobalFunctionsSharedService', () => {
       );
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
-      const callArgs = opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
+      const callArgs =
+        opfPaymentFacadeMock.submitPayment.calls.mostRecent().args[0];
       expect(callArgs.paymentSessionId).toBe('options-session-id');
     });
 
     it('should use default callbacks when none are provided', async () => {
       opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
 
-      await service.submit({
-        additionalData: [],
-        paymentMethod: mockPaymentMethod,
-      } as any, mockPaymentSessionId);
+      await service.submit(
+        {
+          additionalData: [],
+          paymentMethod: mockPaymentMethod,
+        } as any,
+        mockPaymentSessionId
+      );
 
       expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
     });
@@ -239,9 +261,12 @@ describe('OpfGlobalFunctionsSharedService', () => {
     it('should use default callbacks when none are provided', async () => {
       opfPaymentFacadeMock.submitCompletePayment.and.returnValue(of(true));
 
-      await service.submitComplete({
-        additionalData: [],
-      } as any, mockPaymentSessionId);
+      await service.submitComplete(
+        {
+          additionalData: [],
+        } as any,
+        mockPaymentSessionId
+      );
 
       expect(opfPaymentFacadeMock.submitCompletePayment).toHaveBeenCalled();
     });
@@ -249,7 +274,9 @@ describe('OpfGlobalFunctionsSharedService', () => {
 
   describe('loader spinner', () => {
     it('should start loader spinner via LaunchDialogService', () => {
-      const launchSpy = spyOn(launchDialogService, 'launch').and.returnValue(EMPTY);
+      const launchSpy = spyOn(launchDialogService, 'launch').and.returnValue(
+        EMPTY
+      );
 
       service.startLoaderSpinner(componentRef.instance.vcr);
 

@@ -7,10 +7,19 @@
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
-import { ActiveCartFacade, CartAccessCodeFacade } from '@spartacus/cart/base/root';
-import { OpfMetadataModel, OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
+import {
+  OpfMetadataModel,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OpfPaymentGlobalMethods } from '@spartacus/opf/payment/root';
-import { OpfPaymentFacade, OpfPaymentMethod } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentFacade,
+  OpfPaymentMethod,
+} from '@spartacus/opf/payment/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
 import { BehaviorSubject, of } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
@@ -77,7 +86,10 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
             'openDialog',
           ]),
         },
-        { provide: OpfMetadataStoreService, useClass: MockOpfMetadataStoreService },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
       ],
@@ -94,7 +106,11 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
   describe('registerSubmit', () => {
     it('should assign container.submit that delegates to shared service', async () => {
       spyOn(sharedService, 'submit').and.returnValue(Promise.resolve(true));
-      service.registerSubmit(container, mockPaymentSessionId, {} as ViewContainerRef);
+      service.registerSubmit(
+        container,
+        mockPaymentSessionId,
+        {} as ViewContainerRef
+      );
 
       await container.submit?.({
         additionalData: [],
@@ -110,7 +126,9 @@ describe('OpfGlobalFunctionsSharedRegistrationsService', () => {
 
   describe('registerSubmitComplete', () => {
     it('should assign container.submitComplete that delegates to shared service', async () => {
-      spyOn(sharedService, 'submitComplete').and.returnValue(Promise.resolve(true));
+      spyOn(sharedService, 'submitComplete').and.returnValue(
+        Promise.resolve(true)
+      );
       service.registerSubmitComplete(
         container,
         mockPaymentSessionId,

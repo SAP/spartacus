@@ -16,8 +16,10 @@ import {
   ActiveCartFacade,
   CartAccessCodeFacade,
 } from '@spartacus/cart/base/root';
-import { OpfKeyValueMap } from '@spartacus/opf/base/root';
-import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfKeyValueMap,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentChannel,
