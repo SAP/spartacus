@@ -5,6 +5,9 @@ on:
       - develop-*
       - release/*
 
+  pull_request:
+    # TEMP: added to test slack notification on PR builds.
+
   workflow_dispatch:
     # empty as it is used only to manually trigger the workflow.
 
@@ -76,6 +79,10 @@ jobs:
           cache-key: ${{ github.event.pull_request.base.sha || github.sha }}
       - name: Run unit tests
         run: ci-scripts/unit-tests.sh
+      - name: TEMP intentional failure to test slack notification
+        run: |
+          echo "Forcing failure to validate slack notification path."
+          exit 1
   sonarqube_scan:
     needs: no_retries
     name: SonarQube Scan
@@ -467,5 +474,7 @@ jobs:
             }
         if: |
           needs.build_conclusion.result == 'failure' &&
-          github.event_name == 'push' &&
-          github.ref_name == github.event.repository.default_branch
+          (
+            (github.event_name == 'push' && github.ref_name == github.event.repository.default_branch) ||
+            github.event_name == 'pull_request'
+          )
