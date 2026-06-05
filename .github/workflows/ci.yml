@@ -28,6 +28,28 @@ concurrency:
 
 name: Spartacus build pipeline
 jobs:
+  test_slack_token:
+    name: TEMP - Test Slack token
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Show secret/var presence (no values printed)
+        run: |
+          echo "SLACK_TOKEN set: ${{ secrets.SLACK_TOKEN != '' }}"
+          echo "SLACK_NOTIFICATION_CHANNEL set: ${{ vars.SLACK_NOTIFICATION_CHANNEL != '' }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref_name }}"
+      - name: Send test Slack message
+        uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a #v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_TOKEN }}
+          payload: |
+            {
+              "channel": "${{ vars.SLACK_NOTIFICATION_CHANNEL }}",
+              "text": ":test_tube: TEMP test from CI on ${{ github.ref_name }} (event=${{ github.event_name }}, run=${{ github.run_id }})"
+            }
+
   detect_changes:
     name: CI - Detect changes
     runs-on: ubuntu-latest
