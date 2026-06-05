@@ -12,6 +12,8 @@ import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
   AddressValidation,
+  City,
+  CityDistrict,
   Country,
   Region,
 } from '../../model/address.model';
@@ -23,6 +25,7 @@ import { UserAddressConnector } from '../connectors/address/user-address.connect
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
+import { StateUtils } from '../../state/utils/index';
 
 @Injectable({
   providedIn: 'root',
@@ -133,6 +136,13 @@ export class UserAddressService {
   getAddressesLoadedSuccess(): Observable<boolean> {
     return this.store.pipe(select(UsersSelectors.getAddressesLoadedSuccess));
   }
+
+  getAddressesError(): Observable<boolean> {
+    return this.store.pipe(
+      select(UsersSelectors.getAddressesLoaderState),
+      map((state) => StateUtils.loaderErrorSelector(state))
+    );
+  }
   /**
    * Retrieves delivery countries
    */
@@ -197,6 +207,93 @@ export class UserAddressService {
       })
     );
   }
+
+  /**
+   * Returns cities for the given region
+   * @param regionIsocode a region ISO code
+   */
+  getCities(regionIsocode: string): Observable<City[]> {
+    return this.store.pipe(
+      select(UsersSelectors.getCitiesDataAndLoading),
+      map(({ cities, regionIsocode: storedRegion, loading, loaded }) => {
+        if (!regionIsocode && (loading || loaded)) {
+          this.clearCities();
+          this.clearDistricts();
+          return [];
+        } else if (loading && !loaded) {
+          return [];
+        } else if (
+          !loading &&
+          regionIsocode !== storedRegion &&
+          regionIsocode
+        ) {
+          if (storedRegion) {
+            this.clearCities();
+            this.clearDistricts();
+          }
+          this.loadCities(regionIsocode);
+          return [];
+        }
+        return cities;
+      })
+    );
+  }
+
+  /**
+   * Retrieves cities for the given region
+   * @param regionIsocode a region ISO code
+   */
+  loadCities(regionIsocode: string): void {
+    this.store.dispatch(new UserActions.LoadCities(regionIsocode));
+  }
+
+  /**
+   * Clears cities in store
+   */
+  clearCities(): void {
+    this.store.dispatch(new UserActions.ClearCities());
+  }
+
+  /**
+   * Returns districts for the given city
+   * @param cityIsocode a city ISO code
+   */
+  getDistricts(cityIsocode: string): Observable<CityDistrict[]> {
+    return this.store.pipe(
+      select(UsersSelectors.getDistrictsDataAndLoading),
+      map(({ districts, cityIsocode: storedCity, loading, loaded }) => {
+        if (!cityIsocode && (loading || loaded)) {
+          this.clearDistricts();
+          return [];
+        } else if (loading && !loaded) {
+          return [];
+        } else if (!loading && cityIsocode !== storedCity && cityIsocode) {
+          if (storedCity) {
+            this.clearDistricts();
+          }
+          this.loadDistricts(cityIsocode);
+          return [];
+        }
+        return districts;
+      })
+    );
+  }
+
+  /**
+   * Retrieves districts for the given city
+   * @param cityIsocode a city ISO code
+   */
+  loadDistricts(cityIsocode: string): void {
+    this.store.dispatch(new UserActions.LoadDistricts(cityIsocode));
+  }
+
+  /**
+   * Clears districts in store
+   */
+  clearDistricts(): void {
+    this.store.dispatch(new UserActions.ClearDistricts());
+  }
+
   /**
    * Verifies the address
    * @param address : the address to be verified

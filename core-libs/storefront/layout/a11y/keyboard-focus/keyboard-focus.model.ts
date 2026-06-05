@@ -41,6 +41,25 @@ export interface PersistFocusConfig extends BlockFocusConfig {
    * to have separate persisted focus available when the DOM is partially rebuild.
    */
   group?: string;
+
+  /**
+   * Optional CSS selector used to delegate the persisted focus to a descendant
+   * of the host element. This is useful when the host is a wrapper component
+   * (e.g. `<ng-select>`) and the actual interactive element lives inside it
+   * (e.g. `[role="combobox"]`). When the selector matches a descendant, that
+   * element receives focus instead of the host. Falls back to the host when
+   * no match is found.
+   */
+  focusTargetSelector?: string;
+
+  /**
+   * When `true`, the persisted focus key is cleared after focus has been
+   * restored on `ngAfterViewInit`. This prevents the persisted state from
+   * leaking across page navigations when the focus restoration would not
+   * otherwise re-trigger a `focus` event on the host (for example, when
+   * `focusTargetSelector` delegates focus to a descendant).
+   */
+  clearOnRestore?: boolean;
 }
 
 export interface EscapeFocusConfig extends PersistFocusConfig {
