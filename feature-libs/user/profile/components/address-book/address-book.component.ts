@@ -5,11 +5,14 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   Address,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  HierarchicalAddressConfig,
+  LanguageService,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -19,8 +22,15 @@ import {
   getAddressNumbers,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  map,
+  filter,
+  pairwise,
+  skip,
+  withLatestFrom,
+  take,
+} from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormComponent } from './address-form/address-form.component';
 
@@ -37,7 +47,7 @@ import { AddressFormComponent } from './address-form/address-form.component';
     TranslatePipe,
   ],
 })
-export class AddressBookComponent implements OnInit {
+export class AddressBookComponent implements OnInit, OnDestroy {
   addresses$: Observable<Address[]>;
   cards$: Observable<Card[]>;
   addressesStateLoading$: Observable<boolean>;
@@ -46,6 +56,12 @@ export class AddressBookComponent implements OnInit {
   showAddAddressForm = false;
   showEditAddressForm = false;
   editCard: string | null;
+
+  protected subscription = new Subscription();
+
+  protected languageService = inject(LanguageService);
+  private featureConfigService = inject(FeatureConfigService);
+  protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
 
   constructor(
     public service: AddressBookComponentService,
@@ -57,6 +73,21 @@ export class AddressBookComponent implements OnInit {
     this.addresses$ = this.service.getAddresses();
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
     this.service.loadAddresses();
+
+    if (
+      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.subscription.add(
+        this.languageService
+          .getActive()
+          .pipe(skip(1))
+          .subscribe(() => this.service.loadAddresses())
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   addAddressButtonHandle(): void {
@@ -71,8 +102,33 @@ export class AddressBookComponent implements OnInit {
   }
 
   addAddressSubmit(address: Address): void {
-    this.showAddAddressForm = false;
+    if (
+      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.showAddAddressForm = false;
+      this.service.addUserAddress(address);
+      return;
+    }
+    if (!address) {
+      this.showAddAddressForm = false;
+      return;
+    }
     this.service.addUserAddress(address);
+    this.subscription.add(
+      this.service
+        .getAddressesStateLoading()
+        .pipe(
+          pairwise(),
+          filter(([prev, curr]) => prev === true && curr === false),
+          take(1),
+          withLatestFrom(this.service.getAddressesError())
+        )
+        .subscribe(([_, hasError]) => {
+          if (!hasError) {
+            this.showAddAddressForm = false;
+          }
+        })
+    );
   }
 
   addAddressCancel(): void {
@@ -80,9 +136,36 @@ export class AddressBookComponent implements OnInit {
   }
 
   editAddressSubmit(address: Address): void {
-    this.showEditAddressForm = false;
-    if (address && this.currentAddress['id']) {
+    if (
+      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
+    ) {
+      this.showEditAddressForm = false;
+      if (address && this.currentAddress['id']) {
+        this.service.updateUserAddress(this.currentAddress['id'], address);
+      }
+      return;
+    }
+    if (!address) {
+      this.showEditAddressForm = false;
+      return;
+    }
+    if (this.currentAddress['id']) {
       this.service.updateUserAddress(this.currentAddress['id'], address);
+      this.subscription.add(
+        this.service
+          .getAddressesStateLoading()
+          .pipe(
+            pairwise(),
+            filter(([prev, curr]) => prev === true && curr === false),
+            take(1),
+            withLatestFrom(this.service.getAddressesError())
+          )
+          .subscribe(([_, hasError]) => {
+            if (!hasError) {
+              this.showEditAddressForm = false;
+            }
+          })
+      );
     }
   }
 
@@ -110,12 +193,6 @@ export class AddressBookComponent implements OnInit {
           textPhone,
           textMobile,
         ]) => {
-          let region = '';
-
-          if (address.region && address.region.isocode) {
-            region = address.region.isocode + ', ';
-          }
-
           const actions: { name: string; event: string }[] = [];
           if (!address.defaultAddress) {
             actions.push({ name: setAsDefaultText, event: 'default' });
@@ -125,16 +202,42 @@ export class AddressBookComponent implements OnInit {
 
           const numbers = getAddressNumbers(address, textPhone, textMobile);
 
-          return {
-            role: 'application',
-            textBold: address.firstName + ' ' + address.lastName,
-            text: [
+          let text: (string | undefined)[];
+          if (
+            this.featureConfigService.isEnabled(
+              'enableHierarchicalAddressFormat'
+            )
+          ) {
+            const locationLine = this.buildLocationLine(address);
+            const districtName = this.isHierarchicalAddressFormat(address)
+              ? address.cityDistrict?.name || address.district || ''
+              : '';
+            text = [
+              address.line1,
+              address.line2,
+              locationLine,
+              districtName,
+              address.postalCode,
+              numbers,
+            ].filter(Boolean) as string[];
+          } else {
+            let region = '';
+            if (address.region && address.region.isocode) {
+              region = address.region.isocode + ', ';
+            }
+            text = [
               address.line1,
               address.line2,
               address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
               numbers,
-            ],
+            ];
+          }
+
+          return {
+            role: 'application',
+            textBold: address.firstName + ' ' + address.lastName,
+            text,
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
@@ -145,6 +248,31 @@ export class AddressBookComponent implements OnInit {
         }
       )
     );
+  }
+
+  protected buildLocationLine(address: Address): string {
+    if (this.isHierarchicalAddressFormat(address)) {
+      const hierarchicalRegion =
+        address.region?.name || address.region?.isocode || '';
+      const townName = address.city?.name || address.town || '';
+      const countryName =
+        address.country?.name || address.country?.isocode || '';
+      return [townName, hierarchicalRegion, countryName]
+        .filter(Boolean)
+        .join(', ');
+    }
+    let region = '';
+    if (address.region && address.region.isocode) {
+      region = address.region.isocode + ', ';
+    }
+    return address.town + ', ' + region + address.country?.isocode;
+  }
+
+  protected isHierarchicalAddressFormat(address: Address): boolean {
+    return (
+      this.hierarchicalAddressConfig.hierarchicalAddress
+        ?.countriesUsingHierarchicalAddressFormat ?? []
+    ).includes(address.country?.isocode ?? '');
   }
 
   setAddressAsDefault(address: Address): void {

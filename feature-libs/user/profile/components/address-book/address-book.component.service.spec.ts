@@ -34,6 +34,9 @@ class MockUserAddressService {
   getAddressesLoading(): Observable<boolean> {
     return of(false);
   }
+  getAddressesError(): Observable<boolean> {
+    return of(false);
+  }
   get(): Observable<User> {
     return of(mockUser);
   }
@@ -77,6 +80,15 @@ describe('AddressBookComponentService', () => {
       .pipe(take(1))
       .subscribe((state: boolean) => {
         expect(state).toEqual(false);
+      });
+  });
+
+  it('should getAddressesError() return error state', () => {
+    service
+      .getAddressesError()
+      .pipe(take(1))
+      .subscribe((error: boolean) => {
+        expect(error).toEqual(false);
       });
   });
 

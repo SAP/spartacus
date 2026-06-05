@@ -98,6 +98,14 @@ export interface OccEndpoints {
    */
   regions?: string | OccEndpoint;
   /**
+   * Fetch cities for an address region
+   */
+  addressCities?: string | OccEndpoint;
+  /**
+   * Fetch districts for an address city
+   */
+  addressDistricts?: string | OccEndpoint;
+  /**
    * Payment details root endpoint.
    *
    * @member {string}
