@@ -363,6 +363,7 @@ if (environment.cpq) {
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
+        enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
       };
       return appFeatureToggles;

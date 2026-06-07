@@ -5,8 +5,10 @@
  */
 
 export * from './billing-countries.action';
+export * from './cities.action';
 export * from './customer-coupon.action';
 export * from './delivery-countries.action';
+export * from './districts.action';
 export * from './notification-preference.action';
 export * from './payment-methods.action';
 export * from './product-interests.actions';
