@@ -15,7 +15,6 @@ import {
 } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
@@ -62,8 +61,7 @@ export class AuthService {
     .getCsrfToken()
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-  private featureConfigService = inject(FeatureConfigService);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   protected authNotificationService = inject(AuthNotificationService);
   protected notificationSubscription =
@@ -101,11 +99,7 @@ export class AuthService {
       if (loginResult.result && token && !isEmulated && !isUsingASMClient) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
-        if (
-          !this.featureConfigService.isEnabled(
-            'dispatchLoginActionOnlyWhenTokenReceived'
-          )
-        ) {
+        if (!this.featureToggles.dispatchLoginActionOnlyWhenTokenReceived) {
           // When the feature flag is disabled, dispatch the login action even when the token
           // is retrieved from storage (e.g., page refresh)
           this.store.dispatch(new AuthActions.Login());
@@ -115,11 +109,7 @@ export class AuthService {
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
         // In this case we need to dispatch the login action to indicate that the user has just logged in.
         if (loginResult.tokenReceived) {
-          if (
-            this.featureConfigService.isEnabled(
-              'dispatchLoginActionOnlyWhenTokenReceived'
-            )
-          ) {
+          if (this.featureToggles.dispatchLoginActionOnlyWhenTokenReceived) {
             this.store.dispatch(new AuthActions.Login());
           }
           this.authRedirectService.redirect();
