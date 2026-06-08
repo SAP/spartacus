@@ -326,6 +326,24 @@
       }
     }
 
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches {
+        position: relative;
+
+        cx-recent-searches-header .recentSearches-header {
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            align-items: center;
+
+            button {
+              min-height: 20px;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+
     .products {
       cx-carousel {
         display: none;
@@ -401,6 +419,19 @@
         top: 20px;
       }
     }
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches cx-recent-searches-header .clear-recent-searches-btn {
+        display: none;
+        position: absolute;
+        padding: 0;
+        min-height: 21px;
+        @include media-breakpoint-down(sm) {
+          display: block;
+          right: 0;
+          top: 0;
+        }
+      }
+    }
     position: unset;
 
     a:hover {
@@ -452,12 +483,22 @@
         .recentSearches-header {
           width: 20%;
           display: none;
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            width: 100%;
+            button {
+              min-height: 20px;
+              padding: 0 30px;
+            }
+          }
         }
       }
       cx-recent-searches:has(.recent-searches)
         ~ .search-panel-header
         .recentSearches-header {
         display: inline-block;
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          display: flex;
+        }
       }
 
       .trending-searches-container:has(.trending-searches)
@@ -479,6 +520,9 @@
           @include media-breakpoint-down(sm) {
             width: 100%;
           }
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            flex-basis: 56%;
+          }
         }
       }
 
@@ -490,6 +534,9 @@
           flex-basis: 60%;
           @include media-breakpoint-down(sm) {
             width: 100%;
+          }
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            flex-basis: 56%;
           }
         }
       }
@@ -616,6 +663,16 @@
             @include media-breakpoint-down(sm) {
               padding: 0;
             }
+            @include forFeature('searchBoxRecentSearchesRemoval') {
+              display: flex;
+              padding: 0 30px 0 0;
+              @include media-breakpoint-down(sm) {
+                padding: 0;
+              }
+              .close {
+                font-size: 16px;
+              }
+            }
           }
         }
         a {
@@ -712,6 +769,9 @@
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          flex-basis: 56%;
+        }
       }
 
       .trending-searches-container:has(.trending-searches)
@@ -720,6 +780,9 @@
         flex-basis: 60%;
         @include media-breakpoint-down(sm) {
           width: 100%;
+        }
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          flex-basis: 56%;
         }
       }
 

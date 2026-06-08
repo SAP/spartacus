@@ -8,10 +8,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Country, CountryType, Region } from '../../../model/address.model';
+import {
+  Country,
+  CountryType,
+  Region,
+  City,
+  CityDistrict,
+} from '../../../model/address.model';
 import { BaseSite, Currency, Language } from '../../../model/misc.model';
 import {
   BASE_SITE_NORMALIZER,
+  CITY_DISTRICT_NORMALIZER,
+  CITY_NORMALIZER,
   COUNTRY_NORMALIZER,
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
@@ -109,5 +117,25 @@ export class OccSiteAdapter implements SiteAdapter {
         map((baseSiteList) => baseSiteList.baseSites),
         this.converterService.pipeableMany(BASE_SITE_NORMALIZER)
       );
+  }
+
+  loadCities(regionIsocode: string): Observable<City[]> {
+    const url = this.occEndpointsService.buildUrl('addressCities', {
+      urlParams: { regionId: regionIsocode },
+    });
+    return this.http.get<{ cities: City[] }>(url).pipe(
+      map((res) => res.cities ?? []),
+      this.converterService.pipeableMany(CITY_NORMALIZER)
+    );
+  }
+
+  loadDistricts(cityIsocode: string): Observable<CityDistrict[]> {
+    const url = this.occEndpointsService.buildUrl('addressDistricts', {
+      urlParams: { cityId: cityIsocode },
+    });
+    return this.http.get<{ districts: CityDistrict[] }>(url).pipe(
+      map((res) => res.districts ?? []),
+      this.converterService.pipeableMany(CITY_DISTRICT_NORMALIZER)
+    );
   }
 }

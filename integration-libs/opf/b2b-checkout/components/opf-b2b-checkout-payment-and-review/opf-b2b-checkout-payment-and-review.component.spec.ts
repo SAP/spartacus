@@ -47,6 +47,8 @@ class MockOpfCheckoutPaymentsComponent {
   @Input() isHeadingDisplayed: boolean;
   @Input() isPaymentRenderBelow: boolean;
   @Input() isPaymentInfoMessageEnabled: boolean;
+  @Input() showBeforePaymentOptionsOutlet: boolean;
+  @Input() forceDefaultPaymentOptionInputSelection: boolean;
 }
 
 class MockOpfCheckoutBillingAddressFormService
@@ -154,12 +156,29 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
   });
 
   it('should get payment method name card', () => {
-    const result = component.getPaymentMethodNameCard('Test Payment');
-    expect(result).toBeTruthy();
+    component.getPaymentMethodNameCard('Test Payment').subscribe((card) => {
+      expect(card.title).toBeTruthy();
+      expect(card.textBold).toBe('Test Payment');
+      expect(card.text).toEqual([]);
+    });
   });
 
   it('should get PO number card', () => {
-    const result = component.getPoNumberCard('PO123');
-    expect(result).toBeTruthy();
+    component.getPoNumberCard('PO123').subscribe((card) => {
+      expect(card.title).toBeTruthy();
+      expect(card.textBold).toBe('PO123');
+    });
+  });
+
+  it('should fallback when payment method name is missing', () => {
+    component.getPaymentMethodNameCard().subscribe((card) => {
+      expect(card.textBold).toBeTruthy();
+    });
+  });
+
+  it('should fallback when po number is missing', () => {
+    component.getPoNumberCard(undefined).subscribe((card) => {
+      expect(card.textBold).toBeTruthy();
+    });
   });
 });

@@ -141,6 +141,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
 
   onError(error: HttpErrorModel | undefined): void {
     this.opfPaymentVerificationService.displayError(error);
+    this.opfPaymentVerificationService.clearPaymentSessionForReinitiation();
     this.opfPaymentVerificationService.goToPage(OpfPage.CHECKOUT_REVIEW_PAGE);
   }
 

@@ -151,6 +151,41 @@ export interface FeatureTogglesInterface {
   disableCxPageSlotMarginAnimation?: boolean;
 
   /**
+   * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
+   *
+   * Before (disabled):
+   * - `SearchBoxComponent` can show the results panel on desktop with an empty query.
+   * - Recent searches are a simple link list without removal controls.
+   * - Recent searches still render when there are no suggestions or products.
+   *
+   * After (enabled):
+   * - On desktop, the results panel renders only for a non-empty query; clearing the query clears results and closes the panel.
+   * - `RecentSearchesComponent` adds per-item (X) buttons and a "Clear" action via CDS `removePhrase()` / `clearPhrases()`.
+   * - Recent searches are hidden in no-results states.
+   */
+  searchBoxRecentSearchesRemoval?: boolean;
+
+  /**
+   * Corrects `BottomHeaderSlot` layout when CDS registers `MerchandisingCarouselComponent`
+   * beside `BreadcrumbComponent` (e.g. on search results pages in sample data).
+   *
+   * Before (disabled):
+   * - `BottomHeaderSlot` lays out all children in a single flex row with no wrapping.
+   * - `cx-breadcrumb` and `cx-merchandising-carousel` each grow to ~50% of the slot width.
+   * - Breadcrumb title and trail are centered only within that half, so the block looks
+   *   left-aligned on the page (unlike develop without CDS, where the carousel is absent
+   *   and the breadcrumb is the sole child at full width).
+   * - `cx-merchandising-carousel` stays in the flex row even when it has no data and
+   *   renders no inner `cx-carousel`, leaving empty space beside the breadcrumb.
+   *
+   * After (enabled):
+   * - `cx-breadcrumb` always spans 100% of the slot width on its own row.
+   * - `cx-merchandising-carousel` is shown on a separate row only when it renders an
+   *   inner `cx-carousel`; otherwise the host is hidden and does not affect layout.
+   */
+  cdsBottomHeaderSlotAdjustPosition?: boolean;
+
+  /**
    * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
    * in the following components instead of the old `<cx-carousel>`:
    * - `ProductCarouselComponent`
@@ -467,6 +502,15 @@ export interface FeatureTogglesInterface {
   a11yVocalizeDropdownItemCount?: boolean;
 
   /**
+   * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
+   * as navigation rather than form filling. This preserves the focus outline
+   * (removes the `mouse-focus` class) when the user opens a dropdown with the
+   * mouse and then navigates with the keyboard.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yRestoreFocusOnNgSelect?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -525,6 +569,14 @@ export interface FeatureTogglesInterface {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 
   /**
+   * When enabled, the Quick Order search input keeps focus after
+   * the reset button is cleared, instead of losing focus to the
+   * next tabbable element.
+   * Affects: QuickOrderFormComponent
+   */
+  a11yQuickOrderResetFocus?: boolean;
+
+  /**
    * When enabled, the "Notification Channels" link in the My Coupons page
    * is styled as a link (blue, underlined) instead of plain text.
    */
@@ -536,6 +588,29 @@ export interface FeatureTogglesInterface {
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
   pageLinkSanitizeCanonicalUrl?: boolean;
+
+  /**
+   * When enabled, the address book and address form support hierarchical
+   * address formats (e.g. Chinese addresses), which require selecting
+   * region (province), city and district as chained dropdowns,
+   * and skip OCC address verification for the supported countries.
+   *
+   * Also makes `OccUserAddressAdapter.loadAll()` request the FULL address
+   * fields set, so that nested `city` / `cityDistrict` references are returned.
+   *
+   * Affects:
+   * - `AddressBookComponent`
+   * - `AddressFormComponent`
+   * - `OccUserAddressAdapter`
+   */
+  enableHierarchicalAddressFormat?: boolean;
+
+  /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
+   * instead of `initiatePayment` while selecting/re-initiating payment.
+   *
+   * Legacy behavior uses `initiatePayment`.
+   */
+  opfCheckoutUseUpdatePaymentTransaction?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -579,6 +654,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
+  searchBoxRecentSearchesRemoval: false,
+  cdsBottomHeaderSlotAdjustPosition: false,
   enableB2BUnitSearch: false,
   enableB2BCostCenterSearch: false,
   enableB2BCustomerSearch: false,
@@ -593,6 +670,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yRestoreFocusOnNgSelect: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
@@ -600,7 +678,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  enableHierarchicalAddressFormat: false,
+  opfCheckoutUseUpdatePaymentTransaction: false,
 };
