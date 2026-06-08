@@ -14,6 +14,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cds",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "scripts": {
     "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean:schematics": "../../node_modules/.bin/rimraf --glob \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
