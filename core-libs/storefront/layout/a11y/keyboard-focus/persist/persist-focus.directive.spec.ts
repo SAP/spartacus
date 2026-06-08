@@ -211,4 +211,49 @@ describe('PersistFocusDirective', () => {
       expect(service.clear).not.toHaveBeenCalled();
     });
   });
+
+  describe('a11yFacetFocusRetention toggle', () => {
+    it('should scroll focused element into view when enabled', (done) => {
+      spyOn(featureConfigService, 'isEnabled').and.callFake(
+        (feature: string) =>
+          feature === 'a11yFacetFocusRetention' ||
+          feature === 'a11yRestoreFocusOnNgSelect'
+      );
+      (service.get as jasmine.Spy).and.returnValue('key-d');
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#d')
+      ).nativeElement;
+      const scrollSpy = spyOn(host, 'scrollIntoView');
+
+      fixture.detectChanges();
+
+      // scrollIntoView is wrapped in requestAnimationFrame
+      requestAnimationFrame(() => {
+        expect(scrollSpy).toHaveBeenCalledWith({
+          block: 'nearest',
+          inline: 'nearest',
+        });
+        done();
+      });
+    });
+
+    it('should NOT scroll focused element into view when disabled', (done) => {
+      spyOn(featureConfigService, 'isEnabled').and.callFake(
+        (feature: string) => feature === 'a11yRestoreFocusOnNgSelect'
+        // a11yFacetFocusRetention => false
+      );
+      (service.get as jasmine.Spy).and.returnValue('key-d');
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#d')
+      ).nativeElement;
+      const scrollSpy = spyOn(host, 'scrollIntoView');
+
+      fixture.detectChanges();
+
+      requestAnimationFrame(() => {
+        expect(scrollSpy).not.toHaveBeenCalled();
+        done();
+      });
+    });
+  });
 });

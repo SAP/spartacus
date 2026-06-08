@@ -582,6 +582,33 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * Improves keyboard focus retention for product facet navigation on PLP.
+   *
+   * Fixes the following issues caused by router-driven rebuild of the facet
+   * components after a facet value is selected:
+   *
+   * 1. Visual focus is not visible in the viewport after selecting a facet
+   *    value (focus restored target may be scrolled out of view).
+   * 2. Focus jumps to an unrelated control (e.g. "Show More" in product
+   *    results) when selecting a multi-select facet value, because the
+   *    `getFocusKey()` logic in `ActiveFacetsComponent` returns an empty
+   *    string for multi-select facets and persistence of focus on the chip
+   *    does not happen.
+   *
+   * When enabled:
+   * - `ActiveFacetsComponent.getFocusKey()` always returns
+   *   `facet.facetValueName`, so the chip in the "Applied Filter" section
+   *   reliably re-claims focus after the rebuild for both single- and
+   *   multi-select facets.
+   * - `PersistFocusDirective` calls `scrollIntoView({ block: 'nearest',
+   *   inline: 'nearest' })` after restoring focus, so the focused element is
+   *   guaranteed to be visible in the viewport.
+   *
+   * Affects: `ActiveFacetsComponent`, `PersistFocusDirective`.
+   */
+  a11yFacetFocusRetention?: boolean;
   /**
    * When enabled, adds an 8px top margin to the "Add to Wish List" button
    * for consistent spacing.
@@ -725,4 +752,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
+  a11yFacetFocusRetention: false,
 };

@@ -117,9 +117,39 @@ export class PersistFocusDirective
       if (this.config?.clearOnRestore) {
         this.service.clear(this.group ?? undefined);
       }
+      this.scrollFocusedElementIntoView(this.focusTarget);
     } else {
       this.host.focus({ preventScroll: true });
+      this.scrollFocusedElementIntoView(this.host);
     }
+  }
+
+  /**
+   * When the `a11yFacetFocusRetention` feature toggle is enabled, scroll the
+   * just-restored focus target into view so the user can see where the focus
+   * has been re-applied. Without this, the element may be focused but
+   * scrolled out of the viewport (e.g. after a router-driven rebuild that
+   * resets the scroll position), making the focus invisible.
+   *
+   * `block: 'nearest'` and `inline: 'nearest'` are used to avoid unnecessary
+   * scrolling when the element is already in view.
+   *
+   * Wrapped in `requestAnimationFrame` so the layout is fully reflowed
+   * before we measure & scroll.
+   */
+  protected scrollFocusedElementIntoView(target: HTMLElement): void {
+    if (
+      !this.persistFeatureConfigService.isEnabled('a11yFacetFocusRetention')
+    ) {
+      return;
+    }
+    if (typeof requestAnimationFrame === 'undefined') {
+      target.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+      return;
+    }
+    requestAnimationFrame(() => {
+      target.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+    });
   }
 
   protected get focusTarget(): HTMLElement {
