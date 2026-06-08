@@ -12,6 +12,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "exports": {
     ".": {
       "sass": "./_index.scss"

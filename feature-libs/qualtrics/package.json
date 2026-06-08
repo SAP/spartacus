@@ -13,6 +13,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/qualtrics",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "exports": {
     "./*": {
       "sass": "./*"
