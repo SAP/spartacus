@@ -28,6 +28,7 @@
     "filterByUnitPlaceholder": "Enter unit name",
     "filterByUnitAriaLabel": "Filter list by unit",
     "search": "Search",
+    "searchByName": "Search orders by name",
     "clearAll": "Clear All",
     "removeAppliedFilters": "Remove filters",
     "yourFilters": "Your Filters:",
