@@ -70,6 +70,10 @@ CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
 
+# Comma-separated list of hostnames allowed by the SSR engine (maps to CommonEngine allowedHosts)
+# e.g. SSR_ALLOWED_HOSTS="localhost,my-host.eastus.cloudapp.azure.com"
+SSR_ALLOWED_HOSTS="localhost"
+
 SSL_CERT_PATH=
 SSL_KEY_PATH=
 

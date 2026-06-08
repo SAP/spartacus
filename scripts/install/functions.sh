@@ -527,7 +527,7 @@ function start_ssr_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && "${BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=${SSR_ALLOWED_HOSTS:-localhost} && "${BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
@@ -543,7 +543,7 @@ function start_ssr_pwa_unix {
         else
             serverFileName=main.js
         fi
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=localhost && "${BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && export NG_ALLOWED_HOSTS=${SSR_ALLOWED_HOSTS:-localhost} && "${BIN}/pm2" start --name "${SSR_APP_NAME}-${SSR_PORT}" dist/${SSR_APP_NAME}/server/$serverFileName )
     fi
 }
 
