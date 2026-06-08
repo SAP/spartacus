@@ -44,7 +44,8 @@ export class RenderingCache {
     }
 
     // Remove old entry for the key. The entry may exist for the key, because we've previously called `setAsRendering()` for it:
-    this.renders.delete(key);
+    //this.renders.delete(key);
+    this.clear(key);
 
     if (
       !this.options?.shouldCacheRenderingResult?.({

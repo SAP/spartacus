@@ -179,6 +179,20 @@ describe('RenderingCache', () => {
       expect(renderingCache.get('largeEntry')).toBeUndefined();
       expect(renderingCache['sizeManager']['usedSize']).toBe(20);
     });
+
+    it('should release the previous entry size when overwriting an existing cached key', () => {
+      const firstHtml = 'a'.repeat(100); // assumed size 200 bytes
+      renderingCache.store('a', null, firstHtml);
+      expect(renderingCache['sizeManager']['usedSize']).toBe(200);
+
+      const secondHtml = 'b'.repeat(50); // assumed size 100 bytes
+      renderingCache.store('a', null, secondHtml);
+
+      // The previous entry's tracked size (200) must be released before
+      // tracking the new entry (100). Otherwise `usedSize` drifts upward
+      // forever for any key that gets re-stored.
+      expect(renderingCache['sizeManager']['usedSize']).toBe(100);
+    });
   });
 
   it('should create rendering cache instance', () => {
