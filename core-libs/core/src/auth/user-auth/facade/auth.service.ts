@@ -21,12 +21,14 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { AuthEventType } from '../models/auth-notification.model';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
+import { AuthNotificationService } from './auth-notification.service';
 import { UserIdService } from './user-id.service';
 
 /**
@@ -62,6 +64,12 @@ export class AuthService {
 
   private featureConfigService = inject(FeatureConfigService);
   protected featureToggles = inject(FeatureToggles);
+
+  protected authNotificationService = inject(AuthNotificationService);
+  protected notificationSubscription =
+    this.authNotificationService.events$.subscribe((event) => {
+      this.handleNotificationEvent(event);
+    });
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -196,6 +204,7 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
+    this.authNotificationService.sendEvent(AuthEventType.logout);
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -270,6 +279,15 @@ export class AuthService {
       return this.winRef.localStorage.getItem('asm_enabled') === 'true';
     } else {
       return false;
+    }
+  }
+
+  protected handleNotificationEvent(event: unknown) {
+    if (
+      event === AuthEventType.logout &&
+      !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
+    ) {
+      this.coreLogout();
     }
   }
 

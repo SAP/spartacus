@@ -6,16 +6,18 @@ import {
   FeatureToggles,
 } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthEventType } from '../models/auth-notification.model';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
+import { AuthNotificationService } from './auth-notification.service';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
 
@@ -95,6 +97,10 @@ class MockFeatureConfigService implements Partial<FeatureConfigService> {
 class MockFeatureToggles implements FeatureToggles {
   authorizationCodeFlowByDefault: false;
 }
+class MockAuthNotificationService implements Partial<AuthNotificationService> {
+  events$ = new Subject<unknown>();
+  sendEvent(_data?: unknown): void {}
+}
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -107,6 +113,7 @@ describe('AuthService', () => {
   let featureConfigService: FeatureConfigService;
   let featureToggles: FeatureToggles;
   let store: Store;
+  let authNotificationService: MockAuthNotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -137,6 +144,10 @@ describe('AuthService', () => {
           useClass: MockFeatureConfigService,
         },
         { provide: FeatureToggles, useClass: MockFeatureToggles },
+        {
+          provide: AuthNotificationService,
+          useClass: MockAuthNotificationService,
+        },
       ],
     });
 
@@ -152,6 +163,9 @@ describe('AuthService', () => {
     featureConfigService = TestBed.inject(FeatureConfigService);
     featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
+    authNotificationService = TestBed.inject(
+      AuthNotificationService
+    ) as unknown as MockAuthNotificationService;
   });
 
   it('should be created', () => {
@@ -394,6 +408,7 @@ describe('AuthService', () => {
         });
       });
       spyOn(store, 'dispatch').and.callThrough();
+      spyOn(authNotificationService, 'sendEvent').and.callThrough();
 
       service.coreLogout();
       expect(userIdService.clearUserId).toHaveBeenCalled();
@@ -402,6 +417,9 @@ describe('AuthService', () => {
       expect(
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(true);
+      expect(authNotificationService.sendEvent).toHaveBeenCalledWith(
+        AuthEventType.logout
+      );
 
       tick(100);
 
@@ -410,6 +428,32 @@ describe('AuthService', () => {
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(false);
     }));
+  });
+
+  describe('authNotifications', () => {
+    beforeEach(() => {
+      spyOn(service, 'coreLogout').and.stub();
+    });
+
+    it('should call coreLogout when a logout event is received', () => {
+      authNotificationService.events$.next(AuthEventType.logout);
+
+      expect(service.coreLogout).toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when a logout is in-progress', () => {
+      service.setLogoutProgress(true);
+
+      authNotificationService.events$.next(AuthEventType.logout);
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when a different event is received', () => {
+      authNotificationService.events$.next('UNKNOWN_EVENT');
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
   });
 
   describe('isUserLoggedIn()', () => {

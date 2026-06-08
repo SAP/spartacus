@@ -23,6 +23,7 @@ import { defaultAuthConfigFactory } from './config/default-auth-config';
 import { UserAuthEventModule } from './events/user-auth-event.module';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
+import { authNotificationInitializer } from './initializers';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
 import { AuthStorageService } from './services/auth-storage.service';
 
@@ -94,6 +95,11 @@ export class UserAuthModule {
         {
           provide: LOCATION_INITIALIZED_MULTI,
           useFactory: authInitializedFactory,
+          multi: true,
+        },
+        {
+          provide: LOCATION_INITIALIZED_MULTI,
+          useFactory: authNotificationInitializer,
           multi: true,
         },
       ],
