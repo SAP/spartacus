@@ -14,7 +14,6 @@ import {
 import { RoutingService, WindowRef } from '@spartacus/core';
 import {
   OpfErrorDialogOptions,
-  OpfMetadataModel,
   OpfMetadataStoreService,
   OpfPage,
   defaultOpfErrorDialogOptions,
@@ -25,8 +24,8 @@ import {
   OpfPaymentUpdateConfig,
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable, of, throwError } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OpfGlobalFunctionsSharedService } from '../../opf-global-functions-shared.service';
 
 @Injectable()
@@ -122,26 +121,5 @@ export class OpfGlobalFunctionsCheckoutDomainService {
     updatePaymentConfig: OpfPaymentUpdateConfig
   ): Promise<OpfPaymentSessionData> {
     return this.sharedService.updatePaymentTransaction(updatePaymentConfig);
-  }
-
-  protected getPaymentOptionId(providedId?: number): Observable<number> {
-    if (providedId) {
-      return of(providedId);
-    }
-
-    return this.opfMetadataStoreService.getOpfMetadataState().pipe(
-      take(1),
-      switchMap((metadata: OpfMetadataModel) => {
-        const storedId =
-          metadata.selectedPaymentOptionId ??
-          metadata.defaultSelectedPaymentOptionId;
-
-        return storedId
-          ? of(storedId)
-          : throwError(
-              () => new Error('No payment option ID found in storage')
-            );
-      })
-    );
   }
 }
