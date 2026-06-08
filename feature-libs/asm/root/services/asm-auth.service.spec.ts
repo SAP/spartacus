@@ -1,7 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AuthEventType,
   AuthMultisiteIsolationService,
+  AuthNotificationService,
   AuthRedirectService,
   AuthToken,
   CrossSiteRequestForgeryService,
@@ -13,8 +15,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { getReducers } from 'core-libs/core/src/process/store/reducers/index';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
   ASM_FEATURE,
   getReducers as getAsmReducers,
@@ -86,6 +87,11 @@ class MockCrossSiteRequestForgeryService
   }
 }
 
+class MockAuthNotificationService implements Partial<AuthNotificationService> {
+  events$ = new Subject<unknown>();
+  sendEvent(_data?: unknown): void {}
+}
+
 describe('AsmAuthService', () => {
   let service: AsmAuthService;
   let store: Store<StateWithClientAuth>;
@@ -93,6 +99,7 @@ describe('AsmAuthService', () => {
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let asmAuthStorageService: AsmAuthStorageService;
   let globalMessageService: GlobalMessageService;
+  let authNotificationService: MockAuthNotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -129,6 +136,10 @@ describe('AsmAuthService', () => {
           provide: CrossSiteRequestForgeryService,
           useClass: MockCrossSiteRequestForgeryService,
         },
+        {
+          provide: AuthNotificationService,
+          useClass: MockAuthNotificationService,
+        },
       ],
     });
 
@@ -138,6 +149,9 @@ describe('AsmAuthService', () => {
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    authNotificationService = TestBed.inject(
+      AuthNotificationService
+    ) as unknown as MockAuthNotificationService;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -204,76 +218,89 @@ describe('AsmAuthService', () => {
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
     });
 
-    it('should logout when emulating user', (done: DoneFn) => {
+    it('should logout when emulating user', async () => {
       isEmulated$.next(true);
 
-      service.coreLogout().then(() => {
-        expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
-        expect(userIdService.clearUserId).toHaveBeenCalled();
-        expect(store.dispatch).toHaveBeenCalled();
+      await service.coreLogout();
 
-        done();
-      });
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
+      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalled();
     });
   });
 
   describe('isUserLoggedIn()', () => {
     describe('without access_token', () => {
-      it('should return false', (done: DoneFn) => {
+      it('should return false', async () => {
         const newToken = { ...authToken };
         delete newToken['access_token'];
-
         authToken$ = new BehaviorSubject(newToken);
 
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeFalse();
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeFalse();
       });
     });
 
     describe('with access_token', () => {
-      it('should return true for users', (done: DoneFn) => {
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeTrue();
+      it('should return true for users', async () => {
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeTrue();
       });
 
-      it('should return true for CSAgents emulating user', (done: DoneFn) => {
+      it('should return true for CSAgents emulating user', async () => {
         tokenTarget$.next(TokenTarget.CSAgent);
         isEmulated$.next(true);
 
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeTrue();
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeTrue();
       });
 
-      it('should return false for CSAgents not emulating user', (done: DoneFn) => {
+      it('should return false for CSAgents not emulating user', async () => {
         tokenTarget$.next(TokenTarget.CSAgent);
 
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeFalse();
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeFalse();
       });
+    });
+  });
+
+  describe('authNotifications', () => {
+    beforeEach(() => {
+      spyOn(service, 'coreLogout').and.stub();
+    });
+
+    it('should call coreLogout when a logout event is received', () => {
+      authNotificationService.events$.next(AuthEventType.logout);
+
+      expect(service.coreLogout).toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when a logout is in-progress', () => {
+      service.setLogoutProgress(true);
+
+      authNotificationService.events$.next(AuthEventType.logout);
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when isUserLoggedIn is false', () => {
+      const newToken = { ...authToken };
+      delete newToken['access_token'];
+      authToken$.next(newToken);
+
+      authNotificationService.events$.next(AuthEventType.logout);
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when a different event is received', () => {
+      authNotificationService.events$.next('UNKNOWN_EVENT');
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
     });
   });
 });

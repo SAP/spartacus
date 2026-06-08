@@ -94,12 +94,15 @@ export class UserAuthModule {
         },
         {
           provide: LOCATION_INITIALIZED_MULTI,
-          useFactory: authInitializedFactory,
+          useFactory: () => () => {
+            authNotificationInitializer();
+            return Promise.resolve();
+          },
           multi: true,
         },
         {
           provide: LOCATION_INITIALIZED_MULTI,
-          useFactory: authNotificationInitializer,
+          useFactory: authInitializedFactory,
           multi: true,
         },
       ],
