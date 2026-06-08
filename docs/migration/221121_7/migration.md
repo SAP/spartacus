@@ -242,56 +242,6 @@ You can safely ignore this warning for now. We're actively monitoring this and w
 
 This command should handle all the necessary migrations automatically. In most cases, no further action is required.
 
-#### Enable Incremental Hydration (Optional, SSR only)
-
-If your application uses Server-Side Rendering (SSR), you can enable Angular's incremental hydration to defer the hydration of `@defer` blocks until a trigger fires (e.g. the component scrolls into the viewport). This loads the component's JavaScript chunk only when needed, improving initial page load performance.
-
-##### What is incremental hydration?
-
-Incremental hydration is an Angular feature (stable since Angular v20) that allows individual parts of your application to be hydrated on demand rather than all at once. Components wrapped in `@defer (hydrate on <trigger>)` blocks remain inert after SSR until the specified trigger fires, at which point their JavaScript chunk is downloaded and the component becomes interactive.
-
-For more information, see the [Angular Incremental Hydration Guide](https://angular.dev/guide/incremental-hydration).
-
-##### How to enable it
-
-The Spartacus `add-ssr` schematic now adds `withIncrementalHydration()` automatically. If you are migrating an existing app, add it manually to your `app.config.ts`:
-
-```diff
- import {
-   provideClientHydration,
-   withEventReplay,
-+  withIncrementalHydration,
-   withNoHttpTransferCache,
- } from '@angular/platform-browser';
-
- export const appConfig: ApplicationConfig = {
-   providers: [
--    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
-+    provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration()),
-   ]
- };
-```
-
-##### How to use it in your custom components
-
-Once enabled, you can wrap any fully standalone custom component in a `@defer` block with a `hydrate` trigger:
-
-```html
-@defer (hydrate on viewport) {
-  <app-my-custom-widget />
-} @placeholder {
-  <div>Loading...</div>
-}
-```
-
-When the page is server-rendered, the component's content appears immediately in the HTML. The JavaScript chunk for `MyCustomWidgetComponent` is only downloaded when the component scrolls into the viewport.
-
-##### Important Limitations
-
-- **Only standalone dependencies are deferred**: Angular's `@defer` documentation states: *"Non-standalone dependencies cannot be deferred and are still eagerly loaded, even if they are inside of `@defer` blocks."* ([source](https://angular.dev/guide/templates/defer)). This means if your component inside a `@defer` block is declared in an NgModule's `imports` array, it will be included in the eagerly loaded bundle regardless. For Spartacus apps, this applies to any component that uses Spartacus NgModule-based features: the NgModule code is already eagerly loaded by `SpartacusFeaturesModule`. Incremental hydration will still trigger correctly, but there is no JS chunk deferral benefit for that code.
-
-- **Spartacus OOTB components**: Spartacus's own out-of-the-box components do not currently support incremental hydration. The feature is intended for your fully custom standalone components.
-
 ### Manual Migration Steps (Fallback Only)
 
 Below is a list of changes that the Spartacus migration schematics perform automatically. We include them here as a fallback. You only need to perform these steps manually if the schematics failed to complete successfully. If the migration schematics mentioned in the section [Run Spartacus update](#run-spartacus-update) failed due to any reason, please follow the manual steps below
@@ -492,22 +442,4 @@ In `server.ts`, update wildcard strings with regular expressions for Express 5 c
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
-```
-
-3. In `app.config.ts` (standalone apps only), add `withIncrementalHydration()` to `provideClientHydration()`:
-
-```diff
- import {
-   provideClientHydration,
-   withEventReplay,
-+  withIncrementalHydration,
-   withNoHttpTransferCache,
- } from '@angular/platform-browser';
-
- export const appConfig: ApplicationConfig = {
-   providers: [
--    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
-+    provideClientHydration(withEventReplay(), withNoHttpTransferCache(), withIncrementalHydration()),
-   ]
- };
 ```
