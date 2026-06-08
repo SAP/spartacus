@@ -5,7 +5,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
@@ -23,7 +29,7 @@ import {
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { MyAccountV2ConsentManagementFormComponent } from './consent-form/my-account-v2-consent-management-form.component';
 import { EMPTY, Observable, of } from 'rxjs';
-import { ConsentManagementComponentService } from '../../../consent-management';
+import { ConsentManagementComponentService } from '../../../consent-management/consent-management-component.service';
 import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
 
 @Component({
@@ -194,7 +200,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
   describe('component method tests', () => {
     describe('ngOnInit', () => {
-      it('should combine all loading flags into one', () => {
+      it('should combine all loading flags into one', fakeAsync(() => {
         spyOn(userService, 'getConsentsResultLoading').and.returnValue(
           of(true)
         );
@@ -211,11 +217,13 @@ describe('MyAccountV2ConsentManagementComponent', () => {
         expect(userService.getWithdrawConsentResultLoading).toHaveBeenCalled();
 
         let loadingResult = false;
-        component.loading$
-          .subscribe((result) => (loadingResult = result))
-          .unsubscribe();
+        const sub = component.loading$.subscribe(
+          (result) => (loadingResult = result)
+        );
+        tick(300);
+        sub.unsubscribe();
         expect(loadingResult).toEqual(true);
-      });
+      }));
 
       it('should call all init methods', () => {
         spyOn<any>(component, consentListInitMethod).and.stub();
@@ -676,7 +684,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
   describe('component UI tests', () => {
     describe('spinner', () => {
       describe('when consents are loading', () => {
-        it('should show spinner', () => {
+        it('should show spinner', fakeAsync(() => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(true)
           );
@@ -692,12 +700,14 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
           component.ngOnInit();
           fixture.detectChanges();
+          tick(300);
+          fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
-        });
+        }));
       });
       describe('when a consent is being given', () => {
-        it('should show spinner', () => {
+        it('should show spinner', fakeAsync(() => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(false)
           );
@@ -713,12 +723,14 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
           component.ngOnInit();
           fixture.detectChanges();
+          tick(300);
+          fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
-        });
+        }));
       });
       describe('when a consent is being withdrawn', () => {
-        it('should show spinner', () => {
+        it('should show spinner', fakeAsync(() => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(false)
           );
@@ -734,9 +746,11 @@ describe('MyAccountV2ConsentManagementComponent', () => {
 
           component.ngOnInit();
           fixture.detectChanges();
+          tick(300);
+          fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
-        });
+        }));
       });
 
       describe('when nothing is being loaded', () => {
