@@ -43,6 +43,7 @@ export class LoginFormComponentService {
   action?: string;
   method?: string;
   protected busy$ = new BehaviorSubject(false);
+  protected sessionExpired = false;
   get csrf() {
     return this.csrfStateService.get();
   }
@@ -86,12 +87,22 @@ export class LoginFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
+      if (this.sessionExpired) {
+        // Session expired on previous attempt — restart the full auth flow.
+        // A CSRF refresh alone won't work: the new session from the CSRF
+        // endpoint won't have a pending PKCE authorization request.
+        // Reset the flag so subsequent clicks (e.g. after the user has been
+        // brought back to /login by the redirect) take the normal CSRF
+        // refresh + submit path instead of redirecting on every click.
+        this.sessionExpired = false;
+        this.auth.loginWithRedirect();
+        return;
+      }
       if (
         this.featureConfigService.isEnabled(
           'authorizationCodeFlowByDefaultCsrfTokenRefresh'
         )
       ) {
-        this.busy$.next(true);
         this.auth
           .refreshCsrfToken()
           .pipe(
@@ -100,9 +111,15 @@ export class LoginFormComponentService {
               this.csrfStateService.set(csrfToken);
               this.form.get('csrf')?.setValue(csrfToken.token);
               this.setOauthRedirectFlowFlag();
+              // Submit BEFORE flipping busy$ to true. busy$=true triggers
+              // form.disable(), which sets disabled=true on every bound input,
+              // and the browser excludes disabled inputs from native form
+              // submissions — resulting in an empty POST body and a 403.
               nativeForm.submit();
+              this.busy$.next(true);
             }),
             catchError(() => {
+              this.sessionExpired = true;
               this.busy$.next(false);
               this.globalMessage.add(
                 {
@@ -110,7 +127,7 @@ export class LoginFormComponentService {
                 },
                 GlobalMessageType.MSG_TYPE_ERROR
               );
-              this.clearOauthRedirectFlowFlag()
+              this.clearOauthRedirectFlowFlag();
               return EMPTY;
             })
           )

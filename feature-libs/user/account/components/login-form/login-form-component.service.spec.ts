@@ -40,6 +40,7 @@ class MockWinRef {
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
+  loginWithRedirect = createSpy().and.returnValue(true);
   getCsrfToken = createSpy().and.returnValue(
     of({
       headerName: 'CSFR',
@@ -340,6 +341,17 @@ describe('LoginFormComponentService', () => {
           expect(service.form.get('csrf')?.value).toBe('new-token');
         }));
 
+        it('should not disable the form before submitting (browser drops disabled inputs from POST body)', waitForAsync(() => {
+          const form = createForm(userId, password, csrf);
+          let formDisabledAtSubmit: boolean | undefined;
+          spyOn(form, 'submit').and.callFake(() => {
+            formDisabledAtSubmit = service.form.disabled;
+          });
+          service.login(form);
+          expect(form.submit).toHaveBeenCalled();
+          expect(formDisabledAtSubmit).toBe(false);
+        }));
+
         it('should reset the form', () => {
           spyOn(service.form, 'reset').and.stub();
           service.login();
@@ -400,7 +412,7 @@ describe('LoginFormComponentService', () => {
           service.login(form);
           expect(globalMessageService.add).toHaveBeenCalledWith(
             {
-              key: 'customLoginPage.badRequest.csrf_token_refresh_failed',
+              key: 'httpHandlers.sessionExpired',
             },
             GlobalMessageType.MSG_TYPE_ERROR
           );
@@ -413,6 +425,72 @@ describe('LoginFormComponentService', () => {
           service.isUpdating$.subscribe((v) => (busyValue = v));
           service.login(form);
           expect(busyValue).toBe(false);
+        }));
+
+        it('should clear the OAuth redirect flow flag on CSRF refresh failure', waitForAsync(() => {
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+            OAUTH_REDIRECT_FLOW_KEY
+          );
+        }));
+      });
+
+      describe('when retrying after session expiry', () => {
+        const userId = 'test@email.com';
+        const password = 'secret';
+        const csrf = 'token';
+
+        beforeEach(waitForAsync(() => {
+          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
+            throwError(() => ({ status: 403 }))
+          );
+          service.form.setValue({ userId, password, csrf });
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+        }));
+
+        it('should call loginWithRedirect on retry instead of refreshing CSRF again', waitForAsync(() => {
+          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
+            of({
+              headerName: 'CSRF',
+              parameterName: '_csrf',
+              token: 'new-token',
+            })
+          );
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(authService.loginWithRedirect).toHaveBeenCalled();
+          expect(authService.refreshCsrfToken).toHaveBeenCalledTimes(1);
+          expect(form.submit).not.toHaveBeenCalled();
+        }));
+
+        it('should resume the normal CSRF-refresh + submit flow on a click AFTER the recovery redirect (sessionExpired flag must be cleared)', waitForAsync(() => {
+          // Recovery from the previous beforeEach already called
+          // loginWithRedirect once. A subsequent successful CSRF refresh
+          // must take the normal path (refresh + submit), not the redirect.
+          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
+            of({
+              headerName: 'CSRF',
+              parameterName: '_csrf',
+              token: 'new-token',
+            })
+          );
+          const firstRetryForm = createForm(userId, password, csrf);
+          spyOn(firstRetryForm, 'submit');
+          service.login(firstRetryForm); // triggers loginWithRedirect, clears flag
+
+          const nextForm = createForm(userId, password, csrf);
+          const nextSubmitSpy = spyOn(nextForm, 'submit');
+          service.login(nextForm);
+
+          expect(nextSubmitSpy).toHaveBeenCalled();
+          expect(
+            (authService.loginWithRedirect as jasmine.Spy).calls.count()
+          ).toBe(1);
         }));
       });
 
