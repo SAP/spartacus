@@ -13,7 +13,13 @@ import {
   lastValueFrom,
   Observable,
 } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  take,
+} from 'rxjs/operators';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -277,7 +283,14 @@ export class AuthService {
       event === AuthEventType.logout &&
       !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
     ) {
-      this.coreLogout();
+      this.isUserLoggedIn()
+        .pipe(
+          take(1),
+          filter((isLoggedIn) => isLoggedIn)
+        )
+        .subscribe(() => {
+          this.coreLogout();
+        });
     }
   }
 

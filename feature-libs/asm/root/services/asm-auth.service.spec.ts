@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  AuthEventType,
   AuthMultisiteIsolationService,
   AuthNotificationService,
   AuthRedirectService,
@@ -99,7 +98,6 @@ describe('AsmAuthService', () => {
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let asmAuthStorageService: AsmAuthStorageService;
   let globalMessageService: GlobalMessageService;
-  let authNotificationService: MockAuthNotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -149,9 +147,6 @@ describe('AsmAuthService', () => {
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    authNotificationService = TestBed.inject(
-      AuthNotificationService
-    ) as unknown as MockAuthNotificationService;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -265,42 +260,6 @@ describe('AsmAuthService', () => {
 
         expect(isLoggedIn).toBeFalse();
       });
-    });
-  });
-
-  describe('authNotifications', () => {
-    beforeEach(() => {
-      spyOn(service, 'coreLogout').and.stub();
-    });
-
-    it('should call coreLogout when a logout event is received', () => {
-      authNotificationService.events$.next(AuthEventType.logout);
-
-      expect(service.coreLogout).toHaveBeenCalled();
-    });
-
-    it('should not call coreLogout when a logout is in-progress', () => {
-      service.setLogoutProgress(true);
-
-      authNotificationService.events$.next(AuthEventType.logout);
-
-      expect(service.coreLogout).not.toHaveBeenCalled();
-    });
-
-    it('should not call coreLogout when isUserLoggedIn is false', () => {
-      const newToken = { ...authToken };
-      delete newToken['access_token'];
-      authToken$.next(newToken);
-
-      authNotificationService.events$.next(AuthEventType.logout);
-
-      expect(service.coreLogout).not.toHaveBeenCalled();
-    });
-
-    it('should not call coreLogout when a different event is received', () => {
-      authNotificationService.events$.next('UNKNOWN_EVENT');
-
-      expect(service.coreLogout).not.toHaveBeenCalled();
     });
   });
 });

@@ -441,6 +441,14 @@ describe('AuthService', () => {
       expect(service.coreLogout).not.toHaveBeenCalled();
     });
 
+    it('should not call coreLogout when isUserLoggedIn is false', () => {
+      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+
+      authNotificationService.events$.next(AuthEventType.logout);
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
+
     it('should not call coreLogout when a different event is received', () => {
       authNotificationService.events$.next('UNKNOWN_EVENT');
 

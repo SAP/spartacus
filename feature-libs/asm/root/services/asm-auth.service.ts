@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
-  AuthEventType,
   AuthMultisiteIsolationService,
   AuthRedirectService,
   AuthService,
@@ -20,15 +19,8 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  from,
-  lastValueFrom,
-  Observable,
-  of,
-} from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { combineLatest, from, lastValueFrom, Observable, of } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
@@ -150,21 +142,5 @@ export class AsmAuthService extends AuthService {
             (tokenTarget === TokenTarget.CSAgent && isEmulated))
       )
     );
-  }
-
-  protected handleNotificationEvent(event: unknown) {
-    if (
-      event === AuthEventType.logout &&
-      !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
-    ) {
-      this.isUserLoggedIn()
-        .pipe(
-          take(1),
-          filter((isLoggedIn) => isLoggedIn)
-        )
-        .subscribe(() => {
-          this.coreLogout();
-        });
-    }
   }
 }
