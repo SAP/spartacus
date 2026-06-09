@@ -26,7 +26,7 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
-import { AuthEventType } from '../models/auth-notification.model';
+import { AuthNotificationType } from '../models/auth-notification.model';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
@@ -71,7 +71,7 @@ export class AuthService {
 
   protected authNotificationService = inject(AuthNotificationService);
   protected notificationSubscription =
-    this.authNotificationService.events$.subscribe((event) => {
+    this.authNotificationService.notifications$.subscribe((event) => {
       this.handleNotificationEvent(event);
     });
 
@@ -200,7 +200,7 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
-    this.authNotificationService.sendEvent(AuthEventType.logout);
+    this.authNotificationService.sendEvent(AuthNotificationType.logout);
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -280,7 +280,7 @@ export class AuthService {
 
   protected handleNotificationEvent(event: unknown) {
     if (
-      event === AuthEventType.logout &&
+      event === AuthNotificationType.logout &&
       !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
     ) {
       this.isUserLoggedIn()

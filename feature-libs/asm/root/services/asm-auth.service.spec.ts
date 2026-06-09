@@ -87,7 +87,7 @@ class MockCrossSiteRequestForgeryService
 }
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
-  events$ = new Subject<unknown>();
+  notifications$ = new Subject<unknown>();
   sendEvent(_data?: unknown): void {}
 }
 

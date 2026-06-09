@@ -114,7 +114,7 @@ describe('AuthNotificationService', () => {
       ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
-      service.events$.subscribe((val) => emittedValues.push(val));
+      service.notifications$.subscribe((val) => emittedValues.push(val));
 
       const mockEvent = new MessageEvent<AuthEventWrapper<string>>('message', {
         data: { baseSite: 'test-site', payload: 'logout' },
@@ -132,7 +132,7 @@ describe('AuthNotificationService', () => {
       ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
-      service.events$.subscribe((val) => emittedValues.push(val));
+      service.notifications$.subscribe((val) => emittedValues.push(val));
 
       const mockEvent = new MessageEvent<AuthEventWrapper<string>>('message', {
         data: { baseSite: 'other-site', payload: 'logout' },
@@ -150,7 +150,7 @@ describe('AuthNotificationService', () => {
       ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
-      service.events$.subscribe((val) => emittedValues.push(val));
+      service.notifications$.subscribe((val) => emittedValues.push(val));
 
       const mockEvent = new MessageEvent<AuthEventWrapper<unknown>>('message', {
         data: { baseSite: 'test-site' },

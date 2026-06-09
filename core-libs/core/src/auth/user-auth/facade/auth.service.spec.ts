@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { AuthEventType } from '../models/auth-notification.model';
+import { AuthNotificationType } from '../models/auth-notification.model';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
@@ -96,7 +96,7 @@ const mockFeatureToggles: FeatureToggles = {
 };
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
-  events$ = new Subject<unknown>();
+  notifications$ = new Subject<unknown>();
   sendEvent(_data?: unknown): void {}
 }
 
@@ -410,7 +410,7 @@ describe('AuthService', () => {
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(true);
       expect(authNotificationService.sendEvent).toHaveBeenCalledWith(
-        AuthEventType.logout
+        AuthNotificationType.logout
       );
 
       tick(100);
@@ -428,7 +428,7 @@ describe('AuthService', () => {
     });
 
     it('should call coreLogout when a logout event is received', () => {
-      authNotificationService.events$.next(AuthEventType.logout);
+      authNotificationService.notifications$.next(AuthNotificationType.logout);
 
       expect(service.coreLogout).toHaveBeenCalled();
     });
@@ -436,7 +436,7 @@ describe('AuthService', () => {
     it('should not call coreLogout when a logout is in-progress', () => {
       service.setLogoutProgress(true);
 
-      authNotificationService.events$.next(AuthEventType.logout);
+      authNotificationService.notifications$.next(AuthNotificationType.logout);
 
       expect(service.coreLogout).not.toHaveBeenCalled();
     });
@@ -444,13 +444,13 @@ describe('AuthService', () => {
     it('should not call coreLogout when isUserLoggedIn is false', () => {
       spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
 
-      authNotificationService.events$.next(AuthEventType.logout);
+      authNotificationService.notifications$.next(AuthNotificationType.logout);
 
       expect(service.coreLogout).not.toHaveBeenCalled();
     });
 
     it('should not call coreLogout when a different event is received', () => {
-      authNotificationService.events$.next('UNKNOWN_EVENT');
+      authNotificationService.notifications$.next('UNKNOWN_EVENT');
 
       expect(service.coreLogout).not.toHaveBeenCalled();
     });

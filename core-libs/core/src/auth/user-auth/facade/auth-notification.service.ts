@@ -29,8 +29,8 @@ export class AuthNotificationService<T = unknown> {
 
   protected channel: BroadcastChannel | undefined;
 
-  protected _events$ = new Subject<T | undefined>();
-  events$ = this._events$.asObservable();
+  protected _notifications$ = new Subject<T | undefined>();
+  notifications$ = this._notifications$.asObservable();
 
   /**
    * Initializes the service to send and receive notification events.
@@ -58,7 +58,7 @@ export class AuthNotificationService<T = unknown> {
       .pipe(take(1))
       .subscribe((baseSite) => {
         if (baseSite === event.data.baseSite) {
-          this._events$.next(event.data.payload);
+          this._notifications$.next(event.data.payload);
         }
       });
   }
