@@ -11,7 +11,9 @@ import {
   HostBinding,
   HostListener,
   OnInit,
+  inject,
 } from '@angular/core';
+import { FeatureConfigService } from '@spartacus/core';
 import { BlockFocusDirective } from '../block/block-focus.directive';
 import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
@@ -48,6 +50,8 @@ export class PersistFocusDirective
   implements OnInit, AfterViewInit
 {
   protected defaultConfig: PersistFocusConfig = {};
+
+  private persistFeatureConfigService = inject(FeatureConfigService);
 
   /**
    * The persistence key can be passed directly or through the `FocusConfig.key`.
@@ -93,11 +97,39 @@ export class PersistFocusDirective
 
   /**
    * Focus the element explicitly if it was focused before.
+   *
+   * When `PersistFocusConfig.focusTargetSelector` is provided and matches a
+   * descendant of the host, that descendant receives focus instead of the
+   * host. This supports wrapper components (e.g. `<ng-select>`) where the
+   * actual interactive element lives inside the host.
+   *
+   * When `PersistFocusConfig.clearOnRestore` is `true`, the persisted key is
+   * cleared after restoration so the state cannot leak to a fresh instance of
+   * the same key on a different route.
    */
   ngAfterViewInit() {
-    if (this.isPersisted) {
+    if (!this.isPersisted) {
+      return;
+    }
+
+    if (
+      this.persistFeatureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')
+    ) {
+      this.focusTarget.focus({ preventScroll: true });
+      if (this.config?.clearOnRestore) {
+        this.service.clear(this.group ?? undefined);
+      }
+    } else {
       this.host.focus({ preventScroll: true });
     }
+  }
+
+  protected get focusTarget(): HTMLElement {
+    const selector = this.config?.focusTargetSelector;
+    const inner = selector
+      ? this.host.querySelector<HTMLElement>(selector)
+      : null;
+    return inner ?? this.host;
   }
 
   protected get isPersisted(): boolean {

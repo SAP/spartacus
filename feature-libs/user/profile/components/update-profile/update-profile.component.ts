@@ -28,6 +28,7 @@ import {
   FormRequiredLegendComponent,
   NgSelectA11yDirective,
   SpinnerComponent,
+  TruncationTooltipDirective,
 } from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
@@ -53,6 +54,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
     AsyncPipe,
     TranslatePipe,
     FeatureDirective,
+    TruncationTooltipDirective,
   ],
 })
 export class UpdateProfileComponent {

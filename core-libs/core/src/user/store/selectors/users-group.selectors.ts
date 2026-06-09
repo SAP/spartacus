@@ -5,8 +5,10 @@
  */
 
 export * from './billing-countries.selectors';
+export * from './cities.selectors';
 export * from './customer-coupons.selectors';
 export * from './delivery-countries.selectors';
+export * from './districts.selectors';
 export * from './feature.selector';
 export * from './notification-preference.selectors';
 export * from './payment-methods.selectors';
