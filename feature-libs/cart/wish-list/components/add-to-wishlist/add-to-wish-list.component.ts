@@ -21,7 +21,6 @@ import {
   UrlPipe,
   isNotNullable,
   FeatureDirective,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   AtMessageDirective,
@@ -77,9 +76,7 @@ export class AddToWishListComponent {
     protected wishListFacade: WishListFacade,
     protected currentProductService: CurrentProductService,
     protected authService: AuthService
-  ) {
-    useFeatureStyles('a11yAddToWishListBtnMargin');
-  }
+  ) {}
 
   add(product: Product): void {
     if (product.code) {

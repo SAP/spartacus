@@ -607,13 +607,6 @@ export interface FeatureTogglesInterface {
    * Affects: ProductGridItemComponent, ProductListItemComponent
    */
   a11yProductListItemNameMargin?: boolean;
-
-  /**
-   * When enabled, adds an 8px top margin to the "Add to Wish List" button
-   * for consistent spacing.
-   * Affects: AddToWishListComponent
-   */
-  a11yAddToWishListBtnMargin?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -687,5 +680,4 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   a11yProductListItemNameMargin: false,
-  a11yAddToWishListBtnMargin: false,
 };

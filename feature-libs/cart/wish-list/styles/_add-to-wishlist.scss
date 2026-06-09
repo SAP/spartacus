@@ -16,9 +16,6 @@
     &-add,
     &-remove {
       padding: 0;
-      @include forFeature('a11yAddToWishListBtnMargin') {
-        margin-top: 8px;
-      }
     }
 
     &-text {
