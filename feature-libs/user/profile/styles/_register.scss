@@ -28,5 +28,11 @@
         scroll-margin-bottom: $cx-anonymous-consent-banner-offset;
       }
     }
+
+    @include forFeature('a11yRegistrationTermsAsteriskMargin') {
+      .form-check-label abbr.required-asterisk {
+        margin-inline-start: 6px;
+      }
+    }
   }
 }

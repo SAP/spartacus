@@ -600,6 +600,13 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * When enabled, adds an inline margin of 6px to the required asterisk
+   * next to the Terms & Conditions link on the registration page.
+   * Affects: RegisterComponent, OtpLoginRegisterComponent
+   */
+  a11yRegistrationTermsAsteriskMargin?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -672,4 +679,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yRegistrationTermsAsteriskMargin: false,
 };

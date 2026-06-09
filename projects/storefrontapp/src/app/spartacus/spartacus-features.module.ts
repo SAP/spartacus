@@ -365,6 +365,7 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        a11yRegistrationTermsAsteriskMargin: true,
       };
       return appFeatureToggles;
     }),
