@@ -5,7 +5,6 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { CommandService } from 'core-libs/core/src/util/command-query';
 import { Subject, take } from 'rxjs';
 import { LoggerService } from '../../../logger';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
@@ -25,16 +24,13 @@ export class AuthNotificationService<T = unknown> {
   protected channelId = 'spartacus_auth_notification';
 
   protected baseSiteService = inject(BaseSiteService);
-  protected commandService = inject(CommandService);
   protected logger = inject(LoggerService);
   protected windowRef = inject(WindowRef);
 
   protected channel: BroadcastChannel | undefined;
 
   protected _events$ = new Subject<T | undefined>();
-  get events$() {
-    return this._events$.asObservable();
-  }
+  events$ = this._events$.asObservable();
 
   /**
    * Initializes the service to send and receive notification events.
@@ -49,7 +45,9 @@ export class AuthNotificationService<T = unknown> {
           this.channelListener(event);
         });
       } catch (err) {
-        this.logger.warn('Could not open AuthNotification channel.');
+        this.logger.warn(
+          `Could not open AuthNotification channel: ${(err as Error)?.message ?? ''}`
+        );
       }
     }
   }

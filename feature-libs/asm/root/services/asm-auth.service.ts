@@ -153,7 +153,6 @@ export class AsmAuthService extends AuthService {
   }
 
   protected handleNotificationEvent(event: unknown) {
-    console.log('asm receive event', event);
     if (
       event === AuthEventType.logout &&
       !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
