@@ -18,6 +18,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/epd-visualization",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "exports": {
     "./*": {
       "sass": "./*"
