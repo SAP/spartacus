@@ -84,14 +84,15 @@ describe('AuthNotificationService', () => {
     });
 
     it('should log a warning if BroadcastChannel throws', () => {
+      const errorMessage = 'BroadcastChannel not supported';
       (window.BroadcastChannel as unknown as jasmine.Spy).and.throwError(
-        'BroadcastChannel not supported'
+        errorMessage
       );
 
       service.listen();
 
       expect(logger.warn).toHaveBeenCalledWith(
-        'Could not open AuthNotification channel.'
+        'Could not open AuthNotification channel: ' + errorMessage
       );
     });
 
