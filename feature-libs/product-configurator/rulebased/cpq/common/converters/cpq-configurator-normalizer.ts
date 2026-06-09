@@ -421,28 +421,11 @@ export class CpqConfiguratorNormalizer
     );
   }
 
-  protected hasFullTabAttributes(version?: string): boolean {
-    if (!version) {
-      return false;
-    }
-
-    const normalizedVersion = version.trim().toUpperCase();
-    const majorVersion = Number.parseInt(
-      normalizedVersion.replace('V', ''),
-      10
-    );
-
-    return (
-      !Number.isNaN(majorVersion) &&
-      majorVersion >= CpqConfiguratorNormalizer.VERSION_WITH_FULL_TAB_ATTRIBUTES
-    );
-  }
-
   protected getTabAttributes(
     source: Cpq.Configuration,
     tab: Cpq.Tab
   ): Cpq.Attribute[] {
-    if (this.hasFullTabAttributes(source.version)) {
+    if (source.hasFullConfigurationState) {
       return tab.attributes ?? [];
     }
     return tab.isSelected ? (source.attributes ?? []) : [];

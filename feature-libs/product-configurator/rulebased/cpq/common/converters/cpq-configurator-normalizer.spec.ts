@@ -129,7 +129,7 @@ const cpqConfiguration: Cpq.Configuration = {
   currencyISOCode: 'USD',
   currencySign: '$',
   responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
-  version: 'V2',
+  hasFullConfigurationState: true,
 };
 
 const ERROR_MSG = 'This is an error message';
@@ -240,7 +240,7 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should use tab attributes for CPQ version V2 or higher', () => {
       const result = cpqConfiguratorNormalizer.convert({
         ...cpqConfiguration,
-        version: 'V2',
+        hasFullConfigurationState: true,
         tabs: [
           {
             ...cpqTab,
@@ -1262,34 +1262,11 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  describe('hasFullTabAttributes', () => {
-    it('should return false if version is undefined', () => {
-      expect(cpqConfiguratorNormalizer['hasFullTabAttributes'](undefined)).toBe(
-        false
-      );
-    });
-
-    it('should return true if version is V2 or higher', () => {
-      expect(cpqConfiguratorNormalizer['hasFullTabAttributes'](' V2 ')).toBe(
-        true
-      );
-      expect(cpqConfiguratorNormalizer['hasFullTabAttributes']('v3')).toBe(
-        true
-      );
-    });
-
-    it('should return false if version is invalid', () => {
-      expect(cpqConfiguratorNormalizer['hasFullTabAttributes']('invalid')).toBe(
-        false
-      );
-    });
-  });
-
   describe('getTabAttributes', () => {
     it('should return tab attributes when version supports full tab payload', () => {
       const source: Cpq.Configuration = {
         ...cpqConfiguration,
-        version: 'V2',
+        hasFullConfigurationState: true,
       };
       const tab: Cpq.Tab = {
         ...cpqTab2,
@@ -1303,7 +1280,7 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should return global source attributes for selected tab when version is not defined', () => {
       const source: Cpq.Configuration = {
         ...cpqConfiguration,
-        version: undefined,
+        hasFullConfigurationState: undefined,
       };
       const tab: Cpq.Tab = {
         ...cpqTab,
@@ -1317,7 +1294,7 @@ describe('CpqConfiguratorNormalizer', () => {
     it('should return empty array for non-selected tab when version is not defined', () => {
       const source: Cpq.Configuration = {
         ...cpqConfiguration,
-        version: undefined,
+        hasFullConfigurationState: false,
       };
       const tab: Cpq.Tab = {
         ...cpqTab2,

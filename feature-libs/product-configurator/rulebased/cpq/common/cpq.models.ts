@@ -39,7 +39,7 @@ export namespace Cpq {
     tabs?: Tab[];
     attributes?: Attribute[]; // attributes of current selected tab
     configurationId?: string;
-    version?: string;
+    hasFullConfigurationState?: boolean;
   }
 
   /**
