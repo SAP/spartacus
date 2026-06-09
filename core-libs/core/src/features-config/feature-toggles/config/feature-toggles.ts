@@ -600,6 +600,13 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * When enabled, applies a 6px bottom margin to product names in both
+   * product grid and product list items for consistent spacing.
+   * Affects: ProductGridItemComponent, ProductListItemComponent
+   */
+  a11yProductListItemNameMargin?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -672,4 +679,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yProductListItemNameMargin: false,
 };
