@@ -103,6 +103,8 @@ export class LoginFormComponentService {
           'authorizationCodeFlowByDefaultCsrfTokenRefresh'
         )
       ) {
+        // CXSPA-13213 related "session-expired" detection - if the CSRF refresh fails, mark the session as expired and show an error message. The user can then click the login button again to trigger a full redirect-based login flow, which will succeed even if the session is expired.
+        // TODO: The best solution is the serverside one: make the login endpoint return a specific error code for expired sessions, and trigger the redirect-based flow immediately without relying on a failed CSRF refresh call. But this client-side detection is a reasonable fallback that doesn't require backend changes.
         this.auth
           .refreshCsrfToken()
           .pipe(
