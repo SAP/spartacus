@@ -3,13 +3,11 @@ name: configuration
 description: Use this skill when adding `provideConfig` / `provideDefaultConfig` calls in a Spartacus app, choosing between root-injector and lazy-wrapper placement, or troubleshooting an expected config value that isn't taking effect at runtime.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Configuration System
 
 ## Rule
 
-In customer apps, ALWAYS use `provideConfig()`. NEVER use `provideDefaultConfig()` — that is for Spartacus library internals only.
+In your app, ALWAYS use `provideConfig()`. NEVER use `provideDefaultConfig()` — that is for Spartacus library internals only.
 
 ## How it works
 
@@ -66,7 +64,7 @@ provideConfig({
 
 ```typescript
 // ❌ provideDefaultConfig is reserved for Spartacus library code.
-// In a customer app, library defaults will sit at the SAME merge level
+// In an app you build, library defaults will sit at the SAME merge level
 // as your override, so the merge result is undefined and depends on
 // provider order.
 @NgModule({
@@ -95,7 +93,7 @@ export class AppOccConfigModule {}
 
 When a config value isn't taking effect at runtime, see [references/troubleshooting.md](references/troubleshooting.md) for the full debug flow (live-config logging plus the three common root causes).
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `provideConfig`, `provideDefaultConfig`, `Config` from `@spartacus/core`.
 - Example default config (OCC user endpoints) ships inside `@spartacus/core`.

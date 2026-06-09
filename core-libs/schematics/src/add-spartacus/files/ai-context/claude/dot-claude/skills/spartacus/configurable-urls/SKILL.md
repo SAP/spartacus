@@ -3,8 +3,6 @@ name: configurable-urls
 description: Use this skill when changing the URL pattern of an existing Spartacus page, generating router links via the `cxUrl` pipe, or adding a custom CMS-driven route with a dynamic parameter (e.g. `/my-account/trade-in/:id`). Covers `RoutingConfig` and the `path:null` + `cxRoute` + `PageLayoutComponent` + `CmsPageGuard` pattern.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Routing & Configurable URLs
 
 ## Rule — Generating links
@@ -17,11 +15,13 @@ NEVER hardcode `routerLink="/some-path"`. Use the `cxUrl` pipe with a semantic r
 </a>
 ```
 
-`cxUrl` reads the live `RoutingConfig` so the link follows the configured URL pattern (and the locale prefix, if any).
+`cxUrl` reads the live `RoutingConfig`, so the link follows the configured URL **pattern** and param mapping — if the storefront later changes a route's path, your links update automatically.
+
+> The locale / site-context prefix (e.g. `/en/USD/…`) is added separately by Spartacus's `SiteContextUrlSerializer` for **every** serialized URL, whether or not it came from `cxUrl`. So the prefix is not the reason to use `cxUrl`; following the configured route pattern and param mapping is.
 
 ## Rule — CMS-driven page routing
 
-Spartacus uses a wildcard route (`path: '**'`) backed by `CmsPageGuard`. The CMS backend resolves the page and components for any URL. Don't add ordinary Angular routes for pages whose content the CMS should control — the CMS guard would shadow them and the placement, hiding, or reordering done in the CMS backoffice would have no effect.
+Spartacus uses a wildcard route (`path: '**'`) backed by `CmsPageGuard`, appended **last** at startup (in an `APP_INITIALIZER` that does `router.config.push(...)`). The CMS backend then resolves the page and components for any URL the wildcard matches. Don't add ordinary Angular routes for pages whose content the CMS should control: because a custom route is registered *before* the wildcard, it actually **wins** and bypasses the CMS — the component is rendered by your route instead of being CMS-placed, so the backoffice can't place, hide, or reorder it.
 
 ## Changing the URL pattern of an existing page
 
@@ -42,7 +42,7 @@ provideConfig({
 })
 ```
 
-- `paths` — multiple entries are allowed. The **first** is used for URL generation (what `cxUrl` produces); any match is accepted for inbound navigation. Keep older patterns in the list for backward compatibility.
+- `paths` — multiple entries are allowed, but keep the list short; multiple aliases are discouraged. For URL generation `cxUrl` uses the **first** path whose required params are all available on the `params` object, falling back to the next alias when they aren't. Any listed path is accepted for inbound navigation, so older patterns can stay for backward compatibility.
 - `paramsMapping` — when generating a URL with `cxUrl`, this maps URL placeholders to properties on the `params` object. `{ slug: 'name' }` means `:slug` is filled from `params.name`.
 
 ## Adding a custom CMS-driven route with a dynamic param
@@ -58,7 +58,7 @@ Sometimes you need a brand-new page whose content is CMS-driven AND whose URL co
    });
    ```
 
-3. Add an Angular route with `path: null` (so `RoutingConfig` controls the path), `data.cxRoute` matching the route name, `component: PageLayoutComponent`, and `canActivate: [CmsPageGuard]` (plus `AuthGuard` if the page is private):
+3. Add an Angular route with `path: null` (so `RoutingConfig` controls the path), `data.cxRoute` matching the route name, `component: PageLayoutComponent`, and `canActivate: [CmsPageGuard]`:
 
    ```typescript
    import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
@@ -73,7 +73,9 @@ Sometimes you need a brand-new page whose content is CMS-driven AND whose URL co
    ];
    ```
 
-`CmsPageGuard` will load the CMS content for `/my-account/trade-in` and `:tradeInId` is available via `RoutingService.getRouterState()`. Spartacus uses exactly this pattern for `orders`, `orderDetails`, and similar feature pages.
+`CmsPageGuard` will load the CMS content for `/my-account/trade-in` and `:tradeInId` is available via `RoutingService.getRouterState()`. Spartacus uses exactly this pattern for routes with names `orders`, `orderDetails`, and similar feature pages.
+
+For access control, don't add extra guards (like `AuthGuard`) onto the `Route` object — prefer CMS-component-driven guards configured on the CMS page/component (via the `guards` property in `cmsComponents`), so protection stays CMS-driven and consistent with the rest of the page.
 
 ## Common route names
 
@@ -90,15 +92,13 @@ Routing config is contributed by every installed feature lib's `*RootModule` (ea
 ```
 
 ```html
-<!-- ✅ cxUrl pipe — resolves the configured route, including locale prefixes -->
+<!-- ✅ cxUrl pipe — resolves the configured route path from RoutingConfig -->
 <a [routerLink]="{ cxRoute: 'cart' } | cxUrl">View cart</a>
 <a [routerLink]="{ cxRoute: 'product', params: product } | cxUrl">{{ product.name }}</a>
 ```
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `RoutingConfig`, `ConfigurableRoutesService`, `UrlPipe` (`cxUrl`), `RoutingService` from `@spartacus/core`.
 - `PageLayoutComponent`, `CmsPageGuard` from `@spartacus/storefront`.
 - Per-feature defaults (e.g. `defaultOrderRoutingConfig`) ship inside their feature root, e.g. `@spartacus/order/root`.
-
-📖 [Adding and Customizing Routes](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/adding-and-customizing-routes-b427db4.md) · [Configurable Routing](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/configurable-routing-c985fc5.md)

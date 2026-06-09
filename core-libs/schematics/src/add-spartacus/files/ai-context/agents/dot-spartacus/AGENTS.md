@@ -7,21 +7,20 @@ This is a Spartacus (SAP Commerce Cloud) storefront application. Spartacus has i
 Each detailed section below covers one topic. Skip to the one whose trigger applies — sections are independent and can be read in any order.
 
 - **`backend-communication`** — Use this skill when wiring a service to the backend in a Spartacus app, adding an OCC endpoint, configuring `backend.occ.endpoints`, or anywhere `HttpClient` is being introduced. Explains the layered Component → Facade → Connector → Adapter → Converter pipeline that all backend communication must go through.
-- **`change-detection`** — Use this skill when authoring a new Angular component in a Spartacus app, when a component's view doesn't update, or when extending a Spartacus component (some intentionally use `Default` change detection). Establishes `ChangeDetectionStrategy.OnPush` plus the `async` pipe as the default.
 - **`cms-component-wiring`** — Use this skill when introducing a component the CMS should be able to place on Spartacus pages, replacing an existing CMS component, or registering `cmsComponents` mappings. Explains why Angular routes are not the right tool for CMS-managed pages.
 - **`configurable-urls`** — Use this skill when changing the URL pattern of an existing Spartacus page, generating router links via the `cxUrl` pipe, or adding a custom CMS-driven route with a dynamic parameter (e.g. `/my-account/trade-in/:id`). Covers `RoutingConfig` and the `path:null` + `cxRoute` + `PageLayoutComponent` + `CmsPageGuard` pattern.
 - **`configuration`** — Use this skill when adding `provideConfig` / `provideDefaultConfig` calls in a Spartacus app, choosing between root-injector and lazy-wrapper placement, or troubleshooting an expected config value that isn't taking effect at runtime.
 - **`correct-injector`** — Use this skill when a Spartacus customization (service override, normalizer, component mapping, config) compiles but doesn't take effect at runtime, or when deciding where to register an override. Covers wrapper-module placement for lazy-loaded features and how to discover them.
 - **`existing-features`** — Use this skill before building any feature in a Spartacus app — Spartacus may already ship the feature out of the box. Covers how to inspect installed `@spartacus/*` packages, configured feature modules, and the `@spartacus/schematics` installable feature list.
-- **`extending-spartacus-classes`** — Use this skill when customizing a Spartacus component, service, or facade. Subclass and override the methods you need rather than copying source files into the customer app; covers extension, composition, and the rare case where copying is the only option.
+- **`extending-spartacus-classes`** — Use this skill when customizing a Spartacus component, service, or facade. Subclass and override the methods you need rather than copying source files into your app; covers extension, composition, and the rare case where copying is the only option.
 - **`facades-not-store`** — Use this skill when reading or writing Spartacus state from a component or service. Inject the public Spartacus service (proxy facades, eager core services, or component helpers — three distinct categories) instead of `Store<...>` from `@ngrx/store`.
-- **`i18n`** — Use this skill when adding user-facing strings, translation chunks, or wiring up `cxTranslate` in a Spartacus app. Covers eager `provideConfig({ i18n: ... })` registration and lazy-loaded translation chunks via `i18n.backend.loadPath`.
+- **`i18n`** — Use this skill when adding user-facing strings, translation chunks, or wiring up `cxTranslate` in a Spartacus app. Covers eager `provideConfig({ i18n: ... })` registration and lazy-loaded translation chunks via `i18n.backend.loader`.
 - **`lazy-loading`** — Use this skill when adding a new feature module to a Spartacus app, deciding whether `loadChildren` belongs here, or understanding why a feature lib can be `inject(...)`'d eagerly even though its code is lazy. Covers `featureModules` config and the proxy-facade pattern.
 - **`normalizers`** — Use this skill when surfacing extra OCC backend fields in the Spartacus UI model (e.g. a custom `loyaltyPoints` field on Product). Covers declaration merging, the `Converter<OccModel, UiModel>` interface, and registering with `multi: true` against the right `*_NORMALIZER` injection token.
 - **`outlets`** — Use this skill when sprinkling new UI into an existing Spartacus page without replacing it (e.g. a trust badge under add-to-cart, a wishlist button next to product-tile actions, a banner above the product grid). Covers `provideOutlet`, `cxOutletRef`, finding outlet IDs, and when CMS mapping is the right tool instead.
 - **`ssr-safety`** — Use this skill when touching `window`, `document`, `localStorage`, `sessionStorage`, `IntersectionObserver`, `navigator`, or any browser-only API in a Spartacus component or service. Covers the `WindowRef.isBrowser()` guard pattern and the limited cases where `disableSSR` is appropriate.
 - **`state-management`** — Use this skill before introducing a `BehaviorSubject` or new NgRx feature for Spartacus data, or when figuring out whether a Spartacus feature uses NgRx or Commands/Queries. Covers picking the matching pattern when customizing.
-- **`styling`** — Use this skill when adding SCSS or wiring up CSS for a brand-new component in a Spartacus app, or when restyling an existing Spartacus `cx-*` component. Distinguishes brand-new components (component-scoped styles OK) from `cx-*` overrides (global SCSS only, so `@spartacus/styles` overrides reach inside ViewEncapsulation).
+- **`styling`** — Use this skill when adding SCSS or wiring up CSS for a brand-new component in a Spartacus app, or when restyling an existing Spartacus `cx-*` component. Distinguishes brand-new components (component-scoped styles OK) from `cx-*` overrides (global SCSS, because Spartacus styles its OOTB components entirely through global SCSS in `@spartacus/styles`).
 - **`subscriptions`** — Use this skill when reaching for `.subscribe()` in a component or service in a Spartacus app, or when adding `cd.markForCheck()`. Covers acceptable vs unacceptable subscription patterns and `takeUntilDestroyed()` as the canonical unsubscription tool.
 
 ## Detailed guidance
@@ -33,10 +32,10 @@ Each detailed section below covers one topic. Skip to the one whose trigger appl
 NEVER inject `HttpClient` in components or services. All backend communication goes through a layered pipeline:
 
 ```
-Component → Facade → Store (NgRx) → Connector → Adapter → Converter
+Component → Facade → state layer → Connector → Adapter → Converter
 ```
 
-Only **Adapters** use `HttpClient`. Each layer has a specific role:
+The **state layer** is NgRx in older features and the Commands/Queries services in newer ones — match whichever the feature already uses (see the `state-management` skill). Only **Adapters** use `HttpClient`. Each layer has a specific role:
 
 - **Facade** — Public API consumed by components. Hides internal complexity.
 - **Connector** — Thin delegation layer injecting the abstract Adapter.
@@ -80,8 +79,8 @@ Create these files:
 
 ```typescript
 // ❌ Component injects HttpClient directly — bypasses every layer
-//    (no facade, no connector, no adapter, no converter, no NgRx caching,
-//    no normalizer hook, no SSR transfer-state, no auth interceptor by default).
+//    (no facade, no connector, no adapter, no converter, no normalizer
+//    hook, no OCC endpoint resolution, no state-layer caching/reuse).
 @Component({ /* ... */ })
 export class LoyaltyPointsComponent implements OnInit {
   private http = inject(HttpClient);
@@ -119,9 +118,23 @@ export class OccLoyaltyAdapter implements LoyaltyAdapter {
 }
 ```
 
-Consequences of bypassing the pipeline: configured `backend.occ.endpoints` overrides have no effect, normalizers don't run, SSR transfer-state and auth interceptors are skipped, and the URL is hardcoded so it can't be rewritten per environment.
+## Debugging an existing endpoint
 
-## Codebase reference
+To see the exact URL Spartacus builds for a configured endpoint:
+
+```typescript
+inject(OccEndpointsService).buildUrl('product', { urlParams: { productCode: '123' } });
+```
+
+To inspect every configured OCC endpoint at runtime, log the merged config (see the `configuration` skill for the full debug flow):
+
+```typescript
+inject(ConfigurationService).unifiedConfig$.subscribe((c) =>
+  console.log(c.backend?.occ?.endpoints)
+);
+```
+
+## Source reference (in `node_modules/@spartacus/*`)
 
 Look at how Product data flows for a complete example, all from `@spartacus/core`:
 - `ProductService` — facade
@@ -129,63 +142,6 @@ Look at how Product data flows for a complete example, all from `@spartacus/core
 - `ProductAdapter` — abstract adapter
 - `OccProductAdapter` — OCC implementation
 - `OccEndpointsService`, `ConverterService`, `PRODUCT_NORMALIZER` — supporting tokens
-
----
-
-# Change Detection
-
-## Rule
-
-Declare `ChangeDetectionStrategy.OnPush` on new components, and bind observables with the `async` pipe in templates.
-
-```typescript
-@Component({
-  selector: 'app-my-component',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './my-component.component.html',
-})
-export class MyComponent {
-  protected myFacade = inject(MyFacade);
-  data$ = this.myFacade.getData();
-}
-```
-
-```html
-<div *ngIf="data$ | async as data">
-  {{ data.name }}
-</div>
-```
-
-## Why (Spartacus-specific)
-
-A Spartacus page composes components from many feature libs. Spartacus components are mostly `OnPush`, and the `async`-pipe pattern is what makes their data flows compose cleanly. A non-`OnPush` component dropped into the same page tree can pull the whole subtree back into default change detection, undoing the gains you get elsewhere on the page.
-
-For the underlying mechanics, see Angular's [Skipping component subtrees](https://angular.dev/best-practices/skipping-subtrees).
-
-## Exception — extending a Spartacus component that uses `Default`
-
-A handful of Spartacus components intentionally use `ChangeDetectionStrategy.Default` (e.g. `ActiveFacetsComponent`, several product-configurator components). Their child components may rely on the parent being checked on every event. If you subclass one of these, **keep its CD strategy** unless you have explicit evidence the children handle `OnPush` correctly.
-
-## When OnPush appears to "not update"
-
-Always a smell, never a reason to drop OnPush:
-
-- A `BehaviorSubject` whose `.value` was mutated instead of `.next(...)` — emit the new value.
-- An array/object pushed-into instead of replaced — emit a new reference.
-- An imperative `.subscribe()` writing to a component property — convert it to a stream and use `async` pipe (see the `subscriptions` skill).
-- A timer / browser API callback running outside Angular's zone — wrap in `NgZone.run()` *only if* you can't express the data as an observable.
-
-Reaching for `cd.markForCheck()` is almost always a sign that something upstream should have been a stream.
-
-## Subscriptions
-
-For when you genuinely need imperative `.subscribe()`, see the `subscriptions` skill.
-
-## Codebase reference
-
-- Most Spartacus components in `@spartacus/storefront` and the feature libs use `ChangeDetectionStrategy.OnPush`. A handful intentionally use `Default` — keep their CD strategy when you extend them.
-
-📖 [Angular: Skipping component subtrees](https://angular.dev/best-practices/skipping-subtrees)
 
 ---
 
@@ -244,17 +200,19 @@ There are three mechanisms — see [references/placement-mechanisms.md](referenc
 ## Anti-pattern
 
 ```typescript
-// ❌ Adding the component as an Angular route
-// Spartacus uses a wildcard route + CmsPageGuard; this entry is shadowed
-// by the CMS guard, so the page silently disappears as soon as the CMS
-// backend resolves the URL.
+// ❌ Adding the component as an Angular route.
+// Custom Angular routes are registered before Spartacus's wildcard CMS
+// route (the wildcard `**` is appended last, at APP_INITIALIZER time via
+// router.config.push). So this route actually *wins* for /recently-viewed
+// and bypasses the CMS entirely: the component is no longer CMS-placed,
+// the backoffice can't place/hide/reorder it, and you lose the CMS
+// page/slot model.
 @NgModule({
   imports: [
     RouterModule.forChild([
       { path: 'recently-viewed', component: RecentlyViewedComponent },
     ]),
   ],
-  declarations: [RecentlyViewedComponent],
 })
 export class RecentlyViewedModule {}
 ```
@@ -263,7 +221,6 @@ export class RecentlyViewedModule {}
 // ✅ Map the component to a CMS component type. The CMS slot decides
 // where it appears; no Angular route is required.
 @NgModule({
-  declarations: [RecentlyViewedComponent],
   providers: [
     provideConfig({
       cmsComponents: {
@@ -277,11 +234,21 @@ export class RecentlyViewedModule {}
 export class RecentlyViewedModule {}
 ```
 
-If the CMS backoffice cannot be changed during development, place the component via `cmsStructure` (mechanism 3) or an outlet — both keep the wildcard CMS route as the single source of truth for navigation.
+If the CMS backoffice cannot be changed during development, place the component via `cmsStructure` (mechanism 3) or an outlet. Both keep the page resolving through Spartacus's CMS routing — the `**` wildcard route plus `CmsPageGuard` — so the CMS still decides what renders, instead of adding a parallel Angular route that would bypass it.
 
-## Codebase reference
+## Debugging CMS page structure
 
-- `CmsConfig`, `provideConfig`, `CmsComponentData` from `@spartacus/core`.
+If a component isn't appearing, log the CMS structure for the current page — it shows the slots and which component types the CMS placed in each:
+
+```typescript
+inject(CmsService).getCurrentPage().subscribe((page) => console.log(page));
+```
+
+If your component type isn't listed in any slot, the CMS backoffice hasn't placed it (or the `cmsComponents` mapping name doesn't match the CMS component type).
+
+## Source reference (in `node_modules/@spartacus/*`)
+
+- `CmsConfig`, `provideConfig`, `CmsComponentData`, `CmsService` from `@spartacus/core`.
 - `BannerModule`, `OutletDirective` from `@spartacus/storefront`.
 
 # CMS Component Placement — Three Mechanisms
@@ -340,15 +307,6 @@ provideConfig({
 
 This synthesizes a CMS page locally so the wildcard route + `CmsPageGuard` can resolve `/my-custom-page` and render `MyCmsComponentType` in the `Section1` slot. The synthesized structure overrides anything the CMS backend would return for the same `pageId`, so revert to mechanism 1 once the CMS team has configured the real page.
 
-## Choosing between the three
-
-| Situation | Mechanism |
-|-----------|-----------|
-| CMS team can place the component | 1 — CMS-driven |
-| Need to attach UI to an existing Spartacus slot/page (badge, button, banner) | 2 — Outlet |
-| Need a brand-new page during development without backoffice changes | 3 — `cmsStructure` |
-| Need the page in production, CMS team cannot change the backoffice | 1 — push back; CMS-driven is the production answer |
-
 ---
 
 # Routing & Configurable URLs
@@ -363,11 +321,13 @@ NEVER hardcode `routerLink="/some-path"`. Use the `cxUrl` pipe with a semantic r
 </a>
 ```
 
-`cxUrl` reads the live `RoutingConfig` so the link follows the configured URL pattern (and the locale prefix, if any).
+`cxUrl` reads the live `RoutingConfig`, so the link follows the configured URL **pattern** and param mapping — if the storefront later changes a route's path, your links update automatically.
+
+> The locale / site-context prefix (e.g. `/en/USD/…`) is added separately by Spartacus's `SiteContextUrlSerializer` for **every** serialized URL, whether or not it came from `cxUrl`. So the prefix is not the reason to use `cxUrl`; following the configured route pattern and param mapping is.
 
 ## Rule — CMS-driven page routing
 
-Spartacus uses a wildcard route (`path: '**'`) backed by `CmsPageGuard`. The CMS backend resolves the page and components for any URL. Don't add ordinary Angular routes for pages whose content the CMS should control — the CMS guard would shadow them and the placement, hiding, or reordering done in the CMS backoffice would have no effect.
+Spartacus uses a wildcard route (`path: '**'`) backed by `CmsPageGuard`, appended **last** at startup (in an `APP_INITIALIZER` that does `router.config.push(...)`). The CMS backend then resolves the page and components for any URL the wildcard matches. Don't add ordinary Angular routes for pages whose content the CMS should control: because a custom route is registered *before* the wildcard, it actually **wins** and bypasses the CMS — the component is rendered by your route instead of being CMS-placed, so the backoffice can't place, hide, or reorder it.
 
 ## Changing the URL pattern of an existing page
 
@@ -388,7 +348,7 @@ provideConfig({
 })
 ```
 
-- `paths` — multiple entries are allowed. The **first** is used for URL generation (what `cxUrl` produces); any match is accepted for inbound navigation. Keep older patterns in the list for backward compatibility.
+- `paths` — multiple entries are allowed, but keep the list short; multiple aliases are discouraged. For URL generation `cxUrl` uses the **first** path whose required params are all available on the `params` object, falling back to the next alias when they aren't. Any listed path is accepted for inbound navigation, so older patterns can stay for backward compatibility.
 - `paramsMapping` — when generating a URL with `cxUrl`, this maps URL placeholders to properties on the `params` object. `{ slug: 'name' }` means `:slug` is filled from `params.name`.
 
 ## Adding a custom CMS-driven route with a dynamic param
@@ -404,7 +364,7 @@ Sometimes you need a brand-new page whose content is CMS-driven AND whose URL co
    });
    ```
 
-3. Add an Angular route with `path: null` (so `RoutingConfig` controls the path), `data.cxRoute` matching the route name, `component: PageLayoutComponent`, and `canActivate: [CmsPageGuard]` (plus `AuthGuard` if the page is private):
+3. Add an Angular route with `path: null` (so `RoutingConfig` controls the path), `data.cxRoute` matching the route name, `component: PageLayoutComponent`, and `canActivate: [CmsPageGuard]`:
 
    ```typescript
    import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
@@ -419,7 +379,9 @@ Sometimes you need a brand-new page whose content is CMS-driven AND whose URL co
    ];
    ```
 
-`CmsPageGuard` will load the CMS content for `/my-account/trade-in` and `:tradeInId` is available via `RoutingService.getRouterState()`. Spartacus uses exactly this pattern for `orders`, `orderDetails`, and similar feature pages.
+`CmsPageGuard` will load the CMS content for `/my-account/trade-in` and `:tradeInId` is available via `RoutingService.getRouterState()`. Spartacus uses exactly this pattern for routes with names `orders`, `orderDetails`, and similar feature pages.
+
+For access control, don't add extra guards (like `AuthGuard`) onto the `Route` object — prefer CMS-component-driven guards configured on the CMS page/component (via the `guards` property in `cmsComponents`), so protection stays CMS-driven and consistent with the rest of the page.
 
 ## Common route names
 
@@ -436,18 +398,16 @@ Routing config is contributed by every installed feature lib's `*RootModule` (ea
 ```
 
 ```html
-<!-- ✅ cxUrl pipe — resolves the configured route, including locale prefixes -->
+<!-- ✅ cxUrl pipe — resolves the configured route path from RoutingConfig -->
 <a [routerLink]="{ cxRoute: 'cart' } | cxUrl">View cart</a>
 <a [routerLink]="{ cxRoute: 'product', params: product } | cxUrl">{{ product.name }}</a>
 ```
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `RoutingConfig`, `ConfigurableRoutesService`, `UrlPipe` (`cxUrl`), `RoutingService` from `@spartacus/core`.
 - `PageLayoutComponent`, `CmsPageGuard` from `@spartacus/storefront`.
 - Per-feature defaults (e.g. `defaultOrderRoutingConfig`) ship inside their feature root, e.g. `@spartacus/order/root`.
-
-📖 [Adding and Customizing Routes](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/adding-and-customizing-routes-b427db4.md) · [Configurable Routing](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/configurable-routing-c985fc5.md)
 
 ---
 
@@ -455,7 +415,7 @@ Routing config is contributed by every installed feature lib's `*RootModule` (ea
 
 ## Rule
 
-In customer apps, ALWAYS use `provideConfig()`. NEVER use `provideDefaultConfig()` — that is for Spartacus library internals only.
+In your app, ALWAYS use `provideConfig()`. NEVER use `provideDefaultConfig()` — that is for Spartacus library internals only.
 
 ## How it works
 
@@ -512,7 +472,7 @@ provideConfig({
 
 ```typescript
 // ❌ provideDefaultConfig is reserved for Spartacus library code.
-// In a customer app, library defaults will sit at the SAME merge level
+// In an app you build, library defaults will sit at the SAME merge level
 // as your override, so the merge result is undefined and depends on
 // provider order.
 @NgModule({
@@ -541,7 +501,7 @@ export class AppOccConfigModule {}
 
 When a config value isn't taking effect at runtime, see [references/troubleshooting.md](references/troubleshooting.md) for the full debug flow (live-config logging plus the three common root causes).
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `provideConfig`, `provideDefaultConfig`, `Config` from `@spartacus/core`.
 - Example default config (OCC user endpoints) ships inside `@spartacus/core`.
@@ -559,7 +519,9 @@ import { ConfigurationService } from '@spartacus/core';
 inject(ConfigurationService).unifiedConfig$.subscribe((cfg) => console.log(cfg));
 ```
 
-`unifiedConfig$` emits the deep-merged result of every `provideConfig` and `provideDefaultConfig` call that has been resolved so far. Lazy-loaded modules contribute only after they are loaded, so log the value at the moment the broken consumer runs (component constructor, ngOnInit, service usage), not just at app startup.
+`unifiedConfig$` emits the deep-merged result of every `provideConfig` and `provideDefaultConfig` call resolved so far. Lazy-loaded modules contribute config chunks only after they are loaded, and `unifiedConfig$` emits again every time a lazy module loads. So log at the moment the broken consumer runs (component constructor, `ngOnInit`, service usage), not just at app startup.
+
+> Lazy loading is what makes config timing tricky here — see the `lazy-loading` skill for how Spartacus loads feature modules on demand.
 
 ## 2. Walk the three common causes
 
@@ -578,14 +540,54 @@ Common culprits:
 
 ### c. The value lives behind a lazy boundary
 
-If you put it in a lazy wrapper module, it appears in the unified config only after that chunk loads. Force-load every lazy feature (navigate to a CMS page that triggers it, or trigger lazy loading from devtools) and re-log; if the value now appears, it was inside that lazy module. Decide whether that's actually the right placement:
+If you put it in a lazy wrapper module, it appears in the unified config only after that chunk loads. Force-load every lazy feature and re-log; if the value now appears, it was inside that lazy module. The simplest trigger is to navigate to a CMS page that uses the feature, but from devtools you can also force every feature module to load (verify this in your app before relying on it):
 
-- Lazy placement is legitimate when **every consumer of the value lives in the same lazy chunk** — the canonical cases are `cmsComponents` mappings and `backend.occ.endpoints`, but the rule applies to any feature-scoped section a customer adds (feature-specific `featureToggles` subtree, custom config namespace owned by that feature, etc.).
+```typescript
+import { firstValueFrom } from 'rxjs';
+import { CmsConfig, FeatureModulesService } from '@spartacus/core';
+
+async function forceLoadAllFeatureModules(
+  cmsConfig: CmsConfig,
+  featureModulesService: FeatureModulesService
+): Promise<void> {
+  const featureModules = cmsConfig.featureModules ?? {};
+  const promises: Promise<unknown>[] = [];
+  for (const [name, config] of Object.entries(featureModules)) {
+    if (typeof config === 'string' || !(config as any)?.module) continue;
+    promises.push(
+      firstValueFrom(featureModulesService.resolveFeature(name)).catch((err) =>
+        console.warn(`Failed to load ${name}:`, err)
+      )
+    );
+  }
+  await Promise.all(promises);
+}
+
+// In an injection context (e.g. a devtools breakpoint or a throwaway component):
+await forceLoadAllFeatureModules(inject(CmsConfig), inject(FeatureModulesService));
+```
+
+Once everything is loaded, decide whether lazy placement is actually right:
+
+- Lazy placement is legitimate when **every consumer of the value lives in the same lazy chunk** — the canonical cases are `cmsComponents` mappings and `backend.occ.endpoints`, but the rule applies to any feature-scoped section you add (a feature-specific `featureToggles` subtree, a custom config namespace owned by that feature, etc.).
 - Move it to an eager module if it's read app-wide — e.g. `i18n`, `routing`, app-level `featureToggles`, `siteContext`, `auth`, `view` — so the value is present from bootstrap and not just after a particular chunk happens to load.
 
 ## 3. Which exact module ran last?
 
-If two chunks have the same key and you can't tell which is winning, set a temporary breakpoint on `provideConfig`'s factory or add a `console.log('[OCC config from feature X]')` next to each provider. The merge order is provider-list order at runtime, which usually mirrors `imports: [...]` order in the parent module.
+If two chunks have the same key and you can't tell which is winning, make each provider observable. The merge order is provider-list order at runtime, which usually mirrors `imports: [...]` order in the parent module.
+
+The easiest approach is to swap `provideConfig(value)` for `provideConfigFactory(factory)` temporarily, so you can log (or breakpoint) as each chunk contributes:
+
+```typescript
+import { provideConfigFactory } from '@spartacus/core';
+
+provideConfigFactory(() => {
+  console.log('[OCC config from feature X]');
+  return { backend: { occ: { endpoints: { product: '...' } } } };
+});
+```
+
+The chunk that logs **last** is the one that wins for the shared key.
 
 ---
 
@@ -636,16 +638,17 @@ provideConfig({
 });
 ```
 
-Or, at runtime, log the resolved feature map:
+Or, at runtime, log the feature map. `featureModules` keys are registered eagerly in the root injector, so the static merged config already has them — no need to wait on `unifiedConfig$`:
 
 ```typescript
-inject(ConfigurationService).unifiedConfig$
-  .subscribe((c) => console.log(Object.keys(c.featureModules ?? {})));
+import { CmsConfig } from '@spartacus/core';
+
+console.log(Object.keys(inject(CmsConfig).featureModules ?? {}));
 ```
 
 Each key is the feature name; the value's `module` is its lazy entry point. The wrapper module those imports point at is where overrides for that feature must go.
 
-## Codebase reference
+## Where overrides live in this app
 
 - Wrapper modules in this app live under `src/app/spartacus/features/`, one per lazy-loaded feature, named `*-wrapper.module.ts` (or `*-feature.module.ts`).
 
@@ -669,7 +672,7 @@ Before implementing a feature, ALWAYS check whether Spartacus already provides i
 
 2. `src/app/spartacus/features/` — feature modules already configured in this app. If a `*-feature.module.ts` exists, the feature is already wired up; extend it instead of starting fresh.
 
-3. If `node_modules/@spartacus/<feature>` is missing, the feature lib may still ship — it's just not installed in this app yet. Inspect the installable feature list in the schematic schema:
+3. If `node_modules/@spartacus/<feature>` is missing, Spartacus may still offer the feature as an installable library — it's just not added to this app yet. Inspect the installable feature list in the schematic schema:
 
    ```bash
    cat node_modules/@spartacus/schematics/src/add-spartacus/schema.json | jq '.properties.features.items.enum'
@@ -679,11 +682,11 @@ Before implementing a feature, ALWAYS check whether Spartacus already provides i
 
 ## If the feature exists
 
-**Extend or customize it** rather than building from scratch. Use CMS component mapping to override specific components, or extend the existing service/facade.
+**Extend or customize it** rather than building from scratch (see the `cms-component-wiring` and `extending-spartacus-classes` skills for how).
 
 ## If the feature doesn't exist
 
-Build it following all the other skills (backend communication pipeline, CMS wiring, etc.).
+Build it, reaching for the specific skill that matches each part of the task — e.g. `backend-communication` for data access, `cms-component-wiring` for placement, `lazy-loading` for a new feature module.
 
 ---
 
@@ -721,6 +724,8 @@ provideConfig({
 })
 ```
 
+Most Spartacus components are `OnPush`, so keep `OnPush` on your subclass. A few intentionally use `ChangeDetectionStrategy.Default` (e.g. `ActiveFacetsComponent`, several product-configurator components) and their children may rely on the parent being checked on every event — when subclassing one of those, keep its original strategy unless you have verified the children handle `OnPush`.
+
 ## How to extend a service
 
 ```typescript
@@ -741,13 +746,11 @@ providers: [{ provide: ProductService, useClass: CustomProductService }]
 
 If a member you need is truly `private` and there's no public hook, prefer **composition** (wrap the original service and delegate) over copying. Copying source code should be a last resort, only when no other option exists.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `AddToCartComponent` from `@spartacus/cart/base/components/add-to-cart`
 - `ProductService` from `@spartacus/core`
 - `MiniCartComponent` from `@spartacus/storefront`
-
-📖 [Updating Composable Storefront](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/updating/index.md)
 
 ---
 
@@ -757,7 +760,7 @@ If a member you need is truly `private` and there's no public hook, prefer **com
 
 In components and services, inject the public Spartacus service for the data you need. NEVER inject `Store<...>` from `@ngrx/store` against Spartacus state, and NEVER import action creators, selectors, or anything from `@spartacus/*/core` internals.
 
-The public services are the stable contract. Internals have been moved, renamed, and in several features (checkout, user account, user profile, quote, customer ticketing) entirely replaced with Commands/Queries across releases. Code that dispatches actions directly breaks on upgrade; code that calls `facade.addEntry(...)` doesn't.
+The public services are the stable contract. Internals have been moved, renamed, and in several features (checkout, user account, user profile, quote, customer ticketing) entirely replaced with Commands/Queries across releases. Code that dispatches actions directly breaks on upgrade; code that calls `facade.method(...)` doesn't.
 
 ## Three categories of public service
 
@@ -769,15 +772,19 @@ Eagerly available in the root injector via a `*RootModule`, but their real imple
 
 Examples:
 
-| Facade | From |
-|--------|------|
-| `ActiveCartFacade`, `MultiCartFacade` | `@spartacus/cart/base/root` |
-| `OrderFacade`, `OrderHistoryFacade` | `@spartacus/order/root` |
-| `CheckoutDeliveryAddressFacade`, `CheckoutPaymentFacade`, `CheckoutPaymentTypeFacade` | `@spartacus/checkout/base/root` |
-| `UserAccountFacade`, `UserProfileFacade` | `@spartacus/user/account/root`, `@spartacus/user/profile/root` |
-| `AsmEnablerService` | `@spartacus/asm/root` |
+| Facade | Underlying service | From |
+|--------|--------------------|------|
+| `ActiveCartFacade` | `ActiveCartService` | `@spartacus/cart/base/root` |
+| `MultiCartFacade` | `MultiCartService` | `@spartacus/cart/base/root` |
+| `OrderFacade` | `OrderService` | `@spartacus/order/root` |
+| `OrderHistoryFacade` | `OrderHistoryService` | `@spartacus/order/root` |
+| `CheckoutDeliveryAddressFacade` | `CheckoutDeliveryAddressService` | `@spartacus/checkout/base/root` |
+| `CheckoutPaymentFacade` | `CheckoutPaymentService` | `@spartacus/checkout/base/root` |
+| `CheckoutPaymentTypeFacade` | `CheckoutPaymentTypeService` | `@spartacus/checkout/b2b/root` |
+| `UserAccountFacade` | `UserAccountService` | `@spartacus/user/account/root` |
+| `UserProfileFacade` | `UserProfileService` | `@spartacus/user/profile/root` |
 
-These are what people usually mean by "Spartacus Facades". Discover them by searching for `useFactory: () => facadeFactory({ facade, feature, methods })` under `node_modules/@spartacus/*/root`.
+These are what people usually mean by "Spartacus Facades". The **underlying service** is the concrete implementation inside the lazy chunk — it's what you override in the feature wrapper module when customizing behavior (see the `extending-spartacus-classes` skill). Discover facades by searching `facadeFactory({ facade:` under `node_modules/@spartacus/*/root`.
 
 ### 2. Eager `core` services backed by NgRx
 
@@ -796,7 +803,7 @@ A handful of services in `@spartacus/storefront` carry the `*ComponentService` s
 ```typescript
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
-@Component({ changeDetection: ChangeDetectionStrategy.OnPush, ... })
+@Component({ /* ... */ })
 export class MiniCartBadgeComponent {
   private activeCart = inject(ActiveCartFacade);
 
@@ -831,13 +838,11 @@ this.store.pipe(select(...)).subscribe(...);
 - For lazy proxy facades (Category 1), adding a new method requires two pieces: extend the abstract Facade class to declare the method, and override the underlying implementation in the feature's wrapper module so `facadeFactory` forwards calls to your subclass. See the `extending-spartacus-classes` skill.
 - For eager core services (Category 2), `useClass` swap in the root injector is enough.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `ActiveCartFacade`, `OrderFacade`, `CheckoutDeliveryAddressFacade`, `UserAccountFacade` — proxy facades from `@spartacus/<feature>/root`.
 - `ProductService`, `CmsService`, `RoutingService`, `AuthService` — eager core services from `@spartacus/core`.
 - `facadeFactory`, `FacadeFactoryService`, `FacadeDescriptor` from `@spartacus/core` — the lazy-loading plumbing behind Category 1.
-
-📖 [Proxy Facades](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/proxy-facades-f44487b.md)
 
 ---
 
@@ -882,13 +887,14 @@ provideConfig({
 
 ## Lazy-loaded translations
 
-For larger dictionaries or per-feature translations, configure a backend loader so chunks load on demand:
+For larger dictionaries or per-feature translations, configure a backend `loader` so chunks load on demand. The `loader` returns a Promise of the chunk's resources, and a dynamic `import()` lets the bundler code-split each translation file:
 
 ```typescript
 provideConfig({
   i18n: {
     backend: {
-      loadPath: 'assets/i18n-assets/{{lng}}/{{ns}}.json',
+      loader: (lng, chunk) =>
+        import(`../assets/i18n-assets/${lng}/${chunk}.json`),
     },
     chunks: myTranslationChunks,
     fallbackLang: 'en',
@@ -896,9 +902,7 @@ provideConfig({
 })
 ```
 
-Spartacus's `TranslationService` calls `i18next.loadNamespaces` on demand, so the chunk JSON is fetched only when a key from that namespace is rendered. Combine with the schematics-generated translation assets, or write your own loader.
-
-📖 [Internationalization](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/internationalization-i18n-775e61e.md?plain=1#L192) (covers lazy loading in detail — plain markdown for tooling/agents).
+Spartacus's `TranslationService` invokes the loader on demand, so a chunk is imported only when a key from that namespace is first rendered. Prefer `backend.loader` over `backend.loadPath` for translations bundled with your app — it's more performant, especially under SSR. `loadPath` (an HTTP path with `{{lng}}`/`{{ns}}` placeholders) is recommended only for loading translations from an external server.
 
 ## Anti-pattern
 
@@ -914,10 +918,24 @@ Spartacus's `TranslationService` calls `i18next.loadNamespaces` on demand, so th
 <h2>{{ 'recentlyViewed.title' | cxTranslate }}</h2>
 ```
 
-## Codebase reference
+## Debugging translations
+
+If a key shows up untranslated (renders the raw key, or the fallback), turn on i18n debug logging — it logs every lookup, which chunks load, and missing keys to the console:
+
+```typescript
+provideConfig({ i18n: { debug: true } }) // never enable in production
+```
+
+To test a single key resolves at runtime:
+
+```typescript
+inject(TranslationService).translate('myFeature.myLabel').subscribe(console.log);
+```
+
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `TranslatePipe` (`cxTranslate`), `TranslationService`, `I18nConfig` from `@spartacus/core`.
-- Default translation chunks ship from `@spartacus/assets`.
+- Default translation chunks ship from `@spartacus/assets` and `@spartacus/*/assets`.
 
 ---
 
@@ -939,7 +957,7 @@ featureModules: {
 }
 ```
 
-The customer app provides the dynamic import:
+Your app provides the dynamic import:
 
 ```typescript
 provideConfig({
@@ -1018,14 +1036,16 @@ provideConfig({
 
 If the wrapper module needs always-on providers (config, outlet registrations, event listeners), put those in a small eager `*RootModule` and keep the heavy code in the lazy `*Module` referenced above.
 
-## Codebase reference
+## Source reference
 
-- Library side: `CheckoutRootModule` from `@spartacus/checkout/base/root` (it provides the `featureModules.checkout.cmsComponents` mapping).
+- Library side (`node_modules/@spartacus/*`): `CheckoutRootModule` from `@spartacus/checkout/base/root` (it provides the `featureModules.checkout.cmsComponents` mapping).
 - App side: in this app, look for `*-feature.module.ts` files under `src/app/spartacus/features/` — they each call `provideConfig({ featureModules: { ...: { module: () => import(...) } } })`.
 
 # Proxy Facade Pattern — Lazy-Loading Bridge
 
 A **proxy facade** is the eager-injectable abstraction that hides a lazy-loaded service behind a stable contract. It is the mechanism that lets a component eagerly `inject(ActiveCartFacade)` even though the cart code itself is in a separate lazy chunk.
+
+> Because the proxy may need to lazy-load the real implementation before it can answer, a proxy facade must expose **only methods that return `Observable`s** (or `Promise`s) — never synchronous methods or plain value properties. A synchronous getter can't wait for the chunk to load, so it has nothing correct to return on the first call. Keep every facade member async.
 
 ## The two pieces
 
@@ -1090,17 +1110,69 @@ Spartacus's lazy injector binds `ActiveCartFacade` → `ActiveCartService` insid
 
 The signature has to grow. Just adding `myNewMethod` to your custom subclass is **not enough** — `facadeFactory` only forwards the methods listed in its `methods: [...]` array, and consumers see only the `ActiveCartFacade` abstract class signature.
 
-You need three pieces:
+You need three pieces, and **where each one is provided matters**. The factory resolves the facade from the *lazy* injector (`injector.get(facade)` after the chunk loads), so:
 
-1. **Augment the abstract class** so consumers see the new method (declaration merging or a new abstract subclass that consumers inject by name).
-2. **Override the underlying service implementation** in the lazy wrapper module (as in Case 1) so the runtime instance has the new method.
-3. **Re-provide the facade** with an extended `facadeFactory` whose `methods: [...]` array includes `myNewMethod`, otherwise the proxy won't forward it.
+1. **Augment the abstract facade** so consumers see the new method (a new abstract subclass that consumers inject by name). Keep it in an eager file.
+2. **Inside the lazy wrapper module**, subclass the underlying service to add the method, then bind your custom facade token to it — the factory looks the token up here, so the binding must live in the lazy module (not eagerly, or it would resolve back to the proxy).
+3. **In an eager (root) module**, re-provide the facade proxy with a `facadeFactory` whose `methods: [...]` includes the new method. It must be eager so consumers can inject it before the chunk loads.
 
-This is genuinely tricky and the reason most customizations stay in Case 1. Reach for Case 2 only when adding a new method is the only sensible API.
+```typescript
+// 1. Augmented abstract facade — consumers inject this (eager file).
+export abstract class CustomActiveCartFacade extends ActiveCartFacade {
+  abstract clearActiveCart(): void;
+}
+
+// 2. In the LAZY wrapper module: subclass the service and bind the custom
+//    facade token to it. `facadeFactory` resolves CustomActiveCartFacade from
+//    the lazy injector, so this binding has to live here.
+@Injectable()
+export class CustomActiveCartService
+  extends ActiveCartService
+  implements CustomActiveCartFacade
+{
+  clearActiveCart(): void {
+    this.getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => entries.forEach((e) => this.removeEntry(e)));
+  }
+}
+
+@NgModule({
+  imports: [CartBaseModule],
+  providers: [
+    CustomActiveCartService,
+    { provide: CustomActiveCartFacade, useExisting: CustomActiveCartService },
+  ],
+})
+export class CartBaseWrapperModule {}
+
+// 3. In an EAGER (root) module: the proxy. `methods` must list the new method
+//    (the proxy forwards only listed methods), and `async: true` matches the
+//    original facade.
+@NgModule({
+  providers: [
+    {
+      provide: CustomActiveCartFacade,
+      useFactory: () =>
+        facadeFactory({
+          facade: CustomActiveCartFacade,
+          feature: CART_BASE_CORE_FEATURE,
+          methods: [
+            'getActive', 'getEntries', 'addEntry', 'removeEntry',
+            'clearActiveCart',
+          ],
+          async: true,
+        }),
+    },
+  ],
+})
+export class CustomCartRootModule {}
+```
+
+Prefer Case 1 — only add a new facade method (Case 2) when extending the API is the only sensible option.
 
 ## Where to learn more
 
-- [Proxy Facades documentation](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/proxy-facades-f44487b.md)
 - `facadeFactory`, `FacadeFactoryService`, `FacadeDescriptor` from `@spartacus/core` — read their source for the call-forwarding implementation.
 - See the `extending-spartacus-classes` skill for the surrounding "extend, don't copy" rule.
 
@@ -1130,6 +1202,8 @@ declare module '@spartacus/core' {
 ```
 
 This extends the existing `Product` interface everywhere — no need to duplicate the type or cast.
+
+> The `declare module` augmentation only takes effect once this file is **imported somewhere in the app** so TypeScript (and the bundler) actually include it. Import it from the module that registers the normalizer below — e.g. `import './model/product.model';` at the top of that module file. An augmentation in a file nothing imports is silently dropped.
 
 ### 2. Write the normalizer
 
@@ -1174,13 +1248,11 @@ providers: [
 
 Serializers (UI → backend) work the same way; look for `*_SERIALIZER` tokens.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `Converter`, `ConverterService`, `PRODUCT_NORMALIZER` from `@spartacus/core`.
 - Default product normalizers ship inside `@spartacus/core` (`occ` adapters).
 - Injector correctness: see the `correct-injector` skill — register normalizers in the feature wrapper module for lazy features, or in the root injector for eager ones.
-
-📖 [Connecting to Other Systems](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/connecting-to-other-systems-5a1394b.md)
 
 ---
 
@@ -1217,8 +1289,6 @@ export class TrustBadgesModule {}
 - `position: BEFORE` — prepend before.
 - `position: REPLACE` — replace the target. Use sparingly and only when you mean it.
 
-Omitting `position` defaults to `AFTER`, which is almost always what you want for additive UI.
-
 ## `cxOutletRef` in templates
 
 For template-level additions inside your own component:
@@ -1246,11 +1316,9 @@ Common outlet IDs:
 - Adding a page with your own layout → CMS page + slot config.
 - Changing URL structure → `RoutingConfig` (see the `configurable-urls` skill).
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `OutletService`, `provideOutlet`, `OutletPosition`, `OutletDirective`, `OutletRefDirective` all from `@spartacus/storefront`.
-
-📖 [Outlets](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/outlets-b98af37.md)
 
 ---
 
@@ -1287,16 +1355,6 @@ export class RecentlyViewedComponent implements OnInit {
 
 The component renders on the server with empty/default state, then hydrates and fills in browser-only data on the client.
 
-## Browser-only APIs to watch for
-
-- `window`, `document`, `navigator`
-- `localStorage`, `sessionStorage`, `indexedDB`
-- `IntersectionObserver`, `ResizeObserver`, `MutationObserver`
-- `requestAnimationFrame`
-- `new Image()`, `new Audio()`, `new Worker()`
-- Direct DOM access (`element.offsetWidth`, `getBoundingClientRect()`, etc.)
-- Third-party JS widgets that manipulate the DOM directly
-
 ## Last-resort: `disableSSR`
 
 ```typescript
@@ -1312,14 +1370,12 @@ provideConfig({
 
 `disableSSR: true` prevents the component from rendering on the server; the slot is empty in the SSR HTML and only fills in once the CSR app boots.
 
-AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition causes a visible flicker, hurts Core Web Vitals, and removes the content from search-engine crawl. Reach for it only when the component has no useful server-rendered fallback at all (e.g. a third-party live-chat widget, a client-only map). For everything else, use `WindowRef.isBrowser()` so the component still renders meaningful default markup on the server.
+AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition causes a visible flicker, hurts the CLS Core Web Vital (which impacts SEO), and removes the content from the server-rendered HTML that crawlers read. Reach for it only when the component has no useful server-rendered fallback at all (e.g. a third-party live-chat widget, a client-only map). For everything else, use `WindowRef.isBrowser()` so the component still renders meaningful default markup on the server.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `WindowRef` from `@spartacus/core` — `isBrowser()`, `nativeWindow`, `nativeDocument`, `localStorage`, `sessionStorage`.
 - `disableSSR` is handled by `ComponentWrapperDirective` in `@spartacus/storefront`.
-
-📖 [SSR Transfer State](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/ssr-transfer-state-46d9d86.md)
 
 ---
 
@@ -1418,7 +1474,7 @@ export class GiftCardFacade {
 
 A new `BehaviorSubject` (or hand-written cache class) is almost always the wrong answer in Spartacus — it competes with the existing NgRx store and the Commands/Queries layer instead of plugging into them. Reach for one only when the feature truly has no facade and you have ruled out NgRx and Commands/Queries.
 
-## Codebase reference
+## Source reference (`@spartacus/*` libs in `node_modules`, not your app code)
 
 - `CommandService`, `QueryService`, `CommandStrategy`, `Command`, `Query` from `@spartacus/core`.
 - `CheckoutQueryService` (Commands/Queries example) from `@spartacus/checkout/base/core`.
@@ -1433,10 +1489,10 @@ There are two cases. They have different rules.
 
 ### Case A — Tweaking a Spartacus OOTB component
 
-The component already exists in `@spartacus/storefront` or a feature lib, with a `cx-*` selector. You are restyling it without rewriting it. Here you must use **global SCSS** so your overrides sit at the same scope as Spartacus's own theming and `--cx-*` custom properties:
+The component already exists in `@spartacus/storefront` or a feature lib, with a `cx-*` selector. You are restyling it without rewriting it. Use **global SCSS** targeting the same `cx-*` selector:
 
 ```scss
-// src/styles/_overrides.scss
+// src/styles/cx-mini-cart.scss  (one file per component you override)
 cx-mini-cart {
   background: var(--cx-color-secondary);
   .count {
@@ -1445,7 +1501,9 @@ cx-mini-cart {
 }
 ```
 
-Do NOT add `styleUrls`/`styles` to a subclass of a Spartacus component to override its styles — the component-scoped stylesheet sits below `@spartacus/styles` in cascade scope and is hidden behind ViewEncapsulation.
+Why global, not component-scoped? Spartacus's OOTB `@Component`s declare **no** `styles`/`styleUrls` — they are styled entirely by the global SCSS that ships in `@spartacus/styles` (keyed on `cx-*` selectors and `--cx-*` custom properties). So your overrides belong at that same global level, where they sit in the same cascade and can read the `--cx-*` variables. Don't try to override the styling by subclassing the component and adding component-scoped `styleUrls`: Angular's emulated encapsulation scopes those styles to your subclass's own view, so they don't reach the nested `cx-*` children that the component composes (and you'd need a CMS remap just to inject styling).
+
+Keep one SCSS file per component you override (e.g. `cx-mini-cart.scss`, `cx-page-layout.scss`) rather than piling everything into a single `_overrides.scss`.
 
 ### Case B — Brand-new custom component
 
@@ -1484,9 +1542,9 @@ $primary: #1B2A4A;
 ## Anti-pattern
 
 ```typescript
-// ❌ Subclassing a Spartacus component and adding component-scoped styles
-//    to override its CSS — the scoped stylesheet sits inside ViewEncapsulation,
-//    so @spartacus/styles overrides and --cx-* custom properties don't reach it.
+// ❌ Subclassing a Spartacus @Component just to add component-scoped styles.
+//    Emulated encapsulation scopes them to this view, so they don't reach
+//    the nested cx-* children, and you've added a CMS remap purely for CSS.
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './my-mini-cart.component.html',
@@ -1496,15 +1554,15 @@ export class MyMiniCartComponent extends MiniCartComponent {}
 ```
 
 ```scss
-// ✅ src/styles/_overrides.scss — global, scoped via the cx-* selector,
-//    sits at the same cascade level as @spartacus/styles.
+// ✅ src/styles/cx-mini-cart.scss — global, scoped via the cx-* selector,
+//    at the same cascade level as @spartacus/styles.
 cx-mini-cart {
   background: var(--cx-color-secondary);
   .count { font-weight: 700; }
 }
 ```
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - Global styles ship from `@spartacus/styles` (e.g. `@spartacus/styles/index`, `@spartacus/styles/scss/theme/sparta`).
 - Per-feature styles ship from each feature lib's `/styles` subpath, e.g. `@spartacus/cart/base/styles`, `@spartacus/checkout/base/styles`.
@@ -1579,7 +1637,22 @@ constructor() {
 
 `takeUntilDestroyed()` reads the current `DestroyRef` in a constructor or other injection context, so the subscription completes when the component is torn down — no field, no `ngOnDestroy`.
 
-## Codebase reference
+## Singleton services and SSR
+
+The same discipline matters even more in `providedIn: 'root'` (singleton) services. Under SSR a fresh injector is created and destroyed for **every** request, so a long-lived subscription that's never torn down keeps the whole request's injector (and everything it captured) alive — a memory leak that grows with traffic on the server. In a service, tie the subscription to the injector lifetime the same way:
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class MyService {
+  constructor() {
+    this.someEvent$.pipe(takeUntilDestroyed()).subscribe(/* ... */);
+  }
+}
+```
+
+(Or implement `ngOnDestroy` in the service and unsubscribe there — services have lifecycle hooks too.)
+
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `EventService` from `@spartacus/core`.
 - `LaunchDialogService` from `@spartacus/storefront`.
@@ -1589,7 +1662,7 @@ constructor() {
 
 # Subscription Anti-Patterns (Real Cases)
 
-Three patterns that come up repeatedly in Spartacus customizations, each with a paired fix. All three are real cases observed in the with-skills experiments.
+Three patterns that come up repeatedly in Spartacus customizations, each with a paired fix.
 
 ## ❌ Subscribing to copy data into a property
 
@@ -1719,6 +1792,9 @@ Components and SSR:
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
 
 Configuration:
-- ALWAYS use `provideConfig()` (not `provideDefaultConfig()`) in customer apps.
+- ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)
 - ALWAYS check `node_modules/@spartacus/` for existing features before building from scratch.
 - PREFER outlets for targeted UI additions; CMS mapping for whole-component replacement.
+
+Debugging:
+- Most skills include a short "Debugging" section with copy-paste `console.log` recipes for the non-obvious Spartacus runtime state — resolved OCC endpoints (`backend-communication`), merged config (`configuration`), CMS page structure (`cms-component-wiring`), and translations (`i18n`).

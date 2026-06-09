@@ -14,7 +14,6 @@ Read a skill when its trigger applies — you do not need to read every file bef
 - `correct-injector/SKILL.md` — read when a customization works in dev but not at runtime, or when deciding where to register an override.
 - `configuration/SKILL.md` — read when adding `provideConfig` / `provideDefaultConfig`, or when an expected config value isn't taking effect.
 - `state-management/SKILL.md` — read before introducing a `BehaviorSubject` or NgRx feature for Spartacus data, or when a Spartacus feature uses Commands/Queries instead of NgRx.
-- `change-detection/SKILL.md` — read when authoring a new component.
 - `subscriptions/SKILL.md` — read when reaching for `.subscribe()` in a component or service, or when adding `markForCheck()`.
 - `styling/SKILL.md` — read when adding SCSS or wiring up CSS for a new component.
 - `i18n/SKILL.md` — read when adding user-facing strings or translation chunks.
@@ -50,6 +49,9 @@ Components and SSR:
 - NEVER reference `window`/`document`/`localStorage` without guarding via `WindowRef.isBrowser()`.
 
 Configuration:
-- ALWAYS use `provideConfig()` (not `provideDefaultConfig()`) in customer apps.
+- ALWAYS use `provideConfig()` (not `provideDefaultConfig()`)
 - ALWAYS check `node_modules/@spartacus/` for existing features before building from scratch.
 - PREFER outlets for targeted UI additions; CMS mapping for whole-component replacement.
+
+Debugging:
+- Most skills include a short "Debugging" section with copy-paste `console.log` recipes for the non-obvious Spartacus runtime state — resolved OCC endpoints (`backend-communication`), merged config (`configuration`), CMS page structure (`cms-component-wiring`), and translations (`i18n`).

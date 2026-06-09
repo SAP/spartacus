@@ -3,8 +3,6 @@ name: outlets
 description: Use this skill when sprinkling new UI into an existing Spartacus page without replacing it (e.g. a trust badge under add-to-cart, a wishlist button next to product-tile actions, a banner above the product grid). Covers `provideOutlet`, `cxOutletRef`, finding outlet IDs, and when CMS mapping is the right tool instead.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Outlets — Targeted UI Additions
 
 ## Rule
@@ -38,8 +36,6 @@ export class TrustBadgesModule {}
 - `position: BEFORE` — prepend before.
 - `position: REPLACE` — replace the target. Use sparingly and only when you mean it.
 
-Omitting `position` defaults to `AFTER`, which is almost always what you want for additive UI.
-
 ## `cxOutletRef` in templates
 
 For template-level additions inside your own component:
@@ -67,8 +63,6 @@ Common outlet IDs:
 - Adding a page with your own layout → CMS page + slot config.
 - Changing URL structure → `RoutingConfig` (see the `configurable-urls` skill).
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `OutletService`, `provideOutlet`, `OutletPosition`, `OutletDirective`, `OutletRefDirective` all from `@spartacus/storefront`.
-
-📖 [Outlets](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/outlets-b98af37.md)

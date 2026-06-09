@@ -3,8 +3,6 @@ name: normalizers
 description: Use this skill when surfacing extra OCC backend fields in the Spartacus UI model (e.g. a custom `loyaltyPoints` field on Product). Covers declaration merging, the `Converter<OccModel, UiModel>` interface, and registering with `multi: true` against the right `*_NORMALIZER` injection token.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Normalizers — Adding Custom Backend Fields
 
 ## Rule
@@ -29,6 +27,8 @@ declare module '@spartacus/core' {
 ```
 
 This extends the existing `Product` interface everywhere — no need to duplicate the type or cast.
+
+> The `declare module` augmentation only takes effect once this file is **imported somewhere in the app** so TypeScript (and the bundler) actually include it. Import it from the module that registers the normalizer below — e.g. `import './model/product.model';` at the top of that module file. An augmentation in a file nothing imports is silently dropped.
 
 ### 2. Write the normalizer
 
@@ -73,10 +73,8 @@ providers: [
 
 Serializers (UI → backend) work the same way; look for `*_SERIALIZER` tokens.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `Converter`, `ConverterService`, `PRODUCT_NORMALIZER` from `@spartacus/core`.
 - Default product normalizers ship inside `@spartacus/core` (`occ` adapters).
 - Injector correctness: see the `correct-injector` skill — register normalizers in the feature wrapper module for lazy features, or in the root injector for eager ones.
-
-📖 [Connecting to Other Systems](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/connecting-to-other-systems-5a1394b.md)

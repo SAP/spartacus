@@ -3,8 +3,6 @@ name: cms-component-wiring
 description: Use this skill when introducing a component the CMS should be able to place on Spartacus pages, replacing an existing CMS component, or registering `cmsComponents` mappings. Explains why Angular routes are not the right tool for CMS-managed pages.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # CMS Component Wiring
 
 ## Rule
@@ -60,17 +58,19 @@ There are three mechanisms — see [references/placement-mechanisms.md](referenc
 ## Anti-pattern
 
 ```typescript
-// ❌ Adding the component as an Angular route
-// Spartacus uses a wildcard route + CmsPageGuard; this entry is shadowed
-// by the CMS guard, so the page silently disappears as soon as the CMS
-// backend resolves the URL.
+// ❌ Adding the component as an Angular route.
+// Custom Angular routes are registered before Spartacus's wildcard CMS
+// route (the wildcard `**` is appended last, at APP_INITIALIZER time via
+// router.config.push). So this route actually *wins* for /recently-viewed
+// and bypasses the CMS entirely: the component is no longer CMS-placed,
+// the backoffice can't place/hide/reorder it, and you lose the CMS
+// page/slot model.
 @NgModule({
   imports: [
     RouterModule.forChild([
       { path: 'recently-viewed', component: RecentlyViewedComponent },
     ]),
   ],
-  declarations: [RecentlyViewedComponent],
 })
 export class RecentlyViewedModule {}
 ```
@@ -79,7 +79,6 @@ export class RecentlyViewedModule {}
 // ✅ Map the component to a CMS component type. The CMS slot decides
 // where it appears; no Angular route is required.
 @NgModule({
-  declarations: [RecentlyViewedComponent],
   providers: [
     provideConfig({
       cmsComponents: {
@@ -93,11 +92,21 @@ export class RecentlyViewedModule {}
 export class RecentlyViewedModule {}
 ```
 
-If the CMS backoffice cannot be changed during development, place the component via `cmsStructure` (mechanism 3) or an outlet — both keep the wildcard CMS route as the single source of truth for navigation.
+If the CMS backoffice cannot be changed during development, place the component via `cmsStructure` (mechanism 3) or an outlet. Both keep the page resolving through Spartacus's CMS routing — the `**` wildcard route plus `CmsPageGuard` — so the CMS still decides what renders, instead of adding a parallel Angular route that would bypass it.
 
-## Codebase reference
+## Debugging CMS page structure
 
-- `CmsConfig`, `provideConfig`, `CmsComponentData` from `@spartacus/core`.
+If a component isn't appearing, log the CMS structure for the current page — it shows the slots and which component types the CMS placed in each:
+
+```typescript
+inject(CmsService).getCurrentPage().subscribe((page) => console.log(page));
+```
+
+If your component type isn't listed in any slot, the CMS backoffice hasn't placed it (or the `cmsComponents` mapping name doesn't match the CMS component type).
+
+## Source reference (in `node_modules/@spartacus/*`)
+
+- `CmsConfig`, `provideConfig`, `CmsComponentData`, `CmsService` from `@spartacus/core`.
 - `BannerModule`, `OutletDirective` from `@spartacus/storefront`.
 
 ## Supplemental Information

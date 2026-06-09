@@ -1,9 +1,7 @@
 ---
 name: i18n
-description: Use this skill when adding user-facing strings, translation chunks, or wiring up `cxTranslate` in a Spartacus app. Covers eager `provideConfig({ i18n: ... })` registration and lazy-loaded translation chunks via `i18n.backend.loadPath`.
+description: Use this skill when adding user-facing strings, translation chunks, or wiring up `cxTranslate` in a Spartacus app. Covers eager `provideConfig({ i18n: ... })` registration and lazy-loaded translation chunks via `i18n.backend.loader`.
 ---
-
-<!-- spartacus-version: 221121.7.0 -->
 
 # Internationalization (i18n)
 
@@ -46,13 +44,14 @@ provideConfig({
 
 ## Lazy-loaded translations
 
-For larger dictionaries or per-feature translations, configure a backend loader so chunks load on demand:
+For larger dictionaries or per-feature translations, configure a backend `loader` so chunks load on demand. The `loader` returns a Promise of the chunk's resources, and a dynamic `import()` lets the bundler code-split each translation file:
 
 ```typescript
 provideConfig({
   i18n: {
     backend: {
-      loadPath: 'assets/i18n-assets/{{lng}}/{{ns}}.json',
+      loader: (lng, chunk) =>
+        import(`../assets/i18n-assets/${lng}/${chunk}.json`),
     },
     chunks: myTranslationChunks,
     fallbackLang: 'en',
@@ -60,9 +59,7 @@ provideConfig({
 })
 ```
 
-Spartacus's `TranslationService` calls `i18next.loadNamespaces` on demand, so the chunk JSON is fetched only when a key from that namespace is rendered. Combine with the schematics-generated translation assets, or write your own loader.
-
-📖 [Internationalization](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/internationalization-i18n-775e61e.md?plain=1#L192) (covers lazy loading in detail — plain markdown for tooling/agents).
+Spartacus's `TranslationService` invokes the loader on demand, so a chunk is imported only when a key from that namespace is first rendered. Prefer `backend.loader` over `backend.loadPath` for translations bundled with your app — it's more performant, especially under SSR. `loadPath` (an HTTP path with `{{lng}}`/`{{ns}}` placeholders) is recommended only for loading translations from an external server.
 
 ## Anti-pattern
 
@@ -78,7 +75,21 @@ Spartacus's `TranslationService` calls `i18next.loadNamespaces` on demand, so th
 <h2>{{ 'recentlyViewed.title' | cxTranslate }}</h2>
 ```
 
-## Codebase reference
+## Debugging translations
+
+If a key shows up untranslated (renders the raw key, or the fallback), turn on i18n debug logging — it logs every lookup, which chunks load, and missing keys to the console:
+
+```typescript
+provideConfig({ i18n: { debug: true } }) // never enable in production
+```
+
+To test a single key resolves at runtime:
+
+```typescript
+inject(TranslationService).translate('myFeature.myLabel').subscribe(console.log);
+```
+
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `TranslatePipe` (`cxTranslate`), `TranslationService`, `I18nConfig` from `@spartacus/core`.
-- Default translation chunks ship from `@spartacus/assets`.
+- Default translation chunks ship from `@spartacus/assets` and `@spartacus/*/assets`.

@@ -53,12 +53,3 @@ provideConfig({
 ```
 
 This synthesizes a CMS page locally so the wildcard route + `CmsPageGuard` can resolve `/my-custom-page` and render `MyCmsComponentType` in the `Section1` slot. The synthesized structure overrides anything the CMS backend would return for the same `pageId`, so revert to mechanism 1 once the CMS team has configured the real page.
-
-## Choosing between the three
-
-| Situation | Mechanism |
-|-----------|-----------|
-| CMS team can place the component | 1 — CMS-driven |
-| Need to attach UI to an existing Spartacus slot/page (badge, button, banner) | 2 — Outlet |
-| Need a brand-new page during development without backoffice changes | 3 — `cmsStructure` |
-| Need the page in production, CMS team cannot change the backoffice | 1 — push back; CMS-driven is the production answer |

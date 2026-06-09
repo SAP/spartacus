@@ -1,9 +1,7 @@
 ---
 name: extending-spartacus-classes
-description: Use this skill when customizing a Spartacus component, service, or facade. Subclass and override the methods you need rather than copying source files into the customer app; covers extension, composition, and the rare case where copying is the only option.
+description: Use this skill when customizing a Spartacus component, service, or facade. Subclass and override the methods you need rather than copying source files into your app; covers extension, composition, and the rare case where copying is the only option.
 ---
-
-<!-- spartacus-version: 221121.7.0 -->
 
 # Extending Spartacus Classes
 
@@ -39,6 +37,8 @@ provideConfig({
 })
 ```
 
+Most Spartacus components are `OnPush`, so keep `OnPush` on your subclass. A few intentionally use `ChangeDetectionStrategy.Default` (e.g. `ActiveFacetsComponent`, several product-configurator components) and their children may rely on the parent being checked on every event — when subclassing one of those, keep its original strategy unless you have verified the children handle `OnPush`.
+
 ## How to extend a service
 
 ```typescript
@@ -59,10 +59,8 @@ providers: [{ provide: ProductService, useClass: CustomProductService }]
 
 If a member you need is truly `private` and there's no public hook, prefer **composition** (wrap the original service and delegate) over copying. Copying source code should be a last resort, only when no other option exists.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `AddToCartComponent` from `@spartacus/cart/base/components/add-to-cart`
 - `ProductService` from `@spartacus/core`
 - `MiniCartComponent` from `@spartacus/storefront`
-
-📖 [Updating Composable Storefront](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/updating/index.md)

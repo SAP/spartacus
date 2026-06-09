@@ -1,9 +1,7 @@
 ---
 name: styling
-description: Use this skill when adding SCSS or wiring up CSS for a brand-new component in a Spartacus app, or when restyling an existing Spartacus `cx-*` component. Distinguishes brand-new components (component-scoped styles OK) from `cx-*` overrides (global SCSS only, so `@spartacus/styles` overrides reach inside ViewEncapsulation).
+description: Use this skill when adding SCSS or wiring up CSS for a brand-new component in a Spartacus app, or when restyling an existing Spartacus `cx-*` component. Distinguishes brand-new components (component-scoped styles OK) from `cx-*` overrides (global SCSS, because Spartacus styles its OOTB components entirely through global SCSS in `@spartacus/styles`).
 ---
-
-<!-- spartacus-version: 221121.7.0 -->
 
 # Styling / CSS Architecture
 
@@ -13,10 +11,10 @@ There are two cases. They have different rules.
 
 ### Case A — Tweaking a Spartacus OOTB component
 
-The component already exists in `@spartacus/storefront` or a feature lib, with a `cx-*` selector. You are restyling it without rewriting it. Here you must use **global SCSS** so your overrides sit at the same scope as Spartacus's own theming and `--cx-*` custom properties:
+The component already exists in `@spartacus/storefront` or a feature lib, with a `cx-*` selector. You are restyling it without rewriting it. Use **global SCSS** targeting the same `cx-*` selector:
 
 ```scss
-// src/styles/_overrides.scss
+// src/styles/cx-mini-cart.scss  (one file per component you override)
 cx-mini-cart {
   background: var(--cx-color-secondary);
   .count {
@@ -25,7 +23,9 @@ cx-mini-cart {
 }
 ```
 
-Do NOT add `styleUrls`/`styles` to a subclass of a Spartacus component to override its styles — the component-scoped stylesheet sits below `@spartacus/styles` in cascade scope and is hidden behind ViewEncapsulation.
+Why global, not component-scoped? Spartacus's OOTB `@Component`s declare **no** `styles`/`styleUrls` — they are styled entirely by the global SCSS that ships in `@spartacus/styles` (keyed on `cx-*` selectors and `--cx-*` custom properties). So your overrides belong at that same global level, where they sit in the same cascade and can read the `--cx-*` variables. Don't try to override the styling by subclassing the component and adding component-scoped `styleUrls`: Angular's emulated encapsulation scopes those styles to your subclass's own view, so they don't reach the nested `cx-*` children that the component composes (and you'd need a CMS remap just to inject styling).
+
+Keep one SCSS file per component you override (e.g. `cx-mini-cart.scss`, `cx-page-layout.scss`) rather than piling everything into a single `_overrides.scss`.
 
 ### Case B — Brand-new custom component
 
@@ -64,9 +64,9 @@ $primary: #1B2A4A;
 ## Anti-pattern
 
 ```typescript
-// ❌ Subclassing a Spartacus component and adding component-scoped styles
-//    to override its CSS — the scoped stylesheet sits inside ViewEncapsulation,
-//    so @spartacus/styles overrides and --cx-* custom properties don't reach it.
+// ❌ Subclassing a Spartacus @Component just to add component-scoped styles.
+//    Emulated encapsulation scopes them to this view, so they don't reach
+//    the nested cx-* children, and you've added a CMS remap purely for CSS.
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './my-mini-cart.component.html',
@@ -76,15 +76,15 @@ export class MyMiniCartComponent extends MiniCartComponent {}
 ```
 
 ```scss
-// ✅ src/styles/_overrides.scss — global, scoped via the cx-* selector,
-//    sits at the same cascade level as @spartacus/styles.
+// ✅ src/styles/cx-mini-cart.scss — global, scoped via the cx-* selector,
+//    at the same cascade level as @spartacus/styles.
 cx-mini-cart {
   background: var(--cx-color-secondary);
   .count { font-weight: 700; }
 }
 ```
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - Global styles ship from `@spartacus/styles` (e.g. `@spartacus/styles/index`, `@spartacus/styles/scss/theme/sparta`).
 - Per-feature styles ship from each feature lib's `/styles` subpath, e.g. `@spartacus/cart/base/styles`, `@spartacus/checkout/base/styles`.

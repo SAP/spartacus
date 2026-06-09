@@ -3,15 +3,13 @@ name: facades-not-store
 description: Use this skill when reading or writing Spartacus state from a component or service. Inject the public Spartacus service (proxy facades, eager core services, or component helpers — three distinct categories) instead of `Store<...>` from `@ngrx/store`.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Use Spartacus Public Services, Not the NgRx `Store`
 
 ## Rule
 
 In components and services, inject the public Spartacus service for the data you need. NEVER inject `Store<...>` from `@ngrx/store` against Spartacus state, and NEVER import action creators, selectors, or anything from `@spartacus/*/core` internals.
 
-The public services are the stable contract. Internals have been moved, renamed, and in several features (checkout, user account, user profile, quote, customer ticketing) entirely replaced with Commands/Queries across releases. Code that dispatches actions directly breaks on upgrade; code that calls `facade.addEntry(...)` doesn't.
+The public services are the stable contract. Internals have been moved, renamed, and in several features (checkout, user account, user profile, quote, customer ticketing) entirely replaced with Commands/Queries across releases. Code that dispatches actions directly breaks on upgrade; code that calls `facade.method(...)` doesn't.
 
 ## Three categories of public service
 
@@ -23,15 +21,19 @@ Eagerly available in the root injector via a `*RootModule`, but their real imple
 
 Examples:
 
-| Facade | From |
-|--------|------|
-| `ActiveCartFacade`, `MultiCartFacade` | `@spartacus/cart/base/root` |
-| `OrderFacade`, `OrderHistoryFacade` | `@spartacus/order/root` |
-| `CheckoutDeliveryAddressFacade`, `CheckoutPaymentFacade`, `CheckoutPaymentTypeFacade` | `@spartacus/checkout/base/root` |
-| `UserAccountFacade`, `UserProfileFacade` | `@spartacus/user/account/root`, `@spartacus/user/profile/root` |
-| `AsmEnablerService` | `@spartacus/asm/root` |
+| Facade | Underlying service | From |
+|--------|--------------------|------|
+| `ActiveCartFacade` | `ActiveCartService` | `@spartacus/cart/base/root` |
+| `MultiCartFacade` | `MultiCartService` | `@spartacus/cart/base/root` |
+| `OrderFacade` | `OrderService` | `@spartacus/order/root` |
+| `OrderHistoryFacade` | `OrderHistoryService` | `@spartacus/order/root` |
+| `CheckoutDeliveryAddressFacade` | `CheckoutDeliveryAddressService` | `@spartacus/checkout/base/root` |
+| `CheckoutPaymentFacade` | `CheckoutPaymentService` | `@spartacus/checkout/base/root` |
+| `CheckoutPaymentTypeFacade` | `CheckoutPaymentTypeService` | `@spartacus/checkout/b2b/root` |
+| `UserAccountFacade` | `UserAccountService` | `@spartacus/user/account/root` |
+| `UserProfileFacade` | `UserProfileService` | `@spartacus/user/profile/root` |
 
-These are what people usually mean by "Spartacus Facades". Discover them by searching for `useFactory: () => facadeFactory({ facade, feature, methods })` under `node_modules/@spartacus/*/root`.
+These are what people usually mean by "Spartacus Facades". The **underlying service** is the concrete implementation inside the lazy chunk — it's what you override in the feature wrapper module when customizing behavior (see the `extending-spartacus-classes` skill). Discover facades by searching `facadeFactory({ facade:` under `node_modules/@spartacus/*/root`.
 
 ### 2. Eager `core` services backed by NgRx
 
@@ -50,7 +52,7 @@ A handful of services in `@spartacus/storefront` carry the `*ComponentService` s
 ```typescript
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
-@Component({ changeDetection: ChangeDetectionStrategy.OnPush, ... })
+@Component({ /* ... */ })
 export class MiniCartBadgeComponent {
   private activeCart = inject(ActiveCartFacade);
 
@@ -85,10 +87,8 @@ this.store.pipe(select(...)).subscribe(...);
 - For lazy proxy facades (Category 1), adding a new method requires two pieces: extend the abstract Facade class to declare the method, and override the underlying implementation in the feature's wrapper module so `facadeFactory` forwards calls to your subclass. See the `extending-spartacus-classes` skill.
 - For eager core services (Category 2), `useClass` swap in the root injector is enough.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `ActiveCartFacade`, `OrderFacade`, `CheckoutDeliveryAddressFacade`, `UserAccountFacade` — proxy facades from `@spartacus/<feature>/root`.
 - `ProductService`, `CmsService`, `RoutingService`, `AuthService` — eager core services from `@spartacus/core`.
 - `facadeFactory`, `FacadeFactoryService`, `FacadeDescriptor` from `@spartacus/core` — the lazy-loading plumbing behind Category 1.
-
-📖 [Proxy Facades](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/proxy-facades-f44487b.md)

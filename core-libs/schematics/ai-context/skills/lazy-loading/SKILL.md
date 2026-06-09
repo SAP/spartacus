@@ -3,8 +3,6 @@ name: lazy-loading
 description: Use this skill when adding a new feature module to a Spartacus app, deciding whether `loadChildren` belongs here, or understanding why a feature lib can be `inject(...)`'d eagerly even though its code is lazy. Covers `featureModules` config and the proxy-facade pattern.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Lazy Loading
 
 ## Rule
@@ -23,7 +21,7 @@ featureModules: {
 }
 ```
 
-The customer app provides the dynamic import:
+Your app provides the dynamic import:
 
 ```typescript
 provideConfig({
@@ -102,9 +100,9 @@ provideConfig({
 
 If the wrapper module needs always-on providers (config, outlet registrations, event listeners), put those in a small eager `*RootModule` and keep the heavy code in the lazy `*Module` referenced above.
 
-## Codebase reference
+## Source reference
 
-- Library side: `CheckoutRootModule` from `@spartacus/checkout/base/root` (it provides the `featureModules.checkout.cmsComponents` mapping).
+- Library side (`node_modules/@spartacus/*`): `CheckoutRootModule` from `@spartacus/checkout/base/root` (it provides the `featureModules.checkout.cmsComponents` mapping).
 - App side: in this app, look for `*-feature.module.ts` files under `src/app/spartacus/features/` — they each call `provideConfig({ featureModules: { ...: { module: () => import(...) } } })`.
 
 ## Supplemental Information

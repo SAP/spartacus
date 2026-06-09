@@ -1,6 +1,6 @@
 # Subscription Anti-Patterns (Real Cases)
 
-Three patterns that come up repeatedly in Spartacus customizations, each with a paired fix. All three are real cases observed in the with-skills experiments.
+Three patterns that come up repeatedly in Spartacus customizations, each with a paired fix.
 
 ## ❌ Subscribing to copy data into a property
 

@@ -3,8 +3,6 @@ name: correct-injector
 description: Use this skill when a Spartacus customization (service override, normalizer, component mapping, config) compiles but doesn't take effect at runtime, or when deciding where to register an override. Covers wrapper-module placement for lazy-loaded features and how to discover them.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Correct Injector Placement
 
 ## Rule
@@ -52,15 +50,16 @@ provideConfig({
 });
 ```
 
-Or, at runtime, log the resolved feature map:
+Or, at runtime, log the feature map. `featureModules` keys are registered eagerly in the root injector, so the static merged config already has them — no need to wait on `unifiedConfig$`:
 
 ```typescript
-inject(ConfigurationService).unifiedConfig$
-  .subscribe((c) => console.log(Object.keys(c.featureModules ?? {})));
+import { CmsConfig } from '@spartacus/core';
+
+console.log(Object.keys(inject(CmsConfig).featureModules ?? {}));
 ```
 
 Each key is the feature name; the value's `module` is its lazy entry point. The wrapper module those imports point at is where overrides for that feature must go.
 
-## Codebase reference
+## Where overrides live in this app
 
 - Wrapper modules in this app live under `src/app/spartacus/features/`, one per lazy-loaded feature, named `*-wrapper.module.ts` (or `*-feature.module.ts`).

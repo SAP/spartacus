@@ -3,8 +3,6 @@ name: state-management
 description: Use this skill before introducing a `BehaviorSubject` or new NgRx feature for Spartacus data, or when figuring out whether a Spartacus feature uses NgRx or Commands/Queries. Covers picking the matching pattern when customizing.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # State Management
 
 ## Rule
@@ -100,7 +98,7 @@ export class GiftCardFacade {
 
 A new `BehaviorSubject` (or hand-written cache class) is almost always the wrong answer in Spartacus — it competes with the existing NgRx store and the Commands/Queries layer instead of plugging into them. Reach for one only when the feature truly has no facade and you have ruled out NgRx and Commands/Queries.
 
-## Codebase reference
+## Source reference (`@spartacus/*` libs in `node_modules`, not your app code)
 
 - `CommandService`, `QueryService`, `CommandStrategy`, `Command`, `Query` from `@spartacus/core`.
 - `CheckoutQueryService` (Commands/Queries example) from `@spartacus/checkout/base/core`.

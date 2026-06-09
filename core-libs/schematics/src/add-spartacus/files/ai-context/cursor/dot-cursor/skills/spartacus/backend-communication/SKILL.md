@@ -3,8 +3,6 @@ name: backend-communication
 description: Use this skill when wiring a service to the backend in a Spartacus app, adding an OCC endpoint, configuring `backend.occ.endpoints`, or anywhere `HttpClient` is being introduced. Explains the layered Component → Facade → Connector → Adapter → Converter pipeline that all backend communication must go through.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # Backend Communication
 
 ## Rule
@@ -12,10 +10,10 @@ description: Use this skill when wiring a service to the backend in a Spartacus 
 NEVER inject `HttpClient` in components or services. All backend communication goes through a layered pipeline:
 
 ```
-Component → Facade → Store (NgRx) → Connector → Adapter → Converter
+Component → Facade → state layer → Connector → Adapter → Converter
 ```
 
-Only **Adapters** use `HttpClient`. Each layer has a specific role:
+The **state layer** is NgRx in older features and the Commands/Queries services in newer ones — match whichever the feature already uses (see the `state-management` skill). Only **Adapters** use `HttpClient`. Each layer has a specific role:
 
 - **Facade** — Public API consumed by components. Hides internal complexity.
 - **Connector** — Thin delegation layer injecting the abstract Adapter.
@@ -59,8 +57,8 @@ Create these files:
 
 ```typescript
 // ❌ Component injects HttpClient directly — bypasses every layer
-//    (no facade, no connector, no adapter, no converter, no NgRx caching,
-//    no normalizer hook, no SSR transfer-state, no auth interceptor by default).
+//    (no facade, no connector, no adapter, no converter, no normalizer
+//    hook, no OCC endpoint resolution, no state-layer caching/reuse).
 @Component({ /* ... */ })
 export class LoyaltyPointsComponent implements OnInit {
   private http = inject(HttpClient);
@@ -98,9 +96,23 @@ export class OccLoyaltyAdapter implements LoyaltyAdapter {
 }
 ```
 
-Consequences of bypassing the pipeline: configured `backend.occ.endpoints` overrides have no effect, normalizers don't run, SSR transfer-state and auth interceptors are skipped, and the URL is hardcoded so it can't be rewritten per environment.
+## Debugging an existing endpoint
 
-## Codebase reference
+To see the exact URL Spartacus builds for a configured endpoint:
+
+```typescript
+inject(OccEndpointsService).buildUrl('product', { urlParams: { productCode: '123' } });
+```
+
+To inspect every configured OCC endpoint at runtime, log the merged config (see the `configuration` skill for the full debug flow):
+
+```typescript
+inject(ConfigurationService).unifiedConfig$.subscribe((c) =>
+  console.log(c.backend?.occ?.endpoints)
+);
+```
+
+## Source reference (in `node_modules/@spartacus/*`)
 
 Look at how Product data flows for a complete example, all from `@spartacus/core`:
 - `ProductService` — facade

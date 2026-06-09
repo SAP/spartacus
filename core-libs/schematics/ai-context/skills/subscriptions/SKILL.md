@@ -3,8 +3,6 @@ name: subscriptions
 description: Use this skill when reaching for `.subscribe()` in a component or service in a Spartacus app, or when adding `cd.markForCheck()`. Covers acceptable vs unacceptable subscription patterns and `takeUntilDestroyed()` as the canonical unsubscription tool.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # RxJS Subscriptions in Components and Services
 
 ## Rule
@@ -73,7 +71,22 @@ constructor() {
 
 `takeUntilDestroyed()` reads the current `DestroyRef` in a constructor or other injection context, so the subscription completes when the component is torn down — no field, no `ngOnDestroy`.
 
-## Codebase reference
+## Singleton services and SSR
+
+The same discipline matters even more in `providedIn: 'root'` (singleton) services. Under SSR a fresh injector is created and destroyed for **every** request, so a long-lived subscription that's never torn down keeps the whole request's injector (and everything it captured) alive — a memory leak that grows with traffic on the server. In a service, tie the subscription to the injector lifetime the same way:
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class MyService {
+  constructor() {
+    this.someEvent$.pipe(takeUntilDestroyed()).subscribe(/* ... */);
+  }
+}
+```
+
+(Or implement `ngOnDestroy` in the service and unsubscribe there — services have lifecycle hooks too.)
+
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `EventService` from `@spartacus/core`.
 - `LaunchDialogService` from `@spartacus/storefront`.

@@ -3,8 +3,6 @@ name: ssr-safety
 description: Use this skill when touching `window`, `document`, `localStorage`, `sessionStorage`, `IntersectionObserver`, `navigator`, or any browser-only API in a Spartacus component or service. Covers the `WindowRef.isBrowser()` guard pattern and the limited cases where `disableSSR` is appropriate.
 ---
 
-<!-- spartacus-version: 221121.7.0 -->
-
 # SSR Safety — Browser-Only Code
 
 ## Rule
@@ -38,16 +36,6 @@ export class RecentlyViewedComponent implements OnInit {
 
 The component renders on the server with empty/default state, then hydrates and fills in browser-only data on the client.
 
-## Browser-only APIs to watch for
-
-- `window`, `document`, `navigator`
-- `localStorage`, `sessionStorage`, `indexedDB`
-- `IntersectionObserver`, `ResizeObserver`, `MutationObserver`
-- `requestAnimationFrame`
-- `new Image()`, `new Audio()`, `new Worker()`
-- Direct DOM access (`element.offsetWidth`, `getBoundingClientRect()`, etc.)
-- Third-party JS widgets that manipulate the DOM directly
-
 ## Last-resort: `disableSSR`
 
 ```typescript
@@ -63,11 +51,9 @@ provideConfig({
 
 `disableSSR: true` prevents the component from rendering on the server; the slot is empty in the SSR HTML and only fills in once the CSR app boots.
 
-AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition causes a visible flicker, hurts Core Web Vitals, and removes the content from search-engine crawl. Reach for it only when the component has no useful server-rendered fallback at all (e.g. a third-party live-chat widget, a client-only map). For everything else, use `WindowRef.isBrowser()` so the component still renders meaningful default markup on the server.
+AVOID `disableSSR` on publicly crawlable pages — the SSR-to-CSR transition causes a visible flicker, hurts the CLS Core Web Vital (which impacts SEO), and removes the content from the server-rendered HTML that crawlers read. Reach for it only when the component has no useful server-rendered fallback at all (e.g. a third-party live-chat widget, a client-only map). For everything else, use `WindowRef.isBrowser()` so the component still renders meaningful default markup on the server.
 
-## Codebase reference
+## Source reference (in `node_modules/@spartacus/*`)
 
 - `WindowRef` from `@spartacus/core` — `isBrowser()`, `nativeWindow`, `nativeDocument`, `localStorage`, `sessionStorage`.
 - `disableSSR` is handled by `ComponentWrapperDirective` in `@spartacus/storefront`.
-
-📖 [SSR Transfer State](https://github.tools.sap/I839916/spartacus-docs-from-portal/blob/main/docs/storefront-development-guide/ssr-transfer-state-46d9d86.md)
