@@ -54,9 +54,7 @@
   .cx-product-name {
     @include type('5');
     text-align: center;
-    @include forFeature('a11yProductListItemNameMargin') {
-      margin: 0 0 6px 0;
-    }
+    margin: 0 0 3px 0;
     color: var(--cx-color-text);
     text-decoration: none;
     overflow: hidden;

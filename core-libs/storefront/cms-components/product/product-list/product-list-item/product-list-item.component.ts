@@ -79,7 +79,6 @@ export class ProductListItemComponent implements OnChanges {
   ) {
     useFeatureStyles('consistentSizeProductCards');
     useFeatureStyles('productListItemSummaryReadMore');
-    useFeatureStyles('a11yProductListItemNameMargin');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {

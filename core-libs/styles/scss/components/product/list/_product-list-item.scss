@@ -77,9 +77,6 @@
     margin: 0 0 3px 0;
     color: var(--cx-color-text);
     text-decoration: none;
-    @include forFeature('a11yProductListItemNameMargin') {
-      margin: 0 0 6px 0; // TODO: FFLAG
-    }
 
     h2 {
       @include type('5');

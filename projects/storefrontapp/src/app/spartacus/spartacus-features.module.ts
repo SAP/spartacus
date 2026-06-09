@@ -365,7 +365,6 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
-        a11yProductListItemNameMargin: true,
         a11yAddToWishListBtnMargin: true,
       };
       return appFeatureToggles;
