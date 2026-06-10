@@ -6,6 +6,7 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
@@ -71,9 +72,11 @@ export class AuthService {
 
   protected authNotificationService = inject(AuthNotificationService);
   protected notificationSubscription =
-    this.authNotificationService.notifications$.subscribe((event) => {
-      this.handleNotificationEvent(event);
-    });
+    this.authNotificationService.notifications$
+      .pipe(takeUntilDestroyed())
+      .subscribe((event) => {
+        this.handleNotificationEvent(event);
+      });
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -200,7 +203,7 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
-    this.authNotificationService.sendEvent(AuthNotificationType.logout);
+    this.authNotificationService.sendEvent(AuthNotificationType.LOGOUT);
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -280,7 +283,7 @@ export class AuthService {
 
   protected handleNotificationEvent(event: unknown) {
     if (
-      event === AuthNotificationType.logout &&
+      event === AuthNotificationType.LOGOUT &&
       !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
     ) {
       this.isUserLoggedIn()

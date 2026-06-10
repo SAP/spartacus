@@ -4,6 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export enum AuthNotificationType {
-  LOGOUT = 'logout',
-}
+export * from './abstract-tab-notification.service';

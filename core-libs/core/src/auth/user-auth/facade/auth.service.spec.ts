@@ -410,7 +410,7 @@ describe('AuthService', () => {
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(true);
       expect(authNotificationService.sendEvent).toHaveBeenCalledWith(
-        AuthNotificationType.logout
+        AuthNotificationType.LOGOUT
       );
 
       tick(100);
@@ -428,7 +428,7 @@ describe('AuthService', () => {
     });
 
     it('should call coreLogout when a logout event is received', () => {
-      authNotificationService.notifications$.next(AuthNotificationType.logout);
+      authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
 
       expect(service.coreLogout).toHaveBeenCalled();
     });
@@ -436,7 +436,7 @@ describe('AuthService', () => {
     it('should not call coreLogout when a logout is in-progress', () => {
       service.setLogoutProgress(true);
 
-      authNotificationService.notifications$.next(AuthNotificationType.logout);
+      authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
 
       expect(service.coreLogout).not.toHaveBeenCalled();
     });
@@ -444,7 +444,7 @@ describe('AuthService', () => {
     it('should not call coreLogout when isUserLoggedIn is false', () => {
       spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
 
-      authNotificationService.notifications$.next(AuthNotificationType.logout);
+      authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
 
       expect(service.coreLogout).not.toHaveBeenCalled();
     });

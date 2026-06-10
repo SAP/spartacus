@@ -5,18 +5,19 @@
  */
 
 import { TestBed } from '@angular/core/testing';
+import { AuthNotificationType } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoggerService } from '../../../logger';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { TabNotificationWrapper } from '../../../util/tab-notification';
 import { WindowRef } from '../../../window';
-import {
-  AuthEventWrapper,
-  AuthNotificationService,
-} from './auth-notification.service';
+import { AuthNotificationService } from './auth-notification.service';
+
+const mockActiveBaseSite = 'electronics-spa';
 
 class MockBaseSiteService implements Partial<BaseSiteService> {
   getActive(): Observable<string> {
-    return of('test-site');
+    return of(mockActiveBaseSite);
   }
 }
 
@@ -38,10 +39,7 @@ class MockBroadcastChannel implements Partial<BroadcastChannel> {
 
 describe('AuthNotificationService', () => {
   let service: AuthNotificationService;
-  let baseSiteService: BaseSiteService;
-  let logger: MockLoggerService;
   let mockChannel: MockBroadcastChannel;
-  let windowRef: MockWindowRef;
 
   beforeEach(() => {
     mockChannel = new MockBroadcastChannel();
@@ -60,53 +58,20 @@ describe('AuthNotificationService', () => {
     });
 
     service = TestBed.inject(AuthNotificationService);
-    baseSiteService = TestBed.inject(BaseSiteService);
-    logger = TestBed.inject(LoggerService) as unknown as MockLoggerService;
-    windowRef = TestBed.inject(WindowRef) as MockWindowRef;
   });
 
   describe('listen()', () => {
     it('should create a BroadcastChannel with the correct channel id', () => {
-      service.listen();
-
-      expect(window.BroadcastChannel).toHaveBeenCalledWith(
-        'spartacus_auth_notification'
-      );
-    });
-
-    it('should register a message event listener on the channel', () => {
-      service.listen();
-
-      expect(mockChannel.addEventListener).toHaveBeenCalledWith(
-        'message',
-        jasmine.any(Function)
-      );
-    });
-
-    it('should log a warning if BroadcastChannel throws', () => {
-      const errorMessage = 'BroadcastChannel not supported';
-      (window.BroadcastChannel as unknown as jasmine.Spy).and.throwError(
-        errorMessage
-      );
+      const expectedChannelId = 'spartacus_auth_notification';
 
       service.listen();
 
-      expect(logger.warn).toHaveBeenCalledWith(
-        'Could not open AuthNotification channel: ' + errorMessage
-      );
-    });
-
-    it('should not listen when server-side', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
-
-      service.listen();
-
-      expect(window.BroadcastChannel).not.toHaveBeenCalled();
+      expect(window.BroadcastChannel).toHaveBeenCalledWith(expectedChannelId);
     });
   });
 
   describe('events$', () => {
-    it('should emit when a message is received for the active base site', () => {
+    it('should isolate by the active base site', () => {
       service.listen();
 
       const listenerCallback = (
@@ -116,15 +81,29 @@ describe('AuthNotificationService', () => {
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
 
-      const mockEvent = new MessageEvent<AuthEventWrapper<string>>('message', {
-        data: { baseSite: 'test-site', payload: 'logout' },
+      const sameBaseSiteEvent = new MessageEvent<
+        TabNotificationWrapper<AuthNotificationType>
+      >('message', {
+        data: {
+          baseSite: mockActiveBaseSite,
+          payload: AuthNotificationType.LOGOUT,
+        },
       });
-      listenerCallback(mockEvent);
+      const differentBaseSiteEvent = new MessageEvent<
+        TabNotificationWrapper<AuthNotificationType>
+      >('message', {
+        data: {
+          baseSite: 'other-base-site',
+          payload: AuthNotificationType.LOGOUT,
+        },
+      });
+      listenerCallback(sameBaseSiteEvent);
+      listenerCallback(differentBaseSiteEvent);
 
-      expect(emittedValues).toEqual(['logout']);
+      expect(emittedValues).toEqual([AuthNotificationType.LOGOUT]);
     });
 
-    it('should not emit when a message is received for a different base site', () => {
+    it('should filter payload to valid values', () => {
       service.listen();
 
       const listenerCallback = (
@@ -134,68 +113,24 @@ describe('AuthNotificationService', () => {
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
 
-      const mockEvent = new MessageEvent<AuthEventWrapper<string>>('message', {
-        data: { baseSite: 'other-site', payload: 'logout' },
+      const validEvent = new MessageEvent<
+        TabNotificationWrapper<AuthNotificationType>
+      >('message', {
+        data: {
+          baseSite: mockActiveBaseSite,
+          payload: AuthNotificationType.LOGOUT,
+        },
       });
-      listenerCallback(mockEvent);
+      const invalidEvent = new MessageEvent<TabNotificationWrapper<number>>(
+        'message',
+        {
+          data: { baseSite: mockActiveBaseSite, payload: 5 },
+        }
+      );
+      listenerCallback(validEvent);
+      listenerCallback(invalidEvent);
 
-      expect(emittedValues).toEqual([]);
-    });
-
-    it('should emit undefined payload when no payload is provided', () => {
-      service.listen();
-
-      const listenerCallback = (
-        mockChannel.addEventListener as jasmine.Spy
-      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
-
-      const emittedValues: unknown[] = [];
-      service.notifications$.subscribe((val) => emittedValues.push(val));
-
-      const mockEvent = new MessageEvent<AuthEventWrapper<unknown>>('message', {
-        data: { baseSite: 'test-site' },
-      });
-      listenerCallback(mockEvent);
-
-      expect(emittedValues).toEqual([undefined]);
-    });
-  });
-
-  describe('sendEvent()', () => {
-    it('should post a message with the active base site and payload', () => {
-      service.listen();
-      service.sendEvent('my-payload');
-
-      expect(mockChannel.postMessage).toHaveBeenCalledWith({
-        baseSite: 'test-site',
-        payload: 'my-payload',
-      });
-    });
-
-    it('should post a message with undefined payload when no data is provided', () => {
-      service.listen();
-      service.sendEvent();
-
-      expect(mockChannel.postMessage).toHaveBeenCalledWith({
-        baseSite: 'test-site',
-        payload: undefined,
-      });
-    });
-
-    it('should not throw if channel is not initialized', () => {
-      // listen() not called, channel is undefined
-      expect(() => service.sendEvent('data')).not.toThrow();
-    });
-
-    it('should use the active base site from BaseSiteService', () => {
-      spyOn(baseSiteService, 'getActive').and.returnValue(of('custom-site'));
-      service.listen();
-      service.sendEvent('payload');
-
-      expect(mockChannel.postMessage).toHaveBeenCalledWith({
-        baseSite: 'custom-site',
-        payload: 'payload',
-      });
+      expect(emittedValues).toEqual([AuthNotificationType.LOGOUT]);
     });
   });
 });
