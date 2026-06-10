@@ -23,15 +23,14 @@ jobs:
   add_license_header:
     needs: [detect_changes]
     name: Add license header to files
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     runs-on: ubuntu-latest
-    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-python@v6
         with:
           python-version: '3.14'
