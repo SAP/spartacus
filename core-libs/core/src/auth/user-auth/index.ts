@@ -11,7 +11,6 @@ export * from './facade/index';
 export * from './guards/index';
 export * from './http-interceptors/auth.interceptor';
 export * from './http-interceptors/token-revocation.interceptor';
-export * from './initializers';
 export * from './models/auth-notification.model';
 export * from './models/auth-token.model';
 export * from './models/csrf-response';
