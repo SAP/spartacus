@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdc",
-  "version": "221121.11.0",
+  "version": "221121.13.1",
   "description": "Customer Data Cloud Integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -13,6 +13,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cdc",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "scripts": {
     "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
@@ -30,12 +31,12 @@
     "@ng-select/ng-select": "^21.1.4",
     "@ngrx/effects": "^21.0.1",
     "@ngrx/store": "^21.0.1",
-    "@spartacus/asm": "221121.11.0",
-    "@spartacus/core": "221121.11.0",
-    "@spartacus/organization": "221121.11.0",
-    "@spartacus/schematics": "221121.11.0",
-    "@spartacus/storefront": "221121.11.0",
-    "@spartacus/user": "221121.11.0",
+    "@spartacus/asm": "221121.13.1",
+    "@spartacus/core": "221121.13.1",
+    "@spartacus/organization": "221121.13.1",
+    "@spartacus/schematics": "221121.13.1",
+    "@spartacus/storefront": "221121.13.1",
+    "@spartacus/user": "221121.13.1",
     "rxjs": "^7.8.0"
   },
   "engines": {
