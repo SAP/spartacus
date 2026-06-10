@@ -38,6 +38,7 @@
             <input
               type="checkbox"
               class="form-check-input"
+              [cxFocus]="{ key: 'coupon-notification-' + coupon?.couponId }"
               [checked]="coupon?.notificationOn"
               [class.disabled]="couponSubscriptionLoading$ | async"
               [disabled]="couponSubscriptionLoading$ | async"
