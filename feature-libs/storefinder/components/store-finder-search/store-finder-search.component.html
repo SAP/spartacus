@@ -78,6 +78,7 @@
     <div class="row cx-search-links mb-3">
       <div class="col-6">
         <button
+          [cxFocus]="{ key: 'use-my-location', refreshFocus: true }"
           (click)="viewStoresWithMyLoc()"
           class="btn btn-primary btn-block"
         >
@@ -86,6 +87,7 @@
       </div>
       <div class="col-6">
         <button
+          [cxFocus]="{ key: 'view-all-stores' }"
           [routerLink]="['/store-finder/view-all']"
           class="btn btn-primary btn-block"
         >

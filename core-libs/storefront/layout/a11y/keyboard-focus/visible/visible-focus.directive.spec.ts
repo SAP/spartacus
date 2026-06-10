@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeatureConfigService } from '@spartacus/core';
 import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
@@ -48,31 +49,43 @@ class MockComponent {}
 
 class MockVisibleFocusService {}
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(false);
+}
+
+const buttonTarget = { tagName: 'BUTTON' };
+const inputTarget = {
+  tagName: 'INPUT',
+  type: 'text',
+};
+const checkboxTarget = {
+  tagName: 'INPUT',
+  type: 'checkbox',
+};
+const radioTarget = {
+  tagName: 'INPUT',
+  type: 'radio',
+};
+
 const MockMouseEvent = {
   preventDefault: () => {},
   stopPropagation: () => {},
   metaKey: false,
-  target: {
-    tagName: 'BUTTON',
-  },
+  target: buttonTarget,
 };
 
 const MockOskeyEvent = {
   preventDefault: () => {},
   stopPropagation: () => {},
   metaKey: true,
-  target: {
-    tagName: 'BUTTON',
-  },
+  target: buttonTarget,
 };
 
 const MockFillFormEvent = {
   preventDefault: () => {},
   stopPropagation: () => {},
   metaKey: false,
-  target: {
-    tagName: 'INPUT',
-  },
+  target: inputTarget,
 };
 
 const MockTabKeyEvent = {
@@ -80,13 +93,28 @@ const MockTabKeyEvent = {
   stopPropagation: () => {},
   metaKey: false,
   code: 'Tab',
-  target: {
-    tagName: 'INPUT',
-  },
+  target: inputTarget,
+};
+
+const MockCheckboxSpaceEvent = {
+  preventDefault: () => {},
+  stopPropagation: () => {},
+  metaKey: false,
+  code: 'Space',
+  target: checkboxTarget,
+};
+
+const MockRadioEnterEvent = {
+  preventDefault: () => {},
+  stopPropagation: () => {},
+  metaKey: false,
+  code: 'Enter',
+  target: radioTarget,
 };
 
 describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
+  let featureConfigService: MockFeatureConfigService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CustomFocusDirective, CustomFakeFocusDirective],
@@ -94,6 +122,10 @@ describe('VisibleFocusDirective', () => {
         {
           provide: BaseFocusService,
           useClass: MockVisibleFocusService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     })
@@ -103,6 +135,9 @@ describe('VisibleFocusDirective', () => {
       })
       .compileComponents();
     fixture = TestBed.createComponent(MockComponent);
+    featureConfigService = TestBed.inject(
+      FeatureConfigService
+    ) as unknown as MockFeatureConfigService;
   }));
 
   beforeEach(() => {
@@ -218,6 +253,51 @@ describe('VisibleFocusDirective', () => {
       host.triggerEventHandler('mousedown', MockMouseEvent);
       fixture.detectChanges();
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
+        'mouse-focus'
+      );
+    });
+  });
+
+  describe('checkbox/radio with a11yConsentManagementFocusPreservation feature', () => {
+    let host: DebugElement;
+    beforeEach(() => {
+      host = fixture.debugElement.query(By.css('#a'));
+      host.triggerEventHandler('mousedown', MockMouseEvent);
+      fixture.detectChanges();
+    });
+
+    it('should remove "mouse-focus" class on Space pressed on a checkbox when feature is enabled', () => {
+      featureConfigService.isEnabled.and.returnValue(true);
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('keydown', MockCheckboxSpaceEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).not.toContain(
+        'mouse-focus'
+      );
+    });
+
+    it('should remove "mouse-focus" class on Enter pressed on a radio when feature is enabled', () => {
+      featureConfigService.isEnabled.and.returnValue(true);
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('keydown', MockRadioEnterEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).not.toContain(
+        'mouse-focus'
+      );
+    });
+
+    it('should keep "mouse-focus" class on Space pressed on a checkbox when feature is disabled', () => {
+      featureConfigService.isEnabled.and.returnValue(false);
+      expect((host.nativeElement as HTMLElement).classList).toContain(
+        'mouse-focus'
+      );
+      host.triggerEventHandler('keydown', MockCheckboxSpaceEvent);
+      fixture.detectChanges();
+      expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
     });
