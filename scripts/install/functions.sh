@@ -3,7 +3,7 @@
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 export SPARTACUS_BIN="${REPO_ROOT}/node_modules/.bin"
 
-ng() { "${SPARTACUS_BIN}/ng" "$@"; }
+ng() { "${SPARTACUS_BIN}/ng" "$@"; return $?; }
 export -f ng
 WARNINGS=()
 HAS_XVFB_INSTALLED=false
