@@ -26,6 +26,7 @@
         </div>
       </div>
       <button
+        #element
         class="cx-card-read-more link cx-action-link"
         (click)="readMore()"
       >
@@ -37,6 +38,7 @@
             <input
               type="checkbox"
               class="form-check-input"
+              [cxFocus]="{ key: 'coupon-notification-' + coupon?.couponId }"
               [checked]="coupon?.notificationOn"
               [class.disabled]="couponSubscriptionLoading$ | async"
               [disabled]="couponSubscriptionLoading$ | async"
