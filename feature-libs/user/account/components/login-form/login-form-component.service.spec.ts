@@ -423,7 +423,7 @@ describe('LoginFormComponentService', () => {
             'cx_login_error',
             'session_expired'
           );
-          expect(winRef.nativeWindow!.location.href).toBe('/login');
+          expect(winRef.nativeWindow?.location.href).toBe('/login');
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
         }));
 
@@ -442,6 +442,23 @@ describe('LoginFormComponentService', () => {
           service.login(form);
           expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
             OAUTH_REDIRECT_FLOW_KEY
+          );
+        }));
+
+        it('should surface the session-expired message inline when nativeWindow is unexpectedly undefined (defensive fallback)', waitForAsync(() => {
+          spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue(
+            undefined as unknown as Window
+          );
+          const form = createForm(userId, password, csrf);
+          spyOn(form, 'submit');
+          service.login(form);
+          expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
+            'cx_login_error',
+            'session_expired'
+          );
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'httpHandlers.sessionExpired' },
+            GlobalMessageType.MSG_TYPE_ERROR
           );
         }));
       });
@@ -523,7 +540,7 @@ describe('LoginFormComponentService', () => {
         });
 
         it('should drain a session_expired stash from sessionStorage and surface httpHandlers.sessionExpired', () => {
-          (winRef.sessionStorage!.getItem as jasmine.Spy).and.callFake(
+          (winRef.sessionStorage?.getItem as jasmine.Spy).and.callFake(
             (key: string) =>
               key === 'cx_login_error' ? 'session_expired' : null
           );

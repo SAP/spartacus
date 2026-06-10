@@ -147,7 +147,22 @@ export class LoginFormComponentService {
                   LOGIN_ERROR_KEY,
                   'session_expired'
                 );
-                this.winRef.nativeWindow!.location.href = '/login';
+                const nativeWindow = this.winRef.nativeWindow;
+                if (nativeWindow) {
+                  nativeWindow.location.href = '/login';
+                } else {
+                  // Defensive fallback: WindowRef.isBrowser() returned true
+                  // but nativeWindow is undefined. This shouldn't happen at
+                  // runtime (the two are gated by the same check inside
+                  // WindowRef), but the type allows it. Without a redirect,
+                  // sessionStorage drain on the next page-load won't fire
+                  // (no page load happens), so surface the message inline
+                  // so the user is not silently stuck on a dead form.
+                  this.globalMessage.add(
+                    { key: this.resolveLoginErrorKey('session_expired') },
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  );
+                }
               }
               return EMPTY;
             })
