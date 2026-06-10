@@ -13,6 +13,7 @@
                 role="checkbox"
                 type="checkbox"
                 id="{{ preference.channel }}"
+                [cxFocus]="{ key: 'notification-pref-' + preference.channel }"
                 [checked]="preference.enabled"
                 (change)="updatePreference(preference)"
                 [disabled]="isLoading$ | async"
