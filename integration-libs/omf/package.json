@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/omf",
-  "version": "221121.11.0",
+  "version": "221121.13.1",
   "description": "SAP Order Management Foundation Integration",
   "keywords": [
     "spartacus",
@@ -11,6 +11,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "scripts": {
     "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
@@ -25,9 +26,9 @@
     "@angular/core": "^21.2.14",
     "@angular/router": "^21.2.14",
     "@ngrx/store": "^21.0.1",
-    "@spartacus/core": "221121.11.0",
-    "@spartacus/order": "221121.11.0",
-    "@spartacus/schematics": "221121.11.0",
+    "@spartacus/core": "221121.13.1",
+    "@spartacus/order": "221121.13.1",
+    "@spartacus/schematics": "221121.13.1",
     "rxjs": "^7.8.0"
   },
   "engines": {
