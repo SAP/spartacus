@@ -1,6 +1,7 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeatureConfigService } from '@spartacus/core';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
@@ -16,6 +17,17 @@ class CustomFocusDirective extends PersistFocusDirective {
     <div id="b" cxPersistFocus="key-b"></div>
     <div id="c" [cxPersistFocus]="{ key: 'key-c' }"></div>
     <div id="d" [cxPersistFocus]="{ key: 'key-d' }"></div>
+    <div
+      id="e"
+      [cxPersistFocus]="{ key: 'key-e', focusTargetSelector: '.inner' }"
+    >
+      <button class="inner"></button>
+    </div>
+    <div
+      id="f"
+      [cxPersistFocus]="{ key: 'key-f', focusTargetSelector: '.missing' }"
+    ></div>
+    <div id="g" [cxPersistFocus]="{ key: 'key-g', clearOnRestore: true }"></div>
   `,
   imports: [CustomFocusDirective],
 })
@@ -29,12 +41,20 @@ class MockPersistFocusService {
   getPersistenceGroup() {
     return 'test-group';
   }
+  clear(): void {}
+}
+
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
 }
 
 describe('PersistFocusDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: PersistFocusService;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -44,15 +64,21 @@ describe('PersistFocusDirective', () => {
           provide: PersistFocusService,
           useClass: MockPersistFocusService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(PersistFocusService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(service, 'get').and.callThrough();
     spyOn(service, 'set').and.callThrough();
+    spyOn(service, 'clear').and.callThrough();
   }));
 
   it('should create component', () => {
@@ -111,6 +137,82 @@ describe('PersistFocusDirective', () => {
       el.triggerEventHandler('focus', mockEvent);
 
       expect(service.set).toHaveBeenCalledWith('key-b', 'test-group');
+    });
+  });
+
+  describe('focusTargetSelector', () => {
+    it('should focus a descendant matching the selector instead of the host', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-e');
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#e')
+      ).nativeElement;
+      const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
+      spyOn(host, 'focus');
+      spyOn(inner, 'focus');
+
+      fixture.detectChanges();
+
+      expect(inner.focus).toHaveBeenCalled();
+      expect(host.focus).not.toHaveBeenCalled();
+    });
+
+    it('should fall back to host when the selector matches no descendant', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-f');
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#f')
+      ).nativeElement;
+      spyOn(host, 'focus');
+
+      fixture.detectChanges();
+
+      expect(host.focus).toHaveBeenCalled();
+    });
+  });
+
+  describe('clearOnRestore', () => {
+    it('should clear the persisted key after restoring focus when set to true', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-g');
+
+      fixture.detectChanges();
+
+      expect(service.clear).toHaveBeenCalledWith('test-group');
+    });
+
+    it('should not clear the persisted key when not set', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-d');
+
+      fixture.detectChanges();
+
+      expect(service.clear).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('a11yRestoreFocusOnNgSelect toggle disabled', () => {
+    beforeEach(() => {
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    });
+
+    it('should focus host directly (not inner descendant) when toggle is off', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-e');
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#e')
+      ).nativeElement;
+      const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
+      spyOn(host, 'focus');
+      spyOn(inner, 'focus');
+
+      fixture.detectChanges();
+
+      expect(host.focus).toHaveBeenCalled();
+      expect(inner.focus).not.toHaveBeenCalled();
+    });
+
+    it('should NOT clear the persisted key even when clearOnRestore is true', () => {
+      (service.get as jasmine.Spy).and.returnValue('key-g');
+
+      fixture.detectChanges();
+
+      expect(service.clear).not.toHaveBeenCalled();
     });
   });
 });
