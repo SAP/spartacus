@@ -27,6 +27,8 @@ import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, from } from 'rxjs';
 import { catchError, take, tap, withLatestFrom } from 'rxjs/operators';
 
+const LOGIN_ERROR_KEY = 'cx_login_error';
+
 @Injectable()
 export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
@@ -43,7 +45,6 @@ export class LoginFormComponentService {
   action?: string;
   method?: string;
   protected busy$ = new BehaviorSubject(false);
-  protected sessionExpired = false;
   get csrf() {
     return this.csrfStateService.get();
   }
@@ -87,24 +88,19 @@ export class LoginFormComponentService {
       this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
       nativeForm
     ) {
-      if (this.sessionExpired) {
-        // Session expired on previous attempt — restart the full auth flow.
-        // A CSRF refresh alone won't work: the new session from the CSRF
-        // endpoint won't have a pending PKCE authorization request.
-        // Reset the flag so subsequent clicks (e.g. after the user has been
-        // brought back to /login by the redirect) take the normal CSRF
-        // refresh + submit path instead of redirecting on every click.
-        this.sessionExpired = false;
-        this.auth.loginWithRedirect();
-        return;
-      }
       if (
         this.featureConfigService.isEnabled(
           'authorizationCodeFlowByDefaultCsrfTokenRefresh'
         )
       ) {
-        // CXSPA-13213 related "session-expired" detection - if the CSRF refresh fails, mark the session as expired and show an error message. The user can then click the login button again to trigger a full redirect-based login flow, which will succeed even if the session is expired.
-        // TODO: The best solution is the serverside one: make the login endpoint return a specific error code for expired sessions, and trigger the redirect-based flow immediately without relying on a failed CSRF refresh call. But this client-side detection is a reasonable fallback that doesn't require backend changes.
+        // CXSPA-13213: refresh the CSRF token immediately before the
+        // native form submit. The auth server rotates per-request, so a
+        // stale page-load token would 403. A 403 on this GET also
+        // signals that the auth-server session no longer holds a
+        // pending PKCE authorization request — handled in catchError
+        // below by redirecting to /login?error=session_expired so the
+        // existing handleCustomLoginError() pipeline shows the friendly
+        // message.
         this.auth
           .refreshCsrfToken()
           .pipe(
@@ -121,15 +117,38 @@ export class LoginFormComponentService {
               this.busy$.next(true);
             }),
             catchError(() => {
-              this.sessionExpired = true;
               this.busy$.next(false);
-              this.globalMessage.add(
-                {
-                  key: 'httpHandlers.sessionExpired',
-                },
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
               this.clearOauthRedirectFlowFlag();
+              // Use a hard browser navigation (window.location.href) instead
+              // of router.navigate(['/login'], { queryParams: ... }). The
+              // router-based in-app navigation reuses the current
+              // LoginFormComponent and — by Angular's default route-reuse
+              // strategy — does NOT re-run CustomLoginGuard.canActivate(),
+              // which is the only place that fetches a fresh CSRF token
+              // (authService.getCsrfToken()) and binds it to a fresh
+              // auth-server session. Without that re-run, the next Sign In
+              // click reuses the dead JSESSIONID and 403s again.
+              // A real page load (which is what the user would do manually
+              // by refreshing) re-bootstraps Angular and re-runs the guard,
+              // producing a healthy CSRF token + session. window.location.href
+              // is the smallest change that replicates that behavior on the
+              // recovery path.
+              //
+              // Why sessionStorage instead of `?error=session_expired` on
+              // the URL: CustomLoginGuard re-runs on the hard redirect and
+              // can itself navigate (e.g. its own catchError calls
+              // createRoute('login'), which strips query params via UrlTree).
+              // A query param is therefore not guaranteed to survive the
+              // re-bootstrap. sessionStorage survives any number of
+              // intermediate redirects within the same browsing context
+              // and is read once + cleared by handleCustomLoginError().
+              if (this.winRef.isBrowser()) {
+                this.winRef.sessionStorage?.setItem(
+                  LOGIN_ERROR_KEY,
+                  'session_expired'
+                );
+                this.winRef.nativeWindow!.location.href = '/login';
+              }
               return EMPTY;
             })
           )
@@ -164,21 +183,47 @@ export class LoginFormComponentService {
     ) {
       return;
     }
-    const error = this.activatedRoute.snapshot.queryParams['error'];
-    if (error) {
-      this.clearOauthRedirectFlowFlag();
-      this.globalMessage.add(
-        {
-          key: this.customFormValidErrors.includes(error)
-            ? `customLoginPage.badRequest.${error}`
-            : 'customLoginPage.badRequest.unknown_error',
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      this.router.navigate([], {
-        queryParams: { error: null },
-      });
+    // First, drain any error stashed in sessionStorage by the catchError
+    // hard-redirect path (see login()). sessionStorage survives the
+    // re-bootstrap that the hard redirect causes, where a query param
+    // would be lost to CustomLoginGuard's own internal redirects.
+    if (this.winRef.isBrowser()) {
+      const stashed = this.winRef.sessionStorage?.getItem(LOGIN_ERROR_KEY);
+      if (stashed) {
+        this.winRef.sessionStorage?.removeItem(LOGIN_ERROR_KEY);
+        this.clearOauthRedirectFlowFlag();
+        this.globalMessage.add(
+          { key: this.resolveLoginErrorKey(stashed) },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
     }
+    // Then handle errors arriving via query param (e.g. bad_credentials
+    // round-trip from the auth server). Subscribe to queryParams (not
+    // snapshot) so this also fires on in-place navigations that don't
+    // re-construct LoginFormComponent.
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const error = params['error'];
+      if (error) {
+        this.clearOauthRedirectFlowFlag();
+        this.globalMessage.add(
+          { key: this.resolveLoginErrorKey(error) },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+        this.router.navigate([], {
+          queryParams: { error: null },
+        });
+      }
+    });
+  }
+
+  protected resolveLoginErrorKey(error: string): string {
+    if (error === 'session_expired') {
+      return 'httpHandlers.sessionExpired';
+    }
+    return this.customFormValidErrors.includes(error)
+      ? `customLoginPage.badRequest.${error}`
+      : 'customLoginPage.badRequest.unknown_error';
   }
 
   protected onSuccess(isLoggedIn: boolean): void {

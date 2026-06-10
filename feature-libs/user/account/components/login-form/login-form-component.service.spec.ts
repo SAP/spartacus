@@ -28,8 +28,16 @@ class MockWinRef {
     'removeItem',
   ]);
 
+  sessionStorage = jasmine.createSpyObj('sessionStorage', [
+    'setItem',
+    'getItem',
+    'removeItem',
+  ]);
+
+  location = { href: '' } as Location;
+
   get nativeWindow(): Window {
-    return {} as Window;
+    return { location: this.location } as Window;
   }
 
   isBrowser(): boolean {
@@ -76,6 +84,7 @@ class MockActivatedRoute implements Partial<ActivatedRoute> {
   snapshot = {
     queryParams: { error: 'bad_credentials' },
   } as unknown as ActivatedRouteSnapshot;
+  queryParams = of<{ error: string | null }>({ error: 'bad_credentials' });
 }
 
 class MockRouter implements Partial<Router> {
@@ -406,16 +415,16 @@ describe('LoginFormComponentService', () => {
           expect(submitSpy).not.toHaveBeenCalled();
         }));
 
-        it('should show error message on CSRF refresh failure', waitForAsync(() => {
+        it('should stash session_expired in sessionStorage and hard-redirect to /login on CSRF refresh failure', waitForAsync(() => {
           const form = createForm(userId, password, csrf);
           spyOn(form, 'submit');
           service.login(form);
-          expect(globalMessageService.add).toHaveBeenCalledWith(
-            {
-              key: 'httpHandlers.sessionExpired',
-            },
-            GlobalMessageType.MSG_TYPE_ERROR
+          expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
+            'cx_login_error',
+            'session_expired'
           );
+          expect(winRef.nativeWindow!.location.href).toBe('/login');
+          expect(authService.loginWithRedirect).not.toHaveBeenCalled();
         }));
 
         it('should reset busy state to false on CSRF refresh failure', waitForAsync(() => {
@@ -434,63 +443,6 @@ describe('LoginFormComponentService', () => {
           expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
             OAUTH_REDIRECT_FLOW_KEY
           );
-        }));
-      });
-
-      describe('when retrying after session expiry', () => {
-        const userId = 'test@email.com';
-        const password = 'secret';
-        const csrf = 'token';
-
-        beforeEach(waitForAsync(() => {
-          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
-            throwError(() => ({ status: 403 }))
-          );
-          service.form.setValue({ userId, password, csrf });
-          const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
-          service.login(form);
-        }));
-
-        it('should call loginWithRedirect on retry instead of refreshing CSRF again', waitForAsync(() => {
-          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
-            of({
-              headerName: 'CSRF',
-              parameterName: '_csrf',
-              token: 'new-token',
-            })
-          );
-          const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
-          service.login(form);
-          expect(authService.loginWithRedirect).toHaveBeenCalled();
-          expect(authService.refreshCsrfToken).toHaveBeenCalledTimes(1);
-          expect(form.submit).not.toHaveBeenCalled();
-        }));
-
-        it('should resume the normal CSRF-refresh + submit flow on a click AFTER the recovery redirect (sessionExpired flag must be cleared)', waitForAsync(() => {
-          // Recovery from the previous beforeEach already called
-          // loginWithRedirect once. A subsequent successful CSRF refresh
-          // must take the normal path (refresh + submit), not the redirect.
-          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
-            of({
-              headerName: 'CSRF',
-              parameterName: '_csrf',
-              token: 'new-token',
-            })
-          );
-          const firstRetryForm = createForm(userId, password, csrf);
-          spyOn(firstRetryForm, 'submit');
-          service.login(firstRetryForm); // triggers loginWithRedirect, clears flag
-
-          const nextForm = createForm(userId, password, csrf);
-          const nextSubmitSpy = spyOn(nextForm, 'submit');
-          service.login(nextForm);
-
-          expect(nextSubmitSpy).toHaveBeenCalled();
-          expect(
-            (authService.loginWithRedirect as jasmine.Spy).calls.count()
-          ).toBe(1);
         }));
       });
 
@@ -570,8 +522,37 @@ describe('LoginFormComponentService', () => {
           });
         });
 
+        it('should drain a session_expired stash from sessionStorage and surface httpHandlers.sessionExpired', () => {
+          (winRef.sessionStorage!.getItem as jasmine.Spy).and.callFake(
+            (key: string) =>
+              key === 'cx_login_error' ? 'session_expired' : null
+          );
+          service.handleCustomLoginError();
+          expect(winRef.sessionStorage?.removeItem).toHaveBeenCalledWith(
+            'cx_login_error'
+          );
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'httpHandlers.sessionExpired' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
+
+        it('should map error=session_expired to the httpHandlers.sessionExpired key (reused from the global session-expired message)', () => {
+          (activatedRoute as any).queryParams = of({
+            error: 'session_expired',
+          });
+          service.handleCustomLoginError();
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { key: 'httpHandlers.sessionExpired' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          expect(router.navigate).toHaveBeenCalledWith([], {
+            queryParams: { error: null },
+          });
+        });
+
         it('should not add error message to global message service if error is not present', () => {
-          activatedRoute.snapshot.queryParams = { error: null };
+          (activatedRoute as any).queryParams = of({ error: null });
           service.handleCustomLoginError();
           expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
           expect(globalMessageService.add).not.toHaveBeenCalled();
