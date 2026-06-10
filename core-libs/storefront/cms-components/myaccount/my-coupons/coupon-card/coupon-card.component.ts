@@ -18,6 +18,7 @@ import {
 import { CustomerCoupon, CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 
@@ -25,7 +26,13 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, LowerCasePipe, TranslatePipe, CxDatePipe],
+  imports: [
+    AsyncPipe,
+    LowerCasePipe,
+    TranslatePipe,
+    CxDatePipe,
+    FocusDirective,
+  ],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;
