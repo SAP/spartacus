@@ -491,6 +491,15 @@ export interface FeatureTogglesInterface {
   a11yVocalizeDropdownItemCount?: boolean;
 
   /**
+   * When enabled, keystrokes inside an ng-select (combobox dropdown) are treated
+   * as navigation rather than form filling. This preserves the focus outline
+   * (removes the `mouse-focus` class) when the user opens a dropdown with the
+   * mouse and then navigates with the keyboard.
+   * Affects: `NgSelectA11yDirective`
+   */
+  a11yRestoreFocusOnNgSelect?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -549,6 +558,14 @@ export interface FeatureTogglesInterface {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly?: boolean;
 
   /**
+   * When enabled, the Quick Order search input keeps focus after
+   * the reset button is cleared, instead of losing focus to the
+   * next tabbable element.
+   * Affects: QuickOrderFormComponent
+   */
+  a11yQuickOrderResetFocus?: boolean;
+
+  /**
    * When enabled, the "Notification Channels" link in the My Coupons page
    * is styled as a link (blue, underlined) instead of plain text.
    */
@@ -560,6 +577,29 @@ export interface FeatureTogglesInterface {
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
   pageLinkSanitizeCanonicalUrl?: boolean;
+
+  /**
+   * When enabled, the address book and address form support hierarchical
+   * address formats (e.g. Chinese addresses), which require selecting
+   * region (province), city and district as chained dropdowns,
+   * and skip OCC address verification for the supported countries.
+   *
+   * Also makes `OccUserAddressAdapter.loadAll()` request the FULL address
+   * fields set, so that nested `city` / `cityDistrict` references are returned.
+   *
+   * Affects:
+   * - `AddressBookComponent`
+   * - `AddressFormComponent`
+   * - `OccUserAddressAdapter`
+   */
+  enableHierarchicalAddressFormat?: boolean;
+
+  /* When enabled, OPF checkout payment flow calls `updatePaymentTransaction`
+   * instead of `initiatePayment` while selecting/re-initiating payment.
+   *
+   * Legacy behavior uses `initiatePayment`.
+   */
+  opfCheckoutUseUpdatePaymentTransaction?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -618,6 +658,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
+  a11yRestoreFocusOnNgSelect: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
@@ -625,7 +666,10 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableExpiredRefreshTokenHandlers: false,
   enableCartReloadOnContextChange: false,
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
+  a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  enableHierarchicalAddressFormat: false,
+  opfCheckoutUseUpdatePaymentTransaction: false,
 };

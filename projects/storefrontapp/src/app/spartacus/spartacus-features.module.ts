@@ -343,6 +343,7 @@ if (environment.cpq) {
         a11yNgSelectReadonlyInputValue: true,
         a11yPasswordVisibilityToggle: true,
         a11yPreventWindowsHighContrastOverride: true,
+        a11yQuickOrderResetFocus: true,
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
         a11yListSemanticsForFacets: true,
@@ -351,6 +352,7 @@ if (environment.cpq) {
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
         a11yVocalizeDropdownItemCount: true,
+        a11yRestoreFocusOnNgSelect: true,
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
@@ -361,6 +363,8 @@ if (environment.cpq) {
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
+        enableHierarchicalAddressFormat: true,
+        opfCheckoutUseUpdatePaymentTransaction: true,
       };
       return appFeatureToggles;
     }),

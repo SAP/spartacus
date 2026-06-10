@@ -2,7 +2,6 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   CrossSiteRequestForgeryService,
-  FeatureConfigService,
   FeatureToggles,
 } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
@@ -89,12 +88,10 @@ class MockAuthMultisiteIsolationService {
   }
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy().and.returnValue(false);
-}
-class MockFeatureToggles implements FeatureToggles {
-  authorizationCodeFlowByDefault: false;
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
+};
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -104,7 +101,6 @@ describe('AuthService', () => {
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
-  let featureConfigService: FeatureConfigService;
   let featureToggles: FeatureToggles;
   let store: Store;
 
@@ -132,11 +128,7 @@ describe('AuthService', () => {
           provide: CrossSiteRequestForgeryService,
           useClass: MockCrossSiteRequestForgeryService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-        { provide: FeatureToggles, useClass: MockFeatureToggles },
+        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
       ],
     });
 
@@ -149,7 +141,6 @@ describe('AuthService', () => {
     authMultisiteIsolationService = TestBed.inject(
       AuthMultisiteIsolationService
     );
-    featureConfigService = TestBed.inject(FeatureConfigService);
     featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
   });
@@ -161,7 +152,7 @@ describe('AuthService', () => {
   describe('checkOAuthParamsInUrl()', () => {
     describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is DISABLED', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+        featureToggles.dispatchLoginActionOnlyWhenTokenReceived = false;
         service.updateIsUsingASMClient(false);
       });
 
@@ -255,7 +246,7 @@ describe('AuthService', () => {
 
     describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is ENABLED', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+        featureToggles.dispatchLoginActionOnlyWhenTokenReceived = true;
       });
 
       it('when customer emulated in asm page', async () => {

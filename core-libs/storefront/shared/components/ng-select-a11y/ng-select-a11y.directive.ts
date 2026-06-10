@@ -73,6 +73,27 @@ export class NgSelectA11yDirective implements AfterViewInit {
     });
   }
 
+  /**
+   * Keystrokes inside ng-select are dropdown navigation, not form filling,
+   * so the focus outline must remain visible. `VisibleFocusDirective` treats
+   * any `<input>` keystroke as form filling and adds a `mouse-focus` class
+   * (which hides the outline) when the dropdown was opened with a mouse.
+   * We defer to a microtask so this runs after the bubbled keydown has
+   * reached `VisibleFocusDirective`, then clear the class on the closest
+   * ancestor that has it.
+   */
+  @HostListener('keydown')
+  onKeyDown() {
+    if (!this.featureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')) {
+      return;
+    }
+    Promise.resolve().then(() => {
+      this.elementRef.nativeElement
+        .closest('.mouse-focus')
+        ?.classList.remove('mouse-focus');
+    });
+  }
+
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
