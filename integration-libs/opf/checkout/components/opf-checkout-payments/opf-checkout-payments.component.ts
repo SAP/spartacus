@@ -264,10 +264,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected preselectPaymentOption(): void {
     let isPreselected = false;
     const metadataSubscription = (state: OpfMetadataModel) => {
-      if (
-        !isPreselected &&
-        (state.termsAndConditionsChecked || !this.explicitTermsAndConditions)
-      ) {
+      if (this.shouldResolvePreselection(state, isPreselected)) {
         const resolvedId =
           state.selectedPaymentOptionId ?? state.defaultSelectedPaymentOptionId;
 
@@ -276,9 +273,14 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
         }
 
         this.selectedPaymentId = resolvedId;
-        this.opfMetadataStoreService.updateOpfMetadata({
-          selectedPaymentOptionId: this.selectedPaymentId,
-        });
+        if (
+          resolvedId !== undefined &&
+          resolvedId !== state.selectedPaymentOptionId
+        ) {
+          this.opfMetadataStoreService.updateOpfMetadata({
+            selectedPaymentOptionId: resolvedId,
+          });
+        }
         this.emitOutletContext();
       } else if (
         !state.termsAndConditionsChecked &&
@@ -305,6 +307,16 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
           .subscribe(metadataSubscription)
       );
     }
+  }
+
+  protected shouldResolvePreselection(
+    state: OpfMetadataModel,
+    isPreselected: boolean
+  ): boolean {
+    return (
+      !isPreselected &&
+      (state.termsAndConditionsChecked || !this.explicitTermsAndConditions)
+    );
   }
 
   protected displayError(errorKey: string): void {
