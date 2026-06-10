@@ -71,12 +71,6 @@ export class AuthService {
   private featureToggles = inject(FeatureToggles);
 
   protected authNotificationService = inject(AuthNotificationService);
-  protected notificationSubscription =
-    this.authNotificationService.notifications$
-      .pipe(takeUntilDestroyed())
-      .subscribe((event) => {
-        this.handleNotificationEvent(event);
-      });
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -86,7 +80,9 @@ export class AuthService {
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {}
+  ) {
+    this.subscribeToAuthNotification();
+  }
 
   /**
    * Check params in url and if there is an code/token then try to login with those.
@@ -203,7 +199,7 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
-    this.authNotificationService.sendEvent(AuthNotificationType.LOGOUT);
+    this.authNotificationService.sendNotification(AuthNotificationType.LOGOUT);
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -242,6 +238,14 @@ export class AuthService {
    */
   setLogoutProgress(progress: boolean): void {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
+  }
+
+  protected subscribeToAuthNotification() {
+    this.authNotificationService.notifications$
+      .pipe(takeUntilDestroyed())
+      .subscribe((event) => {
+        this.handleNotificationEvent(event);
+      });
   }
 
   /**

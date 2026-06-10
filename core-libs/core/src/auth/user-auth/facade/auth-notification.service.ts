@@ -11,12 +11,14 @@ import {
   TabNotificationWrapper,
 } from '../../../util/browser-tab-notification';
 
+export const authNotificationServiceChannelId = 'spartacus_auth_notification';
+
 /**
  * Service used to communicate with other Spartacus tabs for this site.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthNotificationService extends AbstractBrowserTabNotificationService<AuthNotificationType> {
-  protected channelId = 'spartacus_auth_notification';
+  protected channelId = authNotificationServiceChannelId;
 
   protected payloadGuard(
     event: MessageEvent<TabNotificationWrapper<unknown>>

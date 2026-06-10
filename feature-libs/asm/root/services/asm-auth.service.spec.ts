@@ -89,7 +89,7 @@ class MockCrossSiteRequestForgeryService
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
   notifications$ = new Subject<AuthNotificationType>();
-  sendEvent(_data: AuthNotificationType): void {}
+  sendNotification(_data: AuthNotificationType): void {}
 }
 
 describe('AsmAuthService', () => {

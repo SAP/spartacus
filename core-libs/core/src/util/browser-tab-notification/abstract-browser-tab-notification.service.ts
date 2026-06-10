@@ -68,7 +68,7 @@ export abstract class AbstractBrowserTabNotificationService<T = unknown> {
   /**
    * Initializes the service to send and receive notification events.
    *
-   * Only activates when in a browser context.
+   * Method will only start listening when in a browser context.
    */
   listen() {
     if (this.windowRef.isBrowser()) {
@@ -89,7 +89,10 @@ export abstract class AbstractBrowserTabNotificationService<T = unknown> {
     }
   }
 
-  sendEvent(data: T) {
+  /**
+   * Will send the data if the service has started listening.
+   */
+  sendNotification(data: T) {
     this.outbound.next(data);
   }
 

@@ -219,10 +219,10 @@ describe('AbstractTabNotificationService', () => {
     });
   });
 
-  describe('sendEvent()', () => {
+  describe('sendNotification()', () => {
     it('should post a message with the active base site and payload', () => {
       service.listen();
-      service.sendEvent(mockEventPayload);
+      service.sendNotification(mockEventPayload);
 
       expect(mockChannel.postMessage).toHaveBeenCalledWith({
         baseSite: 'test-site',
@@ -232,7 +232,7 @@ describe('AbstractTabNotificationService', () => {
 
     it('should not throw if channel is not initialized', () => {
       // listen() not called, channel is undefined
-      expect(() => service.sendEvent(mockEventPayload)).not.toThrow();
+      expect(() => service.sendNotification(mockEventPayload)).not.toThrow();
     });
 
     it('should use the active base site from BaseSiteService', () => {
@@ -240,7 +240,7 @@ describe('AbstractTabNotificationService', () => {
         baseSiteService as unknown as MockBaseSiteService
       )._mockControl.getActive.next('custom-site');
       service.listen();
-      service.sendEvent(mockEventPayload);
+      service.sendNotification(mockEventPayload);
 
       expect(mockChannel.postMessage).toHaveBeenCalledWith({
         baseSite: 'custom-site',

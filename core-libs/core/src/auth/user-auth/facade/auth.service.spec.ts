@@ -97,7 +97,7 @@ const mockFeatureToggles: FeatureToggles = {
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
   notifications$ = new Subject<AuthNotificationType>();
-  sendEvent(_data: AuthNotificationType): void {}
+  sendNotification(_data: AuthNotificationType): void {}
 }
 
 describe('AuthService', () => {
@@ -400,7 +400,7 @@ describe('AuthService', () => {
         });
       });
       spyOn(store, 'dispatch').and.callThrough();
-      spyOn(authNotificationService, 'sendEvent').and.callThrough();
+      spyOn(authNotificationService, 'sendNotification').and.callThrough();
 
       service.coreLogout();
       expect(userIdService.clearUserId).toHaveBeenCalled();
@@ -409,7 +409,7 @@ describe('AuthService', () => {
       expect(
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(true);
-      expect(authNotificationService.sendEvent).toHaveBeenCalledWith(
+      expect(authNotificationService.sendNotification).toHaveBeenCalledWith(
         AuthNotificationType.LOGOUT
       );
 

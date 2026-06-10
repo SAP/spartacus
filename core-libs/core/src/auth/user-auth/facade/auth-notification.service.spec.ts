@@ -11,7 +11,10 @@ import { LoggerService } from '../../../logger';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { TabNotificationWrapper } from '../../../util/browser-tab-notification';
 import { WindowRef } from '../../../window';
-import { AuthNotificationService } from './auth-notification.service';
+import {
+  AuthNotificationService,
+  authNotificationServiceChannelId,
+} from './auth-notification.service';
 
 const mockActiveBaseSite = 'electronics-spa';
 
@@ -62,11 +65,11 @@ describe('AuthNotificationService', () => {
 
   describe('listen()', () => {
     it('should create a BroadcastChannel with the correct channel id', () => {
-      const expectedChannelId = 'spartacus_auth_notification';
-
       service.listen();
 
-      expect(window.BroadcastChannel).toHaveBeenCalledWith(expectedChannelId);
+      expect(window.BroadcastChannel).toHaveBeenCalledWith(
+        authNotificationServiceChannelId
+      );
     });
   });
 
