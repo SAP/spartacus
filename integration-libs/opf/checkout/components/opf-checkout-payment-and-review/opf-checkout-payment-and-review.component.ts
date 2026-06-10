@@ -13,8 +13,9 @@ import {
 } from '@angular/core';
 import {
   FormsModule,
-  NonNullableFormBuilder,
   ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -67,7 +68,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent
   implements OnInit
 {
-  protected fb = inject(NonNullableFormBuilder);
+  protected fb = inject(UntypedFormBuilder);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cmsService = inject(CmsService);
   protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
@@ -99,7 +100,7 @@ export class OpfCheckoutPaymentAndReviewComponent
       })
     );
 
-  checkoutSubmitForm = this.fb.group({
+  checkoutSubmitForm: UntypedFormGroup = this.fb.group({
     termsAndConditions: [
       this.defaultTermsAndConditionsFieldValue,
       Validators.requiredTrue,
@@ -111,7 +112,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   }
 
   get termsAndConditionsFieldValue(): boolean {
-    return this.checkoutSubmitForm.controls.termsAndConditions.value;
+    return Boolean(this.checkoutSubmitForm.get('termsAndConditions')?.value);
   }
 
   getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();

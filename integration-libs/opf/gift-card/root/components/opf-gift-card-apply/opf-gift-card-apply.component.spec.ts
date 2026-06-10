@@ -184,8 +184,8 @@ describe('OpfGiftCardApplyComponent', () => {
     component['resetForm']();
 
     expect(component.giftCardForm.value).toEqual({
-      cardNumber: '',
-      pin: '',
+      cardNumber: null,
+      pin: null,
     });
   });
 

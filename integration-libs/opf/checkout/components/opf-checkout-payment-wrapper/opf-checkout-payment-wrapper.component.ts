@@ -33,6 +33,7 @@ import {
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
+  FeatureToggles,
   LanguageService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -47,7 +48,7 @@ import {
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { merge } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -83,6 +84,9 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   protected opfConfig = inject(OpfConfig);
   protected destroyRef = inject(DestroyRef);
+  protected featureToggles = inject(FeatureToggles);
+
+  sub: Subscription = new Subscription();
   protected isPaymentDataReady = false;
   protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
@@ -119,6 +123,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.globalFunctionsService.unregisterGlobalFunctions(
       OpfGlobalFunctionsDomain.CHECKOUT
     );
+    this.sub.unsubscribe();
   }
 
   retryInitiatePayment(): void {
@@ -135,15 +140,25 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   protected listenForReinitiatePaymentEvent(): void {
-    this.opfPaymentEventsService.reinitiatePaymentEvent$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((paymentOptionId) => {
-        this.handleReinitiatePayment(paymentOptionId);
-      });
+    if (this.featureToggles.opfUseDestroyRef) {
+      this.opfPaymentEventsService.reinitiatePaymentEvent$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((paymentOptionId) => {
+          this.handleReinitiatePayment(paymentOptionId);
+        });
+    } else {
+      this.sub.add(
+        this.opfPaymentEventsService.reinitiatePaymentEvent$.subscribe(
+          (paymentOptionId) => {
+            this.handleReinitiatePayment(paymentOptionId);
+          }
+        )
+      );
+    }
   }
 
   protected listenForSiteContextChanges(): void {
-    merge(
+    const merged$ = merge(
       this.languageService.getActive().pipe(
         skip(1), // Skip the initial value
         distinctUntilChanged()
@@ -152,22 +167,31 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
         skip(1), // Skip the initial value
         distinctUntilChanged()
       )
-    )
-      .pipe(
-        switchMap(() =>
-          // Wait for cart to be stable before proceeding
-          this.activeCartService.isStable().pipe(
-            filter((isStable: boolean) => isStable),
-            take(1)
-          )
-        ),
-        takeUntilDestroyed(this.destroyRef)
+    ).pipe(
+      switchMap(() =>
+        // Wait for cart to be stable before proceeding
+        this.activeCartService.isStable().pipe(
+          filter((isStable: boolean) => isStable),
+          take(1)
+        )
       )
-      .subscribe(() => {
+    );
+
+    if (this.featureToggles.opfUseDestroyRef) {
+      merged$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
         this.opfPaymentEventsService.emitReinitiatePaymentEvent(
           this.selectedPaymentId
         );
       });
+    } else {
+      this.sub.add(
+        merged$.subscribe(() => {
+          this.opfPaymentEventsService.emitReinitiatePaymentEvent(
+            this.selectedPaymentId
+          );
+        })
+      );
+    }
   }
 
   protected handleReinitiatePayment(paymentOptionId?: number): void {
@@ -181,32 +205,37 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     const idToUse = paymentOptionId ?? this.selectedPaymentId;
     this.isPaymentDataReady = false;
 
-    this.service
-      .initiatePayment(idToUse)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (paymentSessionData) => {
-          if (this.isHostedFields(paymentSessionData)) {
-            this.globalFunctionsService.registerGlobalFunctions({
-              domain: OpfGlobalFunctionsDomain.CHECKOUT,
-              paymentSessionId: (paymentSessionData as OpfPaymentSessionData)
-                .paymentSessionId as string,
-              vcr: this.vcr,
-            });
-          } else {
-            this.globalFunctionsService.unregisterGlobalFunctions(
-              OpfGlobalFunctionsDomain.CHECKOUT
-            );
-          }
+    const payment$ = this.service.initiatePayment(idToUse);
 
-          this.isPaymentDataReady = true;
-          this.cdr.detectChanges();
-          this.submitFormToIframe();
-        },
-        error: () => {
-          this.isPaymentDataReady = false;
-        },
-      });
+    const observer = {
+      next: (paymentSessionData: OpfPaymentSessionData | Error) => {
+        if (this.isHostedFields(paymentSessionData)) {
+          this.globalFunctionsService.registerGlobalFunctions({
+            domain: OpfGlobalFunctionsDomain.CHECKOUT,
+            paymentSessionId: (paymentSessionData as OpfPaymentSessionData)
+              .paymentSessionId as string,
+            vcr: this.vcr,
+          });
+        } else {
+          this.globalFunctionsService.unregisterGlobalFunctions(
+            OpfGlobalFunctionsDomain.CHECKOUT
+          );
+        }
+
+        this.isPaymentDataReady = true;
+        this.cdr.detectChanges();
+        this.submitFormToIframe();
+      },
+      error: () => {
+        this.isPaymentDataReady = false;
+      },
+    };
+
+    if (this.featureToggles.opfUseDestroyRef) {
+      payment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(observer);
+    } else {
+      this.sub.add(payment$.subscribe(observer));
+    }
   }
 
   protected isHostedFields(

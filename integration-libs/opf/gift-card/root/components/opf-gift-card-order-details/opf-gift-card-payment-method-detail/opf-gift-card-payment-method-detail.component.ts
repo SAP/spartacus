@@ -10,15 +10,17 @@ import {
   Component,
   DestroyRef,
   Input,
+  OnDestroy,
   OnInit,
   Optional,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
-import { Observable, combineLatest, map } from 'rxjs';
+import { Observable, Subscription, combineLatest, map } from 'rxjs';
 
 import {
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -31,10 +33,14 @@ import { Order } from '@spartacus/order/root';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, CardComponent, AsyncPipe, TranslatePipe],
 })
-export class OpfGiftCardPaymentMethodDetailComponent implements OnInit {
+export class OpfGiftCardPaymentMethodDetailComponent
+  implements OnInit, OnDestroy
+{
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
+  protected featureToggles = inject(FeatureToggles);
 
+  protected subscription = new Subscription();
   @Input()
   order: Order;
 
@@ -43,10 +49,22 @@ export class OpfGiftCardPaymentMethodDetailComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.orderOutlet.context$
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((context) => (this.order = context));
+      if (this.featureToggles.opfUseDestroyRef) {
+        this.orderOutlet.context$
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((context) => (this.order = context));
+      } else {
+        this.subscription.add(
+          this.orderOutlet.context$.subscribe(
+            (context) => (this.order = context)
+          )
+        );
+      }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   getPaymentMethodCardContent(): Observable<Card> {

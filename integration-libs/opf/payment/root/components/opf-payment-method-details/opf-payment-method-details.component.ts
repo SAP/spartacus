@@ -5,9 +5,16 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TranslationService } from '@spartacus/core';
+import { FeatureToggles, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
   Card,
@@ -15,7 +22,7 @@ import {
   OutletContextData,
   OutletModule,
 } from '@spartacus/storefront';
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
 import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 
@@ -24,19 +31,33 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
   templateUrl: './opf-payment-method-details.component.html',
   imports: [NgIf, CardComponent, AsyncPipe, OutletModule],
 })
-export class OpfPaymentMethodDetailsComponent implements OnInit {
+export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
+  protected featureToggles = inject(FeatureToggles);
   @Optional() protected orderOutlet = inject(OutletContextData);
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
+  protected subscription = new Subscription();
   order: Order;
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.orderOutlet.context$
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((context) => (this.order = context?.item));
+      if (this.featureToggles.opfUseDestroyRef) {
+        this.orderOutlet.context$
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((context) => (this.order = context?.item));
+      } else {
+        this.subscription.add(
+          this.orderOutlet.context$.subscribe(
+            (context) => (this.order = context?.item)
+          )
+        );
+      }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   getPaymentMethodDetailsCardContent(

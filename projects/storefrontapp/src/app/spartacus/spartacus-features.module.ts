@@ -362,6 +362,7 @@ if (environment.cpq) {
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
+        opfUseDestroyRef: true,
       };
       return appFeatureToggles;
     }),

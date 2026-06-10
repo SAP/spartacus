@@ -7,10 +7,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -49,16 +49,13 @@ export class OpfCheckoutEmailUpdateComponent {
   protected semanticPathService = inject(SemanticPathService);
   protected activeCartFacade = inject(ActiveCartFacade);
 
-  checkoutLoginForm = new FormGroup(
+  checkoutLoginForm: UntypedFormGroup = new UntypedFormGroup(
     {
-      email: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required, CustomFormValidators.emailValidator],
-      }),
-      emailConfirmation: new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required],
-      }),
+      email: new UntypedFormControl('', [
+        Validators.required,
+        CustomFormValidators.emailValidator,
+      ]),
+      emailConfirmation: new UntypedFormControl('', [Validators.required]),
     },
     {
       validators: CustomFormValidators.emailsMustMatch(
@@ -69,7 +66,7 @@ export class OpfCheckoutEmailUpdateComponent {
   );
 
   onSubmit(): void {
-    const email = this.checkoutLoginForm.controls.email.value;
+    const email: string = this.checkoutLoginForm.get('email')?.value;
 
     this.updateCartGuestUserEmail(email);
   }
