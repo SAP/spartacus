@@ -28,11 +28,11 @@ export function tabNotificationWrapperTypeGuard(
 }
 
 /**
- * Service used to communicate with other Spartacus tabs.
+ * Abstract service used to communicate with Spartacus in other browser tabs.
  *
  * Default behavior isolates events per site.
  */
-export abstract class AbstractTabNotificationService<T = unknown> {
+export abstract class AbstractBrowserTabNotificationService<T = unknown> {
   protected abstract channelId: string;
   protected isolateBySite = true;
 

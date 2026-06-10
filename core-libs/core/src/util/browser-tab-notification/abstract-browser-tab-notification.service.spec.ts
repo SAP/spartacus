@@ -11,9 +11,9 @@ import { LoggerService } from '../../logger';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window';
 import {
-  AbstractTabNotificationService,
+  AbstractBrowserTabNotificationService,
   TabNotificationWrapper,
-} from './abstract-tab-notification.service';
+} from './abstract-browser-tab-notification.service';
 
 class MockBaseSiteService implements Partial<BaseSiteService> {
   _mockControl = { getActive: new BehaviorSubject<string>('test-site') };
@@ -41,7 +41,7 @@ class MockBroadcastChannel implements Partial<BroadcastChannel> {
 
 const mockChannelId = 'spartacus_tab_notification';
 @Injectable()
-class TabNotificationService extends AbstractTabNotificationService<number> {
+class TabNotificationService extends AbstractBrowserTabNotificationService<number> {
   protected channelId = mockChannelId;
   isolateBySite = true;
 

@@ -7,15 +7,15 @@
 import { Injectable } from '@angular/core';
 import { AuthNotificationType } from '@spartacus/core';
 import {
-  AbstractTabNotificationService,
+  AbstractBrowserTabNotificationService,
   TabNotificationWrapper,
-} from '../../../util/tab-notification';
+} from '../../../util/browser-tab-notification';
 
 /**
  * Service used to communicate with other Spartacus tabs for this site.
  */
 @Injectable({ providedIn: 'root' })
-export class AuthNotificationService extends AbstractTabNotificationService<AuthNotificationType> {
+export class AuthNotificationService extends AbstractBrowserTabNotificationService<AuthNotificationType> {
   protected channelId = 'spartacus_auth_notification';
 
   protected payloadGuard(

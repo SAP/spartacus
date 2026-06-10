@@ -6,6 +6,7 @@
 
 export * from './applicable';
 export * from './base64';
+export * from './browser-tab-notification';
 export * from './command-query/index';
 export * from './converter.service';
 export * from './create-from';
@@ -21,7 +22,6 @@ export * from './regex-pattern';
 export * from './rxjs/index';
 export * from './script-loader.service';
 export * from './ssr.tokens';
-export * from './tab-notification';
 export * from './testing-time-utils';
 export * from './time-utils';
 export * from './try-normalize-http-error';

@@ -9,7 +9,7 @@ import { AuthNotificationType } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoggerService } from '../../../logger';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
-import { TabNotificationWrapper } from '../../../util/tab-notification';
+import { TabNotificationWrapper } from '../../../util/browser-tab-notification';
 import { WindowRef } from '../../../window';
 import { AuthNotificationService } from './auth-notification.service';
 
