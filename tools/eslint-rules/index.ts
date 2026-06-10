@@ -45,6 +45,11 @@ import {
 } from './rules/feature-config-service-must-be-private';
 
 import {
+  rule as featureTogglesMustBePrivate,
+  RULE_NAME as featureTogglesMustBePrivateName,
+} from './rules/feature-toggles-must-be-private';
+
+import {
   rule as noStorefrontappFalseFeatureToggles,
   RULE_NAME as noStorefrontappFalseFeatureTogglesName,
 } from './rules/no-storefrontapp-false-feature-toggles';
@@ -89,6 +94,7 @@ module.exports = {
     [ngrxFailActionMustInitializeErrorName]: ngrxFailActionMustInitializeError,
     [noConstEnumName]: noConstEnum,
     [featureConfigServiceMustBePrivateName]: featureConfigServiceMustBePrivate,
+    [featureTogglesMustBePrivateName]: featureTogglesMustBePrivate,
     [noStorefrontappFalseFeatureTogglesName]: noStorefrontappFalseFeatureToggles,
     [noSelfPublicApiImportName]: noSelfPublicApiImport,
   },

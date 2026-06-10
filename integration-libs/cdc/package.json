@@ -13,6 +13,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cdc",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "scripts": {
     "build:schematics": "npm run clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean:schematics": "../../node_modules/.bin/rimraf --glob \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
@@ -22,7 +23,7 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.2.12",
+    "@angular-devkit/schematics": "^21.2.13",
     "@angular/common": "^21.2.14",
     "@angular/core": "^21.2.14",
     "@angular/forms": "^21.2.14",
