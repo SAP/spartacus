@@ -96,8 +96,8 @@ const mockFeatureToggles: FeatureToggles = {
 };
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
-  notifications$ = new Subject<unknown>();
-  sendEvent(_data?: unknown): void {}
+  notifications$ = new Subject<AuthNotificationType>();
+  sendEvent(_data: AuthNotificationType): void {}
 }
 
 describe('AuthService', () => {
@@ -450,7 +450,9 @@ describe('AuthService', () => {
     });
 
     it('should not call coreLogout when a different event is received', () => {
-      authNotificationService.notifications$.next('UNKNOWN_EVENT');
+      authNotificationService.notifications$.next(
+        'UNKNOWN_EVENT' as unknown as AuthNotificationType
+      );
 
       expect(service.coreLogout).not.toHaveBeenCalled();
     });

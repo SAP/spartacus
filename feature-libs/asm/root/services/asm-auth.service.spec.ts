@@ -3,6 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import {
   AuthMultisiteIsolationService,
   AuthNotificationService,
+  AuthNotificationType,
   AuthRedirectService,
   AuthToken,
   CrossSiteRequestForgeryService,
@@ -87,8 +88,8 @@ class MockCrossSiteRequestForgeryService
 }
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
-  notifications$ = new Subject<unknown>();
-  sendEvent(_data?: unknown): void {}
+  notifications$ = new Subject<AuthNotificationType>();
+  sendEvent(_data: AuthNotificationType): void {}
 }
 
 describe('AsmAuthService', () => {
