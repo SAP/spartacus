@@ -38,7 +38,7 @@ export class OpfGiftCardPaymentMethodDetailComponent
 {
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   protected subscription = new Subscription();
   @Input()
@@ -63,10 +63,6 @@ export class OpfGiftCardPaymentMethodDetailComponent
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   getPaymentMethodCardContent(): Observable<Card> {
     return combineLatest([
       this.translationService.translate('opfCheckout.paymentOption'),
@@ -89,5 +85,9 @@ export class OpfGiftCardPaymentMethodDetailComponent
   //if sapPaymentMethod is present, it means that gift card doesn't cover full amount,
   get isPaymentMethodDetailsInfoPresent(): boolean {
     return Boolean(this.order?.paymentInfo?.sapPaymentMethod?.name);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

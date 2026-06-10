@@ -81,9 +81,7 @@ export class OpfB2bCheckoutPaymentTypeComponent
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected fb = inject(FormBuilder);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
-
-  protected subscription: Subscription = new Subscription();
+  private featureToggles = inject(FeatureToggles);
 
   @ViewChild('poNumber', { static: false })
   protected poNumberInputElement: ElementRef<HTMLInputElement>;
@@ -93,6 +91,7 @@ export class OpfB2bCheckoutPaymentTypeComponent
 
   cartPoNumber$: Observable<string | undefined>;
 
+  protected subscription: Subscription = new Subscription();
   protected poNumberValue: string | undefined;
   protected selectedPaymentOption: string | undefined = undefined;
 
@@ -203,10 +202,6 @@ export class OpfB2bCheckoutPaymentTypeComponent
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   ngAfterViewInit(): void {
     if (this.poNumberValue) {
       this.form.patchValue({ poNumber: this.poNumberValue });
@@ -235,5 +230,9 @@ export class OpfB2bCheckoutPaymentTypeComponent
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

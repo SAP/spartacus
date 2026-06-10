@@ -34,7 +34,7 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
   @Optional() protected orderOutlet = inject(OutletContextData);
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   protected subscription = new Subscription();
@@ -56,10 +56,6 @@ export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   getPaymentMethodDetailsCardContent(
     paymentMethodDetails?: OpfPaymentMethodDetails
   ): Observable<Card> {
@@ -76,5 +72,9 @@ export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
 
   isPaymentMethodDetailsInfoPresent(order: Order): boolean {
     return Boolean(order?.paymentInfo?.sapPaymentMethod?.name);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

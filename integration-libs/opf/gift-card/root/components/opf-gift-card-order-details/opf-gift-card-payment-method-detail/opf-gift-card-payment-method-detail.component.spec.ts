@@ -86,6 +86,14 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
       }, 10);
     });
 
+    it('should not subscribe if orderOutlet is not provided', () => {
+      component['orderOutlet'] = undefined;
+
+      component.ngOnInit();
+
+      expect(component.order).toBeUndefined();
+    });
+
     it('should handle multiple order updates from context', (done) => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
@@ -264,7 +272,6 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         done();
       });
     });
-  });
 
   describe('Edge Cases', () => {
     it('should handle order with partial gift card summary', () => {

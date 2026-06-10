@@ -84,9 +84,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected cdr = inject(ChangeDetectorRef);
   protected opfConfig = inject(OpfConfig);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
-  sub: Subscription = new Subscription();
   protected isPaymentDataReady = false;
   protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
@@ -96,6 +95,8 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   renderPaymentMethodEvent$ = this.service.getRenderPaymentMethodEvent();
 
   RENDER_PATTERN = OpfPaymentRenderPattern;
+
+  sub: Subscription = new Subscription();
 
   bypassSecurityTrustHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

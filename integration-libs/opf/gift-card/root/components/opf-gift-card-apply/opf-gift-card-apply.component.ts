@@ -69,11 +69,9 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
-
+  private featureToggles = inject(FeatureToggles);
   protected subscription = new Subscription();
   giftCardForm: UntypedFormGroup;
-
   protected showGiftCardForm = signal(false);
   protected loadingSubject = new BehaviorSubject<boolean>(false);
   protected loading$ = this.loadingSubject.asObservable();
@@ -83,6 +81,27 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   protected appliedGiftCards$: Observable<OpfGiftCards[]> = this.cart$.pipe(
     map((cart): OpfGiftCards[] => cart?.opfGiftCards ?? [])
   );
+
+  protected buildForm(): void {
+    this.giftCardForm = this.formBuilder.group({
+      cardNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(64),
+        ],
+      ],
+      pin: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(28),
+        ],
+      ],
+    });
+  }
 
   constructor(@Optional() protected outlet?: OutletContextData) {}
 
@@ -149,27 +168,6 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
     })
   );
 
-  protected buildForm(): void {
-    this.giftCardForm = this.formBuilder.group({
-      cardNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(64),
-        ],
-      ],
-      pin: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(28),
-        ],
-      ],
-    });
-  }
-
   ngOnInit(): void {
     if (this.featureToggles.opfUseDestroyRef) {
       this.giftCardFacade
@@ -181,6 +179,8 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
           );
         });
 
+      // Close gift card form when other payment options are selected
+      // selectedPaymentOptionId is -1 for saved payment details.
       this.opfMetadataStoreService
         .getOpfMetadataState()
         .pipe(takeUntilDestroyed(this.destroyRef))
@@ -212,6 +212,8 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
           })
       );
 
+      // Close gift card form when other payment options are selected
+      // selectedPaymentOptionId is -1 for saved payment details.
       this.subscription.add(
         this.opfMetadataStoreService.getOpfMetadataState().subscribe((x) => {
           if (

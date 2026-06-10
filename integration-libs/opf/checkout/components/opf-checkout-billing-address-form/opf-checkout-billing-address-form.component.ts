@@ -60,13 +60,12 @@ export class OpfCheckoutBillingAddressFormComponent
   protected checkoutStepService = inject(CheckoutStepService);
   protected activatedRoute = inject(ActivatedRoute);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
-
-  subscription = new Subscription();
+  private featureToggles = inject(FeatureToggles);
 
   protected cart: Cart | null = null;
 
   iconTypes = ICON_TYPE;
+  subscription = new Subscription();
 
   billingAddress$ = this.service.billingAddress$;
   isLoadingAddress$ = this.service.isLoadingAddress$;
@@ -113,10 +112,6 @@ export class OpfCheckoutBillingAddressFormComponent
     }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   cancelAndHideForm(): void {
     this.isEditBillingAddress = false;
     if (this.isAddingBillingAddressInProgress) {
@@ -129,11 +124,19 @@ export class OpfCheckoutBillingAddressFormComponent
   }
 
   onBackToAddress(): void {
-    this.service.paymentOptionsDisabled$
-      .pipe(take(1))
-      .subscribe((isDisabled) =>
-        isDisabled ? this.back() : this.cancelAndHideForm()
+    if (this.featureToggles.opfUseDestroyRef) {
+      this.service.paymentOptionsDisabled$
+        .pipe(take(1))
+        .subscribe((isDisabled) =>
+          isDisabled ? this.back() : this.cancelAndHideForm()
+        );
+    } else {
+      this.subscription.add(
+        this.service.paymentOptionsDisabled$.subscribe((isDisabled) =>
+          isDisabled ? this.back() : this.cancelAndHideForm()
+        )
       );
+    }
   }
 
   editCustomBillingAddress(): void {
@@ -175,5 +178,9 @@ export class OpfCheckoutBillingAddressFormComponent
         this.service.setPaymentOptionsDisabled(true);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

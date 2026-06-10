@@ -39,7 +39,7 @@ export class OpfGiftCardOrderDetailBillingComponent
 {
   protected translationService = inject(TranslationService);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
   protected subscription = new Subscription();
   @Input()
   order: Order;
@@ -61,10 +61,6 @@ export class OpfGiftCardOrderDetailBillingComponent
         );
       }
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   isOrderDetailsPage$ = this.routingService
@@ -91,5 +87,9 @@ export class OpfGiftCardOrderDetailBillingComponent
     const totalAppliedAmount =
       this.order?.opfGiftCardSummary?.totalAppliedAmount?.value ?? 0;
     return totalAppliedAmount > 0;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

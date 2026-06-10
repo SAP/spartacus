@@ -83,7 +83,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected userPaymentService = inject(UserPaymentService);
   protected destroyRef = inject(DestroyRef);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   protected subscription = new Subscription();
 
