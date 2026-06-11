@@ -272,6 +272,7 @@ describe('OpfGiftCardPaymentMethodDetailComponent', () => {
         done();
       });
     });
+  });
 
   describe('Edge Cases', () => {
     it('should handle order with partial gift card summary', () => {
