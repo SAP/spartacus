@@ -81,7 +81,7 @@ export class AuthService {
     protected routingService: RoutingService,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
   ) {
-    this.subscribeToAuthNotification();
+    this.subscribeToAuthNotifications();
   }
 
   /**
@@ -244,7 +244,7 @@ export class AuthService {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 
-  protected subscribeToAuthNotification() {
+  protected subscribeToAuthNotifications() {
     if (this.featureToggles.propagateLogoutToAllTabs) {
       this.authNotificationService.notifications$
         .pipe(takeUntilDestroyed())
