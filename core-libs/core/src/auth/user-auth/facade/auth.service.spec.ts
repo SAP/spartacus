@@ -93,6 +93,7 @@ class MockAuthMultisiteIsolationService {
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: false,
   dispatchLoginActionOnlyWhenTokenReceived: false,
+  propagateLogoutToAllTabs: false,
 };
 
 class MockAuthNotificationService implements Partial<AuthNotificationService> {
@@ -409,9 +410,6 @@ describe('AuthService', () => {
       expect(
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(true);
-      expect(authNotificationService.sendNotification).toHaveBeenCalledWith(
-        AuthNotificationType.LOGOUT
-      );
 
       tick(100);
 
@@ -420,10 +418,73 @@ describe('AuthService', () => {
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(false);
     }));
+
+    describe('when propagateLogoutToAllTabs is enabled', () => {
+      beforeEach(() => {
+        featureToggles.propagateLogoutToAllTabs = true;
+      });
+
+      it('should send a logout notification to other tabs', async () => {
+        spyOn(userIdService, 'clearUserId').and.callThrough();
+        spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
+          return new Promise<void>((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, 100);
+          });
+        });
+        spyOn(store, 'dispatch').and.callThrough();
+        spyOn(authNotificationService, 'sendNotification').and.callThrough();
+
+        await service.coreLogout();
+
+        expect(authNotificationService.sendNotification).toHaveBeenCalledWith(
+          AuthNotificationType.LOGOUT
+        );
+      });
+    });
   });
 
   describe('authNotifications', () => {
     beforeEach(() => {
+      TestBed.resetTestingModule().configureTestingModule({
+        imports: [StoreModule.forRoot({})],
+        providers: [
+          AuthService,
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
+          },
+          {
+            provide: OAuthLibWrapperService,
+            useClass: MockOAuthLibWrapperService,
+          },
+          { provide: AuthStorageService, useClass: MockAuthStorageService },
+          { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          {
+            provide: AuthMultisiteIsolationService,
+            useClass: MockAuthMultisiteIsolationService,
+          },
+          {
+            provide: CrossSiteRequestForgeryService,
+            useClass: MockCrossSiteRequestForgeryService,
+          },
+          { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+          {
+            provide: AuthNotificationService,
+            useClass: MockAuthNotificationService,
+          },
+        ],
+      });
+      authNotificationService = TestBed.inject(
+        AuthNotificationService
+      ) as unknown as MockAuthNotificationService;
+      authStorageService = TestBed.inject(AuthStorageService);
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.propagateLogoutToAllTabs = true;
+
+      service = TestBed.inject(AuthService);
       spyOn(service, 'coreLogout').and.stub();
     });
 

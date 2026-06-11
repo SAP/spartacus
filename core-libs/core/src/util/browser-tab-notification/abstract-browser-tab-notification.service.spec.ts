@@ -108,7 +108,7 @@ describe('AbstractTabNotificationService', () => {
       service.listen();
 
       expect(logger.warn).toHaveBeenCalledWith(
-        'Could not open AuthNotification channel: ' + errorMessage
+        `Could not open ${mockChannelId} channel: ${errorMessage}`
       );
     });
 

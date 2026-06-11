@@ -199,7 +199,11 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
-    this.authNotificationService.sendNotification(AuthNotificationType.LOGOUT);
+    if (this.featureToggles.propagateLogoutToAllTabs) {
+      this.authNotificationService.sendNotification(
+        AuthNotificationType.LOGOUT
+      );
+    }
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -241,11 +245,13 @@ export class AuthService {
   }
 
   protected subscribeToAuthNotification() {
-    this.authNotificationService.notifications$
-      .pipe(takeUntilDestroyed())
-      .subscribe((event) => {
-        this.handleNotificationEvent(event);
-      });
+    if (this.featureToggles.propagateLogoutToAllTabs) {
+      this.authNotificationService.notifications$
+        .pipe(takeUntilDestroyed())
+        .subscribe((event) => {
+          this.handleNotificationEvent(event);
+        });
+    }
   }
 
   /**
@@ -285,7 +291,7 @@ export class AuthService {
     }
   }
 
-  protected handleNotificationEvent(event: unknown) {
+  protected handleNotificationEvent(event: AuthNotificationType) {
     if (
       event === AuthNotificationType.LOGOUT &&
       !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()

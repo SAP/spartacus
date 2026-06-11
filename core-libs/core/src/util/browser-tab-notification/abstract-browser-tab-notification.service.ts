@@ -83,7 +83,7 @@ export abstract class AbstractBrowserTabNotificationService<T = unknown> {
         this.destroyRef.onDestroy(() => outboundProcessing.unsubscribe());
       } catch (err) {
         this.logger.warn(
-          `Could not open AuthNotification channel: ${(err as Error)?.message ?? ''}`
+          `Could not open ${this.channelId} channel: ${(err as Error)?.message ?? ''}`
         );
       }
     }
