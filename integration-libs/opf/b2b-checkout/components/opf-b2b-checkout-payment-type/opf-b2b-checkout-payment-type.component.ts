@@ -34,6 +34,7 @@ import {
   GlobalMessageService,
   TranslatePipe,
   UserIdService,
+  FeatureToggles,
 } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
@@ -41,7 +42,6 @@ import {
 } from '@spartacus/opf/base/root';
 import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { FeatureToggles } from '@spartacus/core';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
