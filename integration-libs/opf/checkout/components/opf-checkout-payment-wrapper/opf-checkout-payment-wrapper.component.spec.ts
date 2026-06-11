@@ -40,6 +40,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       'getRenderPaymentMethodEvent',
       'initiatePayment',
       'reloadPaymentMode',
+      'removePaymentProviderResources',
     ]);
 
     // Setup default return value for initiatePayment
@@ -390,6 +391,17 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       component['submitFormToIframe']();
 
       expect(mockFormElement.submit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unregister global functions and remove loaded payment resources', () => {
+      component.ngOnDestroy();
+
+      expect(
+        mockGlobalFunctionsService.unregisterGlobalFunctions
+      ).toHaveBeenCalledWith(OpfGlobalFunctionsDomain.CHECKOUT);
+      expect(mockService.removePaymentProviderResources).toHaveBeenCalled();
     });
   });
 
