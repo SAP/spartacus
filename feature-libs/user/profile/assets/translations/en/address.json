@@ -19,6 +19,8 @@
       "placeholder": "Enter city"
     },
     "state": "State",
+    "province": "Province",
+    "district": "District",
     "zipCode": {
       "label": "Zip code",
       "placeholder": "Postal Code/Zip"
@@ -29,13 +31,16 @@
     },
     "cellphone": {
       "label": "Mobile number (optional)",
-      "placeholder": "e.g. (###) - ### - ####"
+      "placeholder": "e.g. (###) - ### - ####",
+      "requiredLabel": "Mobile number"
     },
     "saveAsDefault": "Save as default",
     "chooseAddress": "Choose address",
     "streetAddress": "Street Address",
     "aptSuite": "Apartment Number",
     "selectOne": "Select One...",
+    "selectProvinceFirst": "Please select a province first",
+    "selectCityFirst": "Please select a city first",
     "setAsDefault": "Set as default delivery address",
     "titleRequired": "Title is required.",
     "userAddressAddSuccess": "New address was added successfully!",

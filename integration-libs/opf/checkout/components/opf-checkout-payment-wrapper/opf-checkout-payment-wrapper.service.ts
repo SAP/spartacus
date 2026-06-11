@@ -11,6 +11,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -31,6 +32,7 @@ import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/r
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentBrowserInfo,
+  OpfPaymentConfig,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
   OpfPaymentRenderPattern,
@@ -58,8 +60,11 @@ export class OpfCheckoutPaymentWrapperService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected winRef = inject(WindowRef);
+  private readonly featureConfigService = inject(FeatureConfigService);
 
   protected lastPaymentOptionId?: number;
+  protected readonly isUpdatePaymentTransactionFeatureEnabled =
+    'opfCheckoutUseUpdatePaymentTransaction';
 
   protected renderPaymentMethodEvent$ =
     new BehaviorSubject<OpfPaymentRenderMethodEvent>({
@@ -92,9 +97,17 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
+  removePaymentProviderResources(): void {
+    this.opfResourceLoaderService.clearAllResources();
+  }
+
   initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
+    const useUpdatePaymentTransaction = this.featureConfigService.isEnabled(
+      this.isUpdatePaymentTransactionFeatureEnabled
+    );
+
     this.lastPaymentOptionId = paymentOptionId;
     this.renderPaymentMethodEvent$.next({
       isLoading: true,
@@ -123,10 +136,32 @@ export class OpfCheckoutPaymentWrapperService {
           )
         )
       ),
-      switchMap((params) => this.opfPaymentFacade.initiatePayment(params)),
+      switchMap((params) => {
+        if (useUpdatePaymentTransaction) {
+          const paymentSessionId = this.getStoredPaymentSessionId(
+            params.config?.configurationId
+          );
+
+          if (paymentSessionId) {
+            return this.opfPaymentFacade.updatePaymentTransaction({
+              paymentSessionId,
+              otpKey: params.otpKey,
+              config: {
+                browserInfo: params.config?.browserInfo,
+              },
+            });
+          }
+        }
+
+        return this.opfPaymentFacade.initiatePayment(params);
+      }),
       tap((paymentOptionConfig: OpfPaymentSessionData | Error) => {
         if (!(paymentOptionConfig instanceof Error)) {
-          this.storePaymentSessionId(paymentOptionConfig);
+          this.storePaymentSessionId(
+            paymentOptionConfig,
+            useUpdatePaymentTransaction,
+            String(paymentOptionId)
+          );
           this.renderPaymentGateway(paymentOptionConfig);
         }
       }),
@@ -143,14 +178,80 @@ export class OpfCheckoutPaymentWrapperService {
     );
   }
 
-  protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
-    const paymentSessionId =
-      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-      paymentOptionConfig.paymentSessionId
-        ? paymentOptionConfig.paymentSessionId
-        : undefined;
+  protected storePaymentSessionId(
+    paymentOptionConfig: OpfPaymentSessionData,
+    useUpdatePaymentTransaction = false,
+    paymentConfigurationId?: string
+  ): void {
+    let paymentSessionId: string | undefined;
+
+    if (
+      useUpdatePaymentTransaction ||
+      (paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
+        paymentOptionConfig.paymentSessionId)
+    ) {
+      paymentSessionId = paymentOptionConfig.paymentSessionId;
+    }
+
+    this.updatePaymentSessionMetadata(paymentSessionId, paymentConfigurationId);
+  }
+
+  protected getOrCreatePaymentSessionId(paymentConfig: {
+    otpKey?: string;
+    config?: OpfPaymentConfig;
+  }): Observable<string> {
+    const paymentSessionId = this.getStoredPaymentSessionId(
+      paymentConfig.config?.configurationId
+    );
+
+    if (paymentSessionId) {
+      return of(paymentSessionId);
+    }
+
+    return this.opfPaymentFacade.initiatePayment(paymentConfig).pipe(
+      map((response) => response?.paymentSessionId),
+      switchMap((generatedPaymentSessionId) => {
+        if (!generatedPaymentSessionId) {
+          return throwError(() => new Error('Missing payment session ID'));
+        }
+
+        this.updatePaymentSessionMetadata(
+          generatedPaymentSessionId,
+          paymentConfig.config?.configurationId
+        );
+
+        return of(generatedPaymentSessionId);
+      })
+    );
+  }
+
+  protected getStoredPaymentSessionId(
+    paymentConfigurationId?: string
+  ): string | undefined {
+    const metadata = this.opfMetadataStoreService.opfMetadataState.value;
+
+    if (!metadata?.opfPaymentSessionId) {
+      return undefined;
+    }
+
+    if (!paymentConfigurationId) {
+      return undefined;
+    }
+
+    return metadata.opfPaymentSessionConfigurationId === paymentConfigurationId
+      ? metadata.opfPaymentSessionId
+      : undefined;
+  }
+
+  protected updatePaymentSessionMetadata(
+    paymentSessionId?: string,
+    paymentConfigurationId?: string
+  ): void {
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
+      opfPaymentSessionConfigurationId: paymentSessionId
+        ? paymentConfigurationId
+        : undefined,
     });
   }
 

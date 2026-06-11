@@ -10,6 +10,7 @@ export interface OpfMetadataModel {
   defaultSelectedPaymentOptionId?: number;
   isPaymentInProgress: boolean;
   opfPaymentSessionId: string | undefined;
+  opfPaymentSessionConfigurationId?: string;
   isTermsAndConditionsAlertClosed: boolean;
   is3DSRedirect?: boolean;
   opf3DSRedirectReturnPath?: string;

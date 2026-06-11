@@ -13,7 +13,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
