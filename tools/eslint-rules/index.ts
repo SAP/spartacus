@@ -45,9 +45,19 @@ import {
 } from './rules/feature-config-service-must-be-private';
 
 import {
+  rule as featureTogglesMustBePrivate,
+  RULE_NAME as featureTogglesMustBePrivateName,
+} from './rules/feature-toggles-must-be-private';
+
+import {
   rule as noStorefrontappFalseFeatureToggles,
   RULE_NAME as noStorefrontappFalseFeatureTogglesName,
 } from './rules/no-storefrontapp-false-feature-toggles';
+
+import {
+  rule as noSelfPublicApiImport,
+  RULE_NAME as noSelfPublicApiImportName,
+} from './rules/no-self-public-api-import';
 /**
  * Import your custom workspace rules at the top of this file.
  *
@@ -84,6 +94,8 @@ module.exports = {
     [ngrxFailActionMustInitializeErrorName]: ngrxFailActionMustInitializeError,
     [noConstEnumName]: noConstEnum,
     [featureConfigServiceMustBePrivateName]: featureConfigServiceMustBePrivate,
+    [featureTogglesMustBePrivateName]: featureTogglesMustBePrivate,
     [noStorefrontappFalseFeatureTogglesName]: noStorefrontappFalseFeatureToggles,
+    [noSelfPublicApiImportName]: noSelfPublicApiImport,
   },
 };

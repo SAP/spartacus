@@ -63,7 +63,7 @@ describe('Spartacus Subscription Billing Schematics: ng-add', () => {
       SPARTACUS_SCHEMATICS,
       path.join(
         __dirname,
-        '../../../../projects/schematics/src/collection.json'
+        '../../../../core-libs/schematics/src/collection.json'
       )
     );
     appTree = await schematicRunner.runExternalSchematic(

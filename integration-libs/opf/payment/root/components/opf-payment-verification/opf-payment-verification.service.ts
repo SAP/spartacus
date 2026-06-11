@@ -107,6 +107,13 @@ export class OpfPaymentVerificationService {
     this.routingService.go({ cxRoute });
   }
 
+  clearPaymentSessionForReinitiation(): void {
+    this.opfMetadataStoreService.updateOpfMetadata({
+      opfPaymentSessionId: undefined,
+      opfPaymentSessionConfigurationId: undefined,
+    });
+  }
+
   verifyResultUrl(route: ActivatedRoute): Observable<{
     paymentSessionId: string;
     paramsMap: Array<OpfKeyValueMap>;
@@ -304,7 +311,7 @@ export class OpfPaymentVerificationService {
     return this.opfPaymentFacade.getAfterRedirectScripts(paymentSessionId).pipe(
       concatMap((response) => {
         if (!response?.afterRedirectScript) {
-          return throwError(this.opfDefaultPaymentError);
+          return throwError(() => this.opfDefaultPaymentError);
         }
         return from(
           this.renderAfterRedirectScripts(response.afterRedirectScript)

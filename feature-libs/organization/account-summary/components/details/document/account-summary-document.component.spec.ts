@@ -21,7 +21,7 @@ import {
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
-import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
 
 import { AccountSummaryDocumentComponent } from './account-summary-document.component';
 
@@ -36,7 +36,7 @@ import {
 import createSpy = jasmine.createSpy;
 
 import { RouterModule } from '@angular/router';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { mockAccountSummaryList } from '../account-summary-mock-data';
 import { AccountSummaryDocumentFilterComponent } from './filter';
 

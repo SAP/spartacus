@@ -118,6 +118,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
     this.globalFunctionsService.unregisterGlobalFunctions(
       OpfGlobalFunctionsDomain.CHECKOUT
     );
+    this.service.removePaymentProviderResources();
     this.sub.unsubscribe();
   }
 

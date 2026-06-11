@@ -24,7 +24,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class OccCartVoucherAdapter implements CartVoucherAdapter {
   protected logger = inject(LoggerService);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected http: HttpClient,

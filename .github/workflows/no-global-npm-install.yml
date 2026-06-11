@@ -1,0 +1,118 @@
+name: No Untracked npm Install
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-no-global-install:
+    name: Check for untracked npm installs
+    runs-on: ubuntu-latest
+    outputs:
+      matches: ${{ steps.check.outputs.matches }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
+
+      - name: Check diff for global npm installs or npx --yes
+        id: check
+        run: |
+          MATCHES=$(git diff origin/${{ github.base_ref }}...HEAD -- . \
+            ':(exclude)*.md' \
+            ':(exclude).github/**' \
+            | awk '
+              /^diff --git/ { match($0, /b\/(.+)$/, a); file=a[1] }
+              /^@@/         { match($0, /\+([0-9]+)/, a); line=a[1]+0 }
+              /^\+/         { if (!/^\+\+\+/) line++ }
+              /^\+/ && !/^\+\+\+/ && /npm (i|install|add) ?(--global|-g)|npx .*(--yes|-y)/ {
+                print file ":" line ": " substr($0,2)
+              }
+            ' || true)
+
+          if [ -n "$MATCHES" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "matches<<EOF"
+              echo "$MATCHES"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+            echo "❌ Untracked npm install detected:"
+            echo "$MATCHES"
+            exit 1
+          fi
+
+          echo "found=false" >> "$GITHUB_OUTPUT"
+          echo "✅ No global npm installs found."
+
+  comment-on-failure:
+    needs: check-no-global-install
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post PR comment on failure
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue_number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const matches = `${{ needs.check-no-global-install.outputs.matches }}`;
+            const commentBody = `# 🚨 Untracked npm Install Detected 🚨
+
+            Your changes contain a \`npm install -g\` (or \`npm i -g\`) call, or a \`npx --yes\` / \`npx -y\` call. Both patterns install packages outside of \`package.json\`, making them invisible to security scanners (Blackduck, Checkmarx).
+
+            ## Offending lines
+
+            \`\`\`
+            ${matches}
+            \`\`\`
+
+            ## What to do instead
+
+            **1. Add the dependency to \`package.json\`**
+            \`\`\`json
+            {
+              "devDependencies": {
+                "your-package": "^1.2.3"
+              }
+            }
+            \`\`\`
+
+            **2. Run \`npm install\` to install from the manifest**
+            \`\`\`sh
+            npm install
+            \`\`\`
+            This ensures the package is tracked, versioned, and visible to security scanners.
+
+            **3. Invoke the binary safely**
+            \`\`\`sh
+            # ✅ Preferred — npx with --no fails if the package is not in node_modules (no silent download)
+            npx --no your-package
+
+            # ✅ Also fine — invoke the local bin directly
+            ./node_modules/.bin/your-package
+
+            # ✅ Or resolve the repo root first (e.g. in shell scripts)
+            BIN="$(cd "$(dirname "\${BASH_SOURCE[0]}")/../.." && pwd)/node_modules/.bin"
+            "\${BIN}/your-package"
+            \`\`\`
+
+            > **Why not plain \`npx your-package\`?** Without \`--no\`, if the package is missing from \`node_modules\` npx will prompt and then download it from the registry — bypassing \`package.json\` tracking entirely.
+            > **Why not \`npx --yes\`?** It silently downloads and executes an untracked package with no confirmation.
+
+            ❌ **Merge is blocked until untracked npm installs are removed.**`;
+
+            github.rest.issues.createComment({
+              issue_number: issue_number,
+              owner: owner,
+              repo: repo,
+              body: commentBody
+            });

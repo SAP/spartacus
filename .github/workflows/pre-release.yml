@@ -16,53 +16,42 @@ permissions:
   id-token: write
 
 jobs:
-  # publish_compodoc:
-  #   name: Deploy compodocs to github
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v5
-  #     - name: Generate and publish compodocs
-  #       if: ${{ github.event.inputs.compodoc == 'true' }}
-  #       run: |
-  #         git remote set-url origin https://git:${{ secrets.GH_TEMPORARY_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
-
-  #         npm run generate:publish:docs -- -u "github-actions-bot <support+actions@github.com>"
   tag_sampledata:
     name: Tagging sample data
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Spartacus
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - name: Validate version format
+        uses: ./.github/actions/validate-version
+        with:
+          version: ${{ github.event.inputs.what_version }}
       - name: Determine major version
         env:
           SPARTACUS_VERSION: ${{ github.event.inputs.what_version }}
         id: current-run-major-version
         run: echo "MAJOR_VERSION=${SPARTACUS_VERSION%%.*}" >> $GITHUB_OUTPUT
       - name: Tagging the branch of release/${{ steps.current-run-major-version.outputs.MAJOR_VERSION}}.x
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           github-server-url: "https://github.tools.sap"
           repository: "cx-commerce/spartacussampledata"
           token: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           ref: "release/${{ steps.current-run-major-version.outputs.MAJOR_VERSION}}.x"
-      - name: Validate version format
-        uses: ./.github/actions/validate-version
-        with:
-          version: ${{ github.event.inputs.what_version }}
       - name: push the tag to the repository
-        env:
-          WHAT_VERSION: ${{ github.event.inputs.what_version }}
         run: |
-          git tag "$WHAT_VERSION"
+          git tag ${{ github.event.inputs.what_version }}
           git push origin --tags
   publish_sample_data:
     name: Publishing Spartacus Sample Data
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
       - name: create release with sample data assets
         env:
-          GHT_USER: ${{ secrets.GHT_USER }}
+          GHT_USER: ${{ vars.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |
