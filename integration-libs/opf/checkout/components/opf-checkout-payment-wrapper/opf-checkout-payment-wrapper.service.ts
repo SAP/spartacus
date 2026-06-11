@@ -97,6 +97,10 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
+  removePaymentProviderResources(): void {
+    this.opfResourceLoaderService.clearAllResources();
+  }
+
   initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
