@@ -73,7 +73,7 @@ describe('AuthNotificationService', () => {
     });
   });
 
-  describe('events$', () => {
+  describe('notifications$', () => {
     it('should isolate by the active base site', () => {
       service.listen();
 

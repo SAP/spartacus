@@ -248,8 +248,8 @@ export class AuthService {
     if (this.featureToggles.propagateLogoutToAllTabs) {
       this.authNotificationService.notifications$
         .pipe(takeUntilDestroyed())
-        .subscribe((event) => {
-          this.handleNotificationEvent(event);
+        .subscribe((notification) => {
+          this.handleAuthNotification(notification);
         });
     }
   }
@@ -291,9 +291,12 @@ export class AuthService {
     }
   }
 
-  protected handleNotificationEvent(event: AuthNotificationType) {
+  /**
+   * Handler for notifications from other browser tabs
+   */
+  protected handleAuthNotification(notification: AuthNotificationType) {
     if (
-      event === AuthNotificationType.LOGOUT &&
+      notification === AuthNotificationType.LOGOUT &&
       !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
     ) {
       this.isUserLoggedIn()
