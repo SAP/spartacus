@@ -45,10 +45,8 @@ class TabNotificationService extends AbstractBrowserTabNotificationService<numbe
   protected channelId = mockChannelId;
   isolateBySite = true;
 
-  protected payloadGuard(
-    event: MessageEvent<TabNotificationWrapper<unknown>>
-  ): event is MessageEvent<TabNotificationWrapper<number>> {
-    return typeof event.data.payload === 'number';
+  protected isPayloadOfExpectedType(payload: unknown): payload is number {
+    return typeof payload === 'number';
   }
 }
 
