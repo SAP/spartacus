@@ -606,6 +606,11 @@ export interface FeatureTogglesInterface {
    * authenticated data through stale tabs.
    */
   propagateLogoutToAllTabs?: boolean;
+
+  /**
+   * When enabled, adds support for dynamic configuration generation in the auth configuration.
+   */
+  dynamicAuthConfiguration?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -679,4 +684,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   propagateLogoutToAllTabs: false,
+  dynamicAuthConfiguration: false,
 };

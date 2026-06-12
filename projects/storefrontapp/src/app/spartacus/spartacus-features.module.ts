@@ -366,6 +366,7 @@ if (environment.cpq) {
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         propagateLogoutToAllTabs: true,
+        dynamicAuthConfiguration: true,
       };
       return appFeatureToggles;
     }),
