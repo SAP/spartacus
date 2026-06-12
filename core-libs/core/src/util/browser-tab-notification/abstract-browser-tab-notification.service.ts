@@ -69,12 +69,11 @@ export abstract class AbstractBrowserTabNotificationService<T> {
   /** Raw inbound `MessageEvent`s — kept untyped until guards run. */
   protected inboundEvents$ = new Subject<MessageEvent>();
 
-  /** Validated, base-site-scoped, fully-typed payloads. */
+  /** Validated, fully-typed payloads. */
   notifications$: Observable<T> = this.inboundEvents$.pipe(
     filter(isTabNotificationWrapperEvent),
-    filter(
-      (event): event is MessageEvent<TabNotificationWrapper<T>> =>
-        this.isPayloadOfExpectedType(event.data.payload)
+    filter((event): event is MessageEvent<TabNotificationWrapper<T>> =>
+      this.isPayloadOfExpectedType(event.data.payload)
     ),
     map((event) => event.data),
     withLatestFrom(this.baseSiteService.getActive()),
