@@ -5,34 +5,48 @@
  */
 
 import { DestroyRef, inject } from '@angular/core';
-import { filter, map, Subject, tap, withLatestFrom } from 'rxjs';
+import { filter, map, Observable, Subject, tap, withLatestFrom } from 'rxjs';
 import { LoggerService } from '../../logger';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window';
 
-/** Internal wrapper for auth notification service events. */
+/** Wire-format wrapper for cross-tab notifications. */
 export interface TabNotificationWrapper<T> {
   baseSite: string;
   payload: T;
 }
 
-export function tabNotificationWrapperTypeGuard(
-  event: MessageEvent<unknown>
+/**
+ * Type guard: asserts a `MessageEvent` carries a value shaped like a
+ * `TabNotificationWrapper`. Subclasses don't need this — it's the first
+ * gate inside the abstract pipe.
+ */
+export function isTabNotificationWrapperEvent(
+  event: MessageEvent
 ): event is MessageEvent<TabNotificationWrapper<unknown>> {
+  const data: unknown = event.data;
   return (
-    !!event.data &&
-    typeof event.data === 'object' &&
-    'baseSite' in event.data &&
-    'payload' in event.data
+    !!data &&
+    typeof data === 'object' &&
+    'baseSite' in data &&
+    'payload' in data
   );
 }
 
 /**
  * Abstract service used to communicate with Spartacus in other browser tabs.
  *
- * Default behavior isolates events per site.
+ * Default behavior isolates events per active base site (subclasses can
+ * override `isolateBySite = false` if cross-site signalling is desired).
+ *
+ * Subclasses provide:
+ * - `channelId` — the `BroadcastChannel` name (must be unique per concern).
+ * - `isPayloadOfExpectedType(payload)` — runtime check that an incoming
+ *   payload matches the expected `T`. Called only after the wire-format
+ *   wrapper guard has passed; the value comes straight from another tab,
+ *   so trust nothing about its shape.
  */
-export abstract class AbstractBrowserTabNotificationService<T = unknown> {
+export abstract class AbstractBrowserTabNotificationService<T> {
   protected abstract channelId: string;
   protected isolateBySite = true;
 
@@ -47,67 +61,76 @@ export abstract class AbstractBrowserTabNotificationService<T = unknown> {
   protected outboundStream = this.outbound.pipe(
     withLatestFrom(this.baseSiteService.getActive()),
     tap(([payload, baseSite]) => {
-      this.channel?.postMessage({
-        baseSite,
-        payload: payload,
-      } satisfies TabNotificationWrapper<T>);
+      const message: TabNotificationWrapper<T> = { baseSite, payload };
+      this.channel?.postMessage(message);
     })
   );
 
-  protected inboundEvents$ = new Subject<MessageEvent<unknown>>();
+  /** Raw inbound `MessageEvent`s — kept untyped until guards run. */
+  protected inboundEvents$ = new Subject<MessageEvent>();
 
-  notifications$ = this.inboundEvents$.asObservable().pipe(
-    filter(tabNotificationWrapperTypeGuard),
-    filter((event) => this.payloadGuard(event)),
+  /** Validated, base-site-scoped, fully-typed payloads. */
+  notifications$: Observable<T> = this.inboundEvents$.pipe(
+    filter(isTabNotificationWrapperEvent),
+    filter(
+      (event): event is MessageEvent<TabNotificationWrapper<T>> =>
+        this.isPayloadOfExpectedType(event.data.payload)
+    ),
     map((event) => event.data),
     withLatestFrom(this.baseSiteService.getActive()),
-    filter((tuple) => this.siteIsolationFilter(tuple)),
-    map(([event]) => event.payload)
+    filter(([wrapper, currentBaseSite]) =>
+      this.passesSiteIsolation(wrapper, currentBaseSite)
+    ),
+    map(([wrapper]) => wrapper.payload)
   );
 
   /**
    * Initializes the service to send and receive notification events.
    *
-   * Method will only start listening when in a browser context.
+   * Only starts listening in a browser context. The channel is closed
+   * and outbound processing is unsubscribed automatically when the
+   * Angular injector is destroyed.
    */
-  listen() {
-    if (this.windowRef.isBrowser()) {
-      try {
-        this.channel = new BroadcastChannel(this.channelId);
-        this.channel.addEventListener('message', (event) => {
-          this.channelListener(event);
-        });
-        this.destroyRef.onDestroy(() => this.channel?.close());
+  listen(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    try {
+      this.channel = new BroadcastChannel(this.channelId);
+      this.channel.addEventListener('message', (event) =>
+        this.inboundEvents$.next(event)
+      );
+      this.destroyRef.onDestroy(() => this.channel?.close());
 
-        const outboundProcessing = this.outboundStream.subscribe();
-        this.destroyRef.onDestroy(() => outboundProcessing.unsubscribe());
-      } catch (err) {
-        this.logger.warn(
-          `Could not open ${this.channelId} channel: ${(err as Error)?.message ?? ''}`
-        );
-      }
+      const sub = this.outboundStream.subscribe();
+      this.destroyRef.onDestroy(() => sub.unsubscribe());
+    } catch (err) {
+      this.logger.warn(
+        `Could not open ${this.channelId} channel: ${(err as Error)?.message ?? ''}`
+      );
     }
   }
 
   /**
-   * Will send the data if the service has started listening.
+   * Sends `data` to other tabs. No-op when `listen()` was never called
+   * (e.g. running on the server, or unsupported browser): the payload
+   * is dropped silently.
    */
-  sendNotification(data: T) {
+  sendNotification(data: T): void {
     this.outbound.next(data);
   }
 
-  protected siteIsolationFilter([event, currentBaseSite]: [
-    TabNotificationWrapper<T>,
-    string,
-  ]): boolean {
-    return this.isolateBySite ? currentBaseSite === event?.baseSite : true;
+  protected passesSiteIsolation(
+    wrapper: TabNotificationWrapper<T>,
+    currentBaseSite: string
+  ): boolean {
+    return !this.isolateBySite || currentBaseSite === wrapper.baseSite;
   }
 
-  protected abstract payloadGuard(
-    event: MessageEvent<TabNotificationWrapper<unknown>>
-  ): event is MessageEvent<TabNotificationWrapper<T>>;
-
-  protected channelListener(event: MessageEvent<TabNotificationWrapper<T>>) {
-    this.inboundEvents$.next(event);
-  }
+  /**
+   * Subclass-supplied runtime check that an incoming payload is the
+   * expected `T`. Called only after the wrapper-shape guard has
+   * passed — so `payload` is whatever the other tab put on the wire.
+   */
+  protected abstract isPayloadOfExpectedType(payload: unknown): payload is T;
 }
