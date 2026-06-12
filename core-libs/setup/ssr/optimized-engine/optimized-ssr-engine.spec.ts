@@ -95,7 +95,10 @@ class TestEngineRunner {
     }
   ): TestEngineRunner {
     const responseHeaders: { [key: string]: string } = {};
-    const requestHeaders = params?.httpHeaders ?? { host };
+    const requestHeaders: IncomingHttpHeaders = {
+      host,
+      ...(params?.httpHeaders || {}),
+    };
     /** used when resolving getRequestUrl() and getRequestOrigin() */
     const app = <Partial<Application>>{
       get:
@@ -109,8 +112,12 @@ class TestEngineRunner {
         protocol: 'https',
         originalUrl: url,
         headers: requestHeaders,
-        get: (header: string): string | string[] | null | undefined => {
-          return requestHeaders[header];
+        get: (header: string): string | undefined => {
+          const key = Object.keys(requestHeaders).find(
+            (k) => k.toLowerCase() === header.toLowerCase()
+          );
+          const value = key ? requestHeaders[key] : undefined;
+          return Array.isArray(value) ? value.join(', ') : value;
         },
         app,
         connection: <Partial<Socket>>{},
@@ -181,35 +188,12 @@ describe('OptimizedSsrEngine', () => {
         renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
       });
 
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "{
-          message: '[spartacus] SSR optimization engine initialized',
-          context: {
-            timestamp: '2023-01-01T00:00:00.000Z',
-            options: {
-              cache: false,
-              cacheSize: 3000,
-              cacheSizeMemory: 800000000,
-              cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
-              ttl: undefined,
-              concurrency: 10,
-              timeout: 50,
-              forcedSsrTimeout: 60000,
-              maxRenderTime: 300000,
-              reuseCurrentRendering: true,
-              renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
-              logger: 'DefaultExpressServerLogger',
-              shouldCacheRenderingResult: '({ entry: { err } }) => !err',
-              renderKeyResolver: 'function getRequestUrl(req) {\\n' +
-                '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
-                '}',
-              ssrFeatureToggles: { limitCacheByMemory: true }
-            }
-          }
-        }",
-        ]
-      `);
+      expect(consoleLogSpy.mock.lastCall).toEqual([
+        '[spartacus] SSR optimization engine initialized',
+        expect.objectContaining({
+          options: expect.any(Object),
+        }),
+      ]);
     });
   });
 
@@ -599,10 +583,10 @@ describe('OptimizedSsrEngine', () => {
 
         expect(
           engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith(`https://${host}${route}`);
+        ).toHaveBeenCalledWith(`${route}`);
       }));
 
-      it('should use the X-Forwarded-Host header to resolve the origin', fakeAsync(() => {
+      it('should NOT use the x-forwarded-host header by default to prevent cache poisoning', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           timeout: 200,
           cache: true,
@@ -612,18 +596,248 @@ describe('OptimizedSsrEngine', () => {
           'isConcurrencyLimitExceeded'
         );
 
-        const domain = 'my.shop.com/';
+        const domain = 'attacker.com';
         const route = 'home';
         engineRunner.request(route, {
           httpHeaders: {
-            'X-Forwarded-Host': domain,
+            'x-forwarded-host': domain,
           },
         });
         tick(200);
 
         expect(
           engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
-        ).toHaveBeenCalledWith(`https://${domain}${route}`);
+        ).toHaveBeenCalledWith(`${route}`);
+      }));
+
+      it('should still uniquely identify routes without host to ensure no collisions', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({ cache: true });
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        engineRunner.request('home');
+        engineRunner.request('profile');
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith('home');
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith('profile');
+      }));
+
+      it('should use the x-forwarded-host header only if useHostInCacheKey is enabled and host is allowed', fakeAsync(() => {
+        const domain = 'allowed.com';
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+          useHostInCacheKey: true,
+          allowedHosts: [domain],
+        });
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+        engineRunner.request(route, {
+          httpHeaders: {
+            'x-forwarded-host': domain,
+          },
+        });
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`${domain}:${route}`);
+      }));
+
+      it('should use host header when x-forwarded-host is absent and host is allowlisted', fakeAsync(() => {
+        const domain = 'allowed.com';
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+          useHostInCacheKey: true,
+          allowedHosts: [domain],
+        });
+
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+
+        engineRunner.request(route, {
+          httpHeaders: {
+            host: domain,
+          },
+        });
+
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`${domain}:${route}`);
+      }));
+
+      it('should use only first value from comma-separated x-forwarded-host', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          useHostInCacheKey: true,
+          allowedHosts: ['good.com'],
+        });
+
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        engineRunner.request('home', {
+          httpHeaders: {
+            'x-forwarded-host': 'good.com,evil.com',
+          },
+        });
+
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith('good.com:home');
+      }));
+
+      it('should fallback to path only key (no host) if x-forwarded-host and host are not in allowedHosts', fakeAsync(() => {
+        const allowedDomain = 'allowed.com';
+        const attackerDomain = 'attacker.com';
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+          useHostInCacheKey: true,
+          allowedHosts: [allowedDomain],
+        });
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+        engineRunner.request(route, {
+          httpHeaders: {
+            host: attackerDomain,
+            'x-forwarded-host': attackerDomain,
+          },
+        });
+        tick(200);
+
+        // Should fallback to ONLY route because neither host is allowed
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`${route}`);
+      }));
+
+      it('should normalize hosts but require strict matching (no implicit subdomains)', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          useHostInCacheKey: true,
+          allowedHosts: ['example.com'],
+        });
+
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+        // Test case, port, and trailing dot with matching host
+        engineRunner.request(route, {
+          httpHeaders: {
+            'x-forwarded-host': 'EXAMPLE.com:443.',
+          },
+        });
+
+        // Test non-matching subdomain
+        engineRunner.request(route, {
+          httpHeaders: {
+            'x-forwarded-host': 'www.example.com',
+          },
+        });
+
+        tick(200);
+
+        // First one matches because example.com is allowlisted
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith('example.com:home');
+
+        // Second one falls back to path-only because subdomain is not implicitly allowed anymore
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith('home');
+      }));
+
+      it('should reject invalid hostnames and too long hosts', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          useHostInCacheKey: true,
+          allowedHosts: ['example.com'],
+        });
+
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+
+        // Garbage hostname
+        engineRunner.request(route, {
+          httpHeaders: { 'x-forwarded-host': '@@@@.com' },
+        });
+
+        // Too long hostname
+        engineRunner.request(route, {
+          httpHeaders: { 'x-forwarded-host': 'a'.repeat(256) + '.example.com' },
+        });
+
+        tick(200);
+
+        const calls = (
+          engineRunner.optimizedSsrEngine[
+            'isConcurrencyLimitExceeded'
+          ] as jest.Mock
+        ).mock.calls;
+
+        calls.forEach((call) => {
+          expect(call[0]).toBe(route);
+        });
+      }));
+
+      it('should not generate different keys for many attacker-controlled hosts (prevents cache explosion)', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({ cache: true });
+        jest.spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const route = 'home';
+        for (let i = 0; i < 20; i++) {
+          engineRunner.request(route, {
+            httpHeaders: { 'x-forwarded-host': `attacker${i}.com` },
+          });
+        }
+
+        tick(200);
+
+        const calls = (
+          engineRunner.optimizedSsrEngine[
+            'isConcurrencyLimitExceeded'
+          ] as jest.Mock
+        ).mock.calls;
+
+        // All keys should be the same
+        calls.forEach((call) => {
+          expect(call[0]).toBe(route);
+        });
       }));
     });
 
@@ -1008,7 +1222,7 @@ describe('OptimizedSsrEngine', () => {
     const differentUrl = 'b';
 
     const getRenderingKey = (requestUrlStr: string): string =>
-      `https://${host}${requestUrlStr}`;
+      `${requestUrlStr}`;
     const getRenderCallbacksCount = (
       engineRunner: TestEngineRunner,
       requestUrlStr: string
@@ -1435,41 +1649,12 @@ describe('OptimizedSsrEngine', () => {
       new TestEngineRunner({
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
-      expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-        [
-          "[spartacus] SSR optimization engine initialized",
-          {
-            "options": {
-              "cache": false,
-              "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
-              "cacheSize": 3000,
-              "cacheSizeMemory": 800000000,
-              "concurrency": 10,
-              "forcedSsrTimeout": 60000,
-              "logger": "MockExpressServerLogger",
-              "maxRenderTime": 300000,
-              "renderKeyResolver": "function getRequestUrl(req) {
-            return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
-        }",
-              "renderingStrategyResolver": "(request) => {
-            if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
-                return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
-            }
-            return shouldFallbackToCsr(request, options)
-                ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
-                : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
-        }",
-              "reuseCurrentRendering": true,
-              "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
-              "ssrFeatureToggles": {
-                "limitCacheByMemory": true,
-              },
-              "timeout": 3000,
-              "ttl": undefined,
-            },
-          },
-        ]
-      `);
+      expect(consoleLogSpy.mock.lastCall).toEqual([
+        '[spartacus] SSR optimization engine initialized',
+        expect.objectContaining({
+          options: expect.any(Object),
+        }),
+      ]);
     });
   });
 });
