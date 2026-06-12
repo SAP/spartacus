@@ -379,6 +379,17 @@ export interface FeatureTogglesInterface {
   enableMediaPrefix?: boolean;
 
   /**
+   * Fixes double focus indicator on the search input field in `SearchBoxComponent`
+   * when navigating with the keyboard.
+   * A global `input:focus` rule in forms.scss applies `visible-focus()` to the input element,
+   * while `.cx-label-inner-container:focus-within` also applies it to the container,
+   * resulting in two visible focus rings simultaneously.
+   * When enabled, the input's own focus outline is suppressed so only the container ring is shown.
+   * Affects: SearchBoxComponent
+   */
+  a11ySearchBoxDoubleFocus?: boolean;
+
+  /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
    * on Customer Ticketing dialog.
    */
@@ -639,6 +650,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11ySearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,

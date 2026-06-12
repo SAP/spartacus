@@ -169,6 +169,13 @@
         @include visible-focus();
       }
 
+      @include forFeature('a11ySearchBoxDoubleFocus') {
+        input:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
       @include media-breakpoint-up(md) {
         border: 1px solid var(--cx-color-medium);
         width: 27vw;
@@ -207,7 +214,7 @@
         border-radius: 4px;
 
         &:focus {
-          @include visible-focus();
+          outline: 0;
         }
       }
 
