@@ -19,6 +19,7 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   ORDER_TYPE,
@@ -32,7 +33,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, merge, Subscription } from 'rxjs';
+import { BehaviorSubject, merge, Subscription, take } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
@@ -67,46 +68,62 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
+    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {
-    super(orderFacade, routingService, fb, launchDialogService, vcr);
+    super(
+      orderFacade,
+      routingService,
+      fb,
+      launchDialogService,
+      vcr,
+      activeCartFacade
+    );
   }
 
   submitForm(): void {
-    if (this.checkoutSubmitForm.valid && !!this.currentOrderType) {
-      this.placedOrder = this.launchDialogService.launch(
-        LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        this.vcr
-      );
-      merge(
-        this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-          ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
-          : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
-              this.scheduleReplenishmentFormData,
-              this.checkoutSubmitForm.valid
-            )
-      ).subscribe({
-        error: () => {
-          if (this.placedOrder) {
-            this.placedOrder
-              .subscribe((component) => {
-                this.launchDialogService.clear(
-                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                );
-                if (component) {
-                  component.destroy();
-                }
-              })
-              .unsubscribe();
-          }
-        },
-        next: () => {
-          this.onSuccess();
-        },
-      });
-    } else {
+    if (!this.checkoutSubmitForm.valid || !this.currentOrderType) {
       this.checkoutSubmitForm.markAllAsTouched();
+      return;
     }
+    this.activeCartFacade
+      .isStable()
+      .pipe(take(1))
+      .subscribe((isStable) => {
+        if (!isStable) {
+          return;
+        }
+        this.placedOrder = this.launchDialogService.launch(
+          LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+          this.vcr
+        );
+        merge(
+          this.currentOrderType === ORDER_TYPE.PLACE_ORDER
+            ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
+            : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
+                this.scheduleReplenishmentFormData,
+                this.checkoutSubmitForm.valid
+              )
+        ).subscribe({
+          error: () => {
+            if (this.placedOrder) {
+              this.placedOrder
+                .subscribe((component) => {
+                  this.launchDialogService.clear(
+                    LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                  );
+                  if (component) {
+                    component.destroy();
+                  }
+                })
+                .unsubscribe();
+            }
+          },
+          next: () => {
+            this.onSuccess();
+          },
+        });
+      });
   }
 
   ngOnInit(): void {

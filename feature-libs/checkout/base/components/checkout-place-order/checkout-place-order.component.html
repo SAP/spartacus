@@ -36,9 +36,14 @@
   <button
     (click)="submitForm()"
     class="btn btn-primary btn-block"
-    [disabled]="termsAndConditionInvalid"
+    [disabled]="termsAndConditionInvalid || (isCartUpdating$ | async)"
     [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
   >
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>
+  @if (isCartUpdating$ | async) {
+    <div class="cx-place-order-cart-updating" aria-live="polite">
+      {{ 'checkoutReview.cartUpdating' | cxTranslate }}
+    </div>
+  }
 </form>

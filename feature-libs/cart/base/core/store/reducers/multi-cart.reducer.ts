@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Cart, CartType } from '@spartacus/cart/base/root';
+import { Cart, CartType, OrderEntry } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import { CartActions } from '../actions/index';
 
@@ -52,6 +52,27 @@ export function cartEntitiesReducer(
     case CartActions.CREATE_CART_SUCCESS:
     case CartActions.SET_CART_DATA:
       return action.payload.cart;
+
+    case CartActions.CART_ADD_ENTRY_SUCCESS: {
+      // Merge the entry returned by POST .../entries into the cart entity so
+      // the UI surfaces it before the trailing LoadCart reconcile arrives.
+      // Without this, on slow networks rapid multi-product adds appear to
+      // "lose" entries until processesCount falls to 0 and a refresh runs
+      // (CXSPA-10582).
+      const entry: OrderEntry | undefined = action.payload?.entry;
+      if (!state || !entry) {
+        return state;
+      }
+      const existing = state.entries ?? [];
+      const matchIndex = existing.findIndex(
+        (e) => e.entryNumber === entry.entryNumber
+      );
+      const entries =
+        matchIndex >= 0
+          ? existing.map((e, i) => (i === matchIndex ? entry : e))
+          : [...existing, entry];
+      return { ...state, entries };
+    }
   }
   return state;
 }

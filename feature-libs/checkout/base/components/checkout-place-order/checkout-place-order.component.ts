@@ -22,6 +22,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   LanguageService,
@@ -38,7 +39,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
@@ -64,6 +65,17 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
+  /**
+   * Emits true while the active cart has any in-flight load or pending process
+   * (e.g. queued CartAddEntry actions on a slow network). The Place Order
+   * button is disabled while this is true to prevent placing the order before
+   * all queued cart writes have settled — otherwise queued requests would fire
+   * against the just-removed cart and create a phantom cart (CXSPA-10582).
+   */
+  isCartUpdating$: Observable<boolean> = this.activeCartFacade
+    .isStable()
+    .pipe(map((stable) => !stable));
+
   private currencyService = inject(CurrencyService);
   private languageService = inject(LanguageService);
 
@@ -76,7 +88,8 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     protected routingService: RoutingService,
     protected fb: UntypedFormBuilder,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   ngOnInit() {
@@ -87,31 +100,41 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   }
 
   submitForm(): void {
-    if (this.checkoutSubmitForm.valid) {
-      this.placedOrder = this.launchDialogService.launch(
-        LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        this.vcr
-      );
-      this.orderFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
-        error: () => {
-          if (!this.placedOrder) {
-            return;
-          }
-
-          this.placedOrder
-            .subscribe((component) => {
-              this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
-              if (component) {
-                component.destroy();
-              }
-            })
-            .unsubscribe();
-        },
-        next: () => this.onSuccess(),
-      });
-    } else {
+    if (!this.checkoutSubmitForm.valid) {
       this.checkoutSubmitForm.markAllAsTouched();
+      return;
     }
+    this.activeCartFacade
+      .isStable()
+      .pipe(take(1))
+      .subscribe((isStable) => {
+        if (!isStable) {
+          return;
+        }
+        this.placedOrder = this.launchDialogService.launch(
+          LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+          this.vcr
+        );
+        this.orderFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
+          error: () => {
+            if (!this.placedOrder) {
+              return;
+            }
+
+            this.placedOrder
+              .subscribe((component) => {
+                this.launchDialogService.clear(
+                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
+                );
+                if (component) {
+                  component.destroy();
+                }
+              })
+              .unsubscribe();
+          },
+          next: () => this.onSuccess(),
+        });
+      });
   }
 
   onSuccess(): void {

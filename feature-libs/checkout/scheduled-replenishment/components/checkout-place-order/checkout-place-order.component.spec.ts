@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   CxDatePipe,
@@ -78,6 +79,11 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   clear = createSpy();
 }
 
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  isStable$ = new BehaviorSubject<boolean>(true);
+  isStable = () => this.isStable$.asObservable();
+}
+
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform = createSpy();
@@ -93,6 +99,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
+  let activeCartFacade: MockActiveCartFacade;
 
   beforeEach(waitForAsync(() => {
     const mockCurrencyService = {
@@ -126,6 +133,10 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
       ],
     })
       .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
@@ -156,6 +167,9 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     );
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as unknown as MockActiveCartFacade;
   });
 
   it('should be created', () => {
@@ -242,6 +256,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
   describe('Place order UI', () => {
     beforeEach(() => {
+      mockReplenishmentOrderFormData$.next(mockReplenishmentOrderFormData);
       component.ngOnInit();
       controls.termsAndConditions.setValue(true);
     });
@@ -267,6 +282,90 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         fixture.debugElement.nativeElement.querySelector('.btn-primary')
           .disabled
       ).toEqual(true);
+    });
+
+    it('should have button DISABLED while the cart is unstable', () => {
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+    });
+
+    it('should re-enable the button when the cart becomes stable again', () => {
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+
+      activeCartFacade.isStable$.next(true);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(false);
+    });
+
+    it('should render the cart-updating hint while the cart is unstable', () => {
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector(
+          '.cx-place-order-cart-updating'
+        )
+      ).toBeTruthy();
+    });
+
+    it('should NOT render the cart-updating hint while the cart is stable', () => {
+      activeCartFacade.isStable$.next(true);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector(
+          '.cx-place-order-cart-updating'
+        )
+      ).toBeFalsy();
+    });
+  });
+
+  describe('submitForm cart-stability guard', () => {
+    it('should NOT place a regular order if submitForm() is invoked while the cart is unstable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+      activeCartFacade.isStable$.next(false);
+
+      component.submitForm();
+
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
+    });
+
+    it('should NOT schedule a replenishment order if submitForm() is invoked while the cart is unstable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+      activeCartFacade.isStable$.next(false);
+
+      component.submitForm();
+
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+      expect(
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+      ).not.toHaveBeenCalled();
+    });
+
+    it('should place the order once the cart becomes stable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+      activeCartFacade.isStable$.next(true);
+
+      component.submitForm();
+
+      expect(orderFacade.placeOrder).toHaveBeenCalled();
     });
   });
 

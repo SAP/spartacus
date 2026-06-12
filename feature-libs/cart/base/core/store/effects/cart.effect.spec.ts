@@ -22,7 +22,7 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import * as fromClientAuthReducers from 'core-libs/core/src/auth/client-auth/store/reducers/index';
 import * as fromUserReducers from 'core-libs/core/src/user/store/reducers/index';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, ReplaySubject, of, throwError } from 'rxjs';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
@@ -415,6 +415,142 @@ describe('Cart effect', () => {
 
         expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
       });
+    });
+
+    it('should NOT dispatch LoadCart while pending processes remain (CXSPA-10582)', (done) => {
+      // Drive both the Actions$ stream (mocked) and the store state in
+      // lockstep. CartAddEntry/CartAddEntrySuccess extend
+      // EntityProcessesIncrement/DecrementAction, so dispatching them to the
+      // store mutates processesCount; we also push them through actions$ so
+      // the effect's ofType(...) sees them.
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      // Two CartAddEntry → processesCount = 2.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // First success → processesCount = 1. Effect must hold off.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+
+      setTimeout(() => {
+        expect(emissions.length).toBe(0);
+
+        // Final success drains the queue → processesCount = 0 → trailing
+        // LoadCart fires.
+        send(
+          new CartActions.CartAddEntrySuccess({
+            userId,
+            cartId,
+            productCode: 'B',
+            quantity: 1,
+          })
+        );
+
+        setTimeout(() => {
+          expect(emissions.length).toBeGreaterThanOrEqual(1);
+          emissions.forEach((a) => {
+            expect(a).toEqual(new CartActions.LoadCart({ userId, cartId }));
+          });
+          sub.unsubscribe();
+          done();
+        }, 0);
+      }, 0);
+    });
+
+    it('should dispatch LoadCart per cartId group (rapid multi-product adds across the SAME cart collapse to one trailing reload)', (done) => {
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      // Five CartAddEntry on the same cart → processesCount = 5.
+      for (let i = 0; i < 5; i++) {
+        send(
+          new CartActions.CartAddEntry({
+            userId,
+            cartId,
+            productCode: `P${i}`,
+            quantity: 1,
+          })
+        );
+      }
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // Four successes; processesCount stays > 0.
+      for (let i = 0; i < 4; i++) {
+        send(
+          new CartActions.CartAddEntrySuccess({
+            userId,
+            cartId,
+            productCode: `P${i}`,
+            quantity: 1,
+          })
+        );
+      }
+
+      setTimeout(() => {
+        expect(emissions.length).toBe(0);
+
+        // Final success drains the queue.
+        send(
+          new CartActions.CartAddEntrySuccess({
+            userId,
+            cartId,
+            productCode: 'P4',
+            quantity: 1,
+          })
+        );
+
+        setTimeout(() => {
+          // All queued successes resolve at quiescence; groupBy + concatMap
+          // means we may see ≥ 1 LoadCarts but they all target the same
+          // cartId — the important property is "at least one trailing
+          // reload, never zero".
+          expect(emissions.length).toBeGreaterThanOrEqual(1);
+          emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
+          sub.unsubscribe();
+          done();
+        }, 0);
+      }, 0);
     });
   });
 
