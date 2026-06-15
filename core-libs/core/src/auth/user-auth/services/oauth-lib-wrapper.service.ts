@@ -37,7 +37,7 @@ export class OAuthLibWrapperService {
   protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
-  protected dynamicAuthConfigService = inject(OAuthAutoConfigureService);
+  protected oAuthAutoConfigureService = inject(OAuthAutoConfigureService);
   protected subscription: Subscription | undefined;
 
   protected initialized = new ReplaySubject<void>(1);
@@ -57,7 +57,7 @@ export class OAuthLibWrapperService {
 
     if (this.featureToggles.dynamicAuthConfiguration) {
       this.subscription?.unsubscribe();
-      this.subscription = this.dynamicAuthConfigService
+      this.subscription = this.oAuthAutoConfigureService
         .getConfig(config)
         .subscribe((dynamicConfig) => {
           this.applyConfiguration(dynamicConfig);
@@ -133,8 +133,10 @@ export class OAuthLibWrapperService {
     return this.federatedLoginService.getParameters().pipe(
       map((parameterString) => ({
         ...baseConfig,
-        loginUrl: (baseConfig.loginUrl +=
-          (baseConfig.loginUrl?.includes('?') ? '&' : '?') + parameterString),
+        loginUrl:
+          baseConfig.loginUrl +
+          (baseConfig.loginUrl?.includes('?') ? '&' : '?') +
+          parameterString,
       }))
     );
   }

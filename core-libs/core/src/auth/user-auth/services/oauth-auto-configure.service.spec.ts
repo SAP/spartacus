@@ -66,7 +66,9 @@ describe('OAuthAutoConfigureService', () => {
     };
 
     it('should not augment the auth config when baseSite is not in the URL context and baseSiteSuffix is false', async () => {
-      spartacusAuthConfig.authentication!.autoConfigure!.baseSiteSuffix = false;
+      (
+        spartacusAuthConfig as MockSpartacusAuthConfig
+      ).authentication.autoConfigure.baseSiteSuffix = false;
       spyOn(
         siteContextParamsService,
         'getUrlEncodingParameters'
@@ -106,8 +108,9 @@ describe('OAuthAutoConfigureService', () => {
 
     describe('when baseSiteSuffix is enabled', () => {
       beforeEach(() => {
-        spartacusAuthConfig.authentication!.autoConfigure!.baseSiteSuffix =
-          true;
+        (
+          spartacusAuthConfig as MockSpartacusAuthConfig
+        ).authentication.autoConfigure.baseSiteSuffix = true;
       });
 
       it('should augment the client ID with base site suffix when enabled in the auth config', async () => {
