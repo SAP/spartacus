@@ -203,9 +203,6 @@ describe('RenderingCache', () => {
       const cache = new RenderingCache({
         ...options,
         cacheSizeMemory: 500, // ≥ 2 entries × 200 B with headroom
-        ssrFeatureToggles: {
-          limitCacheByMemory: true,
-        },
       });
       cache.store('a', null, 'x'.repeat(100)); // 200 B
       cache.store('b', null, 'y'.repeat(100)); // 200 B → usedSize 400

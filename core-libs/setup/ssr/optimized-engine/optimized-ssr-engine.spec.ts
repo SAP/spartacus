@@ -250,7 +250,7 @@ describe('OptimizedSsrEngine', () => {
 
     it('should be initialized with the provided custom options', () => {
       const engineRunner = new TestEngineRunner({
-        cacheSizeMemory: 100,
+        cacheSizeMemory: 1_000_000,
         ttl: 200,
       });
       expect(engineRunner.optimizedSsrEngine['renderingCache']).toBeDefined();
@@ -258,7 +258,7 @@ describe('OptimizedSsrEngine', () => {
         engineRunner.optimizedSsrEngine['renderingCache']['options']
       ).toEqual({
         ...defaultSsrOptimizationOptions,
-        cacheSizeMemory: 100,
+        cacheSizeMemory: 1_000_000,
         ttl: 200,
       });
     });
