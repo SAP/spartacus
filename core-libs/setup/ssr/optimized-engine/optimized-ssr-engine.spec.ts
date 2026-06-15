@@ -189,7 +189,6 @@ describe('OptimizedSsrEngine', () => {
             timestamp: '2023-01-01T00:00:00.000Z',
             options: {
               cache: false,
-              cacheSize: 3000,
               cacheSizeMemory: 800000000,
               cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
               ttl: undefined,
@@ -204,7 +203,7 @@ describe('OptimizedSsrEngine', () => {
               renderKeyResolver: 'function getRequestUrl(req) {\\n' +
                 '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
                 '}',
-              ssrFeatureToggles: { limitCacheByMemory: true }
+              ssrFeatureToggles: {}
             }
           }
         }",
@@ -251,7 +250,7 @@ describe('OptimizedSsrEngine', () => {
 
     it('should be initialized with the provided custom options', () => {
       const engineRunner = new TestEngineRunner({
-        cacheSize: 100,
+        cacheSizeMemory: 100,
         ttl: 200,
       });
       expect(engineRunner.optimizedSsrEngine['renderingCache']).toBeDefined();
@@ -259,7 +258,7 @@ describe('OptimizedSsrEngine', () => {
         engineRunner.optimizedSsrEngine['renderingCache']['options']
       ).toEqual({
         ...defaultSsrOptimizationOptions,
-        cacheSize: 100,
+        cacheSizeMemory: 100,
         ttl: 200,
       });
     });
@@ -1442,7 +1441,6 @@ describe('OptimizedSsrEngine', () => {
             "options": {
               "cache": false,
               "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
-              "cacheSize": 3000,
               "cacheSizeMemory": 800000000,
               "concurrency": 10,
               "forcedSsrTimeout": 60000,
@@ -1461,9 +1459,7 @@ describe('OptimizedSsrEngine', () => {
         }",
               "reuseCurrentRendering": true,
               "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
-              "ssrFeatureToggles": {
-                "limitCacheByMemory": true,
-              },
+              "ssrFeatureToggles": {},
               "timeout": 3000,
               "ttl": undefined,
             },
