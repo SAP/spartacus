@@ -179,6 +179,55 @@ describe('RenderingCache', () => {
       expect(renderingCache.get('largeEntry')).toBeUndefined();
       expect(renderingCache['sizeManager']['usedSize']).toBe(20);
     });
+
+    it('should release the previous entry size when overwriting an existing cached key', () => {
+      const firstHtml = 'a'.repeat(100); // assumed size 200 bytes
+      renderingCache.store('a', null, firstHtml);
+      expect(renderingCache['sizeManager']['usedSize']).toBe(200);
+
+      const secondHtml = 'b'.repeat(50); // assumed size 100 bytes
+      renderingCache.store('a', null, secondHtml);
+
+      // The previous entry's tracked size (200) must be released before
+      // tracking the new entry (100). Otherwise `usedSize` drifts upward
+      // forever for any key that gets re-stored.
+      expect(renderingCache['sizeManager']['usedSize']).toBe(100);
+    });
+
+    it('should release the previous entry size when re-rendering with `setAsRendering`', () => {
+      renderingCache.store('a', null, 'x'.repeat(100)); // 200 B
+      expect(renderingCache['sizeManager']['usedSize']).toBe(200);
+
+      renderingCache.setAsRendering('a'); // engine begins re-render
+      renderingCache.store('a', null, 'y'.repeat(100)); // re-render finishes (200 B)
+
+      expect(renderingCache['sizeManager']['usedSize']).toBe(200);
+    });
+
+    it('should not evict an unrelated entry when re-rendering an existing key when `setAsRendering` is used', () => {
+      const cache = new RenderingCache({
+        ...options,
+        cacheSizeMemory: 500, // ≥ 2 entries × 200 B with headroom
+        ssrFeatureToggles: {
+          limitCacheByMemory: true,
+        },
+      });
+      cache.store('a', null, 'x'.repeat(100)); // 200 B
+      cache.store('b', null, 'y'.repeat(100)); // 200 B → usedSize 400
+      expect(cache.get('a')).toBeDefined();
+      expect(cache.get('b')).toBeDefined();
+
+      // Engine begins re-rendering /a (e.g. because of stale TTL):
+      cache.setAsRendering('a');
+      // Re-render of /a completes with same payload size:
+      cache.store('a', null, 'z'.repeat(100));
+
+      // /b must still be in the cache - the re-render of /a should not have
+      // evicted it. With the pre-fix accounting, the orphaned 200 B from the
+      // first /a entry inflates usedSize to 400 + 200 needed → /b evicted.
+      expect(cache.get('a')).toBeDefined();
+      expect(cache.get('b')).toBeDefined();
+    });
   });
 
   it('should create rendering cache instance', () => {
