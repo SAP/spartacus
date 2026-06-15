@@ -162,7 +162,8 @@ jobs:
             git add .
             git commit -m "Updated content of js-storefront/b2bspastore"
 
-            git push -u "$REPO_URL"
+            # TEMP: disabled push to cloud repo for token-format testing
+            # git push -u "$REPO_URL"
           }
 
           clone_and_setup_repo
@@ -170,6 +171,7 @@ jobs:
           # Echo the branch name so it can be used in later steps
           echo "branch_name=$branch_name" >> $GITHUB_ENV
       - name: Create Pull Request
+        if: false # TEMP: disabled while testing npm token format change in scripts/install/functions.sh
         env:
           GH_TEMPORARY_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
         run: |

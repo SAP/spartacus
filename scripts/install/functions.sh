@@ -1021,7 +1021,7 @@ function print_summary {
 }
 
 function create_npmrc {
-    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_auth=${NPM_TOKEN}\n"
+    local NPMRC_CONTENT="always-auth=${NPM_ALWAYS_AUTH}\n@spartacus:registry=${NPM_URL}\n$(echo ${NPM_URL} | sed 's/https://g'):_authToken=${NPM_TOKEN}\n"
     if [ -z "$NPM_TOKEN" ] ; then
         echo "NPM_TOKEN is empty"
     fi
