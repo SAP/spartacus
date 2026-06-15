@@ -7,8 +7,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  LOCATION_INITIALIZED_MULTI,
   provideDefaultConfig,
+  provideLocationInitializerFactory,
 } from '@spartacus/core';
 import { OpfPaymentMethodDetailsModule } from './components/opf-payment-method-details';
 import { OpfPaymentVerificationComponent } from './components/opf-payment-verification';
@@ -39,11 +39,11 @@ import { defaultOpfPaymentRoutingConfig } from './config';
   ],
   providers: [
     provideDefaultConfig(defaultOpfPaymentRoutingConfig),
-    {
-      provide: LOCATION_INITIALIZED_MULTI,
-      useFactory: captureOpfPaymentVerificationQueryFactory,
-      multi: true,
-    },
+    provideLocationInitializerFactory(() => {
+      // convert incorrect type `() => void` to `() => Promise<void>`
+      const locationInitializer = captureOpfPaymentVerificationQueryFactory();
+      return () => Promise.resolve(locationInitializer());
+    }),
   ],
 })
 export class OpfPaymentRootModule {}
