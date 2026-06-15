@@ -97,6 +97,10 @@ export class OpfCheckoutPaymentWrapperService {
     return this.renderPaymentMethodEvent$.asObservable();
   }
 
+  removePaymentProviderResources(): void {
+    this.opfResourceLoaderService.clearAllResources();
+  }
+
   initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
@@ -135,17 +139,19 @@ export class OpfCheckoutPaymentWrapperService {
       ),
       switchMap((params) => {
         if (useUpdatePaymentTransaction) {
-          return this.getOrCreatePaymentSessionId(params).pipe(
-            switchMap((paymentSessionId) =>
-              this.opfPaymentFacade.updatePaymentTransaction({
-                paymentSessionId,
-                otpKey: params.otpKey,
-                config: {
-                  browserInfo: params.config?.browserInfo,
-                },
-              })
-            )
+          const paymentSessionId = this.getStoredPaymentSessionId(
+            params.config?.configurationId
           );
+
+          if (paymentSessionId) {
+            return this.opfPaymentFacade.updatePaymentTransaction({
+              paymentSessionId,
+              otpKey: params.otpKey,
+              config: {
+                browserInfo: params.config?.browserInfo,
+              },
+            });
+          }
         }
 
         return this.opfPaymentFacade.initiatePayment(params);

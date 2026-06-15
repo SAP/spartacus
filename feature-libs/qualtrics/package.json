@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/qualtrics",
-  "version": "221121.11.0",
+  "version": "221121.13.1",
   "description": "Qualtrics library for Spartacus",
   "keywords": [
     "spartacus",
@@ -13,6 +13,7 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/qualtrics",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "exports": {
     "./*": {
       "sass": "./*"
@@ -27,12 +28,12 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.2.8",
-    "@angular/common": "^21.2.9",
-    "@angular/core": "^21.2.9",
-    "@spartacus/core": "221121.11.0",
-    "@spartacus/schematics": "221121.11.0",
-    "@spartacus/styles": "221121.11.0",
+    "@angular-devkit/schematics": "^21.2.13",
+    "@angular/common": "^21.2.14",
+    "@angular/core": "^21.2.14",
+    "@spartacus/core": "221121.13.1",
+    "@spartacus/schematics": "221121.13.1",
+    "@spartacus/styles": "221121.13.1",
     "rxjs": "^7.8.0"
   },
   "engines": {
