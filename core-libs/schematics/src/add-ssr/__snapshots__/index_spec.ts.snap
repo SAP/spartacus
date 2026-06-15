@@ -239,7 +239,6 @@ import bootstrap from './main.server';
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
   ssrFeatureToggles: {
     limitCacheByMemory: true,
-    releaseEntrySizeOnOverwrite: true,
   },
 });
 

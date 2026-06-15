@@ -28,7 +28,6 @@ describe('RenderingCache', () => {
         cacheSizeMemory: 1000,
         ssrFeatureToggles: {
           limitCacheByMemory: true,
-          releaseEntrySizeOnOverwrite: true,
         },
       });
     });
@@ -196,22 +195,13 @@ describe('RenderingCache', () => {
     });
 
     it('should release the previous entry size when re-rendering through the engine path (setAsRendering + store)', () => {
-      const cache = new RenderingCache({
-        ...options,
-        cacheSizeMemory: 1000,
-        ssrFeatureToggles: {
-          limitCacheByMemory: true,
-          releaseEntrySizeOnOverwrite: true,
-        },
-      });
+      renderingCache.store('a', null, 'x'.repeat(100)); // 200 B
+      expect(renderingCache['sizeManager']['usedSize']).toBe(200);
 
-      cache.store('a', null, 'x'.repeat(100)); // 200 B
-      expect(cache['sizeManager']['usedSize']).toBe(200);
+      renderingCache.setAsRendering('a'); // engine begins re-render
+      renderingCache.store('a', null, 'y'.repeat(100)); // re-render finishes (200 B)
 
-      cache.setAsRendering('a'); // engine begins re-render
-      cache.store('a', null, 'y'.repeat(100)); // re-render finishes (200 B)
-
-      expect(cache['sizeManager']['usedSize']).toBe(200); // pre-fix: 400
+      expect(renderingCache['sizeManager']['usedSize']).toBe(200);
     });
 
     it('should not evict an unrelated entry when re-rendering an existing key via the engine path', () => {
@@ -220,7 +210,6 @@ describe('RenderingCache', () => {
         cacheSizeMemory: 500, // ≥ 2 entries × 200 B with headroom
         ssrFeatureToggles: {
           limitCacheByMemory: true,
-          releaseEntrySizeOnOverwrite: true,
         },
       });
       cache.store('a', null, 'x'.repeat(100)); // 200 B
@@ -228,7 +217,7 @@ describe('RenderingCache', () => {
       expect(cache.get('a')).toBeDefined();
       expect(cache.get('b')).toBeDefined();
 
-      // Engine begins re-rendering /a (e.g. stale TTL):
+      // Engine begins re-rendering /a (e.g. because of stale TTL):
       cache.setAsRendering('a');
       // Re-render of /a completes with same payload size:
       cache.store('a', null, 'z'.repeat(100));
@@ -238,43 +227,6 @@ describe('RenderingCache', () => {
       // first /a entry inflates usedSize to 400 + 200 needed → /b evicted.
       expect(cache.get('a')).toBeDefined();
       expect(cache.get('b')).toBeDefined();
-    });
-
-    describe('with releaseEntrySizeOnOverwrite toggle disabled (legacy behaviour)', () => {
-      it('should leak the previous entry size when overwriting via store()', () => {
-        const cache = new RenderingCache({
-          ...options,
-          cacheSizeMemory: 1000,
-          ssrFeatureToggles: {
-            limitCacheByMemory: true,
-            releaseEntrySizeOnOverwrite: false,
-          },
-        });
-
-        cache.store('a', null, 'a'.repeat(100)); // 200 B
-        cache.store('a', null, 'b'.repeat(50)); // 100 B
-
-        // Documents the legacy buggy accounting: 200 B leaks, 100 B added.
-        expect(cache['sizeManager']['usedSize']).toBe(300);
-      });
-
-      it('should leak the previous entry size when re-rendering via the engine path (setAsRendering + store)', () => {
-        const cache = new RenderingCache({
-          ...options,
-          cacheSizeMemory: 1000,
-          ssrFeatureToggles: {
-            limitCacheByMemory: true,
-            releaseEntrySizeOnOverwrite: false,
-          },
-        });
-
-        cache.store('a', null, 'x'.repeat(100)); // 200 B
-        cache.setAsRendering('a');
-        cache.store('a', null, 'y'.repeat(100)); // 200 B
-
-        // Documents the legacy buggy accounting: 200 B leaks, 200 B added.
-        expect(cache['sizeManager']['usedSize']).toBe(400);
-      });
     });
   });
 

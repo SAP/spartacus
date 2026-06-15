@@ -202,20 +202,6 @@ export interface SsrOptimizationOptions {
      * When false, the cache size will be limited by number of entries defined via the deprecated `cacheSize` option.
      */
     limitCacheByMemory?: boolean;
-
-    /**
-     * When true, overwriting a cached entry (via `store()` for an existing key,
-     * or via the `setAsRendering()` + `store()` engine path used on a TTL-driven
-     * re-render) releases the previous entry's tracked size before tracking the
-     * new one. When false, the previous entry's size leaks into the size
-     * manager's `usedSize` counter.
-     *
-     * Has effect only when `limitCacheByMemory` is also true. Without this fix,
-     * `usedSize` drifts upward without bound for any key that gets re-rendered,
-     * which causes `clearOldestEntriesForSize()` to spuriously evict unrelated
-     * cache entries to "make room" that didn't actually need to be made.
-     */
-    releaseEntrySizeOnOverwrite?: boolean;
   };
 }
 
@@ -275,6 +261,5 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     limitCacheByMemory: true,
-    releaseEntrySizeOnOverwrite: false,
   },
 };

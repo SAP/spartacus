@@ -28,13 +28,7 @@ export class RenderingCache {
     // it with the placeholder. Otherwise the previous entry's `_size` is
     // orphaned in `sizeManager.usedSize` (the placeholder has no `_size`),
     // and a later `store()` for the same key won't be able to recover it.
-    //
-    // Gated on `ssrFeatureToggles.releaseEntrySizeOnOverwrite` so customers
-    // who have calibrated against the leaky accounting can opt out for one
-    // release. The toggle is temporary; see SsrOptimizationOptions.
-    if (this.options?.ssrFeatureToggles?.releaseEntrySizeOnOverwrite) {
-      this.clear(key);
-    }
+    this.clear(key);
     this.renders.set(key, { rendering: true });
   }
 
@@ -59,15 +53,7 @@ export class RenderingCache {
     // it (e.g. on a TTL-driven re-render) or `setAsRendering()`. Going
     // through `clear()` ensures `sizeManager.untrackEntrySize()` is called
     // for the previous `_size`; a plain `renders.delete()` would leak it.
-    //
-    // Gated on `ssrFeatureToggles.releaseEntrySizeOnOverwrite` so customers
-    // who have calibrated against the leaky accounting can opt out for one
-    // release. The toggle is temporary; see SsrOptimizationOptions.
-    if (this.options?.ssrFeatureToggles?.releaseEntrySizeOnOverwrite) {
-      this.clear(key);
-    } else {
-      this.renders.delete(key);
-    }
+    this.clear(key);
 
     if (
       !this.options?.shouldCacheRenderingResult?.({
