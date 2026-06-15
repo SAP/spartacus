@@ -79,7 +79,7 @@ class MockOAuthService implements Partial<OAuthService> {
 }
 
 class MockFeatureToggles implements Partial<FeatureToggles> {
-  dynamicAuthConfiguration = false;
+  oAuthAutoConfiguration = false;
   authorizationCodeFlowByDefault = false;
 }
 
@@ -256,7 +256,7 @@ describe('OAuthLibWrapperService', () => {
 
     describe('when dynamicAuthConfig is enabled', () => {
       beforeEach(() => {
-        featureToggles.dynamicAuthConfiguration = true;
+        featureToggles.oAuthAutoConfiguration = true;
       });
 
       it('should use the dynamic auth config service to augment the config', () => {
@@ -350,7 +350,7 @@ describe('OAuthLibWrapperService', () => {
 
     describe('when dynamicAuthConfig is enabled', () => {
       beforeEach(() => {
-        featureToggles.dynamicAuthConfiguration = true;
+        featureToggles.oAuthAutoConfiguration = true;
       });
 
       it('should wait to call fetchTokenUsingPasswordFlow until the oauth service is configured', async () => {
@@ -383,7 +383,7 @@ describe('OAuthLibWrapperService', () => {
 
     describe('when dynamicAuthConfig is enabled', () => {
       beforeEach(() => {
-        featureToggles.dynamicAuthConfiguration = true;
+        featureToggles.oAuthAutoConfiguration = true;
       });
 
       it('should wait to call refreshToken until the oauth service is configured', () => {
@@ -414,7 +414,7 @@ describe('OAuthLibWrapperService', () => {
   describe('revokeAndLogout()', () => {
     describe('when dynamicAuthConfig is enabled', () => {
       beforeEach(() => {
-        featureToggles.dynamicAuthConfiguration = true;
+        featureToggles.oAuthAutoConfiguration = true;
       });
 
       it('should wait to call revokeTokenAndLogout until the oauth service is configured', async () => {
@@ -491,7 +491,7 @@ describe('OAuthLibWrapperService', () => {
   describe('initLoginFlow()', () => {
     describe('when dynamicAuthConfig is enabled', () => {
       beforeEach(() => {
-        featureToggles.dynamicAuthConfiguration = true;
+        featureToggles.oAuthAutoConfiguration = true;
       });
 
       it('should wait to call initLoginFlow until the oauth service is configured', async () => {
@@ -595,7 +595,7 @@ describe('OAuthLibWrapperService', () => {
 
     describe('when dynamicAuthConfig is enabled', () => {
       beforeEach(() => {
-        featureToggles.dynamicAuthConfiguration = true;
+        featureToggles.oAuthAutoConfiguration = true;
       });
 
       it('should wait to call tryLogin until the oauth service is configured', fakeAsync(() => {

@@ -366,7 +366,7 @@ if (environment.cpq) {
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         propagateLogoutToAllTabs: true,
-        dynamicAuthConfiguration: true,
+        oAuthAutoConfiguration: false as boolean, // exception until sample data is updated
       };
       return appFeatureToggles;
     }),

@@ -608,9 +608,9 @@ export interface FeatureTogglesInterface {
   propagateLogoutToAllTabs?: boolean;
 
   /**
-   * When enabled, adds support for dynamic configuration generation in the auth configuration.
+   * When enabled, adds support for automatic configuration of the oAuth service.
    */
-  dynamicAuthConfiguration?: boolean;
+  oAuthAutoConfiguration?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -684,5 +684,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   propagateLogoutToAllTabs: false,
-  dynamicAuthConfiguration: false,
+  oAuthAutoConfiguration: false,
 };

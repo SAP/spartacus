@@ -55,7 +55,7 @@ export class OAuthLibWrapperService {
   protected initialize() {
     const config = this.generateCustomerLoginConfig();
 
-    if (this.featureToggles.dynamicAuthConfiguration) {
+    if (this.featureToggles.oAuthAutoConfiguration) {
       this.subscription?.unsubscribe();
       this.subscription = this.oAuthAutoConfigureService
         .getConfig(config)
@@ -120,7 +120,7 @@ export class OAuthLibWrapperService {
   /** Applies an AuthConfig to the internal oAuth service */
   protected applyConfiguration(config: AuthConfig) {
     this.oAuthService.configure(config);
-    if (this.featureToggles.dynamicAuthConfiguration) {
+    if (this.featureToggles.oAuthAutoConfiguration) {
       this.initialized.next();
     }
   }
@@ -161,7 +161,7 @@ export class OAuthLibWrapperService {
     userId: string,
     password: string
   ): Promise<TokenResponse> {
-    if (this.featureToggles.dynamicAuthConfiguration) {
+    if (this.featureToggles.oAuthAutoConfiguration) {
       return firstValueFrom(this.initialized).then(() =>
         this.oAuthService.fetchTokenUsingPasswordFlow(userId, password)
       );
@@ -174,7 +174,7 @@ export class OAuthLibWrapperService {
    * Refresh access_token.
    */
   refreshToken(): void {
-    if (this.featureToggles.dynamicAuthConfiguration) {
+    if (this.featureToggles.oAuthAutoConfiguration) {
       this.initialized
         .pipe(take(1))
         .subscribe(() => this.oAuthService.refreshToken());
@@ -200,7 +200,7 @@ export class OAuthLibWrapperService {
           });
       });
 
-    if (this.featureToggles.dynamicAuthConfiguration) {
+    if (this.featureToggles.oAuthAutoConfiguration) {
       return firstValueFrom(this.initialized).then(revokeTokenAndLogout);
     } else {
       return revokeTokenAndLogout();
@@ -246,7 +246,7 @@ export class OAuthLibWrapperService {
       return undefined;
     }
 
-    if (this.featureToggles.dynamicAuthConfiguration) {
+    if (this.featureToggles.oAuthAutoConfiguration) {
       this.initialized
         .pipe(take(1))
         .subscribe(() => this.oAuthService.initLoginFlow());
@@ -300,7 +300,7 @@ export class OAuthLibWrapperService {
             subscription.unsubscribe();
           });
 
-      if (this.featureToggles.dynamicAuthConfiguration) {
+      if (this.featureToggles.oAuthAutoConfiguration) {
         firstValueFrom(this.initialized).then(tryLogin);
       } else {
         tryLogin();
