@@ -671,4 +671,12 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       done();
     });
   });
+
+  describe('removePaymentProviderResources', () => {
+    it('should clear all loaded payment resources', () => {
+      service.removePaymentProviderResources();
+
+      expect(opfResourceLoaderServiceMock.clearAllResources).toHaveBeenCalled();
+    });
+  });
 });
