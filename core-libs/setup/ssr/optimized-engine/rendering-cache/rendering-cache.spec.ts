@@ -194,7 +194,7 @@ describe('RenderingCache', () => {
       expect(renderingCache['sizeManager']['usedSize']).toBe(100);
     });
 
-    it('should release the previous entry size when re-rendering through the engine path (setAsRendering + store)', () => {
+    it('should release the previous entry size when re-rendering with `setAsRendering`', () => {
       renderingCache.store('a', null, 'x'.repeat(100)); // 200 B
       expect(renderingCache['sizeManager']['usedSize']).toBe(200);
 
@@ -204,7 +204,7 @@ describe('RenderingCache', () => {
       expect(renderingCache['sizeManager']['usedSize']).toBe(200);
     });
 
-    it('should not evict an unrelated entry when re-rendering an existing key via the engine path', () => {
+    it('should not evict an unrelated entry when re-rendering an existing key when `setAsRendering` is used', () => {
       const cache = new RenderingCache({
         ...options,
         cacheSizeMemory: 500, // ≥ 2 entries × 200 B with headroom
