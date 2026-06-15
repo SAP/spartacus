@@ -366,6 +366,7 @@ if (environment.cpq) {
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        propagateLogoutToAllTabs: true,
       };
       return appFeatureToggles;
     }),
