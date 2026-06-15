@@ -6,26 +6,30 @@
 
 import { inject, Injectable } from '@angular/core';
 import { AuthConfig } from 'angular-oauth2-oidc';
-import { BASE_SITE_CONTEXT_ID } from 'core-libs/core/src/site-context/providers/context-ids';
 import { map, Observable } from 'rxjs';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
+import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
 import { SiteContextParamsService } from '../../../site-context/services';
+import { AuthConfig as SpartacusAuthConfig } from '../config/auth-config';
 
 /**
- * This class adds the base-site context to the redirect URI.
+ * This class handles auto-configuration of the oAuth library.  This is primarily to set base-site dependent
+ * context to the configuration, such as the redirect URI.
  *
  * This is useful when hosting multiple sites on the same domain and differentiating the base site
  * through the URL path.  Adding the context to the redirect URI
  * helps Spartacus to determine which base site to activate when returning from the authorization server.
  */
 @Injectable({ providedIn: 'root' })
-export class DynamicAuthConfigService {
+export class OAuthAutoConfigureService {
+  protected authConfig = inject(SpartacusAuthConfig);
   protected baseSiteService = inject(BaseSiteService);
   protected siteContextParamsService = inject(SiteContextParamsService);
-  // protected siteContextUrlSerializer = inject(SiteContextUrlSerializer);
 
-  protected generateClientId(_activeBaseSite: string, baseConfig: AuthConfig) {
-    return baseConfig.clientId;
+  protected generateClientId(activeBaseSite: string, baseConfig: AuthConfig) {
+    return this.authConfig.authentication?.autoConfigure?.baseSiteSuffix
+      ? `${baseConfig.clientId}_${activeBaseSite}`
+      : baseConfig.clientId;
   }
 
   protected generateRedirectUri(
@@ -54,19 +58,5 @@ export class DynamicAuthConfigService {
         redirectUri: this.generateRedirectUri(baseSite, baseConfig),
       }))
     );
-  }
-}
-
-/**
- * This implementation of `DynamicAuthConfigService` adds the base-site context to
- * the redirect URI and adds the base-site as a suffix to the client ID.
- *
- * This is useful when hosting multiple sites on the same domain.  Adding the context to the redirect URI
- * helps Spartacus to determine which base site to activate when returning from the authorization server.
- */
-@Injectable()
-export class ClientIdSuffixDynamicAuthConfigService extends DynamicAuthConfigService {
-  protected generateClientId(activeBaseSite: string, baseConfig: AuthConfig) {
-    return `${baseConfig.clientId}_${activeBaseSite}`;
   }
 }

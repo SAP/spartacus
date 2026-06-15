@@ -20,7 +20,7 @@ import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
-import { DynamicAuthConfigService } from './dynamic-auth-config.service';
+import { OAuthAutoConfigureService } from './oauth-auto-configure.service';
 
 /**
  * Wrapper service on the library OAuthService. Normalizes the lib API for services.
@@ -37,7 +37,7 @@ export class OAuthLibWrapperService {
   protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
-  protected dynamicAuthConfigService = inject(DynamicAuthConfigService);
+  protected dynamicAuthConfigService = inject(OAuthAutoConfigureService);
   protected subscription: Subscription | undefined;
 
   protected initialized = new ReplaySubject<void>(1);

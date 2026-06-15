@@ -1,9 +1,9 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
-  DynamicAuthConfigService,
   FeatureToggles,
   FederatedLoginService,
   OAUTH_REDIRECT_FLOW_KEY,
+  OAuthAutoConfigureService,
   SemanticPathService,
 } from '@spartacus/core';
 import {
@@ -122,7 +122,7 @@ class MockStorage implements Storage {
 }
 
 class MockDynamicAuthConfigService
-  implements Partial<DynamicAuthConfigService>
+  implements Partial<OAuthAutoConfigureService>
 {
   getConfig(baseConfig: AuthConfig): Observable<AuthConfig> {
     return of(baseConfig);
@@ -149,7 +149,7 @@ describe('OAuthLibWrapperService', () => {
   let authConfigService: AuthConfigService;
   let featureToggles: FeatureToggles;
   let federatedLoginService: MockFederatedLoginService;
-  let dynamicAuthConfigService: DynamicAuthConfigService;
+  let oAuthAutoConfigureService: OAuthAutoConfigureService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -165,7 +165,7 @@ describe('OAuthLibWrapperService', () => {
         },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         {
-          provide: DynamicAuthConfigService,
+          provide: OAuthAutoConfigureService,
           useClass: MockDynamicAuthConfigService,
         },
       ],
@@ -177,8 +177,8 @@ describe('OAuthLibWrapperService', () => {
     federatedLoginService = TestBed.inject(
       FederatedLoginService
     ) as unknown as MockFederatedLoginService;
-    dynamicAuthConfigService = TestBed.inject(DynamicAuthConfigService);
-    dynamicAuthConfigService.getConfig({});
+    oAuthAutoConfigureService = TestBed.inject(OAuthAutoConfigureService);
+    oAuthAutoConfigureService.getConfig({});
   });
 
   describe('initialize()', () => {
@@ -261,7 +261,7 @@ describe('OAuthLibWrapperService', () => {
 
       it('should use the dynamic auth config service to augment the config', () => {
         const expectedConfig: AuthConfig = { clientId: 'dynamic_client_id' };
-        spyOn(dynamicAuthConfigService, 'getConfig').and.returnValue(
+        spyOn(oAuthAutoConfigureService, 'getConfig').and.returnValue(
           of(expectedConfig)
         );
         spyOn(oAuthService, 'configure').and.callThrough();
@@ -355,7 +355,7 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call fetchTokenUsingPasswordFlow until the oauth service is configured', async () => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        spyOn(dynamicAuthConfigService, 'getConfig').and.returnValue(
+        spyOn(oAuthAutoConfigureService, 'getConfig').and.returnValue(
           getConfig.asObservable()
         );
         spyOn(oAuthService, 'fetchTokenUsingPasswordFlow').and.callThrough();
@@ -376,7 +376,7 @@ describe('OAuthLibWrapperService', () => {
 
     beforeEach(() => {
       getConfig = new ReplaySubject(1);
-      spyOn(dynamicAuthConfigService, 'getConfig').and.returnValue(
+      spyOn(oAuthAutoConfigureService, 'getConfig').and.returnValue(
         getConfig.asObservable()
       );
     });
@@ -419,7 +419,7 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call revokeTokenAndLogout until the oauth service is configured', async () => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        spyOn(dynamicAuthConfigService, 'getConfig').and.returnValue(
+        spyOn(oAuthAutoConfigureService, 'getConfig').and.returnValue(
           getConfig.asObservable()
         );
         spyOn(oAuthService, 'revokeTokenAndLogout').and.callThrough();
@@ -496,7 +496,7 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call initLoginFlow until the oauth service is configured', async () => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        spyOn(dynamicAuthConfigService, 'getConfig').and.returnValue(
+        spyOn(oAuthAutoConfigureService, 'getConfig').and.returnValue(
           getConfig.asObservable()
         );
         spyOn(oAuthService, 'initLoginFlow').and.callThrough();
@@ -600,7 +600,7 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call tryLogin until the oauth service is configured', fakeAsync(() => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        spyOn(dynamicAuthConfigService, 'getConfig').and.returnValue(
+        spyOn(oAuthAutoConfigureService, 'getConfig').and.returnValue(
           getConfig.asObservable()
         );
         spyOn(oAuthService, 'tryLogin').and.callThrough();

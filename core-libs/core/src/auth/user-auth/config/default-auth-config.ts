@@ -65,6 +65,9 @@ export const defaultAuthConfig: AuthConfig = {
       csrfEndpoint: '/csrf',
       loginFormEndpoint: '/login',
     },
+    autoConfigure: {
+      baseSiteSuffix: false,
+    },
   },
 };
 
@@ -90,6 +93,8 @@ export function defaultAuthConfigFactory(): AuthConfig {
 
     delete config.authentication.OAuthLibConfig.responseType;
     delete config.authentication.customLoginPage;
+    delete config.authentication.autoConfigure;
+
     return config;
   }
 }

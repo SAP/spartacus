@@ -103,6 +103,19 @@ export abstract class AuthConfig {
        */
       loginFormEndpoint?: string;
     };
+
+    autoConfigure?: {
+      /**
+       * Controls if the client ID should be suffixed with the base site.
+       *
+       * This is useful when hosting multiple sites on a single domain while using Spartacus as a Custom
+       * Login Page.  This allows unique client IDs to be set for each site so the Custom Login Page URI
+       * can be configured properly for each site.
+       *
+       * ex: "mobile_android_public" to "mobile_android_public_electronics-sap"
+       */
+      baseSiteSuffix?: boolean;
+    };
   };
 }
 

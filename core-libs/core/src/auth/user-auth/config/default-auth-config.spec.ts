@@ -20,6 +20,9 @@ const expectedAuthorizationCodeDefault: AuthConfig = {
       responseType: 'code',
     },
     customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
+    autoConfigure: {
+      baseSiteSuffix: false,
+    },
   },
 };
 
