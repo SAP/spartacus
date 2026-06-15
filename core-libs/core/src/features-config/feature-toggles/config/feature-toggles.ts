@@ -611,6 +611,12 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
+   * authenticated data through stale tabs.
+   */
+  propagateLogoutToAllTabs?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -684,4 +690,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  propagateLogoutToAllTabs: false,
 };

@@ -5,16 +5,18 @@ import {
   FeatureToggles,
 } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthNotificationType } from '../models/auth-notification.model';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
+import { AuthNotificationService } from './auth-notification.service';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
 
@@ -91,7 +93,13 @@ class MockAuthMultisiteIsolationService {
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: false,
   dispatchLoginActionOnlyWhenTokenReceived: false,
+  propagateLogoutToAllTabs: false,
 };
+
+class MockAuthNotificationService implements Partial<AuthNotificationService> {
+  notifications$ = new Subject<AuthNotificationType>();
+  sendNotification(_data: AuthNotificationType): void {}
+}
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -103,6 +111,7 @@ describe('AuthService', () => {
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
   let featureToggles: FeatureToggles;
   let store: Store;
+  let authNotificationService: MockAuthNotificationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -129,6 +138,10 @@ describe('AuthService', () => {
           useClass: MockCrossSiteRequestForgeryService,
         },
         { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        {
+          provide: AuthNotificationService,
+          useClass: MockAuthNotificationService,
+        },
       ],
     });
 
@@ -143,6 +156,9 @@ describe('AuthService', () => {
     );
     featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
+    authNotificationService = TestBed.inject(
+      AuthNotificationService
+    ) as unknown as MockAuthNotificationService;
   });
 
   it('should be created', () => {
@@ -385,6 +401,7 @@ describe('AuthService', () => {
         });
       });
       spyOn(store, 'dispatch').and.callThrough();
+      spyOn(authNotificationService, 'sendNotification').and.callThrough();
 
       service.coreLogout();
       expect(userIdService.clearUserId).toHaveBeenCalled();
@@ -401,6 +418,105 @@ describe('AuthService', () => {
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(false);
     }));
+
+    describe('when propagateLogoutToAllTabs is enabled', () => {
+      beforeEach(() => {
+        featureToggles.propagateLogoutToAllTabs = true;
+      });
+
+      it('should send a logout notification to other tabs', async () => {
+        spyOn(userIdService, 'clearUserId').and.callThrough();
+        spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
+          return new Promise<void>((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, 100);
+          });
+        });
+        spyOn(store, 'dispatch').and.callThrough();
+        spyOn(authNotificationService, 'sendNotification').and.callThrough();
+
+        await service.coreLogout();
+
+        expect(authNotificationService.sendNotification).toHaveBeenCalledWith(
+          AuthNotificationType.LOGOUT
+        );
+      });
+    });
+  });
+
+  describe('authNotifications', () => {
+    beforeEach(() => {
+      TestBed.resetTestingModule().configureTestingModule({
+        imports: [StoreModule.forRoot({})],
+        providers: [
+          AuthService,
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
+          },
+          {
+            provide: OAuthLibWrapperService,
+            useClass: MockOAuthLibWrapperService,
+          },
+          { provide: AuthStorageService, useClass: MockAuthStorageService },
+          { provide: AuthRedirectService, useClass: MockAuthRedirectService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          {
+            provide: AuthMultisiteIsolationService,
+            useClass: MockAuthMultisiteIsolationService,
+          },
+          {
+            provide: CrossSiteRequestForgeryService,
+            useClass: MockCrossSiteRequestForgeryService,
+          },
+          { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+          {
+            provide: AuthNotificationService,
+            useClass: MockAuthNotificationService,
+          },
+        ],
+      });
+      authNotificationService = TestBed.inject(
+        AuthNotificationService
+      ) as unknown as MockAuthNotificationService;
+      authStorageService = TestBed.inject(AuthStorageService);
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.propagateLogoutToAllTabs = true;
+
+      service = TestBed.inject(AuthService);
+      spyOn(service, 'coreLogout').and.stub();
+    });
+
+    it('should call coreLogout when a logout event is received', () => {
+      authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
+
+      expect(service.coreLogout).toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when a logout is in-progress', () => {
+      service.setLogoutProgress(true);
+
+      authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when isUserLoggedIn is false', () => {
+      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+
+      authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
+
+    it('should not call coreLogout when a different event is received', () => {
+      authNotificationService.notifications$.next(
+        'UNKNOWN_EVENT' as unknown as AuthNotificationType
+      );
+
+      expect(service.coreLogout).not.toHaveBeenCalled();
+    });
   });
 
   describe('isUserLoggedIn()', () => {
