@@ -25,6 +25,7 @@ const ssrOptions: SsrOptimizationOptions = {
   cache: process.env['SSR_CACHE'] === 'true',
   ssrFeatureToggles: {
     limitCacheByMemory: true,
+    releaseEntrySizeOnOverwrite: true,
   },
 };
 

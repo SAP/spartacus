@@ -24,6 +24,17 @@ export class RenderingCache {
   }
 
   setAsRendering(key: string) {
+    // Release the size of any previous entry for this key before overwriting
+    // it with the placeholder. Otherwise the previous entry's `_size` is
+    // orphaned in `sizeManager.usedSize` (the placeholder has no `_size`),
+    // and a later `store()` for the same key won't be able to recover it.
+    //
+    // Gated on `ssrFeatureToggles.releaseEntrySizeOnOverwrite` so customers
+    // who have calibrated against the leaky accounting can opt out for one
+    // release. The toggle is temporary; see SsrOptimizationOptions.
+    if (this.options?.ssrFeatureToggles?.releaseEntrySizeOnOverwrite) {
+      this.clear(key);
+    }
     this.renders.set(key, { rendering: true });
   }
 
@@ -43,8 +54,20 @@ export class RenderingCache {
       entry.time = Date.now();
     }
 
-    // Remove old entry for the key. The entry may exist for the key, because we've previously called `setAsRendering()` for it:
-    this.renders.delete(key);
+    // Remove old entry for the key, releasing its tracked size. The entry
+    // may exist for the key, because we've previously called `store()` for
+    // it (e.g. on a TTL-driven re-render) or `setAsRendering()`. Going
+    // through `clear()` ensures `sizeManager.untrackEntrySize()` is called
+    // for the previous `_size`; a plain `renders.delete()` would leak it.
+    //
+    // Gated on `ssrFeatureToggles.releaseEntrySizeOnOverwrite` so customers
+    // who have calibrated against the leaky accounting can opt out for one
+    // release. The toggle is temporary; see SsrOptimizationOptions.
+    if (this.options?.ssrFeatureToggles?.releaseEntrySizeOnOverwrite) {
+      this.clear(key);
+    } else {
+      this.renders.delete(key);
+    }
 
     if (
       !this.options?.shouldCacheRenderingResult?.({
