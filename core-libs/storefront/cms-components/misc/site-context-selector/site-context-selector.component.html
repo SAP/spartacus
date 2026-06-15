@@ -5,7 +5,7 @@
       [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
       *ngFor="let item of items; index as i"
       value="{{ item.isocode }}"
-      [selected]="(activeItem$ | async) === item.isocode"
+      [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
     >
       {{ item.label }}
     </option>
