@@ -78,12 +78,16 @@ export function defaultAuthConfigFactory(): AuthConfig {
 
   if (authorizationCodeFlowByDefault) {
     if (!asyncAuthConfigInitializer) {
-      return {
+      const config = {
         authentication: {
           ...defaultAuthConfig.authentication,
           initializerOptions: undefined,
         },
       } satisfies AuthConfig;
+
+      delete config.authentication.initializerOptions;
+
+      return config;
     }
 
     return defaultAuthConfig;

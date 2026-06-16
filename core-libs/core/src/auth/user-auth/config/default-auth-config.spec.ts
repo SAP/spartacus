@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideFeatureToggles } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
 import { AuthConfig } from './auth-config';
 import { defaultAuthConfigFactory } from './default-auth-config';
 
@@ -20,7 +20,6 @@ const expectedAuthorizationCodeDefault: AuthConfig = {
       responseType: 'code',
     },
     customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
-    initializerOptions: {},
   },
 };
 
@@ -72,42 +71,51 @@ const expectedResourceOwnerDefault: AuthConfig = {
 };
 
 describe('defaultAuthConfigFactory', () => {
-  it('should provide the resource owner default configuration', () => {
+  let featureToggles: FeatureToggles;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [],
+      providers: [
+        {
+          provide: FeatureToggles,
+          useValue: {
+            authorizationCodeFlowByDefault: false,
+            asyncAuthConfigInitializer: false,
+          } satisfies FeatureToggles,
+        },
+      ],
     });
 
+    featureToggles = TestBed.inject(FeatureToggles);
+  });
+
+  it('should provide the resource owner default configuration', () => {
     const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
 
     expect(actual).toEqual(expectedResourceOwnerDefault);
   });
 
   describe('with authorizationCodeFlowByDefault flag', () => {
-    it('should provide the authorization code default configuration', () => {
-      TestBed.configureTestingModule({
-        providers: [
-          provideFeatureToggles({ authorizationCodeFlowByDefault: true }),
-        ],
-      });
+    beforeEach(() => {
+      featureToggles.authorizationCodeFlowByDefault = true;
+    });
 
+    it('should provide the authorization code default configuration', () => {
       const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
 
       expect(actual).toEqual(expectedAuthorizationCodeDefault);
     });
 
     describe('with asyncAuthConfigInitializer flag enabled', () => {
-      TestBed.configureTestingModule({
-        providers: [
-          provideFeatureToggles({
-            authorizationCodeFlowByDefault: true,
-            asyncAuthConfigInitializer: true,
-          }),
-        ],
+      beforeEach(() => {
+        featureToggles.asyncAuthConfigInitializer = true;
       });
 
-      const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
+      it('should provide the auth config with initializer options', () => {
+        const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
 
-      expect(actual).toEqual(expectedAsyncAuthConfigInitializer);
+        expect(actual).toEqual(expectedAsyncAuthConfigInitializer);
+      });
     });
   });
 });

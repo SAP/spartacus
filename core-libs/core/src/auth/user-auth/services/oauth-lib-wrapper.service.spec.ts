@@ -1,5 +1,6 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
+  AuthConfig,
   Config,
   ConfigInitializerService,
   FeatureToggles,
@@ -255,7 +256,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should wait for a stable configuration before configuring', () => {
-        const getStable = new ReplaySubject<void>(1);
+        const getStable = new ReplaySubject<AuthConfig>(1);
         spyOn(configInitializerService, 'getStable').and.returnValue(
           getStable.asObservable()
         );
@@ -266,7 +267,7 @@ describe('OAuthLibWrapperService', () => {
         expect(configInitializerService.getStable).toHaveBeenCalled();
         expect(oAuthService.configure).not.toHaveBeenCalled();
 
-        getStable.next();
+        getStable.next({});
 
         expect(oAuthService.configure).toHaveBeenCalled();
       });
@@ -354,7 +355,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should wait to call fetchTokenUsingPasswordFlow until the oauth service is configured', async () => {
-        const getStable = new ReplaySubject<void>(1);
+        const getStable = new ReplaySubject<AuthConfig>(1);
         spyOn(configInitializerService, 'getStable').and.returnValue(
           getStable.asObservable()
         );
@@ -363,7 +364,7 @@ describe('OAuthLibWrapperService', () => {
 
         expect(oAuthService.fetchTokenUsingPasswordFlow).not.toHaveBeenCalled();
 
-        getStable.next();
+        getStable.next({});
         await service.authorizeWithPasswordFlow('username', 'pass');
 
         expect(oAuthService.fetchTokenUsingPasswordFlow).toHaveBeenCalled();
@@ -372,7 +373,7 @@ describe('OAuthLibWrapperService', () => {
   });
 
   describe('refreshToken()', () => {
-    let getStable: Subject<void>;
+    let getStable: Subject<AuthConfig>;
 
     beforeEach(() => {
       getStable = new ReplaySubject(1);
@@ -394,7 +395,7 @@ describe('OAuthLibWrapperService', () => {
 
         expect(oAuthService.refreshToken).not.toHaveBeenCalled();
 
-        getStable.next();
+        getStable.next({});
 
         expect(oAuthService.refreshToken).toHaveBeenCalled();
       });
@@ -403,7 +404,7 @@ describe('OAuthLibWrapperService', () => {
     it('should call refreshToken method from lib', () => {
       spyOn(oAuthService, 'refreshToken').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
-      getStable.next();
+      getStable.next({});
 
       service.refreshToken();
 
@@ -418,7 +419,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should wait to call revokeTokenAndLogout until the oauth service is configured', async () => {
-        const getConfig = new ReplaySubject<void>(1);
+        const getConfig = new ReplaySubject<AuthConfig>(1);
         spyOn(configInitializerService, 'getStable').and.returnValue(
           getConfig.asObservable()
         );
@@ -429,7 +430,7 @@ describe('OAuthLibWrapperService', () => {
 
         expect(oAuthService.revokeTokenAndLogout).not.toHaveBeenCalled();
 
-        getConfig.next();
+        getConfig.next({});
         await actual;
 
         expect(oAuthService.revokeTokenAndLogout).toHaveBeenCalled();
@@ -495,7 +496,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should wait to call initLoginFlow until the oauth service is configured', async () => {
-        const getConfig = new ReplaySubject<void>(1);
+        const getConfig = new ReplaySubject<AuthConfig>(1);
         spyOn(configInitializerService, 'getStable').and.returnValue(
           getConfig.asObservable()
         );
@@ -506,7 +507,7 @@ describe('OAuthLibWrapperService', () => {
 
         expect(oAuthService.initLoginFlow).not.toHaveBeenCalled();
 
-        getConfig.next();
+        getConfig.next({});
         await actual;
 
         expect(oAuthService.initLoginFlow).toHaveBeenCalled();
@@ -599,7 +600,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should wait to call tryLogin until the oauth service is configured', fakeAsync(() => {
-        const getConfig = new ReplaySubject<void>(1);
+        const getConfig = new ReplaySubject<AuthConfig>(1);
         spyOn(configInitializerService, 'getStable').and.returnValue(
           getConfig.asObservable()
         );
@@ -614,7 +615,7 @@ describe('OAuthLibWrapperService', () => {
 
         expect(oAuthService.tryLogin).not.toHaveBeenCalled();
 
-        getConfig.next();
+        getConfig.next({});
         tick();
 
         expect(oAuthService.tryLogin).toHaveBeenCalled();
