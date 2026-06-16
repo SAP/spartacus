@@ -8,7 +8,11 @@
         value="{{ theme.className }}"
         [selected]="(activeItem$ | async) === theme.className"
       >
-        {{ theme.i18nNameKey ? (theme.i18nNameKey | cxTranslate) : theme.className }}
+        {{
+          theme.i18nNameKey
+            ? (theme.i18nNameKey | cxTranslate)
+            : theme.className
+        }}
       </option>
     </select>
     <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
@@ -21,7 +25,11 @@
         value="{{ theme.className }}"
         [selected]="(activeItem$ | async) === theme.className"
       >
-        {{ theme.i18nNameKey ? (theme.i18nNameKey | cxTranslate) : theme.className }}
+        {{
+          theme.i18nNameKey
+            ? (theme.i18nNameKey | cxTranslate)
+            : theme.className
+        }}
       </option>
     </select>
     <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />

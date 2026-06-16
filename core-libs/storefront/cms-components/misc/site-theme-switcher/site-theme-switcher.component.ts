@@ -6,7 +6,13 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FeatureDirective, SiteTheme, TranslatePipe, TranslationService, useFeatureStyles } from '@spartacus/core';
+import {
+  FeatureDirective,
+  SiteTheme,
+  TranslatePipe,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { IconComponent } from '../icon/icon.component';
@@ -20,7 +26,14 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
   selector: 'cx-site-theme-switcher',
   templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe, FeatureDirective],
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);

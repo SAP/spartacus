@@ -360,6 +360,7 @@ if (environment.cpq) {
         enableExpiredRefreshTokenHandlers: true,
         enableCartReloadOnContextChange: true,
         a11yCouponNotificationChannelsLinkStyling: true,
+        a11ySiteContextCaretClick: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,

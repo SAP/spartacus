@@ -11,7 +11,13 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { FeatureDirective, I18nModule, SiteContext, TranslationService, useFeatureStyles } from '@spartacus/core';
+import {
+  FeatureDirective,
+  I18nModule,
+  SiteContext,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { map, Observable } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
@@ -22,7 +28,14 @@ import { SiteContextType } from './site-context.model';
   selector: 'cx-site-context-selector',
   templateUrl: './site-context-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, AsyncPipe, I18nModule, FeatureDirective],
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    AsyncPipe,
+    I18nModule,
+    FeatureDirective,
+  ],
 })
 export class SiteContextSelectorComponent {
   /**
