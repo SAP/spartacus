@@ -53,6 +53,9 @@ class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
   loginWithRedirect = createSpy().and.returnValue(true);
+  get csrfToken$() {
+    return of({ headerName: 'CSFR', parameterName: '_csfr', token: 'token' });
+  }
   getCsrfToken = createSpy().and.returnValue(
     of({
       headerName: 'CSFR',
