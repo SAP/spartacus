@@ -6,6 +6,7 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
@@ -13,19 +14,27 @@ import {
   lastValueFrom,
   Observable,
 } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  take,
+} from 'rxjs/operators';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { AuthNotificationType } from '../models/auth-notification.model';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
+import { AuthNotificationService } from './auth-notification.service';
 import { UserIdService } from './user-id.service';
 
 /**
@@ -61,6 +70,8 @@ export class AuthService {
 
   private featureToggles = inject(FeatureToggles);
 
+  protected authNotificationService = inject(AuthNotificationService);
+
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
@@ -69,7 +80,9 @@ export class AuthService {
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {}
+  ) {
+    this.subscribeToAuthNotifications();
+  }
 
   /**
    * Check params in url and if there is an code/token then try to login with those.
@@ -186,6 +199,11 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
+    if (this.featureToggles.propagateLogoutToAllTabs) {
+      this.authNotificationService.sendNotification(
+        AuthNotificationType.LOGOUT
+      );
+    }
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -224,6 +242,16 @@ export class AuthService {
    */
   setLogoutProgress(progress: boolean): void {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
+  }
+
+  protected subscribeToAuthNotifications() {
+    if (this.featureToggles.propagateLogoutToAllTabs) {
+      this.authNotificationService.notifications$
+        .pipe(takeUntilDestroyed())
+        .subscribe((notification) => {
+          this.handleAuthNotification(notification);
+        });
+    }
   }
 
   /**
@@ -270,6 +298,25 @@ export class AuthService {
       return this.winRef.localStorage.getItem('asm_enabled') === 'true';
     } else {
       return false;
+    }
+  }
+
+  /**
+   * Handler for notifications from other browser tabs
+   */
+  protected handleAuthNotification(notification: AuthNotificationType) {
+    if (
+      notification === AuthNotificationType.LOGOUT &&
+      !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
+    ) {
+      this.isUserLoggedIn()
+        .pipe(
+          take(1),
+          filter((isLoggedIn) => isLoggedIn)
+        )
+        .subscribe(() => {
+          this.coreLogout();
+        });
     }
   }
 
