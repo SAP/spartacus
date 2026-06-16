@@ -366,6 +366,7 @@ if (environment.cpq) {
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         a11yProductListItemNameMargin: true,
+        propagateLogoutToAllTabs: true,
       };
       return appFeatureToggles;
     }),

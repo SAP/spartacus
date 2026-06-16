@@ -607,6 +607,11 @@ export interface FeatureTogglesInterface {
    * Affects: ProductGridItemComponent, ProductListItemComponent
    */
   a11yProductListItemNameMargin?: boolean;
+  /**
+   * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
+   * authenticated data through stale tabs.
+   */
+  propagateLogoutToAllTabs?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -680,4 +685,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   a11yProductListItemNameMargin: false,
+  propagateLogoutToAllTabs: false,
 };
