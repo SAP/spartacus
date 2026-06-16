@@ -13,6 +13,7 @@ import {
 } from 'angular-oauth2-oidc';
 import { firstValueFrom, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { ConfigInitializerService } from '../../../config/config-initializer';
 import { FeatureToggles } from '../../../features-config';
 import { FederatedLoginService } from '../../../federated-login';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
@@ -20,7 +21,6 @@ import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { OAUTH_REDIRECT_FLOW_KEY } from '../utils/index';
 import { AuthConfigService } from './auth-config.service';
-import { OAuthAutoConfigureService } from './oauth-auto-configure.service';
 
 /**
  * Wrapper service on the library OAuthService. Normalizes the lib API for services.
@@ -37,8 +37,8 @@ export class OAuthLibWrapperService {
   protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
 
-  protected oAuthAutoConfigureService = inject(OAuthAutoConfigureService);
   protected subscription: Subscription | undefined;
+  protected configInitializerService = inject(ConfigInitializerService);
 
   protected initialized = new ReplaySubject<void>(1);
 
@@ -53,17 +53,14 @@ export class OAuthLibWrapperService {
   }
 
   protected initialize() {
-    const config = this.generateCustomerLoginConfig();
-
-    if (this.featureToggles.oAuthAutoConfiguration) {
+    if (this.featureToggles.asyncAuthConfigInitializer) {
       this.subscription?.unsubscribe();
-      this.subscription = this.oAuthAutoConfigureService
-        .getConfig(config)
-        .subscribe((dynamicConfig) => {
-          this.applyConfiguration(dynamicConfig);
-        });
+      this.subscription = this.configInitializerService
+        .getStable('authentication')
+        .pipe(map(() => this.generateCustomerLoginConfig()))
+        .subscribe((dynamicConfig) => this.applyConfiguration(dynamicConfig));
     } else {
-      this.applyConfiguration(config);
+      this.applyConfiguration(this.generateCustomerLoginConfig());
     }
 
     // reconfigure after getting language
@@ -120,7 +117,7 @@ export class OAuthLibWrapperService {
   /** Applies an AuthConfig to the internal oAuth service */
   protected applyConfiguration(config: AuthConfig) {
     this.oAuthService.configure(config);
-    if (this.featureToggles.oAuthAutoConfiguration) {
+    if (this.featureToggles.asyncAuthConfigInitializer) {
       this.initialized.next();
     }
   }
@@ -161,7 +158,7 @@ export class OAuthLibWrapperService {
     userId: string,
     password: string
   ): Promise<TokenResponse> {
-    if (this.featureToggles.oAuthAutoConfiguration) {
+    if (this.featureToggles.asyncAuthConfigInitializer) {
       return firstValueFrom(this.initialized).then(() =>
         this.oAuthService.fetchTokenUsingPasswordFlow(userId, password)
       );
@@ -174,7 +171,7 @@ export class OAuthLibWrapperService {
    * Refresh access_token.
    */
   refreshToken(): void {
-    if (this.featureToggles.oAuthAutoConfiguration) {
+    if (this.featureToggles.asyncAuthConfigInitializer) {
       this.initialized
         .pipe(take(1))
         .subscribe(() => this.oAuthService.refreshToken());
@@ -193,7 +190,7 @@ export class OAuthLibWrapperService {
         this.oAuthService.logOut(true);
       });
 
-    if (this.featureToggles.oAuthAutoConfiguration) {
+    if (this.featureToggles.asyncAuthConfigInitializer) {
       return firstValueFrom(this.initialized).then(revokeTokenAndLogout);
     } else {
       return revokeTokenAndLogout();
@@ -239,7 +236,7 @@ export class OAuthLibWrapperService {
       return undefined;
     }
 
-    if (this.featureToggles.oAuthAutoConfiguration) {
+    if (this.featureToggles.asyncAuthConfigInitializer) {
       this.initialized
         .pipe(take(1))
         .subscribe(() => this.oAuthService.initLoginFlow());
@@ -293,7 +290,7 @@ export class OAuthLibWrapperService {
             subscription.unsubscribe();
           });
 
-      if (this.featureToggles.oAuthAutoConfiguration) {
+      if (this.featureToggles.asyncAuthConfigInitializer) {
         firstValueFrom(this.initialized).then(tryLogin);
       } else {
         tryLogin();

@@ -20,8 +20,31 @@ const expectedAuthorizationCodeDefault: AuthConfig = {
       responseType: 'code',
     },
     customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
-    autoConfigure: {
-      baseSiteSuffix: false,
+    initializerOptions: {},
+  },
+};
+
+/** Complete configuration when all flags are enabled */
+const expectedAsyncAuthConfigInitializer: AuthConfig = {
+  authentication: {
+    client_id: 'mobile_android_public',
+    tokenEndpoint: '/oauth/token',
+    revokeEndpoint: '/oauth/revoke',
+    loginUrl: '/oauth/authorize',
+    OAuthLibConfig: {
+      scope: '',
+      customTokenParameters: ['token_type'],
+      strictDiscoveryDocumentValidation: false,
+      skipIssuerCheck: true,
+      disablePKCE: false,
+      oidc: false,
+      clearHashAfterLogin: false,
+      responseType: 'code',
+    },
+    customLoginPage: { csrfEndpoint: '/csrf', loginFormEndpoint: '/login' },
+    initializerOptions: {
+      baseSiteSuffix: 'auto',
+      addBaseSiteToRedirectUri: 'auto',
     },
   },
 };
@@ -70,6 +93,21 @@ describe('defaultAuthConfigFactory', () => {
       const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
 
       expect(actual).toEqual(expectedAuthorizationCodeDefault);
+    });
+
+    describe('with asyncAuthConfigInitializer flag enabled', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideFeatureToggles({
+            authorizationCodeFlowByDefault: true,
+            asyncAuthConfigInitializer: true,
+          }),
+        ],
+      });
+
+      const actual = TestBed.runInInjectionContext(defaultAuthConfigFactory);
+
+      expect(actual).toEqual(expectedAsyncAuthConfigInitializer);
     });
   });
 });

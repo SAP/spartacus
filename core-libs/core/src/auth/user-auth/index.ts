@@ -5,6 +5,7 @@
  */
 
 export * from './config/auth-config';
+export * from './config/auth-config-initializer';
 export { USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT } from './config/default-auth-config';
 export * from './events/index';
 export * from './facade/index';

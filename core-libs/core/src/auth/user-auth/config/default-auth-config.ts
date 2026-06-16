@@ -65,16 +65,27 @@ export const defaultAuthConfig: AuthConfig = {
       csrfEndpoint: '/csrf',
       loginFormEndpoint: '/login',
     },
-    autoConfigure: {
-      baseSiteSuffix: false,
+    initializerOptions: {
+      addBaseSiteToRedirectUri: 'auto',
+      baseSiteSuffix: 'auto',
     },
   },
 };
 
 export function defaultAuthConfigFactory(): AuthConfig {
-  const { authorizationCodeFlowByDefault } = inject(FeatureToggles);
+  const { authorizationCodeFlowByDefault, asyncAuthConfigInitializer } =
+    inject(FeatureToggles);
 
   if (authorizationCodeFlowByDefault) {
+    if (!asyncAuthConfigInitializer) {
+      return {
+        authentication: {
+          ...defaultAuthConfig.authentication,
+          initializerOptions: undefined,
+        },
+      } satisfies AuthConfig;
+    }
+
     return defaultAuthConfig;
   } else {
     const config = {
@@ -93,7 +104,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
 
     delete config.authentication.OAuthLibConfig.responseType;
     delete config.authentication.customLoginPage;
-    delete config.authentication.autoConfigure;
+    delete config.authentication.initializerOptions;
 
     return config;
   }

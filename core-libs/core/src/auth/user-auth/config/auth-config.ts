@@ -104,17 +104,40 @@ export abstract class AuthConfig {
       loginFormEndpoint?: string;
     };
 
-    autoConfigure?: {
+    initializerOptions?: {
       /**
-       * Controls if the client ID should be suffixed with the base site.
+       * Controls if the redirect URI should have the base site URL parameter added.
+       *
+       * ex: "https://example.com" to "https://example.com/electronics-spa"
+       *
+       * `true` - always add the base site URL parameter
+       *
+       * `"auto"` - add base site URL parameter only when base site is in the URL context parameters
+       *
+       * `false` - do not add base site URL parameter
        *
        * This is useful when hosting multiple sites on a single domain while using Spartacus as a Custom
        * Login Page.  This allows unique client IDs to be set for each site so the Custom Login Page URI
        * can be configured properly for each site.
+       */
+      addBaseSiteToRedirectUri?: boolean | 'auto';
+
+      /**
+       * Controls if the client ID should be suffixed with the base site.
        *
        * ex: "mobile_android_public" to "mobile_android_public_electronics-sap"
+       *
+       * `true` - always suffix client ID
+       *
+       * `"auto"` - suffix if base site is in URL context parameters
+       *
+       * `false` - do not suffix client ID
+       *
+       * This is useful when hosting multiple sites on a single domain while using Spartacus as a Custom
+       * Login Page.  This allows unique client IDs to be set for each site so the Custom Login Page URI
+       * can be configured properly for each site.
        */
-      baseSiteSuffix?: boolean;
+      baseSiteSuffix?: boolean | 'auto';
     };
   };
 }
