@@ -11,7 +11,7 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import { I18nModule, SiteContext, TranslationService } from '@spartacus/core';
+import { I18nModule, SiteContext, TranslationService, useFeatureStyles } from '@spartacus/core';
 import { map, Observable } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
@@ -38,7 +38,9 @@ export class SiteContextSelectorComponent {
 
   protected translationService = inject(TranslationService);
 
-  constructor(private componentService: SiteContextComponentService) {}
+  constructor(private componentService: SiteContextComponentService) {
+    useFeatureStyles('a11ySiteContextCaretClick');
+  }
 
   get items$(): Observable<any> {
     return this.componentService.getItems(this.context);

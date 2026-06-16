@@ -29,18 +29,13 @@ $caretSize: 7px;
   }
 
   .cx-select-wrapper {
-    display: flex;
-    align-items: center;
+    display: contents;
 
     cx-icon {
       margin-inline-start: -10px;
-      z-index: 1;
+      z-index: unset;
       pointer-events: none;
       color: var(--cx-color-text);
-    }
-
-    &:focus-within {
-      @include visible-focus();
     }
   }
 
@@ -58,14 +53,35 @@ $caretSize: 7px;
     cursor: pointer;
     padding-inline-end: $caretSize * 2;
 
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
+    outline: none;
 
     position: relative;
     @include media-breakpoint-up(lg) {
       background-color: var(--cx-color-light);
+    }
+  }
+
+  @include forFeature('a11ySiteContextCaretClick') {
+    .cx-select-wrapper {
+      display: flex;
+      align-items: center;
+
+      cx-icon {
+        margin-inline-start: -10px;
+        z-index: 1;
+        color: var(--cx-color-text);
+      }
+
+      &:focus-within {
+        @include visible-focus();
+      }
+    }
+
+    select {
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
     }
   }
 

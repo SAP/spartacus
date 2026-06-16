@@ -572,6 +572,14 @@ export interface FeatureTogglesInterface {
   a11yCouponNotificationChannelsLinkStyling?: boolean;
 
   /**
+   * When enabled, fixes the caret visibility on the Language and Theme selectors
+   * by wrapping the select and caret icon in a container that displays the
+   * focus ring around both elements instead of overlapping the caret.
+   * Affects: SiteContextSelectorComponent, SiteThemeSwitcherComponent
+   */
+  a11ySiteContextCaretClick?: boolean;
+
+  /**
    * When enabled, fixes a known issue where the last remembered route after logout is the route to which the logout has redirected
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
@@ -674,6 +682,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
+  a11ySiteContextCaretClick: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,

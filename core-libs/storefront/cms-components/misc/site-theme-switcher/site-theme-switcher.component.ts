@@ -6,7 +6,7 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SiteTheme, TranslatePipe, TranslationService } from '@spartacus/core';
+import { SiteTheme, TranslatePipe, TranslationService, useFeatureStyles } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { IconComponent } from '../icon/icon.component';
@@ -26,7 +26,9 @@ export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);
   iconTypes = ICON_TYPE;
 
-  constructor() {}
+  constructor() {
+    useFeatureStyles('a11ySiteContextCaretClick');
+  }
 
   protected themeSwitcherComponentService = inject(
     SiteThemeSwitcherComponentService
