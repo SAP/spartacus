@@ -376,7 +376,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should normalize payment config from object', () => {
-      const config = { configurationId: '2301', channel: 'BROWSER' };
+      const config = { configurationId: '2301' };
       expect(service['normalizePaymentConfig'](config)).toEqual(config);
     });
   });
