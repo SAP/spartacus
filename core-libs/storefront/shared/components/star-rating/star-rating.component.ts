@@ -14,7 +14,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 
@@ -57,9 +57,7 @@ export class StarRatingComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change = new EventEmitter<number>();
 
-  constructor() {
-    useFeatureStyles('reserveHorizontalSpaceStarRating');
-  }
+  constructor() {}
 
   setRate(value: number): void {
     if (this.disabled) {

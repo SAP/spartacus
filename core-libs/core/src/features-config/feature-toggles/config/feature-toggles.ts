@@ -90,54 +90,10 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
-   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
-   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
-   * The logic behind it stays the same
-   * Affects: MyPreferredStoreComponent
-   */
-  storeFinderFacadeCleanup?: boolean;
-
-  /**
-   * When enabled, the default routing config for the product page is no longer just:
-   * `paths: ['product/:productCode/:name']`
-   * but:
-   * `paths: ['product/:productCode/:name', 'product/:productCode'],`
-   *
-   * It means that the old URL scheme of generating links and matching URLs is preserved,
-   * but now also a shorter alias (without product name) is accepted when matching the URL.
-   */
-  defaultProductPageRouteAllowsNoProductName?: boolean;
-
-  /**
    * When enabled, the product cards in the product list page will have a forced consistent size.
    * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
    */
   consistentSizeProductCards?: boolean;
-
-  /**
-   * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
-   * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
-   * Otherwise the component has no width initially, and gets wider only after a delay.
-   * when Font Awesome font is loaded and Star icons are rendered.
-   */
-  reserveHorizontalSpaceStarRating?: boolean;
-
-  /**
-   * Feature flag to enable using `transform: translateX` instead of animating the `margin` property
-   * for the top progress bar animation.
-   *
-   * ## Why this flag exists:
-   * Animating the `margin` property has two major downsides:
-   *
-   * 1. **Cumulative Layout Shift (CLS)**: Changing margin causes layout shifts that negatively impact visual stability.
-   * 2. **Performance impact**: Margin animations trigger browser re-layouts (reflows), increasing layout and paint costs,
-   *    which contributes to poor performance metrics like Total Blocking Time (TBT).
-   *
-   * ## When enabled:
-   * The top progress bar will animate using `transform: translateX(...)`, which is a GPU-accelerated,
-   * layout-independent operation that improves visual performance and avoids layout shifts.
-   */
-  topProgressBarUseTransformAnimation?: boolean;
 
   /**
    * Feature flag to disable the margin animation for the cx-page-slot component.
@@ -623,11 +579,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productReviewCharactersLeft: true,
   a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: false,
-  storeFinderFacadeCleanup: true,
-  defaultProductPageRouteAllowsNoProductName: true,
   consistentSizeProductCards: true,
-  reserveHorizontalSpaceStarRating: true,
-  topProgressBarUseTransformAnimation: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
