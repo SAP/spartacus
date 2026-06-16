@@ -188,16 +188,9 @@ export class OAuthLibWrapperService {
    */
   revokeAndLogout(): Promise<void> {
     const revokeTokenAndLogout = () =>
-      new Promise<void>((resolve) => {
-        this.oAuthService
-          .revokeTokenAndLogout(true)
-          .catch(() => {
-            // when there would be some kind of error during revocation we can't do anything else, so at least we logout user.
-            this.oAuthService.logOut(true);
-          })
-          .finally(() => {
-            resolve();
-          });
+      this.oAuthService.revokeTokenAndLogout(true).catch(() => {
+        // when there would be some kind of error during revocation we can't do anything else, so at least we logout user.
+        this.oAuthService.logOut(true);
       });
 
     if (this.featureToggles.oAuthAutoConfiguration) {
