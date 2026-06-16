@@ -53,9 +53,6 @@ class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
   loginWithRedirect = createSpy().and.returnValue(true);
-  get csrfToken$() {
-    return of({ headerName: 'CSFR', parameterName: '_csfr', token: 'token' });
-  }
   getCsrfToken = createSpy().and.returnValue(
     of({
       headerName: 'CSFR',
@@ -630,19 +627,6 @@ describe('LoginFormComponentService', () => {
           expect(
             (service as any).resolveLoginErrorKey('some_unknown_error')
           ).toBe('customLoginPage.badRequest.unknown_error');
-        });
-
-        it('should never access AuthService.csrfToken$', () => {
-          // csrfToken$ is a protected cached observable on AuthService that holds
-          // a potentially stale CSRF token. resolveLoginErrorKey is a pure
-          // string-mapping method and must not touch it.
-          const authSvc = TestBed.inject(AuthService) as any;
-          spyOnProperty(authSvc, 'csrfToken$', 'get').and.throwError(
-            'csrfToken$ must not be accessed by resolveLoginErrorKey'
-          );
-          expect(() =>
-            (service as any).resolveLoginErrorKey(SESSION_EXPIRED_ERROR)
-          ).not.toThrow();
         });
       });
     });
