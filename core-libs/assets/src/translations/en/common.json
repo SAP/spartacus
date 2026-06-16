@@ -19,6 +19,7 @@
     "menu": "Menu",
     "reset": "Reset",
     "search": "Search",
+    "productSearchDescription": "Search for products by name or SKU",
     "add": "Add",
     "breadcrumbs": "breadcrumbs",
     "breadcrumbsCurrentPage": "Current Page",
