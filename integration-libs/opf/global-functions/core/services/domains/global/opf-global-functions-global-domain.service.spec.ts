@@ -341,7 +341,6 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     it('should handle PaymentConfig object', async () => {
       const result = await service.initiatePayment({
         configurationId: '2301',
-        cartId: 'test-cart-id',
       });
       expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
       expect(result).toEqual(mockSessionData);
@@ -349,7 +348,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
 
     it('should reject when configurationId is missing', async () => {
       await expectAsync(
-        service.initiatePayment({ cartId: 'test-cart-id' } as any)
+        service.initiatePayment({} as any)
       ).toBeRejectedWithError('configurationId is required');
     });
 
@@ -377,7 +376,7 @@ describe('OpfGlobalFunctionsGlobalDomainService', () => {
     });
 
     it('should normalize payment config from object', () => {
-      const config = { configurationId: '2301', cartId: 'test-cart' };
+      const config = { configurationId: '2301', channel: 'BROWSER' };
       expect(service['normalizePaymentConfig'](config)).toEqual(config);
     });
   });
