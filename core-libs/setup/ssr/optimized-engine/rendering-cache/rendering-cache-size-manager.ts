@@ -33,12 +33,6 @@ export class RenderingCacheSizeManager {
    * In case of invalid options, it will log an error using the configured logger.
    */
   private validateOptions(): void {
-    if (!this.options?.ssrFeatureToggles?.limitCacheByMemory) {
-      this.options?.logger?.error?.(
-        'Cannot use `RenderingCacheSizeManager` when `ssrFeatureToggles.limitCacheByMemory` is false!',
-        {}
-      );
-    }
     if (
       typeof this.options?.cacheEntrySizeCalculator?.calculateSize !==
       'function'
