@@ -26,17 +26,16 @@ $caretSize: 7px;
       color: var(--cx-color-text);
       margin-inline-end: 5px;
     }
+    cx-icon {
+      margin: auto;
+    }
   }
 
-  .cx-select-wrapper {
-    display: contents;
-
-    cx-icon {
-      margin-inline-start: -10px;
-      z-index: unset;
-      pointer-events: none;
-      color: var(--cx-color-text);
-    }
+  cx-icon {
+    margin-inline-start: -10px;
+    z-index: unset;
+    pointer-events: none;
+    color: var(--cx-color-text);
   }
 
   select {
@@ -69,6 +68,7 @@ $caretSize: 7px;
       cx-icon {
         margin-inline-start: -10px;
         z-index: 1;
+        pointer-events: none;
         color: var(--cx-color-text);
       }
 
@@ -77,11 +77,9 @@ $caretSize: 7px;
       }
     }
 
-    select {
-      &:focus {
-        outline: none;
-        box-shadow: none;
-      }
+    select:focus {
+      outline: none;
+      box-shadow: none;
     }
   }
 
