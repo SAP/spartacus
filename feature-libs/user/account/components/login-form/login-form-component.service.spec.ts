@@ -20,6 +20,10 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
+import {
+  LOGIN_ERROR_KEY,
+  SESSION_EXPIRED_ERROR,
+} from '../user-account-constants';
 import createSpy = jasmine.createSpy;
 
 class MockWinRef {
@@ -420,8 +424,8 @@ describe('LoginFormComponentService', () => {
           spyOn(form, 'submit');
           service.login(form);
           expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
-            'cx_login_error',
-            'session_expired'
+            LOGIN_ERROR_KEY,
+            SESSION_EXPIRED_ERROR
           );
           expect(winRef.nativeWindow?.location.href).toBe('/login');
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
@@ -453,8 +457,8 @@ describe('LoginFormComponentService', () => {
           spyOn(form, 'submit');
           service.login(form);
           expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
-            'cx_login_error',
-            'session_expired'
+            LOGIN_ERROR_KEY,
+            SESSION_EXPIRED_ERROR
           );
           expect(globalMessageService.add).toHaveBeenCalledWith(
             { key: 'httpHandlers.sessionExpired' },
@@ -542,11 +546,11 @@ describe('LoginFormComponentService', () => {
         it('should drain a session_expired stash from sessionStorage and surface httpHandlers.sessionExpired', () => {
           (winRef.sessionStorage?.getItem as jasmine.Spy).and.callFake(
             (key: string) =>
-              key === 'cx_login_error' ? 'session_expired' : null
+              key === LOGIN_ERROR_KEY ? SESSION_EXPIRED_ERROR : null
           );
           service.handleCustomLoginError();
           expect(winRef.sessionStorage?.removeItem).toHaveBeenCalledWith(
-            'cx_login_error'
+            LOGIN_ERROR_KEY
           );
           expect(globalMessageService.add).toHaveBeenCalledWith(
             { key: 'httpHandlers.sessionExpired' },
@@ -597,6 +601,45 @@ describe('LoginFormComponentService', () => {
         it('should not remove localStorage flag when handling login error', () => {
           service.handleCustomLoginError();
           expect(winRef.localStorage?.removeItem).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('resolveLoginErrorKey', () => {
+        it('should map session_expired to httpHandlers.sessionExpired', () => {
+          expect(
+            (service as any).resolveLoginErrorKey(SESSION_EXPIRED_ERROR)
+          ).toBe('httpHandlers.sessionExpired');
+        });
+
+        it('should map bad_credentials to customLoginPage.badRequest.bad_credentials', () => {
+          expect((service as any).resolveLoginErrorKey('bad_credentials')).toBe(
+            'customLoginPage.badRequest.bad_credentials'
+          );
+        });
+
+        it('should map account_disabled to customLoginPage.badRequest.account_disabled', () => {
+          expect(
+            (service as any).resolveLoginErrorKey('account_disabled')
+          ).toBe('customLoginPage.badRequest.account_disabled');
+        });
+
+        it('should map unknown error codes to customLoginPage.badRequest.unknown_error', () => {
+          expect(
+            (service as any).resolveLoginErrorKey('some_unknown_error')
+          ).toBe('customLoginPage.badRequest.unknown_error');
+        });
+
+        it('should never access AuthService.csrfToken$', () => {
+          // csrfToken$ is a protected cached observable on AuthService that holds
+          // a potentially stale CSRF token. resolveLoginErrorKey is a pure
+          // string-mapping method and must not touch it.
+          const authSvc = TestBed.inject(AuthService) as any;
+          spyOnProperty(authSvc, 'csrfToken$', 'get').and.throwError(
+            'csrfToken$ must not be accessed by resolveLoginErrorKey'
+          );
+          expect(() =>
+            (service as any).resolveLoginErrorKey(SESSION_EXPIRED_ERROR)
+          ).not.toThrow();
         });
       });
     });

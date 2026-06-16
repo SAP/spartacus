@@ -26,8 +26,10 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, from } from 'rxjs';
 import { catchError, take, tap, withLatestFrom } from 'rxjs/operators';
-
-const LOGIN_ERROR_KEY = 'cx_login_error';
+import {
+  LOGIN_ERROR_KEY,
+  SESSION_EXPIRED_ERROR,
+} from '../user-account-constants';
 
 @Injectable()
 export class LoginFormComponentService {
@@ -145,7 +147,7 @@ export class LoginFormComponentService {
               if (this.winRef.isBrowser()) {
                 this.winRef.sessionStorage?.setItem(
                   LOGIN_ERROR_KEY,
-                  'session_expired'
+                  SESSION_EXPIRED_ERROR
                 );
                 const nativeWindow = this.winRef.nativeWindow;
                 if (nativeWindow) {
@@ -159,7 +161,7 @@ export class LoginFormComponentService {
                   // (no page load happens), so surface the message inline
                   // so the user is not silently stuck on a dead form.
                   this.globalMessage.add(
-                    { key: this.resolveLoginErrorKey('session_expired') },
+                    { key: this.resolveLoginErrorKey(SESSION_EXPIRED_ERROR) },
                     GlobalMessageType.MSG_TYPE_ERROR
                   );
                 }
@@ -233,7 +235,7 @@ export class LoginFormComponentService {
   }
 
   protected resolveLoginErrorKey(error: string): string {
-    if (error === 'session_expired') {
+    if (error === SESSION_EXPIRED_ERROR) {
       return 'httpHandlers.sessionExpired';
     }
     return this.customFormValidErrors.includes(error)
