@@ -45,7 +45,7 @@ jobs:
       - name: Create storefronts
         env:
           INPUT_VERSION: ${{ github.event.inputs.version }}
-          INPUT_NPM_TOKEN: ${{ secrets.SAP_COMMON_NPM_TOKEN }}
+          INPUT_NPM_TOKEN: ${{ secrets.RBSC_TOKEN }}
         run: |
           function setup_config_dir() {
             [ -d "${CONFIG_DIR}" ]
