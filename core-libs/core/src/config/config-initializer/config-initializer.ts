@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { InjectionToken } from '@angular/core';
+import {
+  ClassProvider,
+  FactoryProvider,
+  InjectionToken,
+  Type,
+} from '@angular/core';
 import { Config } from '../config-tokens';
-
-export const CONFIG_INITIALIZER = new InjectionToken('ConfigInitializer');
 
 /**
  * Used to provide asynchronous config during app initialization
@@ -24,6 +27,41 @@ export interface ConfigInitializer {
   configFactory: () => Promise<Config>;
 }
 
+/**
+ * A multi-token for providing ConfigInitializers.
+ */
+export const CONFIG_INITIALIZER = new InjectionToken<ConfigInitializer | null>(
+  'ConfigInitializer'
+);
+
 export const CONFIG_INITIALIZER_FORROOT_GUARD = new InjectionToken<void>(
   'CONFIG_INITIALIZER_FORROOT_GUARD'
 );
+
+/**
+ * Add a `ConfigInitializer` to the application for asynchronous configuration.
+ *
+ * Creates a provider for the multi-token `CONFIG_INITIALIZER`.
+ */
+export function provideConfigInitializer(initializer: Type<ConfigInitializer>) {
+  return {
+    provide: CONFIG_INITIALIZER,
+    useClass: initializer,
+    multi: true,
+  } as ClassProvider;
+}
+
+/**
+ * Add a `ConfigInitializer` factory to the application for asynchronous configuration.
+ *
+ * Create a factory provider for the multi-token `CONFIG_INITIALIZER`.
+ */
+export function provideConfigInitializerFactory(
+  initializerFactory: () => ConfigInitializer | null
+) {
+  return {
+    provide: CONFIG_INITIALIZER,
+    useFactory: initializerFactory,
+    multi: true,
+  } as FactoryProvider;
+}
