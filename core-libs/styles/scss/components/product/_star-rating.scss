@@ -1,9 +1,6 @@
 %cx-star-rating {
   margin: 15px 0;
-
-  @include forFeature('reserveHorizontalSpaceStarRating') {
-    min-width: 9rem;
-  }
+  min-width: 9rem;
 
   &:not([disabled='true']) {
     cursor: pointer;
