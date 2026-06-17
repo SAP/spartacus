@@ -22,7 +22,7 @@ import {
   OpfQuickBuyProviderType,
 } from '@spartacus/opf/quick-buy/root';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfQuickBuyButtonsService {
@@ -75,6 +75,28 @@ export class OpfQuickBuyButtonsService {
       config?.digitalWalletQuickBuy?.some(
         (item) => item.provider === provider && item.enabled
       )
+    );
+  }
+
+  /**
+   * Waits until OPF active configurations are loaded, then returns Google Pay config if enabled.
+   */
+  getGooglePayActiveConfiguration(): Observable<
+    OpfActiveConfiguration | undefined
+  > {
+    return this.opfBaseFacade.getActiveConfigurationsState().pipe(
+      filter((state) => !state.loading),
+      take(1),
+      map((state) => {
+        const gateways = (state.data?.value || []).filter(
+          (item) => item?.providerType === OpfPaymentProviderType.PAYMENT_GATEWAY
+        );
+
+        return this.getActiveConfigurationForProvider(
+          OpfQuickBuyProviderType.GOOGLE_PAY,
+          gateways
+        );
+      })
     );
   }
 

@@ -84,10 +84,10 @@ export class OpfPaymentHostedFieldsService {
     }
 
     return this.getCartAccessCode(submitRequest).pipe(
-      concatMap(([request, { accessCode: otpKey }]) =>
+      concatMap(([request, accessCode]) =>
         this.opfPaymentConnector.submitPayment(
           request,
-          otpKey,
+          typeof accessCode === 'string' ? accessCode : accessCode?.accessCode ?? '',
           paymentSessionId as string
         )
       ),
@@ -130,10 +130,10 @@ export class OpfPaymentHostedFieldsService {
       paymentSessionId,
     };
     return this.getCartAccessCode(submitCompleteRequest).pipe(
-      concatMap(([request, { accessCode: otpKey }]) =>
+      concatMap(([request, accessCode]) =>
         this.opfPaymentConnector.submitCompletePayment(
           request,
-          otpKey,
+          typeof accessCode === 'string' ? accessCode : accessCode?.accessCode ?? '',
           paymentSessionId
         )
       ),
@@ -217,19 +217,23 @@ export class OpfPaymentHostedFieldsService {
   ): Observable<
     [
       OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest,
-      { accessCode: string },
+      string | { accessCode?: string } | undefined,
+      string,
+      string,
     ]
   > {
     return combineLatest([
       this.userIdService.takeUserId(),
       this.activeCartFacade.takeActiveCartId(),
     ]).pipe(
-      switchMap(([userId, activeCartId]: [string, string]) => {
-        return combineLatest([
+      switchMap(([userId, activeCartId]: [string, string]) =>
+        combineLatest([
           of(submitRequest),
           this.cartAccessCodeFacade.getCartAccessCode(userId, activeCartId),
-        ]);
-      })
+          of(userId),
+          of(activeCartId),
+        ])
+      )
     );
   }
 }

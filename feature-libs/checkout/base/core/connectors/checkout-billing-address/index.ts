@@ -5,3 +5,4 @@
  */
 
 export * from './checkout-billing-address.adapter';
+export * from './checkout-billing-address.connector';

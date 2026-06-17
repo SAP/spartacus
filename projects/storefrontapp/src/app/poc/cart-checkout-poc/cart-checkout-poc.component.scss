@@ -1,0 +1,115 @@
+.cart-checkout-poc {
+  border: 2px dashed #c0392b;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: #fff8f6;
+  font-size: 0.875rem;
+  position: relative;
+  z-index: 0;
+}
+
+.cart-checkout-poc--collapsed {
+  padding-block: 0.35rem;
+}
+
+.cart-checkout-poc__toggle {
+  border: 1px solid #c0392b;
+  background: #fff;
+  color: #c0392b;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8125rem;
+}
+
+.cart-checkout-poc__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+}
+
+.cart-checkout-poc__hint {
+  color: #666;
+}
+
+.cart-checkout-poc__meta,
+.cart-checkout-poc__summary {
+  margin-top: 0.5rem;
+}
+
+.cart-checkout-poc__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: 0.75rem;
+}
+
+.cart-checkout-poc__controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.cart-checkout-poc__token-field {
+  flex: 1 1 100%;
+  min-width: 16rem;
+}
+
+.cart-checkout-poc__token-field textarea {
+  font-family: monospace;
+  font-size: 0.75rem;
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.cart-checkout-poc__controls input {
+  min-width: 8rem;
+}
+
+.cart-checkout-poc__secondary {
+  border: 1px solid #666;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  font-size: 0.8125rem;
+}
+
+.cart-checkout-poc__token-hint {
+  flex: 1 1 100%;
+  margin: 0;
+  color: #856404;
+  font-size: 0.8125rem;
+}
+
+.cart-checkout-poc__steps {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.cart-checkout-poc__step {
+  margin-bottom: 0.35rem;
+}
+
+.cart-checkout-poc__step-label {
+  font-weight: 600;
+}
+
+.cart-checkout-poc__step-message {
+  display: block;
+  color: #444;
+}
+
+.cart-checkout-poc__step--success .cart-checkout-poc__step-label {
+  color: #1e7e34;
+}
+
+.cart-checkout-poc__step--error .cart-checkout-poc__step-label {
+  color: #c0392b;
+}
+
+.cart-checkout-poc__step--running .cart-checkout-poc__step-label {
+  color: #856404;
+}

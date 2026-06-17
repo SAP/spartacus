@@ -1,0 +1,61 @@
+<section class="cart-checkout-poc" [class.cart-checkout-poc--collapsed]="collapsed">
+  <header class="cart-checkout-poc__header">
+    <button
+      type="button"
+      class="cart-checkout-poc__toggle"
+      (click)="toggleCollapsed()"
+      [attr.aria-expanded]="!collapsed"
+    >
+      {{ collapsed ? 'Show' : 'Hide' }} Cart Checkout POC
+    </button>
+    @if (!collapsed) {
+      <span class="cart-checkout-poc__hint">
+        Target cart checkout: Google Pay wallet (same as Quick Buy), OPF
+        authorize, place payment-authorized order
+      </span>
+    }
+  </header>
+
+  @if (!collapsed) {
+    <div class="cart-checkout-poc__meta">
+      <span>Active cart: {{ activeCartId$ | async }}</span>
+    </div>
+
+    <div class="cart-checkout-poc__controls">
+      <label>
+        Product code
+        <input [(ngModel)]="productCode" [disabled]="running" />
+      </label>
+      <button type="button" (click)="runPoc()" [disabled]="running">
+        {{ running ? 'Running…' : 'Run non-active cart checkout' }}
+      </button>
+    </div>
+
+    @if (result$ | async; as result) {
+      <div class="cart-checkout-poc__summary">
+        <div>Target cart: {{ result.targetCartId || 'n/a' }}</div>
+        <div>
+          Active cart unchanged:
+          {{ result.activeCartUnchanged ? 'yes' : 'no' }}
+        </div>
+      </div>
+
+      <ol class="cart-checkout-poc__steps">
+        @for (step of result.steps; track step.id) {
+          <li
+            [class]="
+              'cart-checkout-poc__step cart-checkout-poc__step--' + step.status
+            "
+          >
+            <span class="cart-checkout-poc__step-label">{{ step.label }}</span>
+            @if (step.message) {
+              <span class="cart-checkout-poc__step-message">{{
+                step.message
+              }}</span>
+            }
+          </li>
+        }
+      </ol>
+    }
+  }
+</section>

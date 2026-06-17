@@ -7,17 +7,20 @@
 /// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { Address } from '@spartacus/core';
+import { Address, FeatureModulesService } from '@spartacus/core';
 
 import {
   OpfActiveConfiguration,
   OpfResourceLoaderService,
+  OPF_BASE_FEATURE,
 } from '@spartacus/opf/base/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import { encodeOpfGooglePayEncryptedToken } from '@spartacus/opf/payment/core';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import {
   OPF_GOOGLE_PAY_PROVIDER_NAME,
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
+  OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyConfig,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyGooglePayProvider,
@@ -26,9 +29,14 @@ import {
   QuickBuyTransactionDetails,
 } from '@spartacus/opf/quick-buy/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { Observable, forkJoin, lastValueFrom, of } from 'rxjs';
+import { Observable, forkJoin, from, lastValueFrom, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyButtonsService } from '../opf-quick-buy-buttons.service';
+
+export interface GooglePayWalletAuthorization {
+  token: string;
+  paymentData: google.payments.api.PaymentData;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +50,7 @@ export class OpfGooglePayService {
   );
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
+  protected featureModulesService = inject(FeatureModulesService);
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
@@ -349,6 +358,121 @@ export class OpfGooglePayService {
     );
   }
 
+  /**
+   * Opens Google Pay for a cart that already has checkout data configured.
+   * Returns `paymentMethodData.tokenizationData.token` — encode with
+   * `encodeOpfGooglePayEncryptedToken` before OPF submit (same as Quick Buy).
+   */
+  requestWalletTokenForCart(cart: Cart): Observable<GooglePayWalletAuthorization> {
+    return this.featureModulesService.resolveFeature(OPF_BASE_FEATURE).pipe(
+      switchMap(() => this.opfQuickBuyButtonsService.getGooglePayActiveConfiguration()),
+      switchMap((googlePayActiveConfig) => {
+        if (!googlePayActiveConfig) {
+          return throwError(
+            () =>
+              new Error(
+                'Google Pay Quick Buy is not configured for this storefront (no enabled digitalWalletQuickBuy in OPF active configurations)'
+              )
+          );
+        }
+
+        return from(
+          this.loadResources().then(() => {
+            this.initClient([googlePayActiveConfig]);
+            return this.openGooglePayWalletForCart(cart);
+          })
+        );
+      })
+    );
+  }
+
+  toSpartacusAddress(
+    address: google.payments.api.Address | undefined
+  ): Address {
+    return this.convertAddress(address);
+  }
+
+  protected openGooglePayWalletForCart(
+    cart: Cart
+  ): Promise<GooglePayWalletAuthorization> {
+    const transactionInfo = this.getNewTransactionInfo(cart);
+    if (!transactionInfo) {
+      return Promise.reject(
+        new Error('Target cart has no total price for Google Pay')
+      );
+    }
+
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const settleResolve = (authorization: GooglePayWalletAuthorization): void => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        resolve(authorization);
+      };
+      const settleReject = (error: Error): void => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        reject(error);
+      };
+
+      const paymentRequest: google.payments.api.PaymentDataRequest = {
+        ...this.googlePaymentRequest,
+        shippingAddressRequired: false,
+        shippingOptionRequired: false,
+        emailRequired: true,
+        callbackIntents: ['PAYMENT_AUTHORIZATION'],
+        transactionInfo,
+        merchantInfo: {
+          ...this.googlePaymentRequest.merchantInfo,
+          merchantName:
+            this.googlePaymentRequest.merchantInfo?.merchantName ||
+            OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
+        },
+      };
+
+      this.googlePaymentClientOptions = {
+        environment: this.googlePayProviderConfig.environment,
+        paymentDataCallbacks: {
+          onPaymentAuthorized: (paymentDataResponse) => {
+            const token =
+              paymentDataResponse.paymentMethodData?.tokenizationData?.token;
+            if (!token) {
+              settleReject(
+                new Error('Google Pay did not return tokenizationData.token')
+              );
+              return Promise.resolve({ transactionState: 'ERROR' });
+            }
+
+            settleResolve({ token, paymentData: paymentDataResponse });
+            return Promise.resolve({ transactionState: 'SUCCESS' });
+          },
+        },
+      };
+      this.updateGooglePaymentClient();
+
+      this.googlePaymentClient
+        .loadPaymentData(paymentRequest)
+        .then((paymentData) => {
+          const token =
+            paymentData?.paymentMethodData?.tokenizationData?.token;
+          if (token) {
+            settleResolve({ token, paymentData });
+          }
+        })
+        .catch((err: google.payments.api.PaymentsError) => {
+          if (err.statusCode === 'CANCELED') {
+            settleReject(new Error('Google Pay cancelled'));
+          } else {
+            settleReject(err as unknown as Error);
+          }
+        });
+    });
+  }
+
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
       onPaymentAuthorized: (paymentDataResponse: any) => {
@@ -367,7 +491,7 @@ export class OpfGooglePayService {
                 : of(true);
             }),
             switchMap(() => {
-              const encryptedToken = btoa(
+              const encryptedToken = encodeOpfGooglePayEncryptedToken(
                 paymentDataResponse.paymentMethodData.tokenizationData.token
               );
 

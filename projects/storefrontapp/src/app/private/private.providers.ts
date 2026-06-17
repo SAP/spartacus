@@ -6,7 +6,12 @@
 
 import { importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CheckoutOccModule } from '@spartacus/checkout/base/occ';
+import { CheckoutB2BOccModule } from '@spartacus/checkout/b2b/occ';
+import { OpfApiPaymentModule } from '@spartacus/opf/payment/opf-api';
+import { OpfQuickBuyButtonsService } from '@spartacus/opf/quick-buy/components';
 import { provideConfig, TestConfigModule } from '@spartacus/core';
+import { OrderOccModule } from '@spartacus/order/occ';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
 import { environment } from '../../environments/environment';
 import { TestOutletModule } from '../../test-outlets/test-outlet.module';
@@ -50,8 +55,13 @@ export const privateProviders = makeEnvironmentProviders([
   }),
 
   importProvidersFrom(
+    CheckoutOccModule,
+    OrderOccModule,
+    OpfApiPaymentModule,
+    ...(environment.b2b ? [CheckoutB2BOccModule] : []),
     TestOutletModule, // Custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
     ...(environment.production ? [] : [StoreDevtoolsModule.instrument()]) // Enable Redux devtools only in non-production build
   ),
+  OpfQuickBuyButtonsService,
 ]);

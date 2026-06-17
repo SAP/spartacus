@@ -22,3 +22,12 @@ export function getBrowserInfo(
     timeZoneOffset: new Date().getTimezoneOffset(),
   };
 }
+
+/**
+ * Google Pay Quick Buy encodes `paymentMethodData.tokenizationData.token` for OPF submit.
+ */
+export function encodeOpfGooglePayEncryptedToken(
+  tokenizationDataToken: string
+): string {
+  return btoa(tokenizationDataToken);
+}
