@@ -361,6 +361,7 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
       };
       return appFeatureToggles;
