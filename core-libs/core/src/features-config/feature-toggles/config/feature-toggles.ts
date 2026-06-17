@@ -568,6 +568,14 @@ export interface FeatureTogglesInterface {
    * authenticated data through stale tabs.
    */
   propagateLogoutToAllTabs?: boolean;
+
+  /**
+   * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
+   * initializer to adjust the oauth client details based on URL context parameters.
+   *
+   * This flag only takes effect when the flag `authorizationCodeFlowByDefault` is enabled.
+   */
+  asyncAuthConfigInitializer?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -638,4 +646,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfCheckoutUseUpdatePaymentTransaction: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  asyncAuthConfigInitializer: false,
 };
