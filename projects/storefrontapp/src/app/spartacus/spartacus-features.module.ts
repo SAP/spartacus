@@ -310,11 +310,7 @@ if (environment.cpq) {
         productReviewCharactersLeft: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
-        storeFinderFacadeCleanup: true,
-        defaultProductPageRouteAllowsNoProductName: true,
         consistentSizeProductCards: true,
-        reserveHorizontalSpaceStarRating: true,
-        topProgressBarUseTransformAnimation: true,
         disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
@@ -366,6 +362,7 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
       };
       return appFeatureToggles;
