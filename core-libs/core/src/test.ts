@@ -22,6 +22,8 @@ import {
 // See: https://github.com/angular/angular-cli/issues/32047
 // Angular fixed this for built-in test.ts: https://github.com/angular/angular-cli/pull/32049
 // Since we use a custom test.ts, we must manually provide zone change detection.
+
+//No longer necessary under vitest
 @NgModule({
   providers: [provideZoneChangeDetection()],
 })
