@@ -33,7 +33,7 @@
       "aliases": ["wrapper"]
     },
     "ai-context": {
-      "description": "Add AI assistant guidance (Claude / Cursor / AGENTS.md) to an existing Spartacus project.",
+      "description": "Add AI assistant guidance (Claude / Cursor) to an existing Spartacus project.",
       "factory": "./ai-context/index#addAiContextSchematic",
       "schema": "./ai-context/schema.json",
       "aliases": ["ai"]

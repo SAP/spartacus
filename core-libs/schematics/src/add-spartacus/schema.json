@@ -392,7 +392,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": ["agents", "claude", "cursor"]
+        "enum": ["claude", "cursor"]
       },
       "default": [],
       "description": "Which AI tools to configure with Spartacus best practices (leave empty for none).",
@@ -402,16 +402,12 @@
         "message": "Which AI tools should I configure with Spartacus best practices?",
         "items": [
           {
-            "value": "agents",
-            "label": "AGENTS.md (Cursor, Codex, JetBrains, Continue, Aider, ...)"
-          },
-          {
             "value": "claude",
-            "label": "Claude (CLAUDE.md + .claude/skills/)"
+            "label": "Claude (.claude/skills/spartacus-developer/)"
           },
           {
             "value": "cursor",
-            "label": "Cursor (.cursor/skills/)"
+            "label": "Cursor (.cursor/skills/spartacus-developer/)"
           }
         ]
       }

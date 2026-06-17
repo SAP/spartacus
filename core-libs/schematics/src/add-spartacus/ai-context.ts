@@ -5,34 +5,26 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import * as fs from 'fs';
-import * as path from 'path';
+import {
+  NodePackageInstallTask,
+  RunSchematicTask,
+} from '@angular-devkit/schematics/tasks';
+import {
+  addPackageJsonDependency,
+  NodeDependencyType,
+} from '@schematics/angular/utility/dependencies';
+import { getPrefixedSpartacusSchematicsVersion } from '../shared/utils/package-utils';
 import { AiTool, Schema as SpartacusOptions } from './schema';
 
-const SUPPORTED_TOOLS: readonly AiTool[] = ['agents', 'claude', 'cursor'];
+const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'cursor'];
 
-const PATH_REWRITES: ReadonlyArray<{ from: RegExp; to: string }> = [
-  { from: /(^|\/)dot-claude(\/|$)/g, to: '$1.claude$2' },
-  { from: /(^|\/)dot-cursor(\/|$)/g, to: '$1.cursor$2' },
-  { from: /(^|\/)dot-spartacus(\/|$)/g, to: '$1.spartacus$2' },
-];
+const SKILLS_PACKAGE = '@spartacus/skills';
 
-const SENTINEL_BEGIN = '<!-- spartacus-ai-context:begin -->';
-const SENTINEL_END = '<!-- spartacus-ai-context:end -->';
-
-const ROOT_CLAUDE_MD = '/CLAUDE.md';
-const DOT_CLAUDE_MD = '/.claude/CLAUDE.md';
-const ROOT_AGENTS_MD = '/AGENTS.md';
-const ROOT_CLAUDE_BLOCK = `${SENTINEL_BEGIN}
-@.spartacus/CLAUDE.md
-${SENTINEL_END}`;
-const DOT_CLAUDE_BLOCK = `${SENTINEL_BEGIN}
-@../.spartacus/CLAUDE.md
-${SENTINEL_END}`;
-const ROOT_AGENTS_BLOCK = `${SENTINEL_BEGIN}
-See [.spartacus/AGENTS.md](.spartacus/AGENTS.md) for SAP Spartacus storefront guidance.
-${SENTINEL_END}`;
-
+/**
+ * Registers `@spartacus/skills` as a dev dependency so the regular install
+ * step pulls it into `node_modules`. The actual copy into the project happens
+ * post-install via {@link scheduleAiContext}.
+ */
 export function addAiContext(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
     const targets = normalize(options.aiTools);
@@ -43,79 +35,46 @@ export function addAiContext(options: SpartacusOptions): Rule {
       return;
     }
 
-    if (options.debug) {
-      context.logger.info(`⌛️ Writing AI context for: ${targets.join(', ')}`);
-    }
-
-    for (const target of targets) {
-      writeTarget(tree, context, target);
-    }
-
-    if (targets.includes('claude')) {
-      const { path: claudePath, block: claudeBlock } = selectClaudeTarget(tree);
-      mergeRootBlock(tree, claudePath, claudeBlock);
-    }
-    if (targets.includes('agents')) {
-      mergeRootBlock(tree, ROOT_AGENTS_MD, ROOT_AGENTS_BLOCK);
-    }
+    addPackageJsonDependency(tree, {
+      type: NodeDependencyType.Dev,
+      name: SKILLS_PACKAGE,
+      version: getPrefixedSpartacusSchematicsVersion(),
+      overwrite: false,
+    });
 
     if (options.debug) {
-      context.logger.info(`✅ AI context written.`);
+      context.logger.info(`✅️ Added '${SKILLS_PACKAGE}' into devDependencies`);
     }
   };
 }
 
-function writeTarget(
-  tree: Tree,
-  context: SchematicContext,
-  target: AiTool
-): void {
-  const sourceRoot = path.join(__dirname, 'files', 'ai-context', target);
-  if (!fs.existsSync(sourceRoot)) {
-    context.logger.warn(
-      `Skipping aiTools=${target}: bundled tree not found at ${sourceRoot}. Run 'npm run build:ai-context' from core-libs/schematics.`
+/**
+ * Schedules the standalone `ai-context` schematic to run after the package
+ * install task completes, so it can copy the skill from the freshly-installed
+ * `@spartacus/skills` package in `node_modules` into the project.
+ */
+export function scheduleAiContext(options: SpartacusOptions): Rule {
+  return (_tree: Tree, context: SchematicContext): void => {
+    const targets = normalize(options.aiTools);
+    if (targets.length === 0) {
+      return;
+    }
+
+    const installTaskId = context.addTask(new NodePackageInstallTask());
+
+    context.addTask(
+      new RunSchematicTask('ai-context', {
+        aiTools: targets,
+        debug: options.debug,
+      }),
+      [installTaskId]
     );
-    return;
-  }
 
-  const files: { absolutePath: string; relativePath: string }[] = [];
-  collectFiles(sourceRoot, '', files);
-
-  for (const entry of files) {
-    const dest = rewritePath(entry.relativePath);
-    const content = fs.readFileSync(entry.absolutePath);
-    if (tree.exists(dest)) {
-      tree.overwrite(dest, content);
-    } else {
-      tree.create(dest, content);
-    }
-  }
-}
-
-function collectFiles(
-  root: string,
-  rel: string,
-  out: { absolutePath: string; relativePath: string }[]
-): void {
-  const dir = path.join(root, rel);
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const next = rel ? `${rel}/${entry.name}` : entry.name;
-    if (entry.isDirectory()) {
-      collectFiles(root, next, out);
-    } else if (entry.isFile()) {
-      out.push({
-        absolutePath: path.join(root, next),
-        relativePath: next,
-      });
-    }
-  }
-}
-
-function rewritePath(relativePath: string): string {
-  return PATH_REWRITES.reduce(
-    (acc, rule) => acc.replace(rule.from, rule.to),
-    relativePath
-  );
+    context.logger.info(
+      `ℹ️  Spartacus AI skills (${SKILLS_PACKAGE}) will be copied into your project after install. ` +
+        `Re-run 'ng generate @spartacus/schematics:ai-context' anytime to refresh them after updating the package.`
+    );
+  };
 }
 
 function normalize(input: SpartacusOptions['aiTools']): AiTool[] {
@@ -127,57 +86,4 @@ function normalize(input: SpartacusOptions['aiTools']): AiTool[] {
     }
   }
   return SUPPORTED_TOOLS.filter((tool) => seen.has(tool));
-}
-
-/**
- * Pick where to inject the Spartacus sentinel block when `claude` is selected.
- *
- * Priority:
- *   1. `/CLAUDE.md` if the customer already has one (canonical project memory).
- *   2. `/.claude/CLAUDE.md` if Angular CLI's `ng generate ai-config --tool=claude`
- *      already created it there (Angular 20.2+ convention).
- *   3. Fall back to creating `/.claude/CLAUDE.md` (matches Angular convention so
- *      we don't introduce a competing root file).
- *
- * The `@`-import path inside the block is relative to the file containing it
- * (Claude Code resolves `@path` from the importing file's directory), so the
- * `.claude/CLAUDE.md` variant uses `@../.spartacus/CLAUDE.md`.
- */
-function selectClaudeTarget(tree: Tree): { path: string; block: string } {
-  if (tree.exists(ROOT_CLAUDE_MD)) {
-    return { path: ROOT_CLAUDE_MD, block: ROOT_CLAUDE_BLOCK };
-  }
-  return { path: DOT_CLAUDE_MD, block: DOT_CLAUDE_BLOCK };
-}
-
-function mergeRootBlock(tree: Tree, rootPath: string, block: string): void {
-  const existing = tree.exists(rootPath)
-    ? (tree.read(rootPath)?.toString('utf8') ?? '')
-    : '';
-
-  if (!existing) {
-    tree.create(rootPath, block + '\n');
-    return;
-  }
-
-  const sentinelPattern = new RegExp(
-    `${escapeRegExp(SENTINEL_BEGIN)}[\\s\\S]*?${escapeRegExp(SENTINEL_END)}`
-  );
-  const merged = sentinelPattern.test(existing)
-    ? existing.replace(sentinelPattern, block)
-    : ensureTrailingBlankLine(existing) + block + '\n';
-
-  if (merged !== existing) {
-    tree.overwrite(rootPath, merged);
-  }
-}
-
-function ensureTrailingBlankLine(content: string): string {
-  if (content.endsWith('\n\n')) return content;
-  if (content.endsWith('\n')) return content + '\n';
-  return content + '\n\n';
-}
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

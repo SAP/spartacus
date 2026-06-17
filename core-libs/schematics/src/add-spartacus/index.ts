@@ -56,7 +56,7 @@ import {
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addStorefrontComponentToAppComponent } from './add-storefront-component-to-app-component';
-import { addAiContext } from './ai-context';
+import { addAiContext, scheduleAiContext } from './ai-context';
 import { addSpartacusConfiguration } from './configuration';
 import { createAppModule } from './create-app-module';
 import { Schema as SpartacusOptions } from './schema';
@@ -583,6 +583,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         installPackageJsonDependencies(),
         replaceCaretWithTildeForSpartacusDependencies(options),
       ]),
+
+      scheduleAiContext(options),
 
       finalizeInstallation(options, features),
     ])(tree, context);

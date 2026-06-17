@@ -38,6 +38,7 @@
     "@spartacus/order": "221121.11.0",
     "@spartacus/user": "221121.11.0"
   },
+  "@spartacus/skills": {},
   "@spartacus/storefront": {
     "@angular/common": "^21.2.9",
     "@angular/core": "^21.2.9",

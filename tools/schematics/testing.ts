@@ -142,6 +142,7 @@ function getPackageJsonFiles(): string[] {
   const sourceFiles = [
     'core-libs/styles/package.json',
     'core-libs/schematics/package.json',
+    'core-libs/skills/package.json',
   ];
   const distFiles = globSync(`dist/!(node_modules)/package.json`);
   return [...sourceFiles, ...distFiles];
