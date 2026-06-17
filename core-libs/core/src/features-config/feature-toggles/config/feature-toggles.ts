@@ -602,6 +602,12 @@ export interface FeatureTogglesInterface {
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
 
   /**
+   * When enabled, applies a 6px bottom margin to product names in both
+   * product grid and product list items for consistent spacing.
+   * Affects: ProductGridItemComponent, ProductListItemComponent
+   */
+  a11yProductListItemNameMargin?: boolean;
+  /**
    * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
    * authenticated data through stale tabs.
    */
@@ -678,5 +684,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
 };
