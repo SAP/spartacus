@@ -57,8 +57,6 @@ export class StarRatingComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change = new EventEmitter<number>();
 
-  constructor() {}
-
   setRate(value: number): void {
     if (this.disabled) {
       return;
