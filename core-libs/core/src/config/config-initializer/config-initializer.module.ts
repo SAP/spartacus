@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { LOCATION_INITIALIZED_MULTI } from '../../routing/location-initialized-multi/location-initialized-multi';
+import { provideLocationInitializerFactory } from '../../routing/location-initialized-multi/location-initialized-multi';
 import { Config } from '../config-tokens';
 import {
   CONFIG_INITIALIZER,
@@ -57,15 +57,11 @@ export class ConfigInitializerModule {
             [new Optional(), CONFIG_INITIALIZER],
           ],
         },
-        {
+        provideLocationInitializerFactory(() => {
           // Hold on the initial navigation until the Spartacus configuration is stable
-          provide: LOCATION_INITIALIZED_MULTI,
-          useFactory: () => {
-            const configInitializer = inject(ConfigInitializerService);
-            return () => lastValueFrom(configInitializer.getStable());
-          },
-          multi: true,
-        },
+          const configInitializer = inject(ConfigInitializerService);
+          return () => lastValueFrom(configInitializer.getStable());
+        }),
       ],
     };
   }
