@@ -76,9 +76,7 @@ describe('addAiContext (dependency registration)', () => {
         ...BASE_OPTIONS,
         aiTools: ['claude', 'cursor'],
       });
-      const nonPackageFiles = result.files.filter(
-        (f) => f !== '/package.json'
-      );
+      const nonPackageFiles = result.files.filter((f) => f !== '/package.json');
       expect(nonPackageFiles).toEqual([]);
     });
 
@@ -88,7 +86,10 @@ describe('addAiContext (dependency registration)', () => {
         null,
         2
       );
-      const result = await apply({ ...BASE_OPTIONS, aiTools: ['claude'] }, seeded);
+      const result = await apply(
+        { ...BASE_OPTIONS, aiTools: ['claude'] },
+        seeded
+      );
       expect(devDependencies(result)[SKILLS_PACKAGE]).toEqual('1.2.3');
     });
   });
