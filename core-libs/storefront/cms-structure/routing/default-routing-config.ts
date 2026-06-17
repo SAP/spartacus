@@ -9,8 +9,6 @@ import { FeatureToggles, RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
   const featureToggles = inject(FeatureToggles);
-  const enableProductPageRouteAllowsNoProductName =
-    featureToggles.defaultProductPageRouteAllowsNoProductName;
 
   const routingConfig: RoutingConfig = {
     routing: {
@@ -68,9 +66,7 @@ export const defaultRoutesConfigFactory: () => RoutingConfig = () => {
 
         // pdp routes
         product: {
-          paths: enableProductPageRouteAllowsNoProductName
-            ? ['product/:productCode/:name', 'product/:productCode']
-            : ['product/:productCode/:name'],
+          paths: ['product/:productCode/:name', 'product/:productCode'],
           paramsMapping: { productCode: 'code' },
         },
 
