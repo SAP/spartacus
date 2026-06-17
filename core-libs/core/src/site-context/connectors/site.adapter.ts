@@ -5,7 +5,13 @@
  */
 
 import { Observable } from 'rxjs';
-import { Country, CountryType, Region } from '../../model/address.model';
+import {
+  City,
+  CityDistrict,
+  Country,
+  CountryType,
+  Region,
+} from '../../model/address.model';
 import { BaseSite, Currency, Language } from '../../model/misc.model';
 
 export abstract class SiteAdapter {
@@ -38,4 +44,14 @@ export abstract class SiteAdapter {
    * Abstract method used to get all base sites data.
    */
   abstract loadBaseSites(): Observable<BaseSite[]>;
+
+  /**
+   * Abstract method used to get cities for a region.
+   */
+  abstract loadCities(regionIsocode: string): Observable<City[]>;
+
+  /**
+   * Abstract method used to get districts for a city.
+   */
+  abstract loadDistricts(cityIsocode: string): Observable<CityDistrict[]>;
 }

@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Address, Country, Region } from '../../model/address.model';
+import {
+  Address,
+  City,
+  CityDistrict,
+  Country,
+  Region,
+} from '../../model/address.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model/notification-preference.model';
@@ -27,6 +33,8 @@ export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ADDRESSES = '[User] User Addresses';
 export const USER_COST_CENTERS = '[User] User Cost Centers';
 export const REGIONS = '[User] Regions';
+export const CITIES = '[User] Cities';
+export const DISTRICTS = '[User] Districts';
 
 export const CUSTOMER_COUPONS = '[User] Customer Coupons';
 export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
@@ -48,6 +56,8 @@ export interface UserState {
   countries: DeliveryCountriesState;
   payments: StateUtils.LoaderState<PaymentDetails[]>;
   regions: StateUtils.LoaderState<RegionsState>;
+  cities?: StateUtils.LoaderState<CitiesState>;
+  districts?: StateUtils.LoaderState<DistrictsState>;
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
@@ -57,6 +67,16 @@ export interface UserState {
 export interface RegionsState {
   entities: Region[];
   country: string | null;
+}
+
+export interface CitiesState {
+  entities: City[];
+  regionIsocode: string | null;
+}
+
+export interface DistrictsState {
+  entities: CityDistrict[];
+  cityIsocode: string | null;
 }
 
 export interface BillingCountryEntities {
