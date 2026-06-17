@@ -607,7 +607,7 @@ export interface FeatureTogglesInterface {
    * Affects: RegisterComponent, OtpLoginRegisterComponent
    */
   a11yRegistrationTermsAsteriskMargin?: boolean;
-  
+
   /**
    * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
    * authenticated data through stale tabs.
