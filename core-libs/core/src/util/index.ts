@@ -6,6 +6,7 @@
 
 export * from './applicable';
 export * from './base64';
+export * from './browser-tab-notification';
 export * from './command-query/index';
 export * from './converter.service';
 export * from './create-from';
