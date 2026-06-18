@@ -387,7 +387,7 @@ export interface FeatureTogglesInterface {
    * When enabled, the input's own focus outline is suppressed so only the container ring is shown.
    * Affects: SearchBoxComponent
    */
-  a11ySearchBoxDoubleFocus?: boolean;
+  a11yFixSearchBoxDoubleFocus?: boolean;
 
   /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
@@ -656,7 +656,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
-  a11ySearchBoxDoubleFocus: false,
+  a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,

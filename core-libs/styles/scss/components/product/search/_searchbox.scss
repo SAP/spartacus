@@ -169,7 +169,7 @@
         @include visible-focus();
       }
 
-      @include forFeature('a11ySearchBoxDoubleFocus') {
+      @include forFeature('a11yFixSearchBoxDoubleFocus') {
         input:focus {
           outline: none;
           box-shadow: none;
@@ -197,7 +197,7 @@
           padding: 27px 10px 8px;
           outline: 0;
 
-          @include forFeature('a11ySearchBoxDoubleFocus') {
+          @include forFeature('a11yFixSearchBoxDoubleFocus') {
             @include visible-focus();
           }
         }
