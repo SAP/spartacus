@@ -69,6 +69,7 @@ export class ProductGridItemComponent implements OnChanges {
     protected productListItemContextSource: ProductListItemContextSource
   ) {
     useFeatureStyles('consistentSizeProductCards');
+    useFeatureStyles('a11yProductListItemNameMargin');
   }
 
   ngOnChanges(changes?: SimpleChanges): void {
