@@ -328,6 +328,7 @@ if (environment.cpq) {
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
         a11yStoreFinderListItemFocus: true,
+        a11yFixSearchBoxDoubleFocus: true,
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
