@@ -327,6 +327,7 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yStoreFinderListItemFocus: true,
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,

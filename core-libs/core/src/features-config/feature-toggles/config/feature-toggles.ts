@@ -346,6 +346,12 @@ export interface FeatureTogglesInterface {
   enableMediaPrefix?: boolean;
 
   /**
+   * Fixes focus ring on store name links overflowing into the address text below.
+   * Affects: StoreFinderListItemComponent
+   */
+  a11yStoreFinderListItemFocus?: boolean;
+
+  /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
    * on Customer Ticketing dialog.
    */
@@ -623,6 +629,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yStoreFinderListItemFocus: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
