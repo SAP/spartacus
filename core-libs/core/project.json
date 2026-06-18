@@ -20,8 +20,8 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx vitest run --config core-libs/core/vitest.config.ts",
-        "cwd": "{workspaceRoot}"
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {

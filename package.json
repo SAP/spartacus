@@ -214,6 +214,7 @@
     "@nx/devkit": "^22.3.1",
     "@nx/eslint-plugin": "^22.3.1",
     "@nx/jest": "^22.3.1",
+    "@nx/vite": "^22.6.4",
     "@nx/workspace": "^22.3.1",
     "@sapui5/ts-types-esm": "1.120.1",
     "@schematics/angular": "^21.2.8",
@@ -256,6 +257,7 @@
     "jest-environment-node": "^30.2.0",
     "jest-preset-angular": "^16.0.0",
     "jest-util": "^30.2.0",
+    "jsdom": "^29.1.1",
     "jsonc-parser": "^3.3.1",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
@@ -286,6 +288,7 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.0",
     "verdaccio": "6.7.1",
+    "vitest": "^4.1.9",
     "webpack": "~5.105.4",
     "webpack-cli": "^6.0.0"
   },
