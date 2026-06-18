@@ -221,6 +221,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService
   ) {
     useFeatureStyles('searchBoxRecentSearchesRemoval');
+    useFeatureStyles('a11yFixSearchBoxDoubleFocus');
   }
 
   /**
