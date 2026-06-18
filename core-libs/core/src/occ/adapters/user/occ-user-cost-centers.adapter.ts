@@ -34,9 +34,7 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
       .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId), {
         context,
       })
-      .pipe(
-        this.converter.pipeable(COST_CENTERS_NORMALIZER)
-      );
+      .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
   }
 
   protected getCostCentersEndpoint(
