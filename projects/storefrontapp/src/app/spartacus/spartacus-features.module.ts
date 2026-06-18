@@ -365,6 +365,7 @@ if (environment.cpq) {
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        b2bCheckoutShippingAddressFilter: true,
       };
       return appFeatureToggles;
     }),
