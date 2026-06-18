@@ -196,6 +196,10 @@
         &:focus-within {
           padding: 27px 10px 8px;
           outline: 0;
+
+          @include forFeature('a11ySearchBoxDoubleFocus') {
+            @include visible-focus();
+          }
         }
       }
     }
@@ -212,10 +216,6 @@
         height: 48px;
         border: 1px solid var(--cx-color-medium);
         border-radius: 4px;
-
-        &:focus {
-          outline: 0;
-        }
       }
 
       flex-basis: 100%;
