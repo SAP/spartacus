@@ -129,7 +129,6 @@ export class OpfCheckoutPaymentWrapperService {
           filter((response) => Boolean(response?.accessCode)),
           map(({ accessCode: otpKey }) =>
             this.getPaymentInitiationConfig(
-              cartId,
               otpKey,
               paymentOptionId,
               getBrowserInfo(this.winRef?.nativeWindow)
@@ -383,7 +382,6 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected getPaymentInitiationConfig(
-    cartId: string,
     otpKey: string,
     paymentOptionId: number,
     browserInfo?: OpfPaymentBrowserInfo
@@ -391,7 +389,6 @@ export class OpfCheckoutPaymentWrapperService {
     return {
       otpKey,
       config: {
-        cartId,
         browserInfo,
         configurationId: String(paymentOptionId),
         resultURL: this.routingService.getFullUrl({
