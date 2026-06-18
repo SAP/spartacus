@@ -327,6 +327,7 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yStoreFinderListItemFocus: true,
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
@@ -357,6 +358,7 @@ if (environment.cpq) {
         enableCartReloadOnContextChange: true,
         a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+        authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
@@ -364,6 +366,7 @@ if (environment.cpq) {
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
+        asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
       };
       return appFeatureToggles;
     }),
