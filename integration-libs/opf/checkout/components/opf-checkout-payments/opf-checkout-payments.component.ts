@@ -8,6 +8,7 @@ import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   EventEmitter,
   Input,
   OnDestroy,
@@ -16,7 +17,9 @@ import {
   TemplateRef,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   PaginationModel,
@@ -79,6 +82,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   );
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected userPaymentService = inject(UserPaymentService);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
 
   protected subscription = new Subscription();
 
@@ -258,42 +263,50 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
    */
   protected preselectPaymentOption(): void {
     let isPreselected = false;
-    this.subscription.add(
+    const metadataSubscription = (state: OpfMetadataModel) => {
+      if (this.shouldResolvePreselection(state, isPreselected)) {
+        const resolvedId =
+          state.selectedPaymentOptionId ?? state.defaultSelectedPaymentOptionId;
+
+        if (resolvedId !== undefined) {
+          isPreselected = true;
+        }
+
+        this.selectedPaymentId = resolvedId;
+        if (
+          resolvedId !== undefined &&
+          resolvedId !== state.selectedPaymentOptionId
+        ) {
+          this.opfMetadataStoreService.updateOpfMetadata({
+            selectedPaymentOptionId: resolvedId,
+          });
+        }
+        this.emitOutletContext();
+      } else if (
+        !state.termsAndConditionsChecked &&
+        this.explicitTermsAndConditions
+      ) {
+        isPreselected = false;
+        this.selectedPaymentId = undefined;
+        this.emitOutletContext();
+      } else if (isPreselected) {
+        this.selectedPaymentId = state.selectedPaymentOptionId;
+        this.emitOutletContext();
+      }
+    };
+
+    if (this.featureToggles.opfUseDestroyRef) {
       this.opfMetadataStoreService
         .getOpfMetadataState()
-        .subscribe((state: OpfMetadataModel) => {
-          if (this.shouldResolvePreselection(state, isPreselected)) {
-            const resolvedId =
-              state.selectedPaymentOptionId ??
-              state.defaultSelectedPaymentOptionId;
-
-            if (resolvedId !== undefined) {
-              isPreselected = true;
-            }
-
-            this.selectedPaymentId = resolvedId;
-            if (
-              resolvedId !== undefined &&
-              resolvedId !== state.selectedPaymentOptionId
-            ) {
-              this.opfMetadataStoreService.updateOpfMetadata({
-                selectedPaymentOptionId: resolvedId,
-              });
-            }
-            this.emitOutletContext();
-          } else if (
-            !state.termsAndConditionsChecked &&
-            this.explicitTermsAndConditions
-          ) {
-            isPreselected = false;
-            this.selectedPaymentId = undefined;
-            this.emitOutletContext();
-          } else if (isPreselected) {
-            this.selectedPaymentId = state.selectedPaymentOptionId;
-            this.emitOutletContext();
-          }
-        })
-    );
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(metadataSubscription);
+    } else {
+      this.subscription.add(
+        this.opfMetadataStoreService
+          .getOpfMetadataState()
+          .subscribe(metadataSubscription)
+      );
+    }
   }
 
   protected shouldResolvePreselection(
