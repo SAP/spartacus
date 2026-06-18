@@ -76,7 +76,13 @@ export class B2BCheckoutDeliveryAddressComponent
       switchMap((costCenter) => {
         this.doneAutoSelect = false;
         return costCenter?.code
-          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          ? this.userCostCenterService
+              .getCostCenterAddresses(costCenter.code)
+              .pipe(
+                map((addresses) =>
+                  addresses.filter((a) => a.shippingAddress !== false)
+                )
+              )
           : of([]);
       })
     );

@@ -34,7 +34,9 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
       .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId), {
         context,
       })
-      .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
+      .pipe(
+        this.converter.pipeable(COST_CENTERS_NORMALIZER)
+      );
   }
 
   protected getCostCentersEndpoint(
@@ -43,7 +45,10 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   ): string {
     return this.occEndpoints.buildUrl('getActiveCostCenters', {
       urlParams: { userId },
-      queryParams: params,
+      queryParams: {
+        ...params,
+        fields: `DEFAULT,unit(BASIC,addresses(FULL))`,
+      },
     });
   }
 }
