@@ -23,6 +23,12 @@
     font-weight: var(--cx-font-weight-semi);
     min-height: 40px;
     cursor: pointer;
+
+    @include forFeature('a11yStoreFinderListItemFocus') {
+      display: inline-block;
+      min-height: unset;
+      margin-bottom: 2px;
+    }
   }
   .cx-store-address {
     font-size: var(--cx-font-size, 0.875rem);
