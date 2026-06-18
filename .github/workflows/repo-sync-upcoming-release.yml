@@ -1,0 +1,85 @@
+on:
+  schedule:
+    - cron: "0 1 * * *"   # 01:00 UTC daily — see timezone note below
+  workflow_dispatch:
+    # Allow manual runs for testing.
+
+name: Trigger sync of upcoming release branches
+
+permissions:
+  contents: read
+  actions: write   # required to dispatch the sync workflow
+
+jobs:
+  trigger_sync:
+    name: Find active 221121.*.x branches
+    runs-on: ubuntu-latest
+    outputs:
+      branches: ${{ steps.find.outputs.branches }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: develop
+          sparse-checkout: core-libs/core/package.json
+          sparse-checkout-cone-mode: false
+
+      - name: Determine RELEASED version
+        id: released
+        run: |
+          set -euo pipefail
+          VERSION=$(jq -r '.version' core-libs/core/package.json)
+          RELEASED=$(echo "$VERSION" | cut -d. -f2)
+
+          if [[ -z "$RELEASED" ]]; then
+            echo "::error::Could not extract RELEASED from version '$VERSION'"
+            exit 1
+          fi
+
+          echo "RELEASED: $RELEASED (from version $VERSION)"
+          echo "released=$RELEASED" >> "$GITHUB_OUTPUT"
+
+      - name: Determine release branches to sync
+        id: find
+        env:
+          RELEASED: ${{ steps.released.outputs.released }}
+        run: |
+          set -euo pipefail
+
+          BRANCHES=$(gh api \
+              "/repos/${{ github.repository }}/branches?per_page=100" --paginate \
+              --jq '.[].name' \
+            | grep -E '^221121\.[0-9]+\.x$' \
+            | awk -F. -v min="$RELEASED" '$2+0 >= min+0' \
+            | sort -t. -k2,2n)
+
+          if [[ -z "$BRANCHES" ]]; then
+            echo "::error::No branch matching 221121.<n>.x with n >= $RELEASED found"
+            exit 1
+          fi
+
+          echo "Release branches to sync (>= $RELEASED):"
+          echo "$BRANCHES"
+
+          # JSON array for use as a matrix in the dispatch step.
+          BRANCHES_JSON=$(echo "$BRANCHES" | jq -Rsc 'split("\n") | map(select(length > 0))')
+          echo "branches=$BRANCHES_JSON" >> "$GITHUB_OUTPUT"
+
+  dispatch_sync:
+    needs: trigger_sync
+    name: Dispatch sync for ${{ matrix.branch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ${{ fromJson(needs.trigger_sync.outputs.branches) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Dispatch sync workflow
+        run: |
+          gh workflow run "repo-sync.yml" \
+            --repo "${{ github.repository }}" \
+            --ref "${{ github.ref_name }}" \
+            -f branch_to_sync="${{ matrix.branch }}"
