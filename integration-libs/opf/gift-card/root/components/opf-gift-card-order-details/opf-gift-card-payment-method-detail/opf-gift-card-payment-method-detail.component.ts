@@ -8,16 +8,19 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, map } from 'rxjs';
 
 import {
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -34,6 +37,8 @@ export class OpfGiftCardPaymentMethodDetailComponent
   implements OnInit, OnDestroy
 {
   protected translationService = inject(TranslationService);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
 
   protected subscription = new Subscription();
   @Input()
@@ -44,9 +49,17 @@ export class OpfGiftCardPaymentMethodDetailComponent
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.subscription?.add(
-        this.orderOutlet.context$.subscribe((context) => (this.order = context))
-      );
+      if (this.featureToggles.opfUseDestroyRef) {
+        this.orderOutlet.context$
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((context) => (this.order = context));
+      } else {
+        this.subscription.add(
+          this.orderOutlet.context$.subscribe(
+            (context) => (this.order = context)
+          )
+        );
+      }
     }
   }
 
@@ -73,6 +86,7 @@ export class OpfGiftCardPaymentMethodDetailComponent
   get isPaymentMethodDetailsInfoPresent(): boolean {
     return Boolean(this.order?.paymentInfo?.sapPaymentMethod?.name);
   }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

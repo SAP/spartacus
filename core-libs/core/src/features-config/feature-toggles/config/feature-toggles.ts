@@ -563,6 +563,12 @@ export interface FeatureTogglesInterface {
   pageLinkSanitizeCanonicalUrl?: boolean;
 
   /**
+   * When enabled, OPF components use `DestroyRef` + `takeUntilDestroyed` for
+   * subscription management instead of manual `Subscription` objects and `ngOnDestroy`.
+   */
+  opfUseDestroyRef?: boolean;
+
+  /**
    * When enabled, the address book and address form support hierarchical
    * address formats (e.g. Chinese addresses), which require selecting
    * region (province), city and district as chained dropdowns,
@@ -673,6 +679,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   a11yProductListItemNameMargin: false,
