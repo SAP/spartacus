@@ -361,6 +361,7 @@ if (environment.cpq) {
         authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
+        opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
         a11yProductListItemNameMargin: true,
