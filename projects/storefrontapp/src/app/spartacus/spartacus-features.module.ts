@@ -358,6 +358,7 @@ if (environment.cpq) {
         enableCartReloadOnContextChange: true,
         a11yCouponNotificationChannelsLinkStyling: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+        authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
         enableHierarchicalAddressFormat: true,
