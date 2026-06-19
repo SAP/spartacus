@@ -366,6 +366,7 @@ if (environment.cpq) {
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated

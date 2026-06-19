@@ -596,6 +596,12 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+  /**
+   * When enabled, adds an 8px top margin to the "Add to Wish List" button
+   * for consistent spacing.
+   * Affects: AddToWishListComponent
+   */
+  a11yAddToWishListBtnMargin?: boolean;
 
   /**
    * When enabled, applies a 6px bottom margin to product names in both
@@ -603,6 +609,7 @@ export interface FeatureTogglesInterface {
    * Affects: ProductGridItemComponent, ProductListItemComponent
    */
   a11yProductListItemNameMargin?: boolean;
+
   /**
    * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
    * authenticated data through stale tabs.
@@ -689,6 +696,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
