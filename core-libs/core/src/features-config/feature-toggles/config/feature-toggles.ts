@@ -26,6 +26,12 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Moves focus to the 'Back' button when store details are shown in the
+   * store finder list, so keyboard users are not left without a focused element.
+   */
+  a11yStoreFinderFocusOnBackButton?: boolean;
+
+  /**
    * Enables the dedicated B2B register section on the login page,
    * replacing the CMS-driven paragraph and link.
    */
@@ -352,6 +358,17 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderListItemFocus?: boolean;
 
   /**
+   * Fixes double focus indicator on the search input field in `SearchBoxComponent`
+   * when navigating with the keyboard.
+   * A global `input:focus` rule in forms.scss applies `visible-focus()` to the input element,
+   * while `.cx-label-inner-container:focus-within` also applies it to the container,
+   * resulting in two visible focus rings simultaneously.
+   * When enabled, the input's own focus outline is suppressed so only the container ring is shown.
+   * Affects: SearchBoxComponent
+   */
+  a11yFixSearchBoxDoubleFocus?: boolean;
+
+  /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
    * on Customer Ticketing dialog.
    */
@@ -552,6 +569,12 @@ export interface FeatureTogglesInterface {
   pageLinkSanitizeCanonicalUrl?: boolean;
 
   /**
+   * When enabled, OPF components use `DestroyRef` + `takeUntilDestroyed` for
+   * subscription management instead of manual `Subscription` objects and `ngOnDestroy`.
+   */
+  opfUseDestroyRef?: boolean;
+
+  /**
    * When enabled, the address book and address form support hierarchical
    * address formats (e.g. Chinese addresses), which require selecting
    * region (province), city and district as chained dropdowns,
@@ -607,6 +630,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
+  a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
@@ -637,6 +661,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
   a11yStoreFinderListItemFocus: false,
+  a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
@@ -668,6 +693,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCouponNotificationChannelsLinkStyling: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
   a11yAddToWishListBtnMargin: false,
