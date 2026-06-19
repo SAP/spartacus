@@ -26,6 +26,12 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Moves focus to the 'Back' button when store details are shown in the
+   * store finder list, so keyboard users are not left without a focused element.
+   */
+  a11yStoreFinderFocusOnBackButton?: boolean;
+
+  /**
    * Enables the dedicated B2B register section on the login page,
    * replacing the CMS-driven paragraph and link.
    */
@@ -200,6 +206,17 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefault?: boolean;
 
   /**
+   * When enabled, refreshes the CSRF token before submitting the login form in the
+   * Authorization Code Flow. This ensures the token is valid even if the user has
+   * waited on the login page past the Authorization Server session timeout, preventing
+   * an HTTP 403 response from the backend that would otherwise strand the user on a
+   * backend error page.
+   *
+   * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled.
+   */
+  authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
+
+  /**
    * Feature flag to enable consistent header slot structure across breakpoints to reduce
    * layout shift and improve Cumulative Layout Shift (CLS) scores.
    *
@@ -333,6 +350,23 @@ export interface FeatureTogglesInterface {
    * Affects: `MediaService`
    */
   enableMediaPrefix?: boolean;
+
+  /**
+   * Fixes focus ring on store name links overflowing into the address text below.
+   * Affects: StoreFinderListItemComponent
+   */
+  a11yStoreFinderListItemFocus?: boolean;
+
+  /**
+   * Fixes double focus indicator on the search input field in `SearchBoxComponent`
+   * when navigating with the keyboard.
+   * A global `input:focus` rule in forms.scss applies `visible-focus()` to the input element,
+   * while `.cx-label-inner-container:focus-within` also applies it to the container,
+   * resulting in two visible focus rings simultaneously.
+   * When enabled, the input's own focus outline is suppressed so only the container ring is shown.
+   * Affects: SearchBoxComponent
+   */
+  a11yFixSearchBoxDoubleFocus?: boolean;
 
   /**
    * Fixes keyboard focus not being visible when tabbing between some buttons
@@ -543,6 +577,12 @@ export interface FeatureTogglesInterface {
   pageLinkSanitizeCanonicalUrl?: boolean;
 
   /**
+   * When enabled, OPF components use `DestroyRef` + `takeUntilDestroyed` for
+   * subscription management instead of manual `Subscription` objects and `ngOnDestroy`.
+   */
+  opfUseDestroyRef?: boolean;
+
+  /**
    * When enabled, the address book and address form support hierarchical
    * address formats (e.g. Chinese addresses), which require selecting
    * region (province), city and district as chained dropdowns,
@@ -564,6 +604,12 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+  /**
+   * When enabled, adds an 8px top margin to the "Add to Wish List" button
+   * for consistent spacing.
+   * Affects: AddToWishListComponent
+   */
+  a11yAddToWishListBtnMargin?: boolean;
 
   /**
    * When enabled, applies a 6px bottom margin to product names in both
@@ -571,11 +617,20 @@ export interface FeatureTogglesInterface {
    * Affects: ProductGridItemComponent, ProductListItemComponent
    */
   a11yProductListItemNameMargin?: boolean;
+
   /**
    * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
    * authenticated data through stale tabs.
    */
   propagateLogoutToAllTabs?: boolean;
+
+  /**
+   * When enabled, adds support for asynchronous configuration of the oAuth service and adds a default
+   * initializer to adjust the oauth client details based on URL context parameters.
+   *
+   * This flag only takes effect when the flag `authorizationCodeFlowByDefault` is enabled.
+   */
+  asyncAuthConfigInitializer?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -583,6 +638,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
+  a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
@@ -602,6 +658,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
@@ -611,6 +668,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yStoreFinderListItemFocus: false,
+  a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
   removeDuplicatedOrderHistoryHeader: false,
   a11yCardNotificationMessage: false,
@@ -643,8 +702,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySiteContextCaretClick: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
+  opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
+  asyncAuthConfigInitializer: false,
 };

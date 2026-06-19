@@ -300,6 +300,7 @@ if (environment.cpq) {
         a11yKeyboardAccessibleZoom: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yStoreFinderLabel: true,
+        a11yStoreFinderFocusOnBackButton: true,
         a11yB2BRegisterComponent: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yAddPaddingToCarouselPanel: true,
@@ -327,6 +328,8 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yStoreFinderListItemFocus: true,
+        a11yFixSearchBoxDoubleFocus: true,
         a11yFacetFilterByLabel: true,
         removeDuplicatedOrderHistoryHeader: true,
         a11yCardNotificationMessage: true,
@@ -358,12 +361,16 @@ if (environment.cpq) {
         a11yCouponNotificationChannelsLinkStyling: true,
         a11ySiteContextCaretClick: true,
         opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+        authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
         redirectOnlyOnTrueNavigationEnd: true,
         pageLinkSanitizeCanonicalUrl: true,
+        opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
+        asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
       };
       return appFeatureToggles;
     }),
