@@ -300,6 +300,7 @@ if (environment.cpq) {
         a11yKeyboardAccessibleZoom: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yStoreFinderLabel: true,
+        a11yStoreFinderFocusOnBackButton: true,
         a11yB2BRegisterComponent: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yAddPaddingToCarouselPanel: true,

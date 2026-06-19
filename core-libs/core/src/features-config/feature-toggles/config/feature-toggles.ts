@@ -26,6 +26,12 @@ export interface FeatureTogglesInterface {
   a11yStoreFinderLabel?: boolean;
 
   /**
+   * Moves focus to the 'Back' button when store details are shown in the
+   * store finder list, so keyboard users are not left without a focused element.
+   */
+  a11yStoreFinderFocusOnBackButton?: boolean;
+
+  /**
    * Enables the dedicated B2B register section on the login page,
    * replacing the CMS-driven paragraph and link.
    */
@@ -617,6 +623,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yStoreFinderLabel: false,
+  a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
