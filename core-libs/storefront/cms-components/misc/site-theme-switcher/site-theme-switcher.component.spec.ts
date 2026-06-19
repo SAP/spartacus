@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureConfigService,
   I18nTestingModule,
   SiteTheme,
   TranslationService,
@@ -14,6 +15,18 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
 class MockTranslationService {
   translate() {
     return of('of');
+  }
+}
+
+let mockFeatureToggles: Record<string, boolean> = {};
+
+class MockFeatureConfigService {
+  isEnabled(feature: string): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = hasNegation ? feature.slice(1) : feature;
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
   }
 }
 
@@ -33,6 +46,10 @@ describe('ThemeSwitcherComponent', () => {
       ['getItems', 'getActiveItem', 'setActive']
     );
 
+    mockFeatureToggles = {
+      a11ySiteContextCaretClick: true,
+    };
+
     await TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -46,6 +63,10 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     }).compileComponents();
 

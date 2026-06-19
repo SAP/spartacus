@@ -14,6 +14,7 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
+  FeatureConfigService,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -41,6 +42,18 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxIconComponent {
   @Input() type;
+}
+
+let mockFeatureToggles: Record<string, boolean> = {};
+
+class MockFeatureConfigService {
+  isEnabled(feature: string): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = hasNegation ? feature.slice(1) : feature;
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -84,6 +97,10 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
       },
     };
 
+    mockFeatureToggles = {
+      a11ySiteContextCaretClick: true,
+    };
+
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -107,6 +124,10 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         {
           provide: TranslationService,
           useClass: MockTranslationService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
         contextServiceMapProvider,
       ],
