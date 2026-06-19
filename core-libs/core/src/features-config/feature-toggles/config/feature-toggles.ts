@@ -609,7 +609,7 @@ export interface FeatureTogglesInterface {
    * Affects: ProductGridItemComponent, ProductListItemComponent
    */
   a11yProductListItemNameMargin?: boolean;
-  
+
   /**
    * When enabled, logging out on a tab will issue logout on all other open tabs.  This prevents leaking
    * authenticated data through stale tabs.
