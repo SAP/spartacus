@@ -5,7 +5,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
@@ -195,7 +201,7 @@ describe('ConsentManagementComponent', () => {
 
   describe('component method tests', () => {
     describe('ngOnInit', () => {
-      it('should combine all loading flags into one', () => {
+      it('should combine all loading flags into one', fakeAsync(() => {
         spyOn(userService, 'getConsentsResultLoading').and.returnValue(
           of(true)
         );
@@ -212,11 +218,13 @@ describe('ConsentManagementComponent', () => {
         expect(userService.getWithdrawConsentResultLoading).toHaveBeenCalled();
 
         let loadingResult = false;
-        component.loading$
-          .subscribe((result) => (loadingResult = result))
-          .unsubscribe();
+        const sub = component.loading$.subscribe(
+          (result) => (loadingResult = result)
+        );
+        tick(300);
+        sub.unsubscribe();
         expect(loadingResult).toEqual(true);
-      });
+      }));
 
       it('should call all init methods', () => {
         spyOn<any>(component, consentListInitMethod).and.stub();
@@ -677,7 +685,7 @@ describe('ConsentManagementComponent', () => {
   describe('component UI tests', () => {
     describe('spinner', () => {
       describe('when consents are loading', () => {
-        it('should show spinner for the first time', () => {
+        it('should show spinner for the first time', fakeAsync(() => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(
             of(true)
           );
@@ -694,9 +702,11 @@ describe('ConsentManagementComponent', () => {
 
           component.ngOnInit();
           fixture.detectChanges();
+          tick(300);
+          fixture.detectChanges();
 
           expect(el.query(By.css('cx-spinner'))).toBeTruthy();
-        });
+        }));
 
         it('should not show spinner if consents were loaded before', () => {
           spyOn(userService, 'getConsentsResultLoading').and.returnValue(

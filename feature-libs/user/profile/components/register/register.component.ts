@@ -31,6 +31,7 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CaptchaComponent,
@@ -142,7 +143,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
-  ) {}
+  ) {
+    useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
+  }
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
