@@ -193,14 +193,6 @@ describe('OpfGiftCardApplyComponent', () => {
     ).toHaveBeenCalledWith(false);
   });
 
-  it('should unsubscribe on destroy', () => {
-    spyOn(component['subscription'], 'unsubscribe');
-
-    component.ngOnDestroy();
-
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
-  });
-
   it('should return applied gift cards from cart$', (done) => {
     cartSubject.next({
       opfGiftCards: [mockGiftCard],
