@@ -131,7 +131,7 @@ describe('add-ssr', () => {
   });
 
   describe('index.html', () => {
-    it('should contain occ-base-url and bff-base-url attributes in meta tags', async () => {
+    it('should contain occ-backend-base-url attribute in meta tags', async () => {
       const indexHtmlPath = getPathResultsForFile(
         appTree,
         'index.html',

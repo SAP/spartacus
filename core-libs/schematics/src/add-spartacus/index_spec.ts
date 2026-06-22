@@ -487,11 +487,12 @@ describe('add-spartacus', () => {
       const indexHtmlFile = tree.readContent(
         '/projects/schematics-test/src/index.html'
       );
-      expect(indexHtmlFile.includes(`<meta name="occ-base-url"`)).toBe(false);
+      expect(indexHtmlFile.includes(`<meta name="occ-backend-base-url"`)).toBe(
+        false
+      );
       expect(
         indexHtmlFile.includes(`<meta name="media-backend-base-url"`)
       ).toBe(false);
-      expect(indexHtmlFile.includes(`<meta name="bff-base-url"`)).toBe(false);
     });
 
     it('should add meta tags', async () => {
@@ -506,17 +507,12 @@ describe('add-spartacus', () => {
       );
       expect(
         indexHtmlFile.includes(
-          `<meta name="occ-base-url" content="${defaultOptions.baseUrl}" />`
+          `<meta name="occ-backend-base-url" content="${defaultOptions.baseUrl}" />`
         )
       ).toBe(true);
       expect(
         indexHtmlFile.includes(
           `<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />`
-        )
-      ).toBe(true);
-      expect(
-        indexHtmlFile.includes(
-          `<meta name="bff-base-url" content="BFF_BASE_URL_VALUE" />`
         )
       ).toBe(true);
     });
@@ -536,7 +532,7 @@ describe('add-spartacus', () => {
       );
       expect(
         indexHtmlFile.includes(
-          `<meta name="occ-base-url" content="test-url" />`
+          `<meta name="occ-backend-base-url" content="test-url" />`
         )
       ).toBe(true);
       expect(appModule.includes(`baseUrl:`)).toBe(false);

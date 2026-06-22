@@ -234,12 +234,11 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
     }
 
     const projectIndexHtmlPath = getIndexHtmlPath(tree);
-    const baseUrl = options.baseUrl || 'OCC_BASE_URL_VALUE';
+    const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
 
     const metaTags = [
-      `<meta name="occ-base-url" content="${baseUrl}" />`,
+      `<meta name="occ-backend-base-url" content="${baseUrl}" />`,
       `<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />`,
-      `<meta name="bff-base-url" content="BFF_BASE_URL_VALUE" />`,
     ];
 
     metaTags.forEach((metaTag) => {

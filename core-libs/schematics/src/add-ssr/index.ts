@@ -100,12 +100,11 @@ function modifyIndexHtmlFile(options: SpartacusOptions): Rule {
     const buffer = tree.read(`src/${INDEX_HTML}`);
     if (buffer) {
       const indexContent = buffer.toString();
-      if (!indexContent.includes('<meta name="occ-base-url"')) {
+      if (!indexContent.includes('<meta name="occ-backend-base-url"')) {
         const projectIndexHtmlPath = getIndexHtmlPath(tree);
-        const baseUrl = options.baseUrl || 'OCC_BASE_URL_VALUE';
+        const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
         const metaTags = [
-          `<meta name="occ-base-url" content="${baseUrl}" />`,
-          `<meta name="bff-base-url" content="BFF_BASE_URL_VALUE" />`,
+          `<meta name="occ-backend-base-url" content="${baseUrl}" />`,
         ];
 
         metaTags.forEach((metaTag) => {
