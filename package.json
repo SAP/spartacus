@@ -293,7 +293,7 @@
     "@verdaccio/middleware": {
       "express-rate-limit": "5.5.1"
     },
-    "axios": "1.16.0",
+    "axios": "1.18.0",
     "express-rate-limit": "8.5.1",
     "flatted": "3.4.2",
     "i18n-lint": {
@@ -305,9 +305,11 @@
     "lodash": "4.18.1",
     "minimatch": "10.2.4",
     "rollup-plugin-dts": "6.2.3",
-    "tmp": "0.2.6",
+    "tmp": "0.2.7",
     "test-exclude": "8.0.0",
-    "undici": "7.24.6",
-    "vite": "7.3.2"
+    "undici": "7.28.0",
+    "form-data@^2": "2.5.6",
+    "form-data@^4": "4.0.6",
+    "vite": "7.3.5"
   }
 }
