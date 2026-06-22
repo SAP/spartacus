@@ -367,6 +367,7 @@ if (environment.cpq) {
         opfUseDestroyRef: true,
         enableHierarchicalAddressFormat: true,
         opfCheckoutUseUpdatePaymentTransaction: true,
+        a11yRegistrationTermsAsteriskMargin: true,
         a11yAddToWishListBtnMargin: true,
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
