@@ -102,8 +102,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected buildForm(): void {
     const useValidation =
-      this.featureToggles
-        .a11yCartQuickOrderFormEnableSubmitAndAddValidation;
+      this.featureToggles.a11yCartQuickOrderFormEnableSubmitAndAddValidation;
     this.quickOrderForm = this.formBuilder.group({
       productCode: ['', useValidation ? [Validators.required] : []],
       quantity: [

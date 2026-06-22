@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  FeatureConfigService,
   I18nTestingModule,
   SiteTheme,
   TranslationService,
@@ -15,12 +14,6 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
 class MockTranslationService {
   translate() {
     return of('of');
-  }
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
   }
 }
 
@@ -53,10 +46,6 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     }).compileComponents();
 

@@ -4,10 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggleExpression,
-  FeatureToggleKey,
   FeatureToggles,
   ImageGroup,
   MockDatePipe,
@@ -145,19 +142,6 @@ class MockProductImageZoomTriggerComponent {
 
 let mockFeatureToggles: FeatureToggles;
 
-class MockFeatureConfigService {
-  isEnabled(feature: FeatureToggleExpression): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as FeatureToggleKey;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
@@ -177,7 +161,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
         ProductImageZoomProductImagesComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: LCP_PRESENCE,
           useValue: mockLcpPresence$,

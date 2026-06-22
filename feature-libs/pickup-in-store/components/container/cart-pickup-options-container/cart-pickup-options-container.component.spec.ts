@@ -10,7 +10,6 @@ import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsService,
   CxDatePipe,
-  FeatureConfigService,
   MockDatePipe,
   MockTranslatePipe,
   Page,
@@ -119,12 +118,6 @@ const mockOutletContext: { item: OrderEntry; cartType: string } = {
   cartType: 'cart',
 };
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 const context$ = of(mockOutletContext);
 
 class MockIntendedPickupLocationFacade {
@@ -178,10 +171,6 @@ describe('CartPickupOptionsContainerComponent', () => {
         {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationFacade,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).overrideComponent(CartPickupOptionsContainerComponent, {

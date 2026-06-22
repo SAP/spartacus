@@ -42,9 +42,13 @@ describe('useFeatureStyles', () => {
 
   describe('when called in constructor of component', () => {
     it(`should register usage of feature flag's styles`, () => {
-      expect(service.registerUsage).not.toHaveBeenCalledWith('testFeatureFlag' as any);
+      expect(service.registerUsage).not.toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
       TestBed.createComponent(TestComponent);
-      expect(service.registerUsage).toHaveBeenCalledWith('testFeatureFlag' as any);
+      expect(service.registerUsage).toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
     });
 
     it(`should unregister usage of feature flag's styles on component destroy`, () => {
@@ -56,7 +60,9 @@ describe('useFeatureStyles', () => {
         'testFeatureFlag' as any
       );
       fixture.destroy();
-      expect(service.unregisterUsage).toHaveBeenCalledWith('testFeatureFlag' as any);
+      expect(service.unregisterUsage).toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
     });
   });
 

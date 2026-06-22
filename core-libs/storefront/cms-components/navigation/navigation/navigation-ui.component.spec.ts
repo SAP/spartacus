@@ -129,7 +129,8 @@ describe('Navigation UI Component', () => {
           useValue: mockWinRef,
         },
         {
-          provide: FeatureToggles, useValue: { ...mockFeatureToggles },
+          provide: FeatureToggles,
+          useValue: { ...mockFeatureToggles },
         },
         {
           provide: BreakpointService,

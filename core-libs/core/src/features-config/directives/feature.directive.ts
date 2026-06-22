@@ -18,16 +18,11 @@ export class FeatureDirective {
 
   private hasView = false;
 
-  @Input() set cxFeature(
-    feature: FeatureToggleExpression
-  ) {
+  @Input() set cxFeature(feature: FeatureToggleExpression) {
     if (this.featureConfig.isEnabled(feature) && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;
-    } else if (
-      !this.featureConfig.isEnabled(feature) &&
-      this.hasView
-    ) {
+    } else if (!this.featureConfig.isEnabled(feature) && this.hasView) {
       this.viewContainer.clear();
       this.hasView = false;
     }

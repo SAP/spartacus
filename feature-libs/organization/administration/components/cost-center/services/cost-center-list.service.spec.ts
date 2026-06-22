@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  CostCenter,
-  EntitiesModel,
-  FeatureToggles,
-} from '@spartacus/core';
+import { CostCenter, EntitiesModel, FeatureToggles } from '@spartacus/core';
 import { OrganizationUIConfig } from '@spartacus/organization/administration/root';
 import { CostCenterService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';

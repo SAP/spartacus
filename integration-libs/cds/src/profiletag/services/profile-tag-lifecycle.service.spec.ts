@@ -1,10 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ActionsSubject, StoreModule } from '@ngrx/store';
-import {
-  AuthActions,
-  ConsentService,
-  FeatureToggles,
-} from '@spartacus/core';
+import { AuthActions, ConsentService, FeatureToggles } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';

@@ -12,7 +12,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
-  FeatureConfigService,
   Image,
   ImageGroup,
   MockTranslatePipe,
@@ -68,16 +67,6 @@ class MockProductService {}
 
 let mockFeatureToggles: Record<string, boolean> = {};
 
-class MockFeatureConfigService {
-  isEnabled(feature: string): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = hasNegation ? feature.slice(1) : feature;
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 @Directive({ selector: '[cxInnerComponentsHost]' })
 class MockInnerComponentsHostDirective {}
 
@@ -122,10 +111,6 @@ describe('ProductListItemComponent in product-list', () => {
         {
           provide: ProductService,
           useClass: MockProductService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     })

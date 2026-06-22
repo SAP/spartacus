@@ -9,7 +9,6 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
-  FeatureConfigService,
   I18nTestingModule,
   Language,
   LanguageService,
@@ -28,12 +27,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 })
 class MockCxIconComponent {
   @Input() type;
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
 }
 
 describe('LanguageCurrencyComponent in CmsLib', () => {
@@ -118,10 +111,6 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
         {
           provide: TranslationService,
           useClass: MockTranslationService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         contextServiceMapProvider,
       ],

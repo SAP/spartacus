@@ -66,10 +66,7 @@ export class VerificationTokenFormComponentService {
       this.form.markAllAsTouched();
       return;
     }
-    if (
-      this.featureToggles.authorizationCodeFlowByDefault &&
-      nativeForm
-    ) {
+    if (this.featureToggles.authorizationCodeFlowByDefault && nativeForm) {
       this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
       nativeForm.submit();
       this.busy$.next(true);

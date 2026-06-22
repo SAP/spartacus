@@ -12,11 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  FeatureToggles,
-  HttpErrorModel,
-  WindowRef,
-} from '@spartacus/core';
+import { FeatureToggles, HttpErrorModel, WindowRef } from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -45,8 +41,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     this.breakOutOfIframeIfNeeded();
 
     const checkProcessingCartOnErrorOnly =
-      this.featureToggles
-        .opfPaymentVerificationCheckProcessingCartOnErrorOnly;
+      this.featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly;
 
     if (!checkProcessingCartOnErrorOnly) {
       this.opfPaymentVerificationService.checkIfProcessingCartIdExist();

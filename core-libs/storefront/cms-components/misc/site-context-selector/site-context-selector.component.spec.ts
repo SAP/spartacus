@@ -14,7 +14,6 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
-  FeatureConfigService,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -42,12 +41,6 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxIconComponent {
   @Input() type;
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -114,10 +107,6 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         {
           provide: TranslationService,
           useClass: MockTranslationService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         contextServiceMapProvider,
       ],

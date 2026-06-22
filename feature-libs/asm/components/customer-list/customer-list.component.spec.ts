@@ -18,7 +18,6 @@ import {
 } from '@spartacus/asm/root';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeatureModulesService,
   I18nTestingModule,
   MockDatePipe,
@@ -212,12 +211,6 @@ class MockBreakpointService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
   getCustomerListsState(): Observable<QueryState<CustomerListsPage>> {
     return of({ error: false, loading: false, data: mockCustomerListPage });
@@ -271,7 +264,6 @@ describe('CustomerListComponent', () => {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: AsmConfig, useClass: MockAsmConfig },
         {
           provide: AsmCustomerListFacade,

@@ -6,11 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import {
-  AuthActions,
-  ConsentService,
-  FeatureToggles,
-} from '@spartacus/core';
+import { AuthActions, ConsentService, FeatureToggles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';

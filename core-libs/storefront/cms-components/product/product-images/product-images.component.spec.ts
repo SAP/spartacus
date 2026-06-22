@@ -2,12 +2,7 @@ import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureConfigService,
-  FeaturesConfigModule, FeatureToggleExpression, FeatureToggleKey,
-  FeatureToggles,
-  Product,
-} from '@spartacus/core';
+import { FeaturesConfigModule, FeatureToggles, Product } from '@spartacus/core';
 import {
   CarouselComponent,
   CarouselScrollingComponent,
@@ -115,19 +110,6 @@ class MockCarouselScrollingComponent {
 
 let mockFeatureToggles: FeatureToggles;
 
-class MockFeatureConfigService {
-  isEnabled(feature: FeatureToggleExpression): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as FeatureToggleKey;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -148,7 +130,6 @@ describe('ProductImagesComponent', () => {
         ProductImagesComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: LCP_PRESENCE,
           useValue: mockLcpPresence$,

@@ -1,10 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  Config,
-  FeatureToggles,
-  Image,
-  LoggerService,
-} from '@spartacus/core';
+import { Config, FeatureToggles, Image, LoggerService } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';

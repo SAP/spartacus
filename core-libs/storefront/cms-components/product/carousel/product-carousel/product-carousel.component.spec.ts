@@ -12,10 +12,7 @@ import { By } from '@angular/platform-browser';
 import {
   CmsProductCarouselComponent,
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggleExpression,
-  FeatureToggleKey,
   FeatureToggles,
   MockDatePipe,
   MockTranslatePipe,
@@ -221,23 +218,9 @@ class MockProductSearchByCategoryService
 
 let mockFeatureToggles: FeatureToggles;
 
-class MockFeatureConfigService {
-  isEnabled(feature: FeatureToggleExpression): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as FeatureToggleKey;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
-  let featureConfigService: MockFeatureConfigService;
   let productSearchByCodeService: MockProductSearchByCodeService;
   let productSearchByCategoryService: MockProductSearchByCategoryService;
 
@@ -249,10 +232,6 @@ describe('ProductCarouselComponent', () => {
     {
       provide: ProductService,
       useClass: MockProductService,
-    },
-    {
-      provide: FeatureConfigService,
-      useClass: MockFeatureConfigService,
     },
     {
       provide: ProductSearchByCodeService,
@@ -302,9 +281,6 @@ describe('ProductCarouselComponent', () => {
     };
     fixture = TestBed.createComponent(ProductCarouselComponent);
     component = fixture.componentInstance;
-    featureConfigService = TestBed.inject(
-      FeatureConfigService
-    ) as MockFeatureConfigService;
     productSearchByCodeService = TestBed.inject(
       ProductSearchByCodeService
     ) as MockProductSearchByCodeService;
@@ -346,7 +322,6 @@ describe('ProductCarouselComponent', () => {
   });
 
   it('should have product code 111 in first product', waitForAsync(() => {
-    spyOn(featureConfigService, 'isEnabled').and.callThrough();
     fixture.detectChanges();
 
     let items: Observable<Product | undefined>[] = [];
@@ -358,7 +333,6 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('Should use batch API with carouselMinimal scope when componentMappingExist is false', (done) => {
-    spyOn(featureConfigService, 'isEnabled').and.callThrough();
     fixture.detectChanges();
 
     spyOn(productSearchByCodeService, 'get').and.callThrough();
@@ -433,9 +407,6 @@ describe('ProductCarouselComponent', () => {
       TestBed.compileComponents();
       fixture = TestBed.createComponent(ProductCarouselComponent);
       component = fixture.componentInstance;
-      featureConfigService = TestBed.inject(
-        FeatureConfigService
-      ) as MockFeatureConfigService;
       productSearchByCodeService = TestBed.inject(
         ProductSearchByCodeService
       ) as MockProductSearchByCodeService;
@@ -443,7 +414,6 @@ describe('ProductCarouselComponent', () => {
     });
 
     it('Should use batch API with carousel scope when componentMappingExist is true', (done) => {
-      spyOn(featureConfigService, 'isEnabled').and.callThrough();
       spyOn(productSearchByCodeService, 'get').and.callThrough();
       fixture.detectChanges();
 
@@ -498,9 +468,6 @@ describe('ProductCarouselComponent', () => {
       TestBed.compileComponents();
       fixture = TestBed.createComponent(ProductCarouselComponent);
       component = fixture.componentInstance;
-      featureConfigService = TestBed.inject(
-        FeatureConfigService
-      ) as MockFeatureConfigService;
       productSearchByCategoryService = TestBed.inject(
         ProductSearchByCategoryService
       ) as MockProductSearchByCategoryService;
@@ -531,8 +498,6 @@ describe('ProductCarouselComponent', () => {
     });
 
     it('should retrieve products by category', (done) => {
-      spyOn(featureConfigService, 'isEnabled').and.callThrough();
-
       spyOn(productSearchByCategoryService, 'get').and.callThrough();
       spyOn(productSearchByCodeService, 'get').and.callThrough();
 

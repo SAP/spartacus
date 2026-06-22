@@ -86,13 +86,8 @@ export class LoginFormComponentService {
       this.form.markAllAsTouched();
       return;
     }
-    if (
-      this.featureToggles.authorizationCodeFlowByDefault &&
-      nativeForm
-    ) {
-      if (
-        this.featureToggles.authorizationCodeFlowByDefaultCsrfTokenRefresh
-      ) {
+    if (this.featureToggles.authorizationCodeFlowByDefault && nativeForm) {
+      if (this.featureToggles.authorizationCodeFlowByDefaultCsrfTokenRefresh) {
         // CXSPA-13213: refresh the CSRF token immediately before the
         // native form submit. The auth server rotates per-request, so a
         // stale page-load token would 403. A 403 on this GET also

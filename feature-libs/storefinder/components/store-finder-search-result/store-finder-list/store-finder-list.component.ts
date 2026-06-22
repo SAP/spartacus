@@ -23,11 +23,7 @@ import {
   viewChild,
   ViewChild,
 } from '@angular/core';
-import {
-  FeatureToggles,
-  PointOfService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { FeatureToggles, PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { StoreFinderListItemComponent } from '../../store-finder-list-item/store-finder-list-item.component';

@@ -74,7 +74,9 @@ describe('AuthRedirectService', () => {
         AuthRedirectStorageService,
         {
           provide: FeatureToggles,
-          useValue: { redirectOnlyOnTrueNavigationEnd: false } as FeatureToggles,
+          useValue: {
+            redirectOnlyOnTrueNavigationEnd: false,
+          } as FeatureToggles,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },

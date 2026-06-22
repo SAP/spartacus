@@ -124,7 +124,8 @@ describe('BadRequestHandler', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: FeatureToggles, useValue: { ...mockFeatureToggles },
+          provide: FeatureToggles,
+          useValue: { ...mockFeatureToggles },
         },
       ],
     });

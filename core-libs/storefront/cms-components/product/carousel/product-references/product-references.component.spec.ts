@@ -11,8 +11,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
-  FeatureConfigService,
-  FeaturesConfigModule, FeatureToggleExpression, FeatureToggleKey,
+  FeaturesConfigModule,
   FeatureToggles,
   MockTranslatePipe,
   Product,
@@ -149,21 +148,6 @@ class MockProductReferenceService {
 RouterModule.forRoot([]);
 let mockFeatureToggles: FeatureToggles;
 
-class MockFeatureConfigService {
-  isEnabled(
-    feature: FeatureToggleExpression
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as FeatureToggleKey;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let productReferenceService: ProductReferenceService;
@@ -173,7 +157,6 @@ describe('ProductReferencesComponent', () => {
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, RouterModule.forRoot([])],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: CmsComponentData,
           useValue: MockCmsProductCarouselComponent,
