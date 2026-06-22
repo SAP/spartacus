@@ -1,0 +1,257 @@
+on:
+  schedule:
+    # Runs at 11:00 UTC, ~3h after repo-sync.yml's 08:00 force-push,
+    # so this re-applies its edit on top of the freshly-synced branch.
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+name: Update azure-pipelines.yml on private repo
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-private-azure-pipelines-develop
+  cancel-in-progress: false
+
+jobs:
+  update_private_azure_pipelines:
+    name: Edit and push azure-pipelines.yml to the private repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: develop
+
+      - name: Read current major/minor from core-libs/core/package.json
+        id: current_version
+        run: |
+          set -euo pipefail
+
+          VERSION=$(node -p "require('./core-libs/core/package.json').version")
+          echo "Raw version: $VERSION"
+
+          # Expected shape: <prefix>.<major>.<minor>[-<suffix>]  e.g. 221121.13.1, 221121.13.0-2
+          if [[ ! "$VERSION" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-([0-9]+))?$ ]]; then
+            echo "Error. Unexpected version format: $VERSION"
+            exit 1
+          fi
+          PREFIX="${BASH_REMATCH[1]}"
+          MAJOR="${BASH_REMATCH[2]}"
+          MINOR="${BASH_REMATCH[3]}"
+
+          echo "prefix=$PREFIX"  >> "$GITHUB_OUTPUT"
+          echo "major=$MAJOR"    >> "$GITHUB_OUTPUT"
+          echo "minor=$MINOR"    >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "develop is on prefix=$PREFIX major=$MAJOR minor=$MINOR"
+
+      - name: Discover active release branches on the private repo
+        id: release_branches
+        env:
+          GHT_USER: ${{ vars.GHT_USER }}
+          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          GHT_SPARTACUS_REPO: ${{ vars.GHT_SPARTACUS_REPO }}
+          CURRENT_PREFIX: ${{ steps.current_version.outputs.prefix }}
+          CURRENT_MAJOR: ${{ steps.current_version.outputs.major }}
+        run: |
+          set -euo pipefail
+
+          git config --global credential.helper store
+          printf 'https://%s:%s@github.tools.sap\n' "$GHT_USER" "$GHT_PRIVATE_REPO_TOKEN" > ~/.git-credentials
+
+          PRIVATE_URL="https://github.tools.sap/cx-commerce-storefronts/${GHT_SPARTACUS_REPO}.git"
+
+          # Branch names follow:  release-<prefix>.<major>.<minor>[-<suffix>]
+          # e.g. release-221121.13.0, release-221121.13.0-1, release-221121.13.1, release-221121.15.0-1
+          BRANCH_PREFIX="release-${CURRENT_PREFIX}"
+          echo "Listing release branches matching ${BRANCH_PREFIX}.*"
+          mapfile -t ALL_BRANCHES < <(
+            git ls-remote --heads "$PRIVATE_URL" "refs/heads/${BRANCH_PREFIX}.*" \
+              | awk '{print $2}' \
+              | sed 's#^refs/heads/##' \
+              | grep -E "^${BRANCH_PREFIX}\.[0-9]+\.[0-9]+(-[0-9]+)?$" || true
+          )
+          echo "Found ${#ALL_BRANCHES[@]} candidate branch(es):"
+          printf '  %s\n' "${ALL_BRANCHES[@]:-<none>}"
+
+          # Selection rule:
+          #   - keep only branches with major >= CURRENT_MAJOR
+          #   - within (major, minor): -N suffixes are pre-releases of the final.
+          #     Ordering: 13.0-1 < 13.0-2 < 13.0 < 13.1
+          #     i.e. higher minor wins; same minor → no-suffix beats any -N;
+          #     same minor + both pre-release → higher -N wins.
+          #   - one winner per major
+          declare -A BEST_BY_MAJOR=()   # major -> "minor:phase:suffix:branch"
+          for B in "${ALL_BRANCHES[@]:-}"; do
+            [[ -z "$B" ]] && continue
+            if [[ ! "$B" =~ ^${BRANCH_PREFIX}\.([0-9]+)\.([0-9]+)(-([0-9]+))?$ ]]; then
+              continue
+            fi
+            MA="${BASH_REMATCH[1]}"
+            MI="${BASH_REMATCH[2]}"
+            # Phase: 1 = final (no -N), 0 = pre-release (-N). Final beats any pre-release.
+            if [[ -n "${BASH_REMATCH[4]:-}" ]]; then
+              PHASE=0
+              SU="${BASH_REMATCH[4]}"
+            else
+              PHASE=1
+              SU=0
+            fi
+
+            if (( MA < CURRENT_MAJOR )); then
+              continue
+            fi
+
+            CUR="${BEST_BY_MAJOR[$MA]:-}"
+            if [[ -z "$CUR" ]]; then
+              BEST_BY_MAJOR[$MA]="${MI}:${PHASE}:${SU}:${B}"
+              continue
+            fi
+            IFS=':' read -r CMI CPH CSU _ <<< "$CUR"
+            # Lexicographic comparison on (minor, phase, suffix).
+            if   (( MI  > CMI )); then
+              BEST_BY_MAJOR[$MA]="${MI}:${PHASE}:${SU}:${B}"
+            elif (( MI == CMI )) && (( PHASE > CPH )); then
+              BEST_BY_MAJOR[$MA]="${MI}:${PHASE}:${SU}:${B}"
+            elif (( MI == CMI )) && (( PHASE == CPH )) && (( SU > CSU )); then
+              BEST_BY_MAJOR[$MA]="${MI}:${PHASE}:${SU}:${B}"
+            fi
+          done
+
+          SELECTED=()
+          for MA in "${!BEST_BY_MAJOR[@]}"; do
+            IFS=':' read -r _ _ _ BR <<< "${BEST_BY_MAJOR[$MA]}"
+            SELECTED+=("$BR")
+          done
+
+          # Sort selected branches by major ascending for deterministic output
+          if (( ${#SELECTED[@]} > 0 )); then
+            mapfile -t SELECTED < <(printf '%s\n' "${SELECTED[@]}" | sort)
+          fi
+
+          echo "Selected branch per active major:"
+          printf '  %s\n' "${SELECTED[@]:-<none>}"
+
+          # Emit as a JSON array so downstream steps / matrix can consume it cleanly.
+          if (( ${#SELECTED[@]} == 0 )); then
+            JSON='[]'
+          else
+            JSON=$(printf '%s\n' "${SELECTED[@]}" | jq -R . | jq -sc .)
+          fi
+          echo "branches_json=$JSON" >> "$GITHUB_OUTPUT"
+          # Also expose a space-separated form for shell consumers.
+          echo "branches=${SELECTED[*]:-}" >> "$GITHUB_OUTPUT"
+
+      - name: Edit azure-pipelines.yml on the private repo
+        env:
+          BRANCH_TO_SYNC: develop
+          GHT_USER: ${{ vars.GHT_USER }}
+          GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
+          GHT_SPARTACUS_REPO: ${{ vars.GHT_SPARTACUS_REPO }}
+          GHT_EMAIL: ${{ vars.GHT_EMAIL }}
+          TARGET_FILE: azure-pipelines.yml
+        run: |
+          set -euo pipefail
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Configure git credentials"
+
+          git config --global credential.helper store
+          printf 'https://%s:%s@github.tools.sap\n' "$GHT_USER" "$GHT_PRIVATE_REPO_TOKEN" > ~/.git-credentials
+          git config --global user.email "$GHT_EMAIL"
+          git config --global user.name  "$GHT_USER"
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Clone private repo, branch: $BRANCH_TO_SYNC"
+
+          git clone --depth 1 -b "$BRANCH_TO_SYNC" \
+            "https://github.tools.sap/cx-commerce-storefronts/${GHT_SPARTACUS_REPO}.git" private
+          cd private
+
+          if [[ ! -f "$TARGET_FILE" ]]; then
+            echo "Error. $TARGET_FILE not found on branch $BRANCH_TO_SYNC of the private repo."
+            exit 1
+          fi
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Edit $TARGET_FILE"
+
+          BRANCHES='${{ steps.release_branches.outputs.branches }}'
+          if [[ -z "$BRANCHES" ]]; then
+            echo "No release branches discovered — leaving $TARGET_FILE unchanged."
+            exit 0
+          fi
+          echo "Branches to add under the 'pipeline optimization' schedule:"
+          for B in $BRANCHES; do echo "  - $B"; done
+
+          # Append the discovered release branches under the `branches.include:`
+          # list of the schedule whose displayName is "pipeline optimization".
+          # Idempotent: any pre-existing `- release-*` lines already in that
+          # include block are stripped first so a re-run produces the same result.
+          awk -v branches="$BRANCHES" '
+            BEGIN { n = split(branches, arr, " ") }
+
+            # Enter the target schedule block
+            /^[[:space:]]*displayName:[[:space:]]*pipeline optimization[[:space:]]*$/ {
+              in_sched = 1
+              print
+              next
+            }
+
+            # Within that schedule, after the literal `- develop` entry under include:
+            in_sched && /^[[:space:]]+- develop[[:space:]]*$/ {
+              print
+              # Preserve the indentation used for `- develop`
+              match($0, /^[[:space:]]+/)
+              indent = substr($0, RSTART, RLENGTH)
+              for (i = 1; i <= n; i++) {
+                if (arr[i] != "") print indent "- " arr[i]
+              }
+              stripping = 1
+              in_sched = 0
+              next
+            }
+
+            # Drop any pre-existing `- release-*` lines that followed `- develop`
+            # (keeps the edit idempotent across re-runs the same day)
+            stripping && /^[[:space:]]+- release-[^[:space:]]+[[:space:]]*$/ {
+              next
+            }
+            stripping { stripping = 0 }
+
+            { print }
+          ' "$TARGET_FILE" > "$TARGET_FILE.new"
+          mv "$TARGET_FILE.new" "$TARGET_FILE"
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Verify all discovered branches appear under the schedule's include block"
+
+          missing=0
+          for B in $BRANCHES; do
+            if ! grep -Eq "^[[:space:]]+- ${B}[[:space:]]*$" "$TARGET_FILE"; then
+              echo "Error. Branch '$B' not found in $TARGET_FILE after edit."
+              missing=1
+            fi
+          done
+          if (( missing != 0 )); then
+            exit 1
+          fi
+          echo "All branches present."
+
+          echo "---------------------------------------------------------------------------------------------------------------------------"
+          echo "Commit and push"
+
+          if git diff --quiet -- "$TARGET_FILE"; then
+            echo "No changes to $TARGET_FILE — nothing to push."
+            exit 0
+          fi
+
+          git add -- "$TARGET_FILE"
+          git commit -m "automated: update $TARGET_FILE on $BRANCH_TO_SYNC"
+          git push origin "$BRANCH_TO_SYNC"
+      - name: Cleanup credentials
+        if: always()
+        run: |
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper || true
