@@ -7,12 +7,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnDestroy,
   OnInit,
   Optional,
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -22,6 +24,7 @@ import {
 } from '@angular/forms';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -65,6 +68,8 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   protected formBuilder = inject(UntypedFormBuilder);
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
   protected subscription = new Subscription();
   giftCardForm: UntypedFormGroup;
   protected showGiftCardForm = signal(false);
@@ -164,32 +169,70 @@ export class OpfGiftCardApplyComponent implements OnInit, OnDestroy {
   );
 
   ngOnInit(): void {
-    this.subscription.add(
+    if (this.featureToggles.opfUseDestroyRef) {
       this.giftCardFacade
         .isGiftCardCoveredTotalAmount(this.cart$)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((isCovered) => {
           this.opfPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent(
             isCovered
           );
-        })
-    );
+        });
 
-    // Close gift card form when other payment options are selected
-    // selectedPaymentOptionId is -1 for saved payment details.
-    this.subscription.add(
-      this.opfMetadataStoreService.getOpfMetadataState().subscribe((x) => {
-        if ((x.selectedPaymentOptionId ?? 0) >= -1 && this.showGiftCardForm()) {
-          this.giftCardForm.reset();
-          this.toggleGiftCardForm();
-        }
-      })
-    );
-    if (this.outlet?.context$) {
+      // Close gift card form when other payment options are selected
+      // selectedPaymentOptionId is -1 for saved payment details.
+      this.opfMetadataStoreService
+        .getOpfMetadataState()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((x) => {
+          if (
+            (x.selectedPaymentOptionId ?? 0) >= -1 &&
+            this.showGiftCardForm()
+          ) {
+            this.giftCardForm.reset();
+            this.toggleGiftCardForm();
+          }
+        });
+
+      if (this.outlet?.context$) {
+        this.outlet.context$
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((context) => {
+            this.isBillingAddressPresent$ = context?.disabled;
+          });
+      }
+    } else {
       this.subscription.add(
-        this.outlet.context$.subscribe((context) => {
-          this.isBillingAddressPresent$ = context?.disabled;
+        this.giftCardFacade
+          .isGiftCardCoveredTotalAmount(this.cart$)
+          .subscribe((isCovered) => {
+            this.opfPaymentEventsService.emitIsGiftCardCoveredTotalAmountEvent(
+              isCovered
+            );
+          })
+      );
+
+      // Close gift card form when other payment options are selected
+      // selectedPaymentOptionId is -1 for saved payment details.
+      this.subscription.add(
+        this.opfMetadataStoreService.getOpfMetadataState().subscribe((x) => {
+          if (
+            (x.selectedPaymentOptionId ?? 0) >= -1 &&
+            this.showGiftCardForm()
+          ) {
+            this.giftCardForm.reset();
+            this.toggleGiftCardForm();
+          }
         })
       );
+
+      if (this.outlet?.context$) {
+        this.subscription.add(
+          this.outlet.context$.subscribe((context) => {
+            this.isBillingAddressPresent$ = context?.disabled;
+          })
+        );
+      }
     }
     this.buildForm();
   }
