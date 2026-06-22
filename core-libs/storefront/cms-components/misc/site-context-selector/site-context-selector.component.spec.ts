@@ -186,7 +186,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   });
 
   it('should have the selected attribute on the active language option', () => {
-    const options = el.queryAll(By.css('option'));
+    const options = el.queryAll(By.css('.cx-select-wrapper option'));
     const withSelectedAttr = options.filter((opt) =>
       opt.nativeElement.hasAttribute('selected')
     );
