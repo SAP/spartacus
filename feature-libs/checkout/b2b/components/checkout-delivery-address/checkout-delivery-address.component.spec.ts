@@ -465,9 +465,8 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     it('for ACCOUNT payment, should filter to shipping addresses when b2bCheckoutShippingAddressFilter is enabled', (done) => {
       accountPayment$.next(true);
       (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
-      userCostCenterService.getCostCenterAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
-      );
+      userCostCenterService.getCostCenterAddresses =
+        createSpy().and.returnValue(of(mockAddresses));
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -482,9 +481,8 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     it('for ACCOUNT payment, should return all addresses when b2bCheckoutShippingAddressFilter is disabled', (done) => {
       accountPayment$.next(true);
       (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
-      userCostCenterService.getCostCenterAddresses = createSpy().and.returnValue(
-        of(mockAddresses)
-      );
+      userCostCenterService.getCostCenterAddresses =
+        createSpy().and.returnValue(of(mockAddresses));
 
       component.ngOnInit();
       fixture.detectChanges();
