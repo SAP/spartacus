@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
@@ -73,6 +74,10 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
   getCostCenterAddresses = createSpy().and.returnValue(of(mockAddresses));
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy().and.returnValue(false);
+}
+
 class MockCheckoutCostCenterService
   implements Partial<CheckoutCostCenterFacade>
 {
@@ -106,6 +111,7 @@ const mockAddress1: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
+  shippingAddress: true,
 };
 const mockAddress2: Address = {
   firstName: 'Alice',
@@ -169,6 +175,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let userCostCenterService: UserCostCenterService;
   let globalMessageService: GlobalMessageService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -203,11 +210,14 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     })
       .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
         add: {
-          changeDetection: ChangeDetectionStrategy.Default,
           imports: [
             MockAddressFormComponent,
             MockCardComponent,
@@ -237,6 +247,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     userCostCenterService = TestBed.inject(UserCostCenterService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
+    featureConfigService = TestBed.inject(FeatureConfigService);
   }));
 
   beforeEach(() => {
@@ -446,6 +457,40 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       component['getSupportedAddresses']()
         .subscribe(() => {
           expect(userAddressService.getAddresses).toHaveBeenCalled();
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('for ACCOUNT payment, should filter to shipping addresses when b2bCheckoutShippingAddressFilter is enabled', (done) => {
+      accountPayment$.next(true);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      userCostCenterService.getCostCenterAddresses = createSpy().and.returnValue(
+        of(mockAddresses)
+      );
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      component['getSupportedAddresses']()
+        .subscribe((addresses) => {
+          expect(addresses).toEqual([mockAddress1]);
+          done();
+        })
+        .unsubscribe();
+    });
+
+    it('for ACCOUNT payment, should return all addresses when b2bCheckoutShippingAddressFilter is disabled', (done) => {
+      accountPayment$.next(true);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      userCostCenterService.getCostCenterAddresses = createSpy().and.returnValue(
+        of(mockAddresses)
+      );
+
+      component.ngOnInit();
+      fixture.detectChanges();
+      component['getSupportedAddresses']()
+        .subscribe((addresses) => {
+          expect(addresses).toEqual(mockAddresses);
           done();
         })
         .unsubscribe();
