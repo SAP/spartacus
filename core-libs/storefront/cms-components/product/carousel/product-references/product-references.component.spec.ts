@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
   FeatureConfigService,
-  FeaturesConfigModule,
+  FeaturesConfigModule, FeatureToggleExpression, FeatureToggleKey,
   FeatureToggles,
   MockTranslatePipe,
   Product,
@@ -151,12 +151,12 @@ let mockFeatureToggles: FeatureToggles;
 
 class MockFeatureConfigService {
   isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+    feature: FeatureToggleExpression
   ): boolean {
     const hasNegation = feature.startsWith('!');
     const featureName = (
       hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
+    ) as FeatureToggleKey;
 
     return hasNegation
       ? !mockFeatureToggles[featureName]

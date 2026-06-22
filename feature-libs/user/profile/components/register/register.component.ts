@@ -23,7 +23,7 @@ import {
   AnonymousConsentsService,
   AuthConfigService,
   ConsentTemplate,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -73,10 +73,9 @@ import { RegisterComponentService } from './register-component.service';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // CXSPA-10916: Remove service with toggle
-  private featureConfigService = inject(FeatureConfigService);
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'useEnhancedSecurePasswordValidators'
-  )
+  private featureToggles = inject(FeatureToggles);
+  protected passwordValidators = this.featureToggles
+    .useEnhancedSecurePasswordValidators
     ? [
         ...CustomFormValidators.securePasswordValidators,
         CustomFormValidators.mustEndWithLegalCharacter,
@@ -256,7 +255,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.router.go({ cxRoute: 'login' });
     } else if (
       this.authConfigService.getOAuthFlow() ===

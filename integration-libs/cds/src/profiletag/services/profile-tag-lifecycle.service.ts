@@ -9,7 +9,7 @@ import { ActionsSubject } from '@ngrx/store';
 import {
   AuthActions,
   ConsentService,
-  FeatureConfigService,
+  FeatureToggles,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
@@ -22,7 +22,7 @@ import { LOGIN_EVENTS } from '../tokens/login-events.token';
 })
 export class ProfileTagLifecycleService {
   private readonly loginEnvelopes$ = inject(LOGIN_EVENTS);
-  private readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     protected consentService: ConsentService,
@@ -52,9 +52,7 @@ export class ProfileTagLifecycleService {
    * Emits true only for unique login envelopes (deduped by timestamp across the app lifetime).
    */
   loginSuccessful(): Observable<boolean> {
-    const cdsLoginEventsToken = this.featureConfigService.isEnabled(
-      'cdsLoginEventsToken'
-    );
+    const cdsLoginEventsToken = this.featureToggles.cdsLoginEventsToken;
     if (cdsLoginEventsToken) {
       return this.loginEnvelopes$.pipe(
         distinctUntilChanged((a, b) => a.timestamp === b.timestamp),

@@ -6,6 +6,8 @@ import {
   CxDatePipe,
   FeatureConfigService,
   FeaturesConfigModule,
+  FeatureToggleExpression,
+  FeatureToggleKey,
   FeatureToggles,
   ImageGroup,
   MockDatePipe,
@@ -144,13 +146,11 @@ class MockProductImageZoomTriggerComponent {
 let mockFeatureToggles: FeatureToggles;
 
 class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
+  isEnabled(feature: FeatureToggleExpression): boolean {
     const hasNegation = feature.startsWith('!');
     const featureName = (
       hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
+    ) as FeatureToggleKey;
 
     return hasNegation
       ? !mockFeatureToggles[featureName]

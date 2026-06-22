@@ -16,7 +16,7 @@ import {
   AuthConfigService,
   AuthService,
   CsrfStateService,
-  FeatureConfigService,
+  FeatureToggles,
   FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
@@ -34,7 +34,7 @@ import {
 @Injectable()
 export class LoginFormComponentService {
   protected authConfigService = inject(AuthConfigService);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected csrfStateService = inject(CsrfStateService);
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);
@@ -76,7 +76,7 @@ export class LoginFormComponentService {
     protected globalMessage: GlobalMessageService,
     protected winRef: WindowRef
   ) {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.initCustomLogin();
     }
   }
@@ -87,13 +87,11 @@ export class LoginFormComponentService {
       return;
     }
     if (
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
+      this.featureToggles.authorizationCodeFlowByDefault &&
       nativeForm
     ) {
       if (
-        this.featureConfigService.isEnabled(
-          'authorizationCodeFlowByDefaultCsrfTokenRefresh'
-        )
+        this.featureToggles.authorizationCodeFlowByDefaultCsrfTokenRefresh
       ) {
         // CXSPA-13213: refresh the CSRF token immediately before the
         // native form submit. The auth server rotates per-request, so a
@@ -195,9 +193,7 @@ export class LoginFormComponentService {
   }
 
   handleCustomLoginError(): void {
-    if (
-      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-    ) {
+    if (!this.featureToggles.authorizationCodeFlowByDefault) {
       return;
     }
     // First, drain any error stashed in sessionStorage by the catchError

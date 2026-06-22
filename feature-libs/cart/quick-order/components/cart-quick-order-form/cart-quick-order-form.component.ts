@@ -26,7 +26,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
@@ -65,7 +65,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription: Subscription = new Subscription();
   protected cartEventsSubscription: Subscription = new Subscription();
   protected minQuantityValue: number = 1;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -101,9 +101,9 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
-    const useValidation = this.featureConfigService.isEnabled(
-      'a11yCartQuickOrderFormEnableSubmitAndAddValidation'
-    );
+    const useValidation =
+      this.featureToggles
+        .a11yCartQuickOrderFormEnableSubmitAndAddValidation;
     this.quickOrderForm = this.formBuilder.group({
       productCode: ['', useValidation ? [Validators.required] : []],
       quantity: [

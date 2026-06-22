@@ -24,7 +24,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   PointOfService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -70,7 +70,7 @@ export class StoreFinderListComponent {
   displayModes = LocationDisplayMode;
   activeDisplayMode = LocationDisplayMode.LIST_VIEW;
   readonly backButton = viewChild<ElementRef<HTMLButtonElement>>('backButton');
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     private storeFinderService: StoreFinderService,
@@ -78,9 +78,7 @@ export class StoreFinderListComponent {
   ) {
     this.isDetailsModeVisible = false;
 
-    if (
-      this.featureConfigService.isEnabled('a11yStoreFinderFocusOnBackButton')
-    ) {
+    if (this.featureToggles.a11yStoreFinderFocusOnBackButton) {
       // Fires when backButton enters the DOM (signal goes undefined → ElementRef), moving focus to it.
       effect(() => {
         this.backButton()?.nativeElement?.focus();

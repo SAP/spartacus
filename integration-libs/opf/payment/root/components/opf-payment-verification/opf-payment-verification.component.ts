@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   HttpErrorModel,
   WindowRef,
 } from '@spartacus/core';
@@ -36,7 +36,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   );
   protected vcr = inject(ViewContainerRef);
   protected winRef = inject(WindowRef);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   protected subscription?: Subscription;
   protected isHostedFieldPattern = false;
@@ -44,9 +44,9 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breakOutOfIframeIfNeeded();
 
-    const checkProcessingCartOnErrorOnly = this.featureConfigService.isEnabled(
-      'opfPaymentVerificationCheckProcessingCartOnErrorOnly'
-    );
+    const checkProcessingCartOnErrorOnly =
+      this.featureToggles
+        .opfPaymentVerificationCheckProcessingCartOnErrorOnly;
 
     if (!checkProcessingCartOnErrorOnly) {
       this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
