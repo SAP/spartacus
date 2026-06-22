@@ -15,7 +15,6 @@ import { OpfQuickBuyConnector } from './opf-quick-buy.connector';
 import createSpy = jasmine.createSpy;
 
 const mockGetApplePayWebSessionRequest: ApplePaySessionVerificationRequest = {
-  cartId: 'test',
   validationUrl: 'test',
   initiative: 'web',
   initiativeContext: 'test',

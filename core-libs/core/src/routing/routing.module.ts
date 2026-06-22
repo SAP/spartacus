@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LOCATION_INITIALIZED } from '@angular/common';
 import {
-  APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   inject,
+  provideAppInitializer,
 } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import {
@@ -18,8 +19,8 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import {
-  CONFIG_INITIALIZER,
   ConfigInitializer,
+  provideConfigInitializerFactory,
 } from '../config/config-initializer/config-initializer';
 import { RoutingConfig } from './configurable-routes';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
@@ -32,7 +33,6 @@ import {
   reducerToken,
 } from './store/reducers/router.reducer';
 import { ROUTING_FEATURE } from './store/routing-state';
-import { LOCATION_INITIALIZED } from '@angular/common';
 
 export function initConfigurableRoutes(
   service: ConfigurableRoutesService
@@ -90,18 +90,15 @@ export class RoutingModule {
           provide: RouterStateSerializer,
           useClass: CustomSerializer,
         },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: initConfigurableRoutes,
-          deps: [ConfigurableRoutesService],
-          multi: true,
-        },
-        {
-          provide: CONFIG_INITIALIZER,
-          useFactory: initSecurePortalConfig,
-          deps: [SecurePortalConfigInitializer, RoutingConfig],
-          multi: true,
-        },
+        provideAppInitializer(() =>
+          initConfigurableRoutes(inject(ConfigurableRoutesService))()
+        ),
+        provideConfigInitializerFactory(() => {
+          return initSecurePortalConfig(
+            inject(SecurePortalConfigInitializer),
+            inject(RoutingConfig)
+          );
+        }),
         {
           provide: LOCATION_INITIALIZED,
           useFactory: locationInitializedFactory,

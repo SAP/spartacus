@@ -5,7 +5,6 @@ import {
   CmsConfig,
   CmsService,
   ConfigModule,
-  FeatureConfigService,
   I18nTestingModule,
   Page,
   PointOfService,
@@ -26,12 +25,6 @@ import { MyPreferredStoreComponent } from './my-preferred-store.component';
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
-}
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
 }
 
 class MockCmsService {
@@ -186,7 +179,6 @@ describe('MyPreferredStoreComponent', () => {
   let routingService: RoutingService;
   let cmsService: CmsService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -215,7 +207,6 @@ describe('MyPreferredStoreComponent', () => {
         { provide: StoreFinderFacade, useClass: MockStoreLocationService },
         { provide: StoreLocationService, useClass: MockStoreLocationService },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
 
@@ -223,7 +214,6 @@ describe('MyPreferredStoreComponent', () => {
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   beforeEach(() => {
@@ -284,18 +274,5 @@ describe('MyPreferredStoreComponent', () => {
       'button.btn-tertiary'
     );
     expect(changeStoreButton.textContent).toEqual(' Change Store ');
-  });
-
-  it('should cover deprecated code to pass global coverage threshold', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
-      of({ pageId: 'someOtherPage' })
-    );
-    spyOn(
-      pickupLocationsSearchService,
-      'loadAndGetStoreDetails'
-    ).and.returnValue(of(mockStore));
-    spyOn(featureConfigService, 'isEnabled').and.returnValues(false, true);
-    component.ngOnInit();
-    expect(fixture.debugElement.nativeElement).toBeDefined();
   });
 });
