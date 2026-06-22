@@ -64,7 +64,11 @@ describe('Skipping elements from tab navigation in header', () => {
     cy.pressTab();
     cy.focused().should('have.attr', 'aria-label', 'SAP Commerce');
     cy.pressTab();
-    cy.focused().should('have.attr', 'title', 'Search');
+    cy.focused().should(
+      'have.attr',
+      'title',
+      'Search for products by name or SKU'
+    );
     cy.pressTab();
     cy.focused().should(
       'have.attr',
@@ -88,7 +92,11 @@ describe('Skipping elements from tab navigation in header', () => {
     // tab through header in reverse order
     cy.get('cx-mini-cart a').focus();
     cy.pressTab(true);
-    cy.focused().should('have.attr', 'title', 'Search');
+    cy.focused().should(
+      'have.attr',
+      'title',
+      'Search for products by name or SKU'
+    );
     cy.pressTab(true);
     cy.focused().should('have.attr', 'aria-label', 'SAP Commerce');
     cy.pressTab(true);
