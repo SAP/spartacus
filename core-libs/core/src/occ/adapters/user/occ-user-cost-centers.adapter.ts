@@ -20,7 +20,7 @@ import { OCC_HTTP_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected http: HttpClient,

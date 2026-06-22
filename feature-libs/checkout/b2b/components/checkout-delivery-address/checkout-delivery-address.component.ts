@@ -64,7 +64,7 @@ export class B2BCheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   protected isAccountPayment$: Observable<boolean> =
     this.checkoutPaymentTypeFacade
