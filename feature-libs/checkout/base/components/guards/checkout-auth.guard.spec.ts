@@ -4,7 +4,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   SemanticPathService,
   WindowRef,
@@ -42,9 +42,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy();
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+};
 
 const MockWindowRef = {
   localStorage: { setItem: createSpy(), removeItem: createSpy() },
@@ -56,7 +56,7 @@ describe('CheckoutAuthGuard', () => {
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartFacade;
   let checkoutConfigService: CheckoutConfigService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   let windowRef: WindowRef;
 
   beforeEach(() => {
@@ -88,8 +88,8 @@ describe('CheckoutAuthGuard', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+          provide: FeatureToggles,
+          useValue: { ...mockFeatureToggles },
         },
         {
           provide: WindowRef,
@@ -102,7 +102,7 @@ describe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartFacade);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     windowRef = TestBed.inject(WindowRef);
   });
 
@@ -124,7 +124,7 @@ describe('CheckoutAuthGuard', () => {
 
       describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
         beforeEach(() => {
-          (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+          featureToggles.authorizationCodeFlowByDefault = true;
         });
 
         it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', () => {
@@ -138,9 +138,6 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
           expect(windowRef.localStorage?.setItem).not.toHaveBeenCalled();
         });
 
@@ -155,9 +152,6 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
           expect(windowRef.localStorage?.setItem).toHaveBeenCalledWith(
             IS_GUEST_USER_CHECKOUT_KEY,
             'true'
@@ -167,9 +161,7 @@ describe('CheckoutAuthGuard', () => {
 
       describe('when authorizationCodeFlowByDefault feature flag is disabled', () => {
         beforeEach(() => {
-          (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(
-            false
-          );
+          featureToggles.authorizationCodeFlowByDefault = false;
         });
 
         it('should return url to login without forced flag when guestCheckout feature disabled', () => {
@@ -179,9 +171,6 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
         });
 
         it('should return url to login with forced flag when guestCheckout feature enabled', () => {
@@ -195,9 +184,6 @@ describe('CheckoutAuthGuard', () => {
             .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result?.toString()).toEqual(`/login?forced=true`);
-          expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-            'authorizationCodeFlowByDefault'
-          );
         });
       });
     });

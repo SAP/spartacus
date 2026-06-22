@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -38,11 +38,9 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yCardNotificationMessage: true,
+};
 
 describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
@@ -74,8 +72,8 @@ describe('ToggleLinkCellComponent', () => {
           useClass: MockRoutingService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+          provide: FeatureToggles,
+          useValue: { ...mockFeatureToggles },
         },
       ],
     })

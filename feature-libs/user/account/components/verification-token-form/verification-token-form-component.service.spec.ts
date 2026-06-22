@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -25,11 +25,9 @@ class MockAuthService implements Partial<AuthService> {
   );
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+};
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getCustomLoginFormEndpoint() {
@@ -90,7 +88,7 @@ describe('VerificationTokenFormComponentService', () => {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
       ],
     }).compileComponents();
   }));
@@ -171,7 +169,7 @@ describe('VerificationTokenFormComponentService', () => {
     });
   });
   describe('new flow', () => {
-    // Reset test module to reconfigure FeatureConfigService
+    // Reset test module to reconfigure FeatureToggles
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
@@ -184,12 +182,10 @@ describe('VerificationTokenFormComponentService', () => {
           },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
           {
-            provide: FeatureConfigService,
-            useClass: class {
-              isEnabled(_feature: string): boolean {
-                return true;
-              }
-            },
+            provide: FeatureToggles,
+            useValue: {
+              authorizationCodeFlowByDefault: true,
+            } as FeatureToggles,
           },
         ],
       }).compileComponents();

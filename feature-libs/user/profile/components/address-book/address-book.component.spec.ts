@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import {
   Address,
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   GlobalMessageService,
   HierarchicalAddressConfig,
@@ -38,9 +38,9 @@ class MockLanguageService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled = jasmine.createSpy().and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableHierarchicalAddressFormat: true,
+};
 
 const mockAddress: Address = {
   id: '123',
@@ -131,8 +131,8 @@ describe('AddressBookComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LanguageService, useClass: MockLanguageService },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+          provide: FeatureToggles,
+          useValue: { ...mockFeatureToggles },
         },
         {
           provide: HierarchicalAddressConfig,
@@ -411,8 +411,8 @@ describe('AddressBookComponent', () => {
     });
 
     it('should use legacy region+country format when toggle is off', () => {
-      const featureConfigService = TestBed.inject(FeatureConfigService);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      const featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.enableHierarchicalAddressFormat = false;
       let card: any;
       component.getCardContent(mockAddress).subscribe((c) => (card = c));
       expect(card.text.some((t: string) => t.includes('JP-27, JP'))).toBe(true);
@@ -420,11 +420,11 @@ describe('AddressBookComponent', () => {
   });
 
   describe('toggle off behavior', () => {
-    let featureConfigService: FeatureConfigService;
+    let featureToggles: FeatureToggles;
 
     beforeEach(() => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.enableHierarchicalAddressFormat = false;
     });
 
     it('addAddressSubmit should close the form immediately and add the address', () => {

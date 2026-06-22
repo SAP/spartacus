@@ -9,7 +9,7 @@ import {
   AuthConfigService,
   AuthService,
   CsrfStateService,
-  FeatureConfigService,
+  FeatureToggles,
   FederatedLoginService,
   GlobalMessageService,
   GlobalMessageType,
@@ -78,11 +78,10 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   isLoginDomain?: boolean | undefined = false;
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
+};
 
 class MockActivatedRoute implements Partial<ActivatedRoute> {
   snapshot = {
@@ -150,7 +149,7 @@ describe('LoginFormComponentService', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: Router, useClass: MockRouter },
         { provide: FederatedLoginService, useClass: MockFederatedLoginService },
@@ -186,7 +185,7 @@ describe('LoginFormComponentService', () => {
           { provide: AuthService, useClass: MockAuthService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
-          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+          { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
           { provide: ActivatedRoute, useClass: MockActivatedRoute },
           { provide: Router, useClass: MockRouter },
           {
@@ -263,19 +262,18 @@ describe('LoginFormComponentService', () => {
     });
 
     describe('new flow', () => {
-      // Reset test module to reconfigure FeatureConfigService
+      // Reset test module to reconfigure FeatureToggles
       beforeEach(waitForAsync(() => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
           providers: [
             LoginFormComponentService,
             {
-              provide: FeatureConfigService,
-              useClass: class {
-                isEnabled(_feature: string): boolean {
-                  return true;
-                }
-              },
+              provide: FeatureToggles,
+              useValue: {
+                authorizationCodeFlowByDefault: true,
+                authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
+              } as FeatureToggles,
             },
             {
               provide: AuthConfigService,
@@ -474,15 +472,11 @@ describe('LoginFormComponentService', () => {
             providers: [
               LoginFormComponentService,
               {
-                provide: FeatureConfigService,
-                useClass: class {
-                  isEnabled(feature: string): boolean {
-                    return (
-                      feature !==
-                      'authorizationCodeFlowByDefaultCsrfTokenRefresh'
-                    );
-                  }
-                },
+                provide: FeatureToggles,
+                useValue: {
+                  authorizationCodeFlowByDefault: true,
+                  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
+                } as FeatureToggles,
               },
               { provide: AuthConfigService, useClass: MockAuthConfigService },
               { provide: AuthService, useClass: MockAuthService },

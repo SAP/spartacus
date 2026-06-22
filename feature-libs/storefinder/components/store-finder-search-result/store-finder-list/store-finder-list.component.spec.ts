@@ -7,7 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   MockTranslatePipe,
   MockTranslationService,
   PointOfService,
@@ -56,9 +56,9 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy('isEnabled').and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yStoreFinderFocusOnBackButton: true,
+};
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -83,8 +83,8 @@ describe('StoreFinderListComponent', () => {
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+          provide: FeatureToggles,
+          useValue: { ...mockFeatureToggles },
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),

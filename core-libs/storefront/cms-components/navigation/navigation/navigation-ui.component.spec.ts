@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   MockDatePipe,
   MockTranslatePipe,
@@ -46,11 +46,9 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  navigationMenuCloseOnSameLinkClick: true,
+};
 
 class MockBreakpointService {
   isUp() {
@@ -131,8 +129,7 @@ describe('Navigation UI Component', () => {
           useValue: mockWinRef,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+          provide: FeatureToggles, useValue: { ...mockFeatureToggles },
         },
         {
           provide: BreakpointService,

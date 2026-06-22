@@ -207,6 +207,9 @@ class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
     return of(BREAKPOINT.md);
   }
+  isDown(_breakpoint: BREAKPOINT): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockFeatureConfigService {

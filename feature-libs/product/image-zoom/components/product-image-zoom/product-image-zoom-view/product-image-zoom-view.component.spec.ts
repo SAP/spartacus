@@ -15,7 +15,7 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   FeaturesConfigModule,
   I18nTestingModule,
   ImageGroup,
@@ -23,6 +23,7 @@ import {
   MockTranslatePipe,
   Product,
   TranslatePipe,
+  provideConfig,
 } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
@@ -125,11 +126,9 @@ export class MockProductImageZoomThumbnailsComponent {
   @Input() activeThumb: EventEmitter<ImageGroup>;
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yKeyboardAccessibleZoom: true,
+};
 
 describe('ProductImageZoomViewComponent', () => {
   let productImageZoomViewComponent: ProductImageZoomViewComponent;
@@ -142,7 +141,14 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        // Note: the component HTML still uses `*cxFeature` (which reads from
+        // FeaturesConfig under the hood via the deprecated FeatureConfigService).
+        // We mirror the feature toggle state here so the template renders the
+        // a11y-aware DOM expected by the tests.
+        provideConfig({
+          features: { a11yKeyboardAccessibleZoom: true },
+        }),
       ],
     })
       .overrideComponent(ProductImageZoomViewComponent, {

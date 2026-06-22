@@ -8,7 +8,7 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
+import { FeatureToggles, I18nTestingModule } from '@spartacus/core';
 import { SortingComponent } from './sorting.component';
 
 describe('SortingComponent', () => {
@@ -17,15 +17,13 @@ describe('SortingComponent', () => {
     @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
   }
 
-  class MockFeatureConfigService {
-    isEnabled() {
-      return true;
-    }
-  }
+  const mockFeatureToggles: FeatureToggles = {
+    a11yRestoreFocusOnNgSelect: true,
+  };
 
   let component: SortingComponent;
   let fixture: ComponentFixture<SortingComponent>;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -37,7 +35,7 @@ describe('SortingComponent', () => {
         MockNgSelectA11yDirective,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
       ],
     }).compileComponents();
   }));
@@ -45,7 +43,7 @@ describe('SortingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SortingComponent);
     component = fixture.componentInstance;
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     fixture.detectChanges();
   });
 
@@ -73,7 +71,7 @@ describe('SortingComponent', () => {
     }));
 
     it('should NOT focus the inner combobox after sort when toggle is disabled', fakeAsync(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      featureToggles.a11yRestoreFocusOnNgSelect = false;
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
       ) as HTMLElement;
