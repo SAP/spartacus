@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -218,6 +218,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     })
       .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
         add: {
+          changeDetection: ChangeDetectionStrategy.Default,
           imports: [
             MockAddressFormComponent,
             MockCardComponent,
