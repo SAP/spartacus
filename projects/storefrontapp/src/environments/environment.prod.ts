@@ -10,6 +10,7 @@ export const environment: Environment = {
   production: true,
   occBaseUrl: buildProcess.env.CX_BASE_URL,
   occApiPrefix: '/occ/v2/',
+  bffBaseUrl: buildProcess.env.CX_BFF_BASE_URL,
   cds: buildProcess.env.CX_CDS,
   b2b: buildProcess.env.CX_B2B,
   cdc: buildProcess.env.CX_CDC,

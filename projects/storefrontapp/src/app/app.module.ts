@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { ROUTES } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -20,6 +21,21 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     EffectsModule.forRoot([]),
     SpartacusModule,
   ],
-  providers: [privateProviders],
+  providers: [
+    privateProviders,
+    {
+      provide: ROUTES,
+      multi: true,
+      useValue: [
+        {
+          path: 'bff-say-hello',
+          loadComponent: () =>
+            import('./bff/examples/say-hello.component').then(
+              (m) => m.SayHelloComponent
+            ),
+        },
+      ],
+    },
+  ],
 })
 export class AppModule {}
