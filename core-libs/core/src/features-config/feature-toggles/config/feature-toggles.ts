@@ -617,7 +617,7 @@ export interface FeatureTogglesInterface {
    * Affects: RegisterComponent, OtpLoginRegisterComponent
    */
   a11yRegistrationTermsAsteriskMargin?: boolean;
-  
+
   /**
    * When enabled, applies a 6px bottom margin to product names in both
    * product grid and product list items for consistent spacing.
