@@ -9,6 +9,7 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
+  FeatureConfigService,
   I18nTestingModule,
   Language,
   LanguageService,
@@ -27,6 +28,12 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 })
 class MockCxIconComponent {
   @Input() type;
+}
+
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return true;
+  }
 }
 
 describe('LanguageCurrencyComponent in CmsLib', () => {
@@ -112,6 +119,10 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
         contextServiceMapProvider,
       ],
     })
@@ -141,13 +152,17 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
   });
 
   it('should contain a language select with number of options', () => {
-    const selectBox = el.queryAll(By.css('cx-site-context-selector select'))[0];
+    const selectBox = el.query(
+      By.css('cx-site-context-selector:first-of-type .cx-select-wrapper select')
+    );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
   });
 
   it('should contain a currency select with number of options', () => {
-    const selectBox = el.queryAll(By.css('cx-site-context-selector select'))[1];
+    const selectBox = el.query(
+      By.css('cx-site-context-selector:last-of-type .cx-select-wrapper select')
+    );
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockCurrencies.length);
   });
