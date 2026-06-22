@@ -1,145 +1,243 @@
 # BFF Integration — Backend URL Configuration
 
-This document describes the reference implementation for integrating a Vivaldi BFF
-(Backend for Frontend) with Spartacus Classic, and how to configure backend URLs at
-runtime using HTML meta tags.
+This document describes the complete reference implementation for integrating a Vivaldi
+BFF (Backend for Frontend) with Spartacus Classic. It covers all files you need to
+create or modify, and how they work together.
 
-## Overview
+---
+
+## How it works
 
 CCv2 injects backend URLs into `index.html` at deploy time by replacing placeholder
-strings. This avoids rebuilding the app per environment and prevents two known issues:
+strings with real values configured on the environment variable page. This avoids
+rebuilding the app per environment and prevents two known issues:
 
 - Mutating built JS files breaks PWA Service Worker integrity checks (hash mismatch)
 - Replacing values in HTML/JS files invalidates CDN cache entries
 
-Spartacus already uses this mechanism for the OCC and Media URLs. This reference
-implementation extends it with a `BFF_BASE_URL_VALUE` placeholder for the Vivaldi BFF.
+The `BFF_BASE_URL` injection token reads the substituted value from the meta tag at
+Angular bootstrap time — before any component renders. In local development, the
+Angular dev-server proxy forwards `/bff/*` to the real BFF so the browser never makes
+a cross-origin call.
 
 ---
 
-## `index.html` meta tags
+## File overview
 
-Add the following tags to your `<head>`. CCv2 replaces the placeholder values at
-release time using the values configured on the environment variable page:
+```
+src/
+  index.html                                  ← add bff-base-url meta tag
+  app/
+    app.module.ts                             ← spread bffExampleProviders
+    app.module.server.ts                      ← SSR: override BFF_BASE_URL with absolute URL
+    bff/
+      bff-base-url.token.ts                   ← InjectionToken reading meta tag
+      bff-http.service.ts                     ← HTTP client for BFF tRPC procedures
+      examples/
+        bff-example.providers.ts              ← lazy route registration
+        say-hello.component.ts                ← demo component
+  environments/
+    models/environment.model.ts               ← add bffBaseUrl field
+    environment.ts                            ← read CX_BFF_BASE_URL
+    environment.prod.ts                       ← read CX_BFF_BASE_URL
+proxy.conf.js                                 ← dev-server proxy (reads CX_BFF_BASE_URL)
+.env-cmdrc                                    ← add CX_BFF_BASE_URL to dev profiles
+project.json                                  ← point serve to proxy.conf.js
+```
+
+---
+
+## 1. `src/index.html`
+
+Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces `BFF_BASE_URL_VALUE`
+at deploy time:
 
 ```html
-<!-- OCC backend (legacy placeholder — CCv2 replaces OCC_BACKEND_BASE_URL_VALUE) -->
 <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
-
-<!-- Media / CDN -->
 <meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />
-
-<!-- Vivaldi BFF — CCv2 replaces BFF_BASE_URL_VALUE -->
 <meta name="bff-base-url" content="BFF_BASE_URL_VALUE" />
 ```
 
-At runtime, Spartacus's `MetaTagConfigModule` (activated automatically by
-`BaseCoreModule`) reads `occ-backend-base-url` and `media-backend-base-url` and
-contributes them to `backend.occ.baseUrl` and `backend.media.baseUrl` in the Spartacus
-config. The `bff-base-url` tag is read by `BFF_BASE_URL` token (see below).
+---
+
+## 2. `src/app/bff/bff-base-url.token.ts` *(new file)*
+
+Reads the `bff-base-url` meta tag at Angular bootstrap time. Falls back to `/bff/api`
+for local development (handled by the dev-server proxy).
+
+```ts
+import { InjectionToken, inject } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+
+// Inlined until BFF meta tag constants are released in @spartacus/core (CXSPA-13587).
+const BFF_BASE_URL_META_TAG_NAME = 'bff-base-url';
+const BFF_BASE_URL_META_TAG_PLACEHOLDER = 'BFF_BASE_URL_VALUE';
+
+export const BFF_BASE_URL = new InjectionToken<string>('BFF_BASE_URL', {
+  providedIn: 'root',
+  factory: () => {
+    const meta = inject(Meta);
+    const tag = meta.getTag(`name="${BFF_BASE_URL_META_TAG_NAME}"`);
+    const content = tag?.content ?? '';
+    return content && content !== BFF_BASE_URL_META_TAG_PLACEHOLDER
+      ? content
+      : '/bff/api';
+  },
+});
+```
 
 ---
 
-## `BFF_BASE_URL` injection token
+## 3. `src/app/bff/bff-http.service.ts` *(new file)*
 
-**File:** `projects/storefrontapp/src/app/bff/bff-base-url.token.ts`
-
-An Angular `InjectionToken<string>` that provides the BFF base URL to any service or
-component that needs it.
-
-**Resolution order:**
-
-1. SSR override — `process.env['BFF_BASE_URL']` provided in `app.module.server.ts`
-   (Node has no document origin, so relative URLs don't work in SSR)
-2. Browser — reads the `bff-base-url` meta tag from the document at Angular bootstrap
-3. Fallback — `/bff/api` (relative, handled by the Angular dev-server proxy in local dev)
+Generic HTTP client for calling BFF tRPC procedures. Reads `BFF_BASE_URL` and forwards
+the Spartacus OCC Bearer token as the `Authorization` header.
 
 ```ts
-import { BFF_BASE_URL } from './bff/bff-base-url.token';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { AuthStorageService } from '@spartacus/core';
+import { Observable, switchMap, take, map } from 'rxjs';
+import { BFF_BASE_URL } from './bff-base-url.token';
 
 @Injectable({ providedIn: 'root' })
-export class MyService {
+export class BffHttpService {
+  private readonly http = inject(HttpClient);
   private readonly bffBaseUrl = inject(BFF_BASE_URL);
+  private readonly authStorage = inject(AuthStorageService);
+
+  /** GET — calls a tRPC query procedure. Input is serialized as ?input={"json":{...}} */
+  query<T = unknown>(
+    procedure: string,
+    input?: Record<string, unknown>,
+    extraHeaders?: Record<string, string>,
+  ): Observable<T> {
+    return this.withAuthHeader((headers) => {
+      const params = input
+        ? new HttpParams().set('input', JSON.stringify({ json: input }))
+        : undefined;
+      return this.http
+        .get<{ result: { data: { json: T } } }>(
+          `${this.bffBaseUrl}/${procedure}`,
+          { headers: { ...headers, ...extraHeaders }, params },
+        )
+        .pipe(map((res) => res.result.data.json));
+    });
+  }
+
+  /** POST — calls a tRPC mutation procedure. Input is sent as { "json": <input> }. */
+  mutate<T = unknown>(
+    procedure: string,
+    input?: Record<string, unknown>,
+  ): Observable<T> {
+    return this.withAuthHeader((headers) =>
+      this.http
+        .post<{ result: { data: { json: T } } }>(
+          `${this.bffBaseUrl}/${procedure}`,
+          { json: input ?? {} },
+          { headers },
+        )
+        .pipe(map((res) => res.result.data.json)),
+    );
+  }
+
+  private withAuthHeader<T>(
+    fn: (headers: Record<string, string>) => Observable<T>,
+  ): Observable<T> {
+    if (!this.bffBaseUrl) {
+      throw new Error(
+        'BFF_BASE_URL is not configured. ' +
+          'Set the <meta name="bff-base-url"> tag or override BFF_BASE_URL in providers.',
+      );
+    }
+    return this.authStorage.getToken().pipe(
+      take(1),
+      switchMap((token) => {
+        const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+        if (token?.access_token) {
+          headers['Authorization'] = `Bearer ${token.access_token}`;
+        }
+        return fn(headers);
+      }),
+    );
+  }
 }
 ```
 
 ---
 
-## `BffHttpService`
+## 4. `src/app/app.module.server.ts` *(modify)*
 
-**File:** `projects/storefrontapp/src/app/bff/bff-http.service.ts`
+In SSR, Node.js has no document origin so `/bff/api` can't be resolved. Override
+`BFF_BASE_URL` with an absolute URL from the environment:
 
-A generic Angular service for calling BFF tRPC procedures over plain HTTP.
-
-- Uses Angular's `HttpClient` (not `fetch`) so it works with Angular's HTTP testing
-  infrastructure
-- Reads the Bearer token from `AuthStorageService` and forwards it as `Authorization`
-  header
-- Deliberately bypasses Spartacus's OCC interceptor chain — BFF traffic uses a
-  different base URL so none of the OCC interceptors (`SiteContextInterceptor`,
-  `AuthHttpHeaderService`, etc.) fire
-- Wraps input in `{ "json": <value> }` per the tRPC/superjson wire format
-
-**Query (GET):**
 ```ts
-this.bff.query<{ message: string }>(
-  'sample.sayHello',           // procedure path
-  { name: 'Spartacus' },       // input (serialized as ?input={"json":...})
-  { 'x-app-custom': 'foo' }    // optional extra headers
-).subscribe(res => console.log(res.message));
-```
+import { NgModule } from '@angular/core';
+import { provideServer } from '@spartacus/setup/ssr';
+import { BFF_BASE_URL } from './bff/bff-base-url.token';
 
-**Mutation (POST):**
-```ts
-this.bff.mutate<Cart>(
-  'mcs.storefront.cart.v1.carts.createCart',
-  { salesChannelId: 'electronics' }
-).subscribe(cart => console.log(cart));
+@NgModule({
+  providers: [
+    ...provideServer({
+      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+    }),
+    {
+      provide: BFF_BASE_URL,
+      useValue: process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
+    },
+  ],
+})
+export class AppServerModule {}
 ```
-
-The response envelope `{ result: { data: { json: T } } }` is unwrapped automatically —
-subscribers receive the inner value directly.
 
 ---
 
-## SSR configuration
+## 5. `proxy.conf.js` *(new file, project root)*
 
-**File:** `projects/storefrontapp/src/app/app.module.server.ts`
-
-In SSR (Node.js), relative URLs like `/bff/api` have no base to resolve against.
-`BFF_BASE_URL` is overridden with an absolute URL from `process.env['BFF_BASE_URL']`:
-
-```ts
-{
-  provide: BFF_BASE_URL,
-  useValue: process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
-}
-```
-
-Required environment variables for SSR:
-
-| Variable | Purpose |
-|---|---|
-| `BFF_BASE_URL` | Absolute BFF URL reachable from the Node.js process |
-| `SERVER_REQUEST_ORIGIN` | Public-facing origin of the storefront (e.g. `http://localhost:4200`) |
-| `NODE_TLS_REJECT_UNAUTHORIZED=0` | Local dev only — accept self-signed BFF cert |
-
----
-
-## Local development proxy
-
-**File:** `projects/storefrontapp/proxy.conf.js`
-
-The Angular dev-server proxies `/bff/*` to the real BFF, solving two local dev problems:
-
-- CORS — browser calls go to the same origin (`localhost:4200`), the proxy forwards
-  server-side where CORS doesn't apply
-- Self-signed certificate — Node accepts it via `secure: false`
-
-The proxy target is read from `CX_BFF_BASE_URL` at dev-server startup:
+Replaces the static `proxy.conf.json`. Reads `CX_BFF_BASE_URL` at dev-server startup
+and sets the proxy target dynamically. This means the browser always calls `/bff/api`
+(same origin — no CORS), and Node forwards it to the real BFF (accepting the
+self-signed cert via `secure: false`).
 
 ```js
-// .env-cmdrc
+const bffBaseUrl =
+  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
+const bffTarget = new URL(bffBaseUrl).origin;
+
+module.exports = {
+  '/bff': {
+    target: bffTarget,
+    secure: false,
+    changeOrigin: true,
+    logLevel: 'info',
+  },
+};
+```
+
+---
+
+## 6. `project.json` *(modify)*
+
+Point the `serve` (and `serve-ssr`) targets at `proxy.conf.js`:
+
+```json
+"serve": {
+  "executor": "@angular-builders/custom-esbuild:dev-server",
+  "options": {
+    "proxyConfig": "projects/storefrontapp/proxy.conf.js"
+  },
+  ...
+}
+```
+
+---
+
+## 7. `.env-cmdrc` *(modify)*
+
+Add `CX_BFF_BASE_URL` to each dev profile. This value is used **only** by
+`proxy.conf.js` at dev-server startup — it is never read by the Angular app itself:
+
+```jsonc
 {
   "dev": {
     "CX_BASE_URL": "https://your-commerce-host",
@@ -148,53 +246,84 @@ The proxy target is read from `CX_BFF_BASE_URL` at dev-server startup:
 }
 ```
 
-`CX_BFF_BASE_URL` is used **only** by `proxy.conf.js` — it is never read by the Angular
-app at runtime. The browser always calls `/bff/api` (relative).
+---
 
-To start both servers:
-```bash
-# Terminal 1 — BFF
-cd /path/to/bff-repo && OCC_BASE_URL=https://your-commerce-host npx nx serve bff
+## 8. Environment files *(modify)*
 
-# Terminal 2 — Spartacus
-npm run start
+### `src/environments/models/environment.model.ts`
+
+```ts
+export interface Environment {
+  bffBaseUrl?: string;
+  // ... existing fields
+}
+```
+
+### `src/environments/environment.ts`
+
+```ts
+export const environment: Environment = {
+  bffBaseUrl: buildProcess.env.CX_BFF_BASE_URL ?? '/bff/api',
+  // ... existing fields
+};
+```
+
+### `src/environments/environment.prod.ts`
+
+```ts
+export const environment: Environment = {
+  bffBaseUrl: buildProcess.env.CX_BFF_BASE_URL,
+  // ... existing fields
+};
+```
+
+> **Note:** `environment.bffBaseUrl` is not used by the Angular app at runtime.
+> It exists only to make `CX_BFF_BASE_URL` available to `proxy.conf.js` via the
+> build-time esbuild plugin. The app reads the BFF URL from the meta tag via
+> `BFF_BASE_URL` token, not from the environment object.
+
+---
+
+## 9. Example: calling a BFF procedure
+
+```ts
+import { inject } from '@angular/core';
+import { BffHttpService } from './bff/bff-http.service';
+
+export class MyComponent {
+  private readonly bff = inject(BffHttpService);
+
+  callBff(): void {
+    this.bff
+      .query<{ message: string }>(
+        'sample.sayHello',           // tRPC procedure path
+        { name: 'Spartacus' },       // input
+        { 'x-app-custom': 'foo' },   // optional extra headers
+      )
+      .subscribe((res) => console.log(res.message));
+  }
+}
 ```
 
 ---
 
-## Example component
-
-**File:** `projects/storefrontapp/src/app/bff/examples/say-hello.component.ts`
-
-Demonstrates calling the BFF's `sample.sayHello` procedure. Route: `/bff-say-hello`.
-
-- Input: `name` (string)
-- Custom header: `x-app-custom` (`'foo'` | `'bar'`)
-- Output: `{ message: string }`
-
-Route registered in `bff-example.providers.ts` and spread into `app.module.ts`.
-
----
-
-## Testing the meta tag substitution locally
-
-To simulate CCv2's deploy-time substitution:
+## Testing meta tag substitution locally
 
 ```bash
 # 1. Build
 npm run build:ssr
 
-# 2. Substitute placeholders
-sed -i '' 's|OCC_BACKEND_BASE_URL_VALUE|https://your-commerce-host|g' dist/storefrontapp/browser/index.html
-sed -i '' 's|BFF_BASE_URL_VALUE|https://your-bff-host/bff/api|g'      dist/storefrontapp/browser/index.html
+# 2. Substitute placeholders (simulates CCv2 deploy-time substitution)
+sed -i '' 's|BFF_BASE_URL_VALUE|https://your-bff-host/bff/api|g' \
+  dist/storefrontapp/browser/index.html
 
 # 3. Verify
-grep -E "occ-backend-base-url|bff-base-url" dist/storefrontapp/browser/index.html
+grep "bff-base-url" dist/storefrontapp/browser/index.html
 
-# 4a. Serve CSR
+# 4a. CSR
 npx http-server dist/storefrontapp/browser -p 4200 --proxy http://localhost:4200?
 
-# 4b. Or serve SSR
+# 4b. SSR
 BFF_BASE_URL=https://your-bff-host/bff/api \
 SERVER_REQUEST_ORIGIN=http://localhost:4000 \
 node dist/storefrontapp/server/server.mjs

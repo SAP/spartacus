@@ -6,10 +6,10 @@
 
 import { InjectionToken, inject } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import {
-  BFF_BASE_URL_META_TAG_NAME,
-  BFF_BASE_URL_META_TAG_PLACEHOLDER,
-} from '@spartacus/core';
+
+// Inlined until BFF meta tag constants are released in @spartacus/core (CXSPA-13587).
+const BFF_BASE_URL_META_TAG_NAME = 'bff-base-url';
+const BFF_BASE_URL_META_TAG_PLACEHOLDER = 'BFF_BASE_URL_VALUE';
 
 /**
  * Base URL of the Vivaldi BFF, read from the

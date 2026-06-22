@@ -38,9 +38,9 @@ import { BFF_BASE_URL } from './bff-base-url.token';
  */
 @Injectable({ providedIn: 'root' })
 export class BffHttpService {
-  private readonly http = inject(HttpClient);
-  private readonly bffBaseUrl = inject(BFF_BASE_URL);
-  private readonly authStorage = inject(AuthStorageService);
+  protected readonly http = inject(HttpClient);
+  protected readonly bffBaseUrl = inject(BFF_BASE_URL);
+  protected readonly authStorage = inject(AuthStorageService);
 
   /**
    * Makes a GET request to a BFF tRPC query procedure.
