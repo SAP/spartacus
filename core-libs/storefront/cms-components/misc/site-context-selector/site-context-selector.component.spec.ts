@@ -44,15 +44,9 @@ class MockCxIconComponent {
   @Input() type;
 }
 
-let mockFeatureToggles: Record<string, boolean> = {};
-
 class MockFeatureConfigService {
-  isEnabled(feature: string): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = hasNegation ? feature.slice(1) : feature;
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
+  isEnabled(): boolean {
+    return true;
   }
 }
 
@@ -95,10 +89,6 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
       setActive(isocode: string): void {
         this.active = isocode;
       },
-    };
-
-    mockFeatureToggles = {
-      a11ySiteContextCaretClick: true,
     };
 
     TestBed.configureTestingModule({
