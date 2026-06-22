@@ -22,14 +22,22 @@ jobs:
   run_script:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.CLOUD_REPO_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLOUD_REPO_APP_PRIVATE_KEY }}
+          owner: sap-samples
+          repositories: cloud-commerce-sample-setup
       - name: Set REPO_URL
         env:
           INPUT_REPO_URL: ${{ inputs.repo_url }}
-          GH_TEMPORARY_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           if [ -z "$INPUT_REPO_URL" ]; then
             git config --global credential.helper store
-            printf 'https://oauth2:%s@github.com\n' "${GH_TEMPORARY_TOKEN}" > ~/.git-credentials
+            printf 'https://oauth2:%s@github.com\n' "${APP_TOKEN}" > ~/.git-credentials
             REPO_URL="https://github.com/SAP-samples/cloud-commerce-sample-setup.git"
           else
             REPO_URL="$INPUT_REPO_URL"
@@ -171,9 +179,9 @@ jobs:
           echo "branch_name=$branch_name" >> $GITHUB_ENV
       - name: Create Pull Request
         env:
-          GH_TEMPORARY_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          APP_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          curl -X POST -H "Authorization: token ${GH_TEMPORARY_TOKEN}" -H "Accept: application/vnd.github.v3+json" \
+          curl -X POST -H "Authorization: token ${APP_TOKEN}" -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/SAP-samples/${REPO_NAME}/pulls" \
             -d '{
               "title": "Update js-storefronts content",
