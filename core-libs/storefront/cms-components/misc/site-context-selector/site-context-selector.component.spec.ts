@@ -14,6 +14,7 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
+  FeatureConfigService,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -41,6 +42,12 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxIconComponent {
   @Input() type;
+}
+
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return true;
+  }
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -107,6 +114,10 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         {
           provide: TranslationService,
           useClass: MockTranslationService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
         contextServiceMapProvider,
       ],
@@ -175,7 +186,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   });
 
   it('should have the selected attribute on the active language option', () => {
-    const options = el.queryAll(By.css('option'));
+    const options = el.queryAll(By.css('.cx-select-wrapper option'));
     const withSelectedAttr = options.filter((opt) =>
       opt.nativeElement.hasAttribute('selected')
     );
