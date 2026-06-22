@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureConfigService,
   I18nTestingModule,
   SiteTheme,
   TranslationService,
@@ -14,6 +15,12 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
 class MockTranslationService {
   translate() {
     return of('of');
+  }
+}
+
+class MockFeatureConfigService {
+  isEnabled(): boolean {
+    return true;
   }
 }
 
@@ -46,6 +53,10 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     }).compileComponents();
 
@@ -106,7 +117,9 @@ describe('ThemeSwitcherComponent', () => {
     });
 
     it('should append an aria-label to options', () => {
-      const options = fixture.debugElement.queryAll(By.css('option'));
+      const options = fixture.debugElement.queryAll(
+        By.css('.cx-select-wrapper option')
+      );
       expect(options.length).toEqual(2);
       options.forEach((option, index: number) => {
         expect(option.nativeElement.getAttribute('aria-label')).toContain(

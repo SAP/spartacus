@@ -575,6 +575,39 @@ describe('AuthService', () => {
     });
   });
 
+  describe('getCsrfToken()', () => {
+    it('should return the cached csrfToken$ observable (shareReplay)', () => {
+      const csrfService = TestBed.inject(CrossSiteRequestForgeryService);
+      spyOn(csrfService, 'getCsrfToken').and.callThrough();
+
+      const obs1 = service.getCsrfToken();
+      const obs2 = service.getCsrfToken();
+
+      // Both calls return the same shared observable reference (csrfToken$)
+      expect(obs1).toBe(obs2);
+      // The underlying service was only called once (at construction) — not again
+      expect(csrfService.getCsrfToken).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('refreshCsrfToken()', () => {
+    it('should call CrossSiteRequestForgeryService.getCsrfToken() directly, bypassing the cache', () => {
+      const csrfService = TestBed.inject(CrossSiteRequestForgeryService);
+      spyOn(csrfService, 'getCsrfToken').and.callThrough();
+
+      service.refreshCsrfToken();
+      service.refreshCsrfToken();
+
+      // Each call hits the underlying service — no caching
+      expect(csrfService.getCsrfToken).toHaveBeenCalledTimes(2);
+    });
+
+    it('should return a fresh observable distinct from csrfToken$', () => {
+      const fresh = service.refreshCsrfToken();
+      expect(fresh).not.toBe(service.getCsrfToken());
+    });
+  });
+
   describe('isUsingASMClient()', () => {
     it('should return isUsingASMClient$ observable', () => {
       expect(service.isUsingASMClient()).toBe(service['isUsingASMClient$']);

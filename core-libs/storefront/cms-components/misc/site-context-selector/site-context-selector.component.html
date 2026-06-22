@@ -1,18 +1,37 @@
 <label *ngIf="(items$ | async)?.length > 1 && (items$ | async) as items">
   <span>{{ label$ | async | cxTranslate }}:</span>
-  <select (change)="active = $any($event).target.value">
-    <option
-      [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
-      *ngFor="let item of items; index as i"
-      value="{{ item.isocode }}"
-      [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
-    >
-      {{ item.label }}
-    </option>
-  </select>
-  <cx-icon
-    aria-hidden="true"
-    [type]="iconTypes.CARET_DOWN"
-    class="small"
-  ></cx-icon>
+  <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
+    <select (change)="active = $any($event).target.value">
+      <option
+        [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
+        *ngFor="let item of items; index as i"
+        value="{{ item.isocode }}"
+        [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
+      >
+        {{ item.label }}
+      </option>
+    </select>
+    <cx-icon
+      aria-hidden="true"
+      [type]="iconTypes.CARET_DOWN"
+      class="small"
+    ></cx-icon>
+  </div>
+  <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
+    <select (change)="active = $any($event).target.value">
+      <option
+        [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
+        *ngFor="let item of items; index as i"
+        value="{{ item.isocode }}"
+        [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
+      >
+        {{ item.label }}
+      </option>
+    </select>
+    <cx-icon
+      aria-hidden="true"
+      [type]="iconTypes.CARET_DOWN"
+      class="small"
+    ></cx-icon>
+  </ng-container>
 </label>

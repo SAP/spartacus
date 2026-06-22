@@ -18,7 +18,11 @@ const TAG = {
 export default defineConfig(
   globalIgnores(['**/schematics/**/*.d.ts']),
   {
-    ignores: ['**/dist', '**/out-tsc'],
+    ignores: [
+      '**/dist',
+      '**/out-tsc',
+      'projects/storefrontapp-e2e-cypress/**',
+    ],
   },
   {
     files: ['**/*.ts'],

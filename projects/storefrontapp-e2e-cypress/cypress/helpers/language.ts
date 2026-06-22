@@ -16,6 +16,6 @@ export function switchLanguage(lang: string) {
   cy.get(selector)
     .contains('Language')
     .parent()
-    .children('select')
+    .find('select')
     .select(lang, { force: true });
 }
