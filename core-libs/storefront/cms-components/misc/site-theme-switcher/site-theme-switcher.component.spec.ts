@@ -18,15 +18,9 @@ class MockTranslationService {
   }
 }
 
-let mockFeatureToggles: Record<string, boolean> = {};
-
 class MockFeatureConfigService {
-  isEnabled(feature: string): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = hasNegation ? feature.slice(1) : feature;
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
+  isEnabled(): boolean {
+    return true;
   }
 }
 
@@ -45,10 +39,6 @@ describe('ThemeSwitcherComponent', () => {
       'ThemeSwitcherComponentService',
       ['getItems', 'getActiveItem', 'setActive']
     );
-
-    mockFeatureToggles = {
-      a11ySiteContextCaretClick: true,
-    };
 
     await TestBed.configureTestingModule({
       imports: [
@@ -127,7 +117,9 @@ describe('ThemeSwitcherComponent', () => {
     });
 
     it('should append an aria-label to options', () => {
-      const options = fixture.debugElement.queryAll(By.css('option'));
+      const options = fixture.debugElement.queryAll(
+        By.css('.cx-select-wrapper option')
+      );
       expect(options.length).toEqual(2);
       options.forEach((option, index: number) => {
         expect(option.nativeElement.getAttribute('aria-label')).toContain(
