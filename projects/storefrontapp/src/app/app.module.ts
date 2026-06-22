@@ -5,11 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ROUTES } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from '@spartacus/storefront';
+import { bffExampleProviders } from './bff/examples/bff-example.providers';
 import { privateProviders } from './private/private.providers';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
@@ -23,19 +23,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   providers: [
     privateProviders,
-    {
-      provide: ROUTES,
-      multi: true,
-      useValue: [
-        {
-          path: 'bff-say-hello',
-          loadComponent: () =>
-            import('./bff/examples/say-hello.component').then(
-              (m) => m.SayHelloComponent
-            ),
-        },
-      ],
-    },
+    bffExampleProviders,
   ],
 })
 export class AppModule {}

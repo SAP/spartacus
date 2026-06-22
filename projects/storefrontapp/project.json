@@ -218,8 +218,7 @@
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
       "options": {
-        "proxyConfig": "projects/storefrontapp/proxy.conf.js",
-        "port": 4222
+        "proxyConfig": "projects/storefrontapp/proxy.conf.js"
       },
       "configurations": {
         "production": {
