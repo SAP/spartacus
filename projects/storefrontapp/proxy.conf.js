@@ -12,7 +12,8 @@
  * Falls back to https://localhost:8482 when CX_BFF_BASE_URL is not set.
  */
 
-const bffBaseUrl = process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
+const bffBaseUrl =
+  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
 const bffTarget = new URL(bffBaseUrl).origin;
 
 module.exports = {

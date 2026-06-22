@@ -83,11 +83,9 @@ export class SayHelloComponent {
     this.loading.set(true);
 
     this.bff
-      .query<{ message: string }>(
-        'sample.sayHello',
-        { name: this.name },
-        { 'x-app-custom': this.appCustomHeader },
-      )
+      .query<{
+        message: string;
+      }>('sample.sayHello', { name: this.name }, { 'x-app-custom': this.appCustomHeader })
       .subscribe({
         next: (res) => {
           this.message.set(res.message);

@@ -70,7 +70,10 @@ export class BffHttpService {
       return this.http
         .get<{
           result: { data: { json: T } };
-        }>(`${this.bffBaseUrl}/${procedure}`, { headers: { ...headers, ...extraHeaders }, params })
+        }>(`${this.bffBaseUrl}/${procedure}`, {
+          headers: { ...headers, ...extraHeaders },
+          params,
+        })
         .pipe(map((res) => res.result.data.json));
     });
   }
@@ -96,7 +99,11 @@ export class BffHttpService {
       this.http
         .post<{
           result: { data: { json: T } };
-        }>(`${this.bffBaseUrl}/${procedure}`, { json: input ?? {} }, { headers })
+        }>(
+          `${this.bffBaseUrl}/${procedure}`,
+          { json: input ?? {} },
+          { headers }
+        )
         .pipe(map((res) => res.result.data.json))
     );
   }

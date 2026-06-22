@@ -18,8 +18,7 @@ import { BFF_BASE_URL } from './bff/bff-base-url.token';
     // the fallback covers local dev.
     {
       provide: BFF_BASE_URL,
-      useValue:
-        process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
+      useValue: process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
     },
   ],
 })
