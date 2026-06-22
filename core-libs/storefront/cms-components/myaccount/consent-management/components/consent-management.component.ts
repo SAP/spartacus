@@ -18,6 +18,7 @@ import {
   AnonymousConsentsService,
   AuthService,
   ConsentTemplate,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -55,6 +56,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
