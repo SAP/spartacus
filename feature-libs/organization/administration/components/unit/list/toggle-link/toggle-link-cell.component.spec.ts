@@ -7,6 +7,7 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  provideMockFeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -71,10 +72,7 @@ describe('ToggleLinkCellComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     })
       .overrideComponent(ToggleLinkCellComponent, {

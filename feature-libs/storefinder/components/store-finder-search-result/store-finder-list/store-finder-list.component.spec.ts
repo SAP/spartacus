@@ -11,6 +11,7 @@ import {
   MockTranslatePipe,
   MockTranslationService,
   PointOfService,
+  provideMockFeatureToggles,
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
@@ -82,10 +83,7 @@ describe('StoreFinderListComponent', () => {
           useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

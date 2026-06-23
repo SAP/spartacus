@@ -4,7 +4,7 @@ import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { BadRequestHandler } from './bad-request.handler';
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
 
 const MockRequest = {
   url: 'https://electronics-spa/occ/user/password',
@@ -123,10 +123,7 @@ describe('BadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
     service = TestBed.inject(BadRequestHandler);

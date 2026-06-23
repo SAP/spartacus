@@ -6,6 +6,7 @@ import {
   FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
@@ -88,7 +89,7 @@ describe('VerificationTokenFormComponentService', () => {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
         },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     }).compileComponents();
   }));

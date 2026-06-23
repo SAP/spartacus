@@ -7,7 +7,7 @@ import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import createSpy = jasmine.createSpy;
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -50,7 +50,7 @@ describe('TableComponent', () => {
       imports: [OutletModule, TableComponent],
       providers: [
         { provide: TableRendererService, useClass: MockTableRendererService },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     })
       .overrideComponent(TableComponent, {

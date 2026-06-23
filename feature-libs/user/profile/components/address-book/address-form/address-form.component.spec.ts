@@ -17,6 +17,7 @@ import {
   HierarchicalAddressConfig,
   I18nTestingModule,
   LanguageService,
+  provideMockFeatureToggles,
   Region,
   Title,
   UserAddressService,
@@ -177,10 +178,7 @@ describe('AddressFormComponent', () => {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: HierarchicalAddressConfig,
           useValue: {

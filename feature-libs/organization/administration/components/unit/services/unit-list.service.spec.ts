@@ -6,7 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, FeatureToggles } from '@spartacus/core';
+import {
+  EntitiesModel,
+  FeatureToggles,
+  provideMockFeatureToggles,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
@@ -349,10 +353,7 @@ describe('UnitListService', () => {
               key$: of(mockedTree.id),
             },
           },
-          {
-            provide: FeatureToggles,
-            useValue: { ...mockFeatureToggles },
-          },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
         ],
       });
       service = TestBed.inject(UnitListService);

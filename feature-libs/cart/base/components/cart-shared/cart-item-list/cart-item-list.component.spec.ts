@@ -18,6 +18,7 @@ import {
   MockTranslatePipe,
   Product,
   ProductCatalogService,
+  provideMockFeatureToggles,
   TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
@@ -146,7 +147,7 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: ProductCatalogService,
           useValue: mockProductCatalogService,

@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
-import { FeatureToggles, UserIdService } from '@spartacus/core';
+import {
+  FeatureToggles,
+  provideMockFeatureToggles,
+  UserIdService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
@@ -82,7 +86,7 @@ describe('MultiCartService', () => {
       providers: [
         MultiCartService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
 

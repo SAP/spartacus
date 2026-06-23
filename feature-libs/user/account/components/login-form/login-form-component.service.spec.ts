@@ -15,6 +15,7 @@ import {
   GlobalMessageType,
   I18nTestingModule,
   OAUTH_REDIRECT_FLOW_KEY,
+  provideMockFeatureToggles,
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
@@ -149,7 +150,7 @@ describe('LoginFormComponentService', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: Router, useClass: MockRouter },
         { provide: FederatedLoginService, useClass: MockFederatedLoginService },
@@ -185,7 +186,7 @@ describe('LoginFormComponentService', () => {
           { provide: AuthService, useClass: MockAuthService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
-          { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
           { provide: ActivatedRoute, useClass: MockActivatedRoute },
           { provide: Router, useClass: MockRouter },
           {

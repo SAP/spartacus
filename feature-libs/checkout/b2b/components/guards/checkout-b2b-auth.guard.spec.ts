@@ -9,6 +9,7 @@ import {
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
+  provideMockFeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
@@ -115,10 +116,7 @@ describe('CheckoutAuthGuard', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: WindowRef,
           useValue: mockWindowRef,

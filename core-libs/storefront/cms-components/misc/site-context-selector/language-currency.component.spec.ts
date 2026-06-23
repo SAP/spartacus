@@ -12,8 +12,7 @@ import {
   I18nTestingModule,
   Language,
   LanguageService,
-  provideConfig,
-  provideFeatureToggles,
+  provideMockFeatureToggles,
   TranslationService,
 } from '@spartacus/core';
 import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
@@ -114,10 +113,9 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        provideFeatureToggles({
+        provideMockFeatureToggles({
           a11ySiteContextCaretClick: true,
         }),
-        provideConfig({ features: { a11ySiteContextCaretClick: true } }),
         contextServiceMapProvider,
       ],
     })

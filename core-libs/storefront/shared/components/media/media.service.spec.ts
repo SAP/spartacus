@@ -1,5 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Config, FeatureToggles, Image, LoggerService } from '@spartacus/core';
+import {
+  Config,
+  FeatureToggles,
+  Image,
+  LoggerService,
+  provideMockFeatureToggles,
+} from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
@@ -997,7 +1003,7 @@ function configureTestingModule(config: Config): void {
         useValue: config,
       },
       { provide: LayoutConfig, useValue: {} },
-      { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+      provideMockFeatureToggles({ ...mockFeatureToggles }),
     ],
   });
 }

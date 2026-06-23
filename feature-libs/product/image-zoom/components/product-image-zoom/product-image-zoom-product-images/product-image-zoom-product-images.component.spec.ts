@@ -5,13 +5,12 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   FeaturesConfigModule,
-  FeatureToggles,
   ImageGroup,
   MockDatePipe,
+  MockFeatureTogglesController,
   MockTranslatePipe,
   Product,
-  provideConfigFactory,
-  provideFeatureToggles,
+  provideMockFeatureToggles,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -142,8 +141,6 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
-let mockFeatureToggles: FeatureToggles;
-
 describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
@@ -151,9 +148,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -171,8 +165,9 @@ describe('ProductImageZoomProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        provideFeatureToggles(mockFeatureToggles),
-        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
+        provideMockFeatureToggles({
+          productCarouselScrolling: true,
+        }),
       ],
     })
       .overrideComponent(ProductImageZoomProductImagesComponent, {
@@ -258,7 +253,8 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
       describe('when feature toggle "productCarouselScrolling" is disabled', () => {
         it('should have cx-carousel element', () => {
-          mockFeatureToggles.productCarouselScrolling = false;
+          const toggles = TestBed.inject(MockFeatureTogglesController);
+          toggles.set('productCarouselScrolling', false);
           fixture.detectChanges();
           const carousel = fixture.debugElement.query(By.css('cx-carousel'));
           expect(carousel).toBeTruthy();

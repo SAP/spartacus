@@ -9,10 +9,11 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureToggles,
   FeatureDirective,
+  FeatureToggles,
   MockDatePipe,
   MockTranslatePipe,
+  provideMockFeatureToggles,
   TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
@@ -128,10 +129,7 @@ describe('Navigation UI Component', () => {
           provide: WindowRef,
           useValue: mockWinRef,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,

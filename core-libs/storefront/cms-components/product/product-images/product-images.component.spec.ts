@@ -4,10 +4,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeaturesConfigModule,
-  FeatureToggles,
+  MockFeatureTogglesController,
   Product,
-  provideConfigFactory,
-  provideFeatureToggles,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import {
   CarouselComponent,
@@ -114,8 +113,6 @@ class MockCarouselScrollingComponent {
   @Input() template;
 }
 
-let mockFeatureToggles: FeatureToggles;
-
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -123,11 +120,6 @@ describe('ProductImagesComponent', () => {
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      reserveSpaceForImagesOnPdpAndPlp: true,
-      productCarouselScrolling: true,
-    };
-
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -145,8 +137,10 @@ describe('ProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        provideFeatureToggles(mockFeatureToggles),
-        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
+        provideMockFeatureToggles({
+          reserveSpaceForImagesOnPdpAndPlp: true,
+          productCarouselScrolling: true,
+        }),
       ],
     })
       .overrideComponent(ProductImagesComponent, {
@@ -221,7 +215,8 @@ describe('ProductImagesComponent', () => {
 
       describe('when feature toggle "productCarouselScrolling" is disabled', () => {
         it('should have cx-carousel element', () => {
-          mockFeatureToggles.productCarouselScrolling = false;
+          const toggles = TestBed.inject(MockFeatureTogglesController);
+          toggles.set('productCarouselScrolling', false);
           fixture.detectChanges();
           const carousel = fixture.debugElement.query(By.css('cx-carousel'));
           expect(carousel).toBeTruthy();

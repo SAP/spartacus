@@ -478,11 +478,11 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('Accessibility', () => {
-    function setFeatureToggle(featureToggle: keyof FeatureToggles, value: boolean) {
-      featureToggles.set(
-        featureToggle,
-        value,
-      );
+    function setFeatureToggle(
+      featureToggle: keyof FeatureToggles,
+      value: boolean
+    ) {
+      featureToggles.set(featureToggle, value);
       initialize();
     }
 

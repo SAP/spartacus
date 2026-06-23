@@ -6,6 +6,7 @@ import {
   B2BUserRole,
   EntitiesModel,
   FeatureToggles,
+  provideMockFeatureToggles,
   User,
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
@@ -67,10 +68,7 @@ describe('UserListService', () => {
             provide: TableService,
             useClass: MockTableService,
           },
-          {
-            provide: FeatureToggles,
-            useValue: { ...mockFeatureToggles },
-          },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
         ],
       });
       service = TestBed.inject(UserListService);

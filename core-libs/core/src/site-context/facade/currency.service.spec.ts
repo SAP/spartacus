@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { SiteContextConfig } from '@spartacus/core';
+import { provideMockFeatureToggles, SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { Currency } from '../../model/misc.model';
@@ -70,7 +70,7 @@ describe('CurrencyService', () => {
         CurrencyService,
         { provide: SiteConnector, useClass: MockSiteConnector },
         { provide: SiteContextConfig, useValue: mockSiteContextConfig },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
 

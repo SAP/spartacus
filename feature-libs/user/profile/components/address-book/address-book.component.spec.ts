@@ -10,14 +10,15 @@ import { By } from '@angular/platform-browser';
 import {
   Address,
   CxDatePipe,
-  FeatureToggles,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   HierarchicalAddressConfig,
   I18nTestingModule,
   LanguageService,
   MockDatePipe,
   MockTranslatePipe,
+  provideMockFeatureToggles,
   TranslatePipe,
   User,
 } from '@spartacus/core';
@@ -130,10 +131,7 @@ describe('AddressBookComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: LanguageService, useClass: MockLanguageService },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: HierarchicalAddressConfig,
           useValue: {

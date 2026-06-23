@@ -7,12 +7,12 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  FeatureToggles,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
   Product,
+  provideMockFeatureToggles,
   Translatable,
   TranslatePipe,
   WindowRef,
@@ -97,10 +97,7 @@ describe('QuickOrderFormComponent', () => {
             features: { level: '5.1' },
           },
         },
-        {
-          provide: FeatureToggles,
-          useValue: { a11yQuickOrderResetFocus: true },
-        },
+        provideMockFeatureToggles({ a11yQuickOrderResetFocus: true }),
       ],
     })
       .overrideComponent(QuickOrderFormComponent, {

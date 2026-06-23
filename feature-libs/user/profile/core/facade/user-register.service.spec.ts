@@ -3,6 +3,7 @@ import {
   AuthService,
   FeatureToggles,
   OCC_USER_ID_CURRENT,
+  provideMockFeatureToggles,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -55,7 +56,7 @@ describe('UserRegisterService', () => {
           useClass: MockUserProfileConnector,
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         { provide: RoutingService, useClass: MockRoutingService },
         UserRegisterService,
       ],

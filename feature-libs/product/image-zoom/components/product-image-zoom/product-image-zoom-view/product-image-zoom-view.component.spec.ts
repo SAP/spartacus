@@ -15,16 +15,14 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureToggles,
   FeaturesConfigModule,
   I18nTestingModule,
   ImageGroup,
   MockDatePipe,
   MockTranslatePipe,
   Product,
+  provideMockFeatureToggles,
   TranslatePipe,
-  provideConfigFactory,
-  provideFeatureToggles,
 } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
@@ -127,10 +125,6 @@ export class MockProductImageZoomThumbnailsComponent {
   @Input() activeThumb: EventEmitter<ImageGroup>;
 }
 
-const mockFeatureToggles: FeatureToggles = {
-  a11yKeyboardAccessibleZoom: true,
-};
-
 describe('ProductImageZoomViewComponent', () => {
   let productImageZoomViewComponent: ProductImageZoomViewComponent;
   let fixture: ComponentFixture<ProductImageZoomViewComponent>;
@@ -142,8 +136,9 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        provideFeatureToggles(mockFeatureToggles),
-        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
+        provideMockFeatureToggles({
+          a11yKeyboardAccessibleZoom: true,
+        }),
       ],
     })
       .overrideComponent(ProductImageZoomViewComponent, {

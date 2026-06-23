@@ -8,7 +8,11 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureToggles, I18nTestingModule } from '@spartacus/core';
+import {
+  FeatureToggles,
+  I18nTestingModule,
+  provideMockFeatureToggles,
+} from '@spartacus/core';
 import { SortingComponent } from './sorting.component';
 
 describe('SortingComponent', () => {
@@ -34,9 +38,7 @@ describe('SortingComponent', () => {
         SortingComponent,
         MockNgSelectA11yDirective,
       ],
-      providers: [
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
-      ],
+      providers: [provideMockFeatureToggles({ ...mockFeatureToggles })],
     }).compileComponents();
   }));
 

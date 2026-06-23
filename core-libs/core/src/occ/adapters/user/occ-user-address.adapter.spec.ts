@@ -9,6 +9,7 @@ import {
   ADDRESS_VALIDATION_NORMALIZER,
   ConverterService,
   FeatureToggles,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { Address, AddressValidation } from '../../../model/address.model';
 import { OccConfig } from '../../config/occ-config';
@@ -53,10 +54,7 @@ describe('OccUserAddressAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

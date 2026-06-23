@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureToggles, TranslationService } from '@spartacus/core';
+import {
+  FeatureToggles,
+  provideMockFeatureToggles,
+  TranslationService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
@@ -72,7 +76,7 @@ describe('NgSelectA11yDirective', () => {
         NgSelectA11yDirective,
       ],
       providers: [
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();

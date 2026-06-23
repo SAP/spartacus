@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureToggles } from '@spartacus/core';
+import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
 import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
@@ -123,10 +123,7 @@ describe('VisibleFocusDirective', () => {
           provide: BaseFocusService,
           useClass: MockVisibleFocusService,
         },
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     })
       .overrideComponent(MockComponent, {

@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
   FeatureToggles,
+  provideMockFeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
@@ -34,10 +35,7 @@ describe('LoginAsGuestGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         Router,
-        {
-          provide: FeatureToggles,
-          useValue: { ...mockFeatureToggles },
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: SemanticPathService,
           useValue: mockSemanticPathService,
