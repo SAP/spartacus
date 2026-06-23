@@ -34,6 +34,6 @@ export const BFF_BASE_URL = new InjectionToken<string>('BFF_BASE_URL', {
     const content = tag?.content ?? '';
     return content && content !== BFF_BASE_URL_META_TAG_PLACEHOLDER
       ? content
-      : '/bff/api';
+      : '/bff/';
   },
 });

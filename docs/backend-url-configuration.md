@@ -49,7 +49,7 @@ project.json                                  ← point serve to proxy.conf.js
 
 ## 1. `src/index.html`
 
-Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces `BFF_BASE_URL_VALUE`
+Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces the placeholders
 at deploy time:
 
 ```html
@@ -58,11 +58,43 @@ at deploy time:
 <meta name="bff-base-url" content="BFF_BASE_URL_VALUE" />
 ```
 
+| Placeholder | Environment variable | Set by |
+|---|---|---|
+| `OCC_BACKEND_BASE_URL_VALUE` | `OCC_BASE_URL` | User via VariableSet |
+| `MEDIA_BACKEND_BASE_URL_VALUE` | `MEDIA_BASE_URL` | User via VariableSet |
+| `BFF_BASE_URL_VALUE` | `BFF_BASE_URL` | Platform auto-injects on "Connect to BFF" (value: `/bff/`) |
+
+> **Note:** If no BFF is connected, `BFF_BASE_URL_VALUE` is left unreplaced.
+> The `BFF_BASE_URL` token treats the placeholder as "not configured" and falls
+> back to `/bff/` — BFF calls will fail gracefully rather than silently.
+
+---
+
+## CRITICAL: Remove hardcoded `baseUrl` from Spartacus configuration
+
+`provideConfig()` takes precedence over meta tag factories. If your
+`spartacus-configuration.module.ts` contains a hardcoded `baseUrl`, the meta tag
+is ignored and CCv2 URL injection will not work.
+
+**Remove this:**
+```ts
+provideConfig(<OccConfig>{
+  backend: {
+    occ: {
+      baseUrl: 'https://hardcoded-url.example.com', // ← remove this
+    },
+  },
+}),
+```
+
+With this removed, Spartacus reads `<meta name="occ-backend-base-url">` which CCv2
+replaces at deploy time.
+
 ---
 
 ## 2. `src/app/bff/bff-base-url.token.ts` *(new file)*
 
-Reads the `bff-base-url` meta tag at Angular bootstrap time. Falls back to `/bff/api`
+Reads the `bff-base-url` meta tag at Angular bootstrap time. Falls back to `/bff/`
 for local development (handled by the dev-server proxy).
 
 ```ts
@@ -81,7 +113,7 @@ export const BFF_BASE_URL = new InjectionToken<string>('BFF_BASE_URL', {
     const content = tag?.content ?? '';
     return content && content !== BFF_BASE_URL_META_TAG_PLACEHOLDER
       ? content
-      : '/bff/api';
+      : '/bff/';
   },
 });
 ```
@@ -201,7 +233,7 @@ self-signed cert via `secure: false`).
 
 ```js
 const bffBaseUrl =
-  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
+  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/';
 const bffTarget = new URL(bffBaseUrl).origin;
 
 module.exports = {

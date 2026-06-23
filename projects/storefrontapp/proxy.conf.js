@@ -13,7 +13,7 @@
  */
 
 const bffBaseUrl =
-  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
+  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/';
 const bffTarget = new URL(bffBaseUrl).origin;
 
 module.exports = {
