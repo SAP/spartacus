@@ -1,6 +1,6 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { backOff } from '@spartacus/core';
-import { BehaviorSubject, defer, of, throwError } from 'rxjs';
+import { BehaviorSubject, defer, firstValueFrom, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
 import { isJaloError } from '../occ-http-error-handlers';
@@ -55,32 +55,25 @@ describe(`backOff`, () => {
   });
 
   describe(`when the source does not throw an error`, () => {
-    it(`should not kick in`, (done) => {
+    it(`should not kick in`, async () => {
       const initialValue = 'xxx';
 
       const source$ = of(initialValue);
       const test$ = source$.pipe(backOff({ shouldRetry: doBackOff }));
 
-      test$.subscribe((result) => {
-        expect(result).toEqual(initialValue);
-        done();
-      });
+      const result = await firstValueFrom(test$);
+      expect(result).toEqual(initialValue);
     });
   });
 
   describe(`when the source throws an error`, () => {
     describe(`shouldRetry function`, () => {
       describe(`evaluates to false`, () => {
-        it(`should not retry and just re-throw the error`, (done) => {
+        it(`should not retry and just re-throw the error`, async () => {
           const source$ = throwError(() => 'error');
           const test$ = source$.pipe(backOff({ shouldRetry: () => false }));
 
-          test$.subscribe({
-            error: (result) => {
-              expect(result).toEqual('error');
-              done();
-            },
-          });
+          await expect(firstValueFrom(test$)).rejects.toEqual('error');
         });
       });
 

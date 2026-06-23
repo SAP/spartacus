@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
 import { UserIdService } from './user-id.service';
 
 describe('UserIdService', () => {
@@ -25,110 +26,62 @@ describe('UserIdService', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should return value that was set with setUserId', (done) => {
+    it('should return value that was set with setUserId', async () => {
       service.setUserId('testId');
-      service
-        .getUserId()
-        .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe('testId');
-          done();
-        });
+      const userId = await firstValueFrom(service.getUserId());
+      expect(userId).toBe('testId');
     });
   });
 
   describe('clearUserId', () => {
-    it('should set the value for the default', (done) => {
-      const ids = [];
+    it('should set the value for the default', async () => {
       service.setUserId('testId');
-
-      service
-        .getUserId()
-        .pipe(take(2))
-        .subscribe((userId) => {
-          ids.push(userId);
-          if (ids.length > 1) {
-            expect(ids).toEqual(['testId', 'anonymous']);
-            done();
-          }
-        });
+      const ids$ = service.getUserId().pipe(take(2), toArray());
+      const idsPromise = firstValueFrom(ids$);
       service.clearUserId();
+      const ids = await idsPromise;
+      expect(ids).toEqual(['testId', 'anonymous']);
     });
   });
 
   describe('isEmulated', () => {
-    it('should return false for anonymous userId', (done) => {
+    it('should return false for anonymous userId', async () => {
       service.clearUserId();
-      service
-        .isEmulated()
-        .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe(false);
-          done();
-        });
+      const result = await firstValueFrom(service.isEmulated());
+      expect(result).toBe(false);
     });
 
-    it('should return false for current userId', (done) => {
+    it('should return false for current userId', async () => {
       service.setUserId('current');
-      service
-        .isEmulated()
-        .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe(false);
-          done();
-        });
+      const result = await firstValueFrom(service.isEmulated());
+      expect(result).toBe(false);
     });
 
-    it('should return true for any other userId', (done) => {
+    it('should return true for any other userId', async () => {
       service.setUserId('someId');
-      service
-        .isEmulated()
-        .pipe(take(1))
-        .subscribe((userId) => {
-          expect(userId).toBe(true);
-          done();
-        });
+      const result = await firstValueFrom(service.isEmulated());
+      expect(result).toBe(true);
     });
   });
 
   describe('takeUserId', () => {
-    it('should emit last value and completes', (done) => {
+    it('should emit last value and completes', async () => {
       service.clearUserId();
-      service.takeUserId().subscribe({
-        next: (id) => expect(id).toEqual(OCC_USER_ID_ANONYMOUS),
-        error: () => {},
-        complete: () => {
-          done();
-        },
-      });
+      const id = await firstValueFrom(service.takeUserId());
+      expect(id).toEqual(OCC_USER_ID_ANONYMOUS);
     });
 
-    it('should throw error when anonymous value in loggedIn mode', (done) => {
+    it('should throw error when anonymous value in loggedIn mode', async () => {
       service.clearUserId();
-      let userId: string;
-      service.takeUserId(true).subscribe({
-        next: (id) => (userId = id),
-        error: (error: Error) => {
-          expect(userId).toBeUndefined();
-          expect(error.message).toEqual(
-            'Requested user id for logged user while user is not logged in.'
-          );
-          done();
-        },
-      });
+      await expect(firstValueFrom(service.takeUserId(true))).rejects.toThrow(
+        'Requested user id for logged user while user is not logged in.'
+      );
     });
 
-    it('should emit logged in value and completes', (done) => {
+    it('should emit logged in value and completes', async () => {
       service.setUserId('someId');
-      service.takeUserId(true).subscribe({
-        next: (id) => {
-          expect(id).toEqual('someId');
-        },
-        error: () => {},
-        complete: () => {
-          done();
-        },
-      });
+      const id = await firstValueFrom(service.takeUserId(true));
+      expect(id).toEqual('someId');
     });
   });
 });

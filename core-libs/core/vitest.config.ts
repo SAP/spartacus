@@ -6,7 +6,7 @@ export default defineConfig({
   root: join(import.meta.dirname),
   plugins: [nxViteTsPaths()],
   test: {
-    pool: 'threads',
+    pool: 'forks',
     watch: false,
     globals: true,
     environment: 'jsdom',
