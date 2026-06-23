@@ -172,9 +172,7 @@ describe('ProductReferencesComponent', () => {
           provide: ProductReferenceService,
           useClass: MockProductReferenceService,
         },
-        provideFeatureToggles({
-          productCarouselScrolling: true,
-        }),
+        provideFeatureToggles(mockFeatureToggles),
         provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })

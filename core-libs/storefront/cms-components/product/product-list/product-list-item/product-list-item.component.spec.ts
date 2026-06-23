@@ -13,6 +13,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   FeaturesConfig,
+  FeaturesConfigModule,
   Image,
   ImageGroup,
   MockTranslatePipe,
@@ -97,11 +98,15 @@ describe('ProductListItemComponent in product-list', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {};
+    mockFeatureToggles = {
+      consistentSizeProductCards: true,
+      productListItemSummaryReadMore: false,
+      a11yProductListItemNameMargin: true,
+    };
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([]), FeaturesConfigModule],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -115,11 +120,7 @@ describe('ProductListItemComponent in product-list', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        provideFeatureToggles({
-          consistentSizeProductCards: true,
-          productListItemSummaryReadMore: false,
-          a11yProductListItemNameMargin: true,
-        }),
+        provideFeatureToggles(mockFeatureToggles),
         provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })

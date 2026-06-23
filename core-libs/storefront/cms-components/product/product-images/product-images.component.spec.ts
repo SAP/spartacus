@@ -124,6 +124,7 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     mockFeatureToggles = {
+      reserveSpaceForImagesOnPdpAndPlp: true,
       productCarouselScrolling: true,
     };
 
@@ -144,10 +145,7 @@ describe('ProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        provideFeatureToggles({
-          reserveSpaceForImagesOnPdpAndPlp: true,
-          productCarouselScrolling: true,
-        }),
+        provideFeatureToggles(mockFeatureToggles),
         provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })

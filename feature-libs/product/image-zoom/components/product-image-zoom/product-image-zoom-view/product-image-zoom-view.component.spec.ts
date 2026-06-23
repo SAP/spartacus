@@ -23,7 +23,8 @@ import {
   MockTranslatePipe,
   Product,
   TranslatePipe,
-  provideConfig,
+  provideConfigFactory,
+  provideFeatureToggles,
 } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
@@ -141,10 +142,8 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
-        provideConfig({
-          features: mockFeatureToggles,
-        }),
+        provideFeatureToggles(mockFeatureToggles),
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })
       .overrideComponent(ProductImageZoomViewComponent, {
