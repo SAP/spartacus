@@ -36,8 +36,9 @@ jobs:
             echo "Error. Unexpected version format: $VERSION"
             exit 1
           fi
-          MAJOR="${BASH_REMATCH[1]}"
-          MINOR="${BASH_REMATCH[2]}"
+          # This captures groups from $VERSION
+          MAJOR="${BASH_REMATCH[1]}" # e.g. 13 
+          MINOR="${BASH_REMATCH[2]}" # e.g. 1 or 0-2
 
           echo "major=$MAJOR"    >> "$GITHUB_OUTPUT"
           echo "minor=$MINOR"    >> "$GITHUB_OUTPUT"
@@ -54,6 +55,8 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Pre-seed ~/.git-credentials with user:token@host so subsequent git
+          # operations against github.tools.sap authenticate non-interactively.
           git config --global credential.helper store
           printf 'https://%s:%s@github.tools.sap\n' "$GHT_USER" "$GHT_PRIVATE_REPO_TOKEN" > ~/.git-credentials
 
@@ -106,6 +109,8 @@ jobs:
               continue
             fi
             IFS=':' read -r CMI CPH CSU _ <<< "$CUR"
+            # ^ Split "minor:phase:suffix:branch" into the three ranking fields; discard the branch name.
+            # Inline IFS= only affects this single read; _ is the conventional discard.
             # Lexicographic comparison on (minor, phase, suffix).
             if   (( MI  > CMI )); then
               BEST_BY_MAJOR[$MA]="${MI}:${PHASE}:${SU}:${B}"
@@ -136,6 +141,8 @@ jobs:
           if (( ${#SELECTED[@]} == 0 )); then
             JSON='[]'
           else
+            # `jq -R .` reads each line as a raw JSON string; `jq -sc .` slurps the
+            # stream into one compact JSON array. Net: one-branch-per-line → ["a","b",...].
             JSON=$(printf '%s\n' "${SELECTED[@]}" | jq -R . | jq -sc .)
           fi
           echo "branches_json=$JSON" >> "$GITHUB_OUTPUT"
@@ -156,6 +163,8 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Configure git credentials"
 
+          # Pre-seed ~/.git-credentials with user:token@host so subsequent git
+          # operations against github.tools.sap authenticate non-interactively.
           git config --global credential.helper store
           printf 'https://%s:%s@github.tools.sap\n' "$GHT_USER" "$GHT_PRIVATE_REPO_TOKEN" > ~/.git-credentials
           git config --global user.email "$GHT_EMAIL"
