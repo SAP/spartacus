@@ -21,9 +21,8 @@ const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'cursor'];
 const SKILLS_PACKAGE = '@spartacus/skills';
 
 /**
- * Registers `@spartacus/skills` as a dev dependency so the regular install
- * step pulls it into `node_modules`. The actual copy into the project happens
- * post-install via {@link scheduleAiContext}.
+ * Adds `@spartacus/skills` as a dev dependency; the copy into the project runs
+ * post-install in {@link scheduleAiContext}.
  */
 export function addAiContext(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
@@ -49,9 +48,8 @@ export function addAiContext(options: SpartacusOptions): Rule {
 }
 
 /**
- * Schedules the standalone `ai-context` schematic to run after the package
- * install task completes, so it can copy the skill from the freshly-installed
- * `@spartacus/skills` package in `node_modules` into the project.
+ * Runs the `ai-context` copy schematic only after the install task, so
+ * `@spartacus/skills` is present in `node_modules`.
  */
 export function scheduleAiContext(options: SpartacusOptions): Rule {
   return (_tree: Tree, context: SchematicContext): void => {

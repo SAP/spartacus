@@ -70,31 +70,22 @@ skills/spartacus-developer/
     ...                # plus deep-dive material linked from the topic files
 ```
 
-## Versioning (for maintainers)
+## Maintaining the skill (for maintainers)
 
-- **Spartacus version floor** — the `compatibility` field in `SKILL.md` declares
-  the baseline Spartacus line all current guidance assumes.
-- **Skill content revision** — `metadata.version` in `SKILL.md` is an internal
-  marker for the guidance content itself (not the npm version). Bump it when the
-  guidance changes meaningfully.
+`@spartacus/skills` is versioned in lockstep with the framework: `npm run
+config:update` sets its `version`, and `ng update` bumps it via the schematics
+`ng-update` packageGroup.
 
-For guidance that applies only to a Spartacus release **newer than the floor**,
-annotate the specific section or line in place using a
-greppable marker that references a Spartacus version:
+If you **change the skill content**, add a refresh migration at the release that
+ships the change so opted-in projects pick it up on their next `ng update`. The
+`refresh-ai-context` factory already exists — register it by adding an entry to
+`core-libs/schematics/src/migrations/migrations.json`:
 
-```markdown
-### Lazy-loaded translations via i18n.backend.loader
-
-> Since: 2211.30
-
-...
+```json
+"01-migration-v221121_NN-refresh-ai-context": {
+  "version": "221121.NN.0",
+  "factory": "./221121_14/refresh-ai-context/index#migrate",
+  "description": "Refresh Spartacus AI skills already added to this project"
+}
 ```
 
-```markdown
-> Deprecated: 2211.25 — use `provideConfigFactory` instead.
-```
-
-`SKILL.md`'s "Version awareness" section tells the agent to read the project's
-`@spartacus/core` version and honor these markers. Everything unmarked applies to
-the whole `compatibility` range, so the initial release carries no `Since:`
-markers — the first one is added only when guidance for a newer feature lands.

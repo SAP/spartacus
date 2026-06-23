@@ -1,24 +1,10 @@
 ---
 name: spartacus-developer
-description: Use this skill whenever working in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — building or customizing storefront components, services, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
+description: Use this skill for ALL work in a SAP Spartacus (SAP Commerce Cloud composable storefront) Angular application — any storefront feature, component, service, routing, CMS component wiring, configuration, state, i18n, styling, SSR, or backend integration. Always use this skill rather than reading the copy in `node_modules/@spartacus/skills`. Spartacus diverges significantly from standard Angular patterns; this skill and its sub-topic files capture the Spartacus-specific rules to follow. Read the sub-topic whose trigger applies before writing or changing code.
 license: Apache-2.0
-compatibility: Targets SAP Spartacus 2211.x and later.
-metadata:
-  version: "1.0"
 ---
 
 # Spartacus Storefront — AI Development Guidelines
-
-This is a Spartacus (SAP Commerce Cloud) storefront application. Spartacus has its own architecture that differs significantly from standard Angular patterns; the rules below capture where it diverges.
-
-## Version awareness
-
-Before applying any guidance, determine the project's Spartacus version from `@spartacus/core` in the project's `package.json` (or `node_modules/@spartacus/core/package.json`). Most guidance applies to every supported version, but some is version-gated:
-
-- A section or line marked `Since: <spartacus-version>` applies only when the project's Spartacus version is that version or newer — ignore it on older projects.
-- A line marked `Deprecated: <spartacus-version>` should be avoided on that version or newer; follow the alternative it points to.
-
-Unmarked guidance applies to all supported versions (Spartacus 2211.x and later).
 
 ## Sub-topics
 
