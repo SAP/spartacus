@@ -99,11 +99,10 @@ function startVerdaccio(): ChildProcess {
 
   console.log('Waiting for verdaccio to boot...');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
-  const timeoutSeconds = 10;
   try {
-    execSync(`npx wait-on ${verdaccioRegistryUrl} --timeout ${timeoutSeconds * 1000}`);
+    execSync(`npx wait-on ${verdaccioRegistryUrl} --timeout 10000`);
   } catch (error) {
-    console.log(chalk.red(`\n❌ Couldn't boot verdaccio in ${timeoutSeconds}s :\n${error}`));
+    console.log(chalk.red(`\n❌ Couldn't boot verdaccio:\n${error}`));
     process.exit(1);
   }
   console.log('Pointing npm to verdaccio');
