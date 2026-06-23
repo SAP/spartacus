@@ -32,19 +32,17 @@ jobs:
           echo "Raw version: $VERSION"
 
           # Expected shape: <prefix>.<major>.<minor>[-<suffix>]  e.g. 221121.13.1, 221121.13.0-2
-          if [[ ! "$VERSION" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)(-([0-9]+))?$ ]]; then
+          if [[ ! "$VERSION" =~ ^[0-9]+\.([0-9]+)\.([0-9]+)(-([0-9]+))?$ ]]; then
             echo "Error. Unexpected version format: $VERSION"
             exit 1
           fi
-          PREFIX="${BASH_REMATCH[1]}"
-          MAJOR="${BASH_REMATCH[2]}"
-          MINOR="${BASH_REMATCH[3]}"
+          MAJOR="${BASH_REMATCH[1]}"
+          MINOR="${BASH_REMATCH[2]}"
 
-          echo "prefix=$PREFIX"  >> "$GITHUB_OUTPUT"
           echo "major=$MAJOR"    >> "$GITHUB_OUTPUT"
           echo "minor=$MINOR"    >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "develop is on prefix=$PREFIX major=$MAJOR minor=$MINOR"
+          echo "develop is on version=$VERSION"
 
       - name: Discover active release branches on the private repo
         id: release_branches
@@ -52,7 +50,6 @@ jobs:
           GHT_USER: ${{ vars.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
           GHT_SPARTACUS_REPO: ${{ vars.GHT_SPARTACUS_REPO }}
-          CURRENT_PREFIX: ${{ steps.current_version.outputs.prefix }}
           CURRENT_MAJOR: ${{ steps.current_version.outputs.major }}
         run: |
           set -euo pipefail
@@ -64,7 +61,7 @@ jobs:
 
           # Branch names follow:  release-<prefix>.<major>.<minor>[-<suffix>]
           # e.g. release-221121.13.0, release-221121.13.0-1, release-221121.13.1, release-221121.15.0-1
-          BRANCH_PREFIX="release-${CURRENT_PREFIX}"
+          BRANCH_PREFIX="release-221121"
           echo "Listing release branches matching ${BRANCH_PREFIX}.*"
           mapfile -t ALL_BRANCHES < <(
             git ls-remote --heads "$PRIVATE_URL" "refs/heads/${BRANCH_PREFIX}.*" \
@@ -82,7 +79,7 @@ jobs:
           #     i.e. higher minor wins; same minor → no-suffix beats any -N;
           #     same minor + both pre-release → higher -N wins.
           #   - one winner per major
-          declare -A BEST_BY_MAJOR=()   # major -> "minor:phase:suffix:branch"
+          declare -A BEST_BY_MAJOR=()   # major -> "minor:phase:suffix:branch" e.g. [14]="2:0:3:release-221121.14.2-3"
           for B in "${ALL_BRANCHES[@]:-}"; do
             [[ -z "$B" ]] && continue
             if [[ ! "$B" =~ ^${BRANCH_PREFIX}\.([0-9]+)\.([0-9]+)(-([0-9]+))?$ ]]; then
@@ -90,7 +87,7 @@ jobs:
             fi
             MA="${BASH_REMATCH[1]}"
             MI="${BASH_REMATCH[2]}"
-            # Phase: 1 = final (no -N), 0 = pre-release (-N). Final beats any pre-release.
+            # Phases: 1 = final (no -N); 0 = pre-release (-N). Final beats any pre-release.
             if [[ -n "${BASH_REMATCH[4]:-}" ]]; then
               PHASE=0
               SU="${BASH_REMATCH[4]}"
@@ -121,6 +118,8 @@ jobs:
 
           SELECTED=()
           for MA in "${!BEST_BY_MAJOR[@]}"; do
+            # discard the minor/phase/suffix fields; only BR (the branch name)
+            # is kept and pushed into SELECTED
             IFS=':' read -r _ _ _ BR <<< "${BEST_BY_MAJOR[$MA]}"
             SELECTED+=("$BR")
           done
