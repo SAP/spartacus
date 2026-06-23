@@ -1,11 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   CxDatePipe,
+  FeatureConfigService,
   GlobalMessageService,
   LanguageService,
   MockDatePipe,
@@ -84,6 +91,12 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   isStable = () => this.isStable$.asObservable();
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = jasmine
+    .createSpy('isEnabled')
+    .and.callFake((flag: string) => flag === 'enableCartSlowNetworkResilience');
+}
+
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform = createSpy();
@@ -137,6 +150,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           provide: ActiveCartFacade,
           useClass: MockActiveCartFacade,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
@@ -367,6 +381,64 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
       expect(orderFacade.placeOrder).toHaveBeenCalled();
     });
+
+    it('should schedule a replenishment order once the cart becomes stable', () => {
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+      activeCartFacade.isStable$.next(true);
+
+      component.submitForm();
+
+      expect(
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+      ).toHaveBeenCalled();
+    });
+
+    it('should early-return when currentOrderType is undefined WITHOUT consulting isStable()', () => {
+      // Form valid but order-type still missing — the form-state guard must
+      // win before the toggle-ON gate consults isStable().
+      controls.termsAndConditions.setValue(true);
+      component.currentOrderType = undefined as any;
+      const isStableSpy = spyOn(activeCartFacade, 'isStable').and.callThrough();
+
+      component.submitForm();
+
+      expect(isStableSpy).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
+      expect(
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+      ).not.toHaveBeenCalled();
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('safety-valve timeout (subclass inherits parent wiring)', () => {
+    it('should release the gate after 10s even when isStable stays false', fakeAsync(() => {
+      controls.termsAndConditions.setValue(true);
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+
+      const emissions: boolean[] = [];
+      const sub = component.isCartUpdating$.subscribe((v) => emissions.push(v));
+
+      // Gate engaged on the subclass component too.
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+
+      tick(10_000);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(false);
+
+      expect(emissions[emissions.length - 1]).toBe(false);
+      expect(emissions).toContain(true);
+      sub.unsubscribe();
+    }));
   });
 
   function submitForm(orderType: ORDER_TYPE, isTermsCondition: boolean): void {
@@ -374,4 +446,89 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     controls.termsAndConditions.setValue(isTermsCondition);
     component.submitForm();
   }
+});
+
+describe('CheckoutScheduledReplenishmentPlaceOrderComponent — enableCartSlowNetworkResilience OFF', () => {
+  let component: CheckoutScheduledReplenishmentPlaceOrderComponent;
+  let fixture: ComponentFixture<CheckoutScheduledReplenishmentPlaceOrderComponent>;
+  let controls: UntypedFormGroup['controls'];
+  let orderFacade: OrderFacade;
+  let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
+  let activeCartFacade: MockActiveCartFacade;
+
+  beforeEach(waitForAsync(() => {
+    const mockCurrencyService = { getActive: () => of('USD') };
+    const mockLanguageService = { getActive: () => of('en') };
+    TestBed.configureTestingModule({
+      imports: [
+        RouterModule.forRoot([]),
+        ReactiveFormsModule,
+        AtMessageModule,
+        CheckoutScheduledReplenishmentPlaceOrderComponent,
+      ],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        {
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        {
+          provide: ScheduledReplenishmentOrderFacade,
+          useClass: MockScheduledReplenishmentOrderFacade,
+        },
+        { provide: GlobalMessageService, useValue: {} },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: FeatureConfigService,
+          useValue: { isEnabled: (_flag: string) => false },
+        },
+      ],
+    })
+      .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(
+      CheckoutScheduledReplenishmentPlaceOrderComponent
+    );
+    component = fixture.componentInstance;
+    controls = component.checkoutSubmitForm.controls;
+    orderFacade = TestBed.inject(OrderFacade);
+    scheduledReplenishmentOrderFacade = TestBed.inject(
+      ScheduledReplenishmentOrderFacade
+    );
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as unknown as MockActiveCartFacade;
+  });
+
+  it('should place a regular order without consulting isStable() when toggle is OFF', () => {
+    controls.termsAndConditions.setValue(true);
+    component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
+    activeCartFacade.isStable$.next(false);
+
+    component.submitForm();
+
+    expect(orderFacade.placeOrder).toHaveBeenCalled();
+  });
+
+  it('should schedule a replenishment without consulting isStable() when toggle is OFF', () => {
+    controls.termsAndConditions.setValue(true);
+    component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
+    activeCartFacade.isStable$.next(false);
+
+    component.submitForm();
+
+    expect(
+      scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
+    ).toHaveBeenCalled();
+  });
 });

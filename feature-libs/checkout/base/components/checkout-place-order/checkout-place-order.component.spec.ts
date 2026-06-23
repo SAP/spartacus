@@ -1,11 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   CxDatePipe,
+  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   LanguageService,
@@ -41,6 +48,12 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   isStable = () => this.isStable$.asObservable();
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = jasmine
+    .createSpy('isEnabled')
+    .and.callFake((flag: string) => flag === 'enableCartSlowNetworkResilience');
+}
+
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -72,6 +85,7 @@ describe('CheckoutPlaceOrderComponent', () => {
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(CheckoutPlaceOrderComponent, {
@@ -219,10 +233,173 @@ describe('CheckoutPlaceOrderComponent', () => {
 
       expect(orderFacade.placeOrder).toHaveBeenCalled();
     });
+
+    it('should early-return on an invalid form WITHOUT consulting isStable()', () => {
+      // T&C unchecked → form invalid. The toggle-ON gate must NOT trigger
+      // an isStable() subscription on the form-invalid branch.
+      const isStableSpy = spyOn(activeCartFacade, 'isStable').and.callThrough();
+
+      component.submitForm();
+
+      expect(isStableSpy).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
+      expect(launchDialogService.launch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Place order UI — transitions', () => {
+    beforeEach(() => {
+      controls.termsAndConditions.setValue(true);
+    });
+
+    it('should disable the button when the cart transitions from stable to unstable', () => {
+      // Default isStable$ = true → enabled.
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(false);
+
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+    });
+
+    it('should emit isCartUpdating$ as false on initial subscribe (no synchronous true flicker)', () => {
+      const emissions: boolean[] = [];
+      const sub = component.isCartUpdating$.subscribe((v) => emissions.push(v));
+      // First synchronous emission must be false:
+      //   stable=true (BehaviorSubject default) AND timer.startWith(false)=false
+      //   → !true && !false = false
+      expect(emissions[0]).toBe(false);
+      sub.unsubscribe();
+    });
+  });
+
+  describe('safety-valve timeout', () => {
+    it('should release the gate after the safety-valve timeout even when isStable stays false', fakeAsync(() => {
+      controls.termsAndConditions.setValue(true);
+      activeCartFacade.isStable$.next(false);
+      fixture.detectChanges();
+
+      // Capture the full emission sequence so we can pin the order: the
+      // gate must close (`true`) before re-opening (`false`) at 10s.
+      const emissions: boolean[] = [];
+      const sub = component.isCartUpdating$.subscribe((v) => emissions.push(v));
+
+      // Gate engaged: button is disabled.
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(true);
+
+      // Advance past the 10s safety-valve.
+      tick(10_000);
+      fixture.detectChanges();
+
+      // Gate has released regardless of isStable being false.
+      expect(
+        fixture.debugElement.nativeElement.querySelector('.btn-primary')
+          .disabled
+      ).toEqual(false);
+
+      // Last emission must be `false` — the safety-valve unsticks the gate.
+      expect(emissions[emissions.length - 1]).toBe(false);
+      // The sequence must contain at least one `true` (gate engaged before
+      // the valve fired).
+      expect(emissions).toContain(true);
+      sub.unsubscribe();
+    }));
   });
 
   function submitForm(isTermsCondition: boolean): void {
     controls.termsAndConditions.setValue(isTermsCondition);
     component.submitForm();
   }
+});
+
+describe('CheckoutPlaceOrderComponent — enableCartSlowNetworkResilience OFF', () => {
+  let component: CheckoutPlaceOrderComponent;
+  let fixture: ComponentFixture<CheckoutPlaceOrderComponent>;
+  let controls: UntypedFormGroup['controls'];
+  let orderFacade: OrderFacade;
+  let launchDialogService: LaunchDialogService;
+  let activeCartFacade: MockActiveCartFacade;
+
+  beforeEach(waitForAsync(() => {
+    const mockCurrencyService = { getActive: () => of('USD') };
+    const mockLanguageService = { getActive: () => of('en') };
+    TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([]), I18nTestingModule],
+      providers: [
+        { provide: OrderFacade, useClass: MockOrderFacade },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: GlobalMessageService, useValue: {} },
+        { provide: CurrencyService, useValue: mockCurrencyService },
+        { provide: LanguageService, useValue: mockLanguageService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: FeatureConfigService,
+          useValue: {
+            isEnabled: (_flag: string) => false,
+          },
+        },
+      ],
+    })
+      .overrideComponent(CheckoutPlaceOrderComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CheckoutPlaceOrderComponent);
+    component = fixture.componentInstance;
+    controls = component.checkoutSubmitForm.controls;
+    orderFacade = TestBed.inject(OrderFacade);
+    launchDialogService = TestBed.inject(LaunchDialogService);
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as unknown as MockActiveCartFacade;
+  });
+
+  it('should keep the place order button enabled even while the cart is unstable', () => {
+    controls.termsAndConditions.setValue(true);
+    activeCartFacade.isStable$.next(false);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.btn-primary').disabled
+    ).toEqual(false);
+  });
+
+  it('should NOT render the cart-updating hint when toggle is OFF', () => {
+    controls.termsAndConditions.setValue(true);
+    activeCartFacade.isStable$.next(false);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.nativeElement.querySelector(
+        '.cx-place-order-cart-updating'
+      )
+    ).toBeFalsy();
+  });
+
+  it('should place the order without consulting isStable() when toggle is OFF', () => {
+    controls.termsAndConditions.setValue(true);
+    activeCartFacade.isStable$.next(false);
+
+    component.submitForm();
+
+    expect(launchDialogService.launch).toHaveBeenCalledWith(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      component['vcr']
+    );
+    expect(orderFacade.placeOrder).toHaveBeenCalled();
+  });
 });

@@ -1,14 +1,15 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   AuthService,
   EventService,
+  FeatureConfigService,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
-import { EMPTY, Observable, of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
 const activeCart = new ReplaySubject<Cart>();
@@ -22,6 +23,9 @@ class MockAuthService implements Partial<AuthService> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return activeCart.asObservable();
+  }
+  isStable(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -45,6 +49,12 @@ class MockSiteContextParamsService
 {
   getValues(_params: string[]): Observable<Array<string>> {
     return of([]);
+  }
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(flag: string): boolean {
+    return flag === 'enableCartSlowNetworkResilience';
   }
 }
 
@@ -83,6 +93,7 @@ describe('MiniCartComponentService', () => {
           useClass: MockSiteContextParamsService,
         },
         { provide: EventService, useClass: MockEventService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
@@ -324,5 +335,179 @@ describe('MiniCartComponentService', () => {
         cold('(ab)', { a: 0, b: 7 })
       );
     });
+  });
+
+  describe('getUpdating', () => {
+    it('should return false when no active cart is required (lazy path)', () => {
+      spyOn(service as any, 'activeCartRequired').and.returnValue(
+        cold('f', booleanValues)
+      );
+      spyOn(activeCartFacade, 'isStable').and.stub();
+      expect(service.getUpdating()).toBeObservable(cold('f', booleanValues));
+      expect(activeCartFacade.isStable).not.toHaveBeenCalled();
+    });
+
+    it('should emit only `false` and never re-emit `true` while isStable() stays true', fakeAsync(() => {
+      // The original marble (`cold('t', ...)` ) only spans one frame and
+      // never advances past debounceTime(250) — meaning the assertion was a
+      // false positive. fakeAsync + tick(>250) actually exercises the
+      // debounce window.
+      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
+      const isStable$ = new BehaviorSubject<boolean>(true);
+      spyOn(activeCartFacade, 'isStable').and.returnValue(
+        isStable$.asObservable()
+      );
+
+      const emissions: boolean[] = [];
+      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+      // Synchronous startWith(false) only.
+      expect(emissions).toEqual([false]);
+
+      // Advance well past the 250ms window — !stable=false equals the seed,
+      // distinctUntilChanged dedups, no second emission.
+      tick(500);
+      expect(emissions).toEqual([false]);
+
+      sub.unsubscribe();
+    }));
+
+    it('should emit true after debounce when isStable() flips to false', fakeAsync(() => {
+      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
+      const isStable$ = new BehaviorSubject<boolean>(false);
+      spyOn(activeCartFacade, 'isStable').and.returnValue(
+        isStable$.asObservable()
+      );
+
+      const emissions: boolean[] = [];
+      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+      // startWith(false) fires synchronously.
+      expect(emissions).toEqual([false]);
+
+      // debounceTime(250) holds the !stable=true emission until 250ms elapse.
+      tick(249);
+      expect(emissions).toEqual([false]);
+
+      tick(1);
+      expect(emissions).toEqual([false, true]);
+
+      sub.unsubscribe();
+    }));
+
+    it('should release the gate when isStable() recovers (false → true → false cycle)', fakeAsync(() => {
+      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
+      const isStable$ = new BehaviorSubject<boolean>(true);
+      spyOn(activeCartFacade, 'isStable').and.returnValue(
+        isStable$.asObservable()
+      );
+
+      const emissions: boolean[] = [];
+      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+      // Initial: stable → seed false; debounce window passes silently.
+      tick(250);
+      expect(emissions).toEqual([false]);
+
+      // Flip unstable → after 250ms debounce, true emits.
+      isStable$.next(false);
+      tick(250);
+      expect(emissions).toEqual([false, true]);
+
+      // Flip stable again → after 250ms debounce, false emits (gate releases).
+      isStable$.next(true);
+      tick(250);
+      expect(emissions).toEqual([false, true, false]);
+
+      sub.unsubscribe();
+    }));
+
+    it('should suppress flicker: rapid stable=false→true within debounce produces no transient true', fakeAsync(() => {
+      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
+      const isStable$ = new BehaviorSubject<boolean>(true);
+      spyOn(activeCartFacade, 'isStable').and.returnValue(
+        isStable$.asObservable()
+      );
+
+      const emissions: boolean[] = [];
+      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+      // Fast burst inside the 250ms window: false → true → false on isStable
+      // becomes !stable: true → false → true (mapped). debounceTime(250)
+      // holds the trailing value; distinctUntilChanged dedups against the
+      // seed `false`. The user must NOT see a transient `true`.
+      isStable$.next(false); // !stable=true
+      tick(50);
+      isStable$.next(true); // !stable=false (matches seed)
+      tick(50);
+      isStable$.next(false); // !stable=true
+      tick(50);
+      isStable$.next(true); // !stable=false (matches seed)
+
+      // Let any debounced emission fire.
+      tick(300);
+
+      // Final value matches the seed; distinctUntilChanged suppresses it.
+      expect(emissions).toEqual([false]);
+
+      sub.unsubscribe();
+    }));
+
+    it('should dedup repeated isStable()=true emissions via distinctUntilChanged', fakeAsync(() => {
+      spyOn(service as any, 'activeCartRequired').and.returnValue(of(true));
+      const isStable$ = new BehaviorSubject<boolean>(true);
+      spyOn(activeCartFacade, 'isStable').and.returnValue(
+        isStable$.asObservable()
+      );
+
+      const emissions: boolean[] = [];
+      const sub = service.getUpdating().subscribe((v) => emissions.push(v));
+
+      isStable$.next(true);
+      tick(300);
+      isStable$.next(true);
+      tick(300);
+      isStable$.next(true);
+      tick(300);
+
+      expect(emissions).toEqual([false]);
+      sub.unsubscribe();
+    }));
+  });
+});
+
+describe('MiniCartComponentService — enableCartSlowNetworkResilience OFF', () => {
+  let service: MiniCartComponentService;
+  let activeCartFacade: ActiveCartFacade;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [],
+      providers: [
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        { provide: AuthService, useClass: MockAuthService },
+        {
+          provide: StatePersistenceService,
+          useClass: MockStatePersistenceService,
+        },
+        {
+          provide: SiteContextParamsService,
+          useClass: MockSiteContextParamsService,
+        },
+        { provide: EventService, useClass: MockEventService },
+        {
+          provide: FeatureConfigService,
+          useValue: { isEnabled: (_flag: string) => false },
+        },
+      ],
+    });
+    service = TestBed.inject(MiniCartComponentService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+  });
+
+  it('should emit only `false` and never subscribe to activeCartFacade.isStable()', () => {
+    spyOn(activeCartFacade, 'isStable').and.stub();
+    expect(service.getUpdating()).toBeObservable(cold('(f|)', booleanValues));
+    expect(activeCartFacade.isStable).not.toHaveBeenCalled();
   });
 });

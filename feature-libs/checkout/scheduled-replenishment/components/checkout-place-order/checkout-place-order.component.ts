@@ -86,6 +86,12 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
       this.checkoutSubmitForm.markAllAsTouched();
       return;
     }
+    if (
+      !this.featureConfigService.isEnabled('enableCartSlowNetworkResilience')
+    ) {
+      this.launchScheduledReplenishmentOrder();
+      return;
+    }
     this.activeCartFacade
       .isStable()
       .pipe(take(1))
@@ -93,37 +99,39 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
         if (!isStable) {
           return;
         }
-        this.placedOrder = this.launchDialogService.launch(
-          LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-          this.vcr
-        );
-        merge(
-          this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-            ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
-            : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
-                this.scheduleReplenishmentFormData,
-                this.checkoutSubmitForm.valid
-              )
-        ).subscribe({
-          error: () => {
-            if (this.placedOrder) {
-              this.placedOrder
-                .subscribe((component) => {
-                  this.launchDialogService.clear(
-                    LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                  );
-                  if (component) {
-                    component.destroy();
-                  }
-                })
-                .unsubscribe();
-            }
-          },
-          next: () => {
-            this.onSuccess();
-          },
-        });
+        this.launchScheduledReplenishmentOrder();
       });
+  }
+
+  protected launchScheduledReplenishmentOrder(): void {
+    this.placedOrder = this.launchDialogService.launch(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      this.vcr
+    );
+    merge(
+      this.currentOrderType === ORDER_TYPE.PLACE_ORDER
+        ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
+        : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
+            this.scheduleReplenishmentFormData,
+            this.checkoutSubmitForm.valid
+          )
+    ).subscribe({
+      error: () => {
+        if (this.placedOrder) {
+          this.placedOrder
+            .subscribe((component) => {
+              this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+              if (component) {
+                component.destroy();
+              }
+            })
+            .unsubscribe();
+        }
+      },
+      next: () => {
+        this.onSuccess();
+      },
+    });
   }
 
   ngOnInit(): void {

@@ -295,10 +295,12 @@ export class CartEffects {
   // reproduced this on slow 3G — rapid multi-product adds finished POSTing
   // server-side but the UI showed a stale cart.
   //
-  // Wait until processesCount for THIS cart drops to 0 (the falling edge),
-  // then dispatch one LoadCart. The downstream filter still acts as
-  // defense-in-depth for any other LoadCart dispatcher (cart-page mount
-  // etc.) firing mid-burst.
+  // When `enableCartSlowNetworkResilience` is ON: wait until processesCount
+  // for THIS cart drops to 0 (the falling edge), then dispatch one
+  // LoadCart. The downstream filter still acts as defense-in-depth for any
+  // other LoadCart dispatcher (cart-page mount etc.) firing mid-burst.
+  // When OFF: fall back to the legacy synchronous map() that dispatched
+  // LoadCart immediately on every success.
   refreshWithoutProcesses$: Observable<CartActions.LoadCart> = createEffect(
     () =>
       this.actions$.pipe(
@@ -317,11 +319,9 @@ export class CartEffects {
               | CartActions.CartRemoveVoucherSuccess
           ) => action.payload
         ),
-        groupBy((payload) => payload.cartId),
-        mergeMap((group$) =>
-          group$.pipe(
-            concatMap((payload) =>
-              this.store
+        mergeMap((payload) =>
+          this.featureToggles.enableCartSlowNetworkResilience
+            ? this.store
                 .pipe(
                   select(
                     getCartHasPendingProcessesSelectorFactory(payload.cartId)
@@ -338,8 +338,12 @@ export class CartEffects {
                       })
                   )
                 )
-            )
-          )
+            : of(
+                new CartActions.LoadCart({
+                  userId: payload.userId,
+                  cartId: payload.cartId,
+                })
+              )
         )
       )
   );

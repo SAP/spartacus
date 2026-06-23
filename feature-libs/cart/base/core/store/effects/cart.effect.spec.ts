@@ -105,7 +105,10 @@ describe('Cart effect', () => {
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-        provideFeatureToggles({ enableCartReloadOnContextChange: true }),
+        provideFeatureToggles({
+          enableCartReloadOnContextChange: true,
+          enableCartSlowNetworkResilience: true,
+        }),
       ],
     });
 
@@ -552,6 +555,140 @@ describe('Cart effect', () => {
         }, 0);
       }, 0);
     });
+
+    it('should keep different cartIds in flight independent (each waits its own falling edge)', (done) => {
+      const cartIdA = 'cartA';
+      const cartIdB = 'cartB';
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      // Open processes on both carts.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId: cartIdA,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId: cartIdB,
+          productCode: 'B',
+          quantity: 1,
+        })
+      );
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // Drain cartA only; cartB is still in flight.
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId: cartIdA,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+
+      setTimeout(() => {
+        const aLoads = emissions.filter((e) => e.payload.cartId === cartIdA);
+        const bLoads = emissions.filter((e) => e.payload.cartId === cartIdB);
+        expect(aLoads.length).toBeGreaterThanOrEqual(1);
+        expect(bLoads.length).toBe(0);
+
+        // Now drain cartB.
+        send(
+          new CartActions.CartAddEntrySuccess({
+            userId,
+            cartId: cartIdB,
+            productCode: 'B',
+            quantity: 1,
+          })
+        );
+
+        setTimeout(() => {
+          expect(
+            emissions.filter((e) => e.payload.cartId === cartIdB).length
+          ).toBeGreaterThanOrEqual(1);
+          sub.unsubscribe();
+          done();
+        }, 0);
+      }, 0);
+    });
+
+    it('should start a fresh wait for the next CartAddEntrySuccess on the same cart after a falling edge', (done) => {
+      const actionsSubject = new ReplaySubject<any>();
+      actions$ = actionsSubject.asObservable();
+
+      const send = (action: any) => {
+        actionsSubject.next(action);
+        store.dispatch(action);
+      };
+
+      const emissions: CartActions.LoadCart[] = [];
+      const sub = cartEffects.refreshWithoutProcesses$.subscribe((a) =>
+        emissions.push(a)
+      );
+
+      // Round 1: open + drain.
+      send(
+        new CartActions.CartAddEntry({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+      send(
+        new CartActions.CartAddEntrySuccess({
+          userId,
+          cartId,
+          productCode: 'A',
+          quantity: 1,
+        })
+      );
+
+      setTimeout(() => {
+        const round1Count = emissions.length;
+        expect(round1Count).toBeGreaterThanOrEqual(1);
+
+        // Round 2: another burst on the SAME cartId. The inner take(1) must
+        // NOT have permanently terminated this cartId's stream.
+        send(
+          new CartActions.CartAddEntry({
+            userId,
+            cartId,
+            productCode: 'B',
+            quantity: 1,
+          })
+        );
+        send(
+          new CartActions.CartAddEntrySuccess({
+            userId,
+            cartId,
+            productCode: 'B',
+            quantity: 1,
+          })
+        );
+
+        setTimeout(() => {
+          expect(emissions.length).toBeGreaterThan(round1Count);
+          emissions.forEach((a) => expect(a.payload.cartId).toBe(cartId));
+          sub.unsubscribe();
+          done();
+        }, 0);
+      }, 0);
+    });
   });
 
   describe('resetCartDetailsOnSiteContextChange$', () => {
@@ -676,6 +813,78 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.deleteCart$).toBeObservable(expected);
+    });
+  });
+});
+
+describe('Cart effect — enableCartSlowNetworkResilience OFF (legacy refreshWithoutProcesses$)', () => {
+  let cartEffects: fromEffects.CartEffects;
+  let actions$: Observable<any>;
+
+  const userId = 'testUserId';
+  const cartId = 'testCartId';
+
+  const MockOccModuleConfig: OccConfig = {
+    backend: { occ: { baseUrl: '', prefix: '' } },
+  };
+
+  beforeEach(() => {
+    class MockCartConnector {
+      create = createSpy().and.returnValue(of(testCart));
+      load = createSpy().and.returnValue(of(testCart));
+      addEmail = createSpy().and.returnValue(of({}));
+      delete = createSpy().and.returnValue(of({}));
+    }
+
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
+        StoreModule.forFeature(
+          CLIENT_AUTH_FEATURE,
+          fromClientAuthReducers.getReducers()
+        ),
+        StoreModule.forFeature(
+          MULTI_CART_FEATURE,
+          fromCartReducers.getMultiCartReducers()
+        ),
+      ],
+      providers: [
+        { provide: CartConnector, useClass: MockCartConnector },
+        fromEffects.CartEffects,
+        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        provideFeatureToggles({
+          enableCartReloadOnContextChange: true,
+          enableCartSlowNetworkResilience: false,
+        }),
+      ],
+    });
+
+    cartEffects = TestBed.inject(fromEffects.CartEffects);
+  });
+
+  // Legacy behaviour: every success action dispatches a single LoadCart
+  // synchronously, regardless of pending processes count.
+  const cartChangesSuccessActions = [
+    'CartAddEntrySuccess',
+    'CartUpdateEntrySuccess',
+    'CartRemoveEntrySuccess',
+    'CartRemoveVoucherSuccess',
+  ];
+
+  cartChangesSuccessActions.forEach((actionName) => {
+    it(`should synchronously dispatch a single LoadCart on ${actionName}`, () => {
+      const action = new CartActions[actionName]({ userId, cartId });
+      const loadCompletion = new CartActions.LoadCart({ userId, cartId });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: loadCompletion });
+
+      expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
     });
   });
 });

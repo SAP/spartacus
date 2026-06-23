@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -13,6 +13,7 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
+  FeatureToggles,
   OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
@@ -354,14 +355,25 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
   private checkInitLoad: boolean | undefined = undefined;
 
+  private featureToggles = inject(FeatureToggles);
+
   /**
    * Cached observable for in-flight cart loading/creation.
    * Prevents race conditions when multiple addEntry() calls happen rapidly
    * before the cart is created - they all share the same cart creation flow.
+   * Only used when `enableCartSlowNetworkResilience` is enabled.
    */
   private loadedCart$: Observable<Cart> | null = null;
 
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
+    // When the slow-network resilience toggle is OFF, fall back to the
+    // pre-CXSPA-10582 codepath that builds the pipeline fresh on every
+    // call. Extending clients that overrode requireLoadedCart will see
+    // identical behaviour to develop.
+    if (!this.featureToggles.enableCartSlowNetworkResilience) {
+      return this.buildRequireLoadedCartPipeline(forGuestMerge);
+    }
+
     // For guest merge, don't use caching as it has special filtering requirements
     // For normal flow, return cached observable if cart creation is in-flight
     if (!forGuestMerge && this.loadedCart$) {

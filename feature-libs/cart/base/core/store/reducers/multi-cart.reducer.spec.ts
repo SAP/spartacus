@@ -75,6 +75,19 @@ describe('Multi Cart reducer', () => {
     });
 
     describe('CART_ADD_ENTRY_SUCCESS action', () => {
+      beforeEach(() => {
+        // The reducer's CART_ADD_ENTRY_SUCCESS branch is gated behind
+        // enableCartSlowNetworkResilience. The flag is captured at module
+        // init via getMultiCartReducers() in production; flip it on here
+        // so the toggle-ON behaviour can be exercised directly against the
+        // pure reducer in isolation.
+        fromMultiCart.setCartSlowNetworkResilienceEnabled(true);
+      });
+
+      afterEach(() => {
+        fromMultiCart.setCartSlowNetworkResilienceEnabled(false);
+      });
+
       const baseCart: Cart = {
         code: 'cart-1',
         totalPrice: { value: 10, currencyIso: 'USD' },
@@ -171,6 +184,77 @@ describe('Multi Cart reducer', () => {
         expect(state?.entries).toEqual([
           { entryNumber: 0, quantity: 1, product: { code: 'A' } },
         ]);
+      });
+
+      it('should preserve entry order when replacing an entry in the middle', () => {
+        const threeEntryCart: Cart = {
+          code: 'cart-1',
+          entries: [
+            { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+            { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+            { entryNumber: 2, quantity: 1, product: { code: 'C' } },
+          ],
+        };
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 2,
+          entry: { entryNumber: 1, quantity: 2, product: { code: 'B' } },
+        });
+        const state = fromMultiCart.cartEntitiesReducer(threeEntryCart, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+          { entryNumber: 1, quantity: 2, product: { code: 'B' } },
+          { entryNumber: 2, quantity: 1, product: { code: 'C' } },
+        ]);
+      });
+
+      it('should append when the action entry has no entryNumber (findIndex returns -1)', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          // entryNumber omitted on purpose — the OCC response can be partial.
+          entry: { quantity: 1, product: { code: 'B' } } as any,
+        });
+        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        expect(state?.entries).toEqual([
+          { entryNumber: 0, quantity: 1, product: { code: 'A' } },
+          { quantity: 1, product: { code: 'B' } } as any,
+        ]);
+      });
+    });
+
+    describe('CART_ADD_ENTRY_SUCCESS action — enableCartSlowNetworkResilience OFF', () => {
+      beforeEach(() => {
+        fromMultiCart.setCartSlowNetworkResilienceEnabled(false);
+      });
+
+      const baseCart: Cart = {
+        code: 'cart-1',
+        entries: [
+          {
+            entryNumber: 0,
+            quantity: 1,
+            product: { code: 'A' },
+          },
+        ],
+      };
+
+      it('should return the existing state untouched (legacy behaviour)', () => {
+        const action = new CartActions.CartAddEntrySuccess({
+          userId: 'userId',
+          cartId: 'cart-1',
+          productCode: 'B',
+          quantity: 1,
+          entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
+        });
+        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        // Reference equality — the toggle-OFF branch must short-circuit
+        // *before* any spread/copy.
+        expect(state).toBe(baseCart);
       });
     });
 

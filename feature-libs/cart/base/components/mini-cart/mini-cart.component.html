@@ -1,16 +1,29 @@
 <a
-  *ngIf="{ quantity: quantity$ | async } as data"
+  *ngIf="{ quantity: quantity$ | async, updating: updating$ | async } as data"
   [attr.aria-label]="'miniCart.item' | cxTranslate: { count: data.quantity }"
   [title]="'miniCart.item' | cxTranslate: { count: data.quantity }"
+  [class.is-updating]="data.updating"
   [routerLink]="{ cxRoute: 'cart' } | cxUrl"
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 
-  <span class="total">
+  <span
+    *ngIf="data.updating"
+    class="cx-mini-cart-updating"
+    role="status"
+    aria-live="polite"
+    [attr.aria-label]="'miniCart.updating' | cxTranslate"
+  >
+    <span class="loader-container" aria-hidden="true">
+      <span class="loader">{{ 'spinner.loading' | cxTranslate }}</span>
+    </span>
+  </span>
+
+  <span *ngIf="!data.updating" class="total">
     {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
   </span>
 
-  <span class="count">
+  <span *ngIf="!data.updating" class="count">
     {{ 'miniCart.count' | cxTranslate: { count: quantity$ | async } }}
   </span>
 </a>

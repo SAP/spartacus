@@ -173,7 +173,8 @@
     "item": "{{count}} item currently in your cart",
     "item_other": "{{count}} items currently in your cart",
     "total": "{{total}}",
-    "count": "{{count}}"
+    "count": "{{count}}",
+    "updating": "Updating cart"
   },
   "skipLink": {
     "skipTo": "Skip to",

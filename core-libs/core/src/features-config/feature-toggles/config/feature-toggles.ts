@@ -600,6 +600,37 @@ export interface FeatureTogglesInterface {
    * Legacy behavior uses `initiatePayment`.
    */
   opfCheckoutUseUpdatePaymentTransaction?: boolean;
+
+  /**
+   * Enables the CXSPA-10582 fixes that make the active cart resilient to
+   * slow networks: rapid multi-product add-to-cart bursts no longer lose
+   * line items, the Place Order / Proceed-to-Checkout buttons stay disabled
+   * until cart writes settle, and the mini-cart / cart page surface an
+   * "updating" indicator so users see the in-flight state.
+   *
+   * When OFF, all of the following revert to pre-fix behaviour:
+   * - `MultiCartReducer` no longer merges `CART_ADD_ENTRY_SUCCESS` payload
+   *   into the cart entity ahead of the trailing GET reconcile.
+   * - `CartEffects.refreshWithoutProcesses$` returns to the synchronous
+   *   per-success LoadCart dispatch (the downstream "drop LoadCart while
+   *   pending" filter then swallows refreshes mid-burst).
+   * - `ActiveCartService.requireLoadedCart` skips the in-flight cart
+   *   creation cache.
+   * - `CheckoutPlaceOrderComponent` (base + scheduled-replenishment) no
+   *   longer gates `submitForm()` on `isStable()` and exposes no
+   *   `isCartUpdating$`.
+   * - `MiniCartComponent` hides the updating indicator and keeps the
+   *   count/total visible at all times.
+   * - `CartDetailsComponent` hides the "Updating cart" banner.
+   * - `CartProceedToCheckoutComponent` does not gate `[disabled]` /
+   *   `[loading]` on `isStable()`.
+   *
+   * Affects: ActiveCartService, CartEffects, MultiCartReducer,
+   * MiniCartComponent, CartDetailsComponent, CartProceedToCheckoutComponent,
+   * CheckoutPlaceOrderComponent,
+   * CheckoutScheduledReplenishmentPlaceOrderComponent
+   */
+  enableCartSlowNetworkResilience?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -672,4 +703,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   pageLinkSanitizeCanonicalUrl: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  enableCartSlowNetworkResilience: false,
 };

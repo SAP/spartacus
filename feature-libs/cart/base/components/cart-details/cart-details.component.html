@@ -7,6 +7,16 @@
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
       </h2>
 
+      <div
+        *ngIf="updating$ | async"
+        class="cx-cart-details-updating"
+        role="status"
+        aria-live="polite"
+      >
+        <cx-spinner aria-hidden="true"></cx-spinner>
+        <span>{{ 'cartDetails.updating' | cxTranslate }}</span>
+      </div>
+
       <cx-promotions
         [promotions]="
           (cart.appliedOrderPromotions || []).concat(

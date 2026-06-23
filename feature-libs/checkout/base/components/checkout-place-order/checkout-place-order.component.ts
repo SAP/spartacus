@@ -25,6 +25,7 @@ import { RouterLink } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
+  FeatureConfigService,
   LanguageService,
   RoutingService,
   TranslatePipe,
@@ -39,7 +40,16 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, map, Observable, take } from 'rxjs';
+import { combineLatest, map, Observable, of, take, timer } from 'rxjs';
+import { startWith } from 'rxjs/operators';
+
+/**
+ * Hard cap on how long the Place Order gate can keep the button disabled.
+ * If `isStable()` never recovers (e.g., a leaked process counter) the gate
+ * releases regardless after this timeout so the user is never locked out of
+ * placing the order.
+ */
+const PLACE_ORDER_GATE_SAFETY_VALVE_MS = 10_000;
 
 @Component({
   selector: 'cx-place-order',
@@ -65,16 +75,33 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
+  protected featureConfigService = inject(FeatureConfigService);
+
   /**
    * Emits true while the active cart has any in-flight load or pending process
    * (e.g. queued CartAddEntry actions on a slow network). The Place Order
    * button is disabled while this is true to prevent placing the order before
    * all queued cart writes have settled — otherwise queued requests would fire
    * against the just-removed cart and create a phantom cart (CXSPA-10582).
+   *
+   * A safety-valve timer forces the gate to release after
+   * PLACE_ORDER_GATE_SAFETY_VALVE_MS so a stuck `isStable()` selector cannot
+   * lock the user out of placing the order indefinitely.
+   *
+   * Gated by `enableCartSlowNetworkResilience`; emits constant `false` when
+   * the toggle is OFF so an extending client sees pre-CXSPA-10582 behaviour.
    */
-  isCartUpdating$: Observable<boolean> = this.activeCartFacade
-    .isStable()
-    .pipe(map((stable) => !stable));
+  isCartUpdating$: Observable<boolean> = this.featureConfigService.isEnabled(
+    'enableCartSlowNetworkResilience'
+  )
+    ? combineLatest([
+        this.activeCartFacade.isStable(),
+        timer(PLACE_ORDER_GATE_SAFETY_VALVE_MS).pipe(
+          map(() => true),
+          startWith(false)
+        ),
+      ]).pipe(map(([stable, expired]) => !stable && !expired))
+    : of(false);
 
   private currencyService = inject(CurrencyService);
   private languageService = inject(LanguageService);
@@ -104,6 +131,12 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
       this.checkoutSubmitForm.markAllAsTouched();
       return;
     }
+    if (
+      !this.featureConfigService.isEnabled('enableCartSlowNetworkResilience')
+    ) {
+      this.launchPlaceOrder();
+      return;
+    }
     this.activeCartFacade
       .isStable()
       .pipe(take(1))
@@ -111,30 +144,32 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
         if (!isStable) {
           return;
         }
-        this.placedOrder = this.launchDialogService.launch(
-          LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-          this.vcr
-        );
-        this.orderFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
-          error: () => {
-            if (!this.placedOrder) {
-              return;
-            }
-
-            this.placedOrder
-              .subscribe((component) => {
-                this.launchDialogService.clear(
-                  LAUNCH_CALLER.PLACE_ORDER_SPINNER
-                );
-                if (component) {
-                  component.destroy();
-                }
-              })
-              .unsubscribe();
-          },
-          next: () => this.onSuccess(),
-        });
+        this.launchPlaceOrder();
       });
+  }
+
+  protected launchPlaceOrder(): void {
+    this.placedOrder = this.launchDialogService.launch(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      this.vcr
+    );
+    this.orderFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
+      error: () => {
+        if (!this.placedOrder) {
+          return;
+        }
+
+        this.placedOrder
+          .subscribe((component) => {
+            this.launchDialogService.clear(LAUNCH_CALLER.PLACE_ORDER_SPINNER);
+            if (component) {
+              component.destroy();
+            }
+          })
+          .unsubscribe();
+      },
+      next: () => this.onSuccess(),
+    });
   }
 
   onSuccess(): void {

@@ -25,5 +25,11 @@ export class MiniCartComponent {
 
   total$: Observable<string> = this.miniCartComponentService.getTotalPrice();
 
+  /**
+   * True while the active cart has pending writes. Drives the mini-cart's
+   * loading affordance.
+   */
+  updating$: Observable<boolean> = this.miniCartComponentService.getUpdating();
+
   constructor(protected miniCartComponentService: MiniCartComponentService) {}
 }

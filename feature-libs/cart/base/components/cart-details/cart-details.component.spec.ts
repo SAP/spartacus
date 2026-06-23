@@ -1,5 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -12,18 +18,21 @@ import {
 import {
   AuthService,
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
-import { PromotionsModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { PromotionsModule, SpinnerComponent } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CartCouponComponent } from '../cart-coupon';
 import { CartItemListComponent } from '../cart-shared';
 import { CartValidationWarningsComponent } from '../public_api';
 import { CartDetailsComponent } from './cart-details.component';
+
+const stable$ = new BehaviorSubject<boolean>(true);
 
 class MockActiveCartService {
   removeEntry(): void {}
@@ -36,7 +45,7 @@ class MockActiveCartService {
     return of([{}]);
   }
   isStable(): Observable<boolean> {
-    return of(true);
+    return stable$.asObservable();
   }
 }
 
@@ -80,6 +89,18 @@ class MockCartCouponComponent {
 })
 class MockCartValidationWarningsComponent {}
 
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockCxSpinnerComponent {}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(flag: string): boolean {
+    return flag === 'enableCartSlowNetworkResilience';
+  }
+}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -104,6 +125,7 @@ describe('CartDetailsComponent', () => {
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(waitForAsync(() => {
+    stable$.next(true);
     TestBed.configureTestingModule({
       imports: [PromotionsModule, CartDetailsComponent],
       providers: [
@@ -118,6 +140,7 @@ describe('CartDetailsComponent', () => {
           provide: CartConfigService,
           useValue: mockCartConfig,
         },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(CartDetailsComponent, {
@@ -128,6 +151,7 @@ describe('CartDetailsComponent', () => {
             CartItemListComponent,
             CartCouponComponent,
             CartValidationWarningsComponent,
+            SpinnerComponent,
           ],
         },
         add: {
@@ -137,6 +161,7 @@ describe('CartDetailsComponent', () => {
             MockCartItemListComponent,
             MockCartCouponComponent,
             MockCartValidationWarningsComponent,
+            MockCxSpinnerComponent,
           ],
         },
       })
@@ -144,6 +169,7 @@ describe('CartDetailsComponent', () => {
 
     mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
     mockSelectiveCartFacade.isStable.and.returnValue(of(true));
+    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
   }));
 
   beforeEach(() => {
@@ -209,4 +235,167 @@ describe('CartDetailsComponent', () => {
     const cartName = el.nativeElement.innerText;
     expect(cartName).toEqual('cartDetails.cartName code:123');
   });
+
+  describe('updating banner', () => {
+    it('should not render banner when cart is stable', () => {
+      stable$.next(true);
+      fixture.detectChanges();
+      const banner = fixture.debugElement.query(
+        By.css('.cx-cart-details-updating')
+      );
+      expect(banner).toBeNull();
+    });
+
+    it('should render banner with a11y attrs and spinner when cart is unstable', fakeAsync(() => {
+      stable$.next(false);
+      fixture.detectChanges();
+      // updating$ has a 250ms debounceTime; advance past it.
+      tick(250);
+      fixture.detectChanges();
+      const banner = fixture.debugElement.query(
+        By.css('.cx-cart-details-updating')
+      );
+      expect(banner).not.toBeNull();
+      expect(banner.attributes['role']).toBe('status');
+      expect(banner.attributes['aria-live']).toBe('polite');
+      const spinner = banner.query(By.css('cx-spinner'));
+      expect(spinner).not.toBeNull();
+      expect(spinner.attributes['aria-hidden']).toBe('true');
+    }));
+
+    it('should hide the banner once the cart becomes stable again (gate release)', fakeAsync(() => {
+      // unstable → debounce → banner appears
+      stable$.next(false);
+      fixture.detectChanges();
+      tick(250);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+      ).not.toBeNull();
+
+      // stable → debounce → banner disappears
+      stable$.next(true);
+      tick(250);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+      ).toBeNull();
+    }));
+
+    it('should suppress flicker: rapid unstable→stable within debounce window keeps banner hidden', fakeAsync(() => {
+      // Within the 250ms debounce window, !stable=true → false → true → false.
+      // debounceTime emits the trailing value (false); distinctUntilChanged
+      // dedups against the seed `false` from startWith. The user must NOT see
+      // a transient banner mount.
+      stable$.next(false); // !stable=true
+      tick(50);
+      stable$.next(true); // !stable=false (matches seed)
+      tick(50);
+      stable$.next(false); // !stable=true
+      tick(50);
+      stable$.next(true); // !stable=false (matches seed)
+
+      // Let the debounce window close fully.
+      tick(300);
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+      ).toBeNull();
+    }));
+
+    it('should NOT render the banner on initial mount (startWith(false) seed)', () => {
+      // No isStable() flip — the BehaviorSubject default is true. With
+      // startWith(false), the first synchronous emission of updating$ must
+      // be `false`, so the banner is absent on the very first detectChanges.
+      fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(By.css('.cx-cart-details-updating'))
+      ).toBeNull();
+    });
+  });
+});
+
+describe('CartDetailsComponent — enableCartSlowNetworkResilience OFF', () => {
+  let component: CartDetailsComponent;
+  let fixture: ComponentFixture<CartDetailsComponent>;
+
+  const mockSelectiveCartFacade = jasmine.createSpyObj('SelectiveCartFacade', [
+    'getCart',
+    'removeEntry',
+    'getEntries',
+    'isStable',
+    'addEntry',
+  ]);
+  const mockCartConfig = jasmine.createSpyObj('CartConfigService', [
+    'isSelectiveCartEnabled',
+  ]);
+  const mockAuthService = jasmine.createSpyObj('AuthService', [
+    'isUserLoggedIn',
+  ]);
+  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
+
+  beforeEach(waitForAsync(() => {
+    stable$.next(false);
+    TestBed.configureTestingModule({
+      imports: [PromotionsModule, CartDetailsComponent],
+      providers: [
+        { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: CartConfigService, useValue: mockCartConfig },
+        {
+          provide: FeatureConfigService,
+          useValue: { isEnabled: (_flag: string) => false },
+        },
+      ],
+    })
+      .overrideComponent(CartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CartItemListComponent,
+            CartCouponComponent,
+            CartValidationWarningsComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCartItemListComponent,
+            MockCartCouponComponent,
+            MockCartValidationWarningsComponent,
+            MockCxSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
+
+    mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
+    mockSelectiveCartFacade.isStable.and.returnValue(of(true));
+    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(CartDetailsComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should NOT render the updating banner even when cart is unstable', fakeAsync(() => {
+    stable$.next(false);
+    fixture.detectChanges();
+    tick(250);
+    fixture.detectChanges();
+
+    const banner = fixture.debugElement.query(
+      By.css('.cx-cart-details-updating')
+    );
+    expect(banner).toBeNull();
+    expect(component).toBeTruthy();
+  }));
 });

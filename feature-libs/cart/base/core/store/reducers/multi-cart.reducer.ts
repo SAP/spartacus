@@ -39,6 +39,19 @@ export function cartTypeIndexReducer(
   return state;
 }
 
+/**
+ * Module-level holder for the `enableCartSlowNetworkResilience` toggle.
+ * Reducers cannot use Angular DI, so the value is captured at app bootstrap
+ * by `getMultiCartReducers()` (see `./index.ts`) and read here at action
+ * dispatch time. When false, the reducer skips the optimistic
+ * `CART_ADD_ENTRY_SUCCESS` merge and behaves identically to pre-CXSPA-10582.
+ */
+let cartSlowNetworkResilienceEnabled = false;
+
+export function setCartSlowNetworkResilienceEnabled(enabled: boolean): void {
+  cartSlowNetworkResilienceEnabled = enabled;
+}
+
 export const cartEntitiesInitialState = undefined;
 export function cartEntitiesReducer(
   state: Cart | undefined = cartEntitiesInitialState,
@@ -54,6 +67,9 @@ export function cartEntitiesReducer(
       return action.payload.cart;
 
     case CartActions.CART_ADD_ENTRY_SUCCESS: {
+      if (!cartSlowNetworkResilienceEnabled) {
+        return state;
+      }
       // Merge the entry returned by POST .../entries into the cart entity so
       // the UI surfaces it before the trailing LoadCart reconcile arrives.
       // Without this, on slow networks rapid multi-product adds appear to
