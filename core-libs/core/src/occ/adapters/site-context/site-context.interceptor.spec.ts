@@ -17,11 +17,11 @@ import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
 import { SiteContextInterceptor } from './site-context.interceptor';
 
-const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics/`;
+const OccUrl = `https://localhost:9002${defaultOccConfig.backend?.occ?.prefix}electronics/`;
 class MockCurrencyService {
-  isocode = new BehaviorSubject(null);
+  isocode = new BehaviorSubject<string | null>(null);
 
-  getActive(): Observable<string> {
+  getActive() {
     return this.isocode;
   }
 
@@ -31,9 +31,9 @@ class MockCurrencyService {
 }
 
 class MockLanguageService {
-  isocode = new BehaviorSubject(null);
+  isocode = new BehaviorSubject<string | null>(null);
 
-  getActive(): Observable<string> {
+  getActive() {
     return this.isocode;
   }
 
@@ -45,7 +45,7 @@ class MockLanguageService {
 class MockSiteContextModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
-    occPrefix: defaultOccConfig.backend.occ.prefix,
+    occPrefix: defaultOccConfig.backend?.occ?.prefix,
   };
 
   context = {

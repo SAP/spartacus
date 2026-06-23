@@ -1,5 +1,5 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-import { backOff } from '@spartacus/core';
+import { backOff } from './back-off';
 import { BehaviorSubject, defer, firstValueFrom, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
