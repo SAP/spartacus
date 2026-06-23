@@ -19,22 +19,11 @@ import { BFF_BASE_URL } from './bff-base-url.token';
  *     is forwarded as the `Authorization` header so BFF procedures that
  *     need it can pass it upstream to MCS / OCC.
  *
- * What to call is entirely up to the caller. The BFF tRPC procedures are
- * reachable as plain HTTP GET/POST at:
- *   `<BFF_BASE_URL>/<router>.<procedure>`
- *
- * Examples:
- *   GET  /bff/api/mcs.storefront.product.v1.products.searchProducts?input=...
- *   POST /bff/api/mcs.storefront.cart.v1.carts.createCart
- *
- * The `input` query param (for queries) or request body (for mutations) must
- * be JSON-encoded and wrapped in `{ "json": <value> }` because the BFF uses
- * superjson as its tRPC transformer.
- *
- * This service deliberately bypasses Spartacus's OCC HttpInterceptor chain
- * by using a separate `HttpClient` call with an absolute URL that does NOT
- * contain the OCC base URL — so OCC auth headers, site-context params, and
- * error handlers do not fire on BFF traffic.
+ * BFF traffic does not pass through Spartacus's OCC HttpInterceptor chain
+ * because OCC interceptors are gated on the OCC base URL — they only fire
+ * on requests whose URL contains `backend.occ.baseUrl`. BFF calls go to
+ * `/bff/...` which does not match, so OCC auth headers, site-context params,
+ * and error handlers do not fire on BFF traffic.
  */
 @Injectable({ providedIn: 'root' })
 export class BffHttpService {
