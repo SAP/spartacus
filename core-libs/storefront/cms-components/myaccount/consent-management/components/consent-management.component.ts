@@ -5,12 +5,20 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   AuthService,
   ConsentTemplate,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -24,6 +32,7 @@ import {
   Subscription,
 } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -35,6 +44,7 @@ import {
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cx-consent-management',
@@ -46,14 +56,17 @@ import { ConsentManagementFormComponent } from './consent-form/consent-managemen
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
+  private destroyRef = inject(DestroyRef);
   private subscriptions = new Subscription();
   private allConsentsLoading = new BehaviorSubject<boolean>(false);
 
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
+  isLoading = signal(false);
 
   requiredConsents: string[] = [];
 
@@ -91,11 +104,20 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
           withdrawConsentLoading ||
           !isUserLoggedIn ||
           allConsentsLoading
-      )
+      ),
+      distinctUntilChanged(),
+      debounceTime(300)
     );
     this.consentListInit();
     this.giveConsentInit();
     this.withdrawConsentInit();
+
+    this.loading$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap((v) => this.isLoading.set(v))
+      )
+      .subscribe();
   }
 
   private consentListInit(): void {
@@ -239,6 +261,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   rejectAll(templates: ConsentTemplate[] = []): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     const consentsToWithdraw: ConsentTemplate[] = [];
     templates.forEach((template) => {
       if (
@@ -282,14 +308,15 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         }
       })
     );
-    const checkTimesLoaded$ = withdraw$.pipe(
+    return withdraw$.pipe(
       filter((timesLoaded) => timesLoaded === consentsToWithdraw.length)
     );
-
-    return checkTimesLoaded$;
   }
 
   allowAll(templates: ConsentTemplate[] = []): void {
+    if (this.isLoading()) {
+      return;
+    }
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach((template) => {
       const givenDate = template.currentConsent?.consentGivenDate;
