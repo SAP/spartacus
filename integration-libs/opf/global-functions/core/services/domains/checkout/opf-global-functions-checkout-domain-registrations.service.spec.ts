@@ -196,7 +196,6 @@ describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
       spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
 
       container.submit?.({
-        cartId: 'mock-cart',
         additionalData: [],
         submitSuccess: () => {},
         submitPending: () => {},
@@ -212,7 +211,6 @@ describe('OpfGlobalFunctionsCheckoutDomainRegistrationsService', () => {
       spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
 
       container.submitComplete?.({
-        cartId: 'mock-cart',
         additionalData: [],
         submitSuccess: () => {},
         submitPending: () => {},

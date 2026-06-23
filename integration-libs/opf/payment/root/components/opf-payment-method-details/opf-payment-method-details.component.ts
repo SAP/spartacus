@@ -5,8 +5,16 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FeatureToggles, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
   Card,
@@ -25,6 +33,8 @@ import { OpfCheckoutOutlets } from '@spartacus/opf/checkout/root';
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
   @Optional() protected orderOutlet = inject(OutletContextData);
   readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   protected subscription = new Subscription();
@@ -32,11 +42,17 @@ export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.subscription?.add(
-        this.orderOutlet.context$.subscribe(
-          (context) => (this.order = context?.item)
-        )
-      );
+      if (this.featureToggles.opfUseDestroyRef) {
+        this.orderOutlet.context$
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((context) => (this.order = context?.item));
+      } else {
+        this.subscription.add(
+          this.orderOutlet.context$.subscribe(
+            (context) => (this.order = context?.item)
+          )
+        );
+      }
     }
   }
 
