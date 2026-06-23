@@ -276,9 +276,7 @@ export class OpfGooglePayService {
   }
 
   handleActiveCartTransaction(): Observable<Cart> {
-    this.transactionDetails.context = OpfQuickBuyLocation.CART;
-
-    return this.opfQuickBuyTransactionService.handleCartGuestUser().pipe(
+    return this.opfQuickBuyTransactionService.prepareTransactionCart().pipe(
       switchMap(() => {
         return forkJoin({
           deliveryInfo:
@@ -362,8 +360,8 @@ export class OpfGooglePayService {
             switchMap(() => {
               return paymentDataResponse?.email
                 ? this.opfQuickBuyTransactionService.updateCartGuestUserEmail(
-                    paymentDataResponse.email
-                  )
+                  paymentDataResponse.email
+                )
                 : of(true);
             }),
             switchMap(() => {
@@ -375,9 +373,9 @@ export class OpfGooglePayService {
                 additionalData: [],
                 paymentSessionId: '',
                 callbacks: {
-                  onSuccess: () => {},
-                  onPending: () => {},
-                  onFailure: () => {},
+                  onSuccess: () => { },
+                  onPending: () => { },
+                  onFailure: () => { },
                 },
                 paymentMethod: OpfQuickBuyProviderType.GOOGLE_PAY as any,
                 encryptedToken,
@@ -412,10 +410,10 @@ export class OpfGooglePayService {
                 ),
                 switchMap(([cart, mode]) => {
                   const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
-                    {
-                      newShippingOptionParameters: shippingOptions,
-                      newTransactionInfo: this.getNewTransactionInfo(cart),
-                    };
+                  {
+                    newShippingOptionParameters: shippingOptions,
+                    newTransactionInfo: this.getNewTransactionInfo(cart),
+                  };
 
                   if (
                     paymentDataRequestUpdate.newShippingOptionParameters

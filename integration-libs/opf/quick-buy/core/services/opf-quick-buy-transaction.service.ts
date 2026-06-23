@@ -5,78 +5,33 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import {
-  ActiveCartFacade,
-  Cart,
-  CartGuestUser,
-  CartGuestUserFacade,
-  DeliveryMode,
-  MultiCartFacade,
-} from '@spartacus/cart/base/root';
-import {
-  CheckoutBillingAddressFacade,
-  CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryModesFacade,
-} from '@spartacus/checkout/base/root';
-import {
-  Address,
-  AuthService,
-  BaseSiteService,
-  QueryState,
-  RoutingService,
-  UserAddressService,
-  UserIdService,
-} from '@spartacus/core';
-import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
+import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
+import { Address, BaseSiteService, RoutingService } from '@spartacus/core';
 import {
   OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME,
   OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyLocation,
 } from '@spartacus/opf/quick-buy/root';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { OpfQuickBuyActiveCartTransactionService } from './context/opf-quick-buy-active-cart-transaction.service';
+import { OpfQuickBuySingleProductTransactionService } from './context/opf-quick-buy-single-product-transaction.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class OpfQuickBuyTransactionService {
-  protected baseSiteService = inject(BaseSiteService);
-  protected activeCartFacade = inject(ActiveCartFacade);
   protected routingService = inject(RoutingService);
-  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
-  protected checkoutDeliveryAddressFacade = inject(
-    CheckoutDeliveryAddressFacade
+  protected baseSiteService = inject(BaseSiteService);
+  protected activeCartTransactionService = inject(
+    OpfQuickBuyActiveCartTransactionService
   );
-  protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
-  protected userAddressService = inject(UserAddressService);
-  protected opfGlobalMessageService = inject(OpfGlobalMessageService);
-  protected cartGuestUserFacade = inject(CartGuestUserFacade);
-  protected authService = inject(AuthService);
-  protected userIdService = inject(UserIdService);
-  protected multiCartFacade = inject(MultiCartFacade);
+  protected singleProductTransactionService = inject(
+    OpfQuickBuySingleProductTransactionService
+  );
 
-  getTransactionDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
-    return this.activeCartFacade.hasDeliveryItems().pipe(
-      take(1),
-      map((hasDeliveryItems: boolean) =>
-        hasDeliveryItems
-          ? OpfQuickBuyDeliveryType.SHIPPING
-          : OpfQuickBuyDeliveryType.PICKUP
-      )
-    );
-  }
-
-  getTransactionDeliveryInfo(): Observable<OpfQuickBuyDeliveryInfo> {
-    const deliveryTypeObservable = this.getTransactionDeliveryType().pipe(
-      map((deliveryType) => {
-        return {
-          type: deliveryType,
-        } as OpfQuickBuyDeliveryInfo;
-      })
-    );
-
-    return deliveryTypeObservable.pipe(take(1));
-  }
+  protected transactionContext?: OpfQuickBuyLocation;
 
   getTransactionLocationContext(): Observable<OpfQuickBuyLocation> {
     return this.routingService.getRouterState().pipe(
@@ -84,7 +39,10 @@ export class OpfQuickBuyTransactionService {
       map(
         (routerState) =>
           routerState?.state?.semanticRoute?.toLocaleUpperCase() as OpfQuickBuyLocation
-      )
+      ),
+      tap((context) => {
+        this.transactionContext = context;
+      })
     );
   }
 
@@ -95,162 +53,151 @@ export class OpfQuickBuyTransactionService {
     );
   }
 
+  prepareTransactionCart(): Observable<Cart> {
+    return this.delegate(
+      () => this.singleProductTransactionService.createSingleProductCart(),
+      () => this.activeCartTransactionService.prepareTransactionCart()
+    );
+  }
+
+  getTransactionDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
+    return this.delegate(
+      () => this.singleProductTransactionService.getTransactionDeliveryType(),
+      () => this.activeCartTransactionService.getTransactionDeliveryType()
+    );
+  }
+
+  getTransactionDeliveryInfo(): Observable<OpfQuickBuyDeliveryInfo> {
+    return this.delegate(
+      () => this.singleProductTransactionService.getTransactionDeliveryInfo(),
+      () => this.activeCartTransactionService.getTransactionDeliveryInfo()
+    );
+  }
+
   checkStableCart(): Observable<boolean> {
-    return this.activeCartFacade.isStable().pipe(
-      filter((isStable) => !!isStable),
-      take(1)
+    return this.delegate(
+      () => this.singleProductTransactionService.checkStableCart(),
+      () => this.activeCartTransactionService.checkStableCart()
     );
   }
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return this.checkoutDeliveryModesFacade.getSupportedDeliveryModes();
+    return this.delegate(
+      () => this.singleProductTransactionService.getSupportedDeliveryModes(),
+      () => this.activeCartTransactionService.getSupportedDeliveryModes()
+    );
   }
 
   setDeliveryAddress(address: Address): Observable<string> {
-    this.opfGlobalMessageService.disableGlobalMessage([
-      'addressForm.userAddressAddSuccess',
-    ]);
-    return this.checkoutDeliveryAddressFacade.createAndSetAddress(address).pipe(
-      switchMap(() => this.checkStableCart()),
-      switchMap(() =>
-        this.getDeliveryAddress().pipe(
-          map((addr: Address | undefined) => addr?.id ?? '')
-        )
-      )
+    return this.delegate(
+      () => this.singleProductTransactionService.setDeliveryAddress(address),
+      () => this.activeCartTransactionService.setDeliveryAddress(address)
     );
   }
 
   setBillingAddress(address: Address): Observable<boolean> {
-    return this.checkoutBillingAddressFacade
-      .setBillingAddress(address)
-      .pipe(switchMap(() => this.checkStableCart()));
+    return this.delegate(
+      () => this.singleProductTransactionService.setBillingAddress(address),
+      () => this.activeCartTransactionService.setBillingAddress(address)
+    );
   }
 
   getDeliveryAddress(): Observable<Address | undefined> {
-    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
-      filter((state: QueryState<Address | undefined>) => !state.loading),
-      take(1),
-      map((state: QueryState<Address | undefined>) => {
-        return state.data;
-      })
+    return this.delegate(
+      () => this.singleProductTransactionService.getDeliveryAddress(),
+      () => this.activeCartTransactionService.getDeliveryAddress()
     );
   }
 
   getCurrentCart(): Observable<Cart> {
-    return this.activeCartFacade.takeActive();
+    return this.delegate(
+      () => this.singleProductTransactionService.getCurrentCart(),
+      () => this.activeCartTransactionService.getCurrentCart()
+    );
   }
 
   getCurrentCartId(): Observable<string> {
-    return this.activeCartFacade.takeActiveCartId();
+    return this.delegate(
+      () => this.singleProductTransactionService.getCurrentCartId(),
+      () => this.activeCartTransactionService.getCurrentCartId()
+    );
   }
 
   getCurrentCartTotalPrice(): Observable<number | undefined> {
-    return this.activeCartFacade
-      .takeActive()
-      .pipe(map((cart: Cart) => cart.totalPrice?.value));
+    return this.delegate(
+      () => this.singleProductTransactionService.getCurrentCartTotalPrice(),
+      () => this.activeCartTransactionService.getCurrentCartTotalPrice()
+    );
   }
 
   setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
-    return this.checkoutDeliveryModesFacade.setDeliveryMode(mode).pipe(
-      switchMap(() =>
-        this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
-      ),
-      filter(
-        (state: QueryState<DeliveryMode | undefined>) =>
-          !state.error && !state.loading
-      ),
-      take(1),
-      map((state: QueryState<DeliveryMode | undefined>) => state.data)
+    return this.delegate(
+      () => this.singleProductTransactionService.setDeliveryMode(mode),
+      () => this.activeCartTransactionService.setDeliveryMode(mode)
     );
   }
 
   getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
-    return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
-      filter(
-        (state: QueryState<DeliveryMode | undefined>) =>
-          !state.error && !state.loading
-      ),
-      take(1),
-      map((state: QueryState<DeliveryMode | undefined>) => state.data)
+    return this.delegate(
+      () => this.singleProductTransactionService.getSelectedDeliveryMode(),
+      () => this.activeCartTransactionService.getSelectedDeliveryMode()
     );
   }
 
   deleteUserAddresses(addrIds: string[]): void {
-    this.authService
-      .isUserLoggedIn()
-      .pipe(take(1))
-      .subscribe((isUserLoggedIn) => {
-        if (isUserLoggedIn) {
-          this.opfGlobalMessageService.disableGlobalMessage([
-            'addressForm.userAddressDeleteSuccess',
-          ]);
-          addrIds.forEach((addrId) => {
-            this.userAddressService.deleteUserAddress(addrId);
-          });
-        }
-      });
+    if (this.isSingleProductContext(this.transactionContext)) {
+      return;
+    }
+
+    this.activeCartTransactionService.deleteUserAddresses(addrIds);
   }
 
   createCartGuestUser(): Observable<boolean> {
-    return combineLatest([
-      this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
-    ]).pipe(
-      take(1),
-      switchMap(([userId, cartId]) => {
-        return this.cartGuestUserFacade
-          .createCartGuestUser(userId, cartId)
-          .pipe(
-            tap(() => this.multiCartFacade.reloadCart(cartId)),
-            map(() => true)
-          );
-      })
-    );
-  }
-
-  protected updateCartGuestUser(
-    cartGuestUser: CartGuestUser
-  ): Observable<boolean> {
-    return combineLatest([
-      this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
-    ]).pipe(
-      take(1),
-      switchMap(([userId, cartId]) => {
-        return this.cartGuestUserFacade
-          .updateCartGuestUser(userId, cartId, cartGuestUser)
-          .pipe(
-            tap(() => this.multiCartFacade.reloadCart(cartId)),
-            map(() => true)
-          );
-      })
+    return this.delegate(
+      () => of(true),
+      () => this.activeCartTransactionService.createCartGuestUser()
     );
   }
 
   updateCartGuestUserEmail(email: string): Observable<boolean> {
-    return this.activeCartFacade.isGuestCart().pipe(
-      take(1),
-      switchMap((isGuestCart) => {
-        return isGuestCart && email
-          ? this.updateCartGuestUser({ email })
-          : of(false);
-      })
+    return this.delegate(
+      () => of(false),
+      () => this.activeCartTransactionService.updateCartGuestUserEmail(email)
     );
   }
 
   handleCartGuestUser(): Observable<boolean> {
-    return combineLatest([
-      this.authService.isUserLoggedIn(),
-      this.activeCartFacade.isGuestCart(),
-    ]).pipe(
-      take(1),
-      switchMap(([isUserLoggedIn, isGuestCart]) => {
-        if (isUserLoggedIn || isGuestCart) {
-          return of(true);
-        }
+    return this.delegate(
+      () => of(true),
+      () => this.activeCartTransactionService.handleCartGuestUser()
+    );
+  }
 
-        return this.createCartGuestUser();
-      })
+  protected resolveContext(): Observable<OpfQuickBuyLocation> {
+    if (this.transactionContext) {
+      return of(this.transactionContext);
+    }
+
+    return this.getTransactionLocationContext();
+  }
+
+  protected isSingleProductContext(
+    context?: OpfQuickBuyLocation
+  ): boolean {
+    return context === OpfQuickBuyLocation.PRODUCT;
+  }
+
+  protected delegate<T>(
+    singleProductFn: () => Observable<T>,
+    activeCartFn: () => Observable<T>
+  ): Observable<T> {
+    return this.resolveContext().pipe(
+      take(1),
+      switchMap((context) =>
+        this.isSingleProductContext(context)
+          ? singleProductFn()
+          : activeCartFn()
+      )
     );
   }
 }

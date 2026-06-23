@@ -5,3 +5,21 @@
     #googlePayButtonContainer
   ></div>
 </ng-container>
+
+<div class="cx-opf-single-product-debug" style="margin-top: 1rem; padding: 0.5rem; border: 1px dashed #ccc">
+  <p style="margin: 0 0 0.5rem; font-size: 0.875rem">Single Product Service (dev)</p>
+  <button type="button" (click)="testCreateSingleProductCart()">createSingleProductCart</button>
+  <button type="button" (click)="testGetTransactionDeliveryType()">getTransactionDeliveryType</button>
+  <button type="button" (click)="testGetTransactionDeliveryInfo()">getTransactionDeliveryInfo</button>
+  <button type="button" (click)="testCheckStableCart()">checkStableCart</button>
+  <button type="button" (click)="testGetSupportedDeliveryModes()">getSupportedDeliveryModes</button>
+  <button type="button" (click)="testSetDeliveryAddress()">setDeliveryAddress</button>
+  <button type="button" (click)="testSetBillingAddress()">setBillingAddress</button>
+  <button type="button" (click)="testGetDeliveryAddress()">getDeliveryAddress</button>
+  <button type="button" (click)="testGetCurrentCart()">getCurrentCart</button>
+  <button type="button" (click)="testGetCurrentCartId()">getCurrentCartId</button>
+  <button type="button" (click)="testGetCurrentCartTotalPrice()">getCurrentCartTotalPrice</button>
+  <button type="button" (click)="testSetDeliveryMode()">setDeliveryMode</button>
+  <button type="button" (click)="testGetSelectedDeliveryMode()">getSelectedDeliveryMode</button>
+  <pre *ngIf="debugMessage" style="margin: 0.5rem 0 0; font-size: 0.75rem">{{ debugMessage }}</pre>
+</div>
