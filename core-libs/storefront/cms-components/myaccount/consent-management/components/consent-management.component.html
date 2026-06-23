@@ -7,7 +7,7 @@
 >
   <ng-container *ngIf="data.templateList as templateList">
     <div class="cx-consent-action-links">
-      <ng-container *cxFeature="'keepFocusOnConsentManagementButtons'">
+      <ng-container *cxFeature="'a11ykeepFocusOnConsentManagementButtons'">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <button
             class="btn btn-link cx-action-link"
@@ -25,7 +25,7 @@
           </button>
         </div>
       </ng-container>
-      <ng-container *cxFeature="'!keepFocusOnConsentManagementButtons'">
+      <ng-container *cxFeature="'!a11yKeepFocusOnConsentManagementButtons'">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <button
             class="btn btn-link cx-action-link"
