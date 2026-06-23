@@ -38,7 +38,7 @@ const MINI_CART_UPDATING_DEBOUNCE_MS = 250;
   providedIn: 'root',
 })
 export class MiniCartComponentService {
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,

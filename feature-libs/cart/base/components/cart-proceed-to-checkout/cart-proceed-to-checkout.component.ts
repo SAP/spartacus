@@ -68,7 +68,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   cartUpdating$: Observable<boolean>;
 
   protected subscription = new Subscription();
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected router: Router,

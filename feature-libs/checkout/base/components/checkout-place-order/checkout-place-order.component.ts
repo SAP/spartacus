@@ -75,7 +75,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
-  protected featureConfigService = inject(FeatureConfigService);
+  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Emits true while the active cart has any in-flight load or pending process
