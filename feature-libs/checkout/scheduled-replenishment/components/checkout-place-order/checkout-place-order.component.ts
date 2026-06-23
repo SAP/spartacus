@@ -86,9 +86,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
       this.checkoutSubmitForm.markAllAsTouched();
       return;
     }
-    if (
-      !this.featureConfigService.isEnabled('enableCartSlowNetworkResilience')
-    ) {
+    if (!this.isSlowNetworkResilienceEnabled()) {
       this.launchScheduledReplenishmentOrder();
       return;
     }

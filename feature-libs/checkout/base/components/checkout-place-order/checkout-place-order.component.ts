@@ -77,6 +77,12 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
 
   private featureConfigService = inject(FeatureConfigService);
 
+  protected isSlowNetworkResilienceEnabled(): boolean {
+    return this.featureConfigService.isEnabled(
+      'enableCartSlowNetworkResilience'
+    );
+  }
+
   /**
    * Emits true while the active cart has any in-flight load or pending process
    * (e.g. queued CartAddEntry actions on a slow network). The Place Order
@@ -91,9 +97,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
    * Gated by `enableCartSlowNetworkResilience`; emits constant `false` when
    * the toggle is OFF so an extending client sees pre-CXSPA-10582 behaviour.
    */
-  isCartUpdating$: Observable<boolean> = this.featureConfigService.isEnabled(
-    'enableCartSlowNetworkResilience'
-  )
+  isCartUpdating$: Observable<boolean> = this.isSlowNetworkResilienceEnabled()
     ? combineLatest([
         this.activeCartFacade.isStable(),
         timer(PLACE_ORDER_GATE_SAFETY_VALVE_MS).pipe(
@@ -131,9 +135,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
       this.checkoutSubmitForm.markAllAsTouched();
       return;
     }
-    if (
-      !this.featureConfigService.isEnabled('enableCartSlowNetworkResilience')
-    ) {
+    if (!this.isSlowNetworkResilienceEnabled()) {
       this.launchPlaceOrder();
       return;
     }
