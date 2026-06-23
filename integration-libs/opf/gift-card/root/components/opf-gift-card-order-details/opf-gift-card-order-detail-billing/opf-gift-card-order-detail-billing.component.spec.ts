@@ -71,10 +71,6 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       expect(component).toBeDefined();
     });
 
-    it('should initialize subscription', () => {
-      expect(component['subscription']).toBeTruthy();
-    });
-
     it('should have order property', () => {
       component.order = mockOrder;
       expect(component.order).toEqual(mockOrder);
@@ -104,11 +100,10 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
 
     it('should not subscribe if orderOutlet is not provided', () => {
       component['orderOutlet'] = undefined;
-      const subscriptionSpy = spyOn(component['subscription'], 'add');
 
       component.ngOnInit();
 
-      expect(subscriptionSpy).not.toHaveBeenCalled();
+      expect(component.order).toBeUndefined();
     });
 
     it('should handle multiple order updates from context', (done) => {
@@ -304,41 +299,6 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
     });
   });
 
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe from subscription', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'unsubscribe');
-
-      component.ngOnDestroy();
-
-      expect(subscriptionSpy).toHaveBeenCalled();
-    });
-
-    it('should be called when component is destroyed', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'unsubscribe');
-
-      fixture.destroy();
-
-      expect(subscriptionSpy).toHaveBeenCalled();
-    });
-
-    it('should handle multiple destroy calls', () => {
-      const subscriptionSpy = spyOn(component['subscription'], 'unsubscribe');
-
-      component.ngOnDestroy();
-      component.ngOnDestroy();
-
-      expect(subscriptionSpy).toHaveBeenCalledTimes(2);
-    });
-
-    it('should unsubscribe without error when subscription is already closed', () => {
-      component['subscription'].unsubscribe();
-
-      expect(() => {
-        component.ngOnDestroy();
-      }).not.toThrow();
-    });
-  });
-
   describe('Integration Tests', () => {
     it('should update isGiftCardPayment when order changes', () => {
       component.order = {
@@ -374,22 +334,6 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       });
     });
 
-    it('should maintain subscription during component lifecycle', () => {
-      const mockOutletContext: Partial<OutletContextData<Order>> = {
-        context$: contextSubject.asObservable(),
-      };
-
-      component['orderOutlet'] = mockOutletContext as OutletContextData<Order>;
-      component.ngOnInit();
-
-      const initialSubscriptionClosed = component['subscription'].closed;
-
-      contextSubject.next(mockOrder);
-
-      expect(component['subscription'].closed).toBe(initialSubscriptionClosed);
-      expect(component.order).toEqual(mockOrder);
-    });
-
     it('should handle full order lifecycle', (done) => {
       const mockOutletContext: Partial<OutletContextData<Order>> = {
         context$: contextSubject.asObservable(),
@@ -411,8 +355,6 @@ describe('OpfGiftCardOrderDetailBillingComponent', () => {
       component.getPaymentMethodCardContent().subscribe((card: Card) => {
         expect(component.isGiftCardPayment).toBe(true);
         expect(card.title).toBe('Payment');
-        component.ngOnDestroy();
-        expect(component['subscription'].closed).toBe(true);
         done();
       });
     });

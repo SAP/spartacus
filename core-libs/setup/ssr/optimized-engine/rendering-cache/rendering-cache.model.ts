@@ -15,8 +15,6 @@ export interface RenderingEntry {
 
   /**
    * Approximate size of the entry in bytes.
-   *
-   * It's used only when `ssrFeatureToggles.limitCacheByMemory` is set to true.
    */
   _size?: number;
 }

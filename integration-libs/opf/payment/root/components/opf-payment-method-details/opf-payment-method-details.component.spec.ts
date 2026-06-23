@@ -104,10 +104,4 @@ describe('OpfPaymentMethodDetailsComponent', () => {
 
     expect(result).toBeFalsy();
   });
-
-  it('should unsubscribe from subscription on component destruction', () => {
-    spyOn(component['subscription'], 'unsubscribe');
-    component.ngOnDestroy();
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
-  });
 });
