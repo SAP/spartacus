@@ -490,6 +490,12 @@ export interface FeatureTogglesInterface {
   a11yRestoreFocusOnNgSelect?: boolean;
 
   /**
+   * When enabled change disabled to aria-disabled on consent management buttons to keep focus when loading state toggle
+   * Affects: ConsentManagementFormComponent
+   */
+  a11yKeepFocusOnConsentManagementButtons?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -697,6 +703,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
+  a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
