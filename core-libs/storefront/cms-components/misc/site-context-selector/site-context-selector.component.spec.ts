@@ -19,6 +19,8 @@ import {
   LANGUAGE_CONTEXT_ID,
   LanguageService,
   MockTranslatePipe,
+  provideConfig,
+  provideFeatureToggles,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -108,6 +110,10 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        provideFeatureToggles({
+          a11ySiteContextCaretClick: true,
+        }),
+        provideConfig({ features: { a11ySiteContextCaretClick: true } }),
         contextServiceMapProvider,
       ],
     })

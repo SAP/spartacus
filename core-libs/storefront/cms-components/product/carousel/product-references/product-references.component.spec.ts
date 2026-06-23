@@ -11,12 +11,15 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
+  FeaturesConfig,
   FeaturesConfigModule,
   FeatureToggles,
   MockTranslatePipe,
   Product,
   ProductReference,
   ProductReferenceService,
+  provideConfigFactory,
+  provideFeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -169,6 +172,10 @@ describe('ProductReferencesComponent', () => {
           provide: ProductReferenceService,
           useClass: MockProductReferenceService,
         },
+        provideFeatureToggles({
+          productCarouselScrolling: true,
+        }),
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })
       .overrideComponent(ProductReferencesComponent, {
@@ -300,11 +307,9 @@ describe('ProductReferencesComponent', () => {
     });
   });
   describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-    beforeEach(() => {
-      mockFeatureToggles.productCarouselScrolling = false;
-    });
-
     it('should render cx-carousel component', () => {
+      const config = TestBed.inject(FeaturesConfig);
+      config.features!['productCarouselScrolling'] = false;
       fixture.detectChanges();
       const carouselComponent = fixture.debugElement.query(
         By.css('cx-carousel')

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
+  provideConfig,
   SiteTheme,
   TranslationService,
 } from '@spartacus/core';
@@ -46,6 +47,7 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        provideConfig({ features: { a11ySiteContextCaretClick: true } }),
       ],
     }).compileComponents();
 

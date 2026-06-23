@@ -12,6 +12,7 @@ import { By } from '@angular/platform-browser';
 import {
   CmsProductCarouselComponent,
   CxDatePipe,
+  FeaturesConfig,
   FeaturesConfigModule,
   FeatureToggles,
   MockDatePipe,
@@ -20,6 +21,8 @@ import {
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
+  provideConfigFactory,
+  provideFeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -246,7 +249,11 @@ describe('ProductCarouselComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, ProductCarouselComponent],
-      providers: mockProviders,
+      providers: [
+        ...mockProviders,
+        provideFeatureToggles(mockFeatureToggles),
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
+      ],
     })
       .overrideComponent(ProductCarouselComponent, {
         remove: {
@@ -308,11 +315,9 @@ describe('ProductCarouselComponent', () => {
     });
   });
   describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-    beforeEach(() => {
-      mockFeatureToggles.productCarouselScrolling = false;
-    });
-
     it('should render cx-carousel component', () => {
+      const config = TestBed.inject(FeaturesConfig);
+      config.features!['productCarouselScrolling'] = false;
       fixture.detectChanges();
       const carouselComponent = fixture.debugElement.query(
         By.css('cx-carousel')

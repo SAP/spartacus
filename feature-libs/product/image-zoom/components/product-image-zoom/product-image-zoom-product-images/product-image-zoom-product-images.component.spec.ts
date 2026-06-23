@@ -10,6 +10,8 @@ import {
   MockDatePipe,
   MockTranslatePipe,
   Product,
+  provideConfigFactory,
+  provideFeatureToggles,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -169,6 +171,8 @@ describe('ProductImageZoomProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        provideFeatureToggles(mockFeatureToggles),
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })
       .overrideComponent(ProductImageZoomProductImagesComponent, {

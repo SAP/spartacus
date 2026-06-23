@@ -2,7 +2,13 @@ import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfigModule, FeatureToggles, Product } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  FeatureToggles,
+  Product,
+  provideConfigFactory,
+  provideFeatureToggles,
+} from '@spartacus/core';
 import {
   CarouselComponent,
   CarouselScrollingComponent,
@@ -138,6 +144,11 @@ describe('ProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        provideFeatureToggles({
+          reserveSpaceForImagesOnPdpAndPlp: true,
+          productCarouselScrolling: true,
+        }),
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })
       .overrideComponent(ProductImagesComponent, {

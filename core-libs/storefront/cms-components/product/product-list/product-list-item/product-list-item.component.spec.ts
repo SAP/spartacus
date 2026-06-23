@@ -12,10 +12,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
+  FeaturesConfig,
   Image,
   ImageGroup,
   MockTranslatePipe,
   ProductService,
+  provideConfigFactory,
+  provideFeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -112,6 +115,12 @@ describe('ProductListItemComponent in product-list', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
+        provideFeatureToggles({
+          consistentSizeProductCards: true,
+          productListItemSummaryReadMore: false,
+          a11yProductListItemNameMargin: true,
+        }),
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })
       .overrideComponent(ProductListItemComponent, {
@@ -231,7 +240,8 @@ describe('ProductListItemComponent in product-list', () => {
 
   describe('when productListItemSummaryReadMore is enabled', () => {
     beforeEach(() => {
-      mockFeatureToggles['productListItemSummaryReadMore'] = true;
+      const config = TestBed.inject(FeaturesConfig);
+      config.features!['productListItemSummaryReadMore'] = true;
       fixture = TestBed.createComponent(ProductListItemComponent);
       component = fixture.componentInstance;
       component.product = mockProduct;
