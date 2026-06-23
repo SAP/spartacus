@@ -4,10 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
+  FeaturesConfig,
   FeaturesConfigModule,
+  FeatureToggles,
   I18nTestingModule,
   MockTranslatePipe,
+  provideConfigFactory,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -158,6 +160,10 @@ class MockDirectionService implements Partial<DirectionService> {
   }
 }
 
+const mockFeatureToggles: FeatureToggles = {
+  a11yConfiguratorOverviewHeaderVPC: false,
+};
+
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -182,6 +188,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
         { provide: DirectionService, useClass: MockDirectionService },
+        provideConfigFactory(() => ({ features: mockFeatureToggles as any })),
       ],
     })
       .overrideComponent(ConfiguratorOverviewFormComponent, {
@@ -471,14 +478,9 @@ describe('ConfigurationOverviewFormComponent', () => {
 
   describe('Accessibility', () => {
     function setFeatureToggle(featureToggleEnabled: boolean) {
-      spyOn(TestBed.inject(FeatureConfigService), 'isEnabled').and.callFake(
-        (feature: string) => {
-          if (featureToggleEnabled) {
-            return feature === 'a11yConfiguratorOverviewHeaderVPC';
-          }
-          return feature === '!a11yConfiguratorOverviewHeaderVPC';
-        }
-      );
+      const config = TestBed.inject(FeaturesConfig);
+      config.features!['a11yConfiguratorOverviewHeaderVPC'] =
+        featureToggleEnabled;
       initialize();
     }
 

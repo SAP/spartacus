@@ -142,12 +142,8 @@ describe('ProductImageZoomViewComponent', () => {
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: FeatureToggles, useValue: { ...mockFeatureToggles } },
-        // Note: the component HTML still uses `*cxFeature` (which reads from
-        // FeaturesConfig under the hood via the deprecated FeatureConfigService).
-        // We mirror the feature toggle state here so the template renders the
-        // a11y-aware DOM expected by the tests.
         provideConfig({
-          features: { a11yKeyboardAccessibleZoom: true },
+          features: mockFeatureToggles,
         }),
       ],
     })

@@ -10,7 +10,6 @@ import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  provideFeatureToggles,
   SiteThemeModule,
 } from '@spartacus/core';
 
@@ -33,9 +32,6 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
           component: SiteThemeSwitcherComponent,
         },
       },
-    }),
-    provideFeatureToggles({
-      a11ySiteContextCaretClick: true,
     }),
     SiteThemeSwitcherComponentService,
   ],
