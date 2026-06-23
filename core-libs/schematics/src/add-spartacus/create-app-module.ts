@@ -68,10 +68,8 @@ export class AppModule {}
       if (options.debug) {
         context.logger.info(`✅ Created ${appModulePath}`);
       }
-    } else {
-      if (options.debug) {
-        context.logger.info(`✅ ${APP_MODULE} already exists`);
-      }
+    } else if (options.debug) {
+      context.logger.info(`✅ ${APP_MODULE} already exists`);
     }
 
     if (options.debug) {
