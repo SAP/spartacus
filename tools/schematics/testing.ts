@@ -101,12 +101,8 @@ function startVerdaccio(): ChildProcess {
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
   try {
     execSync(`npx wait-on ${verdaccioRegistryUrl} --timeout 10000`);
-  } catch (_e) {
-    console.log(
-      chalk.red(
-        `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
-      )
-    );
+  } catch (error) {
+    console.log(chalk.red(`\n❌ Couldn't boot verdaccio:\n${error}`));
     process.exit(1);
   }
   console.log('Pointing npm to verdaccio');
