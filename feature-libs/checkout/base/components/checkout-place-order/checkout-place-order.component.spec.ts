@@ -198,8 +198,8 @@ describe('CheckoutPlaceOrderComponent', () => {
       expect(
         fixture.debugElement.nativeElement.querySelector(
           '.cx-place-order-cart-updating'
-        )
-      ).toBeTruthy();
+        ).hidden
+      ).toBeFalse();
     });
 
     it('should NOT render the cart-updating hint while the cart is stable', () => {
@@ -209,8 +209,8 @@ describe('CheckoutPlaceOrderComponent', () => {
       expect(
         fixture.debugElement.nativeElement.querySelector(
           '.cx-place-order-cart-updating'
-        )
-      ).toBeFalsy();
+        ).hidden
+      ).toBeTrue();
     });
   });
 
@@ -386,8 +386,8 @@ describe('CheckoutPlaceOrderComponent — enableCartSlowNetworkResilience OFF', 
     expect(
       fixture.debugElement.nativeElement.querySelector(
         '.cx-place-order-cart-updating'
-      )
-    ).toBeFalsy();
+      ).hidden
+    ).toBeTrue();
   });
 
   it('should place the order without consulting isStable() when toggle is OFF', () => {

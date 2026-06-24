@@ -32,9 +32,11 @@
   >
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>
-  @if (isCartUpdating$ | async) {
-    <div class="cx-place-order-cart-updating" aria-live="polite">
-      {{ 'checkoutReview.cartUpdating' | cxTranslate }}
-    </div>
-  }
 </form>
+<div
+  class="cx-place-order-cart-updating"
+  aria-live="polite"
+  [hidden]="!(isCartUpdating$ | async)"
+>
+  {{ 'checkoutReview.cartUpdating' | cxTranslate }}
+</div>

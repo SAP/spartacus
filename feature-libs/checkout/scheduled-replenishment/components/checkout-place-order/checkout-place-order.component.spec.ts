@@ -331,8 +331,8 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
       expect(
         fixture.debugElement.nativeElement.querySelector(
           '.cx-place-order-cart-updating'
-        )
-      ).toBeTruthy();
+        ).hidden
+      ).toBeFalse();
     });
 
     it('should NOT render the cart-updating hint while the cart is stable', () => {
@@ -342,8 +342,8 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
       expect(
         fixture.debugElement.nativeElement.querySelector(
           '.cx-place-order-cart-updating'
-        )
-      ).toBeFalsy();
+        ).hidden
+      ).toBeTrue();
     });
   });
 
