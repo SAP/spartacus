@@ -30,7 +30,9 @@ import { BffHttpService } from '../bff-http.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [JsonPipe],
   template: `
-    <section style="padding: 1.5rem; font-family: system-ui, sans-serif; max-width: 800px;">
+    <section
+      style="padding: 1.5rem; font-family: system-ui, sans-serif; max-width: 800px;"
+    >
       <h2>OCC Base Sites (via BFF)</h2>
       <p style="color: #555; font-size: .9rem;">
         Calls <code>occ.getBaseSites</code> on the BFF, which proxies to
@@ -50,7 +52,10 @@ import { BffHttpService } from '../bff-http.service';
       }
 
       @if (result() !== null) {
-        <pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow: auto; font-size: .8rem; margin-top: 1rem;">{{ result() | json }}</pre>
+        <pre
+          style="background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow: auto; font-size: .8rem; margin-top: 1rem;"
+          >{{ result() | json }}</pre
+        >
       }
     </section>
   `,
