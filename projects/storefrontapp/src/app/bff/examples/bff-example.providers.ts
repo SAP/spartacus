@@ -17,6 +17,13 @@ export const bffExampleProviders: Provider[] = [
         loadComponent: () =>
           import('./say-hello.component').then((m) => m.SayHelloComponent),
       },
+      {
+        path: 'occ-base-sites',
+        loadComponent: () =>
+          import('./occ-base-sites.component').then(
+            (m) => m.OccBaseSitesComponent
+          ),
+      },
     ],
   },
 ];

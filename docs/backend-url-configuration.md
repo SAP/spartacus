@@ -35,7 +35,8 @@ src/
       bff-http.service.ts                     ← HTTP client for BFF tRPC procedures
       examples/
         bff-example.providers.ts              ← lazy route registration
-        say-hello.component.ts                ← demo component
+        say-hello.component.ts                ← demo: custom BFF procedure
+        occ-base-sites.component.ts           ← demo: OCC call via BFF
   environments/
     models/environment.model.ts               ← add bffBaseUrl field
     environment.ts                            ← read CX_BFF_BASE_URL
@@ -66,7 +67,7 @@ at deploy time:
 
 > **Note:** If no BFF is connected, `BFF_BASE_URL_VALUE` is left unreplaced.
 > The `BFF_BASE_URL` token treats the placeholder as "not configured" and falls
-> back to `/bff/` — BFF calls will fail gracefully rather than silently.
+> back to `/bff/api` — BFF calls will fail gracefully rather than silently.
 
 ---
 
@@ -92,9 +93,28 @@ replaces at deploy time.
 
 ---
 
+## CRITICAL: OCC URL must have a valid CA-signed certificate for BFF use
+
+The BFF runs as a Node.js server on CCv2. Node.js is strict about TLS certificate
+verification and will **reject self-signed certificates** (e.g. raw IP addresses like
+`https://40.x.x.x:9002`).
+
+- The **browser** works with self-signed certs because users can manually accept the
+  security exception
+- **Node.js** (the BFF container) has no such mechanism — it rejects self-signed certs
+  by default in production
+- Vivaldi builds the HTTPS agent as `new Agent({ rejectUnauthorized: !isDev })` —
+  locally `isDev=true` so self-signed certs are accepted, on CCv2 `isDev=false` so
+  they are rejected
+
+**Fix:** The `OCC_BASE_URL` used by the BFF must point to an OCC hostname with a
+CA-signed certificate (e.g. `https://api.xxx.model-t.myhybris.cloud`), not a raw IP.
+
+---
+
 ## 2. `src/app/bff/bff-base-url.token.ts` *(new file)*
 
-Reads the `bff-base-url` meta tag at Angular bootstrap time. Falls back to `/bff/`
+Reads the `bff-base-url` meta tag at Angular bootstrap time. Falls back to `/bff/api`
 for local development (handled by the dev-server proxy).
 
 ```ts
@@ -113,7 +133,7 @@ export const BFF_BASE_URL = new InjectionToken<string>('BFF_BASE_URL', {
     const content = tag?.content ?? '';
     return content && content !== BFF_BASE_URL_META_TAG_PLACEHOLDER
       ? content
-      : '/bff/';
+      : '/bff/api';
   },
 });
 ```
@@ -124,6 +144,13 @@ export const BFF_BASE_URL = new InjectionToken<string>('BFF_BASE_URL', {
 
 Generic HTTP client for calling BFF tRPC procedures. Reads `BFF_BASE_URL` and forwards
 the Spartacus OCC Bearer token as the `Authorization` header.
+
+BFF traffic bypasses Spartacus's OCC interceptor chain because interceptors are gated
+on `backend.occ.baseUrl` — BFF calls go to `/bff/...` which does not match.
+
+> **Known limitation:** Automatic token renewal on 401 is not implemented. The token
+> is read once at call time. If it expires mid-session, BFF calls will receive a 401
+> with no automatic retry.
 
 ```ts
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -233,7 +260,7 @@ self-signed cert via `secure: false`).
 
 ```js
 const bffBaseUrl =
-  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/';
+  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
 const bffTarget = new URL(bffBaseUrl).origin;
 
 module.exports = {
@@ -316,26 +343,85 @@ export const environment: Environment = {
 
 ---
 
-## 9. Example: calling a BFF procedure
+## 9. Example: custom BFF procedure (`say-hello.component.ts`)
+
+Route: `/bff-say-hello`
+
+Calls the BFF's `sample.sayHello` procedure with a `name` input and a custom
+`x-app-custom` header. Triggered by a button click — no call on init.
 
 ```ts
-import { inject } from '@angular/core';
-import { BffHttpService } from './bff/bff-http.service';
-
-export class MyComponent {
-  private readonly bff = inject(BffHttpService);
-
-  callBff(): void {
-    this.bff
-      .query<{ message: string }>(
-        'sample.sayHello',           // tRPC procedure path
-        { name: 'Spartacus' },       // input
-        { 'x-app-custom': 'foo' },   // optional extra headers
-      )
-      .subscribe((res) => console.log(res.message));
-  }
-}
+this.bff
+  .query<{ message: string }>(
+    'sample.sayHello',
+    { name: 'Spartacus' },
+    { 'x-app-custom': 'foo' },
+  )
+  .subscribe((res) => console.log(res.message));
 ```
+
+---
+
+## 10. Example: OCC call via BFF (`occ-base-sites.component.ts`)
+
+Route: `/occ-base-sites`
+
+Calls the BFF's `occ.getBaseSites` procedure, which proxies to
+`GET /occ/v2/basesites` on the OCC backend. Triggered by a button click.
+
+```ts
+this.bff
+  .query('occ.getBaseSites')
+  .subscribe((res) => console.log(res));
+```
+
+The BFF procedure in `apps/bff/src/api/routers/occ.ts`:
+
+```ts
+import { HttpRequestBuilder } from '@vivaldi/connectivity';
+
+export const getBaseSitesFn = async ({ ctx }) => {
+  return ctx.execute.http(
+    HttpRequestBuilder.get('/basesites').addCustomHeaders({
+      authorization: ctx.forwardHeaders['authorization'],
+    }),
+    ctx.destinations.occ.v2(),
+  );
+};
+```
+
+Both examples use `takeUntilDestroyed()` + `Subject` + `switchMap` to avoid
+Angular pending task issues — the HTTP call is only triggered by user interaction,
+never on component initialization.
+
+---
+
+## 11. `bff-example.providers.ts` *(new file)*
+
+Registers both example routes lazily:
+
+```ts
+export const bffExampleProviders: Provider[] = [
+  {
+    provide: ROUTES,
+    multi: true,
+    useValue: [
+      {
+        path: 'bff-say-hello',
+        loadComponent: () =>
+          import('./say-hello.component').then((m) => m.SayHelloComponent),
+      },
+      {
+        path: 'occ-base-sites',
+        loadComponent: () =>
+          import('./occ-base-sites.component').then((m) => m.OccBaseSitesComponent),
+      },
+    ],
+  },
+];
+```
+
+Spread into `app.module.ts` providers: `providers: [privateProviders, bffExampleProviders]`
 
 ---
 
