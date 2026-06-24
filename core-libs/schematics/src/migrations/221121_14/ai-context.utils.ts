@@ -23,31 +23,12 @@ const SPARTACUS_SCHEMATICS = '@spartacus/schematics';
 const AI_CONTEXT_SCHEMATIC = 'ai-context';
 const SKILL_DIR = 'spartacus-developer';
 
-export const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'cursor'];
+export const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 
 const TOOL_LABEL: Record<AiTool, string> = {
   claude: 'Claude (.claude/skills/spartacus-developer/)',
-  cursor: 'Cursor (.cursor/skills/spartacus-developer/)',
+  agents: 'Other agents (.agents/skills/spartacus-developer/)',
 };
-
-const TOOL_BASE_DIR: Record<AiTool, string> = {
-  claude: '.claude',
-  cursor: '.cursor',
-};
-
-function skillDirForTool(tool: AiTool): string {
-  return `${TOOL_BASE_DIR[tool]}/skills/${SKILL_DIR}`;
-}
-
-/**
- * A project counts as opted-in for a tool when the skill folder exists in it.
- */
-export function detectOptedInTools(tree: Tree): AiTool[] {
-  return SUPPORTED_TOOLS.filter((tool) => {
-    const dir = tree.getDir(skillDirForTool(tool));
-    return dir.subfiles.length > 0 || dir.subdirs.length > 0;
-  });
-}
 
 /**
  * Migrations run non-interactively in CI / `--force`; callers must guard on this
@@ -113,27 +94,12 @@ export function scheduleSkillsInstallAndCopy(
   );
 }
 
-/**
- * No install task: the `ng update` package group already bumped and reinstalled
- * the package, so this only re-copies the freshly installed skill.
- */
-export function scheduleSkillsCopy(
-  context: SchematicContext,
-  tools: AiTool[]
-): void {
-  context.addTask(
-    new RunSchematicTask(SPARTACUS_SCHEMATICS, AI_CONTEXT_SCHEMATIC, {
-      aiTools: tools,
-    })
-  );
-}
-
 export function printSkillsNotice(context: SchematicContext): void {
   const skillsVersion = getPrefixedSpartacusSchematicsVersion();
   context.logger.info(
     [
       '',
-      '✨ Install new AI skills for Spartacus development (Claude / Cursor).',
+      '✨ Install new AI skills for Spartacus development (Claude / .agents).',
       `   The ${SKILLS_PACKAGE} package ships guidance that helps AI assistants`,
       '   follow Spartacus best practices. To add it to this project:',
       '',
@@ -141,7 +107,7 @@ export function printSkillsNotice(context: SchematicContext): void {
       `     ng g ${SPARTACUS_SCHEMATICS}:${AI_CONTEXT_SCHEMATIC}`,
       '',
       `   The schematic copies the ${SKILL_DIR} skill into .claude/skills/${SKILL_DIR}/`,
-      `   and/or .cursor/skills/${SKILL_DIR}/.`,
+      `   and/or .agents/skills/${SKILL_DIR}/.`,
       '',
       `   Prefer not to use the schematic? Copy the skill manually — see the`,
       `   ${SKILLS_PACKAGE} README.`,

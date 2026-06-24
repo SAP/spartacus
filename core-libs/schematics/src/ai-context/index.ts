@@ -10,7 +10,7 @@ import * as path from 'path';
 import { AiTool } from '../add-spartacus/schema';
 import { Schema } from './schema';
 
-const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'cursor'];
+const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 
 const SKILLS_PACKAGE = '@spartacus/skills';
 const SKILL_DIR = 'spartacus-developer';
@@ -61,8 +61,8 @@ export function addAiContextSchematic(options: Schema): Rule {
     for (const target of targets) {
       if (target === 'claude') {
         writeSkillTree(tree, files, `.claude/skills/${SKILL_DIR}`);
-      } else if (target === 'cursor') {
-        writeSkillTree(tree, files, `.cursor/skills/${SKILL_DIR}`);
+      } else if (target === 'agents') {
+        writeSkillTree(tree, files, `.agents/skills/${SKILL_DIR}`);
       }
     }
 

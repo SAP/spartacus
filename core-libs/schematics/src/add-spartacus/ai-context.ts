@@ -16,7 +16,7 @@ import {
 import { getPrefixedSpartacusSchematicsVersion } from '../shared/utils/package-utils';
 import { AiTool, Schema as SpartacusOptions } from './schema';
 
-const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'cursor'];
+const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 
 const SKILLS_PACKAGE = '@spartacus/skills';
 

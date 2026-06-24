@@ -9,7 +9,7 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": ["claude", "cursor"]
+        "enum": ["claude", "agents"]
       },
       "default": [],
       "description": "Which AI tools to configure with Spartacus best practices.",
@@ -23,8 +23,8 @@
             "label": "Claude (.claude/skills/spartacus-developer/)"
           },
           {
-            "value": "cursor",
-            "label": "Cursor (.cursor/skills/spartacus-developer/)"
+            "value": "agents",
+            "label": "Other agents (.agents/skills/spartacus-developer/)"
           }
         ]
       }

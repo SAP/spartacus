@@ -6,7 +6,7 @@
 
 import { LibraryOptions } from '../shared/utils/lib-utils';
 
-export type AiTool = 'claude' | 'cursor';
+export type AiTool = 'claude' | 'agents';
 
 export interface Schema extends LibraryOptions {
   baseUrl?: string;

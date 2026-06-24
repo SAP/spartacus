@@ -25,7 +25,7 @@ export function migrate(): Rule {
     }
 
     context.logger.info(
-      '\n✨ Spartacus can configure AI-assistant guidance (Claude / Cursor) for this project.'
+      '\n✨ Spartacus can configure AI-assistant guidance (Claude / .agents) for this project.'
     );
 
     const wantsSkills = await promptYesNo(

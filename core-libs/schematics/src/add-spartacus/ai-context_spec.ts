@@ -74,7 +74,7 @@ describe('addAiContext (dependency registration)', () => {
     it('does not copy any skill files (copy happens post-install)', async () => {
       const result = await apply({
         ...BASE_OPTIONS,
-        aiTools: ['claude', 'cursor'],
+        aiTools: ['claude', 'agents'],
       });
       const nonPackageFiles = result.files.filter((f) => f !== '/package.json');
       expect(nonPackageFiles).toEqual([]);

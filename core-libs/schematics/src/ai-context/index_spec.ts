@@ -96,10 +96,10 @@ describe('ai-context standalone schematic', () => {
     });
   });
 
-  describe('cursor target', () => {
-    it('copies the spartacus-developer skill into .cursor/skills/', async () => {
-      const tree = await run({ aiTools: ['cursor'] });
-      expect(tree.exists('/.cursor/skills/spartacus-developer/SKILL.md')).toBe(
+  describe('agents target', () => {
+    it('copies the spartacus-developer skill into .agents/skills/', async () => {
+      const tree = await run({ aiTools: ['agents'] });
+      expect(tree.exists('/.agents/skills/spartacus-developer/SKILL.md')).toBe(
         true
       );
     });
@@ -107,10 +107,10 @@ describe('ai-context standalone schematic', () => {
     it('exposed via the `ai` alias', async () => {
       const tree = await runner.runSchematic(
         'ai',
-        { aiTools: ['cursor'] },
+        { aiTools: ['agents'] },
         Tree.empty()
       );
-      expect(tree.exists('/.cursor/skills/spartacus-developer/SKILL.md')).toBe(
+      expect(tree.exists('/.agents/skills/spartacus-developer/SKILL.md')).toBe(
         true
       );
     });
