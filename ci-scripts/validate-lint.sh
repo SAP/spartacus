@@ -4,7 +4,7 @@ set -o pipefail
 
 function validateStylesLint {
     echo "----"
-    echo "Running styleslint"
+    echo "Running stylelint"
     npm run lint:styles
 }
 
@@ -22,7 +22,7 @@ function validateTsConfigFile {
 }
 
 function validateNoHardCodedText {
-    echo "Validating no hardcoded text (usint i18n-lint)"
+    echo "Validating no hardcoded text (using i18n-lint)"
     npm run i18n-lint
 }
 
@@ -75,7 +75,7 @@ results=$(grep -rl --include "*.ts" "from 'storefrontlib'" core-libs/storefront 
 if [[ -z "$results" ]]; then
     echo "Success: storefrontlib does not seem to import itself."
 else
-    echo "ERROR: Detected occurrence(s) where storefronlib imports itself in these files:"
+    echo "ERROR: Detected occurrence(s) where storefrontlib imports itself in these files:"
     echo "$results"
     exit 1
 fi

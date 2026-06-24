@@ -17,7 +17,6 @@ import { CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { OpfGiftCardOrderSummaryComponent } from '../../opf-gift-card-order-summary';
 import { OutletModule } from '@spartacus/storefront';
-import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-gift-card-order-confirmation-totals',
@@ -30,9 +29,7 @@ export class OpfGiftCardOrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
 
-  constructor() {
-    useFeatureStyles('a11yWideScreenImprovements');
-  }
+  constructor() {}
 
   ngOnDestroy() {
     this.orderFacade.clearPlacedOrder();

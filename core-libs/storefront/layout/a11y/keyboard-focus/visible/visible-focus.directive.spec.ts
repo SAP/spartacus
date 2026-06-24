@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
 import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
@@ -49,9 +49,9 @@ class MockComponent {}
 
 class MockVisibleFocusService {}
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(false);
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yConsentManagementFocusPreservation: false,
+};
 
 const buttonTarget = { tagName: 'BUTTON' };
 const inputTarget = {
@@ -114,7 +114,7 @@ const MockRadioEnterEvent = {
 
 describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
-  let featureConfigService: MockFeatureConfigService;
+  let featureToggles: FeatureToggles;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CustomFocusDirective, CustomFakeFocusDirective],
@@ -123,10 +123,7 @@ describe('VisibleFocusDirective', () => {
           provide: BaseFocusService,
           useClass: MockVisibleFocusService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     })
       .overrideComponent(MockComponent, {
@@ -135,9 +132,7 @@ describe('VisibleFocusDirective', () => {
       })
       .compileComponents();
     fixture = TestBed.createComponent(MockComponent);
-    featureConfigService = TestBed.inject(
-      FeatureConfigService
-    ) as unknown as MockFeatureConfigService;
+    featureToggles = TestBed.inject(FeatureToggles);
   }));
 
   beforeEach(() => {
@@ -267,7 +262,7 @@ describe('VisibleFocusDirective', () => {
     });
 
     it('should remove "mouse-focus" class on Space pressed on a checkbox when feature is enabled', () => {
-      featureConfigService.isEnabled.and.returnValue(true);
+      featureToggles.a11yConsentManagementFocusPreservation = true;
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
@@ -279,7 +274,7 @@ describe('VisibleFocusDirective', () => {
     });
 
     it('should remove "mouse-focus" class on Enter pressed on a radio when feature is enabled', () => {
-      featureConfigService.isEnabled.and.returnValue(true);
+      featureToggles.a11yConsentManagementFocusPreservation = true;
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );
@@ -291,7 +286,7 @@ describe('VisibleFocusDirective', () => {
     });
 
     it('should keep "mouse-focus" class on Space pressed on a checkbox when feature is disabled', () => {
-      featureConfigService.isEnabled.and.returnValue(false);
+      featureToggles.a11yConsentManagementFocusPreservation = false;
       expect((host.nativeElement as HTMLElement).classList).toContain(
         'mouse-focus'
       );

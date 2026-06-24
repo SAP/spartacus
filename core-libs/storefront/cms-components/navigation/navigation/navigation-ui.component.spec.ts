@@ -9,10 +9,11 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
+  FeatureToggles,
   MockDatePipe,
   MockTranslatePipe,
+  provideMockFeatureToggles,
   TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
@@ -46,11 +47,9 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  navigationMenuCloseOnSameLinkClick: true,
+};
 
 class MockBreakpointService {
   isUp() {
@@ -130,10 +129,7 @@ describe('Navigation UI Component', () => {
           provide: WindowRef,
           useValue: mockWinRef,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,

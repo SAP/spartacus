@@ -9,7 +9,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BehaviorSubject, EMPTY, merge, of, queueScheduler } from 'rxjs';
 import { observeOn, take } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
+import { FeatureToggles } from '../../../features-config/feature-toggles/feature-toggles-tokens';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
@@ -25,6 +25,7 @@ import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
+import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing/mock-feature-toggles';
 type ExpiredRefreshTokenHandlerSpy = Required<
   Pick<ExpiredRefreshTokenHandler, 'handleExpiredRefreshTokenIfApplicable'>
 >;
@@ -88,9 +89,9 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
   saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableExpiredRefreshTokenHandlers: true,
+};
 
 describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
@@ -99,7 +100,7 @@ describe('AuthHttpHeaderService', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   let firstRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
 
   beforeEach(() => {
@@ -126,7 +127,7 @@ describe('AuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
           useValue: firstRegisteredHandler,
@@ -143,7 +144,7 @@ describe('AuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
 
     getTokenFromStorage.next(testToken);
     logoutInProgressSubject.next(false);
@@ -445,7 +446,7 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should skip handlers and execute fallback when feature toggle is disabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      featureToggles.enableExpiredRefreshTokenHandlers = false;
       spyOn(authService, 'coreLogout').and.callThrough();
 
       service.handleExpiredRefreshToken();
@@ -489,10 +490,7 @@ describe('AuthHttpHeaderService', () => {
               provide: AuthRedirectService,
               useClass: MockAuthRedirectService,
             },
-            {
-              provide: FeatureConfigService,
-              useClass: MockFeatureConfigService,
-            },
+            provideMockFeatureToggles({ ...mockFeatureToggles }),
             {
               provide: EXPIRED_REFRESH_TOKEN_HANDLERS,
               useValue: firstRegisteredHandler,
@@ -510,7 +508,7 @@ describe('AuthHttpHeaderService', () => {
 
         service = TestBed.inject(AuthHttpHeaderService);
         authService = TestBed.inject(AuthService);
-        featureConfigService = TestBed.inject(FeatureConfigService);
+        featureToggles = TestBed.inject(FeatureToggles);
       });
 
       it('should call secondRegisteredHandler when firstRegistredHandler does not handle the token expiration', () => {

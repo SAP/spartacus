@@ -5,11 +5,7 @@
  */
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 
@@ -24,12 +20,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('RegistrationVerificationTokenFormComponentService', () => {
   let service: RegistrationVerificationTokenFormComponentService;
   let userRegisterFacade: UserRegisterFacade;
@@ -42,7 +32,6 @@ describe('RegistrationVerificationTokenFormComponentService', () => {
         UntypedFormBuilder,
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 

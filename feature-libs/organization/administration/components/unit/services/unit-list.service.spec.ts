@@ -6,7 +6,11 @@
 
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { EntitiesModel, FeatureConfigService } from '@spartacus/core';
+import {
+  EntitiesModel,
+  FeatureToggles,
+  provideMockFeatureToggles,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
@@ -317,14 +321,14 @@ export class MockUnitTreeService {
   isExpanded = createSpy('isExpanded').and.returnValue(false);
 }
 
-class MockFeatureConfigService {
-  isEnabled = createSpy('isEnabled').and.returnValue(false);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableB2BUnitSearch: false,
+};
 
 describe('UnitListService', () => {
   let service: UnitListService;
   let treeService: UnitTreeService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -349,15 +353,12 @@ describe('UnitListService', () => {
               key$: of(mockedTree.id),
             },
           },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
         ],
       });
       service = TestBed.inject(UnitListService);
       treeService = TestBed.inject(UnitTreeService);
-      featureConfigService = TestBed.inject(FeatureConfigService);
+      featureToggles = TestBed.inject(FeatureToggles);
     });
 
     it('should inject service', () => {
@@ -397,19 +398,13 @@ describe('UnitListService', () => {
 
     describe('isSearchEnabled', () => {
       it('should return true when enableB2BUnitSearch toggle is enabled', () => {
-        featureConfigService.isEnabled = createSpy().and.returnValue(true);
+        featureToggles.enableB2BUnitSearch = true;
         expect(service.isSearchEnabled()).toBeTrue();
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BUnitSearch'
-        );
       });
 
       it('should return false when enableB2BUnitSearch toggle is disabled', () => {
-        featureConfigService.isEnabled = createSpy().and.returnValue(false);
+        featureToggles.enableB2BUnitSearch = false;
         expect(service.isSearchEnabled()).toBeFalse();
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BUnitSearch'
-        );
       });
     });
 

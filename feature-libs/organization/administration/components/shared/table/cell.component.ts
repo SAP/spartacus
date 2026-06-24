@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { FeatureConfigService, UrlPipe } from '@spartacus/core';
+import { FeatureToggles, UrlPipe } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -30,13 +30,13 @@ import {
 })
 export class CellComponent implements OnInit {
   changeDetectorRef = inject(ChangeDetectorRef);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   private destroyRef = inject(DestroyRef);
 
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
 
   ngOnInit(): void {
-    if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
+    if (this.featureToggles.a11yCardNotificationMessage) {
       this.outlet.context$
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((context) => {

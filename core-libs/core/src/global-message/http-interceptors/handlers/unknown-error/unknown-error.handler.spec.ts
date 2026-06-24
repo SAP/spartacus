@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { FeatureConfigService, LoggerService, Priority } from '@spartacus/core';
+import { LoggerService, Priority } from '@spartacus/core';
 import { GlobalMessageService } from '../../../facade';
 import { UnknownErrorHandler } from './unknown-error.handler';
 
@@ -17,7 +17,6 @@ describe('UnknownErrorHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        FeatureConfigService,
         LoggerService,
       ],
     });

@@ -6,6 +6,7 @@
 
 import { DestroyRef, assertInInjectionContext, inject } from '@angular/core';
 import { FeatureStylesService } from '../services/feature-styles.service';
+import { FeatureToggleKey } from '../feature-toggles';
 
 /**
  * Registers the usage of the feature flag's styles in the component. Must be called in the component's constructor.
@@ -28,7 +29,7 @@ import { FeatureStylesService } from '../services/feature-styles.service';
  * Note: When your component is destroyed, the CSS class is removed from the root element
  * (unless there exist yet other components that declared using the same feature flag's styles).
  */
-export function useFeatureStyles(feature: string): void {
+export function useFeatureStyles(feature: FeatureToggleKey): void {
   assertInInjectionContext(useFeatureStyles);
 
   const featureStylesService = inject(FeatureStylesService);

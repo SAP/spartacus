@@ -15,7 +15,6 @@ import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
@@ -106,12 +105,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -137,7 +130,6 @@ describe('AddToWishListComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(AddToWishListComponent, {
