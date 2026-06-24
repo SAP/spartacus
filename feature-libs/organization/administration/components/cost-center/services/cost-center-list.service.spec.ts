@@ -3,7 +3,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   CostCenter,
   EntitiesModel,
-  FeatureConfigService,
+  FeatureToggles,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { OrganizationUIConfig } from '@spartacus/organization/administration/root';
 import { CostCenterService } from '@spartacus/organization/administration/core';
@@ -37,11 +38,9 @@ class MockTableService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableB2BCostCenterSearch: false,
+};
 
 const mockOrganizationUIConfig: OrganizationUIConfig = {
   organizationUI: {
@@ -54,7 +53,7 @@ const mockOrganizationUIConfig: OrganizationUIConfig = {
 describe('CostCenterListService', () => {
   let service: CostCenterListService;
   let costCenterService: CostCenterService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -69,10 +68,7 @@ describe('CostCenterListService', () => {
             provide: TableService,
             useClass: MockTableService,
           },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
           {
             provide: OrganizationUIConfig,
             useValue: mockOrganizationUIConfig,
@@ -81,7 +77,7 @@ describe('CostCenterListService', () => {
       });
       service = TestBed.inject(CostCenterListService);
       costCenterService = TestBed.inject(CostCenterService);
-      featureConfigService = TestBed.inject(FeatureConfigService);
+      featureToggles = TestBed.inject(FeatureToggles);
     });
 
     it('should inject service', () => {
@@ -115,19 +111,13 @@ describe('CostCenterListService', () => {
 
     describe('isSearchEnabled()', () => {
       it('should return true when feature toggle is enabled', () => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+        featureToggles.enableB2BCostCenterSearch = true;
         expect(service.isSearchEnabled()).toBe(true);
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BCostCenterSearch'
-        );
       });
 
       it('should return false when feature toggle is disabled', () => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+        featureToggles.enableB2BCostCenterSearch = false;
         expect(service.isSearchEnabled()).toBe(false);
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BCostCenterSearch'
-        );
       });
     });
   });

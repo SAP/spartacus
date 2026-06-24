@@ -4,10 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
   FeaturesConfigModule,
+  FeatureToggles,
   I18nTestingModule,
+  MockFeatureTogglesController,
   MockTranslatePipe,
+  provideMockFeatureToggles,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -159,6 +161,8 @@ class MockDirectionService implements Partial<DirectionService> {
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
+  let featureToggles: MockFeatureTogglesController;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -182,6 +186,9 @@ describe('ConfigurationOverviewFormComponent', () => {
           useClass: MockConfiguratorStorefrontUtilsService,
         },
         { provide: DirectionService, useClass: MockDirectionService },
+        provideMockFeatureToggles({
+          a11yConfiguratorOverviewHeaderVPC: false,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorOverviewFormComponent, {
@@ -200,6 +207,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     overviewObservable = null;
     defaultRouterStateObservable = of(mockRouterState);
     defaultConfigObservable = of(configCreate2);
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
   });
 
   it('should create component', () => {
@@ -470,15 +478,11 @@ describe('ConfigurationOverviewFormComponent', () => {
   });
 
   describe('Accessibility', () => {
-    function setFeatureToggle(featureToggleEnabled: boolean) {
-      spyOn(TestBed.inject(FeatureConfigService), 'isEnabled').and.callFake(
-        (feature: string) => {
-          if (featureToggleEnabled) {
-            return feature === 'a11yConfiguratorOverviewHeaderVPC';
-          }
-          return feature === '!a11yConfiguratorOverviewHeaderVPC';
-        }
-      );
+    function setFeatureToggle(
+      featureToggle: keyof FeatureToggles,
+      value: boolean
+    ) {
+      featureToggles.set(featureToggle, value);
       initialize();
     }
 
@@ -507,7 +511,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
 
     it("should contain action span element with class name 'cx-visually-hidden' within a H2 section, that hides span element content on the UI", () => {
-      setFeatureToggle(true);
+      setFeatureToggle('a11yConfiguratorOverviewHeaderVPC', true);
 
       const h2s = htmlElem.querySelectorAll('h2');
       expectSpan(
@@ -519,7 +523,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
 
     it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
-      setFeatureToggle(false);
+      setFeatureToggle('a11yConfiguratorOverviewHeaderVPC', false);
 
       const divs = htmlElem.querySelectorAll('div.cx-group.topLevel');
       expectSpan(

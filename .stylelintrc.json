@@ -1,6 +1,8 @@
 {
   "extends": "stylelint-config-recommended-scss",
+  "plugins": ["./tools/stylelint-rules"],
   "rules": {
+    "spartacus/valid-for-feature-mixin-argument": true,
     "block-no-empty": null,
     "declaration-block-no-duplicate-properties": null,
     "declaration-block-no-shorthand-property-overrides": null,
@@ -43,5 +45,8 @@
     "scss/comment-no-loud": true,
     "selector-disallowed-list": ["/\\app-root/"]
   },
-  "ignoreFiles": ["core-libs/styles/vendor/**/*.scss"]
+  "ignoreFiles": [
+    "core-libs/styles/vendor/**/*.scss",
+    "core-libs/styles/test/**/*.scss"
+  ]
 }

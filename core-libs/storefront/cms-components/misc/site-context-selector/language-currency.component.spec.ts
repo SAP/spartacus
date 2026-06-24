@@ -9,10 +9,10 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
-  FeatureConfigService,
   I18nTestingModule,
   Language,
   LanguageService,
+  provideMockFeatureToggles,
   TranslationService,
 } from '@spartacus/core';
 import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
@@ -28,12 +28,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 })
 class MockCxIconComponent {
   @Input() type;
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
 }
 
 describe('LanguageCurrencyComponent in CmsLib', () => {
@@ -119,10 +113,9 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({
+          a11ySiteContextCaretClick: true,
+        }),
         contextServiceMapProvider,
       ],
     })

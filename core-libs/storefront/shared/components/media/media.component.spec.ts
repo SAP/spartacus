@@ -10,8 +10,7 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { FeatureConfigService, FeatureDirective } from '@spartacus/core';
+import { FeatureDirective } from '@spartacus/core';
 import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
 import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
@@ -120,12 +119,6 @@ const mockImageContainer = {
 
 const mockMissingImageContainer = undefined;
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 function configureTestingModule(
   mockMediaService: MockMediaService,
   isConfigurableMediaComponent = false
@@ -137,10 +130,6 @@ function configureTestingModule(
       {
         provide: IS_CONFIGURABLE_MEDIA_COMPONENT,
         useValue: isConfigurableMediaComponent,
-      },
-      {
-        provide: FeatureConfigService,
-        useClass: MockFeatureConfigService,
       },
     ],
   })

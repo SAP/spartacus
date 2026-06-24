@@ -6,6 +6,7 @@
 
 import { Config } from '../../config/config-tokens';
 import { FeaturesConfig } from '../config/features-config';
+import { FeatureToggleExpression } from '../feature-toggles';
 
 function isFeatureConfig(config: Config): config is Required<FeaturesConfig> {
   return typeof config === 'object' && !!config.features;
@@ -38,7 +39,10 @@ export function isFeatureLevel(config: Config, level: string): boolean {
   return false;
 }
 
-export function isFeatureEnabled(config: Config, feature: string): boolean {
+export function isFeatureEnabled(
+  config: Config,
+  feature: FeatureToggleExpression | 'disableConfigUpdates'
+): boolean {
   if (isFeatureConfig(config)) {
     const featureConfig =
       feature[0] === '!'

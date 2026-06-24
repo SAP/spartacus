@@ -1,6 +1,6 @@
 import { Component, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Config, provideConfig } from '../../config';
+import { FeatureToggles } from '../feature-toggles';
 import { FeatureStylesService } from './feature-styles.service';
 
 @Component({
@@ -19,19 +19,20 @@ function getCssClasses(componentRef: ComponentRef<any>): string[] {
 describe('FeatureStylesService', () => {
   let service: FeatureStylesService;
   let testComponentRef: ComponentRef<any>;
-  let config: Config;
+  let featureToggles: FeatureToggles;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        provideConfig({
-          features: {
-            featureFlag: undefined,
-          },
-        }),
+        {
+          provide: FeatureToggles,
+          // Use a fresh object each test so mutating it in one test
+          // doesn't bleed into the next.
+          useValue: { featureFlag: undefined } as unknown as FeatureToggles,
+        },
       ],
     });
     service = TestBed.inject(FeatureStylesService);
-    config = TestBed.inject(Config);
+    featureToggles = TestBed.inject(FeatureToggles);
     const fixture = TestBed.createComponent(TestRootComponent);
     testComponentRef = fixture.componentRef;
   });
@@ -39,7 +40,7 @@ describe('FeatureStylesService', () => {
   describe('init()', () => {
     describe('when registerUsage() was not called before', () => {
       it('should leave CSS classes of root element untouched', () => {
-        config.features = { featureFlag: true };
+        (featureToggles as any).featureFlag = true;
 
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
 
@@ -50,9 +51,9 @@ describe('FeatureStylesService', () => {
 
     describe('when registerUsage() was called before', () => {
       it('should add CSS class to root element for feature that is enabled', () => {
-        config.features = { featureFlag: true };
+        (featureToggles as any).featureFlag = true;
 
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
 
         service.init(testComponentRef);
@@ -63,9 +64,9 @@ describe('FeatureStylesService', () => {
       });
 
       it('should NOT add CSS class to root element for feature that is DISABLED', () => {
-        config.features = { featureFlag: false };
+        (featureToggles as any).featureFlag = false;
 
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
 
         service.init(testComponentRef);
@@ -73,9 +74,9 @@ describe('FeatureStylesService', () => {
       });
 
       it('should NOT add CSS class to root element for feature that is undefined', () => {
-        config.features = {};
+        delete (featureToggles as any).featureFlag;
 
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
 
         service.init(testComponentRef);
@@ -84,10 +85,10 @@ describe('FeatureStylesService', () => {
 
       describe('...and when unregisterUsage() was called before too', () => {
         it('should leave root element given element untouched', () => {
-          config.features = { featureFlag: true };
+          (featureToggles as any).featureFlag = true;
 
-          service.registerUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
@@ -108,18 +109,18 @@ describe('FeatureStylesService', () => {
       });
 
       it('should NOT add CSS class to root element for feature that is enabled', () => {
-        config.features = { featureFlag: true };
+        (featureToggles as any).featureFlag = true;
 
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
       });
 
       it('should NOT add CSS class to root element for feature that is DISABLED', () => {
-        config.features = { featureFlag: false };
+        (featureToggles as any).featureFlag = false;
 
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
       });
     });
@@ -130,10 +131,10 @@ describe('FeatureStylesService', () => {
       });
 
       it('should add CSS class to root element for feature that is enabled', () => {
-        config.features = { featureFlag: true };
+        (featureToggles as any).featureFlag = true;
 
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual([
           'originalHostClass',
           'cxFeat_featureFlag',
@@ -141,22 +142,22 @@ describe('FeatureStylesService', () => {
       });
 
       it('should NOT add CSS class to root element for feature that is DISABLED', () => {
-        config.features = { featureFlag: false };
+        (featureToggles as any).featureFlag = false;
 
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
-        service.registerUsage('featureFlag');
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
       });
 
       describe('when registerUsage() was called two times', () => {
         it('should add CSS class to root element for feature that is enabled', () => {
-          config.features = { featureFlag: true };
+          (featureToggles as any).featureFlag = true;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.registerUsage('featureFlag');
-          service.registerUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.registerUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
             'cxFeat_featureFlag',
@@ -164,13 +165,13 @@ describe('FeatureStylesService', () => {
         });
 
         it('should NOT add CSS class to root element for feature that is DISABLED', () => {
-          config.features = { featureFlag: false };
+          (featureToggles as any).featureFlag = false;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.registerUsage('featureFlag');
-          service.registerUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.registerUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
@@ -179,14 +180,14 @@ describe('FeatureStylesService', () => {
 
       describe('and when unregisterUsage() was called once', () => {
         it('should add CSS class to root element for feature that is enabled', () => {
-          config.features = { featureFlag: true };
+          (featureToggles as any).featureFlag = true;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.registerUsage('featureFlag');
-          service.registerUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.registerUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
             'cxFeat_featureFlag',
@@ -194,14 +195,14 @@ describe('FeatureStylesService', () => {
         });
 
         it('should NOT add CSS class to root element for feature that is DISABLED', () => {
-          config.features = { featureFlag: false };
+          (featureToggles as any).featureFlag = false;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.registerUsage('featureFlag');
-          service.registerUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.registerUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
@@ -210,30 +211,30 @@ describe('FeatureStylesService', () => {
 
       describe('and when unregisterUsage() was called twice', () => {
         it('should NOT add CSS class to root element for feature that is enabled', () => {
-          config.features = { featureFlag: true };
+          (featureToggles as any).featureFlag = true;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.registerUsage('featureFlag');
-          service.registerUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.registerUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
         });
 
         it('should NOT add CSS class to root element for feature that is DISABLED', () => {
-          config.features = { featureFlag: false };
+          (featureToggles as any).featureFlag = false;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.registerUsage('featureFlag');
-          service.registerUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
-          service.unregisterUsage('featureFlag');
+          service.registerUsage('featureFlag' as any);
+          service.registerUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
+          service.unregisterUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
@@ -249,11 +250,11 @@ describe('FeatureStylesService', () => {
 
     describe('and when registerUsage() is called later too', () => {
       it('should add CSS class to root element for feature that is enabled', () => {
-        config.features = { featureFlag: true };
+        (featureToggles as any).featureFlag = true;
 
         expect(getCssClasses(testComponentRef)).toEqual(['originalHostClass']);
-        service.unregisterUsage('featureFlag'); // note: this one is ignored, because the counter is already 0
-        service.registerUsage('featureFlag');
+        service.unregisterUsage('featureFlag' as any); // note: this one is ignored, because the counter is already 0
+        service.registerUsage('featureFlag' as any);
         expect(getCssClasses(testComponentRef)).toEqual([
           'originalHostClass',
           'cxFeat_featureFlag',
@@ -264,14 +265,14 @@ describe('FeatureStylesService', () => {
     describe('when called twice', () => {
       describe('and when registerUsage() is called later once too', () => {
         it('should add CSS class to root element for feature that is enabled', () => {
-          config.features = { featureFlag: true };
+          (featureToggles as any).featureFlag = true;
 
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
           ]);
-          service.unregisterUsage('featureFlag'); // note: this one is ignored, because the counter is already 0
-          service.unregisterUsage('featureFlag'); // note: this one is ignored, because the counter is already 0
-          service.registerUsage('featureFlag');
+          service.unregisterUsage('featureFlag' as any); // note: this one is ignored, because the counter is already 0
+          service.unregisterUsage('featureFlag' as any); // note: this one is ignored, because the counter is already 0
+          service.registerUsage('featureFlag' as any);
           expect(getCssClasses(testComponentRef)).toEqual([
             'originalHostClass',
             'cxFeat_featureFlag',

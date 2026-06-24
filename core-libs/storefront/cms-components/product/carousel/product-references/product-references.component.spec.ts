@@ -11,13 +11,13 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggles,
+  MockFeatureTogglesController,
   MockTranslatePipe,
   Product,
   ProductReference,
   ProductReferenceService,
+  provideMockFeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -147,22 +147,6 @@ class MockProductReferenceService {
   cleanReferences(): void {}
 }
 RouterModule.forRoot([]);
-let mockFeatureToggles: FeatureToggles;
-
-class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
 
 describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
@@ -173,7 +157,6 @@ describe('ProductReferencesComponent', () => {
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, RouterModule.forRoot([])],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: CmsComponentData,
           useValue: MockCmsProductCarouselComponent,
@@ -186,6 +169,9 @@ describe('ProductReferencesComponent', () => {
           provide: ProductReferenceService,
           useClass: MockProductReferenceService,
         },
+        provideMockFeatureToggles({
+          productCarouselScrolling: true,
+        }),
       ],
     })
       .overrideComponent(ProductReferencesComponent, {
@@ -212,9 +198,8 @@ describe('ProductReferencesComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
+    const toggles = TestBed.inject(MockFeatureTogglesController);
+    toggles.reset({ productCarouselScrolling: true });
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;
@@ -305,7 +290,8 @@ describe('ProductReferencesComponent', () => {
 
   describe('when feature toggle "productCarouselScrolling" is enabled', () => {
     beforeEach(() => {
-      mockFeatureToggles.productCarouselScrolling = true;
+      const toggles = TestBed.inject(MockFeatureTogglesController);
+      toggles.set('productCarouselScrolling', true);
     });
 
     it('should render cx-carousel-scrolling component', () => {
@@ -317,11 +303,9 @@ describe('ProductReferencesComponent', () => {
     });
   });
   describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-    beforeEach(() => {
-      mockFeatureToggles.productCarouselScrolling = false;
-    });
-
     it('should render cx-carousel component', () => {
+      const toggles = TestBed.inject(MockFeatureTogglesController);
+      toggles.set('productCarouselScrolling', false);
       fixture.detectChanges();
       const carouselComponent = fixture.debugElement.query(
         By.css('cx-carousel')
