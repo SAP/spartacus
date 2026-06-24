@@ -44,4 +44,11 @@ export class OpfQuickBuyCartConnector {
   ): Observable<unknown> {
     return this.adapter.setDeliveryMode(userId, cartId, deliveryModeId);
   }
+
+  getSelectedDeliveryMode(
+    userId: string,
+    cartId: string
+  ): Observable<DeliveryMode | undefined> {
+    return this.adapter.getSelectedDeliveryMode(userId, cartId);
+  }
 }

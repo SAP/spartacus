@@ -84,7 +84,7 @@ export class OpfPaymentHostedFieldsService {
       submitRequest.encryptedToken = encryptedToken;
     }
 
-    return this.getCartAccessCode(submitRequest).pipe(
+    return this.getCartAccessCode(submitRequest, submitInput.cartId).pipe(
       concatMap(([request, { accessCode: otpKey }]) =>
         this.opfPaymentConnector.submitPayment(
           request,
@@ -93,7 +93,11 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: OpfPaymentSubmitResponse) =>
-        this.paymentResponseHandler(response, submitInput.callbacks)
+        this.paymentResponseHandler(
+          response,
+          submitInput.callbacks,
+          submitInput.cartId
+        )
       ),
       tap((order: Order) => {
         if (order) {
@@ -130,7 +134,10 @@ export class OpfPaymentHostedFieldsService {
       additionalData,
       paymentSessionId,
     };
-    return this.getCartAccessCode(submitCompleteRequest).pipe(
+    return this.getCartAccessCode(
+      submitCompleteRequest,
+      submitCompleteInput.cartId
+    ).pipe(
       concatMap(([request, { accessCode: otpKey }]) =>
         this.opfPaymentConnector.submitCompletePayment(
           request,
@@ -139,7 +146,11 @@ export class OpfPaymentHostedFieldsService {
         )
       ),
       concatMap((response: OpfPaymentSubmitCompleteResponse) =>
-        this.paymentResponseHandler(response, submitCompleteInput.callbacks)
+        this.paymentResponseHandler(
+          response,
+          submitCompleteInput.callbacks,
+          submitCompleteInput.cartId
+        )
       ),
       tap((order: Order) => {
         if (order) {
@@ -173,14 +184,17 @@ export class OpfPaymentHostedFieldsService {
       onPending: OpfPaymentMerchantCallback;
       onFailure: OpfPaymentMerchantCallback;
       onCancel?: OpfPaymentMerchantCallback;
-    }
+    },
+    cartId?: string
   ): Observable<Order> {
     if (
       response.status === OpfPaymentSubmitStatus.ACCEPTED ||
       response.status === OpfPaymentSubmitStatus.DELAYED
     ) {
       return from(Promise.resolve(callbacks.onSuccess(response))).pipe(
-        concatMap(() => this.orderFacade.placePaymentAuthorizedOrder(true))
+        concatMap(() =>
+          this.orderFacade.placePaymentAuthorizedOrder(true, cartId)
+        )
       );
     } else if (
       callbacks?.onCancel &&
@@ -214,7 +228,8 @@ export class OpfPaymentHostedFieldsService {
     }
   }
   protected getCartAccessCode(
-    submitRequest: OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest
+    submitRequest: OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest,
+    cartId?: string
   ): Observable<
     [
       OpfPaymentSubmitRequest | OpfPaymentSubmitCompleteRequest,
@@ -223,12 +238,12 @@ export class OpfPaymentHostedFieldsService {
   > {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartFacade.takeActiveCartId(),
+      cartId ? of(cartId) : this.activeCartFacade.takeActiveCartId(),
     ]).pipe(
-      switchMap(([userId, activeCartId]: [string, string]) => {
+      switchMap(([userId, resolvedCartId]: [string, string]) => {
         return combineLatest([
           of(submitRequest),
-          this.cartAccessCodeFacade.getCartAccessCode(userId, activeCartId),
+          this.cartAccessCodeFacade.getCartAccessCode(userId, resolvedCartId),
         ]);
       })
     );

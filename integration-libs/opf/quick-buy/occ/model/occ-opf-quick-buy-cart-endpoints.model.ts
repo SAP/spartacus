@@ -23,6 +23,10 @@ export interface OccOpfQuickBuyCartEndpoints {
    * Endpoint for setting a delivery mode on a cart
    */
   quickBuySetDeliveryMode?: string | OccEndpoint;
+  /**
+   * Endpoint for getting the selected delivery mode on a cart
+   */
+  quickBuySelectedDeliveryMode?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

@@ -31,4 +31,9 @@ export abstract class OpfQuickBuyCartAdapter {
     cartId: string,
     deliveryModeId: string
   ): Observable<unknown>;
+
+  abstract getSelectedDeliveryMode(
+    userId: string,
+    cartId: string
+  ): Observable<DeliveryMode | undefined>;
 }

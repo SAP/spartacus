@@ -17,8 +17,8 @@ import {
   OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
 } from '@spartacus/opf/quick-buy/root';
-import { Observable, of, throwError } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { defer, Observable, of, throwError } from 'rxjs';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { OpfQuickBuyCartConnector } from '../../connectors';
 
 @Injectable({
@@ -86,9 +86,8 @@ export class OpfQuickBuySingleProductTransactionService {
         this.getCartConnector().pipe(
           switchMap((connector) =>
             connector.createDeliveryAddress(userId, cartId, address).pipe(
-              tap(() => this.multiCartFacade.loadCart({ userId, cartId })),
               switchMap((createdAddress) =>
-                this.waitForStableCart(cartId).pipe(
+                this.reloadCartAndWait(userId, cartId).pipe(
                   map(() => createdAddress.id ?? '')
                 )
               )
@@ -105,8 +104,7 @@ export class OpfQuickBuySingleProductTransactionService {
         this.getCartConnector().pipe(
           switchMap((connector) =>
             connector.setBillingAddress(userId, cartId, address).pipe(
-              tap(() => this.multiCartFacade.loadCart({ userId, cartId })),
-              switchMap(() => this.waitForStableCart(cartId)),
+              switchMap(() => this.reloadCartAndWait(userId, cartId)),
               map(() => true)
             )
           )
@@ -143,9 +141,10 @@ export class OpfQuickBuySingleProductTransactionService {
         this.getCartConnector().pipe(
           switchMap((connector) =>
             connector.setDeliveryMode(userId, cartId, mode).pipe(
-              tap(() => this.multiCartFacade.loadCart({ userId, cartId })),
-              switchMap(() => this.waitForStableCart(cartId)),
-              map((cart) => cart.deliveryMode)
+              switchMap(() => this.reloadCartAndWait(userId, cartId)),
+              switchMap(() =>
+                connector.getSelectedDeliveryMode(userId, cartId)
+              )
             )
           )
         )
@@ -154,7 +153,15 @@ export class OpfQuickBuySingleProductTransactionService {
   }
 
   getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
-    return this.getCart().pipe(map((cart) => cart.deliveryMode));
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.getCartConnector().pipe(
+          switchMap((connector) =>
+            connector.getSelectedDeliveryMode(userId, cartId)
+          )
+        )
+      )
+    );
   }
 
   createSingleProductCart(quantity = 1): Observable<Cart> {
@@ -232,7 +239,30 @@ export class OpfQuickBuySingleProductTransactionService {
     return this.multiCartFacade.isStable(cartId).pipe(
       filter((stable) => stable),
       take(1),
-      switchMap(() => this.multiCartFacade.getCart(cartId).pipe(take(1)))
+      switchMap(() => this.multiCartFacade.getCart(cartId).pipe(take(1))),
+      filter((cart): cart is Cart => !!cart)
     );
+  }
+
+  protected reloadCartAndWait(
+    userId: string,
+    cartId: string
+  ): Observable<Cart> {
+    return defer(() => {
+      const cartReloaded$ = this.multiCartFacade.getCartEntity(cartId).pipe(
+        skip(1),
+        filter(
+          (entity) =>
+            !entity.loading &&
+            entity.processesCount === 0 &&
+            !!entity.value
+        ),
+        take(1),
+        map((entity) => entity.value as Cart)
+      );
+
+      this.multiCartFacade.loadCart({ userId, cartId });
+      return cartReloaded$;
+    });
   }
 }

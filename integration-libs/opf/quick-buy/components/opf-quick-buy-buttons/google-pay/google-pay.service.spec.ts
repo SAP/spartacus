@@ -659,6 +659,9 @@ describe('OpfGooglePayService', () => {
         mockQuickBuyTransactionService.updateCartGuestUserEmail.and.returnValue(
           of(true)
         );
+        mockQuickBuyTransactionService.getCurrentCartId.and.returnValue(
+          of('cart-id')
+        );
 
         if (callbacks.onPaymentAuthorized) {
           (
@@ -681,6 +684,7 @@ describe('OpfGooglePayService', () => {
             expect(submitPaymentArgs.paymentMethod).toBe(
               OpfQuickBuyProviderType.GOOGLE_PAY
             );
+            expect(submitPaymentArgs.cartId).toBe('cart-id');
             expect(result).toEqual({ transactionState: 'SUCCESS' });
             done();
           });

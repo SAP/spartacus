@@ -16,6 +16,8 @@ export const defaultOccOpfQuickBuyCartConfig: OccConfig = {
           'users/${userId}/carts/${cartId}/addresses/billing',
         quickBuyDeliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
         quickBuySetDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
+        quickBuySelectedDeliveryMode:
+          'users/${userId}/carts/${cartId}?fields=deliveryMode(FULL)',
       },
     },
   },

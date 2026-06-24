@@ -117,6 +117,18 @@ describe(`OrderService`, () => {
         OrderPlacedEvent
       );
     });
+
+    it(`should place order for explicit cartId`, () => {
+      const explicitCartId = 'quick-buy-cart-id';
+
+      service.placePaymentAuthorizedOrder(termsChecked, explicitCartId);
+
+      expect(connector.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+        mockUserId,
+        explicitCartId,
+        termsChecked
+      );
+    });
   });
 
   describe(`getOrderDetails`, () => {

@@ -41,6 +41,8 @@ const mockOccConfig: OccConfig = {
           'users/${userId}/carts/${cartId}/addresses/billing',
         quickBuyDeliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
         quickBuySetDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
+        quickBuySelectedDeliveryMode:
+          'users/${userId}/carts/${cartId}?fields=deliveryMode(FULL)',
       } as OccEndpoints,
     },
   },
@@ -143,5 +145,26 @@ describe('OccOpfQuickBuyCartAdapter', () => {
     );
     expect(req.request.method).toBe('PUT');
     req.flush({});
+  });
+
+  it('should get selected delivery mode', () => {
+    const deliveryMode: DeliveryMode = {
+      code: 'express',
+      name: 'Express Delivery',
+    };
+
+    spyOn(converter, 'convert').and.returnValue(deliveryMode);
+
+    adapter.getSelectedDeliveryMode(userId, cartId).subscribe((result) => {
+      expect(result).toEqual(deliveryMode);
+    });
+
+    const req = httpMock.expectOne((request) =>
+      request.url.includes(
+        `users/${userId}/carts/${cartId}?fields=deliveryMode(FULL)`
+      )
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush({ deliveryMode });
   });
 });

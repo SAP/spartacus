@@ -112,6 +112,27 @@ export class OccOpfQuickBuyCartAdapter implements OpfQuickBuyCartAdapter {
       );
   }
 
+  getSelectedDeliveryMode(
+    userId: string,
+    cartId: string
+  ): Observable<DeliveryMode | undefined> {
+    return this.http
+      .get<Occ.Cart>(this.getSelectedDeliveryModeEndpoint(userId, cartId))
+      .pipe(
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
+        map((cart) =>
+          cart.deliveryMode
+            ? this.converter.convert(cart.deliveryMode, DELIVERY_MODE_NORMALIZER)
+            : undefined
+        )
+      );
+  }
+
   protected getCreateDeliveryAddressEndpoint(
     userId: string,
     cartId: string
@@ -156,6 +177,18 @@ export class OccOpfQuickBuyCartAdapter implements OpfQuickBuyCartAdapter {
         cartId,
       },
       queryParams: { deliveryModeId },
+    });
+  }
+
+  protected getSelectedDeliveryModeEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('quickBuySelectedDeliveryMode', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
   }
 }
