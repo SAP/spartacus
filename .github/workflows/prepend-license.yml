@@ -23,7 +23,7 @@ jobs:
   add_license_header:
     needs: [detect_changes]
     name: Add license header to files
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,7 +31,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.6.0
         with:
           python-version: '3.14'
       - name: Download reuse tool

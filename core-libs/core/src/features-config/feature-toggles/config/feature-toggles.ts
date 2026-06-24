@@ -490,6 +490,12 @@ export interface FeatureTogglesInterface {
   a11yRestoreFocusOnNgSelect?: boolean;
 
   /**
+   * When enabled change disabled to aria-disabled on consent management buttons to keep focus when loading state toggle
+   * Affects: ConsentManagementFormComponent
+   */
+  a11yKeepFocusOnConsentManagementButtons?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -562,6 +568,14 @@ export interface FeatureTogglesInterface {
   a11yCouponNotificationChannelsLinkStyling?: boolean;
 
   /**
+   * When enabled, fixes the caret visibility on the Language and Theme selectors
+   * by wrapping the select and caret icon in a container that displays the
+   * focus ring around both elements instead of overlapping the caret.
+   * Affects: SiteContextSelectorComponent, SiteThemeSwitcherComponent
+   */
+  a11ySiteContextCaretClick?: boolean;
+
+  /**
    * When enabled, fixes a known issue where the last remembered route after logout is the route to which the logout has redirected
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
@@ -602,6 +616,13 @@ export interface FeatureTogglesInterface {
    * Affects: AddToWishListComponent
    */
   a11yAddToWishListBtnMargin?: boolean;
+
+  /**
+   * When enabled, adds an inline margin of 6px to the required asterisk
+   * next to the Terms & Conditions link on the registration page.
+   * Affects: RegisterComponent, OtpLoginRegisterComponent
+   */
+  a11yRegistrationTermsAsteriskMargin?: boolean;
 
   /**
    * When enabled, applies a 6px bottom margin to product names in both
@@ -682,6 +703,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
+  a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
@@ -691,11 +713,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfPaymentVerificationCheckProcessingCartOnErrorOnly: false,
   a11yQuickOrderResetFocus: false,
   a11yCouponNotificationChannelsLinkStyling: false,
+  a11ySiteContextCaretClick: false,
   redirectOnlyOnTrueNavigationEnd: false,
   pageLinkSanitizeCanonicalUrl: false,
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yRegistrationTermsAsteriskMargin: false,
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
