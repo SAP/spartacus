@@ -230,6 +230,9 @@ function createI18NConfiguration(): string {
 })`;
 }
 
+/**
+ * @deprecated - features level is no longer used
+ */
 function createFeatureLevelConfiguration(options: SpartacusOptions): string {
   const featureLevelConfig = `
   features: {
