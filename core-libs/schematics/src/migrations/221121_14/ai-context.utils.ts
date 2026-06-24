@@ -25,6 +25,8 @@ const SKILL_DIR = 'spartacus-developer';
 
 export const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 
+export const PROMPT_INDENT = '  ';
+
 const TOOL_LABEL: Record<AiTool, string> = {
   claude: 'Claude (.claude/skills/spartacus-developer/)',
   agents: 'Other agents (.agents/skills/spartacus-developer/)',
@@ -62,7 +64,7 @@ export async function promptYesNo(question: string): Promise<boolean> {
 export async function promptTools(): Promise<AiTool[]> {
   const tools: AiTool[] = [];
   for (const tool of SUPPORTED_TOOLS) {
-    if (await promptYesNo(`  Configure ${TOOL_LABEL[tool]}?`)) {
+    if (await promptYesNo(`${PROMPT_INDENT}Configure ${TOOL_LABEL[tool]}?`)) {
       tools.push(tool);
     }
   }
