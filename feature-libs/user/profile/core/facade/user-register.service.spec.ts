@@ -13,7 +13,7 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 class MockUserProfileService implements Partial<UserProfileService> {

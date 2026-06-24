@@ -9,7 +9,7 @@ import {
   CostCenterListService,
   CostCenterModel,
 } from './cost-center-list.service';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const mockCostCenterEntities: EntitiesModel<CostCenter> = {
   values: [

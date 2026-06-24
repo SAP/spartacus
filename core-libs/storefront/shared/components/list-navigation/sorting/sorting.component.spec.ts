@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureToggles, I18nTestingModule } from '@spartacus/core';
 import { SortingComponent } from './sorting.component';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 describe('SortingComponent', () => {
   @Directive({ selector: '[cxNgSelectA11y]' })

@@ -37,7 +37,7 @@ import { ProductListItemComponent } from './product-list-item.component';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from '@spartacus/core/src/features-config/feature-toggles/testing';
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-star-rating',

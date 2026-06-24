@@ -33,7 +33,7 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from '@spartacus/core/src/features-config/feature-toggles/testing';
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;

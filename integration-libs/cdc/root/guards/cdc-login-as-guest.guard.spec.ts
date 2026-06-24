@@ -6,7 +6,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CdcLoginAsGuestGuard } from './cdc-login-as-guest.guard';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: true,

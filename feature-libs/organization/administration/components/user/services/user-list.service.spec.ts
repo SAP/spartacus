@@ -12,7 +12,7 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserListService } from './user-list.service';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const uid = 'user';
 const mockUserEntities: EntitiesModel<B2BUser> = {

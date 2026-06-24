@@ -18,7 +18,7 @@ import { UnitItemService } from './unit-item.service';
 import { UnitListService } from './unit-list.service';
 import { TREE_TOGGLE } from './unit-tree.model';
 import { UnitTreeService } from './unit-tree.service';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 import createSpy = jasmine.createSpy;
 

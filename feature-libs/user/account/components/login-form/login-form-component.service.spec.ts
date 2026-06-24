@@ -24,7 +24,7 @@ import {
   LOGIN_ERROR_KEY,
   SESSION_EXPIRED_ERROR,
 } from '../user-account-constants';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 class MockWinRef {

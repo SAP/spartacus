@@ -12,7 +12,7 @@ import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import createSpy = jasmine.createSpy;
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockAuthService implements Partial<AuthService> {
   otpLoginWithCredentials = createSpy().and.returnValue(of({}));

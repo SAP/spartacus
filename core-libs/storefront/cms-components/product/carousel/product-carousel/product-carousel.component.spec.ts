@@ -34,7 +34,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from '@spartacus/core/src/features-config/feature-toggles/testing';
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-carousel',

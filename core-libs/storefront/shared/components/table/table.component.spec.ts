@@ -8,7 +8,7 @@ import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import createSpy = jasmine.createSpy;
 import { FeatureToggles } from '@spartacus/core';
-import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 

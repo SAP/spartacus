@@ -28,7 +28,7 @@ import { ProductImageZoomProductImagesComponent } from './product-image-zoom-pro
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from '@spartacus/core/src/features-config/feature-toggles/testing';
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
