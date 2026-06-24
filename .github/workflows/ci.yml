@@ -60,7 +60,7 @@ jobs:
         id: save-e2e-output-result
         run: |
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+          echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
   unit_tests:
     needs: no_retries
     name: Unit tests
