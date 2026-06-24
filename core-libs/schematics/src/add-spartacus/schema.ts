@@ -14,6 +14,9 @@ export interface Schema extends LibraryOptions {
   language?: string;
   urlParameters?: string;
   useMetaTags?: boolean;
+  /**
+   * @deprecated - features level is no longer used
+   */
   featureLevel?: string;
   overwriteAppComponent?: boolean;
   ssr?: boolean;
