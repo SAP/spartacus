@@ -60,6 +60,7 @@ export class OpfPaymentHostedFieldsService {
   protected globalFunctionsFacade = inject(OpfGlobalFunctionsFacade);
 
   submitPayment(submitInput: OpfPaymentSubmitInput): Observable<boolean> {
+    console.log('further processing of submitPayment', submitInput);
     const {
       paymentMethod,
       additionalData,

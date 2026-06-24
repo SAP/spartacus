@@ -29,7 +29,7 @@ import { OpfGlobalMessageService } from '@spartacus/opf/base/root';
 import {
   OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
-} from '../../../root/model';
+} from '@spartacus/opf/quick-buy/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 

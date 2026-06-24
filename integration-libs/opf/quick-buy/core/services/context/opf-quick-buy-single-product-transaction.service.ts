@@ -7,13 +7,19 @@
 import { inject, Injectable } from '@angular/core';
 import { getCartIdByUserId } from '@spartacus/cart/base/core';
 import { Cart, DeliveryMode, MultiCartFacade } from '@spartacus/cart/base/root';
-import { Address, RoutingService, UserIdService } from '@spartacus/core';
+import {
+  Address,
+  RoutingService,
+  UnifiedInjector,
+  UserIdService,
+} from '@spartacus/core';
 import {
   OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
 } from '@spartacus/opf/quick-buy/root';
 import { Observable, of, throwError } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { OpfQuickBuyCartConnector } from '../../connectors';
 
 @Injectable({
   providedIn: 'root',
@@ -22,24 +28,10 @@ export class OpfQuickBuySingleProductTransactionService {
   protected multiCartFacade = inject(MultiCartFacade);
   protected userIdService = inject(UserIdService);
   protected routingService = inject(RoutingService);
+  protected unifiedInjector = inject(UnifiedInjector);
 
+  protected userId?: string;
   protected cartId?: string;
-  protected selectedDeliveryMode?: DeliveryMode;
-
-  protected getMockDeliveryModes(): DeliveryMode[] {
-    return [
-      {
-        code: 'standard',
-        name: 'Standard Delivery',
-        description: 'Mocked 3-5 days',
-      },
-      {
-        code: 'express',
-        name: 'Express Delivery',
-        description: 'Mocked 1-2 days',
-      },
-    ];
-  }
 
   getTransactionDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
     return this.getCart().pipe(
@@ -55,9 +47,9 @@ export class OpfQuickBuySingleProductTransactionService {
     return this.getTransactionDeliveryType().pipe(
       map(
         (deliveryType) =>
-        ({
-          type: deliveryType,
-        } as OpfQuickBuyDeliveryInfo)
+          ({
+            type: deliveryType,
+          }) as OpfQuickBuyDeliveryInfo
       ),
       take(1)
     );
@@ -77,30 +69,50 @@ export class OpfQuickBuySingleProductTransactionService {
   }
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    // @TODO: replace with Opf Quick Buy Single Product Transaction Facade with specific OCC
-    return of(this.getMockDeliveryModes());
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.getCartConnector().pipe(
+          switchMap((connector) =>
+            connector.getSupportedDeliveryModes(userId, cartId)
+          )
+        )
+      )
+    );
   }
 
-  setDeliveryAddress(_address: Address): Observable<string> {
-    if (!this.cartId) {
-      return throwError(
-        () => new Error('Single product cart is not initialized')
-      );
-    }
-
-    // @TODO: replace with Opf Quick Buy Single Product Transaction Facade with specific OCC
-    return this.checkStableCart().pipe(switchMap(() => of('mock-delivery-address-id')));
+  setDeliveryAddress(address: Address): Observable<string> {
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.getCartConnector().pipe(
+          switchMap((connector) =>
+            connector.createDeliveryAddress(userId, cartId, address).pipe(
+              tap(() => this.multiCartFacade.loadCart({ userId, cartId })),
+              switchMap((createdAddress) =>
+                this.waitForStableCart(cartId).pipe(
+                  map(() => createdAddress.id ?? '')
+                )
+              )
+            )
+          )
+        )
+      )
+    );
   }
 
-  setBillingAddress(_address: Address): Observable<boolean> {
-    if (!this.cartId) {
-      return throwError(
-        () => new Error('Single product cart is not initialized')
-      );
-    }
-
-    // @TODO: replace with Opf Quick Buy Single Product Transaction Facade with specific OCC
-    return this.checkStableCart();
+  setBillingAddress(address: Address): Observable<boolean> {
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.getCartConnector().pipe(
+          switchMap((connector) =>
+            connector.setBillingAddress(userId, cartId, address).pipe(
+              tap(() => this.multiCartFacade.loadCart({ userId, cartId })),
+              switchMap(() => this.waitForStableCart(cartId)),
+              map(() => true)
+            )
+          )
+        )
+      )
+    );
   }
 
   getDeliveryAddress(): Observable<Address | undefined> {
@@ -126,36 +138,23 @@ export class OpfQuickBuySingleProductTransactionService {
   }
 
   setDeliveryMode(mode: string): Observable<DeliveryMode | undefined> {
-    if (!this.cartId) {
-      return throwError(
-        () => new Error('Single product cart is not initialized')
-      );
-    }
-
-    // @TODO: replace with Opf Quick Buy Single Product Transaction Facade with specific OCC
-    this.selectedDeliveryMode =
-      this.getMockDeliveryModes().find(
-        (deliveryMode) => deliveryMode.code === mode
-      ) ?? {
-        code: mode,
-        name: `Mocked ${mode}`,
-        description: 'Mocked delivery mode',
-      };
-
-    return this.checkStableCart().pipe(
-      map(() => this.selectedDeliveryMode)
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.getCartConnector().pipe(
+          switchMap((connector) =>
+            connector.setDeliveryMode(userId, cartId, mode).pipe(
+              tap(() => this.multiCartFacade.loadCart({ userId, cartId })),
+              switchMap(() => this.waitForStableCart(cartId)),
+              map((cart) => cart.deliveryMode)
+            )
+          )
+        )
+      )
     );
   }
 
   getSelectedDeliveryMode(): Observable<DeliveryMode | undefined> {
-    if (!this.cartId) {
-      return throwError(
-        () => new Error('Single product cart is not initialized')
-      );
-    }
-
-    // @TODO: replace with Opf Quick Buy Single Product Transaction Facade with specific OCC
-    return of(this.selectedDeliveryMode);
+    return this.getCart().pipe(map((cart) => cart.deliveryMode));
   }
 
   createSingleProductCart(quantity = 1): Observable<Cart> {
@@ -179,8 +178,8 @@ export class OpfQuickBuySingleProductTransactionService {
                 take(1),
                 switchMap((cart) => {
                   const cartId = getCartIdByUserId(cart, userId);
+                  this.userId = userId;
                   this.cartId = cartId;
-                  this.selectedDeliveryMode = undefined;
 
                   this.multiCartFacade.addEntry(
                     userId,
@@ -196,6 +195,20 @@ export class OpfQuickBuySingleProductTransactionService {
         );
       })
     );
+  }
+
+  protected getCartConnector(): Observable<OpfQuickBuyCartConnector> {
+    return this.unifiedInjector.get(OpfQuickBuyCartConnector).pipe(take(1));
+  }
+
+  protected getCartContext(): Observable<{ userId: string; cartId: string }> {
+    if (!this.userId || !this.cartId) {
+      return throwError(
+        () => new Error('Single product cart is not initialized')
+      );
+    }
+
+    return of({ userId: this.userId, cartId: this.cartId });
   }
 
   protected getCart(): Observable<Cart> {

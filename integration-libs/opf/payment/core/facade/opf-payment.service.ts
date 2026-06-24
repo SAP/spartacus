@@ -127,6 +127,7 @@ export class OpfPaymentService implements OpfPaymentFacade {
   }
 
   submitPayment(submitInput: OpfPaymentSubmitInput): Observable<boolean> {
+    console.log('submitPayment', submitInput);
     return this.submitPaymentCommand.execute({
       submitInput,
     });

@@ -145,10 +145,6 @@ export class OpfQuickBuyTransactionService {
   }
 
   deleteUserAddresses(addrIds: string[]): void {
-    if (this.isSingleProductContext(this.transactionContext)) {
-      return;
-    }
-
     this.activeCartTransactionService.deleteUserAddresses(addrIds);
   }
 
@@ -181,9 +177,7 @@ export class OpfQuickBuyTransactionService {
     return this.getTransactionLocationContext();
   }
 
-  protected isSingleProductContext(
-    context?: OpfQuickBuyLocation
-  ): boolean {
+  protected isSingleProductContext(context?: OpfQuickBuyLocation): boolean {
     return context === OpfQuickBuyLocation.PRODUCT;
   }
 
