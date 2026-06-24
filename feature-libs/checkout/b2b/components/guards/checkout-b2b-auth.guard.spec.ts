@@ -9,7 +9,6 @@ import {
   FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
-  provideMockFeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
@@ -17,6 +16,7 @@ import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 import createSpy = jasmine.createSpy;
 

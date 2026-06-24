@@ -7,16 +7,16 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
-  provideMockFeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from '@spartacus/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, of } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const mockContext = {

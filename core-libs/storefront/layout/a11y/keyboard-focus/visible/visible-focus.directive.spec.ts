@@ -7,10 +7,11 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
 import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 @Directive({ selector: '[cxVisibleFocus]' })
 class CustomFocusDirective extends VisibleFocusDirective {

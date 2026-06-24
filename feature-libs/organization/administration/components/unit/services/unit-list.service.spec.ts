@@ -6,11 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  EntitiesModel,
-  FeatureToggles,
-  provideMockFeatureToggles,
-} from '@spartacus/core';
+import { EntitiesModel, FeatureToggles } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUnitTreeNode,
@@ -22,6 +18,7 @@ import { UnitItemService } from './unit-item.service';
 import { UnitListService } from './unit-list.service';
 import { TREE_TOGGLE } from './unit-tree.model';
 import { UnitTreeService } from './unit-tree.service';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 import createSpy = jasmine.createSpy;
 

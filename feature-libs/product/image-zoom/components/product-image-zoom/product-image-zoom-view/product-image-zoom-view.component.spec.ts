@@ -21,7 +21,6 @@ import {
   MockDatePipe,
   MockTranslatePipe,
   Product,
-  provideMockFeatureToggles,
   TranslatePipe,
 } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
@@ -36,6 +35,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {

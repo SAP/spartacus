@@ -12,7 +12,6 @@ import {
   GlobalMessageType,
   MockTranslatePipe,
   Product,
-  provideMockFeatureToggles,
   Translatable,
   TranslatePipe,
   WindowRef,
@@ -20,6 +19,7 @@ import {
 import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 const mockProductCode: string = 'mockCode';
 const mockProductCode2: string = 'mockCode2';

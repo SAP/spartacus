@@ -1,10 +1,11 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 @Directive({ selector: '[cxPersistFocus]' })
 class CustomFocusDirective extends PersistFocusDirective {

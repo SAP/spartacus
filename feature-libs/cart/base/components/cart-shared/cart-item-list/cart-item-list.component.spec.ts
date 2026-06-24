@@ -18,7 +18,6 @@ import {
   MockTranslatePipe,
   Product,
   ProductCatalogService,
-  provideMockFeatureToggles,
   TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
@@ -27,6 +26,7 @@ import { Observable, Subject, of } from 'rxjs';
 import { CartItemListRowComponent } from '../cart-item-list-row';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 class MockActiveCartService {
   updateEntry() {}

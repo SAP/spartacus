@@ -7,10 +7,8 @@ import {
   FeaturesConfigModule,
   ImageGroup,
   MockDatePipe,
-  MockFeatureTogglesController,
   MockTranslatePipe,
   Product,
-  provideMockFeatureToggles,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -27,6 +25,10 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {

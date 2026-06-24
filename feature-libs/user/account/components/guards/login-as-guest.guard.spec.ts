@@ -4,12 +4,12 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
   FeatureToggles,
-  provideMockFeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 const mockFeatureToggles: FeatureToggles = {
   authorizationCodeFlowByDefault: true,

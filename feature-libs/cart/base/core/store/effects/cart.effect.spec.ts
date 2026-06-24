@@ -14,7 +14,6 @@ import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_CURRENT,
   OccConfig,
-  provideMockFeatureToggles,
   SiteContextActions,
   USER_FEATURE,
   tryNormalizeHttpError,
@@ -28,6 +27,7 @@ import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
