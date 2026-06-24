@@ -97,7 +97,7 @@ describe('UserAddressService', () => {
     ];
     store.dispatch(new UserActions.LoadUserAddressesSuccess(mockUserAddresses));
 
-    let addresses: Address[];
+    let addresses: Address[] | undefined;
     service
       .getAddresses()
       .subscribe((data) => {
@@ -121,7 +121,7 @@ describe('UserAddressService', () => {
         { isocode: 'c2', name: 'n2' },
       ])
     );
-    let countries: Country[];
+    let countries: Country[] | undefined;
     service
       .getDeliveryCountries()
       .subscribe((data) => {
@@ -142,7 +142,7 @@ describe('UserAddressService', () => {
       ])
     );
 
-    let country: Country;
+    let country: Country | undefined | null;
     service
       .getCountry('c1')
       .subscribe((data) => {
@@ -268,7 +268,7 @@ describe('UserAddressService', () => {
         })
       );
       spyOn(service, 'clearRegions').and.stub();
-      service.getRegions(null).subscribe((data) => {
+      service.getRegions('').subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).toHaveBeenCalled();

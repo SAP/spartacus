@@ -19,7 +19,6 @@ import { OpfQuickBuyConnector } from '../connectors';
 import { OpfQuickBuyService } from './opf-quick-buy.service';
 
 const mockGetApplePayWebSessionRequest: ApplePaySessionVerificationRequest = {
-  cartId: 'test',
   validationUrl: 'test',
   initiative: 'web',
   initiativeContext: 'test',

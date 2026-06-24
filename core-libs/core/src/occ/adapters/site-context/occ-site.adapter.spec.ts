@@ -7,6 +7,8 @@ import { TestBed } from '@angular/core/testing';
 import { ConverterService, CountryType } from '@spartacus/core';
 import {
   BASE_SITE_NORMALIZER,
+  CITY_DISTRICT_NORMALIZER,
+  CITY_NORMALIZER,
   COUNTRY_NORMALIZER,
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
@@ -233,6 +235,72 @@ describe('OccSiteAdapter', () => {
       httpMock.expectOne('regions').flush({});
       expect(converterService.pipeableMany).toHaveBeenCalledWith(
         REGION_NORMALIZER
+      );
+    });
+  });
+
+  describe('loadCities', () => {
+    it('should return cities for a region', () => {
+      const cities = [
+        { isocode: 'CN-BJ-BJ', name: 'Beijing' },
+        { isocode: 'CN-SH-SH', name: 'Shanghai' },
+      ];
+
+      occSiteAdapter.loadCities('CN-11').subscribe((result) => {
+        expect(result).toEqual(cities);
+      });
+
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'GET' && req.url === 'addressCities'
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'addressCities',
+        { urlParams: { regionId: 'CN-11' } }
+      );
+      mockReq.flush({ cities });
+    });
+
+    it('should use converter', () => {
+      occSiteAdapter.loadCities('CN-11').subscribe();
+      httpMock.expectOne('addressCities').flush({});
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        CITY_NORMALIZER
+      );
+    });
+  });
+
+  describe('loadDistricts', () => {
+    it('should return districts for a city', () => {
+      const districts = [
+        { isocode: 'CN-BJ-BJ-DC', name: 'Dongcheng' },
+        { isocode: 'CN-BJ-BJ-XC', name: 'Xicheng' },
+      ];
+
+      occSiteAdapter.loadDistricts('CN-BJ-BJ').subscribe((result) => {
+        expect(result).toEqual(districts);
+      });
+
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'GET' && req.url === 'addressDistricts'
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'addressDistricts',
+        { urlParams: { cityId: 'CN-BJ-BJ' } }
+      );
+      mockReq.flush({ districts });
+    });
+
+    it('should use converter', () => {
+      occSiteAdapter.loadDistricts('CN-BJ-BJ').subscribe();
+      httpMock.expectOne('addressDistricts').flush({});
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
+        CITY_DISTRICT_NORMALIZER
       );
     });
   });

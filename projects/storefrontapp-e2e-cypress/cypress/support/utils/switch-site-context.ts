@@ -15,6 +15,6 @@ export function switchSiteContext(option: string, label: string) {
     .contains(label)
     .should('be.visible')
     .parent()
-    .children('select')
+    .find('select')
     .select(option);
 }

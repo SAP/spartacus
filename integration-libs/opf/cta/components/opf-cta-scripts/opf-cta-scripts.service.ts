@@ -6,7 +6,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { CmsService } from '@spartacus/core';
-import { Observable, Subscription, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 
 import {
@@ -37,8 +37,6 @@ export class OpfCtaScriptsService {
   protected cmsService = inject(CmsService);
   protected opfDynamicCtaService = inject(OpfDynamicCtaService);
   protected opfStaticCtaService = inject(OpfStaticCtaService);
-
-  protected subList: Array<Subscription> = [];
 
   loadAndRunScript(
     script: OpfDynamicScript

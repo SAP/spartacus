@@ -13,26 +13,10 @@
   }
 
   &.start-navigating {
-    @extend %progress-bar !optional;
-
-    @extend %progress-bar-loading !optional;
-    @include forFeature(
-      'topProgressBarUseTransformAnimation',
-      'currentSelector'
-    ) {
-      @extend %progress-bar-loading-animation !optional;
-    }
+    @extend %progress-bar, %progress-bar-loading-animation !optional;
   }
   &.stop-navigating {
-    @extend %progress-bar !optional;
-
-    @extend %progress-bar-loaded !optional;
-    @include forFeature(
-      'topProgressBarUseTransformAnimation',
-      'currentSelector'
-    ) {
-      @extend %progress-bar-loaded-animation !optional;
-    }
+    @extend %progress-bar, %progress-bar-loaded-animation !optional;
   }
 
   > footer {

@@ -22,6 +22,10 @@ export class AddressBookComponentService {
     return this.userAddressService.getAddressesLoading();
   }
 
+  getAddressesError(): Observable<boolean> {
+    return this.userAddressService.getAddressesError();
+  }
+
   loadAddresses() {
     this.userAddressService.loadAddresses();
   }
@@ -33,6 +37,7 @@ export class AddressBookComponentService {
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
   }
+
   setAddressAsDefault(addressId: string): void {
     this.userAddressService.setAddressAsDefault(addressId);
   }

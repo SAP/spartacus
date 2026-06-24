@@ -44,6 +44,7 @@ describe('OpfPaymentVerificationComponent', () => {
         'verifyResultUrl',
         'goToPage',
         'displayError',
+        'clearPaymentSessionForReinitiation',
         'removeResourcesAndGlobalFunctions',
         'runHostedFieldsPattern',
         'runHostedPagePattern',
@@ -253,6 +254,9 @@ describe('OpfPaymentVerificationComponent', () => {
       expect(
         opfPaymentVerificationServiceMock.displayError
       ).toHaveBeenCalledWith(mockError);
+      expect(
+        opfPaymentVerificationServiceMock.clearPaymentSessionForReinitiation
+      ).toHaveBeenCalled();
       expect(opfPaymentVerificationServiceMock.goToPage).toHaveBeenCalledWith(
         OpfPage.CHECKOUT_REVIEW_PAGE
       );
