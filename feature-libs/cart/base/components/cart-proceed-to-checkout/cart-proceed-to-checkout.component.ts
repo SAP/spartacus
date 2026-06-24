@@ -21,7 +21,7 @@ import {
   RouterLink,
 } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { FeatureConfigService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { FeatureToggles, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { ProgressButtonComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, of, Subscription, timer } from 'rxjs';
 import {
@@ -68,7 +68,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   cartUpdating$: Observable<boolean>;
 
   protected subscription = new Subscription();
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected router: Router,
@@ -89,9 +89,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
       })
     );
 
-    if (
-      !this.featureConfigService.isEnabled('enableCartSlowNetworkResilience')
-    ) {
+    if (!this.featureToggles.enableCartSlowNetworkResilience) {
       this.cartUpdating$ = of(false);
       return;
     }

@@ -18,12 +18,12 @@ import {
 import {
   AuthService,
   CxDatePipe,
-  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
   TranslatePipe,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { PromotionsModule, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -95,12 +95,6 @@ class MockCartValidationWarningsComponent {}
 })
 class MockCxSpinnerComponent {}
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(flag: string): boolean {
-    return flag === 'enableCartSlowNetworkResilience';
-  }
-}
-
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -136,11 +130,8 @@ describe('CartDetailsComponent', () => {
           provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
-        {
-          provide: CartConfigService,
-          useValue: mockCartConfig,
-        },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: CartConfigService, useValue: mockCartConfig },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(CartDetailsComponent, {
@@ -346,10 +337,7 @@ describe('CartDetailsComponent — enableCartSlowNetworkResilience OFF', () => {
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: CartConfigService, useValue: mockCartConfig },
-        {
-          provide: FeatureConfigService,
-          useValue: { isEnabled: (_flag: string) => false },
-        },
+        ...provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(CartDetailsComponent, {

@@ -12,7 +12,6 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   CxDatePipe,
-  FeatureConfigService,
   GlobalMessageService,
   I18nTestingModule,
   LanguageService,
@@ -21,6 +20,7 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -46,12 +46,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   isStable$ = new BehaviorSubject<boolean>(true);
   isStable = () => this.isStable$.asObservable();
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine
-    .createSpy('isEnabled')
-    .and.callFake((flag: string) => flag === 'enableCartSlowNetworkResilience');
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -85,7 +79,7 @@ describe('CheckoutPlaceOrderComponent', () => {
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(CheckoutPlaceOrderComponent, {
@@ -342,12 +336,7 @@ describe('CheckoutPlaceOrderComponent — enableCartSlowNetworkResilience OFF', 
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        {
-          provide: FeatureConfigService,
-          useValue: {
-            isEnabled: (_flag: string) => false,
-          },
-        },
+        ...provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(CheckoutPlaceOrderComponent, {

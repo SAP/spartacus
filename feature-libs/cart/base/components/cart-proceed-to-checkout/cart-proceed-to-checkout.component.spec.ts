@@ -10,11 +10,11 @@ import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
-  FeatureConfigService,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
   UrlPipe,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { ProgressButtonModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -36,12 +36,6 @@ const stable$ = new BehaviorSubject<boolean>(true);
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return stable$.asObservable();
-  }
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(flag: string): boolean {
-    return flag === 'enableCartSlowNetworkResilience';
   }
 }
 
@@ -71,7 +65,7 @@ describe('CartProceedToCheckoutComponent', () => {
           provide: ChangeDetectorRef,
           useValue: { markForCheck: createSpy('markForCheck') },
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(CartProceedToCheckoutComponent, {
@@ -234,10 +228,7 @@ describe('CartProceedToCheckoutComponent — enableCartSlowNetworkResilience OFF
           provide: ChangeDetectorRef,
           useValue: { markForCheck: createSpy('markForCheck') },
         },
-        {
-          provide: FeatureConfigService,
-          useValue: { isEnabled: (_flag: string) => false },
-        },
+        ...provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(CartProceedToCheckoutComponent, {

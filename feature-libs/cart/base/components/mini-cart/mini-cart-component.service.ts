@@ -10,7 +10,7 @@ import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
   EventService,
-  FeatureConfigService,
+  FeatureToggles,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
@@ -38,7 +38,7 @@ const MINI_CART_UPDATING_DEBOUNCE_MS = 250;
   providedIn: 'root',
 })
 export class MiniCartComponentService {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected activeCartFacade: ActiveCartFacade,
@@ -105,9 +105,7 @@ export class MiniCartComponentService {
    * (no indicator).
    */
   getUpdating(): Observable<boolean> {
-    if (
-      !this.featureConfigService.isEnabled('enableCartSlowNetworkResilience')
-    ) {
+    if (!this.featureToggles.enableCartSlowNetworkResilience) {
       return of(false);
     }
     return this.activeCartRequired().pipe(

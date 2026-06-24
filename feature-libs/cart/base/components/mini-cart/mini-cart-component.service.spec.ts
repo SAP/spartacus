@@ -3,10 +3,10 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   AuthService,
   EventService,
-  FeatureConfigService,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
@@ -52,12 +52,6 @@ class MockSiteContextParamsService
   }
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(flag: string): boolean {
-    return flag === 'enableCartSlowNetworkResilience';
-  }
-}
-
 const mockBrowserCartStateWithCart = {
   active: 'mockCartId',
 };
@@ -93,7 +87,7 @@ describe('MiniCartComponentService', () => {
           useClass: MockSiteContextParamsService,
         },
         { provide: EventService, useClass: MockEventService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
@@ -495,10 +489,7 @@ describe('MiniCartComponentService — enableCartSlowNetworkResilience OFF', () 
           useClass: MockSiteContextParamsService,
         },
         { provide: EventService, useClass: MockEventService },
-        {
-          provide: FeatureConfigService,
-          useValue: { isEnabled: (_flag: string) => false },
-        },
+        ...provideMockFeatureToggles({}),
       ],
     });
     service = TestBed.inject(MiniCartComponentService);

@@ -21,7 +21,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -67,7 +67,7 @@ export class CartDetailsComponent implements OnInit {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected activeCartService: ActiveCartFacade,
@@ -101,9 +101,7 @@ export class CartDetailsComponent implements OnInit {
       )
     );
 
-    this.updating$ = this.featureConfigService.isEnabled(
-      'enableCartSlowNetworkResilience'
-    )
+    this.updating$ = this.featureToggles.enableCartSlowNetworkResilience
       ? this.activeCartService.isStable().pipe(
           map((stable) => !stable),
           debounceTime(CART_DETAILS_UPDATING_DEBOUNCE_MS),

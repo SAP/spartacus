@@ -25,7 +25,7 @@ import { RouterLink } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
-  FeatureConfigService,
+  FeatureToggles,
   LanguageService,
   RoutingService,
   TranslatePipe,
@@ -75,12 +75,10 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     termsAndConditions: [false, Validators.requiredTrue],
   });
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   protected isSlowNetworkResilienceEnabled(): boolean {
-    return this.featureConfigService.isEnabled(
-      'enableCartSlowNetworkResilience'
-    );
+    return !!this.featureToggles.enableCartSlowNetworkResilience;
   }
 
   /**
