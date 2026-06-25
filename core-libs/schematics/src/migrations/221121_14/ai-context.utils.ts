@@ -28,8 +28,8 @@ export const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 export const PROMPT_INDENT = '  ';
 
 const TOOL_LABEL: Record<AiTool, string> = {
-  claude: 'Claude (.claude/skills/spartacus-developer/)',
-  agents: 'Other agents (.agents/skills/spartacus-developer/)',
+  claude: '.claude (.claude/skills/spartacus-developer/)',
+  agents: '.agents (.agents/skills/spartacus-developer/)',
 };
 
 /**

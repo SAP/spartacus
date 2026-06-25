@@ -394,20 +394,20 @@
         "type": "string",
         "enum": ["claude", "agents"]
       },
-      "default": [],
-      "description": "Which AI tools to configure with Spartacus best practices (leave empty for none).",
+      "default": ["claude"],
+      "description": "Where to put Spartacus Development AI skills? (leave empty for none)",
       "x-prompt": {
         "type": "list",
         "multiselect": true,
-        "message": "Which AI tools should I configure with Spartacus best practices?",
+        "message": "Where to put Spartacus Development AI skills? (leave empty for none)",
         "items": [
           {
             "value": "claude",
-            "label": "Claude (.claude/skills/spartacus-developer/)"
+            "label": ".claude (.claude/skills/spartacus-developer/)"
           },
           {
             "value": "agents",
-            "label": "Other agents (.agents/skills/spartacus-developer/)"
+            "label": ".agents (.agents/skills/spartacus-developer/)"
           }
         ]
       }
