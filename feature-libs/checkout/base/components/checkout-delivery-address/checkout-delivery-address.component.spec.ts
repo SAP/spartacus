@@ -16,7 +16,6 @@ import {
 import {
   Address,
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
@@ -142,12 +141,6 @@ class MockCheckoutDeliveryModesFacade
   clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
-
 describe('CheckoutDeliveryAddressComponent', () => {
   let component: CheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
@@ -157,7 +150,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
-  let featureConfig: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -185,10 +177,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
         {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     })
@@ -225,7 +213,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
     userAddressService = TestBed.inject(UserAddressService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    featureConfig = TestBed.inject(FeatureConfigService);
   }));
 
   beforeEach(() => {
@@ -371,9 +358,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     describe('role', () => {
-      beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-      });
       it('should be set to "region" for selected address', () => {
         expect(
           component.getCardContent(
@@ -404,10 +388,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
     });
 
     describe('role in template', () => {
-      beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
-      });
-
       it('should pass "region" role to cx-card for selected address', () => {
         checkoutDeliveryAddressFacade.getDeliveryAddressState =
           createSpy().and.returnValue(

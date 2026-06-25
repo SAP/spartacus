@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  FeatureToggles,
+  provideMockFeatureToggles,
+  TranslationService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
@@ -45,11 +49,11 @@ class MockNoItemsComponent {
   selected = null;
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yRestoreFocusOnNgSelect: true,
+  a11yVocalizeDropdownItemCount: true,
+  a11yNgSelectReadonlyInputValue: true,
+};
 
 class MockTranslationService {
   translate() {
@@ -72,7 +76,7 @@ describe('NgSelectA11yDirective', () => {
         NgSelectA11yDirective,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
@@ -209,11 +213,11 @@ describe('NgSelectA11yDirective', () => {
         ],
         providers: [
           {
-            provide: FeatureConfigService,
+            provide: FeatureToggles,
             useValue: {
-              isEnabled: (flag: string) =>
-                flag !== 'a11yVocalizeDropdownItemCount',
-            },
+              ...mockFeatureToggles,
+              a11yVocalizeDropdownItemCount: false,
+            } as FeatureToggles,
           },
           { provide: TranslationService, useClass: MockTranslationService },
         ],
@@ -242,8 +246,8 @@ describe('NgSelectA11yDirective', () => {
     });
 
     it('should NOT remove "mouse-focus" class when toggle is disabled', async () => {
-      const featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      const featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.a11yRestoreFocusOnNgSelect = false;
 
       fixture.detectChanges();
       const ngSelectEl = getNgSelect().nativeElement;

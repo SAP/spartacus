@@ -1,7 +1,7 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureToggles, provideMockFeatureToggles } from '@spartacus/core';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
@@ -44,17 +44,15 @@ class MockPersistFocusService {
   clear(): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yRestoreFocusOnNgSelect: true,
+};
 
 describe('PersistFocusDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: PersistFocusService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -64,17 +62,14 @@ describe('PersistFocusDirective', () => {
           provide: PersistFocusService,
           useClass: MockPersistFocusService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(PersistFocusService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
 
     spyOn(service, 'get').and.callThrough();
     spyOn(service, 'set').and.callThrough();
@@ -189,7 +184,7 @@ describe('PersistFocusDirective', () => {
 
   describe('a11yRestoreFocusOnNgSelect toggle disabled', () => {
     beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      featureToggles.a11yRestoreFocusOnNgSelect = false;
     });
 
     it('should focus host directly (not inner descendant) when toggle is off', () => {

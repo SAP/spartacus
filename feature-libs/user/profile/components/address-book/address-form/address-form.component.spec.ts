@@ -12,11 +12,12 @@ import {
   Address,
   AddressValidation,
   Country,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   HierarchicalAddressConfig,
   I18nTestingModule,
   LanguageService,
+  provideMockFeatureToggles,
   Region,
   Title,
   UserAddressService,
@@ -120,9 +121,9 @@ class MockLanguageService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled = jasmine.createSpy().and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableHierarchicalAddressFormat: true,
+};
 
 const dialogClose$ = new BehaviorSubject<any>('');
 
@@ -177,10 +178,7 @@ describe('AddressFormComponent', () => {
           provide: LanguageService,
           useClass: MockLanguageService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: HierarchicalAddressConfig,
           useValue: {
@@ -594,11 +592,11 @@ describe('AddressFormComponent', () => {
   });
 
   describe('toggle off behavior', () => {
-    let featureConfigService: FeatureConfigService;
+    let featureToggles: FeatureToggles;
 
     beforeEach(() => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.enableHierarchicalAddressFormat = false;
     });
 
     it('countrySelected should not set isHierarchicalAddressFormat', () => {
