@@ -12,6 +12,9 @@ function isFeatureConfig(config: Config): config is Required<FeaturesConfig> {
   return typeof config === 'object' && !!config.features;
 }
 
+/**
+ * @deprecated - features level is no longer used
+ */
 function isInLevel(level: string, version: string): boolean {
   if (level === '*') {
     return true;
@@ -30,6 +33,9 @@ function isInLevel(level: string, version: string): boolean {
   return true;
 }
 
+/**
+ * @deprecated - features level is no longer used
+ */
 export function isFeatureLevel(config: Config, level: string): boolean {
   if (isFeatureConfig(config) && config.features.level) {
     return level.startsWith('!')
