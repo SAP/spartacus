@@ -7,9 +7,7 @@ import {
   FeaturesConfigModule,
   FeatureToggles,
   I18nTestingModule,
-  MockFeatureTogglesController,
   MockTranslatePipe,
-  provideMockFeatureToggles,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -32,6 +30,10 @@ import {
 } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
