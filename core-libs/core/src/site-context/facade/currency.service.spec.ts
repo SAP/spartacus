@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { provideMockFeatureToggles, SiteContextConfig } from '@spartacus/core';
+import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { Currency } from '../../model/misc.model';
@@ -11,6 +11,7 @@ import { SiteContextActions } from '../store/actions/index';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
+import { provideMockFeatureToggles } from '../../features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const mockCurrencies: Currency[] = [

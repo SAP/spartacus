@@ -12,12 +12,10 @@ import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
   FeaturesConfigModule,
-  MockFeatureTogglesController,
   MockTranslatePipe,
   Product,
   ProductReference,
   ProductReferenceService,
-  provideMockFeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -30,6 +28,10 @@ import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-carousel',

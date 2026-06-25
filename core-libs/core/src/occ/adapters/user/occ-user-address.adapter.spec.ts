@@ -9,7 +9,6 @@ import {
   ADDRESS_VALIDATION_NORMALIZER,
   ConverterService,
   FeatureToggles,
-  provideMockFeatureToggles,
 } from '@spartacus/core';
 import { Address, AddressValidation } from '../../../model/address.model';
 import { OccConfig } from '../../config/occ-config';
@@ -24,6 +23,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing';
 
 const username = 'mockUsername';
 const address: Address = {

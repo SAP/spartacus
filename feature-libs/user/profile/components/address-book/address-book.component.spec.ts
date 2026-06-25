@@ -18,7 +18,6 @@ import {
   LanguageService,
   MockDatePipe,
   MockTranslatePipe,
-  provideMockFeatureToggles,
   TranslatePipe,
   User,
 } from '@spartacus/core';
@@ -28,6 +27,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();

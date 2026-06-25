@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
-  provideMockFeatureToggles,
   SiteTheme,
   TranslationService,
 } from '@spartacus/core';
@@ -11,6 +10,7 @@ import { IconModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockTranslationService {
   translate() {

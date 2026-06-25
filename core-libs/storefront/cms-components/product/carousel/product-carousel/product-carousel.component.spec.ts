@@ -14,13 +14,11 @@ import {
   CxDatePipe,
   FeaturesConfigModule,
   MockDatePipe,
-  MockFeatureTogglesController,
   MockTranslatePipe,
   Product,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
-  provideMockFeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -33,6 +31,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-carousel',
