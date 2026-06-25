@@ -15,7 +15,7 @@ import {
   AuthConfigService,
   AuthService,
   CsrfStateService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   OAUTH_REDIRECT_FLOW_KEY,
@@ -29,7 +29,7 @@ const globalMsgShowTime: number = 10000;
 @Injectable()
 export class VerificationTokenFormComponentService {
   protected authConfigService = inject(AuthConfigService);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected auth: AuthService = inject(AuthService);
   protected csrfStateService = inject(CsrfStateService);
   protected winRef = inject(WindowRef);
@@ -40,7 +40,7 @@ export class VerificationTokenFormComponentService {
     return this.csrfStateService.get();
   }
   constructor() {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.initCustomLogin();
     }
   }
@@ -66,10 +66,7 @@ export class VerificationTokenFormComponentService {
       this.form.markAllAsTouched();
       return;
     }
-    if (
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') &&
-      nativeForm
-    ) {
+    if (this.featureToggles.authorizationCodeFlowByDefault && nativeForm) {
       this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
       nativeForm.submit();
       this.busy$.next(true);

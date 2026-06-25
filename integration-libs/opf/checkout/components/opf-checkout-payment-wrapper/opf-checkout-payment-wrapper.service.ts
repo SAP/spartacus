@@ -11,7 +11,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   DEFAULT_AUTHORIZATION_ERROR_RETRIES_COUNT,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -60,11 +60,9 @@ export class OpfCheckoutPaymentWrapperService {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected winRef = inject(WindowRef);
-  private readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   protected lastPaymentOptionId?: number;
-  protected readonly isUpdatePaymentTransactionFeatureEnabled =
-    'opfCheckoutUseUpdatePaymentTransaction';
 
   protected renderPaymentMethodEvent$ =
     new BehaviorSubject<OpfPaymentRenderMethodEvent>({
@@ -104,9 +102,8 @@ export class OpfCheckoutPaymentWrapperService {
   initiatePayment(
     paymentOptionId: number
   ): Observable<OpfPaymentSessionData | Error> {
-    const useUpdatePaymentTransaction = this.featureConfigService.isEnabled(
-      this.isUpdatePaymentTransactionFeatureEnabled
-    );
+    const useUpdatePaymentTransaction =
+      this.featureToggles.opfCheckoutUseUpdatePaymentTransaction;
 
     this.lastPaymentOptionId = paymentOptionId;
     this.renderPaymentMethodEvent$.next({

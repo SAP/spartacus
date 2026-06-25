@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -16,6 +16,7 @@ import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, of } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const mockContext = {
@@ -38,11 +39,9 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yCardNotificationMessage: true,
+};
 
 describe('ToggleLinkCellComponent', () => {
   let component: ToggleLinkCellComponent;
@@ -73,10 +72,7 @@ describe('ToggleLinkCellComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     })
       .overrideComponent(ToggleLinkCellComponent, {

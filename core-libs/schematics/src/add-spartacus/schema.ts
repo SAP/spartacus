@@ -6,6 +6,8 @@
 
 import { LibraryOptions } from '../shared/utils/lib-utils';
 
+export type AiTool = 'claude' | 'agents';
+
 export interface Schema extends LibraryOptions {
   baseUrl?: string;
   occPrefix?: string;
@@ -18,6 +20,7 @@ export interface Schema extends LibraryOptions {
   overwriteAppComponent?: boolean;
   ssr?: boolean;
   theme?: string;
+  aiTools?: AiTool[];
 }
 
 /**
