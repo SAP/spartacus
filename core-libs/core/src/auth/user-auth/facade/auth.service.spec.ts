@@ -5,8 +5,7 @@ import {
   FeatureToggles,
 } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthNotificationType } from '../models/auth-notification.model';
@@ -520,26 +519,15 @@ describe('AuthService', () => {
   });
 
   describe('isUserLoggedIn()', () => {
-    it('should return true when there is access_token', (done) => {
-      service
-        .isUserLoggedIn()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeTrue();
-          done();
-        });
+    it('should return true when there is access_token', async () => {
+      const result = await firstValueFrom(service.isUserLoggedIn());
+      expect(result).toBe(true);
     });
 
-    it('should return false when there is not access_token', (done) => {
+    it('should return false when there is not access_token', async () => {
       spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
-
-      service
-        .isUserLoggedIn()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeFalse();
-          done();
-        });
+      const result = await firstValueFrom(service.isUserLoggedIn());
+      expect(result).toBe(false);
     });
   });
 
@@ -582,15 +570,10 @@ describe('AuthService', () => {
   });
 
   describe('updateIsUsingASMClient()', () => {
-    it('should update isUsingASMClient$ observable value', (done) => {
+    it('should update isUsingASMClient$ observable value', async () => {
       service.updateIsUsingASMClient(true);
-      service
-        .isUsingASMClient()
-        .pipe(take(1))
-        .subscribe((value) => {
-          expect(value).toBe(true);
-          done();
-        });
+      const value = await firstValueFrom(service.isUsingASMClient());
+      expect(value).toBe(true);
     });
   });
 });

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { StatePersistenceService } from '../../../state/services/state-persistence.service';
 import { CLIENT_AUTH_FEATURE } from '../../client-auth/store';
 import * as fromAuthReducers from '../../client-auth/store/reducers/index';
@@ -130,7 +129,7 @@ describe('AuthStatePersistenceService', () => {
     expect(service['getAuthState']).toHaveBeenCalled();
   });
 
-  it('should return state from auth state and userId service', (done) => {
+  it('should return state from auth state and userId service', async () => {
     spyOn(authStorageService, 'getToken').and.returnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
@@ -138,16 +137,12 @@ describe('AuthStatePersistenceService', () => {
       of('redirect_url')
     );
 
-    service['getAuthState']()
-      .pipe(take(1))
-      .subscribe((state) => {
-        expect(state).toEqual({
-          userId: 'userId',
-          token: { access_token: 'token' },
-          redirectUrl: 'redirect_url',
-        } as any);
-        done();
-      });
+    const state = await firstValueFrom(service['getAuthState']());
+    expect(state).toEqual({
+      userId: 'userId',
+      token: { access_token: 'token' },
+      redirectUrl: 'redirect_url',
+    } as any);
   });
 
   it('isUserLoggedIn should check state of user login in localStorage', () => {

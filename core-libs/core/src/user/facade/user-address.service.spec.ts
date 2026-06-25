@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
@@ -247,20 +247,15 @@ describe('UserAddressService', () => {
     const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
     const country = 'CA';
 
-    it('should be able to get all regions', (done) => {
-      let regions: Region[];
+    it('should be able to get all regions', async () => {
       store.dispatch(
         new UserActions.LoadRegionsSuccess({ entities: regionsList, country })
       );
-      service.getRegions(country).subscribe((data) => {
-        regions = data;
-        expect(regions).toEqual(regionsList);
-        done();
-      });
+      const regions = await firstValueFrom(service.getRegions(country));
+      expect(regions).toEqual(regionsList);
     });
 
-    it('should clear regions on empty country', (done) => {
-      let regions: Region[];
+    it('should clear regions on empty country', async () => {
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
           entities: regionsList,
@@ -268,31 +263,22 @@ describe('UserAddressService', () => {
         })
       );
       spyOn(service, 'clearRegions').and.stub();
-      service.getRegions('').subscribe((data) => {
-        regions = data;
-        expect(regions).toEqual([]);
-        expect(service.clearRegions).toHaveBeenCalled();
-        done();
-      });
+      const regions = await firstValueFrom(service.getRegions(''));
+      expect(regions).toEqual([]);
+      expect(service.clearRegions).toHaveBeenCalled();
     });
 
-    it('should return empty array while loading', (done) => {
-      let regions: Region[];
+    it('should return empty array while loading', async () => {
       store.dispatch(new UserActions.LoadRegions(country));
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
-      service.getRegions(country).subscribe((data) => {
-        regions = data;
-        expect(regions).toEqual([]);
-        expect(service.clearRegions).not.toHaveBeenCalled();
-        expect(service.loadRegions).not.toHaveBeenCalled();
-
-        done();
-      });
+      const regions = await firstValueFrom(service.getRegions(country));
+      expect(regions).toEqual([]);
+      expect(service.clearRegions).not.toHaveBeenCalled();
+      expect(service.loadRegions).not.toHaveBeenCalled();
     });
 
-    it('should return empty array and invoke clear and load when changing country', (done) => {
-      let regions: Region[];
+    it('should return empty array and invoke clear and load when changing country', async () => {
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
       const country2 = 'AB';
@@ -302,17 +288,13 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      service.getRegions(country2).subscribe((data) => {
-        regions = data;
-        expect(regions).toEqual([]);
-        expect(service.clearRegions).toHaveBeenCalled();
-        expect(service.loadRegions).toHaveBeenCalledWith(country2);
-        done();
-      });
+      const regions = await firstValueFrom(service.getRegions(country2));
+      expect(regions).toEqual([]);
+      expect(service.clearRegions).toHaveBeenCalled();
+      expect(service.loadRegions).toHaveBeenCalledWith(country2);
     });
 
-    it('should return already loaded results on another request', (done) => {
-      let regions: Region[];
+    it('should return already loaded results on another request', async () => {
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
           entities: regionsList,
@@ -321,13 +303,10 @@ describe('UserAddressService', () => {
       );
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
-      service.getRegions(country).subscribe((data) => {
-        regions = data;
-        expect(regions).toEqual(regionsList);
-        expect(service.clearRegions).not.toHaveBeenCalled();
-        expect(service.loadRegions).not.toHaveBeenCalled();
-        done();
-      });
+      const regions = await firstValueFrom(service.getRegions(country));
+      expect(regions).toEqual(regionsList);
+      expect(service.clearRegions).not.toHaveBeenCalled();
+      expect(service.loadRegions).not.toHaveBeenCalled();
     });
 
     it('should call clear regions', () => {
@@ -339,49 +318,41 @@ describe('UserAddressService', () => {
   });
 
   describe('verifyAddress', () => {
-    it('should call the corresponding command', (done) => {
-      service.verifyAddress(mockAddress).subscribe((result) => {
-        expect(result).toBe(mockAddressVerificationResult);
-        expect(userAddressConnector.verify).toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT,
-          mockAddress
-        );
-        done();
-      });
+    it('should call the corresponding command', async () => {
+      const result = await firstValueFrom(service.verifyAddress(mockAddress));
+      expect(result).toBe(mockAddressVerificationResult);
+      expect(userAddressConnector.verify).toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT,
+        mockAddress
+      );
     });
   });
 
   describe('getDefaultAddress', () => {
-    it('should return the default address if present', (done) => {
+    it('should return the default address if present', async () => {
       const addresses: Address[] = [
         { id: '1', defaultAddress: false },
         { id: '2', defaultAddress: true },
         { id: '3', defaultAddress: false },
       ];
       spyOn(service, 'getAddresses').and.returnValue(of(addresses));
-      service.getDefaultAddress().subscribe((result) => {
-        expect(result).toEqual(addresses[1]);
-        done();
-      });
+      const result = await firstValueFrom(service.getDefaultAddress());
+      expect(result).toEqual(addresses[1]);
     });
-    it('should return undefined if no default address is present', (done) => {
+    it('should return undefined if no default address is present', async () => {
       const addresses: Address[] = [
         { id: '1', defaultAddress: false },
         { id: '2', defaultAddress: false },
       ];
       spyOn(service, 'getAddresses').and.returnValue(of(addresses));
-      service.getDefaultAddress().subscribe((result) => {
-        expect(result).toBeUndefined();
-        done();
-      });
+      const result = await firstValueFrom(service.getDefaultAddress());
+      expect(result).toBeUndefined();
     });
 
-    it('should return undefined if addresses array is empty', (done) => {
+    it('should return undefined if addresses array is empty', async () => {
       spyOn(service, 'getAddresses').and.returnValue(of([]));
-      service.getDefaultAddress().subscribe((result) => {
-        expect(result).toBeUndefined();
-        done();
-      });
+      const result = await firstValueFrom(service.getDefaultAddress());
+      expect(result).toBeUndefined();
     });
   });
 });

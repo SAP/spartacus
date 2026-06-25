@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { EventService } from '@spartacus/core';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, Subject } from 'rxjs';
 import { UserActions } from '../store';
 import { UserEventBuilder } from './user-event.builder';
 import {
@@ -32,45 +31,27 @@ describe('UserEventBuilder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('UpdateUserAddressEvent', (done) => {
+  it('UpdateUserAddressEvent', async () => {
     const payload: any = { test: 'test' };
-
-    eventService
-      .get(UpdateUserAddressEvent)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
-        done();
-      });
-
+    const resultPromise = firstValueFrom(eventService.get(UpdateUserAddressEvent));
     actions$.next({ type: UserActions.UPDATE_USER_ADDRESS, payload });
+    const result = await resultPromise;
+    expect(result).toEqual(jasmine.objectContaining(payload));
   });
 
-  it('AddUserAddressEvent', (done) => {
+  it('AddUserAddressEvent', async () => {
     const payload: any = { test: 'test' };
-
-    eventService
-      .get(AddUserAddressEvent)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
-        done();
-      });
-
+    const resultPromise = firstValueFrom(eventService.get(AddUserAddressEvent));
     actions$.next({ type: UserActions.ADD_USER_ADDRESS, payload });
+    const result = await resultPromise;
+    expect(result).toEqual(jasmine.objectContaining(payload));
   });
 
-  it('DeleteUserAddressEvent', (done) => {
+  it('DeleteUserAddressEvent', async () => {
     const payload: any = { test: 'test' };
-
-    eventService
-      .get(DeleteUserAddressEvent)
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(jasmine.objectContaining(payload));
-        done();
-      });
-
+    const resultPromise = firstValueFrom(eventService.get(DeleteUserAddressEvent));
     actions$.next({ type: UserActions.DELETE_USER_ADDRESS, payload });
+    const result = await resultPromise;
+    expect(result).toEqual(jasmine.objectContaining(payload));
   });
 });

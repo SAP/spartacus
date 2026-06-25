@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { Command, CommandService } from '../../../src/util/command-query';
 import { ProductAvailabilities } from '../../model/product.model';
 import { ProductAvailabilityConnector } from '../connectors';
@@ -36,7 +36,7 @@ describe('ProductAvailabilityService', () => {
   });
 
   describe('getRealTimeStock', () => {
-    it('should call getRealTimeStockCommand.execute with correct parameters', (done) => {
+    it('should call getRealTimeStockCommand.execute with correct parameters', async () => {
       const productCode = 'testProductCode';
       const unitSapCode = 'testUnitSapCode';
       const expectedStockData: ProductAvailabilities = {
@@ -45,22 +45,16 @@ describe('ProductAvailabilityService', () => {
       };
 
       connector.getRealTimeStock.and.returnValue(of(expectedStockData));
-
       commandSpy.execute.and.returnValue(of(expectedStockData));
 
-      service
-        .getRealTimeStock(productCode, unitSapCode)
-        .subscribe((stockData) => {
-          expect(commandSpy.execute).toHaveBeenCalledWith({
-            productCode,
-            unitSapCode,
-          });
-          expect(stockData).toEqual(expectedStockData);
-          done();
-        });
+      const stockData = await firstValueFrom(
+        service.getRealTimeStock(productCode, unitSapCode)
+      );
+      expect(commandSpy.execute).toHaveBeenCalledWith({ productCode, unitSapCode });
+      expect(stockData).toEqual(expectedStockData);
     });
 
-    it('should return observable of ProductAvailabilities when command executes successfully', (done) => {
+    it('should return observable of ProductAvailabilities when command executes successfully', async () => {
       const productCode = 'testProductCode';
       const unitSapCode = 'testUnitSapCode';
       const mockStockData: ProductAvailabilities = {
@@ -71,10 +65,10 @@ describe('ProductAvailabilityService', () => {
       connector.getRealTimeStock.and.returnValue(of(mockStockData));
       commandSpy.execute.and.returnValue(of(mockStockData));
 
-      service.getRealTimeStock(productCode, unitSapCode).subscribe((result) => {
-        expect(result).toEqual(mockStockData);
-        done();
-      });
+      const result = await firstValueFrom(
+        service.getRealTimeStock(productCode, unitSapCode)
+      );
+      expect(result).toEqual(mockStockData);
     });
   });
 });
