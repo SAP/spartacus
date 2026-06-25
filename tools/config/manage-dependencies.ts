@@ -957,8 +957,11 @@ function checkTsLibDep(
   const updates = new Set<string>();
   let errorsFound = false;
   Object.values(libraries).forEach((lib) => {
-    // Styles library is the only library without TS
-    if (lib.name !== `${SPARTACUS_SCOPE}/styles`) {
+    // Styles and skills are the libraries without TS, so they don't need tslib
+    if (
+      lib.name !== `${SPARTACUS_SCOPE}/styles` &&
+      lib.name !== `${SPARTACUS_SCOPE}/skills`
+    ) {
       const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
       const errors = [];
       if (!Object.keys(lib.dependencies).includes(tsLibName)) {
