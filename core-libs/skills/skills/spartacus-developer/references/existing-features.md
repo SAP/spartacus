@@ -26,8 +26,8 @@ Before implementing a feature, ALWAYS check whether Spartacus already provides i
 
 ## If the feature exists
 
-**Extend or customize it** rather than building from scratch (see the `cms-component-wiring` and `extending-spartacus-classes` skills for how).
+**Extend or customize it** rather than building from scratch (see [cms-component-wiring.md](./cms-component-wiring.md) and [extending-spartacus-classes.md](./extending-spartacus-classes.md) for how).
 
 ## If the feature doesn't exist
 
-Build it, reaching for the specific skill that matches each part of the task — e.g. `backend-communication` for data access, `cms-component-wiring` for placement, `lazy-loading` for a new feature module.
+Build it, reaching for the reference topic that matches each part of the task — e.g. [backend-communication.md](./backend-communication.md) for data access, [cms-component-wiring.md](./cms-component-wiring.md) for placement, [lazy-loading.md](./lazy-loading.md) for a new feature module.

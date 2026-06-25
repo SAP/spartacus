@@ -8,7 +8,7 @@ NEVER inject `HttpClient` in components or services. All backend communication g
 Component → Facade → state layer → Connector → Adapter → Converter
 ```
 
-The **state layer** is NgRx in older features and the Commands/Queries services in newer ones — match whichever the feature already uses (see the `state-management` skill). Only **Adapters** use `HttpClient`. Each layer has a specific role:
+The **state layer** is NgRx in older features and the Commands/Queries services in newer ones — match whichever the feature already uses (see [state-management.md](./state-management.md)). Only **Adapters** use `HttpClient`. Each layer has a specific role:
 
 - **Facade** — Public API consumed by components. Hides internal complexity.
 - **Connector** — Thin delegation layer injecting the abstract Adapter.
@@ -99,7 +99,7 @@ To see the exact URL Spartacus builds for a configured endpoint:
 inject(OccEndpointsService).buildUrl('product', { urlParams: { productCode: '123' } });
 ```
 
-To inspect every configured OCC endpoint at runtime, log the merged config (see the `configuration` skill for the full debug flow):
+To inspect every configured OCC endpoint at runtime, log the merged config (see [configuration.md](./configuration.md) for the full debug flow):
 
 ```typescript
 inject(ConfigurationService).unifiedConfig$.subscribe((c) =>

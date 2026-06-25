@@ -72,4 +72,4 @@ Serializers (UI → backend) work the same way; look for `*_SERIALIZER` tokens.
 
 - `Converter`, `ConverterService`, `PRODUCT_NORMALIZER` from `@spartacus/core`.
 - Default product normalizers ship inside `@spartacus/core` (`occ` adapters).
-- Injector correctness: see the `correct-injector` skill — register normalizers in the feature wrapper module for lazy features, or in the root injector for eager ones.
+- Injector correctness: see [correct-injector.md](./correct-injector.md) — register normalizers in the feature wrapper module for lazy features, or in the root injector for eager ones.

@@ -32,7 +32,7 @@ provideOutlet({
 })
 ```
 
-See the `outlets` skill for the full surface (positions, `cxOutletRef`, finding outlet IDs, and when CMS mapping is the right tool instead).
+See [outlets.md](./outlets.md) for the full surface (positions, `cxOutletRef`, finding outlet IDs, and when CMS mapping is the right tool instead).
 
 ## 3. Static `cmsStructure` (for development/demo without CMS backend changes)
 

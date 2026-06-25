@@ -28,7 +28,7 @@ Examples:
 | `UserAccountFacade` | `UserAccountService` | `@spartacus/user/account/root` |
 | `UserProfileFacade` | `UserProfileService` | `@spartacus/user/profile/root` |
 
-These are what people usually mean by "Spartacus Facades". The **underlying service** is the concrete implementation inside the lazy chunk — it's what you override in the feature wrapper module when customizing behavior (see the `extending-spartacus-classes` skill). Discover facades by searching `facadeFactory({ facade:` under `node_modules/@spartacus/*/root`.
+These are what people usually mean by "Spartacus Facades". The **underlying service** is the concrete implementation inside the lazy chunk — it's what you override in the feature wrapper module when customizing behavior (see [extending-spartacus-classes.md](./extending-spartacus-classes.md)). Discover facades by searching `facadeFactory({ facade:` under `node_modules/@spartacus/*/root`.
 
 ### 2. Eager `core` services backed by NgRx
 
@@ -79,7 +79,7 @@ this.store.pipe(select(...)).subscribe(...);
 ## If a method you need doesn't exist
 
 - Check both `@spartacus/<feature>/root` (lazy proxy facades) and `@spartacus/core` (eager core services). Some features split data across both.
-- For lazy proxy facades (Category 1), adding a new method requires two pieces: extend the abstract Facade class to declare the method, and override the underlying implementation in the feature's wrapper module so `facadeFactory` forwards calls to your subclass. See the `extending-spartacus-classes` skill.
+- For lazy proxy facades (Category 1), adding a new method requires two pieces: extend the abstract Facade class to declare the method, and override the underlying implementation in the feature's wrapper module so `facadeFactory` forwards calls to your subclass. See [extending-spartacus-classes.md](./extending-spartacus-classes.md).
 - For eager core services (Category 2), `useClass` swap in the root injector is enough.
 
 ## Source reference (in `node_modules/@spartacus/*`)

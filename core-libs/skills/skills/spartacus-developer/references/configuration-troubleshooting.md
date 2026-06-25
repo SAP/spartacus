@@ -1,4 +1,4 @@
-# Troubleshooting — "My Spartacus Config Isn't Applied"
+# Configuration troubleshooting — "My Spartacus Config Isn't Applied"
 
 When a `provideConfig` value isn't taking effect, it's almost always one of three things. Inspect the live config first, then walk the checklist.
 
@@ -13,7 +13,7 @@ inject(ConfigurationService).unifiedConfig$.subscribe((cfg) => console.log(cfg))
 
 `unifiedConfig$` emits the deep-merged result of every `provideConfig` and `provideDefaultConfig` call resolved so far. Lazy-loaded modules contribute config chunks only after they are loaded, and `unifiedConfig$` emits again every time a lazy module loads. So log at the moment the broken consumer runs (component constructor, `ngOnInit`, service usage), not just at app startup.
 
-> Lazy loading is what makes config timing tricky here — see the `lazy-loading` skill for how Spartacus loads feature modules on demand.
+> Lazy loading is what makes config timing tricky here — see [lazy-loading.md](./lazy-loading.md) for how Spartacus loads feature modules on demand.
 
 ## 2. Walk the three common causes
 

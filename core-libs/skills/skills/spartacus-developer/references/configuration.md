@@ -86,13 +86,9 @@ export class AppOccConfigModule {}
 
 ## Troubleshooting — "my config isn't applied"
 
-When a config value isn't taking effect at runtime, see [troubleshooting.md](troubleshooting.md) for the full debug flow (live-config logging plus the three common root causes).
+When a config value isn't taking effect at runtime, see [configuration-troubleshooting.md](./configuration-troubleshooting.md) for the full debug flow (live-config logging plus the three common root causes).
 
 ## Source reference (in `node_modules/@spartacus/*`)
 
 - `provideConfig`, `provideDefaultConfig`, `Config` from `@spartacus/core`.
 - Example default config (OCC user endpoints) ships inside `@spartacus/core`.
-
-## Supplemental Information
-
-- [troubleshooting.md](troubleshooting.md) — step-by-step debug flow when an expected config value isn't taking effect at runtime.

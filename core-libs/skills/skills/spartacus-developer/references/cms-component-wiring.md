@@ -20,7 +20,7 @@ provideConfig({
 
 ## How to override an existing component
 
-Map the same CMS type to your custom component. Prefer **extending** the original class over copying it (see the `extending-spartacus-classes` skill):
+Map the same CMS type to your custom component. Prefer **extending** the original class over copying it (see [extending-spartacus-classes.md](./extending-spartacus-classes.md)):
 
 ```typescript
 provideConfig({
@@ -47,7 +47,7 @@ data$ = this.componentData.data$;
 There are three mechanisms — see [placement-mechanisms.md](placement-mechanisms.md) for the detailed comparison and `cmsStructure` example. Quick summary:
 
 1. **CMS-driven placement (preferred)** — the CMS backoffice places the component in a slot. Just add the `cmsComponents` mapping above; no further code.
-2. **Outlets** — `provideOutlet` to insert content at specific points in existing layouts (see the `outlets` skill).
+2. **Outlets** — `provideOutlet` to insert content at specific points in existing layouts (see [outlets.md](./outlets.md)).
 3. **Static `cmsStructure`** — for development/demo without CMS backend changes.
 
 ## Anti-pattern

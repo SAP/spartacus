@@ -8,7 +8,7 @@
 - A wishlist button next to product-tile actions
 - A custom banner above the product grid
 
-For **entire-component replacement** or page restructuring, use CMS mapping instead (see the `cms-component-wiring` skill). Outlet IDs are internal Spartacus names that occasionally change between major versions — keep the count low, and prefer CMS mapping for anything structural.
+For **entire-component replacement** or page restructuring, use CMS mapping instead (see [cms-component-wiring.md](./cms-component-wiring.md)). Outlet IDs are internal Spartacus names that occasionally change between major versions — keep the count low, and prefer CMS mapping for anything structural.
 
 ## `provideOutlet` for component-based outlets
 
@@ -54,9 +54,9 @@ Common outlet IDs:
 
 ## When NOT to use outlets
 
-- Replacing a whole CMS-backed component → CMS mapping (see the `cms-component-wiring` skill).
+- Replacing a whole CMS-backed component → CMS mapping (see [cms-component-wiring.md](./cms-component-wiring.md)).
 - Adding a page with your own layout → CMS page + slot config.
-- Changing URL structure → `RoutingConfig` (see the `configurable-urls` skill).
+- Changing URL structure → `RoutingConfig` (see [configurable-urls.md](./configurable-urls.md)).
 
 ## Source reference (in `node_modules/@spartacus/*`)
 

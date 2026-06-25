@@ -2,7 +2,7 @@
 
 A **proxy facade** is the eager-injectable abstraction that hides a lazy-loaded service behind a stable contract. It is the mechanism that lets a component eagerly `inject(ActiveCartFacade)` even though the cart code itself is in a separate lazy chunk.
 
-> Because the proxy may need to lazy-load the real implementation before it can answer, a proxy facade must expose **only methods that return `Observable`s** (or `Promise`s) — never synchronous methods or plain value properties. A synchronous getter can't wait for the chunk to load, so it has nothing correct to return on the first call. Keep every facade member async.
+> Because the proxy may need to lazy-load the real implementation before it can answer, a proxy facade must expose **only methods that return `Observable`s** — never synchronous methods or plain value properties. A synchronous getter can't wait for the chunk to load, so it has nothing correct to return on the first call. Keep every facade member async.
 
 ## The two pieces
 
@@ -131,4 +131,4 @@ Prefer Case 1 — only add a new facade method (Case 2) when extending the API i
 ## Where to learn more
 
 - `facadeFactory`, `FacadeFactoryService`, `FacadeDescriptor` from `@spartacus/core` — read their source for the call-forwarding implementation.
-- See the `extending-spartacus-classes` skill for the surrounding "extend, don't copy" rule.
+- See [extending-spartacus-classes.md](./extending-spartacus-classes.md) for the surrounding "extend, don't copy" rule.

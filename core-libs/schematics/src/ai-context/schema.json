@@ -9,22 +9,22 @@
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": ["claude", "agents"]
+        "enum": ["agents", "claude"]
       },
-      "default": ["claude"],
-      "description": "Where to put Spartacus Development AI skills? (leave empty for none)",
+      "default": ["agents"],
+      "description": "Select the local folder(s) to install Spartacus AI development skills",
       "x-prompt": {
         "type": "list",
         "multiselect": true,
-        "message": "Where to put Spartacus Development AI skills? (leave empty for none)",
+        "message": "Select the local folder(s) to install Spartacus AI development skills",
         "items": [
-          {
-            "value": "claude",
-            "label": ".claude (.claude/skills/spartacus-developer/)"
-          },
           {
             "value": "agents",
             "label": ".agents (.agents/skills/spartacus-developer/)"
+          },
+          {
+            "value": "claude",
+            "label": ".claude (.claude/skills/spartacus-developer/)"
           }
         ]
       }

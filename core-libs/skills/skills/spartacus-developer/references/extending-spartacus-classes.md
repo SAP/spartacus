@@ -22,7 +22,7 @@ export class CustomAddToCartComponent extends AddToCartComponent {
 }
 ```
 
-Wire the subclass via CMS mapping (see the `cms-component-wiring` skill):
+Wire the subclass via CMS mapping (see [cms-component-wiring.md](./cms-component-wiring.md)):
 
 ```typescript
 provideConfig({
@@ -46,7 +46,7 @@ export class CustomProductService extends ProductService {
   }
 }
 
-// Provide at the correct injector (see the correct-injector skill):
+// Provide at the correct injector (see [correct-injector.md](./correct-injector.md)):
 providers: [{ provide: ProductService, useClass: CustomProductService }]
 ```
 
