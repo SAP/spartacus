@@ -5,6 +5,34 @@ BFF (Backend for Frontend) with Spartacus Classic. It covers all files you need 
 create or modify on both the **Spartacus Classic storefront** and the **Vivaldi BFF**
 sides, and how they work together.
 
+## Table of Contents
+
+- [How it works](#how-it-works)
+- [File overview](#file-overview)
+- [Spartacus Classic changes](#spartacus-classic-changes)
+  - [CRITICAL: Remove hardcoded baseUrl](#critical-remove-hardcoded-baseurl-from-spartacus-configuration)
+  - [CRITICAL: OCC URL must have a CA-signed certificate](#critical-occ-url-must-have-a-valid-ca-signed-certificate-for-bff-use)
+  - [1. index.html](#1-srcindexhtml)
+  - [2. bff-base-url.token.ts](#2-srcappbffbff-base-urltokents-new-file)
+  - [3. bff-http.service.ts](#3-srcappbffbff-httpservicets-new-file)
+  - [4. app.module.server.ts](#4-srcappappmoduleserverts-modify)
+  - [5. proxy.conf.js](#5-proxyconfjs-new-file-project-root)
+  - [6. project.json](#6-projectjson-modify)
+  - [7. .env-cmdrc](#7-env-cmdrc-modify)
+  - [8. Environment files](#8-environment-files-modify)
+  - [9. Example: custom BFF procedure](#9-example-custom-bff-procedure-say-hellocomponentts)
+  - [10. Example: OCC call via BFF](#10-example-occ-call-via-bff-occ-base-sitescomponentts)
+  - [11. bff-example.providers.ts](#11-bff-exampleprovidersts-new-file)
+- [Vivaldi BFF changes](#vivaldi-bff-changes)
+  - [12. env.d.ts](#12-appsbffenvdts-modify)
+  - [13. vivaldi.apis.ts](#13-appsbffvivaldiapists-modify)
+  - [14. destinations.ts](#14-packagescontractsbffdestinationsts-modify)
+  - [15. occ.ts router](#15-appsbffsrcapiroutersoccts-new-file)
+  - [16. root.ts](#16-appsbffsrcapiroutersrootts-modify)
+  - [17. .env](#17-appsbffenv-local-dev-only)
+- [Testing locally](#testing-locally)
+- [Testing meta tag substitution locally](#testing-meta-tag-substitution-locally)
+
 ---
 
 ## How it works
