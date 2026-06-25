@@ -15,10 +15,8 @@ import {
   FeaturesConfigModule,
   Image,
   ImageGroup,
-  MockFeatureTogglesController,
   MockTranslatePipe,
   ProductService,
-  provideMockFeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -36,6 +34,10 @@ import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-star-rating',
