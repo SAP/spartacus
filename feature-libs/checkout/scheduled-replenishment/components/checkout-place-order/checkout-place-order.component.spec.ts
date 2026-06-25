@@ -12,7 +12,6 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
   CxDatePipe,
-  FeatureConfigService,
   GlobalMessageService,
   LanguageService,
   MockDatePipe,
@@ -20,6 +19,7 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
+  provideMockFeatureToggles,
 } from '@spartacus/core';
 import {
   DaysOfWeek,
@@ -91,12 +91,6 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   isStable = () => this.isStable$.asObservable();
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine
-    .createSpy('isEnabled')
-    .and.callFake((flag: string) => flag === 'enableCartSlowNetworkResilience');
-}
-
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform = createSpy();
@@ -150,7 +144,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           provide: ActiveCartFacade,
           useClass: MockActiveCartFacade,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
@@ -482,10 +476,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent — enableCartSlowNe
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
-        {
-          provide: FeatureConfigService,
-          useValue: { isEnabled: (_flag: string) => false },
-        },
+        ...provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
