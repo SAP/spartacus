@@ -32,6 +32,12 @@
       "factory": "./wrapper-module/index#generateWrapperModule",
       "aliases": ["wrapper"]
     },
+    "ai-context": {
+      "description": "Add AI assistant guidance (.claude / .agents) to an existing Spartacus project.",
+      "factory": "./ai-context/index#addAiContextSchematic",
+      "schema": "./ai-context/schema.json",
+      "aliases": ["ai"]
+    },
     "modernize-app-migrated-from-6_8-to-2211_19": {
       "description": "Modernize Angular application migrated from 6.8 to 2211.19",
       "factory": "./modernize-app-migrated-from-6_8-to-2211_19/index#migrate"
