@@ -91,7 +91,7 @@ export class OrderService implements OrderFacade {
     protected commandService: CommandService,
     protected orderConnector: OrderConnector,
     protected eventService: EventService
-  ) { }
+  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

@@ -31,9 +31,9 @@ class MockOpfQuickBuyCartAdapter implements OpfQuickBuyCartAdapter {
     'getSupportedDeliveryModes'
   ).and.returnValue(of(mockDeliveryModes));
   setDeliveryMode = createSpy('setDeliveryMode').and.returnValue(of({}));
-  getSelectedDeliveryMode = createSpy('getSelectedDeliveryMode').and.returnValue(
-    of(mockDeliveryModes[0])
-  );
+  getSelectedDeliveryMode = createSpy(
+    'getSelectedDeliveryMode'
+  ).and.returnValue(of(mockDeliveryModes[0]));
 }
 
 describe('OpfQuickBuyCartConnector', () => {

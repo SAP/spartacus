@@ -424,6 +424,9 @@
       "@spartacus/opf/quick-buy/occ": ["dist/opf/quick-buy/occ"],
       "@spartacus/opf/quick-buy/core": ["dist/opf/quick-buy/core"],
       "@spartacus/opf/quick-buy/components": ["dist/opf/quick-buy/components"],
+      "@spartacus/opf/quick-buy/pickup-in-store": [
+        "dist/opf/quick-buy/pickup-in-store"
+      ],
       "@spartacus/opf/payment": ["dist/opf/payment"],
       "@spartacus/opf/payment/root": ["dist/opf/payment/root"],
       "@spartacus/opf/payment/opf-api": ["dist/opf/payment/opf-api"],

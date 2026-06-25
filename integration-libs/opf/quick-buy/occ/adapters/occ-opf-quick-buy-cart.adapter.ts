@@ -127,7 +127,10 @@ export class OccOpfQuickBuyCartAdapter implements OpfQuickBuyCartAdapter {
         }),
         map((cart) =>
           cart.deliveryMode
-            ? this.converter.convert(cart.deliveryMode, DELIVERY_MODE_NORMALIZER)
+            ? this.converter.convert(
+                cart.deliveryMode,
+                DELIVERY_MODE_NORMALIZER
+              )
             : undefined
         )
       );

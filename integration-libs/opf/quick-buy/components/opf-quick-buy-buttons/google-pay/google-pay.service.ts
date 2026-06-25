@@ -369,24 +369,22 @@ export class OpfGooglePayService {
                 paymentDataResponse.paymentMethodData.tokenizationData.token
               );
 
-              return this.opfQuickBuyTransactionService
-                .getCurrentCartId()
-                .pipe(
-                  switchMap((cartId) =>
-                    this.opfPaymentFacade.submitPayment({
-                      additionalData: [],
-                      paymentSessionId: '',
-                      callbacks: {
-                        onSuccess: () => {},
-                        onPending: () => {},
-                        onFailure: () => {},
-                      },
-                      paymentMethod: OpfQuickBuyProviderType.GOOGLE_PAY as any,
-                      encryptedToken,
-                      cartId,
-                    })
-                  )
-                );
+              return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
+                switchMap((cartId) =>
+                  this.opfPaymentFacade.submitPayment({
+                    additionalData: [],
+                    paymentSessionId: '',
+                    callbacks: {
+                      onSuccess: () => {},
+                      onPending: () => {},
+                      onFailure: () => {},
+                    },
+                    paymentMethod: OpfQuickBuyProviderType.GOOGLE_PAY as any,
+                    encryptedToken,
+                    cartId,
+                  })
+                )
+              );
             }),
             catchError(() => {
               return of(false);

@@ -134,7 +134,9 @@ if (!environment.b2b && environment.opf) {
         },
         [OPF_QUICK_BUY_FEATURE]: {
           module: () =>
-            import('@spartacus/opf/quick-buy').then((m) => m.OpfQuickBuyModule),
+            import('@spartacus/opf/quick-buy/pickup-in-store').then(
+              (m) => m.OpfQuickBuyPickupInStoreModule
+            ),
         },
         [OPF_GIFT_CARD_FEATURE]: {
           module: () =>
