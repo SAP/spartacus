@@ -3,7 +3,8 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { ProductSearchByCategoryService } from './product-search-by-category.service';
 import { ProductActions } from '../store';
 import { firstValueFrom, of } from 'rxjs';
-import { Product, StateUtils } from '@spartacus/core';
+import { StateUtils } from '../../state';
+import { Product } from '../../model/product.model';
 
 describe('ProductSearchByCategoryService', () => {
   let service: ProductSearchByCategoryService;
