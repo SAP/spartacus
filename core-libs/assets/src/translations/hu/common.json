@@ -33,7 +33,9 @@
     "zoomOut": "Kicsinyítés",
     "selected": "Kiválasztva",
     "expand": "Kibontás",
-    "collapse": "Összecsukás"
+    "collapse": "Összecsukás",
+    "language": "Nyelv",
+    "currency": "Pénznem"
   },
   "pageMetaResolver": {
     "category": {

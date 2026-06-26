@@ -33,7 +33,9 @@
     "zoomOut": "缩小",
     "selected": "已选择",
     "expand": "展开",
-    "collapse": "折叠"
+    "collapse": "折叠",
+    "language": "语言",
+    "currency": "货币"
   },
   "pageMetaResolver": {
     "category": {

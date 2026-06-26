@@ -33,7 +33,9 @@
     "zoomOut": "축소",
     "selected": "선택됨",
     "expand": "펼치기",
-    "collapse": "접기"
+    "collapse": "접기",
+    "language": "언어",
+    "currency": "통화"
   },
   "pageMetaResolver": {
     "category": {

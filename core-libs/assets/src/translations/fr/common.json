@@ -33,7 +33,9 @@
     "zoomOut": "Zoom arrière",
     "selected": "Sélectionné",
     "expand": "Développer",
-    "collapse": "Réduire"
+    "collapse": "Réduire",
+    "language": "Langue",
+    "currency": "Devise"
   },
   "pageMetaResolver": {
     "category": {
