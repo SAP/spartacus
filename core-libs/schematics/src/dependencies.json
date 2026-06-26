@@ -22,17 +22,17 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/schematics": {
-    "@angular-devkit/core": "^21.2.16",
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/core": "^21.2.17",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/compiler": "^21.2.17",
-    "@schematics/angular": "^21.2.8",
+    "@schematics/angular": "^21.2.17",
     "jsonc-parser": "^3.3.1",
     "parse5": "^8.0.0",
     "typescript": "^5.9.3"
   },
   "@spartacus/setup": {
     "@angular/core": "^21.2.17",
-    "@angular/ssr": "^21.2.16",
+    "@angular/ssr": "^21.2.17",
     "@spartacus/cart": "221121.13.1",
     "@spartacus/core": "221121.13.1",
     "@spartacus/order": "221121.13.1",
@@ -60,7 +60,7 @@
     "@ng-select/ng-select": "^21.1.4"
   },
   "@spartacus/asm": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -78,7 +78,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/cart": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -94,7 +94,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/checkout": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -111,7 +111,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/customer-ticketing": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -125,7 +125,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/estimated-delivery-date": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/cart": "221121.13.1",
@@ -137,7 +137,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/order": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -155,7 +155,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/organization": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -173,7 +173,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/pdf-invoices": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -184,7 +184,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/pickup-in-store": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -202,7 +202,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/product": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/router": "^21.2.17",
@@ -213,7 +213,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/product-configurator": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -231,7 +231,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/product-multi-dimensional": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -244,7 +244,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/qualtrics": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/core": "221121.13.1",
@@ -253,7 +253,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/quote": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -267,7 +267,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/requested-delivery-date": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -281,7 +281,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/smartedit": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/core": "221121.13.1",
@@ -289,7 +289,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/storefinder": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -303,7 +303,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/subscription-billing": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -317,7 +317,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/tracking": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/core": "221121.13.1",
@@ -325,7 +325,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/user": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -339,7 +339,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/cdc": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -356,14 +356,14 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/cdp": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/customer-ticketing": "221121.13.1",
     "@spartacus/schematics": "221121.13.1",
     "rxjs": "^7.8.0"
   },
   "@spartacus/cds": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/router": "^21.2.17",
@@ -377,7 +377,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/cpq-quote": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/cart": "221121.13.1",
@@ -387,7 +387,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/digital-payments": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -401,7 +401,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/epd-visualization": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -415,7 +415,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/omf": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/router": "^21.2.17",
@@ -426,7 +426,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/opf": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -444,7 +444,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/opps": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/router": "^21.2.17",
@@ -454,7 +454,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/punchout": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -468,7 +468,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/s4-service": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@angular/forms": "^21.2.17",
@@ -482,7 +482,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/s4om": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/cart": "221121.13.1",
@@ -495,7 +495,7 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/segment-refs": {
-    "@angular-devkit/schematics": "^21.2.16",
+    "@angular-devkit/schematics": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/core": "^21.2.17",
     "@spartacus/core": "221121.13.1",
@@ -504,7 +504,7 @@
   },
   "storefrontapp": {
     "@angular/animations": "^21.2.17",
-    "@angular/build": "^21.2.16",
+    "@angular/build": "^21.2.17",
     "@angular/common": "^21.2.17",
     "@angular/compiler": "^21.2.17",
     "@angular/core": "^21.2.17",
@@ -512,10 +512,10 @@
     "@angular/platform-browser": "^21.2.17",
     "@angular/platform-browser-dynamic": "^21.2.17",
     "@angular/platform-server": "^21.2.17",
-    "@angular/pwa": "^21.2.16",
+    "@angular/pwa": "^21.2.17",
     "@angular/router": "^21.2.17",
     "@angular/service-worker": "^21.2.17",
-    "@angular/ssr": "^21.2.16",
+    "@angular/ssr": "^21.2.17",
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4",
