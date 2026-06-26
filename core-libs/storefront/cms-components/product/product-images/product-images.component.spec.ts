@@ -2,12 +2,7 @@ import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  FeaturesConfigModule,
-  MockFeatureTogglesController,
-  Product,
-  provideMockFeatureToggles,
-} from '@spartacus/core';
+import { FeaturesConfigModule, Product } from '@spartacus/core';
 import {
   CarouselComponent,
   CarouselScrollingComponent,
@@ -20,6 +15,10 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
