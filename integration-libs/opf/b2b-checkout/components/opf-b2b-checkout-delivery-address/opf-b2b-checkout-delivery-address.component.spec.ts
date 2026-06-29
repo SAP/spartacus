@@ -14,7 +14,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
@@ -70,12 +69,6 @@ class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
   clearCheckoutDeliveryMode = createSpy().and.returnValue(EMPTY);
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
 }
 
 class MockStore implements Partial<Store> {
@@ -192,10 +185,6 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
         {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         { provide: Store, useClass: MockStore },
       ],

@@ -6,6 +6,8 @@
 
 import { LibraryOptions } from '../shared/utils/lib-utils';
 
+export type AiTool = 'claude' | 'agents';
+
 export interface Schema extends LibraryOptions {
   baseUrl?: string;
   occPrefix?: string;
@@ -14,10 +16,14 @@ export interface Schema extends LibraryOptions {
   language?: string;
   urlParameters?: string;
   useMetaTags?: boolean;
+  /**
+   * @deprecated - features level is no longer used
+   */
   featureLevel?: string;
   overwriteAppComponent?: boolean;
   ssr?: boolean;
   theme?: string;
+  aiTools?: AiTool[];
 }
 
 /**

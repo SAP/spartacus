@@ -21,7 +21,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   RoutingService,
   TranslatePipe,
@@ -63,7 +63,7 @@ import { VerificationTokenFormComponentService } from './verification-token-form
 })
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected service: VerificationTokenFormComponentService = inject(
     VerificationTokenFormComponentService
   );
@@ -133,7 +133,7 @@ export class VerificationTokenFormComponent implements OnInit {
         );
 
         this.routingService.go(
-          this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          this.featureToggles.authorizationCodeFlowByDefault
             ? { cxRoute: 'login' }
             : ['/login']
         );

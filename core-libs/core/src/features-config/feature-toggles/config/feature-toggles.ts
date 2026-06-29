@@ -490,6 +490,12 @@ export interface FeatureTogglesInterface {
   a11yRestoreFocusOnNgSelect?: boolean;
 
   /**
+   * When enabled change disabled to aria-disabled on consent management buttons to keep focus when loading state toggle
+   * Affects: ConsentManagementFormComponent
+   */
+  a11yKeepFocusOnConsentManagementButtons?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -612,6 +618,13 @@ export interface FeatureTogglesInterface {
   a11yAddToWishListBtnMargin?: boolean;
 
   /**
+   * When enabled, adds an inline margin of 6px to the required asterisk
+   * next to the Terms & Conditions link on the registration page.
+   * Affects: RegisterComponent, OtpLoginRegisterComponent
+   */
+  a11yRegistrationTermsAsteriskMargin?: boolean;
+
+  /**
    * When enabled, applies a 6px bottom margin to product names in both
    * product grid and product list items for consistent spacing.
    * Affects: ProductGridItemComponent, ProductListItemComponent
@@ -690,6 +703,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
+  a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
@@ -705,6 +719,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   opfUseDestroyRef: false,
   enableHierarchicalAddressFormat: false,
   opfCheckoutUseUpdatePaymentTransaction: false,
+  a11yRegistrationTermsAsteriskMargin: false,
   a11yAddToWishListBtnMargin: false,
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,

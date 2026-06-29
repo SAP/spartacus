@@ -14,7 +14,6 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
-  FeatureConfigService,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -24,12 +23,13 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
-import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '@spartacus/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -42,12 +42,6 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxIconComponent {
   @Input() type;
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -115,10 +109,9 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({
+          a11ySiteContextCaretClick: true,
+        }),
         contextServiceMapProvider,
       ],
     })

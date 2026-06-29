@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxNumericPipe,
-  FeatureConfigService,
   I18nTestingModule,
   ImageType,
   Product,
@@ -68,15 +67,11 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let component: ConfiguratorOverviewBundleAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
   let htmlElem: HTMLElement;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MediaModule, ConfiguratorOverviewBundleAttributeComponent],
-      providers: [
-        { provide: ProductService, useClass: MockProductService },
-        FeatureConfigService,
-      ],
+      providers: [{ provide: ProductService, useClass: MockProductService }],
     })
       .overrideComponent(ConfiguratorOverviewBundleAttributeComponent, {
         remove: {
@@ -95,7 +90,6 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
     );
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   beforeEach(() => {
@@ -155,8 +149,6 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
     describe('product image', () => {
       it('should be visible if primary', () => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-
         product$.next(mockProduct);
 
         fixture.detectChanges();

@@ -33,7 +33,7 @@ import {
   CityDistrict,
   Country,
   ErrorModel,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
@@ -86,7 +86,7 @@ import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 export class AddressFormComponent implements OnInit, OnDestroy {
   protected languageService = inject(LanguageService);
   protected cdr = inject(ChangeDetectorRef);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
 
   countries$: Observable<Country[]>;
@@ -189,9 +189,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
-      if (
-        this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
-      ) {
+      if (this.featureToggles.enableHierarchicalAddressFormat) {
         this.countrySelected(this.addressData.country);
         this.addressForm.patchValue(this.addressData);
       } else {
@@ -206,9 +204,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     this.addresses$ = this.userAddressService.getAddresses();
 
-    if (
-      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
-    ) {
+    if (this.featureToggles.enableHierarchicalAddressFormat) {
       this.initCitiesSubscription();
       this.initDistrictsSubscription();
       this.initLanguageSubscription();
@@ -336,9 +332,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode ?? '');
 
-    if (
-      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
-    ) {
+    if (!this.featureToggles.enableHierarchicalAddressFormat) {
       return;
     }
 
@@ -373,7 +367,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   regionSelected(region: Region): void {
     this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
     if (
-      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat') &&
+      this.featureToggles.enableHierarchicalAddressFormat &&
       this.isHierarchicalAddressFormat
     ) {
       this.selectedRegion$.next(region.isocode ?? '');
@@ -422,9 +416,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
       if (this.addressForm.dirty) {
         if (
-          this.featureConfigService.isEnabled(
-            'enableHierarchicalAddressFormat'
-          ) &&
+          this.featureToggles.enableHierarchicalAddressFormat &&
           this.isHierarchicalAddressFormat
         ) {
           this.submitAddress.emit(this.addressForm.value);

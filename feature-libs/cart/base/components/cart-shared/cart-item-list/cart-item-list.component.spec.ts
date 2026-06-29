@@ -12,7 +12,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -26,6 +26,7 @@ import { Observable, Subject, of } from 'rxjs';
 import { CartItemListRowComponent } from '../cart-item-list-row';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockActiveCartService {
   updateEntry() {}
@@ -119,11 +120,9 @@ const mockContext = {
 };
 const context$ = of(mockContext);
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yPreventCartItemsFormRedundantRecreation: true,
+};
 
 const mockProductCatalogService = {
   isProductInCatalog: (_product?: Product) => true,
@@ -148,7 +147,7 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: ProductCatalogService,
           useValue: mockProductCatalogService,
