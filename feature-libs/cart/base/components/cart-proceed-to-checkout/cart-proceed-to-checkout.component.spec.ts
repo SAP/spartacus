@@ -14,8 +14,8 @@ import {
   MockTranslatePipe,
   TranslatePipe,
   UrlPipe,
-  provideMockFeatureToggles,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ProgressButtonModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';

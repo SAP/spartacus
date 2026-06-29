@@ -19,8 +19,8 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
-  provideMockFeatureToggles,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   DaysOfWeek,
   ORDER_TYPE,

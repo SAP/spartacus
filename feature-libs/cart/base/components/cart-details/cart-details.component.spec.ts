@@ -23,8 +23,8 @@ import {
   MockTranslatePipe,
   RoutingService,
   TranslatePipe,
-  provideMockFeatureToggles,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { PromotionsModule, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CartCouponComponent } from '../cart-coupon';

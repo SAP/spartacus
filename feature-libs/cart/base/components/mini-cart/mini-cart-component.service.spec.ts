@@ -6,8 +6,8 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-  provideMockFeatureToggles,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';

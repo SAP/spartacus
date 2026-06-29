@@ -20,8 +20,8 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
-  provideMockFeatureToggles,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
