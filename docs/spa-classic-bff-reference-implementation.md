@@ -38,12 +38,7 @@ sides, and how they work together.
 ## How it works
 
 CCv2 injects backend URLs into `index.html` at deploy time by replacing placeholder
-strings with real values configured on the environment variable page. This avoids
-rebuilding the app per environment and prevents two known issues:
-
-- Mutating built JS files breaks PWA Service Worker integrity checks (hash mismatch)
-- Replacing values in HTML/JS files invalidates CDN cache entries
-
+strings with real values configured on the environment variable page.
 The `BFF_BASE_URL` injection token reads the substituted value from the meta tag at
 Angular bootstrap time — before any component renders. In local development, the
 Angular dev-server proxy forwards `/bff/*` to the real BFF so the browser never makes
