@@ -12,6 +12,7 @@ interface BuildProcess {
 
 interface Env {
   CX_BASE_URL: string;
+  CX_BFF_BASE_URL: string;
   CX_CDS: boolean;
   CX_CDC: boolean;
   CX_CDP: boolean;

@@ -217,6 +217,9 @@
     },
     "serve": {
       "executor": "@angular-builders/custom-esbuild:dev-server",
+      "options": {
+        "proxyConfig": "projects/storefrontapp/proxy.conf.js"
+      },
       "configurations": {
         "production": {
           "buildTarget": "storefrontapp:build:production,noSsr"

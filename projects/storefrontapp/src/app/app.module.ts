@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AppRoutingModule } from '@spartacus/storefront';
+import { bffExampleProviders } from './bff/examples/bff-example.providers';
 import { privateProviders } from './private/private.providers';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
@@ -20,6 +21,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     EffectsModule.forRoot([]),
     SpartacusModule,
   ],
-  providers: [privateProviders],
+  providers: [privateProviders, bffExampleProviders],
 })
 export class AppModule {}

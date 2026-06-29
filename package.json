@@ -131,6 +131,8 @@
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "env-cmd --no-override -e dev,b2c,$SPA_ENV -- nx serve storefrontapp --configuration=development",
+    "start:with-bff": "concurrently -c \"blue.bold,green.bold,yellow.bold\" --names \"storefront,proxy\" \"npm run start\" \"npm run start:bff-proxy\"",
+    "start:bff-proxy": "node projects/storefrontapp/bff-proxy.mjs",
     "start:b2b": "env-cmd --no-override -e dev,b2b,$SPA_ENV -- nx serve storefrontapp --configuration=development",
     "start:ci": "env-cmd --no-override -e ci,b2c,$SPA_ENV -- nx serve storefrontapp --configuration=development",
     "start:ci:b2b": "env-cmd --no-override -e ci,b2b,$SPA_ENV -- nx serve storefrontapp --configuration=development",
