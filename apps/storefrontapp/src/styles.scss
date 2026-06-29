@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'styles-config';
+
+// ORDER IMPORTANT: Spartacus core first
+@import '@spartacus/styles/scss/core';
+
+// ORDER IMPORTANT: Copy of Bootstrap files next
+@import '@spartacus/styles/vendor/bootstrap/scss/reboot';
+@import '@spartacus/styles/vendor/bootstrap/scss/type';
+@import '@spartacus/styles/vendor/bootstrap/scss/grid';
+@import '@spartacus/styles/vendor/bootstrap/scss/utilities';
+@import '@spartacus/styles/vendor/bootstrap/scss/transitions';
+@import '@spartacus/styles/vendor/bootstrap/scss/dropdown';
+@import '@spartacus/styles/vendor/bootstrap/scss/card';
+@import '@spartacus/styles/vendor/bootstrap/scss/nav';
+@import '@spartacus/styles/vendor/bootstrap/scss/buttons';
+@import '@spartacus/styles/vendor/bootstrap/scss/forms';
+@import '@spartacus/styles/vendor/bootstrap/scss/custom-forms';
+@import '@spartacus/styles/vendor/bootstrap/scss/modal';
+@import '@spartacus/styles/vendor/bootstrap/scss/close';
+@import '@spartacus/styles/vendor/bootstrap/scss/alert';
+@import '@spartacus/styles/vendor/bootstrap/scss/tooltip';
+
+// ORDER IMPORTANT: Spartacus styles last
+@import '@spartacus/styles/index';

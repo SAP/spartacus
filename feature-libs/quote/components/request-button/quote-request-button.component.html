@@ -1,9 +1,0 @@
-<button
-  *ngIf="isLoggedIn$ | async"
-  #element
-  (click)="goToQuoteDetails()"
-  type="button"
-  class="btn btn-block btn-secondary"
->
-  {{ 'quote.commons.requestQuote' | cxTranslate }}
-</button>

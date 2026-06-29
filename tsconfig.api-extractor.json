@@ -1,9 +1,0 @@
-{
-  //TODO: Remove file and reference to it when everything is adjusted to strict mode
-  "extends": "./projects/storefrontapp/tsconfig.app.prod.json",
-  "compilerOptions": {
-    "strict": false,
-    "typeRoots": ["node_modules/@types/!(jest/jasmine)"]
-  },
-  "include": ["node_modules/@types/applepayjs"]
-}

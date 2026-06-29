@@ -1,81 +1,49 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
-/temp
-/out-tsc
-/documentation
-
-# test output
-test-results.xml
-
-# docs archives
-docs.tar.gz
-docs.zip
-
-# spartacussampledataaddon
-*spartacussampledataaddon*
-*spartacussampledata*
+dist
+tmp
+out-tsc
 
 # dependencies
-node_modules/
-yarn.lock
-
-# verdaccio storage
-scripts/install/storage
-scripts/install/htpasswd
-
-# Environment config file
-scripts/install/config.sh
-scripts/install/config.default.sh-e
-scripts/install/config.sh-e
+node_modules
 
 # IDEs and editors
 /.idea
-*.iml
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
-*.swp
 
 # IDE - VSCode
-.vscode/settings.json
-
-# Coverage reports
-**/coverage
-
-# Unit test reports
-**/unit-tests-reports
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
-/.angular/cache
-.lighthouseci/
 /.sass-cache
 /connect.lock
+/coverage
 /libpeerconnection.log
-/typings
-
-# Logs
 npm-debug.log
 yarn-error.log
 testem.log
-debug.log
-prettier.log
+/typings
 
 # System Files
 .DS_Store
 Thumbs.db
 
-# Claude
-/.claude/settings.local.json
-
-**/git-ignore
-
 .nx/cache
 .nx/workspace-data
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
+
+vite.config.*.timestamp*
+
+destinations.json
+.env
+
+.angular

@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client", "@vivaldi/config/globals"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "vivaldi.ts",
+    "vivaldi.apis.ts",
+    "vivaldi.discovered-apis.ts",
+    "vivaldi.discovery.ts",
+    "env.d.ts"
+  ]
+}

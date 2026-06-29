@@ -1,8 +1,0 @@
-{
-  "estimatedDeliveryDate": {
-    "quantity": "Кол.-",
-    "quantityFull": "Количество-",
-    "ETA": "Ориентировочная дата доставки:",
-    "estimatedDeliveryDateEntryInfo": "Количество {{ quantity }} будет доставлено {{ date }}"
-  }
-}

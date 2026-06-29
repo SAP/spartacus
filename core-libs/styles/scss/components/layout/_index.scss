@@ -1,8 +1,0 @@
-@import './progress-bar';
-@import './storefront';
-@import './header/index';
-@import './skip-link';
-@import './split-view';
-
-$layout-components-allowlist:
-  cx-storefront, header, cx-site-context-selector, cx-skip-link, cx-split-view !default;

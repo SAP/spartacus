@@ -1,0 +1,6 @@
+{
+  "name": "procedures",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/procedures",
+  "projectType": "library"
+}

@@ -1,5 +1,0 @@
-name: 'API Extractor'
-description: 'Breaking change detection bot'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'

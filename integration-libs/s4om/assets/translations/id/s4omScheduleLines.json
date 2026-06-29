@@ -1,8 +1,0 @@
-{
-  "s4omScheduleLines": {
-    "quantity": "- Jml",
-    "a11y": {
-      "scheduleLineEntryInfo": "Sejumlah {{ quantity }} item akan dikirim sebelum {{ date }}"
-    }
-  }
-}

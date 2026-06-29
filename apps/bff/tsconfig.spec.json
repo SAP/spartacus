@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "types": ["node", "vitest/globals", "@vivaldi/config/globals"],
+    "allowJs": true
+  },
+  "include": ["__tests__/**/*.ts", "src/**/*.d.ts", "env.d.ts"]
+}

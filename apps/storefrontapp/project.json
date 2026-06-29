@@ -1,0 +1,138 @@
+{
+  "name": "storefrontapp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/storefrontapp/src",
+  "prefix": "app",
+  "tags": ["type:app", "scope:storefront"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/storefrontapp",
+        "browser": "apps/storefrontapp/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/storefrontapp/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/storefrontapp/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@spartacus/smartedit/assets",
+            "output": "assets/"
+          }
+        ],
+        "styles": [
+          "apps/storefrontapp/src/styles.scss",
+          "apps/storefrontapp/src/styles/spartacus/user.scss",
+          "apps/storefrontapp/src/styles/spartacus/cart.scss",
+          "apps/storefrontapp/src/styles/spartacus/order.scss",
+          "apps/storefrontapp/src/styles/spartacus/checkout.scss",
+          "apps/storefrontapp/src/styles/spartacus/storefinder.scss",
+          "apps/storefrontapp/src/styles/spartacus/asm.scss",
+          "apps/storefrontapp/src/styles/spartacus/product.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules/"],
+          "sass": {
+            "silenceDeprecations": ["import"]
+          }
+        },
+        "server": "apps/storefrontapp/src/main.server.ts",
+        "ssr": {
+          "entry": "apps/storefrontapp/src/server.ts"
+        },
+        "prerender": false
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kB",
+              "maximumError": "3.5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kB",
+              "maximumError": "8kB"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "noSsr": {
+          "ssr": false,
+          "prerender": false
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "proxyConfig": "apps/storefrontapp/proxy.conf.js"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "storefrontapp:build:production,noSsr"
+        },
+        "development": {
+          "buildTarget": "storefrontapp:build:development,noSsr"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve-ssr": {
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "proxyConfig": "apps/storefrontapp/proxy.conf.js"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "storefrontapp:build:production"
+        },
+        "development": {
+          "buildTarget": "storefrontapp:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "tsConfig": "apps/storefrontapp/tsconfig.spec.json",
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules/"]
+        },
+        "styles": [
+          "apps/storefrontapp/src/styles/spartacus/user.scss",
+          "apps/storefrontapp/src/styles/spartacus/cart.scss",
+          "apps/storefrontapp/src/styles/spartacus/order.scss",
+          "apps/storefrontapp/src/styles/spartacus/checkout.scss",
+          "apps/storefrontapp/src/styles/spartacus/storefinder.scss",
+          "apps/storefrontapp/src/styles/spartacus/asm.scss",
+          "apps/storefrontapp/src/styles/spartacus/product.scss"
+        ],
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@spartacus/smartedit/assets",
+            "output": "assets/"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

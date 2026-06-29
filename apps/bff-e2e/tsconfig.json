@@ -1,0 +1,14 @@
+{
+  "extends": ["../../tsconfig.base.json", "@vivaldi/typescript/strict"],
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

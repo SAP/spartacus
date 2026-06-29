@@ -1,10 +1,9 @@
-feature-libs/smartedit/assets/webApplicationInjector.js
-**/schematics/**/*.js
-**/*.md
-**/*.yml
-coverage
-
+# Add files here to ignore them from prettier formatting
+/dist
+/coverage
 /.nx/cache
 /.nx/workspace-data
-core-libs/styles/vendor/**/*.scss
-core-libs/schematics/src/migrations/2211_19/missing-packages/missing-packages.ts
+
+packages/contracts
+packages/procedures
+packages/clients

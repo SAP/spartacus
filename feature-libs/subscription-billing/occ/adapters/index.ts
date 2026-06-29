@@ -1,9 +1,0 @@
-/*
- * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-export * from './occ-subscription.adapter';
-export * from './occ-subscription-actions.adapter';
-export * from './occ-subscription-billing.adapter';

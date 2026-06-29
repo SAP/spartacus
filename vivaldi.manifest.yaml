@@ -1,0 +1,14 @@
+projects:
+  bff:
+    configPath: ./apps/bff/vivaldi.ts
+    devConfigPath: ./apps/bff/vivaldi.dev.json
+    discoveryConfigPath: ./apps/bff/vivaldi.discovery.ts
+    apiConfigPath: ./apps/bff/vivaldi.apis.ts
+    tsConfigPath: ./apps/bff/tsconfig.app.json
+    envPath: ./apps/bff/.env
+    outputDir: ./dist/apps/bff
+    aliases:
+      trpc: '@repo/bff/trpc'
+      clients: '@repo/bff/clients'
+      contracts: '@repo/bff/contracts'
+      procedures: '@repo/bff/procedures'

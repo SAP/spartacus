@@ -1,8 +1,0 @@
-<button
-  *ngIf="current$ | async as item"
-  class="button btn btn-sm active"
-  [disabled]="isInEditMode$ | async"
-  (click)="delete(item)"
->
-  {{ 'organization.delete' | cxTranslate }}
-</button>

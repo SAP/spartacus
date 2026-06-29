@@ -1,0 +1,25 @@
+{
+  "name": "bff",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/bff/src",
+  "projectType": "application",
+  "tags": [],
+  "implicitDependencies": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["vivaldi build bff"],
+        "parallel": false
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["vivaldi dev bff"],
+        "parallel": false
+      }
+    }
+  }
+}

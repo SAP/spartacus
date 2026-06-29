@@ -1,4 +1,32 @@
 {
-  "extends": "./tsconfig.json",
-  "include": ["**/*.ts"]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@repo/bff/clients": ["packages/clients/bff/index.ts"],
+      "@repo/bff/clients/*": [
+        "packages/clients/bff/*.ts",
+        "packages/clients/bff/*/index.ts"
+      ],
+      "@repo/bff/contracts": ["packages/contracts/bff/index.ts"],
+      "@repo/bff/contracts/*": ["packages/contracts/bff/*/index.ts"],
+      "@repo/bff/procedures": ["packages/procedures/bff/index.ts"],
+      "@repo/bff/procedures/*": ["packages/procedures/bff/*/index.ts"],
+      "@repo/bff/router": ["apps/bff/src/api/routers/root.ts"],
+      "@repo/bff/trpc": ["apps/bff/src/api/trpc.ts"]
+    },
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", "tmp"]
 }

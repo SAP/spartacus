@@ -1,9 +1,0 @@
-/*
- * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-export * from './subscription-product.model';
-export * from './subscription.model';
-export * from './subscription-billing.model';
