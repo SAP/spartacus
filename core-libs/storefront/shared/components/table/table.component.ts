@@ -24,7 +24,7 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:
@@ -62,7 +62,7 @@ export class TableComponent<T> {
   @HostBinding('class.vertical') verticalLayout: boolean;
   @HostBinding('class.vertical-stacked') verticalStackedLayout: boolean;
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   private _structure: TableStructure;
   @Input() set structure(structure: TableStructure) {
@@ -160,7 +160,7 @@ export class TableComponent<T> {
   }
 
   trackData = (_i: number, item: any): any => {
-    if (this.featureConfigService.isEnabled('a11yCardNotificationMessage')) {
+    if (this.featureToggles.a11yCardNotificationMessage) {
       return item?.uid ?? JSON.stringify(item);
     }
     return JSON.stringify(item);

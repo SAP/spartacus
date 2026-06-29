@@ -1,10 +1,6 @@
 import { Component, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  FeatureConfigService,
-  SiteContextConfig,
-  SiteThemeService,
-} from '@spartacus/core';
+import { SiteContextConfig, SiteThemeService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ThemeService } from './theme.service';
 
@@ -20,22 +16,13 @@ class MockSiteThemeService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('ThemeService', () => {
   let service: ThemeService;
   let componentRef: ComponentRef<TestComponent>;
-  let featureConfig: FeatureConfigService;
   let mockSiteThemeService: MockSiteThemeService;
-  let mockFeatureConfigService: MockFeatureConfigService;
 
   beforeEach(() => {
     mockSiteThemeService = new MockSiteThemeService();
-    mockFeatureConfigService = new MockFeatureConfigService();
     TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [
@@ -45,13 +32,11 @@ describe('ThemeService', () => {
           useValue: { context: { theme: ['test-theme'] } },
         },
         { provide: SiteThemeService, useValue: mockSiteThemeService },
-        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
       ],
     }).compileComponents();
 
     service = TestBed.inject(ThemeService);
     mockSiteThemeService = TestBed.inject(SiteThemeService);
-    featureConfig = TestBed.inject(FeatureConfigService);
     componentRef = TestBed.createComponent(TestComponent).componentRef;
   });
 
@@ -61,7 +46,6 @@ describe('ThemeService', () => {
 
   it('should set new theme ', () => {
     spyOn(service, 'setTheme');
-    spyOn(featureConfig, 'isEnabled').and.returnValue(true);
     spyOn(mockSiteThemeService, 'getActive').and.returnValue(
       of('custom-theme')
     );

@@ -21,7 +21,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
@@ -104,7 +104,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
   }
 
-  private featureConfig = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
@@ -112,7 +112,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
     useFeatureStyles('a11yPreventWindowsHighContrastOverride');
     useFeatureStyles('alignNavigationMenuWithHeader');
@@ -136,9 +135,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
     // TODO: Required to use feature flag with root styles.
     //       Remove this entire block once the a11yPreventWindowsHighContrastOverride feature flag is removed
-    if (
-      this.featureConfig.isEnabled('a11yPreventWindowsHighContrastOverride')
-    ) {
+    if (this.featureToggles.a11yPreventWindowsHighContrastOverride) {
       this.document?.documentElement.classList.add(
         'cxFeat_a11yPreventWindowsHighContrastOverride'
       );

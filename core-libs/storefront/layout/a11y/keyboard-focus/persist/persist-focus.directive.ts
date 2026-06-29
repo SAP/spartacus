@@ -13,7 +13,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
 import { BlockFocusDirective } from '../block/block-focus.directive';
 import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
@@ -51,7 +51,7 @@ export class PersistFocusDirective
 {
   protected defaultConfig: PersistFocusConfig = {};
 
-  private persistFeatureConfigService = inject(FeatureConfigService);
+  private persistFeatureToggles = inject(FeatureToggles);
 
   /**
    * The persistence key can be passed directly or through the `FocusConfig.key`.
@@ -112,9 +112,7 @@ export class PersistFocusDirective
       return;
     }
 
-    if (
-      this.persistFeatureConfigService.isEnabled('a11yRestoreFocusOnNgSelect')
-    ) {
+    if (this.persistFeatureToggles.a11yRestoreFocusOnNgSelect) {
       this.focusTarget.focus({ preventScroll: true });
       if (this.config?.clearOnRestore) {
         this.service.clear(this.group ?? undefined);

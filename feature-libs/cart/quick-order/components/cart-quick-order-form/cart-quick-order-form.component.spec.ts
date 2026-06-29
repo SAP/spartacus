@@ -9,8 +9,8 @@ import {
 import {
   CxDatePipe,
   EventService,
-  FeatureConfigService,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   MockDatePipe,
@@ -100,7 +100,7 @@ describe('CartQuickOrderFormComponent', () => {
   let activeCartService: ActiveCartFacade;
   let eventService: EventService;
   let globalMessageService: GlobalMessageService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -134,7 +134,7 @@ describe('CartQuickOrderFormComponent', () => {
     activeCartService = TestBed.inject(ActiveCartFacade);
     eventService = TestBed.inject(EventService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
 
     fixture.detectChanges();
   });
@@ -220,7 +220,7 @@ describe('CartQuickOrderFormComponent', () => {
       spyOn(globalMessageService, 'add').and.callThrough();
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      featureToggles.a11yCartQuickOrderFormEnableSubmitAndAddValidation = true;
 
       component.applyQuickOrder();
       expect(globalMessageService.add).not.toHaveBeenCalled();

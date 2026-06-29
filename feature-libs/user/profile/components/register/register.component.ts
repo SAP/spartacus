@@ -23,7 +23,7 @@ import {
   AnonymousConsentsService,
   AuthConfigService,
   ConsentTemplate,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -31,6 +31,7 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CaptchaComponent,
@@ -73,10 +74,9 @@ import { RegisterComponentService } from './register-component.service';
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // CXSPA-10916: Remove service with toggle
-  private featureConfigService = inject(FeatureConfigService);
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'useEnhancedSecurePasswordValidators'
-  )
+  private featureToggles = inject(FeatureToggles);
+  protected passwordValidators = this.featureToggles
+    .useEnhancedSecurePasswordValidators
     ? [
         ...CustomFormValidators.securePasswordValidators,
         CustomFormValidators.mustEndWithLegalCharacter,
@@ -143,7 +143,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
-  ) {}
+  ) {
+    useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
+  }
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -256,7 +258,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+    if (this.featureToggles.authorizationCodeFlowByDefault) {
       this.router.go({ cxRoute: 'login' });
     } else if (
       this.authConfigService.getOAuthFlow() ===

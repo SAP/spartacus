@@ -50,6 +50,7 @@ SPARTACUS_PROJECTS=(
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
         "core-libs/styles:core-libs/styles"
         "core-libs/schematics:core-libs/schematics"
+        "core-libs/skills:core-libs/skills"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
@@ -69,6 +70,11 @@ SPARTACUS_VERSION='latest'
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+# Comma-separated list of hostnames allowed by the SSR engine (maps to CommonEngine allowedHosts)
+# e.g. SSR_ALLOWED_HOSTS="localhost,my-host.eastus.cloudapp.azure.com"
+# If empty, defaults to "localhost"
+SSR_ALLOWED_HOSTS=
 
 SSL_CERT_PATH=
 SSL_KEY_PATH=

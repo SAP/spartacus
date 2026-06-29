@@ -111,11 +111,6 @@ describe('CartItemComponent', () => {
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
-  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -270,12 +265,10 @@ describe('CartItemComponent', () => {
   });
 
   it('should create cart details component', () => {
-    featureConfig.isEnabled.and.returnValue(true);
     expect(cartItemComponent).toBeTruthy();
 
     fixture.detectChanges();
 
-    featureConfig.isEnabled.and.returnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 

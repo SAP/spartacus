@@ -119,6 +119,11 @@
       "version": "221121.7.0",
       "factory": "./221121_7/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
+    },
+    "00-migration-v221121_14-ai-context-prompt": {
+      "version": "221121.14.0",
+      "factory": "./221121_14/ai-context-prompt/index#migrate",
+      "description": "Install new AI skills for Spartacus development ✨"
     }
   }
 }
