@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
@@ -53,7 +53,7 @@ describe('ResetPasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let passwordConfirm: AbstractControl;
   let password: AbstractControl;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -80,8 +80,8 @@ describe('ResetPasswordComponentService', () => {
         },
       ],
     }).compileComponents();
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.useEnhancedSecurePasswordValidators = false;
   });
   describe(' - ', () => {
     beforeEach(() => {
@@ -234,7 +234,7 @@ describe('ResetPasswordComponentService', () => {
   describe('password validators', () => {
     describe('when useEnhancedSecurePasswordValidators is enabled', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+        featureToggles.useEnhancedSecurePasswordValidators = true;
       });
       it('should include mustEndWithLegalCharacter validator', () => {
         service = TestBed.inject(ResetPasswordComponentService);

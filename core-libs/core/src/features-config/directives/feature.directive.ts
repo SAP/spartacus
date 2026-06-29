@@ -6,6 +6,7 @@
 
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
+import { FeatureToggleExpression } from '../feature-toggles';
 
 @Directive({ selector: '[cxFeature]' })
 export class FeatureDirective {
@@ -17,7 +18,7 @@ export class FeatureDirective {
 
   private hasView = false;
 
-  @Input() set cxFeature(feature: string) {
+  @Input() set cxFeature(feature: FeatureToggleExpression) {
     if (this.featureConfig.isEnabled(feature) && !this.hasView) {
       this.viewContainer.createEmbeddedView(this.templateRef);
       this.hasView = true;

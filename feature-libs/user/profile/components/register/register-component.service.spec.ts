@@ -1,10 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder } from '@angular/forms';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
@@ -31,12 +27,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('RegisterComponentService', () => {
   let service: RegisterComponentService;
   let userRegisterFacade: UserRegisterFacade;
@@ -50,7 +40,6 @@ describe('RegisterComponentService', () => {
         UntypedFormBuilder,
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 

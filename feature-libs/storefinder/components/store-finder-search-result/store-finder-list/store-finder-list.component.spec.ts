@@ -7,7 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   MockTranslatePipe,
   MockTranslationService,
   PointOfService,
@@ -23,6 +23,7 @@ import { EMPTY } from 'rxjs';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const location: PointOfService = {
@@ -56,9 +57,9 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy('isEnabled').and.returnValue(true);
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yStoreFinderFocusOnBackButton: true,
+};
 
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
@@ -82,10 +83,7 @@ describe('StoreFinderListComponent', () => {
           useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

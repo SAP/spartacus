@@ -7,7 +7,8 @@ import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import createSpy = jasmine.createSpy;
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -36,11 +37,9 @@ class MockTableRendererService {
   add() {}
 }
 
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yCardNotificationMessage: true,
+};
 
 describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent<any>>;
@@ -52,7 +51,7 @@ describe('TableComponent', () => {
       imports: [OutletModule, TableComponent],
       providers: [
         { provide: TableRendererService, useClass: MockTableRendererService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     })
       .overrideComponent(TableComponent, {

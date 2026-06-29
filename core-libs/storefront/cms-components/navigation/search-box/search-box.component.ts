@@ -23,7 +23,7 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   PageType,
   RoutingService,
@@ -94,7 +94,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
-  private readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureToggles = inject(FeatureToggles);
   readonly searchBoxOutlets = SearchBoxOutlets;
   @Input() config: SearchBoxConfig;
 
@@ -189,7 +189,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected isMobileState: boolean | null = null;
 
   private readonly searchBoxRecentSearchesRemovalEnabled =
-    this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval');
+    this.featureToggles.searchBoxRecentSearchesRemoval;
 
   /**
    * Returns true when the current results represent a \"no results\" state.

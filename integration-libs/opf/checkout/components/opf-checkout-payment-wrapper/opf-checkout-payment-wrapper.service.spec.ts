@@ -4,7 +4,7 @@ import {
   CartAccessCodeFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   RouterState,
   RoutingService,
@@ -45,7 +45,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   let orderFacadeMock: jasmine.SpyObj<OrderFacade>;
   let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
   let windowRefMock: jasmine.SpyObj<WindowRef>;
-  let featureConfigServiceMock: jasmine.SpyObj<FeatureConfigService>;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     opfPaymentFacadeMock = jasmine.createSpyObj('OpfPaymentFacade', [
@@ -79,10 +79,9 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       ['updateOpfMetadata']
     );
     windowRefMock = jasmine.createSpyObj('WindowRef', ['nativeWindow']);
-    featureConfigServiceMock = jasmine.createSpyObj('FeatureConfigService', [
-      'isEnabled',
-    ]);
-    featureConfigServiceMock.isEnabled.and.returnValue(false);
+    featureToggles = {
+      opfCheckoutUseUpdatePaymentTransaction: false,
+    };
 
     routingServiceMock.getRouterState.and.returnValue(
       of({
@@ -115,8 +114,8 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           useValue: windowRefMock,
         },
         {
-          provide: FeatureConfigService,
-          useValue: featureConfigServiceMock,
+          provide: FeatureToggles,
+          useValue: featureToggles,
         },
       ],
     });
@@ -590,7 +589,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should not call updatePaymentTransaction on first initiate when feature is enabled', (done) => {
-    featureConfigServiceMock.isEnabled.and.returnValue(true);
+    featureToggles.opfCheckoutUseUpdatePaymentTransaction = true;
 
     const mockPaymentSessionData: OpfPaymentSessionData = {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,
@@ -626,7 +625,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should call updatePaymentTransaction when matching stored session exists and feature is enabled', (done) => {
-    featureConfigServiceMock.isEnabled.and.returnValue(true);
+    featureToggles.opfCheckoutUseUpdatePaymentTransaction = true;
 
     const mockPaymentSessionData: OpfPaymentSessionData = {
       pattern: OpfPaymentRenderPattern.HOSTED_FIELDS,

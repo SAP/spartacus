@@ -19,7 +19,7 @@ import {
   inject,
 } from '@angular/core';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   ImageGroup,
   Product,
@@ -89,7 +89,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   activeThumb: EventEmitter<ImageGroup> = new EventEmitter<ImageGroup>();
 
@@ -231,7 +231,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.top = 0;
     this.cdRef.markForCheck();
     // TODO: (CXSPA-7492) - Remove feature flag next major release.
-    if (this.featureConfigService.isEnabled('a11yKeyboardAccessibleZoom')) {
+    if (this.featureToggles.a11yKeyboardAccessibleZoom) {
       this.imageLoaded.next(false);
       this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
         // Removed/disabled state removes focus from this element

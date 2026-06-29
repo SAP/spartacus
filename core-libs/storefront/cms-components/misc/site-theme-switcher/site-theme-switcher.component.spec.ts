@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  FeatureConfigService,
   I18nTestingModule,
   SiteTheme,
   TranslationService,
@@ -11,16 +10,11 @@ import { IconModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockTranslationService {
   translate() {
     return of('of');
-  }
-}
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
   }
 }
 
@@ -53,10 +47,7 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ a11ySiteContextCaretClick: true }),
       ],
     }).compileComponents();
 

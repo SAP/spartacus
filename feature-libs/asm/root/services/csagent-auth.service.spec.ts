@@ -4,7 +4,6 @@ import {
   AuthActions,
   AuthService,
   AuthToken,
-  FeatureConfigService,
   OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -53,7 +52,6 @@ describe('CsAgentAuthService', () => {
   let asmAuthStorageService: AsmAuthStorageService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let userAccountFacade: UserAccountFacade;
-  let featureConfig: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,7 +77,6 @@ describe('CsAgentAuthService', () => {
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     userAccountFacade = TestBed.inject(UserAccountFacade);
-    featureConfig = TestBed.inject(FeatureConfigService);
     store = TestBed.inject(Store);
   });
 
@@ -127,7 +124,6 @@ describe('CsAgentAuthService', () => {
       spyOn(userAccountFacade, 'get').and.returnValue(
         of({ customerId: 'custId' })
       );
-      spyOn(featureConfig, 'isLevel').and.returnValue(true);
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
       await service.authorizeCustomerSupportAgent('testUser', 'testPass');
@@ -215,7 +211,6 @@ describe('CsAgentAuthService', () => {
       spyOn(userAccountFacade, 'get').and.returnValue(
         of({ customerId: 'custId' })
       );
-      spyOn(featureConfig, 'isLevel').and.returnValue(true);
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
       await service.authorizeCustomerSupportAgentWhenUseCodeFlow();

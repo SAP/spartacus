@@ -7,8 +7,6 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  FeatureConfigService,
-  FeatureToggles,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
@@ -21,6 +19,7 @@ import {
 import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const mockProductCode: string = 'mockCode';
 const mockProductCode2: string = 'mockCode2';
@@ -66,12 +65,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -104,11 +97,7 @@ describe('QuickOrderFormComponent', () => {
             features: { level: '5.1' },
           },
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-        {
-          provide: FeatureToggles,
-          useValue: { a11yQuickOrderResetFocus: true },
-        },
+        provideMockFeatureToggles({ a11yQuickOrderResetFocus: true }),
       ],
     })
       .overrideComponent(QuickOrderFormComponent, {
