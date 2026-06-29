@@ -8,12 +8,15 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  Renderer2,
   TemplateRef,
 } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { PageLayoutService } from './page-layout.service';
 
@@ -41,8 +44,13 @@ import { PageLayoutService } from './page-layout.service';
  * ```
  *
  */
-@Directive({ selector: '[cxPageTemplateStyle]' })
+@Directive({
+  selector: '[cxPageTemplateStyle]',
+})
 export class PageTemplateDirective implements OnInit, OnDestroy {
+  windowRef = inject(WindowRef);
+  renderer2 = inject(Renderer2);
+
   /**
    * Indicates whether this component is driven by an input template or should
    * observe the CMS driven page layout template.
@@ -103,8 +111,10 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   protected addStyleClass(template: string, el?: HTMLElement): void {
     this.clear(el);
     if (template) {
+      const targetElement = el ?? this.host;
       this.currentTemplate = template;
-      (el ?? this.host).classList.add(this.currentTemplate);
+      this.renderer2.addClass(targetElement, this.currentTemplate);
+      this.storeSsrBindings(targetElement);
       this.cd.markForCheck();
     }
   }
@@ -113,8 +123,10 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * Cleans up the class host binding, if a template class was assigned before.
    */
   protected clear(el?: HTMLElement) {
+    const targetElement = el ?? this.host;
+    this.clearSsrBindings(targetElement);
     if (this.currentTemplate) {
-      (el ?? this.host).classList?.remove(this.currentTemplate);
+      this.renderer2.removeClass(targetElement, this.currentTemplate);
       this.cd.markForCheck();
     }
   }
@@ -126,12 +138,35 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * to ensure that we're not ending up with a comment.
    */
   protected get host(): HTMLElement {
-    return !!this.templateRef
+    return this.templateRef
       ? this.templateRef.elementRef.nativeElement.parentElement
       : this.elementRef.nativeElement;
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  /** Persist the current template to SSR-rendered HTML */
+  protected storeSsrBindings(el: HTMLElement) {
+    if (!this.windowRef.isBrowser()) {
+      this.renderer2.setAttribute(
+        el,
+        'data-current-template',
+        this.currentTemplate
+      );
+    }
+  }
+
+  /** Clears the current template from SSR rendered HTML */
+  protected clearSsrBindings(el: HTMLElement) {
+    if (!this.currentTemplate && this.windowRef.isBrowser()) {
+      const storedValue = el.dataset['currentTemplate'];
+      if (storedValue) {
+        this.renderer2.removeAttribute(el, 'data-current-template');
+        this.renderer2.removeClass(el, storedValue);
+        this.cd.markForCheck();
+      }
+    }
   }
 }
