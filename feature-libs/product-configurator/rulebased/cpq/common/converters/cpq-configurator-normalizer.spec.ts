@@ -596,7 +596,8 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(attribute.dataType).toBe(configuratorAttributeDataType);
 
       const values = attribute.values;
-      expect(values?.length).toBe(2);
+      expect(values?.length).toBe(3);
+      expect(values?.[0].valueCode).toBe(Configurator.RetractValueCode);
     });
 
     it('should convert attributes with values - with many sysId', () => {
@@ -1398,6 +1399,215 @@ describe('CpqConfiguratorNormalizer', () => {
         value
       );
       expect(value.valueDisplay).toEqual(mockCpqValue.valueDisplay);
+    });
+  });
+
+  describe('isAttributeTypeReadOnly', () => {
+    it('should return true for READ_ONLY ui type', () => {
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.READ_ONLY,
+      };
+      expect(
+        cpqConfiguratorNormalizer['isAttributeTypeReadOnly'](attribute)
+      ).toBe(true);
+    });
+
+    it('should return false for non READ_ONLY ui type', () => {
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.RADIOBUTTON,
+      };
+      expect(
+        cpqConfiguratorNormalizer['isAttributeTypeReadOnly'](attribute)
+      ).toBe(false);
+    });
+  });
+
+  describe('isRetractValueSelected', () => {
+    it('should return true when no value is selected', () => {
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        values: [
+          { paV_ID: 1, selected: false },
+          { paV_ID: 2, selected: false },
+        ],
+      };
+      expect(cpqConfiguratorNormalizer['isRetractValueSelected'](cpqAttr)).toBe(
+        true
+      );
+    });
+
+    it('should return true when values are undefined', () => {
+      const cpqAttr: Cpq.Attribute = { pA_ID: 1, stdAttrCode: 2 };
+      expect(cpqConfiguratorNormalizer['isRetractValueSelected'](cpqAttr)).toBe(
+        true
+      );
+    });
+
+    it('should return false when at least one value is selected', () => {
+      const cpqAttr: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        values: [
+          { paV_ID: 1, selected: false },
+          { paV_ID: 2, selected: true },
+        ],
+      };
+      expect(cpqConfiguratorNormalizer['isRetractValueSelected'](cpqAttr)).toBe(
+        false
+      );
+    });
+  });
+
+  describe('setRetractValueDisplay', () => {
+    it('should use drop-down select message for selected DROPDOWN', () => {
+      const value: Configurator.Value = { valueCode: '0', selected: true };
+      cpqConfiguratorNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.DROPDOWN,
+        value
+      );
+      expect(value.valueDisplay).toBe('Make a selection');
+    });
+
+    it('should use no option selected message for non-selected DROPDOWN', () => {
+      const value: Configurator.Value = { valueCode: '0', selected: false };
+      cpqConfiguratorNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.DROPDOWN,
+        value
+      );
+      expect(value.valueDisplay).toBe('General');
+    });
+
+    it('should use no option selected message for non-dropdown types', () => {
+      const value: Configurator.Value = { valueCode: '0', selected: true };
+      cpqConfiguratorNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.RADIOBUTTON,
+        value
+      );
+      expect(value.valueDisplay).toBe('General');
+    });
+  });
+
+  describe('addRetractValue', () => {
+    it('should add a retract value for RADIOBUTTON attributes', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.RADIOBUTTON,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addRetractValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(1);
+      expect(values[0].valueCode).toBe(Configurator.RetractValueCode);
+      expect(values[0].selected).toBe(true);
+    });
+
+    it('should add a retract value for DROPDOWN and SINGLE_SELECTION_IMAGE attributes', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        values: [{ paV_ID: 1, selected: true }],
+      };
+      [
+        Configurator.UiType.DROPDOWN,
+        Configurator.UiType.SINGLE_SELECTION_IMAGE,
+      ].forEach((uiType) => {
+        const attribute: Configurator.Attribute = {
+          name: 'ATTRIBUTE_NAME',
+          uiType,
+        };
+        const values: Configurator.Value[] = [];
+        cpqConfiguratorNormalizer['addRetractValue'](
+          sourceAttribute,
+          attribute,
+          values
+        );
+        expect(values.length).toBe(1);
+        expect(values[0].selected).toBe(false);
+      });
+    });
+
+    it('should not add a retract value for READ_ONLY attributes', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.READ_ONLY,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addRetractValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+
+    it('should not add a retract value for unsupported ui types', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        uiType: Configurator.UiType.CHECKBOXLIST,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addRetractValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+  });
+
+  describe('generateWarningMessages', () => {
+    it('should return empty array when no warnings are present', () => {
+      const result =
+        cpqConfiguratorNormalizer['generateWarningMessages'](cpqConfiguration);
+      expect(result).toEqual([]);
+    });
+
+    it('should concat failed validations and incomplete messages', () => {
+      const result = cpqConfiguratorNormalizer['generateWarningMessages']({
+        ...cpqConfiguration,
+        failedValidations: [VALIDATION_MSG],
+        incompleteMessages: [INCOMPLETE_MSG],
+      });
+      expect(result).toEqual([VALIDATION_MSG, INCOMPLETE_MSG]);
+    });
+  });
+
+  describe('generateTotalNumberOfIssues', () => {
+    it('should return 0 when no issues are present', () => {
+      expect(
+        cpqConfiguratorNormalizer['generateTotalNumberOfIssues'](
+          cpqConfiguration
+        )
+      ).toBe(0);
+    });
+
+    it('should sum up all issue sources', () => {
+      expect(
+        cpqConfiguratorNormalizer['generateTotalNumberOfIssues'](
+          cpqConfigurationIncompleteInconsistent
+        )
+      ).toBe(6);
     });
   });
 

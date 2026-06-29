@@ -16,8 +16,6 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
-  protected static readonly VERSION_WITH_FULL_TAB_ATTRIBUTES = 2;
-
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
@@ -29,7 +27,7 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
-      configId: source.configurationId ? source.configurationId : '', //if empty, will later be populated with final value
+      configId: source.configurationId ?? '', //if empty, will later be populated with final value
       complete: !source.incompleteAttributes?.length,
       consistent:
         !source.invalidMessages?.length &&
@@ -83,17 +81,14 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateWarningMessages(source: Cpq.Configuration): string[] {
-    let warnMsgs: string[] = [];
-    warnMsgs = warnMsgs.concat(source.failedValidations ?? []);
-    warnMsgs = warnMsgs.concat(source.incompleteMessages ?? []);
-    return warnMsgs;
+    return [
+      ...(source.failedValidations ?? []),
+      ...(source.incompleteMessages ?? []),
+    ];
   }
 
   protected generateErrorMessages(source: Cpq.Configuration): string[] {
-    let errorMsgs: string[] = [];
-    errorMsgs = errorMsgs.concat(source.errorMessages ?? []);
-    errorMsgs = errorMsgs.concat(source.invalidMessages ?? []);
-    return errorMsgs;
+    return [...(source.errorMessages ?? []), ...(source.invalidMessages ?? [])];
   }
 
   protected convertGroup(
@@ -155,6 +150,54 @@ export class CpqConfiguratorNormalizer
     flatGroupList.push(group);
   }
 
+  protected isAttributeTypeReadOnly(
+    attribute: Configurator.Attribute
+  ): boolean {
+    return attribute.uiType === Configurator.UiType.READ_ONLY;
+  }
+
+  protected isRetractValueSelected(sourceAttribute: Cpq.Attribute): boolean {
+    return !sourceAttribute.values?.filter((value) => value.selected).length;
+  }
+
+  protected setRetractValueDisplay(
+    attributeType: Configurator.UiType,
+    value: Configurator.Value
+  ) {
+    if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
+      this.translation
+        .translate('configurator.attribute.dropDownSelectMsg')
+        .pipe(take(1))
+        .subscribe((text) => (value.valueDisplay = text));
+    } else {
+      this.translation
+        .translate('configurator.attribute.noOptionSelectedMsg')
+        .pipe(take(1))
+        .subscribe((text) => (value.valueDisplay = text));
+    }
+  }
+
+  protected addRetractValue(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    if (!this.isAttributeTypeReadOnly(attribute)) {
+      if (
+        attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+        attribute.uiType === Configurator.UiType.DROPDOWN ||
+        attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
+      ) {
+        const value: Configurator.Value = {
+          valueCode: Configurator.RetractValueCode,
+          selected: this.isRetractValueSelected(sourceAttribute),
+        };
+        this.setRetractValueDisplay(attribute.uiType, value);
+        values.push(value);
+      }
+    }
+  }
+
   protected convertAttribute(
     sourceAttribute: Cpq.Attribute,
     groupId: number,
@@ -190,6 +233,7 @@ export class CpqConfiguratorNormalizer
       sourceAttribute.displayAs !== Cpq.DisplayAs.INPUT
     ) {
       const values: Configurator.Value[] = [];
+      this.addRetractValue(sourceAttribute, attribute, values);
       sourceAttribute.values.forEach((value) =>
         this.convertValue(value, sourceAttribute, currency, values)
       );
@@ -221,9 +265,7 @@ export class CpqConfiguratorNormalizer
   protected setSelectedSingleValue(attribute: Configurator.Attribute) {
     const values = attribute.values;
     if (values) {
-      const selectedValues = values
-        .map((entry) => entry)
-        .filter((entry) => entry.selected);
+      const selectedValues = values.filter((entry) => entry.selected);
       if (selectedValues?.length === 1) {
         attribute.selectedSingleValue = selectedValues[0].valueCode;
       }
@@ -408,9 +450,9 @@ export class CpqConfiguratorNormalizer
     attribute: Cpq.Attribute,
     value: Cpq.Value
   ): boolean {
-    const selectedValues = attribute.values
-      ?.map((entry) => entry)
-      .filter((entry) => entry.selected && entry.paV_ID !== 0);
+    const selectedValues = attribute.values?.filter(
+      (entry) => entry.selected && entry.paV_ID !== 0
+    );
     return (
       (attribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
         attribute.required &&
