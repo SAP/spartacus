@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ProductSearchByCodeService } from './product-search-by-code.service';
 import { Store, StoreModule } from '@ngrx/store';
@@ -24,7 +25,7 @@ describe('ProductSearchByCodeService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductSearchByCodeService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should ProductSearchByCodeService is injected', inject(
@@ -66,7 +67,7 @@ describe('ProductSearchByCodeService', () => {
       const code = 'testCode';
       const scope = 'testScope';
 
-      spyOn(service, 'load').and.callThrough();
+      vi.spyOn(service, 'load');
 
       service.get({ code, scope }).subscribe();
       tick(0); // trigger the auditTime

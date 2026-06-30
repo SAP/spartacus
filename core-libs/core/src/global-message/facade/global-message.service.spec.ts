@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -10,7 +11,6 @@ import {
 } from '../store/global-message-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
-import createSpy = jasmine.createSpy;
 
 const mockMessages = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -18,7 +18,7 @@ const mockMessages = {
 };
 
 describe('GlobalMessageService', () => {
-  const mockSelect = createSpy('select').and.returnValue(() =>
+  const mockSelect = vi.fn().mockReturnValue(() =>
     of(mockMessages)
   );
 
@@ -38,8 +38,8 @@ describe('GlobalMessageService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
     service = TestBed.inject(GlobalMessageService);
   });
 

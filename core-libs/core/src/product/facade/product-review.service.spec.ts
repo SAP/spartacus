@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -27,7 +28,7 @@ describe('ReviewService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReviewService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should ReviewService is injected', inject(
@@ -39,7 +40,7 @@ describe('ReviewService', () => {
 
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of([mockReview])
       );
       let result: Review[];
@@ -50,7 +51,7 @@ describe('ReviewService', () => {
     });
 
     it('should be able to load product reviews if reviews not exist', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(undefined)
       );
       service.getByProductCode('testId').subscribe().unsubscribe();

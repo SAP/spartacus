@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { APP_INITIALIZER } from '@angular/core';
 import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
@@ -42,10 +43,10 @@ describe('i18nextProviders', () => {
       const i18nextInitializer = TestBed.inject(I18nextInitializer);
 
       const mockStableConfig$ = new Subject<I18nConfig>();
-      spyOn(configInitializerService, 'getStable').and.returnValue(
+      vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
         mockStableConfig$
       );
-      spyOn(i18nextInitializer, 'initialize').and.callThrough();
+      vi.spyOn(i18nextInitializer, 'initialize');
 
       const appInitializers = TestBed.inject(APP_INITIALIZER);
       appInitializers[0]() as Promise<any>;
@@ -66,12 +67,12 @@ describe('i18nextProviders', () => {
       const appInitializers = TestBed.inject(APP_INITIALIZER);
 
       let mockResolveI18nextInitialize: Function | undefined;
-      spyOn(i18nextInitializer, 'initialize').and.returnValue(
+      vi.spyOn(i18nextInitializer, 'initialize').mockReturnValue(
         new Promise((resolve) => {
           mockResolveI18nextInitialize = resolve;
         })
       );
-      spyOn(configInitializerService, 'getStable').and.callThrough();
+      vi.spyOn(configInitializerService, 'getStable');
 
       let appInitializerResolved = false;
       (appInitializers[0]() as Promise<any>).then(() => {

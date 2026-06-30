@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of } from 'rxjs';
 import { Command, CommandService } from '../../../src/util/command-query';
@@ -7,18 +8,17 @@ import { ProductAvailabilityService } from './product-availability.service';
 
 describe('ProductAvailabilityService', () => {
   let service: ProductAvailabilityService;
-  let connector: jasmine.SpyObj<ProductAvailabilityConnector>;
-  let commandService: jasmine.SpyObj<CommandService>;
-  let commandSpy: jasmine.SpyObj<Command<any, ProductAvailabilities>>;
+  let connector: ProductAvailabilityConnector;
+  let commandService: CommandService;
+  let commandSpy: Command<any, ProductAvailabilities>;
 
   beforeEach(() => {
-    commandSpy = jasmine.createSpyObj('Command', ['execute']);
-    connector = jasmine.createSpyObj('ProductAvailabilityConnector', [
-      'getRealTimeStock',
-    ]);
-    commandService = jasmine.createSpyObj('CommandService', ['create']);
+    commandSpy = { execute: vi.fn() };
+    connector = { 
+      getRealTimeStock: vi.fn() };
+    commandService = { create: vi.fn() };
 
-    commandService.create.and.returnValue(commandSpy);
+    commandService.create.mockReturnValue(commandSpy);
 
     TestBed.configureTestingModule({
       providers: [
@@ -44,8 +44,8 @@ describe('ProductAvailabilityService', () => {
         status: 'IN_STOCK',
       };
 
-      connector.getRealTimeStock.and.returnValue(of(expectedStockData));
-      commandSpy.execute.and.returnValue(of(expectedStockData));
+      connector.getRealTimeStock.mockReturnValue(of(expectedStockData));
+      commandSpy.execute.mockReturnValue(of(expectedStockData));
 
       const stockData = await firstValueFrom(
         service.getRealTimeStock(productCode, unitSapCode)
@@ -62,8 +62,8 @@ describe('ProductAvailabilityService', () => {
         status: 'IN_STOCK',
       };
 
-      connector.getRealTimeStock.and.returnValue(of(mockStockData));
-      commandSpy.execute.and.returnValue(of(mockStockData));
+      connector.getRealTimeStock.mockReturnValue(of(mockStockData));
+      commandSpy.execute.mockReturnValue(of(mockStockData));
 
       const result = await firstValueFrom(
         service.getRealTimeStock(productCode, unitSapCode)

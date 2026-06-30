@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -79,7 +80,7 @@ describe('Component Effects', () => {
         uid: action.payload.uid,
         pageContext,
       });
-      spyOn(service, 'getList').and.returnValue(of([component]));
+      vi.spyOn(service, 'getList').mockReturnValue(of([component]));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -104,7 +105,7 @@ describe('Component Effects', () => {
         uid: action.payload.uid,
         pageContext,
       });
-      spyOn(service, 'getList').and.returnValue(of([]));
+      vi.spyOn(service, 'getList').mockReturnValue(of([]));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -138,7 +139,7 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext,
         });
-        spyOn(service, 'getList').and.returnValue(
+        vi.spyOn(service, 'getList').mockReturnValue(
           cold('---c', { c: [component, component2] })
         );
 
@@ -189,7 +190,7 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext: pageContext2,
         });
-        const getListSpy = spyOn(service, 'getList').and.callFake((ids) =>
+        const getListSpy = vi.spyOn(service, 'getList').mockImplementation((ids) =>
           cold('---a', { a: [{ ...component, uid: ids[0] }] })
         );
 

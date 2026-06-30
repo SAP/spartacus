@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -10,7 +11,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
 const product = {
@@ -19,14 +19,14 @@ const product = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+  buildUrl = vi.fn().mockImplementation(
     (url, { urlParams: { productCode }, scope }) =>
       `${url}${productCode}` + (scope ? `?fields=${scope}` : '')
   );
 }
 
 class MockConvertService {
-  pipeable = createSpy().and.returnValue((x) => x);
+  pipeable = vi.fn().mockReturnValue((x) => x);
 }
 
 describe('OccProductAdapter', () => {

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UrlMatcher } from '@angular/router';
 import { RoutingConfigService } from '../configurable-routes/routing-config.service';
@@ -5,7 +6,7 @@ import { UrlMatcherService } from '../services/url-matcher.service';
 import { DEFAULT_URL_MATCHER } from './default-url-matcher';
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
-  getRouteConfig = jasmine.createSpy('getRouteConfig').and.returnValue({
+  getRouteConfig = vi.fn().mockReturnValue({
     paths: ['test-path'],
   });
 }
@@ -13,9 +14,8 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 const fromPathsUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getFromPaths = jasmine
-    .createSpy('fromPaths')
-    .and.returnValue(fromPathsUrlMatcher);
+  getFromPaths = vi.fn()
+    .mockReturnValue(fromPathsUrlMatcher);
 }
 
 describe('DEFAULT_URL_MATCHER', () => {

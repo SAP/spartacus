@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -38,8 +39,8 @@ describe('BaseSite Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.BaseSiteEffects);
 
-    spyOn(connector, 'getBaseSite').and.returnValue(of(baseSite));
-    spyOn(connector, 'getBaseSites').and.returnValue(of([baseSite]));
+    vi.spyOn(connector, 'getBaseSite').mockReturnValue(of(baseSite));
+    vi.spyOn(connector, 'getBaseSites').mockReturnValue(of([baseSite]));
   });
 
   describe('loadBaseSite$', () => {

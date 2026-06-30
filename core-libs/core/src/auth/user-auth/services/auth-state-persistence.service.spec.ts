@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { firstValueFrom, of } from 'rxjs';
@@ -67,7 +68,7 @@ describe('AuthStatePersistenceService', () => {
     userIdService = TestBed.inject(UserIdService);
     authStorageService = TestBed.inject(AuthStorageService);
     authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
   });
 
   it('should inject service', () => {
@@ -75,9 +76,9 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('state should be updated after read from storage', () => {
-    spyOn(userIdService, 'setUserId').and.stub();
-    spyOn(authStorageService, 'setToken').and.callThrough();
-    spyOn(authRedirectStorageService, 'setRedirectUrl').and.callThrough();
+    vi.spyOn(userIdService, 'setUserId').mockImplementation(() => {});
+    vi.spyOn(authStorageService, 'setToken');
+    vi.spyOn(authRedirectStorageService, 'setRedirectUrl');
 
     service['onRead']({
       userId: 'userId',
@@ -107,7 +108,7 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('user id should be initialized even when read from storage was empty', () => {
-    spyOn(userIdService, 'clearUserId').and.stub();
+    vi.spyOn(userIdService, 'clearUserId').mockImplementation(() => {});
 
     service['onRead']({});
 
@@ -116,12 +117,12 @@ describe('AuthStatePersistenceService', () => {
 
   it('should call persistenceService with correct attributes', () => {
     const state$ = of('');
-    spyOn(service as any, 'getAuthState').and.returnValue(state$);
+    vi.spyOn(service as any, 'getAuthState').mockReturnValue(state$);
 
     service.initSync();
 
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'auth',
         state$,
       })
@@ -130,10 +131,10 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('should return state from auth state and userId service', async () => {
-    spyOn(authStorageService, 'getToken').and.returnValue(
+    vi.spyOn(authStorageService, 'getToken').mockReturnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
-    spyOn(authRedirectStorageService, 'getRedirectUrl').and.returnValue(
+    vi.spyOn(authRedirectStorageService, 'getRedirectUrl').mockReturnValue(
       of('redirect_url')
     );
 
@@ -146,16 +147,16 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('isUserLoggedIn should check state of user login in localStorage', () => {
-    spyOn(persistenceService, 'readStateFromStorage').and.returnValue({
+    vi.spyOn(persistenceService, 'readStateFromStorage').mockReturnValue({
       token: { access_token: 'token' },
       userId: 'userId',
       redirectUrl: 'redirect_url',
     });
 
-    expect(service.isUserLoggedIn()).toBeTrue();
+    expect(service.isUserLoggedIn()).toBe(true);
 
     expect(persistenceService.readStateFromStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'auth',
       })
     );

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   Route,
@@ -201,14 +202,14 @@ describe('UrlMatcherService', () => {
 
   describe('getFromGlob', () => {
     it('should call GlobService.getValidator', () => {
-      spyOn(globService, 'getValidator');
+      vi.spyOn(globService, 'getValidator');
       service.getFromGlob(['/test/pattern']);
       expect(globService.getValidator).toHaveBeenCalledWith(['/test/pattern']);
     });
 
     it('should call glob matcher with full path prepended with slash', () => {
-      const mockGlobValidator = jasmine.createSpy().and.returnValue(true);
-      spyOn(globService, 'getValidator').and.returnValue(mockGlobValidator);
+      const mockGlobValidator = vi.fn().mockReturnValue(true);
+      vi.spyOn(globService, 'getValidator').mockReturnValue(mockGlobValidator);
 
       const urlMatcher = service.getFromGlob([]);
       const testSegments = [
@@ -220,7 +221,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match given glob-like patterns', () => {
-      spyOn(globService, 'getValidator').and.returnValue(() => true);
+      vi.spyOn(globService, 'getValidator').mockReturnValue(() => true);
       const matcher = service.getFromGlob([]);
       const testSegments = [
         { path: 'test' },
@@ -233,7 +234,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should not match given glob-like patterns', () => {
-      spyOn(globService, 'getValidator').and.returnValue(() => false);
+      vi.spyOn(globService, 'getValidator').mockReturnValue(() => false);
       const matcher = service.getFromGlob([]);
       expect(matcher([], null, null)).toEqual(null);
     });

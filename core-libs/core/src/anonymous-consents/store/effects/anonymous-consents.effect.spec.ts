@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -228,10 +229,10 @@ describe('AnonymousConsentsEffects', () => {
   describe('loadAnonymousConsentTemplates$', () => {
     it('should return LoadAnonymousConsentTemplatesSuccess and ToggleAnonymousConsentTemplatesUpdated', () => {
       getTemplatesBehavior.next(mockTemplateList);
-      spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
+      vi.spyOn(connector, 'loadAnonymousConsentTemplates').mockReturnValue(
         of(mockTemplateList)
       );
-      spyOn(anonymousConsentService, 'detectUpdatedTemplates').and.returnValue(
+      vi.spyOn(anonymousConsentService, 'detectUpdatedTemplates').mockReturnValue(
         false
       );
 
@@ -269,14 +270,14 @@ describe('AnonymousConsentsEffects', () => {
     });
 
     it('should return TransferAnonymousConsent', () => {
-      spyOn(anonymousConsentService, 'getConsents').and.returnValue(
+      vi.spyOn(anonymousConsentService, 'getConsents').mockReturnValue(
         of(mockAnonymousConsents)
       );
-      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
+      vi.spyOn(anonymousConsentService, 'getTemplates').mockReturnValue(
         of(mockTemplateList)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
       const registerSuccessAction = new UserActions.RegisterUserSuccess();
@@ -299,16 +300,16 @@ describe('AnonymousConsentsEffects', () => {
 
   describe('giveRequiredConsentsToUser$', () => {
     it('should return GiveUserConsent for all required consents', () => {
-      spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
+      vi.spyOn(userConsentService, 'getConsentsResultSuccess').mockReturnValue(
         of(true)
       );
-      spyOn(userConsentService, 'getConsents').and.returnValue(
+      vi.spyOn(userConsentService, 'getConsents').mockReturnValue(
         of(consentTemplateListMock)
       );
-      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
+      vi.spyOn(userConsentService, 'isConsentWithdrawn').mockReturnValue(true);
 
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
 
@@ -333,18 +334,18 @@ describe('AnonymousConsentsEffects', () => {
     });
 
     it('should get consents if they are not loaded', () => {
-      spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
+      vi.spyOn(userConsentService, 'getConsentsResultSuccess').mockReturnValue(
         of(false)
       );
-      spyOn(userConsentService, 'getConsents').and.returnValue(
+      vi.spyOn(userConsentService, 'getConsents').mockReturnValue(
         of(consentTemplateListMock)
       );
-      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
+      vi.spyOn(userConsentService, 'isConsentWithdrawn').mockReturnValue(true);
 
-      spyOn(userConsentService, 'loadConsents').and.stub();
+      vi.spyOn(userConsentService, 'loadConsents').mockImplementation(() => {});
 
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
 
@@ -371,10 +372,10 @@ describe('AnonymousConsentsEffects', () => {
     });
 
     it('should not dispatch if consent is given', () => {
-      spyOn(userConsentService, 'getConsentsResultSuccess').and.returnValue(
+      vi.spyOn(userConsentService, 'getConsentsResultSuccess').mockReturnValue(
         of(true)
       );
-      spyOn(userConsentService, 'getConsents').and.returnValue(
+      vi.spyOn(userConsentService, 'getConsents').mockReturnValue(
         of([
           {
             id: 'xxx',
@@ -386,8 +387,8 @@ describe('AnonymousConsentsEffects', () => {
         ])
       );
 
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
 
       const loginAction = new AuthActions.Login();
 

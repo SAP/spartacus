@@ -36,7 +36,7 @@ describe('UserEventBuilder', () => {
     const resultPromise = firstValueFrom(eventService.get(UpdateUserAddressEvent));
     actions$.next({ type: UserActions.UPDATE_USER_ADDRESS, payload });
     const result = await resultPromise;
-    expect(result).toEqual(jasmine.objectContaining(payload));
+    expect(result).toEqual(expect.objectContaining(payload));
   });
 
   it('AddUserAddressEvent', async () => {
@@ -44,7 +44,7 @@ describe('UserEventBuilder', () => {
     const resultPromise = firstValueFrom(eventService.get(AddUserAddressEvent));
     actions$.next({ type: UserActions.ADD_USER_ADDRESS, payload });
     const result = await resultPromise;
-    expect(result).toEqual(jasmine.objectContaining(payload));
+    expect(result).toEqual(expect.objectContaining(payload));
   });
 
   it('DeleteUserAddressEvent', async () => {
@@ -52,6 +52,6 @@ describe('UserEventBuilder', () => {
     const resultPromise = firstValueFrom(eventService.get(DeleteUserAddressEvent));
     actions$.next({ type: UserActions.DELETE_USER_ADDRESS, payload });
     const result = await resultPromise;
-    expect(result).toEqual(jasmine.objectContaining(payload));
+    expect(result).toEqual(expect.objectContaining(payload));
   });
 });

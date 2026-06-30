@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -69,10 +70,10 @@ describe('OccUserAddressAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'pipeableMany');
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(occEnpointsService, 'buildUrl');
   });
 
   afterEach(() => {
@@ -167,7 +168,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should request FULL address fields when enableHierarchicalAddressFormat is enabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBe('addresses(FULL)');
@@ -175,7 +176,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should not request fields param when enableHierarchicalAddressFormat is disabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+      vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(false);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBeNull();

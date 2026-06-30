@@ -1,9 +1,6 @@
-import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { UserCostCenterAdapter } from './user-cost-center.adapter';
+import { vi } from 'vitest';
 import { UserCostCenterConnector } from './user-cost-center.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const costCenterCode = 'costCenterCode';
@@ -12,30 +9,15 @@ const costCenter = {
   code: costCenterCode,
 };
 
-class MockUserCostCenterAdapter implements UserCostCenterAdapter {
-  loadActiveList = createSpy(
-    'CostCenterAdapter.loadActiveList'
-  ).and.returnValue(of([costCenter]));
-}
-
 describe('UserCostCenterConnector', () => {
   let service: UserCostCenterConnector;
-  let adapter: UserCostCenterAdapter;
+  let adapter: { loadActiveList: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        UserCostCenterConnector,
-        { provide: UserCostCenterAdapter, useClass: MockUserCostCenterAdapter },
-      ],
-    });
-
-    service = TestBed.inject(
-      UserCostCenterConnector as Type<UserCostCenterConnector>
-    );
-    adapter = TestBed.inject(
-      UserCostCenterAdapter as Type<UserCostCenterAdapter>
-    );
+    adapter = {
+      loadActiveList: vi.fn().mockReturnValue(of([costCenter])),
+    };
+    service = new UserCostCenterConnector(adapter as any);
   });
 
   it('should be created', () => {

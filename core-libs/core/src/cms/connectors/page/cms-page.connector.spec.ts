@@ -1,21 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { PageType } from '../../../model/cms.model';
-import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsPageConnector } from './cms-page.connector';
-import createSpy = jasmine.createSpy;
-
-class MockCmsPageAdapter implements CmsPageAdapter {
-  load = createSpy('CmsComponentAdapter.load').and.callFake(({ id }) =>
-    of('page' + id)
-  );
-}
-
-class MockCmsStructureConfigService {
-  mergePageStructure = createSpy().and.callFake((id) => of(id));
-  shouldIgnoreBackend = createSpy().and.returnValue(of(false));
-}
 
 const context: PageContext = {
   id: '123',
@@ -24,19 +11,24 @@ const context: PageContext = {
 
 describe('CmsPageConnector', () => {
   let service: CmsPageConnector;
+  let adapter: { load: ReturnType<typeof vi.fn> };
+  let structureConfigService: {
+    mergePageStructure: ReturnType<typeof vi.fn>;
+    shouldIgnoreBackend: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: CmsPageAdapter, useClass: MockCmsPageAdapter },
-        {
-          provide: CmsStructureConfigService,
-          useClass: MockCmsStructureConfigService,
-        },
-      ],
-    });
-
-    service = TestBed.inject(CmsPageConnector);
+    adapter = {
+      load: vi.fn().mockImplementation(({ id }) => of('page' + id)),
+    };
+    structureConfigService = {
+      mergePageStructure: vi.fn().mockImplementation((id) => of(id)),
+      shouldIgnoreBackend: vi.fn().mockReturnValue(of(false)),
+    };
+    service = new CmsPageConnector(
+      adapter as any,
+      structureConfigService as any
+    );
   });
 
   it('should be created', () => {
@@ -45,16 +37,13 @@ describe('CmsPageConnector', () => {
 
   describe('get', () => {
     it('should call adapter', () => {
-      const adapter = TestBed.inject(CmsPageAdapter);
-
-      let result;
+      let result: any;
       service.get(context).subscribe((res) => (result = res));
       expect(result).toBe('123');
       expect(adapter.load).toHaveBeenCalledWith(context);
     });
 
     it('should use CmsStructureConfigService', () => {
-      const structureConfigService = TestBed.inject(CmsStructureConfigService);
       service.get(context).subscribe();
       expect(structureConfigService.shouldIgnoreBackend).toHaveBeenCalledWith(
         context.id

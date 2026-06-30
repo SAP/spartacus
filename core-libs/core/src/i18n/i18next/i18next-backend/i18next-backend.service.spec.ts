@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { InitOptions } from 'i18next';
 import { I18nextBackendInitializer } from './i18next-backend.initializer';
@@ -6,9 +7,8 @@ import { I18nextBackendService } from './i18next-backend.service';
 class TestBackendInitializer implements Partial<I18nextBackendInitializer> {
   hasMatch = () => true;
 
-  initialize = jasmine
-    .createSpy('TestBackendInitializer.initialize')
-    .and.returnValue({ backend: { loadPath: 'testLoadPath' } } as InitOptions);
+  initialize = vi.fn()
+    .mockReturnValue({ backend: { loadPath: 'testLoadPath' } } as InitOptions);
 }
 
 describe('I18nextBackendService', () => {
@@ -32,7 +32,7 @@ describe('I18nextBackendService', () => {
   });
 
   it('should use a backend initializer when it is applicable', () => {
-    spyOn(testBackendInitializer, 'hasMatch').and.returnValue(true);
+    vi.spyOn(testBackendInitializer, 'hasMatch').mockReturnValue(true);
 
     const result = service.initialize();
 
@@ -42,7 +42,7 @@ describe('I18nextBackendService', () => {
   });
 
   it('should not use a backend initializer when it is not applicable', () => {
-    spyOn(testBackendInitializer, 'hasMatch').and.returnValue(false);
+    vi.spyOn(testBackendInitializer, 'hasMatch').mockReturnValue(false);
 
     const result = service.initialize();
 

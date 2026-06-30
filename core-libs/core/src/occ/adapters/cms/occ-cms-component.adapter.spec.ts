@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -85,8 +86,8 @@ describe('OccCmsComponentAdapter', () => {
     endpointsService = TestBed.inject(OccEndpointsService);
     userIdService = TestBed.inject(UserIdService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {
@@ -96,7 +97,7 @@ describe('OccCmsComponentAdapter', () => {
   describe('user endpoints', () => {
     describe('load', () => {
       it('should get cms component data', (done) => {
-        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnLoadEndpoint(userEndpoint));
 
         service.load('comp1', context).subscribe((result) => {
@@ -118,7 +119,7 @@ describe('OccCmsComponentAdapter', () => {
       });
 
       it('should use normalizer', (done) => {
-        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnLoadEndpoint(userEndpoint));
 
         service.load('comp1', context).subscribe();
@@ -134,7 +135,7 @@ describe('OccCmsComponentAdapter', () => {
 
     describe('load list of cms component data using GET request', () => {
       it('should get a list of cms component data using GET request without pagination parameters', (done) => {
-        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
 
         assertGetSubscription(service).subscribe();
@@ -150,7 +151,7 @@ describe('OccCmsComponentAdapter', () => {
       });
 
       it('should get a list of cms component data using GET request with pagination parameters', (done) => {
-        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
 
         assertGetSubscription(service, 'FULL', 0, 5).subscribe();
@@ -166,7 +167,7 @@ describe('OccCmsComponentAdapter', () => {
       });
 
       it('should use normalizer', (done) => {
-        spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
+        vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
 
         assertGetSubscription(service).subscribe();
@@ -177,8 +178,8 @@ describe('OccCmsComponentAdapter', () => {
     });
   });
 
-  function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
+  function spyOnEndpoint(requestUrl: string): Mock {
+    return vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(requestUrl);
   }
 
   function mockHttpRequest(

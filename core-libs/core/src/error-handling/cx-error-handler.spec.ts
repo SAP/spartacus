@@ -1,13 +1,14 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { CxErrorHandler } from './cx-error-handler';
 import { MULTI_ERROR_HANDLER, MultiErrorHandler } from './multi-error-handler';
 
 class MockErrorHandler implements MultiErrorHandler {
-  handleError = jasmine.createSpy('handleError');
+  handleError = vi.fn();
 }
 
 class MockErrorHandler2 implements MultiErrorHandler {
-  handleError = jasmine.createSpy('handleError');
+  handleError = vi.fn();
 }
 
 describe('CxErrorHandler', () => {

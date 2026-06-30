@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import {
   HttpHandler,
   HttpHeaders,
@@ -85,11 +86,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = vi.fn();
 }
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = jasmine.createSpy('isEnabled').and.returnValue(true);
+  isEnabled = vi.fn().mockReturnValue(true);
 }
 
 describe('AuthHttpHeaderService', () => {
@@ -100,16 +101,13 @@ describe('AuthHttpHeaderService', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let featureConfigService: FeatureConfigService;
-  let firstRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+  let firstRegisteredHandler: ExpiredRefreshTokenHandlerSpy;
 
   beforeEach(() => {
     firstRegisteredHandler =
-      jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
-        'firstRegisteredHandler',
-        ['handleExpiredRefreshTokenIfApplicable']
-      );
+      { handleExpiredRefreshTokenIfApplicable: vi.fn() };
 
-    firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+    firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
       of(false)
     );
 
@@ -160,7 +158,7 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/occ/cart')
         )
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should return false for non occ urls', () => {
@@ -168,7 +166,7 @@ describe('AuthHttpHeaderService', () => {
         service.shouldAddAuthorizationHeader(
           new HttpRequest('GET', 'some-server/auth')
         )
-      ).toBeFalse();
+      ).toBe(false);
     });
 
     it('should return false if request already have Authorization header', () => {
@@ -178,7 +176,7 @@ describe('AuthHttpHeaderService', () => {
             headers: new HttpHeaders({ Authorization: 'Bearer acc_token' }),
           })
         )
-      ).toBeFalse();
+      ).toBe(false);
     });
   });
 
@@ -186,13 +184,13 @@ describe('AuthHttpHeaderService', () => {
     it('should return true for occ urls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/occ/cart'))
-      ).toBeTrue();
+      ).toBe(true);
     });
 
     it('should return false for non occ urls', () => {
       expect(
         service.shouldCatchError(new HttpRequest('GET', 'some-server/auth'))
-      ).toBeFalse();
+      ).toBe(false);
     });
   });
 
@@ -248,7 +246,7 @@ describe('AuthHttpHeaderService', () => {
       };
       getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(() => {
         getTokenFromStorage.next({
           access_token: `new_token`,
           access_token_stored_at: '456',
@@ -278,9 +276,9 @@ describe('AuthHttpHeaderService', () => {
         access_token_stored_at: `123`,
       };
       getTokenFromStorage.next(initialToken);
-      const handler = jasmine.createSpy('handler', (a: any) => of(a));
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
-      spyOn(service, 'handleExpiredRefreshToken').and.callFake(() => {
+      const handler = vi.fn() => of(a));
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken');
+      vi.spyOn(service, 'handleExpiredRefreshToken').mockImplementation(() => {
         getTokenFromStorage.next({} as AuthToken);
       });
       service
@@ -308,7 +306,7 @@ describe('AuthHttpHeaderService', () => {
       };
       getTokenFromStorage.next(initialToken);
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callFake(() => {
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(() => {
         getTokenFromStorage.next({
           access_token: `new_token`,
           access_token_stored_at: '456',
@@ -350,10 +348,10 @@ describe('AuthHttpHeaderService', () => {
         access_token_stored_at: '123',
       };
       getTokenFromStorage.next(initialToken);
-      const handler = jasmine.createSpy('handler', (a: any) => of(a));
+      const handler = vi.fn() => of(a));
       logoutInProgressSubject.next(true);
 
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.callThrough();
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken');
 
       service
         .handleExpiredAccessToken(
@@ -380,7 +378,7 @@ describe('AuthHttpHeaderService', () => {
         access_token_stored_at: '123',
       };
       const handler = (a: any) => of(a);
-      spyOn(oAuthLibWrapperService, 'refreshToken').and.stub();
+      vi.spyOn(oAuthLibWrapperService, 'refreshToken').mockImplementation(() => {});
 
       service
         .handleExpiredAccessToken(
@@ -408,9 +406,9 @@ describe('AuthHttpHeaderService', () => {
     }
 
     it('should logout user, save current navigation url, and redirect to login page', async () => {
-      spyOn(authService, 'coreLogout').and.callFake(wait);
-      spyOn(routingService, 'go').and.callThrough();
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(authService, 'coreLogout').mockImplementation(wait);
+      vi.spyOn(routingService, 'go');
+      vi.spyOn(globalMessageService, 'add');
 
       service.handleExpiredRefreshToken();
 
@@ -431,8 +429,8 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should skip default refresh token handling when a handler handles it', () => {
-      spyOn(authService, 'coreLogout').and.callThrough();
-      firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+      vi.spyOn(authService, 'coreLogout');
+      firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
         of(true)
       );
 
@@ -445,8 +443,8 @@ describe('AuthHttpHeaderService', () => {
     });
 
     it('should skip handlers and execute fallback when feature toggle is disabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
-      spyOn(authService, 'coreLogout').and.callThrough();
+      (featureConfigService.isEnabled as Mock).mockReturnValue(false);
+      vi.spyOn(authService, 'coreLogout');
 
       service.handleExpiredRefreshToken();
 
@@ -457,15 +455,12 @@ describe('AuthHttpHeaderService', () => {
     });
 
     describe('with multiple handlers', () => {
-      let secondRegisteredHandler: jasmine.SpyObj<ExpiredRefreshTokenHandlerSpy>;
+      let secondRegisteredHandler: ExpiredRefreshTokenHandlerSpy;
 
       beforeEach(() => {
         secondRegisteredHandler =
-          jasmine.createSpyObj<ExpiredRefreshTokenHandlerSpy>(
-            'secondRegisteredHandler',
-            ['handleExpiredRefreshTokenIfApplicable']
-          );
-        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+          { handleExpiredRefreshTokenIfApplicable: vi.fn() };
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(false)
         );
 
@@ -514,11 +509,11 @@ describe('AuthHttpHeaderService', () => {
       });
 
       it('should call secondRegisteredHandler when firstRegistredHandler does not handle the token expiration', () => {
-        spyOn(authService, 'coreLogout').and.callThrough();
-        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        vi.spyOn(authService, 'coreLogout');
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(false)
         );
-        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        secondRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(true)
         );
 
@@ -534,8 +529,8 @@ describe('AuthHttpHeaderService', () => {
       });
 
       it('should not call secondRegisteredHandler when firstRegistredHandler already handles the token expiration', () => {
-        spyOn(authService, 'coreLogout').and.callThrough();
-        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.and.returnValue(
+        vi.spyOn(authService, 'coreLogout');
+        firstRegisteredHandler.handleExpiredRefreshTokenIfApplicable.mockReturnValue(
           of(true)
         );
 

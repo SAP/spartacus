@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -15,7 +16,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
 const maxCount = 2;
@@ -28,7 +28,7 @@ const productReviews: Occ.ReviewList = {
 const endpoint = '/productReviews';
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.returnValue(
+  buildUrl = vi.fn().mockReturnValue(
     endpoint
   );
 }
@@ -56,9 +56,9 @@ describe('OccProductReviewsAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpoints = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'convert').and.callThrough();
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    vi.spyOn(converter, 'convert');
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -9,7 +10,6 @@ import { SiteTheme } from '../../model/misc.model';
 import { SiteThemeStoreModule } from '../store/site-theme-store.module';
 import { StateWithSiteTheme } from '../store/state';
 import { SiteThemeService } from './site-theme.service';
-import createSpy = jasmine.createSpy;
 
 const mockDefaultTheme = 'default';
 const mockThemes: SiteTheme[] = [
@@ -30,8 +30,8 @@ const mockSiteThemeConfig: Config = {
 };
 
 describe('SiteThemeService', () => {
-  const mockSelect1 = createSpy('select').and.returnValue(() => of(mockThemes));
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
+  const mockSelect1 = vi.fn().mockReturnValue(() => of(mockThemes));
+  const mockSelect2 = vi.fn().mockReturnValue(() =>
     of(mockActiveTheme)
   );
 
@@ -52,7 +52,7 @@ describe('SiteThemeService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
     service = TestBed.inject(SiteThemeService);
   });
 
@@ -76,21 +76,21 @@ describe('SiteThemeService', () => {
   });
 
   it('should be able to get theme', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
     service.getAll().subscribe((results) => {
       expect(results).toEqual(mockThemes);
     });
   });
 
   it('should be able to get active theme', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect2);
     service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveTheme);
     });
   });
 
   it('should not set active theme', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
     service.setActive('dark_new');
     expect(store.dispatch).not.toHaveBeenCalledWith(
       new SiteThemeActions.SetActiveSiteTheme('dark_new')
@@ -99,7 +99,7 @@ describe('SiteThemeService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a theme is initialized', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
       expect(service.isInitialized()).toBeTruthy();
     });
   });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -13,7 +14,6 @@ import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import * as fromReducers from '../store/reducers/index';
 import { CmsService } from './cms.service';
-import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
   getPageContext(): Observable<PageContext> {
@@ -64,7 +64,7 @@ describe('CmsService', () => {
 
     store = TestBed.inject(Store);
     routingService = TestBed.inject(RoutingService);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should be created', inject([CmsService], (service: CmsService) => {
@@ -95,10 +95,10 @@ describe('CmsService', () => {
             type: PageType.CATALOG_PAGE,
           };
 
-          spyOn(routingService, 'getPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getPageContext').mockReturnValue(
             of(currentPageContext)
           );
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(nextPageContext)
           );
 
@@ -107,10 +107,10 @@ describe('CmsService', () => {
             loading: false,
             error: false,
           };
-          const mockSelect = createSpy('select').and.returnValue(() =>
+          const mockSelect = vi.fn().mockReturnValue(() =>
             of(mockLoaderState)
           );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
           const uid = 'mockUid';
           service.getComponentData(uid).pipe(take(1)).subscribe().unsubscribe();
@@ -152,10 +152,10 @@ describe('CmsService', () => {
             type: PageType.CATALOG_PAGE,
           };
 
-          spyOn(routingService, 'getPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getPageContext').mockReturnValue(
             of(currentPageContext)
           );
-          spyOn(routingService, 'getNextPageContext').and.returnValue(
+          vi.spyOn(routingService, 'getNextPageContext').mockReturnValue(
             of(nextPageContext)
           );
 
@@ -164,10 +164,10 @@ describe('CmsService', () => {
             loading: false,
             error: false,
           };
-          const mockSelect = createSpy('select').and.returnValue(() =>
+          const mockSelect = vi.fn().mockReturnValue(() =>
             of(mockLoaderState)
           );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
           const uid = 'mockUid';
           service
@@ -191,10 +191,10 @@ describe('CmsService', () => {
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(mockContentSlot)
       );
-      spyOn(routingService, 'getPageContext').and.returnValue(
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of({ id: 'test' })
       );
 
@@ -219,10 +219,10 @@ describe('CmsService', () => {
           uid: 'test',
         },
       };
-      const mockSelect = createSpy('select').and.returnValue(() =>
+      const mockSelect = vi.fn().mockReturnValue(() =>
         of(mockNodeItem)
       );
-      spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
       let result: NodeItem;
       service
@@ -250,7 +250,7 @@ describe('CmsService', () => {
   it('getCurrentPage should expose the current page', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOn(routingService, 'getPageContext').and.returnValue(
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of(testPageContext)
       );
 
@@ -273,7 +273,7 @@ describe('CmsService', () => {
   it('should be able to refresh the latest cms page', inject(
     [CmsService],
     (service: CmsService) => {
-      spyOn(routingService, 'getPageContext').and.returnValue(
+      vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of(testPageContext)
       );
 
@@ -372,10 +372,10 @@ describe('CmsService', () => {
       [CmsService],
       (service: CmsService) => {
         const mockedEntity: StateUtils.LoaderState<string> = {};
-        const mockSelect = createSpy('select').and.returnValue(() =>
+        const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
@@ -389,10 +389,10 @@ describe('CmsService', () => {
       [CmsService],
       (service: CmsService) => {
         const mockedEntity: StateUtils.LoaderState<string> = { success: true };
-        const mockSelect = createSpy('select').and.returnValue(() =>
+        const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
@@ -407,10 +407,10 @@ describe('CmsService', () => {
         [CmsService],
         (service: CmsService) => {
           const mockedEntity: StateUtils.LoaderState<string> = {};
-          const mockSelect = createSpy('select').and.returnValue(() =>
+          const mockSelect = vi.fn().mockReturnValue(() =>
             of(mockedEntity)
           );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
@@ -426,10 +426,10 @@ describe('CmsService', () => {
           const mockedEntity: StateUtils.LoaderState<string> = {
             success: true,
           };
-          const mockSelect = createSpy('select').and.returnValue(() =>
+          const mockSelect = vi.fn().mockReturnValue(() =>
             of(mockedEntity)
           );
-          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
@@ -447,10 +447,10 @@ describe('CmsService', () => {
           success: true,
           value: '',
         };
-        const mockSelect = createSpy('select').and.returnValue(() =>
+        const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
         let result: boolean;
         service
@@ -470,10 +470,10 @@ describe('CmsService', () => {
           error: true,
           value: undefined,
         };
-        const mockSelect = createSpy('select').and.returnValue(() =>
+        const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
         let result: boolean;
         service
@@ -494,7 +494,7 @@ describe('CmsService', () => {
     });
 
     it('should call "hasPage"', inject([CmsService], (service: CmsService) => {
-      spyOn(service, 'hasPage').and.returnValue(of(false));
+      vi.spyOn(service, 'hasPage').mockReturnValue(of(false));
       service.getPage(pageContext, true);
       expect(service.hasPage).toHaveBeenCalledWith(pageContext, true);
     }));
@@ -502,8 +502,8 @@ describe('CmsService', () => {
     it('should return result of "getPageState" when page exists', inject(
       [CmsService],
       (service: CmsService) => {
-        spyOn(service, 'hasPage').and.returnValue(of(true));
-        spyOn(service, 'getPageState').and.returnValue(
+        vi.spyOn(service, 'hasPage').mockReturnValue(of(true));
+        vi.spyOn(service, 'getPageState').mockReturnValue(
           of({ pageId: 'testId' } as any)
         );
 
@@ -517,8 +517,8 @@ describe('CmsService', () => {
     it('should emit null when page does not exist', inject(
       [CmsService],
       (service: CmsService) => {
-        spyOn(service, 'hasPage').and.returnValue(of(false));
-        spyOn(service, 'getPageState');
+        vi.spyOn(service, 'hasPage').mockReturnValue(of(false));
+        vi.spyOn(service, 'getPageState');
 
         let result;
         service.getPage(pageContext, true).subscribe((res) => (result = res));

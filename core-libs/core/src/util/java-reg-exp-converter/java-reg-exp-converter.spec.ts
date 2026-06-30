@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '../../logger';
 import { JavaRegExpConverter } from './java-reg-exp-converter';
@@ -40,7 +41,7 @@ describe(`JavaRegExpConverter`, () => {
     converter = TestBed.inject(JavaRegExpConverter);
     logger = TestBed.inject(LoggerService);
 
-    spyOn(logger, 'warn');
+    vi.spyOn(logger, 'warn');
   });
 
   describe(`toJsRegExp`, () => {

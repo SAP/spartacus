@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { FeatureModulesService } from './feature-modules.service';
 import { CmsConfig, provideConfig } from '@spartacus/core';
 import { InjectionToken, NgModule } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
@@ -65,81 +66,68 @@ describe('FeatureModulesService', () => {
 
   describe('isConfigured', () => {
     it('should return true for configured features', () => {
-      expect(service.isConfigured('feature1')).toBeTrue();
-      expect(service.isConfigured('feature2')).toBeTrue();
+      expect(service.isConfigured('feature1')).toBe(true);
+      expect(service.isConfigured('feature2')).toBe(true);
     });
 
     it('should return false for not configured features', () => {
-      expect(service.isConfigured('feature3')).toBeFalse();
-      expect(service.isConfigured('feature-unknown')).toBeFalse();
+      expect(service.isConfigured('feature3')).toBe(false);
+      expect(service.isConfigured('feature-unknown')).toBe(false);
     });
 
     it('should return true for configured feature alias', () => {
-      expect(service.isConfigured('feature5')).toBeTrue();
+      expect(service.isConfigured('feature5')).toBe(true);
     });
 
     it('should return false for not configured feature alias', () => {
-      expect(service.isConfigured('feature6')).toBeFalse();
+      expect(service.isConfigured('feature6')).toBe(false);
     });
 
     it('should return true for configured feature not direct alias', () => {
-      expect(service.isConfigured('feature7')).toBeTrue();
+      expect(service.isConfigured('feature7')).toBe(true);
     });
   });
 
   describe('resolveFeature', () => {
-    it('should return feature module', (done) => {
-      service.resolveFeature('feature1').subscribe((moduleRef) => {
-        expect(moduleRef).toBeTruthy();
-        expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
-        done();
-      });
+    it('should return feature module', async () => {
+      const moduleRef = await firstValueFrom(service.resolveFeature('feature1'));
+      expect(moduleRef).toBeTruthy();
+      expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
     });
 
-    it('should throw error if feature is not configured', (done) => {
-      service.resolveFeature('feature3').subscribe({
-        error: (error) => {
-          expect(error).toBeTruthy();
-          done();
-        },
-      });
+    it('should throw error if feature is not configured', async () => {
+      await expect(
+        firstValueFrom(service.resolveFeature('feature3'))
+      ).rejects.toBeTruthy();
     });
 
-    it('should resolve module dependencies', (done) => {
-      service.resolveFeature('feature2').subscribe((moduleRef) => {
-        expect(moduleRef).toBeTruthy();
-        const testProviderValue = moduleRef.injector.get(TEST_DEP_TOKEN);
-        expect(testProviderValue).toBe('test-dependency-value');
-        done();
-      });
+    it('should resolve module dependencies', async () => {
+      const moduleRef = await firstValueFrom(service.resolveFeature('feature2'));
+      expect(moduleRef).toBeTruthy();
+      const testProviderValue = moduleRef.injector.get(TEST_DEP_TOKEN);
+      expect(testProviderValue).toBe('test-dependency-value');
     });
 
-    it('should resolve feature dependencies', (done) => {
-      service.resolveFeature('feature4').subscribe((moduleRef) => {
-        expect(moduleRef).toBeTruthy();
+    it('should resolve feature dependencies', async () => {
+      const moduleRef = await firstValueFrom(service.resolveFeature('feature4'));
+      expect(moduleRef).toBeTruthy();
 
-        const testProviderValue1 = moduleRef.injector.get(TEST_TOKEN);
-        expect(testProviderValue1).toBe('test-value');
-        done();
-      });
+      const testProviderValue1 = moduleRef.injector.get(TEST_TOKEN);
+      expect(testProviderValue1).toBe('test-value');
     });
 
-    it('should resolve transient feature dependencies', (done) => {
-      service.resolveFeature('feature4').subscribe((moduleRef) => {
-        expect(moduleRef).toBeTruthy();
+    it('should resolve transient feature dependencies', async () => {
+      const moduleRef = await firstValueFrom(service.resolveFeature('feature4'));
+      expect(moduleRef).toBeTruthy();
 
-        const testProviderValue2 = moduleRef.injector.get(TEST_DEP_TOKEN);
-        expect(testProviderValue2).toBe('test-dependency-value');
-        done();
-      });
+      const testProviderValue2 = moduleRef.injector.get(TEST_DEP_TOKEN);
+      expect(testProviderValue2).toBe('test-dependency-value');
     });
 
-    it('should return feature module with alias mapping', (done) => {
-      service.resolveFeature('feature5').subscribe((moduleRef) => {
-        expect(moduleRef).toBeTruthy();
-        expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
-        done();
-      });
+    it('should return feature module with alias mapping', async () => {
+      const moduleRef = await firstValueFrom(service.resolveFeature('feature5'));
+      expect(moduleRef).toBeTruthy();
+      expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
     });
   });
 });

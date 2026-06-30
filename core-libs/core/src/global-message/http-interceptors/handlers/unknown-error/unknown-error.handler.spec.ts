@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -41,11 +42,11 @@ describe('UnknownErrorHandler', () => {
 
     beforeEach(() => {
       loggerService = TestBed.inject(LoggerService);
-      spyOn(loggerService, 'warn');
+      vi.spyOn(loggerService, 'warn');
     });
 
     it('should log error in dev mode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => true);
       service.handleError({} as any, { message: 'error' } as HttpErrorResponse);
       expect(loggerService.warn).toHaveBeenCalledWith(
         'An unknown http error occurred\n',
@@ -54,7 +55,7 @@ describe('UnknownErrorHandler', () => {
     });
 
     it('should not log error if it is not a dev mode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => false);
       service.handleError({} as any, { message: 'error' } as HttpErrorResponse);
       expect(loggerService.warn).not.toHaveBeenCalled();
     });

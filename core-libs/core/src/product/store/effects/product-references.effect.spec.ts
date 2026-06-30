@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -14,7 +15,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
 
 const productCode = 'productCode';
 const product = {
@@ -37,7 +37,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockProductReferencesConnector {
-  get = createSpy('getList').and.returnValue(of(list));
+  get = vi.fn().mockReturnValue(of(list));
 }
 
 describe('Product references effect', () => {

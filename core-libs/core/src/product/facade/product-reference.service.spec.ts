@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -35,7 +36,7 @@ describe('ProductReferenceService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReferenceService);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should ProductReferenceService is injected', inject(
@@ -61,7 +62,7 @@ describe('ProductReferenceService', () => {
   });
 
   it('should be able to get product references', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
       () => () => of(mockProductReferences)
     );
 

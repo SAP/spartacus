@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -16,7 +17,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-import createSpy = jasmine.createSpy;
 
 const costCenterCode = 'testCode';
 const userId = 'userId';
@@ -26,7 +26,7 @@ const costCenter = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = vi.fn().mockImplementation(
     (url, { costCenterCode }) =>
       url === 'costCenter' ? url + costCenterCode : url
   );
@@ -52,7 +52,7 @@ describe('OccUserCostCenterAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     service = TestBed.inject(OccUserCostCenterAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
   });
 
   afterEach(() => {

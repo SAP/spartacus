@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -14,7 +15,6 @@ import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
 import { RoutingParamsService } from './routing-params.service';
 import { RoutingService } from './routing.service';
-import createSpy = jasmine.createSpy;
 
 class MockSemanticPathService {
   transform(_commands: UrlCommands): any[] {
@@ -31,8 +31,8 @@ class MockRoutingParamsService {
 }
 
 class MockLocation implements Partial<MockLocation> {
-  back = jasmine.createSpy('back');
-  forward = jasmine.createSpy('forward');
+  back = vi.fn();
+  forward = vi.fn();
 }
 
 describe('RoutingService', () => {
@@ -63,7 +63,7 @@ describe('RoutingService', () => {
     routingParamsService = TestBed.inject(RoutingParamsService);
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
-    spyOn(store, 'dispatch');
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should be created', () => {
@@ -74,8 +74,8 @@ describe('RoutingService', () => {
     it('should return Promise for the Angular navigation', () => {
       const navigationPromise = Promise.resolve(true);
       const queryParams = { test: true };
-      spyOn(urlService, 'transform').and.returnValue(['url']);
-      spyOn(router, 'navigate').and.returnValue(navigationPromise);
+      vi.spyOn(urlService, 'transform').mockReturnValue(['url']);
+      vi.spyOn(router, 'navigate').mockReturnValue(navigationPromise);
       const result = service.go(['url'], { queryParams });
       expect(router.navigate).toHaveBeenCalledWith(['url'], { queryParams });
       expect(result).toBe(navigationPromise);
@@ -84,8 +84,8 @@ describe('RoutingService', () => {
     it('should call url service with given array of commands', () => {
       const commands = ['testString', { cxRoute: 'testRoute' }];
       const resultPath = ['testString', 'testPath'];
-      spyOn(urlService, 'transform').and.returnValue(resultPath);
-      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+      vi.spyOn(urlService, 'transform').mockReturnValue(resultPath);
+      vi.spyOn(router, 'navigate').mockReturnValue(Promise.resolve(true));
       service.go(commands);
       expect(urlService.transform).toHaveBeenCalledWith(commands);
       expect(router.navigate).toHaveBeenCalledWith(resultPath, undefined);
@@ -96,7 +96,7 @@ describe('RoutingService', () => {
     it('should return Promise for the Angular navigation', () => {
       const navigationPromise = Promise.resolve(true);
       const extras = { skipLocationChange: true };
-      spyOn(router, 'navigateByUrl').and.returnValue(navigationPromise);
+      vi.spyOn(router, 'navigateByUrl').mockReturnValue(navigationPromise);
       const result = service.goByUrl('url', extras);
       expect(router.navigateByUrl).toHaveBeenCalledWith('url', extras);
       expect(result).toBe(navigationPromise);
@@ -105,7 +105,7 @@ describe('RoutingService', () => {
 
   describe('getUrl', () => {
     it('should resolve the relative url from the urlCommands', () => {
-      spyOn(urlService, 'transform').and.returnValue(['product', '123']);
+      vi.spyOn(urlService, 'transform').mockReturnValue(['product', '123']);
       const url = service.getUrl({
         cxRoute: 'product',
         params: { code: '123' },
@@ -114,7 +114,7 @@ describe('RoutingService', () => {
     });
 
     it('should resolve the relative url from the urlCommands and NavigationExtras', () => {
-      spyOn(urlService, 'transform').and.returnValue([
+      vi.spyOn(urlService, 'transform').mockReturnValue([
         'category',
         'SLR_CAMERAS',
       ]);
@@ -130,7 +130,7 @@ describe('RoutingService', () => {
 
   describe('getFullUrl', () => {
     it('should resolve the absolute url from the urlCommands', () => {
-      spyOn(urlService, 'transform').and.returnValue(['product', '123']);
+      vi.spyOn(urlService, 'transform').mockReturnValue(['product', '123']);
       const url = service.getFullUrl({
         cxRoute: 'product',
         params: { code: '123' },
@@ -141,11 +141,11 @@ describe('RoutingService', () => {
 
   describe('back', () => {
     it('should go to homepage on back action when referer is not from the app', () => {
-      spyOnProperty(document, 'referrer', 'get').and.returnValue(
+      vi.spyOn(document, 'referrer', 'get', 'get').mockReturnValue(
         'http://foobar.com'
       );
-      spyOn(service, 'go');
-      spyOn(urlService, 'transform').and.callFake((x) => x);
+      vi.spyOn(service, 'go');
+      vi.spyOn(urlService, 'transform').mockImplementation((x) => x);
       service.back();
       expect(service.go).toHaveBeenCalledWith(['/']);
     });
@@ -164,8 +164,8 @@ describe('RoutingService', () => {
   });
 
   it('should expose whole router state', () => {
-    const mockRouterState = createSpy().and.returnValue(() => of({}));
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+    const mockRouterState = vi.fn().mockReturnValue(() => of({}));
+    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
 
     let routerState: any;
     service.getRouterState().subscribe((state) => (routerState = state));
@@ -180,8 +180,8 @@ describe('RoutingService', () => {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
     };
-    const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+    const mockRouterState = vi.fn().mockReturnValue(() => of(pageContext));
+    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
 
     let result: PageContext;
     service
@@ -197,8 +197,8 @@ describe('RoutingService', () => {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
     };
-    const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+    const mockRouterState = vi.fn().mockReturnValue(() => of(pageContext));
+    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
 
     let result: PageContext;
     service
@@ -214,8 +214,8 @@ describe('RoutingService', () => {
 
   it('isNavigating should return isNavigating state', () => {
     const isNavigating = true;
-    const mockRouterState = createSpy().and.returnValue(() => of(isNavigating));
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+    const mockRouterState = vi.fn().mockReturnValue(() => of(isNavigating));
+    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
 
     let result: boolean;
     service
@@ -230,7 +230,7 @@ describe('RoutingService', () => {
   });
 
   it('should delegate getParams() to RoutingParamsService', () => {
-    const spy = spyOn(routingParamsService, 'getParams');
+    const spy = vi.spyOn(routingParamsService, 'getParams');
     service.getParams();
     expect(spy).toHaveBeenCalled();
   });

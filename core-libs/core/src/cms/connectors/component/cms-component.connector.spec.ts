@@ -1,36 +1,17 @@
-import { TestBed } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
 import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { CmsConfig } from '../../config/cms-config';
-import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsComponentConnector } from './cms-component.connector';
-import createSpy = jasmine.createSpy;
-
-class MockCmsComponentAdapter implements CmsComponentAdapter {
-  load = createSpy('CmsComponentAdapter.load').and.callFake((id) =>
-    of('component' + id)
-  );
-
-  findComponentsByIds = createSpy(
-    'CmsComponentAdapter.findComponentsByIds'
-  ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
-}
 
 const ids = ['comp_uid1', 'comp_uid2'];
 const context: PageContext = {
   id: '123',
   type: PageType.PRODUCT_PAGE,
 };
-
-class MockCmsStructureConfigService {
-  getComponentFromConfig = createSpy().and.returnValue(of(undefined));
-  getComponentsFromConfig = createSpy().and.returnValue(
-    of([undefined, undefined, 'config-component'])
-  );
-}
 
 const MockCmsModuleConfig: CmsConfig = {
   componentsLoading: {
@@ -40,14 +21,38 @@ const MockCmsModuleConfig: CmsConfig = {
 
 describe('CmsComponentConnector', () => {
   let service: CmsComponentConnector;
-  let adapter: CmsComponentAdapter;
-  let structureConfigService: CmsStructureConfigService;
+  let adapter: {
+    load: ReturnType<typeof vi.fn>;
+    findComponentsByIds: ReturnType<typeof vi.fn>;
+  };
+  let structureConfigService: {
+    getComponentFromConfig: ReturnType<typeof vi.fn>;
+    getComponentsFromConfig: ReturnType<typeof vi.fn>;
+  };
+
+  function setup(config: CmsConfig = MockCmsModuleConfig) {
+    adapter = {
+      load: vi.fn().mockImplementation((id) => of('component' + id)),
+      findComponentsByIds: vi.fn().mockImplementation((idList) =>
+        of(idList.map((id: string) => 'component' + id))
+      ),
+    };
+    structureConfigService = {
+      getComponentFromConfig: vi.fn().mockReturnValue(of(undefined)),
+      getComponentsFromConfig: vi.fn().mockReturnValue(
+        of([undefined, undefined, 'config-component'])
+      ),
+    };
+    service = new CmsComponentConnector(
+      structureConfigService as any,
+      adapter as any,
+      config
+    );
+  }
 
   describe('CmsComponentConnector for 1905+ backend', () => {
     beforeEach(() => {
-      configureTestingModule();
-
-      testBedConnector();
+      setup();
     });
 
     it('should be created', () => {
@@ -56,7 +61,7 @@ describe('CmsComponentConnector', () => {
 
     describe('get', () => {
       it('should call adapter', () => {
-        let result;
+        let result: any;
         service.get('333', context).subscribe((res) => (result = res));
         expect(result).toBe('component333');
         expect(adapter.load).toHaveBeenCalledWith('333', context);
@@ -78,11 +83,13 @@ describe('CmsComponentConnector', () => {
 
       it('should use CmsStructureConfigService', () => {
         service.getList(ids, context).subscribe();
-        cmsStructureConfigService();
+        expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
+          ids
+        );
       });
 
       it('should merge config data with components', () => {
-        let components;
+        let components: any;
         service.getList(ids, context).subscribe((res) => (components = res));
         expect(components).toEqual([
           'config-component',
@@ -95,46 +102,18 @@ describe('CmsComponentConnector', () => {
 
   describe('CmsComponentConnector for 1811 backend', () => {
     beforeEach(() => {
-      configureTestingModule().overrideProvider(OccConfig, {
-        useValue: {
-          backend: {
-            occ: {
-              legacy: true,
-            },
+      setup({
+        ...MockCmsModuleConfig,
+        backend: {
+          occ: {
+            legacy: true,
           },
         },
-      });
-
-      testBedConnector();
+      } as any);
     });
 
     it('should be created', () => {
       expect(service).toBeTruthy();
     });
   });
-
-  function configureTestingModule(): TestBed {
-    return TestBed.configureTestingModule({
-      providers: [
-        { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },
-        {
-          provide: CmsStructureConfigService,
-          useClass: MockCmsStructureConfigService,
-        },
-        { provide: CmsConfig, useValue: MockCmsModuleConfig },
-      ],
-    });
-  }
-
-  function testBedConnector() {
-    service = TestBed.inject(CmsComponentConnector);
-    adapter = TestBed.inject(CmsComponentAdapter);
-    structureConfigService = TestBed.inject(CmsStructureConfigService);
-  }
-
-  function cmsStructureConfigService() {
-    expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
-      ids
-    );
-  }
 });

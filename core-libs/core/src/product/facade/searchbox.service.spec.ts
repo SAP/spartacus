@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import * as NgrxStore from '@ngrx/store';
@@ -57,7 +58,7 @@ describe('SearchboxService', () => {
   };
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
     TestBed.configureTestingModule({
       imports: [
@@ -79,8 +80,8 @@ describe('SearchboxService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(SearchboxService);
 
-    spyOn(service, 'search').and.callThrough();
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(service, 'search');
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should ProductSearchService is injected', inject(

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -42,7 +43,7 @@ describe('ProductService', () => {
     });
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductService);
-    spyOn(store, 'dispatch').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
   });
 
   it('should ProductService is injected', inject(
@@ -80,7 +81,7 @@ describe('ProductService', () => {
 
   describe('isLoading(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () =>
           of({
             loading: true,
@@ -96,7 +97,7 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () =>
           of({
             error: true,
@@ -112,7 +113,7 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () =>
           of({
             success: true,
@@ -128,7 +129,7 @@ describe('ProductService', () => {
 
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of({ value: mockedProduct })
       );
       const result: Product = await lastValueFrom(

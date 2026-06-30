@@ -1,29 +1,20 @@
-import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { ProductReviewsAdapter } from './product-reviews.adapter';
+import { vi } from 'vitest';
 import { ProductReviewsConnector } from './product-reviews.connector';
-import createSpy = jasmine.createSpy;
-
-class MockProductReviewsAdapter implements ProductReviewsAdapter {
-  load = createSpy('ProductReviewsAdapter.loadList').and.callFake((code) =>
-    of('product' + code)
-  );
-  post = createSpy('ProductReviewsAdapter.post').and.returnValue(of(''));
-}
 
 describe('ProductReviewsConnector', () => {
   let service: ProductReviewsConnector;
-  let adapter: ProductReviewsAdapter;
+  let adapter: {
+    load: ReturnType<typeof vi.fn>;
+    post: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: ProductReviewsAdapter, useClass: MockProductReviewsAdapter },
-      ],
-    });
-
-    service = TestBed.inject(ProductReviewsConnector);
-    adapter = TestBed.inject(ProductReviewsAdapter);
+    adapter = {
+      load: vi.fn().mockImplementation((code) => of('product' + code)),
+      post: vi.fn().mockReturnValue(of('')),
+    };
+    service = new ProductReviewsConnector(adapter as any);
   });
 
   it('should be created', () => {
@@ -32,7 +23,7 @@ describe('ProductReviewsConnector', () => {
 
   describe('get', () => {
     it('should call adapter', () => {
-      let result;
+      let result: any;
       service.get('333').subscribe((res) => (result = res));
       expect(result).toBe('product333');
       expect(adapter.load).toHaveBeenCalledWith('333', undefined);
@@ -41,7 +32,7 @@ describe('ProductReviewsConnector', () => {
 
   describe('add', () => {
     it('should call adapter', () => {
-      service.add('333', 'review').subscribe();
+      service.add('333', 'review' as any).subscribe();
       expect(adapter.post).toHaveBeenCalledWith('333', 'review');
     });
   });

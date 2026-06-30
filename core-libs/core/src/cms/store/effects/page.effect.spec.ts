@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   provideHttpClient,
@@ -129,7 +130,7 @@ describe('Page Effects', () => {
   describe('loadPageData$', () => {
     describe('when LoadPageData is dispatched', () => {
       it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
-        spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
+        vi.spyOn(cmsPageConnector, 'get').mockReturnValue(of(pageStructure));
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion1 = new CmsActions.CmsGetComponentFromPage(
@@ -151,7 +152,7 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = new HttpErrorResponse({ error: 'error' });
-        spyOn<any>(cmsPageConnector, 'get').and.returnValue(
+        spyOn<any>(cmsPageConnector, 'get').mockReturnValue(
           throwError(() => error)
         );
         const action = new CmsActions.LoadCmsPageData(pageContext);
@@ -174,7 +175,7 @@ describe('Page Effects', () => {
   describe('refreshPage$', () => {
     describe('when a language changes', () => {
       it('should dispatch LoadPageIndex action', () => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockRouterState as any)
         );
 
@@ -192,7 +193,7 @@ describe('Page Effects', () => {
     });
     describe('when a user logs in', () => {
       it('should dispatch LoadPageIndex action', () => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockRouterState as any)
         );
 
@@ -207,7 +208,7 @@ describe('Page Effects', () => {
     });
     describe('when a user logs out', () => {
       it('should dispatch LoadPageIndex action', () => {
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockRouterState as any)
         );
 

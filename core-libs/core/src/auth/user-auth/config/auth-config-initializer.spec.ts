@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Config, ConfigInitializerService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -82,7 +83,7 @@ describe('AuthConfigInitializer', () => {
 
     authConfig = TestBed.inject(AuthConfig);
     configInitializerService = TestBed.inject(ConfigInitializerService);
-    spyOn(configInitializerService, 'getStable').and.returnValue(
+    vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
       of(authConfig)
     );
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
@@ -136,7 +137,7 @@ describe('AuthConfigInitializer', () => {
       it('should escape URL-unsafe characters in the base-site', async () => {
         const unsafeBaseSite = 'a/b c';
         const expected = `${mockOrigin}/a%2Fb%20c`;
-        spyOn(baseSiteService, 'getActive').and.returnValue(of(unsafeBaseSite));
+        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(unsafeBaseSite));
 
         const config = await service.configFactory();
 
@@ -152,10 +153,10 @@ describe('AuthConfigInitializer', () => {
           'auto';
       });
       it('should initialize the redirect URI when baseSite is in the URL context parameters', async () => {
-        spyOn(
+        vi.spyOn(
           siteContextParamsService,
           'getUrlEncodingParameters'
-        ).and.returnValue([BASE_SITE_CONTEXT_ID]);
+        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
         const expected = `${mockOrigin}/${mockActiveBaseSite}`;
         const config = await service.configFactory();
 
@@ -206,10 +207,10 @@ describe('AuthConfigInitializer', () => {
           'auto';
       });
       it('should suffix the client ID with the base site when baseSite is in the URL context parameters', async () => {
-        spyOn(
+        vi.spyOn(
           siteContextParamsService,
           'getUrlEncodingParameters'
-        ).and.returnValue([BASE_SITE_CONTEXT_ID]);
+        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
         const expected = `${mockClientId}_${mockActiveBaseSite}`;
         const config = await service.configFactory();
 

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -15,7 +16,7 @@ import { UserActions } from '../actions/index';
 import * as fromUserAddressesEffect from './user-addresses.effect';
 
 class MockUserAddressService {
-  loadAddresses = jasmine.createSpy();
+  loadAddresses = vi.fn();
 }
 
 const mockedGlobalMessageService = {
@@ -59,15 +60,15 @@ describe('User Addresses effect', () => {
     userAddressConnector = TestBed.inject(UserAddressConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(userAddressConnector, 'getAll').and.returnValue(
+    vi.spyOn(userAddressConnector, 'getAll').mockReturnValue(
       of(mockUserAddresses)
     );
-    spyOn(userAddressConnector, 'add').and.returnValue(of({}));
+    vi.spyOn(userAddressConnector, 'add').mockReturnValue(of({}));
 
-    spyOn(userAddressConnector, 'update').and.returnValue(of({}));
-    spyOn(userAddressConnector, 'delete').and.returnValue(of({}));
-    spyOn(globalMessageService, 'remove');
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(userAddressConnector, 'update').mockReturnValue(of({}));
+    vi.spyOn(userAddressConnector, 'delete').mockReturnValue(of({}));
+    vi.spyOn(globalMessageService, 'remove');
+    vi.spyOn(globalMessageService, 'add');
   });
 
   describe('loadUserAddresses$', () => {

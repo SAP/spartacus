@@ -1,10 +1,11 @@
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
+import angular from '@analogjs/vite-plugin-angular';
 import { join } from 'node:path';
 
 export default defineConfig({
   root: join(import.meta.dirname),
-  plugins: [nxViteTsPaths()],
+  plugins: [angular(), nxViteTsPaths()],
   test: {
     pool: 'forks',
     watch: false,

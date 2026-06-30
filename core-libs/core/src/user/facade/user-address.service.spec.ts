@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { firstValueFrom, Observable, of } from 'rxjs';
@@ -17,7 +18,6 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
-import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   public takeUserId(): Observable<string> {
@@ -30,7 +30,7 @@ const mockAddressVerificationResult: AddressValidation = {
 };
 
 class MockUserAddressConnector implements Partial<UserAddressConnector> {
-  verify = createSpy('MockUserAddressConnector.verify Spy').and.returnValue(
+  verify = vi.fn().mockReturnValue(
     of(mockAddressVerificationResult)
   );
 }
@@ -71,7 +71,7 @@ describe('UserAddressService', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
     service = TestBed.inject(UserAddressService);
     userAddressConnector = TestBed.inject(UserAddressConnector);
   });
@@ -262,7 +262,7 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      spyOn(service, 'clearRegions').and.stub();
+      vi.spyOn(service, 'clearRegions').mockImplementation(() => {});
       const regions = await firstValueFrom(service.getRegions(''));
       expect(regions).toEqual([]);
       expect(service.clearRegions).toHaveBeenCalled();
@@ -270,8 +270,8 @@ describe('UserAddressService', () => {
 
     it('should return empty array while loading', async () => {
       store.dispatch(new UserActions.LoadRegions(country));
-      spyOn(service, 'clearRegions').and.stub();
-      spyOn(service, 'loadRegions').and.stub();
+      vi.spyOn(service, 'clearRegions').mockImplementation(() => {});
+      vi.spyOn(service, 'loadRegions').mockImplementation(() => {});
       const regions = await firstValueFrom(service.getRegions(country));
       expect(regions).toEqual([]);
       expect(service.clearRegions).not.toHaveBeenCalled();
@@ -279,8 +279,8 @@ describe('UserAddressService', () => {
     });
 
     it('should return empty array and invoke clear and load when changing country', async () => {
-      spyOn(service, 'clearRegions').and.stub();
-      spyOn(service, 'loadRegions').and.stub();
+      vi.spyOn(service, 'clearRegions').mockImplementation(() => {});
+      vi.spyOn(service, 'loadRegions').mockImplementation(() => {});
       const country2 = 'AB';
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
@@ -301,8 +301,8 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      spyOn(service, 'clearRegions').and.stub();
-      spyOn(service, 'loadRegions').and.stub();
+      vi.spyOn(service, 'clearRegions').mockImplementation(() => {});
+      vi.spyOn(service, 'loadRegions').mockImplementation(() => {});
       const regions = await firstValueFrom(service.getRegions(country));
       expect(regions).toEqual(regionsList);
       expect(service.clearRegions).not.toHaveBeenCalled();
@@ -335,7 +335,7 @@ describe('UserAddressService', () => {
         { id: '2', defaultAddress: true },
         { id: '3', defaultAddress: false },
       ];
-      spyOn(service, 'getAddresses').and.returnValue(of(addresses));
+      vi.spyOn(service, 'getAddresses').mockReturnValue(of(addresses));
       const result = await firstValueFrom(service.getDefaultAddress());
       expect(result).toEqual(addresses[1]);
     });
@@ -344,13 +344,13 @@ describe('UserAddressService', () => {
         { id: '1', defaultAddress: false },
         { id: '2', defaultAddress: false },
       ];
-      spyOn(service, 'getAddresses').and.returnValue(of(addresses));
+      vi.spyOn(service, 'getAddresses').mockReturnValue(of(addresses));
       const result = await firstValueFrom(service.getDefaultAddress());
       expect(result).toBeUndefined();
     });
 
     it('should return undefined if addresses array is empty', async () => {
-      spyOn(service, 'getAddresses').and.returnValue(of([]));
+      vi.spyOn(service, 'getAddresses').mockReturnValue(of([]));
       const result = await firstValueFrom(service.getDefaultAddress());
       expect(result).toBeUndefined();
     });

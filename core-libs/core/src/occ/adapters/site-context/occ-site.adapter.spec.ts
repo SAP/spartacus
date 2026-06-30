@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   TestRequest,
@@ -80,8 +81,8 @@ describe('OccSiteAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converterService = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'pipeableMany');
+    vi.spyOn(occEndpointsService, 'buildUrl');
   });
 
   afterEach(() => {

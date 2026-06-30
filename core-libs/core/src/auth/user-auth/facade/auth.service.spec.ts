@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   CrossSiteRequestForgeryService,
@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { Mock, vi } from 'vitest';
 import { OCC_USER_ID_CURRENT } from '../../../occ';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthNotificationType } from '../models/auth-notification.model';
@@ -19,7 +20,6 @@ import { AuthNotificationService } from './auth-notification.service';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
 
-const createSpy = jasmine.createSpy;
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('');
@@ -46,9 +46,8 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
     return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
-  refreshAuthConfig = createSpy().and.stub();
-
-  changeAuthConfigClientId = createSpy().and.stub();
+  refreshAuthConfig: Mock = vi.fn();
+  changeAuthConfigClientId: Mock = vi.fn();
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -150,9 +149,7 @@ describe('AuthService', () => {
     userIdService = TestBed.inject(UserIdService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    authMultisiteIsolationService = TestBed.inject(
-      AuthMultisiteIsolationService
-    );
+    authMultisiteIsolationService = TestBed.inject(AuthMultisiteIsolationService);
     featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
     authNotificationService = TestBed.inject(
@@ -172,51 +169,44 @@ describe('AuthService', () => {
       });
 
       it('should login user when token is present and dispatch login action', async () => {
-        spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
-        spyOn(userIdService, 'setUserId').and.callThrough();
-        spyOn(store, 'dispatch').and.callThrough();
-        spyOn(authStorageService, 'getItem').and.returnValue('token');
-        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+        vi.spyOn(oAuthLibWrapperService, 'tryLogin');
+        vi.spyOn(userIdService, 'setUserId');
+        vi.spyOn(store, 'dispatch');
+        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
         expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-        expect(userIdService.setUserId).toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
+        expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
         expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       });
 
       it('when customer emulated in asm page', async () => {
-        spyOn(authStorageService, 'getItem').and.returnValue('token');
-        spyOn(userIdService, 'setUserId').and.callThrough();
-
-        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+        vi.spyOn(userIdService, 'setUserId');
+        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(true));
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       });
 
       it('when token is present and customer is not emulated in ASM mode', async () => {
         service.updateIsUsingASMClient(true);
-        spyOn(authStorageService, 'getItem').and.returnValue('token');
-        spyOn(userIdService, 'setUserId').and.callThrough();
-        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+        vi.spyOn(userIdService, 'setUserId');
+        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       });
 
       describe('when the token is received', () => {
         it('should redirect', async () => {
-          spyOn(authRedirectService, 'redirect').and.callThrough();
-          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+          vi.spyOn(authRedirectService, 'redirect');
+          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
 
           await service.checkOAuthParamsInUrl();
 
@@ -224,8 +214,8 @@ describe('AuthService', () => {
         });
 
         it('should dispatch login action', async () => {
-          spyOn(store, 'dispatch').and.callThrough();
-          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+          vi.spyOn(store, 'dispatch');
+          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
 
           await service.checkOAuthParamsInUrl();
 
@@ -235,14 +225,14 @@ describe('AuthService', () => {
 
       describe('when the token is NOT received', () => {
         beforeEach(() => {
-          spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+          vi.spyOn(oAuthLibWrapperService, 'tryLogin').mockReturnValue(
             Promise.resolve({ result: true, tokenReceived: false })
           );
-          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
         });
 
         it('should NOT redirect', async () => {
-          spyOn(authRedirectService, 'redirect').and.stub();
+          vi.spyOn(authRedirectService, 'redirect').mockImplementation(() => {});
 
           await service.checkOAuthParamsInUrl();
 
@@ -250,7 +240,7 @@ describe('AuthService', () => {
         });
 
         it('should dispatch login action', async () => {
-          spyOn(store, 'dispatch').and.callThrough();
+          vi.spyOn(store, 'dispatch');
 
           await service.checkOAuthParamsInUrl();
 
@@ -265,40 +255,35 @@ describe('AuthService', () => {
       });
 
       it('when customer emulated in asm page', async () => {
-        spyOn(authStorageService, 'getItem').and.returnValue('token');
-        spyOn(userIdService, 'setUserId').and.callThrough();
-
-        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+        vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
+        vi.spyOn(userIdService, 'setUserId');
+        vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(true));
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-          OCC_USER_ID_CURRENT
-        );
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       });
 
       describe('when the token is received', () => {
         beforeEach(() => {
-          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+          vi.spyOn(userIdService, 'isEmulated').mockReturnValue(of(false));
         });
 
         it('should login user and dispatch login action', async () => {
-          spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
-          spyOn(userIdService, 'setUserId').and.callThrough();
-          spyOn(store, 'dispatch').and.callThrough();
-          spyOn(authStorageService, 'getItem').and.returnValue('token');
+          vi.spyOn(oAuthLibWrapperService, 'tryLogin');
+          vi.spyOn(userIdService, 'setUserId');
+          vi.spyOn(store, 'dispatch');
+          vi.spyOn(authStorageService, 'getItem').mockReturnValue('token');
 
           await service.checkOAuthParamsInUrl();
 
           expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-          expect(userIdService.setUserId).toHaveBeenCalledWith(
-            OCC_USER_ID_CURRENT
-          );
+          expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
           expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
         });
 
         it('should redirect', async () => {
-          spyOn(authRedirectService, 'redirect').and.callThrough();
+          vi.spyOn(authRedirectService, 'redirect');
 
           await service.checkOAuthParamsInUrl();
 
@@ -308,13 +293,13 @@ describe('AuthService', () => {
 
       describe('when the token is NOT received', () => {
         beforeEach(() => {
-          spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+          vi.spyOn(oAuthLibWrapperService, 'tryLogin').mockReturnValue(
             Promise.resolve({ result: true, tokenReceived: false })
           );
         });
 
         it('should NOT redirect', async () => {
-          spyOn(authRedirectService, 'redirect').and.stub();
+          vi.spyOn(authRedirectService, 'redirect').mockImplementation(() => {});
 
           await service.checkOAuthParamsInUrl();
 
@@ -322,7 +307,7 @@ describe('AuthService', () => {
         });
 
         it('should NOT dispatch login action', async () => {
-          spyOn(store, 'dispatch').and.callThrough();
+          vi.spyOn(store, 'dispatch');
 
           await service.checkOAuthParamsInUrl();
 
@@ -334,31 +319,26 @@ describe('AuthService', () => {
 
   describe('loginWithRedirect()', () => {
     it('should initialize login flow', () => {
-      spyOn(oAuthLibWrapperService, 'initLoginFlow').and.callThrough();
+      vi.spyOn(oAuthLibWrapperService, 'initLoginFlow');
 
       const result = service.loginWithRedirect();
 
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
   });
 
   describe('loginWithCredentials()', () => {
     it('should login user', async () => {
-      spyOn(
-        oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
-      ).and.callThrough();
-      spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(authRedirectService, 'redirect').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOn(authMultisiteIsolationService, 'decorateUserId').and.callThrough();
+      vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
+      vi.spyOn(userIdService, 'setUserId');
+      vi.spyOn(authRedirectService, 'redirect');
+      vi.spyOn(store, 'dispatch');
+      vi.spyOn(authMultisiteIsolationService, 'decorateUserId');
 
       await service.loginWithCredentials('username', 'pass');
 
-      expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
-      ).toHaveBeenCalledWith('username', 'pass');
+      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith('username', 'pass');
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       expect(authRedirectService.redirect).toHaveBeenCalled();
@@ -367,22 +347,17 @@ describe('AuthService', () => {
 
   describe('otpLoginWithCredentials()', () => {
     it('should login user', async () => {
-      spyOn(
-        oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
-      ).and.callThrough();
-      spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(authRedirectService, 'redirect').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
+      vi.spyOn(userIdService, 'setUserId');
+      vi.spyOn(authRedirectService, 'redirect');
+      vi.spyOn(store, 'dispatch');
 
       const tokenId = '<LGN[OZ8Ijx92S7pf3KcqtuUxOvM0l2XmZQX+4TUEzXcJyjI=]>';
       const tokenCode = 'XD2iuP';
 
       await service.otpLoginWithCredentials(tokenId, tokenCode);
 
-      expect(
-        oAuthLibWrapperService.authorizeWithPasswordFlow
-      ).toHaveBeenCalledWith(tokenId, tokenCode);
+      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith(tokenId, tokenCode);
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       expect(authRedirectService.redirect).toHaveBeenCalled();
@@ -390,19 +365,18 @@ describe('AuthService', () => {
   });
 
   describe('coreLogout()', () => {
-    it('should revoke tokens and logout', fakeAsync(() => {
-      spyOn(userIdService, 'clearUserId').and.callThrough();
-      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
+    it('should revoke tokens and logout', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(userIdService, 'clearUserId');
+      vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout').mockImplementation(() => {
         return new Promise<void>((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 100);
+          setTimeout(() => { resolve(); }, 100);
         });
       });
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOn(authNotificationService, 'sendNotification').and.callThrough();
+      vi.spyOn(store, 'dispatch');
+      vi.spyOn(authNotificationService, 'sendNotification');
 
-      service.coreLogout();
+      const logoutPromise = service.coreLogout();
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
       expect(store.dispatch).not.toHaveBeenCalled();
@@ -410,13 +384,15 @@ describe('AuthService', () => {
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(true);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      await logoutPromise;
 
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
       expect(
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(false);
-    }));
+      vi.useRealTimers();
+    });
 
     describe('when propagateLogoutToAllTabs is enabled', () => {
       beforeEach(() => {
@@ -424,16 +400,14 @@ describe('AuthService', () => {
       });
 
       it('should send a logout notification to other tabs', async () => {
-        spyOn(userIdService, 'clearUserId').and.callThrough();
-        spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
+        vi.spyOn(userIdService, 'clearUserId');
+        vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout').mockImplementation(() => {
           return new Promise<void>((resolve) => {
-            setTimeout(() => {
-              resolve();
-            }, 100);
+            setTimeout(() => { resolve(); }, 100);
           });
         });
-        spyOn(store, 'dispatch').and.callThrough();
-        spyOn(authNotificationService, 'sendNotification').and.callThrough();
+        vi.spyOn(store, 'dispatch');
+        vi.spyOn(authNotificationService, 'sendNotification');
 
         await service.coreLogout();
 
@@ -484,7 +458,7 @@ describe('AuthService', () => {
       featureToggles.propagateLogoutToAllTabs = true;
 
       service = TestBed.inject(AuthService);
-      spyOn(service, 'coreLogout').and.stub();
+      vi.spyOn(service, 'coreLogout').mockImplementation(() => Promise.resolve());
     });
 
     it('should call coreLogout when a logout event is received', () => {
@@ -502,7 +476,7 @@ describe('AuthService', () => {
     });
 
     it('should not call coreLogout when isUserLoggedIn is false', () => {
-      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+      vi.spyOn(authStorageService, 'getToken').mockReturnValue(of(undefined));
 
       authNotificationService.notifications$.next(AuthNotificationType.LOGOUT);
 
@@ -525,7 +499,7 @@ describe('AuthService', () => {
     });
 
     it('should return false when there is not access_token', async () => {
-      spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+      vi.spyOn(authStorageService, 'getToken').mockReturnValue(of(undefined));
       const result = await firstValueFrom(service.isUserLoggedIn());
       expect(result).toBe(false);
     });
@@ -533,7 +507,7 @@ describe('AuthService', () => {
 
   describe('initLogout()', () => {
     it('should redirect url to logout page', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
 
       service.logout();
 
@@ -556,9 +530,7 @@ describe('AuthService', () => {
       it('should call refreshAuthConfig method when asm mode enabled', () => {
         (service as any).isAsmEnabled = () => true;
         service.refreshAuthConfig();
-        expect(
-          oAuthLibWrapperService.changeAuthConfigClientId
-        ).toHaveBeenCalled();
+        expect(oAuthLibWrapperService.changeAuthConfigClientId).toHaveBeenCalled();
       });
     });
   });

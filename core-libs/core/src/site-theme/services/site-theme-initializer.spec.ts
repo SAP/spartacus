@@ -1,10 +1,10 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
 import { SiteThemeService } from '../facade';
 import { SiteThemeInitializer } from './site-theme-initializer';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
-import createSpy = jasmine.createSpy;
 import { SiteContextConfig } from '../../site-context';
 
 const mockDefaultTheme = 'default';
@@ -28,7 +28,7 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
 class MockSiteThemePersistenceService
   implements Partial<SiteThemePersistenceService>
 {
-  initSync = createSpy().and.returnValue(of(EMPTY));
+  initSync = vi.fn().mockReturnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
@@ -61,7 +61,7 @@ describe('SiteThemeInitializer', () => {
     siteThemePersistenceService = TestBed.inject(SiteThemePersistenceService);
     siteThemeService = TestBed.inject(SiteThemeService);
     initializer = TestBed.inject(SiteThemeInitializer);
-    spyOn(siteThemeService, 'setActive');
+    vi.spyOn(siteThemeService, 'setActive');
   });
 
   it('should be created', () => {
@@ -70,21 +70,21 @@ describe('SiteThemeInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteThemePersistenceService initSync()', () => {
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
-      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(false);
+      spyOn<any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
       initializer.initialize();
       expect(siteThemePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
     });
 
     it('should set default theme is the theme is NOT initialized', () => {
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(false);
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(false);
       initializer.initialize();
       expect(siteThemeService.setActive).toHaveBeenCalledWith(mockDefaultTheme);
     });
 
     it('should NOT set default from config is the theme is initialized', () => {
-      spyOn(siteThemeService, 'isInitialized').and.returnValue(true);
+      vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(true);
       initializer.initialize();
       expect(siteThemeService.setActive).not.toHaveBeenCalled();
     });

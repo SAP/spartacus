@@ -1,3 +1,4 @@
+import { vi, Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Router, UrlTree } from '@angular/router';
 import {
@@ -20,28 +21,27 @@ const mockCsrfTokenResponse: CSRFResponse = {
   parameterName: '_csrf',
 };
 class MockAuthService {
-  getCsrfToken = jasmine.createSpy().and.returnValue(of(mockCsrfTokenResponse));
+  getCsrfToken = vi.fn().mockReturnValue(of(mockCsrfTokenResponse));
 }
 class MockRouter {
-  parseUrl = jasmine
-    .createSpy()
-    .and.callFake((url: string) => ({ root: url }) as unknown as UrlTree);
+  parseUrl = vi.fn()
+    .mockImplementation((url: string) => ({ root: url }) as unknown as UrlTree);
 }
 class MockSemanticPathService {
-  get = jasmine.createSpy().and.callFake((route: string) => `/${route}`);
+  get = vi.fn().mockImplementation((route: string) => `/${route}`);
 }
 class MockWindowRef {
   localStorage = mockStorage();
-  location = { href: '', assign: jasmine.createSpy() };
+  location = { href: '', assign: vi.fn() };
   isBrowser(): boolean {
     return true;
   }
 }
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 class MockAuthConfigService {
-  customLoginEnabled = jasmine.createSpy().and.returnValue(true);
+  customLoginEnabled = vi.fn().mockReturnValue(true);
 }
 
 class MockFederatedLoginService implements Partial<FederatedLoginService> {
@@ -102,21 +102,21 @@ describe('CustomLoginGuard', () => {
     authService = TestBed.inject(AuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     csrfStateService = TestBed.inject(CsrfStateService);
-    spyOn(csrfStateService, 'set').and.callThrough();
+    vi.spyOn(csrfStateService, 'set');
     storage = TestBed.inject(WindowRef).localStorage as Storage;
-    spyOn(storage, 'setItem').and.callThrough();
+    vi.spyOn(storage, 'setItem');
     mockWindowRef = TestBed.inject(WindowRef) as unknown as MockWindowRef;
     authConfigService = TestBed.inject(AuthConfigService);
     federatedLoginService = TestBed.inject(
       FederatedLoginService
     ) as unknown as MockFederatedLoginService;
 
-    jasmine.clock().install();
-    jasmine.clock().mockDate(new Date(0));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(0));
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    vi.useRealTimers();
   });
 
   it('should be created', () => {
@@ -125,7 +125,7 @@ describe('CustomLoginGuard', () => {
 
   describe('when custom login is disabled', () => {
     beforeEach(() => {
-      (authConfigService.customLoginEnabled as jasmine.Spy).and.returnValue(
+      (authConfigService.customLoginEnabled as Mock).mockReturnValue(
         false
       );
     });
@@ -138,7 +138,7 @@ describe('CustomLoginGuard', () => {
 
   describe('when SSR mode is running', () => {
     beforeEach(() => {
-      spyOn(mockWindowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(mockWindowRef, 'isBrowser').mockReturnValue(false);
     });
 
     it('should resolve to true when SSR mode is running', async () => {
@@ -165,7 +165,7 @@ describe('CustomLoginGuard', () => {
       await lastValueFrom(guard.canActivate());
 
       expect(storage.setItem).toHaveBeenCalledWith(
-        jasmine.any(String),
+        expect.any(String),
         expected
       );
     });
@@ -173,7 +173,7 @@ describe('CustomLoginGuard', () => {
 
   describe('when there is a missing session', () => {
     beforeEach(() => {
-      (authService.getCsrfToken as jasmine.Spy).and.returnValue(
+      (authService.getCsrfToken as Mock).mockReturnValue(
         throwError(() => {
           return { status: 403 };
         })
@@ -192,7 +192,7 @@ describe('CustomLoginGuard', () => {
       await lastValueFrom(guard.canActivate());
 
       expect(storage.setItem).toHaveBeenCalledWith(
-        jasmine.any(String),
+        expect.any(String),
         expected
       );
     });
@@ -204,7 +204,7 @@ describe('CustomLoginGuard', () => {
         await lastValueFrom(guard.canActivate());
 
         expect(storage.setItem).toHaveBeenCalledWith(
-          jasmine.any(String),
+          expect.any(String),
           expected
         );
       });
@@ -214,14 +214,14 @@ describe('CustomLoginGuard', () => {
       const expected = JSON.stringify({ t: 0, c: 1 });
       await lastValueFrom(guard.canActivate());
 
-      (authService.getCsrfToken as jasmine.Spy).and.returnValue(
+      (authService.getCsrfToken as Mock).mockReturnValue(
         of(mockCsrfTokenResponse)
       );
       const actual = await lastValueFrom(guard.canActivate());
 
       expect(actual).toBe(true);
       expect(storage.setItem).toHaveBeenCalledWith(
-        jasmine.any(String),
+        expect.any(String),
         expected
       );
     });
@@ -239,7 +239,7 @@ describe('CustomLoginGuard', () => {
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(storage.setItem).toHaveBeenCalledWith(
-        jasmine.any(String),
+        expect.any(String),
         JSON.stringify({ t: 0, c: 0 })
       );
     });
@@ -279,7 +279,7 @@ describe('CustomLoginGuard', () => {
 
   describe('when there is a CORS error', () => {
     beforeEach(() => {
-      (authService.getCsrfToken as jasmine.Spy).and.returnValue(
+      (authService.getCsrfToken as Mock).mockReturnValue(
         throwError(() => {
           return { status: 0 };
         })

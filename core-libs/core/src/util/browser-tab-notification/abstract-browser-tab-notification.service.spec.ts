@@ -24,7 +24,7 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
 }
 
 class MockLoggerService implements Partial<LoggerService> {
-  warn = jasmine.createSpy('warn');
+  warn = vi.fn();
 }
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -61,10 +61,10 @@ describe('AbstractTabNotificationService', () => {
 
   beforeEach(() => {
     mockChannel = new MockBroadcastChannel();
-    spyOn(mockChannel, 'addEventListener');
-    spyOn(mockChannel, 'postMessage');
-    spyOn(mockChannel, 'close');
-    spyOn(window, 'BroadcastChannel').and.returnValue(mockChannel as any);
+    vi.spyOn(mockChannel, 'addEventListener');
+    vi.spyOn(mockChannel, 'postMessage');
+    vi.spyOn(mockChannel, 'close');
+    vi.spyOn(window, 'BroadcastChannel').mockReturnValue(mockChannel as any);
 
     TestBed.configureTestingModule({
       providers: [
@@ -93,13 +93,13 @@ describe('AbstractTabNotificationService', () => {
 
       expect(mockChannel.addEventListener).toHaveBeenCalledWith(
         'message',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should log a warning if BroadcastChannel throws', () => {
       const errorMessage = 'BroadcastChannel not supported';
-      (window.BroadcastChannel as unknown as jasmine.Spy).and.throwError(
+      (window.BroadcastChannel as unknown as Mock).and.throwError(
         errorMessage
       );
 
@@ -111,7 +111,7 @@ describe('AbstractTabNotificationService', () => {
     });
 
     it('should not listen when server-side', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
 
       service.listen();
 
@@ -124,8 +124,8 @@ describe('AbstractTabNotificationService', () => {
       service.listen();
 
       const listenerCallback = (
-        mockChannel.addEventListener as jasmine.Spy
-      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
+        mockChannel.addEventListener as Mock
+      ).mock.lastCall[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -145,8 +145,8 @@ describe('AbstractTabNotificationService', () => {
       service.listen();
 
       const listenerCallback = (
-        mockChannel.addEventListener as jasmine.Spy
-      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
+        mockChannel.addEventListener as Mock
+      ).mock.lastCall[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -171,8 +171,8 @@ describe('AbstractTabNotificationService', () => {
         service.listen();
 
         const listenerCallback = (
-          mockChannel.addEventListener as jasmine.Spy
-        ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
+          mockChannel.addEventListener as Mock
+        ).mock.lastCall[1] as (event: MessageEvent) => void;
 
         const emittedValues: unknown[] = [];
         service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -198,8 +198,8 @@ describe('AbstractTabNotificationService', () => {
         service.listen();
 
         const listenerCallback = (
-          mockChannel.addEventListener as jasmine.Spy
-        ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
+          mockChannel.addEventListener as Mock
+        ).mock.lastCall[1] as (event: MessageEvent) => void;
 
         const emittedValues: unknown[] = [];
         service.notifications$.subscribe((val) => emittedValues.push(val));

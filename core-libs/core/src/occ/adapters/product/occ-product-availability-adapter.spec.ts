@@ -39,9 +39,8 @@ describe('OccProductAvailabilityAdapter', () => {
         {
           provide: OccEndpointsService,
           useValue: {
-            buildUrl: jasmine
-              .createSpy('buildUrl')
-              .and.returnValue(mockAvailabilityUrl),
+            buildUrl: vi.fn()
+              .mockReturnValue(mockAvailabilityUrl),
           },
         },
         provideHttpClient(withInterceptorsFromDi()),

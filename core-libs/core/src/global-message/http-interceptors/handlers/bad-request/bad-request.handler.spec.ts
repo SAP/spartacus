@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
@@ -134,8 +135,8 @@ describe('BadRequestHandler', () => {
     service = TestBed.inject(BadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'remove');
   });
 
   it('should be created', () => {
@@ -162,7 +163,7 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle bad password message', () => {
-    spyOn(service, 'getErrorTranslationKey').and.callThrough();
+    vi.spyOn(service, 'getErrorTranslationKey');
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockBadPasswordResponse.error.error_description
@@ -179,7 +180,7 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle expired password message', () => {
-    spyOn(service, 'getErrorTranslationKey').and.callThrough();
+    vi.spyOn(service, 'getErrorTranslationKey');
     service.handleError(MockBadPasswordRequest, MockExpiredPasswordResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockExpiredPasswordResponse.error.error_description
@@ -196,7 +197,7 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle disabled user message', () => {
-    spyOn(service, 'getErrorTranslationKey').and.callThrough();
+    vi.spyOn(service, 'getErrorTranslationKey');
     service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockDisabledUserResponse.error.error_description

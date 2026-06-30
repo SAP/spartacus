@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -44,7 +45,7 @@ describe('Notification Preference Effect', () => {
 
   describe('LoadNotificationPreference$', () => {
     it('should return LoadNotificationPreferencesSuccess action', () => {
-      spyOn(userNotificationPreferenceConnector, 'loadAll').and.returnValue(
+      vi.spyOn(userNotificationPreferenceConnector, 'loadAll').mockReturnValue(
         of(mockNotificationPreference)
       );
 
@@ -62,7 +63,7 @@ describe('Notification Preference Effect', () => {
     });
 
     it('should return LoadNotificationPreferencesFail action', () => {
-      spyOn(userNotificationPreferenceConnector, 'loadAll').and.returnValue(
+      vi.spyOn(userNotificationPreferenceConnector, 'loadAll').mockReturnValue(
         throwError(() => error)
       );
 
@@ -80,7 +81,7 @@ describe('Notification Preference Effect', () => {
 
   describe('updateNotificationPreferences$', () => {
     it('should return NotificationPreferencesSuccess action', () => {
-      spyOn(userNotificationPreferenceConnector, 'update').and.returnValue(
+      vi.spyOn(userNotificationPreferenceConnector, 'update').mockReturnValue(
         of(mockNotificationPreference)
       );
 
@@ -101,7 +102,7 @@ describe('Notification Preference Effect', () => {
     });
 
     it('should return NotificationPreferencesFail action', () => {
-      spyOn(userNotificationPreferenceConnector, 'update').and.returnValue(
+      vi.spyOn(userNotificationPreferenceConnector, 'update').mockReturnValue(
         throwError(() => error)
       );
 

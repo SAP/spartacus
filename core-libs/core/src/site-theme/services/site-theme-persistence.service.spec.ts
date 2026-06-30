@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
@@ -8,19 +9,13 @@ import { SITE_THEME_ID } from '../providers/site-theme-id';
 
 describe('SiteThemePersistenceService', () => {
   let service: SiteThemePersistenceService;
-  let statePersistenceService: jasmine.SpyObj<StatePersistenceService>;
-  let siteThemeService: jasmine.SpyObj<SiteThemeService>;
+  let statePersistenceService: StatePersistenceService;
+  let siteThemeService: SiteThemeService;
 
   beforeEach(() => {
-    const statePersistenceSpy = jasmine.createSpyObj(
-      'StatePersistenceService',
-      ['syncWithStorage']
-    );
-    const siteThemeSpy = jasmine.createSpyObj('SiteThemeService', [
-      'getActive',
-      'isInitialized',
-      'setActive',
-    ]);
+    const statePersistenceSpy = { syncWithStorage: vi.fn() };
+    const siteThemeSpy = { 
+      getActive: vi.fn(), isInitialized: vi.fn(), setActive: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -34,10 +29,10 @@ describe('SiteThemePersistenceService', () => {
     service = TestBed.inject(SiteThemePersistenceService);
     statePersistenceService = TestBed.inject(
       StatePersistenceService
-    ) as jasmine.SpyObj<StatePersistenceService>;
+    ) as StatePersistenceService;
     siteThemeService = TestBed.inject(
       SiteThemeService
-    ) as jasmine.SpyObj<SiteThemeService>;
+    ) as SiteThemeService;
   });
 
   it('should be created', () => {
@@ -46,20 +41,20 @@ describe('SiteThemePersistenceService', () => {
 
   it('should initialize sync with storage', () => {
     const activeTheme$ = new ReplaySubject<string>(1);
-    siteThemeService.getActive.and.returnValue(activeTheme$);
+    siteThemeService.getActive.mockReturnValue(activeTheme$);
 
     service.initSync().subscribe();
 
     expect(statePersistenceService.syncWithStorage).toHaveBeenCalledWith({
       key: SITE_THEME_ID,
       state$: activeTheme$,
-      onRead: jasmine.any(Function),
+      onRead: expect.any(Function),
     });
   });
 
   it('should handle onRead correctly', () => {
     const valueFromStorage = 'dark-theme';
-    siteThemeService.isInitialized.and.returnValue(false);
+    siteThemeService.isInitialized.mockReturnValue(false);
 
     service['onRead'](valueFromStorage);
 
@@ -69,8 +64,8 @@ describe('SiteThemePersistenceService', () => {
   it('should complete initialized$ on onRead', () => {
     const valueFromStorage = 'dark-theme';
     const initialized$ = service['initialized$'];
-    const spy = spyOn(initialized$, 'next').and.callThrough();
-    const spyComplete = spyOn(initialized$, 'complete').and.callThrough();
+    const spy = vi.spyOn(initialized$, 'next');
+    const spyComplete = vi.spyOn(initialized$, 'complete');
     service['onRead'](valueFromStorage);
 
     expect(spy).toHaveBeenCalled();

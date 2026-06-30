@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RouteConfig } from '../routes-config';
 import { RoutingConfigService } from '../routing-config.service';
@@ -31,14 +32,14 @@ describe('SemanticPathService', () => {
 
   describe('get', () => {
     it(`should return absolute url with path from routes config`, () => {
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
         paths: ['some/url'],
       });
       expect(service.get('test')).toBe('/some/url');
     });
 
     it(`should return undefined when there is no configured path for given route`, () => {
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValue(undefined);
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(undefined);
       expect(service.get('test')).toBe(undefined);
     });
   });
@@ -46,7 +47,7 @@ describe('SemanticPathService', () => {
   describe('transform', () => {
     describe(`, when commands contain 'route' property,`, () => {
       it('should return absolute path', () => {
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+        vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
           paths: ['path/:param1'],
         });
         const resultPath = service.transform({
@@ -57,7 +58,7 @@ describe('SemanticPathService', () => {
       });
 
       it('should return relative path when the first command is not object with "route" property', () => {
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
+        vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue({
           paths: ['path/:param1'],
         });
         const resultPath = service.transform([
@@ -79,7 +80,7 @@ describe('SemanticPathService', () => {
         routesConfigs: RouteConfig[];
         expectedResult: any[];
       }) {
-        spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
+        vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
           ...routesConfigs
         );
         expect(service.transform(urlCommands)).toEqual(expectedResult);

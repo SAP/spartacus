@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -57,7 +58,7 @@ describe('UserConsentService', () => {
     service = TestBed.inject(UserConsentService);
     userIdService = TestBed.inject(UserIdService);
     authService = TestBed.inject(AuthService);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should UserConsentService is injected', inject(
@@ -96,9 +97,9 @@ describe('UserConsentService', () => {
       });
       describe('when the loadIfMissing parameter is set to true', () => {
         it('should call loadConsents()', () => {
-          spyOn(service, 'loadConsents').and.stub();
-          spyOn(service, 'getConsentsResultLoading').and.returnValue(of(false));
-          spyOn(service, 'getConsentsResultSuccess').and.returnValue(of(false));
+          vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
+          vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(of(false));
+          vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(of(false));
 
           service.getConsents(true).subscribe().unsubscribe();
 
@@ -109,11 +110,11 @@ describe('UserConsentService', () => {
             store.dispatch(
               new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
             );
-            spyOn(service, 'loadConsents').and.stub();
-            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+            vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
+            vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
               of(false)
             );
-            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+            vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
               of(false)
             );
 
@@ -124,11 +125,11 @@ describe('UserConsentService', () => {
         });
         describe('when the templates are currently being loaded', () => {
           it('should NOT call loadConsents()', () => {
-            spyOn(service, 'loadConsents').and.stub();
-            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+            vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
+            vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
               of(true)
             );
-            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+            vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
               of(false)
             );
 
@@ -142,11 +143,11 @@ describe('UserConsentService', () => {
             store.dispatch(
               new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
             );
-            spyOn(service, 'loadConsents').and.stub();
-            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+            vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
+            vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
               of(false)
             );
-            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+            vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
               of(true)
             );
 
@@ -223,7 +224,7 @@ describe('UserConsentService', () => {
 
       describe('when the user is logged in', () => {
         it('should call getConsentByTemplateId selector', () => {
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+          vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
           store.dispatch(
             new UserActions.LoadUserConsentsSuccess(mockConsentTemplates)
           );
@@ -237,11 +238,11 @@ describe('UserConsentService', () => {
         });
 
         it('should call getConsents and loadConsent should be called once if consents are missing', () => {
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+          vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
 
-          spyOn(service, 'loadConsents').and.stub();
-          spyOn(service, 'getConsentsResultLoading').and.returnValue(of(false));
-          spyOn(service, 'getConsentsResultSuccess').and.returnValue(of(false));
+          vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
+          vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(of(false));
+          vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(of(false));
 
           let result: Consent;
           const subscription = service
@@ -265,11 +266,11 @@ describe('UserConsentService', () => {
       });
       describe('when the user is anonymous', () => {
         it('should not call getConsents() if isUserLoggedIn returns false', () => {
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-          spyOn(userIdService, 'getUserId').and.returnValue(
+          vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+          vi.spyOn(userIdService, 'getUserId').mockReturnValue(
             of(OCC_USER_ID_ANONYMOUS)
           );
-          spyOn(service, 'getConsents').and.stub();
+          vi.spyOn(service, 'getConsents').mockImplementation(() => {});
 
           service.getConsent(mockTemplateId).subscribe().unsubscribe();
 
@@ -277,11 +278,11 @@ describe('UserConsentService', () => {
         });
 
         it('should not call getConsents() if isUserLoggedIn returns true', () => {
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-          spyOn(userIdService, 'getUserId').and.returnValue(
+          vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+          vi.spyOn(userIdService, 'getUserId').mockReturnValue(
             of(OCC_USER_ID_ANONYMOUS)
           );
-          spyOn(service, 'getConsents').and.stub();
+          vi.spyOn(service, 'getConsents').mockImplementation(() => {});
 
           service.getConsent(mockTemplateId).subscribe().unsubscribe();
 

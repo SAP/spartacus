@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { BasePageMetaResolver, CanonicalUrlOptions } from '..';
@@ -54,7 +55,7 @@ describe('ContentPageMetaResolver', () => {
   it(`should resolve 'Page title' for resolveTitle()`, () => {
     let result: string | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveTitle').and.returnValue(
+    vi.spyOn(basePageMetaResolver, 'resolveTitle').mockReturnValue(
       of('Page title')
     );
 
@@ -71,7 +72,7 @@ describe('ContentPageMetaResolver', () => {
   it(`should resolve 'Page description' for resolveDescription()`, () => {
     let result: string | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
+    vi.spyOn(basePageMetaResolver, 'resolveDescription').mockReturnValue(
       of('Page description')
     );
 
@@ -88,7 +89,7 @@ describe('ContentPageMetaResolver', () => {
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {
     let result: BreadcrumbMeta[] | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+    vi.spyOn(basePageMetaResolver, 'resolveBreadcrumbs').mockReturnValue(
       of([{ label: 'common.home', link: '/' } as BreadcrumbMeta])
     );
 
@@ -106,7 +107,7 @@ describe('ContentPageMetaResolver', () => {
   it('should breadcrumbs for Angular child routes', () => {
     let result: BreadcrumbMeta[] | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+    vi.spyOn(basePageMetaResolver, 'resolveBreadcrumbs').mockReturnValue(
       of([
         { label: 'common.home', link: '/' },
         { label: 'child route breadcrumb', link: '/child' },
@@ -130,7 +131,7 @@ describe('ContentPageMetaResolver', () => {
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+    vi.spyOn(basePageMetaResolver, 'resolveRobots').mockReturnValue(
       of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX] as PageRobotsMeta[])
     );
 
@@ -148,7 +149,7 @@ describe('ContentPageMetaResolver', () => {
   it('should resolve the canonical url', () => {
     let result: string | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.returnValue(
+    vi.spyOn(basePageMetaResolver, 'resolveCanonicalUrl').mockReturnValue(
       of('https://www.myshop.com/')
     );
 

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
@@ -29,7 +30,7 @@ describe('ProductSearchService', () => {
   };
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockSelect);
 
     TestBed.configureTestingModule({
       imports: [
@@ -43,8 +44,8 @@ describe('ProductSearchService', () => {
     });
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductSearchService);
-    spyOn(service, 'search').and.callThrough();
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(service, 'search');
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should ProductSearchService is injected', inject(

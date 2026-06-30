@@ -1,6 +1,7 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
 import { StatePersistenceService } from '../../state/index';
 import { AnonymousConsentsService } from '../facade/index';
@@ -16,10 +17,10 @@ import {
 } from './anonymous-consents-state-persistence.service';
 
 class MockAnonymousConsentsService {
-  getTemplates = jasmine.createSpy();
-  setConsents = jasmine.createSpy();
-  toggleBannerDismissed = jasmine.createSpy();
-  toggleTemplatesUpdated = jasmine.createSpy();
+  getTemplates = vi.fn();
+  setConsents = vi.fn();
+  toggleBannerDismissed = vi.fn();
+  toggleTemplatesUpdated = vi.fn();
 }
 
 const mockConsent: AnonymousConsent = {
@@ -75,8 +76,8 @@ describe('AnonymousConsentsStatePersistenceService', () => {
     store = TestBed.inject(Store);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
 
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
   });
 
   it('should inject service', () => {
@@ -92,27 +93,21 @@ describe('AnonymousConsentsStatePersistenceService', () => {
   });
 
   describe('getAuthState()', () => {
-    it('should return the full state', (done: DoneFn) => {
-      spyOn(store, 'select').and.returnValue(of(mockState));
+    it('should return the full state', async () => {
+      vi.spyOn(store, 'select').mockReturnValue(of(mockState));
 
-      service['getAuthState']().subscribe((state) => {
-        expect(state).toEqual(mockState);
-
-        done();
-      });
+      const state = await firstValueFrom(service['getAuthState']());
+      expect(state).toEqual(mockState);
     });
 
-    it('should return the state partially', (done: DoneFn) => {
+    it('should return the state partially', async () => {
       const partialState = { ...mockState };
       delete partialState.ui;
 
-      spyOn(store, 'select').and.returnValue(of(partialState));
+      vi.spyOn(store, 'select').mockReturnValue(of(partialState));
 
-      service['getAuthState']().subscribe((state) => {
-        expect(state).toEqual(partialState);
-
-        done();
-      });
+      const state = await firstValueFrom(service['getAuthState']());
+      expect(state).toEqual(partialState);
     });
   });
 

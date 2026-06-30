@@ -11,7 +11,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthConfig, OccConfig } from '@spartacus/core';
+import { AuthConfig, OccConfig, OccEndpointsService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { defaultOccConfig } from '../../../occ/config/default-occ-config';
 import {
@@ -22,6 +22,7 @@ import { ClientToken } from '../models/client-token.model';
 import { ClientErrorHandlingService } from '../services/client-error-handling.service';
 import { ClientTokenService } from '../services/client-token.service';
 import { ClientTokenInterceptor } from './client-token.interceptor';
+import { vi } from 'vitest';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics`;
 
@@ -31,6 +32,8 @@ const testToken = {
   expires_in: 1000,
   scope: '',
 } as ClientToken;
+
+const baseUrl = `https://localhost:9002`;
 
 class MockClientTokenService implements Partial<ClientTokenService> {
   getClientToken() {
@@ -44,6 +47,10 @@ class MockClientErrorHandlingService
   handleExpiredClientToken(req, next) {
     return of(next.handle(req));
   }
+}
+
+class MockOccEndpointService {
+  getBaseUrl = () => baseUrl;
 }
 
 const MockAuthModuleConfig: OccConfig & AuthConfig = {
@@ -78,6 +85,10 @@ describe('ClientTokenInterceptor', () => {
           useClass: MockClientErrorHandlingService,
         },
         {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointService,
+        },
+        {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
           multi: true,
@@ -97,7 +108,7 @@ describe('ClientTokenInterceptor', () => {
     });
     describe('Client Token', () => {
       it('Should only add token to specified requests', () => {
-        spyOn(clientTokenService, 'getClientToken').and.returnValue(
+        vi.spyOn(clientTokenService, 'getClientToken').mockReturnValue(
           of(testToken)
         );
 
@@ -111,9 +122,10 @@ describe('ClientTokenInterceptor', () => {
         let authHeader = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
-        spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
-          true
-        );
+        vi.spyOn<any, any>(
+          InterceptorUtil,
+          'getInterceptorParam'
+        ).mockReturnValue(true);
         http
           .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
           .subscribe((result) => {
@@ -139,10 +151,7 @@ describe('ClientTokenInterceptor', () => {
       http.get('/test', options).subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      spyOn(
-        clientErrorHandlingService,
-        'handleExpiredClientToken'
-      ).and.callThrough();
+      vi.spyOn(clientErrorHandlingService, 'handleExpiredClientToken');
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
@@ -168,13 +177,12 @@ describe('ClientTokenInterceptor', () => {
       const options = {
         headers,
       };
+
+      vi.spyOn(clientErrorHandlingService, 'handleExpiredClientToken');
+
       http.get('/test', options).subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      spyOn(
-        clientErrorHandlingService,
-        'handleExpiredClientToken'
-      ).and.callThrough();
 
       const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
@@ -209,11 +217,14 @@ describe('ClientTokenInterceptor', () => {
     });
 
     it('Should not add tokens when disabled', () => {
-      spyOn(clientTokenService, 'getClientToken').and.returnValue(
+      vi.spyOn(clientTokenService, 'getClientToken').mockReturnValue(
         of(testToken)
       );
 
-      spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(true);
+      vi.spyOn<any, any>(
+        InterceptorUtil,
+        'getInterceptorParam'
+      ).mockReturnValue(true);
       http
         .post(`${OccUrl}/somestore/forgottenpasswordtokens`, { userId: 1 })
         .subscribe((result) => {

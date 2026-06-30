@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { FederatedLoginService } from '../../../federated-login';
@@ -40,7 +41,7 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   enabled = false;
   isLoginDomain = false;
   origin: string | undefined = undefined;
-  detectContext = jasmine.createSpy();
+  detectContext = vi.fn();
 }
 
 describe(`SiteContextConfigInitializer`, () => {
@@ -58,7 +59,7 @@ describe(`SiteContextConfigInitializer`, () => {
         {
           provide: JavaRegExpConverter,
           useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
+            toJsRegExp: vi.fn().mockImplementation((x) => new RegExp(x)),
           },
         },
         {
@@ -79,7 +80,7 @@ describe(`SiteContextConfigInitializer`, () => {
 
   describe(`resolveConfig - context was not already configured statically`, () => {
     it(`should throw error when the base sites loaded are undefined`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(undefined));
+      vi.spyOn(baseSiteService, 'getAll').mockReturnValue(of(undefined));
       let message = false;
       try {
         await initializer.configFactory();
@@ -90,7 +91,7 @@ describe(`SiteContextConfigInitializer`, () => {
     });
 
     it(`should throw error when the base sites loaded is an empty array`, async () => {
-      spyOn(baseSiteService, 'getAll').and.returnValue(of([]));
+      vi.spyOn(baseSiteService, 'getAll').mockReturnValue(of([]));
       let message = false;
       try {
         await initializer.configFactory();
@@ -102,7 +103,7 @@ describe(`SiteContextConfigInitializer`, () => {
 
     it(`should throw error when no url pattern of any base site matches the current url`, async () => {
       initializer['isCurrentBaseSite'] = () => false;
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
+      vi.spyOn(baseSiteService, 'getAll').mockReturnValue(of(mockBaseSites));
 
       let message = false;
       try {
@@ -115,7 +116,7 @@ describe(`SiteContextConfigInitializer`, () => {
 
     it(`should return config based on loaded sites data`, async () => {
       initializer['isCurrentBaseSite'] = () => true;
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
+      vi.spyOn(baseSiteService, 'getAll').mockReturnValue(of(mockBaseSites));
 
       const result = await initializer.configFactory();
 
@@ -150,7 +151,7 @@ describe(`SiteContextConfigInitializer`, () => {
           urlPatterns: ['^testUrl2$'],
         },
       ];
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(baseSites));
+      vi.spyOn(baseSiteService, 'getAll').mockReturnValue(of(baseSites));
 
       const result = await initializer.configFactory();
 
@@ -182,7 +183,7 @@ describe(`SiteContextConfigInitializer`, () => {
 
     beforeEach(() => {
       federatedLoginService.enabled = true;
-      spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
+      vi.spyOn(baseSiteService, 'getAll').mockReturnValue(of(mockBaseSites));
     });
 
     describe('when not on a login domain', () => {

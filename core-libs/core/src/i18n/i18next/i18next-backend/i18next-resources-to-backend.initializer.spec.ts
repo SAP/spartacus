@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import type { i18n } from 'i18next';
 import { I18nConfig } from '../../config/i18n-config';
@@ -48,7 +49,7 @@ describe('I18nextResourcesToBackendInitializer', () => {
     describe('when config i18n.backend.loader is not set', () => {
       it('should throw an error', () => {
         config.i18n = { backend: {} };
-        spyOn(i18next, 'init');
+        vi.spyOn(i18next, 'init');
 
         expect(() => i18nextBackendInitializer.initialize()).toThrow(
           new Error('Missing config `i18n.backend.loader`.')

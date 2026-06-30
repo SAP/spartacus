@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
@@ -5,7 +6,6 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { BaseSiteInitializer } from './base-site-initializer';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
-import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
@@ -17,7 +17,7 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
   isInitialized() {
     return false;
   }
-  setActive = createSpy().and.stub();
+  setActive = vi.fn().mockImplementation(() => {});
 }
 
 class MockConfigInitializerService
@@ -29,7 +29,7 @@ class MockConfigInitializerService
 class MockSiteContextRoutesHandler
   implements Partial<SiteContextRoutesHandler>
 {
-  initOnce = createSpy().and.returnValue(of(undefined));
+  initOnce = vi.fn().mockReturnValue(of(undefined));
 }
 
 describe('BaseSiteInitializer', () => {
@@ -62,7 +62,7 @@ describe('BaseSiteInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteContextRoutesHandler initOnce()', async () => {
-      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
+      spyOn<any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
       await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('BaseSiteInitializer', () => {
     });
 
     it('should NOT set default from config is the baseSite is initialized', async () => {
-      spyOn(baseSiteService, 'isInitialized').and.returnValue(true);
+      vi.spyOn(baseSiteService, 'isInitialized').mockReturnValue(true);
       await initializer.initialize();
       expect(baseSiteService.setActive).not.toHaveBeenCalled();
     });

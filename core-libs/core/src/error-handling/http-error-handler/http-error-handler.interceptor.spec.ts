@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -6,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, firstValueFrom, of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
@@ -69,61 +70,47 @@ describe('HttpErrorHandlerInterceptor', () => {
   });
 
   describe('error handling', () => {
-    it('should call handleError with OutboundHttpError for any HTTP error except 404 cms page not found', (done) => {
+    it('should call handleError with OutboundHttpError for any HTTP error except 404 cms page not found', async () => {
       const error: HttpErrorResponse = new HttpErrorResponse({
         status: 500,
         statusText: 'error',
       });
-      spyOn(errorHandler, 'handleError');
+      vi.spyOn(errorHandler, 'handleError');
 
       next.handle = () => throwError(() => error);
 
-      interceptor.intercept(request, next).subscribe({
-        error: (err) => {
-          expect(err).toEqual(error);
-          expect(errorHandler.handleError).toHaveBeenCalledWith(
-            jasmine.any(OutboundHttpError)
-          );
-          done();
-        },
-      });
+      await expect(firstValueFrom(interceptor.intercept(request, next))).rejects.toEqual(error);
+      expect(errorHandler.handleError).toHaveBeenCalledWith(
+        expect.any(OutboundHttpError)
+      );
     });
 
-    it('should call handleError with CmsPageNotFoundOutboundHttpError when CMS page not found', (done) => {
+    it('should call handleError with CmsPageNotFoundOutboundHttpError when CMS page not found', async () => {
       const error: HttpErrorResponse = new HttpErrorResponse({
         url: 'pages',
         status: 404,
       });
-      spyOn(errorHandler, 'handleError');
+      vi.spyOn(errorHandler, 'handleError');
 
       next.handle = () => throwError(() => error);
 
-      interceptor.intercept(request, next).subscribe({
-        error: (err) => {
-          expect(err).toEqual(error);
-          expect(errorHandler.handleError).toHaveBeenCalledWith(
-            jasmine.any(CmsPageNotFoundOutboundHttpError)
-          );
-          done();
-        },
-      });
+      await expect(firstValueFrom(interceptor.intercept(request, next))).rejects.toEqual(error);
+      expect(errorHandler.handleError).toHaveBeenCalledWith(
+        expect.any(CmsPageNotFoundOutboundHttpError)
+      );
     });
 
-    it('should not call handleError when it is not SSR', (done) => {
-      spyOn(errorHandler, 'handleError');
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+    it('should not call handleError when it is not SSR', async () => {
+      vi.spyOn(errorHandler, 'handleError');
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
 
       next.handle = () => throwError(() => new HttpErrorResponse({}));
 
-      interceptor.intercept(request, next).subscribe({
-        error: () => {
-          expect(errorHandler.handleError).not.toHaveBeenCalled();
-          done();
-        },
-      });
+      await expect(firstValueFrom(interceptor.intercept(request, next))).rejects.toBeTruthy();
+      expect(errorHandler.handleError).not.toHaveBeenCalled();
     });
 
-    it('should pass through the request when there is no error', (done) => {
+    it('should pass through the request when there is no error', async () => {
       const response: HttpEvent<any> = {
         status: 200,
         statusText: 'ok',
@@ -131,10 +118,8 @@ describe('HttpErrorHandlerInterceptor', () => {
       next.handle = () =>
         new Observable<HttpEvent<any>>((observer) => observer.next(response));
 
-      interceptor.intercept(request, next).subscribe((result) => {
-        expect(result).toBe(response);
-        done();
-      });
+      const result = await firstValueFrom(interceptor.intercept(request, next));
+      expect(result).toBe(response);
     });
   });
 });

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { AnonymousConsentsService } from '../../../../anonymous-consents/index';
 import { AnonymousConsent } from '../../../../model/index';
@@ -33,7 +34,7 @@ describe('AnonymousConsentNormalizer', () => {
 
   it('should copy return request properties if target is not provided', () => {
     const mockConsents: AnonymousConsent[] = [{ templateCode: 'test' }];
-    spyOn(anonymousConsentsService, 'decodeAndDeserialize').and.returnValue(
+    vi.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockReturnValue(
       mockConsents
     );
     const result = normalizer.convert('xxx');

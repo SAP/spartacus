@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
@@ -43,7 +44,7 @@ describe('Product Reviews selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(reviews));
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => of(reviews));
   });
 
   it('getSelectedProductReviewsFactory should return reviews', () => {

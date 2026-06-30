@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '@spartacus/core';
 import { LoggerModule } from 'i18next';
@@ -25,7 +26,7 @@ describe('i18next logger plugin', () => {
   testInput.forEach((input) => {
     describe(`logging ${input.length} argument(s)`, () => {
       it('should log', () => {
-        const log = spyOn(logger, 'log');
+        const log = vi.spyOn(logger, 'log');
 
         plugin.log(input);
 
@@ -33,7 +34,7 @@ describe('i18next logger plugin', () => {
       });
 
       it('should warn', () => {
-        const warn = spyOn(logger, 'warn');
+        const warn = vi.spyOn(logger, 'warn');
 
         plugin.warn(input);
 
@@ -41,7 +42,7 @@ describe('i18next logger plugin', () => {
       });
 
       it('should error', () => {
-        const error = spyOn(logger, 'error');
+        const error = vi.spyOn(logger, 'error');
 
         plugin.error(input);
 

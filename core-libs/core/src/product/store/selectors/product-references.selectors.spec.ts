@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
@@ -37,7 +38,7 @@ describe('Product References selectors', () => {
   });
 
   it('getSelectedProductReferencesFactory should return all references when no referenceType is provided', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(list));
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => of(list));
 
     let result: ProductReference[];
     const referenceType = '';

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ConfigInitializer } from '../config/config-initializer/config-initializer';
 import { I18nConfig } from './config/i18n-config';
@@ -31,7 +32,7 @@ describe('I18nModule', () => {
     config = TestBed.inject(I18nConfig);
     initializer = TestBed.inject(I18nConfigInitializer);
 
-    spyOn(initializer, 'configFactory').and.callThrough();
+    vi.spyOn(initializer, 'configFactory');
   });
 
   it(`should not resolve I18nConfig when it was already configured statically `, () => {

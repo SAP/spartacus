@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
@@ -36,7 +37,7 @@ describe('InternalServerErrorHandler', () => {
   });
 
   it('should send error to global message service', () => {
-    spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'add');
     service.handleError();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

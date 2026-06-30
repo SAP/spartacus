@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Translatable } from '@spartacus/core';
@@ -55,7 +56,7 @@ describe('Global Messages selectors', () => {
       sub.unsubscribe();
     }
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getGlobalMessagesActiveState', () => {

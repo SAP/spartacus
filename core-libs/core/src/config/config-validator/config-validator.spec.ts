@@ -1,10 +1,11 @@
+import { vi } from 'vitest';
 import { LoggerService } from '../../logger';
 import { validateConfig } from './config-validator';
 
 describe('config validator', () => {
   const logger = new LoggerService();
   beforeEach(() => {
-    spyOn(logger, 'warn');
+    vi.spyOn(logger, 'warn');
   });
 
   it('should not warn if there is no validators', () => {
