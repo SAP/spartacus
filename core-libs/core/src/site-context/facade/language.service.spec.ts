@@ -1,8 +1,12 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Language } from '../../model/misc.model';
@@ -76,14 +80,14 @@ describe('LanguageService', () => {
   });
 
   it('should be able to get languages', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
+    vi.mocked(select).mockReturnValueOnce(mockSelect1);
     service.getAll().subscribe((results) => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect2);
+    vi.mocked(select).mockReturnValueOnce(mockSelect2);
     service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveLang);
     });
@@ -100,7 +104,7 @@ describe('LanguageService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a language is initialized', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
+      vi.mocked(select).mockReturnValueOnce(mockSelect1);
       expect(service.isInitialized()).toBeTruthy();
     });
   });

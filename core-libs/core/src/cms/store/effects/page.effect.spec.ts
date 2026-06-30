@@ -152,7 +152,7 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = new HttpErrorResponse({ error: 'error' });
-        spyOn<any>(cmsPageConnector, 'get').mockReturnValue(
+        vi.spyOn<any, any>(cmsPageConnector, 'get').mockReturnValue(
           throwError(() => error)
         );
         const action = new CmsActions.LoadCmsPageData(pageContext);

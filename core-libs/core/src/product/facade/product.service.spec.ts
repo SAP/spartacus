@@ -1,7 +1,11 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
 import { lastValueFrom, of } from 'rxjs';
 import { Product } from '../../model/product.model';
@@ -81,7 +85,7 @@ describe('ProductService', () => {
 
   describe('isLoading(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
+      vi.mocked(select).mockReturnValue(
         () => () =>
           of({
             loading: true,
@@ -97,7 +101,7 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
+      vi.mocked(select).mockReturnValue(
         () => () =>
           of({
             error: true,
@@ -113,7 +117,7 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
+      vi.mocked(select).mockReturnValue(
         () => () =>
           of({
             success: true,
@@ -129,7 +133,7 @@ describe('ProductService', () => {
 
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', async () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
+      vi.mocked(select).mockReturnValue(
         () => () => of({ value: mockedProduct })
       );
       const result: Product = await lastValueFrom(

@@ -1,7 +1,11 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { of } from 'rxjs';
 import { Product, ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
@@ -62,7 +66,7 @@ describe('ProductReferenceService', () => {
   });
 
   it('should be able to get product references', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
+    vi.mocked(select).mockReturnValue(
       () => () => of(mockProductReferences)
     );
 

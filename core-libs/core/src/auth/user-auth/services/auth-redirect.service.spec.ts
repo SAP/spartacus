@@ -210,7 +210,7 @@ describe('AuthRedirectService', () => {
 
   describe('setRedirectUrl', () => {
     it('should save the passed url without site context parameters', () => {
-      spyOn<any>(service, 'getUrlWithoutSiteContextParams').mockReturnValue(
+      vi.spyOn<any, any>(service, 'getUrlWithoutSiteContextParams').mockReturnValue(
         '/c/123'
       );
       service.setRedirectUrl('/custom/url/en/USD/c/123');

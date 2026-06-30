@@ -1,0 +1,198 @@
+[
+  {
+    "errorType": "ESM not configurable \u2014 vi.spyOn on @ngrx/store select",
+    "fileCount": 15,
+    "filePaths": [
+      "src/cms/facade/cms.service.spec.ts",
+      "src/global-message/facade/global-message.service.spec.ts",
+      "src/product/facade/product-reference.service.spec.ts",
+      "src/product/facade/product-review.service.spec.ts",
+      "src/product/facade/product-search.service.spec.ts",
+      "src/product/facade/product.service.spec.ts",
+      "src/product/facade/searchbox.service.spec.ts",
+      "src/product/services/product-loading.service.spec.ts",
+      "src/product/store/selectors/product-references.selectors.spec.ts",
+      "src/product/store/selectors/product-reviews.selectors.spec.ts",
+      "src/routing/facade/routing.service.spec.ts",
+      "src/site-context/facade/base-site.service.spec.ts",
+      "src/site-context/facade/currency.service.spec.ts",
+      "src/site-context/facade/language.service.spec.ts",
+      "src/site-theme/facade/site-theme.service.spec.ts"
+    ],
+    "candidateForFix":"src/product/facade/product-review.service.spec.ts"
+  },
+  {
+    "errorType": "spyOn is not defined \u2014 residual untransformed spyOn",
+    "fileCount": 7,
+    "filePaths": [
+      "src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.spec.ts",
+      "src/auth/user-auth/services/auth-redirect.service.spec.ts",
+      "src/cms/store/effects/page.effect.spec.ts",
+      "src/site-context/services/base-site-initializer.spec.ts",
+      "src/site-context/services/currency-initializer.spec.ts",
+      "src/site-context/services/language-initializer.spec.ts",
+      "src/site-theme/services/site-theme-initializer.spec.ts"
+    ],
+    "candidateForFix":"src/product/facade/product-review.service.spec.ts"
+  },
+  {
+    "errorType": "ProxyZone not found \u2014 fakeAsync still in use",
+    "fileCount": 5,
+    "filePaths": [
+      "src/config/utils/deep-merge.spec.ts",
+      "src/features-config/directives/feature-level.directive.spec.ts",
+      "src/i18n/i18next/i18next-providers.spec.ts",
+      "src/lazy-loading/facade-factory/facade-factory.service.spec.ts",
+      "src/product/facade/product-search-by-code.service.spec.ts"
+    ],
+    "candidateForFix":"src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.spec.ts"
+  },
+  {
+    "errorType": "ESM not configurable \u2014 vi.spyOn on isDevMode",
+    "fileCount": 3,
+    "filePaths": [
+      "src/cms/facade/page-meta.service.spec.ts",
+      "src/i18n/i18next/i18next-translation.service.spec.ts",
+      "src/util/try-normalize-http-error.spec.ts"
+    ],
+    "candidateForFix":"src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.spec.ts"
+  },
+  {
+    "errorType": "Jasmine residual \u2014 .calls.argsFor()",
+    "fileCount": 2,
+    "filePaths": [
+      "src/i18n/i18next/i18next-initializer.spec.ts",
+      "src/state/event/state-event.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Jasmine residual \u2014 throwError/reset on spy",
+    "fileCount": 2,
+    "filePaths": [
+      "src/auth/user-auth/services/auth-redirect.service.spec.ts",
+      "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "mock.lastCall undefined \u2014 spy never called",
+    "fileCount": 2,
+    "filePaths": [
+      "src/auth/user-auth/facade/auth-notification.service.spec.ts",
+      "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "TypeScript parse error \u2014 semicolon expected",
+    "fileCount": 2,
+    "filePaths": [
+      "src/auth/user-auth/services/auth-http-header.service.spec.ts",
+      "src/util/command-query/command.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "done() callback deprecated",
+    "fileCount": 2,
+    "filePaths": [
+      "src/occ/adapters/cms/occ-cms-component.adapter.spec.ts",
+      "src/occ/adapters/cms/occ-cms-page.adapter.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 config-initializer scope ordering",
+    "fileCount": 1,
+    "filePaths": [
+      "src/config/config-initializer/config-initializer.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 config-validator call count",
+    "fileCount": 1,
+    "filePaths": [
+      "src/config/config-validator/config-validator.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Jasmine residual \u2014 .stub() not converted",
+    "fileCount": 1,
+    "filePaths": [
+      "src/federated-login/services/federated-login.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "i18next config shape mismatch \u2014 fallbackLng array vs string",
+    "fileCount": 1,
+    "filePaths": [
+      "src/i18n/i18next/i18next-initializer.spec.ts"
+    ]
+  },
+  {
+    "errorType": "i18next translation result undefined",
+    "fileCount": 1,
+    "filePaths": [
+      "src/i18n/i18next/i18next-translation.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 product-page-meta resolver",
+    "fileCount": 1,
+    "filePaths": [
+      "src/product/services/product-page-meta.resolver.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 configurable-routes ordering",
+    "fileCount": 1,
+    "filePaths": [
+      "src/routing/configurable-routes/configurable-routes.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 routing.service spy not called",
+    "fileCount": 1,
+    "filePaths": [
+      "src/routing/facade/routing.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 state-persistence call count mismatch",
+    "fileCount": 1,
+    "filePaths": [
+      "src/state/services/state-persistence.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "BroadcastChannel API mocks not set up correctly",
+    "fileCount": 1,
+    "filePaths": [
+      "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 oauth-lib-wrapper configure args mismatch",
+    "fileCount": 1,
+    "filePaths": [
+      "src/auth/user-auth/services/oauth-lib-wrapper.service.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Jasmine residual \u2014 .calls.allArgs()",
+    "fileCount": 1,
+    "filePaths": [
+      "src/cms/store/effects/components.effect.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 marble timing mismatch",
+    "fileCount": 1,
+    "filePaths": [
+      "src/product/store/effects/product-search-by-category.effect.spec.ts"
+    ]
+  },
+  {
+    "errorType": "Test logic regression \u2014 semantic-path transform results",
+    "fileCount": 1,
+    "filePaths": [
+      "src/routing/configurable-routes/url-translation/semantic-path.service.spec.ts"
+    ]
+  }
+]

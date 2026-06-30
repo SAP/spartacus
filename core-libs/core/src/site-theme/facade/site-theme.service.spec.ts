@@ -1,8 +1,12 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { Config, SiteThemeActions } from '@spartacus/core';
 import { of } from 'rxjs';
 import { SiteTheme } from '../../model/misc.model';
@@ -76,21 +80,21 @@ describe('SiteThemeService', () => {
   });
 
   it('should be able to get theme', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
+    vi.mocked(select).mockReturnValueOnce(mockSelect1);
     service.getAll().subscribe((results) => {
       expect(results).toEqual(mockThemes);
     });
   });
 
   it('should be able to get active theme', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect2);
+    vi.mocked(select).mockReturnValueOnce(mockSelect2);
     service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveTheme);
     });
   });
 
   it('should not set active theme', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
+    vi.mocked(select).mockReturnValueOnce(mockSelect1);
     service.setActive('dark_new');
     expect(store.dispatch).not.toHaveBeenCalledWith(
       new SiteThemeActions.SetActiveSiteTheme('dark_new')
@@ -99,7 +103,7 @@ describe('SiteThemeService', () => {
 
   describe('isInitialized', () => {
     it('should return TRUE if a theme is initialized', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValueOnce(mockSelect1);
+      vi.mocked(select).mockReturnValueOnce(mockSelect1);
       expect(service.isInitialized()).toBeTruthy();
     });
   });

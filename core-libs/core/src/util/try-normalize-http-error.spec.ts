@@ -1,6 +1,11 @@
 import { vi } from 'vitest';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import * as isDevModeFunc from '@angular/core';
+import { isDevMode } from '@angular/core';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 import { HttpErrorModel } from '../model/index';
 import { LoggerService } from '../logger';
 import { tryNormalizeHttpError } from './try-normalize-http-error';
@@ -42,7 +47,7 @@ describe('tryNormalizeHttpError', () => {
     });
 
     it('should log an error to the console in dev mode if logger is not provided', () => {
-      vi.spyOn(isDevModeFunc, 'isDevMode', 'get').mockReturnValue(() => true);
+      vi.mocked(isDevMode).mockReturnValue(true);
       vi.spyOn(console, 'error');
       const error = 'xxx';
       tryNormalizeHttpError(error, logger);
@@ -54,7 +59,7 @@ describe('tryNormalizeHttpError', () => {
     });
 
     it('should log an error to the logger in dev mode if logger is provided', () => {
-      vi.spyOn(isDevModeFunc, 'isDevMode', 'get').mockReturnValue(() => true);
+      vi.mocked(isDevMode).mockReturnValue(true);
       vi.spyOn(logger, 'error');
       const error = 'xxx';
       tryNormalizeHttpError(error, logger);

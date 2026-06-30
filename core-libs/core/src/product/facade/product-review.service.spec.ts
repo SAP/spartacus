@@ -1,19 +1,26 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { firstValueFrom, of } from 'rxjs';
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
+const mockReview: Review = { id: 'testId' };
+vi.mock('@ngrx/store', async(importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return {
+    ...actual,
+    select: vi.fn()
+  };
+});
+
 describe('ReviewService', () => {
   let service: ProductReviewService;
   let store: Store<ProductsState>;
-  const mockReview: Review = { id: 'testId' };
-
+  let dispatchSpy;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -28,7 +35,7 @@ describe('ReviewService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReviewService);
 
-    vi.spyOn(store, 'dispatch');
+    dispatchSpy = vi.spyOn(store, 'dispatch');
   });
 
   it('should ReviewService is injected', inject(
@@ -39,22 +46,19 @@ describe('ReviewService', () => {
   ));
 
   describe('getByProductCode(productCode)', () => {
-    it('should be able to get product reviews if reviews exist', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of([mockReview])
-      );
+    it('should be able to get product reviews if reviews exist',async () => {
+      vi.mocked(select).mockReturnValue(() => of([mockReview]));
       let result: Review[];
+      const productByCode = await firstValueFrom(service.getByProductCode('testId'));
       service.getByProductCode('testId').subscribe((reviews) => {
         result = reviews;
       });
-      expect(result).toEqual([mockReview]);
+      expect(productByCode).toEqual([mockReview]);
     });
 
-    it('should be able to load product reviews if reviews not exist', () => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(undefined)
-      );
-      service.getByProductCode('testId').subscribe().unsubscribe();
+    it('should be able to load product reviews if reviews not exist', async () => {
+      vi.mocked(select).mockReturnValue(() => of(undefined));
+      await firstValueFrom(service.getByProductCode('testId'));
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProductReviews('testId')
@@ -73,3 +77,4 @@ describe('ReviewService', () => {
     });
   });
 });
+

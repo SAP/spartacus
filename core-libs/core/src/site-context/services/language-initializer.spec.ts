@@ -88,7 +88,7 @@ describe('LanguageInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteContextRoutesHandler initOnce() and LanguageStatePersistenceService initSync()', async () => {
-      spyOn<any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
+      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
       await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(languageStatePersistenceService.initSync).toHaveBeenCalled();

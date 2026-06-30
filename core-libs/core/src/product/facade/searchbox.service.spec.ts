@@ -1,8 +1,12 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import * as NgrxStore from '@ngrx/store';
-import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
+import { select, MemoizedSelector, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { EMPTY, of } from 'rxjs';
 import {
   ProductSearchPage,
@@ -58,7 +62,7 @@ describe('SearchboxService', () => {
   };
 
   beforeEach(() => {
-    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockSelect);
+    vi.mocked(select).mockReturnValue(mockSelect);
 
     TestBed.configureTestingModule({
       imports: [

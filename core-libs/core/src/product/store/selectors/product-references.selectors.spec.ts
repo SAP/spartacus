@@ -1,7 +1,11 @@
 import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { of } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
 import * as fromProductReducers from '../../store/reducers/index';
@@ -38,7 +42,7 @@ describe('Product References selectors', () => {
   });
 
   it('getSelectedProductReferencesFactory should return all references when no referenceType is provided', () => {
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => of(list));
+    vi.mocked(select).mockReturnValue(() => () => of(list));
 
     let result: ProductReference[];
     const referenceType = '';

@@ -1,6 +1,10 @@
 import { vi } from 'vitest';
-import * as AngularCore from '@angular/core';
-import { Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { PageType } from '../../model/cms.model';
@@ -198,7 +202,7 @@ describe('PageMetaService', () => {
 
     describe('when in dev mode', () => {
       beforeEach(() => {
-        vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => true);
+        vi.mocked(isDevMode).mockReturnValue(true);
       });
 
       it('should call all resolvers', async () => {
@@ -212,7 +216,7 @@ describe('PageMetaService', () => {
 
     describe('when in production mode', () => {
       beforeEach(() => {
-        vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => false);
+        vi.mocked(isDevMode).mockReturnValue(false);
       });
 
       it('should call all resolvers', async () => {

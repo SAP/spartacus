@@ -1,7 +1,11 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { of } from 'rxjs';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
@@ -39,7 +43,7 @@ describe('GlobalMessageService', () => {
 
     store = TestBed.inject(Store);
     vi.spyOn(store, 'dispatch');
-    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+    vi.mocked(select).mockReturnValue(mockSelect);
     service = TestBed.inject(GlobalMessageService);
   });
 

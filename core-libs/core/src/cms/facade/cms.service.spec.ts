@@ -1,8 +1,12 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
-import { EMPTY, Observable, of } from 'rxjs';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
@@ -107,10 +111,7 @@ describe('CmsService', () => {
             loading: false,
             error: false,
           };
-          const mockSelect = vi.fn().mockReturnValue(() =>
-            of(mockLoaderState)
-          );
-          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+          vi.mocked(select).mockReturnValue(() => of(mockLoaderState));
 
           const uid = 'mockUid';
           service.getComponentData(uid).pipe(take(1)).subscribe().unsubscribe();
@@ -164,10 +165,7 @@ describe('CmsService', () => {
             loading: false,
             error: false,
           };
-          const mockSelect = vi.fn().mockReturnValue(() =>
-            of(mockLoaderState)
-          );
-          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+          vi.mocked(select).mockReturnValue(() => of(mockLoaderState));
 
           const uid = 'mockUid';
           service
@@ -190,21 +188,15 @@ describe('CmsService', () => {
 
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
-    (service: CmsService) => {
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
-        () => () => of(mockContentSlot)
+    async (service: CmsService) => {
+      vi.mocked(select).mockReturnValue(
+        () => of(mockContentSlot)
       );
       vi.spyOn(routingService, 'getPageContext').mockReturnValue(
         of({ id: 'test' })
       );
 
-      let contentSlotReturned: ContentSlotData;
-      service
-        .getContentSlot('Section1')
-        .subscribe((value) => {
-          contentSlotReturned = value;
-        })
-        .unsubscribe();
+      let contentSlotReturned: ContentSlotData = await firstValueFrom(service.getContentSlot('Section1'));
 
       expect(contentSlotReturned).toBe(mockContentSlot);
     }
@@ -212,7 +204,7 @@ describe('CmsService', () => {
 
   it('getNavigationEntryItems should be able to get navigation entry items by navigationNodeUid', inject(
     [CmsService],
-    (service: CmsService) => {
+    async (service: CmsService) => {
       const testUid = 'test_uid';
       const mockNodeItem: NodeItem = {
         testUid: {
@@ -222,13 +214,9 @@ describe('CmsService', () => {
       const mockSelect = vi.fn().mockReturnValue(() =>
         of(mockNodeItem)
       );
-      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+      vi.mocked(select).mockReturnValue(() => of(mockNodeItem));
 
-      let result: NodeItem;
-      service
-        .getNavigationEntryItems(testUid)
-        .subscribe((value) => (result = value))
-        .unsubscribe();
+      let result: NodeItem = await firstValueFrom(service.getNavigationEntryItems(testUid));
 
       expect(result).toEqual(mockNodeItem);
     }
@@ -375,7 +363,7 @@ describe('CmsService', () => {
         const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+        vi.mocked(select).mockReturnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
@@ -392,7 +380,7 @@ describe('CmsService', () => {
         const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+        vi.mocked(select).mockReturnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
@@ -410,7 +398,7 @@ describe('CmsService', () => {
           const mockSelect = vi.fn().mockReturnValue(() =>
             of(mockedEntity)
           );
-          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+          vi.mocked(select).mockReturnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
@@ -429,7 +417,7 @@ describe('CmsService', () => {
           const mockSelect = vi.fn().mockReturnValue(() =>
             of(mockedEntity)
           );
-          vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+          vi.mocked(select).mockReturnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
@@ -450,7 +438,7 @@ describe('CmsService', () => {
         const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+        vi.mocked(select).mockReturnValue(mockSelect);
 
         let result: boolean;
         service
@@ -473,7 +461,7 @@ describe('CmsService', () => {
         const mockSelect = vi.fn().mockReturnValue(() =>
           of(mockedEntity)
         );
-        vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockSelect);
+        vi.mocked(select).mockReturnValue(mockSelect);
 
         let result: boolean;
         service

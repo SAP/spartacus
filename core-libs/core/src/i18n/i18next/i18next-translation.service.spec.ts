@@ -1,5 +1,10 @@
 import { vi } from 'vitest';
-import * as AngularCore from '@angular/core';
+import { isDevMode } from '@angular/core';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 import { TestBed } from '@angular/core/testing';
 import { i18n } from 'i18next';
 import { first, take } from 'rxjs/operators';
@@ -175,9 +180,7 @@ describe('I18nextTranslationService', () => {
           });
 
           it('should return non-breaking space for production', () => {
-            vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(
-              () => false
-            );
+            vi.mocked(isDevMode).mockReturnValue(false);
             let result;
             service
               .translate(key, testOptions)

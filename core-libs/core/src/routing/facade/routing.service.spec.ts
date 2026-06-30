@@ -2,8 +2,12 @@ import { vi } from 'vitest';
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import * as NgrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
+
+vi.mock('@ngrx/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@ngrx/store')>();
+  return { ...actual, select: vi.fn() };
+});
 import { WindowRef } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
@@ -165,7 +169,7 @@ describe('RoutingService', () => {
 
   it('should expose whole router state', () => {
     const mockRouterState = vi.fn().mockReturnValue(() => of({}));
-    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
+    vi.mocked(select).mockReturnValue(mockRouterState);
 
     let routerState: any;
     service.getRouterState().subscribe((state) => (routerState = state));
@@ -181,7 +185,7 @@ describe('RoutingService', () => {
       type: PageType.CATALOG_PAGE,
     };
     const mockRouterState = vi.fn().mockReturnValue(() => of(pageContext));
-    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
+    vi.mocked(select).mockReturnValue(mockRouterState);
 
     let result: PageContext;
     service
@@ -198,7 +202,7 @@ describe('RoutingService', () => {
       type: PageType.CATALOG_PAGE,
     };
     const mockRouterState = vi.fn().mockReturnValue(() => of(pageContext));
-    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
+    vi.mocked(select).mockReturnValue(mockRouterState);
 
     let result: PageContext;
     service
@@ -207,7 +211,7 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-    expect(NgrxStore.select as any).toHaveBeenCalledWith(
+    expect(select as any).toHaveBeenCalledWith(
       RoutingSelector.getNextPageContext
     );
   });
@@ -215,7 +219,7 @@ describe('RoutingService', () => {
   it('isNavigating should return isNavigating state', () => {
     const isNavigating = true;
     const mockRouterState = vi.fn().mockReturnValue(() => of(isNavigating));
-    vi.spyOn(NgrxStore, 'select', 'get').mockReturnValue(mockRouterState);
+    vi.mocked(select).mockReturnValue(mockRouterState);
 
     let result: boolean;
     service
@@ -224,7 +228,7 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(isNavigating);
-    expect(NgrxStore.select as any).toHaveBeenCalledWith(
+    expect(select as any).toHaveBeenCalledWith(
       RoutingSelector.isNavigating
     );
   });
