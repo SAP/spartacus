@@ -127,7 +127,7 @@ function getValidKeys(
   }
 
   const featureTogglesInterfaceRegex =
-    /interface FeatureTogglesInterface \{([\s\S]*?)^\}/m;
+    /interface FeatureTogglesInterface \{([\s\S]*?)\n}/m;
   const match = featureTogglesInterfaceRegex.exec(content);
   if (!match) {
     context.logger.info(
@@ -137,7 +137,7 @@ function getValidKeys(
   }
 
   const interfaceBody = match[1];
-  const propertyRegex = /^\s+(\w+)\??\s*:\s*boolean\s*;/gm;
+  const propertyRegex = /^\s+(\w+)\??\s*:\s*boolean[\s|;]/gm;
   return new Set(collectMatches(interfaceBody, propertyRegex));
 }
 
@@ -174,6 +174,7 @@ function findModuleFile(tree: Tree): string | null {
  * Only matches active (uncommented) toggle keys.
  */
 function getUsedKeys(content: string): Set<string> | null {
+  EXTRACT_FEATURE_TOGGLES_REGEX.lastIndex = 0;
   const allBlocks = collectMatches(content, EXTRACT_FEATURE_TOGGLES_REGEX);
   if (!allBlocks.length) {
     return null;
@@ -231,8 +232,9 @@ function commentOutUnknownToggles(
           originalBlock.length
       );
 
+    const delta = commentedBlock.length - originalBlock.length;
     EXTRACT_FEATURE_TOGGLES_REGEX.lastIndex =
-      blockMatch.index + blockMatch[0].length;
+      blockMatch.index + blockMatch[0].length + delta;
   }
 
   return result;
