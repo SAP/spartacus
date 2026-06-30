@@ -14,6 +14,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   AuthConfigService,
+  AuthMultisiteIsolationService,
   AuthService,
   CsrfStateService,
   FeatureToggles,
@@ -24,7 +25,14 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, from } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  EMPTY,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import { catchError, take, tap, withLatestFrom } from 'rxjs/operators';
 import {
   LOGIN_ERROR_KEY,
@@ -39,6 +47,9 @@ export class LoginFormComponentService {
   protected router = inject(Router);
   protected activatedRoute = inject(ActivatedRoute);
   protected federatedLoginService = inject(FederatedLoginService);
+  protected authMultisiteIsolationService = inject(
+    AuthMultisiteIsolationService
+  );
   protected readonly customFormValidErrors = [
     'bad_credentials',
     'account_disabled',
@@ -96,13 +107,20 @@ export class LoginFormComponentService {
         // below by redirecting to /login?error=session_expired so the
         // existing handleCustomLoginError() pipeline shows the friendly
         // message.
-        this.auth
-          .refreshCsrfToken()
+        combineLatest([
+          this.auth.refreshCsrfToken(),
+          this.featureToggles.siteIsolationForCustomLoginPage
+            ? this.getUserId()
+            : of(undefined),
+        ])
           .pipe(
             take(1),
-            tap((csrfToken) => {
+            tap(([csrfToken, userId]) => {
               this.csrfStateService.set(csrfToken);
               this.form.get('csrf')?.setValue(csrfToken.token);
+              if (this.featureToggles.siteIsolationForCustomLoginPage) {
+                this.form.get('userId')?.setValue(userId);
+              }
               this.setOauthRedirectFlowFlag();
               // Submit BEFORE flipping busy$ to true. busy$=true triggers
               // form.disable(), which sets disabled=true on every bound input,
@@ -164,9 +182,20 @@ export class LoginFormComponentService {
           )
           .subscribe();
       } else {
-        this.setOauthRedirectFlowFlag();
-        nativeForm.submit();
-        this.busy$.next(true);
+        if (this.featureToggles.siteIsolationForCustomLoginPage) {
+          this.getUserId()
+            .pipe(take(1))
+            .subscribe((userId) => {
+              this.form.get('userId')?.setValue(userId);
+              this.setOauthRedirectFlowFlag();
+              nativeForm.submit();
+              this.busy$.next(true);
+            });
+        } else {
+          this.setOauthRedirectFlowFlag();
+          nativeForm.submit();
+          this.busy$.next(true);
+        }
       }
     } else {
       this.busy$.next(true);
@@ -262,5 +291,11 @@ export class LoginFormComponentService {
     if (this.winRef.isBrowser()) {
       this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
     }
+  }
+
+  protected getUserId(): Observable<string> {
+    return this.authMultisiteIsolationService.decorateUserId(
+      this.form.get('userId')?.value
+    );
   }
 }

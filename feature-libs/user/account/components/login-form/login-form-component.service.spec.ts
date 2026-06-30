@@ -1,3 +1,4 @@
+import { Provider } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -7,6 +8,7 @@ import {
 } from '@angular/router';
 import {
   AuthConfigService,
+  AuthMultisiteIsolationService,
   AuthService,
   CsrfStateService,
   FeatureToggles,
@@ -18,13 +20,16 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of, throwError } from 'rxjs';
-import { LoginFormComponentService } from './login-form-component.service';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { Observable, of, throwError } from 'rxjs';
 import {
   LOGIN_ERROR_KEY,
   SESSION_EXPIRED_ERROR,
 } from '../user-account-constants';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { LoginFormComponentService } from './login-form-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockWinRef {
@@ -107,6 +112,14 @@ class MockCsrfStateService implements Partial<CsrfStateService> {
   set = createSpy().and.stub();
 }
 
+class MockAuthMultisiteIsolationService
+  implements Partial<AuthMultisiteIsolationService>
+{
+  decorateUserId(userId: string): Observable<string> {
+    return of(userId);
+  }
+}
+
 function createForm(username: string, password: string, csrf: string) {
   const form = document.createElement('form');
   form.action = 'https://localhost:9002/authorizationserver/login';
@@ -139,27 +152,38 @@ describe('LoginFormComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let activatedRoute: ActivatedRoute;
   let router: Router;
+  let authMultisiteIsolationService: AuthMultisiteIsolationService;
+
+  const providers: Provider[] = [
+    LoginFormComponentService,
+    { provide: WindowRef, useClass: MockWinRef },
+    { provide: AuthService, useClass: MockAuthService },
+    { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+    { provide: AuthConfigService, useClass: MockAuthConfigService },
+    { provide: ActivatedRoute, useClass: MockActivatedRoute },
+    { provide: Router, useClass: MockRouter },
+    { provide: FederatedLoginService, useClass: MockFederatedLoginService },
+    { provide: CsrfStateService, useClass: MockCsrfStateService },
+    {
+      provide: AuthMultisiteIsolationService,
+      useClass: MockAuthMultisiteIsolationService,
+    },
+    provideMockFeatureToggles({ ...mockFeatureToggles }),
+  ];
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
-      providers: [
-        LoginFormComponentService,
-        { provide: WindowRef, useClass: MockWinRef },
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: AuthConfigService, useClass: MockAuthConfigService },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: Router, useClass: MockRouter },
-        { provide: FederatedLoginService, useClass: MockFederatedLoginService },
-      ],
+      providers: [...providers],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     service = TestBed.inject(LoginFormComponentService);
+    authMultisiteIsolationService = TestBed.inject(
+      AuthMultisiteIsolationService
+    );
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
     activatedRoute = TestBed.inject(ActivatedRoute);
@@ -180,21 +204,10 @@ describe('LoginFormComponentService', () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-        providers: [
-          LoginFormComponentService,
-          { provide: WindowRef, useClass: MockWinRef },
-          { provide: AuthService, useClass: MockAuthService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: AuthConfigService, useClass: MockAuthConfigService },
-          provideMockFeatureToggles({ ...mockFeatureToggles }),
-          { provide: ActivatedRoute, useClass: MockActivatedRoute },
-          { provide: Router, useClass: MockRouter },
-          {
-            provide: FederatedLoginService,
-            useValue: { isLoginDomain: true },
-          },
-        ],
+        providers: [...providers],
       }).compileComponents();
+      const federatedLoginService = TestBed.inject(FederatedLoginService);
+      federatedLoginService.isLoginDomain = true;
 
       service = TestBed.inject(LoginFormComponentService);
 
@@ -263,56 +276,30 @@ describe('LoginFormComponentService', () => {
     });
 
     describe('new flow', () => {
+      let mockFeatureTogglesController: MockFeatureTogglesController;
       // Reset test module to reconfigure FeatureToggles
       beforeEach(waitForAsync(() => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
-          providers: [
-            LoginFormComponentService,
-            {
-              provide: FeatureToggles,
-              useValue: {
-                authorizationCodeFlowByDefault: true,
-                authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
-              } as FeatureToggles,
-            },
-            {
-              provide: AuthConfigService,
-              useClass: MockAuthConfigService,
-            },
-            {
-              provide: AuthService,
-              useClass: MockAuthService,
-            },
-            {
-              provide: WindowRef,
-              useClass: MockWinRef,
-            },
-            {
-              provide: GlobalMessageService,
-              useClass: MockGlobalMessageService,
-            },
-            {
-              provide: ActivatedRoute,
-              useClass: MockActivatedRoute,
-            },
-            {
-              provide: Router,
-              useClass: MockRouter,
-            },
-            {
-              provide: FederatedLoginService,
-              useClass: MockFederatedLoginService,
-            },
-            {
-              provide: CsrfStateService,
-              useClass: MockCsrfStateService,
-            },
-          ],
+          providers: [...providers],
         }).compileComponents();
       }));
 
       beforeEach(() => {
+        mockFeatureTogglesController = TestBed.inject(
+          MockFeatureTogglesController
+        );
+        mockFeatureTogglesController.set(
+          'authorizationCodeFlowByDefault',
+          true
+        );
+        mockFeatureTogglesController.set(
+          'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+          true
+        );
+        authMultisiteIsolationService = TestBed.inject(
+          AuthMultisiteIsolationService
+        );
         globalMessageService = TestBed.inject(GlobalMessageService);
         activatedRoute = TestBed.inject(ActivatedRoute);
         router = TestBed.inject(Router);
@@ -344,6 +331,35 @@ describe('LoginFormComponentService', () => {
             'true'
           );
         }));
+
+        describe('when siteIsolationForCustomLoginPage is enabled', () => {
+          beforeEach(() => {
+            mockFeatureTogglesController.set(
+              'siteIsolationForCustomLoginPage',
+              true
+            );
+          });
+
+          it('should decorate the user ID of the submitted form', () => {
+            const testData = {
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+            };
+            const decoratedUserId = testData.userId + '|decorator';
+            spyOn(
+              authMultisiteIsolationService,
+              'decorateUserId'
+            ).and.returnValue(of(decoratedUserId));
+            service.form.setValue(testData);
+            const form = createForm(userId, password, csrf);
+            spyOn(form, 'submit');
+
+            service.login(form);
+
+            expect(service.form.get('userId')?.value).toEqual(decoratedUserId);
+          });
+        });
 
         it('should update csrf form field with fresh token before submit', waitForAsync(() => {
           service.form.get('csrf')?.setValue('old-token');
@@ -467,40 +483,31 @@ describe('LoginFormComponentService', () => {
       });
 
       describe('when authorizationCodeFlowByDefaultCsrfTokenRefresh is disabled', () => {
+        let mockFeatureTogglesController: MockFeatureTogglesController;
+
         beforeEach(waitForAsync(() => {
           TestBed.resetTestingModule();
           TestBed.configureTestingModule({
-            providers: [
-              LoginFormComponentService,
-              {
-                provide: FeatureToggles,
-                useValue: {
-                  authorizationCodeFlowByDefault: true,
-                  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
-                } as FeatureToggles,
-              },
-              { provide: AuthConfigService, useClass: MockAuthConfigService },
-              { provide: AuthService, useClass: MockAuthService },
-              { provide: WindowRef, useClass: MockWinRef },
-              {
-                provide: GlobalMessageService,
-                useClass: MockGlobalMessageService,
-              },
-              { provide: ActivatedRoute, useClass: MockActivatedRoute },
-              { provide: Router, useClass: MockRouter },
-              {
-                provide: FederatedLoginService,
-                useClass: MockFederatedLoginService,
-              },
-              {
-                provide: CsrfStateService,
-                useClass: MockCsrfStateService,
-              },
-            ],
+            providers: [...providers],
           }).compileComponents();
         }));
 
         beforeEach(() => {
+          mockFeatureTogglesController = TestBed.inject(
+            MockFeatureTogglesController
+          );
+          mockFeatureTogglesController.set(
+            'authorizationCodeFlowByDefault',
+            true
+          );
+          mockFeatureTogglesController.set(
+            'authorizationCodeFlowByDefaultCsrfTokenRefresh',
+            false
+          );
+
+          authMultisiteIsolationService = TestBed.inject(
+            AuthMultisiteIsolationService
+          );
           service = TestBed.inject(LoginFormComponentService);
           authService = TestBed.inject(AuthService);
           winRef = TestBed.inject(WindowRef);
@@ -517,6 +524,42 @@ describe('LoginFormComponentService', () => {
           service.login(form);
           expect(submitSpy).toHaveBeenCalled();
           expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
+        });
+
+        describe('when siteIsolationForCustomLoginPage is enabled', () => {
+          beforeEach(() => {
+            mockFeatureTogglesController.set(
+              'siteIsolationForCustomLoginPage',
+              true
+            );
+          });
+
+          it('should decorate the user ID of the submitted form', () => {
+            const testData = {
+              userId: 'test@email.com',
+              password: 'secret',
+              csrf: 'token',
+            };
+            const decoratedUserId = testData.userId + '|decorator';
+            spyOn(
+              authMultisiteIsolationService,
+              'decorateUserId'
+            ).and.returnValue(of(decoratedUserId));
+            service.form.setValue(testData);
+            const form = createForm(
+              testData.userId,
+              testData.password,
+              testData.csrf
+            );
+            spyOn(form, 'submit');
+
+            service.login(form);
+
+            expect(
+              authMultisiteIsolationService.decorateUserId
+            ).toHaveBeenCalled();
+            expect(service.form.get('userId')?.value).toEqual(decoratedUserId);
+          });
         });
       });
 

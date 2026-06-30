@@ -644,6 +644,12 @@ export interface FeatureTogglesInterface {
    * This flag only takes effect when the flag `authorizationCodeFlowByDefault` is enabled.
    */
   asyncAuthConfigInitializer?: boolean;
+
+  /**
+   * When enabled, adds site isolation decorator to the user credentials submitted during the Custom
+   * Login Page form submission.
+   */
+  siteIsolationForCustomLoginPage?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -724,4 +730,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  siteIsolationForCustomLoginPage: false,
 };
