@@ -124,6 +124,11 @@
       "version": "221121.14.0",
       "factory": "./221121_14/ai-context-prompt/index#migrate",
       "description": "Install new AI skills for Spartacus development ✨"
+    },
+    "00-migration-v221121_13-update-feature-toggles": {
+      "version": "221121.13.1",
+      "factory": "../shared/utils/update-feature-toggles#migrate",
+      "description": "Update feature toggles: comment out removed toggles with [REMOVED]"
     }
   }
 }

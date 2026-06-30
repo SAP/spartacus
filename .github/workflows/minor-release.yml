@@ -120,7 +120,7 @@ jobs:
       - name: Add feature-toggles migration entry
         if: ${{ !contains(env.version, '-') }}
         run: |
-          ts-node -e "require('./tools/config/manage-migrations').manageMigrations({ fix: true })"
+          npm run manage-migrations
 
       - name: Run Schematics Tests
         run: |

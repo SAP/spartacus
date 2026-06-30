@@ -19,9 +19,8 @@
  */
 
 import { readFileSync, writeFileSync } from 'fs';
+import { chalk } from '../chalk';
 import { PUBLISHING_VERSION } from './const';
-import { error, logUpdatedFile, reportProgress, success } from './index';
-import { ProgramOptions } from './index';
 
 const MIGRATIONS_JSON_PATH =
   'core-libs/schematics/src/migrations/migrations.json';
@@ -34,8 +33,10 @@ const MIGRATION_ENTRY = {
     'Update feature toggles: comment out removed toggles with [REMOVED]',
 };
 
+export type ProgramOptions = { fix: boolean | undefined };
+
 export function manageMigrations(options: ProgramOptions): void {
-  reportProgress('Checking migrations.json...');
+  console.log('\nChecking migrations.json...');
 
   const migrationsJson = JSON.parse(
     readFileSync(MIGRATIONS_JSON_PATH, 'utf-8')
@@ -50,20 +51,25 @@ export function manageMigrations(options: ProgramOptions): void {
   );
 
   if (alreadyExists) {
-    success(
-      ` ✔  migrations.json already has a feature-toggles entry for ${PUBLISHING_VERSION}`
+    console.log(
+      chalk.green(
+        ` ✔  migrations.json already has a feature-toggles entry for ${PUBLISHING_VERSION}`
+      )
     );
     return;
   }
 
   if (!options.fix) {
-    error(
-      MIGRATIONS_JSON_PATH,
-      [
-        `Missing feature-toggles migration entry for version ${PUBLISHING_VERSION}`,
-      ],
-      [`Run 'npm run config:update' to add it automatically.`]
-    );
+    const minLength = 76;
+    const file = MIGRATIONS_JSON_PATH;
+    console.log(`
+${chalk.gray(`--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`)}
+${chalk.red(` ✖  Missing feature-toggles migration entry for version ${PUBLISHING_VERSION}`)}
+
+${chalk.blue(` i  Run 'npm run manage-migrations' to add it automatically.`)}
+${chalk.gray(`----${`-`.repeat(Math.max(file.length, minLength))}`)}
+`);
+    process.exitCode = 1;
     return;
   }
 
@@ -73,5 +79,11 @@ export function manageMigrations(options: ProgramOptions): void {
     JSON.stringify(migrationsJson, null, 2) + '\n',
     'utf-8'
   );
-  logUpdatedFile(MIGRATIONS_JSON_PATH);
+  console.log(chalk.green(` ✔  File \`${chalk.bold(MIGRATIONS_JSON_PATH)}\` updated`));
+}
+
+// Run directly: ts-node tools/config/manage-migrations.ts [--fix]
+if (require.main === module) {
+  const fix = process.argv.includes('--fix');
+  manageMigrations({ fix });
 }
