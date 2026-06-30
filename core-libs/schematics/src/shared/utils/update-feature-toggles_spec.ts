@@ -9,7 +9,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 
 const collectionPath = join(__dirname, '../../migrations/migrations.json');
-const MIGRATION_SCRIPT_NAME = '00-migration-v221121_9-update-feature-toggles';
+const MIGRATION_SCRIPT_NAME = '00-migration-v221121_13-update-feature-toggles';
 
 const INTERFACE_FILE = 'node_modules/@spartacus/core/types/spartacus-core.d.ts';
 const MODULE_FILE = 'src/app/spartacus/spartacus-features.module.ts';

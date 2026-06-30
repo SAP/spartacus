@@ -24,14 +24,14 @@ import { error, logUpdatedFile, reportProgress, success } from './index';
 import { ProgramOptions } from './index';
 
 const MIGRATIONS_JSON_PATH =
-  'projects/schematics/src/migrations/migrations.json';
+  'core-libs/schematics/src/migrations/migrations.json';
 
 const MIGRATION_KEY = `00-migration-v${PUBLISHING_VERSION.replace(/\.\d+$/, '').replace(/\./g, '_')}-update-feature-toggles`;
 const MIGRATION_ENTRY = {
   version: PUBLISHING_VERSION,
   factory: '../shared/utils/update-feature-toggles#migrate',
   description:
-    'Update feature toggles: comment out removed toggles with [REMOVED] and add new ones with [NEW]',
+    'Update feature toggles: comment out removed toggles with [REMOVED]',
 };
 
 export function manageMigrations(options: ProgramOptions): void {
