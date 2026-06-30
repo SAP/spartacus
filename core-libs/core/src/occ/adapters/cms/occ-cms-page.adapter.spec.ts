@@ -106,7 +106,7 @@ describe('OccCmsPageAdapter', () => {
 
   describe('user endpoints', () => {
     describe('endpoint configuration', () => {
-      it('should get cms home page by specific context', (done) => {
+      it('should get cms home page by specific context', () => {
         vi.spyOn(endpointsService, 'buildUrl');
 
         service.load(homePageContext).subscribe(() => {
@@ -114,10 +114,9 @@ describe('OccCmsPageAdapter', () => {
             queryParams: {},
           });
         });
-        done();
       });
 
-      it('should get cms pages by page type and id for any page', (done) => {
+      it('should get cms pages by page type and id for any page', () => {
         vi.spyOn(endpointsService, 'buildUrl');
         service.load(contentPageContext).subscribe(() => {
           expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
@@ -127,20 +126,18 @@ describe('OccCmsPageAdapter', () => {
             },
           });
         });
-        done();
       });
 
-      it('should get cms pages by page type and id for any page', (done) => {
+      it('should get cms pages by page type and id for any page', () => {
         vi.spyOn(endpointsService, 'buildUrl');
         service.load(homePageContext).subscribe(() => {
           expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
             queryParams: {},
           });
         });
-        done();
       });
 
-      it('should get cms product page by product code and ProductPage type', (done) => {
+      it('should get cms product page by product code and ProductPage type', () => {
         vi.spyOn(endpointsService, 'buildUrl');
         service.load(productPageContext).subscribe(() => {
           expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
@@ -150,10 +147,9 @@ describe('OccCmsPageAdapter', () => {
             },
           });
         });
-        done();
       });
 
-      it('should get cms category page by category code and CategoryPage type', (done) => {
+      it('should get cms category page by category code and CategoryPage type', () => {
         vi.spyOn(endpointsService, 'buildUrl');
         service.load(categoryPageContext).subscribe(() => {
           expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
@@ -163,22 +159,20 @@ describe('OccCmsPageAdapter', () => {
             },
           });
         });
-        done();
       });
 
-      it('should get cms page by pageId if there is no PageType', (done) => {
+      it('should get cms page by pageId if there is no PageType', () => {
         vi.spyOn(endpointsService, 'buildUrl');
         service.load(contextWithoutType).subscribe(() => {
           expect(endpointsService.buildUrl).toHaveBeenCalledWith('page', {
             urlParams: { id: contextWithoutType.id },
           });
         });
-        done();
       });
     });
 
     describe('http', () => {
-      it('Should get home page', (done) => {
+      it('Should get home page', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(
           userEndpoint + `/pages`
@@ -200,10 +194,9 @@ describe('OccCmsPageAdapter', () => {
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
         testRequest.flush(cmsPageData);
-        done();
       });
 
-      it('Should get cms content page data', (done) => {
+      it('Should get cms content page data', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(
           userEndpoint +
@@ -233,10 +226,9 @@ describe('OccCmsPageAdapter', () => {
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
         testRequest.flush(cmsPageData);
-        done();
       });
 
-      it('should get cms product page data', (done) => {
+      it('should get cms product page data', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(
           userEndpoint +
@@ -265,10 +257,9 @@ describe('OccCmsPageAdapter', () => {
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
         testRequest.flush(cmsPageData);
-        done();
       });
 
-      it('should get cms page data by pageId if PageType is unknown', (done) => {
+      it('should get cms page data by pageId if PageType is unknown', () => {
         vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(
           userEndpoint + `/pages/${contextWithoutType.id}`
         );
@@ -287,12 +278,11 @@ describe('OccCmsPageAdapter', () => {
         expect(testRequest.cancelled).toBeFalsy();
         expect(testRequest.request.responseType).toEqual('json');
         testRequest.flush(cmsPageData);
-        done();
       });
     });
 
     describe('normalizer', () => {
-      it('should use normalizer', (done) => {
+      it('should use normalizer', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         vi.spyOn(endpointsService, 'buildUrl').mockReturnValue(
           userEndpoint + '/pages'
@@ -306,7 +296,6 @@ describe('OccCmsPageAdapter', () => {
         httpMock
           .expectOne((req) => req.url === userEndpoint + '/pages')
           .flush(cmsPageData);
-        done();
       });
     });
   });

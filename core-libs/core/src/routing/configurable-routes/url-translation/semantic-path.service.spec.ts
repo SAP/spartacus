@@ -80,9 +80,9 @@ describe('SemanticPathService', () => {
         routesConfigs: RouteConfig[];
         expectedResult: any[];
       }) {
-        vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
-          ...routesConfigs
-        );
+        const spy = vi.spyOn(routingConfigService, 'getRouteConfig');
+        spy.mockReset();
+        routesConfigs.forEach((config) => spy.mockReturnValueOnce(config));
         expect(service.transform(urlCommands)).toEqual(expectedResult);
       }
 

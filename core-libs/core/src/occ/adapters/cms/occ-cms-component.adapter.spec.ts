@@ -96,7 +96,7 @@ describe('OccCmsComponentAdapter', () => {
 
   describe('user endpoints', () => {
     describe('load', () => {
-      it('should get cms component data', (done) => {
+      it('should get cms component data', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnLoadEndpoint(userEndpoint));
 
@@ -115,10 +115,9 @@ describe('OccCmsComponentAdapter', () => {
         });
 
         assertTestRequest(testRequest, component);
-        done();
       });
 
-      it('should use normalizer', (done) => {
+      it('should use normalizer', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnLoadEndpoint(userEndpoint));
 
@@ -129,12 +128,11 @@ describe('OccCmsComponentAdapter', () => {
         expect(converter.pipeable).toHaveBeenCalledWith(
           CMS_COMPONENT_NORMALIZER
         );
-        done();
       });
     });
 
     describe('load list of cms component data using GET request', () => {
-      it('should get a list of cms component data using GET request without pagination parameters', (done) => {
+      it('should get a list of cms component data using GET request without pagination parameters', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
 
@@ -147,10 +145,9 @@ describe('OccCmsComponentAdapter', () => {
         assertGetRequestGetUrl('DEFAULT', '2', true);
 
         assertTestRequest(testRequest, componentList);
-        done();
       });
 
-      it('should get a list of cms component data using GET request with pagination parameters', (done) => {
+      it('should get a list of cms component data using GET request with pagination parameters', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
 
@@ -163,17 +160,15 @@ describe('OccCmsComponentAdapter', () => {
         assertGetRequestGetUrl('FULL', '5', true);
 
         assertTestRequest(testRequest, componentList);
-        done();
       });
 
-      it('should use normalizer', (done) => {
+      it('should use normalizer', () => {
         vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('anonymous'));
         spyOnEndpoint(spyOnGetEndpoint(userEndpoint));
 
         assertGetSubscription(service).subscribe();
         assertNormalizer(spyOnGetEndpoint(userEndpoint));
         assertConverterPipeableMany();
-        done();
       });
     });
   });

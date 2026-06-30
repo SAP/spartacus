@@ -6,7 +6,7 @@ vi.mock('@ngrx/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@ngrx/store')>();
   return { ...actual, select: vi.fn() };
 });
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
 import * as fromProductReducers from '../../store/reducers/index';
 import { ProductSelectors } from '../../store/selectors/index';
@@ -48,17 +48,15 @@ describe('Product Reviews selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.mocked(select).mockReturnValue(() => () => of(reviews));
+    vi.mocked(select).mockReturnValue(() => of(reviews));
   });
 
-  it('getSelectedProductReviewsFactory should return reviews', () => {
-    let result: Review[];
-    store
-      .pipe(
+  it('getSelectedProductReviewsFactory should return reviews', async () => {
+    let result: Review[] | undefined = await firstValueFrom(
+      store.pipe(
         select(ProductSelectors.getSelectedProductReviewsFactory(productCode))
       )
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+    );
 
     expect(result).toEqual(reviews);
   });
