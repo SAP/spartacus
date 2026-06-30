@@ -19,7 +19,6 @@ import { globSync } from 'glob';
 import { chalk } from '../chalk';
 import { NG_PACKAGE_JSON, PACKAGE_JSON } from './const';
 import { manageDependencies } from './manage-dependencies';
-import { manageMigrations } from './manage-migrations';
 import { manageTsConfigs } from './tsconfig-paths';
 
 // ------------ Utilities ------------
@@ -280,7 +279,6 @@ const repository = librariesPaths
 manageDependencies(repository, options);
 // Keep it after dependencies, because fixes from deps might might result in different tsconfig files
 manageTsConfigs(repository, options);
-manageMigrations(options);
 
 if (options.generateDeps) {
   // re-generate dependencies.json file.

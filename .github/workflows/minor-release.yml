@@ -115,6 +115,13 @@ jobs:
           fi
           npm run generate:deps
 
+      # Only add the migration entry for full releases (e.g. 221121.13.1).
+      # Pre-releases (e.g. 221121.13.1-1) are skipped — they don't trigger ng update in customer projects.
+      - name: Add feature-toggles migration entry
+        if: ${{ !contains(env.version, '-') }}
+        run: |
+          ts-node -e "require('./tools/config/manage-migrations').manageMigrations({ fix: true })"
+
       - name: Run Schematics Tests
         run: |
           npm run test:all-schematics
