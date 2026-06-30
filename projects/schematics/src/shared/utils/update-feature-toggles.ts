@@ -25,7 +25,8 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 const INTERFACE_FILE = 'node_modules/@spartacus/core/types/spartacus-core.d.ts';
 
-const EXTRACT_FEATURE_TOGGLES_REGEX = /provideFeatureToggles\(\{([\s\S]*?)\}\)/;
+const EXTRACT_FEATURE_TOGGLES_REGEX =
+  /provideFeatureToggles\(\{([\s\S]*?)\}\)/g;
 
 /**
  * Collects all capture-group-1 matches for a global regex.
@@ -168,23 +169,30 @@ function findModuleFile(tree: Tree): string | null {
 }
 
 /**
- * Extracts quoted property names from inside the provideFeatureToggles({...}) call.
+ * Extracts property names from all provideFeatureToggles({...}) calls.
+ * Matches double-quoted, single-quoted, and unquoted keys.
  * Only matches active (uncommented) toggle keys.
  */
 function getUsedKeys(content: string): Set<string> | null {
-  const match = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
-  if (!match) {
+  const allBlocks = collectMatches(content, EXTRACT_FEATURE_TOGGLES_REGEX);
+  if (!allBlocks.length) {
     return null;
   }
 
-  const objectBody = match[1];
-  const keyRegex = /^\s+"(\w+)"\s*:/gm;
-  return new Set(collectMatches(objectBody, keyRegex));
+  const keyRegex = /^\s+(?:["'](\w+)["']|(\w+))\s*:/gm;
+  const keys = new Set<string>();
+  for (const block of allBlocks) {
+    let m: RegExpExecArray | null;
+    while ((m = keyRegex.exec(block)) !== null) {
+      keys.add(m[1] ?? m[2]);
+    }
+  }
+  return keys.size > 0 ? keys : null;
 }
 
 /**
- * Comments out lines containing unknown toggle keys inside the
- * provideFeatureToggles({...}) block, prefixing them with "// [REMOVED]".
+ * Comments out lines containing unknown toggle keys inside ALL
+ * provideFeatureToggles({...}) blocks, prefixing them with "// [REMOVED]".
  *
  * Example result:
  *   // [REMOVED] "oldToggleName": true,
@@ -193,27 +201,39 @@ function commentOutUnknownToggles(
   content: string,
   unknownKeys: Set<string>
 ): string {
-  const blockMatch = EXTRACT_FEATURE_TOGGLES_REGEX.exec(content);
-  if (!blockMatch) {
-    return content;
+  const keyMatchRegex = /(?:["'](\w+)["']|(\w+))\s*:/;
+  let result = content;
+
+  EXTRACT_FEATURE_TOGGLES_REGEX.lastIndex = 0;
+  let blockMatch: RegExpExecArray | null;
+  while ((blockMatch = EXTRACT_FEATURE_TOGGLES_REGEX.exec(result)) !== null) {
+    const originalBlock = blockMatch[1];
+    const commentedBlock = originalBlock
+      .split('\n')
+      .map((line) => {
+        const keyOnLine = keyMatchRegex.exec(line);
+        const key = keyOnLine?.[1] ?? keyOnLine?.[2];
+        if (key && unknownKeys.has(key)) {
+          const indent = /^(\s*)/.exec(line)?.[1] ?? '';
+          const trimmed = line.trimStart();
+          return `${indent}// [REMOVED] ${trimmed}`;
+        }
+        return line;
+      })
+      .join('\n');
+
+    result =
+      result.slice(0, blockMatch.index + blockMatch[0].indexOf(originalBlock)) +
+      commentedBlock +
+      result.slice(
+        blockMatch.index +
+          blockMatch[0].indexOf(originalBlock) +
+          originalBlock.length
+      );
+
+    EXTRACT_FEATURE_TOGGLES_REGEX.lastIndex =
+      blockMatch.index + blockMatch[0].length;
   }
 
-  const originalBlock = blockMatch[1];
-  const keyMatchRegex = /"(\w+)"\s*:/;
-  const commentedBlock = originalBlock
-    .split('\n')
-    .map((line) => {
-      const keyOnLine = keyMatchRegex.exec(line);
-      if (keyOnLine && unknownKeys.has(keyOnLine[1])) {
-        // Preserve indentation, comment out the line with [REMOVED] marker
-        const indentRegex = /^(\s*)/;
-        const indent = indentRegex.exec(line)?.[1] ?? '';
-        const trimmed = line.trimStart();
-        return `${indent}// [REMOVED] ${trimmed}`;
-      }
-      return line;
-    })
-    .join('\n');
-
-  return content.replace(originalBlock, commentedBlock);
+  return result;
 }

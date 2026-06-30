@@ -26,7 +26,7 @@ import { ProgramOptions } from './index';
 const MIGRATIONS_JSON_PATH =
   'projects/schematics/src/migrations/migrations.json';
 
-const MIGRATION_KEY = `00-migration-v${PUBLISHING_VERSION.replace(/\./g, '_')}-update-feature-toggles`;
+const MIGRATION_KEY = `00-migration-v${PUBLISHING_VERSION.replace(/\.\d+$/, '').replace(/\./g, '_')}-update-feature-toggles`;
 const MIGRATION_ENTRY = {
   version: PUBLISHING_VERSION,
   factory: '../shared/utils/update-feature-toggles#migrate',

@@ -38,6 +38,7 @@ export function addFeatureToggles(options: SpartacusOptions): Rule {
     }
 
     const basePath = process.cwd();
+    let added = false;
     for (const tsconfigPath of buildPaths) {
       const spartacusFeaturesModule = getSpartacusFeaturesModule(
         tree,
@@ -46,12 +47,19 @@ export function addFeatureToggles(options: SpartacusOptions): Rule {
       );
       if (spartacusFeaturesModule) {
         _addFeatureToggles(spartacusFeaturesModule);
+        added = true;
         break;
       }
     }
 
     if (options.debug) {
-      context.logger.info(`✅ Feature Toggles added.`);
+      if (added) {
+        context.logger.info(`✅ Feature Toggles added.`);
+      } else {
+        context.logger.warn(
+          `⚠️  Could not find ${SPARTACUS_FEATURES_NG_MODULE} — Feature Toggles not added.`
+        );
+      }
     }
     return tree;
   };
