@@ -9,6 +9,8 @@ import { getCartIdByUserId } from '@spartacus/cart/base/core';
 import { Cart, DeliveryMode, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Address,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   UnifiedInjector,
   UserIdService,
@@ -19,7 +21,7 @@ import {
   OpfQuickBuySingleProductCartOptionsFacade,
 } from '@spartacus/opf/quick-buy/root';
 import { defer, Observable, of, throwError } from 'rxjs';
-import { filter, map, skip, switchMap, take } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyCartConnector } from '../../connectors';
 
 @Injectable({
@@ -30,6 +32,7 @@ export class OpfQuickBuySingleProductTransactionService {
   protected userIdService = inject(UserIdService);
   protected routingService = inject(RoutingService);
   protected unifiedInjector = inject(UnifiedInjector);
+  protected globalMessageService = inject(GlobalMessageService);
   protected singleProductCartOptions = inject(
     OpfQuickBuySingleProductCartOptionsFacade
   );
@@ -197,11 +200,25 @@ export class OpfQuickBuySingleProductTransactionService {
                       extraData: { active: false },
                     })
                     .pipe(
+                      // `createCart` initially replays the previously created
+                      // (NEW_CREATED) cart from the store. Skip it so we operate
+                      // on the freshly created cart instead of adding entries to
+                      // the previous quick buy cart.
+                      filter(
+                        (cart) =>
+                          getCartIdByUserId(cart, userId) !== this.cartId
+                      ),
                       take(1),
                       switchMap((cart) => {
                         const cartId = getCartIdByUserId(cart, userId);
                         this.userId = userId;
                         this.cartId = cartId;
+
+                        console.log(
+                          '[OPF Quick Buy PDP] quantity passed to single-product cart:',
+                          quantity,
+                          { productCode, pickupStore, cartId }
+                        );
 
                         this.multiCartFacade.addEntry(
                           userId,
@@ -211,7 +228,15 @@ export class OpfQuickBuySingleProductTransactionService {
                           pickupStore
                         );
 
-                        return this.waitForStableCart(cartId);
+                        return this.waitForStableCart(cartId).pipe(
+                          tap((stableCart) =>
+                            this.notifyIfQuantityReduced(
+                              stableCart,
+                              productCode,
+                              quantity
+                            )
+                          )
+                        );
                       })
                     )
                 )
@@ -264,8 +289,45 @@ export class OpfQuickBuySingleProductTransactionService {
       filter((stable) => stable),
       take(1),
       switchMap(() => this.multiCartFacade.getCart(cartId).pipe(take(1))),
-      filter((cart): cart is Cart => !!cart)
+      filter((cart): cart is Cart => !!cart),
+      tap((cart) =>
+        console.log('[OPF Quick Buy PDP] get cart:', {
+          cartId: cart.code,
+          totalUnitCount: cart.totalUnitCount,
+          totalItems: cart.totalItems,
+          entries: cart.entries?.map((entry) => ({
+            code: entry.product?.code,
+            quantity: entry.quantity,
+          })),
+        })
+      )
     );
+  }
+
+  /**
+   * Informs the user via a global message when the quantity actually added to
+   * the single-product cart is lower than requested (e.g. due to insufficient
+   * stock). Quick buy skips the standard add-to-cart dialog, so without this
+   * the reduction would go unnoticed.
+   */
+  protected notifyIfQuantityReduced(
+    cart: Cart,
+    productCode: string,
+    requestedQuantity: number
+  ): void {
+    const addedQuantity = cart.entries?.find(
+      (entry) => entry.product?.code === productCode
+    )?.quantity;
+
+    if (addedQuantity != null && addedQuantity < requestedQuantity) {
+      this.globalMessageService.add(
+        {
+          key: 'validation.lowStock',
+          params: { quantity: addedQuantity },
+        },
+        GlobalMessageType.MSG_TYPE_WARNING
+      );
+    }
   }
 
   protected reloadCartAndWait(

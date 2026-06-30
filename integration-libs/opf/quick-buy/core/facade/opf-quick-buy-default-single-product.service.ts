@@ -4,20 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { CartItemQuantityService } from '@spartacus/cart/base/root';
 import {
   OpfQuickBuySingleProductCartOptions,
   OpfQuickBuySingleProductCartOptionsFacade,
 } from '@spartacus/opf/quick-buy/root';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OpfQuickBuyDefaultSingleProductService
   implements OpfQuickBuySingleProductCartOptionsFacade
 {
+  protected cartItemQuantityService = inject(CartItemQuantityService);
+
   getSingleProductCartOptions(
     _productCode: string
   ): Observable<OpfQuickBuySingleProductCartOptions> {
-    return of({ quantity: 1 });
+    return this.cartItemQuantityService
+      .getQuantity()
+      .pipe(map((quantity) => ({ quantity })));
   }
 }

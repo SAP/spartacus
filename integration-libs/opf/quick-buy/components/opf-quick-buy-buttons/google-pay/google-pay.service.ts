@@ -7,7 +7,7 @@
 /// <reference types="@types/googlepay" />
 import { ElementRef, Injectable, inject } from '@angular/core';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
-import { Address } from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 
 import {
   OpfActiveConfiguration,
@@ -26,7 +26,7 @@ import {
   QuickBuyTransactionDetails,
 } from '@spartacus/opf/quick-buy/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { Observable, forkJoin, lastValueFrom, of } from 'rxjs';
+import { Observable, combineLatest, forkJoin, lastValueFrom, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyButtonsService } from '../opf-quick-buy-buttons.service';
 
@@ -42,6 +42,7 @@ export class OpfGooglePayService {
   );
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);
   protected opfQuickBuyConfig = inject(OpfQuickBuyConfig);
+  protected translationService = inject(TranslationService);
 
   private googlePaymentClient: google.payments.api.PaymentsClient;
 
@@ -190,18 +191,90 @@ export class OpfGooglePayService {
 
   private getNewTransactionInfo(
     cart: Cart
-  ): google.payments.api.TransactionInfo | undefined {
-    let transactionInfo: google.payments.api.TransactionInfo | undefined;
+  ): Observable<google.payments.api.TransactionInfo | undefined> {
     const priceInfo = cart?.totalPriceWithTax;
-    if (priceInfo && priceInfo.value && priceInfo.currencyIso) {
-      transactionInfo = {
-        totalPrice: priceInfo.value.toString(),
-        currencyCode: priceInfo.currencyIso.toString(),
-        totalPriceStatus: 'FINAL',
-      };
+    if (!(priceInfo && priceInfo.value && priceInfo.currencyIso)) {
+      return of(undefined);
     }
+    const totalPrice = priceInfo.value;
+    const currencyCode = priceInfo.currencyIso;
 
-    return transactionInfo;
+    return combineLatest([
+      this.buildDisplayItems(cart),
+      this.translationService.translate('orderCost.total'),
+    ]).pipe(
+      take(1),
+      map(
+        ([displayItems, totalLabel]) =>
+          ({
+            totalPrice: totalPrice.toString(),
+            currencyCode: currencyCode.toString(),
+            totalPriceStatus: 'FINAL',
+            // `totalPriceLabel` is required by Google Pay whenever
+            // `displayItems` are provided.
+            ...(displayItems.length
+              ? { displayItems, totalPriceLabel: totalLabel }
+              : {}),
+          }) as google.payments.api.TransactionInfo
+      )
+    );
+  }
+
+  private buildDisplayItems(
+    cart: Cart
+  ): Observable<google.payments.api.DisplayItem[]> {
+    const promotionLabel = cart.appliedOrderPromotions
+      ?.map((promotion) => promotion.description)
+      .filter((description): description is string => !!description)
+      .join(', ');
+
+    return combineLatest([
+      this.translationService.translate('orderCost.subtotal'),
+      this.translationService.translate('orderCost.salesTax'),
+      this.translationService.translate('orderCost.shipping'),
+      promotionLabel
+        ? of(promotionLabel)
+        : this.translationService.translate('orderCost.discount'),
+    ]).pipe(
+      take(1),
+      map(([subtotalLabel, taxLabel, deliveryLabel, savingsLabel]) => {
+        const displayItems: google.payments.api.DisplayItem[] = [];
+
+        if (cart.subTotal?.value != null) {
+          displayItems.push({
+            label: subtotalLabel,
+            type: 'SUBTOTAL',
+            price: cart.subTotal.value.toString(),
+          });
+        }
+
+        if (cart.totalTax?.value) {
+          displayItems.push({
+            label: taxLabel,
+            type: 'TAX',
+            price: cart.totalTax.value.toString(),
+          });
+        }
+
+        if (cart.deliveryCost?.value) {
+          displayItems.push({
+            label: deliveryLabel,
+            type: 'SHIPPING_OPTION',
+            price: cart.deliveryCost.value.toString(),
+          });
+        }
+
+        if (cart.totalDiscounts?.value) {
+          displayItems.push({
+            label: savingsLabel,
+            type: 'DISCOUNT',
+            price: (-cart.totalDiscounts.value).toString(),
+          });
+        }
+
+        return displayItems;
+      })
+    );
   }
 
   private setDeliveryAddress(
@@ -291,16 +364,28 @@ export class OpfGooglePayService {
               switchMap(() =>
                 this.opfQuickBuyTransactionService.getCurrentCart().pipe(
                   take(1),
-                  tap((cart: Cart) => {
+                  switchMap((cart: Cart) => {
                     this.transactionDetails.cart = cart;
-                    this.updateTransactionInfo({
-                      totalPrice: `${cart.totalPrice?.value}`,
-                      currencyCode:
-                        cart.totalPrice?.currencyIso ||
-                        this.initialTransactionInfo.currencyCode,
-                      totalPriceStatus:
-                        this.initialTransactionInfo.totalPriceStatus,
-                    });
+                    return combineLatest([
+                      this.buildDisplayItems(cart),
+                      this.translationService.translate('orderCost.total'),
+                    ]).pipe(
+                      take(1),
+                      map(([displayItems, totalLabel]) => {
+                        this.updateTransactionInfo({
+                          totalPrice: `${cart.totalPrice?.value}`,
+                          currencyCode:
+                            cart.totalPrice?.currencyIso ||
+                            this.initialTransactionInfo.currencyCode,
+                          totalPriceStatus:
+                            this.initialTransactionInfo.totalPriceStatus,
+                          ...(displayItems.length
+                            ? { displayItems, totalPriceLabel: totalLabel }
+                            : {}),
+                        });
+                        return cart;
+                      })
+                    );
                   })
                 )
               )
@@ -413,23 +498,27 @@ export class OpfGooglePayService {
                     this.opfQuickBuyTransactionService.getSelectedDeliveryMode(),
                   ])
                 ),
-                switchMap(([cart, mode]) => {
-                  const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
-                    {
-                      newShippingOptionParameters: shippingOptions,
-                      newTransactionInfo: this.getNewTransactionInfo(cart),
-                    };
+                switchMap(([cart, mode]) =>
+                  this.getNewTransactionInfo(cart).pipe(
+                    map((newTransactionInfo) => {
+                      const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
+                        {
+                          newShippingOptionParameters: shippingOptions,
+                          newTransactionInfo,
+                        };
 
-                  if (
-                    paymentDataRequestUpdate.newShippingOptionParameters
-                      ?.defaultSelectedOptionId
-                  ) {
-                    paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
-                      mode?.code;
-                  }
+                      if (
+                        paymentDataRequestUpdate.newShippingOptionParameters
+                          ?.defaultSelectedOptionId
+                      ) {
+                        paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
+                          mode?.code;
+                      }
 
-                  return of(paymentDataRequestUpdate);
-                })
+                      return paymentDataRequestUpdate;
+                    })
+                  )
+                )
               );
             })
           )
