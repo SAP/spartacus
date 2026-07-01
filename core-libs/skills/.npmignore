@@ -1,2 +1,4 @@
 # Publish only the skills tree and the README. Exclude dev tooling.
 project.json
+sub-folder/
+.pipeline/
