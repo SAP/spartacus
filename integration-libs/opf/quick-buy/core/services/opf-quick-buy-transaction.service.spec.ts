@@ -615,7 +615,10 @@ describe('OpfQuickBuyTransactionService', () => {
   describe('single product context delegation', () => {
     const mockCart = { guid: 'product-cart' } as Cart;
     const mockAddress: Address = { firstName: 'John' };
-    const mockDeliveryMode: DeliveryMode = { code: 'standard', name: 'Standard' };
+    const mockDeliveryMode: DeliveryMode = {
+      code: 'standard',
+      name: 'Standard',
+    };
 
     beforeEach(() => {
       service['transactionContext'] = OpfQuickBuyLocation.PRODUCT;
@@ -677,7 +680,9 @@ describe('OpfQuickBuyTransactionService', () => {
 
       service.checkStableCart().subscribe((isStable) => {
         expect(isStable).toBe(true);
-        expect(singleProductTransactionService.checkStableCart).toHaveBeenCalled();
+        expect(
+          singleProductTransactionService.checkStableCart
+        ).toHaveBeenCalled();
       });
 
       service.getSupportedDeliveryModes().subscribe((modes) => {

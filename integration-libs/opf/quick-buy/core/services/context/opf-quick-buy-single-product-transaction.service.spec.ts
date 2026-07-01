@@ -320,25 +320,31 @@ describe('OpfQuickBuySingleProductTransactionService', () => {
       activeCartFacade.isGuestCart.and.returnValue(of(true));
       cartGuestUserFacade.updateCartGuestUser.and.returnValue(of({}));
 
-      service.updateCartGuestUserEmail('guest@example.com').subscribe((result) => {
-        expect(result).toBe(true);
-        expect(cartGuestUserFacade.updateCartGuestUser).toHaveBeenCalledWith(
-          'anonymous',
-          'cart-guid',
-          { email: 'guest@example.com' }
-        );
-        done();
-      });
+      service
+        .updateCartGuestUserEmail('guest@example.com')
+        .subscribe((result) => {
+          expect(result).toBe(true);
+          expect(cartGuestUserFacade.updateCartGuestUser).toHaveBeenCalledWith(
+            'anonymous',
+            'cart-guid',
+            { email: 'guest@example.com' }
+          );
+          done();
+        });
     });
 
     it('should return false when cart is not a guest cart', (done) => {
       activeCartFacade.isGuestCart.and.returnValue(of(false));
 
-      service.updateCartGuestUserEmail('guest@example.com').subscribe((result) => {
-        expect(result).toBe(false);
-        expect(cartGuestUserFacade.updateCartGuestUser).not.toHaveBeenCalled();
-        done();
-      });
+      service
+        .updateCartGuestUserEmail('guest@example.com')
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          expect(
+            cartGuestUserFacade.updateCartGuestUser
+          ).not.toHaveBeenCalled();
+          done();
+        });
     });
   });
 

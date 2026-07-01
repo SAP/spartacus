@@ -157,7 +157,8 @@ export class OpfQuickBuyTransactionService {
 
   updateCartGuestUserEmail(email: string): Observable<boolean> {
     return this.delegate(
-      () => this.singleProductTransactionService.updateCartGuestUserEmail(email),
+      () =>
+        this.singleProductTransactionService.updateCartGuestUserEmail(email),
       () => this.activeCartTransactionService.updateCartGuestUserEmail(email)
     );
   }

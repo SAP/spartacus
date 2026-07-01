@@ -337,24 +337,28 @@ describe('OpfGooglePayService', () => {
         subTotal: { value: 80 },
       } as Cart;
 
-      service['getNewTransactionInfo'](mockCart).subscribe((transactionInfo) => {
-        expect(transactionInfo).toBeDefined();
-        expect(transactionInfo?.totalPrice).toBe('100');
-        expect(transactionInfo?.currencyCode).toBe('USD');
-        expect(transactionInfo?.totalPriceStatus).toBe('FINAL');
-        expect(transactionInfo?.displayItems?.length).toBe(1);
-        expect(transactionInfo?.totalPriceLabel).toBe('orderCost.total');
-        done();
-      });
+      service['getNewTransactionInfo'](mockCart).subscribe(
+        (transactionInfo) => {
+          expect(transactionInfo).toBeDefined();
+          expect(transactionInfo?.totalPrice).toBe('100');
+          expect(transactionInfo?.currencyCode).toBe('USD');
+          expect(transactionInfo?.totalPriceStatus).toBe('FINAL');
+          expect(transactionInfo?.displayItems?.length).toBe(1);
+          expect(transactionInfo?.totalPriceLabel).toBe('orderCost.total');
+          done();
+        }
+      );
     });
 
     it('should handle cart with missing price information', (done) => {
       const mockCart = {} as Cart;
 
-      service['getNewTransactionInfo'](mockCart).subscribe((transactionInfo) => {
-        expect(transactionInfo).toBeUndefined();
-        done();
-      });
+      service['getNewTransactionInfo'](mockCart).subscribe(
+        (transactionInfo) => {
+          expect(transactionInfo).toBeUndefined();
+          done();
+        }
+      );
     });
 
     it('should return undefined for cart with a total price of zero', (done) => {
@@ -362,10 +366,12 @@ describe('OpfGooglePayService', () => {
         totalPriceWithTax: { value: 0, currencyIso: 'USD' },
       } as Cart;
 
-      service['getNewTransactionInfo'](mockCart).subscribe((transactionInfo) => {
-        expect(transactionInfo).toBeUndefined();
-        done();
-      });
+      service['getNewTransactionInfo'](mockCart).subscribe(
+        (transactionInfo) => {
+          expect(transactionInfo).toBeUndefined();
+          done();
+        }
+      );
     });
   });
 

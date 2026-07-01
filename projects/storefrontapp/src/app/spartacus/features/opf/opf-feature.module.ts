@@ -193,4 +193,4 @@ if (!environment.b2b && environment.opf) {
     ...extensionProviders,
   ],
 })
-export class OpfFeatureModule { }
+export class OpfFeatureModule {}
