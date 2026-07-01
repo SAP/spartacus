@@ -34,6 +34,8 @@
     "selected": "Seleccionado",
     "expand": "Ampliar",
     "collapse": "Contraer",
+    "readMore": "Más información",
+    "readLess": "Menos información",
     "language": "Idioma",
     "currency": "Moneda"
   },

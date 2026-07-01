@@ -34,6 +34,8 @@
     "selected": "Выбрано",
     "expand": "Развернуть",
     "collapse": "Свернуть",
+    "readMore": "Подробнее",
+    "readLess": "Скрыть",
     "language": "Язык",
     "currency": "Валюта"
   },
