@@ -8,7 +8,7 @@
 import { ElementRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
-import { Address, PriceType } from '@spartacus/core';
+import { Address, PriceType, TranslationService } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
   OpfResourceLoaderService,
@@ -53,6 +53,7 @@ describe('OpfGooglePayService', () => {
   let mockQuickBuyTransactionService: jasmine.SpyObj<OpfQuickBuyTransactionService>;
   let mockPaymentFacade: jasmine.SpyObj<OpfPaymentFacade>;
   let mockQuickBuyButtonsService: jasmine.SpyObj<OpfQuickBuyButtonsService>;
+  let mockTranslationService: jasmine.SpyObj<TranslationService>;
 
   beforeEach(() => {
     mockResourceLoaderService = jasmine.createSpyObj(
@@ -90,6 +91,10 @@ describe('OpfGooglePayService', () => {
       'OpfQuickBuyButtonsService',
       ['getQuickBuyProviderConfig', 'getActiveConfigurationForProvider']
     );
+    mockTranslationService = jasmine.createSpyObj('TranslationService', [
+      'translate',
+    ]);
+    mockTranslationService.translate.and.callFake((key: string) => of(key));
 
     const googlePayApiMock = {
       payments: {
@@ -129,6 +134,10 @@ describe('OpfGooglePayService', () => {
         {
           provide: OpfQuickBuyConfig,
           useValue: defaultOpfQuickBuyConfig,
+        },
+        {
+          provide: TranslationService,
+          useValue: mockTranslationService,
         },
       ],
     });
@@ -322,35 +331,66 @@ describe('OpfGooglePayService', () => {
   });
 
   describe('getNewTransactionInfo', () => {
-    it('should return transaction info for a given cart', () => {
+    it('should return transaction info for a given cart', (done) => {
       const mockCart = {
         totalPriceWithTax: { value: 100.0, currencyIso: 'USD' },
+        subTotal: { value: 80 },
       } as Cart;
 
-      const transactionInfo = service['getNewTransactionInfo'](mockCart);
-
-      expect(transactionInfo).toBeDefined();
-      expect(transactionInfo?.totalPrice).toBe('100');
-      expect(transactionInfo?.currencyCode).toBe('USD');
-      expect(transactionInfo?.totalPriceStatus).toBe('FINAL');
+      service['getNewTransactionInfo'](mockCart).subscribe((transactionInfo) => {
+        expect(transactionInfo).toBeDefined();
+        expect(transactionInfo?.totalPrice).toBe('100');
+        expect(transactionInfo?.currencyCode).toBe('USD');
+        expect(transactionInfo?.totalPriceStatus).toBe('FINAL');
+        expect(transactionInfo?.displayItems?.length).toBe(1);
+        expect(transactionInfo?.totalPriceLabel).toBe('orderCost.total');
+        done();
+      });
     });
 
-    it('should handle cart with missing price information', () => {
+    it('should handle cart with missing price information', (done) => {
       const mockCart = {} as Cart;
 
-      const transactionInfo = service['getNewTransactionInfo'](mockCart);
-
-      expect(transactionInfo).toBeUndefined();
+      service['getNewTransactionInfo'](mockCart).subscribe((transactionInfo) => {
+        expect(transactionInfo).toBeUndefined();
+        done();
+      });
     });
 
-    it('should return undefined for cart with a total price of zero', () => {
+    it('should return undefined for cart with a total price of zero', (done) => {
       const mockCart = {
         totalPriceWithTax: { value: 0, currencyIso: 'USD' },
       } as Cart;
 
-      const transactionInfo = service['getNewTransactionInfo'](mockCart);
+      service['getNewTransactionInfo'](mockCart).subscribe((transactionInfo) => {
+        expect(transactionInfo).toBeUndefined();
+        done();
+      });
+    });
+  });
 
-      expect(transactionInfo).toBeUndefined();
+  describe('buildDisplayItems', () => {
+    it('should build display items from cart values', (done) => {
+      const mockCart = {
+        subTotal: { value: 80 },
+        totalTax: { value: 10 },
+        deliveryCost: { value: 5 },
+        totalDiscounts: { value: 2 },
+        appliedOrderPromotions: [{ description: 'Promo' }],
+      } as Cart;
+
+      service['buildDisplayItems'](mockCart).subscribe((items) => {
+        expect(items.length).toBe(4);
+        expect(items[0]).toEqual({
+          label: 'orderCost.subtotal',
+          type: 'SUBTOTAL',
+          price: '80',
+        });
+        expect(items.find((item) => item.type === 'DISCOUNT')?.price).toBe(
+          '-2'
+        );
+        done();
+      });
     });
   });
 

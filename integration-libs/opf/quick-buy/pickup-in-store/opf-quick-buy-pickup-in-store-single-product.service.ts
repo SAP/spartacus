@@ -36,8 +36,9 @@ export class OpfQuickBuyPickupInStoreSingleProductService
           ]).pipe(
             map(([pickupOption, intendedLocation]) => ({
               ...baseOptions,
-              pickupStore:
-                pickupOption === 'pickup' ? intendedLocation?.name : undefined,
+              ...(pickupOption === 'pickup' && intendedLocation?.name
+                ? { pickupStore: intendedLocation.name }
+                : {}),
             }))
           )
         )
