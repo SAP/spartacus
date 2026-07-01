@@ -154,11 +154,11 @@ export class CpqConfiguratorNormalizer
     return attribute.uiType === Configurator.UiType.READ_ONLY;
   }
 
-  protected isThereAnyRetractValue(sourceAttribute: Cpq.Attribute): boolean {
+  protected hasRetractValue(sourceAttribute: Cpq.Attribute): boolean {
     return sourceAttribute.values?.some((value) => value.paV_ID === 0) ?? false;
   }
 
-  protected isThereSelectedValue(sourceAttribute: Cpq.Attribute): boolean {
+  protected isNoValueSelected(sourceAttribute: Cpq.Attribute): boolean {
     return !sourceAttribute.values?.filter((value) => value.selected).length;
   }
 
@@ -189,10 +189,41 @@ export class CpqConfiguratorNormalizer
     return (
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
       attribute.uiType === Configurator.UiType.DROPDOWN ||
-      attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE ||
       attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT ||
       attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT
     );
+  }
+
+  protected isDropDownUiType(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT
+    );
+  }
+
+  /**
+   * Determines whether a retract value needs to be added for the given attribute.
+   * A retract value is added when either:
+   * 1. the attribute is not required and is of a single selection ui type
+   *    (`RADIOBUTTON`, `DROPDOWN`, `DROPDOWN_PRODUCT` or `RADIOBUTTON_PRODUCT`), or
+   * 2. the attribute is required, is of a drop-down ui type
+   *    (`DROPDOWN` or `DROPDOWN_PRODUCT`) and no value is selected.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @returns `true` - if a retract value needs to be added
+   */
+  protected isRetractValueNeeded(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute
+  ): boolean {
+    if (attribute.required) {
+      return (
+        this.isDropDownUiType(attribute) &&
+        this.isNoValueSelected(sourceAttribute)
+      );
+    }
+    return this.isSingleSelectionUiType(attribute);
   }
 
   protected addRetractValue(
@@ -202,12 +233,12 @@ export class CpqConfiguratorNormalizer
   ) {
     if (
       !this.isUITypeReadOnly(attribute) &&
-      !this.isThereAnyRetractValue(sourceAttribute) &&
-      this.isSingleSelectionUiType(attribute)
+      !this.hasRetractValue(sourceAttribute) &&
+      this.isRetractValueNeeded(sourceAttribute, attribute)
     ) {
       const value: Configurator.Value = {
         valueCode: Configurator.RetractValueCode,
-        selected: this.isThereSelectedValue(sourceAttribute),
+        selected: this.isNoValueSelected(sourceAttribute),
       };
       this.setRetractValueDisplay(attribute, value);
       values.push(value);
