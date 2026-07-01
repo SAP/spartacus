@@ -150,21 +150,27 @@ export class CpqConfiguratorNormalizer
     flatGroupList.push(group);
   }
 
-  protected isAttributeTypeReadOnly(
-    attribute: Configurator.Attribute
-  ): boolean {
+  protected isUITypeReadOnly(attribute: Configurator.Attribute): boolean {
     return attribute.uiType === Configurator.UiType.READ_ONLY;
   }
 
-  protected isRetractValueSelected(sourceAttribute: Cpq.Attribute): boolean {
+  protected isThereAnyRetractValue(sourceAttribute: Cpq.Attribute): boolean {
+    return sourceAttribute.values?.some((value) => value.paV_ID === 0) ?? false;
+  }
+
+  protected isThereSelectedValue(sourceAttribute: Cpq.Attribute): boolean {
     return !sourceAttribute.values?.filter((value) => value.selected).length;
   }
 
   protected setRetractValueDisplay(
-    attributeType: Configurator.UiType,
+    attribute: Configurator.Attribute,
     value: Configurator.Value
   ) {
-    if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
+    if (
+      (attribute.uiType === Configurator.UiType.DROPDOWN ||
+        attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT) &&
+      value.selected
+    ) {
       this.translation
         .translate('configurator.attribute.dropDownSelectMsg')
         .pipe(take(1))
@@ -177,24 +183,34 @@ export class CpqConfiguratorNormalizer
     }
   }
 
+  protected isSingleSelectionUiType(
+    attribute: Configurator.Attribute
+  ): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT
+    );
+  }
+
   protected addRetractValue(
     sourceAttribute: Cpq.Attribute,
     attribute: Configurator.Attribute,
     values: Configurator.Value[]
   ) {
-    if (!this.isAttributeTypeReadOnly(attribute)) {
-      if (
-        attribute.uiType === Configurator.UiType.RADIOBUTTON ||
-        attribute.uiType === Configurator.UiType.DROPDOWN ||
-        attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
-      ) {
-        const value: Configurator.Value = {
-          valueCode: Configurator.RetractValueCode,
-          selected: this.isRetractValueSelected(sourceAttribute),
-        };
-        this.setRetractValueDisplay(attribute.uiType, value);
-        values.push(value);
-      }
+    if (
+      !this.isUITypeReadOnly(attribute) &&
+      !this.isThereAnyRetractValue(sourceAttribute) &&
+      this.isSingleSelectionUiType(attribute)
+    ) {
+      const value: Configurator.Value = {
+        valueCode: Configurator.RetractValueCode,
+        selected: this.isThereSelectedValue(sourceAttribute),
+      };
+      this.setRetractValueDisplay(attribute, value);
+      values.push(value);
     }
   }
 
