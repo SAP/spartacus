@@ -671,7 +671,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
-    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup when current group is a conflict group id', () => {
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup when current group is a conflict group', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: productConfiguration.owner.key,
