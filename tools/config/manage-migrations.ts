@@ -6,16 +6,16 @@
 
 /**
  * Ensures that `migrations.json` always contains a feature-toggles migration
- * entry for the current `PUBLISHING_VERSION`.
+ * entry for the current minor release line (e.g. 221121.13).
  *
  * During a release, the workflow sets a new `PUBLISHING_VERSION` in `const.ts`
- * and then runs `npm run config:update`. This module detects that the new
- * version has no migration entry yet and appends one automatically, so that
- * customers running `ng update` will have their outdated feature toggles
- * commented out when upgrading to the new version.
+ * and then runs `npm run manage-migrations`. This module:
  *
- * - check mode (`npm run config:check`): reports an error if the entry is missing.
- * - fix mode  (`npm run config:update`): appends the entry to `migrations.json`.
+ * - Creates the entry if it does not exist yet for this minor.
+ * - Updates the `version` field in-place if the entry exists but belongs to a
+ *   different patch/pre-release of the same minor
+ *   (e.g. stored 221121.13.0, current is 221121.13.1).
+ * - No-ops if the entry already matches the current version exactly.
  */
 
 import { readFileSync, writeFileSync } from 'fs';
@@ -25,7 +25,8 @@ import { PUBLISHING_VERSION } from './const';
 const MIGRATIONS_JSON_PATH =
   'core-libs/schematics/src/migrations/migrations.json';
 
-const MIGRATION_KEY = `00-migration-v${PUBLISHING_VERSION.replace(/\.\d+$/, '').replace(/\./g, '_')}-update-feature-toggles`;
+const [major, minor] = PUBLISHING_VERSION.split('.');
+const MIGRATION_KEY = `00-migration-v${major}_${minor}-update-feature-toggles`;
 const MIGRATION_ENTRY = {
   version: PUBLISHING_VERSION,
   factory: '../shared/utils/update-feature-toggles#migrate',
@@ -42,15 +43,11 @@ export function manageMigrations(options: ProgramOptions): void {
     readFileSync(MIGRATIONS_JSON_PATH, 'utf-8')
   );
 
-  const schematics: Record<string, unknown> = migrationsJson.schematics;
+  const schematics: Record<string, any> = migrationsJson.schematics;
+  const existingEntry = schematics[MIGRATION_KEY];
 
-  const alreadyExists = Object.values(schematics).some(
-    (entry: any) =>
-      entry.version === PUBLISHING_VERSION &&
-      entry.factory === MIGRATION_ENTRY.factory
-  );
-
-  if (alreadyExists) {
+  // No-op: entry exists and version already matches
+  if (existingEntry?.version === PUBLISHING_VERSION) {
     console.log(
       chalk.green(
         ` ✔  migrations.json already has a feature-toggles entry for ${PUBLISHING_VERSION}`
@@ -62,18 +59,32 @@ export function manageMigrations(options: ProgramOptions): void {
   if (!options.fix) {
     const minLength = 76;
     const file = MIGRATIONS_JSON_PATH;
+    const message = existingEntry
+      ? `feature-toggles entry for minor ${MIGRATION_KEY} has version ${existingEntry.version}, expected ${PUBLISHING_VERSION}`
+      : `Missing feature-toggles migration entry for version ${PUBLISHING_VERSION}`;
     console.log(`
 ${chalk.gray(`--- ${file} ${`-`.repeat(Math.max(0, minLength - file.length - 1))}`)}
-${chalk.red(` ✖  Missing feature-toggles migration entry for version ${PUBLISHING_VERSION}`)}
+${chalk.red(` ✖  ${message}`)}
 
-${chalk.blue(` i  Run 'npm run manage-migrations' to add it automatically.`)}
+${chalk.blue(` i  Run 'npm run manage-migrations' to fix it automatically.`)}
 ${chalk.gray(`----${`-`.repeat(Math.max(file.length, minLength))}`)}
 `);
     process.exitCode = 1;
     return;
   }
 
-  schematics[MIGRATION_KEY] = MIGRATION_ENTRY;
+  // Update version in-place if entry exists for this minor, otherwise create it
+  if (existingEntry) {
+    console.log(
+      chalk.yellow(
+        ` ↻  Updating feature-toggles entry from ${existingEntry.version} to ${PUBLISHING_VERSION}`
+      )
+    );
+    existingEntry.version = PUBLISHING_VERSION;
+  } else {
+    schematics[MIGRATION_KEY] = MIGRATION_ENTRY;
+  }
+
   writeFileSync(
     MIGRATIONS_JSON_PATH,
     JSON.stringify(migrationsJson, null, 2) + '\n',
