@@ -2,6 +2,9 @@ on:
   schedule:
     - cron: "0 9 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - chore/CXSPA-13499-ensure_release_branch_is_stable
 
 name: Sync active release branches to private repo
 
