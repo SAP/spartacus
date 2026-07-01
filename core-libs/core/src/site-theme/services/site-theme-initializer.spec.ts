@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, EMPTY, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { BaseSite, SiteTheme } from '../../model/misc.model';
@@ -27,8 +28,10 @@ class MockSiteThemeService implements Partial<SiteThemeService> {
     return false;
   }
   setActive(_className: string) {}
-  getActive() {
-    return this.active$.pipe();
+  getActive(): Observable<string> {
+    return this.active$.pipe(
+      filter((value): value is string => value !== null)
+    );
   }
   getDefault(): SiteTheme {
     return {
@@ -252,8 +255,9 @@ describe('SiteThemeInitializer', () => {
       // When the app pins a theme in static config, that explicit developer
       // intent wins over the CMS base-site theme.
       featureToggles.applyBaseSiteThemeFromCms = true;
-      (siteContextConfig as { context: { theme?: string[] } }).context.theme =
-        ['my-pinned-theme'];
+      (siteContextConfig as { context: { theme?: string[] } }).context.theme = [
+        'my-pinned-theme',
+      ];
 
       initializer.initialize();
 
@@ -271,8 +275,9 @@ describe('SiteThemeInitializer', () => {
       // persistence restores the stale value and marks the service as
       // initialized — but the static value must still win.
       featureToggles.applyBaseSiteThemeFromCms = true;
-      (siteContextConfig as { context: { theme?: string[] } }).context.theme =
-        ['lambda'];
+      (siteContextConfig as { context: { theme?: string[] } }).context.theme = [
+        'lambda',
+      ];
       (siteThemeService as unknown as MockSiteThemeService).active$.next(
         'santorini'
       );
@@ -283,10 +288,11 @@ describe('SiteThemeInitializer', () => {
       expect(siteThemeService.setActive).toHaveBeenCalledWith('lambda');
     });
 
-    it("should preserve a user-picked optional theme over the static `context.theme` on reload", () => {
+    it('should preserve a user-picked optional theme over the static `context.theme` on reload', () => {
       featureToggles.applyBaseSiteThemeFromCms = true;
-      (siteContextConfig as { context: { theme?: string[] } }).context.theme =
-        ['lambda'];
+      (siteContextConfig as { context: { theme?: string[] } }).context.theme = [
+        'lambda',
+      ];
       (siteThemeService as unknown as MockSiteThemeService).active$.next(
         'cx-theme-high-contrast-dark'
       );

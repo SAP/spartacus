@@ -19,6 +19,7 @@ import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { SiteContext } from '../../site-context/facade/site-context.interface';
 import { THEME_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { isNotNullable } from '../../util/type-guards';
+import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { SiteThemeActions } from '../store/actions';
 import { SiteThemeSelectors } from '../store/selectors';
 import { StateWithSiteTheme } from '../store/state';
@@ -66,12 +67,7 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
    * Returns `undefined` when no base site has resolved yet.
    */
   protected readActiveBaseSiteTheme(): string | undefined {
-    let theme: string | undefined;
-    this.baseSiteService
-      .get()
-      .pipe(take(1))
-      .subscribe((baseSite) => (theme = baseSite?.theme));
-    return theme;
+    return getLastValueSync(this.baseSiteService.get())?.theme;
   }
 
   /**

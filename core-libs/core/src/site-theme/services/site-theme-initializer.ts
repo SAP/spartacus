@@ -6,7 +6,7 @@
 
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, switchMap, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { BaseSite } from '../../model/misc.model';
@@ -16,6 +16,7 @@ import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { THEME_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade/site-theme.service';
+import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
 
 @Injectable({ providedIn: 'root' })
@@ -147,12 +148,7 @@ export class SiteThemeInitializer implements OnDestroy {
 
   /** Synchronously reads the currently active theme from the store. */
   protected readActiveTheme(): string | undefined {
-    let value: string | undefined;
-    this.siteThemeService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((v) => (value = v));
-    return value;
+    return getLastValueSync(this.siteThemeService.getActive());
   }
 
   ngOnDestroy() {
