@@ -6,10 +6,13 @@
 
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import { join } from 'path';
+import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
+import { migrate } from './update-feature-toggles';
 
-const collectionPath = join(__dirname, '../../migrations/migrations.json');
-const MIGRATION_SCRIPT_NAME = '00-migration-v221121_13-update-feature-toggles';
+// The migrate() Rule is called directly so tests don't depend on migrations.json
+// having an entry committed at test time (entries are generated at release time).
+const RUNNER_COLLECTION = path.join(__dirname, '../../collection.json');
 
 const INTERFACE_FILE = 'node_modules/@spartacus/core/types/spartacus-core.d.ts';
 const MODULE_FILE = 'src/app/spartacus/spartacus-features.module.ts';
@@ -53,16 +56,14 @@ export class SpartacusFeaturesModule {}
 `;
 }
 
+async function runMigration(tree: Tree): Promise<Tree> {
+  const runner = new SchematicTestRunner('migrations', RUNNER_COLLECTION);
+  return firstValueFrom(runner.callRule(migrate(), tree));
+}
+
 describe('Update feature toggles migration', () => {
-  let tree: Tree;
-  let runner: SchematicTestRunner;
-
-  beforeEach(() => {
-    tree = Tree.empty();
-    runner = new SchematicTestRunner('migrations', collectionPath);
-  });
-
   it('should comment out unknown toggles with [REMOVED] marker', async () => {
+    const tree = Tree.empty();
     // Interface declares only toggleA and toggleB as valid
     tree.create(INTERFACE_FILE, buildInterfaceFile(['toggleA', 'toggleB']));
 
@@ -77,8 +78,7 @@ describe('Update feature toggles migration', () => {
       })
     );
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
 
     // Valid toggles should remain uncommented
@@ -96,6 +96,7 @@ describe('Update feature toggles migration', () => {
   });
 
   it('should not modify the file when all toggles are valid', async () => {
+    const tree = Tree.empty();
     tree.create(INTERFACE_FILE, buildInterfaceFile(['toggleA', 'toggleB']));
 
     const moduleContent = buildModuleFile({
@@ -104,8 +105,7 @@ describe('Update feature toggles migration', () => {
     });
     tree.create(MODULE_FILE, moduleContent);
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
 
     // Should be unchanged — no unknown toggles to remove
@@ -114,6 +114,7 @@ describe('Update feature toggles migration', () => {
   });
 
   it('should not modify the file when module has fewer toggles than interface', async () => {
+    const tree = Tree.empty();
     // Interface has more toggles than the module — but that's fine, no action needed
     tree.create(
       INTERFACE_FILE,
@@ -126,8 +127,7 @@ describe('Update feature toggles migration', () => {
     });
     tree.create(MODULE_FILE, moduleContent);
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
 
     // Should be unchanged — missing toggles are NOT added
@@ -136,6 +136,7 @@ describe('Update feature toggles migration', () => {
   });
 
   it('should comment out ALL unknown toggles when none are valid', async () => {
+    const tree = Tree.empty();
     tree.create(INTERFACE_FILE, buildInterfaceFile(['newToggle']));
 
     tree.create(
@@ -146,14 +147,14 @@ describe('Update feature toggles migration', () => {
       })
     );
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
     expect(content).toMatch(/\/\/ \[REMOVED].*"oldToggle1"/);
     expect(content).toMatch(/\/\/ \[REMOVED].*"oldToggle2"/);
   });
 
   it('should preserve indentation when commenting out', async () => {
+    const tree = Tree.empty();
     tree.create(INTERFACE_FILE, buildInterfaceFile(['validToggle']));
 
     tree.create(
@@ -164,8 +165,7 @@ describe('Update feature toggles migration', () => {
       })
     );
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
     // The commented line should have the same indentation level as valid lines
     const validLine = content
@@ -184,24 +184,25 @@ describe('Update feature toggles migration', () => {
   });
 
   it('should skip gracefully when interface file is missing', async () => {
+    const tree = Tree.empty();
     tree.create(MODULE_FILE, buildModuleFile({ toggleA: true }));
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
     expect(content).toContain('"toggleA": true,');
     expect(content).not.toContain('// [REMOVED]');
   });
 
   it('should skip gracefully when module file is missing', async () => {
+    const tree = Tree.empty();
     tree.create(INTERFACE_FILE, buildInterfaceFile(['toggleA']));
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     expect(newTree).toBeTruthy();
   });
 
   it('should skip gracefully when no provideFeatureToggles call exists', async () => {
+    const tree = Tree.empty();
     tree.create(INTERFACE_FILE, buildInterfaceFile(['toggleA']));
 
     tree.create(
@@ -212,13 +213,13 @@ export class SpartacusFeaturesModule {}
 `
     );
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(MODULE_FILE);
     expect(content).not.toContain('// [REMOVED]');
   });
 
   it('should find the module file in alternative locations', async () => {
+    const tree = Tree.empty();
     tree.create(INTERFACE_FILE, buildInterfaceFile(['toggleA']));
 
     const altPath = 'src/app/spartacus-features.module.ts';
@@ -230,8 +231,7 @@ export class SpartacusFeaturesModule {}
       })
     );
 
-    const newTree = await runner.runSchematic(MIGRATION_SCRIPT_NAME, {}, tree);
-
+    const newTree = await runMigration(tree);
     const content = newTree.readText(altPath);
     expect(content).toContain('"toggleA": true,');
     expect(content).toMatch(/\/\/ \[REMOVED].*"toggleOld"/);
