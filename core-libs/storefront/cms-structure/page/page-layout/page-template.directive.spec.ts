@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { DirectiveStateTransferService } from '../../../utils';
 import { PageLayoutService } from './page-layout.service';
 import { PageTemplateDirective } from './page-template.directive';
+
+const storageKey = 'tmpl';
 
 const mockTemplateName = 'LandingPage2Template';
 class MockPageLayoutService {
@@ -12,54 +19,99 @@ class MockPageLayoutService {
   }
 }
 
+@Directive({})
+class MockTemplateComponent {}
+
+@Component({
+  template: ` <div id="host1" cxPageTemplateStyle></div> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageTemplateDirective],
+})
+class MockTemplateComponent1 extends MockTemplateComponent {}
+
 @Component({
   template: `
-    <div id="host1" cxPageTemplateStyle></div>
-
     <div id="host2">
       <ng-template cxPageTemplateStyle> </ng-template>
     </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageTemplateDirective],
+})
+class MockTemplateComponent2 extends MockTemplateComponent {}
 
+@Component({
+  template: `
     <div
       id="host3"
       class="existing-cls"
       cxPageTemplateStyle="customClass1"
     ></div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageTemplateDirective],
+})
+class MockTemplateComponent3 extends MockTemplateComponent {}
 
+@Component({
+  template: `
     <div id="host4">
       <ng-template cxPageTemplateStyle="customClass2"> </ng-template>
     </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageTemplateDirective],
+})
+class MockTemplateComponent4 extends MockTemplateComponent {}
 
+@Component({
+  template: `
     <div id="host5">
       <ng-template>
         <ng-template cxPageTemplateStyle> </ng-template>
       </ng-template>
     </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageTemplateDirective],
+})
+class MockTemplateComponent5 extends MockTemplateComponent {}
 
+const oldClass = 'ssr-template-cls';
+@Component({
+  template: `
     <div
       id="host6"
       class="existing-cls ssr-template-cls"
-      data-current-template="ssr-template-cls"
+      data-tmpl="ssr-template-cls"
       cxPageTemplateStyle
     ></div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent {}
+class MockTemplateComponent6 extends MockTemplateComponent {}
 
-class MockWindowRef implements Partial<WindowRef> {
-  isBrowser(): boolean {
-    return true;
+class MockDirectiveStateTransferService
+  implements Partial<DirectiveStateTransferService>
+{
+  _data: Record<string, string> = {};
+
+  get(_el: HTMLElement, key: string): string | undefined {
+    return this._data[key];
+  }
+  set(_el: HTMLElement, key: string, value: string): void {
+    this._data[key] = value;
+  }
+  clear(_el: HTMLElement, key: string): void {
+    delete this._data[key];
   }
 }
 
 describe('PageTemplateDirective', () => {
   let hostComponent: MockTemplateComponent;
   let fixture: ComponentFixture<MockTemplateComponent>;
-  let windowRef: WindowRef;
-
-  const ssrPersistenceAttributeName = 'data-current-template';
+  let directiveStateTransferService: DirectiveStateTransferService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -69,118 +121,114 @@ describe('PageTemplateDirective', () => {
           provide: PageLayoutService,
           useClass: MockPageLayoutService,
         },
-        { provide: WindowRef, useClass: MockWindowRef },
+        {
+          provide: DirectiveStateTransferService,
+          useClass: MockDirectiveStateTransferService,
+        },
       ],
     }).compileComponents();
 
-    windowRef = TestBed.inject(WindowRef);
+    directiveStateTransferService = TestBed.inject(
+      DirectiveStateTransferService
+    );
+    spyOn(directiveStateTransferService, 'get').and.callThrough();
+    spyOn(directiveStateTransferService, 'set').and.callThrough();
+    spyOn(directiveStateTransferService, 'clear').and.callThrough();
   });
 
-  describe('when in CSR', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MockTemplateComponent);
-      hostComponent = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+  type HostID = '#host1' | '#host2' | '#host3' | '#host4' | '#host5' | '#host6';
+  function createHostComponent(id: HostID) {
+    const componentMap: Record<HostID, Type<Component>> = {
+      '#host1': MockTemplateComponent1,
+      '#host2': MockTemplateComponent2,
+      '#host3': MockTemplateComponent3,
+      '#host4': MockTemplateComponent4,
+      '#host5': MockTemplateComponent5,
+      '#host6': MockTemplateComponent6,
+    };
 
-    it('should be created', () => {
-      expect(hostComponent).toBeTruthy();
-    });
+    fixture = TestBed.createComponent(componentMap[id]);
+    hostComponent = fixture.componentInstance;
+    fixture.detectChanges();
 
-    it('should add page template to element classList', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host1');
-      expect(el.classList).toContain(mockTemplateName);
-    });
+    const compiled = fixture.debugElement.nativeElement;
+    const el = compiled.querySelector(id);
+    return el as HTMLElement;
+  }
 
-    it('should add page template to ng-template host element', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host2');
-      expect(el.classList).toContain(mockTemplateName);
-    });
+  it('should be created', () => {
+    createHostComponent('#host1');
 
-    it('should add custom style class to element classList', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host3');
-      expect(el.classList).toContain('customClass1');
-    });
-
-    it('should not remove static style class', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host3');
-      expect(el.classList).toContain('customClass1');
-      expect(el.classList).toContain('existing-cls');
-    });
-
-    it('should add custom style class to ng-template host element', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host4');
-      expect(el.classList).toContain('customClass2');
-    });
-
-    it('should not page template for inner ng-templates', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host5');
-      expect(el.classList.length).toEqual(0);
-    });
-
-    it('should remote the class from ssr', () => {
-      const classFromSsr = 'ssr-template-cls';
-
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host6');
-      expect(Array.from<string>(el.classList)).not.toContain(classFromSsr);
-    });
-
-    it('should remote the ssr data attribute', () => {
-      const compiled = fixture.debugElement.nativeElement;
-      const el = compiled.querySelector('#host6');
-      expect(el.getAttribute(ssrPersistenceAttributeName)).toBeNull();
-    });
+    expect(hostComponent).toBeTruthy();
   });
 
-  describe('when in SSR mode', () => {
-    beforeEach(() => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+  it('should add page template to element classList', () => {
+    const el = createHostComponent('#host1');
+    expect(el.classList).toContain(mockTemplateName);
+  });
 
-      fixture = TestBed.createComponent(MockTemplateComponent);
-      hostComponent = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+  it('should store template for state transfer', () => {
+    const el = createHostComponent('#host1');
 
-    it('should write template name to data attribute', () => {
-      const compiled = fixture.debugElement.nativeElement as HTMLElement;
+    expect(directiveStateTransferService.set).toHaveBeenCalledWith(
+      el,
+      storageKey,
+      mockTemplateName
+    );
+  });
 
-      expect(
-        compiled
-          .querySelector('#host1')
-          ?.getAttribute(ssrPersistenceAttributeName)
-      ).toEqual(mockTemplateName);
-      expect(
-        compiled
-          .querySelector('#host2')
-          ?.getAttribute(ssrPersistenceAttributeName)
-      ).toEqual(mockTemplateName);
-      expect(
-        compiled
-          .querySelector('#host3')
-          ?.getAttribute(ssrPersistenceAttributeName)
-      ).toEqual('customClass1');
-      expect(
-        compiled
-          .querySelector('#host4')
-          ?.getAttribute(ssrPersistenceAttributeName)
-      ).toEqual('customClass2');
-    });
+  it('should add page template to ng-template host element', () => {
+    const el = createHostComponent('#host2');
+    expect(el.classList).toContain(mockTemplateName);
+  });
 
-    it('should not write template name to data attribute when class is not written', () => {
-      const compiled = fixture.debugElement.nativeElement as HTMLElement;
+  it('should add custom style class to element classList', () => {
+    const el = createHostComponent('#host3');
+    expect(el.classList).toContain('customClass1');
+  });
 
-      expect(
-        compiled
-          .querySelector('#host5')
-          ?.getAttribute(ssrPersistenceAttributeName)
-      ).toBeFalsy();
-    });
+  it('should not remove static style class', () => {
+    const el = createHostComponent('#host3');
+    expect(el.classList).toContain('customClass1');
+    expect(el.classList).toContain('existing-cls');
+  });
+
+  it('should add custom style class to ng-template host element', () => {
+    const el = createHostComponent('#host4');
+    expect(el.classList).toContain('customClass2');
+  });
+
+  it('should not page template for inner ng-templates', () => {
+    const el = createHostComponent('#host5');
+    expect(el.classList.length).toEqual(0);
+  });
+
+  it('should not set transfer state when there is no template class', () => {
+    createHostComponent('#host5');
+
+    expect(directiveStateTransferService.set).not.toHaveBeenCalled();
+  });
+
+  it('should remove the transfer state class', () => {
+    (directiveStateTransferService.get as jasmine.Spy).and.returnValue(
+      oldClass
+    );
+
+    const el = createHostComponent('#host6');
+
+    expect(Array.from<string>(el.classList)).not.toContain(oldClass);
+  });
+
+  it('should clear the transfer state on initialization', () => {
+    (directiveStateTransferService.get as jasmine.Spy).and.returnValue(
+      oldClass
+    );
+
+    const el = createHostComponent('#host6');
+
+    expect(directiveStateTransferService.clear).toHaveBeenCalledWith(
+      el,
+      storageKey
+    );
   });
 });
