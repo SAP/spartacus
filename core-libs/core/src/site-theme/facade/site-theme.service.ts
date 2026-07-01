@@ -12,21 +12,24 @@ import { filter, take } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { Config } from '../../config';
+import { FeatureToggles } from '../../features-config/feature-toggles/feature-toggles-tokens';
 import { SiteTheme } from '../../model/misc.model';
-import {
-  getContextParameterDefault,
-  SiteContext,
-  THEME_CONTEXT_ID,
-} from '../../site-context';
+import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { SiteContext } from '../../site-context/facade/site-context.interface';
+import { THEME_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { isNotNullable } from '../../util/type-guards';
+import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { SiteThemeActions } from '../store/actions';
 import { SiteThemeSelectors } from '../store/selectors';
 import { StateWithSiteTheme } from '../store/state';
 
 @Injectable()
 export class SiteThemeService implements SiteContext<SiteTheme> {
+  private featureToggles = inject(FeatureToggles);
   protected store = inject(Store<StateWithSiteTheme>);
   protected config = inject(Config);
+  protected baseSiteService = inject(BaseSiteService);
 
   /**
    * Fallback default theme ID to be used when `config.context.theme` is not defined.
@@ -34,14 +37,37 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
   protected readonly FALLBACK_DEFAULT_THEME_ID = '';
 
   getDefault(): SiteTheme {
-    const defaultThemeId =
-      getContextParameterDefault(this.config, THEME_CONTEXT_ID) ??
-      this.FALLBACK_DEFAULT_THEME_ID;
-
     return {
-      className: defaultThemeId,
+      className: this.getDefaultClassName(),
       i18nNameKey: 'siteThemeSwitcher.themes.default',
     };
+  }
+
+  /**
+   * Resolves the "Default" theme: static `config.context.theme` if set,
+   * otherwise (when `applyBaseSiteThemeFromCms` is on) the active base
+   * site's `theme`. Falls back to an empty string.
+   */
+  protected getDefaultClassName(): string {
+    const staticDefault = getContextParameterDefault(
+      this.config,
+      THEME_CONTEXT_ID
+    );
+    if (staticDefault) {
+      return staticDefault;
+    }
+    if (this.featureToggles.applyBaseSiteThemeFromCms) {
+      return this.readActiveBaseSiteTheme() ?? this.FALLBACK_DEFAULT_THEME_ID;
+    }
+    return this.FALLBACK_DEFAULT_THEME_ID;
+  }
+
+  /**
+   * Synchronously reads `theme` of the currently active base site.
+   * Returns `undefined` when no base site has resolved yet.
+   */
+  protected readActiveBaseSiteTheme(): string | undefined {
+    return getLastValueSync(this.baseSiteService.get())?.theme;
   }
 
   /**
@@ -102,6 +128,12 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
   }
 
   protected isValid(className: string): boolean {
+    if (this.featureToggles.applyBaseSiteThemeFromCms) {
+      // With the toggle on, the default can come dynamically from the CMS,
+      // so accept any non-empty className. Reject empty to avoid polluting
+      // the persisted theme with "no theme".
+      return !!className;
+    }
     return this.themes.map((theme) => theme.className).includes(className);
   }
 }
