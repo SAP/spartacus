@@ -76,6 +76,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   });
 
   private featureToggles = inject(FeatureToggles);
+  protected activeCartFacade = inject(ActiveCartFacade);
 
   protected isSlowNetworkResilienceEnabled(): boolean {
     return !!this.featureToggles.enableCartSlowNetworkResilience;
@@ -117,8 +118,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     protected routingService: RoutingService,
     protected fb: UntypedFormBuilder,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected activeCartFacade: ActiveCartFacade
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit() {

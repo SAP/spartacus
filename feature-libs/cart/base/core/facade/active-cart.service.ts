@@ -363,7 +363,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * before the cart is created - they all share the same cart creation flow.
    * Only used when `enableCartSlowNetworkResilience` is enabled.
    */
-  private loadedCart$: Observable<Cart> | null = null;
+  protected loadedCart$: Observable<Cart> | null = null;
 
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
     // When the slow-network resilience toggle is OFF, fall back to the
@@ -411,7 +411,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Internal method containing the cart loading/creation pipeline logic.
    * Extracted to support caching in requireLoadedCart().
    */
-  private buildRequireLoadedCartPipeline(
+  protected buildRequireLoadedCartPipeline(
     forGuestMerge: boolean
   ): Observable<Cart> {
     this.checkInitLoad = this.checkInitLoad === undefined;

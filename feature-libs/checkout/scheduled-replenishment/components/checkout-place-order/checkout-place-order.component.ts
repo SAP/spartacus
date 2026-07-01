@@ -19,7 +19,6 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   ORDER_TYPE,
@@ -68,16 +67,14 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade,
-    protected activeCartFacade: ActiveCartFacade
+    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
   ) {
     super(
       orderFacade,
       routingService,
       fb,
       launchDialogService,
-      vcr,
-      activeCartFacade
+      vcr
     );
   }
 

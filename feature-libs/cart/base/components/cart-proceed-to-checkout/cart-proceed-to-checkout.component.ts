@@ -69,10 +69,10 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
   private featureToggles = inject(FeatureToggles);
+  protected activeCartFacade = inject(ActiveCartFacade);
 
   constructor(
     protected router: Router,
-    protected activeCartFacade: ActiveCartFacade,
     protected cd?: ChangeDetectorRef
   ) {}
 
