@@ -15,7 +15,6 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   ImageGroup,
@@ -36,6 +35,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -125,12 +125,6 @@ export class MockProductImageZoomThumbnailsComponent {
   @Input() activeThumb: EventEmitter<ImageGroup>;
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
-
 describe('ProductImageZoomViewComponent', () => {
   let productImageZoomViewComponent: ProductImageZoomViewComponent;
   let fixture: ComponentFixture<ProductImageZoomViewComponent>;
@@ -142,7 +136,9 @@ describe('ProductImageZoomViewComponent', () => {
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({
+          a11yKeyboardAccessibleZoom: true,
+        }),
       ],
     })
       .overrideComponent(ProductImageZoomViewComponent, {

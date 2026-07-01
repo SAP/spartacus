@@ -7,7 +7,7 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -51,7 +51,7 @@ describe('UpdatePasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let authService: AuthService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   let oldPassword: AbstractControl;
   let newPassword: AbstractControl;
@@ -87,8 +87,8 @@ describe('UpdatePasswordComponentService', () => {
   });
 
   beforeEach(() => {
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.useEnhancedSecurePasswordValidators = true;
 
     service = TestBed.inject(UpdatePasswordComponentService);
     userPasswordFacade = TestBed.inject(UserPasswordFacade);

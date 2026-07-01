@@ -3,15 +3,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SemanticPathService,
   WindowRef,
 } from '@spartacus/core';
 import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { LoginAsGuestGuard } from './login-as-guest.guard';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
-const mockFeatureConfigService = {
-  isEnabled: jasmine.createSpy().and.returnValue(true),
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: true,
 };
 
 const mockWindowRef = {
@@ -28,15 +29,13 @@ const mockSemanticPathService = {
 describe('LoginAsGuestGuard', () => {
   let guard: LoginAsGuestGuard;
   let windowRef: WindowRef;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         Router,
-        {
-          provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: SemanticPathService,
           useValue: mockSemanticPathService,
@@ -49,6 +48,7 @@ describe('LoginAsGuestGuard', () => {
     });
     guard = TestBed.inject(LoginAsGuestGuard);
     windowRef = TestBed.inject(WindowRef);
+    featureToggles = TestBed.inject(FeatureToggles);
   });
 
   beforeEach(() => {
@@ -61,7 +61,7 @@ describe('LoginAsGuestGuard', () => {
 
   describe('when authorizationCodeFlowByDefault feature flag is not enabled', () => {
     it('should return true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(false);
+      featureToggles.authorizationCodeFlowByDefault = false;
       guard.canActivate().subscribe((result) => {
         expect(result).toBe(true);
       });
@@ -70,7 +70,7 @@ describe('LoginAsGuestGuard', () => {
 
   describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
     it('should return url to login with `forced` query param when IS_GUEST_USER_CHECKOUT_KEY is set to true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
+      featureToggles.authorizationCodeFlowByDefault = true;
       guard.canActivate().subscribe((result) => {
         expect(result.toString()).toBe('/loginForm?forced=true');
       });
@@ -83,7 +83,7 @@ describe('LoginAsGuestGuard', () => {
     });
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
+      featureToggles.authorizationCodeFlowByDefault = true;
       (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
         'false'
       );
@@ -97,7 +97,7 @@ describe('LoginAsGuestGuard', () => {
     });
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', () => {
-      mockFeatureConfigService.isEnabled.and.returnValue(true);
+      featureToggles.authorizationCodeFlowByDefault = true;
       (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
         null
       );

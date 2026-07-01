@@ -8,7 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   CostCenter,
   EntitiesModel,
-  FeatureConfigService,
+  FeatureToggles,
   isNotUndefined,
   PaginationModel,
 } from '@spartacus/core';
@@ -40,7 +40,7 @@ export interface CostCenterModel {
 })
 export class CostCenterListService extends ListService<CostCenterModel> {
   protected tableType = OrganizationTableType.COST_CENTER;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected tableService: TableService,
@@ -53,7 +53,7 @@ export class CostCenterListService extends ListService<CostCenterModel> {
    * Enable search functionality for cost center list based on feature toggle.
    */
   override isSearchEnabled(): boolean {
-    return this.featureConfigService.isEnabled('enableB2BCostCenterSearch');
+    return !!this.featureToggles.enableB2BCostCenterSearch;
   }
 
   protected load(
