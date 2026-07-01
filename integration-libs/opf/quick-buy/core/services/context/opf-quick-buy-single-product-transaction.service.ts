@@ -6,9 +6,17 @@
 
 import { inject, Injectable } from '@angular/core';
 import { getCartIdByUserId } from '@spartacus/cart/base/core';
-import { Cart, DeliveryMode, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  CartGuestUser,
+  CartGuestUserFacade,
+  DeliveryMode,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import {
   Address,
+  AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -20,7 +28,7 @@ import {
   OpfQuickBuyDeliveryType,
   OpfQuickBuySingleProductCartOptionsFacade,
 } from '@spartacus/opf/quick-buy/root';
-import { defer, Observable, of, throwError } from 'rxjs';
+import { combineLatest, defer, Observable, of, throwError } from 'rxjs';
 import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyCartConnector } from '../../connectors';
 
@@ -33,6 +41,9 @@ export class OpfQuickBuySingleProductTransactionService {
   protected routingService = inject(RoutingService);
   protected unifiedInjector = inject(UnifiedInjector);
   protected globalMessageService = inject(GlobalMessageService);
+  protected cartGuestUserFacade = inject(CartGuestUserFacade);
+  protected authService = inject(AuthService);
+  protected activeCartFacade = inject(ActiveCartFacade);
   protected singleProductCartOptions = inject(
     OpfQuickBuySingleProductCartOptionsFacade
   );
@@ -177,6 +188,70 @@ export class OpfQuickBuySingleProductTransactionService {
     );
   }
 
+  prepareTransactionCart(): Observable<Cart> {
+    return this.createSingleProductCart().pipe(
+      switchMap(() => this.handleCartGuestUser()),
+      switchMap(() => this.getCurrentCart())
+    );
+  }
+
+  createCartGuestUser(): Observable<boolean> {
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.cartGuestUserFacade.createCartGuestUser(userId, cartId).pipe(
+          tap(() => this.multiCartFacade.reloadCart(cartId)),
+          map(() => true)
+        )
+      )
+    );
+  }
+
+  protected updateCartGuestUser(
+    cartGuestUser: CartGuestUser
+  ): Observable<boolean> {
+    return this.getCartContext().pipe(
+      switchMap(({ userId, cartId }) =>
+        this.cartGuestUserFacade
+          .updateCartGuestUser(userId, cartId, cartGuestUser)
+          .pipe(
+            tap(() => this.multiCartFacade.reloadCart(cartId)),
+            map(() => true)
+          )
+      )
+    );
+  }
+
+  updateCartGuestUserEmail(email: string): Observable<boolean> {
+    return this.isGuestCart().pipe(
+      take(1),
+      switchMap((isGuestCart) => {
+        return isGuestCart && email
+          ? this.updateCartGuestUser({ email })
+          : of(false);
+      })
+    );
+  }
+
+  handleCartGuestUser(): Observable<boolean> {
+    if (!this.cartId) {
+      return of(true);
+    }
+
+    return combineLatest([
+      this.authService.isUserLoggedIn(),
+      this.isGuestCart(),
+    ]).pipe(
+      take(1),
+      switchMap(([isUserLoggedIn, isGuestCart]) => {
+        if (isUserLoggedIn || isGuestCart) {
+          return of(true);
+        }
+
+        return this.createCartGuestUser();
+      })
+    );
+  }
+
   createSingleProductCart(): Observable<Cart> {
     return this.getProductCodeFromRouting().pipe(
       switchMap((productCode) => {
@@ -213,12 +288,6 @@ export class OpfQuickBuySingleProductTransactionService {
                         const cartId = getCartIdByUserId(cart, userId);
                         this.userId = userId;
                         this.cartId = cartId;
-
-                        console.log(
-                          '[OPF Quick Buy PDP] quantity passed to single-product cart:',
-                          quantity,
-                          { productCode, pickupStore, cartId }
-                        );
 
                         this.multiCartFacade.addEntry(
                           userId,
@@ -271,6 +340,12 @@ export class OpfQuickBuySingleProductTransactionService {
     return this.multiCartFacade.getCart(this.cartId).pipe(take(1));
   }
 
+  protected isGuestCart(): Observable<boolean> {
+    return this.getCart().pipe(
+      switchMap((cart) => this.activeCartFacade.isGuestCart(cart))
+    );
+  }
+
   protected hasDeliveryItems(cart: Cart): boolean {
     return cart?.deliveryItemsQuantity
       ? cart?.deliveryItemsQuantity > 0
@@ -289,18 +364,7 @@ export class OpfQuickBuySingleProductTransactionService {
       filter((stable) => stable),
       take(1),
       switchMap(() => this.multiCartFacade.getCart(cartId).pipe(take(1))),
-      filter((cart): cart is Cart => !!cart),
-      tap((cart) =>
-        console.log('[OPF Quick Buy PDP] get cart:', {
-          cartId: cart.code,
-          totalUnitCount: cart.totalUnitCount,
-          totalItems: cart.totalItems,
-          entries: cart.entries?.map((entry) => ({
-            code: entry.product?.code,
-            quantity: entry.quantity,
-          })),
-        })
-      )
+      filter((cart): cart is Cart => !!cart)
     );
   }
 

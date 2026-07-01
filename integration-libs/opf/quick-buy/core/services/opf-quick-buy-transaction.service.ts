@@ -55,7 +55,7 @@ export class OpfQuickBuyTransactionService {
 
   prepareTransactionCart(): Observable<Cart> {
     return this.delegate(
-      () => this.singleProductTransactionService.createSingleProductCart(),
+      () => this.singleProductTransactionService.prepareTransactionCart(),
       () => this.activeCartTransactionService.prepareTransactionCart()
     );
   }
@@ -150,21 +150,21 @@ export class OpfQuickBuyTransactionService {
 
   createCartGuestUser(): Observable<boolean> {
     return this.delegate(
-      () => of(true),
+      () => this.singleProductTransactionService.createCartGuestUser(),
       () => this.activeCartTransactionService.createCartGuestUser()
     );
   }
 
   updateCartGuestUserEmail(email: string): Observable<boolean> {
     return this.delegate(
-      () => of(false),
+      () => this.singleProductTransactionService.updateCartGuestUserEmail(email),
       () => this.activeCartTransactionService.updateCartGuestUserEmail(email)
     );
   }
 
   handleCartGuestUser(): Observable<boolean> {
     return this.delegate(
-      () => of(true),
+      () => this.singleProductTransactionService.handleCartGuestUser(),
       () => this.activeCartTransactionService.handleCartGuestUser()
     );
   }

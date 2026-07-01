@@ -206,16 +206,16 @@ export class OpfGooglePayService {
       take(1),
       map(
         ([displayItems, totalLabel]) =>
-          ({
-            totalPrice: totalPrice.toString(),
-            currencyCode: currencyCode.toString(),
-            totalPriceStatus: 'FINAL',
-            // `totalPriceLabel` is required by Google Pay whenever
-            // `displayItems` are provided.
-            ...(displayItems.length
-              ? { displayItems, totalPriceLabel: totalLabel }
-              : {}),
-          }) as google.payments.api.TransactionInfo
+        ({
+          totalPrice: totalPrice.toString(),
+          currencyCode: currencyCode.toString(),
+          totalPriceStatus: 'FINAL',
+          // `totalPriceLabel` is required by Google Pay whenever
+          // `displayItems` are provided.
+          ...(displayItems.length
+            ? { displayItems, totalPriceLabel: totalLabel }
+            : {}),
+        } as google.payments.api.TransactionInfo)
       )
     );
   }
@@ -445,8 +445,8 @@ export class OpfGooglePayService {
             switchMap(() => {
               return paymentDataResponse?.email
                 ? this.opfQuickBuyTransactionService.updateCartGuestUserEmail(
-                    paymentDataResponse.email
-                  )
+                  paymentDataResponse.email
+                )
                 : of(true);
             }),
             switchMap(() => {
@@ -460,9 +460,9 @@ export class OpfGooglePayService {
                     additionalData: [],
                     paymentSessionId: '',
                     callbacks: {
-                      onSuccess: () => {},
-                      onPending: () => {},
-                      onFailure: () => {},
+                      onSuccess: () => { },
+                      onPending: () => { },
+                      onFailure: () => { },
                     },
                     paymentMethod: OpfQuickBuyProviderType.GOOGLE_PAY as any,
                     encryptedToken,
@@ -502,10 +502,10 @@ export class OpfGooglePayService {
                   this.getNewTransactionInfo(cart).pipe(
                     map((newTransactionInfo) => {
                       const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
-                        {
-                          newShippingOptionParameters: shippingOptions,
-                          newTransactionInfo,
-                        };
+                      {
+                        newShippingOptionParameters: shippingOptions,
+                        newTransactionInfo,
+                      };
 
                       if (
                         paymentDataRequestUpdate.newShippingOptionParameters
