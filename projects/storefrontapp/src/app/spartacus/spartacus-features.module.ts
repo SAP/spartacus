@@ -374,6 +374,7 @@ if (environment.cpq) {
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
         applyBaseSiteThemeFromCms: true,
+        b2bCheckoutShippingAddressFilter: true,
       };
       return appFeatureToggles;
     }),

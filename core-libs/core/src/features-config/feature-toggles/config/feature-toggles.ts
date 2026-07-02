@@ -661,6 +661,12 @@ export interface FeatureTogglesInterface {
    * Affects: `SiteThemeInitializer`
    */
   applyBaseSiteThemeFromCms?: boolean;
+
+  /**
+   * When enabled, only addresses with `shippingAddress` not explicitly set to `false`
+   * are shown on the B2B checkout delivery address step.
+   */
+  b2bCheckoutShippingAddressFilter?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -742,4 +748,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
   applyBaseSiteThemeFromCms: false,
+  b2bCheckoutShippingAddressFilter: false,
 };
