@@ -299,12 +299,7 @@ export class OpfQuickBuySingleProductTransactionService {
     return this.userIdService.takeUserId().pipe(
       take(1),
       switchMap((userId) =>
-        this.initializeCartWithEntry(
-          userId,
-          productCode,
-          quantity,
-          pickupStore
-        )
+        this.initializeCartWithEntry(userId, productCode, quantity, pickupStore)
       )
     );
   }

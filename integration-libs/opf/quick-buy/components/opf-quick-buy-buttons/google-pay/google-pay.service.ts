@@ -213,16 +213,16 @@ export class OpfGooglePayService {
       take(1),
       map(
         ([displayItems, totalLabel]) =>
-        ({
-          totalPrice: totalPrice.toString(),
-          currencyCode: currencyCode.toString(),
-          totalPriceStatus: 'FINAL',
-          // `totalPriceLabel` is required by Google Pay whenever
-          // `displayItems` are provided.
-          ...(displayItems.length
-            ? { displayItems, totalPriceLabel: totalLabel }
-            : {}),
-        } as google.payments.api.TransactionInfo)
+          ({
+            totalPrice: totalPrice.toString(),
+            currencyCode: currencyCode.toString(),
+            totalPriceStatus: 'FINAL',
+            // `totalPriceLabel` is required by Google Pay whenever
+            // `displayItems` are provided.
+            ...(displayItems.length
+              ? { displayItems, totalPriceLabel: totalLabel }
+              : {}),
+          }) as google.payments.api.TransactionInfo
       )
     );
   }
@@ -356,9 +356,9 @@ export class OpfGooglePayService {
   }
 
   handleActiveCartTransaction(): Observable<Cart> {
-    return this.opfQuickBuyTransactionService.prepareTransactionCart().pipe(
-      switchMap(() => this.loadActiveCartTransactionContext())
-    );
+    return this.opfQuickBuyTransactionService
+      .prepareTransactionCart()
+      .pipe(switchMap(() => this.loadActiveCartTransactionContext()));
   }
 
   protected loadActiveCartTransactionContext(): Observable<Cart> {
@@ -382,12 +382,10 @@ export class OpfGooglePayService {
 
     return this.setDeliveryMode(undefined, deliveryInfo.type).pipe(
       switchMap(() =>
-        this.opfQuickBuyTransactionService
-          .getCurrentCart()
-          .pipe(
-            take(1),
-            switchMap((cart) => this.updateActiveCartTransactionInfo(cart))
-          )
+        this.opfQuickBuyTransactionService.getCurrentCart().pipe(
+          take(1),
+          switchMap((cart) => this.updateActiveCartTransactionInfo(cart))
+        )
       )
     );
   }
@@ -455,12 +453,12 @@ export class OpfGooglePayService {
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
       onPaymentAuthorized: (paymentDataResponse: any) =>
-        lastValueFrom(
-          this.authorizeGooglePayPayment(paymentDataResponse)
-        ).then((isSuccess) => {
-          this.deleteAssociatedAddresses();
-          return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
-        }),
+        lastValueFrom(this.authorizeGooglePayPayment(paymentDataResponse)).then(
+          (isSuccess) => {
+            this.deleteAssociatedAddresses();
+            return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
+          }
+        ),
 
       onPaymentDataChanged: (intermediatePaymentData: any) =>
         lastValueFrom(
@@ -520,7 +518,9 @@ export class OpfGooglePayService {
   private handleIntermediatePaymentDataChange(
     intermediatePaymentData: any
   ): Observable<google.payments.api.PaymentDataRequestUpdate> {
-    return this.setDeliveryAddress(intermediatePaymentData.shippingAddress).pipe(
+    return this.setDeliveryAddress(
+      intermediatePaymentData.shippingAddress
+    ).pipe(
       switchMap(() => this.getShippingOptionParameters()),
       switchMap((shippingOptions) =>
         this.updatePaymentDataForShippingChange(
@@ -575,10 +575,10 @@ export class OpfGooglePayService {
     mode: DeliveryMode | undefined
   ): google.payments.api.PaymentDataRequestUpdate {
     const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
-    {
-      newShippingOptionParameters: shippingOptions,
-      newTransactionInfo,
-    };
+      {
+        newShippingOptionParameters: shippingOptions,
+        newTransactionInfo,
+      };
 
     if (
       paymentDataRequestUpdate.newShippingOptionParameters
