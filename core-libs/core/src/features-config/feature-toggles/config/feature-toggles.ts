@@ -392,6 +392,13 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * When enabled, increases the color contrast of the close button in the
+   * global message component to meet WCAG contrast requirements.
+   * Affects: `GlobalMessageComponent`
+   */
+  a11yIncreaseContastGlobalMessageCloseButton?: boolean;
+
+  /**
    * When enabled, allows searching cost centers by name in the organization.
    */
   enableB2BCostCenterSearch?: boolean;
@@ -676,6 +683,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
+  a11yIncreaseContastGlobalMessageCloseButton: false,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yAddPaddingToCarouselPanel: false,
   a11yNgSelectUnicodeCarets: false,
