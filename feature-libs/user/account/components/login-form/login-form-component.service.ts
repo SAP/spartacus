@@ -181,21 +181,19 @@ export class LoginFormComponentService {
             })
           )
           .subscribe();
+      } else if (this.featureToggles.siteIsolationForCustomLoginPage) {
+        this.getUserId()
+          .pipe(take(1))
+          .subscribe((userId) => {
+            this.form.get('userId')?.setValue(userId);
+            this.setOauthRedirectFlowFlag();
+            nativeForm.submit();
+            this.busy$.next(true);
+          });
       } else {
-        if (this.featureToggles.siteIsolationForCustomLoginPage) {
-          this.getUserId()
-            .pipe(take(1))
-            .subscribe((userId) => {
-              this.form.get('userId')?.setValue(userId);
-              this.setOauthRedirectFlowFlag();
-              nativeForm.submit();
-              this.busy$.next(true);
-            });
-        } else {
-          this.setOauthRedirectFlowFlag();
-          nativeForm.submit();
-          this.busy$.next(true);
-        }
+        this.setOauthRedirectFlowFlag();
+        nativeForm.submit();
+        this.busy$.next(true);
       }
     } else {
       this.busy$.next(true);
