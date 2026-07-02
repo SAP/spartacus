@@ -33,7 +33,11 @@
     "zoomOut": "Perkecil",
     "selected": "Dipilih",
     "expand": "Perluas",
-    "collapse": "Ciutkan"
+    "collapse": "Ciutkan",
+    "readMore": "Baca selengkapnya",
+    "readLess": "Baca lebih sedikit",
+    "language": "Bahasa",
+    "currency": "Mata Uang"
   },
   "pageMetaResolver": {
     "category": {
