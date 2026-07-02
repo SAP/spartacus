@@ -19,11 +19,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import {
-  FeatureConfigService,
-  TranslatePipe,
-  WindowRef,
-} from '@spartacus/core';
+import { FeatureToggles, TranslatePipe, WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -109,7 +105,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     private router: Router,
@@ -159,11 +155,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.reinitializeMenu();
-      if (
-        this.featureConfigService?.isEnabled(
-          'navigationMenuCloseOnSameLinkClick'
-        )
-      ) {
+      if (this.featureToggles?.navigationMenuCloseOnSameLinkClick) {
         this.hamburgerMenuService.toggle(true);
       } else {
         this.hamburgerMenuService.toggle();

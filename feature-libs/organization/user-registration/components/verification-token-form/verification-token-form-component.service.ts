@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import {
   AuthConfigService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
@@ -32,7 +32,7 @@ const globalMsgShowTime: number = 10000;
   providedIn: 'root',
 })
 export class RegisterVerificationTokenFormComponentService {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
   protected formBuilder = inject(FormBuilder);
   protected organizationUserRegistrationFacade: UserRegistrationFacade = inject(
@@ -75,7 +75,7 @@ export class RegisterVerificationTokenFormComponentService {
     if (
       this.authConfigService.getOAuthFlow() ===
         OAuthFlow.ResourceOwnerPasswordFlow ||
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      this.featureToggles.authorizationCodeFlowByDefault
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }

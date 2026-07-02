@@ -352,6 +352,7 @@ if (environment.cpq) {
         a11yConsentManagementFocusPreservation: true,
         a11yVocalizeDropdownItemCount: true,
         a11yRestoreFocusOnNgSelect: true,
+        a11yKeepFocusOnConsentManagementButtons: true,
         useEnhancedSecurePasswordValidators: true,
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
@@ -372,6 +373,7 @@ if (environment.cpq) {
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
       };
       return appFeatureToggles;

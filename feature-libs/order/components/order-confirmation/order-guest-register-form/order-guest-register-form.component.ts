@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import {
   AuthRedirectService,
-  FeatureConfigService,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -42,11 +42,10 @@ import { UserRegisterFacade } from '@spartacus/user/profile/root';
   ],
 })
 export class OrderGuestRegisterFormComponent {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected authRedirectService = inject(AuthRedirectService);
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'useEnhancedSecurePasswordValidators'
-  )
+  protected passwordValidators = this.featureToggles
+    .useEnhancedSecurePasswordValidators
     ? [
         ...CustomFormValidators.securePasswordValidators,
         CustomFormValidators.mustEndWithLegalCharacter,
@@ -77,9 +76,7 @@ export class OrderGuestRegisterFormComponent {
 
   submit() {
     if (this.guestRegisterForm.valid) {
-      if (
-        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-      ) {
+      if (!this.featureToggles.authorizationCodeFlowByDefault) {
         this.authRedirectService.setRedirectUrl(
           this.routingService.getUrl({ cxRoute: 'home' })
         );

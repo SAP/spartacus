@@ -16,7 +16,6 @@ import {
 import {
   Address,
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
@@ -181,12 +180,6 @@ class MockPaymentFormComponent {
 })
 class MockSpinnerComponent {}
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
-
 describe('CheckoutPaymentMethodComponent', () => {
   let component: CheckoutPaymentMethodComponent;
   let fixture: ComponentFixture<CheckoutPaymentMethodComponent>;
@@ -195,7 +188,6 @@ describe('CheckoutPaymentMethodComponent', () => {
   let mockActiveCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let globalMessageService: GlobalMessageService;
-  let featureConfig: FeatureConfigService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -228,10 +220,6 @@ describe('CheckoutPaymentMethodComponent', () => {
           useValue: {
             features: { level: '6.3' },
           },
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     })
@@ -266,7 +254,6 @@ describe('CheckoutPaymentMethodComponent', () => {
       CheckoutStepService as Type<CheckoutStepService>
     );
     globalMessageService = TestBed.inject(GlobalMessageService);
-    featureConfig = TestBed.inject(FeatureConfigService);
   }));
 
   beforeEach(() => {
@@ -622,7 +609,6 @@ describe('CheckoutPaymentMethodComponent', () => {
     describe('createCard().role', () => {
       let paymentMethod1: PaymentDetails;
       beforeEach(() => {
-        spyOn(featureConfig, 'isEnabled').and.returnValue(true);
         paymentMethod1 = {
           id: 'selected payment method',
           accountHolderName: 'Name',

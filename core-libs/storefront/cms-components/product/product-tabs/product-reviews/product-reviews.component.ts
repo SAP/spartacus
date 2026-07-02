@@ -25,7 +25,7 @@ import {
 } from '@angular/forms';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   isNotNullable,
   Product,
@@ -84,7 +84,7 @@ export class ProductReviewsComponent {
   initialMaxListItems = 5;
   maxListItems: number;
   reviewForm: UntypedFormGroup;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
@@ -179,7 +179,7 @@ export class ProductReviewsComponent {
 
   private resetReviewForm(): void {
     const isProductReviewCharactersLeftEnabled =
-      this.featureConfigService.isEnabled('productReviewCharactersLeft');
+      this.featureToggles.productReviewCharactersLeft;
     this.reviewForm = this.fb.group({
       title: [
         '',

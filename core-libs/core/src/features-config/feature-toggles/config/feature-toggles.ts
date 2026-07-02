@@ -490,6 +490,12 @@ export interface FeatureTogglesInterface {
   a11yRestoreFocusOnNgSelect?: boolean;
 
   /**
+   * When enabled change disabled to aria-disabled on consent management buttons to keep focus when loading state toggle
+   * Affects: ConsentManagementFormComponent
+   */
+  a11yKeepFocusOnConsentManagementButtons?: boolean;
+
+  /**
    * When enabled, forms using CustomFormValidators.securePasswordValidators will include:
    * CustomFormValidators.mustEndWithLegalCharacter
    */
@@ -640,6 +646,23 @@ export interface FeatureTogglesInterface {
   asyncAuthConfigInitializer?: boolean;
 
   /**
+   * When enabled, the storefront's active theme follows the `theme` field of
+   * the active base site (configured in SAP Commerce BackOffice). The theme
+   * is applied as a CSS class on the app's root element by `ThemeService`.
+   *
+   * Without this toggle, the CMS `theme` field is ignored whenever the
+   * storefront statically configures `context.baseSite` (the common case),
+   * because `SiteContextConfigInitializer` does not run in that scenario.
+   *
+   * Precedence: static `config.context.theme` wins, then a user-picked
+   * optional theme from the Theme Switcher (e.g. high-contrast), then the
+   * CMS `BaseSite.theme`.
+   *
+   * Affects: `SiteThemeInitializer`
+   */
+  applyBaseSiteThemeFromCms?: boolean;
+
+  /**
    * When enabled, only addresses with `shippingAddress` not explicitly set to `false`
    * are shown on the B2B checkout delivery address step.
    */
@@ -703,6 +726,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yConsentManagementFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
+  a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
@@ -723,5 +747,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
 };
