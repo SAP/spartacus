@@ -129,10 +129,9 @@ export class SiteThemeService implements SiteContext<SiteTheme> {
 
   protected isValid(className: string): boolean {
     if (this.featureToggles.applyBaseSiteThemeFromCms) {
-      // With the toggle on, the default can come dynamically from the CMS,
-      // so accept any non-empty className. Reject empty to avoid polluting
-      // the persisted theme with "no theme".
-      return !!className;
+      // Empty string is valid — it means "default / no theme".
+      // Persistence is guarded separately in SiteThemePersistenceService.onRead.
+      return className !== null && className !== undefined;
     }
     return this.themes.map((theme) => theme.className).includes(className);
   }
