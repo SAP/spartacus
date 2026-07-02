@@ -7,6 +7,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureToggles,
   MockTranslatePipe,
   MockTranslationService,
   PointOfService,
@@ -22,6 +23,7 @@ import { EMPTY } from 'rxjs';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const location: PointOfService = {
@@ -55,6 +57,10 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
+const mockFeatureToggles: FeatureToggles = {
+  a11yStoreFinderFocusOnBackButton: true,
+};
+
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
@@ -77,7 +83,7 @@ describe('StoreFinderListComponent', () => {
           useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -167,5 +173,19 @@ describe('StoreFinderListComponent', () => {
 
     expect(component.isDisplayModeActive(displayModes.MAP_VIEW)).toBeTruthy();
     expect(component.isDisplayModeActive(displayModes.LIST_VIEW)).toBeFalsy();
+  });
+
+  it('should focus the back button when store details are shown', () => {
+    component.locations = locations;
+    fixture.detectChanges();
+
+    component.showStoreDetails(location);
+    fixture.detectChanges();
+
+    const backButton = fixture.debugElement.query(
+      By.css('.cx-back')
+    )?.nativeElement;
+    expect(backButton).toBeDefined();
+    expect(document.activeElement).toBe(backButton);
   });
 });

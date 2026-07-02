@@ -12,7 +12,7 @@ import {
   isDevMode,
 } from '@angular/core';
 import { LoggerService } from '../../logger/logger.service';
-import { FeatureConfigService } from './feature-config.service';
+import { FeatureToggleKey, FeatureToggles } from '../feature-toggles';
 
 /**
  * Automatically adds/removes CSS classes to/from the root element of the application,
@@ -25,7 +25,7 @@ import { FeatureConfigService } from './feature-config.service';
 @Injectable({ providedIn: 'root' })
 export class FeatureStylesService {
   private rendererFactory = inject(RendererFactory2); // private, because needed only to create a renderer
-  private featureConfig = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected logger = inject(LoggerService);
 
   /**
@@ -71,7 +71,7 @@ export class FeatureStylesService {
     //       which happens before the hook APP_BOOTSTRAP_LISTENER is invoked by Angular, therefore before `init` is invoked.)
     for (const [feature, count] of this.usagesCounter.entries()) {
       if (count > 0) {
-        this.addClass(feature);
+        this.addClass(feature as FeatureToggleKey);
       }
     }
   }
@@ -86,7 +86,7 @@ export class FeatureStylesService {
    * Note: Please mind to call `unregisterUsage()` when the feature is not used anymore.
    *       Otherwise, the feature's CSS class will be added to the root element forever.
    */
-  registerUsage(feature: string): void {
+  registerUsage(feature: FeatureToggleKey): void {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
     if (this.isEnabled(feature) && currentCounter === 0) {
       this.addClass(feature);
@@ -100,7 +100,7 @@ export class FeatureStylesService {
    * If the feature flag is enabled, this method removes the feature's CSS class
    * from the root element (unless there are other registered usages of the same feature yet).
    */
-  unregisterUsage(feature: string): void {
+  unregisterUsage(feature: FeatureToggleKey): void {
     const currentCounter = this.usagesCounter.get(feature) ?? 0;
     if (currentCounter === 0 && isDevMode()) {
       this.logger.warn(
@@ -117,8 +117,8 @@ export class FeatureStylesService {
   /**
    * Returns whether the given feature flag is enabled.
    */
-  protected isEnabled(feature: string): boolean {
-    return this.featureConfig.isEnabled(feature);
+  protected isEnabled(feature: FeatureToggleKey): boolean {
+    return !!this.featureToggles[feature];
   }
 
   /**
@@ -127,7 +127,7 @@ export class FeatureStylesService {
    * It does nothing if the feature flag is disabled
    * or if the root element is not yet available.
    */
-  protected addClass(feature: string) {
+  protected addClass(feature: FeatureToggleKey) {
     const cssClass = this.getCssClass(feature);
     if (!this.rootElement || !cssClass) {
       return;
@@ -141,7 +141,7 @@ export class FeatureStylesService {
    * It does nothing if the feature flag is disabled
    * or if the root element is not yet available.
    */
-  protected removeClass(feature: string) {
+  protected removeClass(feature: FeatureToggleKey) {
     const cssClass = this.getCssClass(feature);
     if (!this.rootElement || !cssClass) {
       return;
@@ -155,8 +155,8 @@ export class FeatureStylesService {
    * The CSS class name consists of the prefix `cxFeat_`
    * and the feature flag name.
    */
-  protected getCssClass(feature: string): string | undefined {
-    return this.featureConfig.isEnabled(feature)
+  protected getCssClass(feature: FeatureToggleKey): string | undefined {
+    return this.featureToggles[feature]
       ? `${this.CSS_FEATURE_FLAG_PREFIX}${feature}`
       : undefined;
   }

@@ -23,12 +23,13 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
-import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
+import { MockTranslationService } from '@spartacus/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -108,6 +109,9 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        provideMockFeatureToggles({
+          a11ySiteContextCaretClick: true,
+        }),
         contextServiceMapProvider,
       ],
     })
@@ -175,7 +179,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   });
 
   it('should have the selected attribute on the active language option', () => {
-    const options = el.queryAll(By.css('option'));
+    const options = el.queryAll(By.css('.cx-select-wrapper option'));
     const withSelectedAttr = options.filter((opt) =>
       opt.nativeElement.hasAttribute('selected')
     );

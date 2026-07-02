@@ -8,11 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import {
-  Facet,
-  FeatureConfigService,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { Facet, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
@@ -52,12 +48,6 @@ const MockFacet: Facet = {
   ],
 };
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('FacetComponent', () => {
   let component: FacetComponent;
   let fixture: ComponentFixture<FacetComponent>;
@@ -73,10 +63,7 @@ describe('FacetComponent', () => {
         MockKeyboadFocusDirective,
         RouterModule.forRoot([]),
       ],
-      providers: [
-        { provide: FacetService, useClass: MockFacetService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
+      providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
       .overrideComponent(FacetComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },

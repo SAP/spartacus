@@ -8,7 +8,6 @@ vi.mock('@angular/core', async (importOriginal) => {
 import { TestBed } from '@angular/core/testing';
 import { i18n } from 'i18next';
 import { first, take } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { I18NEXT_INSTANCE } from './i18next-instance';
@@ -38,7 +37,6 @@ const getNamespacedKeys = (key: string | string[]) => {
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
   let i18next: i18n;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     const mockTranslationChunk = {
@@ -56,13 +54,11 @@ describe('I18nextTranslationService', () => {
           useValue: mockTranslationChunk,
         },
         I18nextTranslationService,
-        FeatureConfigService,
       ],
     });
 
     service = TestBed.inject(I18nextTranslationService);
     i18next = TestBed.inject(I18NEXT_INSTANCE);
-    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   describe('loadChunks', () => {
@@ -169,7 +165,7 @@ describe('I18nextTranslationService', () => {
           });
 
           it('should emit key in brackets for non-production', () => {
-            vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
+            vi.mocked(isDevMode).mockReturnValue(true);
 
             let result;
             service
@@ -210,7 +206,7 @@ describe('I18nextTranslationService', () => {
               (_event, callback) => (languageChangedCallback = callback)
             );
             vi.spyOn(i18next, 'exists').mockReturnValue(true);
-            vi.spyOn(i18next, 't').mockReturnValueOnce('value1', 'value2');
+            vi.spyOn(i18next, 't').mockReturnValueOnce('value1').mockReturnValueOnce('value2');
 
             let result;
             service

@@ -9,7 +9,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   SiteContextUrlParams,
   SiteContextUrlSerializer,
 } from '@spartacus/core';
@@ -73,7 +73,12 @@ describe('AuthRedirectService', () => {
       providers: [
         AuthRedirectService,
         AuthRedirectStorageService,
-        FeatureConfigService,
+        {
+          provide: FeatureToggles,
+          useValue: {
+            redirectOnlyOnTrueNavigationEnd: false,
+          } as FeatureToggles,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },
         {
@@ -153,16 +158,16 @@ describe('AuthRedirectService', () => {
       authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
       router = TestBed.inject(Router);
       zone = TestBed.inject(NgZone);
-      const featureConfigService = TestBed.inject(FeatureConfigService);
+      const featureToggles = TestBed.inject(FeatureToggles);
+      featureToggles.redirectOnlyOnTrueNavigationEnd = true;
       vi.spyOn(authRedirectStorageService, 'setRedirectUrl');
-      vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
 
       TestBed.inject(AuthRedirectService);
     });
 
     it('should NOT save redirect url when NavigationEnd was caused by a guard redirect (UrlTree)', async () => {
       await zone.run(() => router.navigateByUrl('/some/url/after/redirects'));
-      (authRedirectStorageService.setRedirectUrl as Mock).calls.reset();
+      vi.mocked(authRedirectStorageService.setRedirectUrl).mockReset();
 
       await zone.run(() => router.navigateByUrl('/guarded/url'));
 

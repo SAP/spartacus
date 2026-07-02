@@ -15,7 +15,7 @@ class MockFeatureStylesService {
 })
 class TestComponent {
   constructor() {
-    useFeatureStyles('testFeatureFlag');
+    useFeatureStyles('testFeatureFlag' as any);
   }
 }
 
@@ -25,7 +25,7 @@ class TestComponent {
 })
 class ErroneousTestComponent implements OnInit {
   ngOnInit() {
-    useFeatureStyles('testFeatureFlag');
+    useFeatureStyles('testFeatureFlag' as any);
   }
 }
 
@@ -43,21 +43,27 @@ describe('useFeatureStyles', () => {
 
   describe('when called in constructor of component', () => {
     it(`should register usage of feature flag's styles`, () => {
-      expect(service.registerUsage).not.toHaveBeenCalledWith('testFeatureFlag');
+      expect(service.registerUsage).not.toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
       TestBed.createComponent(TestComponent);
-      expect(service.registerUsage).toHaveBeenCalledWith('testFeatureFlag');
+      expect(service.registerUsage).toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
     });
 
     it(`should unregister usage of feature flag's styles on component destroy`, () => {
       expect(service.unregisterUsage).not.toHaveBeenCalledWith(
-        'testFeatureFlag'
+        'testFeatureFlag' as any
       );
       const fixture = TestBed.createComponent(TestComponent);
       expect(service.unregisterUsage).not.toHaveBeenCalledWith(
-        'testFeatureFlag'
+        'testFeatureFlag' as any
       );
       fixture.destroy();
-      expect(service.unregisterUsage).toHaveBeenCalledWith('testFeatureFlag');
+      expect(service.unregisterUsage).toHaveBeenCalledWith(
+        'testFeatureFlag' as any
+      );
     });
   });
 

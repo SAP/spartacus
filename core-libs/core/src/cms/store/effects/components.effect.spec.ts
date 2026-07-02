@@ -2,7 +2,6 @@ import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { FeatureConfigService } from '@spartacus/core';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -33,12 +32,6 @@ class MockCmsComponentConnector {
   }
 }
 
-class MockFeatureConfigService {
-  isLevel() {
-    return true;
-  }
-}
-
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: CmsComponentConnector;
@@ -57,7 +50,6 @@ describe('Component Effects', () => {
         fromEffects.ComponentsEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 

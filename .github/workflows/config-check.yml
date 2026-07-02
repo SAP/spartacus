@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: '20'
       - name: NPM
-        run: npm i
+        run: npm ci
       - name: Check configurations
         run: npm run config:check
         env:

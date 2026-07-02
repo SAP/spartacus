@@ -1,14 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  Config,
-  FeatureConfigService,
-  Image,
-  LoggerService,
-} from '@spartacus/core';
+import { Config, FeatureToggles, Image, LoggerService } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 import * as AngularCore from '@angular/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const MockStorefrontConfig: Config = {
   backend: {
@@ -50,11 +46,11 @@ const MockStorefrontConfig: Config = {
   },
 };
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  lazyLoadImagesByDefault: true,
+  // default off — individual "media prefix enabled ..." describe blocks override this
+  enableMediaPrefix: false,
+};
 
 const mockUnknownMediaContainer = {
   unknownFormat1: {
@@ -843,7 +839,6 @@ describe('MediaService', () => {
 
     describe('media prefix enabled and present', () => {
       let service: MediaService;
-      let featureConfig: any;
       const config = {
         backend: {
           media: {
@@ -854,10 +849,8 @@ describe('MediaService', () => {
       };
       beforeEach(() => {
         configureTestingModule(config);
-        featureConfig = TestBed.inject(FeatureConfigService) as any;
-        spyOn(featureConfig, 'isEnabled').and.callFake(
-          (feature: string) => feature === 'enableMediaPrefix'
-        );
+        const featureToggles = TestBed.inject(FeatureToggles);
+        featureToggles.enableMediaPrefix = true;
         service = TestBed.inject(MediaService);
       });
       it('should add prefix to baseUrl if enableMediaPrefix is enabled and prefix is present', () => {
@@ -869,7 +862,6 @@ describe('MediaService', () => {
 
     describe('media prefix enabled, no leading slash', () => {
       let service: MediaService;
-      let featureConfig: any;
       const config = {
         backend: {
           media: {
@@ -880,10 +872,8 @@ describe('MediaService', () => {
       };
       beforeEach(() => {
         configureTestingModule(config);
-        featureConfig = TestBed.inject(FeatureConfigService) as any;
-        spyOn(featureConfig, 'isEnabled').and.callFake(
-          (feature: string) => feature === 'enableMediaPrefix'
-        );
+        const featureToggles = TestBed.inject(FeatureToggles);
+        featureToggles.enableMediaPrefix = true;
         service = TestBed.inject(MediaService);
       });
       it('should add prefix with leading slash if not present', () => {
@@ -895,7 +885,6 @@ describe('MediaService', () => {
 
     describe('media prefix enabled, already has slash', () => {
       let service: MediaService;
-      let featureConfig: any;
       const config = {
         backend: {
           media: {
@@ -906,10 +895,8 @@ describe('MediaService', () => {
       };
       beforeEach(() => {
         configureTestingModule(config);
-        featureConfig = TestBed.inject(FeatureConfigService) as any;
-        spyOn(featureConfig, 'isEnabled').and.callFake(
-          (feature: string) => feature === 'enableMediaPrefix'
-        );
+        const featureToggles = TestBed.inject(FeatureToggles);
+        featureToggles.enableMediaPrefix = true;
         service = TestBed.inject(MediaService);
       });
       it('should use prefix as-is if it already starts with a slash', () => {
@@ -921,7 +908,6 @@ describe('MediaService', () => {
 
     describe('invalid baseUrl and prefix combination', () => {
       let service: MediaService;
-      let featureConfig: any;
       let logger: any;
       const config = {
         backend: {
@@ -934,10 +920,8 @@ describe('MediaService', () => {
       let isDevModeSpy: any;
       beforeEach(() => {
         configureTestingModule(config);
-        featureConfig = TestBed.inject(FeatureConfigService) as any;
-        spyOn(featureConfig, 'isEnabled').and.callFake(
-          (feature: string) => feature === 'enableMediaPrefix'
-        );
+        const featureToggles = TestBed.inject(FeatureToggles);
+        featureToggles.enableMediaPrefix = true;
         logger = TestBed.inject(LoggerService);
         spyOn(logger, 'error').and.callFake((msg: string) => msg);
         spyOn(logger, 'warn').and.callFake((msg: string) => msg);
@@ -963,7 +947,6 @@ describe('MediaService', () => {
 
     describe('media prefix disabled', () => {
       let service: MediaService;
-      let featureConfig: any;
       const config = {
         backend: {
           media: {
@@ -974,8 +957,8 @@ describe('MediaService', () => {
       };
       beforeEach(() => {
         configureTestingModule(config);
-        featureConfig = TestBed.inject(FeatureConfigService) as any;
-        spyOn(featureConfig, 'isEnabled').and.returnValue(false);
+        const featureToggles = TestBed.inject(FeatureToggles);
+        featureToggles.enableMediaPrefix = false;
         service = TestBed.inject(MediaService);
       });
       it('should not add prefix if enableMediaPrefix is disabled', () => {
@@ -985,7 +968,6 @@ describe('MediaService', () => {
 
     describe('media prefix enabled, empty prefix', () => {
       let service: MediaService;
-      let featureConfig: any;
       const config = {
         backend: {
           media: {
@@ -996,10 +978,8 @@ describe('MediaService', () => {
       };
       beforeEach(() => {
         configureTestingModule(config);
-        featureConfig = TestBed.inject(FeatureConfigService) as any;
-        spyOn(featureConfig, 'isEnabled').and.callFake(
-          (feature: string) => feature === 'enableMediaPrefix'
-        );
+        const featureToggles = TestBed.inject(FeatureToggles);
+        featureToggles.enableMediaPrefix = true;
         service = TestBed.inject(MediaService);
       });
       it('should not add prefix if prefix is empty', () => {
@@ -1018,7 +998,7 @@ function configureTestingModule(config: Config): void {
         useValue: config,
       },
       { provide: LayoutConfig, useValue: {} },
-      { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      provideMockFeatureToggles({ ...mockFeatureToggles }),
     ],
   });
 }

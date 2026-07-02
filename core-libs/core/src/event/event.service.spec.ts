@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, firstValueFrom, of, Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { CxEvent } from './cx-event';
 import { EventService } from './event.service';
 
@@ -35,25 +34,12 @@ class AddToCartFailEvent extends CartEvent {
   }
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isLevel(_version: string): boolean {
-    return true;
-  }
-}
-
 describe('EventService', () => {
   let service: EventService;
   let sub: Subscription;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-    });
+    TestBed.configureTestingModule({});
     service = TestBed.inject(EventService);
   });
 

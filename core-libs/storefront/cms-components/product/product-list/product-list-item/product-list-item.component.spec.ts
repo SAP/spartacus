@@ -12,7 +12,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeaturesConfigModule,
   Image,
   ImageGroup,
   MockTranslatePipe,
@@ -34,6 +34,10 @@ import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-star-rating',
@@ -66,18 +70,6 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-let mockFeatureToggles: Record<string, boolean> = {};
-
-class MockFeatureConfigService {
-  isEnabled(feature: string): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = hasNegation ? feature.slice(1) : feature;
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 @Directive({ selector: '[cxInnerComponentsHost]' })
 class MockInnerComponentsHostDirective {}
 
@@ -105,11 +97,10 @@ describe('ProductListItemComponent in product-list', () => {
   };
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {};
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
+      imports: [RouterModule.forRoot([]), FeaturesConfigModule],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -123,10 +114,11 @@ describe('ProductListItemComponent in product-list', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({
+          consistentSizeProductCards: true,
+          productListItemSummaryReadMore: false,
+          a11yProductListItemNameMargin: true,
+        }),
       ],
     })
       .overrideComponent(ProductListItemComponent, {
@@ -246,7 +238,8 @@ describe('ProductListItemComponent in product-list', () => {
 
   describe('when productListItemSummaryReadMore is enabled', () => {
     beforeEach(() => {
-      mockFeatureToggles['productListItemSummaryReadMore'] = true;
+      const toggles = TestBed.inject(MockFeatureTogglesController);
+      toggles.set('productListItemSummaryReadMore', true);
       fixture = TestBed.createComponent(ProductListItemComponent);
       component = fixture.componentInstance;
       component.product = mockProduct;

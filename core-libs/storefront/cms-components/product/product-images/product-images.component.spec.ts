@@ -2,12 +2,7 @@ import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureConfigService,
-  FeaturesConfigModule,
-  FeatureToggles,
-  Product,
-} from '@spartacus/core';
+import { FeaturesConfigModule, Product } from '@spartacus/core';
 import {
   CarouselComponent,
   CarouselScrollingComponent,
@@ -20,6 +15,10 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -113,23 +112,6 @@ class MockCarouselScrollingComponent {
   @Input() template;
 }
 
-let mockFeatureToggles: FeatureToggles;
-
-class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -137,10 +119,6 @@ describe('ProductImagesComponent', () => {
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
-
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -150,7 +128,6 @@ describe('ProductImagesComponent', () => {
         ProductImagesComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: LCP_PRESENCE,
           useValue: mockLcpPresence$,
@@ -159,6 +136,10 @@ describe('ProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        provideMockFeatureToggles({
+          reserveSpaceForImagesOnPdpAndPlp: true,
+          productCarouselScrolling: true,
+        }),
       ],
     })
       .overrideComponent(ProductImagesComponent, {
@@ -233,7 +214,8 @@ describe('ProductImagesComponent', () => {
 
       describe('when feature toggle "productCarouselScrolling" is disabled', () => {
         it('should have cx-carousel element', () => {
-          mockFeatureToggles.productCarouselScrolling = false;
+          const toggles = TestBed.inject(MockFeatureTogglesController);
+          toggles.set('productCarouselScrolling', false);
           fixture.detectChanges();
           const carousel = fixture.debugElement.query(By.css('cx-carousel'));
           expect(carousel).toBeTruthy();

@@ -7,7 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import {
   EntitiesModel,
-  FeatureConfigService,
+  FeatureToggles,
   PaginationModel,
 } from '@spartacus/core';
 import {
@@ -36,7 +36,7 @@ import { UnitTreeService } from './unit-tree.service';
 export class UnitListService extends ListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     protected tableService: TableService,
@@ -48,7 +48,7 @@ export class UnitListService extends ListService<B2BUnitTreeNode> {
   }
 
   override isSearchEnabled(): boolean {
-    return this.featureConfigService.isEnabled('enableB2BUnitSearch');
+    return !!this.featureToggles.enableB2BUnitSearch;
   }
 
   override getSearchPlaceholderKey(): string {

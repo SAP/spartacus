@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   TranslatePipe,
   UrlPipe,
@@ -62,7 +62,7 @@ export class RecentSearchesComponent implements OnInit {
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
-  private readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
@@ -102,9 +102,7 @@ export class RecentSearchesComponent implements OnInit {
       throw new Error('Missing Event');
     }
 
-    if (
-      !this.featureConfigService.isEnabled('searchBoxRecentSearchesRemoval')
-    ) {
+    if (!this.featureToggles.searchBoxRecentSearchesRemoval) {
       this.searchBoxComponentService.shareEvent(event as KeyboardEvent);
       return;
     }

@@ -10,6 +10,7 @@ import { IconModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockTranslationService {
   translate() {
@@ -46,6 +47,7 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        provideMockFeatureToggles({ a11ySiteContextCaretClick: true }),
       ],
     }).compileComponents();
 
@@ -106,7 +108,9 @@ describe('ThemeSwitcherComponent', () => {
     });
 
     it('should append an aria-label to options', () => {
-      const options = fixture.debugElement.queryAll(By.css('option'));
+      const options = fixture.debugElement.queryAll(
+        By.css('.cx-select-wrapper option')
+      );
       expect(options.length).toEqual(2);
       options.forEach((option, index: number) => {
         expect(option.nativeElement.getAttribute('aria-label')).toContain(
