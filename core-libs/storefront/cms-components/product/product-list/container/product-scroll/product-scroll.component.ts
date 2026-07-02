@@ -33,6 +33,12 @@ export class ProductScrollComponent implements OnDestroy {
   private subscription = new Subscription();
 
   @Input('scrollConfig')
+  set scrollConfig(inputConfig: ViewConfig) {
+    this.setConfig = inputConfig; // CXSPA-13739: Replace with underlying logic
+  }
+
+  /** @deprecated Use `scrollConfig` instead */
+  // CXSPA-13739: When removing, move logic to `scrollConfig`
   set setConfig(inputConfig: ViewConfig) {
     this.setComponentConfigurations(inputConfig);
   }
