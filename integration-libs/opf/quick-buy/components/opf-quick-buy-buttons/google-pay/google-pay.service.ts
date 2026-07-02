@@ -19,6 +19,7 @@ import {
   OPF_GOOGLE_PAY_PROVIDER_NAME,
   OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER,
   OpfQuickBuyConfig,
+  OpfQuickBuyDeliveryInfo,
   OpfQuickBuyDeliveryType,
   OpfQuickBuyGooglePayProvider,
   OpfQuickBuyLocation,
@@ -29,6 +30,12 @@ import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, combineLatest, forkJoin, lastValueFrom, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyButtonsService } from '../opf-quick-buy-buttons.service';
+
+const OPF_QUICK_BUY_GOOGLE_PAY_EMPTY_PAYMENT_CALLBACKS = {
+  onSuccess: (): void => undefined,
+  onPending: (): void => undefined,
+  onFailure: (): void => undefined,
+};
 
 @Injectable({
   providedIn: 'root',
@@ -206,16 +213,16 @@ export class OpfGooglePayService {
       take(1),
       map(
         ([displayItems, totalLabel]) =>
-          ({
-            totalPrice: totalPrice.toString(),
-            currencyCode: currencyCode.toString(),
-            totalPriceStatus: 'FINAL',
-            // `totalPriceLabel` is required by Google Pay whenever
-            // `displayItems` are provided.
-            ...(displayItems.length
-              ? { displayItems, totalPriceLabel: totalLabel }
-              : {}),
-          }) as google.payments.api.TransactionInfo
+        ({
+          totalPrice: totalPrice.toString(),
+          currencyCode: currencyCode.toString(),
+          totalPriceStatus: 'FINAL',
+          // `totalPriceLabel` is required by Google Pay whenever
+          // `displayItems` are provided.
+          ...(displayItems.length
+            ? { displayItems, totalPriceLabel: totalLabel }
+            : {}),
+        } as google.payments.api.TransactionInfo)
       )
     );
   }
@@ -350,48 +357,61 @@ export class OpfGooglePayService {
 
   handleActiveCartTransaction(): Observable<Cart> {
     return this.opfQuickBuyTransactionService.prepareTransactionCart().pipe(
-      switchMap(() => {
-        return forkJoin({
-          deliveryInfo:
-            this.opfQuickBuyTransactionService.getTransactionDeliveryInfo(),
-          merchantName: this.opfQuickBuyTransactionService.getMerchantName(),
-        }).pipe(
-          switchMap(({ deliveryInfo, merchantName }) => {
-            this.transactionDetails.deliveryInfo = deliveryInfo;
-            this.setGooglePaymentRequestConfig(deliveryInfo.type, merchantName);
+      switchMap(() => this.loadActiveCartTransactionContext())
+    );
+  }
 
-            return this.setDeliveryMode(undefined, deliveryInfo.type).pipe(
-              switchMap(() =>
-                this.opfQuickBuyTransactionService.getCurrentCart().pipe(
-                  take(1),
-                  switchMap((cart: Cart) => {
-                    this.transactionDetails.cart = cart;
-                    return combineLatest([
-                      this.buildDisplayItems(cart),
-                      this.translationService.translate('orderCost.total'),
-                    ]).pipe(
-                      take(1),
-                      map(([displayItems, totalLabel]) => {
-                        this.updateTransactionInfo({
-                          totalPrice: `${cart.totalPrice?.value}`,
-                          currencyCode:
-                            cart.totalPrice?.currencyIso ||
-                            this.initialTransactionInfo.currencyCode,
-                          totalPriceStatus:
-                            this.initialTransactionInfo.totalPriceStatus,
-                          ...(displayItems.length
-                            ? { displayItems, totalPriceLabel: totalLabel }
-                            : {}),
-                        });
-                        return cart;
-                      })
-                    );
-                  })
-                )
-              )
-            );
-          })
-        );
+  protected loadActiveCartTransactionContext(): Observable<Cart> {
+    return forkJoin({
+      deliveryInfo:
+        this.opfQuickBuyTransactionService.getTransactionDeliveryInfo(),
+      merchantName: this.opfQuickBuyTransactionService.getMerchantName(),
+    }).pipe(
+      switchMap(({ deliveryInfo, merchantName }) =>
+        this.configureActiveCartTransaction(deliveryInfo, merchantName)
+      )
+    );
+  }
+
+  protected configureActiveCartTransaction(
+    deliveryInfo: OpfQuickBuyDeliveryInfo,
+    merchantName: string
+  ): Observable<Cart> {
+    this.transactionDetails.deliveryInfo = deliveryInfo;
+    this.setGooglePaymentRequestConfig(deliveryInfo.type, merchantName);
+
+    return this.setDeliveryMode(undefined, deliveryInfo.type).pipe(
+      switchMap(() =>
+        this.opfQuickBuyTransactionService
+          .getCurrentCart()
+          .pipe(
+            take(1),
+            switchMap((cart) => this.updateActiveCartTransactionInfo(cart))
+          )
+      )
+    );
+  }
+
+  protected updateActiveCartTransactionInfo(cart: Cart): Observable<Cart> {
+    this.transactionDetails.cart = cart;
+
+    return combineLatest([
+      this.buildDisplayItems(cart),
+      this.translationService.translate('orderCost.total'),
+    ]).pipe(
+      take(1),
+      map(([displayItems, totalLabel]) => {
+        this.updateTransactionInfo({
+          totalPrice: `${cart.totalPrice?.value}`,
+          currencyCode:
+            cart.totalPrice?.currencyIso ||
+            this.initialTransactionInfo.currencyCode,
+          totalPriceStatus: this.initialTransactionInfo.totalPriceStatus,
+          ...(displayItems.length
+            ? { displayItems, totalPriceLabel: totalLabel }
+            : {}),
+        });
+        return cart;
       })
     );
   }
@@ -434,97 +454,141 @@ export class OpfGooglePayService {
 
   private handlePaymentCallbacks(): google.payments.api.PaymentDataCallbacks {
     return {
-      onPaymentAuthorized: (paymentDataResponse: any) => {
-        return lastValueFrom(
-          this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
-            switchMap(() =>
-              this.setBillingAddress(
-                paymentDataResponse.paymentMethodData.info?.billingAddress
-              )
-            ),
-            switchMap(() => {
-              return paymentDataResponse?.email
-                ? this.opfQuickBuyTransactionService.updateCartGuestUserEmail(
-                    paymentDataResponse.email
-                  )
-                : of(true);
-            }),
-            switchMap(() => {
-              const encryptedToken = btoa(
-                paymentDataResponse.paymentMethodData.tokenizationData.token
-              );
-
-              return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
-                switchMap((cartId) =>
-                  this.opfPaymentFacade.submitPayment({
-                    additionalData: [],
-                    paymentSessionId: '',
-                    callbacks: {
-                      onSuccess: () => {},
-                      onPending: () => {},
-                      onFailure: () => {},
-                    },
-                    paymentMethod: OpfQuickBuyProviderType.GOOGLE_PAY as any,
-                    encryptedToken,
-                    cartId,
-                  })
-                )
-              );
-            }),
-            catchError(() => {
-              return of(false);
-            })
-          )
+      onPaymentAuthorized: (paymentDataResponse: any) =>
+        lastValueFrom(
+          this.authorizeGooglePayPayment(paymentDataResponse)
         ).then((isSuccess) => {
           this.deleteAssociatedAddresses();
           return { transactionState: isSuccess ? 'SUCCESS' : 'ERROR' };
-        });
-      },
+        }),
 
-      onPaymentDataChanged: (intermediatePaymentData: any) => {
-        return lastValueFrom(
-          this.setDeliveryAddress(intermediatePaymentData.shippingAddress).pipe(
-            switchMap(() => this.getShippingOptionParameters()),
-            switchMap((shippingOptions) => {
-              const selectedMode =
-                this.verifyShippingOption(
-                  intermediatePaymentData.shippingOptionData?.id
-                ) ?? shippingOptions?.defaultSelectedOptionId;
-
-              return this.setDeliveryMode(selectedMode).pipe(
-                switchMap(() =>
-                  forkJoin([
-                    this.opfQuickBuyTransactionService.getCurrentCart(),
-                    this.opfQuickBuyTransactionService.getSelectedDeliveryMode(),
-                  ])
-                ),
-                switchMap(([cart, mode]) =>
-                  this.getNewTransactionInfo(cart).pipe(
-                    map((newTransactionInfo) => {
-                      const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
-                        {
-                          newShippingOptionParameters: shippingOptions,
-                          newTransactionInfo,
-                        };
-
-                      if (
-                        paymentDataRequestUpdate.newShippingOptionParameters
-                          ?.defaultSelectedOptionId
-                      ) {
-                        paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
-                          mode?.code;
-                      }
-
-                      return paymentDataRequestUpdate;
-                    })
-                  )
-                )
-              );
-            })
-          )
-        );
-      },
+      onPaymentDataChanged: (intermediatePaymentData: any) =>
+        lastValueFrom(
+          this.handleIntermediatePaymentDataChange(intermediatePaymentData)
+        ),
     };
+  }
+
+  protected authorizeGooglePayPayment(
+    paymentDataResponse: any
+  ): Observable<boolean> {
+    return this.setDeliveryAddress(paymentDataResponse.shippingAddress).pipe(
+      switchMap(() =>
+        this.setBillingAddress(
+          paymentDataResponse.paymentMethodData.info?.billingAddress
+        )
+      ),
+      switchMap(() =>
+        this.updateGuestUserEmailIfProvided(paymentDataResponse?.email)
+      ),
+      switchMap(() =>
+        this.submitAuthorizedGooglePayPayment(paymentDataResponse)
+      ),
+      catchError(() => of(false))
+    );
+  }
+
+  protected updateGuestUserEmailIfProvided(
+    email?: string
+  ): Observable<boolean> {
+    return email
+      ? this.opfQuickBuyTransactionService.updateCartGuestUserEmail(email)
+      : of(true);
+  }
+
+  protected submitAuthorizedGooglePayPayment(
+    paymentDataResponse: any
+  ): Observable<boolean> {
+    const encryptedToken = btoa(
+      paymentDataResponse.paymentMethodData.tokenizationData.token
+    );
+
+    return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
+      switchMap((cartId) =>
+        this.opfPaymentFacade.submitPayment({
+          additionalData: [],
+          paymentSessionId: '',
+          callbacks: OPF_QUICK_BUY_GOOGLE_PAY_EMPTY_PAYMENT_CALLBACKS,
+          paymentMethod: OpfQuickBuyProviderType.GOOGLE_PAY as any,
+          encryptedToken,
+          cartId,
+        })
+      )
+    );
+  }
+
+  private handleIntermediatePaymentDataChange(
+    intermediatePaymentData: any
+  ): Observable<google.payments.api.PaymentDataRequestUpdate> {
+    return this.setDeliveryAddress(intermediatePaymentData.shippingAddress).pipe(
+      switchMap(() => this.getShippingOptionParameters()),
+      switchMap((shippingOptions) =>
+        this.updatePaymentDataForShippingChange(
+          intermediatePaymentData,
+          shippingOptions
+        )
+      )
+    );
+  }
+
+  private updatePaymentDataForShippingChange(
+    intermediatePaymentData: any,
+    shippingOptions: google.payments.api.ShippingOptionParameters | undefined
+  ): Observable<google.payments.api.PaymentDataRequestUpdate> {
+    const selectedMode =
+      this.verifyShippingOption(
+        intermediatePaymentData.shippingOptionData?.id
+      ) ?? shippingOptions?.defaultSelectedOptionId;
+
+    return this.setDeliveryMode(selectedMode).pipe(
+      switchMap(() =>
+        forkJoin([
+          this.opfQuickBuyTransactionService.getCurrentCart(),
+          this.opfQuickBuyTransactionService.getSelectedDeliveryMode(),
+        ])
+      ),
+      switchMap(([cart, mode]) =>
+        this.mapCartToPaymentDataRequestUpdate(shippingOptions, cart, mode)
+      )
+    );
+  }
+
+  private mapCartToPaymentDataRequestUpdate(
+    shippingOptions: google.payments.api.ShippingOptionParameters | undefined,
+    cart: Cart,
+    mode: DeliveryMode | undefined
+  ): Observable<google.payments.api.PaymentDataRequestUpdate> {
+    return this.getNewTransactionInfo(cart).pipe(
+      map((newTransactionInfo) =>
+        this.buildPaymentDataRequestUpdate(
+          shippingOptions,
+          newTransactionInfo,
+          mode
+        )
+      )
+    );
+  }
+
+  private buildPaymentDataRequestUpdate(
+    shippingOptions: google.payments.api.ShippingOptionParameters | undefined,
+    newTransactionInfo: google.payments.api.TransactionInfo | undefined,
+    mode: DeliveryMode | undefined
+  ): google.payments.api.PaymentDataRequestUpdate {
+    const paymentDataRequestUpdate: google.payments.api.PaymentDataRequestUpdate =
+    {
+      newShippingOptionParameters: shippingOptions,
+      newTransactionInfo,
+    };
+
+    if (
+      paymentDataRequestUpdate.newShippingOptionParameters
+        ?.defaultSelectedOptionId
+    ) {
+      paymentDataRequestUpdate.newShippingOptionParameters.defaultSelectedOptionId =
+        mode?.code;
+    }
+
+    return paymentDataRequestUpdate;
   }
 
   protected verifyShippingOption(mode: string | undefined): string | undefined {
