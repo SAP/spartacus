@@ -11,6 +11,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -27,7 +28,9 @@ export class GlobalMessageComponent implements OnInit {
   messages$: Observable<GlobalMessageEntities>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
 
-  constructor(protected globalMessageService: GlobalMessageService) {}
+  constructor(protected globalMessageService: GlobalMessageService) {
+    useFeatureStyles('a11yIncreaseContastGlobalMessageCloseButton');
+  }
 
   ngOnInit(): void {
     this.messages$ = this.globalMessageService.get();
