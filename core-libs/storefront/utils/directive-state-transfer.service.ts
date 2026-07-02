@@ -23,7 +23,7 @@ export class DirectiveStateTransferService {
   }
 
   get(el: HTMLElement, key: string): string | undefined {
-    return el.getAttribute(this.attributeFrom(key)) ?? undefined;
+    return el?.getAttribute(this.attributeFrom(key)) ?? undefined;
   }
 
   clear(el: HTMLElement, key: string): void {
