@@ -23,6 +23,7 @@ export type OpfPaymentMerchantCallback = (
 export interface OpfPaymentGlobalMethods {
   getRedirectParams?(): Array<OpfKeyValueMap>;
   submit?(options: {
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
     cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
@@ -33,6 +34,7 @@ export interface OpfPaymentGlobalMethods {
     paymentSessionId?: string;
   }): Promise<boolean>;
   submitComplete?(options: {
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
     cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
@@ -42,7 +44,8 @@ export interface OpfPaymentGlobalMethods {
     paymentSessionId?: string;
   }): Promise<boolean>;
   submitCompleteRedirect?(options: {
-    cartId: string;
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
@@ -194,6 +197,7 @@ export interface OpfPaymentUpdatePayload {
 
 export interface OpfPaymentConfig {
   configurationId?: string;
+  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
   cartId?: string;
   resultURL?: string;
   cancelURL?: string;

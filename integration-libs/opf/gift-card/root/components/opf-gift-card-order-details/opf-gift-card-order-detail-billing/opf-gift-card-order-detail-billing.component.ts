@@ -8,15 +8,18 @@ import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 
 import {
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -35,6 +38,8 @@ export class OpfGiftCardOrderDetailBillingComponent
   implements OnInit, OnDestroy
 {
   protected translationService = inject(TranslationService);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
   protected subscription = new Subscription();
   @Input()
   order: Order;
@@ -44,9 +49,17 @@ export class OpfGiftCardOrderDetailBillingComponent
 
   ngOnInit(): void {
     if (this.orderOutlet?.context$) {
-      this.subscription?.add(
-        this.orderOutlet.context$.subscribe((context) => (this.order = context))
-      );
+      if (this.featureToggles.opfUseDestroyRef) {
+        this.orderOutlet.context$
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((context) => (this.order = context));
+      } else {
+        this.subscription.add(
+          this.orderOutlet.context$.subscribe(
+            (context) => (this.order = context)
+          )
+        );
+      }
     }
   }
 

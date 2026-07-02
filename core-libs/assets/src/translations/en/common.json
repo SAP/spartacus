@@ -19,6 +19,7 @@
     "menu": "Menu",
     "reset": "Reset",
     "search": "Search",
+    "productSearchDescription": "Search for products by name or SKU",
     "add": "Add",
     "breadcrumbs": "breadcrumbs",
     "breadcrumbsCurrentPage": "Current Page",
@@ -159,7 +160,8 @@
         "uid": "UID is not valid.",
         "code": "Code is not valid.",
         "email": "Email is not valid.",
-        "loginId": "Email is not valid."
+        "loginId": "Email is not valid.",
+        "cellphone": "The mobile number entered is not valid."
       }
     },
     "cartNotFound": "Cart not found.",

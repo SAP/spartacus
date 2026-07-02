@@ -21,7 +21,6 @@ import {
   QueryService,
   QueryState,
   RoutingService,
-  uniteLatest,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -48,7 +47,6 @@ import {
 import {
   catchError,
   concatMap,
-  distinctUntilChanged,
   filter,
   map,
   mergeMap,
@@ -428,25 +426,24 @@ export class QuoteService implements QuoteFacade {
   }: QuotesStateParams) =>
     this.queryService.create<QuoteList>(
       () =>
-        this.userIdService.takeUserId().pipe(
-          //use withLatestFrom and reloadOn to get full functionality of query
-          withLatestFrom(currentPage$, sort$),
-          distinctUntilChanged(),
-          switchMap(([userId, currentPage, sort]) => {
-            return this.quoteConnector.getQuotes(userId, {
+        combineLatest([
+          this.userIdService.takeUserId(),
+          currentPage$,
+          sort$,
+        ]).pipe(
+          switchMap(([userId, currentPage, sort]) =>
+            this.quoteConnector.getQuotes(userId, {
               currentPage,
               sort,
               pageSize: this.viewConfig.view?.defaultPageSize,
-            });
-          }),
+            })
+          ),
           tap(() => {
             this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
           })
         ),
       {
-        reloadOn: [
-          uniteLatest([currentPage$, sort$]), // combine all streams that should trigger a reload to decrease initial http calls
-        ],
+        reloadOn: [], // Changes to currentPage$/sort$ are now handled reactively within the factory itself, so reloadOn is no longer needed.
         resetOn: [LoginEvent],
       }
     );

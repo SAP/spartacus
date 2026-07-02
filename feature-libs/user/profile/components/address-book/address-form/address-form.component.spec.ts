@@ -12,8 +12,11 @@ import {
   Address,
   AddressValidation,
   Country,
+  FeatureConfigService,
   GlobalMessageService,
+  HierarchicalAddressConfig,
   I18nTestingModule,
+  LanguageService,
   Region,
   Title,
   UserAddressService,
@@ -70,6 +73,7 @@ const mockAddress: Address = {
   line2: 'line2',
   town: 'town',
   region: { isocode: 'JP-27' },
+  district: '',
   postalCode: 'zip',
   country: { isocode: 'JP' },
   phone: '123123123',
@@ -102,7 +106,24 @@ class MockUserAddressService {
   verifyAddress(): Observable<AddressValidation> {
     return of({});
   }
+  getCities(): Observable<{ isocode?: string; name?: string }[]> {
+    return of([]);
+  }
+  getDistricts(): Observable<{ isocode?: string; name?: string }[]> {
+    return of([]);
+  }
 }
+
+class MockLanguageService {
+  getActive() {
+    return of('en');
+  }
+}
+
+class MockFeatureConfigService {
+  isEnabled = jasmine.createSpy().and.returnValue(true);
+}
+
 const dialogClose$ = new BehaviorSubject<any>('');
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -152,6 +173,22 @@ describe('AddressFormComponent', () => {
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        {
+          provide: LanguageService,
+          useClass: MockLanguageService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+        {
+          provide: HierarchicalAddressConfig,
+          useValue: {
+            hierarchicalAddress: {
+              countriesUsingHierarchicalAddressFormat: ['CN'],
+            },
+          },
+        },
       ],
     })
       .overrideComponent(AddressFormComponent, {
@@ -361,6 +398,81 @@ describe('AddressFormComponent', () => {
     );
   });
 
+  it('should set isHierarchicalAddressFormat and add validators when CN is selected', () => {
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.countrySelected({ isocode: 'CN' });
+    expect(component.isHierarchicalAddressFormat).toBe(true);
+    expect(component.addressForm.get('cellphone')?.validator).toBeTruthy();
+    expect(component.addressForm.get('district')?.validator).toBeTruthy();
+  });
+
+  it('should clear validators and reset state when switching away from CN', () => {
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.countrySelected({ isocode: 'CN' });
+    component.countrySelected({ isocode: 'US' });
+    expect(component.isHierarchicalAddressFormat).toBe(false);
+    expect(component.addressForm.get('cellphone')?.validator).toBeNull();
+    expect(component.addressForm.get('district')?.validator).toBeNull();
+  });
+
+  it('should reset town and district when region changes for CN address', () => {
+    component.isHierarchicalAddressFormat = true;
+    component.addressForm.get('town')?.setValue('old-town');
+    component.addressForm.get('district')?.setValue('old-district');
+    component.regionSelected({ isocode: 'CN-11' });
+    expect(component.addressForm.get('town')?.value).toBeNull();
+    expect(component.addressForm.get('district')?.value).toBeNull();
+  });
+
+  it('should not reset town and district when region changes for non-CN address', () => {
+    component.isHierarchicalAddressFormat = false;
+    component.addressForm.get('town')?.setValue('old-town');
+    component.regionSelected({ isocode: 'US-CA' });
+    expect(component.addressForm.get('town')?.value).toEqual('old-town');
+  });
+
+  it('should update selectedCity$ and reset district on citySelected', () => {
+    component.addressForm.get('district')?.setValue('old-district');
+    component.citySelected({ isocode: 'CN-11-1', name: 'Beijing' });
+    expect(component.addressForm.get('district')?.value).toBeNull();
+  });
+
+  it('should not update selectedCity$ when city is undefined', () => {
+    component.addressForm.get('district')?.setValue('old-district');
+    component.citySelected(undefined);
+    expect(component.addressForm.get('district')?.value).toEqual(
+      'old-district'
+    );
+  });
+
+  it('should initialize cities as empty array', () => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    expect(component.cities).toEqual([]);
+  });
+
+  it('should initialize districts as empty array', () => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    expect(component.districts).toEqual([]);
+  });
+
+  it('should have empty cities when no region is selected', () => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    expect(component.cities).toEqual([]);
+  });
+
+  it('should have empty districts when no city is selected', () => {
+    spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+    component.ngOnInit();
+    expect(component.districts).toEqual([]);
+  });
+
   it('should call verifyAddress', () => {
     spyOn(component, 'verifyAddress').and.callThrough();
     const mockCountryIsocode = 'test country isocode';
@@ -479,5 +591,39 @@ describe('AddressFormComponent', () => {
     fixture.detectChanges();
 
     expect(defaultAddressCheckbox()).toBe(null);
+  });
+
+  describe('toggle off behavior', () => {
+    let featureConfigService: FeatureConfigService;
+
+    beforeEach(() => {
+      featureConfigService = TestBed.inject(FeatureConfigService);
+      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+    });
+
+    it('countrySelected should not set isHierarchicalAddressFormat', () => {
+      component.isHierarchicalAddressFormat = true;
+      component.countrySelected({ isocode: 'CN' });
+      expect(component.isHierarchicalAddressFormat).toBe(true);
+    });
+
+    it('verifyAddress should call OCC verifyAddress when toggle is off', () => {
+      spyOn(userAddressService, 'verifyAddress').and.returnValue(
+        of({ decision: 'ACCEPT' })
+      );
+      component.ngOnInit();
+      component.addressForm.setValue(mockAddress);
+      component.addressForm.markAsDirty();
+      component.verifyAddress();
+      expect(userAddressService.verifyAddress).toHaveBeenCalled();
+    });
+
+    it('countrySelected should not enter the hierarchical branch when toggle is off', () => {
+      // toggle is off, so isHierarchicalAddressFormat must stay at its current
+      // value even when CN is selected
+      component.isHierarchicalAddressFormat = false;
+      component.countrySelected({ isocode: 'CN' });
+      expect(component.isHierarchicalAddressFormat).toBe(false);
+    });
   });
 });

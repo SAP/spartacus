@@ -6,4 +6,4 @@
 
 export * from './connectors/index';
 export * from './services/index';
-export * from './order-document-flow-core.module.ts';
+export * from './order-document-flow-core.module';

@@ -215,14 +215,12 @@ export class ApplePayService {
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.opfQuickBuyTransactionService.handleCartGuestUser().pipe(
-      switchMap(() => this.opfQuickBuyTransactionService.getCurrentCartId()),
-      switchMap((cartId: string) => {
+      switchMap(() => {
         const verificationRequest: ApplePaySessionVerificationRequest = {
           validationUrl: event.validationURL,
           initiative: 'web',
           initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
-          cartId,
         };
         return this.verifyApplePaySession(verificationRequest);
       })

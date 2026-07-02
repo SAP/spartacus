@@ -6,6 +6,7 @@
 
 import { Location } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import {
   BehaviorSubject,
@@ -13,20 +14,27 @@ import {
   lastValueFrom,
   Observable,
 } from 'rxjs';
-import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  take,
+} from 'rxjs/operators';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
+import { AuthNotificationType } from '../models/auth-notification.model';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthMultisiteIsolationService } from '../services/auth-multisite-isolation.service';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
+import { AuthNotificationService } from './auth-notification.service';
 import { UserIdService } from './user-id.service';
 
 /**
@@ -60,8 +68,9 @@ export class AuthService {
     .getCsrfToken()
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-  private featureConfigService = inject(FeatureConfigService);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
+
+  protected authNotificationService = inject(AuthNotificationService);
 
   constructor(
     protected store: Store<StateWithClientAuth>,
@@ -71,7 +80,9 @@ export class AuthService {
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
     protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {}
+  ) {
+    this.subscribeToAuthNotifications();
+  }
 
   /**
    * Check params in url and if there is an code/token then try to login with those.
@@ -93,11 +104,7 @@ export class AuthService {
       if (loginResult.result && token && !isEmulated && !isUsingASMClient) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
-        if (
-          !this.featureConfigService.isEnabled(
-            'dispatchLoginActionOnlyWhenTokenReceived'
-          )
-        ) {
+        if (!this.featureToggles.dispatchLoginActionOnlyWhenTokenReceived) {
           // When the feature flag is disabled, dispatch the login action even when the token
           // is retrieved from storage (e.g., page refresh)
           this.store.dispatch(new AuthActions.Login());
@@ -107,11 +114,7 @@ export class AuthService {
         // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
         // In this case we need to dispatch the login action to indicate that the user has just logged in.
         if (loginResult.tokenReceived) {
-          if (
-            this.featureConfigService.isEnabled(
-              'dispatchLoginActionOnlyWhenTokenReceived'
-            )
-          ) {
+          if (this.featureToggles.dispatchLoginActionOnlyWhenTokenReceived) {
             this.store.dispatch(new AuthActions.Login());
           }
           this.authRedirectService.redirect();
@@ -196,6 +199,11 @@ export class AuthService {
   coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
+    if (this.featureToggles.propagateLogoutToAllTabs) {
+      this.authNotificationService.sendNotification(
+        AuthNotificationType.LOGOUT
+      );
+    }
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
@@ -236,6 +244,26 @@ export class AuthService {
     (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 
+  protected subscribeToAuthNotifications() {
+    if (this.featureToggles.propagateLogoutToAllTabs) {
+      this.authNotificationService.notifications$
+        .pipe(takeUntilDestroyed())
+        .subscribe((notification) => {
+          this.handleAuthNotification(notification);
+        });
+    }
+  }
+
+  /**
+   * Refreshes the CSRF token by making a request to the server.
+   * This is typically used to ensure that the client has a valid CSRF token for subsequent requests,
+   * especially after a user logs in or when the token is about to expire.
+   * @returns {Observable<string>} An observable that emits the refreshed CSRF token.
+   */
+  refreshCsrfToken() {
+    return this.crossSiteRequestForgeryService.getCsrfToken();
+  }
+
   /**
    * Indicates whether the ASM module is enabled.
    */
@@ -270,6 +298,25 @@ export class AuthService {
       return this.winRef.localStorage.getItem('asm_enabled') === 'true';
     } else {
       return false;
+    }
+  }
+
+  /**
+   * Handler for notifications from other browser tabs
+   */
+  protected handleAuthNotification(notification: AuthNotificationType) {
+    if (
+      notification === AuthNotificationType.LOGOUT &&
+      !(this.logoutInProgress$ as BehaviorSubject<boolean>).getValue()
+    ) {
+      this.isUserLoggedIn()
+        .pipe(
+          take(1),
+          filter((isLoggedIn) => isLoggedIn)
+        )
+        .subscribe(() => {
+          this.coreLogout();
+        });
     }
   }
 

@@ -60,6 +60,29 @@ $caretSize: 7px;
     }
   }
 
+  @include forFeature('a11ySiteContextCaretClick') {
+    .cx-select-wrapper {
+      display: flex;
+      align-items: center;
+
+      cx-icon {
+        margin-inline-start: -10px;
+        z-index: 1;
+        pointer-events: none;
+        color: var(--cx-color-text);
+      }
+
+      &:focus-within {
+        @include visible-focus();
+      }
+    }
+
+    select:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
   @include cx-highContrastTheme {
     select {
       color: var(--cx-color-text);

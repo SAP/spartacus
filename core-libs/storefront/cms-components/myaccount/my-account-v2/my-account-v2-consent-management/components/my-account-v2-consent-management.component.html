@@ -12,14 +12,14 @@
         </div>
         <div class="cx-consent-action-links">
           <button
-            tabindex="0"
+            [cxFocus]="{ key: 'clear-all' }"
             class="btn btn-link cx-action-link"
             (click)="rejectAll(templateList)"
           >
             {{ 'myAccountV2Consent.clearAll' | cxTranslate }}
           </button>
           <button
-            tabindex="0"
+            [cxFocus]="{ key: 'select-all' }"
             class="btn btn-link cx-action-link"
             (click)="allowAll(templateList)"
           >
