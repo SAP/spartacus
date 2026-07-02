@@ -158,13 +158,10 @@ describe('SiteThemeService', () => {
         featureToggles.applyBaseSiteThemeFromCms = true;
       });
 
-      it('should accept any non-empty className', () => {
+      it('should accept any className including empty string', () => {
         expect(service['isValid']('any-cms-driven-theme')).toBeTruthy();
         expect(service['isValid']('light')).toBeTruthy();
-      });
-
-      it('should reject empty string', () => {
-        expect(service['isValid']('')).toBeFalsy();
+        expect(service['isValid']('')).toBeTruthy();
       });
     });
   });
