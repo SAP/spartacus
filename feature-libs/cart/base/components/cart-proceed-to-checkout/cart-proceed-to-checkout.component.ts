@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -21,7 +21,7 @@ import {
   RouterLink,
 } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { FeatureToggles, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { FeatureDirective, FeatureToggles, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { ProgressButtonComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, of, Subscription, timer } from 'rxjs';
 import {
@@ -45,6 +45,8 @@ const PROCEED_TO_CHECKOUT_GATE_SAFETY_VALVE_MS = 10_000;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,
+    FeatureDirective,
+    NgIf,
     ProgressButtonComponent,
     RouterLink,
     TranslatePipe,
@@ -114,6 +116,10 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
 
   disableButtonWhileNavigation(): void {
     this.cartValidationInProgress = true;
+  }
+
+  protected isSlowNetworkResilienceEnabled(): boolean {
+    return !!this.featureToggles.enableCartSlowNetworkResilience;
   }
 
   ngOnDestroy(): void {

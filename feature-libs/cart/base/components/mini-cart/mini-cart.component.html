@@ -7,23 +7,35 @@
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 
-  <span
-    *ngIf="data.updating"
-    class="cx-mini-cart-updating"
-    role="status"
-    aria-live="polite"
-    [attr.aria-label]="'miniCart.updating' | cxTranslate"
-  >
-    <span class="loader-container" aria-hidden="true">
-      <span class="loader">{{ 'spinner.loading' | cxTranslate }}</span>
+  <ng-container *cxFeature="'enableCartSlowNetworkResilience'">
+    <span
+      *ngIf="data.updating"
+      class="cx-mini-cart-updating"
+      role="status"
+      aria-live="polite"
+      [attr.aria-label]="'miniCart.updating' | cxTranslate"
+    >
+      <span class="loader-container" aria-hidden="true">
+        <span class="loader">{{ 'spinner.loading' | cxTranslate }}</span>
+      </span>
     </span>
-  </span>
 
-  <span *ngIf="!data.updating" class="total">
-    {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
-  </span>
+    <span *ngIf="!data.updating" class="total">
+      {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
+    </span>
 
-  <span *ngIf="!data.updating" class="count">
-    {{ 'miniCart.count' | cxTranslate: { count: quantity$ | async } }}
-  </span>
+    <span *ngIf="!data.updating" class="count">
+      {{ 'miniCart.count' | cxTranslate: { count: quantity$ | async } }}
+    </span>
+  </ng-container>
+
+  <ng-container *ngIf="!isSlowNetworkResilienceEnabled()">
+    <span class="total">
+      {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
+    </span>
+
+    <span class="count">
+      {{ 'miniCart.count' | cxTranslate: { count: quantity$ | async } }}
+    </span>
+  </ng-container>
 </a>

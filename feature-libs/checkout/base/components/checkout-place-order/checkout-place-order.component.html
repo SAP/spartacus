@@ -33,19 +33,33 @@
     </label>
   </div>
 
-  <button
-    (click)="submitForm()"
-    class="btn btn-primary btn-block"
-    [disabled]="termsAndConditionInvalid || (isCartUpdating$ | async)"
-    [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
-  >
-    {{ 'checkoutReview.placeOrder' | cxTranslate }}
-  </button>
+  <ng-container *cxFeature="'enableCartSlowNetworkResilience'">
+    <button
+      (click)="submitForm()"
+      class="btn btn-primary btn-block"
+      [disabled]="termsAndConditionInvalid || (isCartUpdating$ | async)"
+      [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
+    >
+      {{ 'checkoutReview.placeOrder' | cxTranslate }}
+    </button>
+  </ng-container>
+  <ng-container *ngIf="!isSlowNetworkResilienceEnabled()">
+    <button
+      (click)="submitForm()"
+      class="btn btn-primary btn-block"
+      [disabled]="termsAndConditionInvalid"
+      [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
+    >
+      {{ 'checkoutReview.placeOrder' | cxTranslate }}
+    </button>
+  </ng-container>
 </form>
-<div
-  class="cx-place-order-cart-updating"
-  aria-live="polite"
-  [hidden]="!(isCartUpdating$ | async)"
->
-  {{ 'checkoutReview.cartUpdating' | cxTranslate }}
-</div>
+<ng-container *cxFeature="'enableCartSlowNetworkResilience'">
+  <div
+    class="cx-place-order-cart-updating"
+    aria-live="polite"
+    [hidden]="!(isCartUpdating$ | async)"
+  >
+    {{ 'checkoutReview.cartUpdating' | cxTranslate }}
+  </div>
+</ng-container>

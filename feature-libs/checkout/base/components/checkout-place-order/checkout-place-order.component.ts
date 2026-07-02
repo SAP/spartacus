@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,6 +25,7 @@ import { RouterLink } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
+  FeatureDirective,
   FeatureToggles,
   LanguageService,
   RoutingService,
@@ -63,6 +64,8 @@ const PLACE_ORDER_GATE_SAFETY_VALVE_MS = 10_000;
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     AtMessageDirective,
+    FeatureDirective,
+    NgIf,
     AsyncPipe,
     UrlPipe,
     TranslatePipe,

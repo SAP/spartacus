@@ -375,8 +375,8 @@ describe('CheckoutPlaceOrderComponent — enableCartSlowNetworkResilience OFF', 
     expect(
       fixture.debugElement.nativeElement.querySelector(
         '.cx-place-order-cart-updating'
-      ).hidden
-    ).toBeTrue();
+      )
+    ).toBeNull();
   });
 
   it('should place the order without consulting isStable() when toggle is OFF', () => {

@@ -1,15 +1,35 @@
-<cx-progress-button
-  (clickEvent)="disableButtonWhileNavigation()"
-  [class]="'btn btn-primary btn-block'"
-  [disabled]="cartValidationInProgress || (cartUpdating$ | async)"
-  [loading]="cartValidationInProgress || (cartUpdating$ | async)"
-  [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
-  tabindex="-1"
->
-  {{
-    (cartValidationInProgress || (cartUpdating$ | async)
-      ? 'validation.inProgress'
-      : 'cartDetails.proceedToCheckout'
-    ) | cxTranslate
-  }}
-</cx-progress-button>
+<ng-container *cxFeature="'enableCartSlowNetworkResilience'">
+  <cx-progress-button
+    (clickEvent)="disableButtonWhileNavigation()"
+    [class]="'btn btn-primary btn-block'"
+    [disabled]="cartValidationInProgress || (cartUpdating$ | async)"
+    [loading]="cartValidationInProgress || (cartUpdating$ | async)"
+    [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+    tabindex="-1"
+  >
+    {{
+      (cartValidationInProgress || (cartUpdating$ | async)
+        ? 'validation.inProgress'
+        : 'cartDetails.proceedToCheckout'
+      ) | cxTranslate
+    }}
+  </cx-progress-button>
+</ng-container>
+
+<ng-container *ngIf="!isSlowNetworkResilienceEnabled()">
+  <cx-progress-button
+    (clickEvent)="disableButtonWhileNavigation()"
+    [class]="'btn btn-primary btn-block'"
+    [disabled]="cartValidationInProgress"
+    [loading]="cartValidationInProgress"
+    [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+    tabindex="-1"
+  >
+    {{
+      (cartValidationInProgress
+        ? 'validation.inProgress'
+        : 'cartDetails.proceedToCheckout'
+      ) | cxTranslate
+    }}
+  </cx-progress-button>
+</ng-container>

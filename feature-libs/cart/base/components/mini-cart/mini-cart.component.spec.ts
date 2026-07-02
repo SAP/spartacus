@@ -11,6 +11,7 @@ import {
   UrlCommandRoute,
   UrlPipe,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -60,6 +61,7 @@ describe('MiniCartComponent', () => {
           provide: MiniCartComponentService,
           useValue: mockMiniCartComponentService,
         },
+        ...provideMockFeatureToggles({ enableCartSlowNetworkResilience: true }),
       ],
     })
       .overrideComponent(MiniCartComponent, {

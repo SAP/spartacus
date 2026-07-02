@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { FeatureDirective, RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   ORDER_TYPE,
   OrderFacade,
@@ -44,6 +44,8 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
     ReactiveFormsModule,
     RouterLink,
     AtMessageDirective,
+    FeatureDirective,
+    NgIf,
     AsyncPipe,
     UrlPipe,
     TranslatePipe,

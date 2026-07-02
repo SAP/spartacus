@@ -21,6 +21,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
+  FeatureDirective,
   FeatureToggles,
   RoutingService,
   TranslatePipe,
@@ -46,6 +47,7 @@ const CART_DETAILS_UPDATING_DEBOUNCE_MS = 250;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
+    FeatureDirective,
     CartValidationWarningsComponent,
     PromotionsComponent,
     CartItemListComponent,
