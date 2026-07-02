@@ -13,7 +13,5 @@ export function switchLanguage(lang: string) {
     ? '.navigation .SiteContext cx-site-context-selector:first-child'
     : '.header .SiteContext cx-site-context-selector:first-child';
 
-  cy.get(selector)
-    .find('select')
-    .select(lang, { force: true });
+  cy.get(selector).find('select').select(lang, { force: true });
 }
