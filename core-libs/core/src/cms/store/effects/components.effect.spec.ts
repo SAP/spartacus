@@ -208,7 +208,7 @@ describe('Component Effects', () => {
         ).toBeObservable(expected);
         expect(service.getList).toHaveBeenCalledTimes(2);
         // check all the arguments for which the method was called (reason: https://github.com/jasmine/jasmine/issues/228#issuecomment-270599719)
-        expect(getListSpy.calls.allArgs()).toEqual([
+        expect(getListSpy.mock.calls).toEqual([
           [['comp1'], pageContext1],
           [['comp2'], pageContext2],
         ]);

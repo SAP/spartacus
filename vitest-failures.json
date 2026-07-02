@@ -179,20 +179,24 @@
     "fileCount": 1,
     "filePaths": [
       "src/cms/store/effects/components.effect.spec.ts"
-    ]
+    ],
+    "candidateForFix":"src/cms/store/effects/components.effect.spec.ts"
   },
   {
     "errorType": "Test logic regression \u2014 marble timing mismatch",
     "fileCount": 1,
     "filePaths": [
       "src/product/store/effects/product-search-by-category.effect.spec.ts"
-    ]
+    ],
+    "candidateForFix":"src/product/store/effects/product-search-by-category.effect.spec.ts"
   },
   {
     "errorType": "Test logic regression \u2014 semantic-path transform results",
     "fileCount": 1,
     "filePaths": [
       "src/routing/configurable-routes/url-translation/semantic-path.service.spec.ts"
-    ]
-  }
+    ],
+    "candidateForFix":"src/routing/configurable-routes/url-translation/semantic-path.service.spec.ts"
+  },
+  
 ]

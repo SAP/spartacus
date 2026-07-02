@@ -45,7 +45,7 @@ describe('ProductSearchByCategoryEffects', () => {
 
     actions$ = hot('-a', { a: action });
     const response = cold('-a|', { a: { products: [{ code: '123' }] } });
-    productSearchConnector.searchByCategory.mockReturnValue(response);
+    vi.mocked(productSearchConnector.searchByCategory).mockReturnValueOnce(response);
 
     const expected = cold('---b', { b: completion });
 
@@ -83,10 +83,9 @@ describe('ProductSearchByCategoryEffects', () => {
       a: { products: [{ code: '789' }, { code: '101' }] },
     });
 
-    productSearchConnector.searchByCategory.mockReturnValueOnce(
-      response1,
-      response2
-    );
+    vi.mocked(productSearchConnector.searchByCategory)
+      .mockReturnValueOnce(response1)
+      .mockReturnValueOnce(response2);
 
     const expected = cold('---c-d', { c: completion1, d: completion2 });
 
@@ -109,7 +108,7 @@ describe('ProductSearchByCategoryEffects', () => {
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-#|', {}, error);
-    productSearchConnector.searchByCategory.mockReturnValue(response);
+    vi.mocked(productSearchConnector.searchByCategory).mockReturnValueOnce(response);
 
     const expected = cold('--b', { b: completion });
 
