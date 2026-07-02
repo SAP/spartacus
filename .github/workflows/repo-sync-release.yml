@@ -148,6 +148,6 @@ jobs:
             [[ -z "$BRANCH" ]] && continue
             echo "Dispatching repo-sync.yml for branch: ${BRANCH}"
             gh workflow run repo-sync.yml \
-              --ref "${BRANCH}" \
+              --ref develop \
               -f branch_to_sync="${BRANCH}"
           done <<< "$DRY_RUN_BRANCHES"
