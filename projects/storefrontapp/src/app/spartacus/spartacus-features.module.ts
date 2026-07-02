@@ -374,6 +374,7 @@ if (environment.cpq) {
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        applyBaseSiteThemeFromCms: true,
       };
       return appFeatureToggles;
     }),

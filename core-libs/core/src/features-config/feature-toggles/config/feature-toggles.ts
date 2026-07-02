@@ -676,6 +676,23 @@ export interface FeatureTogglesInterface {
    * This flag only takes effect when the flag `authorizationCodeFlowByDefault` is enabled.
    */
   asyncAuthConfigInitializer?: boolean;
+
+  /**
+   * When enabled, the storefront's active theme follows the `theme` field of
+   * the active base site (configured in SAP Commerce BackOffice). The theme
+   * is applied as a CSS class on the app's root element by `ThemeService`.
+   *
+   * Without this toggle, the CMS `theme` field is ignored whenever the
+   * storefront statically configures `context.baseSite` (the common case),
+   * because `SiteContextConfigInitializer` does not run in that scenario.
+   *
+   * Precedence: static `config.context.theme` wins, then a user-picked
+   * optional theme from the Theme Switcher (e.g. high-contrast), then the
+   * CMS `BaseSite.theme`.
+   *
+   * Affects: `SiteThemeInitializer`
+   */
+  applyBaseSiteThemeFromCms?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -757,4 +774,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  applyBaseSiteThemeFromCms: false,
 };
