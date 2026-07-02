@@ -6,6 +6,7 @@
   --cx-tab-btn-border: none;
   --cx-tab-btn-border-radius: none;
   --cx-tab-btn-font-size: 1.2rem;
+  --cx-tab-btn-padding-bottom: 13px;
   // Tab panel
   --cx-tab-panel-bg: var(--cx-color-background);
   --cx-tab-panel-padding: 50px 0;
@@ -18,11 +19,13 @@
 
   .tab-btn {
     order: 0;
+    position: relative;
     transition: all 0.6s;
     font-size: var(--cx-tab-btn-font-size);
     text-align: center;
     margin: 0;
     border: 0;
+    padding-bottom: var(--cx-tab-btn-padding-bottom);
 
     &:first-of-type {
       grid-column: 3;
@@ -48,7 +51,7 @@
 
     &.active:after,
     &:hover:not([disabled]):after {
-      width: 100%;
+      width: 95%;
     }
     &.active:after,
     &.active:hover:after {
@@ -62,10 +65,14 @@
     &:after {
       content: '';
       display: block;
-      margin-top: 15px;
-      margin-inline-end: auto;
-      margin-bottom: auto;
-      margin-inline-start: auto;
+      position: absolute;
+      bottom: 1px;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      margin-inline: auto;
+      border-radius: 0 0 var(--cx-tab-btn-border-radius)
+        var(--cx-tab-btn-border-radius);
+
       height: 5px;
       background: var(--cx-color-primary);
 
