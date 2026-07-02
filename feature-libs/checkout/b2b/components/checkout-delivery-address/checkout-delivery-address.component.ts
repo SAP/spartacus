@@ -28,7 +28,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   TranslatePipe,
   TranslationService,
@@ -64,7 +64,7 @@ export class B2BCheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
 
   protected isAccountPayment$: Observable<boolean> =
     this.checkoutPaymentTypeFacade
@@ -83,9 +83,7 @@ export class B2BCheckoutDeliveryAddressComponent
               .getCostCenterAddresses(costCenter.code)
               .pipe(
                 map((addresses) =>
-                  this.featureConfigService.isEnabled(
-                    'b2bCheckoutShippingAddressFilter'
-                  )
+                  this.featureToggles.b2bCheckoutShippingAddressFilter
                     ? addresses.filter((a) => a.shippingAddress === true)
                     : addresses
                 )

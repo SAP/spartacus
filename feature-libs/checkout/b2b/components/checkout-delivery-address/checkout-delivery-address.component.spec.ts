@@ -17,13 +17,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   FeatureDirective,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
@@ -72,10 +73,6 @@ class MockPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
 
 class MockUserCostCenterService implements Partial<UserCostCenterService> {
   getCostCenterAddresses = createSpy().and.returnValue(of(mockAddresses));
-}
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy().and.returnValue(false);
 }
 
 class MockCheckoutCostCenterService
@@ -175,7 +172,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let userCostCenterService: UserCostCenterService;
   let globalMessageService: GlobalMessageService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -210,10 +207,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
           provide: CheckoutFlowOrchestratorService,
           useClass: MockCheckoutFlowOrchestratorService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ b2bCheckoutShippingAddressFilter: false }),
       ],
     })
       .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
@@ -248,7 +242,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     userCostCenterService = TestBed.inject(UserCostCenterService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
   }));
 
   beforeEach(() => {
@@ -465,7 +459,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     it('for ACCOUNT payment, should filter to shipping addresses when b2bCheckoutShippingAddressFilter is enabled', (done) => {
       accountPayment$.next(true);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      featureToggles.b2bCheckoutShippingAddressFilter = true;
       userCostCenterService.getCostCenterAddresses =
         createSpy().and.returnValue(of(mockAddresses));
 
@@ -481,7 +475,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     it('for ACCOUNT payment, should return all addresses when b2bCheckoutShippingAddressFilter is disabled', (done) => {
       accountPayment$.next(true);
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      featureToggles.b2bCheckoutShippingAddressFilter = false;
       userCostCenterService.getCostCenterAddresses =
         createSpy().and.returnValue(of(mockAddresses));
 
