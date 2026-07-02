@@ -26,9 +26,8 @@ import {
   SortingComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
-import { AutoFocusService } from '../../../layout/a11y/keyboard-focus/autofocus';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponent } from './my-coupons.component';
@@ -375,52 +374,26 @@ describe('MyCouponsComponent', () => {
     fixture.detectChanges();
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CLAIM_DIALOG,
-      undefined,
+      component['host'],
       undefined,
       { coupon: 'testcode', pageSize: 10 }
     );
   });
 
-  describe('restoreFocus', () => {
-    let autoFocusService: AutoFocusService;
-    let dialogClose$: Subject<any>;
-
-    beforeEach(() => {
-      autoFocusService = TestBed.inject(AutoFocusService);
-      dialogClose$ = new Subject();
+  describe('focus restoration after dialog close', () => {
+    it('should pass the host element ref to openDialog so focus is restored on close', () => {
       spyOn(component, 'getHashStr').and.returnValue('#testcode');
-      spyOn(launchDialogService, 'openDialog').and.returnValue(dialogClose$);
-    });
-
-    it('should focus the first focusable child when the dialog closes', () => {
-      const focusableChild = document.createElement('button');
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
-        focusableChild
-      );
-      spyOn(focusableChild, 'focus');
+      spyOn(launchDialogService, 'openDialog').and.returnValue(EMPTY);
 
       component.ngOnInit();
       fixture.detectChanges();
-      dialogClose$.next('reason');
 
-      expect(autoFocusService.findFirstFocusable).toHaveBeenCalledWith(
-        component['host'].nativeElement
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.CLAIM_DIALOG,
+        component['host'],
+        undefined,
+        { coupon: 'testcode', pageSize: 10 }
       );
-      expect(focusableChild.focus).toHaveBeenCalled();
-    });
-
-    it('should temporarily set tabindex="-1" on the host when no focusable child exists', () => {
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
-      const host = component['host'].nativeElement;
-      spyOn(host, 'focus');
-
-      component.ngOnInit();
-      fixture.detectChanges();
-      dialogClose$.next('reason');
-
-      // tabindex must be cleaned up after focus
-      expect(host.hasAttribute('tabindex')).toBeFalsy();
-      expect(host.focus).toHaveBeenCalled();
     });
   });
 });

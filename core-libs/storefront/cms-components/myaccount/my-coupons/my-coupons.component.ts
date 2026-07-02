@@ -31,7 +31,6 @@ import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { CouponCardComponent } from './coupon-card/coupon-card.component';
 import { MyCouponsComponentService } from './my-coupons.component.service';
-import { AutoFocusService } from '../../../layout/a11y/keyboard-focus/autofocus';
 
 @Component({
   selector: 'cx-my-coupons',
@@ -96,7 +95,6 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   }>;
 
   protected launchDialogService = inject(LaunchDialogService);
-  protected autoFocusService = inject(AutoFocusService);
   protected host = inject(ElementRef<HTMLElement>);
 
   constructor(
@@ -152,16 +150,12 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
       if (couponCode !== undefined && couponCode.length > 0) {
         const dialog = this.launchDialogService.openDialog(
           LAUNCH_CALLER.CLAIM_DIALOG,
-          undefined,
+          this.host,
           undefined,
           { coupon: couponCode, pageSize: this.PAGE_SIZE }
         );
         if (dialog) {
-          this.subscriptions.add(
-            dialog.pipe(take(1)).subscribe(() => {
-              this.restoreFocus(this.host.nativeElement);
-            })
-          );
+          this.subscriptions.add(dialog.pipe(take(1)).subscribe());
         }
       }
     }
@@ -206,24 +200,6 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
       this.couponService.subscribeCustomerCoupon(couponId);
     } else {
       this.couponService.unsubscribeCustomerCoupon(couponId);
-    }
-  }
-
-  /**
-   * When the dialog is opened via a URL fragment (no trigger element), focus is lost
-   * after closing. We find the first focusable child and focus it manually.
-   * If none exists, a temporary `tabindex="-1"` is added to the host so it can
-   * receive programmatic focus without joining the tab order.
-   */
-  protected restoreFocus(element: HTMLElement): void {
-    const target = this.autoFocusService.findFirstFocusable(element) ?? element;
-    const hadTabindex = target.hasAttribute('tabindex');
-    if (!hadTabindex) {
-      target.setAttribute('tabindex', '-1');
-    }
-    target.focus();
-    if (!hadTabindex) {
-      target.removeAttribute('tabindex');
     }
   }
 
