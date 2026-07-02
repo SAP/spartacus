@@ -110,19 +110,7 @@ export class OpfQuickBuySingleProductTransactionService {
   setDeliveryAddress(address: Address): Observable<string> {
     return this.getCartContext().pipe(
       switchMap(({ userId, cartId }) =>
-        this.getCartConnector().pipe(
-          switchMap((connector) =>
-            connector
-              .createDeliveryAddress(userId, cartId, address)
-              .pipe(
-                switchMap((createdAddress) =>
-                  this.reloadCartAndWait(userId, cartId).pipe(
-                    map(() => createdAddress.id ?? '')
-                  )
-                )
-              )
-          )
-        )
+        this.createDeliveryAddressAndReload(userId, cartId, address)
       )
     );
   }
@@ -257,65 +245,129 @@ export class OpfQuickBuySingleProductTransactionService {
 
   createSingleProductCart(): Observable<Cart> {
     return this.getProductCodeFromRouting().pipe(
-      switchMap((productCode) => {
-        if (!productCode) {
-          return throwError(
-            () => new Error('Product code not found in routing')
-          );
-        }
+      switchMap((productCode) => this.createCartForProductCode(productCode))
+    );
+  }
 
-        return this.singleProductCartOptions
-          .getSingleProductCartOptions(productCode)
-          .pipe(
-            take(1),
-            switchMap(({ quantity, pickupStore }) =>
-              this.userIdService.takeUserId().pipe(
-                take(1),
-                switchMap((userId) =>
-                  this.multiCartFacade
-                    .createCart({
-                      userId,
-                      extraData: { active: false },
-                    })
-                    .pipe(
-                      // `createCart` initially replays the previously created
-                      // (NEW_CREATED) cart from the store. Skip it so we operate
-                      // on the freshly created cart instead of adding entries to
-                      // the previous quick buy cart.
-                      filter(
-                        (cart) =>
-                          getCartIdByUserId(cart, userId) !== this.cartId
-                      ),
-                      take(1),
-                      switchMap((cart) => {
-                        const cartId = getCartIdByUserId(cart, userId);
-                        this.userId = userId;
-                        this.cartId = cartId;
+  protected createDeliveryAddressAndReload(
+    userId: string,
+    cartId: string,
+    address: Address
+  ): Observable<string> {
+    return this.getCartConnector().pipe(
+      switchMap((connector) =>
+        connector.createDeliveryAddress(userId, cartId, address)
+      ),
+      switchMap((createdAddress) =>
+        this.mapReloadedCartToAddressId(userId, cartId, createdAddress)
+      )
+    );
+  }
 
-                        this.multiCartFacade.addEntry(
-                          userId,
-                          cartId,
-                          productCode,
-                          quantity,
-                          pickupStore
-                        );
+  protected mapReloadedCartToAddressId(
+    userId: string,
+    cartId: string,
+    createdAddress: Address
+  ): Observable<string> {
+    return this.reloadCartAndWait(userId, cartId).pipe(
+      map(() => createdAddress.id ?? '')
+    );
+  }
 
-                        return this.waitForStableCart(cartId).pipe(
-                          tap((stableCart) =>
-                            this.notifyIfQuantityReduced(
-                              stableCart,
-                              productCode,
-                              quantity
-                            )
-                          )
-                        );
-                      })
-                    )
-                )
-              )
-            )
-          );
+  protected createCartForProductCode(
+    productCode: string | undefined
+  ): Observable<Cart> {
+    if (!productCode) {
+      return throwError(() => new Error('Product code not found in routing'));
+    }
+
+    return this.singleProductCartOptions
+      .getSingleProductCartOptions(productCode)
+      .pipe(
+        take(1),
+        switchMap(({ quantity, pickupStore }) =>
+          this.createCartWithProductEntry(productCode, quantity, pickupStore)
+        )
+      );
+  }
+
+  protected createCartWithProductEntry(
+    productCode: string,
+    quantity: number,
+    pickupStore?: string
+  ): Observable<Cart> {
+    return this.userIdService.takeUserId().pipe(
+      take(1),
+      switchMap((userId) =>
+        this.initializeCartWithEntry(
+          userId,
+          productCode,
+          quantity,
+          pickupStore
+        )
+      )
+    );
+  }
+
+  protected initializeCartWithEntry(
+    userId: string,
+    productCode: string,
+    quantity: number,
+    pickupStore?: string
+  ): Observable<Cart> {
+    return this.multiCartFacade
+      .createCart({
+        userId,
+        extraData: { active: false },
       })
+      .pipe(
+        // `createCart` initially replays the previously created (NEW_CREATED)
+        // cart from the store. Skip it so we operate on the freshly created
+        // cart instead of adding entries to the previous quick buy cart.
+        filter((cart) => this.isNewlyCreatedSingleProductCart(cart, userId)),
+        take(1),
+        switchMap((cart) =>
+          this.addProductAndWaitForStableCart(
+            userId,
+            cart,
+            productCode,
+            quantity,
+            pickupStore
+          )
+        )
+      );
+  }
+
+  protected isNewlyCreatedSingleProductCart(
+    cart: Cart,
+    userId: string
+  ): boolean {
+    return getCartIdByUserId(cart, userId) !== this.cartId;
+  }
+
+  protected addProductAndWaitForStableCart(
+    userId: string,
+    cart: Cart,
+    productCode: string,
+    quantity: number,
+    pickupStore?: string
+  ): Observable<Cart> {
+    const cartId = getCartIdByUserId(cart, userId);
+    this.userId = userId;
+    this.cartId = cartId;
+
+    this.multiCartFacade.addEntry(
+      userId,
+      cartId,
+      productCode,
+      quantity,
+      pickupStore
+    );
+
+    return this.waitForStableCart(cartId).pipe(
+      tap((stableCart) =>
+        this.notifyIfQuantityReduced(stableCart, productCode, quantity)
+      )
     );
   }
 
