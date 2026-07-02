@@ -32,6 +32,9 @@ import { combineLatest, defer, Observable, of, throwError } from 'rxjs';
 import { filter, map, skip, switchMap, take, tap } from 'rxjs/operators';
 import { OpfQuickBuyCartConnector } from '../../connectors';
 
+const SINGLE_PRODUCT_CART_NOT_INITIALIZED_ERROR =
+  'Single product cart is not initialized';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -54,7 +57,7 @@ export class OpfQuickBuySingleProductTransactionService {
   getTransactionDeliveryType(): Observable<OpfQuickBuyDeliveryType> {
     if (!this.cartId) {
       return throwError(
-        () => new Error('Single product cart is not initialized')
+        () => new Error(SINGLE_PRODUCT_CART_NOT_INITIALIZED_ERROR)
       );
     }
 
@@ -82,7 +85,7 @@ export class OpfQuickBuySingleProductTransactionService {
   checkStableCart(): Observable<boolean> {
     if (!this.cartId) {
       return throwError(
-        () => new Error('Single product cart is not initialized')
+        () => new Error(SINGLE_PRODUCT_CART_NOT_INITIALIZED_ERROR)
       );
     }
 
@@ -150,7 +153,7 @@ export class OpfQuickBuySingleProductTransactionService {
   getCurrentCartId(): Observable<string> {
     if (!this.cartId) {
       return throwError(
-        () => new Error('Single product cart is not initialized')
+        () => new Error(SINGLE_PRODUCT_CART_NOT_INITIALIZED_ERROR)
       );
     }
 
@@ -323,7 +326,7 @@ export class OpfQuickBuySingleProductTransactionService {
   protected getCartContext(): Observable<{ userId: string; cartId: string }> {
     if (!this.userId || !this.cartId) {
       return throwError(
-        () => new Error('Single product cart is not initialized')
+        () => new Error(SINGLE_PRODUCT_CART_NOT_INITIALIZED_ERROR)
       );
     }
 
@@ -333,7 +336,7 @@ export class OpfQuickBuySingleProductTransactionService {
   protected getCart(): Observable<Cart> {
     if (!this.cartId) {
       return throwError(
-        () => new Error('Single product cart is not initialized')
+        () => new Error(SINGLE_PRODUCT_CART_NOT_INITIALIZED_ERROR)
       );
     }
 
