@@ -27,7 +27,7 @@ class MockTemplateComponent {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent1 extends MockTemplateComponent {}
+class MockTemplate1Component extends MockTemplateComponent {}
 
 @Component({
   template: `
@@ -38,7 +38,7 @@ class MockTemplateComponent1 extends MockTemplateComponent {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent2 extends MockTemplateComponent {}
+class MockTemplate2Component extends MockTemplateComponent {}
 
 @Component({
   template: `
@@ -51,7 +51,7 @@ class MockTemplateComponent2 extends MockTemplateComponent {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent3 extends MockTemplateComponent {}
+class MockTemplate3Component extends MockTemplateComponent {}
 
 @Component({
   template: `
@@ -62,7 +62,7 @@ class MockTemplateComponent3 extends MockTemplateComponent {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent4 extends MockTemplateComponent {}
+class MockTemplate4Component extends MockTemplateComponent {}
 
 @Component({
   template: `
@@ -75,7 +75,7 @@ class MockTemplateComponent4 extends MockTemplateComponent {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent5 extends MockTemplateComponent {}
+class MockTemplate5Component extends MockTemplateComponent {}
 
 const oldClass = 'ssr-template-cls';
 @Component({
@@ -90,7 +90,7 @@ const oldClass = 'ssr-template-cls';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplateDirective],
 })
-class MockTemplateComponent6 extends MockTemplateComponent {}
+class MockTemplate6Component extends MockTemplateComponent {}
 
 class MockDirectiveStateTransferService
   implements Partial<DirectiveStateTransferService>
@@ -139,12 +139,12 @@ describe('PageTemplateDirective', () => {
   type HostID = '#host1' | '#host2' | '#host3' | '#host4' | '#host5' | '#host6';
   function createHostComponent(id: HostID) {
     const componentMap: Record<HostID, Type<Component>> = {
-      '#host1': MockTemplateComponent1,
-      '#host2': MockTemplateComponent2,
-      '#host3': MockTemplateComponent3,
-      '#host4': MockTemplateComponent4,
-      '#host5': MockTemplateComponent5,
-      '#host6': MockTemplateComponent6,
+      '#host1': MockTemplate1Component,
+      '#host2': MockTemplate2Component,
+      '#host3': MockTemplate3Component,
+      '#host4': MockTemplate4Component,
+      '#host5': MockTemplate5Component,
+      '#host6': MockTemplate6Component,
     };
 
     fixture = TestBed.createComponent(componentMap[id]);
