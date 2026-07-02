@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
   COST_CENTERS_NORMALIZER,
-  FeatureConfigService,
+  FeatureToggles,
   OCC_HTTP_TOKEN,
 } from '@spartacus/core';
 
@@ -16,6 +16,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing';
 
 import createSpy = jasmine.createSpy;
 
@@ -33,16 +34,12 @@ class MockOccEndpointsService {
   );
 }
 
-class MockFeatureConfigService {
-  isEnabled = createSpy('isEnabled').and.returnValue(false);
-}
-
 describe('OccUserCostCenterAdapter', () => {
   let service: OccUserCostCenterAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
   let occEndpointsService: OccEndpointsService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,10 +49,7 @@ describe('OccUserCostCenterAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ b2bCheckoutShippingAddressFilter: false }),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -64,7 +58,7 @@ describe('OccUserCostCenterAdapter', () => {
     service = TestBed.inject(OccUserCostCenterAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 
@@ -94,7 +88,7 @@ describe('OccUserCostCenterAdapter', () => {
     });
 
     it('should include address fields when b2bCheckoutShippingAddressFilter is enabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      featureToggles.b2bCheckoutShippingAddressFilter = true;
 
       service.loadActiveList(userId).subscribe();
       httpMock
@@ -113,7 +107,7 @@ describe('OccUserCostCenterAdapter', () => {
     });
 
     it('should not include address fields when b2bCheckoutShippingAddressFilter is disabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      featureToggles.b2bCheckoutShippingAddressFilter = false;
 
       service.loadActiveList(userId).subscribe();
       httpMock
