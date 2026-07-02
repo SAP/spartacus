@@ -73,3 +73,40 @@ context('Site Theme', { testIsolation: false }, () => {
     });
   });
 });
+
+context('Site Theme - CMS theme', { testIsolation: false }, () => {
+  isolateTests();
+  before(() => {
+    siteTheme.interceptToSetBaseSiteTheme('lambda');
+    siteTheme.interceptToAddThemeCompnentWithoutBaseSiteIntercept();
+    cy.visit('/');
+    cy.wait('@modifiedRequest');
+  });
+
+  it('should apply CMS theme as default', () => {
+    cy.get('cx-site-theme-switcher select').then(($select) => {
+      const selectedOption = $select.find('option:selected');
+      cy.wrap(selectedOption).should(
+        'have.attr',
+        'aria-label',
+        'Default, 1 of 3'
+      );
+      cy.wrap(selectedOption).should('have.value', 'lambda');
+    });
+    cy.get('app-root').should('have.class', 'lambda');
+  });
+
+  it('should allow switching to optional theme over CMS default', () => {
+    cy.get('cx-site-theme-switcher select')
+      .select('HC-Dark')
+      .should('have.value', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
+  });
+
+  it('should restore CMS default theme when selecting Default', () => {
+    cy.get('cx-site-theme-switcher select')
+      .select('Default')
+      .should('have.value', 'lambda');
+    cy.get('app-root').should('have.class', 'lambda');
+  });
+});
