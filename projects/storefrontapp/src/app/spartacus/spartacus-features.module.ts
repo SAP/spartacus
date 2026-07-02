@@ -302,6 +302,7 @@ if (environment.cpq) {
         a11yStoreFinderLabel: true,
         a11yStoreFinderFocusOnBackButton: true,
         a11yB2BRegisterComponent: true,
+        a11yIncreaseContastGlobalMessageCloseButton: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
