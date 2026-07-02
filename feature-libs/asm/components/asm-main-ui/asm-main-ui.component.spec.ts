@@ -23,7 +23,6 @@ import {
 import {
   AuthService,
   CxDatePipe,
-  FeatureConfigService,
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
@@ -229,7 +228,6 @@ describe('AsmMainUiComponent', () => {
   let asmComponentService: AsmComponentService;
   let asmService: AsmService;
   let launchDialogService: LaunchDialogService;
-  let featureConfig: FeatureConfigService;
   let asmEnablerService: AsmEnablerService;
   let asmConfig: AsmConfig;
   const testCustomerId: string = 'test.customer@hybris.com';
@@ -296,7 +294,6 @@ describe('AsmMainUiComponent', () => {
     asmComponentService = TestBed.inject(AsmComponentService);
     asmService = TestBed.inject(AsmService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    featureConfig = TestBed.inject(FeatureConfigService);
     asmEnablerService = TestBed.inject(AsmEnablerService);
     featureModulesService = TestBed.inject(FeatureModulesService);
     asmConfig = TestBed.inject(AsmConfig);
@@ -632,8 +629,6 @@ describe('AsmMainUiComponent', () => {
       customerId: 'testuser',
     });
 
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
-
     component.ngOnInit();
     expect(asmComponentService.setEmulatedByDeepLink).toHaveBeenCalledWith(
       true
@@ -662,8 +657,6 @@ describe('AsmMainUiComponent', () => {
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue('newuser');
 
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
-
     component.ngOnInit();
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
   });
@@ -681,7 +674,6 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmComponentService, 'getSearchParameter').and.returnValue(
       testCustomerId
     );
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
     expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
@@ -699,7 +691,6 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
 
     component.ngOnInit();
     setTimeout(() => {
@@ -718,7 +709,6 @@ describe('AsmMainUiComponent', () => {
     });
 
     spyOn(asmComponentService, 'isEmulateInURL').and.returnValue(true);
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
     spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(true);
     component.ngOnInit();
     expect(routingService.go).toHaveBeenCalledWith('/');
@@ -732,7 +722,6 @@ describe('AsmMainUiComponent', () => {
     });
 
     spyOn(asmComponentService, 'isEmulateInURL').and.returnValue(false);
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
     spyOn(asmEnablerService, 'isEmulateInURL').and.returnValue(false);
     component.ngOnInit();
     expect(routingService.go).not.toHaveBeenCalledWith('/');

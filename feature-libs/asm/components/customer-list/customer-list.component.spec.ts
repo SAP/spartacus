@@ -18,7 +18,6 @@ import {
 } from '@spartacus/asm/root';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeatureModulesService,
   I18nTestingModule,
   MockDatePipe,
@@ -207,11 +206,8 @@ class MockBreakpointService {
   get breakpoint$(): Observable<BREAKPOINT> {
     return of(BREAKPOINT.md);
   }
-}
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
+  isDown(_breakpoint: BREAKPOINT): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -268,7 +264,6 @@ describe('CustomerListComponent', () => {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: AsmConfig, useClass: MockAsmConfig },
         {
           provide: AsmCustomerListFacade,
