@@ -19,7 +19,7 @@
 
   @include forFeature('a11yIncreaseContastGlobalMessageCloseButton') {
     .close {
-      color: var(--cx-color-danger);
+      opacity: 1;
     }
   }
 }
