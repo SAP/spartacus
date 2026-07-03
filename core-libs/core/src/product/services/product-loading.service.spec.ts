@@ -2,12 +2,7 @@ import { vi } from 'vitest';
 import { AbstractType } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
-import { select, Action, Store, StoreModule } from '@ngrx/store';
-
-vi.mock('@ngrx/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@ngrx/store')>();
-  return { ...actual, select: vi.fn() };
-});
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import {
   EMPTY,
@@ -91,10 +86,8 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
-      vi.mocked(select).mockReturnValue(
-        () => () => of(mockProduct)
-      );
-      const result: Product = await lastValueFrom(service.get(code, ['']));
+      store.dispatch(new ProductActions.LoadProductSuccess(mockProduct, ''));
+      const result: Product = await firstValueFrom(service.get(code, ['']));
       expect(result).toEqual(mockProduct);
     });
 

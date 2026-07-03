@@ -507,11 +507,11 @@ describe('AuthService', () => {
 
   describe('initLogout()', () => {
     it('should redirect url to logout page', () => {
-      vi.spyOn(routingService, 'go');
+      const routingGoSpy = vi.spyOn(routingService, 'go');
 
       service.logout();
 
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'logout' });
+      expect(routingGoSpy).toHaveBeenCalledWith({ cxRoute: 'logout' });
     });
   });
 
@@ -538,7 +538,7 @@ describe('AuthService', () => {
   describe('getCsrfToken()', () => {
     it('should return the cached csrfToken$ observable (shareReplay)', () => {
       const csrfService = TestBed.inject(CrossSiteRequestForgeryService);
-      spyOn(csrfService, 'getCsrfToken').and.callThrough();
+      const getCsrfTokenSpy = vi.spyOn(csrfService, 'getCsrfToken');
 
       const obs1 = service.getCsrfToken();
       const obs2 = service.getCsrfToken();
@@ -546,20 +546,20 @@ describe('AuthService', () => {
       // Both calls return the same shared observable reference (csrfToken$)
       expect(obs1).toBe(obs2);
       // The underlying service was only called once (at construction) — not again
-      expect(csrfService.getCsrfToken).not.toHaveBeenCalled();
+      expect(getCsrfTokenSpy).not.toHaveBeenCalled();
     });
   });
 
   describe('refreshCsrfToken()', () => {
     it('should call CrossSiteRequestForgeryService.getCsrfToken() directly, bypassing the cache', () => {
       const csrfService = TestBed.inject(CrossSiteRequestForgeryService);
-      spyOn(csrfService, 'getCsrfToken').and.callThrough();
+      const getCsrfTokenSpy = vi.spyOn(csrfService, 'getCsrfToken');
 
       service.refreshCsrfToken();
       service.refreshCsrfToken();
 
       // Each call hits the underlying service — no caching
-      expect(csrfService.getCsrfToken).toHaveBeenCalledTimes(2);
+      expect(getCsrfTokenSpy).toHaveBeenCalledTimes(2);
     });
 
     it('should return a fresh observable distinct from csrfToken$', () => {

@@ -28,6 +28,7 @@ describe('tryNormalizeHttpError', () => {
   });
 
   it('should return the original error when input is not HttpErrorModel or HttpErrorResponse', () => {
+    vi.mocked(isDevMode).mockReturnValue(true);
     const inputError = new Error('An error occurred');
 
     const result = tryNormalizeHttpError(inputError, mockLogger);

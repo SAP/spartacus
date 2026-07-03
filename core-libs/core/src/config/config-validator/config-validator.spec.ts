@@ -8,6 +8,10 @@ describe('config validator', () => {
     vi.spyOn(logger, 'warn');
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should not warn if there is no validators', () => {
     validateConfig({}, [], logger);
     expect(logger.warn).not.toHaveBeenCalled();

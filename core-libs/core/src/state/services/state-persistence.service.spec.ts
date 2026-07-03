@@ -54,6 +54,10 @@ describe('StatePersistenceService', () => {
     vi.spyOn(localStorageMock, 'setItem').mockImplementation(() => {});
   });
 
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
@@ -140,7 +144,7 @@ describe('StatePersistenceService', () => {
     });
 
     it('should restore state on provided context emission', () => {
-      vi.spyOn(localStorageMock, 'getItem').mockReturnValue('5');
+      const getItemSpy = vi.spyOn(localStorageMock, 'getItem').mockReturnValue('5');
 
       const state = new Subject<number>();
       const context = new Subject<string>();
@@ -163,7 +167,7 @@ describe('StatePersistenceService', () => {
         'spartacus⚿de⚿test'
       );
 
-      expect(localStorageMock.getItem).toHaveBeenCalledTimes(2);
+      expect(getItemSpy).toHaveBeenCalledTimes(2);
       expect(stateFromStorage).toEqual(5);
     });
   });

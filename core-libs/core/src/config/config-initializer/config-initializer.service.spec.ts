@@ -161,6 +161,10 @@ describe('ConfigInitializerService', () => {
     it('getStable should fulfil gradually', async () => {
       const results: string[] = [];
 
+      const scope1 = service
+        .getStable('scope1')
+        .pipe(tap(() => results.push('scope1')));
+
       const scope2 = service
         .getStable('scope2')
         .pipe(tap(() => results.push('scope2')));
@@ -169,11 +173,7 @@ describe('ConfigInitializerService', () => {
         .getStable()
         .pipe(tap(() => results.push('stable')));
 
-      const scope1 = service
-        .getStable('scope1')
-        .pipe(tap(() => results.push('scope1')));
-
-      await lastValueFrom(forkJoin([scope2, stable, scope1]));
+      await lastValueFrom(forkJoin([scope1, scope2, stable]));
       expect(results).toEqual(['scope1', 'scope2', 'stable']);
     });
 

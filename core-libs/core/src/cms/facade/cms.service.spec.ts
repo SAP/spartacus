@@ -1,11 +1,6 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import { select, Store, StoreModule } from '@ngrx/store';
-
-vi.mock('@ngrx/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@ngrx/store')>();
-  return { ...actual, select: vi.fn() };
-});
+import { Store, StoreModule } from '@ngrx/store';
 import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
@@ -106,13 +101,6 @@ describe('CmsService', () => {
             of(nextPageContext)
           );
 
-          const mockLoaderState: StateUtils.LoaderState<boolean> = {
-            success: false,
-            loading: false,
-            error: false,
-          };
-          vi.mocked(select).mockReturnValue(() => of(mockLoaderState));
-
           const uid = 'mockUid';
           service.getComponentData(uid).pipe(take(1)).subscribe().unsubscribe();
 
@@ -160,13 +148,6 @@ describe('CmsService', () => {
             of(nextPageContext)
           );
 
-          const mockLoaderState: StateUtils.LoaderState<boolean> = {
-            success: false,
-            loading: false,
-            error: false,
-          };
-          vi.mocked(select).mockReturnValue(() => of(mockLoaderState));
-
           const uid = 'mockUid';
           service
             .getComponentData(uid, specifiedPageContext)
@@ -189,16 +170,25 @@ describe('CmsService', () => {
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
     async (service: CmsService) => {
-      vi.mocked(select).mockReturnValue(
-        () => of(mockContentSlot)
-      );
+      const pageContext: PageContext = { id: 'test', type: PageType.CONTENT_PAGE };
+      const pageWithSlot: Page = {
+        pageId: 'test',
+        slots: { Section1: mockContentSlot },
+      };
+
       vi.spyOn(routingService, 'getPageContext').mockReturnValue(
-        of({ id: 'test' })
+        of(pageContext)
       );
 
-      let contentSlotReturned: ContentSlotData = await firstValueFrom(service.getContentSlot('Section1'));
+      store.dispatch(
+        new CmsActions.LoadCmsPageDataSuccess(pageContext, pageWithSlot)
+      );
 
-      expect(contentSlotReturned).toBe(mockContentSlot);
+      const contentSlotReturned: ContentSlotData = await firstValueFrom(
+        service.getContentSlot('Section1')
+      );
+
+      expect(contentSlotReturned).toEqual(mockContentSlot);
     }
   ));
 
@@ -206,19 +196,23 @@ describe('CmsService', () => {
     [CmsService],
     async (service: CmsService) => {
       const testUid = 'test_uid';
-      const mockNodeItem: NodeItem = {
-        testUid: {
-          uid: 'test',
-        },
+      const mockComponent = { uid: 'testUid', typeCode: 'CMSLinkComponent' };
+      const expectedNodeItem: NodeItem = {
+        [`${mockComponent.uid}_AbstractCMSComponent`]: mockComponent,
       };
-      const mockSelect = vi.fn().mockReturnValue(() =>
-        of(mockNodeItem)
+
+      store.dispatch(
+        new CmsActions.LoadCmsNavigationItemsSuccess({
+          nodeId: testUid,
+          components: [mockComponent],
+        })
       );
-      vi.mocked(select).mockReturnValue(() => of(mockNodeItem));
 
-      let result: NodeItem = await firstValueFrom(service.getNavigationEntryItems(testUid));
+      const result: NodeItem = await firstValueFrom(
+        service.getNavigationEntryItems(testUid)
+      );
 
-      expect(result).toEqual(mockNodeItem);
+      expect(result).toEqual(expectedNodeItem);
     }
   ));
 
@@ -359,12 +353,7 @@ describe('CmsService', () => {
     it('should dispatch a load action if the load was not attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = {};
-        const mockSelect = vi.fn().mockReturnValue(() =>
-          of(mockedEntity)
-        );
-        vi.mocked(select).mockReturnValue(mockSelect);
-
+        // Empty state — no load attempted
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
@@ -376,11 +365,10 @@ describe('CmsService', () => {
     it('should NOT dispatch a load action if the load was attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = { success: true };
-        const mockSelect = vi.fn().mockReturnValue(() =>
-          of(mockedEntity)
+        // Dispatch success first so load is marked as attempted
+        store.dispatch(
+          new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
         );
-        vi.mocked(select).mockReturnValue(mockSelect);
 
         service.hasPage(testPageContext).subscribe().unsubscribe();
 
@@ -394,12 +382,6 @@ describe('CmsService', () => {
       it('should dispatch a load action if the load was not attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: StateUtils.LoaderState<string> = {};
-          const mockSelect = vi.fn().mockReturnValue(() =>
-            of(mockedEntity)
-          );
-          vi.mocked(select).mockReturnValue(mockSelect);
-
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -411,13 +393,9 @@ describe('CmsService', () => {
       it('should dispatch a load action with if the load was attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: StateUtils.LoaderState<string> = {
-            success: true,
-          };
-          const mockSelect = vi.fn().mockReturnValue(() =>
-            of(mockedEntity)
+          store.dispatch(
+            new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
           );
-          vi.mocked(select).mockReturnValue(mockSelect);
 
           service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
@@ -430,45 +408,24 @@ describe('CmsService', () => {
 
     it('should return true if the load was successful', inject(
       [CmsService],
-      (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = {
-          success: true,
-          value: '',
-        };
-        const mockSelect = vi.fn().mockReturnValue(() =>
-          of(mockedEntity)
+      async (service: CmsService) => {
+        store.dispatch(
+          new CmsActions.LoadCmsPageDataSuccess(testPageContext, page)
         );
-        vi.mocked(select).mockReturnValue(mockSelect);
 
-        let result: boolean;
-        service
-          .hasPage(testPageContext)
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-
+        const result = await firstValueFrom(service.hasPage(testPageContext));
         expect(result).toEqual(true);
       }
     ));
 
     it('should return false if the there was an error', inject(
       [CmsService],
-      (service: CmsService) => {
-        const mockedEntity: StateUtils.LoaderState<string> = {
-          success: false,
-          error: true,
-          value: undefined,
-        };
-        const mockSelect = vi.fn().mockReturnValue(() =>
-          of(mockedEntity)
+      async (service: CmsService) => {
+        store.dispatch(
+          new CmsActions.LoadCmsPageDataFail(testPageContext, 'error')
         );
-        vi.mocked(select).mockReturnValue(mockSelect);
 
-        let result: boolean;
-        service
-          .hasPage(testPageContext)
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-
+        const result = await firstValueFrom(service.hasPage(testPageContext));
         expect(result).toEqual(false);
       }
     ));

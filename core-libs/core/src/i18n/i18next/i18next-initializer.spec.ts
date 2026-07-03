@@ -1,4 +1,4 @@
-import { vi, Mock } from 'vitest';
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import type { i18n, InitOptions } from 'i18next';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -66,7 +66,7 @@ describe('I18nextInitializer', () => {
       initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
-        expect.objectContaining({ fallbackLng: 'en' }),
+        expect.objectContaining({ fallbackLng: ['en'] }),
         expect.any(Function)
       );
     });
@@ -130,7 +130,7 @@ describe('I18nextInitializer', () => {
       initializer.initialize();
 
       expect(
-        (i18next.init as Mock)['calls'].argsFor(0)[0].resources
+        vi.mocked(i18next.init).mock.calls[0][0].resources
       ).toEqual(undefined);
     });
 

@@ -1,12 +1,7 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import { select, Store, StoreModule } from '@ngrx/store';
-
-vi.mock('@ngrx/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@ngrx/store')>();
-  return { ...actual, select: vi.fn() };
-});
-import { of } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 import { Product, ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
@@ -65,21 +60,22 @@ describe('ProductReferenceService', () => {
     );
   });
 
-  it('should be able to get product references', () => {
-    vi.mocked(select).mockReturnValue(
-      () => () => of(mockProductReferences)
+  it('should be able to get product references', async () => {
+    store.dispatch(
+      new ProductActions.LoadProductReferencesSuccess({
+        productCode: mockProduct.code,
+        list: mockProductReferences,
+      })
     );
 
-    let result: ProductReference[];
-    service
-      .getProductReferences(
+    const result = await firstValueFrom(
+      service.getProductReferences(
         mockProduct.code,
         mockProductReferences[0].referenceType
       )
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+    );
 
-    expect(result).toEqual(mockProductReferences);
+    expect(result).toEqual([mockProductReferences[0]]);
   });
 
   describe('cleanReferences', () => {

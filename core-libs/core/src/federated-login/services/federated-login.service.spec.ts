@@ -46,7 +46,7 @@ class MockFederatedLoginContextStorageService
   implements Partial<FederatedLoginContextStorageService>
 {
   read = vi.fn().mockReturnValue(undefined);
-  write = vi.fn().and.stub();
+  write = vi.fn();
 }
 
 function buildWindowRef(href: string): Partial<WindowRef> {

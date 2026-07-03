@@ -1,18 +1,12 @@
 import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import { select, MemoizedSelector, Store, StoreModule } from '@ngrx/store';
-
-vi.mock('@ngrx/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@ngrx/store')>();
-  return { ...actual, select: vi.fn() };
-});
-import { EMPTY, of } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { SearchConfig } from '../model/search-config';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 
 describe('ProductSearchService', () => {
@@ -22,20 +16,7 @@ describe('ProductSearchService', () => {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
-  const mockSelect = (
-    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
-  ) => {
-    switch (selector) {
-      case ProductSelectors.getSearchResults:
-        return () => of(mockSearchResults);
-      default:
-        return () => EMPTY;
-    }
-  };
-
   beforeEach(() => {
-    vi.mocked(select).mockReturnValue(mockSelect);
-
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -59,13 +40,10 @@ describe('ProductSearchService', () => {
     }
   ));
 
-  it('should be able to get search results', () => {
-    let tempSearchResult: ProductSearchPage;
-    service
-      .getResults()
-      .subscribe((result) => (tempSearchResult = result))
-      .unsubscribe();
-    expect(tempSearchResult).toEqual(mockSearchResults);
+  it('should be able to get search results', async () => {
+    store.dispatch(new ProductActions.SearchProductsSuccess(mockSearchResults));
+    const result = await firstValueFrom(service.getResults());
+    expect(result).toEqual(mockSearchResults);
   });
 
   it('should be able to clear search results', () => {

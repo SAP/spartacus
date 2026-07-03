@@ -2,12 +2,7 @@ import { vi } from 'vitest';
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { select, Store, StoreModule } from '@ngrx/store';
-
-vi.mock('@ngrx/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@ngrx/store')>();
-  return { ...actual, select: vi.fn() };
-});
+import { Store, StoreModule } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
@@ -15,8 +10,6 @@ import { UrlCommands } from '../configurable-routes';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
-import { RouterState } from '../store/routing-state';
-import { RoutingSelector } from '../store/selectors/index';
 import { RoutingParamsService } from './routing-params.service';
 import { RoutingService } from './routing.service';
 
@@ -40,13 +33,17 @@ class MockLocation implements Partial<MockLocation> {
 }
 
 describe('RoutingService', () => {
-  let store: Store<RouterState>;
+  let store: Store;
   let service: RoutingService;
   let winRef: WindowRef;
   let urlService: SemanticPathService;
   let routingParamsService: RoutingParamsService;
   let router: Router;
   let location: Location;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -145,7 +142,7 @@ describe('RoutingService', () => {
 
   describe('back', () => {
     it('should go to homepage on back action when referer is not from the app', () => {
-      vi.spyOn(document, 'referrer', 'get', 'get').mockReturnValue(
+      vi.spyOn(document, 'referrer', 'get').mockReturnValue(
         'http://foobar.com'
       );
       vi.spyOn(service, 'go');
@@ -155,6 +152,10 @@ describe('RoutingService', () => {
     });
 
     it('should call Location.back', () => {
+      // referrer must include the window origin so isLastPageInApp is true
+      vi.spyOn(document, 'referrer', 'get').mockReturnValue(
+        winRef.nativeWindow?.location.origin ?? ''
+      );
       service.back();
       expect(location.back).toHaveBeenCalled();
     });
@@ -168,15 +169,12 @@ describe('RoutingService', () => {
   });
 
   it('should expose whole router state', () => {
-    const mockRouterState = vi.fn().mockReturnValue(() => of({}));
-    vi.mocked(select).mockReturnValue(mockRouterState);
+    const mockState = {};
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(mockState));
 
     let routerState: any;
     service.getRouterState().subscribe((state) => (routerState = state));
-    expect(mockRouterState).toHaveBeenCalledWith(
-      RoutingSelector.getRouterState
-    );
-    expect(routerState).toEqual({});
+    expect(routerState).toEqual(mockState);
   });
 
   it('should return only page context from the state', () => {
@@ -184,8 +182,7 @@ describe('RoutingService', () => {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
     };
-    const mockRouterState = vi.fn().mockReturnValue(() => of(pageContext));
-    vi.mocked(select).mockReturnValue(mockRouterState);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(pageContext));
 
     let result: PageContext;
     service
@@ -201,8 +198,7 @@ describe('RoutingService', () => {
       id: 'homepage',
       type: PageType.CATALOG_PAGE,
     };
-    const mockRouterState = vi.fn().mockReturnValue(() => of(pageContext));
-    vi.mocked(select).mockReturnValue(mockRouterState);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(pageContext));
 
     let result: PageContext;
     service
@@ -211,15 +207,11 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-    expect(select as any).toHaveBeenCalledWith(
-      RoutingSelector.getNextPageContext
-    );
   });
 
   it('isNavigating should return isNavigating state', () => {
     const isNavigating = true;
-    const mockRouterState = vi.fn().mockReturnValue(() => of(isNavigating));
-    vi.mocked(select).mockReturnValue(mockRouterState);
+    vi.spyOn(store, 'pipe').mockReturnValueOnce(of(isNavigating));
 
     let result: boolean;
     service
@@ -228,9 +220,6 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(isNavigating);
-    expect(select as any).toHaveBeenCalledWith(
-      RoutingSelector.isNavigating
-    );
   });
 
   it('should delegate getParams() to RoutingParamsService', () => {

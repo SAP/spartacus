@@ -1,6 +1,6 @@
 [
   {
-    "errorType": "ESM not configurable \u2014 vi.spyOn on @ngrx/store select",
+    "errorType": "ESM not configurable — vi.spyOn on @ngrx/store select",
     "fileCount": 15,
     "filePaths": [
       "src/cms/facade/cms.service.spec.ts",
@@ -19,10 +19,15 @@
       "src/site-context/facade/language.service.spec.ts",
       "src/site-theme/facade/site-theme.service.spec.ts"
     ],
-    "candidateForFix":"src/product/facade/product-review.service.spec.ts"
+    "candidateForFix": "src/product/facade/product-review.service.spec.ts",
+    "resolved": [
+      "src/site-context/facade/language.service.spec.ts"
+    ],
+    "symptom": "TypeError: Unable to lift unknown Observable type — ngrx Store is an Observable subclass; store.pipe(select(...)) calls RxJS lift() internally which requires a proper OperatorFunction. A plain arrow function returned by the select mock does not satisfy this contract.",
+    "fix": "Drop vi.mock(\"@ngrx/store\") and the select mock entirely. Instead spy at the store level: `vi.spyOn(store, \"pipe\").mockReturnValueOnce(of(value))`. This bypasses the operator lifting problem and avoids the ESM non-configurability of @ngrx/store."
   },
   {
-    "errorType": "spyOn is not defined \u2014 residual untransformed spyOn",
+    "errorType": "spyOn is not defined — residual untransformed spyOn",
     "fileCount": 7,
     "filePaths": [
       "src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.spec.ts",
@@ -33,10 +38,10 @@
       "src/site-context/services/language-initializer.spec.ts",
       "src/site-theme/services/site-theme-initializer.spec.ts"
     ],
-    "candidateForFix":"src/product/facade/product-review.service.spec.ts"
+    "candidateForFix": "src/product/facade/product-review.service.spec.ts"
   },
   {
-    "errorType": "ProxyZone not found \u2014 fakeAsync still in use",
+    "errorType": "ProxyZone not found — fakeAsync still in use",
     "fileCount": 5,
     "filePaths": [
       "src/config/utils/deep-merge.spec.ts",
@@ -45,44 +50,53 @@
       "src/lazy-loading/facade-factory/facade-factory.service.spec.ts",
       "src/product/facade/product-search-by-code.service.spec.ts"
     ],
-    "candidateForFix":"src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.spec.ts"
+    "candidateForFix": "src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.spec.ts"
   },
   {
-    "errorType": "ESM not configurable \u2014 vi.spyOn on isDevMode",
+    "errorType": "ESM not configurable — vi.spyOn on isDevMode",
     "fileCount": 3,
     "filePaths": [
       "src/cms/facade/page-meta.service.spec.ts",
       "src/i18n/i18next/i18next-translation.service.spec.ts",
       "src/util/try-normalize-http-error.spec.ts"
     ],
-    "candidateForFix":"src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.spec.ts"
+    "candidateForFix": "src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.spec.ts"
   },
   {
-    "errorType": "Jasmine residual \u2014 .calls.argsFor()",
-    "fileCount": 2,
+    "errorType": "Jasmine residual — .calls.argsFor()",
+    "fileCount": 1,
     "filePaths": [
-      "src/i18n/i18next/i18next-initializer.spec.ts",
+      "src/i18n/i18next/i18next-initializer.spec.ts"
+    ],
+    "resolved": [
       "src/state/event/state-event.service.spec.ts"
-    ]
+    ],
+    "fix": "Replace `spy[\"calls\"].argsFor(n)[i]` with `vi.mocked(spy).mock.calls[n][i]`. Jasmine `.calls.argsFor(n)` returns the arguments of the nth call; the Vitest equivalent is `.mock.calls[n]` (zero-indexed array of argument arrays)."
   },
   {
-    "errorType": "Jasmine residual \u2014 throwError/reset on spy",
-    "fileCount": 2,
+    "errorType": "Jasmine residual — throwError/reset on spy",
+    "fileCount": 1,
     "filePaths": [
-      "src/auth/user-auth/services/auth-redirect.service.spec.ts",
+      "src/auth/user-auth/services/auth-redirect.service.spec.ts"
+    ],
+    "resolved": [
       "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
-    ]
+    ],
+    "fix": "Replace `.and.throwError(msg)` with `mockImplementationOnce(function() { throw new Error(msg); } as any)`. Must use `function` keyword not arrow function — the stub is called with `new` so arrow functions are not valid constructors."
   },
   {
-    "errorType": "mock.lastCall undefined \u2014 spy never called",
-    "fileCount": 2,
+    "errorType": "mock.lastCall undefined — spy never called",
+    "fileCount": 1,
     "filePaths": [
-      "src/auth/user-auth/facade/auth-notification.service.spec.ts",
+      "src/auth/user-auth/facade/auth-notification.service.spec.ts"
+    ],
+    "resolved": [
       "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
-    ]
+    ],
+    "fix": "Same root cause as 'BroadcastChannel API mocks not set up correctly'. Once vi.stubGlobal is in place, replace `.mock.lastCall[1]` with `vi.mocked(spy).mock.calls[0][1]`."
   },
   {
-    "errorType": "TypeScript parse error \u2014 semicolon expected",
+    "errorType": "TypeScript parse error — semicolon expected",
     "fileCount": 2,
     "filePaths": [
       "src/auth/user-auth/services/auth-http-header.service.spec.ts",
@@ -98,28 +112,28 @@
     ]
   },
   {
-    "errorType": "Test logic regression \u2014 config-initializer scope ordering",
+    "errorType": "Test logic regression — config-initializer scope ordering",
     "fileCount": 1,
     "filePaths": [
       "src/config/config-initializer/config-initializer.service.spec.ts"
     ]
   },
   {
-    "errorType": "Test logic regression \u2014 config-validator call count",
+    "errorType": "Test logic regression — config-validator call count",
     "fileCount": 1,
     "filePaths": [
       "src/config/config-validator/config-validator.spec.ts"
     ]
   },
   {
-    "errorType": "Jasmine residual \u2014 .stub() not converted",
+    "errorType": "Jasmine residual — .stub() not converted",
     "fileCount": 1,
     "filePaths": [
       "src/federated-login/services/federated-login.service.spec.ts"
     ]
   },
   {
-    "errorType": "i18next config shape mismatch \u2014 fallbackLng array vs string",
+    "errorType": "i18next config shape mismatch — fallbackLng array vs string",
     "fileCount": 1,
     "filePaths": [
       "src/i18n/i18next/i18next-initializer.spec.ts"
@@ -133,28 +147,28 @@
     ]
   },
   {
-    "errorType": "Test logic regression \u2014 product-page-meta resolver",
+    "errorType": "Test logic regression — product-page-meta resolver",
     "fileCount": 1,
     "filePaths": [
       "src/product/services/product-page-meta.resolver.spec.ts"
     ]
   },
   {
-    "errorType": "Test logic regression \u2014 configurable-routes ordering",
+    "errorType": "Test logic regression — configurable-routes ordering",
     "fileCount": 1,
     "filePaths": [
       "src/routing/configurable-routes/configurable-routes.service.spec.ts"
     ]
   },
   {
-    "errorType": "Test logic regression \u2014 routing.service spy not called",
+    "errorType": "Test logic regression — routing.service spy not called",
     "fileCount": 1,
     "filePaths": [
       "src/routing/facade/routing.service.spec.ts"
     ]
   },
   {
-    "errorType": "Test logic regression \u2014 state-persistence call count mismatch",
+    "errorType": "Test logic regression — state-persistence call count mismatch",
     "fileCount": 1,
     "filePaths": [
       "src/state/services/state-persistence.service.spec.ts"
@@ -165,38 +179,53 @@
     "fileCount": 1,
     "filePaths": [
       "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
-    ]
+    ],
+    "resolved": [
+      "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts",
+      "src/auth/user-auth/facade/auth-notification.service.spec.ts"
+    ],
+    "fix": "`vi.spyOn(window, \"BroadcastChannel\")` does not intercept bare `new BroadcastChannel()` in Angular services. Use `vi.stubGlobal(\"BroadcastChannel\", vi.fn().mockImplementation(function() { return mockChannel; }))`. Arrow functions cannot be used as constructors. Add `afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); })` to prevent leaking. Assert on bare `BroadcastChannel`, not `window.BroadcastChannel`."
   },
   {
-    "errorType": "Test logic regression \u2014 oauth-lib-wrapper configure args mismatch",
+    "errorType": "Test logic regression — oauth-lib-wrapper configure args mismatch",
     "fileCount": 1,
     "filePaths": [
       "src/auth/user-auth/services/oauth-lib-wrapper.service.spec.ts"
     ]
   },
   {
-    "errorType": "Jasmine residual \u2014 .calls.allArgs()",
+    "errorType": "Jasmine residual — .calls.allArgs()",
     "fileCount": 1,
     "filePaths": [
       "src/cms/store/effects/components.effect.spec.ts"
     ],
-    "candidateForFix":"src/cms/store/effects/components.effect.spec.ts"
+    "candidateForFix": "src/cms/store/effects/components.effect.spec.ts"
   },
   {
-    "errorType": "Test logic regression \u2014 marble timing mismatch",
+    "errorType": "Test logic regression — marble timing mismatch",
     "fileCount": 1,
     "filePaths": [
       "src/product/store/effects/product-search-by-category.effect.spec.ts"
     ],
-    "candidateForFix":"src/product/store/effects/product-search-by-category.effect.spec.ts"
+    "candidateForFix": "src/product/store/effects/product-search-by-category.effect.spec.ts"
   },
   {
-    "errorType": "Test logic regression \u2014 semantic-path transform results",
+    "errorType": "Test logic regression — semantic-path transform results",
     "fileCount": 1,
     "filePaths": [
       "src/routing/configurable-routes/url-translation/semantic-path.service.spec.ts"
     ],
-    "candidateForFix":"src/routing/configurable-routes/url-translation/semantic-path.service.spec.ts"
+    "candidateForFix": "src/routing/configurable-routes/url-translation/semantic-path.service.spec.ts"
   },
-  
+  {
+    "errorType": "EnvironmentInjector.destroy() clashes with TestBed teardown",
+    "fileCount": 1,
+    "filePaths": [
+      "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
+    ],
+    "resolved": [
+      "src/util/browser-tab-notification/abstract-browser-tab-notification.service.spec.ts"
+    ],
+    "fix": "Calling `TestBed.inject(EnvironmentInjector).destroy()` destroys the root injector that TestBed also destroys in afterEach, causing NG0205. Fix: create an independent child with `createEnvironmentInjector([ServiceClass], TestBed.inject(EnvironmentInjector))` and destroy that. The child injector is owned by the test so its destruction does not conflict with TestBed cleanup."
+  }
 ]

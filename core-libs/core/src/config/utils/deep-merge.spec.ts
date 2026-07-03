@@ -1,4 +1,3 @@
-import { waitForAsync } from '@angular/core/testing';
 import { deepMerge } from './deep-merge';
 
 describe('deepMerge utility', () => {
@@ -122,7 +121,7 @@ describe('deepMerge utility', () => {
   });
 
   describe('protptype pollution gurads', () => {
-    it('should avoid property injection', waitForAsync(async () => {
+    it('should avoid property injection', async () => {
       // arrange
       class TestContainer {
         constructor(public name: string) {}
@@ -151,9 +150,9 @@ describe('deepMerge utility', () => {
       expect('radioactiveWaste' in baseObject).toBe(false);
       expect('radioactiveWaste' in untouchedObject).toBe(false);
       expect('radioactiveWaste' in actual).toBe(false);
-    }));
+    });
 
-    it('should avoid denial of service', waitForAsync(async () => {
+    it('should avoid denial of service', async () => {
       class TestContainer {
         constructor(public name: string) {}
 
@@ -179,6 +178,6 @@ describe('deepMerge utility', () => {
       expect(typeof baseObject.toString).toBe('function');
       expect(typeof untouchedObject.toString).toBe('function');
       expect(typeof actual.toString).toBe('function');
-    }));
+    });
   });
 });

@@ -15,16 +15,13 @@ import { Command, CommandService, CommandStrategy } from './command.service';
 
 /** Utility function to create a full observer filled with spies */
 function createObserverSpy<T>(
-  name: string
+  _name: string
 ): PartialObserver<T> {
-  const mockObserver = { } => {},
-    error: () => {},
-    complete: () => {},
-  });
-  // use default method
-  mockObserver.next;
-  mockObserver.error;
-  mockObserver.complete;
+  const mockObserver = {
+    next: vi.fn(),
+    error: vi.fn(),
+    complete: vi.fn(),
+  };
 
   return mockObserver;
 }
@@ -81,13 +78,12 @@ describe('CommandService', () => {
     >;
 
     beforeEach(() => {
-      commandFactory = vi.fn() => cmd);
-      commandFactory;
+      commandFactory = vi.fn((cmd) => cmd);
 
       faultyCommandFactoryControl = { shouldThrowError: true };
       mockRuntimeError = new Error('mock runtime error');
       mockRuntimeError.stack = undefined; // stack trace not relevant on a static error value
-      faultyCommandFactory = vi.fn() => {
+      faultyCommandFactory = vi.fn((cmd) => {
           if (faultyCommandFactoryControl.shouldThrowError) {
             throw mockRuntimeError;
           } else {

@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import { APP_INITIALIZER } from '@angular/core';
-import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { of, Subject } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { I18nConfig } from '../config/i18n-config';
@@ -38,7 +38,7 @@ describe('i18nextProviders', () => {
     });
   });
   describe('APP_INITIALIZER', () => {
-    it('should initialize `i18next` ONLY after the `i18n` config is stable', fakeAsync(() => {
+    it('should initialize `i18next` ONLY after the `i18n` config is stable', async () => {
       const configInitializerService = TestBed.inject(ConfigInitializerService);
       const i18nextInitializer = TestBed.inject(I18nextInitializer);
 
@@ -57,11 +57,11 @@ describe('i18nextProviders', () => {
       mockStableConfig$.next({ i18n: {} });
       mockStableConfig$.complete();
 
-      flushMicrotasks();
+      await new Promise(resolve => setTimeout(resolve, 0));
       expect(i18nextInitializer.initialize).toHaveBeenCalled();
-    }));
+    });
 
-    it('should resolve its promise only after `i18next` is initialized', fakeAsync(() => {
+    it('should resolve its promise only after `i18next` is initialized', async () => {
       const configInitializerService = TestBed.inject(ConfigInitializerService);
       const i18nextInitializer = TestBed.inject(I18nextInitializer);
       const appInitializers = TestBed.inject(APP_INITIALIZER);
@@ -81,8 +81,8 @@ describe('i18nextProviders', () => {
 
       expect(appInitializerResolved).toBe(false);
       mockResolveI18nextInitialize?.();
-      flushMicrotasks();
+      await new Promise(resolve => setTimeout(resolve, 0));
       expect(appInitializerResolved).toBe(true);
-    }));
+    });
   });
 });

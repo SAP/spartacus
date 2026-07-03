@@ -149,6 +149,10 @@ describe('OAuthLibWrapperService', () => {
   let federatedLoginService: MockFederatedLoginService;
   let configInitializerService: MockConfigInitializerService;
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -212,12 +216,12 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should use current location as a redirectUrl when not explicitly set in browser', () => {
-      vi.spyOn(oAuthService, 'configure');
+      const configureSpy = vi.spyOn(oAuthService, 'configure');
       vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
 
       service = TestBed.inject(OAuthLibWrapperService);
 
-      expect(oAuthService.configure).toHaveBeenCalledWith(
+      expect(configureSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           redirectUri: winRef.nativeWindow?.location.origin,
           issuer: 'base',
@@ -318,12 +322,12 @@ describe('OAuthLibWrapperService', () => {
         });
 
         it('should use origin as base href for redirectUri', () => {
-          vi.spyOn(oAuthService, 'configure');
+          const configureSpy = vi.spyOn(oAuthService, 'configure');
           vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
 
           service = TestBed.inject(OAuthLibWrapperService);
 
-          expect(oAuthService.configure).toHaveBeenCalledWith(
+          expect(configureSpy).toHaveBeenCalledWith(
             expect.objectContaining({
               redirectUri: originatingDomain,
             })
@@ -335,7 +339,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('authorizeWithPasswordFlow()', () => {
     it('should call fetchTokenUsingPasswordFlow method from the lib', async () => {
-      vi.spyOn(oAuthService, 'fetchTokenUsingPasswordFlow');
+      const fetchTokenUsingPasswordFlowSpy = vi.spyOn(oAuthService, 'fetchTokenUsingPasswordFlow');
       service = TestBed.inject(OAuthLibWrapperService);
 
       const result = await service.authorizeWithPasswordFlow(
@@ -344,7 +348,7 @@ describe('OAuthLibWrapperService', () => {
       );
 
       expect(result).toEqual({ state: 'done' } as TokenResponse);
-      expect(oAuthService.fetchTokenUsingPasswordFlow).toHaveBeenCalledWith(
+      expect(fetchTokenUsingPasswordFlowSpy).toHaveBeenCalledWith(
         'username',
         'pass'
       );
@@ -678,7 +682,7 @@ describe('OAuthLibWrapperService', () => {
 
       try {
         await service.tryLogin();
-        fail('Expected tryLogin() to throw');
+        throw new Error('Expected tryLogin() to throw');
       } catch (err) {
         expect(err).toEqual(error);
       }
