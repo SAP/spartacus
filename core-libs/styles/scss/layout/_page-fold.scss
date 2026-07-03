@@ -23,10 +23,8 @@ cx-page-layout {
     min-height: initial;
     margin-top: initial;
 
-    @include forFeature('disableCxPageSlotMarginAnimation') {
-      transition: none;
-      transition-delay: 0s;
-    }
+    transition: none;
+    transition-delay: 0s;
 
     &.cx-pending {
       // we need a minimum height for pending items, as the slot would
