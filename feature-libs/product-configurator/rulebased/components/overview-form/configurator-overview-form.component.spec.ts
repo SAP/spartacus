@@ -494,6 +494,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
 
     it("should contain action span element with class name 'cx-visually-hidden' within a H2 section, that hides span element content on the UI", () => {
+      initialize();
       const h2s = htmlElem.querySelectorAll('h2');
       expectSpan(
         h2s[0] as HTMLElement,
