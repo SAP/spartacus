@@ -118,15 +118,16 @@ export class LoginFormComponentService {
             tap(([csrfToken, userId]) => {
               this.csrfStateService.set(csrfToken);
               this.form.get('csrf')?.setValue(csrfToken.token);
-              if (this.featureToggles.siteIsolationForCustomLoginPage) {
-                this.form.get('userId')?.setValue(userId);
-              }
               this.setOauthRedirectFlowFlag();
               // Submit BEFORE flipping busy$ to true. busy$=true triggers
               // form.disable(), which sets disabled=true on every bound input,
               // and the browser excludes disabled inputs from native form
               // submissions — resulting in an empty POST body and a 403.
-              nativeForm.submit();
+              if (this.featureToggles.siteIsolationForCustomLoginPage) {
+                this.submitWithUsernameOverride(nativeForm, userId);
+              } else {
+                nativeForm.submit();
+              }
               this.busy$.next(true);
             }),
             catchError(() => {
@@ -185,9 +186,8 @@ export class LoginFormComponentService {
         this.getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            this.form.get('userId')?.setValue(userId);
             this.setOauthRedirectFlowFlag();
-            nativeForm.submit();
+            this.submitWithUsernameOverride(nativeForm, userId);
             this.busy$.next(true);
           });
       } else {
@@ -295,5 +295,31 @@ export class LoginFormComponentService {
     return this.authMultisiteIsolationService.decorateUserId(
       this.form.get('userId')?.value
     );
+  }
+
+  /**
+   * Submits the native form after overriding the value of username input
+   * for the duration of the submit only. The DOM value is written, the
+   * form is submitted (which snapshots form data synchronously), and the
+   * original value is restored on the next microtask — before the browser
+   * has a chance to paint. This is used to POST the decorated userId
+   * without the decorated value becoming visible in the input.
+   */
+  protected submitWithUsernameOverride(
+    nativeForm: HTMLFormElement,
+    username: string | undefined
+  ): void {
+    const input = nativeForm.elements.namedItem('username');
+    if (!(input instanceof HTMLInputElement) || !username) {
+      nativeForm.submit();
+      return;
+    }
+    const original = input.value;
+    input.value = username;
+    nativeForm.submit();
+    // Restore synchronously — form.submit() snapshots the form data
+    // before returning, so restoring immediately does not affect the POST
+    // body but reverts the DOM before any repaint.
+    input.value = original;
   }
 }

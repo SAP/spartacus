@@ -353,11 +353,16 @@ describe('LoginFormComponentService', () => {
             ).and.returnValue(of(decoratedUserId));
             service.form.setValue(testData);
             const form = createForm(userId, password, csrf);
-            spyOn(form, 'submit');
+            let submittedFormData: FormData;
+            spyOn(form, 'submit').and.callFake(() => {
+              submittedFormData = new FormData(form);
+            });
 
             service.login(form);
 
-            expect(service.form.get('userId')?.value).toEqual(decoratedUserId);
+            expect(submittedFormData.get('username')).toEqual(decoratedUserId);
+            expect(service.form.get('userId')?.value).toEqual(testData.userId);
+            expect(form.elements['username']?.value).toEqual(testData.userId);
           });
         });
 
@@ -551,14 +556,19 @@ describe('LoginFormComponentService', () => {
               testData.password,
               testData.csrf
             );
-            spyOn(form, 'submit');
+            let submittedFormData: FormData;
+            spyOn(form, 'submit').and.callFake(() => {
+              submittedFormData = new FormData(form);
+            });
 
             service.login(form);
 
             expect(
               authMultisiteIsolationService.decorateUserId
             ).toHaveBeenCalled();
-            expect(service.form.get('userId')?.value).toEqual(decoratedUserId);
+            expect(submittedFormData.get('username')).toEqual(decoratedUserId);
+            expect(service.form.get('userId')?.value).toEqual(testData.userId);
+            expect(form.elements['username']?.value).toEqual(testData.userId);
           });
         });
       });
