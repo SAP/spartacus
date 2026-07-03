@@ -16,7 +16,9 @@ cx-page-layout {
   cx-page-slot {
     min-height: initial;
     margin-top: initial;
-
+    // Guard against consumer/vendor CSS animating these properties —
+    // the below-the-fold logic manipulates them programmatically and
+    // any transition would cause ghosting or delay IntersectionObserver
     transition: none;
     transition-delay: 0s;
 
