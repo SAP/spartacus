@@ -30,6 +30,7 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   CaptchaComponent,
@@ -91,6 +92,10 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   protected registrationVerificationTokenFacade = inject(
     VerificationTokenFacade
   );
+
+  constructor() {
+    useFeatureStyles('a11yRegistrationTermsAsteriskMargin');
+  }
 
   titles$: Observable<Title[]>;
 

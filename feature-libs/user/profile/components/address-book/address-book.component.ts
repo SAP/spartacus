@@ -8,7 +8,7 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   Address,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HierarchicalAddressConfig,
@@ -60,7 +60,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected languageService = inject(LanguageService);
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected hierarchicalAddressConfig = inject(HierarchicalAddressConfig);
 
   constructor(
@@ -74,9 +74,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
     this.service.loadAddresses();
 
-    if (
-      this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
-    ) {
+    if (this.featureToggles.enableHierarchicalAddressFormat) {
       this.subscription.add(
         this.languageService
           .getActive()
@@ -102,9 +100,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   addAddressSubmit(address: Address): void {
-    if (
-      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
-    ) {
+    if (!this.featureToggles.enableHierarchicalAddressFormat) {
       this.showAddAddressForm = false;
       this.service.addUserAddress(address);
       return;
@@ -136,9 +132,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   editAddressSubmit(address: Address): void {
-    if (
-      !this.featureConfigService.isEnabled('enableHierarchicalAddressFormat')
-    ) {
+    if (!this.featureToggles.enableHierarchicalAddressFormat) {
       this.showEditAddressForm = false;
       if (address && this.currentAddress['id']) {
         this.service.updateUserAddress(this.currentAddress['id'], address);
@@ -203,11 +197,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           const numbers = getAddressNumbers(address, textPhone, textMobile);
 
           let text: (string | undefined)[];
-          if (
-            this.featureConfigService.isEnabled(
-              'enableHierarchicalAddressFormat'
-            )
-          ) {
+          if (this.featureToggles.enableHierarchicalAddressFormat) {
             const locationLine = this.buildLocationLine(address);
             const districtName = this.isHierarchicalAddressFormat(address)
               ? address.cityDistrict?.name || address.district || ''

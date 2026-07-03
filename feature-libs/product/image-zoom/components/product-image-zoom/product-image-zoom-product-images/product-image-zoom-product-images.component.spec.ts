@@ -4,9 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggles,
   ImageGroup,
   MockDatePipe,
   MockTranslatePipe,
@@ -27,6 +25,10 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -141,23 +143,6 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
-let mockFeatureToggles: FeatureToggles;
-
-class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
@@ -165,9 +150,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -177,7 +159,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
         ProductImageZoomProductImagesComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: LCP_PRESENCE,
           useValue: mockLcpPresence$,
@@ -186,6 +167,9 @@ describe('ProductImageZoomProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        provideMockFeatureToggles({
+          productCarouselScrolling: true,
+        }),
       ],
     })
       .overrideComponent(ProductImageZoomProductImagesComponent, {
@@ -271,7 +255,8 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
       describe('when feature toggle "productCarouselScrolling" is disabled', () => {
         it('should have cx-carousel element', () => {
-          mockFeatureToggles.productCarouselScrolling = false;
+          const toggles = TestBed.inject(MockFeatureTogglesController);
+          toggles.set('productCarouselScrolling', false);
           fixture.detectChanges();
           const carousel = fixture.debugElement.query(By.css('cx-carousel'));
           expect(carousel).toBeTruthy();

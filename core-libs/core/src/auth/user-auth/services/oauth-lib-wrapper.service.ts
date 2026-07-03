@@ -5,10 +5,16 @@
  */
 
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { Observable, Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
-import { FeatureConfigService } from '../../../features-config/index';
+import {
+  AuthConfig,
+  OAuthEvent,
+  OAuthService,
+  TokenResponse,
+} from 'angular-oauth2-oidc';
+import { firstValueFrom, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { ConfigInitializerService } from '../../../config/config-initializer';
+import { FeatureToggles } from '../../../features-config';
 import { FederatedLoginService } from '../../../federated-login';
 import { SemanticPathService } from '../../../routing/configurable-routes/url-translation/semantic-path.service';
 import { WindowRef } from '../../../window/window-ref';
@@ -24,12 +30,17 @@ import { AuthConfigService } from './auth-config.service';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
   protected semanticPathService = inject(SemanticPathService);
   protected federatedLoginService = inject(FederatedLoginService);
   protected federatedLoginParamsSub: Subscription | undefined;
+
+  protected subscription: Subscription | undefined;
+  protected configInitializerService = inject(ConfigInitializerService);
+
+  protected initialized = new ReplaySubject<void>(1);
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -42,25 +53,23 @@ export class OAuthLibWrapperService {
   }
 
   protected initialize() {
-    const config = this.generateCustomerLoginConfig();
-
-    this.oAuthService.configure(config);
+    if (this.featureToggles.asyncAuthConfigInitializer) {
+      this.subscription?.unsubscribe();
+      this.subscription = this.configInitializerService
+        .getStable('authentication')
+        .pipe(map(() => this.generateCustomerLoginConfig()))
+        .subscribe((dynamicConfig) => this.applyConfiguration(dynamicConfig));
+    } else {
+      this.applyConfiguration(this.generateCustomerLoginConfig());
+    }
 
     // reconfigure after getting language
     this.federatedLoginService.detectContext();
     if (this.federatedLoginService.enabled) {
       this.federatedLoginParamsSub?.unsubscribe();
-      this.federatedLoginParamsSub = this.federatedLoginService
-        .getParameters()
-        .subscribe((parameterString) => {
-          const updatedConfig = this.generateCustomerLoginConfig();
-
-          updatedConfig.loginUrl +=
-            (updatedConfig.loginUrl.includes('?') ? '&' : '?') +
-            parameterString;
-
-          this.oAuthService.configure(updatedConfig);
-        });
+      this.federatedLoginParamsSub = this.augmentForSharedLoginPage(
+        this.generateCustomerLoginConfig()
+      ).subscribe((updatedConfig) => this.applyConfiguration(updatedConfig));
     }
   }
 
@@ -105,12 +114,36 @@ export class OAuthLibWrapperService {
     };
   }
 
+  /** Applies an AuthConfig to the internal oAuth service */
+  protected applyConfiguration(config: AuthConfig) {
+    this.oAuthService.configure(config);
+    if (this.featureToggles.asyncAuthConfigInitializer) {
+      this.initialized.next();
+    }
+  }
+
+  /** Enhances the provided configuration with Shared Login Page details */
+  protected augmentForSharedLoginPage(
+    baseConfig: AuthConfig
+  ): Observable<AuthConfig> {
+    // augment login URL with Share Login context params
+    return this.federatedLoginService.getParameters().pipe(
+      map((parameterString) => ({
+        ...baseConfig,
+        loginUrl:
+          baseConfig.loginUrl +
+          (baseConfig.loginUrl?.includes('?') ? '&' : '?') +
+          parameterString,
+      }))
+    );
+  }
+
   protected changeClientWhenInitialize(clientId: string) {
     const config = this.generateBaseConfig();
 
     config.clientId = clientId;
 
-    this.oAuthService.configure(config);
+    this.applyConfiguration(config);
   }
 
   /**
@@ -125,31 +158,43 @@ export class OAuthLibWrapperService {
     userId: string,
     password: string
   ): Promise<TokenResponse> {
-    return this.oAuthService.fetchTokenUsingPasswordFlow(userId, password);
+    if (this.featureToggles.asyncAuthConfigInitializer) {
+      return firstValueFrom(this.initialized).then(() =>
+        this.oAuthService.fetchTokenUsingPasswordFlow(userId, password)
+      );
+    } else {
+      return this.oAuthService.fetchTokenUsingPasswordFlow(userId, password);
+    }
   }
 
   /**
    * Refresh access_token.
    */
   refreshToken(): void {
-    this.oAuthService.refreshToken();
+    if (this.featureToggles.asyncAuthConfigInitializer) {
+      this.initialized
+        .pipe(take(1))
+        .subscribe(() => this.oAuthService.refreshToken());
+    } else {
+      this.oAuthService.refreshToken();
+    }
   }
 
   /**
    * Revoke access tokens and clear tokens in lib state.
    */
   revokeAndLogout(): Promise<void> {
-    return new Promise((resolve) => {
-      this.oAuthService
-        .revokeTokenAndLogout(true)
-        .catch(() => {
-          // when there would be some kind of error during revocation we can't do anything else, so at least we logout user.
-          this.oAuthService.logOut(true);
-        })
-        .finally(() => {
-          resolve();
-        });
-    });
+    const revokeTokenAndLogout = () =>
+      this.oAuthService.revokeTokenAndLogout(true).catch(() => {
+        // when there would be some kind of error during revocation we can't do anything else, so at least we logout user.
+        this.oAuthService.logOut(true);
+      });
+
+    if (this.featureToggles.asyncAuthConfigInitializer) {
+      return firstValueFrom(this.initialized).then(revokeTokenAndLogout);
+    } else {
+      return revokeTokenAndLogout();
+    }
   }
 
   /**
@@ -173,7 +218,7 @@ export class OAuthLibWrapperService {
    */
   initLoginFlow() {
     if (
-      !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault') ||
+      !this.featureToggles.authorizationCodeFlowByDefault ||
       this.federatedLoginService.enabled
     ) {
       this.winRef.localStorage?.setItem(OAUTH_REDIRECT_FLOW_KEY, 'true');
@@ -191,7 +236,14 @@ export class OAuthLibWrapperService {
       return undefined;
     }
 
-    return this.oAuthService.initLoginFlow();
+    if (this.featureToggles.asyncAuthConfigInitializer) {
+      this.initialized
+        .pipe(take(1))
+        .subscribe(() => this.oAuthService.initLoginFlow());
+      return undefined;
+    } else {
+      return this.oAuthService.initLoginFlow();
+    }
   }
 
   /**
@@ -215,27 +267,34 @@ export class OAuthLibWrapperService {
         )
         .subscribe((event) => (tokenReceivedEvent = event));
 
-      this.oAuthService
-        .tryLogin({
-          // We don't load discovery document, because it doesn't contain revoke endpoint information
-          disableOAuth2StateCheck: true,
-        })
-        .then((result: boolean) => {
-          if (!tokenReceivedEvent) {
+      const tryLogin = () =>
+        this.oAuthService
+          .tryLogin({
+            // We don't load discovery document, because it doesn't contain revoke endpoint information
+            disableOAuth2StateCheck: true,
+          })
+          .then((result) => {
+            if (!tokenReceivedEvent) {
+              this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
+            }
+            resolve({
+              result: result,
+              tokenReceived: !!tokenReceivedEvent,
+            });
+          })
+          .catch((error) => {
             this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
-          }
-          resolve({
-            result: result,
-            tokenReceived: !!tokenReceivedEvent,
+            reject(error);
+          })
+          .finally(() => {
+            subscription.unsubscribe();
           });
-        })
-        .catch((error) => {
-          this.winRef.localStorage?.removeItem(OAUTH_REDIRECT_FLOW_KEY);
-          reject(error);
-        })
-        .finally(() => {
-          subscription.unsubscribe();
-        });
+
+      if (this.featureToggles.asyncAuthConfigInitializer) {
+        firstValueFrom(this.initialized).then(tryLogin);
+      } else {
+        tryLogin();
+      }
     });
   }
 

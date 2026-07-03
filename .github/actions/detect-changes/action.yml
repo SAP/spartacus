@@ -2,7 +2,7 @@ name: Detect Changes
 description: Determines whether code-related files (not docs-only) have changed in a PR
 outputs:
   RUN_CHECKS:
-    description: 'true if code files changed, false if only docs/*.md changed'
+    description: "true if code files changed, false if only docs/*.md changed"
     value: ${{ steps.detect.outputs.RUN_CHECKS }}
 runs:
   using: composite

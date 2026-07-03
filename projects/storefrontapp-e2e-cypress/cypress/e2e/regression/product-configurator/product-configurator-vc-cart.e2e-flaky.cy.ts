@@ -102,11 +102,15 @@ context('Product Configuration', () => {
         testProductMultiLevel
       );
       configurationVc.clickAddToCartBtn();
+      configurationOverview.checkConfigOverviewPageDisplayed();
       cy.log('Go back to configuration page using browser back button');
       cy.go('back');
+      configurationVc.checkConfigPageDisplayed();
       configurationVc.clickAddToCartBtn();
+      configurationOverview.checkConfigOverviewPageDisplayed();
       configurationOverview.clickContinueToCartBtnOnOP();
       configurationCart.clickOnEditConfigurationLink(0);
+      configurationVc.checkConfigPageDisplayed();
     });
 
     it('should increase quantity of a configured product via a quantity stepper (CXSPA-3193)', () => {

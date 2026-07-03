@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "221121.11.0",
+  "version": "221121.13.1",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -17,17 +17,17 @@
     "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^21.2.13",
-    "@angular/ssr": "^21.2.13",
+    "@angular/pwa": "^21.2.17",
+    "@angular/ssr": "^21.2.17",
     "semver": "^7.7.3",
     "ts-morph": "^27.0.2",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^21.2.13",
-    "@angular-devkit/schematics": "^21.2.13",
-    "@angular/compiler": "^21.2.14",
-    "@schematics/angular": "^21.2.8",
+    "@angular-devkit/core": "^21.2.17",
+    "@angular-devkit/schematics": "^21.2.17",
+    "@angular/compiler": "^21.2.17",
+    "@schematics/angular": "^21.2.17",
     "jsonc-parser": "^3.3.1",
     "parse5": "^8.0.0",
     "typescript": "^5.9.3"
@@ -79,6 +79,7 @@
       "@spartacus/s4-service",
       "@spartacus/s4om",
       "@spartacus/segment-refs",
+      "@spartacus/skills",
       "@spartacus/smartedit",
       "@spartacus/storefinder",
       "@spartacus/subscription-billing",

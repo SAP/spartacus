@@ -15,7 +15,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   MockTranslatePipe,
   MockTranslationService,
@@ -95,7 +95,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   let authConfigService: AuthConfigService;
   let el: DebugElement;
   let routingService: RoutingService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -146,8 +146,9 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     authConfigService = TestBed.inject(AuthConfigService);
     routingService = TestBed.inject(RoutingService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.useEnhancedSecurePasswordValidators = false;
+    featureToggles.authorizationCodeFlowByDefault = false;
 
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -313,7 +314,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   describe('password validators', () => {
     describe('when useEnhancedSecurePasswordValidators is enabled', () => {
       beforeEach(() => {
-        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+        featureToggles.useEnhancedSecurePasswordValidators = true;
       });
 
       it('should include new cxMustEndWithLegalCharacter validator', () => {

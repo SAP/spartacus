@@ -13,6 +13,7 @@ export const SPARTACUS_CORE = `@spartacus/core`;
 export const SPARTACUS_STOREFRONTLIB = `@spartacus/storefront`;
 export const SPARTACUS_ASSETS = `@spartacus/assets`;
 export const SPARTACUS_STYLES = `@spartacus/styles`;
+export const SPARTACUS_SKILLS = `@spartacus/skills`;
 
 export const SPARTACUS_SETUP = `@spartacus/setup`;
 export const SPARTACUS_SETUP_SSR = `@spartacus/setup/ssr`;
@@ -23,6 +24,7 @@ export const CORE_SPARTACUS_SCOPES: string[] = [
   SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
+  SPARTACUS_SKILLS,
   SPARTACUS_SETUP,
 ];
 export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];

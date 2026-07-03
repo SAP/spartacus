@@ -31,23 +31,6 @@ export interface SsrOptimizationOptions {
   cache?: boolean;
 
   /**
-   * Limit the cache size
-   *
-   * Specified number of entries that will be kept in cache, allows to keep
-   * memory usage under control.
-   *
-   * Can also be use when `cache` option is set to false. It will then limit the
-   * number of renders that timeouts and are kept in temporary cache, waiting
-   * to be served with next request.
-   *
-   * Default value is set to 3000.
-   *
-   * @deprecated since v2211.42. Use `cacheSizeBytes` option instead.
-   *             The `cacheSize` option will be removed eventually together with the feature toggle `ssrFeatureToggles.limitCacheByMemory`.
-   */
-  cacheSize?: number;
-
-  /**
    * Limits the cache size memory in bytes.
    *
    * Specifies the maximum memory (in bytes) allocated for cached entries,
@@ -68,8 +51,6 @@ export interface SsrOptimizationOptions {
   /**
    * Strategy for calculating the size of a cache entry. It's needed to keep track of the used cache size,
    * so the oldest entries can be removed when the cache size memory limit is reached.
-   *
-   * *Note*: This config option is used only when the `ssrFeatureToggles.limitCacheByMemory` is set to true.
    *
    * For details on how each entry's size is calculated by default, see {@link DefaultCacheEntrySizeCalculator}.
    */
@@ -196,13 +177,7 @@ export interface SsrOptimizationOptions {
    * Note: They are related only to the `OptimizedSsrEngine`. In particular, they
    * are different from Spartacus's regular feature toggles provided in the Angular app.
    */
-  ssrFeatureToggles?: {
-    /**
-     * When true, the cache size will be limited by memory defined via the `cacheSizeMemory` option.
-     * When false, the cache size will be limited by number of entries defined via the deprecated `cacheSize` option.
-     */
-    limitCacheByMemory?: boolean;
-  };
+  ssrFeatureToggles?: {};
 }
 
 export enum RenderingStrategy {
@@ -244,7 +219,6 @@ type DefaultSsrOptimizationOptions = Omit<
 
 export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   cache: false,
-  cacheSize: 3000,
   cacheSizeMemory: 800_000_000,
   cacheEntrySizeCalculator: new DefaultCacheEntrySizeCalculator(),
   ttl: undefined,
@@ -259,7 +233,5 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   logger: new DefaultExpressServerLogger(),
   shouldCacheRenderingResult: ({ entry: { err } }) => !err,
   renderKeyResolver: getDefaultRenderKey,
-  ssrFeatureToggles: {
-    limitCacheByMemory: true,
-  },
+  ssrFeatureToggles: {},
 };
