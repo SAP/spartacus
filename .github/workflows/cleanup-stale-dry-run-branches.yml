@@ -1,0 +1,95 @@
+on:
+  schedule:
+    # Run at 09:00 UTC on the first day of every month
+    - cron: "0 9 1 * *"
+  workflow_dispatch:
+
+name: Cleanup stale dry-run branches
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup_stale_dry_run_branches:
+    name: Delete dry-run branches older than (MAJOR - 2)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          ref: develop
+          fetch-depth: 1
+
+      - name: Read version from core package.json on develop
+        id: read_version
+        run: |
+          VERSION=$(jq -r '.version' core-libs/core/package.json)
+          if [[ -z "$VERSION" || "$VERSION" == "null" ]]; then
+            echo "Error: could not read version from core-libs/core/package.json"
+            exit 1
+          fi
+          echo "Develop version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Extract major version
+        id: extract_major
+        env:
+          VERSION: ${{ steps.read_version.outputs.version }}
+        run: |
+          # Version looks like 221121.13.1 -> major is the middle component (13)
+          MAJOR_VERSION=$(echo "$VERSION" | awk -F. '{print $2}')
+          if ! [[ "$MAJOR_VERSION" =~ ^[0-9]+$ ]]; then
+            echo "Error: could not extract numeric major version from '$VERSION'"
+            exit 1
+          fi
+          echo "Major version: $MAJOR_VERSION"
+          echo "major_version=$MAJOR_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch dry-run branches matching release-221121.*.x-dry-run
+        id: fetch_branches
+        run: |
+          # List remote branches matching release-221121.<number>.x-dry-run
+          BRANCHES=$(git ls-remote --heads origin 'refs/heads/release-221121.*.x-dry-run' \
+            | awk '{print $2}' \
+            | sed 's#^refs/heads/##' \
+            | grep -E '^release-221121\.[0-9]+\.x-dry-run$' || true)
+
+          echo "Matching dry-run branches:"
+          echo "$BRANCHES"
+
+          {
+            echo 'dry_run_branches<<EOF'
+            echo "$BRANCHES"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Delete dry-run branches with major < (develop major - 2)
+        env:
+          DRY_RUN_BRANCHES: ${{ steps.fetch_branches.outputs.dry_run_branches }}
+          MAJOR_VERSION: ${{ steps.extract_major.outputs.major_version }}
+        run: |
+          THRESHOLD=$(( MAJOR_VERSION - 2 ))
+          echo "Develop major: ${MAJOR_VERSION}"
+          echo "Deleting dry-run branches with major < ${THRESHOLD}"
+
+          DELETED_COUNT=0
+          while IFS= read -r BRANCH; do
+            [[ -z "$BRANCH" ]] && continue
+            # Extract the middle number from release-221121.<N>.x-dry-run
+            BRANCH_MAJOR=$(echo "$BRANCH" | awk -F. '{print $2}')
+            if ! [[ "$BRANCH_MAJOR" =~ ^[0-9]+$ ]]; then
+              echo "Skipping (could not parse major): $BRANCH"
+              continue
+            fi
+
+            if (( BRANCH_MAJOR < THRESHOLD )); then
+              echo "Deleting: $BRANCH (major=${BRANCH_MAJOR})"
+              git push origin --delete "$BRANCH"
+              DELETED_COUNT=$(( DELETED_COUNT + 1 ))
+            else
+              echo "Keeping:  $BRANCH (major=${BRANCH_MAJOR})"
+            fi
+          done <<< "$DRY_RUN_BRANCHES"
+
+          echo "Deleted ${DELETED_COUNT} dry-run branch(es)"

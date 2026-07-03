@@ -16,4 +16,10 @@
       color: var(--cx-color-text);
     }
   }
+
+  @include forFeature('a11yIncreaseContastGlobalMessageCloseButton') {
+    .close {
+      opacity: 1;
+    }
+  }
 }
