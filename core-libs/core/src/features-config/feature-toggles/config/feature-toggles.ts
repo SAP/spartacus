@@ -68,12 +68,6 @@ export interface FeatureTogglesInterface {
   productReviewCharactersLeft?: boolean;
 
   /**
-   * Ensures on configurator overview page, that group titles are recognized as heading
-   * in VPC mode when navigating with the 'H' key.
-   */
-  a11yConfiguratorOverviewHeaderVPC?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -392,6 +386,13 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * When enabled, increases the color contrast of the close button in the
+   * global message component to meet WCAG contrast requirements.
+   * Affects: `GlobalMessageComponent`
+   */
+  a11yIncreaseContastGlobalMessageCloseButton?: boolean;
+
+  /**
    * When enabled, allows searching cost centers by name in the organization.
    */
   enableB2BCostCenterSearch?: boolean;
@@ -644,24 +645,47 @@ export interface FeatureTogglesInterface {
    * This flag only takes effect when the flag `authorizationCodeFlowByDefault` is enabled.
    */
   asyncAuthConfigInitializer?: boolean;
+
+  /**
+   * When enabled, the storefront's active theme follows the `theme` field of
+   * the active base site (configured in SAP Commerce BackOffice). The theme
+   * is applied as a CSS class on the app's root element by `ThemeService`.
+   *
+   * Without this toggle, the CMS `theme` field is ignored whenever the
+   * storefront statically configures `context.baseSite` (the common case),
+   * because `SiteContextConfigInitializer` does not run in that scenario.
+   *
+   * Precedence: static `config.context.theme` wins, then a user-picked
+   * optional theme from the Theme Switcher (e.g. high-contrast), then the
+   * CMS `BaseSite.theme`.
+   *
+   * Affects: `SiteThemeInitializer`
+   */
+  applyBaseSiteThemeFromCms?: boolean;
+
+  /**
+   * When enabled, only addresses with `shippingAddress` not explicitly set to `false`
+   * are shown on the B2B checkout delivery address step.
+   */
+  b2bCheckoutShippingAddressFilter?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   alignNavigationMenuWithHeader: false,
-  a11yKeyboardAccessibleZoom: false,
-  a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yStoreFinderLabel: false,
+  a11yKeyboardAccessibleZoom: true,
+  a11yPreventCartItemsFormRedundantRecreation: true,
+  a11yStoreFinderLabel: true,
   a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
-  a11yLinkBtnsToTertiaryBtns: false,
-  a11yAddPaddingToCarouselPanel: false,
-  a11yNgSelectUnicodeCarets: false,
+  a11yIncreaseContastGlobalMessageCloseButton: false,
+  a11yLinkBtnsToTertiaryBtns: true,
+  a11yAddPaddingToCarouselPanel: true,
+  a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
-  a11yFutureStockAccordionAriaControls: false,
+  a11yFutureStockAccordionAriaControls: true,
   consistentSizeProductCards: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
@@ -724,4 +748,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  applyBaseSiteThemeFromCms: false,
+  b2bCheckoutShippingAddressFilter: false,
 };
