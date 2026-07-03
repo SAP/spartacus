@@ -33,7 +33,11 @@
     "zoomOut": "Kicsinyítés",
     "selected": "Kiválasztva",
     "expand": "Kibontás",
-    "collapse": "Összecsukás"
+    "collapse": "Összecsukás",
+    "readMore": "További információ",
+    "readLess": "Kevesebb információ",
+    "language": "Nyelv",
+    "currency": "Pénznem"
   },
   "pageMetaResolver": {
     "category": {

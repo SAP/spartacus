@@ -5,9 +5,10 @@
  */
 
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COST_CENTERS_NORMALIZER } from '../../../cost-center/connectors/cost-center/converters';
+import { FeatureToggles } from '../../../features-config/feature-toggles/feature-toggles-tokens';
 import { EntitiesModel } from '../../../model/misc.model';
 import { CostCenter } from '../../../model/org-unit.model';
 import { SearchConfig } from '../../../product/model/search-config';
@@ -19,6 +20,8 @@ import { OCC_HTTP_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
+  private featureToggles = inject(FeatureToggles);
+
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -41,9 +44,13 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
+    const fields = this.featureToggles.b2bCheckoutShippingAddressFilter
+      ? { fields: 'DEFAULT,unit(BASIC,addresses(FULL))' }
+      : {};
+
     return this.occEndpoints.buildUrl('getActiveCostCenters', {
       urlParams: { userId },
-      queryParams: params,
+      queryParams: { ...params, ...fields },
     });
   }
 }

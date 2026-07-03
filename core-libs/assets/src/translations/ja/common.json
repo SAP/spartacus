@@ -33,7 +33,11 @@
     "zoomOut": "縮小",
     "selected": "選択済み",
     "expand": "展開",
-    "collapse": "折りたたむ"
+    "collapse": "折りたたむ",
+    "readMore": "詳細を表示",
+    "readLess": "表示を減らす",
+    "language": "言語",
+    "currency": "通貨"
   },
   "pageMetaResolver": {
     "category": {
