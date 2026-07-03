@@ -68,12 +68,6 @@ export interface FeatureTogglesInterface {
   productReviewCharactersLeft?: boolean;
 
   /**
-   * Ensures on configurator overview page, that group titles are recognized as heading
-   * in VPC mode when navigating with the 'H' key.
-   */
-  a11yConfiguratorOverviewHeaderVPC?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -691,7 +685,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
   a11yFutureStockAccordionAriaControls: true,
   consistentSizeProductCards: true,
   disableCxPageSlotMarginAnimation: true,

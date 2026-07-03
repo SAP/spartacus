@@ -52,7 +52,7 @@ export class MockFeatureTogglesController {
    * @example
    * ```ts
    * const toggles = TestBed.inject(MockFeatureTogglesController);
-   * toggles.set('a11yConfiguratorOverviewHeaderVPC', true);
+   * toggles.set('toggleName', true);
    * fixture.detectChanges();
    * ```
    */
@@ -70,7 +70,7 @@ export class MockFeatureTogglesController {
    * @example
    * ```ts
    * const toggles = TestBed.inject(MockFeatureTogglesController);
-   * toggles.reset({ a11yConfiguratorOverviewHeaderVPC: true });
+   * toggles.reset({ toggleName: true });
    * ```
    */
   reset(_toggles?: Partial<FeatureTogglesInterface>): void {
