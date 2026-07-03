@@ -28,9 +28,9 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
+import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
-import { PickupOption } from '../../../root/model/pickup-option.model';
 import { PickupOptionsTabs } from './pickup-options.model';
 
 /**
