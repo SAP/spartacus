@@ -68,12 +68,6 @@ export interface FeatureTogglesInterface {
   productReviewCharactersLeft?: boolean;
 
   /**
-   * Ensures on configurator overview page, that group titles are recognized as heading
-   * in VPC mode when navigating with the 'H' key.
-   */
-  a11yConfiguratorOverviewHeaderVPC?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -684,21 +678,20 @@ export interface FeatureTogglesInterface {
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   alignNavigationMenuWithHeader: false,
-  a11yKeyboardAccessibleZoom: false,
-  a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yStoreFinderLabel: false,
+  a11yKeyboardAccessibleZoom: true,
+  a11yPreventCartItemsFormRedundantRecreation: true,
+  a11yStoreFinderLabel: true,
   a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
   a11yIncreaseContastGlobalMessageCloseButton: false,
-  a11yLinkBtnsToTertiaryBtns: false,
-  a11yAddPaddingToCarouselPanel: false,
-  a11yNgSelectUnicodeCarets: false,
+  a11yLinkBtnsToTertiaryBtns: true,
+  a11yAddPaddingToCarouselPanel: true,
+  a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
-  a11yFutureStockAccordionAriaControls: false,
+  a11yFutureStockAccordionAriaControls: true,
   consistentSizeProductCards: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
