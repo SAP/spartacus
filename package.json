@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "2606.0.0",
+  "version": "2607.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "workspaces": [
