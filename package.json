@@ -228,7 +228,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.19.1",
     "@types/semver": "7.7.1",
-    "@types/shelljs": "^0.8.12",
+    "@types/shelljs": "^0.10.0",
     "@typescript-eslint/utils": "^8.40.0",
     "angular-eslint": "^21.1.0",
     "browser-sync": "^3.0.4",
