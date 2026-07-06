@@ -90,12 +90,6 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
-   * When enabled, the product cards in the product list page will have a forced consistent size.
-   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
-   */
-  consistentSizeProductCards?: boolean;
-
-  /**
    * Feature flag to disable the margin animation for the cx-page-slot component.
    * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
    * This animation was originally part of the legacy "defer loading" and "below the fold"
@@ -686,7 +680,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  consistentSizeProductCards: true,
   disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
