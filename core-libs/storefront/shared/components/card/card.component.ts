@@ -12,7 +12,7 @@ import {
   NgSwitchCase,
   NgTemplateOutlet,
 } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -66,7 +66,7 @@ export interface Card {
     TranslatePipe,
   ],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
   iconTypes = ICON_TYPE;
 
   @Output()
@@ -154,11 +154,6 @@ export class CardComponent implements OnInit {
 
   constructor() {
     // Intentional empty constructor
-  }
-
-  /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
-  ngOnInit() {
-    // Intentional empty method
   }
 
   protected get isHeaderVisible(): boolean {
