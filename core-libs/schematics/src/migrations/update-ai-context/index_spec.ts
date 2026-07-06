@@ -131,8 +131,11 @@ describe('add/update AI skills migration', () => {
       );
       expect(runSchematicTask).toBeDefined();
       expect(
-        (runSchematicTask?.options as { options?: { deleteBeforeCopy?: boolean } })
-          ?.options?.deleteBeforeCopy
+        (
+          runSchematicTask?.options as {
+            options?: { deleteBeforeCopy?: boolean };
+          }
+        )?.options?.deleteBeforeCopy
       ).toBe(true);
       // promptTools should NOT have been called — installed tools are used directly
       expect(utils.promptTools).not.toHaveBeenCalled();
