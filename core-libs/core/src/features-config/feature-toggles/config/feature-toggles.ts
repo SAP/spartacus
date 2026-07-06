@@ -68,12 +68,6 @@ export interface FeatureTogglesInterface {
   productReviewCharactersLeft?: boolean;
 
   /**
-   * Ensures on configurator overview page, that group titles are recognized as heading
-   * in VPC mode when navigating with the 'H' key.
-   */
-  a11yConfiguratorOverviewHeaderVPC?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -100,17 +94,6 @@ export interface FeatureTogglesInterface {
    * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
    */
   consistentSizeProductCards?: boolean;
-
-  /**
-   * Feature flag to disable the margin animation for the cx-page-slot component.
-   * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
-   * This animation was originally part of the legacy "defer loading" and "below the fold"
-   * mechanism in Spartacus. Since this mechanism is no longer used in the current storefront,
-   * the animation causes unnecessary layout shifts (CLS) and increased rendering cost (TBT).
-   *
-   * Enabling this flag removes the margin animation to improve performance and user experience.
-   */
-  disableCxPageSlotMarginAnimation?: boolean;
 
   /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
@@ -392,6 +375,13 @@ export interface FeatureTogglesInterface {
   a11yCardNotificationMessage?: boolean;
 
   /**
+   * When enabled, increases the color contrast of the close button in the
+   * global message component to meet WCAG contrast requirements.
+   * Affects: `GlobalMessageComponent`
+   */
+  a11yIncreaseContastGlobalMessageCloseButton?: boolean;
+
+  /**
    * When enabled, allows searching cost centers by name in the organization.
    */
   enableB2BCostCenterSearch?: boolean;
@@ -661,26 +651,31 @@ export interface FeatureTogglesInterface {
    * Affects: `SiteThemeInitializer`
    */
   applyBaseSiteThemeFromCms?: boolean;
+
+  /**
+   * When enabled, only addresses with `shippingAddress` not explicitly set to `false`
+   * are shown on the B2B checkout delivery address step.
+   */
+  b2bCheckoutShippingAddressFilter?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   alignNavigationMenuWithHeader: false,
-  a11yKeyboardAccessibleZoom: false,
-  a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yStoreFinderLabel: false,
+  a11yKeyboardAccessibleZoom: true,
+  a11yPreventCartItemsFormRedundantRecreation: true,
+  a11yStoreFinderLabel: true,
   a11yStoreFinderFocusOnBackButton: false,
   a11yB2BRegisterComponent: false,
-  a11yLinkBtnsToTertiaryBtns: false,
-  a11yAddPaddingToCarouselPanel: false,
-  a11yNgSelectUnicodeCarets: false,
+  a11yIncreaseContastGlobalMessageCloseButton: false,
+  a11yLinkBtnsToTertiaryBtns: true,
+  a11yAddPaddingToCarouselPanel: true,
+  a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
   readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
-  a11yFutureStockAccordionAriaControls: false,
+  a11yFutureStockAccordionAriaControls: true,
   consistentSizeProductCards: true,
-  disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   createMediaPreconnectLink: true,
@@ -742,4 +737,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
   applyBaseSiteThemeFromCms: false,
+  b2bCheckoutShippingAddressFilter: false,
 };
