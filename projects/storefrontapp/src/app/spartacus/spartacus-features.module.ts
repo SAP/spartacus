@@ -311,7 +311,6 @@ if (environment.cpq) {
         productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
-        disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
         createMediaPreconnectLink: true,

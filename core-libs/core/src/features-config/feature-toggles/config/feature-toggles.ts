@@ -90,17 +90,6 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
-   * Feature flag to disable the margin animation for the cx-page-slot component.
-   * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
-   * This animation was originally part of the legacy "defer loading" and "below the fold"
-   * mechanism in Spartacus. Since this mechanism is no longer used in the current storefront,
-   * the animation causes unnecessary layout shifts (CLS) and increased rendering cost (TBT).
-   *
-   * Enabling this flag removes the margin animation to improve performance and user experience.
-   */
-  disableCxPageSlotMarginAnimation?: boolean;
-
-  /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
    *
    * Before (disabled):
@@ -680,7 +669,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   createMediaPreconnectLink: true,
