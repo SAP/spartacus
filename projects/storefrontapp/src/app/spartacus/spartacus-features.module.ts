@@ -313,7 +313,6 @@ if (environment.cpq) {
         a11yFutureStockAccordionAriaControls: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
-        createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
