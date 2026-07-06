@@ -624,6 +624,12 @@ export interface FeatureTogglesInterface {
   asyncAuthConfigInitializer?: boolean;
 
   /**
+   * When enabled, adds site isolation decorator to the user credentials submitted during the Custom
+   * Login Page form submission.
+   */
+  siteIsolationForCustomLoginPage?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -723,6 +729,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
 };
