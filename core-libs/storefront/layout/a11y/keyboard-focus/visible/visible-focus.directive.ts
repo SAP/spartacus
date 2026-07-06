@@ -8,7 +8,6 @@ import { Directive, HostBinding, HostListener, inject } from '@angular/core';
 import { FeatureToggles } from '@spartacus/core';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
-import { KeyboardFocusService } from '../services/keyboard-focus.service';
 
 /**
  * Directive implementation that adds a CSS class to the host element
@@ -29,7 +28,6 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   };
 
   private featureToggles = inject(FeatureToggles);
-  protected keyboardFocusService = inject(KeyboardFocusService);
 
   // @Input('cxVisibleFocus')
   protected config: VisibleFocusConfig;
@@ -40,18 +38,12 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   @HostListener('mousedown') handleMousedown() {
     if (this.shouldFocusVisible) {
       this.mouseFocus = true;
-      if (this.featureToggles.a11yDeliveryModeFocusPreservation) {
-        this.keyboardFocusService.setMouseFocus(true);
-      }
     }
   }
 
   @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
     if (this.shouldFocusVisible) {
       this.mouseFocus = !this.isNavigating(event);
-      if (this.featureToggles.a11yDeliveryModeFocusPreservation) {
-        this.keyboardFocusService.setMouseFocus(!this.isNavigating(event));
-      }
     }
   }
 
