@@ -13,7 +13,6 @@ const collectionPath = join(__dirname, '../migrations.json');
 const MIGRATION_SCRIPT_NAME = 'add-update-ai-skills';
 const SKILLS_PACKAGE = '@spartacus/skills';
 const CLAUDE_SENTINEL = '.claude/skills/spartacus-developer/SKILL.md';
-const AGENTS_SENTINEL = '.agents/skills/spartacus-developer/SKILL.md';
 
 describe('add/update AI skills migration', () => {
   let tree: Tree;
@@ -132,8 +131,8 @@ describe('add/update AI skills migration', () => {
       );
       expect(runSchematicTask).toBeDefined();
       expect(
-        (runSchematicTask?.options as { deleteBeforeCopy?: boolean })
-          ?.deleteBeforeCopy
+        (runSchematicTask?.options as { options?: { deleteBeforeCopy?: boolean } })
+          ?.options?.deleteBeforeCopy
       ).toBe(true);
       // promptTools should NOT have been called — installed tools are used directly
       expect(utils.promptTools).not.toHaveBeenCalled();
