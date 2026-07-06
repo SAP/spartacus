@@ -310,7 +310,6 @@ if (environment.cpq) {
         readMoreDirective: true,
         productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
-        a11yConfiguratorOverviewHeaderVPC: true,
         a11yFutureStockAccordionAriaControls: true,
         consistentSizeProductCards: true,
         disableCxPageSlotMarginAnimation: true,
