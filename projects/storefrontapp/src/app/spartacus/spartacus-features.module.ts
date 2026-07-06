@@ -314,7 +314,6 @@ if (environment.cpq) {
         consistentSizeProductCards: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
-        createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
