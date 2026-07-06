@@ -233,7 +233,7 @@
     "angular-eslint": "^21.1.0",
     "browser-sync": "^3.0.4",
     "commander": "^15.0.0",
-    "comment-json": "4.6.2",
+    "comment-json": "5.0.0",
     "concurrently": "^10.0.0",
     "core-js": "^3.30.1",
     "cross-env": "^10.0.0",
