@@ -287,7 +287,7 @@
     "typescript-eslint": "^8.58.0",
     "verdaccio": "6.7.4",
     "webpack": "~5.108.0",
-    "webpack-cli": "^6.0.0"
+    "webpack-cli": "^7.0.0"
   },
   "overrides": {
     "@verdaccio/middleware": {
