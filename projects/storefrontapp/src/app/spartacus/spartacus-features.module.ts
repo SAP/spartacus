@@ -370,6 +370,7 @@ if (environment.cpq) {
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
       };
