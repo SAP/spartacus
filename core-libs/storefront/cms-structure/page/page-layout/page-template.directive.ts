@@ -48,7 +48,7 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   protected directiveStateTransferService = inject(
     DirectiveStateTransferService
   );
-  protected stateKey = 'tmpl';
+  protected transferStateKey = 'page-template';
 
   /**
    * Indicates whether this component is driven by an input template or should
