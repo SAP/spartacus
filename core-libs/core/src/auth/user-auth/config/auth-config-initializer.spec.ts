@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Config, ConfigInitializerService, WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
+import { Config } from '../../../config';
+import { ConfigInitializerService } from '../../../config/config-initializer';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
 import { SiteContextParamsService } from '../../../site-context/services';
+import { WindowRef } from '../../../window';
 import { AuthConfig } from '../config/auth-config';
 import { AuthConfigInitializer } from './auth-config-initializer';
 
@@ -214,6 +216,44 @@ describe('AuthConfigInitializer', () => {
         const config = await service.configFactory();
 
         expect(config.authentication?.client_id).toEqual(expected);
+      });
+    });
+
+    describe('initialization race conditions', () => {
+      let expected: Config;
+      beforeEach(() => {
+        mockAuthConfig.authentication.initializerOptions.baseSiteSuffix = true;
+        mockAuthConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
+          true;
+
+        expected = <Config>{
+          authentication: {
+            client_id: `${mockClientId}_${mockActiveBaseSite}`,
+            OAuthLibConfig: {
+              redirectUri: `http://localhost:4200/${mockActiveBaseSite}`,
+            },
+          },
+        };
+      });
+
+      it('should handle slow baseSite request', async () => {
+        spyOn(baseSiteService, 'getActive').and.returnValue(
+          of(mockActiveBaseSite).pipe(delay(10))
+        );
+
+        const config = await service.configFactory();
+
+        expect(config).toEqual(expected);
+      });
+
+      it('should handle slow config request', async () => {
+        (configInitializerService.getStable as jasmine.Spy).and.returnValue(
+          of(authConfig).pipe(delay(10))
+        );
+
+        const config = await service.configFactory();
+
+        expect(config).toEqual(expected);
       });
     });
   });
