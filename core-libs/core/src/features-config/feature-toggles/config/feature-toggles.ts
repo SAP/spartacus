@@ -260,24 +260,6 @@ export interface FeatureTogglesInterface {
   dispatchLoginActionOnlyWhenTokenReceived?: boolean;
 
   /**
-   * Previously the default Spartacus layout config contained the property `pageFold`
-   * for the following layouts:
-   * - `LandingPage2Template`
-   * - `CategoryPageTemplate`
-   * - `ProductDetailsPageTemplate`
-   *
-   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
-   *
-   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
-   * caused the CMS components to be rendered only after a small delay even in SSR pages,
-   * which caused a layout shift.
-   *
-   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
-   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  defaultLayoutConfigWithoutPageFold?: boolean;
-
-  /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
    *
    * This is to improve the user experience on mobile devices, where the menu remains open
@@ -679,7 +661,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
-  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
