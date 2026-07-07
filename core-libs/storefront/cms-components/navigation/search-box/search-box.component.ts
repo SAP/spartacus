@@ -23,8 +23,8 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureToggles,
   FeatureDirective,
+  FeatureToggles,
   PageType,
   RoutingService,
   TranslatePipe,
@@ -101,7 +101,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Sets the search box input field
    */
-  @Input('queryText')
+  @Input()
   set queryText(value: string) {
     if (value) {
       this.updateChosenWord(value);
