@@ -10,7 +10,7 @@ import { join } from 'path';
 import * as utils from './ai-context.utils';
 
 const collectionPath = join(__dirname, '../migrations.json');
-const MIGRATION_SCRIPT_NAME = 'add-update-ai-skills';
+const MIGRATION_SCRIPT_NAME = 'add-or-update-ai-skills';
 const SKILLS_PACKAGE = '@spartacus/skills';
 const CLAUDE_SENTINEL = '.claude/skills/spartacus-developer/SKILL.md';
 

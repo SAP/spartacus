@@ -120,9 +120,9 @@
       "factory": "./221121_7/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
     },
-    "add-update-ai-skills": {
+    "add-or-update-ai-skills": {
       "version": "221121.13.1",
-      "factory": "./update-ai-context/index#migrate",
+      "factory": "./add-or-update-ai-skills/index#migrate",
       "description": "Add or update AI skills for Spartacus development ✨"
     }
   }

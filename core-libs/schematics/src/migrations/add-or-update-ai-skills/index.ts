@@ -16,7 +16,7 @@ import {
 } from './ai-context.utils';
 
 function writePromptLine(line: string): void {
-  process.stdout.write(`${line}\n`);
+  process.stdout.write(`${line ? PROMPT_INDENT + line : ''}\n`);
 }
 
 /**
@@ -42,7 +42,7 @@ export function migrate(): Rule {
 
     writePromptLine('');
     writePromptLine(
-      `${PROMPT_INDENT}✨ Spartacus can configure AI-assistant guidance (Claude / .agents) for this project.`
+      `✨ Spartacus can configure AI-assistant guidance (Claude / .agents) for this project.`
     );
 
     const confirmed = await promptYesNo(
@@ -50,7 +50,7 @@ export function migrate(): Rule {
     );
     if (!confirmed) {
       writePromptLine(
-        `${PROMPT_INDENT}Skipped. Add or update them later with: ng g @spartacus/schematics:ai-context`
+        `Skipped. Add or update them later with: ng g @spartacus/schematics:ai-context`
       );
       writePromptLine('');
       return;
@@ -60,7 +60,7 @@ export function migrate(): Rule {
 
     if (tools.length === 0) {
       writePromptLine(
-        `${PROMPT_INDENT}No AI tools selected — nothing to ${verb.toLowerCase()}.`
+        `No AI tools selected — nothing to ${verb.toLowerCase()}.`
       );
       writePromptLine('');
       return;
@@ -68,7 +68,7 @@ export function migrate(): Rule {
 
     scheduleSkillsDeleteAndCopy(tree, context, tools);
     writePromptLine(
-      `${PROMPT_INDENT}AI skills will be ${isUpdate ? 'updated' : 'installed'} once the update finishes.`
+      `AI skills will be ${isUpdate ? 'updated' : 'installed'} once the update finishes.`
     );
     writePromptLine('');
   };

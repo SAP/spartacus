@@ -63,7 +63,7 @@ export function addAiContextSchematic(options: Schema): Rule {
 
     const files = collectFiles(skillsRoot);
     for (const target of targets) {
-      copySkill(tree, files, target, options.deleteBeforeCopy);
+      copySkill(tree, files, target, { deleteBeforeCopy: options.deleteBeforeCopy });
     }
 
     if (options.debug) {
@@ -130,10 +130,10 @@ function copySkill(
   tree: Tree,
   files: SkillFile[],
   target: AiTool,
-  deleteBeforeCopy = false
+  options?: { deleteBeforeCopy?: boolean }
 ): void {
   const dest = SKILL_DEST[target];
-  if (deleteBeforeCopy) deleteSkillDir(tree, dest);
+  if (options?.deleteBeforeCopy) deleteSkillDir(tree, dest);
   writeSkillTree(tree, files, dest);
 }
 

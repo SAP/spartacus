@@ -277,7 +277,7 @@ const repository = librariesPaths
   }, {});
 
 /**
- * Checks (or fixes) that the `add-update-ai-skills` version in migrations.json
+ * Checks (or fixes) that the `add-or-update-ai-skills` version in migrations.json
  * matches the `@spartacus/schematics` package version.
  * In check mode (`config:check`), reports an error pointing to the fix command.
  * In fix mode (`config:update`), writes the corrected version automatically.
@@ -286,7 +286,7 @@ function syncAiMigrationVersion(): void {
   const MIGRATIONS_PATH =
     'core-libs/schematics/src/migrations/migrations.json';
   const SCHEMATICS_PACKAGE_PATH = 'core-libs/schematics/package.json';
-  const MIGRATION_KEY = 'add-update-ai-skills';
+  const MIGRATION_KEY = 'add-or-update-ai-skills';
 
   const schematicsVersion: string = readJsonFile(
     SCHEMATICS_PACKAGE_PATH
