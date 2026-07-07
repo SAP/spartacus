@@ -5,6 +5,7 @@
  */
 
 import { inject, Injectable, RendererFactory2 } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 
 /**
  * Utility class to set and retrieve transfer state between SSR and CSR for directives.
@@ -17,9 +18,12 @@ import { inject, Injectable, RendererFactory2 } from '@angular/core';
 export class DirectiveStateTransferService {
   protected rendererFactory = inject(RendererFactory2);
   protected renderer2 = this.rendererFactory.createRenderer(null, null);
+  protected windowRef = inject(WindowRef);
 
   set(el: HTMLElement, key: string, value: string): void {
-    this.renderer2.setAttribute(el, this.attributeFrom(key), value);
+    if (!this.windowRef.isBrowser()) {
+      this.renderer2.setAttribute(el, this.attributeFrom(key), value);
+    }
   }
 
   get(el: HTMLElement, key: string): string | undefined {
@@ -27,10 +31,12 @@ export class DirectiveStateTransferService {
   }
 
   clear(el: HTMLElement, key: string): void {
-    this.renderer2.removeAttribute(el, this.attributeFrom(key));
+    if (!this.windowRef.isBrowser()) {
+      this.renderer2.removeAttribute(el, this.attributeFrom(key));
+    }
   }
 
   protected attributeFrom(key: string): string {
-    return `data-${key}`;
+    return `data-cx-state-transfer-${key}`;
   }
 }

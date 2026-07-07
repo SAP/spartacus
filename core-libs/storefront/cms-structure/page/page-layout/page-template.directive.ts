@@ -80,9 +80,10 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * Holds the current page template, so we can remove previous page templates
    * from the element classList.
    */
+  // restore the currentTemplate from SSR state so that the directive is fully rehydrated
   protected currentTemplate: string = this.directiveStateTransferService.get(
     this.host,
-    this.stateKey
+    this.transferStateKey
   ) as string;
 
   constructor(
@@ -116,9 +117,11 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
       const targetElem = el ?? this.host;
       this.currentTemplate = template;
       targetElem.classList.add(this.currentTemplate);
+      // Persist the current template for rehydration.  Without this, the current template would be
+      // unknown and the directive would not be able to remove old style classes.
       this.directiveStateTransferService.set(
         targetElem,
-        this.stateKey,
+        this.transferStateKey,
         this.currentTemplate
       );
       this.cd.markForCheck();
@@ -130,9 +133,7 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    */
   protected clear(el?: HTMLElement) {
     if (this.currentTemplate) {
-      const targetElem = el ?? this.host;
-      targetElem.classList?.remove(this.currentTemplate);
-      this.directiveStateTransferService.clear(targetElem, this.stateKey);
+      (el ?? this.host).classList?.remove(this.currentTemplate);
       this.cd.markForCheck();
     }
   }

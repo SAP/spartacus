@@ -10,7 +10,7 @@ import { DirectiveStateTransferService } from '../../../utils';
 import { PageLayoutService } from './page-layout.service';
 import { PageTemplateDirective } from './page-template.directive';
 
-const storageKey = 'tmpl';
+const storageKey = 'page-template';
 
 const mockTemplateName = 'LandingPage2Template';
 class MockPageLayoutService {
@@ -217,18 +217,5 @@ describe('PageTemplateDirective', () => {
     const el = createHostComponent('#host6');
 
     expect(Array.from<string>(el.classList)).not.toContain(oldClass);
-  });
-
-  it('should clear the transfer state on initialization', () => {
-    (directiveStateTransferService.get as jasmine.Spy).and.returnValue(
-      oldClass
-    );
-
-    const el = createHostComponent('#host6');
-
-    expect(directiveStateTransferService.clear).toHaveBeenCalledWith(
-      el,
-      storageKey
-    );
   });
 });
