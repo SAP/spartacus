@@ -91,7 +91,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  @Input('cartIsLoading') set cartIsLoading(value: boolean) {
+  @Input() set cartIsLoading(value: boolean) {
     this.setLoading = value; // CXSPA-13739: Replace with underlying logic
   }
 
