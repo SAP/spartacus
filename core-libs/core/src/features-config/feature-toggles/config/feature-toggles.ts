@@ -167,18 +167,6 @@ export interface FeatureTogglesInterface {
   cdsLoginEventsToken?: boolean;
 
   /**
-   * Feature flag to enable using <link rel=preconnect> in the index.html.
-   *
-   * ## When enabled:
-   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
-   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
-   * has already been completed by the time the browser requests them.
-   *
-   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
-   */
-  createMediaPreconnectLink?: boolean;
-
-  /**
    * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
    * This results in a more secure authorization scheme as the default configuration.
    *
@@ -636,6 +624,12 @@ export interface FeatureTogglesInterface {
   asyncAuthConfigInitializer?: boolean;
 
   /**
+   * When enabled, adds site isolation decorator to the user credentials submitted during the Custom
+   * Login Page form submission.
+   */
+  siteIsolationForCustomLoginPage?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -678,7 +672,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   consistentSizeProductCards: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
-  createMediaPreconnectLink: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
@@ -736,6 +729,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
 };

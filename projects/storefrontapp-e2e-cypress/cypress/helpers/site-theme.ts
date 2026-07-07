@@ -67,7 +67,6 @@ export function interceptToAddThemeCompnent() {
   }).as('baseSitesNoTheme');
 
   interceptCmsPageToAddThemeComponent();
-  cy.wait('@modifiedRequest');
 }
 
 export function interceptToAddThemeCompnentWithoutBaseSiteIntercept() {
