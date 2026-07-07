@@ -27,22 +27,18 @@
   .cx-product-image-container {
     display: block;
     text-align: center;
-    @include forFeature('consistentSizeProductCards') {
-      @include media-breakpoint-up(md) {
-        margin-top: auto;
-        margin-bottom: auto;
-      }
+    @include media-breakpoint-up(md) {
+      margin-top: auto;
+      margin-bottom: auto;
     }
   }
 
   .cx-product-image {
     width: 100%;
     margin: 3rem 0;
-    @include forFeature('consistentSizeProductCards') {
-      @include media-breakpoint-up(md) {
-        img {
-          max-height: 255px;
-        }
+    @include media-breakpoint-up(md) {
+      img {
+        max-height: 255px;
       }
     }
   }
