@@ -21,12 +21,10 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
-  WindowRef,
 } from '@spartacus/core';
 import {
   FocusDirective,
   InnerComponentsHostDirective,
-  KeyboardFocusService,
   OutletDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -61,9 +59,6 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   ],
 })
 export class CheckoutDeliveryModeComponent {
-  protected keyboardFocusService = inject(KeyboardFocusService);
-  protected winRef = inject(WindowRef);
-
   protected globalMessageService = inject(GlobalMessageService);
   protected busy$ = new BehaviorSubject(false);
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
