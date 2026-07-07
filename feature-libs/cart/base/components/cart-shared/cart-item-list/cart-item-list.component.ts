@@ -158,7 +158,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         this.promotionLocation = context.promotionLocation;
       }
       if (context.cartIsLoading !== undefined) {
-        this.setLoading = context.cartIsLoading;
+        this.cartIsLoading = context.cartIsLoading;
       }
       this.updateItemsOnContextChange(context, contextRequiresRerender);
     });
