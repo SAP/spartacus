@@ -8,6 +8,7 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
+import { interceptGet } from '../support/utils/intercept';
 import { waitForPage } from './navigation';
 
 export interface LoginUser {
@@ -60,6 +61,11 @@ export function fillAuthServerLoginForm({ username, password }: LoginUser) {
 /** New Authorization server login */
 export function fillCustomLoginForm({ username, password }: LoginUser) {
   cy.log(`🛒 Logging in user ${username} from the login form`);
+  interceptGet(
+    'login_page_cart',
+    '/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*'
+  );
+  cy.wait('@login_page_cart');
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').clear().type(username);
     cy.get('[formcontrolname="password"]').clear().type(password);
