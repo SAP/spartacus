@@ -1,19 +1,17 @@
 %cx-product-list-item {
   padding-bottom: 1rem;
-  @include forFeature('consistentSizeProductCards') {
-    @include media-breakpoint-up(md) {
-      height: 272px;
-      & > div {
-        height: 100%;
-      }
+  @include media-breakpoint-up(md) {
+    height: 272px;
+    & > div {
+      height: 100%;
+    }
 
-      .cx-product-summary {
-        display: -webkit-box;
-        -webkit-line-clamp: 5;
-        line-clamp: 5;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
+    .cx-product-summary {
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 
@@ -58,14 +56,12 @@
     width: 100%;
     height: 100%;
     display: block;
-    @include forFeature('consistentSizeProductCards') {
-      @include media-breakpoint-up(md) {
-        display: flex;
-        img {
-          margin-top: auto;
-          margin-bottom: auto;
-          max-height: 255px;
-        }
+    @include media-breakpoint-up(md) {
+      display: flex;
+      img {
+        margin-top: auto;
+        margin-bottom: auto;
+        max-height: 255px;
       }
     }
   }

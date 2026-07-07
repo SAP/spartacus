@@ -90,12 +90,6 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
-   * When enabled, the product cards in the product list page will have a forced consistent size.
-   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
-   */
-  consistentSizeProductCards?: boolean;
-
-  /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
    *
    * Before (disabled):
@@ -669,7 +663,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  consistentSizeProductCards: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
