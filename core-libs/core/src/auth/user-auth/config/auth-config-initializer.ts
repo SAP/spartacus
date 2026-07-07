@@ -5,8 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, firstValueFrom, map, Observable } from 'rxjs';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
@@ -31,12 +30,13 @@ export class AuthConfigInitializer implements ConfigInitializer {
   protected isSSR = !this.windowRef.isBrowser();
 
   protected resolveConfig(): Observable<AuthConfig> {
-    return this.baseSiteService.getActive().pipe(
-      take(1),
-      withLatestFrom(
-        this.configInit.getStable('authentication.initializerOptions')
+    return combineLatest({
+      baseSite: this.baseSiteService.getActive(),
+      authConfig: this.configInit.getStable(
+        'authentication.initializerOptions'
       ),
-      map(([baseSite, authConfig]) => {
+    }).pipe(
+      map(({ baseSite, authConfig }) => {
         return {
           authentication: {
             client_id: this.generateClientId(baseSite, authConfig),
