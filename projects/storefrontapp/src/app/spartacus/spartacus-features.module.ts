@@ -311,7 +311,6 @@ if (environment.cpq) {
         productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
-        consistentSizeProductCards: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
@@ -371,6 +370,7 @@ if (environment.cpq) {
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
       };

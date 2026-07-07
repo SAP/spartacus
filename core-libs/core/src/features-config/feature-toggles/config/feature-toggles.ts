@@ -90,12 +90,6 @@ export interface FeatureTogglesInterface {
   a11yPreventWindowsHighContrastOverride?: boolean;
 
   /**
-   * When enabled, the product cards in the product list page will have a forced consistent size.
-   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
-   */
-  consistentSizeProductCards?: boolean;
-
-  /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
    *
    * Before (disabled):
@@ -624,6 +618,12 @@ export interface FeatureTogglesInterface {
   asyncAuthConfigInitializer?: boolean;
 
   /**
+   * When enabled, adds site isolation decorator to the user credentials submitted during the Custom
+   * Login Page form submission.
+   */
+  siteIsolationForCustomLoginPage?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -663,7 +663,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  consistentSizeProductCards: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
@@ -723,6 +722,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
 };
