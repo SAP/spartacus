@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { WindowRef } from '@spartacus/core';
+import { MediaService } from '../../shared/components/media/media.service';
 import { MediaPreconnectService } from './media-preconnect.service';
 import { PageMetaLinkService } from './page-meta-link.service';
-import { MediaService } from '../../shared/components/media/media.service';
-import { FeatureToggles } from '@spartacus/core';
-import { WindowRef } from '@spartacus/core';
 
 class MockPageMetaLinkService {
   addPreconnectLink = jasmine.createSpy('addPreconnectLink');
@@ -13,9 +12,7 @@ class MockMediaService {
     .createSpy('getBaseUrl')
     .and.returnValue('https://media.example.com');
 }
-class MockFeatureToggles {
-  createMediaPreconnectLink = true;
-}
+
 class MockWindowRef {
   location = { origin: 'https://storefront.example.com' };
 }
@@ -24,7 +21,6 @@ describe('MediaPreconnectService', () => {
   let service: MediaPreconnectService;
   let pageMetaLinkService: MockPageMetaLinkService;
   let mediaService: MockMediaService;
-  let featureToggles: MockFeatureToggles;
   let windowRef: MockWindowRef;
 
   beforeEach(() => {
@@ -33,7 +29,6 @@ describe('MediaPreconnectService', () => {
         MediaPreconnectService,
         { provide: PageMetaLinkService, useClass: MockPageMetaLinkService },
         { provide: MediaService, useClass: MockMediaService },
-        { provide: FeatureToggles, useClass: MockFeatureToggles },
         { provide: WindowRef, useClass: MockWindowRef },
       ],
     });
@@ -41,7 +36,6 @@ describe('MediaPreconnectService', () => {
     service = TestBed.inject(MediaPreconnectService);
     pageMetaLinkService = TestBed.inject(PageMetaLinkService) as any;
     mediaService = TestBed.inject(MediaService) as any;
-    featureToggles = TestBed.inject(FeatureToggles) as any;
     windowRef = TestBed.inject(WindowRef) as any;
   });
 
@@ -57,14 +51,6 @@ describe('MediaPreconnectService', () => {
     expect(pageMetaLinkService.addPreconnectLink).toHaveBeenCalledWith(
       'https://media.example.com'
     );
-  });
-
-  it('should not add preconnect link if feature toggle is disabled', () => {
-    featureToggles.createMediaPreconnectLink = false;
-    windowRef.location.origin = 'https://storefront.example.com';
-    mediaService.getBaseUrl.and.returnValue('https://media.example.com');
-    service.addPreconnectLink();
-    expect(pageMetaLinkService.addPreconnectLink).not.toHaveBeenCalled();
   });
 
   it('should not add preconnect link if media domain is same as window origin', () => {
