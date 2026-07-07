@@ -63,7 +63,9 @@ export function addAiContextSchematic(options: Schema): Rule {
 
     const files = collectFiles(skillsRoot);
     for (const target of targets) {
-      copySkill(tree, files, target, { deleteBeforeCopy: options.deleteBeforeCopy });
+      copySkill(tree, files, target, {
+        deleteBeforeCopy: options.deleteBeforeCopy,
+      });
     }
 
     if (options.debug) {
