@@ -309,7 +309,6 @@ if (environment.cpq) {
         a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
         productListItemSummaryReadMore: true,
-        productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
