@@ -21,9 +21,9 @@ sides, and how they work together.
   - [CRITICAL: OCC URL must have a CA-signed certificate](#critical-occ-url-must-have-a-valid-ca-signed-certificate-for-bff-use)
   - [1. index.html](#1-srcindexhtml)
   - [2. bff-base-url.token.ts](#2-srcappbffbff-base-urltokents-new-file)
-  - [3. bff-error-handling.link.ts](#3-srcappbffbff-error-handlinglinkets-new-file)
-  - [4. bff-auth.link.ts](#4-srcappbffbff-authlinkets-new-file)
-  - [5. bff-timeout.link.ts](#5-srcappbffbff-timeoutlinkets-new-file)
+  - [3. bff-error-handling.link.ts](#3-srcappbffbff-error-handlinglinkts-new-file)
+  - [4. bff-auth.link.ts](#4-srcappbffbff-authlinkts-new-file)
+  - [5. bff-timeout.link.ts](#5-srcappbffbff-timeoutlinkts-new-file)
   - [6. bff-client.service.ts](#6-srcappbffbff-clientservicets-new-file)
   - [7. app.module.server.ts](#7-srcappappmoduleserverts-modify)
   - [8. proxy.conf.js](#8-proxyconfjs-new-file-project-root)
@@ -77,7 +77,7 @@ This creates an Nx monorepo with a `apps/bff` application pre-configured for Viv
 npm install -g @angular/cli@21.1.0
 ```
 
-Scaffold a new Angular application and add the Spartacus schematics:
+Scaffold a new Angular application and add the Spartacus schematics (optional):
 
 ```bash
 ng new my-storefront-app --style=scss --ssr=false --zoneless=false \
@@ -86,7 +86,7 @@ cd my-storefront-app
 ng add @spartacus/schematics@221121.13.1 --ssr
 ```
 
-When prompted, select **Assisted services** from the feature list.
+When prompted, select **Assisted services** from the feature list. Skip this step if you already have an Angular application.
 
 ---
 
