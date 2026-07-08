@@ -136,7 +136,10 @@ export function registerUser(
   return sampleUser;
 }
 
-export function signInUser(sampleUser: SampleUser = user, waitForCsrFallback = false) {
+export function signInUser(
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
+) {
   cy.getLoginRegisterLink({ clickAndWait: true });
   login(sampleUser.email, sampleUser.password, waitForCsrFallback);
 }
@@ -177,7 +180,10 @@ export function addProductToCart() {
  * - wait for successful /token response
  * @param sampleUser
  */
-export function loginUser(sampleUser: SampleUser = user, waitForCsrFallback = false) {
+export function loginUser(
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
+) {
   const succsesfulLogin = interceptPost(
     'succsesfulLogin',
     '/authorizationserver/oauth/token',

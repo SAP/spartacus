@@ -8,7 +8,6 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
-import { interceptGet } from '../support/utils/intercept';
 import { waitForPage } from './navigation';
 
 export interface LoginUser {
