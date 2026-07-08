@@ -10,10 +10,9 @@ sides, and how they work together.
 - [Getting started from scratch](#getting-started-from-scratch)
   - [Step 1: Create the Vivaldi BFF workspace](#step-1-create-the-vivaldi-bff-workspace)
   - [Step 2: Create the Spartacus Classic storefront](#step-2-create-the-spartacus-classic-storefront)
-  - [Step 3: Convert to Nx monorepo (optional)](#step-3-convert-to-nx-monorepo-optional)
-  - [Step 4: Import the storefront into the Vivaldi workspace](#step-4-import-the-storefront-into-the-vivaldi-workspace)
-  - [Step 5: Configure storefrontapp as an Nx project](#step-5-configure-storefrontapp-as-an-nx-project)
-  - [Step 6: Base Spartacus configuration](#step-6-base-spartacus-configuration)
+  - [Step 3: Import the storefront into the Vivaldi workspace](#step-3-import-the-storefront-into-the-vivaldi-workspace)
+  - [Step 4: Configure storefrontapp as an Nx project](#step-4-configure-storefrontapp-as-an-nx-project)
+  - [Step 5: Base Spartacus configuration](#step-5-base-spartacus-configuration)
 - [Architecture and URL injection](#architecture-and-url-injection)
 - [File overview](#file-overview)
 - [Spartacus Classic changes](#spartacus-classic-changes)
@@ -28,19 +27,20 @@ sides, and how they work together.
   - [7. app.module.server.ts](#7-srcappappmoduleserverts-modify)
   - [8. proxy.conf.js](#8-proxyconfjs-new-file-project-root)
   - [9. project.json](#9-projectjson-modify)
-  - [10. .env-cmdrc](#10-env-cmdrc-modify)
-  - [11. Environment files](#11-environment-files-modify)
-  - [12. Example: custom BFF procedure](#12-example-custom-bff-procedure-say-hellocomponentts)
-  - [13. Example: OCC call via BFF](#13-example-occ-call-via-bff-occ-base-sitescomponentts)
-  - [14. bff-example.providers.ts](#14-bff-exampleprovidersts-new-file)
+  - [10. package.json scripts](#10-packagejson-scripts)
+  - [11. .env-cmdrc](#11-env-cmdrc-modify)
+  - [12. Environment files](#12-environment-files-optional--only-if-you-use-buildprocessenv)
+  - [13. Example: custom BFF procedure](#13-example-custom-bff-procedure-say-hellocomponentts)
+  - [14. Example: OCC call via BFF](#14-example-occ-call-via-bff-occ-base-sitescomponentts)
+  - [15. bff-example.providers.ts](#15-bff-exampleprovidersts-new-file)
 - [Vivaldi BFF changes](#vivaldi-bff-changes)
-  - [15. env.d.ts](#15-appsbffenvdts-modify)
-  - [16. vivaldi.apis.ts](#16-appsbffvivaldiapists-modify)
-  - [17. destinations.ts](#17-packagescontractsbffdestinationsts-modify)
-  - [18. context.ts](#18-appsbffsrcapicontextts-modify)
-  - [19. occ.ts router](#19-appsbffsrcapiroutersoccts-new-file)
-  - [20. root.ts](#20-appsbffsrcapiroutersrootts-modify)
-  - [21. .env](#21-appsbffenv-local-dev-only)
+  - [16. env.d.ts](#16-appsbffenvdts-modify)
+  - [17. vivaldi.apis.ts](#17-appsbffvivaldiapists-modify)
+  - [18. destinations.ts](#18-packagescontractsbffdestinationsts-modify)
+  - [19. context.ts](#19-appsbffsrcapicontextts-modify)
+  - [20. occ.ts router](#20-appsbffsrcapiroutersoccts-new-file)
+  - [21. root.ts](#21-appsbffsrcapiroutersrootts-modify)
+  - [22. .env](#22-appsbffenv-local-dev-only)
 - [Testing locally](#testing-locally)
 - [Testing meta tag substitution locally](#testing-meta-tag-substitution-locally)
 - [@vivaldi package upgrade — 0.25.0](#vivaldi-package-upgrade--0250)
@@ -53,19 +53,72 @@ These steps describe how to create a fresh Nx monorepo that contains both a Viva
 and a Spartacus Classic Angular storefront, starting from nothing. Follow them in order
 before applying the BFF integration changes described in the rest of this document.
 
+### Prerequisites
+
+| Tool | Required version | Notes |
+|---|---|---|
+| Node.js | 20 LTS or 22 LTS | Earlier versions are not tested |
+| Angular CLI | 21.2.x | Do **not** use 21.1.x — it has peer-dep conflicts with Spartacus 221121.13.1 |
+| Spartacus schematics | 221121.13.1 | — |
+| `@vivaldi/nx` generator | 0.24.9 | Scaffolds the workspace. **Note:** `@vivaldi/nx@0.25.0` cannot be used to scaffold because a transitive dependency (`@jsonjoy.com/fs-core@4.64.0`) does not exist on npm. Use 0.24.9 and upgrade immediately after (Step 1). |
+
 ---
 
 ### Step 1: Create the Vivaldi BFF workspace
 
-Use the Vivaldi Nx generator to scaffold a workspace that already has the BFF
-infrastructure in place.
+Use the Vivaldi Nx generator to scaffold a workspace.
 
 ```bash
 npx @vivaldi/nx@0.24.9 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
 cd my-vivaldi-workspace
 ```
 
-This creates an Nx monorepo with a `apps/bff` application pre-configured for Vivaldi.
+This creates an Nx monorepo with an `apps/bff` application pre-configured for Vivaldi.
+
+> **Required:** the workspace must be a git repository before Step 3. The generator
+> prints "Initializing git repository..." but does not complete the commit. Run:
+> ```bash
+> git init && git add -A && git commit -m "chore: initial vivaldi workspace"
+> ```
+
+**Immediately upgrade `@vivaldi` packages to 0.25.0.** The generator installs 0.24.9 but
+0.25.0 is required to fix a critical bug where Cloudflare's `__cf_bm` cookie crashes
+every BFF request on CCv2 (see [@vivaldi package upgrade — 0.25.0](#vivaldi-package-upgrade--0250)).
+Also install `@vivaldi/auth` and `@dapr/dapr` which are new peer dependencies in 0.25.0,
+and `@nx/angular` pinned to the workspace `nx` version:
+
+```bash
+npm install \
+  @vivaldi/auth@0.25.0 @dapr/dapr@^3.17.0 \
+  @vivaldi/cli@0.25.0 @vivaldi/common@0.25.0 @vivaldi/config@0.25.0 \
+  @vivaldi/connectivity@0.25.0 @vivaldi/errors@0.25.0 @vivaldi/fastify@0.25.0 \
+  @vivaldi/nx@0.25.0 @vivaldi/testing@0.25.0 @vivaldi/trpc@0.25.0 \
+  @vivaldi/vitest@0.25.0 @vivaldi/angular@0.25.0 \
+  --legacy-peer-deps
+
+# Pin @nx/angular to match the nx version in the workspace (22.5.4).
+# Mismatched versions cause "PluginCache is not a constructor" errors.
+npm install --save-dev @nx/angular@22.5.4
+```
+
+Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed in
+0.25.0 CLI) with the new runner:
+
+```json
+"build": {
+  "executor": "nx:run-commands",
+  "outputs": ["{workspaceRoot}/dist/apps/bff"],
+  "options": { "commands": ["vivaldi build bff"], "parallel": false }
+},
+"serve": {
+  "continuous": true,
+  "executor": "nx:run-commands",
+  "options": {
+    "commands": ["vivaldi build bff && node --experimental-vm-modules dist/apps/bff/vivaldi.mjs"],
+    "parallel": false
+  }
+}
+```
 
 ---
 
@@ -74,63 +127,62 @@ This creates an Nx monorepo with a `apps/bff` application pre-configured for Viv
 **Prerequisite:** install the Angular CLI globally.
 
 ```bash
-npm install -g @angular/cli@21.1.0
+npm install -g @angular/cli@21
 ```
 
-Scaffold a new Angular application and add the Spartacus schematics (optional):
+Scaffold a new Angular application and add the Spartacus schematics:
 
 ```bash
 ng new my-storefront-app --style=scss --ssr=false --zoneless=false \
   --file-name-style-guide=2016
 cd my-storefront-app
-ng add @spartacus/schematics@221121.13.1 --ssr
+ng add @spartacus/schematics@221121.13.1 --ssr --skip-confirmation
 ```
 
-When prompted, select **Assisted services** from the feature list. Skip this step if you already have an Angular application.
+When the feature selection prompt appears, use **Space** to toggle features and **Enter**
+to confirm. The default selection already includes Assisted Services (ASM). You can
+accept the defaults or customise the selection.
+
+> **Skip this step** if you already have an existing Angular application.
 
 ---
 
-### Step 3: Convert to Nx monorepo (optional)
+### Step 3: Import the storefront into the Vivaldi workspace
 
-If the storefront was created as a plain Angular CLI app, convert it to an Nx
-integrated monorepo before importing it into the Vivaldi workspace:
+> **Prerequisite:** the source repository must have at least one git commit. Run the
+> following inside `my-storefront-app` before continuing:
+> ```bash
+> git init && git add -A && git commit -m "init"
+> ```
+
+Run the following from the root of `my-vivaldi-workspace`. The command is interactive —
+press **Enter** at each prompt to accept the defaults:
 
 ```bash
-# Inside my-storefront-app
-npx nx@latest init --integrated
+# From my-vivaldi-workspace root
+nx import <absolute-path-to-my-storefront-app> apps/storefrontapp --ref=main
 ```
 
-> **Prerequisite for the next step:** both the source (`my-storefront-app`) and the
-> destination (`my-vivaldi-workspace`) must be **git repositories**. The `nx import`
-> command uses git history to import the source. Run `git init && git add . && git commit -m "init"`
-> in `my-storefront-app` if it is not already a git repo.
+Prompts and expected responses:
+
+| Prompt | Response |
+|---|---|
+| Which branch do you want to import? | `main` (or press Enter — `--ref=main` pre-fills this) |
+| Which directory do you want to import into this workspace? | Press **Enter** to import the entire repository |
+| Which plugins would you like to add? | Press **Enter** to accept the recommended plugins (`@nx/vitest`, `@nx/angular`) |
 
 ---
 
-### Step 4: Import the storefront into the Vivaldi workspace
-
-Run the following from the root of `my-vivaldi-workspace`:
-
-```bash
-nx import <absolute-path-to-my-storefront-app> \
-  --destination-directory=apps/storefrontapp
-```
-
-When prompted:
-- **Branch to import from** — choose your main branch
-- **Directory to import into** — enter `apps/storefrontapp`
-
----
-
-### Step 5: Configure storefrontapp as an Nx project
+### Step 4: Configure storefrontapp as an Nx project
 
 After importing, manual wiring is needed to make Nx aware of the Angular targets.
 
-**5a. Install `@nx/angular` and register the plugin in `nx.json`:**
+> **Note:** the `project.json` paths below (`apps/storefrontapp/src/...`) assume the
+> storefront was imported as a plain Angular CLI project. Do not run `nx init --integrated`
+> on the storefront before importing — it nests the source at the wrong depth and breaks
+> all paths in the template below.
 
-```bash
-npm install --save-dev @nx/angular
-```
+**4a. Register the `@nx/angular` plugin in `nx.json`:**
 
 Add to `nx.json` → `plugins` array:
 
@@ -147,7 +199,7 @@ Add to `nx.json` → `plugins` array:
 }
 ```
 
-**5b. Create `apps/storefrontapp/project.json`:**
+**4b. Create `apps/storefrontapp/project.json`:**
 
 ```json
 {
@@ -222,7 +274,6 @@ Add to `nx.json` → `plugins` array:
       "executor": "@angular/build:unit-test",
       "options": {
         "tsConfig": "apps/storefrontapp/tsconfig.spec.json",
-        "stylePreprocessorOptions": { "includePaths": ["node_modules/"] },
         "styles": [
           "apps/storefrontapp/src/styles/spartacus/user.scss",
           "apps/storefrontapp/src/styles/spartacus/cart.scss",
@@ -239,6 +290,11 @@ Add to `nx.json` → `plugins` array:
             "output": "assets/"
           }
         ]
+      },
+      "configurations": {
+        "test": {
+          "stylePreprocessorOptions": { "includePaths": ["node_modules/"] }
+        }
       }
     }
   }
@@ -248,22 +304,43 @@ Add to `nx.json` → `plugins` array:
 > **Important:** make sure `outputPath` is `dist/apps/storefrontapp` (not
 > `dist/apps/my-storefront-app` or whatever the Angular CLI defaulted to).
 
-**5c. Merge dependencies and clean up:**
+**4d. Add `@repo/bff/*` path aliases to the storefrontapp `tsconfig.json`:**
+
+The storefrontapp was originally a standalone Angular CLI project whose `tsconfig.json`
+does not inherit from the Vivaldi workspace's `tsconfig.base.json`. The BFF client files
+(`bff-client.service.ts` etc.) import `@repo/bff/clients` which is only defined in
+`tsconfig.base.json`. Add the relevant paths directly to `apps/storefrontapp/tsconfig.json`
+under `compilerOptions`:
+
+```json
+"baseUrl": ".",
+"paths": {
+  "@repo/bff/clients": ["../../packages/clients/bff/index.ts"],
+  "@repo/bff/clients/*": ["../../packages/clients/bff/*.ts", "../../packages/clients/bff/*/index.ts"],
+  "@repo/bff/contracts": ["../../packages/contracts/bff/index.ts"],
+  "@repo/bff/router": ["../../apps/bff/src/api/routers/root.ts"],
+  "@repo/bff/trpc": ["../../apps/bff/src/api/trpc.ts"]
+}
+```
+
+> **Note:** Do not add `"extends": "../../tsconfig.base.json"` to the storefrontapp tsconfig.
+> The Vivaldi workspace `tsconfig.base.json` uses different compiler settings (e.g. `module: esnext`,
+> `target: es2015`) that conflict with Angular 21's required `module: preserve` and `target: ES2022`
+> settings. Adding the paths manually avoids this conflict.
 
 1. Move all `dependencies` and `devDependencies` from `apps/storefrontapp/package.json`
    into the root `package.json`, resolving any version conflicts.
 2. Delete `apps/storefrontapp/package.json` and `apps/storefrontapp/package-lock.json`.
-3. Run `npm install` at the workspace root.
-4. Verify: `nx run storefrontapp:serve` starts the app successfully.
 
-**Known issue — `npm error code E401` during `npm ci`:**
+**Known issue — `npm error code E401` during `npm install`:**
 
 The `package-lock.json` generated by the Angular CLI may contain resolved URLs pointing
 at the SAP Artifactory mirror (`common.repositories.cloud.sap/artifactory/...`). Build
 agents that only have `SAP_RBSCTOKEN` cannot authenticate against Artifactory and every
 tarball fetch fails with 401 (invisible at default log level).
 
-Fix — regenerate the lockfile against the public registry:
+If `npm install` fails with E401, regenerate the lockfile against the public registry
+**before** running `npm install`:
 
 ```bash
 rm -rf node_modules package-lock.json
@@ -272,14 +349,19 @@ git add package-lock.json
 git commit -m "chore: regenerate lockfile against public registry"
 ```
 
+3. Run `npm install` at the workspace root (after resolving the lockfile if needed).
+4. Verify: `nx run storefrontapp:serve` starts the app successfully.
+
 ---
 
-### Step 6: Base Spartacus configuration
+### Step 5: Base Spartacus configuration
 
 After the import, add the minimum site-context configuration so Spartacus can
 initialise. Without this the app fails to bootstrap because no `baseSite` is defined.
 
-In `apps/storefrontapp/src/app/spartacus/spartacus-configuration.module.ts`, add:
+In `apps/storefrontapp/src/app/spartacus/spartacus-configuration.module.ts`, the
+schematics already generate a `provideConfig(<SiteContextConfig>{ context: {} })` block
+with an empty `context`. Fill it in with the required values:
 
 ```ts
 provideConfig(<SiteContextConfig>{
@@ -290,6 +372,8 @@ provideConfig(<SiteContextConfig>{
   },
 }),
 ```
+
+Do not add a second `SiteContextConfig` block — update the one that already exists.
 
 This must come **before** the BFF integration changes below — the app will not serve
 any page without a valid `baseSite` configuration.
@@ -342,6 +426,7 @@ src/
     environment.ts                            ← read CX_BFF_BASE_URL
     environment.prod.ts                       ← read CX_BFF_BASE_URL
 proxy.conf.js                                 ← dev-server proxy (reads CX_BFF_BASE_URL)
+package.json                                  ← add build:bff, dev:bff, start:storefrontapp scripts
 .env-cmdrc                                    ← add CX_BFF_BASE_URL to dev profiles
 project.json                                  ← point serve to proxy.conf.js
 ```
@@ -368,7 +453,12 @@ packages/contracts/bff/
 ### 1. `src/index.html`
 
 Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces the placeholders
-at deploy time:
+at deploy time.
+
+> **Note:** The Spartacus schematics already generate
+> `<meta name="occ-backend-base-url" content="https://localhost:9002" />`.
+> Replace the hardcoded value with the placeholder and add the `media-backend-base-url`
+> and `bff-base-url` tags alongside it:
 
 ```html
 <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
@@ -763,20 +853,58 @@ module.exports = {
 
 ### 9. `project.json` *(modify)*
 
-Point the `serve` target at `proxy.conf.js`:
+Add `proxyConfig` to the `serve` target's `options`. The executor for a standard Angular
+app is `@angular/build:dev-server`:
 
 ```json
 "serve": {
-  "executor": "@angular-builders/custom-esbuild:dev-server",
+  "executor": "@angular/build:dev-server",
   "options": {
-    "proxyConfig": "projects/storefrontapp/proxy.conf.js"
+    "buildTarget": "storefrontapp:build",
+    "proxyConfig": "apps/storefrontapp/proxy.conf.js"
   }
 }
 ```
 
 ---
 
-### 10. `.env-cmdrc` *(modify)*
+### 10. `package.json` scripts
+
+Add the following convenience scripts to the root `package.json`. They give all team
+members consistent commands regardless of which nx target names are used internally:
+
+```json
+{
+  "scripts": {
+    "build:bff": "vivaldi build bff",
+    "dev:bff": "nx serve bff",
+    "start:storefrontapp": "nx serve storefrontapp",
+    "start:storefrontapp:ssr": "nx serve-ssr storefrontapp",
+    "build:storefrontapp": "nx build storefrontapp",
+    "test:storefrontapp": "nx test storefrontapp",
+    "serve:ssr:storefrontapp": "node dist/apps/storefrontapp/server/server.mjs"
+  }
+}
+```
+
+| Script | What it does |
+|---|---|
+| `npm run build:bff` | Builds the BFF into `dist/apps/bff/vivaldi.mjs` |
+| `npm run dev:bff` | Builds then runs the BFF (0.25.0: `vivaldi build bff && node vivaldi.mjs`) |
+| `npm run start:storefrontapp` | Starts the Angular dev server (no SSR) on port 4200 |
+| `npm run start:storefrontapp:ssr` | Starts the Angular dev server with SSR enabled |
+| `npm run build:storefrontapp` | Production build of the storefront |
+| `npm run test:storefrontapp` | Runs unit tests for the storefront |
+| `npm run serve:ssr:storefrontapp` | Serves the pre-built SSR bundle directly with Node |
+
+> **Note:** `dev:bff` delegates to `nx serve bff`, which uses the `serve` target in
+> `apps/bff/project.json`. In @vivaldi 0.25.0, that target runs
+> `vivaldi build bff && node --experimental-vm-modules dist/apps/bff/vivaldi.mjs`
+> rather than the old `vivaldi dev bff` CLI command (removed in 0.25.0).
+
+---
+
+### 11. `.env-cmdrc` *(modify)*
 
 Add `CX_BFF_BASE_URL` to each dev profile. Used **only** by `proxy.conf.js` at
 dev-server startup — never read by the Angular app itself:
@@ -796,7 +924,16 @@ dev-server startup — never read by the Angular app itself:
 
 ---
 
-### 11. Environment files *(modify)*
+### 12. Environment files *(optional — only if you use `buildProcess.env`)*
+
+> **Note:** `ng new` no longer generates an `environments/` directory in Angular 15+.
+> This section only applies if you have an existing project that already uses environment
+> files with Vivaldi's `buildProcess.env` esbuild plugin.
+>
+> For fresh projects created with `ng new`, the BFF URL is read directly from the
+> `bff-base-url` meta tag at runtime — no environment file changes are needed.
+
+If your project uses environment files:
 
 ```ts
 // environment.model.ts — add field
@@ -819,7 +956,7 @@ bffBaseUrl: buildProcess.env.CX_BFF_BASE_URL,
 
 ---
 
-### 12. Example: custom BFF procedure (`say-hello.component.ts`)
+### 13. Example: custom BFF procedure (`say-hello.component.ts`)
 
 Route: `/bff-say-hello`
 
@@ -840,7 +977,7 @@ export class SayHelloComponent {
 
 ---
 
-### 13. Example: OCC call via BFF (`occ-base-sites.component.ts`)
+### 14. Example: OCC call via BFF (`occ-base-sites.component.ts`)
 
 Route: `/occ-base-sites`
 
@@ -861,7 +998,7 @@ export class OccBaseSitesComponent {
 
 ---
 
-### 14. `bff-example.providers.ts` *(new file)*
+### 15. `bff-example.providers.ts` *(new file)*
 
 ```ts
 export const bffExampleProviders: Provider[] = [
@@ -894,7 +1031,7 @@ Spread into `app.module.ts` providers: `providers: [privateProviders, ...bffExam
 
 ## Vivaldi BFF changes
 
-### 15. `apps/bff/env.d.ts` *(modify)*
+### 16. `apps/bff/env.d.ts` *(modify)*
 
 Declare `OCC_BASE_URL` so Vivaldi's typed env system recognises it:
 
@@ -910,7 +1047,7 @@ export {};
 
 ---
 
-### 16. `apps/bff/vivaldi.apis.ts` *(modify)*
+### 17. `apps/bff/vivaldi.apis.ts` *(modify)*
 
 Register the OCC backend as a host and expose it as the `occ_v2` destination.
 Vivaldi auto-discovers this file — no change to `vivaldi.ts` needed.
@@ -941,7 +1078,7 @@ export default {
 
 ---
 
-### 17. `packages/contracts/bff/destinations.ts` *(modify)*
+### 18. `packages/contracts/bff/destinations.ts` *(modify)*
 
 Expose `occ_v2` to the tRPC context so procedures can call `ctx.destinations.occ.v2()`:
 
@@ -953,7 +1090,7 @@ export default createDestinations(['occ_v2']);
 
 ---
 
-### 18. `apps/bff/src/api/context.ts` *(modify)*
+### 19. `apps/bff/src/api/context.ts` *(modify)*
 
 Rewrite using a typed interface that extends `RequiredContext`. This is required so
 the storefrontapp's typecheck can walk into BFF source files via the `@repo/bff/clients`
@@ -982,7 +1119,7 @@ export const createContext: () => Promise<Context> = async () => ({
 
 ---
 
-### 19. `apps/bff/src/api/routers/occ.ts` *(new file)*
+### 20. `apps/bff/src/api/routers/occ.ts` *(new file)*
 
 tRPC router for OCC proxy procedures. Each procedure forwards to OCC via
 `ctx.execute.http` and the `occ_v2` destination. The `Authorization` header from the
@@ -1035,7 +1172,7 @@ with the desired path (relative to `/occ/v2`), forwarded headers, and `occV2(ctx
 
 ---
 
-### 20. `apps/bff/src/api/routers/root.ts` *(modify)*
+### 21. `apps/bff/src/api/routers/root.ts` *(modify)*
 
 Register the new `occ` router alongside `sample`:
 
@@ -1055,7 +1192,7 @@ export const createCaller = createCallerFactory(rootRouter);
 
 ---
 
-### 21. `apps/bff/.env` *(local dev only)*
+### 22. `apps/bff/.env` *(local dev only)*
 
 Set `OCC_BASE_URL` for local BFF development. Must be a hostname with a **CA-signed
 certificate** — the BFF container on CCv2 runs Node.js in production mode which rejects
