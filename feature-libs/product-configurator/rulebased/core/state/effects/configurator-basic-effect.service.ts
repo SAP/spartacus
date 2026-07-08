@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
 
 /**
@@ -13,6 +15,51 @@ import { Configurator } from '../../model/configurator.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorBasicEffectService {
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+
+  /**
+   * Returns the given configuration from the store if the requested tab (group)
+   * was loaded before and still holds attributes, so that the caller can avoid
+   * an unnecessary backend read.
+   *
+   * This is relevant for configurator types that load tabs lazily (one group
+   * per backend call) and may safely reuse an already loaded tab.
+   *
+   * @param configuration - configuration currently held in the store
+   * @param configId - requested configuration ID
+   * @param groupId - requested group (tab) ID
+   * @param owner - configuration owner
+   * @returns configuration from the store, or undefined if the tab was not loaded before or has no attributes
+   */
+  getConfigurationIfTabAlreadyLoaded(
+    configuration: Configurator.Configuration,
+    configId: string,
+    groupId: string,
+    owner: CommonConfigurator.Owner
+  ): Configurator.Configuration | undefined {
+    if (!configuration || !groupId || configuration.configId !== configId) {
+      return undefined;
+    }
+
+    const group = this.configuratorUtilsService.getGroupById(
+      configuration.groups,
+      groupId
+    );
+
+    if (!group?.attributes?.length) {
+      return undefined;
+    }
+
+    return {
+      ...configuration,
+      owner,
+      interactionState: {
+        ...configuration.interactionState,
+        currentGroup: groupId,
+      },
+    };
+  }
+
   /**
    * Finds first attribute group with attributes for a configuration (ignores conflict groups per default).
    * If optional parameter 'includeConflicts' is set to true it finds first group with attributes including conflict groups.
