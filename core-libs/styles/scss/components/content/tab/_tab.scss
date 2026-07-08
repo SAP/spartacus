@@ -7,10 +7,6 @@
   --cx-tab-btn-border-radius: none;
   --cx-tab-btn-font-size: 1.2rem;
 
-  @include forFeature('improvedTabStyling') {
-    --cx-tab-btn-padding-bottom: 13px;
-  }
-
   // Tab panel
   --cx-tab-panel-bg: var(--cx-color-background);
   --cx-tab-panel-padding: 50px 0;
@@ -31,7 +27,7 @@
 
     @include forFeature('improvedTabStyling') {
       position: relative;
-      padding-bottom: var(--cx-tab-btn-padding-bottom);
+      padding-bottom: 13px;
     }
 
     &:first-of-type {

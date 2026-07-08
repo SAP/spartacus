@@ -669,17 +669,8 @@ export interface FeatureTogglesInterface {
   b2bCheckoutShippingAddressFilter?: boolean;
 
   /**
-   * Refines the visual styling of the tab component (`cx-tab`):
-   * - anchors the active/hover bottom border to the bottom of the button
-   *   (via absolute positioning) instead of pushing it down with
-   *   `margin-top`, so the border stays flush with the tab panel edge;
-   * - narrows the active/hover border width from 100% to 95%;
-   * - introduces the `--cx-tab-btn-padding-bottom` CSS custom property
-   *   (default `13px`) to reserve room for the border underneath the label;
-   * - applies the tab button `border-radius` to the bottom corners of the
-   *   border element.
-   *
-   * Affects: `TabComponent` (`cx-tab`).
+   * Refines the `cx-tab` active/hover border: anchors it to the bottom of
+   * the button, narrows its width to 95%, and rounds its bottom corners.
    */
   improvedTabStyling?: boolean;
 }
