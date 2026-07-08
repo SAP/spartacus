@@ -6,7 +6,6 @@
   --cx-tab-btn-border: none;
   --cx-tab-btn-border-radius: none;
   --cx-tab-btn-font-size: 1.2rem;
-
   // Tab panel
   --cx-tab-panel-bg: var(--cx-color-background);
   --cx-tab-panel-padding: 50px 0;
@@ -86,10 +85,9 @@
         // flush with the tab panel, instead of being pushed down by
         // `margin-top`.
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         inset-inline-start: 0;
         inset-inline-end: 0;
-        margin: 0 auto;
         border-radius: 0 0 var(--cx-tab-btn-border-radius)
           var(--cx-tab-btn-border-radius);
 

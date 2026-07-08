@@ -655,7 +655,7 @@ export interface FeatureTogglesInterface {
 
   /**
    * Refines the `cx-tab` active/hover border: anchors it to the bottom of
-   * the button, narrows its width to 95%, and rounds its bottom corners.
+   * the button, and rounds its bottom corners.
    */
   improvedTabStyling?: boolean;
 }
