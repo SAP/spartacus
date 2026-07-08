@@ -667,6 +667,21 @@ export interface FeatureTogglesInterface {
    * are shown on the B2B checkout delivery address step.
    */
   b2bCheckoutShippingAddressFilter?: boolean;
+
+  /**
+   * Refines the visual styling of the tab component (`cx-tab`):
+   * - anchors the active/hover bottom border to the bottom of the button
+   *   (via absolute positioning) instead of pushing it down with
+   *   `margin-top`, so the border stays flush with the tab panel edge;
+   * - narrows the active/hover border width from 100% to 95%;
+   * - introduces the `--cx-tab-btn-padding-bottom` CSS custom property
+   *   (default `13px`) to reserve room for the border underneath the label;
+   * - applies the tab button `border-radius` to the bottom corners of the
+   *   border element.
+   *
+   * Affects: `TabComponent` (`cx-tab`).
+   */
+  improvedTabStyling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -749,4 +764,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   asyncAuthConfigInitializer: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
+  improvedTabStyling: false,
 };

@@ -6,7 +6,11 @@
   --cx-tab-btn-border: none;
   --cx-tab-btn-border-radius: none;
   --cx-tab-btn-font-size: 1.2rem;
-  --cx-tab-btn-padding-bottom: 13px;
+
+  @include forFeature('improvedTabStyling') {
+    --cx-tab-btn-padding-bottom: 13px;
+  }
+
   // Tab panel
   --cx-tab-panel-bg: var(--cx-color-background);
   --cx-tab-panel-padding: 50px 0;
@@ -19,13 +23,16 @@
 
   .tab-btn {
     order: 0;
-    position: relative;
     transition: all 0.6s;
     font-size: var(--cx-tab-btn-font-size);
     text-align: center;
     margin: 0;
     border: 0;
-    padding-bottom: var(--cx-tab-btn-padding-bottom);
+
+    @include forFeature('improvedTabStyling') {
+      position: relative;
+      padding-bottom: var(--cx-tab-btn-padding-bottom);
+    }
 
     &:first-of-type {
       grid-column: 3;
@@ -51,7 +58,11 @@
 
     &.active:after,
     &:hover:not([disabled]):after {
-      width: 95%;
+      width: 100%;
+
+      @include forFeature('improvedTabStyling') {
+        width: 95%;
+      }
     }
     &.active:after,
     &.active:hover:after {
@@ -65,14 +76,10 @@
     &:after {
       content: '';
       display: block;
-      position: absolute;
-      bottom: 1px;
-      inset-inline-start: 0;
-      inset-inline-end: 0;
-      margin-inline: auto;
-      border-radius: 0 0 var(--cx-tab-btn-border-radius)
-        var(--cx-tab-btn-border-radius);
-
+      margin-top: 15px;
+      margin-inline-end: auto;
+      margin-bottom: auto;
+      margin-inline-start: auto;
       height: 5px;
       background: var(--cx-color-primary);
 
@@ -81,6 +88,19 @@
       width: 0;
       opacity: 0;
       transition: all 0.6s;
+
+      @include forFeature('improvedTabStyling') {
+        // Anchor the border to the bottom edge of the button so it stays
+        // flush with the tab panel, instead of being pushed down by
+        // `margin-top`.
+        position: absolute;
+        bottom: 0px;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
+        margin: 0 auto;
+        border-radius: 0 0 var(--cx-tab-btn-border-radius)
+          var(--cx-tab-btn-border-radius);
+      }
     }
   }
 
