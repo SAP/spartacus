@@ -1,12 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ActionsSubject, StoreModule } from '@ngrx/store';
 import { AuthActions, ConsentService, FeatureToggles } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
-import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
-import { fakeAsync, tick, flush } from '@angular/core/testing';
 import { LOGIN_EVENTS, LoginEventEnvelope } from '../tokens/login-events.token';
+import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 
 describe('ProfileTagLifecycleService', () => {
   let service: ProfileTagLifecycleService;
@@ -28,7 +27,7 @@ describe('ProfileTagLifecycleService', () => {
         { provide: ConsentService, useValue: consentServiceSpy },
         {
           provide: FeatureToggles,
-          useValue: { cdsLoginEventsToken: false } as FeatureToggles,
+          useValue: { cdsLoginEventsToken: false } satisfies FeatureToggles,
         },
         {
           provide: CdsConfig,

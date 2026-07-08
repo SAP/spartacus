@@ -11,7 +11,7 @@ import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { StrategyProducts } from '../../model/strategy-products.model';
 import { CdsMerchandisingStrategyAdapter } from './cds-merchandising-strategy.adapter';
 import createSpy = jasmine.createSpy;
-import { BaseSiteService } from '@spartacus/core';
+import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
 
 const STRATEGY_ID = 'test-strategy-id';
@@ -67,12 +67,19 @@ class MockBaseSiteService {
   );
 }
 
+class MockWindowRef {
+  isBrowser = createSpy('MockWindowRef.isBrowser').and.returnValue(true);
+}
+
 describe('MerchandisingStrategyAdapter', () => {
   let strategyAdapter: CdsMerchandisingStrategyAdapter;
   let httpMock: HttpTestingController;
   let cdsEndpointsService: CdsEndpointsService;
+  let mockWindowRef: MockWindowRef;
 
   beforeEach(() => {
+    mockWindowRef = new MockWindowRef();
+
     TestBed.configureTestingModule({
       providers: [
         {
@@ -82,6 +89,10 @@ describe('MerchandisingStrategyAdapter', () => {
         {
           provide: BaseSiteService,
           useClass: MockBaseSiteService,
+        },
+        {
+          provide: WindowRef,
+          useValue: mockWindowRef,
         },
         CdsMerchandisingStrategyAdapter,
         provideHttpClient(withInterceptorsFromDi()),
@@ -100,6 +111,20 @@ describe('MerchandisingStrategyAdapter', () => {
 
   it('should be created', () => {
     expect(strategyAdapter).toBeTruthy();
+  });
+
+  describe('SSR (non-browser) environment', () => {
+    it('should return empty products and not make an HTTP call when not in browser', () => {
+      mockWindowRef.isBrowser.and.returnValue(false);
+
+      strategyAdapter
+        .loadProductsForStrategy(STRATEGY_ID)
+        .subscribe((products) => {
+          expect(products).toEqual({ products: [] });
+        });
+
+      httpMock.expectNone(STRATEGY_PRODUCTS_ENDPOINT_KEY);
+    });
   });
 
   describe('load products for strategy', () => {

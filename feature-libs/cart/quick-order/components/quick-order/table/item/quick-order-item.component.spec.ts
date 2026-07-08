@@ -105,7 +105,7 @@ describe('QuickOrderItemComponent', () => {
     fixture = TestBed.createComponent(QuickOrderItemComponent);
     component = fixture.componentInstance;
 
-    component.entry = mockEntry;
+    fixture.componentRef.setInput('entry', mockEntry);
     component.index = mockIndex;
     fixture.detectChanges();
   });
