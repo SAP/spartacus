@@ -50,12 +50,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent
-   */
-  readMoreDirective?: boolean;
-
-  /**
    * Introduces the read more directive in product list item summary
    * Affects: ProductListItemComponent
    */
@@ -666,7 +660,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddPaddingToCarouselPanel: true,
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
-  readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
