@@ -55,10 +55,6 @@
     &.active:after,
     &:hover:not([disabled]):after {
       width: 100%;
-
-      @include forFeature('improvedTabStyling') {
-        width: 95%;
-      }
     }
     &.active:after,
     &.active:hover:after {
@@ -96,6 +92,16 @@
         margin: 0 auto;
         border-radius: 0 0 var(--cx-tab-btn-border-radius)
           var(--cx-tab-btn-border-radius);
+
+        // Occupy 50% of the button's height, but paint only the bottom
+        // quarter — top 3/4 stays transparent — via a hard-stop gradient.
+        // Net visible bar is 12.5% of the button, anchored at the bottom.
+        height: 50%;
+        background: linear-gradient(
+          to bottom,
+          transparent 75%,
+          var(--cx-color-primary) 75%
+        );
       }
     }
   }
