@@ -15,11 +15,19 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OAuthLibWrapperService,
+  OCC_USER_ID_ANONYMOUS,
   RoutingService,
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, from, lastValueFrom, Observable, of } from 'rxjs';
+import {
+  combineLatest,
+  firstValueFrom,
+  from,
+  lastValueFrom,
+  Observable,
+  of,
+} from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
@@ -50,6 +58,32 @@ export class AsmAuthService extends AuthService {
       routingService,
       authMultisiteIsolationService
     );
+  }
+
+  /**
+   * After being redirected back from the authorization server, processes the OAuth
+   * callback. When using the ASM client (agent login flow triggered by early login /
+   * route guard), the token is set as a CS Agent token and the agent is considered
+   * logged in without requiring a second "Sign In as Agent" click.
+   */
+  override async checkOAuthParamsInUrl(): Promise<void> {
+    const isUsingASMClient = await firstValueFrom(this.isUsingASMClient());
+    if (!isUsingASMClient) {
+      await super.checkOAuthParamsInUrl();
+      return;
+    }
+
+    try {
+      const loginResult = await this.oAuthLibWrapperService.tryLogin();
+      const token = this.authStorageService.getItem('access_token');
+
+      if (loginResult.result && token && loginResult.tokenReceived) {
+        this.authStorageService.switchTokenTargetToCSAgent();
+        this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+        this.store.dispatch(new AuthActions.Login());
+        this.authRedirectService.redirect();
+      }
+    } catch {}
   }
 
   protected canUserLogin(): boolean {
@@ -93,15 +127,42 @@ export class AsmAuthService extends AuthService {
 
   /**
    * Initialize Implicit/Authorization Code flow by redirecting to OAuth server when CS agent is not logged in.
+   *
+   * When a CS Agent is already logged in but not emulating a customer, guards
+   * that check `isUserLoggedIn()` (e.g. CheckoutAuthGuard) may still route the
+   * user through /login. In that case, redirect to the homepage instead of
+   * showing "Cannot login as user" — the CS Agent is authenticated and should
+   * proceed from the home page (they can emulate a customer via the ASM banner).
    */
   loginWithRedirect(): boolean {
     if (this.canUserLogin()) {
       super.loginWithRedirect();
       return true;
+    } else if (this.isCsAgentActive()) {
+      this.routingService.go('/');
+      return true;
     } else {
       this.warnAboutLoggedCSAgent();
       return false;
     }
+  }
+
+  /**
+   * True when there is an active CS Agent session (token present + tokenTarget=CSAgent).
+   */
+  protected isCsAgentActive(): boolean {
+    let tokenTarget: TokenTarget | undefined;
+    let token: AuthToken | undefined;
+
+    this.authStorageService
+      .getToken()
+      .subscribe((tok) => (token = tok))
+      .unsubscribe();
+    this.authStorageService
+      .getTokenTarget()
+      .subscribe((tokTarget) => (tokenTarget = tokTarget))
+      .unsubscribe();
+    return Boolean(token?.access_token) && tokenTarget === TokenTarget.CSAgent;
   }
 
   /**
