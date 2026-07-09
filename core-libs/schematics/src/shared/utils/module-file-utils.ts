@@ -147,7 +147,7 @@ function getTemplateUrlOrInlineTemplate(
   }
 
   let stringNode: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral;
-  stringNode = stringNode = findNodes(
+  stringNode = findNodes(
     templateMetadata,
     ts.SyntaxKind.NoSubstitutionTemplateLiteral
   )[0] as ts.NoSubstitutionTemplateLiteral;
