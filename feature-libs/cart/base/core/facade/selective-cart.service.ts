@@ -54,7 +54,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
         distinctUntilChanged(),
         tap(([selectiveId, user, userId, activeBaseSite]) => {
           if (
-            !Boolean(selectiveId) &&
+            !selectiveId &&
             userId !== OCC_USER_ID_ANONYMOUS &&
             user?.customerId
           ) {
