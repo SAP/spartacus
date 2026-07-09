@@ -7,7 +7,12 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FeatureDirective, FeatureToggles, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  FeatureToggles,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -16,7 +21,15 @@ import { MiniCartComponentService } from './mini-cart-component.service';
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, FeatureDirective, RouterLink, IconComponent, AsyncPipe, UrlPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    FeatureDirective,
+    RouterLink,
+    IconComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class MiniCartComponent {
   iconTypes = ICON_TYPE;
