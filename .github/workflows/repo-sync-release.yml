@@ -21,6 +21,15 @@ jobs:
           RBSC_TOKEN: ${{ secrets.RBSC_TOKEN }}
           RBSC_REGISTRY_URL: ${{ vars.RBSC_REGISTRY_URL }}
         run: |
+          set -euo pipefail
+
+          # Fail early with a clear message if the registry URL isn't configured,
+          # otherwise npm will silently fall back to the public registry and we don't want that.
+          if [[ -z "${RBSC_REGISTRY_URL}" ]]; then
+            echo "Error: RBSC_REGISTRY_URL is empty (check the repo/environment variable)"
+            exit 1
+          fi
+
           # Configure auth for the RBSC-hosted @spartacus scope.
           # npm's auth lines use the //host/path form (scheme stripped).
           RBSC_HOST_PATH="${RBSC_REGISTRY_URL#https:}"
@@ -31,7 +40,19 @@ jobs:
           EOF
 
           # Latest published version of @spartacus/core (e.g. 221121.13.1) -> major is the middle component (13)
-          VERSION=$(npm view @spartacus/core version)
+          # Use the 'release' dist-tag: the RBSC registry has no 'latest' tag, so 'npm view ... version'
+          # (which resolves 'latest' by default) returns an empty string.
+          # Capture stderr so an auth/registry failure surfaces instead of an empty VERSION.
+          if ! VERSION=$(npm view @spartacus/core@release version 2>npm-view.err); then
+            echo "Error: 'npm view @spartacus/core@release version' failed:"
+            cat npm-view.err
+            exit 1
+          fi
+          if [[ -z "$VERSION" ]]; then
+            echo "Error: 'npm view @spartacus/core@release version' returned no version"
+            cat npm-view.err
+            exit 1
+          fi
           MAJOR_VERSION=$(echo "$VERSION" | awk -F. '{print $2}')
           if ! [[ "$MAJOR_VERSION" =~ ^[0-9]+$ ]]; then
             echo "Error: could not extract numeric major from '$VERSION'"
