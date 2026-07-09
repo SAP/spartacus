@@ -331,6 +331,7 @@ function create_apps {
         printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
         add_spartacus_csr ${CSR_APP_NAME} ${IS_NPM_INSTALL}
+        addFooterVersion ${CSR_APP_NAME}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
@@ -338,6 +339,7 @@ function create_apps {
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
         add_spartacus_ssr ${SSR_APP_NAME} ${IS_NPM_INSTALL}
+        addFooterVersion ${SSR_APP_NAME}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
@@ -345,6 +347,7 @@ function create_apps {
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
         add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${IS_NPM_INSTALL}
+        addFooterVersion ${SSR_PWA_APP_NAME}
     fi
 }
 
@@ -1114,6 +1117,101 @@ sed_inplace() {
         sed -i '' "$@"
     else
         sed -i "$@"
+    fi
+}
+
+# Adds a footer copyright-notice version customization to a generated app.
+# It writes a ParagraphComponent override that appends SPARTACUS_VERSION to the
+# footer copyright notice, and wires it into the generated SpartacusConfigurationModule.
+# The version is baked in as a literal (the generated app uses a plain `ng build`).
+function addFooterVersion {
+    local app_dir="${1}"
+    local app_path="${INSTALLATION_DIR}/${app_dir}/src/app"
+    local footer_dir="${app_path}/spartacus/footer"
+    local config_module="${app_path}/spartacus/spartacus-configuration.module.ts"
+
+    printh "Adding footer version customization (version: ${SPARTACUS_VERSION}) for app: ${app_dir}"
+
+    if [ ! -f "$config_module" ]; then
+        echo "Skipping footer version: config module not found at $config_module"
+        return
+    fi
+
+    mkdir -p "$footer_dir"
+
+    # Component: overrides the paragraph CMS component to append the version to
+    # the copyright notice. Only content matching the copyright text is rewritten.
+    cat > "${footer_dir}/footer-version-paragraph.component.ts" <<EOF
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ParagraphComponent,
+  SupplementHashAnchorsPipe,
+} from '@spartacus/storefront';
+
+const COPYRIGHT_NOTICE_PATTERN =
+  /Copyright ©.*SAP SE or an SAP affiliate company\\. All rights reserved\\./;
+
+const SPARTACUS_VERSION = '${SPARTACUS_VERSION}';
+
+@Component({
+  selector: 'app-footer-version-paragraph',
+  template: \`<div
+    *ngIf="component.data\$ | async as data"
+    [innerHTML]="
+      bypassSecurityTrustHtml(
+        appendVersionToNotice(data.content) | cxSupplementHashAnchors
+      )
+    "
+  ></div>\`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, SupplementHashAnchorsPipe],
+})
+export class FooterVersionParagraphComponent extends ParagraphComponent {
+  appendVersionToNotice(content = ''): string {
+    return content.replace(
+      COPYRIGHT_NOTICE_PATTERN,
+      (match) => \`\${match} On Spartacus v\${SPARTACUS_VERSION}\`
+    );
+  }
+}
+EOF
+
+    # Module: overrides the CMSParagraphComponent CMS mapping.
+    cat > "${footer_dir}/footer-version.module.ts" <<EOF
+import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
+import { FooterVersionParagraphComponent } from './footer-version-paragraph.component';
+
+@NgModule({
+  imports: [FooterVersionParagraphComponent],
+  providers: [
+    provideConfig(<CmsConfig>{
+      cmsComponents: {
+        CMSParagraphComponent: {
+          component: FooterVersionParagraphComponent,
+        },
+      },
+    }),
+  ],
+})
+export class FooterVersionModule {}
+EOF
+
+    # Wire FooterVersionModule into the generated SpartacusConfigurationModule.
+    if grep -q "FooterVersionModule" "$config_module"; then
+        echo "FooterVersionModule already wired in $config_module, skipping."
+        return
+    fi
+    # Add the import statement after the NgModule import line.
+    sed_inplace "s#\(import { NgModule } from '@angular/core';\)#\1\nimport { FooterVersionModule } from './footer/footer-version.module';#" "$config_module"
+    # Add FooterVersionModule to the (possibly empty) imports array.
+    sed_inplace -E "s/imports:[[:space:]]*\[/imports: [FooterVersionModule,/" "$config_module"
+
+    if grep -q "FooterVersionModule" "$config_module"; then
+        echo "FooterVersionModule successfully wired in $config_module."
+    else
+        echo "Failed to wire FooterVersionModule in $config_module."
     fi
 }
 
