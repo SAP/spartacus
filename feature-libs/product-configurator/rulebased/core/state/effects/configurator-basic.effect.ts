@@ -326,8 +326,7 @@ export class ConfiguratorBasicEffects {
                       this.configuratorGroupUtilsService.getGroupById(
                         payload.groups,
                         groupIdFromPayload
-                      ),
-                      undefined
+                      )
                     );
                   return {
                     currentGroupId,
