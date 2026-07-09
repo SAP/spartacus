@@ -32,7 +32,7 @@ const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
 export function getSourceRoot(
   host: Tree,
-  options: { project?: string | undefined; path?: string | undefined } = {}
+  options: { project?: string; path?: string } = {}
 ): string {
   const workspace = getWorkspace(host).workspace;
 
