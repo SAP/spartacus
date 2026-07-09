@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -51,7 +51,6 @@ const PROCEED_TO_CHECKOUT_GATE_SAFETY_VALVE_MS = 10_000;
   imports: [
     AsyncPipe,
     FeatureDirective,
-    NgIf,
     ProgressButtonComponent,
     RouterLink,
     TranslatePipe,
@@ -121,10 +120,6 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
 
   disableButtonWhileNavigation(): void {
     this.cartValidationInProgress = true;
-  }
-
-  protected isSlowNetworkResilienceEnabled(): boolean {
-    return !!this.featureToggles.enableCartSlowNetworkResilience;
   }
 
   ngOnDestroy(): void {

@@ -29,7 +29,7 @@
     </span>
   </ng-container>
 
-  <ng-container *ngIf="!isSlowNetworkResilienceEnabled()">
+  <ng-container *cxFeature="'!enableCartSlowNetworkResilience'">
     <span class="total">
       {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
     </span>

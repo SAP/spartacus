@@ -16,7 +16,7 @@
   </cx-progress-button>
 </ng-container>
 
-<ng-container *ngIf="!isSlowNetworkResilienceEnabled()">
+<ng-container *cxFeature="'!enableCartSlowNetworkResilience'">
   <cx-progress-button
     (clickEvent)="disableButtonWhileNavigation()"
     [class]="'btn btn-primary btn-block'"

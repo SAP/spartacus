@@ -5,14 +5,9 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  FeatureDirective,
-  FeatureToggles,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -34,8 +29,6 @@ import { MiniCartComponentService } from './mini-cart-component.service';
 export class MiniCartComponent {
   iconTypes = ICON_TYPE;
 
-  private featureToggles = inject(FeatureToggles);
-
   quantity$: Observable<number> = this.miniCartComponentService.getQuantity();
 
   total$: Observable<string> = this.miniCartComponentService.getTotalPrice();
@@ -45,10 +38,6 @@ export class MiniCartComponent {
    * loading affordance.
    */
   updating$: Observable<boolean> = this.miniCartComponentService.getUpdating();
-
-  protected isSlowNetworkResilienceEnabled(): boolean {
-    return !!this.featureToggles.enableCartSlowNetworkResilience;
-  }
 
   constructor(protected miniCartComponentService: MiniCartComponentService) {}
 }

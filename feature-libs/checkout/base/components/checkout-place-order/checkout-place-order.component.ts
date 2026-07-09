@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -65,7 +65,6 @@ const PLACE_ORDER_GATE_SAFETY_VALVE_MS = 10_000;
     FormErrorsComponent,
     AtMessageDirective,
     FeatureDirective,
-    NgIf,
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
@@ -81,10 +80,6 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   private featureToggles = inject(FeatureToggles);
   protected activeCartFacade = inject(ActiveCartFacade);
 
-  protected isSlowNetworkResilienceEnabled(): boolean {
-    return !!this.featureToggles.enableCartSlowNetworkResilience;
-  }
-
   /**
    * Emits true while the active cart has any in-flight load or pending process
    * (e.g. queued CartAddEntry actions on a slow network). The Place Order
@@ -99,7 +94,8 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
    * Gated by `enableCartSlowNetworkResilience`; emits constant `false` when
    * the toggle is OFF so an extending client sees pre-CXSPA-10582 behaviour.
    */
-  isCartUpdating$: Observable<boolean> = this.isSlowNetworkResilienceEnabled()
+  isCartUpdating$: Observable<boolean> = this.featureToggles
+    .enableCartSlowNetworkResilience
     ? combineLatest([
         this.activeCartFacade.isStable(),
         timer(PLACE_ORDER_GATE_SAFETY_VALVE_MS).pipe(
@@ -136,7 +132,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
       this.checkoutSubmitForm.markAllAsTouched();
       return;
     }
-    if (!this.isSlowNetworkResilienceEnabled()) {
+    if (!this.featureToggles.enableCartSlowNetworkResilience) {
       this.launchPlaceOrder();
       return;
     }

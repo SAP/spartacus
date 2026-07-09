@@ -43,7 +43,7 @@
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
     </button>
   </ng-container>
-  <ng-container *ngIf="!isSlowNetworkResilienceEnabled()">
+  <ng-container *cxFeature="'!enableCartSlowNetworkResilience'">
     <button
       (click)="submitForm()"
       class="btn btn-primary btn-block"

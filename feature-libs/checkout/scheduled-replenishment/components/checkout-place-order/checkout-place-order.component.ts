@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
   ViewContainerRef,
@@ -21,6 +22,7 @@ import { RouterLink } from '@angular/router';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import {
   FeatureDirective,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
@@ -50,7 +52,6 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
     RouterLink,
     AtMessageDirective,
     FeatureDirective,
-    NgIf,
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
@@ -60,6 +61,8 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {
+  private featureTogglesService = inject(FeatureToggles);
+
   protected subscriptions = new Subscription();
 
   currentOrderType: ORDER_TYPE;
@@ -84,7 +87,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
       this.checkoutSubmitForm.markAllAsTouched();
       return;
     }
-    if (!this.isSlowNetworkResilienceEnabled()) {
+    if (!this.featureTogglesService.enableCartSlowNetworkResilience) {
       this.launchScheduledReplenishmentOrder();
       return;
     }
