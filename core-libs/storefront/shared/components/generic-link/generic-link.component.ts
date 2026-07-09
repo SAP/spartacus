@@ -113,7 +113,7 @@ export class GenericLinkComponent implements OnChanges {
    */
   protected splitUrl(url: string = ''): RouteParts {
     const { queryParams, fragment } = this.router.parseUrl(url);
-    const [, path] = url.match(this.URL_SPLIT) ?? [, ''];
+    const [, path] = url.match(this.URL_SPLIT) ?? ['', ''];
 
     // wrap path in an array, to have the Angular-like path format
     return { path: [path ?? ''], queryParams, fragment };
