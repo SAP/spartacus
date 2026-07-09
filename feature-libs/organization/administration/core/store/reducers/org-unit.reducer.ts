@@ -30,10 +30,8 @@ export function orgUnitEntitiesReducer(
 
 export function orgUnitListReducer(
   state = orgUnitsInitialState,
-  action: StateUtils.LoaderAction
+  _action: StateUtils.LoaderAction
 ): any {
-  switch (action.type) {
-  }
   return state;
 }
 
