@@ -32,12 +32,22 @@ const TOOL_LABEL: Record<AiTool, string> = {
   agents: '.agents (.agents/skills/spartacus-developer/)',
 };
 
+const SKILL_SENTINEL: Record<AiTool, string> = {
+  claude: `.claude/skills/${SKILL_DIR}/SKILL.md`,
+  agents: `.agents/skills/${SKILL_DIR}/SKILL.md`,
+};
+
 /**
  * Migrations run non-interactively in CI / `--force`; callers must guard on this
  * before prompting and fall back to a printed notice otherwise.
  */
 export function isInteractiveTerminal(): boolean {
   return Boolean(process.stdin.isTTY && process.stdout.isTTY);
+}
+
+/** Returns the AI tools for which skills are already present in the tree. */
+export function detectInstalledTools(tree: Tree): AiTool[] {
+  return SUPPORTED_TOOLS.filter((tool) => tree.exists(SKILL_SENTINEL[tool]));
 }
 
 function ask(question: string): Promise<string> {
@@ -53,10 +63,14 @@ function ask(question: string): Promise<string> {
   });
 }
 
-export async function promptYesNo(question: string): Promise<boolean> {
-  const answer = (await ask(`${question} (Y/n) `)).toLowerCase();
+export async function promptYesNo(
+  question: string,
+  defaultYes = true
+): Promise<boolean> {
+  const hint = defaultYes ? '(Y/n)' : '(y/N)';
+  const answer = (await ask(`${question} ${hint} `)).toLowerCase();
   if (!answer) {
-    return true;
+    return defaultYes;
   }
   return answer === 'y' || answer === 'yes';
 }
@@ -72,10 +86,13 @@ export async function promptTools(): Promise<AiTool[]> {
 }
 
 /**
+ * Adds `@spartacus/skills` to devDependencies and schedules an npm install
+ * followed by the `ai-context` schematic with `deleteBeforeCopy: true`.
+ *
  * Copy depends on the install task so it runs only once `@spartacus/skills` is
  * present in `node_modules`.
  */
-export function scheduleSkillsInstallAndCopy(
+export function scheduleSkillsDeleteAndCopy(
   tree: Tree,
   context: SchematicContext,
   tools: AiTool[]
@@ -84,13 +101,14 @@ export function scheduleSkillsInstallAndCopy(
     type: NodeDependencyType.Dev,
     name: SKILLS_PACKAGE,
     version: getPrefixedSpartacusSchematicsVersion(),
-    overwrite: false,
+    overwrite: true,
   });
 
   const installTaskId = context.addTask(new NodePackageInstallTask());
   context.addTask(
     new RunSchematicTask(SPARTACUS_SCHEMATICS, AI_CONTEXT_SCHEMATIC, {
       aiTools: tools,
+      deleteBeforeCopy: true,
     }),
     [installTaskId]
   );
@@ -101,9 +119,9 @@ export function printSkillsNotice(context: SchematicContext): void {
   context.logger.info(
     [
       '',
-      '✨ Install new AI skills for Spartacus development (Claude / .agents).',
+      '✨ Install or update AI skills for Spartacus development (Claude / .agents).',
       `   The ${SKILLS_PACKAGE} package ships guidance that helps AI assistants`,
-      '   follow Spartacus best practices. To add it to this project:',
+      '   follow Spartacus best practices. To add or update it in this project:',
       '',
       `     npm install --save-dev ${SKILLS_PACKAGE}@${skillsVersion}`,
       `     ng g ${SPARTACUS_SCHEMATICS}:${AI_CONTEXT_SCHEMATIC}`,
