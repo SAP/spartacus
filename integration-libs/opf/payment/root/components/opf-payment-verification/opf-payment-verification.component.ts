@@ -53,7 +53,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         concatMap(
           ({
             paymentSessionId,
-            paramsMap: paramsMap,
+            paramsMap,
             afterRedirectScriptFlag,
             is3DSRedirect,
           }) =>
