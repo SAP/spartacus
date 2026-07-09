@@ -20,7 +20,14 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, firstValueFrom, from, lastValueFrom, Observable, of } from 'rxjs';
+import {
+  combineLatest,
+  firstValueFrom,
+  from,
+  lastValueFrom,
+  Observable,
+  of,
+} from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
@@ -62,7 +69,8 @@ export class AsmAuthService extends AuthService {
   override async checkOAuthParamsInUrl(): Promise<void> {
     const isUsingASMClient = await firstValueFrom(this.isUsingASMClient());
     if (!isUsingASMClient) {
-      return super.checkOAuthParamsInUrl();
+      await super.checkOAuthParamsInUrl();
+      return;
     }
 
     try {
@@ -154,9 +162,7 @@ export class AsmAuthService extends AuthService {
       .getTokenTarget()
       .subscribe((tokTarget) => (tokenTarget = tokTarget))
       .unsubscribe();
-    return (
-      Boolean(token?.access_token) && tokenTarget === TokenTarget.CSAgent
-    );
+    return Boolean(token?.access_token) && tokenTarget === TokenTarget.CSAgent;
   }
 
   /**
