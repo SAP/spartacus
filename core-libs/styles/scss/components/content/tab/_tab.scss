@@ -93,14 +93,14 @@
         border-radius: 0 0 var(--cx-tab-btn-border-radius)
           var(--cx-tab-btn-border-radius);
 
-        // Occupy 50% of the button's height, but paint only the bottom
-        // quarter — top 3/4 stays transparent — via a hard-stop gradient.
-        // Net visible bar is 12.5% of the button, anchored at the bottom.
+        // Occupy 50% of the button's height to match border radius, but paint only the bottom
+        // 5px — everything above stays transparent — via a hard-stop
+        // gradient anchored to a fixed pixel offset from the bottom.
         height: 50%;
         background: linear-gradient(
           to bottom,
-          transparent 75%,
-          var(--cx-color-primary) 75%
+          transparent calc(100% - 5px),
+          var(--cx-color-primary) calc(100% - 5px)
         );
       }
     }
