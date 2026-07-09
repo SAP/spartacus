@@ -276,7 +276,7 @@ function normalizeTypeToken(token: string): string {
   newToken = newToken.replace(COMMENT_REG_EXP, '');
   newToken = newToken.trim();
   // strip down the trailing comma
-  if (newToken.charAt(newToken.length - 1) === ',') {
+  if (newToken.endsWith(',')) {
     newToken = newToken.substring(0, newToken.length - 1);
   }
 
