@@ -231,7 +231,7 @@ export function createSassSilenceDeprecations(
 
   return {
     sass: {
-      ...(originalStylePreprocessorOptions.sass || {}),
+      ...originalStylePreprocessorOptions.sass,
       silenceDeprecations: Array.from(
         new Set([
           ...(originalStylePreprocessorOptions.sass?.silenceDeprecations || []),
