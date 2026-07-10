@@ -10,9 +10,14 @@ import {
   Component,
   HostBinding,
   Input,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Breadcrumb, TranslatePipe } from '@spartacus/core';
+import {
+  Breadcrumb,
+  FeatureConfigService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
@@ -49,6 +54,10 @@ export class ActiveFacetsComponent {
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
+  private featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
+
   constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
@@ -64,8 +73,18 @@ export class ActiveFacetsComponent {
    *
    * With this approach, the we keep the focus, either at the facet list or on the
    * active facets.
+   *
+   * When the `a11yFacetFocusRetention` feature toggle is enabled, the focus key
+   * is always set to `facet.facetValueName`, regardless of whether the facet is
+   * single- or multi-select. The chip in the "Applied Filter" section is then
+   * a stable focus target after the router-driven rebuild of the facet
+   * navigation, preventing focus from escaping to unrelated controls
+   * (e.g. the "Show More" button in the product list).
    */
   getFocusKey(facetList: FacetList, facet: Breadcrumb) {
+    if (this.featureConfigService?.isEnabled('a11yFacetFocusRetention')) {
+      return facet.facetValueName;
+    }
     return facetList.facets?.find((f) =>
       f.values?.find((val) => val.name === facet.facetValueName)
     )

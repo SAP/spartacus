@@ -7,7 +7,11 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
+import {
+  Breadcrumb,
+  FeatureConfigService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
@@ -25,6 +29,11 @@ class MockCxIconComponent {
 }
 class MockFacetService {
   getLinkParams() {}
+}
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return false;
+  }
 }
 
 const mockFacetList: FacetList = {
@@ -46,7 +55,10 @@ describe('ActiveFacetsComponent', () => {
         MockCxIconComponent,
         RouterModule.forRoot([]),
       ],
-      providers: [{ provide: FacetService, useClass: MockFacetService }],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      ],
     })
       .overrideComponent(ActiveFacetsComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -107,6 +119,28 @@ describe('ActiveFacetsComponent', () => {
       { facetValueName: 'activeFacet' } as Breadcrumb
     );
     expect(key).toEqual('');
+  });
+
+  it('should always return facetValueName when a11yFacetFocusRetention is enabled', () => {
+    const featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(featureConfigService, 'isEnabled').and.callFake(
+      (feature: string) => feature === 'a11yFacetFocusRetention'
+    );
+
+    // multi-select case (facet value still exists in the list of available facets):
+    // legacy behavior would return '' here, the new behavior returns the facetValueName
+    const keyForMatchingFacet = component.getFocusKey(
+      { facets: [{ values: [{ name: 'activeFacet' }] }] } as FacetList,
+      { facetValueName: 'activeFacet' } as Breadcrumb
+    );
+    expect(keyForMatchingFacet).toEqual('activeFacet');
+
+    // single-select case stays the same
+    const keyForNonMatchingFacet = component.getFocusKey(
+      { facets: [{ values: [{ name: 'anyNameButNotActive' }] }] } as FacetList,
+      { facetValueName: 'activeFacet' } as Breadcrumb
+    );
+    expect(keyForNonMatchingFacet).toEqual('activeFacet');
   });
 
   it('should remove filter on spacebar keypress', () => {
