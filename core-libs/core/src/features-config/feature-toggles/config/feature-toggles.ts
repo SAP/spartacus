@@ -689,7 +689,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
-  authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   defaultLayoutConfigWithoutPageFold: true,
