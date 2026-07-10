@@ -62,6 +62,32 @@ before applying the BFF integration changes described in the rest of this docume
 | Spartacus schematics | 221121.13.1 | — |
 | `@vivaldi/nx` generator | 0.24.9 | Scaffolds the workspace. **Note:** `@vivaldi/nx@0.25.0` cannot be used to scaffold because a transitive dependency (`@jsonjoy.com/fs-core@4.64.0`) does not exist on npm. Use 0.24.9 and upgrade immediately after (Step 1). |
 
+#### SAP npm registry access
+
+Both `@vivaldi/*` and `@spartacus/*` packages are hosted on SAP's internal npm registry (Artifactory), not the public npm registry. Every `npm install` in this guide requires a valid `SAP_RBSCTOKEN` in your shell environment:
+
+```bash
+export SAP_RBSCTOKEN=<your-token>
+```
+
+The `@vivaldi/nx` scaffolder automatically creates a `.npmrc` in the workspace root that configures the `@vivaldi` registry scope:
+
+```
+@vivaldi:registry=https://73555000100900008602.dev.npmsrv.base.repositories.cloud.sap/
+//73555000100900008602.dev.npmsrv.base.repositories.cloud.sap/:_auth=${SAP_RBSCTOKEN}
+//73555000100900008602.dev.npmsrv.base.repositories.cloud.sap/:always-auth=true
+```
+
+The `@spartacus` scope is **not** added by the scaffolder. Append it to `.npmrc` manually before running any `npm install` that involves Spartacus packages (i.e. before Step 2):
+
+```
+@spartacus:registry=https://73554900100900004337.npmsrv.base.repositories.cloud.sap/
+//73554900100900004337.npmsrv.base.repositories.cloud.sap/:_auth=${SAP_RBSCTOKEN}
+//73554900100900004337.npmsrv.base.repositories.cloud.sap/:always-auth=true
+```
+
+> **Note:** The E401 lockfile-regeneration workaround in Step 4 (`NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ npm install`) applies **only** to regenerating `package-lock.json` against the public registry to avoid Artifactory-resolved URLs in the lockfile. Use it only for that specific step — do not use it for the main `npm install` commands, as `@vivaldi/*` and `@spartacus/*` packages are not on the public registry.
+
 ---
 
 ### Step 1: Create the Vivaldi BFF workspace
@@ -119,6 +145,12 @@ Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed
   }
 }
 ```
+
+> **Required before Step 3:** commit the upgrades from this step. The `nx import` command
+> in Step 3 requires a clean git state in the destination workspace. Run:
+> ```bash
+> git add -A && git commit -m "chore: upgrade to @vivaldi 0.25.0 and update bff project.json"
+> ```
 
 ---
 
@@ -904,9 +936,10 @@ members consistent commands regardless of which nx target names are used interna
 
 ---
 
-### 11. `.env-cmdrc` *(modify)*
+### 11. `.env-cmdrc` *(create or modify)*
 
-Add `CX_BFF_BASE_URL` to each dev profile. Used **only** by `proxy.conf.js` at
+Create this file at the workspace root (or add to it if it already exists). Holds
+`CX_BFF_BASE_URL` for each dev profile. Used **only** by `proxy.conf.js` at
 dev-server startup — never read by the Angular app itself:
 
 ```jsonc
@@ -965,8 +998,29 @@ return type `{ message: string }` are both inferred from `RootRouter` — no man
 annotations. TypeScript will error if either is wrong.
 
 ```ts
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BffClientService } from '../bff-client.service';
+
+@Component({
+  selector: 'app-say-hello',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule],
+  template: `
+    <h2>BFF Say Hello</h2>
+    <input [(ngModel)]="name" placeholder="Your name" />
+    <button (click)="sayHello()">Say Hello</button>
+    @if (message()) { <p>{{ message() }}</p> }
+    @if (error()) { <p style="color:red">{{ error() }}</p> }
+  `,
+})
 export class SayHelloComponent {
   private readonly bff = inject(BffClientService);
+
+  name = '';
+  message = signal('');
+  error = signal('');
 
   async sayHello(): Promise<void> {
     const res = await this.bff.client.sample.sayHello.query({ name: this.name });
@@ -986,8 +1040,27 @@ Calls `occ.getBaseSites` via `BffClientService`. The BFF procedure proxies to
 `RootRouter`.
 
 ```ts
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { BffClientService } from '../bff-client.service';
+
+@Component({
+  selector: 'app-occ-base-sites',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [JsonPipe],
+  template: `
+    <h2>OCC Base Sites (via BFF)</h2>
+    <button (click)="load()">Load Base Sites</button>
+    @if (result()) { <pre>{{ result() | json }}</pre> }
+    @if (error()) { <p style="color:red">{{ error() }}</p> }
+  `,
+})
 export class OccBaseSitesComponent {
   private readonly bff = inject(BffClientService);
+
+  result = signal<unknown>(null);
+  error = signal('');
 
   async load(): Promise<void> {
     const res = await this.bff.client.occ.getBaseSites.query();
@@ -1001,6 +1074,9 @@ export class OccBaseSitesComponent {
 ### 15. `bff-example.providers.ts` *(new file)*
 
 ```ts
+import { Provider } from '@angular/core';
+import { ROUTES } from '@angular/router';
+
 export const bffExampleProviders: Provider[] = [
   {
     provide: ROUTES,
@@ -1211,7 +1287,7 @@ OCC_BASE_URL=https://api.your-commerce-host.model-t.myhybris.cloud
 OCC_BASE_URL=https://your-occ-host npm run dev:bff
 
 # Terminal 2 — start Spartacus
-npm run start
+npm run start:storefrontapp
 
 # Navigate to:
 # http://localhost:4200/electronics-spa/en/USD/bff-say-hello
@@ -1230,23 +1306,23 @@ curl -H "cookie: __cf_bm=any-test-value" \
 ## Testing meta tag substitution locally
 
 ```bash
-# 1. Build
-npm run build:ssr
+# 1. Build (SSR is included in the production build)
+npm run build:storefrontapp
 
 # 2. Substitute placeholders (simulates CCv2 deploy-time substitution)
 sed -i '' 's|BFF_BASE_URL_VALUE|https://your-bff-host/bff/api|g' \
-  dist/storefrontapp/browser/index.html
+  dist/apps/storefrontapp/browser/index.html
 
 # 3. Verify
-grep "bff-base-url" dist/storefrontapp/browser/index.html
+grep "bff-base-url" dist/apps/storefrontapp/browser/index.html
 
 # 4a. CSR
-npx http-server dist/storefrontapp/browser -p 4200 --proxy http://localhost:4200?
+npx http-server dist/apps/storefrontapp/browser -p 4200 --proxy http://localhost:4200?
 
 # 4b. SSR
 BFF_BASE_URL=https://your-bff-host/bff/api \
 SERVER_REQUEST_ORIGIN=http://localhost:4000 \
-node dist/storefrontapp/server/server.mjs
+node dist/apps/storefrontapp/server/server.mjs
 ```
 
 ---
@@ -1273,9 +1349,6 @@ single request on CCv2 (which is behind Cloudflare and always sends `__cf_bm`).
 **Fix:** `@vivaldi/connectivity@0.25.0` adds a guard:
 `if (!host || cookieName.length === 0) return undefined` — any cookie that splits into
 fewer than 4 parts is silently skipped as a non-Vivaldi cookie.
-
-**Source:** `/Users/I760319/code/vivaldi/libs/connectivity/src/cookies/cookie-manager.ts`,
-function `parseClientCookie`.
 
 ### Upgrading to 0.25.0
 
