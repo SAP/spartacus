@@ -73,7 +73,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   }
 
   submitForm(): void {
-    if (this.checkoutSubmitForm.valid && !!this.currentOrderType) {
+    if (this.checkoutSubmitForm.valid && this.currentOrderType) {
       this.placedOrder = this.launchDialogService.launch(
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         this.vcr
