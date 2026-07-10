@@ -79,7 +79,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
       return { activeCartError: true };
     }
 
-    if (!!this.deepLinkCartId && control.value !== this.deepLinkCartId) {
+    if (this.deepLinkCartId && control.value !== this.deepLinkCartId) {
       this.resetDeeplinkCart();
     }
     return null;
