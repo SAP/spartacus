@@ -41,7 +41,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { combineLatest, map, Observable, of, take, timer } from 'rxjs';
+import { combineLatest, map, Observable, take, timer } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
 /**
@@ -90,20 +90,14 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
    * A safety-valve timer forces the gate to release after
    * PLACE_ORDER_GATE_SAFETY_VALVE_MS so a stuck `isStable()` selector cannot
    * lock the user out of placing the order indefinitely.
-   *
-   * Gated by `enableCartSlowNetworkResilience`; emits constant `false` when
-   * the toggle is OFF so an extending client sees pre-CXSPA-10582 behaviour.
    */
-  isCartUpdating$: Observable<boolean> = this.featureToggles
-    .enableCartSlowNetworkResilience
-    ? combineLatest([
-        this.activeCartFacade.isStable(),
-        timer(PLACE_ORDER_GATE_SAFETY_VALVE_MS).pipe(
-          map(() => true),
-          startWith(false)
-        ),
-      ]).pipe(map(([stable, expired]) => !stable && !expired))
-    : of(false);
+  isCartUpdating$: Observable<boolean> = combineLatest([
+    this.activeCartFacade.isStable(),
+    timer(PLACE_ORDER_GATE_SAFETY_VALVE_MS).pipe(
+      map(() => true),
+      startWith(false)
+    ),
+  ]).pipe(map(([stable, expired]) => !stable && !expired));
 
   private currencyService = inject(CurrencyService);
   private languageService = inject(LanguageService);

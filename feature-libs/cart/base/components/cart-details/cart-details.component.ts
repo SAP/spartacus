@@ -5,12 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -22,7 +17,6 @@ import {
 import {
   AuthService,
   FeatureDirective,
-  FeatureToggles,
   RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
@@ -69,8 +63,6 @@ export class CartDetailsComponent implements OnInit {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
 
-  private featureToggles = inject(FeatureToggles);
-
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -103,18 +95,16 @@ export class CartDetailsComponent implements OnInit {
       )
     );
 
-    this.updating$ = this.buildUpdating$();
+    this.buildUpdating$();
   }
 
-  protected buildUpdating$(): Observable<boolean> {
-    return this.featureToggles.enableCartSlowNetworkResilience
-      ? this.activeCartService.isStable().pipe(
-          map((stable) => !stable),
-          debounceTime(CART_DETAILS_UPDATING_DEBOUNCE_MS),
-          startWith(false),
-          distinctUntilChanged()
-        )
-      : of(false);
+  protected buildUpdating$() {
+    this.updating$ = this.activeCartService.isStable().pipe(
+      map((stable) => !stable),
+      debounceTime(CART_DETAILS_UPDATING_DEBOUNCE_MS),
+      startWith(false),
+      distinctUntilChanged()
+    );
   }
 
   saveForLater(item: OrderEntry) {

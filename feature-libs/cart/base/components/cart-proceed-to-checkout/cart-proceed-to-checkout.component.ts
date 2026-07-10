@@ -23,12 +23,11 @@ import {
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   FeatureDirective,
-  FeatureToggles,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
 import { ProgressButtonComponent } from '@spartacus/storefront';
-import { combineLatest, Observable, of, Subscription, timer } from 'rxjs';
+import { combineLatest, Observable, Subscription, timer } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -74,7 +73,6 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   cartUpdating$: Observable<boolean>;
 
   protected subscription = new Subscription();
-  private featureToggles = inject(FeatureToggles);
   protected activeCartFacade = inject(ActiveCartFacade);
 
   constructor(
@@ -95,11 +93,10 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
       })
     );
 
-    if (!this.featureToggles.enableCartSlowNetworkResilience) {
-      this.cartUpdating$ = of(false);
-      return;
-    }
+    this.initializeCartUpdating();
+  }
 
+  protected initializeCartUpdating() {
     const safetyValveExpired$ = timer(
       PROCEED_TO_CHECKOUT_GATE_SAFETY_VALVE_MS
     ).pipe(
