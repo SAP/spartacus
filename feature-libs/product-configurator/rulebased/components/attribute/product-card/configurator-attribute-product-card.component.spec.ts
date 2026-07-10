@@ -402,7 +402,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('action buttons loading state', () => {
     it('should disable the action button while the parent signals a loading round trip', () => {
-      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(true);
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        true
+      );
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -665,7 +667,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should disable stepper when loading state is indicated by parent', () => {
-      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(true);
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        true
+      );
       component.ngOnInit();
       component.loading$.next(false);
       takeOneDisableQtyObs(component).subscribe((disable) => {
