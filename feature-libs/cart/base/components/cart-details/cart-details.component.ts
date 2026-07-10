@@ -103,7 +103,11 @@ export class CartDetailsComponent implements OnInit {
       )
     );
 
-    this.updating$ = this.featureToggles.enableCartSlowNetworkResilience
+    this.updating$ = this.buildUpdating$();
+  }
+
+  protected buildUpdating$(): Observable<boolean> {
+    return this.featureToggles.enableCartSlowNetworkResilience
       ? this.activeCartService.isStable().pipe(
           map((stable) => !stable),
           debounceTime(CART_DETAILS_UPDATING_DEBOUNCE_MS),
