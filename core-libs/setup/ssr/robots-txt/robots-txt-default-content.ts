@@ -21,10 +21,17 @@ Disallow: /cart/
 Disallow: /checkout/
 Disallow: /my-account/
 Disallow: /order/
-Disallow: /admin/
 Disallow: /*?*facet=
 Disallow: /*?*currentPage=
 Disallow: /*?*sortCode=
+Disallow: /guest/order/
+Disallow: /opf-checkout-email
+Disallow: /order-confirmation
+Disallow: /replenishment/confirmation
+Disallow: /login/verify-token
+Disallow: /register/verify-token
+Disallow: /login/pw/change
+Disallow: /login/forgot-password
 
 # AI search / grounding crawlers
 
