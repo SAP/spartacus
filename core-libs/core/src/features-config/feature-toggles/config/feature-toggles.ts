@@ -652,6 +652,12 @@ export interface FeatureTogglesInterface {
    * are shown on the B2B checkout delivery address step.
    */
   b2bCheckoutShippingAddressFilter?: boolean;
+
+  /**
+   * Refines the `cx-tab` active/hover border: anchors it to the bottom of
+   * the button, and rounds its bottom corners.
+   */
+  improvedTabStyling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -733,4 +739,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
+  improvedTabStyling: false,
 };
