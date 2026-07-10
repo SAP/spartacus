@@ -21,11 +21,7 @@ import {
   RouterLink,
 } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import {
-  FeatureDirective,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { ProgressButtonComponent } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription, timer } from 'rxjs';
 import {
