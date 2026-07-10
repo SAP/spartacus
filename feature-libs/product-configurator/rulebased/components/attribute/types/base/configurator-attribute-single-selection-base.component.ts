@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
@@ -21,7 +21,10 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
+export abstract class ConfiguratorAttributeSingleSelectionBaseComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnDestroy
+{
   loading$ = new BehaviorSubject<boolean>(false);
 
   attribute: Configurator.Attribute;
@@ -31,6 +34,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   expMode: boolean;
 
   showRequiredErrorMessage$: Observable<boolean> = of(false);
+
+  protected subscription = new Subscription();
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -66,6 +71,27 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
+    this.resetLoadingOnConfigurationUpdate();
+  }
+
+  /**
+   * Resets the loading state once the configuration update round trip has
+   * finished, regardless of whether the attribute content actually changed.
+   * This is required because the attribute component is only re-created (which
+   * would reset `loading$`) when its content changes. With CPQ API V2 a round
+   * trip might not change the attribute, leaving action buttons disabled.
+   */
+  protected resetLoadingOnConfigurationUpdate(): void {
+    this.subscription.add(
+      this.configuratorCommonsService
+        .isConfigurationLoading(this.attributeComponentContext.owner)
+        .pipe(filter((loading) => !loading))
+        .subscribe(() => this.loading$.next(false))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**

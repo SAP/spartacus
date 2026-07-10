@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Directive, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 
@@ -18,12 +18,17 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
+export abstract class ConfiguratorAttributeMultiSelectionBaseComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnDestroy
+{
   loading$ = new BehaviorSubject<boolean>(false);
 
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
+
+  protected subscription = new Subscription();
 
   constructor(
     protected quantityService: ConfiguratorAttributeQuantityService,
@@ -38,6 +43,27 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
+    this.resetLoadingOnConfigurationUpdate();
+  }
+
+  /**
+   * Resets the loading state once the configuration update round trip has
+   * finished, regardless of whether the attribute content actually changed.
+   * This is required because the attribute component is only re-created (which
+   * would reset `loading$`) when its content changes. With CPQ API V2 a round
+   * trip might not change the attribute, leaving action buttons disabled.
+   */
+  protected resetLoadingOnConfigurationUpdate(): void {
+    this.subscription.add(
+      this.configuratorCommonsService
+        .isConfigurationLoading(this.attributeComponentContext.owner)
+        .pipe(filter((loading) => !loading))
+        .subscribe(() => this.loading$.next(false))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
