@@ -118,7 +118,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   );
 
   ngOnInit() {
-    if (!!history.state) {
+    if (history.state) {
       this.tokenId = history.state['tokenId'];
       this.target = history.state['loginId'];
       this.titleCode = history.state['titleCode'];
