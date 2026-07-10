@@ -560,10 +560,10 @@ export interface FeatureTogglesInterface {
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
   /**
-   * When enabled, sanitizes the URL used to build the page's canonical link
-   * (`<link rel="canonical">`) before it is generated. The URL is parsed and
-   * validated, rejecting malformed URLs and any non-`http(s)` protocols (e.g.
-   * `javascript:`, `data:`), which are replaced with an empty string.
+   * When enabled, sanitizes the URL used to compute the page's canonical URL
+   * (in `PageLinkService.getCanonicalUrl`). The URL is parsed and validated,
+   * rejecting malformed URLs and any non-`http(s)` protocols (e.g. `javascript:`,
+   * `data:`), which are replaced with an empty string.
    * Affects: PageLinkService
    */
   pageLinkSanitizeCanonicalUrl?: boolean;
