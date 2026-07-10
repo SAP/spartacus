@@ -76,7 +76,7 @@ describe('AuthRedirectService', () => {
           provide: FeatureToggles,
           useValue: {
             redirectOnlyOnTrueNavigationEnd: false,
-          } as FeatureToggles,
+          } satisfies FeatureToggles,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AuthFlowRoutesService, useClass: MockAuthFlowRoutesService },

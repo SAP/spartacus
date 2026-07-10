@@ -1210,7 +1210,7 @@ export class VisualViewerService implements OnDestroy {
   private onContentChangesFinished(event: any): void {
     const content = event.getParameter('content');
     const failureReason = event.getParameter('failureReason');
-    if (!!content && !failureReason) {
+    if (content && !failureReason) {
       this.scene = content;
       this.nodeHierarchy = this.scene.getDefaultNodeHierarchy();
 

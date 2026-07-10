@@ -14,19 +14,13 @@
 
 cx-page-layout {
   cx-page-slot {
-    transition:
-      margin-top 0s,
-      min-height 0s;
-    // we delay the minimal real estate for pending slots
-    transition-delay: var(--btf-delay);
-
     min-height: initial;
     margin-top: initial;
-
-    @include forFeature('disableCxPageSlotMarginAnimation') {
-      transition: none;
-      transition-delay: 0s;
-    }
+    // Guard against consumer/vendor CSS animating these properties —
+    // the below-the-fold logic manipulates them programmatically and
+    // any transition would cause ghosting or delay IntersectionObserver
+    transition: none;
+    transition-delay: 0s;
 
     &.cx-pending {
       // we need a minimum height for pending items, as the slot would
