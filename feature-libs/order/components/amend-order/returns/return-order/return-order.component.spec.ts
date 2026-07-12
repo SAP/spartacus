@@ -288,7 +288,7 @@ describe('ReturnOrderComponent', () => {
             provide: FeatureToggles,
             useValue: {
               enableReturnOrderReturnableQuantityConsigmentFallback: true,
-            } as FeatureToggles,
+            } satisfies FeatureToggles,
           },
         ],
       })
@@ -352,7 +352,7 @@ describe('ReturnOrderComponent', () => {
             provide: FeatureToggles,
             useValue: {
               enableReturnOrderReturnableQuantityConsigmentFallback: false,
-            } as FeatureToggles,
+            } satisfies FeatureToggles,
           },
         ],
       })
