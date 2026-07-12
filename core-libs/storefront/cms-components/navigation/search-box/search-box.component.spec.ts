@@ -19,9 +19,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
-import { IconComponent } from '../../misc/icon/icon.component';
-import { MediaComponent } from '../../../shared/components/media/media.component';
-import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import {
   BehaviorSubject,
   delay,
@@ -31,6 +28,9 @@ import {
   ReplaySubject,
 } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { IconComponent } from '../../misc/icon/icon.component';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 import {
@@ -252,13 +252,15 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should set the queryText and trigger a search', () => {
-      searchBoxComponent.queryText = 'testQuery';
+      fixture.componentRef.setInput('queryText', 'testQuery');
+
       expect(searchBoxComponent.chosenWord).toBe('testQuery');
       expect(searchBoxComponent.search).toHaveBeenCalledWith('testQuery');
     });
 
     it('should dispatch new search query on input', () => {
-      searchBoxComponent.queryText = 'test input';
+      fixture.componentRef.setInput('queryText', 'test input');
+
       fixture.detectChanges();
       expect(searchBoxComponent.search).toHaveBeenCalledWith('test input');
     });
@@ -363,14 +365,18 @@ describe('SearchBoxComponent', () => {
       });
 
       it('should contain search results panel after search input', waitForAsync(() => {
-        searchBoxComponent.queryText = 'test input';
+        fixture.componentRef.setInput('queryText', 'test input');
         fixture.detectChanges();
 
         expect(fixture.debugElement.query(By.css('.results'))).toBeTruthy();
       }));
 
       it('should contain a message after search', () => {
-        searchBoxComponent.queryText = 'te';
+        fixture.componentRef.setInput(
+          'queryText',
+
+          'te'
+        );
         fixture.detectChanges();
 
         const el = fixture.debugElement.query(By.css('.results h3'));
@@ -381,7 +387,7 @@ describe('SearchBoxComponent', () => {
       });
 
       it('should clear when clicking on clear button', () => {
-        searchBoxComponent.queryText = 'something';
+        fixture.componentRef.setInput('queryText', 'something');
         fixture.detectChanges();
         const box = fixture.debugElement.query(
           By.css('.searchbox input')
@@ -437,7 +443,7 @@ describe('SearchBoxComponent', () => {
     });
 
     it('should contain carousel after search', () => {
-      searchBoxComponent.queryText = 'te';
+      fixture.componentRef.setInput('queryText', 'te');
       fixture.detectChanges();
 
       expect(
@@ -498,7 +504,7 @@ describe('SearchBoxComponent', () => {
 
     describe('Arrow key tests', () => {
       beforeEach(() => {
-        searchBoxComponent.queryText = 'te';
+        fixture.componentRef.setInput('queryText', 'te');
         fixture.detectChanges();
 
         // Focus should begin on searchbox input
