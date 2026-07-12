@@ -1,5 +1,68 @@
 <section [attr.aria-label]="'checkoutProgress.deliveryMode' | cxTranslate">
-  <fieldset role="radiogroup">
+  <fieldset
+    *cxFeature="'a11yDeliveryModeFocusPreservation'"
+    role="radiogroup"
+    [cxFocus]="{ autofocus: true, refreshFocus: isUpdating$ | async }"
+  >
+    <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
+      {{ 'checkoutMode.deliveryOptions' | cxTranslate }}
+    </legend>
+    <ng-container
+      *ngIf="
+        !(isUpdating$ | async) &&
+          (supportedDeliveryModes$ | async) as supportedDeliveryModes;
+        else loading
+      "
+    >
+      <div [formGroup]="mode" class="cx-delivery-mode-wrapper">
+        <div class="form-check" *ngFor="let mode of supportedDeliveryModes">
+          <input
+            [attr.aria-checked]="getAriaChecked(mode.code)"
+            class="form-check-input"
+            type="radio"
+            (change)="changeMode(mode.code, $event)"
+            (click)="changeMode(mode.code, $event)"
+            [value]="mode.code"
+            formControlName="deliveryModeId"
+            id="deliveryMode-{{ mode.code }}"
+            [cxFocus]="{ key: mode.code }"
+            [attr.aria-label]="
+              mode.name +
+              ' ' +
+              mode.description +
+              ' ' +
+              mode.deliveryCost?.formattedValue
+            "
+          />
+          <label
+            class="cx-delivery-label form-check-label form-radio-label"
+            for="deliveryMode-{{ mode.code }}"
+            aria-hidden="true"
+          >
+            <div class="cx-delivery-mode">
+              {{ mode.name }}
+              <span class="cx-delivery-mode-description"
+                >({{ mode.description }})</span
+              >
+            </div>
+            <div class="cx-delivery-price">
+              {{ mode.deliveryCost?.formattedValue }}
+            </div>
+            <div class="cx-delivery-details"></div>
+          </label>
+        </div>
+        <ng-template
+          [cxOutlet]="CartOutlets.DELIVERY_MODE"
+          [cxOutletContext]="{
+            item: activeCartFacade.getActive() | async,
+          }"
+        >
+        </ng-template>
+      </div>
+    </ng-container>
+  </fieldset>
+
+  <fieldset *cxFeature="'!a11yDeliveryModeFocusPreservation'" role="radiogroup">
     <legend class="cx-checkout-title d-none d-lg-block d-xl-block">
       {{ 'checkoutMode.deliveryOptions' | cxTranslate }}
     </legend>

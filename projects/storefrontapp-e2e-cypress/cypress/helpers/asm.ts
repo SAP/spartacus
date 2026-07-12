@@ -1155,7 +1155,7 @@ export function getInactiveCartIdAndAddProducts(
       token = res.body.access_token;
       createInactiveCart(token)
         .then((inactiveCartId) => {
-          if (!!productCode && quantity) {
+          if (productCode && quantity) {
             addToCartWithProducts(
               inactiveCartId,
               productCode,
@@ -1190,7 +1190,7 @@ export function getInactiveCartIdAndAddProductsForJDK21(
     getToken().then((token) => {
       createInactiveCart(token)
         .then((inactiveCartId) => {
-          if (!!productCode && quantity) {
+          if (productCode && quantity) {
             addToCartWithProducts(
               inactiveCartId,
               productCode,
@@ -1224,7 +1224,7 @@ export function getCurrentCartIdAndAddProducts(
       createCart(token).then((response) => {
         if (response.status === 201) {
           const activeCartId = response.body.code;
-          if (!!productCode && quantity) {
+          if (productCode && quantity) {
             addToCartWithProducts(
               activeCartId,
               productCode,
@@ -1262,7 +1262,7 @@ export function getCurrentCartIdAndAddProductsForJdk21(
       createCart(token).then((response) => {
         if (response.status === 201) {
           const activeCartId = response.body.code;
-          if (!!productCode && quantity) {
+          if (productCode && quantity) {
             addToCartWithProducts(
               activeCartId,
               productCode,
