@@ -10,9 +10,11 @@ import { isolateTests } from '../../../support/utils/test-isolation';
 context('Site Theme', { testIsolation: false }, () => {
   isolateTests();
   before(() => {
-    cy.visit('/');
     // TODO: (CXSPA-8363) Remove the manual addition of the Theme component in e2e test when sample data is available
     siteTheme.interceptToAddThemeCompnent();
+    cy.visit('/');
+    cy.wait('@baseSitesNoTheme');
+    cy.wait('@modifiedRequest');
   });
 
   it('should display theme switcher', () => {
@@ -54,9 +56,10 @@ context('Site Theme', { testIsolation: false }, () => {
       .should('have.value', 'cx-theme-high-contrast-dark');
     cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
 
-    cy.reload();
-
     siteTheme.interceptToAddThemeCompnent();
+    cy.reload();
+    cy.wait('@baseSitesNoTheme');
+    cy.wait('@modifiedRequest');
 
     cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
     cy.get('cx-site-theme-switcher select').then(($select) => {
@@ -80,6 +83,7 @@ context('Site Theme - CMS theme', { testIsolation: false }, () => {
     siteTheme.interceptToSetBaseSiteTheme('lambda');
     siteTheme.interceptToAddThemeCompnentWithoutBaseSiteIntercept();
     cy.visit('/');
+    cy.wait('@baseSitesWithTheme');
     cy.wait('@modifiedRequest');
   });
 
