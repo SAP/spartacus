@@ -314,7 +314,6 @@ if (environment.cpq) {
         a11yFutureStockAccordionAriaControls: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
-        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
