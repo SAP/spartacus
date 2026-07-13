@@ -144,7 +144,7 @@ export class LaunchDialogService {
    * Use when a dialog is closed without a trigger element (e.g. opened via URL fragment)
    * and focus needs to be restored manually.
    */
-  focusElement(element: HTMLElement | undefined): void {
+  protected focusElement(element: HTMLElement | undefined): void {
     if (!element) {
       return;
     }
