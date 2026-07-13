@@ -72,21 +72,18 @@ Both `@vivaldi/*` and `@spartacus/*` packages are hosted on SAP's internal npm r
 export SAP_RBSCTOKEN=<your-token>
 ```
 
-The `@vivaldi/nx` scaffolder automatically creates a `.npmrc` in the workspace root that configures the `@vivaldi` registry scope:
+**Before running any command in this guide**, add both registry scopes to your **user-level `~/.npmrc`**. This is required because `npx @vivaldi/nx` in Step 1 must resolve `@vivaldi/nx` from the SAP registry before the workspace `.npmrc` exists — there is a chicken-and-egg problem if you rely solely on a workspace-level file.
 
 ```
 @vivaldi:registry=https://73555000100900008602.npmsrv.base.repositories.cloud.sap/
 //73555000100900008602.npmsrv.base.repositories.cloud.sap/:_auth=${SAP_RBSCTOKEN}
 //73555000100900008602.npmsrv.base.repositories.cloud.sap/:always-auth=true
-```
-
-The `@spartacus` scope is **not** added by the scaffolder. Append it to `.npmrc` manually before running any `npm install` that involves Spartacus packages (i.e. before Step 2):
-
-```
 @spartacus:registry=https://73554900100900004337.npmsrv.base.repositories.cloud.sap/
 //73554900100900004337.npmsrv.base.repositories.cloud.sap/:_auth=${SAP_RBSCTOKEN}
 //73554900100900004337.npmsrv.base.repositories.cloud.sap/:always-auth=true
 ```
+
+The `@vivaldi/nx` scaffolder also creates a `.npmrc` in the workspace root with the `@vivaldi` scope. The `@spartacus` scope is not added by the scaffolder — it must come from your user-level `~/.npmrc` as shown above.
 
 > **Note:** The E401 lockfile-regeneration workaround in Step 4 (`NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ npm install`) applies **only** to regenerating `package-lock.json` against the public registry to avoid Artifactory-resolved URLs in the lockfile. Use it only for that specific step — do not use it for the main `npm install` commands, as `@vivaldi/*` and `@spartacus/*` packages are not on the public registry.
 
