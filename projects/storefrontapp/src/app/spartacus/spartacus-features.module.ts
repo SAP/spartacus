@@ -296,6 +296,7 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
