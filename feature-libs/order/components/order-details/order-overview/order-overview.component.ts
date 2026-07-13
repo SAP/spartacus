@@ -191,7 +191,7 @@ export class OrderOverviewComponent {
     ]).pipe(
       map(([textTitle, textAccount, textCard]) => ({
         title: textTitle,
-        text: [Boolean(hasPaymentInfo) ? textCard : textAccount],
+        text: [hasPaymentInfo ? textCard : textAccount],
       }))
     );
   }
@@ -250,8 +250,8 @@ export class OrderOverviewComponent {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
-        month: Boolean(payment) ? payment.expiryMonth : '',
-        year: Boolean(payment) ? payment.expiryYear : '',
+        month: payment ? payment.expiryMonth : '',
+        year: payment ? payment.expiryYear : '',
       }),
     ]).pipe(
       filter(() => Boolean(payment)),

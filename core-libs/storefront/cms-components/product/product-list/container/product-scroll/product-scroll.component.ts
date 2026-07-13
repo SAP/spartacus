@@ -32,7 +32,7 @@ import { ProductListComponentService } from '../product-list-component.service';
 export class ProductScrollComponent implements OnDestroy {
   private subscription = new Subscription();
 
-  @Input('scrollConfig')
+  @Input()
   set scrollConfig(inputConfig: ViewConfig) {
     this.setConfig = inputConfig; // CXSPA-13739: Replace with underlying logic
   }
