@@ -22,14 +22,15 @@ import { environment } from '../../../environments/environment';
   }`,
   styles: [
     `
+      :host {
+        position: relative;
+      }
       .app-footer-version {
         background-color: var(--cx-color-medium);
         border-radius: 8px;
         padding: 3px 8px;
         color: var(--cx-color-text);
-        position: fixed;
-        left: 10px;
-        bottom: 10px;
+        position: absolute;
       }
     `,
   ],
