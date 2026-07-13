@@ -161,11 +161,7 @@ export class UserConsentService {
    * @param consent to check
    */
   isConsentGiven(consent: Consent): boolean {
-    return (
-      Boolean(consent) &&
-      Boolean(consent.consentGivenDate) &&
-      !Boolean(consent.consentWithdrawnDate)
-    );
+    return Boolean(consent?.consentGivenDate && !consent.consentWithdrawnDate);
   }
 
   /**
@@ -175,7 +171,7 @@ export class UserConsentService {
    * @param consent to check
    */
   isConsentWithdrawn(consent: Consent | undefined): boolean {
-    if (Boolean(consent)) {
+    if (consent) {
       return Boolean(consent?.consentWithdrawnDate);
     }
     return true;

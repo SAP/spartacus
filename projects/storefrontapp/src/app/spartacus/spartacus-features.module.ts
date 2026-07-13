@@ -296,6 +296,7 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
@@ -311,11 +312,8 @@ if (environment.cpq) {
         productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
-        consistentSizeProductCards: true,
-        disableCxPageSlotMarginAnimation: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
-        createMediaPreconnectLink: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
@@ -350,6 +348,7 @@ if (environment.cpq) {
         a11yReviewsKeyboardControls: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
+        a11yDeliveryModeFocusPreservation: true,
         a11yVocalizeDropdownItemCount: true,
         a11yRestoreFocusOnNgSelect: true,
         a11yKeepFocusOnConsentManagementButtons: true,
@@ -373,6 +372,7 @@ if (environment.cpq) {
         a11yProductListItemNameMargin: true,
         propagateLogoutToAllTabs: true,
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
+        siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
       };

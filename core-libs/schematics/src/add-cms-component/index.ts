@@ -63,15 +63,11 @@ import { CxCmsComponentSchema } from './schema';
 
 function buildComponentModule(options: CxCmsComponentSchema): string {
   const moduleName = options.module || '';
-  return Boolean(options.declareCmsModule)
-    ? options.declareCmsModule
-    : moduleName;
+  return options.declareCmsModule ? options.declareCmsModule : moduleName;
 }
 
 function buildDeclaringCmsModule(options: CxCmsComponentSchema): string {
-  return Boolean(options.declareCmsModule)
-    ? options.declareCmsModule
-    : options.name;
+  return options.declareCmsModule ? options.declareCmsModule : options.name;
 }
 
 function updateModule(options: CxCmsComponentSchema): Rule {
@@ -287,7 +283,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
       startIndex = templateContent.length;
     }
 
-    if (Boolean(templateContent)) {
+    if (templateContent) {
       const insertion = new InsertChange(
         templatePath,
         startIndex,
@@ -358,7 +354,7 @@ function declareInModule(options: CxCmsComponentSchema): Rule {
 }
 
 function validateArguments(options: CxCmsComponentSchema): void {
-  if (options.cmsComponentData && !Boolean(options.cmsComponentDataModel)) {
+  if (options.cmsComponentData && !options.cmsComponentDataModel) {
     throw new SchematicsException(
       'You have to specify the "cmsComponentDataModel" option.'
     );
@@ -399,7 +395,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       module: declaringModule,
     } = options;
 
-    const createCmsModule = !Boolean(declareCmsModule);
+    const createCmsModule = !declareCmsModule;
     const skipImport = createCmsModule;
 
     const templateSource = apply(url('./files'), [
