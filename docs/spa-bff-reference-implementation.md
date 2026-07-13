@@ -171,8 +171,7 @@ ng add @spartacus/schematics@221121.13.1 --ssr --skip-confirmation
 ```
 
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
-to confirm. The default selection already includes Assisted Services (ASM). You can
-accept the defaults or customise the selection.
+to confirm. Accept the defaults or customise the selection to match your project's needs.
 
 ---
 
