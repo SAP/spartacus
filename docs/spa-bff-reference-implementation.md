@@ -9,10 +9,13 @@ sides, and how they work together.
 
 - [Getting started from scratch](#getting-started-from-scratch)
   - [Step 1: Create the Vivaldi BFF workspace](#step-1-create-the-vivaldi-bff-workspace)
-  - [Step 2: Create the Spartacus storefront](#step-2-create-the-spartacus--storefront)
+  - [Step 2: Create the Spartacus storefront](#step-2-create-the-spartacus-storefront)
   - [Step 3: Import the storefront into the Vivaldi workspace](#step-3-import-the-storefront-into-the-vivaldi-workspace)
   - [Step 4: Configure storefrontapp as an Nx project](#step-4-configure-storefrontapp-as-an-nx-project)
+    - [4a. Register the @nx/angular plugin in nx.json](#4a-register-the-nxangular-plugin-in-nxjson)
+    - [4b. Create apps/storefrontapp/project.json](#4b-create-appsstorefrontappprojectjson)
     - [4c. Migrate angular.json to project.json](#4c-migrate-angularjson-to-projectjson-existing-angular-cli-projects-only)
+    - [4d. Add @repo/bff/* path aliases to the storefrontapp tsconfig.json](#4d-add-repobff-path-aliases-to-the-storefrontapp-tsconfigjson)
   - [Step 5: Base Spartacus configuration](#step-5-base-spartacus-configuration)
 - [Architecture and URL injection](#architecture-and-url-injection)
 - [File overview](#file-overview)
@@ -44,7 +47,7 @@ sides, and how they work together.
   - [22. .env](#22-appsbffenv-local-dev-only)
 - [Testing locally](#testing-locally)
 - [Testing meta tag substitution locally](#testing-meta-tag-substitution-locally)
-- [@vivaldi package upgrade — 0.25.0](#vivaldi-package-upgrade--0250)
+- [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)
 
 ---
 
@@ -110,7 +113,7 @@ This creates an Nx monorepo with an `apps/bff` application pre-configured for Vi
 
 **Immediately upgrade `@vivaldi` packages to 0.25.0.** The generator installs 0.24.9 but
 0.25.0 is required to fix a critical bug where Cloudflare's `__cf_bm` cookie crashes
-every BFF request on CCv2 (see [@vivaldi package upgrade — 0.25.0](#vivaldi-package-upgrade--0250)).
+every BFF request on CCv2 (see [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)).
 Also install `@vivaldi/auth` and `@dapr/dapr` which are new peer dependencies in 0.25.0,
 and `@nx/angular` pinned to the workspace `nx` version:
 
@@ -155,7 +158,7 @@ Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed
 
 ---
 
-### Step 2: Create the Spartacus  storefront
+### Step 2: Create the Spartacus storefront
 
 > **Skip this step** if you already have an existing Angular application.
 
@@ -215,7 +218,7 @@ After importing, manual wiring is needed to make Nx aware of the Angular targets
 > on the storefront before importing — it nests the source at the wrong depth and breaks
 > all paths in the template below.
 
-**4a. Register the `@nx/angular` plugin in `nx.json`:**
+#### 4a. Register the `@nx/angular` plugin in `nx.json`
 
 Add to `nx.json` → `plugins` array:
 
@@ -232,7 +235,7 @@ Add to `nx.json` → `plugins` array:
 }
 ```
 
-**4b. Create `apps/storefrontapp/project.json`:**
+#### 4b. Create `apps/storefrontapp/project.json`
 
 ```json
 {
@@ -493,7 +496,7 @@ and save the result as `apps/storefrontapp/project.json`:
 > `project.json` and the deletion of `angular.json` together so the changeset is
 > atomic and easy to revert.
 
-**4d. Add `@repo/bff/*` path aliases to the storefrontapp `tsconfig.json`:**
+#### 4d. Add `@repo/bff/*` path aliases to the storefrontapp `tsconfig.json`
 
 The storefrontapp was originally a standalone Angular CLI project whose `tsconfig.json`
 does not inherit from the Vivaldi workspace's `tsconfig.base.json`. The BFF client files
@@ -588,7 +591,7 @@ so the browser never makes a cross-origin call.
 
 ## File overview
 
-### Spartacus  storefront
+### Spartacus storefront
 
 ```
 src/
@@ -1447,13 +1450,6 @@ npm run start:storefrontapp
 # http://localhost:4200/electronics-spa/en/USD/occ-base-sites
 ```
 
-**Verify the Cloudflare cookie fix (should return a result, not "Invalid character"):**
-```bash
-curl -H "cookie: __cf_bm=any-test-value" \
-  'http://localhost:8482/api/sample.sayHello?input=%7B%22json%22%3A%7B%7D%7D'
-# Expected: {"result":{"data":{"json":{"message":"Hello world!"}}}}
-```
-
 ---
 
 ## Testing meta tag substitution locally
@@ -1480,7 +1476,7 @@ node dist/apps/storefrontapp/server/server.mjs
 
 ---
 
-## @vivaldi package upgrade — 0.25.0
+## @vivaldi package upgrade - 0.25.0
 
 ### Cloudflare `__cf_bm` cookie bug (fixed in 0.25.0)
 
