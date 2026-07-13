@@ -63,8 +63,6 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   mode$: Observable<TAB_MODE>;
   protected subscriptions = new Subscription();
 
-  constructor() {}
-
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);
     this.mode$ = this.getMode();
