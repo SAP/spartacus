@@ -16,7 +16,11 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
-import { provideConfig, provideConfigFactory } from '@spartacus/core';
+import {
+  CmsConfig,
+  provideConfig,
+  provideConfigFactory,
+} from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfigFactory,
@@ -46,12 +50,14 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
     provideConfigFactory(layoutConfigFactory),
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
+
     provideConfig({
       pwa: {
         enabled: false,
         addToHomeScreen: true,
       },
     }),
+
     provideConfig({
       // we bring in static translations to be up and running soon right away
       i18n: {
@@ -63,6 +69,16 @@ const spartacusChannelSpecificConfigurationProviders = environment.b2b
         },
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+      },
+    }),
+
+    provideConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductAddToCartComponent: {
+          data: {
+            inventoryDisplay: true,
+          },
+        },
       },
     }),
 
