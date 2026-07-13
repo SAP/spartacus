@@ -33,7 +33,7 @@ export class NotCheckoutAuthGuard {
           return this.router.parseUrl(
             this.semanticPathService.get('home') ?? ''
           );
-        } else if (!!getLastValueSync(this.activeCartFacade.isGuestCart())) {
+        } else if (getLastValueSync(this.activeCartFacade.isGuestCart())) {
           return this.router.parseUrl(
             this.semanticPathService.get('cart') ?? ''
           );

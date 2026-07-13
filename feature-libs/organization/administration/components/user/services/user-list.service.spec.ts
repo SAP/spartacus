@@ -5,13 +5,14 @@ import {
   B2BUserRight,
   B2BUserRole,
   EntitiesModel,
-  FeatureConfigService,
+  FeatureToggles,
   User,
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserListService } from './user-list.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const uid = 'user';
 const mockUserEntities: EntitiesModel<B2BUser> = {
@@ -46,15 +47,13 @@ class MockTableService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled(feature: string): boolean {
-    return feature === 'enableB2BCustomerSearch';
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  enableB2BCustomerSearch: true,
+};
 
 describe('UserListService', () => {
   let service: UserListService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   describe('with table config', () => {
     beforeEach(() => {
@@ -69,14 +68,11 @@ describe('UserListService', () => {
             provide: TableService,
             useClass: MockTableService,
           },
-          {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
-          },
+          provideMockFeatureToggles({ ...mockFeatureToggles }),
         ],
       });
       service = TestBed.inject(UserListService);
-      featureConfigService = TestBed.inject(FeatureConfigService);
+      featureToggles = TestBed.inject(FeatureToggles);
     });
 
     it('should inject service', () => {
@@ -95,19 +91,13 @@ describe('UserListService', () => {
 
     describe('isSearchEnabled()', () => {
       it('should return true when feature toggle is enabled', () => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+        featureToggles.enableB2BCustomerSearch = true;
         expect(service.isSearchEnabled()).toBe(true);
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BCustomerSearch'
-        );
       });
 
       it('should return false when feature toggle is disabled', () => {
-        spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+        featureToggles.enableB2BCustomerSearch = false;
         expect(service.isSearchEnabled()).toBe(false);
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'enableB2BCustomerSearch'
-        );
       });
     });
   });

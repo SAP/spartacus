@@ -49,10 +49,18 @@ jobs:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           persist-credentials: false
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.CLOUD_REPO_APP_CLIENT_ID }}
+          private-key: ${{ secrets.CLOUD_REPO_APP_PRIVATE_KEY }}
+          owner: sap-samples
+          repositories: cloud-commerce-sample-setup
       - name: create release with sample data assets
         env:
           GHT_USER: ${{ vars.GHT_USER }}
           GHT_PRIVATE_REPO_TOKEN: ${{ secrets.GHT_PRIVATE_REPO_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TEMPORARY_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           ci-scripts/publish-sample-data.sh

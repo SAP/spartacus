@@ -60,7 +60,7 @@ jobs:
         id: save-e2e-output-result
         run: |
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+          echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
   build_libs:
     needs: [no_retries, validate_e2e_execution]
     name: MC - Build Spartacus libraries
@@ -264,7 +264,7 @@ jobs:
           total-containers: 3
         if: ${{ needs.a11y_e2e_tests.result != 'skipped' }}
       - name: Post PR comment with screenshot details
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         if: ${{ github.event_name == 'pull_request' && needs.a11y_e2e_tests.result == 'failure' }}
         with:
           script: |
@@ -277,7 +277,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Aggregate Required Job Results
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             github.rest.issues.createComment({

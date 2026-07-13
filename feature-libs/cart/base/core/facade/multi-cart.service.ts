@@ -14,7 +14,7 @@ import {
   OrderEntryGroup,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   isNotUndefined,
   StateUtils,
   UserIdService,
@@ -34,7 +34,7 @@ import { MultiCartSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class MultiCartService implements MultiCartFacade {
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   protected windowRef = inject(WindowRef);
 
   constructor(
@@ -159,10 +159,8 @@ export class MultiCartService implements MultiCartFacade {
   }) {
     const tempCartId = this.generateTempCartId();
     if (
-      this.featureConfigService.isEnabled(
-        'incrementProcessesCountForMergeCart'
-      ) ||
-      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      this.featureToggles.incrementProcessesCountForMergeCart ||
+      this.featureToggles.authorizationCodeFlowByDefault
     ) {
       this.store.dispatch(
         new CartActions.MergeCartAndIncrementProcessesCount({

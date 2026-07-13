@@ -9,8 +9,8 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
+  FeatureToggles,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -22,6 +22,7 @@ import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-icon',
@@ -46,11 +47,9 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  navigationMenuCloseOnSameLinkClick: true,
+};
 
 class MockBreakpointService {
   isUp() {
@@ -130,10 +129,7 @@ describe('Navigation UI Component', () => {
           provide: WindowRef,
           useValue: mockWinRef,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,

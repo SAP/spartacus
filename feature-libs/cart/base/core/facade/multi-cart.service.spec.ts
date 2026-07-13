@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
+import { FeatureToggles, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
@@ -11,6 +11,7 @@ import {
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 import createSpy = jasmine.createSpy;
 
@@ -81,14 +82,15 @@ class MockUserIdService implements Partial<UserIdService> {
   });
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled = createSpy();
-}
+const mockFeatureToggles: FeatureToggles = {
+  incrementProcessesCountForMergeCart: false,
+  authorizationCodeFlowByDefault: false,
+};
 
 describe('MultiCartService', () => {
   let service: MultiCartService;
   let store: Store<StateWithMultiCart>;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,13 +104,13 @@ describe('MultiCartService', () => {
       providers: [
         MultiCartService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -356,14 +358,8 @@ describe('MultiCartService', () => {
         spyOn(service as any, 'generateTempCartId').and.returnValue(
           'temp-uuid'
         );
-        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
-
-        isEnabledSpy.and.callFake((value: string) => {
-          if (value === 'incrementProcessesCountForMergeCart') {
-            return true;
-          }
-          return false;
-        });
+        featureToggles.incrementProcessesCountForMergeCart = true;
+        featureToggles.authorizationCodeFlowByDefault = false;
         service.mergeToCurrentCart({
           userId: 'userId',
           cartId: 'cartId',
@@ -384,14 +380,8 @@ describe('MultiCartService', () => {
         spyOn(service as any, 'generateTempCartId').and.returnValue(
           'temp-uuid'
         );
-        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
-
-        isEnabledSpy.and.callFake((value: string) => {
-          if (value === 'authorizationCodeFlowByDefault') {
-            return true;
-          }
-          return false;
-        });
+        featureToggles.authorizationCodeFlowByDefault = true;
+        featureToggles.incrementProcessesCountForMergeCart = false;
         service.mergeToCurrentCart({
           userId: 'userId',
           cartId: 'cartId',
@@ -412,11 +402,8 @@ describe('MultiCartService', () => {
         spyOn(service as any, 'generateTempCartId').and.returnValue(
           'temp-uuid'
         );
-        const isEnabledSpy = featureConfigService.isEnabled as jasmine.Spy;
-
-        isEnabledSpy.and.callFake((_value: string) => {
-          return false;
-        });
+        featureToggles.incrementProcessesCountForMergeCart = false;
+        featureToggles.authorizationCodeFlowByDefault = false;
         service.mergeToCurrentCart({
           userId: 'userId',
           cartId: 'cartId',

@@ -60,7 +60,7 @@ jobs:
         id: save-e2e-output-result
         run: |
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+          echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
   unit_tests:
     needs: no_retries
     name: Unit tests
@@ -85,7 +85,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 #v7.0.0
+        uses: sonarsource/sonarqube-scan-action@c7ee0f9df90b7aa20e8dcf9695dcfe2e7da5b4f2 # v7.2.1
         with:
           args: >
             -Dsonar.qualitygate.wait=true
@@ -381,7 +381,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Required build failed
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             core.setFailed('Build failed')

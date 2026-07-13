@@ -26,12 +26,13 @@ import {
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   FeatureConfigService,
-  FeaturesConfigModule,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  FocusDirective,
   HierarchyComponentService,
   HierarchyModule,
   HierarchyNode,
@@ -67,7 +68,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
     AsyncPipe,
     TranslatePipe,
     HierarchyModule,
-    FeaturesConfigModule,
+    FeatureDirective,
+    FocusDirective,
   ],
 })
 export class CheckoutDeliveryModeComponent implements OnInit {

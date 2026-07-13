@@ -40,12 +40,12 @@ describe('FeatureConfigService', () => {
 
   describe('isEnabled', () => {
     it('should return true for supported feature', () => {
-      expect(service.isEnabled('feature1_1')).toBeTruthy();
-      expect(service.isEnabled('featureOn')).toBeTruthy();
+      expect(service.isEnabled('feature1_1' as any)).toBeTruthy();
+      expect(service.isEnabled('featureOn' as any)).toBeTruthy();
     });
     it('should return false for unsupported feature', () => {
-      expect(service.isEnabled('feature1_5')).toBeFalsy();
-      expect(service.isEnabled('featureOff')).toBeFalsy();
+      expect(service.isEnabled('feature1_5' as any)).toBeFalsy();
+      expect(service.isEnabled('featureOff' as any)).toBeFalsy();
     });
   });
 });

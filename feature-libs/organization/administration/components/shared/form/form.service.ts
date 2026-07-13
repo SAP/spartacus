@@ -18,7 +18,7 @@ export abstract class FormService<T> {
   protected abstract build(item?: T): void;
 
   getForm(item?: T): UntypedFormGroup | null {
-    if (this.form && !!item) {
+    if (this.form && item) {
       this.patchData(item);
       return this.form;
     }

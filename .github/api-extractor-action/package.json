@@ -10,7 +10,7 @@
   "license": "ISC",
   "overrides": {
     "form-data": "^4.0.4",
-    "undici": "^6.24.0"
+    "undici": "^8.0.0"
   },
   "dependencies": {
     "@actions/cache": "^6.0.0",

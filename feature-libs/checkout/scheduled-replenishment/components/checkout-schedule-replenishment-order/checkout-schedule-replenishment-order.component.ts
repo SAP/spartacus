@@ -119,7 +119,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
   }
 
   changeReplenishmentStartDate(date: string): void {
-    if (Boolean(date)) {
+    if (date) {
       this.checkoutReplenishmentFormService.setScheduleReplenishmentFormData({
         ...this.scheduleReplenishmentFormData,
         replenishmentStartDate: date,
