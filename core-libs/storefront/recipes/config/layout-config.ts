@@ -157,6 +157,20 @@ function applyUnifiedHeaderSlots(config: LayoutConfig): void {
   }
 }
 
+/**
+ * Removes the `pageFold` property from the `LandingPage2Template`,
+ * `CategoryPageTemplate` and `ProductDetailsPageTemplate` layout configs.
+ *
+ * Always applied to the factory-produced config to avoid CLS (Cumulative
+ * Layout Shift) regressions: the `pageFold` property caused CMS components
+ * to be rendered only after a small delay even in SSR pages, which caused
+ * a layout shift.
+ *
+ * Note: the `pageFold` values are still present in the deprecated
+ * `layoutConfig` const to preserve behavior for consumers that use
+ * `provideConfig(layoutConfig)` directly instead of
+ * `provideConfigFactory(layoutConfigFactory)`.
+ */
 function applyWithoutPageFold(config: LayoutConfig): void {
   const homepageConfig =
     (config?.layoutSlots?.LandingPage2Template as SlotConfig) ?? {};
@@ -181,9 +195,7 @@ export function layoutConfigFactory(): LayoutConfig {
 
   applyUnifiedHeaderSlots(config);
 
-  if (featureToggles.defaultLayoutConfigWithoutPageFold) {
-    applyWithoutPageFold(config);
-  }
+  applyWithoutPageFold(config);
 
   return config;
 }
