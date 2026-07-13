@@ -12,6 +12,7 @@ sides, and how they work together.
   - [Step 2: Create the Spartacus storefront](#step-2-create-the-spartacus--storefront)
   - [Step 3: Import the storefront into the Vivaldi workspace](#step-3-import-the-storefront-into-the-vivaldi-workspace)
   - [Step 4: Configure storefrontapp as an Nx project](#step-4-configure-storefrontapp-as-an-nx-project)
+    - [4c. Migrate angular.json to project.json](#4c-migrate-angularjson-to-projectjson-existing-angular-cli-projects-only)
   - [Step 5: Base Spartacus configuration](#step-5-base-spartacus-configuration)
 - [Architecture and URL injection](#architecture-and-url-injection)
 - [File overview](#file-overview)
@@ -335,6 +336,162 @@ Add to `nx.json` → `plugins` array:
 
 > **Important:** make sure `outputPath` is `dist/apps/storefrontapp` (not
 > `dist/apps/my-storefront-app` or whatever the Angular CLI defaulted to).
+
+#### 4c. Migrate `angular.json` to `project.json` (existing Angular CLI projects only)
+
+> **Skip this step** if you followed Step 2 and created a fresh storefront — you already
+> have `angular.json` from `ng new` and the `project.json` above replaces it entirely.
+> This step is for teams who bring in an **existing** Angular CLI project whose
+> `angular.json` was not yet converted to the Nx-native format.
+
+After `nx import`, the storefront still has an `angular.json` in its subdirectory
+(`apps/storefrontapp/angular.json`). Nx can read targets from `angular.json` via the
+`@nx/angular` plugin registered in step 4a, but the file uses Angular CLI conventions
+that differ from what `project.json` expects in a Vivaldi workspace:
+
+| `angular.json` | `project.json` |
+|---|---|
+| `architect` object | `targets` object |
+| `builder` key | `executor` key |
+| All paths relative to the app directory (`src/main.ts`) | All paths relative to workspace root (`apps/storefrontapp/src/main.ts`) |
+| No `outputPath` — defaults to project `root` | Explicit `outputPath: "dist/apps/storefrontapp"` required |
+| `serve` has no top-level `options` block | `serve` carries `proxyConfig` in top-level `options` |
+| No `serve-ssr` target | Separate `serve-ssr` target for SSR dev mode |
+| `test` options inline under `options` | `test` delegates to `buildTarget` for shared build config |
+
+**Automated option — `nx init`:**
+
+If the storefront is still a standalone Angular CLI workspace (i.e. you have not yet
+run `nx import`), Nx provides an automated path:
+
+```bash
+# Inside the standalone storefront directory (before nx import)
+npx nx@latest init
+```
+
+This command installs Nx, creates `nx.json`, and splits `angular.json` into a
+`project.json` per project. The resulting `project.json` retains `architect`/`builder`
+keys (Angular CLI format) — Nx reads both formats transparently. You can then run the
+`@nx/angular:convert-to-application-executor` generator to upgrade any legacy builders:
+
+```bash
+nx generate @nx/angular:convert-to-application-executor storefrontapp
+```
+
+> **Limitation:** `nx init` is designed for standalone Angular CLI workspaces. Once
+> the storefront has been imported into the Vivaldi monorepo via `nx import` (Step 3),
+> running `nx init` inside `apps/storefrontapp/` will not produce the correct result —
+> it would re-scaffold an Nx workspace inside a sub-directory instead of registering
+> the project in the existing workspace. For projects that are **already inside the
+> monorepo**, use the manual steps below.
+
+**Manual migration:**
+
+To convert, apply the following transformations to `apps/storefrontapp/angular.json`
+and save the result as `apps/storefrontapp/project.json`:
+
+1. **Rename top-level keys.** Inside the project entry, replace `architect` with `targets`.
+   Inside each target, replace `builder` with `executor`.
+
+2. **Prefix all paths** with `apps/storefrontapp/`. Every file reference that was
+   relative to the app directory (e.g. `src/main.ts`, `src/styles.scss`, `public`)
+   must become workspace-root-relative (e.g. `apps/storefrontapp/src/main.ts`).
+   The `node_modules/` input path in the SmartEdit asset glob is the one exception —
+   it should stay as `node_modules/@spartacus/smartedit/assets` (no prefix) because
+   it resolves from the workspace root already.
+
+3. **Add `outputPath`** to the `build` target's `options`:
+   ```json
+   "outputPath": "dist/apps/storefrontapp"
+   ```
+
+4. **Add `proxyConfig`** to the `serve` target (a new top-level `options` block):
+   ```json
+   "options": {
+     "proxyConfig": "apps/storefrontapp/proxy.conf.js"
+   }
+   ```
+
+5. **Add a `serve-ssr` target** alongside `serve`, pointing to the SSR build configurations
+   (omit the `noSsr` configuration override):
+   ```json
+   "serve-ssr": {
+     "executor": "@angular/build:dev-server",
+     "options": {
+       "proxyConfig": "apps/storefrontapp/proxy.conf.js"
+     },
+     "configurations": {
+       "production": { "buildTarget": "storefrontapp:build:production" },
+       "development": { "buildTarget": "storefrontapp:build:development" }
+     },
+     "defaultConfiguration": "development"
+   }
+   ```
+
+6. **Update `buildTarget` references** in `serve` configurations. The Angular CLI
+   `angular.json` names them after the original project name
+   (e.g. `ccv2-spa-doc-test4-storefront:build:development,noSsr`). Change all
+   references to use the Nx project name `storefrontapp`:
+   ```json
+   "production": { "buildTarget": "storefrontapp:build:production,noSsr" },
+   "development": { "buildTarget": "storefrontapp:build:development,noSsr" }
+   ```
+
+7. **Simplify the `test` target.** The `angular.json` `test` target inlines all style
+   options directly. Replace it with the leaner form that delegates to the `build`
+   target's `test` configuration (which carries the style preprocessor options):
+   ```json
+   "test": {
+     "executor": "@angular/build:unit-test",
+     "options": {
+       "buildTarget": "storefrontapp:build:test",
+       "tsConfig": "apps/storefrontapp/tsconfig.spec.json"
+     }
+   }
+   ```
+   And add a `test` configuration to the `build` target's `configurations` block:
+   ```json
+   "test": {
+     "optimization": false,
+     "extractLicenses": false,
+     "sourceMap": false,
+     "stylePreprocessorOptions": {
+       "includePaths": ["node_modules/"],
+       "sass": { "silenceDeprecations": ["import"] }
+     },
+     "styles": [
+       "apps/storefrontapp/src/styles/spartacus/user.scss",
+       "apps/storefrontapp/src/styles/spartacus/cart.scss",
+       "apps/storefrontapp/src/styles/spartacus/order.scss",
+       "apps/storefrontapp/src/styles/spartacus/checkout.scss",
+       "apps/storefrontapp/src/styles/spartacus/storefinder.scss",
+       "apps/storefrontapp/src/styles/spartacus/asm.scss",
+       "apps/storefrontapp/src/styles/spartacus/product.scss"
+     ]
+   }
+   ```
+
+8. **Add Nx project metadata** at the top level:
+   ```json
+   {
+     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+     "name": "storefrontapp",
+     "projectType": "application",
+     "sourceRoot": "apps/storefrontapp/src",
+     "tags": [],
+     ...
+   }
+   ```
+
+9. **Delete `angular.json`.** Once `project.json` is in place and
+   `nx run storefrontapp:build` succeeds, remove `apps/storefrontapp/angular.json`.
+   Keeping both files causes Nx to merge targets from both, which can produce
+   confusing duplicates.
+
+> **Tip:** The `nx migrate` command does not automate this conversion — it is a
+> one-time manual step per project. After the conversion, commit both the new
+> `project.json` and the deletion of `angular.json` together so the changeset is
+> atomic and easy to revert.
 
 **4d. Add `@repo/bff/*` path aliases to the storefrontapp `tsconfig.json`:**
 
