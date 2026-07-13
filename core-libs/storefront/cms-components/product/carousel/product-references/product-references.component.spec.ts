@@ -19,37 +19,13 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  CarouselComponent,
-  CarouselScrollingComponent,
-} from '@spartacus/storefront';
+import { CarouselScrollingComponent } from '@spartacus/storefront';
 import { MediaComponent } from 'core-libs/storefront/shared/components/media/media.component';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-
-@Component({
-  selector: 'cx-carousel',
-  template: `
-    cx-carousel
-    <ng-container *ngFor="let item$ of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
-    </ng-container>
-  `,
-  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
-})
-class MockCarouselComponent {
-  @Input() title: string;
-  @Input() template: TemplateRef<any>;
-  @Input() items: any[];
-}
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-carousel-scrolling',
@@ -171,9 +147,7 @@ describe('ProductReferencesComponent', () => {
           provide: ProductReferenceService,
           useClass: MockProductReferenceService,
         },
-        provideMockFeatureToggles({
-          productCarouselScrolling: true,
-        }),
+        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(ProductReferencesComponent, {
@@ -183,7 +157,6 @@ describe('ProductReferencesComponent', () => {
             UrlPipe,
             MediaComponent,
             CarouselScrollingComponent,
-            CarouselComponent,
           ],
         },
         add: {
@@ -192,7 +165,6 @@ describe('ProductReferencesComponent', () => {
             MockUrlPipe,
             MockMediaComponent,
             MockCarouselScrollingComponent,
-            MockCarouselComponent,
           ],
         },
       })
@@ -200,8 +172,6 @@ describe('ProductReferencesComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    const toggles = TestBed.inject(MockFeatureTogglesController);
-    toggles.reset({ productCarouselScrolling: true });
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;
@@ -290,29 +260,11 @@ describe('ProductReferencesComponent', () => {
     expect(el.nativeElement).toBeTruthy();
   });
 
-  describe('when feature toggle "productCarouselScrolling" is enabled', () => {
-    beforeEach(() => {
-      const toggles = TestBed.inject(MockFeatureTogglesController);
-      toggles.set('productCarouselScrolling', true);
-    });
-
-    it('should render cx-carousel-scrolling component', () => {
-      fixture.detectChanges();
-      const carouselScrollingComponent = fixture.debugElement.query(
-        By.css('cx-carousel-scrolling')
-      );
-      expect(carouselScrollingComponent).toBeTruthy();
-    });
-  });
-  describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-    it('should render cx-carousel component', () => {
-      const toggles = TestBed.inject(MockFeatureTogglesController);
-      toggles.set('productCarouselScrolling', false);
-      fixture.detectChanges();
-      const carouselComponent = fixture.debugElement.query(
-        By.css('cx-carousel')
-      );
-      expect(carouselComponent).toBeTruthy();
-    });
+  it('should render cx-carousel-scrolling component', () => {
+    fixture.detectChanges();
+    const carouselScrollingComponent = fixture.debugElement.query(
+      By.css('cx-carousel-scrolling')
+    );
+    expect(carouselScrollingComponent).toBeTruthy();
   });
 });

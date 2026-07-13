@@ -125,31 +125,6 @@ export interface FeatureTogglesInterface {
   cdsBottomHeaderSlotAdjustPosition?: boolean;
 
   /**
-   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
-   * in the following components instead of the old `<cx-carousel>`:
-   * - `ProductCarouselComponent`
-   * - `ProductReferencesComponent`
-   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
-   *
-   * The previous carousel had number of issues:
-   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
-   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
-   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
-   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
-   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
-   * - Was not swipe-friendly on mobile devices
-   *
-   * The new carousel:
-   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
-   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
-   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
-   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
-   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
-   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
-   */
-  productCarouselScrolling?: boolean;
-
-  /**
    * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
    *
    * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
@@ -683,7 +658,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   reserveSpaceForImagesOnPdpAndPlp: true,
