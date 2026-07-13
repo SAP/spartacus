@@ -135,7 +135,9 @@ function copySkill(
   options?: { deleteBeforeCopy?: boolean }
 ): void {
   const dest = SKILL_DEST[target];
-  if (options?.deleteBeforeCopy) deleteSkillDir(tree, dest);
+  if (options?.deleteBeforeCopy) {
+    deleteSkillDir(tree, dest);
+  }
   writeSkillTree(tree, files, dest);
 }
 
@@ -159,7 +161,9 @@ function writeSkillTree(
 }
 
 function normalize(input: Schema['aiTools']): AiTool[] {
-  if (!input || input.length === 0) return [];
+  if (!input || input.length === 0) {
+    return [];
+  }
   const seen = new Set<AiTool>();
   for (const value of input) {
     if (SUPPORTED_TOOLS.includes(value)) {

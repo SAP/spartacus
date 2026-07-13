@@ -17,8 +17,11 @@ import { PDFComponent } from './pdf.component';
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(value: string): any {
-    if (value === 'pdf.defaultTitle') return 'Document';
-    else return '';
+    if (value === 'pdf.defaultTitle') {
+      return 'Document';
+    } else {
+      return '';
+    }
   }
 }
 
