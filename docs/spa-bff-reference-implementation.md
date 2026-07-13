@@ -1,21 +1,21 @@
-# Spartacus Classic — BFF Reference Implementation
+# Spartacus — BFF Reference Implementation
 
 This document describes the complete reference implementation for integrating a Vivaldi
-BFF (Backend for Frontend) with Spartacus Classic. It covers all files you need to
-create or modify on both the **Spartacus Classic storefront** and the **Vivaldi BFF**
+BFF (Backend for Frontend) with Spartacus. It covers all files you need to
+create or modify on both the **Spartacus storefront** and the **Vivaldi BFF**
 sides, and how they work together.
 
 ## Table of Contents
 
 - [Getting started from scratch](#getting-started-from-scratch)
   - [Step 1: Create the Vivaldi BFF workspace](#step-1-create-the-vivaldi-bff-workspace)
-  - [Step 2: Create the Spartacus Classic storefront](#step-2-create-the-spartacus-classic-storefront)
+  - [Step 2: Create the Spartacus storefront](#step-2-create-the-spartacus--storefront)
   - [Step 3: Import the storefront into the Vivaldi workspace](#step-3-import-the-storefront-into-the-vivaldi-workspace)
   - [Step 4: Configure storefrontapp as an Nx project](#step-4-configure-storefrontapp-as-an-nx-project)
   - [Step 5: Base Spartacus configuration](#step-5-base-spartacus-configuration)
 - [Architecture and URL injection](#architecture-and-url-injection)
 - [File overview](#file-overview)
-- [Spartacus Classic changes](#spartacus-classic-changes)
+- [Spartacus changes](#spartacus-changes)
   - [CRITICAL: Remove hardcoded baseUrl](#critical-remove-hardcoded-baseurl-from-spartacus-configuration)
   - [CRITICAL: OCC URL must have a CA-signed certificate](#critical-occ-url-must-have-a-valid-ca-signed-certificate-for-bff-use)
   - [1. index.html](#1-srcindexhtml)
@@ -28,7 +28,7 @@ sides, and how they work together.
   - [8. proxy.conf.js](#8-proxyconfjs-new-file-project-root)
   - [9. project.json](#9-projectjson-modify)
   - [10. package.json scripts](#10-packagejson-scripts)
-  - [11. .env-cmdrc](#11-env-cmdrc-modify)
+  - [11. .env-cmdrc](#11-env-cmdrc-create-or-modify)
   - [12. Environment files](#12-environment-files-optional--only-if-you-use-buildprocessenv)
   - [13. Example: custom BFF procedure](#13-example-custom-bff-procedure-say-hellocomponentts)
   - [14. Example: OCC call via BFF](#14-example-occ-call-via-bff-occ-base-sitescomponentts)
@@ -50,7 +50,7 @@ sides, and how they work together.
 ## Getting started from scratch
 
 These steps describe how to create a fresh Nx monorepo that contains both a Vivaldi BFF
-and a Spartacus Classic Angular storefront, starting from nothing. Follow them in order
+and a Spartacus Angular storefront, starting from nothing. Follow them in order
 before applying the BFF integration changes described in the rest of this document.
 
 ### Prerequisites
@@ -154,7 +154,9 @@ Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed
 
 ---
 
-### Step 2: Create the Spartacus Classic storefront
+### Step 2: Create the Spartacus  storefront
+
+> **Skip this step** if you already have an existing Angular application.
 
 **Prerequisite:** install the Angular CLI globally.
 
@@ -174,8 +176,6 @@ ng add @spartacus/schematics@221121.13.1 --ssr --skip-confirmation
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
 to confirm. The default selection already includes Assisted Services (ASM). You can
 accept the defaults or customise the selection.
-
-> **Skip this step** if you already have an existing Angular application.
 
 ---
 
@@ -435,7 +435,7 @@ so the browser never makes a cross-origin call.
 
 ## File overview
 
-### Spartacus Classic storefront
+### Spartacus  storefront
 
 ```
 src/
@@ -480,7 +480,7 @@ packages/contracts/bff/
 
 ---
 
-## Spartacus Classic changes
+## Spartacus changes
 
 ### 1. `src/index.html`
 
