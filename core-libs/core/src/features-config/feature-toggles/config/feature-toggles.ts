@@ -425,6 +425,13 @@ export interface FeatureTogglesInterface {
   a11yListSemanticsForFacets?: boolean;
 
   /**
+   * In `ActiveFacetsComponent`, announces filter changes to screen readers.
+   * Before: no announcement when a filter is added or removed from the applied filters section.
+   * After: an assertive `aria-live` message is read out — "Filter added: <name>" or "Filter removed: <name>".
+   */
+  a11yFilteredFacetAnnouncement?: boolean;
+
+  /**
    * Hides empty outlet wrapper elements in the cart item list table when they have no content.
    * Otherwise screen readers would interpret them as extra table columns.
    * Affects: CartItemListComponent
@@ -715,6 +722,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
   a11yListSemanticsForFacets: false,
+  a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
