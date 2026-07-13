@@ -5,7 +5,11 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   ParagraphComponent,
   SupplementHashAnchorsPipe,
@@ -40,7 +44,24 @@ const COPYRIGHT_NOTICE_PATTERN =
       )
     "
   ></div>`,
+  styles: [
+    `
+      app-footer-version-paragraph div {
+        position: relative;
+      }
+      app-footer-version-paragraph .app-footer-version {
+        background-color: var(--cx-color-medium);
+        border-radius: 10px;
+        padding: 3px 8px;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [NgIf, AsyncPipe, SupplementHashAnchorsPipe],
 })
 export class FooterVersionParagraphComponent extends ParagraphComponent {
@@ -51,7 +72,7 @@ export class FooterVersionParagraphComponent extends ParagraphComponent {
     }
     return content.replace(
       COPYRIGHT_NOTICE_PATTERN,
-      (match) => `${match} v${version}`
+      (match) => `${match} <span class="app-footer-version">v${version}</span>`
     );
   }
 }
