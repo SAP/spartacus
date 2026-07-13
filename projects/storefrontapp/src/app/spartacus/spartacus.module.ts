@@ -6,9 +6,9 @@
 
 import { NgModule } from '@angular/core';
 import { BaseStorefrontModule } from '@spartacus/storefront';
-import { FooterVersionModule } from './footer/footer-version.module';
 import { SpartacusConfigurationModule } from './spartacus-configuration.module';
 import { SpartacusFeaturesModule } from './spartacus-features.module';
+import { FooterVersionModule } from './version/footer-version.module';
 
 @NgModule({
   imports: [

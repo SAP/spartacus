@@ -1127,7 +1127,7 @@ sed_inplace() {
 function addFooterVersion {
     local app_dir="${1}"
     local app_path="${INSTALLATION_DIR}/${app_dir}/src/app"
-    local footer_dir="${app_path}/spartacus/footer"
+    local footer_dir="${app_path}/spartacus/version"
     local config_module="${app_path}/spartacus/spartacus-configuration.module.ts"
 
     printh "Adding footer version customization (version: ${SPARTACUS_VERSION}) for app: ${app_dir}"
@@ -1139,59 +1139,51 @@ function addFooterVersion {
 
     mkdir -p "$footer_dir"
 
-    # Component: overrides the paragraph CMS component to append the version to
-    # the copyright notice. Only content matching the copyright text is rewritten.
-    cat > "${footer_dir}/footer-version-paragraph.component.ts" <<EOF
-import { AsyncPipe, NgIf } from '@angular/common';
+    # Component: a plain badge that shows the version in the footer, injected via
+    # the footer outlet so no CMS content is touched.
+    cat > "${footer_dir}/footer-version.component.ts" <<EOF
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-  ParagraphComponent,
-  SupplementHashAnchorsPipe,
-} from '@spartacus/storefront';
-
-const COPYRIGHT_NOTICE_PATTERN =
-  /Copyright ©.*SAP SE or an SAP affiliate company\\. All rights reserved\\./;
 
 const SPARTACUS_VERSION = '${SPARTACUS_VERSION}';
 
 @Component({
-  selector: 'app-footer-version-paragraph',
-  template: \`<div
-    *ngIf="component.data\$ | async as data"
-    [innerHTML]="
-      bypassSecurityTrustHtml(
-        appendVersionToNotice(data.content) | cxSupplementHashAnchors
-      )
-    "
-  ></div>\`,
+  selector: 'app-footer-version',
+  template: \`@if (version) {
+    <span class="app-footer-version">v{{ version }}</span>
+  }\`,
+  styles: [
+    \`
+      .app-footer-version {
+        background-color: var(--cx-color-medium);
+        border-radius: 8px;
+        padding: 3px 8px;
+        color: var(--cx-color-text);
+        position: fixed;
+        left: 10px;
+        bottom: 10px;
+      }
+    \`,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, SupplementHashAnchorsPipe],
 })
-export class FooterVersionParagraphComponent extends ParagraphComponent {
-  appendVersionToNotice(content = ''): string {
-    return content.replace(
-      COPYRIGHT_NOTICE_PATTERN,
-      (match) => \`\${match} On Spartacus v\${SPARTACUS_VERSION}\`
-    );
-  }
+export class FooterVersionComponent {
+  readonly version = SPARTACUS_VERSION;
 }
 EOF
 
-    # Module: overrides the CMSParagraphComponent CMS mapping.
+    # Module: injects the version badge into the footer outlet.
     cat > "${footer_dir}/footer-version.module.ts" <<EOF
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
-import { FooterVersionParagraphComponent } from './footer-version-paragraph.component';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { FooterVersionComponent } from './footer-version.component';
 
 @NgModule({
-  imports: [FooterVersionParagraphComponent],
+  imports: [FooterVersionComponent],
   providers: [
-    provideConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSParagraphComponent: {
-          component: FooterVersionParagraphComponent,
-        },
-      },
+    provideOutlet({
+      id: 'Footer',
+      position: OutletPosition.AFTER,
+      component: FooterVersionComponent,
     }),
   ],
 })
@@ -1204,7 +1196,7 @@ EOF
         return
     fi
     # Add the import statement after the NgModule import line.
-    sed_inplace "s#\(import { NgModule } from '@angular/core';\)#\1\nimport { FooterVersionModule } from './footer/footer-version.module';#" "$config_module"
+    sed_inplace "s#\(import { NgModule } from '@angular/core';\)#\1\nimport { FooterVersionModule } from './version/footer-version.module';#" "$config_module"
     # Add FooterVersionModule to the (possibly empty) imports array.
     sed_inplace -E "s/imports:[[:space:]]*\[/imports: [FooterVersionModule,/" "$config_module"
 
