@@ -181,7 +181,6 @@ export interface FeatureTogglesInterface {
    */
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
-
   /**
    * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
    *
