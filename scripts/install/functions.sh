@@ -331,7 +331,7 @@ function create_apps {
         printh "Installing csr app"
         create_shell_app ${CSR_APP_NAME}
         add_spartacus_csr ${CSR_APP_NAME} ${IS_NPM_INSTALL}
-        addFooterVersion ${CSR_APP_NAME}
+        add_footer_version ${CSR_APP_NAME}
     fi
     if [ -z "${SSR_PORT}" ]; then
         echo "Skipping ssr app install (no port defined)"
@@ -339,7 +339,7 @@ function create_apps {
         printh "Installing ssr app"
         create_shell_app ${SSR_APP_NAME}
         add_spartacus_ssr ${SSR_APP_NAME} ${IS_NPM_INSTALL}
-        addFooterVersion ${SSR_APP_NAME}
+        add_footer_version ${SSR_APP_NAME}
     fi
     if [ -z "${SSR_PWA_PORT}" ]; then
         echo "Skipping ssr with pwa app install (no port defined)"
@@ -347,7 +347,7 @@ function create_apps {
         printh "Installing ssr app (with pwa support)"
         create_shell_app ${SSR_PWA_APP_NAME}
         add_spartacus_ssr_pwa ${SSR_PWA_APP_NAME} ${IS_NPM_INSTALL}
-        addFooterVersion ${SSR_PWA_APP_NAME}
+        add_footer_version ${SSR_PWA_APP_NAME}
     fi
 }
 
@@ -1124,7 +1124,7 @@ sed_inplace() {
 # It writes a ParagraphComponent override that appends SPARTACUS_VERSION to the
 # footer copyright notice, and wires it into the generated SpartacusConfigurationModule.
 # The version is baked in as a literal (the generated app uses a plain `ng build`).
-function addFooterVersion {
+function add_footer_version {
     local app_dir="${1}"
     local app_path="${INSTALLATION_DIR}/${app_dir}/src/app"
     local footer_dir="${app_path}/spartacus/version"
@@ -1132,7 +1132,7 @@ function addFooterVersion {
 
     printh "Adding footer version customization (version: ${SPARTACUS_VERSION}) for app: ${app_dir}"
 
-    if [ ! -f "$config_module" ]; then
+    if [[ ! -f "$config_module" ]]; then
         echo "Skipping footer version: config module not found at $config_module"
         return
     fi

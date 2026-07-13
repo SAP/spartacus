@@ -26,7 +26,7 @@ const resolveEnvPlugin: Plugin = {
     });
 
     // Expose the @spartacus/core version to the example storefrontapp (used in
-    // dev only, to append it to the footer copyright notice). Read here, in the
+    // dev/sample sites only, to display bottom corner of site). Read here, in the
     // Node-based build, to avoid a cross-project import from the app source.
     env['CX_CORE_VERSION'] = JSON.parse(
       readFileSync(
