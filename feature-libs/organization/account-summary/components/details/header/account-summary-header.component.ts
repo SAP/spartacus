@@ -83,7 +83,7 @@ export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
         const country = billingAddress?.country?.name;
         return {
           title: addressTitle,
-          text: Boolean(billingAddress)
+          text: billingAddress
             ? [name, address, country]
             : [this.notApplicable],
         } as Card;

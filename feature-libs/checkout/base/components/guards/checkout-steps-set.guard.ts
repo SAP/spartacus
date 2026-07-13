@@ -89,7 +89,7 @@ export class CheckoutStepsSetGuard implements OnDestroy {
         if (currentIndex >= 0) {
           currentStep = steps[currentIndex];
         }
-        if (Boolean(currentStep)) {
+        if (currentStep) {
           return this.isStepSet(steps[currentIndex - 1]);
         } else {
           if (isDevMode()) {

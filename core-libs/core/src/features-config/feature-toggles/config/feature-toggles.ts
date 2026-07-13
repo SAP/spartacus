@@ -50,12 +50,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent
-   */
-  readMoreDirective?: boolean;
-
-  /**
    * Introduces the read more directive in product list item summary
    * Affects: ProductListItemComponent
    */
@@ -541,6 +535,13 @@ export interface FeatureTogglesInterface {
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
+  /**
+   * When enabled, sanitizes the URL used to compute the page's canonical URL
+   * (in `PageLinkService.getCanonicalUrl`). The URL is parsed and validated,
+   * rejecting malformed URLs and any non-`http(s)` protocols (e.g. `javascript:`,
+   * `data:`), which are replaced with an empty string.
+   * Affects: PageLinkService
+   */
   pageLinkSanitizeCanonicalUrl?: boolean;
 
   /**
@@ -634,6 +635,12 @@ export interface FeatureTogglesInterface {
    * are shown on the B2B checkout delivery address step.
    */
   b2bCheckoutShippingAddressFilter?: boolean;
+
+  /**
+   * Refines the `cx-tab` active/hover border: anchors it to the bottom of
+   * the button, and rounds its bottom corners.
+   */
+  improvedTabStyling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -648,7 +655,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddPaddingToCarouselPanel: true,
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
-  readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
@@ -658,7 +664,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
-  authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
   navigationMenuCloseOnSameLinkClick: true,
@@ -714,4 +720,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
+  improvedTabStyling: false,
 };
