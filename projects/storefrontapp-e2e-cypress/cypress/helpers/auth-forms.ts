@@ -66,6 +66,7 @@ export function fillAuthServerLoginForm({ username, password }: LoginUser) {
 
 // Wait for CSR fallback, it needs to be over the SSR timeout of 3 seconds + js files to load + api calls to complete. 8 seconds is a safe bet.
 // this is needed for CCV2 e2e tests.
+// TODO: This workaround (CXSPA-13762 - E2E failure: SPA_E2E tests are failing in S7 and S8 envs) can be deleted after CXSPA-13800 is fixed ([SSR] Login form inputs cleared after CSR loading)
 export function waitForCsrFallbackTimeout() {
   cy.log('Waiting for SSR timeout to pass (8s)');
   cy.wait(8000);
