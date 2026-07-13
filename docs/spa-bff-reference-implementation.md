@@ -45,7 +45,6 @@ sides, and how they work together.
   - [20. root.ts](#20-appsbffsrcapiroutersrootts-modify)
   - [21. .env](#21-appsbffenv-local-dev-only)
 - [Testing locally](#testing-locally)
-- [Testing meta tag substitution locally](#testing-meta-tag-substitution-locally)
 - [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)
 
 ---
@@ -1415,30 +1414,6 @@ npm run start:storefrontapp
 # Navigate to:
 # http://localhost:4200/electronics-spa/en/USD/bff-say-hello
 # http://localhost:4200/electronics-spa/en/USD/occ-base-sites
-```
-
----
-
-## Testing meta tag substitution locally
-
-```bash
-# 1. Build (SSR is included in the production build)
-npm run build:storefrontapp
-
-# 2. Substitute placeholders (simulates CCv2 deploy-time substitution)
-sed -i '' 's|BFF_BASE_URL_VALUE|https://your-bff-host/bff/api|g' \
-  dist/apps/storefrontapp/browser/index.html
-
-# 3. Verify
-grep "bff-base-url" dist/apps/storefrontapp/browser/index.html
-
-# 4a. CSR
-npx http-server dist/apps/storefrontapp/browser -p 4200 --proxy http://localhost:4200?
-
-# 4b. SSR
-BFF_BASE_URL=https://your-bff-host/bff/api \
-SERVER_REQUEST_ORIGIN=http://localhost:4000 \
-node dist/apps/storefrontapp/server/server.mjs
 ```
 
 ---
