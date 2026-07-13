@@ -283,7 +283,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           active: true,
         },
       });
-    } else if (Boolean(getLastValueSync(this.isGuestCart()))) {
+    } else if (getLastValueSync(this.isGuestCart())) {
       this.guestCartMerge(cartId);
     } else {
       // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
@@ -361,7 +361,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const cartSelector$ = (
       forGuestMerge
         ? this.cartEntity$.pipe(
-            filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+            filter(() => !getLastValueSync(this.isGuestCart()))
           )
         : this.cartEntity$
     ).pipe(filter((cartState) => !cartState.loading || !!this.checkInitLoad));
