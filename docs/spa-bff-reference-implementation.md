@@ -33,24 +33,23 @@ sides, and how they work together.
   - [9. project.json](#9-projectjson-modify)
   - [10. package.json scripts](#10-packagejson-scripts)
   - [11. .env-cmdrc](#11-env-cmdrc-create-or-modify)
-  - [12. Environment files](#12-environment-files-optional--only-if-you-use-buildprocessenv)
-  - [13. Example: custom BFF procedure](#13-example-custom-bff-procedure-say-hellocomponentts)
-  - [14. Example: OCC call via BFF](#14-example-occ-call-via-bff-occ-base-sitescomponentts)
-  - [15. bff-example.providers.ts](#15-bff-exampleprovidersts-new-file)
+  - [12. Example: custom BFF procedure](#12-example-custom-bff-procedure-say-hellocomponentts)
+  - [13. Example: OCC call via BFF](#13-example-occ-call-via-bff-occ-base-sitescomponentts)
+  - [14. bff-example.providers.ts](#14-bff-exampleprovidersts-new-file)
 - [Vivaldi BFF changes](#vivaldi-bff-changes)
-  - [16. env.d.ts](#16-appsbffenvdts-modify)
-  - [17. vivaldi.apis.ts](#17-appsbffvivaldiapists-modify)
-  - [18. destinations.ts](#18-packagescontractsbffdestinationsts-modify)
-  - [19. context.ts](#19-appsbffsrcapicontextts-modify)
-  - [20. occ.ts router](#20-appsbffsrcapiroutersoccts-new-file)
-  - [21. root.ts](#21-appsbffsrcapiroutersrootts-modify)
-  - [22. .env](#22-appsbffenv-local-dev-only)
+  - [15. env.d.ts](#15-appsbffenvdts-modify)
+  - [16. vivaldi.apis.ts](#16-appsbffvivaldiapists-modify)
+  - [17. destinations.ts](#17-packagescontractsbffdestinationsts-modify)
+  - [18. context.ts](#18-appsbffsrcapicontextts-modify)
+  - [19. occ.ts router](#19-appsbffsrcapiroutersoccts-new-file)
+  - [20. root.ts](#20-appsbffsrcapiroutersrootts-modify)
+  - [21. .env](#21-appsbffenv-local-dev-only)
 - [Testing locally](#testing-locally)
 - [Testing meta tag substitution locally](#testing-meta-tag-substitution-locally)
 - [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)
 
 ---
-
+ 
 ## Getting started from scratch
 
 These steps describe how to create a fresh Nx monorepo that contains both a Vivaldi BFF
@@ -1113,39 +1112,7 @@ dev-server startup — never read by the Angular app itself:
 
 ---
 
-### 12. Environment files *(optional — only if you use `buildProcess.env`)*
-
-> **Note:** `ng new` no longer generates an `environments/` directory in Angular 15+.
-> This section only applies if you have an existing project that already uses environment
-> files with Vivaldi's `buildProcess.env` esbuild plugin.
->
-> For fresh projects created with `ng new`, the BFF URL is read directly from the
-> `bff-base-url` meta tag at runtime — no environment file changes are needed.
-
-If your project uses environment files:
-
-```ts
-// environment.model.ts — add field
-export interface Environment {
-  bffBaseUrl?: string;
-  // ... existing fields
-}
-
-// environment.ts
-bffBaseUrl: buildProcess.env.CX_BFF_BASE_URL ?? '/bff/api',
-
-// environment.prod.ts
-bffBaseUrl: buildProcess.env.CX_BFF_BASE_URL,
-```
-
-> **Note:** `environment.bffBaseUrl` is not used by the Angular app at runtime.
-> It exists only to make `CX_BFF_BASE_URL` available to `proxy.conf.js` via the
-> build-time esbuild plugin. The app reads the BFF URL from the meta tag via
-> `BFF_BASE_URL` token, not from the environment object.
-
----
-
-### 13. Example: custom BFF procedure (`say-hello.component.ts`)
+### 12. Example: custom BFF procedure (`say-hello.component.ts`)
 
 Route: `/bff-say-hello`
 
@@ -1187,7 +1154,7 @@ export class SayHelloComponent {
 
 ---
 
-### 14. Example: OCC call via BFF (`occ-base-sites.component.ts`)
+### 13. Example: OCC call via BFF (`occ-base-sites.component.ts`)
 
 Route: `/occ-base-sites`
 
@@ -1227,7 +1194,7 @@ export class OccBaseSitesComponent {
 
 ---
 
-### 15. `bff-example.providers.ts` *(new file)*
+### 14. `bff-example.providers.ts` *(new file)*
 
 ```ts
 import { Provider } from '@angular/core';
@@ -1263,7 +1230,7 @@ Spread into `app.module.ts` providers: `providers: [privateProviders, ...bffExam
 
 ## Vivaldi BFF changes
 
-### 16. `apps/bff/env.d.ts` *(modify)*
+### 15. `apps/bff/env.d.ts` *(modify)*
 
 Declare `OCC_BASE_URL` so Vivaldi's typed env system recognises it:
 
@@ -1279,7 +1246,7 @@ export {};
 
 ---
 
-### 17. `apps/bff/vivaldi.apis.ts` *(modify)*
+### 16. `apps/bff/vivaldi.apis.ts` *(modify)*
 
 Register the OCC backend as a host and expose it as the `occ_v2` destination.
 Vivaldi auto-discovers this file — no change to `vivaldi.ts` needed.
@@ -1310,7 +1277,7 @@ export default {
 
 ---
 
-### 18. `packages/contracts/bff/destinations.ts` *(modify)*
+### 17. `packages/contracts/bff/destinations.ts` *(modify)*
 
 Expose `occ_v2` to the tRPC context so procedures can call `ctx.destinations.occ.v2()`:
 
@@ -1322,7 +1289,7 @@ export default createDestinations(['occ_v2']);
 
 ---
 
-### 19. `apps/bff/src/api/context.ts` *(modify)*
+### 18. `apps/bff/src/api/context.ts` *(modify)*
 
 Rewrite using a typed interface that extends `RequiredContext`. This is required so
 the storefrontapp's typecheck can walk into BFF source files via the `@repo/bff/clients`
@@ -1351,7 +1318,7 @@ export const createContext: () => Promise<Context> = async () => ({
 
 ---
 
-### 20. `apps/bff/src/api/routers/occ.ts` *(new file)*
+### 19. `apps/bff/src/api/routers/occ.ts` *(new file)*
 
 tRPC router for OCC proxy procedures. Each procedure forwards to OCC via
 `ctx.execute.http` and the `occ_v2` destination. The `Authorization` header from the
@@ -1404,7 +1371,7 @@ with the desired path (relative to `/occ/v2`), forwarded headers, and `occV2(ctx
 
 ---
 
-### 21. `apps/bff/src/api/routers/root.ts` *(modify)*
+### 20. `apps/bff/src/api/routers/root.ts` *(modify)*
 
 Register the new `occ` router alongside `sample`:
 
@@ -1424,7 +1391,7 @@ export const createCaller = createCallerFactory(rootRouter);
 
 ---
 
-### 22. `apps/bff/.env` *(local dev only)*
+### 21. `apps/bff/.env` *(local dev only)*
 
 Set `OCC_BASE_URL` for local BFF development. Must be a hostname with a **CA-signed
 certificate** — the BFF container on CCv2 runs Node.js in production mode which rejects
