@@ -106,11 +106,9 @@ This creates an Nx monorepo with an `apps/bff` application pre-configured for Vi
 > git init && git add -A && git commit -m "chore: initial vivaldi workspace"
 > ```
 
-**Immediately upgrade `@vivaldi` packages to 0.25.0.** The generator installs 0.24.9 but
-0.25.0 is required to fix a critical bug where Cloudflare's `__cf_bm` cookie crashes
-every BFF request on CCv2 (see [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)).
-Also install `@vivaldi/auth` and `@dapr/dapr` which are new peer dependencies in 0.25.0,
-and `@nx/angular` pinned to the workspace `nx` version:
+**Immediately upgrade `@vivaldi` packages to 0.25.0.** Also install `@vivaldi/auth` and `@dapr/dapr` which are new peer dependencies in 0.25.0, and `@nx/angular` pinned to the workspace `nx` version.
+
+Note: for full reasons on why an immediate upgrade is needed, see the section [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)).
 
 ```bash
 npm install \
