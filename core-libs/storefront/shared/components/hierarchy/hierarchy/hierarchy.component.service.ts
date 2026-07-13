@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { OrderEntry, OrderEntryGroup } from '@spartacus/cart/base/root';
+import { HierarchyEntryGroup } from './hierarchy.model';
 import { HierarchyNode, Value } from '../hierarchy-node';
 import { TitleNode } from '../hierarchy-node-title';
 import { CollapsibleNode } from '../hierarchy-node-collapsible';
@@ -21,19 +21,20 @@ export class HierarchyComponentService {
   /**
    * Retrieves the order entries from the given entry groups.
    *
-   * @param entryGroups$ - An Observable of OrderEntryGroup[] representing the entry groups.
-   * @returns An Observable of OrderEntry[] representing the order entries.
+   * @param entryGroups$ - An Observable of HierarchyEntryGroup[] representing the entry groups.
+   * @returns An Observable of entries flattened from leaf groups.
    */
-  getEntriesFromGroups(
-    entryGroups$: Observable<OrderEntryGroup[]>
-  ): Observable<OrderEntry[]> {
+  getEntriesFromGroups<T = unknown>(
+    entryGroups$: Observable<HierarchyEntryGroup[]>
+  ): Observable<T[]> {
     return entryGroups$.pipe(
       map((entryGroups) =>
         entryGroups
           .filter((group) => !group.entryGroups?.length)
-          .reduce<
-            OrderEntry[]
-          >((acc, curr) => [...acc, ...(curr.entries ?? [])], [])
+          .reduce<T[]>(
+            (acc, curr) => [...acc, ...((curr.entries ?? []) as T[])],
+            []
+          )
       )
     );
   }
@@ -45,7 +46,7 @@ export class HierarchyComponentService {
    * @returns An observable of hierarchy nodes.
    */
   getBundlesFromGroups(
-    entryGroups$: Observable<OrderEntryGroup[]>
+    entryGroups$: Observable<HierarchyEntryGroup[]>
   ): Observable<HierarchyNode[]> {
     return entryGroups$.pipe(
       map(
@@ -68,12 +69,12 @@ export class HierarchyComponentService {
 
   /**
    * Builds a hierarchy tree from the given nodes and parent node.
-   * @param nodes - The array of OrderEntryGroup nodes.
+   * @param nodes - The array of HierarchyEntryGroup nodes.
    * @param parent - The parent HierarchyNode.
    * @param count - The count of nodes processed (optional, default is 0).
    */
   buildHierarchyTree(
-    nodes: OrderEntryGroup[],
+    nodes: HierarchyEntryGroup[],
     parent: HierarchyNode,
     count: number = 0
   ): void {
@@ -81,11 +82,11 @@ export class HierarchyComponentService {
     nodes.forEach((node) => {
       const value: Value = {
         key: node.entryGroupNumber,
-        data: node.entries,
+        data: node.entries as any[] | undefined,
       };
 
       if (count === 0) {
-        treeNode = new TitleNode(node.label, {
+        treeNode = new TitleNode(node.label ?? '', {
           children: [],
           value: value,
         });
@@ -93,7 +94,7 @@ export class HierarchyComponentService {
         parent.children.push(treeNode);
         treeNode = parent;
       } else {
-        treeNode = new CollapsibleNode(node.label, {
+        treeNode = new CollapsibleNode(node.label ?? '', {
           children: [],
           value: value,
           open: true,

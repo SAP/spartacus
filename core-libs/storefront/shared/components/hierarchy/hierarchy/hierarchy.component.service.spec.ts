@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { OrderEntryGroup } from '@spartacus/cart/base/root';
+import { HierarchyEntryGroup } from './hierarchy.model';
 import { CollapsibleNode } from '../hierarchy-node-collapsible';
 import { HierarchyComponentService } from './hierarchy.component.service';
 
@@ -14,7 +14,7 @@ describe('HierarchyComponentService', () => {
 
   describe('getEntriesFromGroups', () => {
     it('should return order entries from entry groups without nested groups', (done) => {
-      const mockEntryGroups: OrderEntryGroup[] = [
+      const mockEntryGroups: HierarchyEntryGroup[] = [
         {
           entries: [
             { orderCode: 'order1', quantity: 1, totalPrice: { value: 100 } },
@@ -33,14 +33,14 @@ describe('HierarchyComponentService', () => {
       service.getEntriesFromGroups(of(mockEntryGroups)).subscribe((entries) => {
         expect(entries.length).toBe(3);
         expect(entries).toEqual(
-          mockEntryGroups.flatMap((group) => group.entries)
+          mockEntryGroups.flatMap((group) => group.entries ?? [])
         );
         done();
       });
     });
 
     it('should filter out entry groups that have nested entry groups', (done) => {
-      const mockEntryGroups: OrderEntryGroup[] = [
+      const mockEntryGroups: HierarchyEntryGroup[] = [
         {
           entries: [{ orderCode: 'order1', quantity: 1 }],
           entryGroups: [
@@ -63,7 +63,7 @@ describe('HierarchyComponentService', () => {
 
   describe('getBundlesFromGroups', () => {
     it('should return collapsible nodes for configurable bundles', (done) => {
-      const mockEntryGroups: OrderEntryGroup[] = [
+      const mockEntryGroups: HierarchyEntryGroup[] = [
         { type: 'CONFIGURABLEBUNDLE', label: 'Bundle 1', entryGroups: [] },
         { type: 'STANDALONE', label: 'Bundle 2', entryGroups: [] },
       ];
@@ -77,7 +77,7 @@ describe('HierarchyComponentService', () => {
     });
 
     it('should not include non-configurable bundles', (done) => {
-      const mockEntryGroups: OrderEntryGroup[] = [
+      const mockEntryGroups: HierarchyEntryGroup[] = [
         { type: 'STANDALONE', label: 'Bundle 1', entryGroups: [] },
         { type: 'STANDALONE', label: 'Bundle 2', entryGroups: [] },
       ];
@@ -91,7 +91,7 @@ describe('HierarchyComponentService', () => {
 
   describe('buildHierarchyTree', () => {
     it('should build a hierarchy tree from entry groups', () => {
-      const mockEntryGroups: OrderEntryGroup[] = [
+      const mockEntryGroups: HierarchyEntryGroup[] = [
         { label: 'Group 1', entryGroups: [] },
         {
           label: 'Group 2',

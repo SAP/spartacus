@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HierarchyNodeComponent } from './hierarchy-node.component';
 import { CollapsibleNode } from '../hierarchy-node-collapsible/collapsible-node.model';
 import { TitleNode } from '../hierarchy-node-title/title-node.model';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { TemplateRef } from '@angular/core';
+import { HierarchyOptions } from '../hierarchy/hierarchy.model';
 
 describe('HierarchyNodeComponent', () => {
   let component: HierarchyNodeComponent<any>;
@@ -12,16 +11,6 @@ describe('HierarchyNodeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HierarchyNodeComponent],
-      providers: [
-        {
-          provide: ActiveCartFacade,
-          useValue: {}, // mock the ActiveCartFacade
-        },
-        {
-          provide: TemplateRef,
-          useValue: {}, // mock the TemplateRef
-        },
-      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HierarchyNodeComponent);
@@ -32,32 +21,33 @@ describe('HierarchyNodeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set type to TITLE when tree is an instance of TitleNode', () => {
-    const titleNode = new TitleNode('Title Node');
-    component.tree = titleNode;
+  it('should set type to TITLE when options.tree is a TitleNode', () => {
+    component.options = {
+      tree: new TitleNode('Title Node'),
+    } as HierarchyOptions<any>;
 
     component.ngOnInit();
 
     expect(component.type).toBe('TITLE');
   });
 
-  it('should set type to COLLAPSIBLE when tree is an instance of CollapsibleNode', () => {
+  it('should set type to COLLAPSIBLE when options.tree is a CollapsibleNode', () => {
     const collapsibleNode = new CollapsibleNode('Collapsible Node');
-    component.tree = collapsibleNode;
+    component.options = { tree: collapsibleNode } as HierarchyOptions<any>;
 
     component.ngOnInit();
 
     expect(component.type).toBe('COLLAPSIBLE');
-    expect(component.collasibleTree).toBe(collapsibleNode); // Ensure collapsibleTree is set correctly
+    expect(component.collasibleTree).toBe(collapsibleNode);
   });
 
-  it('should handle ngOnChanges when tree input changes', () => {
+  it('should re-derive type on ngOnChanges of options', () => {
     const titleNode = new TitleNode('Another Title Node');
-    component.tree = titleNode;
+    component.options = { tree: titleNode } as HierarchyOptions<any>;
 
     component.ngOnChanges({
-      tree: {
-        currentValue: titleNode,
+      options: {
+        currentValue: component.options,
         previousValue: null,
         firstChange: true,
         isFirstChange: () => true,
@@ -67,13 +57,13 @@ describe('HierarchyNodeComponent', () => {
     expect(component.type).toBe('TITLE');
   });
 
-  it('should set type to COLLAPSIBLE on ngOnChanges for CollapsibleNode', () => {
+  it('should re-derive type on ngOnChanges for CollapsibleNode', () => {
     const collapsibleNode = new CollapsibleNode('Another Collapsible Node');
-    component.tree = collapsibleNode;
+    component.options = { tree: collapsibleNode } as HierarchyOptions<any>;
 
     component.ngOnChanges({
-      tree: {
-        currentValue: collapsibleNode,
+      options: {
+        currentValue: component.options,
         previousValue: null,
         firstChange: true,
         isFirstChange: () => true,
@@ -84,18 +74,18 @@ describe('HierarchyNodeComponent', () => {
     expect(component.collasibleTree).toBe(collapsibleNode);
   });
 
-  it('should return true for disabled when tree is disabled', () => {
+  it('should return true for disabled when options.tree is disabled', () => {
     const collapsibleNode = new CollapsibleNode('Collapsible Node');
-    collapsibleNode.disabled = true; // Simulate the disabled state
-    component.tree = collapsibleNode;
+    collapsibleNode.disabled = true;
+    component.options = { tree: collapsibleNode } as HierarchyOptions<any>;
 
     expect(component.disabled).toBeTruthy();
   });
 
-  it('should return false for disabled when tree is not disabled', () => {
+  it('should return false for disabled when options.tree is not disabled', () => {
     const collapsibleNode = new CollapsibleNode('Collapsible Node');
-    collapsibleNode.disabled = false; // Simulate the enabled state
-    component.tree = collapsibleNode;
+    collapsibleNode.disabled = false;
+    component.options = { tree: collapsibleNode } as HierarchyOptions<any>;
 
     expect(component.disabled).toBeFalsy();
   });

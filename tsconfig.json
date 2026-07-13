@@ -774,7 +774,7 @@
         "integration-libs/segment-refs/root/public_api"
       ],
       "@spartacus/assets": [
-        "projects/assets/src/public_api"
+        "core-libs/assets/src/public_api"
       ],
       "@spartacus/storefront": [
         "core-libs/storefront/public_api"
