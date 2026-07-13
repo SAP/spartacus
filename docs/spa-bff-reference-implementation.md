@@ -75,9 +75,9 @@ export SAP_RBSCTOKEN=<your-token>
 The `@vivaldi/nx` scaffolder automatically creates a `.npmrc` in the workspace root that configures the `@vivaldi` registry scope:
 
 ```
-@vivaldi:registry=https://73555000100900008602.dev.npmsrv.base.repositories.cloud.sap/
-//73555000100900008602.dev.npmsrv.base.repositories.cloud.sap/:_auth=${SAP_RBSCTOKEN}
-//73555000100900008602.dev.npmsrv.base.repositories.cloud.sap/:always-auth=true
+@vivaldi:registry=https://73555000100900008602.npmsrv.base.repositories.cloud.sap/
+//73555000100900008602.npmsrv.base.repositories.cloud.sap/:_auth=${SAP_RBSCTOKEN}
+//73555000100900008602.npmsrv.base.repositories.cloud.sap/:always-auth=true
 ```
 
 The `@spartacus` scope is **not** added by the scaffolder. Append it to `.npmrc` manually before running any `npm install` that involves Spartacus packages (i.e. before Step 2):
