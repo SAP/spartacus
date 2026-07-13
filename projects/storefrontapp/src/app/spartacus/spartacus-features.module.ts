@@ -308,7 +308,6 @@ if (environment.cpq) {
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yNgSelectUnicodeCarets: true,
-        readMoreDirective: true,
         productListItemSummaryReadMore: true,
         productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
