@@ -10,8 +10,8 @@ import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
@@ -51,7 +51,7 @@ export class AnonymousConsentsService {
         withLatestFrom(this.getLoadTemplatesLoading()),
         filter(([_templates, loading]) => !loading),
         tap(([templates, _loading]) => {
-          if (!Boolean(templates)) {
+          if (!templates) {
             this.loadTemplates();
           }
         }),

@@ -8,6 +8,7 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
+  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -15,6 +16,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { DirectiveStateTransferService } from '../../../utils';
 import { PageLayoutService } from './page-layout.service';
 
 /**
@@ -43,6 +45,11 @@ import { PageLayoutService } from './page-layout.service';
  */
 @Directive({ selector: '[cxPageTemplateStyle]' })
 export class PageTemplateDirective implements OnInit, OnDestroy {
+  protected directiveStateTransferService = inject(
+    DirectiveStateTransferService
+  );
+  protected transferStateKey = 'page-template';
+
   /**
    * Indicates whether this component is driven by an input template or should
    * observe the CMS driven page layout template.
@@ -57,7 +64,7 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * is used inside an `ng-template`.
    */
   @Input('cxPageTemplateStyle') set setTemplate(template: string) {
-    if (template && template !== '') {
+    if (template) {
       this.useTemplateFromInput = true;
       this.addStyleClass(template);
     } else if (this.useTemplateFromInput) {
@@ -73,7 +80,11 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * Holds the current page template, so we can remove previous page templates
    * from the element classList.
    */
-  protected currentTemplate: string;
+  // restore the currentTemplate from SSR state so that the directive is fully rehydrated
+  protected currentTemplate: string = this.directiveStateTransferService.get(
+    this.host,
+    this.transferStateKey
+  ) as string;
 
   constructor(
     protected pageLayoutService: PageLayoutService,
@@ -103,8 +114,16 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
   protected addStyleClass(template: string, el?: HTMLElement): void {
     this.clear(el);
     if (template) {
+      const targetElem = el ?? this.host;
       this.currentTemplate = template;
-      (el ?? this.host).classList.add(this.currentTemplate);
+      targetElem.classList.add(this.currentTemplate);
+      // Persist the current template for rehydration.  Without this, the current template would be
+      // unknown and the directive would not be able to remove old style classes.
+      this.directiveStateTransferService.set(
+        targetElem,
+        this.transferStateKey,
+        this.currentTemplate
+      );
       this.cd.markForCheck();
     }
   }
@@ -126,7 +145,7 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    * to ensure that we're not ending up with a comment.
    */
   protected get host(): HTMLElement {
-    return !!this.templateRef
+    return this.templateRef
       ? this.templateRef.elementRef.nativeElement.parentElement
       : this.elementRef.nativeElement;
   }
