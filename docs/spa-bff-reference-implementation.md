@@ -155,15 +155,22 @@ Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed
 
 > **Skip this step** if you already have an existing Angular application.
 
+> **Important:** create the storefront **outside** `my-vivaldi-workspace`. If you run
+> `ng new` from inside the Vivaldi workspace, the storefront lands as a subfolder of
+> that git repository — making the workspace dirty and causing `nx import` to refuse
+> with "You have uncommitted changes". The storefront must be a sibling directory,
+> not a child of `my-vivaldi-workspace`.
+
 **Prerequisite:** install the Angular CLI globally.
 
 ```bash
 npm install -g @angular/cli@21
 ```
 
-Scaffold a new Angular application:
+Navigate out of the Vivaldi workspace before creating the storefront:
 
 ```bash
+cd ..   # leave my-vivaldi-workspace — the storefront goes here, alongside it
 ng new my-storefront-app --style=scss --ssr=false --zoneless=false \
   --file-name-style-guide=2016
 cd my-storefront-app
@@ -196,12 +203,11 @@ git add -A && git commit -m "chore: add Spartacus schematics"
 
 ### Step 3: Import the storefront into the Vivaldi workspace
 
-Run the following from the root of `my-vivaldi-workspace`. The command is interactive —
-press **Enter** at each prompt to accept the defaults:
+Return to the Vivaldi workspace root and import the storefront:
 
 ```bash
-# From my-vivaldi-workspace root
-nx import <absolute-path-to-my-storefront-app> apps/storefrontapp --ref=main
+cd ../my-vivaldi-workspace
+nx import ../my-storefront-app apps/storefrontapp --ref=main
 ```
 
 Prompts and expected responses:
