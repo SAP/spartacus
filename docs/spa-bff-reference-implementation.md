@@ -161,27 +161,40 @@ Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed
 npm install -g @angular/cli@21
 ```
 
-Scaffold a new Angular application and add the Spartacus schematics:
+Scaffold a new Angular application:
 
 ```bash
 ng new my-storefront-app --style=scss --ssr=false --zoneless=false \
   --file-name-style-guide=2016
 cd my-storefront-app
+```
+
+Commit immediately after `ng new` — before adding Spartacus. If the schematics fail
+or produce only a partial result, this gives you a clean rollback point without having
+to recreate the Angular app from scratch:
+
+```bash
+git init && git add -A && git commit -m "chore: initial Angular app"
+```
+
+Add the Spartacus schematics:
+
+```bash
 ng add @spartacus/schematics@221121.13.1 --ssr --skip-confirmation
 ```
 
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
 to confirm. Accept the defaults or customise the selection to match your project's needs.
 
+Commit the Spartacus changes:
+
+```bash
+git add -A && git commit -m "chore: add Spartacus schematics"
+```
+
 ---
 
 ### Step 3: Import the storefront into the Vivaldi workspace
-
-> **Prerequisite:** the source repository must have at least one git commit. Run the
-> following inside `my-storefront-app` before continuing:
-> ```bash
-> git init && git add -A && git commit -m "init"
-> ```
 
 Run the following from the root of `my-vivaldi-workspace`. The command is interactive —
 press **Enter** at each prompt to accept the defaults:
