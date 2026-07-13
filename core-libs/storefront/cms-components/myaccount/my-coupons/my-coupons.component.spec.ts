@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -160,6 +160,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(_caller: LAUNCH_CALLER, _openElement?: ElementRef) {
     return EMPTY;
   }
+  closeDialog(_reason: string) {}
 }
 
 describe('MyCouponsComponent', () => {
@@ -393,6 +394,20 @@ describe('MyCouponsComponent', () => {
         component['host'],
         undefined,
         { coupon: 'testcode', pageSize: 10 }
+      );
+    });
+  });
+
+  describe('navigation', () => {
+    it('should close the dialog on NavigationStart', () => {
+      const router = TestBed.inject(Router);
+      spyOn(launchDialogService, 'closeDialog');
+
+      fixture.detectChanges();
+      router.navigate(['/']);
+
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+        'Navigation'
       );
     });
   });

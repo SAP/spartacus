@@ -215,7 +215,7 @@ describe('LaunchDialogService', () => {
     });
 
     it('should call focusElement with the opener nativeElement on close', () => {
-      spyOn(service, 'focusElement');
+      spyOn<any>(service, 'focusElement');
       const openElement = { nativeElement: document.createElement('button') };
       service['_dialogClose'].next('close');
 
@@ -223,20 +223,20 @@ describe('LaunchDialogService', () => {
         .openDialog('TEST_DIALOG' as LAUNCH_CALLER, openElement, component.vcr)
         ?.subscribe();
 
-      expect(service.focusElement).toHaveBeenCalledWith(
+      expect((service as any).focusElement).toHaveBeenCalledWith(
         openElement.nativeElement
       );
     });
 
     it('should call focusElement with undefined when no opener is provided', () => {
-      spyOn(service, 'focusElement');
+      spyOn<any>(service, 'focusElement');
       service['_dialogClose'].next('close');
 
       service
         .openDialog('TEST_DIALOG' as LAUNCH_CALLER, undefined, component.vcr)
         ?.subscribe();
 
-      expect(service.focusElement).toHaveBeenCalledWith(undefined);
+      expect((service as any).focusElement).toHaveBeenCalledWith(undefined);
     });
   });
 
@@ -274,7 +274,7 @@ describe('LaunchDialogService', () => {
       );
       spyOn(focusableChild, 'focus');
 
-      service.focusElement(host);
+      (service as any).focusElement(host);
 
       expect(autoFocusService.findFirstFocusable).toHaveBeenCalledWith(host);
       expect(focusableChild.focus).toHaveBeenCalled();
@@ -285,7 +285,7 @@ describe('LaunchDialogService', () => {
       spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
       spyOn(host, 'focus');
 
-      service.focusElement(host);
+      (service as any).focusElement(host);
 
       expect(host.focus).toHaveBeenCalled();
     });
@@ -294,7 +294,7 @@ describe('LaunchDialogService', () => {
       const host = document.createElement('div');
       spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
 
-      service.focusElement(host);
+      (service as any).focusElement(host);
 
       expect(host.hasAttribute('tabindex')).toBeFalsy();
     });
@@ -305,7 +305,7 @@ describe('LaunchDialogService', () => {
       spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(null);
       spyOn(host, 'focus');
 
-      service.focusElement(host);
+      (service as any).focusElement(host);
 
       expect(host.getAttribute('tabindex')).toBe('0');
     });
@@ -313,7 +313,7 @@ describe('LaunchDialogService', () => {
     it('should do nothing when called with undefined', () => {
       spyOn(autoFocusService, 'findFirstFocusable');
 
-      service.focusElement(undefined);
+      (service as any).focusElement(undefined);
 
       expect(autoFocusService.findFirstFocusable).not.toHaveBeenCalled();
     });
