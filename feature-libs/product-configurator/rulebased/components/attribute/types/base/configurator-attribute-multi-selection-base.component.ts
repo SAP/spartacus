@@ -5,7 +5,6 @@
  */
 
 import { Directive } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -14,13 +13,11 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { ConfiguratorAttributeSelectionBaseComponent } from './configurator-attribute-selection-base.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
-export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
-  loading$ = new BehaviorSubject<boolean>(false);
-
+export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends ConfiguratorAttributeSelectionBaseComponent {
   attribute: Configurator.Attribute;
   ownerKey: string;
   expMode: boolean;
