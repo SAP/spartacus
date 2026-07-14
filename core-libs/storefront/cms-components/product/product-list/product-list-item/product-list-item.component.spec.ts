@@ -115,7 +115,6 @@ describe('ProductListItemComponent in product-list', () => {
           useClass: MockProductService,
         },
         provideMockFeatureToggles({
-          consistentSizeProductCards: true,
           productListItemSummaryReadMore: false,
           a11yProductListItemNameMargin: true,
         }),

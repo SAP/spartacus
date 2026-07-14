@@ -50,12 +50,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent
-   */
-  readMoreDirective?: boolean;
-
-  /**
    * Introduces the read more directive in product list item summary
    * Affects: ProductListItemComponent
    */
@@ -88,23 +82,6 @@ export interface FeatureTogglesInterface {
    * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
   a11yPreventWindowsHighContrastOverride?: boolean;
-
-  /**
-   * When enabled, the product cards in the product list page will have a forced consistent size.
-   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
-   */
-  consistentSizeProductCards?: boolean;
-
-  /**
-   * Feature flag to disable the margin animation for the cx-page-slot component.
-   * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
-   * This animation was originally part of the legacy "defer loading" and "below the fold"
-   * mechanism in Spartacus. Since this mechanism is no longer used in the current storefront,
-   * the animation causes unnecessary layout shifts (CLS) and increased rendering cost (TBT).
-   *
-   * Enabling this flag removes the margin animation to improve performance and user experience.
-   */
-  disableCxPageSlotMarginAnimation?: boolean;
 
   /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
@@ -178,18 +155,6 @@ export interface FeatureTogglesInterface {
   cdsLoginEventsToken?: boolean;
 
   /**
-   * Feature flag to enable using <link rel=preconnect> in the index.html.
-   *
-   * ## When enabled:
-   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
-   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
-   * has already been completed by the time the browser requests them.
-   *
-   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
-   */
-  createMediaPreconnectLink?: boolean;
-
-  /**
    * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
    * This results in a more secure authorization scheme as the default configuration.
    *
@@ -226,20 +191,6 @@ export interface FeatureTogglesInterface {
    * with `provideConfigFactory(layoutConfigFactory)`.
    */
   unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
-
-  /**
-   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
-   *
-   * When enabled, it ensures that appropriate space is reserved for images before they load,
-   * maintaining layout stability across the following contexts:
-   *
-   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
-   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
-   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
-   *
-   * This helps improve Core Web Vitals by preventing layout shifts as images load.
-   */
-  reserveSpaceForImagesOnPdpAndPlp?: boolean;
 
   /**
    * Feature flag to control the default image loading strategy.
@@ -287,24 +238,6 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthService`
    */
   dispatchLoginActionOnlyWhenTokenReceived?: boolean;
-
-  /**
-   * Previously the default Spartacus layout config contained the property `pageFold`
-   * for the following layouts:
-   * - `LandingPage2Template`
-   * - `CategoryPageTemplate`
-   * - `ProductDetailsPageTemplate`
-   *
-   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
-   *
-   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
-   * caused the CMS components to be rendered only after a small delay even in SSR pages,
-   * which caused a layout shift.
-   *
-   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
-   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  defaultLayoutConfigWithoutPageFold?: boolean;
 
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
@@ -529,6 +462,13 @@ export interface FeatureTogglesInterface {
   a11yConsentManagementFocusPreservation?: boolean;
 
   /**
+   * Preserves keyboard focus on the selected delivery mode radio button
+   * during checkout when navigating with the keyboard.
+   * Affects: CheckoutDeliveryModeComponent, VisibleFocusDirective
+   */
+  a11yDeliveryModeFocusPreservation?: boolean;
+
+  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -581,6 +521,13 @@ export interface FeatureTogglesInterface {
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
+  /**
+   * When enabled, sanitizes the URL used to compute the page's canonical URL
+   * (in `PageLinkService.getCanonicalUrl`). The URL is parsed and validated,
+   * rejecting malformed URLs and any non-`http(s)` protocols (e.g. `javascript:`,
+   * `data:`), which are replaced with an empty string.
+   * Affects: PageLinkService
+   */
   pageLinkSanitizeCanonicalUrl?: boolean;
 
   /**
@@ -647,6 +594,12 @@ export interface FeatureTogglesInterface {
   asyncAuthConfigInitializer?: boolean;
 
   /**
+   * When enabled, adds site isolation decorator to the user credentials submitted during the Custom
+   * Login Page form submission.
+   */
+  siteIsolationForCustomLoginPage?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -668,6 +621,12 @@ export interface FeatureTogglesInterface {
    * are shown on the B2B checkout delivery address step.
    */
   b2bCheckoutShippingAddressFilter?: boolean;
+
+  /**
+   * Refines the `cx-tab` active/hover border: anchors it to the bottom of
+   * the button, and rounds its bottom corners.
+   */
+  improvedTabStyling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -682,23 +641,17 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddPaddingToCarouselPanel: true,
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
-  readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  consistentSizeProductCards: true,
-  disableCxPageSlotMarginAnimation: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
-  createMediaPreconnectLink: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
-  reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
-  authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
-  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
@@ -725,6 +678,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
+  a11yDeliveryModeFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
@@ -748,6 +702,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yProductListItemNameMargin: false,
   propagateLogoutToAllTabs: false,
   asyncAuthConfigInitializer: false,
+  siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
+  improvedTabStyling: false,
 };
