@@ -44,8 +44,6 @@ import {
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
-  /** If set to `true`, all action buttons will be disabled.  */
-  disableAllButtons?: boolean;
   /** If set to `true`, the remove/deselect button won't be available. Useful for required attributes,
    *  where a deselect/remove of last value shall not be possible.  */
   hideRemoveButton?: boolean;

@@ -72,6 +72,7 @@
               "
               class="btn btn-secondary"
               (click)="onHandleDeselect()"
+              [disabled]="disableActions$ | async"
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
               [attr.aria-describedby]="
@@ -85,10 +86,7 @@
               <button
                 class="btn btn-primary"
                 (click)="onHandleSelect()"
-                [disabled]="
-                  productCardOptions.disableAllButtons ||
-                  (disableActions$ | async)
-                "
+                [disabled]="disableActions$ | async"
                 [cxFocus]="focusConfig"
                 [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                 [attr.aria-describedby]="
@@ -107,10 +105,7 @@
             <button
               class="btn btn-primary"
               (click)="onHandleSelect()"
-              [disabled]="
-                productCardOptions.disableAllButtons ||
-                (disableActions$ | async)
-              "
+              [disabled]="disableActions$ | async"
               *ngIf="
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
@@ -135,10 +130,7 @@
                   *ngIf="!productCardOptions?.hideRemoveButton"
                   class="btn btn-secondary"
                   (click)="onHandleDeselect()"
-                  [disabled]="
-                    productCardOptions.hideRemoveButton ||
-                    (disableActions$ | async)
-                  "
+                  [disabled]="disableActions$ | async"
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleSelected(product)"
                   [attr.aria-describedby]="
