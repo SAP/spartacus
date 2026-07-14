@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -109,6 +110,19 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionBundleComponent>;
   let htmlElem: HTMLElement;
+  let consolidatedButtonDisabling: boolean;
+
+  const mockFeatureConfigService: Partial<FeatureConfigService> = {
+    isEnabled: (feature) => {
+      const isNegated = feature.startsWith('!');
+      const key = isNegated ? feature.substring(1) : feature;
+      const enabled =
+        key === 'productConfiguratorConsolidatedButtonDisabling'
+          ? consolidatedButtonDisabling
+          : false;
+      return isNegated ? !enabled : enabled;
+    },
+  };
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -162,6 +176,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
+        {
+          provide: FeatureConfigService,
+          useValue: mockFeatureConfigService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
@@ -197,6 +215,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   }));
 
   beforeEach(() => {
+    consolidatedButtonDisabling = true;
     const values: Configurator.Value[] = [
       createValue(
         '1111 Description',
@@ -540,6 +559,25 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         1
       );
       expect(options.hideRemoveButton).toBe(false);
+    });
+
+    it('should default disableAllButtons to false when omitted (toggle on path)', () => {
+      const options = component.extractProductCardParameters(
+        false,
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.disableAllButtons).toBe(false);
+    });
+
+    it('should pass through disableAllButtons when provided (toggle off path)', () => {
+      const options = component.extractProductCardParameters(
+        false,
+        { valueCode: 'A' },
+        1,
+        true
+      );
+      expect(options.disableAllButtons).toBe(true);
     });
   });
 

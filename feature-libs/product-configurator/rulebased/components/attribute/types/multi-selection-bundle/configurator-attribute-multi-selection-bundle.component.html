@@ -16,15 +16,33 @@
     ></cx-configurator-price>
   </div>
 
-  <cx-configurator-attribute-product-card
-    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
-    (handleDeselect)="onDeselect($event)"
-    (handleQuantity)="onChangeValueQuantity($event)"
-    (handleSelect)="onSelect($event)"
-    *ngFor="let value of attribute?.values; let i = index"
-    [productCardOptions]="
-      extractProductCardParameters(preventAction$ | async, value, i)
-    "
-  >
-  </cx-configurator-attribute-product-card>
+  <ng-container *ngFor="let value of attribute?.values; let i = index">
+    <cx-configurator-attribute-product-card
+      *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+      id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+      (handleDeselect)="onDeselect($event)"
+      (handleQuantity)="onChangeValueQuantity($event)"
+      (handleSelect)="onSelect($event)"
+      [productCardOptions]="
+        extractProductCardParameters(preventAction$ | async, value, i)
+      "
+    >
+    </cx-configurator-attribute-product-card>
+    <cx-configurator-attribute-product-card
+      *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
+      id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+      (handleDeselect)="onDeselect($event)"
+      (handleQuantity)="onChangeValueQuantity($event)"
+      (handleSelect)="onSelect($event)"
+      [productCardOptions]="
+        extractProductCardParameters(
+          preventAction$ | async,
+          value,
+          i,
+          loading$ | async
+        )
+      "
+    >
+    </cx-configurator-attribute-product-card>
+  </ng-container>
 </div>

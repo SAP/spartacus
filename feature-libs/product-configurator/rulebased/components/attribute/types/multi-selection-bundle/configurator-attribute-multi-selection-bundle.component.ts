@@ -6,6 +6,7 @@
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FeatureDirective } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
@@ -38,6 +39,7 @@ interface SelectionValue {
     NgFor,
     ConfiguratorAttributeProductCardComponent,
     AsyncPipe,
+    FeatureDirective,
   ],
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
@@ -232,14 +234,18 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @param {boolean} hideRemoveButton - hide remove action, e.g. if only value required attribute
    * @param {Configurator.Value} value - Value
    * @param {number} index - index of current value in list of values of attribute
+   * @param {boolean} disableAllButtons - Prevent all actions, e.g. while loading. Only relevant while
+   *   the `productConfiguratorConsolidatedButtonDisabling` feature toggle is off.
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
     hideRemoveButton: boolean | null,
     value: Configurator.Value,
-    index: number
+    index: number,
+    disableAllButtons: boolean | null = false
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
+      disableAllButtons: disableAllButtons ?? false,
       hideRemoveButton: hideRemoveButton ?? false,
       productBoundValue: value,
       multiSelect: true,
