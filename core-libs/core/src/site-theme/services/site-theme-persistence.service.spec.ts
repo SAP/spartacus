@@ -14,7 +14,7 @@ describe('SiteThemePersistenceService', () => {
 
   beforeEach(() => {
     const statePersistenceSpy = { syncWithStorage: vi.fn() };
-    const siteThemeSpy = { 
+    const siteThemeSpy = {
       getActive: vi.fn(), isInitialized: vi.fn(), setActive: vi.fn() };
 
     TestBed.configureTestingModule({

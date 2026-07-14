@@ -17,7 +17,7 @@ describe('ProductSearchByCodeEffects', () => {
   let logger: LoggerService;
 
   beforeEach(() => {
-    productSearchConnector = { 
+    productSearchConnector = {
       searchByCodes: vi.fn() };
     logger = { error: vi.fn() };
 
@@ -46,7 +46,7 @@ describe('ProductSearchByCodeEffects', () => {
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-a|', { a: { products: [{ code: '123' }] } });
-    productSearchConnector.searchByCodes.mockReturnValue(response);
+    vi.spyOn(productSearchConnector, 'searchByCodes').mockReturnValue(response);
 
     const expected = cold('--b', { b: completion });
 
@@ -69,7 +69,7 @@ describe('ProductSearchByCodeEffects', () => {
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-#|', {}, error);
-    productSearchConnector.searchByCodes.mockReturnValue(response);
+    vi.spyOn(productSearchConnector, 'searchByCodes').mockReturnValue(response);
 
     const expected = cold('--b', { b: completion });
 

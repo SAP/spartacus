@@ -14,7 +14,7 @@ describe('CxErrorHandlerEffect', () => {
   let errorActionService: ErrorActionService;
 
   beforeEach(() => {
-    const errorActionServiceSpy = { 
+    const errorActionServiceSpy = {
       handle: vi.fn(), isErrorAction: vi.fn() };
     TestBed.configureTestingModule({
       providers: [
@@ -46,7 +46,7 @@ describe('CxErrorHandlerEffect', () => {
           error: new Error(),
         };
 
-        errorActionService.isErrorAction.mockReturnValue(true);
+        vi.spyOn(errorActionService,'isErrorAction').mockReturnValue(true);
 
         actions$ = of(mockErrorAction);
 
@@ -60,7 +60,7 @@ describe('CxErrorHandlerEffect', () => {
           type: 'SOME_ACTION',
         };
 
-        errorActionService.isErrorAction.mockReturnValue(false);
+        vi.spyOn(errorActionService, 'isErrorAction').mockReturnValue(false);
 
         actions$ = of(mockNonErrorAction);
 

@@ -14,7 +14,7 @@ describe('ProductAvailabilityService', () => {
 
   beforeEach(() => {
     commandSpy = { execute: vi.fn() };
-    connector = { 
+    connector = {
       getRealTimeStock: vi.fn() };
     commandService = { create: vi.fn() };
 
@@ -44,8 +44,8 @@ describe('ProductAvailabilityService', () => {
         status: 'IN_STOCK',
       };
 
-      connector.getRealTimeStock.mockReturnValue(of(expectedStockData));
-      commandSpy.execute.mockReturnValue(of(expectedStockData));
+      vi.spyOn(connector, 'getRealTimeStock').mockReturnValue(of(expectedStockData));
+      vi.spyOn(commandSpy, 'execute').mockReturnValue(of(expectedStockData));
 
       const stockData = await firstValueFrom(
         service.getRealTimeStock(productCode, unitSapCode)
@@ -62,8 +62,8 @@ describe('ProductAvailabilityService', () => {
         status: 'IN_STOCK',
       };
 
-      connector.getRealTimeStock.mockReturnValue(of(mockStockData));
-      commandSpy.execute.mockReturnValue(of(mockStockData));
+      vi.spyOn(connector, 'getRealTimeStock').mockReturnValue(of(mockStockData));
+      vi.spyOn(commandSpy, 'execute').mockReturnValue(of(mockStockData));
 
       const result = await firstValueFrom(
         service.getRealTimeStock(productCode, unitSapCode)

@@ -12,7 +12,7 @@ describe('ErrorActionService', () => {
   let errorHandlerSpy: ErrorHandler;
 
   beforeEach(() => {
-    const errorHandlerSpyObj = { 
+    const errorHandlerSpyObj = {
       handleError: vi.fn() };
 
     TestBed.configureTestingModule({

@@ -16,7 +16,7 @@ describe('ProductSearchByCategoryEffects', () => {
   let logger: LoggerService;
 
   beforeEach(() => {
-    productSearchConnector = { 
+    productSearchConnector = {
       searchByCategory: vi.fn() };
     logger = { error: vi.fn() };
 
