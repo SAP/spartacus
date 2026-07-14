@@ -8,26 +8,15 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   HostBinding,
   Input,
-  OnInit,
-  inject,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import {
-  Breadcrumb,
-  FeatureToggles,
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
-import { EMPTY, Observable, merge } from 'rxjs';
-import { pairwise, switchMap, take } from 'rxjs/operators';
+import { Breadcrumb, FeatureDirective, TranslatePipe } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
 import { IconComponent } from '../../../../misc/icon/icon.component';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -48,9 +37,11 @@ import { FacetService } from '../services/facet.service';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
+    AtMessageDirective,
+    FeatureDirective,
   ],
 })
-export class ActiveFacetsComponent implements OnInit {
+export class ActiveFacetsComponent {
   @HostBinding('attr.role') role = 'group';
   @HostBinding('attr.aria-labelledby') labelledby =
     'cx-active-facets-groupName';
@@ -61,17 +52,7 @@ export class ActiveFacetsComponent implements OnInit {
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
-  // DELIBERATELY PRIVATE, to remove easily in the future
-  private featureToggles = inject(FeatureToggles);
-  protected globalMessageService = inject(GlobalMessageService);
-  protected translationService = inject(TranslationService);
-  protected destroyRef = inject(DestroyRef);
-
   constructor(protected facetService: FacetService) {}
-
-  ngOnInit(): void {
-    this.subscribeToFacetListAnnouncements();
-  }
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(
@@ -104,48 +85,5 @@ export class ActiveFacetsComponent implements OnInit {
   removeFilterWithSpacebar(event?: Event): void {
     event?.preventDefault(); // Avoid spacebar scroll
     event?.target?.dispatchEvent(new MouseEvent('click', { cancelable: true }));
-  }
-
-  /**
-   * Subscribes to facet list changes and announces added/removed filters to
-   * screen readers via the GlobalMessageService assistive message channel.
-   */
-  protected subscribeToFacetListAnnouncements(): void {
-    if (this.featureToggles.a11yFilteredFacetAnnouncement) {
-      this.facetList$
-        .pipe(
-        pairwise(),
-        switchMap(([prev, curr]) => {
-          const prevNames = new Set(
-            prev.activeFacets?.map((f) => f.facetValueName)
-          );
-          const currNames = new Set(
-            curr.activeFacets?.map((f) => f.facetValueName)
-          );
-
-          const added = (curr.activeFacets ?? []).filter(
-            (f) => !prevNames.has(f.facetValueName)
-          );
-          const removed = (prev.activeFacets ?? []).filter(
-            (f) => !currNames.has(f.facetValueName)
-          );
-
-          const toTranslation = (key: string) => (f: Breadcrumb) =>
-            this.translationService
-              .translate(key, { filter: f.facetValueName })
-              .pipe(take(1));
-
-          const translations = [
-            ...added.map(toTranslation('productList.filterAdded')),
-            ...removed.map(toTranslation('productList.filterRemoved')),
-          ];
-          return translations.length ? merge(...translations) : EMPTY;
-        }),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe((msg) =>
-        this.globalMessageService.add(msg, GlobalMessageType.MSG_TYPE_ASSISTIVE)
-      );
-    }
   }
 }

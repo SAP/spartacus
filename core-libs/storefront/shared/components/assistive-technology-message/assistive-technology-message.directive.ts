@@ -46,7 +46,7 @@ export class AtMessageDirective {
   handleClick(event: MouseEvent): void {
     event?.preventDefault();
 
-    if (event?.target === this.host && this.cxAtMessage) {
+    if (this.host.contains(event?.target as Node) && this.cxAtMessage) {
       const message = Array.isArray(this.cxAtMessage)
         ? this.cxAtMessage.join('\n')
         : this.cxAtMessage;

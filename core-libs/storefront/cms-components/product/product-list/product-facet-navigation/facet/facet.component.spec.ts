@@ -8,7 +8,11 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { Facet, I18nTestingModule } from '@spartacus/core';
+import {
+  Facet,
+  GlobalMessageService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
@@ -39,6 +43,12 @@ class MockFacetService {
   getLinkParams() {}
 }
 
+class MockGlobalMessageService {
+  add = jasmine.createSpy('add');
+  remove = jasmine.createSpy('remove');
+  get = jasmine.createSpy('get').and.returnValue(of({}));
+}
+
 const MockFacet: Facet = {
   name: 'f1',
   values: [
@@ -63,7 +73,10 @@ describe('FacetComponent', () => {
         MockKeyboadFocusDirective,
         RouterModule.forRoot([]),
       ],
-      providers: [{ provide: FacetService, useClass: MockFacetService }],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
     })
       .overrideComponent(FacetComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },

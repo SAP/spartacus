@@ -13,7 +13,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   template: `
     <button class="cancel-btn" [cxAtMessage]="'common.cancel' | cxTranslate">
-      Action
+      <span class="cancel-label">Action</span>
     </button>
     <button
       class="results-btn"
@@ -103,6 +103,17 @@ describe('AtMessageDirective', () => {
     getConfirmationButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       expectedMessage,
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assistive global message when clicking a child element of the host', () => {
+    fixture.detectChanges();
+    const childSpan =
+      getCancelButton().nativeElement.querySelector('.cancel-label');
+    childSpan.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
   });

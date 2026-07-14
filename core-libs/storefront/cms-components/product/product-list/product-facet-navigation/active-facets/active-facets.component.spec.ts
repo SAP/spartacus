@@ -16,16 +16,10 @@ import { RouterModule } from '@angular/router';
 import {
   Breadcrumb,
   GlobalMessageService,
-  GlobalMessageType,
   I18nTestingModule,
-  TranslationService,
 } from '@spartacus/core';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { MockTranslationService } from 'core-libs/core/src/i18n/testing/mock-translation.service';
-import { BehaviorSubject, EMPTY, of } from 'rxjs';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { EMPTY, of } from 'rxjs';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
@@ -41,13 +35,8 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-const facetListSubject = new BehaviorSubject<FacetList>({
-  facets: [],
-  activeFacets: [],
-});
-
 class MockFacetService {
-  facetList$ = facetListSubject.asObservable();
+  facetList$ = of({ facets: [], activeFacets: [] });
   getLinkParams() {}
 }
 
@@ -68,8 +57,6 @@ describe('ActiveFacetsComponent', () => {
   let element: DebugElement;
 
   beforeEach(waitForAsync(() => {
-    facetListSubject.next({ facets: [], activeFacets: [] });
-
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -81,8 +68,7 @@ describe('ActiveFacetsComponent', () => {
       providers: [
         { provide: FacetService, useClass: MockFacetService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: TranslationService, useClass: MockTranslationService },
-        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: false }),
+        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
       ],
     })
       .overrideComponent(ActiveFacetsComponent, {
@@ -159,101 +145,5 @@ describe('ActiveFacetsComponent', () => {
     fixture.detectChanges();
 
     expect(component.removeFilterWithSpacebar).toHaveBeenCalled();
-  });
-
-  describe('filter announcement', () => {
-    let globalMessageService: MockGlobalMessageService;
-    let toggles: MockFeatureTogglesController;
-
-    beforeEach(() => {
-      globalMessageService = TestBed.inject(
-        GlobalMessageService
-      ) as unknown as MockGlobalMessageService;
-      toggles = TestBed.inject(MockFeatureTogglesController);
-      facetListSubject.next({ facets: [], activeFacets: [] });
-      globalMessageService.add.calls.reset();
-    });
-
-    it('should NOT announce when feature is disabled', () => {
-      // toggle stays false — fixture.detectChanges() already ran in outer beforeEach
-      facetListSubject.next({
-        facets: [],
-        activeFacets: [{ facetValueName: 'Stores' }],
-      });
-
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-    });
-
-    it('should announce filter added when feature is enabled', () => {
-      // Must set toggle and recreate the component so ngOnInit subscribes with toggle=true
-      toggles.set('a11yFilteredFacetAnnouncement', true);
-      fixture = TestBed.createComponent(ActiveFacetsComponent);
-      component = fixture.componentInstance;
-      facetListSubject.next({ facets: [], activeFacets: [] });
-      fixture.detectChanges(); // ngOnInit runs — subscription created with toggle=true
-      globalMessageService.add.calls.reset();
-
-      facetListSubject.next({
-        facets: [],
-        activeFacets: [{ facetValueName: 'Stores' }],
-      });
-
-      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
-      const [message, type] = globalMessageService.add.calls.mostRecent().args;
-      expect(type).toBe(GlobalMessageType.MSG_TYPE_ASSISTIVE);
-      expect(message).toContain('filterAdded');
-      expect(message).toContain('Stores');
-    });
-
-    it('should announce filter removed when feature is enabled', () => {
-      toggles.set('a11yFilteredFacetAnnouncement', true);
-      fixture = TestBed.createComponent(ActiveFacetsComponent);
-      component = fixture.componentInstance;
-      facetListSubject.next({ facets: [], activeFacets: [] });
-      fixture.detectChanges();
-
-      // Add a facet (pairwise pair: empty → one facet)
-      facetListSubject.next({
-        facets: [],
-        activeFacets: [{ facetValueName: 'Stores' }],
-      });
-      globalMessageService.add.calls.reset();
-
-      // Remove it (pairwise pair: one facet → empty)
-      facetListSubject.next({ facets: [], activeFacets: [] });
-
-      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
-      const [message, type] = globalMessageService.add.calls.mostRecent().args;
-      expect(type).toBe(GlobalMessageType.MSG_TYPE_ASSISTIVE);
-      expect(message).toContain('filterRemoved');
-      expect(message).toContain('Stores');
-    });
-
-    it('should announce each removed facet when activeFacets becomes empty', () => {
-      toggles.set('a11yFilteredFacetAnnouncement', true);
-      fixture = TestBed.createComponent(ActiveFacetsComponent);
-      component = fixture.componentInstance;
-      facetListSubject.next({ facets: [], activeFacets: [] });
-      fixture.detectChanges();
-
-      // Add two facets
-      facetListSubject.next({
-        facets: [],
-        activeFacets: [
-          { facetValueName: 'Stores' },
-          { facetValueName: 'Brand' },
-        ],
-      });
-      globalMessageService.add.calls.reset();
-
-      // Remove both at once
-      facetListSubject.next({ facets: [], activeFacets: [] });
-
-      expect(globalMessageService.add).toHaveBeenCalledTimes(2);
-      globalMessageService.add.calls.all().forEach(({ args }) => {
-        expect(args[1]).toBe(GlobalMessageType.MSG_TYPE_ASSISTIVE);
-        expect(args[0]).toContain('filterRemoved');
-      });
-    });
   });
 });
