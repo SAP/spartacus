@@ -238,7 +238,7 @@ describe('AuthConfigInitializer', () => {
       });
 
       it('should handle slow baseSite request', async () => {
-        spyOn(baseSiteService, 'getActive').and.returnValue(
+        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
           of(mockActiveBaseSite).pipe(delay(10))
         );
 
@@ -248,7 +248,7 @@ describe('AuthConfigInitializer', () => {
       });
 
       it('should handle slow config request', async () => {
-        (configInitializerService.getStable as jasmine.Spy).and.returnValue(
+        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
           of(authConfig).pipe(delay(10))
         );
 

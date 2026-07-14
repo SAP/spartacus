@@ -7,10 +7,9 @@
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
-import { join } from 'node:path';
 
 export default defineConfig({
-  root: join(import.meta.dirname),
+  root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
   test: {
     pool: 'forks',
@@ -20,12 +19,12 @@ export default defineConfig({
     setupFiles: ['./setup-test.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
-      tsconfig: join(import.meta.dirname, 'tsconfig.spec.json'),
+      tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
     },
     coverage: {
       provider: 'v8',
       reporter: ['lcov'],
-      reportsDirectory: join(import.meta.dirname, '../../coverage/core'),
+      reportsDirectory: `${import.meta.dirname}/../../coverage/core`,
       exclude: [
         '**/public_api.ts',
         '**/index.ts',
@@ -40,7 +39,7 @@ export default defineConfig({
     },
     reporters: [
       'default',
-      ['junit', { outputFile: join(import.meta.dirname, '../../unit-tests-reports/unit-test-core.xml') }],
+      ['junit', { outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-core.xml` }],
     ],
   },
 });
