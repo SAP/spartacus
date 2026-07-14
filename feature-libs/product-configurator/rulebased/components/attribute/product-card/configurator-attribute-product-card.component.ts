@@ -90,6 +90,13 @@ export class ConfiguratorAttributeProductCardComponent
 {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
+  /**
+   * Emits `true` while either the product data is being fetched (local
+   * `loading$`) or the parent component signals that a configuration update
+   * round trip is in progress (`productCardOptions.loading$`). Used to disable
+   * the action buttons and the quantity control.
+   */
+  disableActions$: Observable<boolean>;
   showDeselectionNotPossible = false;
 
   @Input()
@@ -128,6 +135,12 @@ export class ConfiguratorAttributeProductCardComponent
         }),
         tap(() => this.loading$.next(false))
       );
+
+    this.disableActions$ = this.productCardOptions.loading$
+      ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
+          map(([localLoading, parentLoading]) => localLoading || parentLoading)
+        )
+      : this.loading$;
   }
 
   get showQuantity(): boolean {
@@ -150,7 +163,6 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   onHandleSelect(): void {
-    this.loading$.next(true);
     if (
       this.productCardOptions.hideRemoveButton &&
       this.productCardOptions.fallbackFocusId
@@ -169,7 +181,6 @@ export class ConfiguratorAttributeProductCardComponent
         this.showDeselectionNotPossibleMessage();
         return;
       }
-      this.loading$.next(true);
       this.handleDeselect.emit(
         this.productCardOptions.productBoundValue.valueCode
       );
@@ -241,18 +252,10 @@ export class ConfiguratorAttributeProductCardComponent
     const quantityFromOptions =
       this.productCardOptions.productBoundValue.quantity;
 
-    const mergedLoading = this.productCardOptions.loading$
-      ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
-          map((values) => {
-            return values[0] || values[1];
-          })
-        )
-      : this.loading$;
-
     return {
       allowZero: !this.productCardOptions.hideRemoveButton,
       initialQuantity: quantityFromOptions ? quantityFromOptions : 0,
-      disableQuantityActions$: mergedLoading,
+      disableQuantityActions$: this.disableActions$,
     };
   }
 
@@ -280,8 +283,6 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   protected onHandleQuantity(quantity: number): void {
-    this.loading$.next(true);
-
     this.handleQuantity.emit({
       quantity,
       valueCode: this.productCardOptions.productBoundValue.valueCode,

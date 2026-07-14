@@ -86,14 +86,15 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: any,
     state: any
   ): ConfigFormUpdateEvent {
-    const index = this.multipleSelectionValues.findIndex(
-      (value) => value.valueCode === valueCode
+    // Create a new array (and a new value object for the changed value) instead
+    // of mutating in place. The previous array is handed over by reference into
+    // the dispatched action and gets deep-frozen by the NgRx runtime checks. On
+    // a round trip that does not re-create the attribute component (e.g. CPQ API
+    // V2 returning no changes) the same frozen array would be reused, so an
+    // in-place mutation would throw a "read-only" error.
+    this.multipleSelectionValues = this.multipleSelectionValues.map((value) =>
+      value.valueCode === valueCode ? { ...value, selected: state } : value
     );
-
-    this.multipleSelectionValues[index] = {
-      ...this.multipleSelectionValues[index],
-      selected: state,
-    };
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -127,12 +128,24 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       return;
     }
 
-    value.quantity = eventValue.quantity;
+    // Create a new value object instead of mutating in place, since the value
+    // might be part of a deep-frozen array handed over into the store on a
+    // previous round trip (see updateMultipleSelectionValues).
+    const updatedValue: SelectionValue = {
+      ...value,
+      quantity: eventValue.quantity,
+    };
+    this.multipleSelectionValues = this.multipleSelectionValues.map(
+      (selectionValue) =>
+        selectionValue.valueCode === eventValue.valueCode
+          ? updatedValue
+          : selectionValue
+    );
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
-        values: [value],
+        values: [updatedValue],
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.VALUE_QUANTITY,
