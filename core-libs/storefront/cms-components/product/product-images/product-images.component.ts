@@ -62,7 +62,6 @@ export class ProductImagesComponent {
   ]).pipe(map(([, container]) => container));
 
   constructor(protected currentProductService: CurrentProductService) {
-    useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
     useFeatureStyles('productCarouselScrolling');
   }
 
