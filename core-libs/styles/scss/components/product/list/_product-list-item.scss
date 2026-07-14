@@ -128,13 +128,11 @@
     min-height: 255px;
   }
 
-  @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
-    img {
-      aspect-ratio: 1 / 1;
-      width: 100%;
-      height: auto;
-      object-fit: scale-down;
-    }
+  img {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: auto;
+    object-fit: scale-down;
   }
 
   cx-variant-style-icons {
