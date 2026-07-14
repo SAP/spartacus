@@ -176,23 +176,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * Feature flag to enable consistent header slot structure across breakpoints to reduce
-   * layout shift and improve Cumulative Layout Shift (CLS) scores.
-   *
-   * On desktop devices (non-mobile), some header and navigation elements were rendered
-   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
-   * affected the user experience and CLS performance.
-   *
-   * When enabled:
-   * - Desktop uses the same header slot structure as mobile.
-   * - Reduces layout shift and improves perceived performance and visual stability.
-   *
-   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
-   * with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
-
-  /**
    * Feature flag to control the default image loading strategy.
    *
    * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
@@ -646,7 +629,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFutureStockAccordionAriaControls: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
-  unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,

@@ -313,7 +313,6 @@ if (environment.cpq) {
         a11yFutureStockAccordionAriaControls: true,
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
-        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
