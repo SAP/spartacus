@@ -312,7 +312,6 @@ if (environment.cpq) {
         productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
         cdsLoginEventsToken: true,
-        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
