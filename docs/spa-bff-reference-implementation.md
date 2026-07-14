@@ -45,7 +45,7 @@ sides, and how they work together.
   - [20. root.ts](#20-appsbffsrcapiroutersrootts-modify)
   - [21. .env](#21-appsbffenv-local-dev-only)
 - [Testing locally](#testing-locally)
-- [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)
+- [@vivaldi Cloudflare cookie issue](#known-issue-cloudflare-__cf_bm-cookie-crash)
 
 ---
  
@@ -62,7 +62,7 @@ before applying the BFF integration changes described in the rest of this docume
 | Node.js | 20 LTS or 22 LTS | Earlier versions are not tested |
 | Angular CLI | 21.2.x | Do **not** use 21.1.x — it has peer-dep conflicts with Spartacus 221121.13.1 |
 | Spartacus schematics | 221121.13.1 | — |
-| `@vivaldi/nx` generator | 0.24.9 | Scaffolds the workspace. **Note:** `@vivaldi/nx@0.25.0` cannot be used to scaffold because a transitive dependency (`@jsonjoy.com/fs-core@4.64.0`) does not exist on npm. Use 0.24.9 and upgrade immediately after (Step 1). |
+| `@vivaldi/nx` generator | 0.24.10 | Latest release on the prod registry |
 
 #### SAP npm registry access
 
@@ -94,7 +94,7 @@ The `@vivaldi/nx` scaffolder also creates a `.npmrc` in the workspace root with 
 Use the Vivaldi Nx generator to scaffold a workspace.
 
 ```bash
-npx @vivaldi/nx@0.24.9 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
+npx @vivaldi/nx@0.24.10 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
 cd my-vivaldi-workspace
 ```
 
@@ -106,47 +106,22 @@ This creates an Nx monorepo with an `apps/bff` application pre-configured for Vi
 > git init && git add -A && git commit -m "chore: initial vivaldi workspace"
 > ```
 
-**Immediately upgrade `@vivaldi` packages to 0.25.0.** Also install `@vivaldi/auth` and `@dapr/dapr` which are new peer dependencies in 0.25.0, and `@nx/angular` pinned to the workspace `nx` version.
-
-Note: for full reasons on why an immediate upgrade is needed, see the section [@vivaldi package upgrade - 0.25.0](#vivaldi-package-upgrade---0250)).
+Install `nx` and `@nx/angular` aligned to the same version as the other `@nx/*` packages
+already installed by the scaffolder. The scaffolder pins `nx` at a lower version than
+the `@nx/*` packages it installs — leaving them mismatched causes `nx import` to pick
+the wrong `@nx/vitest` version and fail with an ERESOLVE error. Check the installed
+`@nx/vite` version and use that for both:
 
 ```bash
-npm install \
-  @vivaldi/auth@0.25.0 @dapr/dapr@^3.17.0 \
-  @vivaldi/cli@0.25.0 @vivaldi/common@0.25.0 @vivaldi/config@0.25.0 \
-  @vivaldi/connectivity@0.25.0 @vivaldi/errors@0.25.0 @vivaldi/fastify@0.25.0 \
-  @vivaldi/nx@0.25.0 @vivaldi/testing@0.25.0 @vivaldi/trpc@0.25.0 \
-  @vivaldi/vitest@0.25.0 @vivaldi/angular@0.25.0 \
-  --legacy-peer-deps
+node -e "console.log(require('./node_modules/@nx/vite/package.json').version)"
 
-# Pin @nx/angular to match the nx version in the workspace (22.5.4).
-# Mismatched versions cause "PluginCache is not a constructor" errors.
-npm install --save-dev @nx/angular@22.5.4
+npm install --save-dev nx@22.7.7 @nx/angular@22.7.7
 ```
 
-Update `apps/bff/project.json` to replace the `vivaldi dev bff` command (removed in
-0.25.0 CLI) with the new runner:
-
-```json
-"build": {
-  "executor": "nx:run-commands",
-  "outputs": ["{workspaceRoot}/dist/apps/bff"],
-  "options": { "commands": ["vivaldi build bff"], "parallel": false }
-},
-"serve": {
-  "continuous": true,
-  "executor": "nx:run-commands",
-  "options": {
-    "commands": ["vivaldi build bff && node --experimental-vm-modules dist/apps/bff/vivaldi.mjs"],
-    "parallel": false
-  }
-}
-```
-
-> **Required before Step 3:** commit the upgrades from this step. The `nx import` command
-> in Step 3 requires a clean git state in the destination workspace. Run:
+> **Required before Step 3:** commit before importing the storefront. The `nx import`
+> command requires a clean git state in the destination workspace. Run:
 > ```bash
-> git add -A && git commit -m "chore: upgrade to @vivaldi 0.25.0 and update bff project.json"
+> git add -A && git commit -m "chore: align nx and @nx/angular versions"
 > ```
 
 ---
@@ -170,7 +145,7 @@ npm install -g @angular/cli@21
 Navigate out of the Vivaldi workspace before creating the storefront:
 
 ```bash
-cd ..   # leave my-vivaldi-workspace — the storefront goes here, alongside it
+cd .. 
 ng new my-storefront-app --style=scss --ssr=false --zoneless=false \
   --file-name-style-guide=2016
 cd my-storefront-app
@@ -203,20 +178,31 @@ git add -A && git commit -m "chore: add Spartacus schematics"
 
 ### Step 3: Import the storefront into the Vivaldi workspace
 
-Return to the Vivaldi workspace root and import the storefront:
+Return to the Vivaldi workspace root and import the storefront, skipping plugin
+installation (see below for why):
 
 ```bash
 cd ../my-vivaldi-workspace
+nx import ../my-storefront-app apps/storefrontapp --ref=main --plugins=skip
+```
+
+> **Why skip plugins?** `nx import` detects `@nx/vitest` as a recommended plugin and
+> tries to install it. This is not needed for this project — `@nx/angular` is handled
+> manually in Step 4. Passing `--plugins=skip` avoids the plugin prompt entirely and
+> keeps the import clean.
+
+**Optional — if you want to review the plugin selection interactively:**
+
+Run without the flag and follow the prompts:
+
+```bash
 nx import ../my-storefront-app apps/storefrontapp --ref=main
 ```
 
-Prompts and expected responses:
-
-| Prompt | Response |
-|---|---|
-| Which branch do you want to import? | `main` (or press Enter — `--ref=main` pre-fills this) |
-| Which directory do you want to import into this workspace? | Press **Enter** to import the entire repository |
-| Which plugins would you like to add? | Press **Enter** to accept the recommended plugins (`@nx/vitest`, `@nx/angular`) |
+The command asks two questions — press **Enter** at both (entire repository, no scripts
+update). It then exits with a JSON message listing detected plugins and asking you to
+re-run with `--plugins=skip` or `--plugins=all`. Re-run with `--plugins=skip` as shown
+above.
 
 ---
 
@@ -1012,7 +998,7 @@ import { BFF_BASE_URL } from './bff/bff-base-url.token';
     }),
     {
       provide: BFF_BASE_URL,
-      useValue: process.env['BFF_BASE_URL'] ?? 'http://localhost:8482/api',
+      useValue: process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
     },
   ],
 })
@@ -1026,13 +1012,13 @@ export class AppServerModule {}
 Reads `CX_BFF_BASE_URL` at dev-server startup and sets the proxy target dynamically.
 The browser always calls `/bff/api` (same origin — no CORS).
 
-In `@vivaldi` 0.25.0 the BFF runs as a plain HTTP server (no self-signed cert) and
-mounts tRPC at `/api` directly (no `/bff` prefix). The `pathRewrite` strips the `/bff`
-prefix added by the storefront before forwarding to the BFF.
+In `@vivaldi` 0.24.10 `vivaldi dev bff` runs as an HTTPS server (self-signed cert)
+on port 8482 and mounts tRPC at `/bff/api`. The proxy forwards `/bff` directly to the
+BFF — no path rewriting needed since the paths already match.
 
 ```js
 const bffBaseUrl =
-  process.env['CX_BFF_BASE_URL'] || 'http://localhost:8482/api';
+  process.env['CX_BFF_BASE_URL'] || 'https://localhost:8482/bff/api';
 const bffTarget = new URL(bffBaseUrl).origin;
 
 module.exports = {
@@ -1042,8 +1028,6 @@ module.exports = {
     changeOrigin: true,
     ws: false,
     logLevel: 'info',
-    // Strip the /bff prefix: storefront calls /bff/api/... → BFF receives /api/...
-    pathRewrite: { '^/bff': '' },
   },
 };
 ```
@@ -1076,7 +1060,7 @@ members consistent commands regardless of which nx target names are used interna
 {
   "scripts": {
     "build:bff": "vivaldi build bff",
-    "dev:bff": "nx serve bff",
+    "dev:bff": "vivaldi dev bff",
     "start:storefrontapp": "nx serve storefrontapp",
     "start:storefrontapp:ssr": "nx serve-ssr storefrontapp",
     "build:storefrontapp": "nx build storefrontapp",
@@ -1089,17 +1073,12 @@ members consistent commands regardless of which nx target names are used interna
 | Script | What it does |
 |---|---|
 | `npm run build:bff` | Builds the BFF into `dist/apps/bff/vivaldi.mjs` |
-| `npm run dev:bff` | Builds then runs the BFF (0.25.0: `vivaldi build bff && node vivaldi.mjs`) |
+| `npm run dev:bff` | Starts the BFF dev server via `vivaldi dev bff` |
 | `npm run start:storefrontapp` | Starts the Angular dev server (no SSR) on port 4200 |
 | `npm run start:storefrontapp:ssr` | Starts the Angular dev server with SSR enabled |
 | `npm run build:storefrontapp` | Production build of the storefront |
 | `npm run test:storefrontapp` | Runs unit tests for the storefront |
 | `npm run serve:ssr:storefrontapp` | Serves the pre-built SSR bundle directly with Node |
-
-> **Note:** `dev:bff` delegates to `nx serve bff`, which uses the `serve` target in
-> `apps/bff/project.json`. In @vivaldi 0.25.0, that target runs
-> `vivaldi build bff && node --experimental-vm-modules dist/apps/bff/vivaldi.mjs`
-> rather than the old `vivaldi dev bff` CLI command (removed in 0.25.0).
 
 ---
 
@@ -1113,14 +1092,13 @@ dev-server startup — never read by the Angular app itself:
 {
   "dev": {
     "CX_BASE_URL": "https://your-commerce-host",
-    "CX_BFF_BASE_URL": "http://localhost:8482/api"
+    "CX_BFF_BASE_URL": "https://localhost:8482/bff/api"
   }
 }
 ```
 
-> **Note:** In `@vivaldi` 0.25.0 the BFF runs as a plain HTTP server on port 8482
-> with tRPC at `/api` (no `/bff` prefix). The proxy's `pathRewrite` handles the
-> prefix mismatch between storefront (`/bff/api`) and BFF (`/api`).
+> **Note:** In `@vivaldi` 0.24.10 the BFF runs with a self-signed HTTPS cert on port 8482
+> with tRPC at `/bff/api`. The proxy forwards `/bff` to the BFF without path rewriting.
 
 ---
 
@@ -1418,7 +1396,7 @@ OCC_BASE_URL=https://api.your-commerce-host.model-t.myhybris.cloud
 ## Testing locally
 
 ```bash
-# Terminal 1 — start the BFF (builds and runs dist/apps/bff/vivaldi.mjs)
+# Terminal 1 — start the BFF dev server (HTTPS, self-signed cert, port 8482)
 OCC_BASE_URL=https://your-occ-host npm run dev:bff
 
 # Terminal 2 — start Spartacus
@@ -1431,9 +1409,11 @@ npm run start:storefrontapp
 
 ---
 
-## @vivaldi package upgrade - 0.25.0
+## Known issue: Cloudflare `__cf_bm` cookie crash
 
-### Cloudflare `__cf_bm` cookie bug (fixed in 0.25.0)
+> **Status:** Present in `@vivaldi/connectivity@0.24.10` (current prod release). A fix
+> is available in `@vivaldi/connectivity@0.25.0` on the dev registry but not yet
+> promoted to the prod registry.
 
 **Symptom:** Every BFF request on CCv2 returns `{"message":"Invalid character","code":-32603}`
 even for procedures that do nothing (like `sample.sayHello`). The error fires before any
@@ -1450,76 +1430,11 @@ produces only 2 parts instead of the expected 4, so the code calls
 throws "Invalid character"**. This runs in the `CookieManager` constructor on every
 single request on CCv2 (which is behind Cloudflare and always sends `__cf_bm`).
 
-**Fix:** `@vivaldi/connectivity@0.25.0` adds a guard:
+**Workaround:** Until the fix is available on the prod registry, deploy without a Cloudflare
+proxy in front of the BFF, or strip the `__cf_bm` cookie at the load balancer level before
+it reaches the BFF.
+
+**Fix (once available on prod registry):** `@vivaldi/connectivity@0.25.0` adds a guard:
 `if (!host || cookieName.length === 0) return undefined` — any cookie that splits into
 fewer than 4 parts is silently skipped as a non-Vivaldi cookie.
-
-### Upgrading to 0.25.0
-
-**New packages required:**
-
-```bash
-npm install @vivaldi/auth@0.25.0 @dapr/dapr@^3.17.0
-npm install @vivaldi/cli@0.25.0 @vivaldi/common@0.25.0 @vivaldi/config@0.25.0 \
-  @vivaldi/connectivity@0.25.0 @vivaldi/errors@0.25.0 @vivaldi/fastify@0.25.0 \
-  @vivaldi/nx@0.25.0 @vivaldi/testing@0.25.0 @vivaldi/trpc@0.25.0 \
-  @vivaldi/vitest@0.25.0 @vivaldi/angular@0.25.0
-```
-
-- `@vivaldi/auth` — new peer dep of `@vivaldi/fastify`. The `auth` field in `vivaldi.ts`
-  is optional — no code change needed, just install it.
-- `@dapr/dapr` — new dep of `@vivaldi/fastify@0.25.0`.
-
-**`vivaldi dev bff` CLI command removed.** The `dev` subcommand is gone from the 0.25.0
-CLI. Replace `apps/bff/project.json` `serve` target:
-
-```json
-"serve": {
-  "continuous": true,
-  "executor": "nx:run-commands",
-  "options": {
-    "commands": [
-      "vivaldi build bff && node --experimental-vm-modules dist/apps/bff/vivaldi.mjs"
-    ],
-    "parallel": false
-  }
-}
-```
-
-And `package.json`:
-```json
-"dev:bff": "nx serve bff"
-```
-
-**URL changes in 0.25.0.** The BFF now runs as a plain HTTP server (no self-signed cert)
-and mounts tRPC at `/api` directly — the `/bff` dev prefix only existed in the old
-`vivaldi dev` wrapper:
-
-| | 0.24.x (`vivaldi dev bff`) | 0.25.0 (`node vivaldi.mjs`) |
-|---|---|---|
-| Protocol | HTTPS (self-signed) | HTTP |
-| tRPC prefix | `/bff/api` | `/api` |
-| SSR default URL | `https://localhost:8482/bff/api` | `http://localhost:8482/api` |
-| `.env-cmdrc` value | `https://localhost:8482/bff/api` | `http://localhost:8482/api` |
-
-Update `proxy.conf.js` to add a `pathRewrite` that strips the storefront's `/bff` prefix
-before forwarding to the BFF:
-
-```js
-module.exports = {
-  '/bff': {
-    target: 'http://localhost:8482',
-    secure: false,
-    changeOrigin: true,
-    ws: false,
-    logLevel: 'info',
-    pathRewrite: { '^/bff': '' },  // /bff/api/... → /api/...
-  },
-};
-```
-
-Update `app.module.server.ts` SSR fallback:
-```ts
-process.env['BFF_BASE_URL'] ?? 'http://localhost:8482/api'
-```
 
