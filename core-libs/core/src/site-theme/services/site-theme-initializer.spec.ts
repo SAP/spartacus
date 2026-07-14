@@ -11,7 +11,6 @@ import { SiteThemeConfig } from '../config/site-theme-config';
 import { SiteThemeService } from '../facade';
 import { SiteThemeInitializer } from './site-theme-initializer';
 import { SiteThemePersistenceService } from './site-theme-persistence.service';
-import { notDeepEqual } from 'assert';
 
 const mockDefaultTheme = 'default';
 const mockSiteContextConfig: SiteContextConfig = {
