@@ -1120,9 +1120,10 @@ sed_inplace() {
     fi
 }
 
-# Adds a footer copyright-notice version customization to a generated app.
-# It writes a ParagraphComponent override that appends SPARTACUS_VERSION to the
-# footer copyright notice, and wires it into the generated SpartacusConfigurationModule.
+# Adds a footer version badge to a generated app.
+# It writes a standalone component that shows SPARTACUS_VERSION as a badge injected
+# into the footer outlet (no CMS content is touched), plus a module that provides the
+# outlet, and wires that module into the generated SpartacusConfigurationModule.
 # The version is baked in as a literal (the generated app uses a plain `ng build`).
 function add_footer_version {
     local app_dir="${1}"
