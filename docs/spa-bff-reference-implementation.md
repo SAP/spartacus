@@ -118,9 +118,19 @@ node -e "console.log(require('./node_modules/@nx/vite/package.json').version)"
 npm install --save-dev nx@22.7.7 @nx/angular@22.7.7
 ```
 
+> **Required before Step 3:** the workspace must be in a clean git state before
+> running `nx import`. Two things can make it dirty after this point:
+>
+> 1. The `npm install` above modifies `package-lock.json`
+> 2. Running any `nx` command for the first time prompts "Share usage data with the
+>    Nx team?" — answering either way writes `"analytics": false/true` to `nx.json`
+>
+> Trigger the analytics prompt now (before Step 3) by running any nx command, then
+> commit everything:
 > **Required before Step 3:** commit before importing the storefront. The `nx import`
 > command requires a clean git state in the destination workspace. Run:
 > ```bash
+> nx --version   # triggers the analytics prompt if not yet answered
 > git add -A && git commit -m "chore: align nx and @nx/angular versions"
 > ```
 
@@ -550,7 +560,9 @@ initialise. Without this the app fails to bootstrap because no `baseSite` is def
 
 In `apps/storefrontapp/src/app/spartacus/spartacus-configuration.module.ts`, the
 schematics already generate a `provideConfig(<SiteContextConfig>{ context: {} })` block
-with an empty `context`. Fill it in with the required values:
+with an empty `context`. Fill it in with your site's values. The example below uses
+the standard SAP Commerce demo sites — replace with your own `baseSite`, `language`,
+and `currency` values:
 
 ```ts
 provideConfig(<SiteContextConfig>{
