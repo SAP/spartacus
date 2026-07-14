@@ -1442,10 +1442,6 @@ produces only 2 parts instead of the expected 4, so the code calls
 throws "Invalid character"**. This runs in the `CookieManager` constructor on every
 single request on CCv2 (which is behind Cloudflare and always sends `__cf_bm`).
 
-**Workaround:** Until the fix is available on the prod registry, deploy without a Cloudflare
-proxy in front of the BFF, or strip the `__cf_bm` cookie at the load balancer level before
-it reaches the BFF.
-
 **Fix (once available on prod registry):** `@vivaldi/connectivity@0.25.0` adds a guard:
 `if (!host || cookieName.length === 0) return undefined` — any cookie that splits into
 fewer than 4 parts is silently skipped as a non-Vivaldi cookie.
