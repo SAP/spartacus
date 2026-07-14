@@ -42,14 +42,7 @@
               {{ review.alias ? review.alias : review.principal?.name }}
             </div>
             <div class="date">{{ review.date | cxDate }}</div>
-            <div *cxFeature="'!readMoreDirective'" class="text">
-              {{ review.comment }}
-            </div>
-            <cx-read-more
-              *cxFeature="'readMoreDirective'"
-              class="text"
-              [text]="review.comment!"
-            ></cx-read-more>
+            <cx-read-more class="text" [text]="review.comment!" />
           </li>
         </ul>
         <ng-container *cxFeature="'!a11yReviewsKeyboardControls'">
@@ -64,14 +57,7 @@
               {{ review.alias ? review.alias : review.principal?.name }}
             </div>
             <div class="date">{{ review.date | cxDate }}</div>
-            <div *cxFeature="'!readMoreDirective'" class="text">
-              {{ review.comment }}
-            </div>
-            <cx-read-more
-              *cxFeature="'readMoreDirective'"
-              class="text"
-              [text]="review.comment!"
-            ></cx-read-more>
+            <cx-read-more class="text" [text]="review.comment!" />
           </div>
         </ng-container>
         <div *ngIf="reviews.length > initialMaxListItems">
