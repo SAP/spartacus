@@ -107,7 +107,9 @@ export class OneTimePasswordLoginFormComponent implements OnInit {
     const stored = this.winRef.sessionStorage?.getItem(
       OTP_LOGIN_STATE_STORAGE_KEY
     );
-    if (!stored) return null;
+    if (!stored) {
+      return null;
+    }
     try {
       return JSON.parse(stored);
     } catch {

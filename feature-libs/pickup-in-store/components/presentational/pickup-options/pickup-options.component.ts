@@ -27,7 +27,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
@@ -94,6 +94,10 @@ export class PickupOptionsComponent
     }
 
     return null;
+  }
+
+  constructor() {
+    useFeatureStyles('improvedTabStyling');
   }
 
   ngOnChanges(): void {

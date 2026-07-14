@@ -95,10 +95,10 @@ export class ConfiguratorProductTitleComponent {
         container.routerData.productCode
       );
     }
-    if (!!container.routerData.productCode) {
+    if (container.routerData.productCode) {
       return container.routerData.productCode;
     }
-    return !!container.configuration.productCode
+    return container.configuration.productCode
       ? container.configuration.productCode
       : container.configuration.overview?.productCode;
   }
