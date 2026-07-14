@@ -278,6 +278,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   }));
 
   afterEach(() => {
+    fixture?.destroy();
     document.body.removeChild(htmlElem);
   });
 

@@ -20,6 +20,7 @@ import {
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -95,6 +96,9 @@ function getSelected(
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockActivatedRoute {
@@ -399,6 +403,35 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       },
       Configurator.UpdateType.ATTRIBUTE
     );
+  });
+
+  it('should not fail on a subsequent selection when the values got frozen after a previous round trip (e.g. CPQ API V2 not re-creating the attribute)', () => {
+    spyOn(component['configuratorCommonsService'], 'updateConfiguration');
+    component.ngOnInit();
+
+    // Simulates the NgRx runtime deep-freezing the values that were handed
+    // over into the dispatched action on a previous round trip.
+    component.multipleSelectionValues.forEach((value) => Object.freeze(value));
+    Object.freeze(component.multipleSelectionValues);
+
+    expect(() => component.onSelect('3333')).not.toThrow();
+    expect(
+      component['configuratorCommonsService'].updateConfiguration
+    ).toHaveBeenCalled();
+  });
+
+  it('should not fail on a quantity update when the values got frozen after a previous round trip', () => {
+    component.ngOnInit();
+
+    component.multipleSelectionValues.forEach((value) => Object.freeze(value));
+    Object.freeze(component.multipleSelectionValues);
+
+    expect(() =>
+      component['updateMultipleSelectionValuesQuantity']({
+        valueCode: '1111',
+        quantity: 3,
+      })
+    ).not.toThrow();
   });
 
   it('should call facade update onDeselectAll', () => {
