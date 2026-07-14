@@ -400,6 +400,54 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
   });
 
+  describe('action buttons loading state', () => {
+    it('should disable the action button while the parent signals a loading round trip', () => {
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        true
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
+      expect(button.disabled).toBe(true);
+    });
+
+    it('should re-enable the action button once the parent stops loading, even without attribute recreation', () => {
+      const parentLoading$ = new BehaviorSubject<boolean>(true);
+      component.productCardOptions.loading$ = parentLoading$;
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      parentLoading$.next(false);
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
+      expect(button.disabled).toBe(false);
+    });
+
+    it('should not set the local loading state when triggering a select action', () => {
+      component.loading$.next(false);
+      component.onHandleSelect();
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should not set the local loading state when triggering a deselect action', () => {
+      component.loading$.next(false);
+      component.onHandleDeselect();
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should not set the local loading state when triggering a quantity action', () => {
+      component.loading$.next(false);
+      component['onHandleQuantity'](2);
+      expect(component.loading$.value).toBe(false);
+    });
+  });
+
   describe('quantity', () => {
     it('should quantity be hidden when card type is no multi select', () => {
       component.productCardOptions.multiSelect = false;
@@ -619,20 +667,22 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should disable stepper when loading state is indicated by parent', () => {
-      component.loading$.next(false);
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
         true
       );
+      component.ngOnInit();
+      component.loading$.next(false);
       takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(true);
       });
     });
 
     it('should disable stepper when loading is finsihed including parent', () => {
-      component.loading$.next(false);
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
         false
       );
+      component.ngOnInit();
+      component.loading$.next(false);
       takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(false);
       });
