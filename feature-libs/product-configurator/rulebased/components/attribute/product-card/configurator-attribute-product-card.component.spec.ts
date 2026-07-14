@@ -12,6 +12,7 @@ import { By } from '@angular/platform-browser';
 
 import {
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -149,6 +150,19 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeProductCardComponent>;
   let htmlElem: HTMLElement;
   let value: Configurator.Value;
+  let consolidatedButtonDisabling: boolean;
+
+  const mockFeatureConfigService: Partial<FeatureConfigService> = {
+    isEnabled: (feature) => {
+      const isNegated = feature.startsWith('!');
+      const key = isNegated ? feature.substring(1) : feature;
+      const enabled =
+        key === 'productConfiguratorConsolidatedButtonDisabling'
+          ? consolidatedButtonDisabling
+          : false;
+      return isNegated ? !enabled : enabled;
+    },
+  };
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -197,6 +211,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
+        {
+          provide: FeatureConfigService,
+          useValue: mockFeatureConfigService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
@@ -226,6 +244,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   }));
 
   beforeEach(() => {
+    consolidatedButtonDisabling = true;
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );
@@ -445,6 +464,40 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.loading$.next(false);
       component['onHandleQuantity'](2);
       expect(component.loading$.value).toBe(false);
+    });
+  });
+
+  describe('multi-select remove button disabling (feature toggle)', () => {
+    function initSelectedMultiSelectRemoveButton(parentLoading: boolean): void {
+      component.productCardOptions.multiSelect = true;
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        parentLoading
+      );
+      setProductBoundValueAttributes(component);
+      component.ngOnInit();
+      fixture.detectChanges();
+    }
+
+    it('should disable the remove button during a loading round trip when the toggle is enabled', () => {
+      consolidatedButtonDisabling = true;
+      initSelectedMultiSelectRemoveButton(true);
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.disabled).toBe(true);
+    });
+
+    it('should keep the remove button enabled during a loading round trip when the toggle is disabled', () => {
+      consolidatedButtonDisabling = false;
+      initSelectedMultiSelectRemoveButton(true);
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-secondary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.remove');
+      expect(button.disabled).toBe(false);
     });
   });
 

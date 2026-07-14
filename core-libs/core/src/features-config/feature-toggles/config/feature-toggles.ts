@@ -641,6 +641,17 @@ export interface FeatureTogglesInterface {
    * the button, and rounds its bottom corners.
    */
   improvedTabStyling?: boolean;
+
+  /**
+   * When enabled, the product configurator product card action buttons are
+   * consistently disabled while a configuration update round trip is in
+   * progress (`disableActions$`). In particular, the multi-select "Remove"
+   * (secondary) button is disabled during loading to prevent triggering a
+   * concurrent, potentially conflicting request.
+   *
+   * Affects: `ConfiguratorAttributeProductCardComponent`
+   */
+  productConfiguratorConsolidatedButtonDisabling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -721,4 +732,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
+  productConfiguratorConsolidatedButtonDisabling: true,
 };

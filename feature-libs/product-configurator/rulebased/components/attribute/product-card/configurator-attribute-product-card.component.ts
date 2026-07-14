@@ -14,6 +14,7 @@ import {
   Output,
 } from '@angular/core';
 import {
+  FeatureDirective,
   Product,
   ProductService,
   TranslatePipe,
@@ -80,6 +81,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
     IconComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class ConfiguratorAttributeProductCardComponent
