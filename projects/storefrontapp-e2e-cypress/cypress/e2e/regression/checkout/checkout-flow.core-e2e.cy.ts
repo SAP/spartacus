@@ -26,9 +26,9 @@ context('Checkout flow', () => {
 
       checkout.clickHamburger();
 
-      checkout.registerUser(false, user);
+      checkout.registerUser(false, user, true);
       checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndLogin(user);
+      checkout.addCheapProductToCartAndLogin(user, undefined, true);
       checkout.checkSummaryAmount();
       checkout.proceedWithEmptyShippingAdressForm();
       checkout.proceedWithIncorrectShippingAddressForm({
@@ -53,7 +53,7 @@ context('Checkout flow', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
       checkout.clickHamburger();
-      checkout.registerUser(false, user);
+      checkout.registerUser(false, user, true);
       cy.onMobile(() => {
         clickSearchIcon();
       });

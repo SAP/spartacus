@@ -26,12 +26,10 @@ $productThumbSize: 75px !default;
     text-align: center;
     cursor: zoom-in;
 
-    @include forFeature('reserveSpaceForImagesOnPdpAndPlp') {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      object-fit: scale-down;
-    }
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: scale-down;
 
     &.is-missing {
       min-height: 30vh;
