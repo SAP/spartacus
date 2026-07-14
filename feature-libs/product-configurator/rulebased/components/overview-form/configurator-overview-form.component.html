@@ -35,33 +35,17 @@
       id="{{ getGroupId(idPrefix, group.id) }}"
       [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
     >
-      <ng-container *cxFeature="'a11yConfiguratorOverviewHeaderVPC'">
-        <h2>
-          <span class="cx-visually-hidden">
-            {{
-              'configurator.a11y.group'
-                | cxTranslate: { group: group.groupDescription }
-            }}
-          </span>
-          <span aria-hidden="true">
-            {{ group.groupDescription }}
-          </span>
-        </h2>
-      </ng-container>
-      <ng-container *cxFeature="'!a11yConfiguratorOverviewHeaderVPC'">
+      <h2>
         <span class="cx-visually-hidden">
           {{
             'configurator.a11y.group'
-              | cxTranslate
-                : {
-                    group: group.groupDescription,
-                  }
+              | cxTranslate: { group: group.groupDescription }
           }}
         </span>
-        <h2 aria-hidden="true">
-          <span>{{ group.groupDescription }}</span>
-        </h2>
-      </ng-container>
+        <span aria-hidden="true">
+          {{ group.groupDescription }}
+        </span>
+      </h2>
 
       <div
         *ngFor="let attributeOverview of group.attributes; let i = index"
