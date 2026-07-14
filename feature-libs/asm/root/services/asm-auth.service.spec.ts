@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AuthActions,
   AuthMultisiteIsolationService,
   AuthNotificationService,
   AuthNotificationType,
@@ -9,6 +10,7 @@ import {
   CrossSiteRequestForgeryService,
   GlobalMessageService,
   OAuthLibWrapperService,
+  OCC_USER_ID_ANONYMOUS,
   PROCESS_FEATURE,
   RoutingService,
   StateWithClientAuth,
@@ -57,12 +59,17 @@ class MockUserIdService {
 class MockOAuthLibWrapperService {
   revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
   initLoginFlow = jasmine.createSpy();
+  tryLogin = jasmine
+    .createSpy()
+    .and.returnValue(Promise.resolve({ result: true, tokenReceived: false }));
 
   authorizeWithPasswordFlow = () => Promise.resolve();
 }
 
 class MockAsmAuthStorageService {
   clearEmulatedUserToken = jasmine.createSpy();
+  switchTokenTargetToCSAgent = jasmine.createSpy();
+  getItem = jasmine.createSpy().and.returnValue(null);
 
   getToken = () => authToken$.asObservable();
   getTokenTarget = () => tokenTarget$.asObservable();
@@ -72,8 +79,12 @@ class MockGlobalMessageService {
   add = jasmine.createSpy();
 }
 
-class MockAuthRedirectService {}
-class MockRoutingService {}
+class MockAuthRedirectService {
+  redirect = jasmine.createSpy();
+}
+class MockRoutingService {
+  go = jasmine.createSpy();
+}
 
 class MockCrossSiteRequestForgeryService
   implements Partial<CrossSiteRequestForgeryService>
@@ -196,13 +207,19 @@ describe('AsmAuthService', () => {
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
 
-    it('should warn about CS Agent if user cannot login', () => {
+    it('should redirect to homepage when CS Agent is already logged in but not emulating', () => {
+      // CS Agent active: token present + tokenTarget=CSAgent.
+      // Guards like CheckoutAuthGuard would route through /login here; we
+      // send the user home instead of showing "Cannot login as user".
       tokenTarget$.next(TokenTarget.CSAgent);
+      const routingService = TestBed.inject(RoutingService);
 
       const result = service.loginWithRedirect();
 
-      expect(result).toBeFalse();
-      expect(globalMessageService.add).toHaveBeenCalled();
+      expect(result).toBeTrue();
+      expect(routingService.go).toHaveBeenCalledWith('/');
+      expect(oAuthLibWrapperService.initLoginFlow).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
@@ -260,6 +277,101 @@ describe('AsmAuthService', () => {
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
         expect(isLoggedIn).toBeFalse();
+      });
+    });
+  });
+
+  describe('checkOAuthParamsInUrl()', () => {
+    let authRedirectService: AuthRedirectService;
+
+    /** Stubs the tryLogin() promise result. */
+    const stubTryLogin = (tokenReceived: boolean) =>
+      (oAuthLibWrapperService.tryLogin as jasmine.Spy).and.returnValue(
+        Promise.resolve({ result: true, tokenReceived })
+      );
+
+    /** Stubs the value returned by authStorageService.getItem('access_token'). */
+    const stubStoredAccessToken = (value: string | null) =>
+      (asmAuthStorageService.getItem as jasmine.Spy).and.returnValue(value);
+
+    beforeEach(() => {
+      authRedirectService = TestBed.inject(AuthRedirectService);
+    });
+
+    it('should delegate to parent when not using ASM client', async () => {
+      spyOn(service, 'isUsingASMClient').and.returnValue(of(false));
+      const parentSpy = spyOn(
+        Object.getPrototypeOf(Object.getPrototypeOf(service)),
+        'checkOAuthParamsInUrl'
+      ).and.returnValue(Promise.resolve());
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(parentSpy).toHaveBeenCalled();
+    });
+
+    describe('when using ASM client', () => {
+      beforeEach(() => {
+        spyOn(service, 'isUsingASMClient').and.returnValue(of(true));
+      });
+
+      it('should set CS Agent token target, dispatch Login and redirect when returning from auth server', async () => {
+        stubTryLogin(true);
+        stubStoredAccessToken('access_token_value');
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).toHaveBeenCalled();
+        expect(userIdService.setUserId).toHaveBeenCalledWith(
+          OCC_USER_ID_ANONYMOUS
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        expect(authRedirectService.redirect).toHaveBeenCalled();
+      });
+
+      it('should NOT complete login when token was not received (e.g. page refresh)', async () => {
+        stubTryLogin(false);
+        stubStoredAccessToken('access_token_value');
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).not.toHaveBeenCalled();
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new AuthActions.Login()
+        );
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
+
+      it('should NOT complete login when no access token is stored', async () => {
+        stubTryLogin(true);
+        stubStoredAccessToken(null);
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).not.toHaveBeenCalled();
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new AuthActions.Login()
+        );
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
+
+      it('should swallow errors thrown by tryLogin()', async () => {
+        (oAuthLibWrapperService.tryLogin as jasmine.Spy).and.returnValue(
+          Promise.reject(new Error('oauth failure'))
+        );
+
+        await expectAsync(service.checkOAuthParamsInUrl()).toBeResolved();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).not.toHaveBeenCalled();
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
     });
   });

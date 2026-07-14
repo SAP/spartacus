@@ -50,12 +50,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent
-   */
-  readMoreDirective?: boolean;
-
-  /**
    * Introduces the read more directive in product list item summary
    * Affects: ProductListItemComponent
    */
@@ -88,12 +82,6 @@ export interface FeatureTogglesInterface {
    * mode is enabled, while still allowing users to manually select Spartacus high-contrast themes.
    */
   a11yPreventWindowsHighContrastOverride?: boolean;
-
-  /**
-   * When enabled, the product cards in the product list page will have a forced consistent size.
-   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
-   */
-  consistentSizeProductCards?: boolean;
 
   /**
    * Updates recent-searches UX in `SearchBoxComponent` and CDS recent searches.
@@ -264,24 +252,6 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthService`
    */
   dispatchLoginActionOnlyWhenTokenReceived?: boolean;
-
-  /**
-   * Previously the default Spartacus layout config contained the property `pageFold`
-   * for the following layouts:
-   * - `LandingPage2Template`
-   * - `CategoryPageTemplate`
-   * - `ProductDetailsPageTemplate`
-   *
-   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
-   *
-   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
-   * caused the CMS components to be rendered only after a small delay even in SSR pages,
-   * which caused a layout shift.
-   *
-   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
-   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  defaultLayoutConfigWithoutPageFold?: boolean;
 
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
@@ -506,6 +476,13 @@ export interface FeatureTogglesInterface {
   a11yConsentManagementFocusPreservation?: boolean;
 
   /**
+   * Preserves keyboard focus on the selected delivery mode radio button
+   * during checkout when navigating with the keyboard.
+   * Affects: CheckoutDeliveryModeComponent, VisibleFocusDirective
+   */
+  a11yDeliveryModeFocusPreservation?: boolean;
+
+  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -558,6 +535,13 @@ export interface FeatureTogglesInterface {
    */
   redirectOnlyOnTrueNavigationEnd?: boolean;
 
+  /**
+   * When enabled, sanitizes the URL used to compute the page's canonical URL
+   * (in `PageLinkService.getCanonicalUrl`). The URL is parsed and validated,
+   * rejecting malformed URLs and any non-`http(s)` protocols (e.g. `javascript:`,
+   * `data:`), which are replaced with an empty string.
+   * Affects: PageLinkService
+   */
   pageLinkSanitizeCanonicalUrl?: boolean;
 
   /**
@@ -651,6 +635,12 @@ export interface FeatureTogglesInterface {
    * are shown on the B2B checkout delivery address step.
    */
   b2bCheckoutShippingAddressFilter?: boolean;
+
+  /**
+   * Refines the `cx-tab` active/hover border: anchors it to the bottom of
+   * the button, and rounds its bottom corners.
+   */
+  improvedTabStyling?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -665,21 +655,18 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddPaddingToCarouselPanel: true,
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
-  readMoreDirective: true,
   productListItemSummaryReadMore: false,
   productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  consistentSizeProductCards: true,
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
   reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
-  authorizationCodeFlowByDefaultCsrfTokenRefresh: true,
+  authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
-  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,
@@ -706,6 +693,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
+  a11yDeliveryModeFocusPreservation: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
@@ -732,4 +720,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
+  improvedTabStyling: false,
 };

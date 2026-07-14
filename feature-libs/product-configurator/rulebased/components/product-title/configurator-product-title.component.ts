@@ -82,10 +82,10 @@ export class ConfiguratorProductTitleComponent {
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
   }): string | undefined {
-    if (!!container.routerData.productCode) {
+    if (container.routerData.productCode) {
       return container.routerData.productCode;
     }
-    return !!container.configuration.productCode
+    return container.configuration.productCode
       ? container.configuration.productCode
       : container.configuration.overview?.productCode;
   }
