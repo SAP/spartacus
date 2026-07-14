@@ -19,7 +19,9 @@
   <ng-container *ngFor="let value of attribute?.values; let i = index">
     <cx-configurator-attribute-product-card
       *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
-      id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+      id="{{
+        createAttributeValueIdForConfigurator(attribute, value.valueCode)
+      }}"
       (handleDeselect)="onDeselect($event)"
       (handleQuantity)="onChangeValueQuantity($event)"
       (handleSelect)="onSelect($event)"
@@ -30,7 +32,9 @@
     </cx-configurator-attribute-product-card>
     <cx-configurator-attribute-product-card
       *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
-      id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
+      id="{{
+        createAttributeValueIdForConfigurator(attribute, value.valueCode)
+      }}"
       (handleDeselect)="onDeselect($event)"
       (handleQuantity)="onChangeValueQuantity($event)"
       (handleSelect)="onSelect($event)"
