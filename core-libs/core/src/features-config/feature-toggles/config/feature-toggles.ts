@@ -193,20 +193,6 @@ export interface FeatureTogglesInterface {
   unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
 
   /**
-   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
-   *
-   * When enabled, it ensures that appropriate space is reserved for images before they load,
-   * maintaining layout stability across the following contexts:
-   *
-   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
-   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
-   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
-   *
-   * This helps improve Core Web Vitals by preventing layout shifts as images load.
-   */
-  reserveSpaceForImagesOnPdpAndPlp?: boolean;
-
-  /**
    * Feature flag to control the default image loading strategy.
    *
    * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
@@ -668,7 +654,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productCarouselScrolling: true,
   cdsLoginEventsToken: true,
   unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
-  reserveSpaceForImagesOnPdpAndPlp: true,
   lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,

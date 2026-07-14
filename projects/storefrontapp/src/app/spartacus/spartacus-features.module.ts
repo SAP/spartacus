@@ -314,7 +314,6 @@ if (environment.cpq) {
         productCarouselScrolling: true,
         cdsLoginEventsToken: true,
         unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
-        reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
