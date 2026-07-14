@@ -14,7 +14,6 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -113,7 +112,6 @@ describe('ProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(ProductImagesComponent, {

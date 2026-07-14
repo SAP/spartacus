@@ -25,7 +25,6 @@ import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-carousel-scrolling',
@@ -147,7 +146,6 @@ describe('ProductReferencesComponent', () => {
           provide: ProductReferenceService,
           useClass: MockProductReferenceService,
         },
-        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(ProductReferencesComponent, {
