@@ -21,6 +21,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardFacade } from '../../facade';
 import { OpfGiftCards } from '../../model';
 import { OutletModule } from '@spartacus/storefront';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 
 @Component({
   selector: 'cx-opf-gift-card-applied',
@@ -32,6 +33,7 @@ export class OpfGiftCardAppliedComponent {
   protected globalMessageService = inject(GlobalMessageService);
   protected giftCardFacade = inject(OpfGiftCardFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
+  protected opfPaymentEventsService = inject(OpfPaymentEventsService);
 
   @Input() opfGiftCards: OpfGiftCards[];
 
@@ -43,6 +45,7 @@ export class OpfGiftCardAppliedComponent {
           { key: 'opfGiftCard.removedSuccessfully' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+        this.opfPaymentEventsService.emitReinitiatePaymentEvent();
       },
       error: (error) => {
         const message = error.details?.[0]?.message;

@@ -41,7 +41,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
     return this._entry;
   }
 
-  @Input('entry') set entry(value: OrderEntry) {
+  @Input() set entry(value: OrderEntry) {
     this._entry = value;
     this.quantityControl = new UntypedFormControl(this.entry.quantity, {
       updateOn: 'blur',
