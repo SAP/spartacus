@@ -310,7 +310,6 @@ if (environment.cpq) {
         a11yNgSelectUnicodeCarets: true,
         productListItemSummaryReadMore: true,
         a11yFutureStockAccordionAriaControls: true,
-        productCarouselScrolling: true,
         cdsLoginEventsToken: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
