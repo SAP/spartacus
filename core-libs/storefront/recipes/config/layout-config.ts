@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject } from '@angular/core';
-import { FeatureToggles } from '@spartacus/core';
 import {
   LayoutConfig,
   SlotConfig,
@@ -191,11 +189,8 @@ function applyWithoutPageFold(config: LayoutConfig): void {
  */
 export function layoutConfigFactory(): LayoutConfig {
   const config: LayoutConfig = JSON.parse(JSON.stringify(layoutConfig));
-  const featureToggles = inject(FeatureToggles);
 
-  if (featureToggles.unifiedDefaultHeaderSlotsAcrossBreakpoints) {
-    applyUnifiedHeaderSlots(config);
-  }
+  applyUnifiedHeaderSlots(config);
 
   applyWithoutPageFold(config);
 
