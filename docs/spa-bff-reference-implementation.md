@@ -123,15 +123,14 @@ npm install --save-dev nx@22.7.7 @nx/angular@22.7.7
 > running `nx import`. Two things can make it dirty after this point:
 >
 > 1. The `npm install` above modifies `package-lock.json`
-> 2. Running any `nx` command for the first time prompts "Share usage data with the
->    Nx team?" — answering either way writes `"analytics": false/true` to `nx.json`
+> 2. Running any `nx` workspace command for the first time prompts "Share usage
+>    data with the Nx team?" — answering either way writes `"analytics": false/true`
+>    to `nx.json`. Note: `nx --version` does **not** trigger this prompt — use a
+>    real workspace command such as `nx show projects`.
 >
-> Trigger the analytics prompt now (before Step 3) by running any nx command, then
-> commit everything:
-> **Required before Step 3:** commit before importing the storefront. The `nx import`
-> command requires a clean git state in the destination workspace. Run:
+> Trigger the analytics prompt now (before Step 3), then commit everything:
 > ```bash
-> nx --version   # triggers the analytics prompt if not yet answered
+> nx show projects   # triggers the analytics prompt if not yet answered
 > git add -A && git commit -m "chore: align nx and @nx/angular versions"
 > ```
 
