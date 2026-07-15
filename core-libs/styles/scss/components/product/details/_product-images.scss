@@ -9,10 +9,7 @@ $productThumbSize: 75px !default;
 %cx-product-images {
   display: flex;
   flex-direction: column;
-
-  @include forFeature('productCarouselScrolling') {
-    overflow: auto;
-  }
+  overflow: auto;
 
   height: 100%;
   > cx-media {
@@ -72,9 +69,7 @@ $productThumbSize: 75px !default;
       margin: 0.5vw;
       padding: 0.5vw;
 
-      @include forFeature('productCarouselScrolling') {
-        width: 120px;
-      }
+      width: 120px;
 
       cursor: pointer;
 
