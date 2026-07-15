@@ -116,9 +116,9 @@ describe('SiteContextParamsService', () => {
     });
 
     it('should emit active values for single service', () => {
-      mockLanguageService.getActive = vi.fn().mockReturnValue(
-        of('en', 'de', 'en')
-      );
+      mockLanguageService.getActive = vi
+        .fn()
+        .mockReturnValue(of('en', 'de', 'en'));
       service
         .getValues([LANGUAGE_CONTEXT_ID])
         .pipe(bufferCount(3), take(1))
@@ -129,9 +129,9 @@ describe('SiteContextParamsService', () => {
 
     it('should emit active values for multiple services', () => {
       mockLanguageService.getActive = vi.fn().mockReturnValue(of('ja'));
-      mockCurrencyService.getActive = vi.fn().mockReturnValue(
-        of('', 'USD', 'JPY', 'USD')
-      );
+      mockCurrencyService.getActive = vi
+        .fn()
+        .mockReturnValue(of('', 'USD', 'JPY', 'USD'));
       service
         .getValues([LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID])
         .pipe(bufferCount(3), take(1))

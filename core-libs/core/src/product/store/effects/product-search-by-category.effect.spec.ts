@@ -17,7 +17,8 @@ describe('ProductSearchByCategoryEffects', () => {
 
   beforeEach(() => {
     productSearchConnector = {
-      searchByCategory: vi.fn() };
+      searchByCategory: vi.fn(),
+    };
     logger = { error: vi.fn() };
 
     TestBed.configureTestingModule({
@@ -45,7 +46,9 @@ describe('ProductSearchByCategoryEffects', () => {
 
     actions$ = hot('-a', { a: action });
     const response = cold('-a|', { a: { products: [{ code: '123' }] } });
-    vi.mocked(productSearchConnector.searchByCategory).mockReturnValueOnce(response);
+    vi.mocked(productSearchConnector.searchByCategory).mockReturnValueOnce(
+      response
+    );
 
     const expected = cold('---b', { b: completion });
 
@@ -108,7 +111,9 @@ describe('ProductSearchByCategoryEffects', () => {
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-#|', {}, error);
-    vi.mocked(productSearchConnector.searchByCategory).mockReturnValueOnce(response);
+    vi.mocked(productSearchConnector.searchByCategory).mockReturnValueOnce(
+      response
+    );
 
     const expected = cold('--b', { b: completion });
 

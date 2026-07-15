@@ -7,8 +7,7 @@ import { ProtectedRoutesGuard } from './protected-routes.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 
 class MockAuthGuard {
-  canActivate = vi.fn()
-    .mockReturnValue(of('authGuard-result'));
+  canActivate = vi.fn().mockReturnValue(of('authGuard-result'));
 }
 
 class MockProtectedRoutesService {

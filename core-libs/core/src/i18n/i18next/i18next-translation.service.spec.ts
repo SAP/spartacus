@@ -40,8 +40,7 @@ describe('I18nextTranslationService', () => {
 
   beforeEach(() => {
     const mockTranslationChunk = {
-      getChunkNameForKey: vi.fn()
-        .mockReturnValue(testChunk),
+      getChunkNameForKey: vi.fn().mockReturnValue(testChunk),
     };
 
     vi.spyOn(console, 'warn');
@@ -64,7 +63,9 @@ describe('I18nextTranslationService', () => {
   describe('loadChunks', () => {
     it('should return result of i18next.loadChunks', () => {
       const expectedResult = new Promise(() => {});
-      vi.spyOn(i18next, 'loadNamespaces').mockReturnValue(expectedResult as any);
+      vi.spyOn(i18next, 'loadNamespaces').mockReturnValue(
+        expectedResult as any
+      );
       const chunks = ['chunk1', 'chunk2'];
       const result = service.loadChunks(chunks);
       expect(i18next.loadNamespaces).toHaveBeenCalledWith(chunks);
@@ -206,7 +207,9 @@ describe('I18nextTranslationService', () => {
               (_event, callback) => (languageChangedCallback = callback)
             );
             vi.spyOn(i18next, 'exists').mockReturnValue(true);
-            vi.spyOn(i18next, 't').mockReturnValueOnce('value1').mockReturnValueOnce('value2');
+            vi.spyOn(i18next, 't')
+              .mockReturnValueOnce('value1')
+              .mockReturnValueOnce('value2');
 
             let result;
             service

@@ -37,7 +37,8 @@ describe('CouponSearchPageResolver', () => {
   let route: ActivatedRoute;
   const authService = { isUserLoggedIn: vi.fn() };
   const semanticPathService = {
-    transform: vi.fn() };
+    transform: vi.fn(),
+  };
 
   class MockActivatedRoute {
     getSnapshot = vi.fn();

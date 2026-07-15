@@ -1,5 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, firstValueFrom, of, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  of,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CxEvent } from './cx-event';
 import { EventService } from './event.service';

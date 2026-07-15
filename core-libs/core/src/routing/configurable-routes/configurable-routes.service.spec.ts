@@ -21,15 +21,14 @@ class MockRouter {
 const combinedUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getFromPaths = vi.fn()
-    .mockImplementation((paths) => paths);
+  getFromPaths = vi.fn().mockImplementation((paths) => paths);
   getFalsy = vi.fn().mockReturnValue(false);
-  getCombined = vi.fn()
-    .mockReturnValue(combinedUrlMatcher);
+  getCombined = vi.fn().mockReturnValue(combinedUrlMatcher);
 }
 
 const testUrlMatcherFromFactory: UrlMatcher = () => null;
-const testUrlMatcherFactory: UrlMatcherFactory = vi.fn()
+const testUrlMatcherFactory: UrlMatcherFactory = vi
+  .fn()
   .mockImplementation((_route: Route) => testUrlMatcherFromFactory);
 
 const TEST_URL_MATCHER_FACTORY = new InjectionToken<UrlMatcherFactory>(
@@ -77,7 +76,9 @@ describe('ConfigurableRoutesService', () => {
   describe('configureRouter', () => {
     it('should NOT configure "path" of routes that are NOT configurable', async () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
-      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(undefined);
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
+        undefined
+      );
       await service.init();
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
     });
@@ -87,7 +88,9 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1' },
         { path: 'path2', children: [{ path: 'subPath' }] },
       ];
-      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(undefined);
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
+        undefined
+      );
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1' },
@@ -100,7 +103,9 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1', redirectTo: 'path100' },
         { path: 'path2', redirectTo: 'path200' },
       ];
-      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(undefined);
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
+        undefined
+      );
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1', redirectTo: 'path100' },
@@ -128,7 +133,9 @@ describe('ConfigurableRoutesService', () => {
 
     it('should generate route that will never match if there are no configured paths in config', async () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(null);
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce(
+        null
+      );
       await service.init();
       expect(router.config[0].matcher).toEqual([]);
     });
@@ -213,12 +220,16 @@ describe('ConfigurableRoutesService', () => {
     const matcher1: UrlMatcher = () => null;
     const originalRoute = { path: null, data: { cxRoute: 'page' } };
     router.config = [originalRoute];
-    testUrlMatcherFactory.mockImplementation((_route: Route) => testUrlMatcherFromFactory);
+    testUrlMatcherFactory.mockImplementation(
+      (_route: Route) => testUrlMatcherFromFactory
+    );
     vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValueOnce({
       paths: ['path'],
       matchers: [matcher1, TEST_URL_MATCHER_FACTORY],
     });
-    const originalInjectorGet = service['injector'].get.bind(service['injector']);
+    const originalInjectorGet = service['injector'].get.bind(
+      service['injector']
+    );
     vi.spyOn(service['injector'], 'get').mockImplementation((token: any) =>
       token === TEST_URL_MATCHER_FACTORY
         ? testUrlMatcherFactory

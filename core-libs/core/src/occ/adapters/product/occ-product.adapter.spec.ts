@@ -19,10 +19,12 @@ const product = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockImplementation(
-    (url, { urlParams: { productCode }, scope }) =>
-      `${url}${productCode}` + (scope ? `?fields=${scope}` : '')
-  );
+  buildUrl = vi
+    .fn()
+    .mockImplementation(
+      (url, { urlParams: { productCode }, scope }) =>
+        `${url}${productCode}` + (scope ? `?fields=${scope}` : '')
+    );
 }
 
 class MockConvertService {

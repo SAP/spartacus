@@ -8,11 +8,12 @@ import {
 } from '@spartacus/core';
 import { OccAddressListNormalizer } from './occ-address-list-normalizer';
 
-
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockImplementation(
-    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
-  );
+  buildUrl = vi
+    .fn()
+    .mockImplementation((url, { orgUnitId }) =>
+      url === 'orgUnit' ? url + orgUnitId : url
+    );
 }
 
 describe('OccAddressListNormalizer', () => {

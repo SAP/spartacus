@@ -365,7 +365,9 @@ describe('AuthHttpHeaderService', () => {
         )
         .subscribe({
           complete: () => {
-            refreshCalled = (oAuthLibWrapperService.refreshToken as ReturnType<typeof vi.fn>).mock.calls.length > 0;
+            refreshCalled =
+              (oAuthLibWrapperService.refreshToken as ReturnType<typeof vi.fn>)
+                .mock.calls.length > 0;
             handlerCalled = (handler as any).mock?.calls?.length > 0;
           },
         });
@@ -422,8 +424,11 @@ describe('AuthHttpHeaderService', () => {
       expect(routingService.go).not.toHaveBeenCalled();
       await wait();
 
-      const saveUrlOrder = (authRedirectService.saveCurrentNavigationUrl as ReturnType<typeof vi.fn>).mock.invocationCallOrder[0];
-      const goOrder = (routingService.go as ReturnType<typeof vi.fn>).mock.invocationCallOrder[0];
+      const saveUrlOrder = (
+        authRedirectService.saveCurrentNavigationUrl as ReturnType<typeof vi.fn>
+      ).mock.invocationCallOrder[0];
+      const goOrder = (routingService.go as ReturnType<typeof vi.fn>).mock
+        .invocationCallOrder[0];
       expect(saveUrlOrder).toBeLessThan(goOrder);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(

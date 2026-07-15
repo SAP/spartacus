@@ -15,12 +15,16 @@ describe('ProductSearchConnector', () => {
     adapter = {
       search: vi.fn().mockImplementation((query) => of('search:' + query)),
       loadSuggestions: vi.fn().mockImplementation((term) => of('term:' + term)),
-      searchByCodes: vi.fn().mockImplementation((codes, scope) =>
-        of({ products: codes.map((code: string) => ({ code, scope })) })
-      ),
-      searchByCategory: vi.fn().mockImplementation((_category, scope) =>
-        of({ products: [{ code: 'product1', scope }] })
-      ),
+      searchByCodes: vi
+        .fn()
+        .mockImplementation((codes, scope) =>
+          of({ products: codes.map((code: string) => ({ code, scope })) })
+        ),
+      searchByCategory: vi
+        .fn()
+        .mockImplementation((_category, scope) =>
+          of({ products: [{ code: 'product1', scope }] })
+        ),
     };
     service = new ProductSearchConnector(adapter as any);
   });

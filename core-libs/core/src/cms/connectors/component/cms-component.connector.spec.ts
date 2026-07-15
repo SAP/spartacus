@@ -33,15 +33,17 @@ describe('CmsComponentConnector', () => {
   function setup(config: CmsConfig = MockCmsModuleConfig) {
     adapter = {
       load: vi.fn().mockImplementation((id) => of('component' + id)),
-      findComponentsByIds: vi.fn().mockImplementation((idList) =>
-        of(idList.map((id: string) => 'component' + id))
-      ),
+      findComponentsByIds: vi
+        .fn()
+        .mockImplementation((idList) =>
+          of(idList.map((id: string) => 'component' + id))
+        ),
     };
     structureConfigService = {
       getComponentFromConfig: vi.fn().mockReturnValue(of(undefined)),
-      getComponentsFromConfig: vi.fn().mockReturnValue(
-        of([undefined, undefined, 'config-component'])
-      ),
+      getComponentsFromConfig: vi
+        .fn()
+        .mockReturnValue(of([undefined, undefined, 'config-component'])),
     };
     service = new CmsComponentConnector(
       structureConfigService as any,
@@ -83,9 +85,9 @@ describe('CmsComponentConnector', () => {
 
       it('should use CmsStructureConfigService', () => {
         service.getList(ids, context).subscribe();
-        expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
-          ids
-        );
+        expect(
+          structureConfigService.getComponentsFromConfig
+        ).toHaveBeenCalledWith(ids);
       });
 
       it('should merge config data with components', () => {

@@ -16,7 +16,9 @@ describe('UserInterestsConnector', () => {
 
   beforeEach(() => {
     adapter = {
-      getInterests: vi.fn().mockImplementation((userId) => of(`loadList-${userId}`)),
+      getInterests: vi
+        .fn()
+        .mockImplementation((userId) => of(`loadList-${userId}`)),
       removeInterest: vi.fn().mockReturnValue(of([])),
       addInterest: vi.fn(),
     };

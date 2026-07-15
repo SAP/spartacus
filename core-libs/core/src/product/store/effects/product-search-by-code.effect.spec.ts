@@ -18,7 +18,8 @@ describe('ProductSearchByCodeEffects', () => {
 
   beforeEach(() => {
     productSearchConnector = {
-      searchByCodes: vi.fn() };
+      searchByCodes: vi.fn(),
+    };
     logger = { error: vi.fn() };
 
     TestBed.configureTestingModule({

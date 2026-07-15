@@ -68,7 +68,9 @@ describe('AuthStatePersistenceService', () => {
     userIdService = TestBed.inject(UserIdService);
     authStorageService = TestBed.inject(AuthStorageService);
     authRedirectStorageService = TestBed.inject(AuthRedirectStorageService);
-    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {

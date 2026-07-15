@@ -39,7 +39,9 @@ describe('SemanticPathService', () => {
     });
 
     it(`should return undefined when there is no configured path for given route`, () => {
-      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(undefined);
+      vi.spyOn(routingConfigService, 'getRouteConfig').mockReturnValue(
+        undefined
+      );
       expect(service.get('test')).toBe(undefined);
     });
   });

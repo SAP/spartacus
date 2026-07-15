@@ -33,7 +33,9 @@ describe('UserEventBuilder', () => {
 
   it('UpdateUserAddressEvent', async () => {
     const payload: any = { test: 'test' };
-    const resultPromise = firstValueFrom(eventService.get(UpdateUserAddressEvent));
+    const resultPromise = firstValueFrom(
+      eventService.get(UpdateUserAddressEvent)
+    );
     actions$.next({ type: UserActions.UPDATE_USER_ADDRESS, payload });
     const result = await resultPromise;
     expect(result).toEqual(expect.objectContaining(payload));
@@ -49,7 +51,9 @@ describe('UserEventBuilder', () => {
 
   it('DeleteUserAddressEvent', async () => {
     const payload: any = { test: 'test' };
-    const resultPromise = firstValueFrom(eventService.get(DeleteUserAddressEvent));
+    const resultPromise = firstValueFrom(
+      eventService.get(DeleteUserAddressEvent)
+    );
     actions$.next({ type: UserActions.DELETE_USER_ADDRESS, payload });
     const result = await resultPromise;
     expect(result).toEqual(expect.objectContaining(payload));

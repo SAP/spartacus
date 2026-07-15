@@ -24,7 +24,8 @@ class MockAuthService {
   getCsrfToken = vi.fn().mockReturnValue(of(mockCsrfTokenResponse));
 }
 class MockRouter {
-  parseUrl = vi.fn()
+  parseUrl = vi
+    .fn()
     .mockImplementation((url: string) => ({ root: url }) as unknown as UrlTree);
 }
 class MockSemanticPathService {
@@ -125,9 +126,7 @@ describe('CustomLoginGuard', () => {
 
   describe('when custom login is disabled', () => {
     beforeEach(() => {
-      (authConfigService.customLoginEnabled as Mock).mockReturnValue(
-        false
-      );
+      (authConfigService.customLoginEnabled as Mock).mockReturnValue(false);
     });
 
     it('should resolve to true when custom login is disabled', async () => {

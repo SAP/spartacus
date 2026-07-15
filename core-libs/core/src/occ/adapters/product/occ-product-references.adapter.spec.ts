@@ -30,9 +30,7 @@ const productReferences: Occ.ProductReferenceList = {
 const endpoint = '/productReferences';
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockReturnValue(
-    endpoint
-  );
+  buildUrl = vi.fn().mockReturnValue(endpoint);
 }
 
 class MockConvertService {

@@ -57,7 +57,7 @@ describe('i18nextProviders', () => {
       mockStableConfig$.next({ i18n: {} });
       mockStableConfig$.complete();
 
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(i18nextInitializer.initialize).toHaveBeenCalled();
     });
 
@@ -81,7 +81,7 @@ describe('i18nextProviders', () => {
 
       expect(appInitializerResolved).toBe(false);
       mockResolveI18nextInitialize?.();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(appInitializerResolved).toBe(true);
     });
   });

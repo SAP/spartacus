@@ -40,9 +40,11 @@ const product: Product = {
 };
 
 class MockProductConnector {
-  getMany = vi.fn().mockImplementation((products) =>
-    products.map((pr) => ({ ...pr, data$: of(product) }))
-  );
+  getMany = vi
+    .fn()
+    .mockImplementation((products) =>
+      products.map((pr) => ({ ...pr, data$: of(product) }))
+    );
 }
 
 describe('Product Effects', () => {

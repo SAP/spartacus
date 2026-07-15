@@ -28,9 +28,7 @@ const productReviews: Occ.ReviewList = {
 const endpoint = '/productReviews';
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockReturnValue(
-    endpoint
-  );
+  buildUrl = vi.fn().mockReturnValue(endpoint);
 }
 
 describe('OccProductReviewsAdapter', () => {

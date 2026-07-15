@@ -339,7 +339,10 @@ describe('OAuthLibWrapperService', () => {
 
   describe('authorizeWithPasswordFlow()', () => {
     it('should call fetchTokenUsingPasswordFlow method from the lib', async () => {
-      const fetchTokenUsingPasswordFlowSpy = vi.spyOn(oAuthService, 'fetchTokenUsingPasswordFlow');
+      const fetchTokenUsingPasswordFlowSpy = vi.spyOn(
+        oAuthService,
+        'fetchTokenUsingPasswordFlow'
+      );
       service = TestBed.inject(OAuthLibWrapperService);
 
       const result = await service.authorizeWithPasswordFlow(
@@ -714,7 +717,10 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call changeClientWhenInitialize method', () => {
-      const initializeSpy = vi.spyOn(service as any, 'changeClientWhenInitialize');
+      const initializeSpy = vi.spyOn(
+        service as any,
+        'changeClientWhenInitialize'
+      );
       service.changeAuthConfigClientId('testClientId');
       expect(initializeSpy).toHaveBeenCalled();
     });

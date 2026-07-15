@@ -14,8 +14,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 const fromPathsUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getFromPaths = vi.fn()
-    .mockReturnValue(fromPathsUrlMatcher);
+  getFromPaths = vi.fn().mockReturnValue(fromPathsUrlMatcher);
 }
 
 describe('DEFAULT_URL_MATCHER', () => {

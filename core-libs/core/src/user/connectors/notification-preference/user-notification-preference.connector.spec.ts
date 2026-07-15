@@ -22,12 +22,18 @@ describe('UserNotificationPreferenceConnector', () => {
 
   beforeEach(() => {
     adapter = {
-      loadAll: vi.fn().mockImplementation((userId) =>
-        of(`loadAll-notification-preferences-${userId}`)
-      ),
-      update: vi.fn().mockImplementation((userId, preferences) =>
-        of(`update-notification-preferences-${userId}-${preferences[0].channel}`)
-      ),
+      loadAll: vi
+        .fn()
+        .mockImplementation((userId) =>
+          of(`loadAll-notification-preferences-${userId}`)
+        ),
+      update: vi
+        .fn()
+        .mockImplementation((userId, preferences) =>
+          of(
+            `update-notification-preferences-${userId}-${preferences[0].channel}`
+          )
+        ),
     };
     service = new UserNotificationPreferenceConnector(adapter as any);
   });

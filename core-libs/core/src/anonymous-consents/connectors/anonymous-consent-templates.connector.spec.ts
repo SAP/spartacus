@@ -25,7 +25,9 @@ describe('AnonymousConsentTemplatesConnector', () => {
 
   describe('loadAnonymousConsentTemplates', () => {
     it('should call adapter', async () => {
-      const result = await firstValueFrom(service.loadAnonymousConsentTemplates());
+      const result = await firstValueFrom(
+        service.loadAnonymousConsentTemplates()
+      );
       expect(result).toEqual([]);
       expect(adapter.loadAnonymousConsentTemplates).toHaveBeenCalled();
     });

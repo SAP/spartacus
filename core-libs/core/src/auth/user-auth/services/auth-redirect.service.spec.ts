@@ -215,9 +215,10 @@ describe('AuthRedirectService', () => {
 
   describe('setRedirectUrl', () => {
     it('should save the passed url without site context parameters', () => {
-      vi.spyOn<any, any>(service, 'getUrlWithoutSiteContextParams').mockReturnValue(
-        '/c/123'
-      );
+      vi.spyOn<any, any>(
+        service,
+        'getUrlWithoutSiteContextParams'
+      ).mockReturnValue('/c/123');
       service.setRedirectUrl('/custom/url/en/USD/c/123');
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
         '/c/123'
@@ -233,10 +234,7 @@ describe('AuthRedirectService', () => {
   describe('getUrlWithoutSiteContextParams', () => {
     it('should return url without site context parameters', () => {
       const inputUrl = '/custom/url/en/USD/c/123';
-      vi.spyOn(
-        siteContextUrlSerializer,
-        'urlExtractContextParameters'
-      );
+      vi.spyOn(siteContextUrlSerializer, 'urlExtractContextParameters');
       const result = (service as any).getUrlWithoutSiteContextParams(inputUrl);
       expect(result).toEqual(expect.any(String));
       expect(

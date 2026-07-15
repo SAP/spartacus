@@ -27,9 +27,7 @@ import { ProductLoadingService } from './product-loading.service';
 class MyEvent extends CxEvent {}
 
 class MockLoadingScopesService {
-  expand = vi.fn().mockImplementation(
-    (_: string, scopes: string[]) => scopes
-  );
+  expand = vi.fn().mockImplementation((_: string, scopes: string[]) => scopes);
   getMaxAge = vi.fn().mockReturnValue(0);
   getReloadTriggers = vi.fn().mockReturnValue([MyEvent]);
 }

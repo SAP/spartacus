@@ -79,7 +79,8 @@ describe('TokenRevocationInterceptor', () => {
       return req.method === 'GET';
     });
 
-    const authHeader: string | null = mockReq.request.headers.get('Authorization');
+    const authHeader: string | null =
+      mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeFalsy();
     expect(authHeader).toEqual(null);
     mockReq.flush('someData');
@@ -88,14 +89,15 @@ describe('TokenRevocationInterceptor', () => {
     expect(getResult).toBeTruthy();
   });
 
-  it(`Should add 'Authorization' header for revoke request`, async() => {
+  it(`Should add 'Authorization' header for revoke request`, async () => {
     const getResultAsync = firstValueFrom(http.get('/revoke'));
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
-    const authHeader: string | null = mockReq.request.headers.get('Authorization');
+    const authHeader: string | null =
+      mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeTruthy();
     expect(authHeader).toEqual(`Bearer acc_token`);
 
@@ -116,7 +118,8 @@ describe('TokenRevocationInterceptor', () => {
       return req.method === 'GET';
     });
 
-    const authHeader: string | null = mockReq.request.headers.get('Authorization');
+    const authHeader: string | null =
+      mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeFalsy();
     expect(authHeader).toEqual(null);
 

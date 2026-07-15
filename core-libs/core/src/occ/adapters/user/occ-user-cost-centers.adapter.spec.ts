@@ -19,7 +19,6 @@ import {
 } from '@angular/common/http';
 import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing';
 
-
 const costCenterCode = 'testCode';
 const userId = 'userId';
 const costCenter = {
@@ -28,10 +27,11 @@ const costCenter = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockImplementation(
-    (url, { costCenterCode }) =>
+  buildUrl = vi
+    .fn()
+    .mockImplementation((url, { costCenterCode }) =>
       url === 'costCenter' ? url + costCenterCode : url
-  );
+    );
 }
 
 describe('OccUserCostCenterAdapter', () => {

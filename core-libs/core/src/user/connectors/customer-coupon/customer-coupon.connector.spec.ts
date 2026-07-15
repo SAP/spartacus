@@ -19,12 +19,22 @@ describe('CustomerCouponConnector', () => {
 
   beforeEach(() => {
     adapter = {
-      getCustomerCoupons: vi.fn().mockImplementation((userId) => of(`loadList-${userId}`)),
-      turnOnNotification: vi.fn().mockImplementation((userId) => of(`subscribe-${userId}`)),
+      getCustomerCoupons: vi
+        .fn()
+        .mockImplementation((userId) => of(`loadList-${userId}`)),
+      turnOnNotification: vi
+        .fn()
+        .mockImplementation((userId) => of(`subscribe-${userId}`)),
       turnOffNotification: vi.fn().mockReturnValue(of({})),
-      claimCustomerCoupon: vi.fn().mockImplementation((userId) => of(`claim-${userId}`)),
-      claimCustomerCouponWithCodeInBody: vi.fn().mockImplementation((userId) => of(`claim-${userId}`)),
-      disclaimCustomerCoupon: vi.fn().mockImplementation((userId) => of(`disclaim-${userId}`)),
+      claimCustomerCoupon: vi
+        .fn()
+        .mockImplementation((userId) => of(`claim-${userId}`)),
+      claimCustomerCouponWithCodeInBody: vi
+        .fn()
+        .mockImplementation((userId) => of(`claim-${userId}`)),
+      disclaimCustomerCoupon: vi
+        .fn()
+        .mockImplementation((userId) => of(`disclaim-${userId}`)),
     };
     service = new CustomerCouponConnector(adapter as any);
   });

@@ -118,7 +118,10 @@ describe('AnonymousConsentsInterceptor', () => {
 
   describe('handleRequestMethod', () => {
     it('should return the provided request if the consents are falsy', () => {
-      vi.spyOn(anonymousConsentsService, 'serializeAndEncode').mockImplementation(vi.fn());
+      vi.spyOn(
+        anonymousConsentsService,
+        'serializeAndEncode'
+      ).mockImplementation(vi.fn());
 
       const request = new HttpRequest('GET', 'xxx');
       const result = interceptor[handleRequestMethod](null, request);
@@ -155,8 +158,14 @@ describe('AnonymousConsentsInterceptor', () => {
   describe(handleResponseMethod, () => {
     describe('when newRawConsents are falsy', () => {
       it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
-        vi.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation(vi.fn());
-        vi.spyOn<any, any>(interceptor, giveRequiredConsentsMethod).mockImplementation(vi.fn());
+        vi.spyOn(
+          anonymousConsentsService,
+          'decodeAndDeserialize'
+        ).mockImplementation(vi.fn());
+        vi.spyOn<any, any>(
+          interceptor,
+          giveRequiredConsentsMethod
+        ).mockImplementation(vi.fn());
 
         interceptor[handleResponseMethod](true, null, []);
 
@@ -170,8 +179,14 @@ describe('AnonymousConsentsInterceptor', () => {
     describe('when rawCosents are NOT falsy', () => {
       describe('and user is logged in', () => {
         it('should NOT call decodeAndDeserialize and giveRequiredConsents', () => {
-          vi.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation(vi.fn());
-          vi.spyOn<any, any>(interceptor, giveRequiredConsentsMethod).mockImplementation(vi.fn());
+          vi.spyOn(
+            anonymousConsentsService,
+            'decodeAndDeserialize'
+          ).mockImplementation(vi.fn());
+          vi.spyOn<any, any>(
+            interceptor,
+            giveRequiredConsentsMethod
+          ).mockImplementation(vi.fn());
 
           interceptor[handleResponseMethod](true, 'dummy headers', []);
 
@@ -186,10 +201,14 @@ describe('AnonymousConsentsInterceptor', () => {
       describe('and user is NOT logged in', () => {
         it('should call consentsUpdated', () => {
           const mockHeaderValue = 'dummy headers';
-          vi.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation(() => {});
-          vi.spyOn<any,any>(interceptor, giveRequiredConsentsMethod).mockReturnValue(
-            mockAnonymousConsents
-          );
+          vi.spyOn(
+            anonymousConsentsService,
+            'decodeAndDeserialize'
+          ).mockImplementation(() => {});
+          vi.spyOn<any, any>(
+            interceptor,
+            giveRequiredConsentsMethod
+          ).mockReturnValue(mockAnonymousConsents);
           vi.spyOn(anonymousConsentsService, 'consentsUpdated').mockReturnValue(
             false
           );
@@ -212,14 +231,20 @@ describe('AnonymousConsentsInterceptor', () => {
       describe('when the consentsUpdated returns true', () => {
         it('should call anonymousConsentsService.setConsents()', () => {
           const mockHeaderValue = 'dummy headers';
-          vi.spyOn(anonymousConsentsService, 'decodeAndDeserialize').mockImplementation(vi.fn());
-          vi.spyOn<any,any>(interceptor, giveRequiredConsentsMethod).mockReturnValue(
-            mockAnonymousConsents
-          );
+          vi.spyOn(
+            anonymousConsentsService,
+            'decodeAndDeserialize'
+          ).mockImplementation(vi.fn());
+          vi.spyOn<any, any>(
+            interceptor,
+            giveRequiredConsentsMethod
+          ).mockReturnValue(mockAnonymousConsents);
           vi.spyOn(anonymousConsentsService, 'consentsUpdated').mockReturnValue(
             true
           );
-          vi.spyOn(anonymousConsentsService, 'setConsents').mockImplementation(vi.fn());
+          vi.spyOn(anonymousConsentsService, 'setConsents').mockImplementation(
+            vi.fn()
+          );
 
           interceptor[handleResponseMethod](
             false,
@@ -317,7 +342,7 @@ describe('AnonymousConsentsInterceptor', () => {
           of(mockAnonymousConsents)
         );
         vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
-        vi.spyOn<any,any>(interceptor, handleRequestMethod);
+        vi.spyOn<any, any>(interceptor, handleRequestMethod);
 
         http.get('/xxx').subscribe();
 

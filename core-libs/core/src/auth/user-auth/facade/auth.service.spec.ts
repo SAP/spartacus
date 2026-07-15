@@ -149,7 +149,9 @@ describe('AuthService', () => {
     userIdService = TestBed.inject(UserIdService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    authMultisiteIsolationService = TestBed.inject(AuthMultisiteIsolationService);
+    authMultisiteIsolationService = TestBed.inject(
+      AuthMultisiteIsolationService
+    );
     featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
     authNotificationService = TestBed.inject(
@@ -178,7 +180,9 @@ describe('AuthService', () => {
         await service.checkOAuthParamsInUrl();
 
         expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-        expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+        expect(userIdService.setUserId).toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
         expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       });
 
@@ -189,7 +193,9 @@ describe('AuthService', () => {
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
       });
 
       it('when token is present and customer is not emulated in ASM mode', async () => {
@@ -200,7 +206,9 @@ describe('AuthService', () => {
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
       });
 
       describe('when the token is received', () => {
@@ -232,7 +240,9 @@ describe('AuthService', () => {
         });
 
         it('should NOT redirect', async () => {
-          vi.spyOn(authRedirectService, 'redirect').mockImplementation(() => {});
+          vi.spyOn(authRedirectService, 'redirect').mockImplementation(
+            () => {}
+          );
 
           await service.checkOAuthParamsInUrl();
 
@@ -261,7 +271,9 @@ describe('AuthService', () => {
 
         await service.checkOAuthParamsInUrl();
 
-        expect(userIdService.setUserId).not.toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
       });
 
       describe('when the token is received', () => {
@@ -278,7 +290,9 @@ describe('AuthService', () => {
           await service.checkOAuthParamsInUrl();
 
           expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-          expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
+          expect(userIdService.setUserId).toHaveBeenCalledWith(
+            OCC_USER_ID_CURRENT
+          );
           expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
         });
 
@@ -299,7 +313,9 @@ describe('AuthService', () => {
         });
 
         it('should NOT redirect', async () => {
-          vi.spyOn(authRedirectService, 'redirect').mockImplementation(() => {});
+          vi.spyOn(authRedirectService, 'redirect').mockImplementation(
+            () => {}
+          );
 
           await service.checkOAuthParamsInUrl();
 
@@ -338,7 +354,9 @@ describe('AuthService', () => {
 
       await service.loginWithCredentials('username', 'pass');
 
-      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith('username', 'pass');
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('username', 'pass');
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       expect(authRedirectService.redirect).toHaveBeenCalled();
@@ -357,7 +375,9 @@ describe('AuthService', () => {
 
       await service.otpLoginWithCredentials(tokenId, tokenCode);
 
-      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith(tokenId, tokenCode);
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith(tokenId, tokenCode);
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
       expect(authRedirectService.redirect).toHaveBeenCalled();
@@ -368,11 +388,15 @@ describe('AuthService', () => {
     it('should revoke tokens and logout', async () => {
       vi.useFakeTimers();
       vi.spyOn(userIdService, 'clearUserId');
-      vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout').mockImplementation(() => {
-        return new Promise<void>((resolve) => {
-          setTimeout(() => { resolve(); }, 100);
-        });
-      });
+      vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout').mockImplementation(
+        () => {
+          return new Promise<void>((resolve) => {
+            setTimeout(() => {
+              resolve();
+            }, 100);
+          });
+        }
+      );
       vi.spyOn(store, 'dispatch');
       vi.spyOn(authNotificationService, 'sendNotification');
 
@@ -401,11 +425,15 @@ describe('AuthService', () => {
 
       it('should send a logout notification to other tabs', async () => {
         vi.spyOn(userIdService, 'clearUserId');
-        vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout').mockImplementation(() => {
-          return new Promise<void>((resolve) => {
-            setTimeout(() => { resolve(); }, 100);
-          });
-        });
+        vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout').mockImplementation(
+          () => {
+            return new Promise<void>((resolve) => {
+              setTimeout(() => {
+                resolve();
+              }, 100);
+            });
+          }
+        );
         vi.spyOn(store, 'dispatch');
         vi.spyOn(authNotificationService, 'sendNotification');
 
@@ -458,7 +486,9 @@ describe('AuthService', () => {
       featureToggles.propagateLogoutToAllTabs = true;
 
       service = TestBed.inject(AuthService);
-      vi.spyOn(service, 'coreLogout').mockImplementation(() => Promise.resolve());
+      vi.spyOn(service, 'coreLogout').mockImplementation(() =>
+        Promise.resolve()
+      );
     });
 
     it('should call coreLogout when a logout event is received', () => {
@@ -530,7 +560,9 @@ describe('AuthService', () => {
       it('should call refreshAuthConfig method when asm mode enabled', () => {
         (service as any).isAsmEnabled = () => true;
         service.refreshAuthConfig();
-        expect(oAuthLibWrapperService.changeAuthConfigClientId).toHaveBeenCalled();
+        expect(
+          oAuthLibWrapperService.changeAuthConfigClientId
+        ).toHaveBeenCalled();
       });
     });
   });

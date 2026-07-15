@@ -113,7 +113,9 @@ describe('SiteThemeInitializer', () => {
   describe('initialize', () => {
     it('should call SiteThemePersistenceService initSync()', () => {
       vi.spyOn(siteThemeService, 'isInitialized').mockReturnValue(false);
-      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
+      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(
+        of(null)
+      );
       initializer.initialize();
       expect(siteThemePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();

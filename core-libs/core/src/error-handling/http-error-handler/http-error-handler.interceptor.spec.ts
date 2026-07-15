@@ -79,7 +79,9 @@ describe('HttpErrorHandlerInterceptor', () => {
 
       next.handle = () => throwError(() => error);
 
-      await expect(firstValueFrom(interceptor.intercept(request, next))).rejects.toEqual(error);
+      await expect(
+        firstValueFrom(interceptor.intercept(request, next))
+      ).rejects.toEqual(error);
       expect(errorHandler.handleError).toHaveBeenCalledWith(
         expect.any(OutboundHttpError)
       );
@@ -94,7 +96,9 @@ describe('HttpErrorHandlerInterceptor', () => {
 
       next.handle = () => throwError(() => error);
 
-      await expect(firstValueFrom(interceptor.intercept(request, next))).rejects.toEqual(error);
+      await expect(
+        firstValueFrom(interceptor.intercept(request, next))
+      ).rejects.toEqual(error);
       expect(errorHandler.handleError).toHaveBeenCalledWith(
         expect.any(CmsPageNotFoundOutboundHttpError)
       );
@@ -106,7 +110,9 @@ describe('HttpErrorHandlerInterceptor', () => {
 
       next.handle = () => throwError(() => new HttpErrorResponse({}));
 
-      await expect(firstValueFrom(interceptor.intercept(request, next))).rejects.toBeTruthy();
+      await expect(
+        firstValueFrom(interceptor.intercept(request, next))
+      ).rejects.toBeTruthy();
       expect(errorHandler.handleError).not.toHaveBeenCalled();
     });
 

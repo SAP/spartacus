@@ -144,7 +144,9 @@ describe('StatePersistenceService', () => {
     });
 
     it('should restore state on provided context emission', () => {
-      const getItemSpy = vi.spyOn(localStorageMock, 'getItem').mockReturnValue('5');
+      const getItemSpy = vi
+        .spyOn(localStorageMock, 'getItem')
+        .mockReturnValue('5');
 
       const state = new Subject<number>();
       const context = new Subject<string>();

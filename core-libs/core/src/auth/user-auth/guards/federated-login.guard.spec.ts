@@ -33,9 +33,9 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
 }
 
 class MockRouter implements Partial<Router> {
-  parseUrl = vi.fn().mockImplementation(
-    (url: string) => ({ root: url }) as unknown as UrlTree
-  );
+  parseUrl = vi
+    .fn()
+    .mockImplementation((url: string) => ({ root: url }) as unknown as UrlTree);
 }
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -141,9 +141,7 @@ describe('FederatedLoginGuard', () => {
           routerState = {
             url: '/login?ctx=',
           } as RouterStateSnapshot;
-          (semanticPathService.get as Mock).mockReturnValue(
-            '/not-found'
-          );
+          (semanticPathService.get as Mock).mockReturnValue('/not-found');
         });
 
         it('should redirect to the notFound route', async () => {
@@ -197,9 +195,7 @@ describe('FederatedLoginGuard', () => {
         });
 
         it('should continue with a valid route', async () => {
-          (authFlowRoutesService.isAuthFlow as Mock).mockReturnValue(
-            true
-          );
+          (authFlowRoutesService.isAuthFlow as Mock).mockReturnValue(true);
           const url = '/login';
 
           const guardResult = await firstValueFrom(
@@ -213,9 +209,7 @@ describe('FederatedLoginGuard', () => {
         });
 
         it('should redirect when on an invalid route', async () => {
-          (authFlowRoutesService.isAuthFlow as Mock).mockReturnValue(
-            false
-          );
+          (authFlowRoutesService.isAuthFlow as Mock).mockReturnValue(false);
           const url = '/login';
           const expectedRedirectURL = `${storefrontOrigin}${url}`;
 

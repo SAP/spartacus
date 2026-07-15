@@ -170,7 +170,10 @@ describe('CmsService', () => {
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
     async (service: CmsService) => {
-      const pageContext: PageContext = { id: 'test', type: PageType.CONTENT_PAGE };
+      const pageContext: PageContext = {
+        id: 'test',
+        type: PageType.CONTENT_PAGE,
+      };
       const pageWithSlot: Page = {
         pageId: 'test',
         slots: { Section1: mockContentSlot },

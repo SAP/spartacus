@@ -28,8 +28,7 @@ describe('StateEventService', () => {
         {
           provide: EventService,
           useValue: {
-            register: vi.fn()
-              .mockReturnValue(mockTearDown),
+            register: vi.fn().mockReturnValue(mockTearDown),
           },
         },
       ],
@@ -46,7 +45,8 @@ describe('StateEventService', () => {
           action: 'A',
           event: TestEvent,
         });
-        const registeredSource$ = vi.mocked(eventService.register).mock.calls[0][1];
+        const registeredSource$ = vi.mocked(eventService.register).mock
+          .calls[0][1];
         const results = [];
         registeredSource$.subscribe((e) => results.push(e));
 
@@ -71,7 +71,8 @@ describe('StateEventService', () => {
           factory: (action: ActionWithPayload) =>
             createFrom(TestEvent, { value: 100 + action.payload.value }),
         });
-        const registeredSource$ = vi.mocked(eventService.register).mock.calls[0][1];
+        const registeredSource$ = vi.mocked(eventService.register).mock
+          .calls[0][1];
         const results = [];
         registeredSource$.subscribe((e) => results.push(e));
 
@@ -94,7 +95,8 @@ describe('StateEventService', () => {
           action: ['A', 'B'],
           event: TestEvent,
         });
-        const registeredSource$ = vi.mocked(eventService.register).mock.calls[0][1];
+        const registeredSource$ = vi.mocked(eventService.register).mock
+          .calls[0][1];
         const results = [];
         registeredSource$.subscribe((e) => results.push(e));
 

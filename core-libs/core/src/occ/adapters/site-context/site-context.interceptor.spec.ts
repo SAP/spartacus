@@ -32,18 +32,24 @@ const mockSiteContextConfig: SiteContextConfig = {
 @Injectable()
 class MockLanguageService {
   isocode = new BehaviorSubject<string | null>(null);
-  getActive(): Observable<string | null> { return this.isocode; }
+  getActive(): Observable<string | null> {
+    return this.isocode;
+  }
 }
 
 @Injectable()
 class MockCurrencyService {
   isocode = new BehaviorSubject<string | null>(null);
-  getActive(): Observable<string | null> { return this.isocode; }
+  getActive(): Observable<string | null> {
+    return this.isocode;
+  }
 }
 
 @Injectable()
 class MockOccEndpointsService {
-  getBaseUrl() { return 'https://localhost:9002'; }
+  getBaseUrl() {
+    return 'https://localhost:9002';
+  }
 }
 
 describe('SiteContextInterceptor', () => {
@@ -65,9 +71,24 @@ describe('SiteContextInterceptor', () => {
         { provide: OccConfig, useValue: mockSiteContextConfig },
         {
           provide: HTTP_INTERCEPTORS,
-          useFactory: (lang: MockLanguageService, curr: MockCurrencyService, occ: MockOccEndpointsService, cfg: SiteContextConfig) =>
-            new SiteContextInterceptor(lang as any, curr as any, occ as any, cfg),
-          deps: [LanguageService, CurrencyService, OccEndpointsService, SiteContextConfig],
+          useFactory: (
+            lang: MockLanguageService,
+            curr: MockCurrencyService,
+            occ: MockOccEndpointsService,
+            cfg: SiteContextConfig
+          ) =>
+            new SiteContextInterceptor(
+              lang as any,
+              curr as any,
+              occ as any,
+              cfg
+            ),
+          deps: [
+            LanguageService,
+            CurrencyService,
+            OccEndpointsService,
+            SiteContextConfig,
+          ],
           multi: true,
         },
         provideHttpClient(withInterceptorsFromDi()),
@@ -77,8 +98,12 @@ describe('SiteContextInterceptor', () => {
 
     httpMock = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
-    currencyService = TestBed.inject(CurrencyService) as unknown as MockCurrencyService;
-    languageService = TestBed.inject(LanguageService) as unknown as MockLanguageService;
+    currencyService = TestBed.inject(
+      CurrencyService
+    ) as unknown as MockCurrencyService;
+    languageService = TestBed.inject(
+      LanguageService
+    ) as unknown as MockLanguageService;
   });
 
   afterEach(() => {
@@ -90,7 +115,9 @@ describe('SiteContextInterceptor', () => {
       expect(result).toBeTruthy();
     });
 
-    const mockReq: TestRequest = httpMock.expectOne((req) => req.method === 'GET');
+    const mockReq: TestRequest = httpMock.expectOne(
+      (req) => req.method === 'GET'
+    );
 
     expect(mockReq.request.params.get('lang')).toEqual(null);
     expect(mockReq.request.params.get('curr')).toEqual(null);
@@ -105,7 +132,9 @@ describe('SiteContextInterceptor', () => {
       expect(result).toBeTruthy();
     });
 
-    const mockReq: TestRequest = httpMock.expectOne((req) => req.method === 'GET');
+    const mockReq: TestRequest = httpMock.expectOne(
+      (req) => req.method === 'GET'
+    );
 
     expect(mockReq.request.params.get('lang')).toEqual(languageDe);
     expect(mockReq.request.params.get('curr')).toEqual(currencyJpy);

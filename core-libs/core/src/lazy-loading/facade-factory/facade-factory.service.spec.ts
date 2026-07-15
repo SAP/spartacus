@@ -1,8 +1,6 @@
 import { vi } from 'vitest';
 import { Injectable, NgModule } from '@angular/core';
-import {
-  TestBed,
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   BehaviorSubject,
   firstValueFrom,
@@ -172,7 +170,7 @@ describe('FacadeFactoryService', () => {
       });
       it('should call the method logic without subscribing', async () => {
         facade.testMethod2('test1');
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 0));
         expect(getLastValueSync(facade.testProperty2)).toEqual('test1');
       });
     });

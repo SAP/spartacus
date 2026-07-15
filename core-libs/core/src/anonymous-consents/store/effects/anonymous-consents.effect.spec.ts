@@ -232,9 +232,10 @@ describe('AnonymousConsentsEffects', () => {
       vi.spyOn(connector, 'loadAnonymousConsentTemplates').mockReturnValue(
         of(mockTemplateList)
       );
-      vi.spyOn(anonymousConsentService, 'detectUpdatedTemplates').mockReturnValue(
-        false
-      );
+      vi.spyOn(
+        anonymousConsentService,
+        'detectUpdatedTemplates'
+      ).mockReturnValue(false);
 
       const action =
         new AnonymousConsentsActions.LoadAnonymousConsentTemplates();

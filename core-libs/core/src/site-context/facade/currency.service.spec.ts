@@ -90,7 +90,9 @@ describe('CurrencyService', () => {
 
   it('should be able to get currencies and filter out inactive ones when showOnlyActiveCurrencies is enabled', async () => {
     featureToggles.showOnlyActiveCurrencies = true;
-    store.dispatch(new SiteContextActions.LoadCurrenciesSuccess(mockCurrencies));
+    store.dispatch(
+      new SiteContextActions.LoadCurrenciesSuccess(mockCurrencies)
+    );
     const results = await firstValueFrom(service.getAll());
     expect(results).toEqual(mockActiveCurrencies);
     expect(results.length).toBe(2);
@@ -99,7 +101,9 @@ describe('CurrencyService', () => {
 
   it('should return all currencies when showOnlyActiveCurrencies is disabled', async () => {
     featureToggles.showOnlyActiveCurrencies = false;
-    store.dispatch(new SiteContextActions.LoadCurrenciesSuccess(mockCurrencies));
+    store.dispatch(
+      new SiteContextActions.LoadCurrenciesSuccess(mockCurrencies)
+    );
     const results = await firstValueFrom(service.getAll());
     expect(results).toEqual(mockCurrencies);
     expect(results.length).toBe(3);

@@ -129,9 +129,9 @@ describe('I18nextInitializer', () => {
 
       initializer.initialize();
 
-      expect(
-        vi.mocked(i18next.init).mock.calls[0][0].resources
-      ).toEqual(undefined);
+      expect(vi.mocked(i18next.init).mock.calls[0][0].resources).toEqual(
+        undefined
+      );
     });
 
     it('should add `resources` right after i18next initialization', async () => {
@@ -148,7 +148,7 @@ describe('I18nextInitializer', () => {
       initializer.initialize();
 
       // wait for callback passed to i18next.init to be executed
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(i18next.addResourceBundle as Mock).toHaveBeenCalledWith(
         'en',
         'testChunk',
@@ -197,7 +197,7 @@ describe('I18nextInitializer', () => {
       mockActiveLanguage$.next('de');
 
       // i18next language is updated asynchronously, so we need to wait for it
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise((resolve) => setTimeout(resolve, 0));
       expect(i18next.language).toEqual('de');
     });
   });

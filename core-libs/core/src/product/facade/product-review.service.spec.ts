@@ -9,11 +9,11 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
 const mockReview: Review = { id: 'testId' };
-vi.mock('@ngrx/store', async(importOriginal) => {
+vi.mock('@ngrx/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@ngrx/store')>();
   return {
     ...actual,
-    select: vi.fn()
+    select: vi.fn(),
   };
 });
 
@@ -46,10 +46,12 @@ describe('ReviewService', () => {
   ));
 
   describe('getByProductCode(productCode)', () => {
-    it('should be able to get product reviews if reviews exist',async () => {
+    it('should be able to get product reviews if reviews exist', async () => {
       vi.mocked(select).mockReturnValue(() => of([mockReview]));
       let result: Review[];
-      const productByCode = await firstValueFrom(service.getByProductCode('testId'));
+      const productByCode = await firstValueFrom(
+        service.getByProductCode('testId')
+      );
       service.getByProductCode('testId').subscribe((reviews) => {
         result = reviews;
       });
@@ -77,4 +79,3 @@ describe('ReviewService', () => {
     });
   });
 });
-

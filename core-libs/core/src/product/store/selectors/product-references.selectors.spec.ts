@@ -67,7 +67,9 @@ describe('Product References selectors', () => {
   });
 
   it('getSelectedProductReferencesFactory should return empty array when there are no references', async () => {
-    store.dispatch(new ProductActions.LoadProductReferencesSuccess({ productCode, list }));
+    store.dispatch(
+      new ProductActions.LoadProductReferencesSuccess({ productCode, list })
+    );
 
     const result = await firstValueFrom(
       store.pipe(

@@ -139,7 +139,9 @@ describe('AuthConfigInitializer', () => {
       it('should escape URL-unsafe characters in the base-site', async () => {
         const unsafeBaseSite = 'a/b c';
         const expected = `${mockOrigin}/a%2Fb%20c`;
-        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(of(unsafeBaseSite));
+        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
+          of(unsafeBaseSite)
+        );
 
         const config = await service.configFactory();
 

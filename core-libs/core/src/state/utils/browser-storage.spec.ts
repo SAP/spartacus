@@ -40,21 +40,27 @@ describe('Browser storage utilities', () => {
   describe('getStorage', () => {
     describe('when no storage type is requested', () => {
       it(`should return winRef's default storage`, () => {
-        const spy = vi.spyOn(winRef, 'sessionStorage', 'get', 'get').mockImplementation(() => {});
+        const spy = vi
+          .spyOn(winRef, 'sessionStorage', 'get', 'get')
+          .mockImplementation(() => {});
         getStorage(undefined as any, winRef);
         expect(spy).toHaveBeenCalled();
       });
     });
     describe('when localStorage type is requested', () => {
       it(`should return winRef's local storage`, () => {
-        const spy = vi.spyOn(winRef, 'localStorage', 'get', 'get').mockImplementation(() => {});
+        const spy = vi
+          .spyOn(winRef, 'localStorage', 'get', 'get')
+          .mockImplementation(() => {});
         getStorage(StorageSyncType.LOCAL_STORAGE, winRef);
         expect(spy).toHaveBeenCalled();
       });
     });
     describe('when sessionStorage type is requested', () => {
       it(`should return winRef's default storage`, () => {
-        const spy = vi.spyOn(winRef, 'sessionStorage', 'get', 'get').mockImplementation(() => {});
+        const spy = vi
+          .spyOn(winRef, 'sessionStorage', 'get', 'get')
+          .mockImplementation(() => {});
         getStorage(StorageSyncType.SESSION_STORAGE, winRef);
         expect(spy).toHaveBeenCalled();
       });

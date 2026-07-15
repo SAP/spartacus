@@ -96,7 +96,9 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', async () => {
-      store.dispatch(new ProductActions.LoadProductSuccess({ code: 'testId' }, ''));
+      store.dispatch(
+        new ProductActions.LoadProductSuccess({ code: 'testId' }, '')
+      );
       const result = await firstValueFrom(service.isSuccess('testId'));
       expect(result).toBeTruthy();
     });

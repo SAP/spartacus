@@ -123,12 +123,14 @@ describe('GlobalMessage Effects', () => {
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       getTestScheduler().run(() => {
-        vi.spyOn(ObjectComparisonUtils, 'countOfDeepEqualObjects').mockReturnValue(
-          1
-        );
-        vi.spyOn(ObjectComparisonUtils, 'indexOfFirstOccurrence').mockReturnValue(
-          0
-        );
+        vi.spyOn(
+          ObjectComparisonUtils,
+          'countOfDeepEqualObjects'
+        ).mockReturnValue(1);
+        vi.spyOn(
+          ObjectComparisonUtils,
+          'indexOfFirstOccurrence'
+        ).mockReturnValue(0);
 
         const action = new GlobalMessageActions.AddMessage(message2);
 
@@ -147,12 +149,14 @@ describe('GlobalMessage Effects', () => {
 
     it('should remove message if already exist', () => {
       getTestScheduler().run(() => {
-        vi.spyOn(ObjectComparisonUtils, 'countOfDeepEqualObjects').mockReturnValue(
-          2
-        );
-        vi.spyOn(ObjectComparisonUtils, 'indexOfFirstOccurrence').mockReturnValue(
-          0
-        );
+        vi.spyOn(
+          ObjectComparisonUtils,
+          'countOfDeepEqualObjects'
+        ).mockReturnValue(2);
+        vi.spyOn(
+          ObjectComparisonUtils,
+          'indexOfFirstOccurrence'
+        ).mockReturnValue(0);
 
         const action = new GlobalMessageActions.AddMessage(message2);
         const completion = new GlobalMessageActions.RemoveMessage({

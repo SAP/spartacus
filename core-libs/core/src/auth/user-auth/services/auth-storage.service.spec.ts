@@ -63,9 +63,7 @@ describe('AuthStorageService', () => {
     it('should not remove anything if wrong key passed', async () => {
       service.removeItem('wrongKey');
 
-      const value = await firstValueFrom(service
-        .getToken()
-        .pipe(take(1)));
+      const value = await firstValueFrom(service.getToken().pipe(take(1)));
 
       expect(value).toEqual(authToken);
     });

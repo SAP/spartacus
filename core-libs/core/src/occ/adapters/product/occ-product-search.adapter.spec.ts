@@ -23,9 +23,7 @@ import {
 } from '@angular/common/http';
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockImplementation(
-    (url) => url
-  );
+  buildUrl = vi.fn().mockImplementation((url) => url);
 }
 
 const queryText = 'test';

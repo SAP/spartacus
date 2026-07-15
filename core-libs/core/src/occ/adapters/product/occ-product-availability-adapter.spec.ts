@@ -39,8 +39,7 @@ describe('OccProductAvailabilityAdapter', () => {
         {
           provide: OccEndpointsService,
           useValue: {
-            buildUrl: vi.fn()
-              .mockReturnValue(mockAvailabilityUrl),
+            buildUrl: vi.fn().mockReturnValue(mockAvailabilityUrl),
           },
         },
         provideHttpClient(withInterceptorsFromDi()),

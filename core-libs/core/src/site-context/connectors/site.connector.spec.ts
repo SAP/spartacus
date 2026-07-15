@@ -26,9 +26,11 @@ describe('SiteConnector', () => {
       loadCurrencies: vi.fn().mockReturnValue(of(mockCurrencies)),
       loadLanguages: vi.fn().mockReturnValue(of(mockLanguages)),
       loadCountries: vi.fn().mockReturnValue(of([])),
-      loadRegions: vi.fn().mockImplementation((countryCode: string) =>
-        of(`loadRegions-${countryCode}`)
-      ),
+      loadRegions: vi
+        .fn()
+        .mockImplementation((countryCode: string) =>
+          of(`loadRegions-${countryCode}`)
+        ),
       loadBaseSite: vi.fn().mockReturnValue(of(mockBaseSite)),
       loadBaseSites: vi.fn().mockReturnValue(of(mockBaseSites)),
       loadCities: vi.fn().mockReturnValue(of([])),

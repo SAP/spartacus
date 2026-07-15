@@ -13,7 +13,8 @@ describe('ErrorActionService', () => {
 
   beforeEach(() => {
     const errorHandlerSpyObj = {
-      handleError: vi.fn() };
+      handleError: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -25,9 +26,7 @@ describe('ErrorActionService', () => {
 
     errorActionService = TestBed.inject(ErrorActionService);
     windowRef = TestBed.inject(WindowRef);
-    errorHandlerSpy = TestBed.inject(
-      ErrorHandler
-    ) as ErrorHandler;
+    errorHandlerSpy = TestBed.inject(ErrorHandler) as ErrorHandler;
   });
 
   it('should be created', () => {

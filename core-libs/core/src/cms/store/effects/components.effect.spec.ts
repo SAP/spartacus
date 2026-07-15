@@ -182,9 +182,11 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext: pageContext2,
         });
-        const getListSpy = vi.spyOn(service, 'getList').mockImplementation((ids) =>
-          cold('---a', { a: [{ ...component, uid: ids[0] }] })
-        );
+        const getListSpy = vi
+          .spyOn(service, 'getList')
+          .mockImplementation((ids) =>
+            cold('---a', { a: [{ ...component, uid: ids[0] }] })
+          );
 
         actions$ = hot('-ab', { a: action1, b: action2 });
         const expected = cold('------ab', {

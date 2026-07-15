@@ -77,7 +77,9 @@ describe('AnonymousConsentsStatePersistenceService', () => {
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
 
     vi.spyOn(store, 'dispatch');
-    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {

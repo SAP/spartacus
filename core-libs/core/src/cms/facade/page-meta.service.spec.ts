@@ -191,7 +191,9 @@ describe('PageMetaService', () => {
       service = TestBed.inject(PageMetaService);
 
       cmsService = TestBed.inject(CmsService);
-      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(mockProductPage));
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
+        of(mockProductPage)
+      );
 
       resolver = TestBed.inject(PageWithAllResolvers);
       vi.spyOn(resolver, 'resolveTitle');
@@ -318,7 +320,9 @@ describe('PageMetaService', () => {
     });
 
     it('should resolve meta data for product page', async () => {
-      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(mockProductPage));
+      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
+        of(mockProductPage)
+      );
       const result = await firstValueFrom(service.getMeta());
 
       expect(result?.title).toEqual('page title');

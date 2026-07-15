@@ -15,7 +15,10 @@ describe('SiteThemePersistenceService', () => {
   beforeEach(() => {
     const statePersistenceSpy = { syncWithStorage: vi.fn() };
     const siteThemeSpy = {
-      getActive: vi.fn(), isInitialized: vi.fn(), setActive: vi.fn() };
+      getActive: vi.fn(),
+      isInitialized: vi.fn(),
+      setActive: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -30,9 +33,7 @@ describe('SiteThemePersistenceService', () => {
     statePersistenceService = TestBed.inject(
       StatePersistenceService
     ) as StatePersistenceService;
-    siteThemeService = TestBed.inject(
-      SiteThemeService
-    ) as SiteThemeService;
+    siteThemeService = TestBed.inject(SiteThemeService) as SiteThemeService;
   });
 
   it('should be created', () => {

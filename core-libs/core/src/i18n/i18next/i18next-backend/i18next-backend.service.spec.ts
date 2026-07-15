@@ -7,7 +7,8 @@ import { I18nextBackendService } from './i18next-backend.service';
 class TestBackendInitializer implements Partial<I18nextBackendInitializer> {
   hasMatch = () => true;
 
-  initialize = vi.fn()
+  initialize = vi
+    .fn()
     .mockReturnValue({ backend: { loadPath: 'testLoadPath' } } as InitOptions);
 }
 

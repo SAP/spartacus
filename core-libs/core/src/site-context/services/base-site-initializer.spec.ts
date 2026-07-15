@@ -62,7 +62,9 @@ describe('BaseSiteInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteContextRoutesHandler initOnce()', async () => {
-      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(of(null));
+      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(
+        of(null)
+      );
       await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();

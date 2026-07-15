@@ -90,7 +90,9 @@ describe('FeatureModulesService', () => {
 
   describe('resolveFeature', () => {
     it('should return feature module', async () => {
-      const moduleRef = await firstValueFrom(service.resolveFeature('feature1'));
+      const moduleRef = await firstValueFrom(
+        service.resolveFeature('feature1')
+      );
       expect(moduleRef).toBeTruthy();
       expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
     });
@@ -102,14 +104,18 @@ describe('FeatureModulesService', () => {
     });
 
     it('should resolve module dependencies', async () => {
-      const moduleRef = await firstValueFrom(service.resolveFeature('feature2'));
+      const moduleRef = await firstValueFrom(
+        service.resolveFeature('feature2')
+      );
       expect(moduleRef).toBeTruthy();
       const testProviderValue = moduleRef.injector.get(TEST_DEP_TOKEN);
       expect(testProviderValue).toBe('test-dependency-value');
     });
 
     it('should resolve feature dependencies', async () => {
-      const moduleRef = await firstValueFrom(service.resolveFeature('feature4'));
+      const moduleRef = await firstValueFrom(
+        service.resolveFeature('feature4')
+      );
       expect(moduleRef).toBeTruthy();
 
       const testProviderValue1 = moduleRef.injector.get(TEST_TOKEN);
@@ -117,7 +123,9 @@ describe('FeatureModulesService', () => {
     });
 
     it('should resolve transient feature dependencies', async () => {
-      const moduleRef = await firstValueFrom(service.resolveFeature('feature4'));
+      const moduleRef = await firstValueFrom(
+        service.resolveFeature('feature4')
+      );
       expect(moduleRef).toBeTruthy();
 
       const testProviderValue2 = moduleRef.injector.get(TEST_DEP_TOKEN);
@@ -125,7 +133,9 @@ describe('FeatureModulesService', () => {
     });
 
     it('should return feature module with alias mapping', async () => {
-      const moduleRef = await firstValueFrom(service.resolveFeature('feature5'));
+      const moduleRef = await firstValueFrom(
+        service.resolveFeature('feature5')
+      );
       expect(moduleRef).toBeTruthy();
       expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
     });

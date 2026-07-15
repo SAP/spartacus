@@ -63,9 +63,7 @@ describe('AnonymousConsentsService', () => {
           fromStoreReducers.getReducers()
         ),
       ],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService },
-      ],
+      providers: [{ provide: AuthService, useClass: MockAuthService }],
     });
 
     service = TestBed.inject(AnonymousConsentsService);
