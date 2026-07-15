@@ -1696,7 +1696,7 @@ describe('CpqConfiguratorNormalizer', () => {
       expect(values.length).toBe(0);
     });
 
-    it('should add a retract value for required drop-down ui types when no value is selected', () => {
+    it('should not add a retract value for required drop-down ui types', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
         stdAttrCode: 2,
@@ -1718,31 +1718,8 @@ describe('CpqConfiguratorNormalizer', () => {
           attribute,
           values
         );
-        expect(values.length).toBe(1);
-        expect(values[0].valueCode).toBe(Configurator.RetractValueCode);
-        expect(values[0].selected).toBe(true);
+        expect(values.length).toBe(0);
       });
-    });
-
-    it('should not add a retract value for required drop-down ui types when a value is selected', () => {
-      const sourceAttribute: Cpq.Attribute = {
-        pA_ID: 1,
-        stdAttrCode: 2,
-        required: true,
-        values: [{ paV_ID: 1, selected: true }],
-      };
-      const attribute: Configurator.Attribute = {
-        name: 'ATTRIBUTE_NAME',
-        required: true,
-        uiType: Configurator.UiType.DROPDOWN,
-      };
-      const values: Configurator.Value[] = [];
-      cpqConfiguratorNormalizer['addRetractValue'](
-        sourceAttribute,
-        attribute,
-        values
-      );
-      expect(values.length).toBe(0);
     });
 
     it('should not add a retract value for required RADIOBUTTON attributes', () => {
@@ -1816,6 +1793,141 @@ describe('CpqConfiguratorNormalizer', () => {
       };
       const values: Configurator.Value[] = [];
       cpqConfiguratorNormalizer['addRetractValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+  });
+
+  describe('addDocumentationValue', () => {
+    it('should add a documentation value for required drop-down ui types when no value is selected', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        required: true,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      [
+        Configurator.UiType.DROPDOWN,
+        Configurator.UiType.DROPDOWN_PRODUCT,
+      ].forEach((uiType) => {
+        const attribute: Configurator.Attribute = {
+          name: 'ATTRIBUTE_NAME',
+          required: true,
+          uiType,
+        };
+        const values: Configurator.Value[] = [];
+        cpqConfiguratorNormalizer['addDocumentationValue'](
+          sourceAttribute,
+          attribute,
+          values
+        );
+        expect(values.length).toBe(1);
+        expect(values[0].valueCode).toBe(Configurator.RetractValueCode);
+        expect(values[0].selected).toBe(true);
+      });
+    });
+
+    it('should not add a documentation value for required drop-down ui types when a value is selected', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        required: true,
+        values: [{ paV_ID: 1, selected: true }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: true,
+        uiType: Configurator.UiType.DROPDOWN,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addDocumentationValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+
+    it('should not add a documentation value for not required drop-down ui types', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        required: false,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: false,
+        uiType: Configurator.UiType.DROPDOWN,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addDocumentationValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+
+    it('should not add a documentation value for required RADIOBUTTON attributes', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        required: true,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: true,
+        uiType: Configurator.UiType.RADIOBUTTON,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addDocumentationValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+
+    it('should not add a documentation value for READ_ONLY attributes', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        required: true,
+        values: [{ paV_ID: 1, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: true,
+        uiType: Configurator.UiType.READ_ONLY,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addDocumentationValue'](
+        sourceAttribute,
+        attribute,
+        values
+      );
+      expect(values.length).toBe(0);
+    });
+
+    it('should not add a documentation value when a retract value (paV_ID 0) is already present', () => {
+      const sourceAttribute: Cpq.Attribute = {
+        pA_ID: 1,
+        stdAttrCode: 2,
+        required: true,
+        values: [{ paV_ID: 0, selected: false }],
+      };
+      const attribute: Configurator.Attribute = {
+        name: 'ATTRIBUTE_NAME',
+        required: true,
+        uiType: Configurator.UiType.DROPDOWN,
+      };
+      const values: Configurator.Value[] = [];
+      cpqConfiguratorNormalizer['addDocumentationValue'](
         sourceAttribute,
         attribute,
         values
