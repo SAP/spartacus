@@ -114,7 +114,8 @@ export function signOut() {
  */
 export function registerUser(
   giveRegistrationConsent: boolean = false,
-  sampleUser: SampleUser = user
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
 ) {
   cy.whenJDK17(() => {
     cy.getLoginRegisterLink({ clickAndWait: true });
@@ -129,15 +130,18 @@ export function registerUser(
     cy.wait(`@${registerPage}`);
   });
 
-  register(sampleUser, giveRegistrationConsent);
+  register(sampleUser, giveRegistrationConsent, undefined, waitForCsrFallback);
 
   cy.get('cx-breadcrumb').contains('Login');
   return sampleUser;
 }
 
-export function signInUser(sampleUser: SampleUser = user) {
+export function signInUser(
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
+) {
   cy.getLoginRegisterLink({ clickAndWait: true });
-  login(sampleUser.email, sampleUser.password);
+  login(sampleUser.email, sampleUser.password, waitForCsrFallback);
 }
 
 export function signOutUser() {
@@ -176,13 +180,16 @@ export function addProductToCart() {
  * - wait for successful /token response
  * @param sampleUser
  */
-export function loginUser(sampleUser: SampleUser = user) {
+export function loginUser(
+  sampleUser: SampleUser = user,
+  waitForCsrFallback = false
+) {
   const succsesfulLogin = interceptPost(
     'succsesfulLogin',
     '/authorizationserver/oauth/token',
     false
   );
-  login(sampleUser.email, sampleUser.password);
+  login(sampleUser.email, sampleUser.password, waitForCsrFallback);
   cy.wait(succsesfulLogin).its('response.statusCode').should('eq', 200);
 }
 
@@ -342,7 +349,8 @@ export function clickCheapProductDetailsFromHomePage(
 
 export function addCheapProductToCartAndLogin(
   sampleUser: SampleUser = user,
-  sampleProduct: SampleProduct = cheapProduct
+  sampleProduct: SampleProduct = cheapProduct,
+  waitForCsrFallback = false
 ) {
   addCheapProductToCart(sampleProduct);
 
@@ -359,7 +367,7 @@ export function addCheapProductToCartAndLogin(
     '/checkout/delivery-address',
     'getDeliveryPage'
   );
-  loginUser(sampleUser);
+  loginUser(sampleUser, waitForCsrFallback);
   // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
   cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
@@ -677,7 +685,10 @@ export function viewOrderHistoryWithCheapProduct() {
     .should('not.be.empty');
 }
 
-export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
+export function addFirstResultToCartFromSearchAndLogin(
+  sampleUser: SampleUser,
+  waitForCsrFallback = false
+) {
   addToCart();
   cy.whenJDK17(() => {
     const loginPage = waitForPage('/login', 'getLoginPage');
@@ -691,13 +702,16 @@ export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
     '/checkout/delivery-address',
     'getDeliveryAddressPage'
   );
-  loginUser(sampleUser);
+  loginUser(sampleUser, waitForCsrFallback);
   cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
 
-export function checkoutFirstDisplayedProduct(user: SampleUser) {
+export function checkoutFirstDisplayedProduct(
+  user: SampleUser,
+  waitForCsrFallback = false
+) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -712,7 +726,7 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
     )}/users/current/carts?fields*`
   ).as('carts');
 
-  addFirstResultToCartFromSearchAndLogin(user);
+  addFirstResultToCartFromSearchAndLogin(user, waitForCsrFallback);
 
   cy.wait('@addToCart').its('response.statusCode').should('eq', 200);
   cy.wait('@carts').its('response.statusCode').should('eq', 201);
