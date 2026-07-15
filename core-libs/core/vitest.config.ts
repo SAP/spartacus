@@ -40,7 +40,12 @@ export default defineConfig({
     },
     reporters: [
       'default',
-      ['junit', { outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-core.xml` }],
+      [
+        'junit',
+        {
+          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-core.xml`,
+        },
+      ],
     ],
   },
 });
