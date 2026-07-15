@@ -56,12 +56,6 @@ export interface FeatureTogglesInterface {
   productListItemSummaryReadMore?: boolean;
 
   /**
-   * Introduces characters left for product review form elements.
-   * Affects: ProductReviewsComponent
-   */
-  productReviewCharactersLeft?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -575,7 +569,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
   productListItemSummaryReadMore: false,
-  productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
   cdsLoginEventsToken: true,
   authorizationCodeFlowByDefault: true,
