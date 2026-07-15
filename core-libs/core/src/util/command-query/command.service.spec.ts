@@ -14,9 +14,7 @@ import {
 import { Command, CommandService, CommandStrategy } from './command.service';
 
 /** Utility function to create a full observer filled with spies */
-function createObserverSpy<T>(
-  _name: string
-): PartialObserver<T> {
+function createObserverSpy<T>(_name: string): PartialObserver<T> {
   const mockObserver = {
     next: vi.fn(),
     error: vi.fn(),
@@ -73,9 +71,7 @@ describe('CommandService', () => {
     let faultyCommandFactory: Mock<
       (cmd: Observable<string>) => Observable<string>
     >;
-    let commandFactory: Mock<
-      (cmd: Observable<string>) => Observable<string>
-    >;
+    let commandFactory: Mock<(cmd: Observable<string>) => Observable<string>>;
 
     beforeEach(() => {
       commandFactory = vi.fn((cmd) => cmd);
@@ -84,13 +80,12 @@ describe('CommandService', () => {
       mockRuntimeError = new Error('mock runtime error');
       mockRuntimeError.stack = undefined; // stack trace not relevant on a static error value
       faultyCommandFactory = vi.fn((cmd) => {
-          if (faultyCommandFactoryControl.shouldThrowError) {
-            throw mockRuntimeError;
-          } else {
-            return cmd;
-          }
+        if (faultyCommandFactoryControl.shouldThrowError) {
+          throw mockRuntimeError;
+        } else {
+          return cmd;
         }
-      );
+      });
       faultyCommandFactory;
     });
 

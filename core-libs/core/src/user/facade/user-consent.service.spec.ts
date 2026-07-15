@@ -98,8 +98,12 @@ describe('UserConsentService', () => {
       describe('when the loadIfMissing parameter is set to true', () => {
         it('should call loadConsents()', () => {
           vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
-          vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(of(false));
-          vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(of(false));
+          vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
+            of(false)
+          );
+          vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
+            of(false)
+          );
 
           service.getConsents(true).subscribe().unsubscribe();
 
@@ -241,8 +245,12 @@ describe('UserConsentService', () => {
           vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
 
           vi.spyOn(service, 'loadConsents').mockImplementation(() => {});
-          vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(of(false));
-          vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(of(false));
+          vi.spyOn(service, 'getConsentsResultLoading').mockReturnValue(
+            of(false)
+          );
+          vi.spyOn(service, 'getConsentsResultSuccess').mockReturnValue(
+            of(false)
+          );
 
           let result: Consent;
           const subscription = service

@@ -15,8 +15,7 @@ describe('getLastValueSync', () => {
     const b = a.pipe(map((x) => (x += 'b')));
     const c = a.pipe(map((x) => (x += 'c')));
 
-    const unitedPreviousValues$ = uniteLatest([a, b, c])
-    .pipe(
+    const unitedPreviousValues$ = uniteLatest([a, b, c]).pipe(
       take(3),
       reduce((acc, curr) => [...acc, curr], [])
     );

@@ -30,9 +30,7 @@ const mockAddressVerificationResult: AddressValidation = {
 };
 
 class MockUserAddressConnector implements Partial<UserAddressConnector> {
-  verify = vi.fn().mockReturnValue(
-    of(mockAddressVerificationResult)
-  );
+  verify = vi.fn().mockReturnValue(of(mockAddressVerificationResult));
 }
 
 const mockAddress: Address = {
