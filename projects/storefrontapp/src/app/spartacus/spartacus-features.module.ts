@@ -311,7 +311,6 @@ if (environment.cpq) {
         productListItemSummaryReadMore: true,
         a11yFutureStockAccordionAriaControls: true,
         cdsLoginEventsToken: true,
-        lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
         navigationMenuCloseOnSameLinkClick: true,
