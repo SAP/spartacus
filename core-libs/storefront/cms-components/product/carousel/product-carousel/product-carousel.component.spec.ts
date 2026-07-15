@@ -31,10 +31,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-carousel',
@@ -247,12 +243,7 @@ describe('ProductCarouselComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, ProductCarouselComponent],
-      providers: [
-        ...mockProviders,
-        provideMockFeatureToggles({
-          productCarouselScrolling: true,
-        }),
-      ],
+      providers: [...mockProviders],
     })
       .overrideComponent(ProductCarouselComponent, {
         remove: {
@@ -261,7 +252,6 @@ describe('ProductCarouselComponent', () => {
             CxDatePipe,
             UrlPipe,
             MediaComponent,
-            CarouselComponent,
             CarouselScrollingComponent,
             ProductCarouselItemComponent,
           ],
@@ -269,7 +259,6 @@ describe('ProductCarouselComponent', () => {
         add: {
           imports: [
             MockProductCarouselItemComponent,
-            MockCarouselComponent,
             MockCarouselScrollingComponent,
             MockMediaComponent,
             MockUrlPipe,
@@ -282,8 +271,6 @@ describe('ProductCarouselComponent', () => {
   }));
 
   beforeEach(() => {
-    const toggles = TestBed.inject(MockFeatureTogglesController);
-    toggles.reset({ productCarouselScrolling: true });
     fixture = TestBed.createComponent(ProductCarouselComponent);
     component = fixture.componentInstance;
     productSearchByCodeService = TestBed.inject(
@@ -299,30 +286,12 @@ describe('ProductCarouselComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  describe('when feature toggle "productCarouselScrolling" is enabled', () => {
-    beforeEach(() => {
-      const toggles = TestBed.inject(MockFeatureTogglesController);
-      toggles.set('productCarouselScrolling', true);
-    });
-
-    it('should render cx-carousel-scrolling component', () => {
-      fixture.detectChanges();
-      const carouselScrollingComponent = fixture.debugElement.query(
-        By.css('cx-carousel-scrolling')
-      );
-      expect(carouselScrollingComponent).toBeTruthy();
-    });
-  });
-  describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-    it('should render cx-carousel component', () => {
-      const toggles = TestBed.inject(MockFeatureTogglesController);
-      toggles.set('productCarouselScrolling', false);
-      fixture.detectChanges();
-      const carouselComponent = fixture.debugElement.query(
-        By.css('cx-carousel')
-      );
-      expect(carouselComponent).toBeTruthy();
-    });
+  it('should render cx-carousel-scrolling component', () => {
+    fixture.detectChanges();
+    const carouselScrollingComponent = fixture.debugElement.query(
+      By.css('cx-carousel-scrolling')
+    );
+    expect(carouselScrollingComponent).toBeTruthy();
   });
 
   it('should have product code 111 in first product', waitForAsync(() => {

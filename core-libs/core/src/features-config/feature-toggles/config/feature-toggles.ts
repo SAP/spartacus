@@ -50,22 +50,10 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Introduces read more directive for presenting elements with long text.
-   * Affects: ProductReviewsComponent
-   */
-  readMoreDirective?: boolean;
-
-  /**
    * Introduces the read more directive in product list item summary
    * Affects: ProductListItemComponent
    */
   productListItemSummaryReadMore?: boolean;
-
-  /**
-   * Introduces characters left for product review form elements.
-   * Affects: ProductReviewsComponent
-   */
-  productReviewCharactersLeft?: boolean;
 
   /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
@@ -125,31 +113,6 @@ export interface FeatureTogglesInterface {
   cdsBottomHeaderSlotAdjustPosition?: boolean;
 
   /**
-   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
-   * in the following components instead of the old `<cx-carousel>`:
-   * - `ProductCarouselComponent`
-   * - `ProductReferencesComponent`
-   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
-   *
-   * The previous carousel had number of issues:
-   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
-   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
-   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
-   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
-   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
-   * - Was not swipe-friendly on mobile devices
-   *
-   * The new carousel:
-   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
-   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
-   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
-   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
-   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
-   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
-   */
-  productCarouselScrolling?: boolean;
-
-  /**
    * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
    *
    * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
@@ -182,62 +145,6 @@ export interface FeatureTogglesInterface {
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
 
   /**
-   * Feature flag to enable consistent header slot structure across breakpoints to reduce
-   * layout shift and improve Cumulative Layout Shift (CLS) scores.
-   *
-   * On desktop devices (non-mobile), some header and navigation elements were rendered
-   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
-   * affected the user experience and CLS performance.
-   *
-   * When enabled:
-   * - Desktop uses the same header slot structure as mobile.
-   * - Reduces layout shift and improves perceived performance and visual stability.
-   *
-   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
-   * with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
-
-  /**
-   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
-   *
-   * When enabled, it ensures that appropriate space is reserved for images before they load,
-   * maintaining layout stability across the following contexts:
-   *
-   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
-   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
-   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
-   *
-   * This helps improve Core Web Vitals by preventing layout shifts as images load.
-   */
-  reserveSpaceForImagesOnPdpAndPlp?: boolean;
-
-  /**
-   * Feature flag to control the default image loading strategy.
-   *
-   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
-   * due to the fallback logic in the `MediaService`, which defaults to
-   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
-   *
-   * This flag, when enabled, changes the default image loading behavior to use
-   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
-   * immediately, reducing unnecessary network usage and improving performance.
-   *
-   * Lazy loading frees up bandwidth to prioritize more important assets,
-   * such as the largest content element on the page, which can positively
-   * impact the LCP (Largest Contentful Paint) metric.
-   *
-   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
-   * by specifying CMS component IDs via the Spartacus config:
-   * `provideConfig({ lcpCmsComponents: ... })`
-   * ... or by passing the special input directly to the `MediaComponent`:
-   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
-   *
-   * Set to `true` to enable lazy loading by default.
-   */
-  lazyLoadImagesByDefault?: boolean;
-
-  /**
    * Feature flag to enable incrementing the processes count for the merge cart action.
    *
    * When enabled, the processes count will be incremented for the merge cart action.
@@ -258,24 +165,6 @@ export interface FeatureTogglesInterface {
    * Affects: `AuthService`
    */
   dispatchLoginActionOnlyWhenTokenReceived?: boolean;
-
-  /**
-   * Previously the default Spartacus layout config contained the property `pageFold`
-   * for the following layouts:
-   * - `LandingPage2Template`
-   * - `CategoryPageTemplate`
-   * - `ProductDetailsPageTemplate`
-   *
-   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
-   *
-   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
-   * caused the CMS components to be rendered only after a small delay even in SSR pages,
-   * which caused a layout shift.
-   *
-   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
-   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
-   */
-  defaultLayoutConfigWithoutPageFold?: boolean;
 
   /**
    * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
@@ -679,20 +568,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAddPaddingToCarouselPanel: true,
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
-  readMoreDirective: true,
   productListItemSummaryReadMore: false,
-  productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  productCarouselScrolling: true,
   cdsLoginEventsToken: true,
-  unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
-  reserveSpaceForImagesOnPdpAndPlp: true,
-  lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: true,
-  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: true,
   enablePasswordExpiredErrorTranslation: true,
   enableQuotePurchaseOrderNumber: true,

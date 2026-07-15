@@ -1,9 +1,6 @@
 %cx-product-references {
   padding-bottom: 50px;
-
-  @include forFeature('productCarouselScrolling') {
-    max-width: 100%;
-  }
+  max-width: 100%;
 
   a {
     display: flex;
@@ -22,11 +19,7 @@
 
   cx-media {
     align-self: center;
-    width: 60%;
-
-    @include forFeature('productCarouselScrolling') {
-      width: 300px;
-    }
+    width: 300px;
 
     &.is-missing {
       min-height: 200px;
