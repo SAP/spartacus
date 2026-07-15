@@ -48,7 +48,7 @@ export class VisualPickingProductListComponent implements OnInit {
   @Input() title: string;
   @Input() singleSelection = true;
 
-  @Input('selectedProductCodes')
+  @Input()
   set selectedProductCodes(selectedProductCodes: string[]) {
     this.visualPickingProductListService.selectedProductCodes =
       selectedProductCodes;

@@ -137,7 +137,6 @@ describe('ProductImagesComponent', () => {
           useClass: MockCurrentProductService,
         },
         provideMockFeatureToggles({
-          reserveSpaceForImagesOnPdpAndPlp: true,
           productCarouselScrolling: true,
         }),
       ],

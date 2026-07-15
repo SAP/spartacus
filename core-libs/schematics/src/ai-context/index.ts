@@ -15,6 +15,11 @@ const SUPPORTED_TOOLS: readonly AiTool[] = ['claude', 'agents'];
 const SKILLS_PACKAGE = '@spartacus/skills';
 const SKILL_DIR = 'spartacus-developer';
 
+const SKILL_DEST: Record<AiTool, string> = {
+  claude: `.claude/skills/${SKILL_DIR}`,
+  agents: `.agents/skills/${SKILL_DIR}`,
+};
+
 interface SkillFile {
   relativePath: string;
   content: string;
@@ -57,13 +62,10 @@ export function addAiContextSchematic(options: Schema): Rule {
     }
 
     const files = collectFiles(skillsRoot);
-
     for (const target of targets) {
-      if (target === 'claude') {
-        writeSkillTree(tree, files, `.claude/skills/${SKILL_DIR}`);
-      } else if (target === 'agents') {
-        writeSkillTree(tree, files, `.agents/skills/${SKILL_DIR}`);
-      }
+      copySkill(tree, files, target, {
+        deleteBeforeCopy: options.deleteBeforeCopy,
+      });
     }
 
     if (options.debug) {
@@ -126,6 +128,23 @@ function walk(root: string, rel: string, out: SkillFile[]): void {
   }
 }
 
+function copySkill(
+  tree: Tree,
+  files: SkillFile[],
+  target: AiTool,
+  options?: { deleteBeforeCopy?: boolean }
+): void {
+  const dest = SKILL_DEST[target];
+  if (options?.deleteBeforeCopy) {
+    deleteSkillDir(tree, dest);
+  }
+  writeSkillTree(tree, files, dest);
+}
+
+function deleteSkillDir(tree: Tree, destBase: string): void {
+  tree.getDir(destBase).visit((filePath) => tree.delete(filePath));
+}
+
 function writeSkillTree(
   tree: Tree,
   files: SkillFile[],
@@ -142,7 +161,9 @@ function writeSkillTree(
 }
 
 function normalize(input: Schema['aiTools']): AiTool[] {
-  if (!input || input.length === 0) return [];
+  if (!input || input.length === 0) {
+    return [];
+  }
   const seen = new Set<AiTool>();
   for (const value of input) {
     if (SUPPORTED_TOOLS.includes(value)) {
