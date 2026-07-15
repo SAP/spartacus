@@ -11,9 +11,8 @@ import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   catchError,
   filter,
@@ -98,20 +97,23 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.READ_CONFIGURATION),
 
       mergeMap((action: ConfiguratorActions.ReadConfiguration) => {
-        return this.readConfiguration(
-          action.payload.configuration,
-          action.payload.groupId
-        ).pipe(
-          switchMap((configuration: Configurator.Configuration) => [
-            new ConfiguratorActions.ReadConfigurationSuccess(configuration),
-          ]),
-          catchError((error) => [
-            new ConfiguratorActions.ReadConfigurationFail({
-              ownerKey: action.payload.configuration.owner.key,
-              error: tryNormalizeHttpError(error, this.logger),
-            }),
-          ])
-        );
+        return this.configuratorCommonsConnector
+          .readConfiguration(
+            action.payload.configuration.configId,
+            action.payload.groupId,
+            action.payload.configuration.owner
+          )
+          .pipe(
+            switchMap((configuration: Configurator.Configuration) => [
+              new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+            ]),
+            catchError((error) => [
+              new ConfiguratorActions.ReadConfigurationFail({
+                ownerKey: action.payload.configuration.owner.key,
+                error: tryNormalizeHttpError(error, this.logger),
+              }),
+            ])
+          );
       })
     )
   );
@@ -304,7 +306,7 @@ export class ConfiguratorBasicEffects {
           return this.store.pipe(
             select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
             take(1),
-            filter((hasPendingChanges) => !hasPendingChanges),
+            filter((hasPendingChanges) => hasPendingChanges === false),
             switchMap(() =>
               this.store.pipe(
                 select(
@@ -312,14 +314,8 @@ export class ConfiguratorBasicEffects {
                 ),
                 take(1),
                 map((currentGroupId) => {
-                  const applicableCurrentGroupId =
-                    currentGroupId &&
-                    !currentGroupId.startsWith(Configurator.ConflictIdPrefix)
-                      ? currentGroupId
-                      : undefined;
-
+                  // Group ids of conflict groups (Configurator.GroupType.CONFLICT_GROUP) always start with 'CONFLICT'
                   const groupIdFromPayload =
-                    applicableCurrentGroupId ??
                     this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                       payload,
                       payload.interactionState.isConflictResolutionMode
@@ -330,11 +326,11 @@ export class ConfiguratorBasicEffects {
                       this.configuratorGroupUtilsService.getGroupById(
                         payload.groups,
                         groupIdFromPayload
-                      )
+                      ),
+                      undefined
                     );
-
                   return {
-                    applicableCurrentGroupId,
+                    currentGroupId,
                     groupIdFromPayload,
                     parentGroupFromPayload,
                   };
@@ -355,7 +351,7 @@ export class ConfiguratorBasicEffects {
                     });
                   const searchVariantsAction =
                     new ConfiguratorActions.SearchVariants(payload);
-                  return container.applicableCurrentGroupId ===
+                  return container.currentGroupId ===
                     container.groupIdFromPayload
                     ? [
                         updateFinalizeSuccessAction,
@@ -396,7 +392,7 @@ export class ConfiguratorBasicEffects {
               )
             ),
             take(1),
-            filter((hasPendingChanges) => !hasPendingChanges),
+            filter((hasPendingChanges) => hasPendingChanges === false),
             map(
               () =>
                 new ConfiguratorActions.UpdateConfigurationFinalizeFail(
@@ -446,40 +442,43 @@ export class ConfiguratorBasicEffects {
             )
           ),
           take(1),
-          filter((hasPendingChanges) => !hasPendingChanges),
+          filter((hasPendingChanges) => hasPendingChanges === false),
           switchMap(() => {
-            return this.readConfiguration(
-              action.payload.configuration,
-              action.payload.groupId
-            ).pipe(
-              switchMap((configuration: Configurator.Configuration) => {
-                return [
-                  new ConfiguratorActions.SetCurrentGroup({
-                    entityKey: action.payload.configuration.owner.key,
-                    currentGroup: action.payload.groupId,
-                  }),
-                  new ConfiguratorActions.SetMenuParentGroup({
-                    entityKey: action.payload.configuration.owner.key,
-                    menuParentGroup: action.payload.parentGroupId,
-                  }),
-                  new ConfiguratorActions.ReadConfigurationSuccess(
-                    configuration
-                  ),
-                  new ConfiguratorActions.UpdatePriceSummary({
-                    ...configuration,
-                    interactionState: {
+            return this.configuratorCommonsConnector
+              .readConfiguration(
+                action.payload.configuration.configId,
+                action.payload.groupId,
+                action.payload.configuration.owner
+              )
+              .pipe(
+                switchMap((configuration: Configurator.Configuration) => {
+                  return [
+                    new ConfiguratorActions.SetCurrentGroup({
+                      entityKey: action.payload.configuration.owner.key,
                       currentGroup: action.payload.groupId,
-                    },
-                  }),
-                ];
-              }),
-              catchError((error) => [
-                new ConfiguratorActions.ReadConfigurationFail({
-                  ownerKey: action.payload.configuration.owner.key,
-                  error: tryNormalizeHttpError(error, this.logger),
+                    }),
+                    new ConfiguratorActions.SetMenuParentGroup({
+                      entityKey: action.payload.configuration.owner.key,
+                      menuParentGroup: action.payload.parentGroupId,
+                    }),
+                    new ConfiguratorActions.ReadConfigurationSuccess(
+                      configuration
+                    ),
+                    new ConfiguratorActions.UpdatePriceSummary({
+                      ...configuration,
+                      interactionState: {
+                        currentGroup: action.payload.groupId,
+                      },
+                    }),
+                  ];
                 }),
-              ])
-            );
+                catchError((error) => [
+                  new ConfiguratorActions.ReadConfigurationFail({
+                    ownerKey: action.payload.configuration.owner.key,
+                    error: tryNormalizeHttpError(error, this.logger),
+                  }),
+                ])
+              );
           })
         );
       })
@@ -512,46 +511,6 @@ export class ConfiguratorBasicEffects {
         })
       )
     );
-
-  /**
-   * Reads a configuration for the given group (tab). For configurator types
-   * that load tabs lazily (currently CPQ), an already loaded tab is served
-   * from the store instead of triggering another backend read. All other types
-   * always read from the backend.
-   *
-   * @param configuration - configuration carrying the config ID and owner
-   * @param groupId - requested group (tab) ID
-   * @returns configuration for the requested group
-   */
-  protected readConfiguration(
-    configuration: Configurator.Configuration,
-    groupId: string
-  ): Observable<Configurator.Configuration> {
-    const owner = configuration.owner;
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-      take(1),
-      switchMap((configurationInStore) => {
-        const configurationFromStore =
-          owner.configuratorType === ConfiguratorType.CPQ
-            ? this.configuratorBasicEffectService.getConfigurationIfTabAlreadyLoaded(
-                configurationInStore,
-                configuration.configId,
-                groupId,
-                owner
-              )
-            : undefined;
-
-        return configurationFromStore
-          ? of(configurationFromStore)
-          : this.configuratorCommonsConnector.readConfiguration(
-              configuration.configId,
-              groupId,
-              owner
-            );
-      })
-    );
-  }
 
   constructor(
     protected actions$: Actions,
