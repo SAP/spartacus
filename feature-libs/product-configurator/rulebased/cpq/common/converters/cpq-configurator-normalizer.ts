@@ -203,29 +203,47 @@ export class CpqConfiguratorNormalizer
 
   /**
    * Determines whether a retract value needs to be added for the given attribute.
-   * A retract value is added when either:
-   * 1. the attribute is not required and is of a single selection ui type
-   *    (`RADIOBUTTON`, `DROPDOWN`, `DROPDOWN_PRODUCT` or `RADIOBUTTON_PRODUCT`), or
-   * 2. the attribute is required, is of a drop-down ui type
-   *    (`DROPDOWN` or `DROPDOWN_PRODUCT`) and no value is selected.
+   * A retract value is added when the attribute is not required and is of a single
+   * selection ui type (`RADIOBUTTON`, `DROPDOWN`, `DROPDOWN_PRODUCT` or
+   * `RADIOBUTTON_PRODUCT`). It allows the user to deselect a previously selected value.
    *
-   * @param sourceAttribute - source CPQ attribute
    * @param attribute - converted attribute
    * @returns `true` - if a retract value needs to be added
    */
-  protected isRetractValueNeeded(
+  protected isRetractValueNeeded(attribute: Configurator.Attribute): boolean {
+    return !attribute.required && this.isSingleSelectionUiType(attribute);
+  }
+
+  /**
+   * Determines whether a documentation value needs to be added for a required
+   * drop-down list. This is the case when the attribute is required, is of a
+   * drop-down ui type (`DROPDOWN` or `DROPDOWN_PRODUCT`) and no value is selected.
+   * It documents in the UI that a value still needs to be picked, without acting
+   * as a retract value.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @returns `true` - if a documentation value needs to be added
+   */
+  protected isRequiredDropDownDocumentationValueNeeded(
     sourceAttribute: Cpq.Attribute,
     attribute: Configurator.Attribute
   ): boolean {
-    if (attribute.required) {
-      return (
-        this.isDropDownUiType(attribute) &&
-        this.isNoValueSelected(sourceAttribute)
-      );
-    }
-    return this.isSingleSelectionUiType(attribute);
+    return (
+      (attribute.required ?? false) &&
+      this.isDropDownUiType(attribute) &&
+      this.isNoValueSelected(sourceAttribute)
+    );
   }
 
+  /**
+   * Adds a retract value for a not required single selection attribute, so that the
+   * user can deselect a previously selected value.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @param values - list of converted values the retract value is added to
+   */
   protected addRetractValue(
     sourceAttribute: Cpq.Attribute,
     attribute: Configurator.Attribute,
@@ -234,15 +252,57 @@ export class CpqConfiguratorNormalizer
     if (
       !this.isUITypeReadOnly(attribute) &&
       !this.hasRetractValue(sourceAttribute) &&
-      this.isRetractValueNeeded(sourceAttribute, attribute)
+      this.isRetractValueNeeded(attribute)
     ) {
-      const value: Configurator.Value = {
-        valueCode: Configurator.RetractValueCode,
-        selected: this.isNoValueSelected(sourceAttribute),
-      };
-      this.setRetractValueDisplay(attribute, value);
-      values.push(value);
+      this.addGenericValue(sourceAttribute, attribute, values);
     }
+  }
+
+  /**
+   * Adds a documentation value for a required drop-down list when no value is
+   * selected. Although it looks the same in the UI as a retract value, it only
+   * documents that a value still needs to be picked.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @param values - list of converted values the documentation value is added to
+   */
+  protected addDocumentationValue(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    if (
+      !this.isUITypeReadOnly(attribute) &&
+      !this.hasRetractValue(sourceAttribute) &&
+      this.isRequiredDropDownDocumentationValueNeeded(
+        sourceAttribute,
+        attribute
+      )
+    ) {
+      this.addGenericValue(sourceAttribute, attribute, values);
+    }
+  }
+
+  /**
+   * Creates and adds a generic value (using the retract value code)
+   * to the given list of values and sets its display text.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @param values - list of converted values the value is added to
+   */
+  protected addGenericValue(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    const value: Configurator.Value = {
+      valueCode: Configurator.RetractValueCode,
+      selected: this.isNoValueSelected(sourceAttribute),
+    };
+    this.setRetractValueDisplay(attribute, value);
+    values.push(value);
   }
 
   protected convertAttribute(
@@ -281,6 +341,7 @@ export class CpqConfiguratorNormalizer
     ) {
       const values: Configurator.Value[] = [];
       this.addRetractValue(sourceAttribute, attribute, values);
+      this.addDocumentationValue(sourceAttribute, attribute, values);
       sourceAttribute.values.forEach((value) =>
         this.convertValue(value, sourceAttribute, currency, values)
       );
