@@ -121,7 +121,7 @@
       "description": "Rename import symbols that were moved/changed in majors"
     },
     "add-or-update-ai-skills": {
-      "version": "221121.15.1",
+      "version": "221121.17.0-1",
       "factory": "./add-or-update-ai-skills/index#migrate",
       "description": "Add or update AI skills for Spartacus development ✨"
     }
