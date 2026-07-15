@@ -30,7 +30,8 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
-import {
+import { 
+  CmsConfig,
   I18nConfig,
   OccConfig,
   RoutingConfig,
@@ -107,6 +108,15 @@ if (!environment.production) {
       // without a key, for development or demo purposes.
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
+    provideConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductAddToCartComponent: {
+                    data: {
+                        inventoryDisplay: true,
+                    },
+                },
+            },
+        }),
   ],
   bootstrap: [StorefrontComponent],
 })
