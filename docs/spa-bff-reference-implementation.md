@@ -18,7 +18,6 @@ sides, and how they work together.
     - [4d. Add @repo/bff/* path aliases to the storefrontapp tsconfig.json](#4d-add-repobff-path-aliases-to-the-storefrontapp-tsconfigjson)
   - [Step 5: Base Spartacus configuration](#step-5-base-spartacus-configuration)
 - [Architecture and URL injection](#architecture-and-url-injection)
-- [File overview](#file-overview)
 - [Spartacus changes](#spartacus-changes)
   - [CRITICAL: Remove hardcoded baseUrl](#critical-remove-hardcoded-baseurl-from-spartacus-configuration)
   - [CRITICAL: OCC URL must have a CA-signed certificate](#critical-occ-url-must-have-a-valid-ca-signed-certificate-for-bff-use)
@@ -45,6 +44,7 @@ sides, and how they work together.
   - [19. occ.ts router](#19-appsbffsrcapiroutersoccts-new-file)
   - [20. root.ts](#20-appsbffsrcapiroutersrootts-modify)
   - [21. .env](#21-appsbffenv-local-dev-only)
+- [File overview](#file-overview)
 - [Testing locally](#testing-locally)
 - [@vivaldi Cloudflare cookie issue](#known-issue-cloudflare-__cf_bm-cookie-crash)
 
@@ -188,31 +188,29 @@ git add -A && git commit -m "chore: add Spartacus schematics"
 
 ### Step 3: Import the storefront into the Vivaldi workspace
 
-Return to the Vivaldi workspace root and import the storefront, skipping plugin
-installation (see below for why):
+Return to the Vivaldi workspace root and run the import:
 
 ```bash
 cd ../my-vivaldi-workspace
-nx import ../my-storefront-app apps/storefrontapp --ref=main --plugins=skip
-```
-
-> **Why skip plugins?** `nx import` detects `@nx/vitest` as a recommended plugin and
-> tries to install it. This is not needed for this project — `@nx/angular` is handled
-> manually in Step 4. Passing `--plugins=skip` avoids the plugin prompt entirely and
-> keeps the import clean.
-
-**Optional — if you want to review the plugin selection interactively:**
-
-Run without the flag and follow the prompts:
-
-```bash
 nx import ../my-storefront-app apps/storefrontapp --ref=main
 ```
 
-The command asks two questions — press **Enter** at both (entire repository, no scripts
-update). It then exits with a JSON message listing detected plugins and asking you to
-re-run with `--plugins=skip` or `--plugins=all`. Re-run with `--plugins=skip` as shown
-above.
+The command asks two questions interactively — press **Enter** at both (import the
+entire repository, do not update package.json scripts). It then shows a plugin
+selection prompt:
+
+```
+? Which plugins would you like to add? Press <Space> to select and <Enter> to submit.
+```
+
+Press **Space** to deselect `@nx/vitest` (and any other pre-selected plugin), then
+**Enter** to submit with nothing selected. `@nx/vitest` cannot be installed cleanly
+due to a version split in the workspace (see Step 1), and `@nx/angular` is registered
+manually in Step 4 — no plugins are needed here.
+
+> **Note:** `--plugins=skip` is documented by Nx but only takes effect in AI agent
+> mode (`isAiAgent() === true`). It is silently ignored in a regular interactive
+> terminal session — the interactive prompt always appears regardless.
 
 ---
 
@@ -553,53 +551,6 @@ from `AuthStorageService` and injects it as an `Authorization` header before eac
 
 In local development, the Angular dev-server proxy forwards `/bff/*` to the real BFF
 so the browser never makes a cross-origin call.
-
----
-
-## File overview
-
-### Spartacus storefront
-
-```
-src/
-  index.html                                  ← add bff-base-url meta tag
-  app/
-    app.module.ts                             ← spread bffExampleProviders
-    app.module.server.ts                      ← SSR: override BFF_BASE_URL with absolute URL
-    bff/
-      bff-base-url.token.ts                   ← InjectionToken reading meta tag
-      bff-error-handling.link.ts              ← tRPC link: SSR error propagation
-      bff-auth.link.ts                        ← tRPC link: Bearer token injection
-      bff-timeout.link.ts                     ← tRPC link: SSR timeout + abort
-      bff-client.service.ts                   ← typed TRPCClient<RootRouter>
-      examples/
-        bff-example.providers.ts              ← lazy route registration
-        say-hello.component.ts                ← demo: custom BFF procedure (typed)
-        occ-base-sites.component.ts           ← demo: OCC call via BFF (typed)
-  environments/
-    models/environment.model.ts               ← add bffBaseUrl field
-    environment.ts                            ← read CX_BFF_BASE_URL
-    environment.prod.ts                       ← read CX_BFF_BASE_URL
-proxy.conf.js                                 ← dev-server proxy (reads CX_BFF_BASE_URL)
-package.json                                  ← add build:bff, dev:bff, start:storefrontapp scripts
-.env-cmdrc                                    ← add CX_BFF_BASE_URL to dev profiles
-project.json                                  ← point serve to proxy.conf.js
-```
-
-### Vivaldi BFF
-
-```
-apps/bff/
-  env.d.ts                                    ← add OCC_BASE_URL env var type
-  vivaldi.apis.ts                             ← register OCC host + occ_v2 destination
-  src/api/
-    context.ts                                ← keep free of vivaldi.* ambient globals
-    routers/
-      occ.ts                                  ← new router: OCC procedures
-      root.ts                                 ← register occ router
-packages/contracts/bff/
-  destinations.ts                             ← add occ_v2 to createDestinations
-```
 
 ---
 
@@ -1379,6 +1330,49 @@ self-signed certs. For deployed environments, set this in the CCv2 BFF VariableS
 
 ```bash
 OCC_BASE_URL=https://api.your-commerce-host.model-t.myhybris.cloud
+```
+
+---
+
+## File overview
+
+### Spartacus storefront
+
+```
+src/
+  index.html                                  ← add bff-base-url meta tag
+  app/
+    app.module.ts                             ← spread bffExampleProviders
+    app.module.server.ts                      ← SSR: override BFF_BASE_URL with absolute URL
+    bff/
+      bff-base-url.token.ts                   ← InjectionToken reading meta tag
+      bff-error-handling.link.ts              ← tRPC link: SSR error propagation
+      bff-auth.link.ts                        ← tRPC link: Bearer token injection
+      bff-timeout.link.ts                     ← tRPC link: SSR timeout + abort
+      bff-client.service.ts                   ← typed TRPCClient<RootRouter>
+      examples/
+        bff-example.providers.ts              ← lazy route registration
+        say-hello.component.ts                ← demo: custom BFF procedure (typed)
+        occ-base-sites.component.ts           ← demo: OCC call via BFF (typed)
+proxy.conf.js                                 ← dev-server proxy (reads CX_BFF_BASE_URL)
+package.json                                  ← add build:bff, dev:bff, start:storefrontapp scripts
+.env-cmdrc                                    ← add CX_BFF_BASE_URL to dev profiles
+project.json                                  ← point serve to proxy.conf.js
+```
+
+### Vivaldi BFF
+
+```
+apps/bff/
+  env.d.ts                                    ← add OCC_BASE_URL env var type
+  vivaldi.apis.ts                             ← register OCC host + occ_v2 destination
+  src/api/
+    context.ts                                ← keep free of vivaldi.* ambient globals
+    routers/
+      occ.ts                                  ← new router: OCC procedures
+      root.ts                                 ← register occ router
+packages/contracts/bff/
+  destinations.ts                             ← add occ_v2 to createDestinations
 ```
 
 ---
