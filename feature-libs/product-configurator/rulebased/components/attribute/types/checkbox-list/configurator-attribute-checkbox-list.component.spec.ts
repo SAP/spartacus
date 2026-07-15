@@ -81,6 +81,9 @@ const VALUE_2 = 'val2';
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockConfiguratorStorefrontUtilsService {
