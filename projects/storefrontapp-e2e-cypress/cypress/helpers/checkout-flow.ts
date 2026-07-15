@@ -685,7 +685,10 @@ export function viewOrderHistoryWithCheapProduct() {
     .should('not.be.empty');
 }
 
-export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
+export function addFirstResultToCartFromSearchAndLogin(
+  sampleUser: SampleUser,
+  waitForCsrFallback = false
+) {
   addToCart();
   cy.whenJDK17(() => {
     const loginPage = waitForPage('/login', 'getLoginPage');
@@ -699,13 +702,16 @@ export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
     '/checkout/delivery-address',
     'getDeliveryAddressPage'
   );
-  loginUser(sampleUser);
+  loginUser(sampleUser, waitForCsrFallback);
   cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
 
-export function checkoutFirstDisplayedProduct(user: SampleUser) {
+export function checkoutFirstDisplayedProduct(
+  user: SampleUser,
+  waitForCsrFallback = false
+) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -720,7 +726,7 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
     )}/users/current/carts?fields*`
   ).as('carts');
 
-  addFirstResultToCartFromSearchAndLogin(user);
+  addFirstResultToCartFromSearchAndLogin(user, waitForCsrFallback);
 
   cy.wait('@addToCart').its('response.statusCode').should('eq', 200);
   cy.wait('@carts').its('response.statusCode').should('eq', 201);
