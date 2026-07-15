@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
@@ -59,8 +59,13 @@ const createTestValue = (
   },
 });
 
+const isConfigurationLoading$ = new BehaviorSubject<boolean>(false);
+
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return isConfigurationLoading$.asObservable();
+  }
 }
 
 @Component({
@@ -120,6 +125,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   }));
 
   beforeEach(() => {
+    isConfigurationLoading$.next(false);
     fixture = TestBed.createComponent(
       ExampleConfiguratorAttributeSingleSelectionComponent
     );
@@ -151,6 +157,31 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('resetLoadingOnConfigurationUpdate', () => {
+    it('should reset loading$ once the configuration update round trip finished, even if the attribute did not change', () => {
+      component.loading$.next(true);
+      expect(component.loading$.value).toBe(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(false);
+    });
+
+    it('should keep loading$ untouched while the configuration is still loading', () => {
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(true);
+      expect(component.loading$.value).toBe(true);
+    });
+
+    it('should stop resetting loading$ after component destruction', () => {
+      component.ngOnDestroy();
+      component.loading$.next(true);
+
+      isConfigurationLoading$.next(false);
+      expect(component.loading$.value).toBe(true);
+    });
   });
 
   describe('onSelect', () => {

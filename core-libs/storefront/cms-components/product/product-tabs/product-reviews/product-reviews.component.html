@@ -92,20 +92,6 @@
             <cx-form-required-asterisks />
           </span>
           <input
-            *cxFeature="'!productReviewCharactersLeft'"
-            required="true"
-            #titleInput
-            type="text"
-            class="form-control"
-            formControlName="title"
-            [attr.aria-invalid]="
-              reviewForm.get('title')?.touched &&
-              reviewForm.get('title')?.invalid
-            "
-            [attr.aria-errormessage]="'titleError'"
-          />
-          <input
-            *cxFeature="'productReviewCharactersLeft'"
             required="true"
             #titleInput
             type="text"
@@ -125,7 +111,7 @@
               label: 'productReview.reviewTitle' | cxTranslate,
             }"
             [control]="reviewForm.get('title')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
       <div class="form-group">
@@ -135,19 +121,6 @@
             <cx-form-required-asterisks />
           </span>
           <textarea
-            *cxFeature="'!productReviewCharactersLeft'"
-            required="true"
-            class="form-control"
-            rows="3"
-            formControlName="comment"
-            [attr.aria-invalid]="
-              reviewForm.get('comment')?.touched &&
-              reviewForm.get('comment')?.invalid
-            "
-            [attr.aria-errormessage]="'commentError'"
-          ></textarea>
-          <textarea
-            *cxFeature="'productReviewCharactersLeft'"
             required="true"
             class="form-control"
             rows="3"
@@ -167,7 +140,7 @@
               label: 'productReview.writeYourComments' | cxTranslate,
             }"
             [control]="reviewForm.get('comment')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
       <div class="form-group">
@@ -212,13 +185,6 @@
             >{{ 'productReview.reviewerName' | cxTranslate }}
           </span>
           <input
-            *cxFeature="'!productReviewCharactersLeft'"
-            type="text"
-            class="form-control"
-            formControlName="reviewerName"
-          />
-          <input
-            *cxFeature="'productReviewCharactersLeft'"
             type="text"
             class="form-control"
             formControlName="reviewerName"
@@ -230,11 +196,8 @@
               label: 'productReview.reviewerName' | cxTranslate,
             }"
             [control]="reviewForm.get('reviewerName')"
-          ></cx-form-errors>
-          <p
-            *cxFeature="'productReviewCharactersLeft'"
-            class="cx-customer-ticket-input-hint text-right"
-          >
+          />
+          <p class="cx-customer-ticket-input-hint text-right">
             {{
               'productReview.charactersLeft'
                 | cxTranslate
