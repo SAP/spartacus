@@ -554,6 +554,18 @@ export interface FeatureTogglesInterface {
    * the button, and rounds its bottom corners.
    */
   improvedTabStyling?: boolean;
+
+  /**
+   * When enabled, triggers a full page reload after a language switch so that
+   * all `href` attributes (banners, navigation links, mini-cart, login) reflect
+   * the new language immediately without requiring a manual page refresh.
+   *
+   * During SSR the reload is skipped — the server renders the page in the
+   * requested language without any reload mechanism.
+   *
+   * Affects: `LanguagesEffects`
+   */
+  reloadOnLanguageChange?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -629,4 +641,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
+  reloadOnLanguageChange: false,
 };

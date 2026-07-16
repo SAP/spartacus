@@ -368,6 +368,7 @@ if (environment.cpq) {
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
+        reloadOnLanguageChange: true,
       };
       return appFeatureToggles;
     }),
