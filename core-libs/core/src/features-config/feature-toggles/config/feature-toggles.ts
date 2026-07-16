@@ -56,12 +56,6 @@ export interface FeatureTogglesInterface {
   productListItemSummaryReadMore?: boolean;
 
   /**
-   * Introduces characters left for product review form elements.
-   * Affects: ProductReviewsComponent
-   */
-  productReviewCharactersLeft?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -149,31 +143,6 @@ export interface FeatureTogglesInterface {
    * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled.
    */
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
-
-  /**
-   * Feature flag to control the default image loading strategy.
-   *
-   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
-   * due to the fallback logic in the `MediaService`, which defaults to
-   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
-   *
-   * This flag, when enabled, changes the default image loading behavior to use
-   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
-   * immediately, reducing unnecessary network usage and improving performance.
-   *
-   * Lazy loading frees up bandwidth to prioritize more important assets,
-   * such as the largest content element on the page, which can positively
-   * impact the LCP (Largest Contentful Paint) metric.
-   *
-   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
-   * by specifying CMS component IDs via the Spartacus config:
-   * `provideConfig({ lcpCmsComponents: ... })`
-   * ... or by passing the special input directly to the `MediaComponent`:
-   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
-   *
-   * Set to `true` to enable lazy loading by default.
-   */
-  lazyLoadImagesByDefault?: boolean;
 
   /**
    * Feature flag to enable incrementing the processes count for the merge cart action.
@@ -600,10 +569,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
   productListItemSummaryReadMore: false,
-  productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
   cdsLoginEventsToken: true,
-  lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
