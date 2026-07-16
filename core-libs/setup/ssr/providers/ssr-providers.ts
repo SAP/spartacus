@@ -49,7 +49,7 @@ export function provideServer(options?: ServerOptions): Provider[] {
 /**
  * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
  *
- * @param options server options; `allowedOrigins`, when provided, is used as a
+ * @param options server options; `allowedOrigins`, when non-empty, is used as a
  *   defense-in-depth allowlist while resolving the request origin from headers.
  */
 export function getServerRequestProviders(

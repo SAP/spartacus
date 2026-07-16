@@ -14,8 +14,9 @@ import { Request } from 'express';
  * which in a CCv2 deployment is the platform reverse proxy. Otherwise it falls
  * back to the `Host` header.
  *
- * When `allowedOrigins` is provided, the resolved origin is validated against
- * it as a defense-in-depth measure (see {@link getRequestOrigin}).
+ * When `allowedOrigins` is non-empty, the resolved origin is validated against
+ * it as a defense-in-depth measure: if it matches no entry, the first entry is
+ * returned instead of the (potentially spoofed) resolved origin.
  */
 export function getRequestOrigin(
   req: Request,
@@ -63,9 +64,11 @@ function resolveOriginFromRequest(req: Request): string {
 /**
  * Checks whether the given origin matches any entry in the allowlist.
  *
- * Entries are compared case-insensitively and may use a single leading-label
- * wildcard to match subdomains, e.g. `https://*.my.domain.com` matches
- * `https://shop.my.domain.com` but not `https://my.domain.com` itself.
+ * Entries are compared case-insensitively. A `*` wildcard matches exactly one
+ * host label: it never crosses a dot and never matches the apex domain. One or
+ * more wildcards are allowed, e.g. `https://*.my.domain.com` matches
+ * `https://shop.my.domain.com` but neither `https://my.domain.com` (apex) nor
+ * `https://a.b.my.domain.com` (two labels).
  */
 function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
   const normalizedOrigin = origin.toLowerCase();
