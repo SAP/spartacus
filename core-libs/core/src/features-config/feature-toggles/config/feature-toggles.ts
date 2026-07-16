@@ -640,5 +640,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
-  productConfiguratorConsolidatedButtonDisabling: true,
+  productConfiguratorConsolidatedButtonDisabling: false,
 };
