@@ -64,8 +64,7 @@ export function getServerRequestProviders(
     },
     {
       provide: SERVER_REQUEST_URL,
-      useFactory: (req: Request) =>
-        getRequestUrl(req, options?.allowedOrigins),
+      useFactory: (req: Request) => getRequestUrl(req, options?.allowedOrigins),
       deps: [REQUEST],
     },
   ];
