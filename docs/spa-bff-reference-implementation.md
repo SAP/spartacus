@@ -689,7 +689,7 @@ subsequent links.
 import { isPlatformBrowser } from '@angular/common';
 import { ErrorHandler, inject, isDevMode, PLATFORM_ID } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import type { Operation, TRPCLink } from '@trpc/client';
+import type { TRPCLink } from '@trpc/client';
 import type { AnyTRPCRouter } from '@trpc/server';
 import { tap } from '@trpc/server/observable';
 
