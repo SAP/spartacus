@@ -15,75 +15,75 @@ jobs:
     outputs:
       active_release_branches: ${{ steps.filter_branches.outputs.active_release_branches }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          ref: develop
-          fetch-depth: 1
-
-      - name: Read version from core package.json on develop
+      - name: Read released major version from RBSC
         id: read_version
+        env:
+          RBSC_TOKEN: ${{ secrets.RBSC_TOKEN }}
+          RBSC_REGISTRY_URL: ${{ vars.RBSC_REGISTRY_URL }}
         run: |
-          VERSION=$(jq -r '.version' core-libs/core/package.json)
-          if [[ -z "$VERSION" || "$VERSION" == "null" ]]; then
-            echo "Error: could not read version from core-libs/core/package.json"
+          set -euo pipefail
+
+          # Fail early with a clear message if the registry URL isn't configured,
+          # otherwise npm will silently fall back to the public registry and we don't want that.
+          if [[ -z "${RBSC_REGISTRY_URL}" ]]; then
+            echo "Error: RBSC_REGISTRY_URL is empty (check the repo/environment variable)"
             exit 1
           fi
-          echo "Develop version: $VERSION"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Extract major version
-        id: extract_major
-        env:
-          VERSION: ${{ steps.read_version.outputs.version }}
-        run: |
-          # Version looks like 221121.13.1 -> major is the middle component (13)
+          # Configure auth for the RBSC-hosted @spartacus scope.
+          # npm's auth lines use the //host/path form (scheme stripped).
+          RBSC_HOST_PATH="${RBSC_REGISTRY_URL#https:}"
+          cat > ~/.npmrc <<EOF
+          @spartacus:registry=${RBSC_REGISTRY_URL}
+          ${RBSC_HOST_PATH}:_auth=${RBSC_TOKEN}
+          ${RBSC_HOST_PATH}:always-auth=true
+          EOF
+
+          # Latest published version of @spartacus/core (e.g. 221121.13.1) -> major is the middle component (13)
+          # Use the 'release' dist-tag: the RBSC registry has no 'latest' tag, so 'npm view ... version'
+          # (which resolves 'latest' by default) returns an empty string.
+          # Capture stderr so an auth/registry failure surfaces instead of an empty VERSION.
+          if ! VERSION=$(npm view @spartacus/core@release version 2>npm-view.err); then
+            echo "Error: 'npm view @spartacus/core@release version' failed:"
+            cat npm-view.err
+            exit 1
+          fi
+          if [[ -z "$VERSION" ]]; then
+            echo "Error: 'npm view @spartacus/core@release version' returned no version"
+            cat npm-view.err
+            exit 1
+          fi
           MAJOR_VERSION=$(echo "$VERSION" | awk -F. '{print $2}')
           if ! [[ "$MAJOR_VERSION" =~ ^[0-9]+$ ]]; then
-            echo "Error: could not extract numeric major version from '$VERSION'"
+            echo "Error: could not extract numeric major from '$VERSION'"
             exit 1
           fi
-          echo "Major version: $MAJOR_VERSION"
+          echo "Released version: $VERSION (major=$MAJOR_VERSION)"
           echo "major_version=$MAJOR_VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Fetch release branches matching release/221121.*.x
-        id: fetch_branches
+      - name: Filter release branches with major > released major
+        id: filter_branches
+        env:
+          MAJOR_VERSION: ${{ steps.read_version.outputs.major_version }}
         run: |
           # List remote branches matching release/221121.<number>.x
-          BRANCHES=$(git ls-remote --heads origin 'refs/heads/release/221121.*.x' \
+          BRANCHES=$(git ls-remote --heads "https://github.com/${GITHUB_REPOSITORY}.git" 'refs/heads/release/221121.*.x' \
             | awk '{print $2}' \
             | sed 's#^refs/heads/##' \
             | grep -E '^release/221121\.[0-9]+\.x$' || true)
 
-          echo "Matching release branches:"
-          echo "$BRANCHES"
-
-          # Persist as multiline output
-          {
-            echo 'release_branches<<EOF'
-            echo "$BRANCHES"
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Filter release branches with major >= develop major
-        id: filter_branches
-        env:
-          RELEASE_BRANCHES: ${{ steps.fetch_branches.outputs.release_branches }}
-          MAJOR_VERSION: ${{ steps.extract_major.outputs.major_version }}
-        run: |
           ACTIVE_BRANCHES=""
           while IFS= read -r BRANCH; do
             [[ -z "$BRANCH" ]] && continue
             # Extract the middle number from release/221121.<N>.x
             BRANCH_MAJOR=$(echo "$BRANCH" | awk -F. '{print $2}')
-            if [[ "$BRANCH_MAJOR" =~ ^[0-9]+$ ]] && (( BRANCH_MAJOR >= MAJOR_VERSION )); then
+            if [[ "$BRANCH_MAJOR" =~ ^[0-9]+$ ]] && (( BRANCH_MAJOR > MAJOR_VERSION )); then
               ACTIVE_BRANCHES+="${BRANCH}"$'\n'
             fi
-          done <<< "$RELEASE_BRANCHES"
-
-          # Trim trailing newline
+          done <<< "$BRANCHES"
           ACTIVE_BRANCHES="${ACTIVE_BRANCHES%$'\n'}"
 
-          echo "Active release branches (major >= ${MAJOR_VERSION}):"
+          echo "Active release branches (major > ${MAJOR_VERSION}):"
           echo "$ACTIVE_BRANCHES"
 
           {
@@ -102,8 +102,6 @@ jobs:
       actions: write
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
-        with:
-          fetch-depth: 1
 
       - name: Create dry-run branches from each active release branch
         id: create_branches
