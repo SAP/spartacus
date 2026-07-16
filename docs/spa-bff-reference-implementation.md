@@ -1064,7 +1064,7 @@ module.exports = {
 
 ---
 
-### 9. `project.json` *(modify)*
+### 9. `project.json` *(modify, storefrontapp)*
 
 Add `proxyConfig` to the `serve` target's `options`. The executor for a standard Angular
 app is `@angular/build:dev-server`:
@@ -1120,7 +1120,7 @@ members consistent commands regardless of which nx target names are used interna
 
 ---
 
-### 11. `.env-cmdrc` *(create or modify)*
+### 11. `.env-cmdrc` *(create or modify, project root)*
 
 Create this file at the workspace root (or add to it if it already exists). Holds
 `CX_BFF_BASE_URL` for each dev profile. Used **only** by `proxy.conf.js` at
@@ -1140,7 +1140,7 @@ dev-server startup — never read by the Angular app itself:
 
 ---
 
-### 12. Example: custom BFF procedure (`say-hello.component.ts`)
+### 12. Example: custom BFF procedure (`src/app/bff/examples/say-hello.component.ts`)
 
 Route: `/bff-say-hello`
 
@@ -1181,7 +1181,7 @@ export class SayHelloComponent {
 
 ---
 
-### 13. Example: OCC call via BFF (`occ-base-sites.component.ts`)
+### 13. Example: OCC call via BFF (`src/app/bff/examples/occ-base-sites.component.ts`)
 
 Route: `/occ-base-sites`
 
@@ -1221,7 +1221,7 @@ export class OccBaseSitesComponent {
 
 ---
 
-### 14. `bff-example.providers.ts` *(new file)*
+### 14. `app/src/bff/examples/bff-example.providers.ts` *(new file)*
 
 ```ts
 import { Provider } from '@angular/core';
