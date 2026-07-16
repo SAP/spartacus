@@ -6,10 +6,12 @@ import {
   CmsService,
   ConfigModule,
   I18nTestingModule,
+  LanguageService,
   Page,
   PointOfService,
   RoutingService,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { StoreModule } from '@spartacus/pickup-in-store/components';
 import {
   PickupLocationsSearchFacade,
@@ -22,6 +24,12 @@ import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
+
+class MockLanguageService implements Partial<LanguageService> {
+  getActive(): Observable<string> {
+    return of('en');
+  }
+}
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
@@ -207,6 +215,8 @@ describe('MyPreferredStoreComponent', () => {
         { provide: StoreFinderFacade, useClass: MockStoreLocationService },
         { provide: StoreLocationService, useClass: MockStoreLocationService },
         { provide: CmsService, useClass: MockCmsService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({}),
       ],
     })
 

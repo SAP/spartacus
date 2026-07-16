@@ -117,9 +117,9 @@ export class GenericLinkComponent implements OnChanges, OnInit {
    */
   protected buildRoutePartsForCurrentLanguage(url: string | any[]): RouteParts {
     if (typeof url === 'string') {
-      const tree = this.router.parseUrl(this.getAbsoluteUrl(url)) as {
-        siteContext?: unknown;
-      } & UrlTree;
+      const tree: UrlTree & { siteContext?: unknown } = this.router.parseUrl(
+        this.getAbsoluteUrl(url)
+      );
       delete tree.siteContext;
       return this.splitUrl(this.router.serializeUrl(tree));
     }
