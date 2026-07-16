@@ -2,8 +2,6 @@ import { Component, ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PopoverEvent } from '@spartacus/storefront';
@@ -32,7 +30,7 @@ describe('PopoverService', () => {
     service = TestBed.inject(PopoverService);
     fixture = TestBed.createComponent(MockComponent);
     el = fixture.debugElement.query(By.css('#a'));
-    spyOn(el.nativeElement, 'focus').and.callThrough();
+    vi.spyOn(el.nativeElement, 'focus');
   });
 
   it('should inject service', () => {
@@ -58,10 +56,12 @@ describe('PopoverService', () => {
   });
 
   describe('setFocusOnElement', () => {
-    it('should restore focus to the element', fakeAsync(() => {
+    it('should restore focus to the element', () => {
+      vi.useFakeTimers();
       service.setFocusOnElement(el);
-      tick();
+      vi.runAllTimers();
       expect(el.nativeElement.focus).toHaveBeenCalled();
-    }));
+      vi.useRealTimers();
+    });
   });
 });

@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
@@ -60,7 +60,7 @@ function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
 describe('OutletRefDirective', () => {
   let service: OutletService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [TestContainerComponent, OutletDirective, OutletRefDirective],
       providers: [
@@ -68,7 +68,7 @@ describe('OutletRefDirective', () => {
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(OutletService);

@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
@@ -25,17 +25,7 @@ describe('NotificationPreferenceComponent', () => {
   let fixture: ComponentFixture<NotificationPreferenceComponent>;
   let el: DebugElement;
 
-  const notificationPreferenceService = jasmine.createSpyObj(
-    'UserNotificationPreferenceService',
-    [
-      'getPreferences',
-      'loadPreferences',
-      'getPreferencesLoading',
-      'updatePreferences',
-      'getUpdatePreferencesResultLoading',
-      'resetNotificationPreferences',
-    ]
-  );
+  const notificationPreferenceService = { getPreferences: vi.fn(), loadPreferences: vi.fn(), getPreferencesLoading: vi.fn(), updatePreferences: vi.fn(), getUpdatePreferencesResultLoading: vi.fn(), resetNotificationPreferences: vi.fn() };
 
   const notificationPreference: NotificationPreference[] = [
     {
@@ -52,7 +42,7 @@ describe('NotificationPreferenceComponent', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [NotificationPreferenceComponent],
       providers: [
@@ -75,25 +65,25 @@ describe('NotificationPreferenceComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationPreferenceComponent);
     el = fixture.debugElement;
     component = fixture.componentInstance;
 
-    notificationPreferenceService.loadPreferences.and.stub();
-    notificationPreferenceService.updatePreferences.and.stub();
-    notificationPreferenceService.getPreferences.and.returnValue(
+    notificationPreferenceService.loadPreferences.mockImplementation(() => {});
+    notificationPreferenceService.updatePreferences.mockImplementation(() => {});
+    notificationPreferenceService.getPreferences.mockReturnValue(
       of(notificationPreference)
     );
-    notificationPreferenceService.getPreferencesLoading.and.returnValue(
+    notificationPreferenceService.getPreferencesLoading.mockReturnValue(
       of(false)
     );
-    notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
+    notificationPreferenceService.getUpdatePreferencesResultLoading.mockReturnValue(
       of(false)
     );
-    notificationPreferenceService.resetNotificationPreferences.and.stub();
+    notificationPreferenceService.resetNotificationPreferences.mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -116,16 +106,16 @@ describe('NotificationPreferenceComponent', () => {
   });
 
   it('should show spinner when loading', () => {
-    notificationPreferenceService.getPreferences.and.returnValue(of([]));
+    notificationPreferenceService.getPreferences.mockReturnValue(of([]));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should be able to disable a channel when get loading', () => {
-    notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
+    notificationPreferenceService.getUpdatePreferencesResultLoading.mockReturnValue(
       of(false)
     );
-    notificationPreferenceService.getPreferencesLoading.and.returnValue(
+    notificationPreferenceService.getPreferencesLoading.mockReturnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();
@@ -143,10 +133,10 @@ describe('NotificationPreferenceComponent', () => {
   });
 
   it('should be able to disable a channel when update loading', () => {
-    notificationPreferenceService.getPreferencesLoading.and.returnValue(
+    notificationPreferenceService.getPreferencesLoading.mockReturnValue(
       of(false)
     );
-    notificationPreferenceService.getUpdatePreferencesResultLoading.and.returnValue(
+    notificationPreferenceService.getUpdatePreferencesResultLoading.mockReturnValue(
       cold('-a|', { a: true })
     );
     fixture.detectChanges();

@@ -8,7 +8,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
-import createSpy = jasmine.createSpy;
 
 @Component({
   template: `
@@ -36,8 +35,8 @@ import createSpy = jasmine.createSpy;
 class MockComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
-  get = createSpy().and.returnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
+  add = vi.fn().mockImplementation(() => {});
+  get = vi.fn().mockReturnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
 }
 
 describe('AtMessageDirective', () => {

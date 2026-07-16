@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormRequiredLegendComponent } from './form-required-legend.component';
 
@@ -6,11 +6,11 @@ describe('FormRequiredLegendComponent', () => {
   let component: FormRequiredLegendComponent;
   let fixture: ComponentFixture<FormRequiredLegendComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, FormRequiredLegendComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormRequiredLegendComponent);

@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -20,7 +20,6 @@ import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationService } from '../navigation/navigation.service';
 import { FooterNavigationComponent } from './footer-navigation.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -74,10 +73,10 @@ describe('FooterNavigationComponent', () => {
   };
 
   const mockNavigationService = {
-    getNavigationNode: createSpy().and.returnValue(of(null)),
+    getNavigationNode: vi.fn().mockReturnValue(of(null)),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         FooterNavigationComponent,
@@ -118,7 +117,7 @@ describe('FooterNavigationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);

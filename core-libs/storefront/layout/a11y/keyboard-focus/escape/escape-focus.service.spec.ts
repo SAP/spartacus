@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
@@ -16,7 +16,7 @@ describe('EscapeFocusService', () => {
   let focusUtility: SelectFocusUtility;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
       providers: [
@@ -32,7 +32,7 @@ describe('EscapeFocusService', () => {
     focusUtility = TestBed.inject(SelectFocusUtility);
 
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -69,12 +69,12 @@ describe('EscapeFocusService', () => {
     };
 
     beforeEach(() => {
-      spyOn(ev, 'preventDefault');
-      spyOn(ev, 'stopPropagation');
+      vi.spyOn(ev, 'preventDefault');
+      vi.spyOn(ev, 'stopPropagation');
 
       el = fixture.debugElement.query(By.css('#a')).nativeElement;
 
-      spyOn(el, 'focus');
+      vi.spyOn(el, 'focus');
     });
 
     describe('focusOnEscape = true', () => {
@@ -93,7 +93,7 @@ describe('EscapeFocusService', () => {
         beforeEach(() => {
           ev.target = el;
 
-          spyOn(focusUtility, 'findFirstFocusable');
+          vi.spyOn(focusUtility, 'findFirstFocusable');
         });
         it('should not focus', () => {
           service.handleEscape(

@@ -102,7 +102,7 @@ describe('DatePickerComponent', () => {
 
   describe('change date', () => {
     it('should emit event', () => {
-      spyOn(component.update, 'emit');
+      vi.spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);
       expect(component.update.emit).toHaveBeenCalledWith();
     });

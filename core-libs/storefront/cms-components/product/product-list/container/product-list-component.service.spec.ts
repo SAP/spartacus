@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
@@ -14,21 +14,17 @@ import { BehaviorSubject, of, Subscription } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
 class MockRouter {
-  navigate = jasmine.createSpy('navigate');
+  navigate = vi.fn();
 }
 
 class MockProductSearchService {
-  getResults = jasmine
-    .createSpy('getResults')
-    .and.returnValue(new BehaviorSubject({ products: [] }));
-  search = jasmine.createSpy('search');
-  clearResults = jasmine.createSpy('clearResults');
+  getResults = vi.fn().mockReturnValue(new BehaviorSubject({ products: [] }));
+  search = vi.fn();
+  clearResults = vi.fn();
 }
 
 class MockRoutingService {
-  getRouterState = jasmine
-    .createSpy('getRouterState')
-    .and.returnValue(mockRoutingState$);
+  getRouterState = vi.fn().mockReturnValue(mockRoutingState$);
 }
 
 const mockDefaultRouterState = {
@@ -101,7 +97,8 @@ describe('ProductListComponentService', () => {
     });
   });
 
-  it('should emit new route state when url changes', fakeAsync(() => {
+  it('should emit new route state when url changes', async () => {
+    vi.useFakeTimers();
     const mockNewActivatedRouteState = {
       ...mockDefaultRouterState,
       url: '/newRoute',
@@ -112,113 +109,127 @@ describe('ProductListComponentService', () => {
       (res) => (activatedRouteState = res)
     );
 
-    tick();
+    await new Promise(resolve => setTimeout(resolve, 0));
     expect(activatedRouteState).toEqual(mockDefaultRouterState);
 
     mockRoutingState(mockNewActivatedRouteState);
 
-    tick();
+    await new Promise(resolve => setTimeout(resolve, 0));
+    vi.useRealTimers();
     expect(activatedRouteState).toEqual(mockNewActivatedRouteState);
 
     subscription.unsubscribe();
-  }));
+  });
 
   describe('model$', () => {
-    it('should return search results', fakeAsync(() => {
+    it('should return search results', async () => {
+      vi.useFakeTimers();
       let result: ProductSearchPage;
       const subscription: Subscription = service.model$.subscribe(
         (res) => (result = res)
       );
 
-      tick();
+      await new Promise(resolve => setTimeout(resolve, 0));
+      vi.useRealTimers();
 
       subscription.unsubscribe();
 
       expect(result).toEqual({ products: [] });
-    }));
+    });
 
     describe('should perform search on change of routing', () => {
-      it('with default "pageSize" 12', fakeAsync(() => {
+      it('with default "pageSize" 12', async () => {
+        vi.useFakeTimers();
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
           pageSize: 12,
         });
-      }));
+      });
 
-      it('param "categoryCode"', fakeAsync(() => {
+      it('param "categoryCode"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { categoryCode: 'testCategory' },
         });
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           ':relevance:allCategories:testCategory',
-          jasmine.any(Object)
+          expect.any(Object)
         );
-      }));
+      });
 
-      it('param "brandCode"', fakeAsync(() => {
+      it('param "brandCode"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { brandCode: 'testBrand' },
         });
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           ':relevance:allCategories:testBrand',
-          jasmine.any(Object)
+          expect.any(Object)
         );
-      }));
+      });
 
-      it('param "query"', fakeAsync(() => {
+      it('param "query"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
         });
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.any(Object)
+          expect.any(Object)
         );
-      }));
+      });
 
-      it('query param "query"', fakeAsync(() => {
+      it('query param "query"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           queryParams: { query: 'testQuery' },
         });
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.any(Object)
+          expect.any(Object)
         );
-      }));
+      });
 
-      it('param "query" and query param "query"', fakeAsync(() => {
+      it('param "query" and query param "query"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery1' },
           queryParams: { query: 'testQuery2' },
@@ -226,17 +237,19 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery2',
-          jasmine.any(Object)
+          expect.any(Object)
         );
-      }));
+      });
 
-      it('query param "currentPage"', fakeAsync(() => {
+      it('query param "currentPage"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { currentPage: 123 },
@@ -244,17 +257,19 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ currentPage: 123 })
+          expect.objectContaining({ currentPage: 123 })
         );
-      }));
+      });
 
-      it('query param "pageSize"', fakeAsync(() => {
+      it('query param "pageSize"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { pageSize: 20 },
@@ -262,17 +277,19 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ pageSize: 20 })
+          expect.objectContaining({ pageSize: 20 })
         );
-      }));
+      });
 
-      it('query param "sortCode"', fakeAsync(() => {
+      it('query param "sortCode"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { sortCode: 'name-asc' },
@@ -280,19 +297,21 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
           'testQuery',
-          jasmine.objectContaining({ sort: 'name-asc' })
+          expect.objectContaining({ sort: 'name-asc' })
         );
-      }));
+      });
     });
 
     describe('should perform search ONLY if product data does not already exist (state transfered by SSR)', () => {
-      it('by default', fakeAsync(() => {
+      it('by default', async () => {
+        vi.useFakeTimers();
         mockRoutingState({});
         productSearchService.getResults = () =>
           of({
@@ -303,14 +322,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('param "categoryCode"', fakeAsync(() => {
+      it('param "categoryCode"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { categoryCode: 'testCategory' },
         });
@@ -326,14 +347,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('param "brandCode"', fakeAsync(() => {
+      it('param "brandCode"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { brandCode: 'testBrand' },
         });
@@ -349,14 +372,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('param "query"', fakeAsync(() => {
+      it('param "query"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
         });
@@ -372,14 +397,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('query param "query"', fakeAsync(() => {
+      it('query param "query"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           queryParams: { query: 'testQuery' },
         });
@@ -395,14 +422,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('param "query" and query param "query"', fakeAsync(() => {
+      it('param "query" and query param "query"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery1' },
           queryParams: { query: 'testQuery2' },
@@ -419,14 +448,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('query param "currentPage"', fakeAsync(() => {
+      it('query param "currentPage"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { currentPage: 123 },
@@ -444,14 +475,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('query param "pageSize"', fakeAsync(() => {
+      it('query param "pageSize"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { pageSize: 20 },
@@ -468,14 +501,16 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
 
-      it('query param "sortCode"', fakeAsync(() => {
+      it('query param "sortCode"', async () => {
+        vi.useFakeTimers();
         mockRoutingState({
           params: { query: 'testQuery' },
           queryParams: { sortCode: 'name-asc' },
@@ -493,12 +528,13 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        tick();
+        await new Promise(resolve => setTimeout(resolve, 0));
+        vi.useRealTimers();
 
         subscription.unsubscribe();
 
         expect(productSearchService.search).not.toHaveBeenCalled();
-      }));
+      });
     });
   });
 });

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CustomerCouponService,
   GlobalMessageService,
@@ -31,18 +31,10 @@ describe('CouponClaimComponent', () => {
   let component: CouponClaimComponent;
   let fixture: ComponentFixture<CouponClaimComponent>;
 
-  const couponService = jasmine.createSpyObj('CustomerCouponService', [
-    'claimCustomerCoupon',
-    'getClaimCustomerCouponResultSuccess',
-  ]);
-  const routingService = jasmine.createSpyObj('RoutingService', [
-    'getRouterState',
-    'go',
-  ]);
-  const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-    'add',
-  ]);
-  beforeEach(waitForAsync(() => {
+  const couponService = { claimCustomerCoupon: vi.fn(), getClaimCustomerCouponResultSuccess: vi.fn() };
+  const routingService = { getRouterState: vi.fn(), go: vi.fn() };
+  const globalMessageService = { add: vi.fn() };
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CouponClaimComponent],
       providers: [
@@ -51,14 +43,14 @@ describe('CouponClaimComponent', () => {
         { provide: GlobalMessageService, useValue: globalMessageService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
-    couponService.claimCustomerCoupon.and.stub();
-    couponService.getClaimCustomerCouponResultSuccess.and.returnValue(of(true));
-    routingService.getRouterState.and.returnValue(of(mockRouterState));
-    routingService.go.and.stub();
-    globalMessageService.add.and.stub();
+    couponService.claimCustomerCoupon.mockImplementation(() => {});
+    couponService.getClaimCustomerCouponResultSuccess.mockReturnValue(of(true));
+    routingService.getRouterState.mockReturnValue(of(mockRouterState));
+    routingService.go.mockImplementation(() => {});
+    globalMessageService.add.mockImplementation(() => {});
 
     fixture = TestBed.createComponent(CouponClaimComponent);
     component = fixture.componentInstance;
@@ -80,7 +72,7 @@ describe('CouponClaimComponent', () => {
   });
 
   it('should navigate to coupons page when claim fail', () => {
-    couponService.getClaimCustomerCouponResultSuccess.and.returnValue(
+    couponService.getClaimCustomerCouponResultSuccess.mockReturnValue(
       of(false)
     );
     component.ngOnInit();
@@ -92,7 +84,7 @@ describe('CouponClaimComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    routingService.getRouterState.and.returnValue(
+    routingService.getRouterState.mockReturnValue(
       of({
         state: {
           cmsRequired: true,

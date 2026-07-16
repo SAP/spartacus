@@ -64,7 +64,7 @@ describe('PageSlotService', () => {
   describe('Component Defer Options', () => {
     it('should call cmsComponentsService.getDeferLoadingStrategy', () => {
       const cmsComponentsService = TestBed.inject(CmsComponentsService);
-      spyOn(cmsComponentsService, 'getDeferLoadingStrategy').and.callThrough();
+      vi.spyOn(cmsComponentsService, 'getDeferLoadingStrategy');
 
       pageSlotService.getComponentDeferOptions('test-slot', 'test-component');
       expect(cmsComponentsService.getDeferLoadingStrategy).toHaveBeenCalledWith(
@@ -73,7 +73,7 @@ describe('PageSlotService', () => {
     });
 
     it('should call shouldNotDefer', () => {
-      spyOn(pageSlotService, 'shouldNotDefer').and.callThrough();
+      vi.spyOn(pageSlotService, 'shouldNotDefer');
       pageSlotService.getComponentDeferOptions('test-slot', 'test-component');
       expect(pageSlotService.shouldNotDefer).toHaveBeenCalledWith('test-slot');
     });

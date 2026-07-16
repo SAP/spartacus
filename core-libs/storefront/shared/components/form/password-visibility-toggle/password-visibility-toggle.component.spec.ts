@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FeatureDirective,
@@ -29,7 +29,7 @@ describe('PasswordVisibilityToggleComponent', () => {
   let fixture: ComponentFixture<PasswordVisibilityToggleComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -52,7 +52,7 @@ describe('PasswordVisibilityToggleComponent', () => {
         add: { imports: [MockFeatureDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PasswordVisibilityToggleComponent);
@@ -79,7 +79,7 @@ describe('PasswordVisibilityToggleComponent', () => {
   });
 
   it('should show password on visibility toggle', () => {
-    spyOn(component, 'toggle').and.callThrough();
+    vi.spyOn(component, 'toggle');
     const button: HTMLButtonElement = el.nativeElement.querySelector('button');
 
     button.click();

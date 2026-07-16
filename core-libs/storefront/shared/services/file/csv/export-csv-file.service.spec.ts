@@ -49,9 +49,9 @@ describe('ExportCsvFileService', () => {
   it('should convert data and download', () => {
     const fakeUrl =
       'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
-    spyOn<any>(service, 'convert').and.callThrough();
-    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
-    spyOn(fileDownloadService, 'download').and.callThrough();
+    vi.spyOn<any>(service, 'convert');
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue(fakeUrl);
+    vi.spyOn(fileDownloadService, 'download');
 
     service.download(mockEntries, separator, fileOptions);
 

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
@@ -17,7 +17,7 @@ describe('ProductSummaryComponent in product', () => {
   let fixture: ComponentFixture<ProductSummaryComponent>;
   let currentProductService: CurrentProductService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ItemCounterModule,
@@ -32,7 +32,7 @@ describe('ProductSummaryComponent in product', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductSummaryComponent);
@@ -45,7 +45,7 @@ describe('ProductSummaryComponent in product', () => {
   });
 
   it('should get product details without promotions', () => {
-    spyOn(currentProductService, 'getProduct').and.stub();
+    vi.spyOn(currentProductService, 'getProduct').mockImplementation(() => {});
     productSummaryComponent['getProduct']();
     expect(currentProductService.getProduct).toHaveBeenCalledWith([
       'details',
@@ -55,7 +55,7 @@ describe('ProductSummaryComponent in product', () => {
   });
 
   it('should get product details with promotions', () => {
-    spyOn(currentProductService, 'getProduct').and.stub();
+    vi.spyOn(currentProductService, 'getProduct').mockImplementation(() => {});
     productSummaryComponent['getProduct']();
     expect(currentProductService.getProduct).toHaveBeenCalledWith([
       'details',

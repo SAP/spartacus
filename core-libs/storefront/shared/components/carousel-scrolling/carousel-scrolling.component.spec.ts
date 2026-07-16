@@ -1,5 +1,5 @@
 import { Component, Directive, Input, OnDestroy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -52,8 +52,8 @@ class MockHorizontalScrollingPositionDirective
   isScrollStart$ = new BehaviorSubject<boolean>(false);
   isScrollEnd$ = new BehaviorSubject<boolean>(false);
   isScrollNeeded$ = new BehaviorSubject<boolean>(true);
-  scrollBackward = jasmine.createSpy('scrollBackward');
-  scrollForward = jasmine.createSpy('scrollForward');
+  scrollBackward = vi.fn();
+  scrollForward = vi.fn();
 }
 
 @Component({
@@ -194,7 +194,7 @@ describe('CarouselScrollingComponent', () => {
     let horizontalScrollingPositionDirective: MockHorizontalScrollingPositionDirective;
     let carouselScrollingComponent: CarouselScrollingComponent;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestChildComponent.destroyedCount = 0;
       TestBed.configureTestingModule({
         imports: [
@@ -223,7 +223,7 @@ describe('CarouselScrollingComponent', () => {
           },
         })
         .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       parentFixture = TestBed.createComponent(TestParentComponent);
@@ -521,7 +521,7 @@ describe('CarouselScrollingComponent', () => {
       it('should scroll it into view', () => {
         const items = parentFixture.debugElement.queryAll(By.css('.item'));
         const secondItem = items[1].nativeElement as HTMLElement;
-        spyOn(secondItem, 'scrollIntoView').and.callThrough();
+        vi.spyOn(secondItem, 'scrollIntoView');
 
         secondItem.dispatchEvent(new FocusEvent('focusin'));
 
@@ -553,17 +553,17 @@ describe('CarouselScrollingComponent', () => {
         describe('on ArrowRight key', () => {
           it('should prevent default behavior', () => {
             const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
-            spyOn(event, 'preventDefault').and.callThrough();
+            vi.spyOn(event, 'preventDefault');
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
           });
 
           it('should NOT focus the next item', () => {
-            spyOn(
+            vi.spyOn(
               carouselScrollingComponent as any,
               'focusNextPrevItem'
-            ).and.callThrough();
-            spyOn(secondChild, 'focus').and.callThrough();
+            );
+            vi.spyOn(secondChild, 'focus');
 
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
 
@@ -577,17 +577,17 @@ describe('CarouselScrollingComponent', () => {
         describe('on ArrowLeft key', () => {
           it('should prevent default behavior', () => {
             const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
-            spyOn(event, 'preventDefault').and.callThrough();
+            vi.spyOn(event, 'preventDefault');
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
           });
 
           it('should NOT focus the previous child directive', () => {
-            spyOn(
+            vi.spyOn(
               carouselScrollingComponent as any,
               'focusNextPrevItem'
-            ).and.callThrough();
-            spyOn(firstChild, 'focus').and.callThrough();
+            );
+            vi.spyOn(firstChild, 'focus');
 
             secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
 
@@ -605,7 +605,7 @@ describe('CarouselScrollingComponent', () => {
     let parentFixture: ComponentFixture<TestParentWithCxFocusableCarouselItemComponent>;
     let carouselScrollingComponent: CarouselScrollingComponent;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           I18nTestingModule,
@@ -634,7 +634,7 @@ describe('CarouselScrollingComponent', () => {
           },
         })
         .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       parentFixture = TestBed.createComponent(
@@ -662,34 +662,32 @@ describe('CarouselScrollingComponent', () => {
         describe('on Tab key', () => {
           const KEY_NAME_TAB = 'Tab';
 
-          it('should set tabindex="-1" on children with cxFocusableCarouselItem until next animation frame', (done) => {
+          it('should set tabindex="-1" on children with cxFocusableCarouselItem until next animation frame', async () => {
             expect(secondChild.tabIndex).toBe(0);
 
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_TAB));
             expect(firstChild.tabIndex).toBe(-1);
 
-            requestAnimationFrame(() => {
-              expect(secondChild.tabIndex).toBe(0);
-              done();
-            });
+            await new Promise((resolve) => requestAnimationFrame(resolve));
+            expect(secondChild.tabIndex).toBe(0);
           });
         });
 
         describe('on ArrowRight key', () => {
           it('should prevent default behavior', () => {
             const event = createKeyboardEvent(KEY_NAME_ARROW_RIGHT);
-            spyOn(event, 'preventDefault').and.callThrough();
+            vi.spyOn(event, 'preventDefault');
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
           });
 
           it('should focus the next item with cxFocusableCarouselItem directive', () => {
-            spyOn(
+            vi.spyOn(
               carouselScrollingComponent as any,
               'focusNextPrevItem'
-            ).and.callThrough();
+            );
 
-            spyOn(secondChild, 'focus').and.callThrough();
+            vi.spyOn(secondChild, 'focus');
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
 
             expect(secondChild.focus).toHaveBeenCalled();
@@ -702,18 +700,18 @@ describe('CarouselScrollingComponent', () => {
         describe('on ArrowLeft key', () => {
           it('should prevent default behavior', () => {
             const event = createKeyboardEvent(KEY_NAME_ARROW_LEFT);
-            spyOn(event, 'preventDefault').and.callThrough();
+            vi.spyOn(event, 'preventDefault');
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).toHaveBeenCalled();
           });
 
           it('should focus the previous child with cxFocusableCarouselItem directive', () => {
-            spyOn(
+            vi.spyOn(
               carouselScrollingComponent as any,
               'focusNextPrevItem'
-            ).and.callThrough();
+            );
 
-            spyOn(firstChild, 'focus').and.callThrough();
+            vi.spyOn(firstChild, 'focus');
             secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
 
             expect(firstChild.focus).toHaveBeenCalled();
@@ -726,16 +724,16 @@ describe('CarouselScrollingComponent', () => {
         describe('on other keys', () => {
           it('should not prevent default behavior', () => {
             const event = createKeyboardEvent(KEY_NAME_ENTER);
-            spyOn(event, 'preventDefault').and.callThrough();
+            vi.spyOn(event, 'preventDefault');
             firstChild.dispatchEvent(event);
             expect(event.preventDefault).not.toHaveBeenCalled();
           });
 
           it('should not call focusNextPrevItem', () => {
-            spyOn(
+            vi.spyOn(
               carouselScrollingComponent as any,
               'focusNextPrevItem'
-            ).and.callThrough();
+            );
 
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ENTER));
 
@@ -751,7 +749,7 @@ describe('CarouselScrollingComponent', () => {
   describe('without child template', () => {
     let parentFixture: ComponentFixture<TestParentWithoutChildTemplateComponent>;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           I18nTestingModule,
@@ -778,7 +776,7 @@ describe('CarouselScrollingComponent', () => {
           },
         })
         .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       parentFixture = TestBed.createComponent(
@@ -788,7 +786,7 @@ describe('CarouselScrollingComponent', () => {
 
     it('should log an error when no template is provided', () => {
       const logger = TestBed.inject(LoggerService);
-      spyOn(logger, 'error');
+      vi.spyOn(logger, 'error');
       parentFixture.detectChanges();
       expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel-scrolling`'
@@ -800,7 +798,7 @@ describe('CarouselScrollingComponent', () => {
     let parentFixture: ComponentFixture<TestParentWithoutTrackByComponent>;
     let carouselScrollingComponent: CarouselScrollingComponent;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           I18nTestingModule,
@@ -828,7 +826,7 @@ describe('CarouselScrollingComponent', () => {
           },
         })
         .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       parentFixture = TestBed.createComponent(

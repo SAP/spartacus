@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services';
 import { TabFocusService } from './tab-focus.service';
@@ -34,7 +34,7 @@ describe('TabFocusService', () => {
   let service: TabFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
       providers: [
@@ -48,7 +48,7 @@ describe('TabFocusService', () => {
 
     service = TestBed.inject(TabFocusService);
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -60,8 +60,8 @@ describe('TabFocusService', () => {
   };
 
   it('should prevent bubbling', () => {
-    spyOn(event, 'preventDefault');
-    spyOn(event, 'stopPropagation');
+    vi.spyOn(event, 'preventDefault');
+    vi.spyOn(event, 'stopPropagation');
     service.moveTab(null, { tab: true }, 1, event as KeyboardEvent);
     expect(event.preventDefault).toHaveBeenCalled();
     expect(event.stopPropagation).toHaveBeenCalled();
@@ -70,14 +70,14 @@ describe('TabFocusService', () => {
   describe('tab right', () => {
     it('should focus 2nd child if no child has been selected before', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       const el = fixture.debugElement.query(By.css('#a2')).nativeElement;
 
-      spyOn(el, 'focus').and.callThrough();
+      vi.spyOn(el, 'focus');
       service.moveTab(host, { tab: true }, 1, event as KeyboardEvent);
 
       expect(el.focus).toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe('TabFocusService', () => {
 
     it('should focus item next to active child', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
@@ -96,7 +96,7 @@ describe('TabFocusService', () => {
       current.focus();
       fixture.detectChanges();
 
-      spyOn(next, 'focus').and.callThrough();
+      vi.spyOn(next, 'focus');
       service.moveTab(host, { tab: true }, 1, event as KeyboardEvent);
 
       expect(next.focus).toHaveBeenCalled();
@@ -104,7 +104,7 @@ describe('TabFocusService', () => {
 
     it('should focus item next to persisted child', () => {
       const children = fixture.debugElement.queryAll(By.css('#b button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
@@ -114,7 +114,7 @@ describe('TabFocusService', () => {
       fixture.detectChanges();
       service.set('b3');
 
-      spyOn(next, 'focus').and.callThrough();
+      vi.spyOn(next, 'focus');
       service.moveTab(host, { tab: true }, 1, event as KeyboardEvent);
 
       expect(next.focus).toHaveBeenCalled();
@@ -122,7 +122,7 @@ describe('TabFocusService', () => {
 
     it('should keep last item focused', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
@@ -131,7 +131,7 @@ describe('TabFocusService', () => {
       last.focus();
       fixture.detectChanges();
 
-      spyOn(last, 'focus').and.callThrough();
+      vi.spyOn(last, 'focus');
       service.moveTab(host, { tab: true }, 1, event as KeyboardEvent);
 
       expect(last.focus).toHaveBeenCalled();
@@ -141,7 +141,7 @@ describe('TabFocusService', () => {
   describe('tab left', () => {
     it('should keep first item focused', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
@@ -150,7 +150,7 @@ describe('TabFocusService', () => {
       last.focus();
       fixture.detectChanges();
 
-      spyOn(last, 'focus').and.callThrough();
+      vi.spyOn(last, 'focus');
       service.moveTab(host, { tab: true }, -1, event as KeyboardEvent);
 
       expect(last.focus).toHaveBeenCalled();
@@ -158,7 +158,7 @@ describe('TabFocusService', () => {
 
     it('should focus item next to active child', () => {
       const children = fixture.debugElement.queryAll(By.css('#a button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
@@ -169,7 +169,7 @@ describe('TabFocusService', () => {
       current.focus();
       fixture.detectChanges();
 
-      spyOn(next, 'focus').and.callThrough();
+      vi.spyOn(next, 'focus');
       service.moveTab(host, { tab: true }, -1, event as KeyboardEvent);
 
       expect(next.focus).toHaveBeenCalled();
@@ -177,7 +177,7 @@ describe('TabFocusService', () => {
 
     it('should focus item next to persisted child', () => {
       const children = fixture.debugElement.queryAll(By.css('#b button'));
-      spyOn(service, 'findFocusable').and.returnValue(
+      vi.spyOn(service, 'findFocusable').mockReturnValue(
         children.map((c) => c.nativeElement)
       );
 
@@ -187,7 +187,7 @@ describe('TabFocusService', () => {
       fixture.detectChanges();
       service.set('b3');
 
-      spyOn(next, 'focus').and.callThrough();
+      vi.spyOn(next, 'focus');
       service.moveTab(host, { tab: true }, -1, event as KeyboardEvent);
 
       expect(next.focus).toHaveBeenCalled();

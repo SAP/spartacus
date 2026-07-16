@@ -131,9 +131,9 @@ describe('PageTemplateDirective', () => {
     directiveStateTransferService = TestBed.inject(
       DirectiveStateTransferService
     );
-    spyOn(directiveStateTransferService, 'get').and.callThrough();
-    spyOn(directiveStateTransferService, 'set').and.callThrough();
-    spyOn(directiveStateTransferService, 'clear').and.callThrough();
+    vi.spyOn(directiveStateTransferService, 'get');
+    vi.spyOn(directiveStateTransferService, 'set');
+    vi.spyOn(directiveStateTransferService, 'clear');
   });
 
   type HostID = '#host1' | '#host2' | '#host3' | '#host4' | '#host5' | '#host6';
@@ -210,7 +210,7 @@ describe('PageTemplateDirective', () => {
   });
 
   it('should remove the transfer state class', () => {
-    (directiveStateTransferService.get as jasmine.Spy).and.returnValue(
+    (directiveStateTransferService.get as any).mockReturnValue(
       oldClass
     );
 

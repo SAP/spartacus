@@ -50,7 +50,7 @@ describe('DirectionService', () => {
   describe('addDirection', () => {
     it('should add dir=ltr attribute to element', () => {
       const el = {
-        setAttribute: jasmine.createSpy('setAttribute') as any,
+        setAttribute: vi.fn() as any,
       } as HTMLElement;
       service.setDirection(el, DirectionMode.LTR);
       expect(el.setAttribute).toHaveBeenCalledWith('dir', DirectionMode.LTR);
@@ -58,7 +58,7 @@ describe('DirectionService', () => {
 
     it('should add dir=rtl attribute to element', () => {
       const el = {
-        setAttribute: jasmine.createSpy('setAttribute') as any,
+        setAttribute: vi.fn() as any,
       } as HTMLElement;
       service.setDirection(el, DirectionMode.RTL);
       expect(el.setAttribute).toHaveBeenCalledWith('dir', DirectionMode.RTL);
@@ -66,7 +66,7 @@ describe('DirectionService', () => {
 
     it('should clear dir attribute of element', () => {
       const el = {
-        removeAttribute: jasmine.createSpy('removeAttribute') as any,
+        removeAttribute: vi.fn() as any,
       } as HTMLElement;
       service.setDirection(el, undefined);
       expect(el.removeAttribute).toHaveBeenCalledWith('dir');
@@ -76,7 +76,7 @@ describe('DirectionService', () => {
   describe('getDirection', () => {
     describe('without default', () => {
       beforeEach(() => {
-        spyOn(configInitializerService, 'getStable').and.returnValue(
+        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
           of({
             direction: {
               detect: true,
@@ -103,7 +103,7 @@ describe('DirectionService', () => {
 
     describe('with default', () => {
       beforeEach(() => {
-        spyOn(configInitializerService, 'getStable').and.returnValue(
+        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
           of({
             direction: {
               detect: true,
@@ -122,9 +122,9 @@ describe('DirectionService', () => {
   describe('initialize', () => {
     describe('when `detect` config is falsy', () => {
       beforeEach(() => {
-        spyOn(languageService, 'getActive').and.callThrough();
-        spyOn(service, 'setDirection');
-        spyOn(configInitializerService, 'getStable').and.returnValue(
+        vi.spyOn(languageService, 'getActive');
+        vi.spyOn(service, 'setDirection').mockImplementation(() => {});
+        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
           of({
             direction: { detect: false, default: DirectionMode.LTR },
           })
@@ -144,7 +144,7 @@ describe('DirectionService', () => {
 
     describe('when `detect` config is true', () => {
       beforeEach(() => {
-        spyOn(configInitializerService, 'getStable').and.returnValue(
+        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
           of({
             direction: { detect: true, default: DirectionMode.LTR },
           })
@@ -155,9 +155,9 @@ describe('DirectionService', () => {
         const TEST_LANGUAGE = 'testLanguage';
         const TEST_DIRECTION = 'testDirection' as DirectionMode;
 
-        spyOn(languageService, 'getActive').and.returnValue(of(TEST_LANGUAGE));
-        spyOn(service, 'setDirection');
-        spyOn(service, 'getDirection').and.returnValue(TEST_DIRECTION);
+        vi.spyOn(languageService, 'getActive').mockReturnValue(of(TEST_LANGUAGE));
+        vi.spyOn(service, 'setDirection').mockImplementation(() => {});
+        vi.spyOn(service, 'getDirection').mockReturnValue(TEST_DIRECTION);
 
         service.initialize();
 
@@ -175,14 +175,13 @@ describe('DirectionService', () => {
         const TEST_DIRECTION_2 = 'testDirection_2' as DirectionMode;
 
         const mockActiveLanguage$ = new Subject<string>();
-        spyOn(languageService, 'getActive').and.returnValue(
+        vi.spyOn(languageService, 'getActive').mockReturnValue(
           mockActiveLanguage$
         );
-        spyOn(service, 'setDirection');
-        spyOn(service, 'getDirection').and.returnValues(
-          TEST_DIRECTION_1,
-          TEST_DIRECTION_2
-        );
+        vi.spyOn(service, 'setDirection').mockImplementation(() => {});
+        vi.spyOn(service, 'getDirection')
+          .mockReturnValueOnce(TEST_DIRECTION_1)
+          .mockReturnValueOnce(TEST_DIRECTION_2);
 
         service.initialize();
 

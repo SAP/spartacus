@@ -2,15 +2,12 @@ import { Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureToggles, I18nTestingModule } from '@spartacus/core';
 import { SortingComponent } from './sorting.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
 
 describe('SortingComponent', () => {
   @Directive({ selector: '[cxNgSelectA11y]' })
@@ -26,7 +23,7 @@ describe('SortingComponent', () => {
   let fixture: ComponentFixture<SortingComponent>;
   let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         NgSelectModule,
@@ -37,7 +34,7 @@ describe('SortingComponent', () => {
       ],
       providers: [provideMockFeatureToggles({ ...mockFeatureToggles })],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SortingComponent);
@@ -51,36 +48,40 @@ describe('SortingComponent', () => {
   });
 
   it('should emit sort event', () => {
-    spyOn(component.sortListEvent, 'emit');
+    vi.spyOn(component.sortListEvent, 'emit');
     component.sortList('sortCode');
     expect(component.sortListEvent.emit).toHaveBeenCalledWith('sortCode');
   });
 
   describe('sortList() focus management (a11yRestoreFocusOnNgSelect)', () => {
-    it('should focus the inner combobox after sort when toggle is enabled', fakeAsync(() => {
+    it('should focus the inner combobox after sort when toggle is enabled', () => {
+      vi.useFakeTimers();
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
       ) as HTMLElement;
-      spyOn(combobox, 'focus');
+      const focusSpy = vi.spyOn(combobox, 'focus');
 
       component.sortList('relevance');
-      tick(16);
+      vi.runAllTimers();
 
-      expect(combobox.focus).toHaveBeenCalled();
-    }));
+      expect(focusSpy).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
 
-    it('should NOT focus the inner combobox after sort when toggle is disabled', fakeAsync(() => {
+    it('should NOT focus the inner combobox after sort when toggle is disabled', () => {
+      vi.useFakeTimers();
       featureToggles.a11yRestoreFocusOnNgSelect = false;
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
       ) as HTMLElement;
-      spyOn(combobox, 'focus');
+      const focusSpy = vi.spyOn(combobox, 'focus');
 
       component.sortList('relevance');
-      tick(16);
+      vi.runAllTimers();
 
-      expect(combobox.focus).not.toHaveBeenCalled();
-    }));
+      expect(focusSpy).not.toHaveBeenCalled();
+      vi.useRealTimers();
+    });
   });
 
   describe('selectedLabel', () => {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FocusDirective } from './focus.directive';
 import { KeyboardFocusService } from './services';
@@ -31,7 +31,7 @@ describe('FocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let keyboardFocusService: KeyboardFocusService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [FocusDirective, MockComponent],
       providers: [
@@ -46,7 +46,7 @@ describe('FocusDirective', () => {
 
     component = fixture.componentInstance;
     keyboardFocusService = TestBed.inject(KeyboardFocusService);
-  }));
+  });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -65,7 +65,7 @@ describe('FocusDirective', () => {
     const el: HTMLElement = fixture.debugElement.query(
       By.css('#a')
     ).nativeElement;
-    spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(el);
+    vi.spyOn(keyboardFocusService, 'findFirstFocusable').mockReturnValue(el);
     fixture.detectChanges();
 
     expect(document.activeElement.id).toEqual('a');
@@ -76,10 +76,10 @@ describe('FocusDirective', () => {
       By.css('#a')
     ).nativeElement;
 
-    let spiedFirstFocusable = spyOn(
+    let spiedFirstFocusable = vi.spyOn(
       keyboardFocusService,
       'findFirstFocusable'
-    ).and.returnValue(el);
+    ).mockReturnValue(el);
 
     component.modelA = '1';
     fixture.detectChanges();
@@ -92,7 +92,7 @@ describe('FocusDirective', () => {
     // to trigger ngAfterViewInit hook manually
     fixture.detectChanges();
 
-    let spiedFirstFocusable = spyOn(keyboardFocusService, 'findFirstFocusable');
+    let spiedFirstFocusable = vi.spyOn(keyboardFocusService, 'findFirstFocusable');
 
     component.modelB = '1';
     fixture.detectChanges();

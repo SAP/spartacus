@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Classification,
@@ -57,7 +57,7 @@ describe('ProductAttributesComponent in product', () => {
   let productAttributesComponent: ProductAttributesComponent;
   let fixture: ComponentFixture<ProductAttributesComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProductAttributesComponent],
       providers: [
@@ -67,7 +67,7 @@ describe('ProductAttributesComponent in product', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductAttributesComponent);

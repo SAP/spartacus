@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By, DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { CmsComponent, CmsParagraphComponent } from '@spartacus/core';
@@ -44,7 +44,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     }
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ParagraphComponent],
       providers: [
@@ -60,7 +60,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
         add: { imports: [MockAnchorPipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ParagraphComponent);
@@ -87,7 +87,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     const unsafeData = Object.assign({}, componentData);
     unsafeData.content = `<img src="" onerror='alert(1)'>`;
     data$.next(unsafeData);
-    spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
+    vi.spyOn(console, 'warn').mockImplementation(() => {}); // Prevent warning to be showed by Angular when sanitizing
     fixture.detectChanges();
     expect(el.query(By.css('div')).nativeElement.innerHTML).toEqual(
       `<img src="">`
@@ -95,7 +95,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   });
 
   it('should emit handleClick event', () => {
-    spyOn(paragraphComponent, 'handleClick');
+    vi.spyOn(paragraphComponent, 'handleClick');
     expect(paragraphComponent.handleClick).toHaveBeenCalledTimes(0);
     el.nativeElement.click();
     fixture.detectChanges();
@@ -104,7 +104,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   describe('Internal Link Navigation', () => {
     beforeEach(() => {
-      spyOn(router, 'navigateByUrl');
+      vi.spyOn(router, 'navigateByUrl');
 
       // Prevent external link navigation
       window.onbeforeunload = function () {
@@ -134,10 +134,10 @@ describe('CmsParagraphComponent in CmsLib', () => {
     });
 
     it('should call DOM sanitizer', () => {
-      const bypassSecurityTrustHtmlSpy = spyOn(
+      const bypassSecurityTrustHtmlSpy = vi.spyOn(
         domSanitizer,
         'bypassSecurityTrustHtml'
-      ).and.callThrough();
+      );
 
       data$.next(componentData);
       fixture.detectChanges();
@@ -164,7 +164,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
    */
   describe('External Link Navigation', () => {
     beforeEach(() => {
-      spyOn(router, 'navigateByUrl');
+      vi.spyOn(router, 'navigateByUrl');
 
       // Prevent external link navigation
       window.onbeforeunload = function () {

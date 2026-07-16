@@ -2,7 +2,6 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { SupplementHashAnchorsPipe } from './supplement-hash-anchors.pipe';
-import createSpy = jasmine.createSpy;
 
 const pathname = '/electronics-spa/en/USD/faq';
 const search = '?query=param&and=other';
@@ -17,10 +16,10 @@ const mockWindowRef = {
 };
 
 const mockRenderer2 = {
-  createElement: createSpy('createElement').and.callFake((type: string) =>
+  createElement: vi.fn().mockImplementation((type: string) =>
     document.createElement(type)
   ),
-  setProperty: createSpy('setProperty').and.callFake(
+  setProperty: vi.fn().mockImplementation(
     (el: HTMLElement, prop: string, val: string) => (el[prop] = val)
   ),
 };

@@ -175,7 +175,7 @@ describe('BannerComponent', () => {
 
   describe('setRouterLink()', () => {
     it('should return url', () => {
-      spyOn<any>(bannerComponent, 'setRouterLink');
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerData);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual(mockBannerData.urlLink);
@@ -190,7 +190,7 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         contentPage: 'HomePage',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerDataWithContentPage);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('HomePage');
@@ -205,7 +205,7 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         product: 'Sony X Camera',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerDataWithProduct);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Sony X Camera');
@@ -220,7 +220,7 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         product: 'Cameras',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
+      vi.spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerDataWithCategory);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Cameras');

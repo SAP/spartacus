@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   EventService,
   FeatureDirective,
@@ -50,7 +50,7 @@ describe('ProductIntroComponent in product', () => {
   let translationService: TranslationService;
   let eventService: EventService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ProductIntroComponent],
       providers: [
@@ -81,11 +81,11 @@ describe('ProductIntroComponent in product', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     translationService = TestBed.inject(TranslationService);
-    spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(reviewsLabel));
 
     eventService = TestBed.inject(EventService);
 
@@ -100,7 +100,7 @@ describe('ProductIntroComponent in product', () => {
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {
     it('should click tab with no classes', () => {
       const tabElement: HTMLElement = document.createElement('div');
-      spyOn(tabElement, 'click');
+      vi.spyOn(tabElement, 'click');
       (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).toHaveBeenCalled();
     });
@@ -108,7 +108,7 @@ describe('ProductIntroComponent in product', () => {
     it('should not click tab with active class', () => {
       const tabElement: HTMLElement = document.createElement('div');
       tabElement.classList.add('active');
-      spyOn(tabElement, 'click');
+      vi.spyOn(tabElement, 'click');
       (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).not.toHaveBeenCalled();
     });
@@ -116,7 +116,7 @@ describe('ProductIntroComponent in product', () => {
     it('should click tab with toggled classes', () => {
       const tabElement: HTMLElement = document.createElement('div');
       tabElement.classList.add('toggled');
-      spyOn(tabElement, 'click');
+      vi.spyOn(tabElement, 'click');
       (productIntroComponent as any).clickTabIfInactive(tabElement);
       expect(tabElement.click).toHaveBeenCalled();
     });
@@ -125,7 +125,7 @@ describe('ProductIntroComponent in product', () => {
       const tab: HTMLElement = document.createElement('div');
       tab.classList.add('active');
       tab.classList.add('toggled');
-      spyOn(tab, 'click');
+      vi.spyOn(tab, 'click');
       (productIntroComponent as any).clickTabIfInactive(tab);
       expect(tab.click).toHaveBeenCalled();
     });
@@ -206,7 +206,7 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
+      vi.spyOn(eventService, 'get').mockReturnValueOnce(of(event)).mockReturnValueOnce(EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -226,7 +226,7 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(event), EMPTY);
+      vi.spyOn(eventService, 'get').mockReturnValueOnce(of(event)).mockReturnValueOnce(EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -242,7 +242,7 @@ describe('ProductIntroComponent in product', () => {
       );
     });
 
-    it('should scroll to Reviews tab and set focus on Show Reviews click', (done) => {
+    it('should scroll to Reviews tab and set focus on Show Reviews click', async () => {
       const tab1: HTMLElement = document.createElement('button');
       const reviewsTab: HTMLElement = document.createElement('button');
 
@@ -256,18 +256,16 @@ describe('ProductIntroComponent in product', () => {
         averageRating: 4.5,
       } as Product);
 
-      spyOn(reviewsTab, 'focus');
-      spyOn(reviewsTab, 'scrollIntoView');
+      vi.spyOn(reviewsTab, 'focus');
+      vi.spyOn(reviewsTab, 'scrollIntoView');
 
       fixture.detectChanges();
 
       productIntroComponent.showReviews();
 
-      setTimeout(() => {
-        expect(reviewsTab.focus).toHaveBeenCalled();
-        expect(reviewsTab.scrollIntoView).toHaveBeenCalled();
-        done();
-      }, 100);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      expect(reviewsTab.focus).toHaveBeenCalled();
+      expect(reviewsTab.scrollIntoView).toHaveBeenCalled();
     });
   });
 });

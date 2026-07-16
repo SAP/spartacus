@@ -48,7 +48,7 @@ describe('DatePickerService', () => {
 
   describe('yyyy/mm/dd', () => {
     beforeEach(() => {
-      spyOnProperty(service, 'placeholder').and.returnValue('yyyy/mm/dd');
+      vi.spyOn(service, 'placeholder', 'get').mockReturnValue('yyyy/mm/dd');
     });
 
     it('should return date pattern', () => {
@@ -62,7 +62,7 @@ describe('DatePickerService', () => {
 
   describe('dd.mm.yyyy', () => {
     beforeEach(() => {
-      spyOnProperty(service, 'placeholder').and.returnValue('dd.mm.yyyy');
+      vi.spyOn(service, 'placeholder', 'get').mockReturnValue('dd.mm.yyyy');
     });
 
     it('should return date pattern ', () => {
@@ -76,7 +76,7 @@ describe('DatePickerService', () => {
 
   describe('dd-mm-yyyy', () => {
     beforeEach(() => {
-      spyOnProperty(service, 'placeholder').and.returnValue('dd-mm-yyyy');
+      vi.spyOn(service, 'placeholder', 'get').mockReturnValue('dd-mm-yyyy');
     });
 
     it('should return date pattern ', () => {
@@ -90,7 +90,7 @@ describe('DatePickerService', () => {
 
   describe('dd mm yyyy', () => {
     beforeEach(() => {
-      spyOnProperty(service, 'placeholder').and.returnValue('dd mm yyyy');
+      vi.spyOn(service, 'placeholder', 'get').mockReturnValue('dd mm yyyy');
     });
 
     it('should return date pattern ', () => {

@@ -15,7 +15,6 @@ import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
-import createSpy = jasmine.createSpy;
 
 const NOT_FOUND_ROUTE_NAME = 'notFound';
 const NOT_FOUND_URL = '/not-found';
@@ -49,7 +48,7 @@ class MockCmsComponentsService implements Partial<CmsComponentsService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  changeNextPageContext = createSpy();
+  changeNextPageContext = vi.fn();
 }
 
 describe('CmsPageGuardService', () => {
@@ -102,7 +101,7 @@ describe('CmsPageGuardService', () => {
     });
 
     it('should get component types for page', () => {
-      spyOn(cms, 'getPageComponentTypes').and.returnValue(NEVER);
+      vi.spyOn(cms, 'getPageComponentTypes').mockReturnValue(NEVER);
       service
         .canActivatePage(pageContext, pageData, route, state)
         .subscribe()
@@ -112,7 +111,7 @@ describe('CmsPageGuardService', () => {
 
     describe('when CmsGuardsService emits false', () => {
       beforeEach(() => {
-        spyOn(cmsGuards, 'cmsPageCanActivate').and.returnValue(of(false));
+        vi.spyOn(cmsGuards, 'cmsPageCanActivate').mockReturnValue(of(false));
       });
 
       it('should emit false', () => {
@@ -125,7 +124,7 @@ describe('CmsPageGuardService', () => {
       });
 
       it('should not load i18n keys for the page', () => {
-        spyOn(cmsI18n, 'loadForComponents');
+        vi.spyOn(cmsI18n, 'loadForComponents');
         service
           .canActivatePage(pageContext, pageData, route, state)
           .subscribe()
@@ -134,7 +133,7 @@ describe('CmsPageGuardService', () => {
       });
 
       it('should not try to register cms child routes', () => {
-        spyOn(cmsRoutes, 'handleCmsRoutesInGuard');
+        vi.spyOn(cmsRoutes, 'handleCmsRoutesInGuard');
         service
           .canActivatePage(pageContext, pageData, route, state)
           .subscribe()
@@ -148,7 +147,7 @@ describe('CmsPageGuardService', () => {
 
       beforeEach(() => {
         urlTree = new UrlTree();
-        spyOn(cmsGuards, 'cmsPageCanActivate').and.returnValue(of(urlTree));
+        vi.spyOn(cmsGuards, 'cmsPageCanActivate').mockReturnValue(of(urlTree));
       });
 
       it('should emit this UrlTree', () => {
@@ -161,7 +160,7 @@ describe('CmsPageGuardService', () => {
       });
 
       it('should not load i18n keys for the page', () => {
-        spyOn(cmsI18n, 'loadForComponents');
+        vi.spyOn(cmsI18n, 'loadForComponents');
         service
           .canActivatePage(pageContext, pageData, route, state)
           .subscribe()
@@ -170,7 +169,7 @@ describe('CmsPageGuardService', () => {
       });
 
       it('should not try to register cms child routes', () => {
-        spyOn(cmsRoutes, 'handleCmsRoutesInGuard');
+        vi.spyOn(cmsRoutes, 'handleCmsRoutesInGuard');
         service
           .canActivatePage(pageContext, pageData, route, state)
           .subscribe()
@@ -185,12 +184,12 @@ describe('CmsPageGuardService', () => {
       beforeEach(() => {
         componentTypes = ['componentType1, componentType2'];
 
-        spyOn(cmsGuards, 'cmsPageCanActivate').and.returnValue(of(true));
-        spyOn(cms, 'getPageComponentTypes').and.returnValue(of(componentTypes));
+        vi.spyOn(cmsGuards, 'cmsPageCanActivate').mockReturnValue(of(true));
+        vi.spyOn(cms, 'getPageComponentTypes').mockReturnValue(of(componentTypes));
       });
 
       it('should load i18n keys for the page', () => {
-        spyOn(cmsI18n, 'loadForComponents');
+        vi.spyOn(cmsI18n, 'loadForComponents');
         service
           .canActivatePage(pageContext, pageData, route, state)
           .subscribe()
@@ -204,7 +203,7 @@ describe('CmsPageGuardService', () => {
         });
 
         it('should not try to register cms child routes', () => {
-          spyOn(cmsRoutes, 'handleCmsRoutesInGuard');
+          vi.spyOn(cmsRoutes, 'handleCmsRoutesInGuard');
           service
             .canActivatePage(pageContext, pageData, route, state)
             .subscribe()
@@ -224,7 +223,7 @@ describe('CmsPageGuardService', () => {
 
           const expectedResult = {};
 
-          spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.returnValue(
+          vi.spyOn(cmsRoutes, 'handleCmsRoutesInGuard').mockReturnValue(
             expectedResult as any
           );
 
@@ -247,7 +246,7 @@ describe('CmsPageGuardService', () => {
 
           const expectedResult = {};
 
-          spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.returnValue(
+          vi.spyOn(cmsRoutes, 'handleCmsRoutesInGuard').mockReturnValue(
             expectedResult as any
           );
 
@@ -283,7 +282,7 @@ describe('CmsPageGuardService', () => {
     });
 
     it('should return false when cannot get the content of the NOT FOUND page', () => {
-      spyOn(cms, 'getPage').and.returnValue(of(null));
+      vi.spyOn(cms, 'getPage').mockReturnValue(of(null));
       let result;
       service
         .canActivateNotFoundPage(pageContext, route, state)
@@ -293,8 +292,8 @@ describe('CmsPageGuardService', () => {
     });
 
     it('should use page id of the NOT FOUND page', () => {
-      spyOn(cms, 'getPage').and.returnValue(of(null));
-      spyOn(semanticPath, 'get').and.callThrough();
+      vi.spyOn(cms, 'getPage').mockReturnValue(of(null));
+      vi.spyOn(semanticPath, 'get');
       service
         .canActivateNotFoundPage(pageContext, route, state)
         .subscribe()
@@ -309,14 +308,14 @@ describe('CmsPageGuardService', () => {
     it('should assign the content of the `not found page` for the requested page id', () => {
       const notFoundPageIndex = 'notFoundPageIndex';
       const expected = {};
-      spyOn(service, 'canActivatePage').and.returnValue(of(expected as any));
-      spyOn(cms, 'getPage').and.returnValue(of(notFoundPageData));
-      spyOn(cms, 'getPageIndex').and.callFake((ctx: PageContext) =>
+      vi.spyOn(service, 'canActivatePage').mockReturnValue(of(expected as any));
+      vi.spyOn(cms, 'getPage').mockReturnValue(of(notFoundPageData));
+      vi.spyOn(cms, 'getPageIndex').mockImplementation((ctx: PageContext) =>
         ctx.id === NOT_FOUND_URL
           ? of(notFoundPageIndex)
           : of(undefined, notFoundPageIndex)
       );
-      spyOn(cms, 'setPageFailIndex');
+      vi.spyOn(cms, 'setPageFailIndex');
 
       let result;
       service
@@ -340,9 +339,9 @@ describe('CmsPageGuardService', () => {
 
     it('should change the page context', () => {
       const notFoundPageIndex = 'notFoundPageIndex';
-      spyOn(service, 'canActivatePage').and.returnValue(of({} as any));
-      spyOn(cms, 'getPage').and.returnValue(of(notFoundPageData));
-      spyOn(cms, 'getPageIndex').and.callFake((ctx: PageContext) =>
+      vi.spyOn(service, 'canActivatePage').mockReturnValue(of({} as any));
+      vi.spyOn(cms, 'getPage').mockReturnValue(of(notFoundPageData));
+      vi.spyOn(cms, 'getPageIndex').mockImplementation((ctx: PageContext) =>
         ctx.id === NOT_FOUND_URL
           ? of(notFoundPageIndex)
           : of(undefined, notFoundPageIndex)

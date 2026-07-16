@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import {
   I18nTestingModule,
@@ -18,14 +18,14 @@ describe('FormErrors', () => {
 
   const getContent = () => fixture.debugElement.nativeElement.innerText;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({})
       .overrideComponent(FormErrorsComponent, {
         remove: { imports: [MockFeatureDirective, TranslatePipe] },
         add: { imports: [MockFeatureDirective, I18nTestingModule] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);
@@ -126,9 +126,9 @@ describe('FormErrors', () => {
           `${component.prefix}.${mockErrorName}`,
           `${component.fallbackPrefix}.${mockErrorName}`,
         ];
-        spyOn(MockTranslatePipe.prototype, 'transform')
+        vi.spyOn(MockTranslatePipe.prototype, 'transform')
           .withArgs(errorKeys, {})
-          .and.returnValue(errorKeys[1]);
+          .mockReturnValue(errorKeys[1]);
 
         control.setErrors(mockError);
         control.markAsTouched();
@@ -152,9 +152,9 @@ describe('FormErrors', () => {
           `${component.prefix}.${mockErrorName}`,
           `${component.fallbackPrefix}.${mockErrorName}`,
         ];
-        spyOn(MockTranslatePipe.prototype, 'transform')
+        vi.spyOn(MockTranslatePipe.prototype, 'transform')
           .withArgs(errorKeys, {})
-          .and.returnValue(errorKeys[1]);
+          .mockReturnValue(errorKeys[1]);
 
         control.setErrors(mockError);
         control.markAsTouched();
@@ -165,7 +165,7 @@ describe('FormErrors', () => {
 
     describe('params', () => {
       it('should use the method `getTranslationParams`', () => {
-        spyOn(component, 'getTranslationParams').and.returnValue({
+        vi.spyOn(component, 'getTranslationParams').mockReturnValue({
           foo: '1',
           bar: '2',
         });

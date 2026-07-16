@@ -1,6 +1,6 @@
 import { ViewportScroller } from '@angular/common';
 import { ApplicationRef, Component, Injector } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   NavigationEnd,
   Router,
@@ -116,9 +116,9 @@ describe('OnNavigateService', () => {
       ignoreRoutes: [],
     };
 
-    spyOn(service, 'setResetViewOnNavigate').and.callThrough();
-    spyOn(viewportScroller, 'scrollToPosition').and.callThrough();
-    spyOn(viewportScroller, 'scrollToAnchor').and.callThrough();
+    vi.spyOn(service, 'setResetViewOnNavigate');
+    vi.spyOn(viewportScroller, 'scrollToPosition');
+    vi.spyOn(viewportScroller, 'scrollToAnchor');
   });
 
   describe('initializeWithConfig()', () => {
@@ -138,15 +138,17 @@ describe('OnNavigateService', () => {
   });
 
   describe('setResetViewOnNavigate()', () => {
-    it('should scroll to the top on navigation when no position (forward navigation)', fakeAsync(() => {
+    it('should scroll to the top on navigation when no position (forward navigation)', async () => {
+      vi.useFakeTimers();
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
-    }));
+    });
 
     it('should NOT scroll to the top on navigation when route has query strings', () => {
       config.enableResetViewOnNavigate.ignoreQueryString = true;
@@ -172,39 +174,45 @@ describe('OnNavigateService', () => {
       ]);
     });
 
-    it('should call scrollToAnchor when anchor exist', fakeAsync(() => {
+    it('should call scrollToAnchor when anchor exist', async () => {
+      vi.useFakeTimers();
       service.setResetViewOnNavigate(true);
       const anchor = 'a001';
       emitPairScrollEvent(null, '/test3', '/test1', anchor);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       expect(viewportScroller.scrollToAnchor).toHaveBeenCalledWith(anchor);
-    }));
+    });
 
-    it('should scroll to the top on navigation when route is not part of the ignored config routes', fakeAsync(() => {
+    it('should scroll to the top on navigation when route is not part of the ignored config routes', async () => {
+      vi.useFakeTimers();
       config.enableResetViewOnNavigate.ignoreRoutes = ['test1', 'test2'];
 
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null, '/test3');
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([0, 0]);
-    }));
+    });
 
-    it('should scroll to a position on navigation when scroll contains position (backward navigation)', fakeAsync(() => {
+    it('should scroll to a position on navigation when scroll contains position (backward navigation)', async () => {
+      vi.useFakeTimers();
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent([1000, 500]);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       expect(viewportScroller.scrollToPosition).toHaveBeenCalledWith([
         1000, 500,
       ]);
-    }));
+    });
 
     it('should NOT scroll when on navigation is disabled', () => {
       service.setResetViewOnNavigate(false);
@@ -215,7 +223,7 @@ describe('OnNavigateService', () => {
     });
 
     it('should trigger focus on any navigation', () => {
-      spyOn(mockComponentRef.location.nativeElement, 'focus').and.callThrough();
+      vi.spyOn(mockComponentRef.location.nativeElement, 'focus');
       service.setResetViewOnNavigate(true);
 
       emitPairScrollEvent(null);
@@ -235,7 +243,7 @@ describe('OnNavigateService', () => {
 
     it('should call focus on storefront component when selectedHostElement is set', () => {
       const ref: any = service.selectedHostElement;
-      spyOn(ref, 'focus').and.callThrough();
+      vi.spyOn(ref, 'focus');
       service.setResetViewOnNavigate(true);
       emitPairScrollEvent(null);
       expect(ref.focus).toHaveBeenCalled();

@@ -28,9 +28,9 @@ describe('SeoMetaService', () => {
   let ngTitleService: Title;
   let ngMetaService: Meta;
 
-  let updateMetaTagSpy: jasmine.Spy;
-  let removeMetaTagSpy: jasmine.Spy;
-  let addCanonicalLinkSpy: jasmine.Spy;
+  let updateMetaTagSpy: vi.Mock;
+  let removeMetaTagSpy: vi.Mock;
+  let addCanonicalLinkSpy: vi.Mock;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,9 +49,9 @@ describe('SeoMetaService', () => {
     ngTitleService = TestBed.inject(Title);
     ngMetaService = TestBed.inject(Meta);
 
-    updateMetaTagSpy = spyOn(ngMetaService, 'updateTag');
-    removeMetaTagSpy = spyOn(ngMetaService, 'removeTag');
-    addCanonicalLinkSpy = spyOn(
+    updateMetaTagSpy = vi.spyOn(ngMetaService, 'updateTag');
+    removeMetaTagSpy = vi.spyOn(ngMetaService, 'removeTag');
+    addCanonicalLinkSpy = vi.spyOn(
       TestBed.inject(PageMetaLinkService),
       'setCanonicalLink'
     );
@@ -62,7 +62,7 @@ describe('SeoMetaService', () => {
   });
 
   it('should not any default tags', () => {
-    spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+    vi.spyOn(pageMetaService, 'getMeta').mockReturnValue(of({}));
     seoMetaService.init();
     expect(updateMetaTagSpy).not.toHaveBeenCalled();
   });
@@ -82,7 +82,7 @@ describe('SeoMetaService', () => {
     });
 
     it('Should remove description meta tag', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+      vi.spyOn(pageMetaService, 'getMeta').mockReturnValue(of({}));
       seoMetaService.init();
       expect(removeMetaTagSpy).toHaveBeenCalledWith('name="description"');
     });
@@ -98,7 +98,7 @@ describe('SeoMetaService', () => {
     });
 
     it('Should remove og:image meta tag', () => {
-      spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+      vi.spyOn(pageMetaService, 'getMeta').mockReturnValue(of({}));
       seoMetaService.init();
       expect(removeMetaTagSpy).toHaveBeenCalledWith('name="og:image"');
     });

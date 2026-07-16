@@ -1,11 +1,8 @@
 import { Component, Input, OnDestroy, TemplateRef } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+  } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective as CxFeatureDirective,
@@ -60,7 +57,7 @@ describe('Carousel Component', () => {
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
   let template: TemplateRef<any>;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CarouselComponent, MockTemplateComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
@@ -78,7 +75,7 @@ describe('Carousel Component', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);
@@ -97,7 +94,7 @@ describe('Carousel Component', () => {
 
     it('should log an error when there is no render template given', () => {
       const logger = TestBed.inject(LoggerService);
-      spyOn(logger, 'error');
+      vi.spyOn(logger, 'error');
       component.ngOnInit();
       expect(logger.error).toHaveBeenCalledWith(
         'No template reference provided to render the carousel items for the `cx-carousel`'
@@ -105,7 +102,7 @@ describe('Carousel Component', () => {
     });
 
     it('should have a size of 4 items per slide', () => {
-      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
       component.template = template;
       component.ngOnInit();
       let results: number;
@@ -116,7 +113,7 @@ describe('Carousel Component', () => {
     });
 
     it('should default to first activeSlide', () => {
-      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
       component.template = template;
       component.ngOnInit();
       component.ngOnChanges();
@@ -151,7 +148,7 @@ describe('Carousel Component', () => {
     });
     describe('carousel title', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
+        vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(1));
         component.items = [EMPTY];
       });
 
@@ -164,7 +161,7 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.query(By.css('h2'));
         expect(el.nativeElement).toBeTruthy();
 
-        expect((<HTMLElement>el.nativeElement).innerText).toEqual(
+        expect((<HTMLElement>el.nativeElement).textContent).toEqual(
           'test carousel with title'
         );
       });
@@ -180,7 +177,7 @@ describe('Carousel Component', () => {
 
     describe('carousel buttons', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+        vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
         component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         component.ngOnChanges();
@@ -296,7 +293,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 5 items divided by 2 slides', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+        vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(4));
         component.items = [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
         component.ngOnChanges();
@@ -334,7 +331,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 7 items divided by 3 slides', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
+        vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(3));
         component.title = 'test carousel with title';
         component.items = [
           EMPTY,
@@ -382,7 +379,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 3 items divided by 1 slide', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
+        vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(3));
         component.title = 'test carousel with title';
         component.items = [EMPTY, EMPTY, EMPTY];
         component.ngOnInit();
@@ -417,7 +414,7 @@ describe('Carousel Component', () => {
 
     describe('empty carousel', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(1));
+        vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(1));
         component.items = [];
       });
 
@@ -482,7 +479,7 @@ describe('Carousel Component', () => {
 
     describe('onItemKeydown', () => {
       it('should call focusNextPrevItem with +1 when ArrowRight is pressed', () => {
-        spyOn(<any>component, 'focusNextPrevItem');
+        vi.spyOn(<any>component, 'focusNextPrevItem');
         const keyboardEvent = new KeyboardEvent('keydown', {
           key: 'ArrowRight',
         });
@@ -500,7 +497,7 @@ describe('Carousel Component', () => {
       });
 
       it('should call focusNextPrevItem with -1 when ArrowLeft is pressed', () => {
-        spyOn(<any>component, 'focusNextPrevItem');
+        vi.spyOn(<any>component, 'focusNextPrevItem');
         const keyboardEvent = new KeyboardEvent('keydown', {
           key: 'ArrowLeft',
         });
@@ -518,7 +515,7 @@ describe('Carousel Component', () => {
       });
 
       it('should not handle keydown events other than ArrowRight or ArrowLeft', () => {
-        spyOn(<any>component, 'focusNextPrevItem');
+        vi.spyOn(<any>component, 'focusNextPrevItem');
         const keyboardEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
 
         const targetElement = nativeElement.querySelector(
@@ -544,7 +541,7 @@ describe('Carousel Component', () => {
       it('should focus the next item within the current slide', () => {
         const initialIndex = 0;
         const targetIndex = 1;
-        spyOn(focusableElements[targetIndex], 'focus');
+        vi.spyOn(focusableElements[targetIndex], 'focus');
 
         component['focusNextPrevItem'](
           focusableElements[initialIndex],
@@ -560,7 +557,7 @@ describe('Carousel Component', () => {
         const initialIndex = 3;
         const targetIndex = 4;
 
-        spyOn(focusableElements[targetIndex], 'addEventListener');
+        vi.spyOn(focusableElements[targetIndex], 'addEventListener');
 
         component['focusNextPrevItem'](
           focusableElements[initialIndex],
@@ -570,20 +567,20 @@ describe('Carousel Component', () => {
 
         expect(
           focusableElements[targetIndex].addEventListener
-        ).toHaveBeenCalledWith('transitionend', jasmine.any(Function), {
+        ).toHaveBeenCalledWith('transitionend', expect.any(Function), {
           once: true,
         });
         expect(component.activeSlide).toBe(4);
       });
 
-      it('should handle transitionend event to focus the target element', (done) => {
+      it('should handle transitionend event to focus the target element', async () => {
         const initialIndex = 3;
         const targetIndex = 4;
         const focusableElements = nativeElement.querySelectorAll(
           '[cxFocusableCarouselItem]'
         );
         const targetElement = focusableElements[targetIndex] as HTMLElement;
-        spyOn(targetElement, 'focus');
+        vi.spyOn(targetElement, 'focus');
 
         component['focusNextPrevItem'](
           focusableElements[initialIndex],
@@ -594,15 +591,13 @@ describe('Carousel Component', () => {
         const event = new Event('transitionend');
         targetElement.dispatchEvent(event);
 
-        setTimeout(() => {
-          expect(targetElement.focus).toHaveBeenCalled();
-          done();
-        }, 100);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        expect(targetElement.focus).toHaveBeenCalled();
       });
 
       it('should not change focus if attempting to navigate out of bounds', () => {
         const initialIndex = 0;
-        spyOn(focusableElements[initialIndex], 'focus');
+        vi.spyOn(focusableElements[initialIndex], 'focus');
 
         component['focusNextPrevItem'](
           focusableElements[initialIndex],
@@ -642,15 +637,17 @@ describe('Carousel Component', () => {
         });
       });
 
-      it('should restore tabIndex to 0 after a short delay', fakeAsync(() => {
+      it('should restore tabIndex to 0 after a short delay', async () => {
+        vi.useFakeTimers();
         component['skipTabForCarouselItems']();
 
-        tick(100);
+        await vi.advanceTimersByTimeAsync(100);
+        vi.useRealTimers();
 
         carouselItems.forEach((item) => {
           expect(item.tabIndex).toBe(0);
         });
-      }));
+      });
     });
   });
 
@@ -715,7 +712,7 @@ describe('Carousel Component tested in TestParentComponent', () => {
   let parentFixture: ComponentFixture<TestParentComponent>;
   let service: CarouselService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestChildComponent.destroyedCount = 0;
     TestBed.configureTestingModule({
       imports: [CarouselComponent, TestParentComponent, TestChildComponent],
@@ -728,8 +725,8 @@ describe('Carousel Component tested in TestParentComponent', () => {
       .compileComponents();
 
     service = TestBed.inject(CarouselService);
-    spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));
-  }));
+    vi.spyOn(service, 'getItemsPerSlide').mockReturnValue(of(2));
+  });
 
   beforeEach(() => {
     parentFixture = TestBed.createComponent(TestParentComponent);

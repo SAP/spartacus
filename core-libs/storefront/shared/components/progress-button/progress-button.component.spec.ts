@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from 'core-libs/core/src/i18n';
 import { ProgressButtonComponent } from './progress-button.component';
@@ -15,11 +15,11 @@ describe('ProgressButtonComponent', () => {
   let fixture: ComponentFixture<ProgressButtonComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProgressButtonComponent, TestHostComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProgressButtonComponent);
@@ -60,7 +60,7 @@ describe('ProgressButtonComponent', () => {
   });
 
   it('should trigger clickEvent on button click', () => {
-    spyOn(component.clickEvent, 'emit').and.callThrough();
+    vi.spyOn(component.clickEvent, 'emit');
 
     const button = el.query(By.css('.btn-primary')).nativeElement;
     button.click();
@@ -93,7 +93,7 @@ describe('ProgressButtonComponent', () => {
 
   describe('should not trigger clickEvent on button click when ', () => {
     beforeEach(() => {
-      spyOn(component.clickEvent, 'emit').and.callThrough();
+      vi.spyOn(component.clickEvent, 'emit');
     });
 
     it('button is disabled', () => {

@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import {
   KeyboardFocusTestingModule,
@@ -26,7 +26,7 @@ describe('TabPanelComponent', () => {
   let component: TabPanelComponent;
   let fixture: ComponentFixture<TabPanelComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [TabPanelComponent, MockComponent],
     })
@@ -35,7 +35,7 @@ describe('TabPanelComponent', () => {
         add: { imports: [MockKeyboardFocusDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabPanelComponent);

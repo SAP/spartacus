@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../config/layout-config';
 import { IntersectionService } from './intersection.service';
-import { take } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { cold } from 'jasmine-marbles';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -52,7 +51,7 @@ describe('IntersectionService', () => {
   });
 
   describe('isIntersecting', () => {
-    it('should emit false in case html element does not intersect', (done) => {
+    it('should emit false in case html element does not intersect', async () => {
       const element: HTMLElement = document.createElement('h2');
 
       const entry: IntersectionObserverEntry = {
@@ -64,20 +63,15 @@ describe('IntersectionService', () => {
       let intersectionObservable: Observable<IntersectionObserverEntry[]> = of([
         entry,
       ]);
-      spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
+      vi.spyOn<any>(service, 'createIntersectionObservable').mockReturnValue(
         intersectionObservable
       );
 
-      service
-        .isIntersecting(element)
-        .pipe(take(1))
-        .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(false);
-          done();
-        });
+      const isIntersected = await firstValueFrom(service.isIntersecting(element));
+      expect(isIntersected).toBe(false);
     });
 
-    it('should emit true in case element is intersecting', (done) => {
+    it('should emit true in case element is intersecting', async () => {
       const element: HTMLElement = document.createElement('section');
       const entry: IntersectionObserverEntry = {
         ...INTERSECTION_OBSERVER_ENTRY,
@@ -88,16 +82,11 @@ describe('IntersectionService', () => {
       let intersectionObservable: Observable<IntersectionObserverEntry[]> = of([
         entry,
       ]);
-      spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
+      vi.spyOn<any>(service, 'createIntersectionObservable').mockReturnValue(
         intersectionObservable
       );
-      service
-        .isIntersecting(element)
-        .pipe(take(1))
-        .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(true);
-          done();
-        });
+      const isIntersected = await firstValueFrom(service.isIntersecting(element));
+      expect(isIntersected).toBe(true);
     });
   });
 
@@ -110,7 +99,7 @@ describe('IntersectionService', () => {
         isIntersecting: false,
       };
       const inputObs = cold('a', { a: [entry] });
-      spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
+      vi.spyOn<any>(service, 'createIntersectionObservable').mockReturnValue(
         inputObs
       );
       const resultObs = cold('');
@@ -127,7 +116,7 @@ describe('IntersectionService', () => {
       };
 
       const inputObs = cold('a', { a: [entry] });
-      spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
+      vi.spyOn<any>(service, 'createIntersectionObservable').mockReturnValue(
         inputObs
       );
       const resultObs = cold('(a|)', { a: true });
@@ -151,7 +140,7 @@ describe('IntersectionService', () => {
       };
 
       const inputObs = cold('a', { a: [entry, entryMatchingCondition] });
-      spyOn<any>(service, 'createIntersectionObservable').and.returnValue(
+      vi.spyOn<any>(service, 'createIntersectionObservable').mockReturnValue(
         inputObs
       );
       const resultObs = cold('(a|)', { a: true });
@@ -164,17 +153,14 @@ describe('IntersectionService', () => {
   });
 
   describe('createIntersectionObservable', () => {
-    it('should emit observable containing an IntersectionObserverEntry', (done) => {
+    it('should emit observable containing an IntersectionObserverEntry', async () => {
       const element: HTMLElement = document.createElement('section');
-      service['createIntersectionObservable'](element, {})
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result.length).toBe(1);
-          const intersectionObserverEntry: IntersectionObserverEntry =
-            result[0];
-          expect(intersectionObserverEntry.isIntersecting).toBe(false);
-          done();
-        });
+      const result = await firstValueFrom(
+        service['createIntersectionObservable'](element, {})
+      );
+      expect(result.length).toBe(1);
+      const intersectionObserverEntry: IntersectionObserverEntry = result[0];
+      expect(intersectionObserverEntry.isIntersecting).toBe(false);
     });
   });
 
@@ -207,35 +193,27 @@ describe('IntersectionService SSR Platform Detection', () => {
       service = TestBed.inject(IntersectionService);
     });
 
-    it('should return false immediately for isIntersected in SSR', (done) => {
+    it('should return false immediately for isIntersected in SSR', async () => {
       const element: HTMLElement = document.createElement('section');
-
-      service.isIntersected(element).subscribe((isIntersected) => {
-        expect(isIntersected).toBe(false);
-        done();
-      });
+      const isIntersected = await firstValueFrom(service.isIntersected(element));
+      expect(isIntersected).toBe(false);
     });
 
-    it('should return false immediately for isIntersecting in SSR', (done) => {
+    it('should return false immediately for isIntersecting in SSR', async () => {
       const element: HTMLElement = document.createElement('section');
-
-      service.isIntersecting(element).subscribe((isIntersected) => {
-        expect(isIntersected).toBe(false);
-        done();
-      });
+      const isIntersected = await firstValueFrom(service.isIntersecting(element));
+      expect(isIntersected).toBe(false);
     });
 
-    it('should return false for intersecting conditions in SSR', (done) => {
+    it('should return false for intersecting conditions in SSR', async () => {
       const element: HTMLElement = document.createElement('section');
       const intersectingCondition = (entry: IntersectionObserverEntry) =>
         entry.intersectionRatio === 1;
 
-      service
-        .isIntersected(element, {}, intersectingCondition)
-        .subscribe((isIntersected) => {
-          expect(isIntersected).toBe(false);
-          done();
-        });
+      const isIntersected = await firstValueFrom(
+        service.isIntersected(element, {}, intersectingCondition)
+      );
+      expect(isIntersected).toBe(false);
     });
   });
 
@@ -252,10 +230,10 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should create IntersectionObserver in browser', () => {
       const element: HTMLElement = document.createElement('section');
-      const createIntersectionObservableSpy = spyOn<any>(
+      const createIntersectionObservableSpy = vi.spyOn<any>(
         service,
         'createIntersectionObservable'
-      ).and.returnValue(
+      ).mockReturnValue(
         of([
           {
             ...INTERSECTION_OBSERVER_ENTRY,

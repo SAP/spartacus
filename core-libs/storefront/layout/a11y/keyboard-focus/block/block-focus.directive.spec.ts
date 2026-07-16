@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base';
 import { BlockFocusConfig } from '../keyboard-focus.model';
@@ -25,7 +25,7 @@ class MockBaseFocusService {}
 
 describe('BlockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent, CustomFocusDirective],
       providers: [
@@ -36,7 +36,7 @@ describe('BlockFocusDirective', () => {
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   beforeEach(() => {
     fixture.detectChanges();

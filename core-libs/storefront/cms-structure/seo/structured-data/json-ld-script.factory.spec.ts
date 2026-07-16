@@ -41,7 +41,7 @@ describe('JsonLdScriptFactory', () => {
 
     describe('security', () => {
       beforeEach(() => {
-        spyOn(console, 'warn').and.stub();
+        vi.spyOn(console, 'warn').mockImplementation(() => {});
       });
       it('should escape html tags within malicious code', () => {
         service.build([{ foo: 'bar-2<script>alert()</script>' }]);
@@ -93,7 +93,7 @@ describe('JsonLdScriptFactory', () => {
     });
 
     it('should not build in production mode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => false);
       service.build([{ foo: 'bar-a' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
       // we might have left over script tag generated in former tests...
@@ -103,7 +103,7 @@ describe('JsonLdScriptFactory', () => {
     });
 
     it('should build in dev mode', () => {
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => true);
       service.build([{ foo: 'bar-b' }]);
       const scriptElement = winRef.document.getElementById('json-ld');
       // we might have left over script tag generated in former tests, so

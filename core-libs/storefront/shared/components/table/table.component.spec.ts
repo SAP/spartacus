@@ -6,7 +6,6 @@ import { OutletModule } from '../../../cms-structure';
 import { TableRendererService } from './table-renderer.service';
 import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
-import createSpy = jasmine.createSpy;
 import { FeatureToggles } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
@@ -30,10 +29,10 @@ const mockDataset: Table = {
 };
 
 class MockTableRendererService {
-  getHeaderOutletRef = createSpy('getHeaderOutletRef');
-  getHeaderOutletContext = createSpy('getHeaderOutletRef');
-  getDataOutletRef = createSpy('getDataOutletRef');
-  getDataOutletContext = createSpy('getDataOutletRef');
+  getHeaderOutletRef = vi.fn();
+  getHeaderOutletContext = vi.fn();
+  getDataOutletRef = vi.fn();
+  getDataOutletContext = vi.fn();
   add() {}
 }
 
@@ -85,7 +84,7 @@ describe('TableComponent', () => {
   });
 
   it('should add the table type to __cx-table-type attribute in devMode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+    vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => true);
 
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
@@ -96,7 +95,7 @@ describe('TableComponent', () => {
   });
 
   it('should not add the table type to __cx-table-type attribute in production mode', () => {
-    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+    vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => false);
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
     const attr = (
@@ -241,13 +240,13 @@ describe('TableComponent', () => {
       });
 
       it('should send out an event for the selected item', () => {
-        spyOn(tableComponent.launch, 'emit');
+        vi.spyOn(tableComponent.launch, 'emit');
         tableComponent.launchItem({ foo: 'bar' });
         expect(tableComponent.launch.emit).toHaveBeenCalledWith({ foo: 'bar' });
       });
 
       it('should launch on TR click', () => {
-        spyOn(tableComponent.launch, 'emit');
+        vi.spyOn(tableComponent.launch, 'emit');
         const rows = fixture.debugElement.queryAll(By.css('table > tr'));
         (rows[0].nativeElement as HTMLElement).click();
         expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);
@@ -303,7 +302,7 @@ describe('TableComponent', () => {
       });
 
       it('should launch on tbody click', () => {
-        spyOn(tableComponent.launch, 'emit');
+        vi.spyOn(tableComponent.launch, 'emit');
         const rows = fixture.debugElement.queryAll(By.css('table > tbody'));
         (rows[0].nativeElement as HTMLElement).click();
         expect(tableComponent.launch.emit).toHaveBeenCalledWith(data[0]);

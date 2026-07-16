@@ -5,8 +5,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
 import { CmsGuardsService } from './cms-guards.service';
 
@@ -16,13 +15,12 @@ describe('CmsGuardsService', () => {
   const mockUrlTree = new UrlTree();
 
   class MockCmsComponentsService implements Partial<CmsComponentsService> {
-    getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
+    getGuards = vi.fn().mockReturnValue(guards);
   }
 
   class PositiveGuard {
-    canActivate = jasmine
-      .createSpy('PositiveGuard.canActivate')
-      .and.returnValue(true);
+    canActivate = vi.fn()
+      .mockReturnValue(true);
   }
 
   class PositiveGuardObservable {
@@ -77,95 +75,69 @@ describe('CmsGuardsService', () => {
       service = TestBed.inject(CmsGuardsService);
     });
 
-    it('should resolve to true if not guards are defined', (done) => {
-      let result;
-      service
-        .cmsPageCanActivate(
+    it('should resolve to true if not guards are defined', async () => {
+      const result = await firstValueFrom(
+        service.cmsPageCanActivate(
           [],
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          result = res;
-          expect(result).toEqual(true);
-          done();
-        });
+      );
+      expect(result).toEqual(true);
     });
-    it('should resolve to true if all guards resolve to true', (done) => {
+    it('should resolve to true if all guards resolve to true', async () => {
       guards.push(PositiveGuard, PositiveGuardObservable);
 
-      let result;
-      service
-        .cmsPageCanActivate(
+      const result = await firstValueFrom(
+        service.cmsPageCanActivate(
           [],
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          result = res;
-
-          expect(result).toEqual(true);
-          expect(
-            TestBed.inject(PositiveGuard).canActivate
-          ).toHaveBeenCalledWith(
-            mockActivatedRouteSnapshot,
-            mockRouterStateSnapshot
-          );
-          done();
-        });
+      );
+      expect(result).toEqual(true);
+      expect(
+        TestBed.inject(PositiveGuard).canActivate
+      ).toHaveBeenCalledWith(
+        mockActivatedRouteSnapshot,
+        mockRouterStateSnapshot
+      );
     });
-    it('should resolve to false if any guard resolve to false', (done) => {
+    it('should resolve to false if any guard resolve to false', async () => {
       guards.push(PositiveGuard, NegativeGuard, PositiveGuardObservable);
 
-      let result;
-      service
-        .cmsPageCanActivate(
+      const result = await firstValueFrom(
+        service.cmsPageCanActivate(
           [],
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          result = res;
-          expect(result).toEqual(false);
-          done();
-        });
+      );
+      expect(result).toEqual(false);
     });
 
-    it('should resolve to UrlTree if any guard resolve to UrlTree', (done) => {
+    it('should resolve to UrlTree if any guard resolve to UrlTree', async () => {
       guards.push(PositiveGuard, UrlTreeGuard);
 
-      let result;
-      service
-        .cmsPageCanActivate(
+      const result = await firstValueFrom(
+        service.cmsPageCanActivate(
           [],
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          result = res;
-          expect(result).toEqual(mockUrlTree);
-          done();
-        });
+      );
+      expect(result).toEqual(mockUrlTree);
     });
-    it('should continue processing remaining guards if some guard is not CanActivate', (done) => {
+    it('should continue processing remaining guards if some guard is not CanActivate', async () => {
       guards.push(PositiveGuard, NotGuard, PositiveGuardObservable);
-      let result;
-      service
-        .cmsPageCanActivate(
+      const result = await firstValueFrom(
+        service.cmsPageCanActivate(
           [],
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          result = res;
-          expect(result).toEqual(true);
-          done();
-        });
+      );
+      expect(result).toEqual(true);
     });
   });
 });

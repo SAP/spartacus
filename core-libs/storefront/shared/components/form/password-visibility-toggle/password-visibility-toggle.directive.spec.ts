@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -60,7 +60,7 @@ describe('PasswordVisibilityToggleDirective', () => {
   let fixture: ComponentFixture<MockFormComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -83,7 +83,7 @@ describe('PasswordVisibilityToggleDirective', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockFormComponent);

@@ -7,7 +7,7 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsProductCarouselComponent,
@@ -28,7 +28,7 @@ import {
   MediaComponent,
   ProductCarouselItemComponent,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
 
@@ -240,7 +240,7 @@ describe('ProductCarouselComponent', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, ProductCarouselComponent],
       providers: [...mockProviders],
@@ -268,7 +268,7 @@ describe('ProductCarouselComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
@@ -281,10 +281,10 @@ describe('ProductCarouselComponent', () => {
     ) as MockProductSearchByCategoryService;
   });
 
-  it('should be created', waitForAsync(() => {
+  it('should be created', async () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
-  }));
+  });
 
   it('should render cx-carousel-scrolling component', () => {
     fixture.detectChanges();
@@ -294,7 +294,7 @@ describe('ProductCarouselComponent', () => {
     expect(carouselScrollingComponent).toBeTruthy();
   });
 
-  it('should have product code 111 in first product', waitForAsync(() => {
+  it('should have product code 111 in first product', async () => {
     fixture.detectChanges();
 
     let items: Observable<Product | undefined>[] = [];
@@ -303,44 +303,42 @@ describe('ProductCarouselComponent', () => {
     items[0].subscribe((p) => (product = p));
 
     expect(product).toBe(mockProductsFromSearchByCodes['1']['carouselMinimal']);
-  }));
+  });
 
-  it('Should use batch API with carouselMinimal scope when componentMappingExist is false', (done) => {
+  it('Should use batch API with carouselMinimal scope when componentMappingExist is false', async () => {
     fixture.detectChanges();
 
-    spyOn(productSearchByCodeService, 'get').and.callThrough();
+    vi.spyOn(productSearchByCodeService, 'get');
 
-    component.items$.subscribe((items) => {
-      expect(productSearchByCodeService.get).toHaveBeenCalledWith({
-        code: '1',
-        scope: 'carouselMinimal',
-      });
-      expect(productSearchByCodeService.get).toHaveBeenCalledWith({
-        code: '2',
-        scope: 'carouselMinimal',
-      });
-      expect(items?.length).toBe(2);
-      done();
+    const items = await firstValueFrom(component.items$);
+    expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+      code: '1',
+      scope: 'carouselMinimal',
     });
+    expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+      code: '2',
+      scope: 'carouselMinimal',
+    });
+    expect(items?.length).toBe(2);
   });
 
   describe('UI test', () => {
-    it('should have 2 rendered templates', waitForAsync(() => {
+    it('should have 2 rendered templates', async () => {
       fixture.detectChanges();
       const el = fixture.debugElement.queryAll(
         By.css('cx-product-carousel-item')
       );
       expect(el.length).toEqual(2);
-    }));
+    });
 
-    it('should pass `itemIndex` input to child components', waitForAsync(() => {
+    it('should pass `itemIndex` input to child components', async () => {
       fixture.detectChanges();
       const el = fixture.debugElement.queryAll(
         By.css('cx-product-carousel-item')
       );
       expect(el[0].componentInstance.itemIndex).toEqual(0);
       expect(el[1].componentInstance.itemIndex).toEqual(1);
-    }));
+    });
   });
 
   describe('Carousel with inner component mapping', () => {
@@ -386,22 +384,20 @@ describe('ProductCarouselComponent', () => {
       fixture.detectChanges();
     });
 
-    it('Should use batch API with carousel scope when componentMappingExist is true', (done) => {
-      spyOn(productSearchByCodeService, 'get').and.callThrough();
+    it('Should use batch API with carousel scope when componentMappingExist is true', async () => {
+      vi.spyOn(productSearchByCodeService, 'get');
       fixture.detectChanges();
 
-      component.items$.subscribe((items) => {
-        expect(productSearchByCodeService.get).toHaveBeenCalledWith({
-          code: '1',
-          scope: 'carousel',
-        });
-        expect(productSearchByCodeService.get).toHaveBeenCalledWith({
-          code: '2',
-          scope: 'carousel',
-        });
-        expect(items?.length).toBe(2);
-        done();
+      const items = await firstValueFrom(component.items$);
+      expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+        code: '1',
+        scope: 'carousel',
       });
+      expect(productSearchByCodeService.get).toHaveBeenCalledWith({
+        code: '2',
+        scope: 'carousel',
+      });
+      expect(items?.length).toBe(2);
     });
   });
   describe('Carousel with category products', () => {
@@ -470,17 +466,14 @@ describe('ProductCarouselComponent', () => {
       delete mockProductsFromSearchByCodes['prod5'];
     });
 
-    it('should retrieve products by category', (done) => {
-      spyOn(productSearchByCategoryService, 'get').and.callThrough();
-      spyOn(productSearchByCodeService, 'get').and.callThrough();
+    it('should retrieve products by category', async () => {
+      vi.spyOn(productSearchByCategoryService, 'get');
+      vi.spyOn(productSearchByCodeService, 'get');
 
-      component.items$.subscribe((items) => {
-        expect(items?.length).toBe(5);
+      const items = await firstValueFrom(component.items$);
+      expect(items?.length).toBe(5);
 
-        expect(productSearchByCategoryService.get).toHaveBeenCalledTimes(1);
-
-        done();
-      });
+      expect(productSearchByCategoryService.get).toHaveBeenCalledTimes(1);
     });
   });
 

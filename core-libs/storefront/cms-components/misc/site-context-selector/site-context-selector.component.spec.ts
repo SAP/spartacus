@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -71,7 +71,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const MockLanguageService = {
       active: mockActiveLang,
       getAll(): Observable<Language[]> {
@@ -130,7 +130,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SiteContextSelectorComponent);

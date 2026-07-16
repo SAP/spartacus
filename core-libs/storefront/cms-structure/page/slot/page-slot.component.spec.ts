@@ -123,7 +123,7 @@ describe('PageSlotComponent', () => {
 
     cmsService = TestBed.inject(CmsService);
     pageSlotService = TestBed.inject(PageSlotService);
-    spyOn(pageSlotService, 'getComponentDeferOptions').and.callThrough();
+    vi.spyOn(pageSlotService, 'getComponentDeferOptions');
 
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
@@ -184,27 +184,27 @@ describe('PageSlotComponent', () => {
       pageSlotComponent.position = 'Section1';
     });
     it('should not have cx-pending class when there is no slot data', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(null));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(null));
       fixture.detectChanges();
       expect(pageSlotComponent.class).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should not have cx-pending class when there is empty slot data', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       fixture.detectChanges();
       expect(pageSlotComponent.class).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
     });
 
     it('should have cx-pending class when there is at least one component', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithOneComp));
       fixture.detectChanges();
       expect(pageSlotComponent.isPending).toEqual(true);
     });
 
     it('should no longer have cx-pending when the components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(
         of({ components: [{}] } as ContentSlotData)
       );
       fixture.detectChanges();
@@ -216,7 +216,7 @@ describe('PageSlotComponent', () => {
     });
 
     it('should still have cx-pending class when not all components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       // simulate component load
       pageSlotComponent.isLoaded(true);
@@ -226,7 +226,7 @@ describe('PageSlotComponent', () => {
     });
 
     it('should no longer have cx-pending when all components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
 
       expect(pageSlotComponent.isPending).toEqual(true);
@@ -244,7 +244,7 @@ describe('PageSlotComponent', () => {
       pageSlotComponent.position = 'Section1';
     });
     it('should have empty component list if slot is undefined', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(undefined));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(undefined));
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
       let results;
@@ -255,7 +255,7 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have empty component list if slot is empty', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
       let results;
@@ -266,7 +266,7 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have one components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithOneComp));
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
       let results;
@@ -277,7 +277,7 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have two components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -320,19 +320,19 @@ describe('PageSlotComponent', () => {
       pageSlotComponent.position = 'Section1';
     });
     it('should not add has-components class when slot has no components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of({}));
       fixture.detectChanges();
       expect(pageSlotComponent.hasComponents).toEqual(false);
     });
 
     it('should add has-components class when slot has at least one components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithOneComp));
       fixture.detectChanges();
       expect(pageSlotComponent.hasComponents).toEqual(true);
     });
 
     it('should add has-components class when slot has multiple components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      vi.spyOn(cmsService, 'getContentSlot').mockReturnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       expect(pageSlotComponent.hasComponents).toEqual(true);
     });
@@ -351,7 +351,7 @@ describe('PageSlotComponent', () => {
 
   describe('SmartEdit integration', () => {
     it('should add page slot contract', () => {
-      spyOn(dynamicAttributeService, 'addAttributesToSlot').and.callThrough();
+      vi.spyOn(dynamicAttributeService, 'addAttributesToSlot');
       pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
 

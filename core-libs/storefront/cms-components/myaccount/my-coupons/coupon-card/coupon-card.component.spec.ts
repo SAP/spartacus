@@ -6,7 +6,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CustomerCoupon,
@@ -65,9 +65,8 @@ class MyCouponsComponent {
     map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
   );
 
-  notificationChange = jasmine
-    .createSpy()
-    .and.callFake(({ couponId, notification }) => {
+  notificationChange = vi.fn()
+    .mockImplementation(({ couponId, notification }) => {
       this.eventObj = { couponId, notification };
     });
 }
@@ -87,11 +86,8 @@ describe('CouponCardComponent', () => {
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
-  const couponComponentService = jasmine.createSpyObj(
-    'MyCouponsComponentService',
-    ['launchSearchPage']
-  );
-  beforeEach(waitForAsync(() => {
+  const couponComponentService = { launchSearchPage: vi.fn() };
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CouponCardComponent, MyCouponsComponent],
       providers: [
@@ -117,7 +113,7 @@ describe('CouponCardComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
@@ -174,7 +170,7 @@ describe('CouponCardComponent', () => {
   });
 
   it('should be able to open coupon detail dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
     fixture.detectChanges();
     const readMoreLink = el.query(By.css('.cx-card-read-more'));
     readMoreLink.nativeElement.click();

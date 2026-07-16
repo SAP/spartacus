@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
@@ -38,20 +38,20 @@ describe('IconComponent', () => {
   let fixture: ComponentFixture<IconComponent>;
   let service: IconLoaderService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [IconComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(IconLoaderService);
-    spyOn(service, 'addLinkResource').and.callThrough();
+    vi.spyOn(service, 'addLinkResource');
   });
 
   describe('controller', () => {
@@ -99,7 +99,7 @@ describe('IconComponent', () => {
     });
 
     it(`should store the flip direction for the given icon`, () => {
-      spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
+      vi.spyOn(service, 'getFlipDirection').mockReturnValue(DirectionMode.RTL);
       component.type = ICON_TYPE.CART;
       expect(component.flipAtRtl).toBeTruthy();
       expect(component.flipAtLtr).toBeFalsy();
@@ -122,7 +122,7 @@ describe('IconComponent', () => {
     });
 
     it('should add multiple CSS classes to host element', () => {
-      spyOn(service, 'getStyleClasses').and.returnValue('multiple classes');
+      vi.spyOn(service, 'getStyleClasses').mockReturnValue('multiple classes');
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
       const classList = (debugElement.nativeElement as HTMLElement).classList;
@@ -148,7 +148,7 @@ describe('IconComponent', () => {
     });
 
     it('should have flip-at-rtl class', () => {
-      spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
+      vi.spyOn(service, 'getFlipDirection').mockReturnValue(DirectionMode.RTL);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
       const classList = (debugElement.nativeElement as HTMLElement).classList;
@@ -157,7 +157,7 @@ describe('IconComponent', () => {
     });
 
     it('should have flip-at-ltr class', () => {
-      spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.LTR);
+      vi.spyOn(service, 'getFlipDirection').mockReturnValue(DirectionMode.LTR);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
       const classList = (debugElement.nativeElement as HTMLElement).classList;
@@ -166,7 +166,7 @@ describe('IconComponent', () => {
     });
 
     it('should not have flip-at-ltr and flip-at-rtl class', () => {
-      spyOn(service, 'getFlipDirection').and.returnValue(undefined);
+      vi.spyOn(service, 'getFlipDirection').mockReturnValue(undefined);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
       const classList = (debugElement.nativeElement as HTMLElement).classList;
@@ -182,21 +182,21 @@ describe('host icon components', () => {
   let fixture: ComponentFixture<MockIconTestComponent>;
   let debugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [IconModule, MockIconTestComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);
     service = TestBed.inject(IconLoaderService);
 
-    spyOn(service, 'getStyleClasses').and.returnValue('font based');
-    spyOn(service, 'addLinkResource').and.callThrough();
+    vi.spyOn(service, 'getStyleClasses').mockReturnValue('font based');
+    vi.spyOn(service, 'addLinkResource');
     fixture = TestBed.createComponent(MockIconTestComponent);
     hostComponent = fixture.componentInstance;
   });

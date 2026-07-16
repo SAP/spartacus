@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -10,7 +10,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 import { GlobalMessageComponent } from './global-message.component';
-import createSpy = jasmine.createSpy;
 
 const mockMessages: GlobalMessageEntities = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -19,7 +18,7 @@ const mockMessages: GlobalMessageEntities = {
 };
 
 class MockMessageService {
-  remove = createSpy();
+  remove = vi.fn();
   get(): Observable<GlobalMessageEntities> {
     return of(mockMessages);
   }
@@ -38,7 +37,7 @@ describe('GlobalMessageComponent', () => {
   let messageService: GlobalMessageService;
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [GlobalMessageComponent],
       providers: [
@@ -50,7 +49,7 @@ describe('GlobalMessageComponent', () => {
         add: { imports: [MockCxIconComponent, MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);

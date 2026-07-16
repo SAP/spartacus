@@ -8,7 +8,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -83,7 +83,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -123,7 +123,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselItemComponent);
@@ -177,7 +177,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
-    spyOn(contextSource.product$, 'next');
+    vi.spyOn(contextSource.product$, 'next');
     component.item = mockProduct;
     component.ngOnChanges({
       item: { currentValue: component.item } as SimpleChange,
@@ -186,27 +186,27 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
   });
 
   describe('UI test', () => {
-    it('should render product name in template', waitForAsync(() => {
+    it('should render product name in template', async () => {
       const el = fixture.debugElement.query(By.css('h3'));
       expect(el.nativeElement).toBeTruthy();
       expect(el.nativeElement.innerText).toEqual('Test product');
-    }));
+    });
 
-    it('should render product price in template', waitForAsync(() => {
+    it('should render product price in template', async () => {
       const el = fixture.debugElement.query(By.css('.price'));
       expect(el.nativeElement).toBeTruthy();
       expect(el.nativeElement.innerText).toEqual('$100,00');
-    }));
+    });
 
-    it('should render product primary image for the first item', waitForAsync(() => {
+    it('should render product primary image for the first item', async () => {
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
-    }));
+    });
 
-    it('should render missing product image for the 2nd item as well', waitForAsync(() => {
+    it('should render missing product image for the 2nd item as well', async () => {
       const el = fixture.debugElement.query(By.css('cx-media'));
       expect(el.nativeElement).toBeTruthy();
-    }));
+    });
 
     describe('LCP context handling', () => {
       describe('when contains LCP element', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormRequiredAsterisksComponent } from './form-required-asterisks.component';
 
@@ -6,11 +6,11 @@ describe('FormRequiredAsterisksComponent', () => {
   let component: FormRequiredAsterisksComponent;
   let fixture: ComponentFixture<FormRequiredAsterisksComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, FormRequiredAsterisksComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormRequiredAsterisksComponent);

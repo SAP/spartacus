@@ -1,9 +1,9 @@
 import { NgFor } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
-import { BehaviorSubject, filter } from 'rxjs';
+import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @Component({
@@ -48,7 +48,7 @@ describe('HorizontalScrollingPositionDirective', () => {
   let directive: HorizontalScrollingPositionDirective;
   let mockWindowRef: MockWindowRef;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [HorizontalScrollingPositionDirective, TestComponent],
       providers: [
@@ -58,7 +58,7 @@ describe('HorizontalScrollingPositionDirective', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestComponent);
@@ -72,14 +72,14 @@ describe('HorizontalScrollingPositionDirective', () => {
   describe('ngOnChanges', () => {
     describe('in CSR', () => {
       beforeEach(() => {
-        spyOn(mockWindowRef, 'isBrowser').and.returnValue(true);
+        vi.spyOn(mockWindowRef, 'isBrowser').mockReturnValue(true);
       });
 
       it('should subscribe to new inputs scrolling position', () => {
         const mockIntersectionObserver = new IntersectionObserver(() => {});
-        spyOn(mockIntersectionObserver, 'disconnect').and.callThrough();
+        vi.spyOn(mockIntersectionObserver, 'disconnect');
         const mockResizeObserver = new ResizeObserver(() => {});
-        spyOn(mockResizeObserver, 'disconnect').and.callThrough();
+        vi.spyOn(mockResizeObserver, 'disconnect');
         directive['scrollingAreaIntersectionObserver'] =
           mockIntersectionObserver;
         directive['scrollingAreaResizeObserver'] = mockResizeObserver;
@@ -91,9 +91,9 @@ describe('HorizontalScrollingPositionDirective', () => {
         directive.scrollingAreaStart = mockScrollingAreaStart;
         directive.scrollingAreaEnd = mockScrollingAreaEnd;
 
-        spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
-        spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
-        spyOn(IntersectionObserver.prototype, 'observe');
+        vi.spyOn(directive as any, 'subscribeScrollingArea');
+        vi.spyOn(directive as any, 'unsubscribeScrollingArea');
+        vi.spyOn(IntersectionObserver.prototype, 'observe');
 
         directive.ngOnChanges();
 
@@ -130,15 +130,15 @@ describe('HorizontalScrollingPositionDirective', () => {
 
       it('should unsubscribe from previous inputs scrolling position', () => {
         const mockIntersectionObserver = new IntersectionObserver(() => {});
-        spyOn(mockIntersectionObserver, 'disconnect').and.callThrough();
+        vi.spyOn(mockIntersectionObserver, 'disconnect');
         const mockResizeObserver = new ResizeObserver(() => {});
-        spyOn(mockResizeObserver, 'disconnect').and.callThrough();
+        vi.spyOn(mockResizeObserver, 'disconnect');
         directive['scrollingAreaIntersectionObserver'] =
           mockIntersectionObserver;
         directive['scrollingAreaResizeObserver'] = mockResizeObserver;
 
-        spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
-        spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
+        vi.spyOn(directive as any, 'unsubscribeScrollingArea');
+        vi.spyOn(directive as any, 'subscribeScrollingArea');
         directive.scrollingArea = undefined;
         directive.scrollingAreaStart = undefined;
         directive.scrollingAreaEnd = undefined;
@@ -157,7 +157,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
     describe('in SSR', () => {
       beforeEach(() => {
-        spyOn(mockWindowRef, 'isBrowser').and.returnValue(false);
+        vi.spyOn(mockWindowRef, 'isBrowser').mockReturnValue(false);
       });
 
       it('should NOT subscribe to new inputs scrolling position', () => {
@@ -168,7 +168,7 @@ describe('HorizontalScrollingPositionDirective', () => {
         directive.scrollingAreaStart = mockScrollingAreaStart;
         directive.scrollingAreaEnd = mockScrollingAreaEnd;
 
-        spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
+        vi.spyOn(directive as any, 'subscribeScrollingArea');
 
         directive.ngOnChanges();
 
@@ -185,7 +185,7 @@ describe('HorizontalScrollingPositionDirective', () => {
         directive.scrollingAreaStart = mockScrollingAreaStart;
         directive.scrollingAreaEnd = mockScrollingAreaEnd;
 
-        spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+        vi.spyOn(directive as any, 'unsubscribeScrollingArea');
 
         directive.ngOnChanges();
 
@@ -198,8 +198,8 @@ describe('HorizontalScrollingPositionDirective', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe from scrolling position', () => {
-      spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
-      spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+      vi.spyOn(directive as any, 'subscribeScrollingArea');
+      vi.spyOn(directive as any, 'unsubscribeScrollingArea');
       directive.ngOnDestroy();
       expect(directive['unsubscribeScrollingArea']).toHaveBeenCalled();
       expect(directive['subscribeScrollingArea']).not.toHaveBeenCalled();
@@ -221,15 +221,13 @@ describe('HorizontalScrollingPositionDirective', () => {
           expect(isScrollStart).toBe(true);
         });
 
-        it('should emit false when scroll position is NOT the start', (done) => {
+        it('should emit false when scroll position is NOT the start', async () => {
           scrollingArea.nativeElement.scrollLeft = 100; // scroll a bit to the right
 
-          directive.isScrollStart$
-            .pipe(filter((value) => value === false)) // wait, because IntersectionObserver kicks after some delay
-            .subscribe((value) => {
-              expect(value).toBe(false);
-              done();
-            });
+          const value = await firstValueFrom(
+            directive.isScrollStart$.pipe(filter((v) => v === false)) // wait, because IntersectionObserver kicks after some delay
+          );
+          expect(value).toBe(false);
         });
 
         it('should be completed in ngOnDestroy', () => {
@@ -249,15 +247,13 @@ describe('HorizontalScrollingPositionDirective', () => {
           expect(isScrollEnd).toBe(false);
         });
 
-        it('should emit true when scroll position is at the end', (done) => {
+        it('should emit true when scroll position is at the end', async () => {
           scrollingArea.nativeElement.scrollLeft = 400; // scroll until end to the right
 
-          directive.isScrollEnd$
-            .pipe(filter((value) => value === true)) // wait, because IntersectionObserver kicks after some delay
-            .subscribe((value) => {
-              expect(value).toBe(true);
-              done();
-            });
+          const value = await firstValueFrom(
+            directive.isScrollEnd$.pipe(filter((v) => v === true)) // wait, because IntersectionObserver kicks after some delay
+          );
+          expect(value).toBe(true);
         });
 
         it('should be completed in ngOnDestroy', () => {
@@ -279,24 +275,20 @@ describe('HorizontalScrollingPositionDirective', () => {
           expect(isScrollNeeded).toBe(true);
         });
 
-        it('should emit false when all elements fit into the container', (done) => {
+        it('should emit false when all elements fit into the container', async () => {
           scrollingArea.nativeElement.style.width = '500px'; // make it wider to fit all items
 
-          directive.isScrollNeeded$
-            .pipe(filter((value) => value === false)) // wait, because IntersectionObserver kicks after some delay
-            .subscribe((value) => {
-              expect(value).toBe(false);
-              done();
-            });
+          const value = await firstValueFrom(
+            directive.isScrollNeeded$.pipe(filter((v) => v === false)) // wait, because IntersectionObserver kicks after some delay
+          );
+          expect(value).toBe(false);
         });
       });
 
       describe('scrollingAreaWidth$', () => {
-        it('should emit and update on scrollingArea resize', (done) => {
-          directive.scrollingAreaWidth$.subscribe((width) => {
-            expect(width).toBe(scrollingArea.nativeElement.clientWidth);
-            done();
-          });
+        it('should emit and update on scrollingArea resize', async () => {
+          const width = await firstValueFrom(directive.scrollingAreaWidth$);
+          expect(width).toBe(scrollingArea.nativeElement.clientWidth);
         });
       });
     });
@@ -304,7 +296,7 @@ describe('HorizontalScrollingPositionDirective', () => {
     describe('scrollForward', () => {
       it('should scroll forward by default width and behavior', () => {
         directive['_isScrollEnd$'].next(false);
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
 
         directive.scrollForward();
         expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
@@ -314,7 +306,7 @@ describe('HorizontalScrollingPositionDirective', () => {
       });
 
       it('should scroll forward by provided distance and behavior', () => {
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
 
         directive.scrollForward({
           distance: 100,
@@ -328,7 +320,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
       it('should not scroll if already at end', () => {
         directive['_isScrollEnd$'].next(true);
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
         directive.scrollForward();
         expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });
@@ -336,7 +328,7 @@ describe('HorizontalScrollingPositionDirective', () => {
       it('should not scroll if scrollingArea is undefined', () => {
         directive['_isScrollEnd$'].next(false);
         directive.scrollingArea = undefined;
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
         directive.scrollForward();
         expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });
@@ -345,7 +337,7 @@ describe('HorizontalScrollingPositionDirective', () => {
     describe('scrollBackward', () => {
       it('should scroll backward by default width and behavior', () => {
         directive['_isScrollStart$'].next(false);
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
 
         directive.scrollBackward();
         expect(scrollingArea.nativeElement.scrollBy).toHaveBeenCalledWith({
@@ -356,7 +348,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
       it('should scroll forward by provided distance and behavior', () => {
         directive['_isScrollStart$'].next(false);
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
 
         directive.scrollBackward({
           distance: 100,
@@ -370,7 +362,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
       it('should not scroll if already at end', () => {
         directive['_isScrollStart$'].next(true);
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
 
         directive.scrollBackward();
         expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
@@ -380,7 +372,7 @@ describe('HorizontalScrollingPositionDirective', () => {
         directive['_isScrollStart$'].next(true);
         directive.scrollingArea = undefined;
 
-        spyOn(scrollingArea.nativeElement, 'scrollBy').and.callThrough();
+        vi.spyOn(scrollingArea.nativeElement, 'scrollBy');
         directive.scrollBackward();
         expect(scrollingArea.nativeElement.scrollBy).not.toHaveBeenCalled();
       });

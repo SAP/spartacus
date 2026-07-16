@@ -2,8 +2,6 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -17,12 +15,12 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { GenericLinkComponent, IconComponent } from '@spartacus/storefront';
-import { BreakpointService } from 'core-libs/storefront/layout';
+import { BreakpointService } from '../../../layout';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-icon',
@@ -307,21 +305,21 @@ describe('Navigation UI Component', () => {
 
     it('should reinitialize menu, when menu is expanded', () => {
       navigationComponent['resetMenuOnClose'] = true;
-      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(() => {});
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalled();
     });
 
     it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
-      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(() => {});
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
     });
 
     it('should close hamburger and every LI element when click on link to current route', () => {
-      spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
-      spyOn(navigationComponent, 'reinitializeMenu').and.callThrough();
-      spyOn(hamburgerMenuService, 'toggle').and.stub();
+      vi.spyOn(navigationComponent, 'closeIfClickedTheSameLink');
+      vi.spyOn(navigationComponent, 'reinitializeMenu');
+      vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
       navigationComponent.isDesktop$ = of(false);
       fixture.detectChanges();
 
@@ -396,7 +394,7 @@ describe('Navigation UI Component', () => {
     });
 
     it('should toggle open when space key is pressed', () => {
-      const spy = spyOn(navigationComponent, 'toggleOpen');
+      const spy = vi.spyOn(navigationComponent, 'toggleOpen');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
         By.css('nav button[aria-expanded="false"')
@@ -410,7 +408,7 @@ describe('Navigation UI Component', () => {
 
     it('should move focus to the opened node', () => {
       const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
-      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spy = vi.spyOn(firstChild.nativeElement, 'focus');
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
         By.css('[depth="2"] h4')
@@ -464,19 +462,21 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.getTabIndex(childNode, 1)).toEqual(0);
     });
 
-    it('return focus to node header after navigating back', fakeAsync(() => {
+    it('return focus to node header after navigating back', () => {
+      vi.useFakeTimers();
       const mockNode = document.createElement('li');
       const mockHeader = document.createElement('a');
       mockHeader.setAttribute('aria-haspopup', 'true');
       mockNode.appendChild(mockHeader);
       navigationComponent['openNodes'] = [mockNode];
-      spyOn(mockHeader, 'focus');
+      const focusSpy = vi.spyOn(mockHeader, 'focus');
 
       navigationComponent.back();
-      tick();
+      vi.runAllTimers();
 
-      expect(mockHeader.focus).toHaveBeenCalled();
-    }));
+      expect(focusSpy).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
   });
 
   describe('transformIntoValidID', () => {

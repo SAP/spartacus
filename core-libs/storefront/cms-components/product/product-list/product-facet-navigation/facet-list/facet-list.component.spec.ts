@@ -6,7 +6,7 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { KeyboardFocusService } from '@spartacus/storefront';
@@ -68,7 +68,7 @@ describe('FacetListComponent', () => {
   let focusService: KeyboardFocusService;
   let featureConfigService: FeatureConfigService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -85,7 +85,7 @@ describe('FacetListComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetListComponent);
@@ -119,23 +119,23 @@ describe('FacetListComponent', () => {
 
   describe('dialog', () => {
     it('should add modal class to body element', () => {
-      spyOn(renderer, 'addClass').and.stub();
+      vi.spyOn(renderer, 'addClass').mockImplementation(() => {});
       component.isDialog = true;
       fixture.detectChanges();
 
       expect(renderer.addClass).toHaveBeenCalledWith(
-        jasmine.any(HTMLElement),
+        expect.any(HTMLElement),
         'modal-open'
       );
     });
 
     it('should remove modal class from body element', () => {
-      spyOn(renderer, 'removeClass').and.stub();
+      vi.spyOn(renderer, 'removeClass').mockImplementation(() => {});
       component.close();
       fixture.detectChanges();
 
       expect(renderer.removeClass).toHaveBeenCalledWith(
-        jasmine.any(HTMLElement),
+        expect.any(HTMLElement),
         'modal-open'
       );
     });
@@ -143,7 +143,7 @@ describe('FacetListComponent', () => {
 
   describe('close dialog', () => {
     it('should emit close when clicking the close button', () => {
-      spyOn(component.closeList, 'emit').and.stub();
+      vi.spyOn(component.closeList, 'emit').mockImplementation(() => {});
       component.isDialog = true;
       fixture.detectChanges();
 
@@ -153,7 +153,7 @@ describe('FacetListComponent', () => {
     });
 
     it('should emit close when handling escape', () => {
-      spyOn(component.closeList, 'emit').and.stub();
+      vi.spyOn(component.closeList, 'emit').mockImplementation(() => {});
       component.isDialog = true;
       fixture.detectChanges();
 
@@ -165,7 +165,7 @@ describe('FacetListComponent', () => {
 
   describe('collapsed', () => {
     beforeEach(() => {
-      spyOn(service, 'getState').and.returnValue(
+      vi.spyOn(service, 'getState').mockReturnValue(
         of({
           toggled: FacetGroupCollapsedState.COLLAPSED,
         } as FacetCollapseState)
@@ -200,7 +200,7 @@ describe('FacetListComponent', () => {
 
   describe('expanded', () => {
     beforeEach(() => {
-      spyOn(service, 'getState').and.returnValue(
+      vi.spyOn(service, 'getState').mockReturnValue(
         of({
           toggled: FacetGroupCollapsedState.EXPANDED,
         } as FacetCollapseState)
@@ -235,27 +235,27 @@ describe('FacetListComponent', () => {
 
   describe('handleDialogFocus', () => {
     beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
     });
 
     it('should not set focus if not a dialog', () => {
-      spyOn(focusService, 'get');
+      vi.spyOn(focusService, 'get');
       component.isDialog = false;
       (component as any).handleDialogFocus([]);
       expect(focusService.get).not.toHaveBeenCalled();
     });
 
     it('should not set focus if focusKey is not set', () => {
-      spyOn(focusService, 'clear');
-      spyOn(focusService, 'get').and.returnValue(null);
+      vi.spyOn(focusService, 'clear');
+      vi.spyOn(focusService, 'get').mockReturnValue(null);
       component.isDialog = true;
       (component as any).handleDialogFocus([]);
       expect(focusService.clear).not.toHaveBeenCalled();
     });
 
     it('should not change focus if focused facet is found', () => {
-      spyOn(focusService, 'clear');
-      spyOn(focusService, 'get').and.returnValue('facet-B');
+      vi.spyOn(focusService, 'clear');
+      vi.spyOn(focusService, 'get').mockReturnValue('facet-B');
       component.isDialog = true;
       (component as any).handleDialogFocus([
         { name: 'facet-A', values: [{ name: 'facet-B' }] },
@@ -264,11 +264,11 @@ describe('FacetListComponent', () => {
     });
 
     it('should focus on back to results button if no facets are present', () => {
-      spyOn(focusService, 'clear');
-      spyOn(focusService, 'get').and.returnValue('facet-B');
+      vi.spyOn(focusService, 'clear');
+      vi.spyOn(focusService, 'get').mockReturnValue('facet-B');
       component.isDialog = true;
       component.backToResultsBtn = {
-        nativeElement: { focus: jasmine.createSpy('focus') },
+        nativeElement: { focus: vi.fn() },
       } as any;
       (component as any).handleDialogFocus([]);
       expect(component.backToResultsBtn.nativeElement.focus).toHaveBeenCalled();
@@ -276,8 +276,8 @@ describe('FacetListComponent', () => {
     });
 
     it('should set focus to the first available facet if no focused facet is found', () => {
-      spyOn(focusService, 'set');
-      spyOn(focusService, 'get').and.returnValue('facet-D');
+      vi.spyOn(focusService, 'set');
+      vi.spyOn(focusService, 'get').mockReturnValue('facet-D');
       component.isDialog = true;
       (component as any).handleDialogFocus([
         { name: 'facet-A', values: [{ name: 'facet-A' }] },
@@ -288,8 +288,8 @@ describe('FacetListComponent', () => {
 
   describe('enableFocusHandlingOnFacetListChanges', () => {
     it('should handle facet list focus when feature is enabled', () => {
-      spyOn(<any>component, 'handleDialogFocus');
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
+      vi.spyOn(<any>component, 'handleDialogFocus');
+      vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
 
       (component as any).enableFocusHandlingOnFacetListChanges();
 
@@ -297,8 +297,8 @@ describe('FacetListComponent', () => {
     });
 
     it('should add the subscription to the subscriptions collection', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-      spyOn((component as any).subscriptions, 'add');
+      vi.spyOn(featureConfigService, 'isEnabled').mockReturnValue(true);
+      vi.spyOn((component as any).subscriptions, 'add');
       (component as any).enableFocusHandlingOnFacetListChanges();
 
       expect((component as any).subscriptions.add).toHaveBeenCalled();
@@ -310,7 +310,7 @@ describe('FacetListComponent', () => {
       fixture = TestBed.createComponent(FacetListComponent);
       element = fixture.debugElement;
       component = fixture.componentInstance;
-      const spy = spyOn(component, 'updateTabs');
+      const spy = vi.spyOn(component, 'updateTabs');
       expect(spy).toHaveBeenCalledTimes(0);
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(2);

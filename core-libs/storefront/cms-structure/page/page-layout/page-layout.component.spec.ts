@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
 import { TestModule } from 'core-libs/core/src/config/services/configuration.service.spec';
@@ -180,7 +180,7 @@ describe('SectionLayoutComponent', () => {
   let sectionLayoutComponent: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [TestModule],
       providers: [
@@ -196,7 +196,7 @@ describe('SectionLayoutComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockHeaderComponent);

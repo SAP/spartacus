@@ -158,14 +158,14 @@ describe('IconLoaderService', () => {
   describe('sanitize HTML for icons', () => {
     it(`should not have bypassed HTML sanitizing for font icon`, () => {
       const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
       service.getHtml(ICON_TYPE.VISA);
       expect(domSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalled();
     });
 
     it(`should have bypassed HTML sanitizing for text icon`, () => {
       const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
       service.getHtml('HAPPY');
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalled();
     });
@@ -178,7 +178,7 @@ describe('IconLoaderService', () => {
 
     it('should have bypassed HTML sanitizing for sprited SVG', () => {
       const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
       service.getHtml(ICON_TYPE.CART);
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
         '<svg><use xlink:href="./assets/sprite.svg#cartSymbol"></use></svg>'
@@ -187,7 +187,7 @@ describe('IconLoaderService', () => {
 
     it('should have bypassed HTML sanitizing for non-sprited SVG', () => {
       const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      vi.spyOn(domSanitizer, 'bypassSecurityTrustHtml').mockImplementation(() => {});
       service.getHtml(ICON_TYPE.INFO);
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
         '<svg><use xlink:href="#infoSymbol"></use></svg>'

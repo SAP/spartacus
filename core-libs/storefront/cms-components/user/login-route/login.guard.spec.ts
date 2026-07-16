@@ -12,8 +12,7 @@ import {
   OAuthFlow,
   RoutingConfig,
 } from '@spartacus/core';
-import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, of } from 'rxjs';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { LoginGuard } from './login.guard';
 
@@ -93,57 +92,51 @@ describe('LoginGuard', () => {
   });
 
   describe('When user is authorized,', () => {
-    it('should try to render login CMS page', (done) => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
-      spyOn(authService, 'loginWithRedirect').and.callThrough();
+    it('should try to render login CMS page', async () => {
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      vi.spyOn(cmsPageGuard, 'canActivate');
+      vi.spyOn(authService, 'loginWithRedirect');
 
-      loginGuard
-        .canActivate(
+      const res = await firstValueFrom(
+        loginGuard.canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
           'b' as unknown as RouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          expect(res).toBe(true);
-          expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
-            'a' as unknown as CmsActivatedRouteSnapshot,
-            'b' as unknown as RouterStateSnapshot
-          );
-          expect(authService.loginWithRedirect).not.toHaveBeenCalled();
-          done();
-        });
+      );
+      expect(res).toBe(true);
+      expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
+        'a' as unknown as CmsActivatedRouteSnapshot,
+        'b' as unknown as RouterStateSnapshot
+      );
+      expect(authService.loginWithRedirect).not.toHaveBeenCalled();
     });
   });
 
   describe('When user is not authorized', () => {
-    it('should try to render login CMS page when ResourcePasswordOwnerFlow is used', (done) => {
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
-      spyOn(authService, 'loginWithRedirect').and.callThrough();
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+    it('should try to render login CMS page when ResourcePasswordOwnerFlow is used', async () => {
+      vi.spyOn(cmsPageGuard, 'canActivate');
+      vi.spyOn(authService, 'loginWithRedirect');
+      vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
         OAuthFlow.ResourceOwnerPasswordFlow
       );
 
-      loginGuard
-        .canActivate(
+      const res = await firstValueFrom(
+        loginGuard.canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
           'b' as unknown as RouterStateSnapshot
         )
-        .pipe(take(1))
-        .subscribe((res) => {
-          expect(res).toBe(true);
-          expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
-            'a' as unknown as CmsActivatedRouteSnapshot,
-            'b' as unknown as RouterStateSnapshot
-          );
-          expect(authService.loginWithRedirect).not.toHaveBeenCalled();
-          done();
-        });
+      );
+      expect(res).toBe(true);
+      expect(cmsPageGuard.canActivate).toHaveBeenCalledWith(
+        'a' as unknown as CmsActivatedRouteSnapshot,
+        'b' as unknown as RouterStateSnapshot
+      );
+      expect(authService.loginWithRedirect).not.toHaveBeenCalled();
     });
 
     it('should report previous page and initialize login redirect when flows with redirects are used', () => {
-      spyOn(authService, 'loginWithRedirect').and.callThrough();
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
+      vi.spyOn(authService, 'loginWithRedirect');
+      vi.spyOn(cmsPageGuard, 'canActivate');
 
       loginGuard
         .canActivate(
@@ -157,21 +150,19 @@ describe('LoginGuard', () => {
       expect(authService.loginWithRedirect).toHaveBeenCalled();
     });
 
-    it('should report previous page and initialize login redirect when flows with redirects are used', (done) => {
-      spyOn(authService, 'loginWithRedirect').and.returnValue(false);
-      spyOn(cmsPageGuard, 'canActivate').and.callThrough();
+    it('should report previous page and initialize login redirect when flows with redirects are used', async () => {
+      vi.spyOn(authService, 'loginWithRedirect').mockReturnValue(false);
+      vi.spyOn(cmsPageGuard, 'canActivate');
 
-      loginGuard
-        .canActivate(
+      const result = await firstValueFrom(
+        loginGuard.canActivate(
           'a' as unknown as ActivatedRouteSnapshot,
           'b' as unknown as RouterStateSnapshot
         )
-        .subscribe((result) => {
-          expect(result).toBe(false);
-          expect(cmsPageGuard.canActivate).not.toHaveBeenCalled();
-          expect(authService.loginWithRedirect).toHaveBeenCalled();
-          done();
-        });
+      );
+      expect(result).toBe(false);
+      expect(cmsPageGuard.canActivate).not.toHaveBeenCalled();
+      expect(authService.loginWithRedirect).toHaveBeenCalled();
     });
   });
 });

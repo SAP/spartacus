@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services';
 import { AutoFocusService } from './auto-focus.service';
@@ -37,7 +37,7 @@ describe('AutoFocusService', () => {
 
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent],
       providers: [
@@ -53,7 +53,7 @@ describe('AutoFocusService', () => {
     focusUtility = TestBed.inject(SelectFocusUtility);
 
     fixture = TestBed.createComponent(MockComponent);
-  }));
+  });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
@@ -84,13 +84,13 @@ describe('AutoFocusService', () => {
     it('should find first focusable element from utility', () => {
       const host = fixture.debugElement.query(By.css('#d')).nativeElement;
       const el = fixture.debugElement.query(By.css('#d1')).nativeElement;
-      spyOn(focusUtility, 'findFirstFocusable').and.returnValue(el);
+      vi.spyOn(focusUtility, 'findFirstFocusable').mockReturnValue(el);
       expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(el);
     });
 
     it('should retun host element if no focusable childs are available', () => {
       const host = fixture.debugElement.query(By.css('#e')).nativeElement;
-      spyOn(focusUtility, 'findFirstFocusable').and.returnValue(null);
+      vi.spyOn(focusUtility, 'findFirstFocusable').mockReturnValue(null);
       expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(
         host
       );

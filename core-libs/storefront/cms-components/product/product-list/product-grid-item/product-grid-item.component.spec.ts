@@ -8,7 +8,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -101,7 +101,7 @@ describe('ProductGridItemComponent in product-list', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -149,7 +149,7 @@ describe('ProductGridItemComponent in product-list', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductGridItemComponent);
@@ -268,7 +268,7 @@ describe('ProductGridItemComponent in product-list', () => {
     const contextSource: ProductListItemContextSource = componentInjector.get(
       ProductListItemContextSource
     );
-    spyOn(contextSource.product$, 'next');
+    vi.spyOn(contextSource.product$, 'next');
     component.product = mockProduct;
     component.ngOnChanges({
       product: { currentValue: component.product } as SimpleChange,

@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -13,11 +13,11 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
   let fixture: ComponentFixture<MyAccountV2ConsentManagementFormComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, MyAccountV2ConsentManagementFormComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -80,7 +80,7 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
         const consentGiven = true;
         component.consentGiven = consentGiven;
         component.consentTemplate = mockConsentTemplate;
-        spyOn(component.consentChanged, 'emit').and.stub();
+        vi.spyOn(component.consentChanged, 'emit').mockImplementation(() => {});
 
         component.onConsentChange();
 
@@ -120,7 +120,7 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
         },
       };
       it('should call onConsentChange()', () => {
-        spyOn(component, 'onConsentChange').and.stub();
+        vi.spyOn(component, 'onConsentChange').mockImplementation(() => {});
 
         component.consentTemplate = mockConsentTemplate;
         component.consentGiven = true;

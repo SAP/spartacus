@@ -1,5 +1,5 @@
 import { disableTabbingForTick } from './keyboard-focus.utils';
-import { fakeAsync, tick } from '@angular/core/testing';
+
 
 describe('disableTabbingForTick', () => {
   let elements: HTMLElement[];
@@ -20,11 +20,13 @@ describe('disableTabbingForTick', () => {
     });
   });
 
-  it('should reset tabIndex to 0 after a tick', fakeAsync(() => {
+  it('should reset tabIndex to 0 after a tick', () => {
+    vi.useFakeTimers();
     disableTabbingForTick(elements);
-    tick(100);
+    vi.advanceTimersByTime(100);
     elements.forEach((el) => {
       expect(el.tabIndex).toBe(0);
     });
-  }));
+    vi.useRealTimers();
+  });
 });

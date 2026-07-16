@@ -5,7 +5,7 @@ import {
   ComponentFactoryResolver,
   Inject,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
 import { OutletService } from '@spartacus/storefront';
@@ -82,7 +82,7 @@ describe('OutletDirective', () => {
     })
     class MockOutletAfterComponent {}
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockTemplateComponent,
@@ -98,7 +98,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     it('should render the provided template ref', () => {
       const fixture = TestBed.createComponent(MockTemplateComponent);
@@ -181,7 +181,7 @@ describe('OutletDirective', () => {
 
     let compiled: HTMLElement;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockStackedReplaceOutletComponent,
@@ -196,7 +196,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     it('should add two templates in outlet', () => {
       const fixture = TestBed.createComponent(
@@ -248,7 +248,7 @@ describe('OutletDirective', () => {
 
     let deferLoaderService: DeferLoaderService;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockInstantOutletComponent,
@@ -264,17 +264,17 @@ describe('OutletDirective', () => {
       }).compileComponents();
 
       deferLoaderService = TestBed.inject(DeferLoaderService);
-    }));
+    });
 
     it('should use instant loading', () => {
-      spyOn(deferLoaderService, 'load').and.callThrough();
+      vi.spyOn(deferLoaderService, 'load');
       const fixture = TestBed.createComponent(MockInstantOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).not.toHaveBeenCalled();
     });
 
     it('should use defer loading', () => {
-      spyOn(deferLoaderService, 'load').and.callThrough();
+      vi.spyOn(deferLoaderService, 'load');
       const fixture = TestBed.createComponent(MockDeferredOutletComponent);
       fixture.detectChanges();
       expect(deferLoaderService.load).toHaveBeenCalled();
@@ -296,7 +296,7 @@ describe('OutletDirective', () => {
 
     let hostFixture: ComponentFixture<HostComponent>;
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [HostComponent, OutletDirective, OutletRefDirective],
         providers: [
@@ -308,7 +308,7 @@ describe('OutletDirective', () => {
       }).compileComponents();
 
       hostFixture = TestBed.createComponent(HostComponent);
-    }));
+    });
 
     function getContent(fixture: ComponentFixture<any>): string {
       return fixture.debugElement.nativeElement.innerText;
@@ -355,7 +355,7 @@ describe('OutletDirective', () => {
       constructor(public outlet: OutletContextData) {}
     }
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       mockContextSubject$ = new BehaviorSubject('fakeContext');
 
       TestBed.configureTestingModule({
@@ -376,7 +376,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     it('should render component', () => {
       const outletService = TestBed.inject(OutletService);
@@ -493,7 +493,7 @@ describe('OutletDirective', () => {
     })
     class MockOutletComponent {}
 
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [
           MockTestOutletComponent,
@@ -507,7 +507,7 @@ describe('OutletDirective', () => {
           },
         ],
       }).compileComponents();
-    }));
+    });
 
     describe('with angular component', () => {
       it('should be able to get componentRef or viewRef', () => {

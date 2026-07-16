@@ -5,7 +5,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -54,34 +54,13 @@ describe('StockNotificationComponent', () => {
   let fixture: ComponentFixture<StockNotificationComponent>;
   let el: DebugElement;
 
-  const translationService = jasmine.createSpyObj('TranslationService', [
-    'translate',
-  ]);
-  const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-    'add',
-  ]);
-  const dialogComponent = jasmine.createSpy('StockNotificationDialogComponent');
-  const userIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
-  const currentProductService = jasmine.createSpyObj('CurrentProductService', [
-    'getProduct',
-  ]);
-  const notificationPrefService = jasmine.createSpyObj(
-    'UserNotificationPreferenceService',
-    ['loadPreferences', 'getEnabledPreferences', 'clearPreferences']
-  );
-  const interestsService = jasmine.createSpyObj('interestsService', [
-    'getAddProductInterestSuccess',
-    'getRemoveProdutInterestLoading',
-    'getRemoveProdutInterestSuccess',
-    'getAddProductInterestError',
-    'resetRemoveInterestState',
-    'resetAddInterestState',
-    'addProductInterest',
-    'removeProdutInterest',
-    'getProductInterests',
-    'clearProductInterests',
-    'loadProductInterests',
-  ]);
+  const translationService = { translate: vi.fn() };
+  const globalMessageService = { add: vi.fn() };
+  const dialogComponent = vi.fn();
+  const userIdService = { getUserId: vi.fn() };
+  const currentProductService = { getProduct: vi.fn() };
+  const notificationPrefService = { loadPreferences: vi.fn(), getEnabledPreferences: vi.fn(), clearPreferences: vi.fn() };
+  const interestsService = { getAddProductInterestSuccess: vi.fn(), getRemoveProdutInterestLoading: vi.fn(), getRemoveProdutInterestSuccess: vi.fn(), getAddProductInterestError: vi.fn(), resetRemoveInterestState: vi.fn(), resetAddInterestState: vi.fn(), addProductInterest: vi.fn(), removeProdutInterest: vi.fn(), getProductInterests: vi.fn(), clearProductInterests: vi.fn(), loadProductInterests: vi.fn() };
 
   const preferences: NotificationPreference[] = [
     {
@@ -122,7 +101,7 @@ describe('StockNotificationComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         SpinnerModule,
@@ -162,29 +141,29 @@ describe('StockNotificationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
-    userIdService.getUserId.and.returnValue(of(OCC_USER_ID_CURRENT));
-    notificationPrefService.loadPreferences.and.stub();
-    notificationPrefService.clearPreferences.and.stub();
-    notificationPrefService.getEnabledPreferences.and.returnValue(
+    userIdService.getUserId.mockReturnValue(of(OCC_USER_ID_CURRENT));
+    notificationPrefService.loadPreferences.mockImplementation(() => {});
+    notificationPrefService.clearPreferences.mockImplementation(() => {});
+    notificationPrefService.getEnabledPreferences.mockReturnValue(
       of(preferences)
     );
-    currentProductService.getProduct.and.returnValue(of(product));
-    interestsService.getProductInterests.and.returnValue(of(interests));
-    interestsService.getAddProductInterestSuccess.and.returnValue(of(false));
-    interestsService.getAddProductInterestError.and.returnValue(addFail);
-    interestsService.getRemoveProdutInterestLoading.and.returnValue(of(false));
-    interestsService.getRemoveProdutInterestSuccess.and.returnValue(
+    currentProductService.getProduct.mockReturnValue(of(product));
+    interestsService.getProductInterests.mockReturnValue(of(interests));
+    interestsService.getAddProductInterestSuccess.mockReturnValue(of(false));
+    interestsService.getAddProductInterestError.mockReturnValue(addFail);
+    interestsService.getRemoveProdutInterestLoading.mockReturnValue(of(false));
+    interestsService.getRemoveProdutInterestSuccess.mockReturnValue(
       removeSuccess
     );
-    interestsService.addProductInterest.and.stub();
-    interestsService.removeProdutInterest.and.stub();
-    interestsService.clearProductInterests.and.stub();
-    interestsService.resetRemoveInterestState.and.stub();
-    interestsService.loadProductInterests.and.stub();
-    translationService.translate.and.returnValue(of(''));
+    interestsService.addProductInterest.mockImplementation(() => {});
+    interestsService.removeProdutInterest.mockImplementation(() => {});
+    interestsService.clearProductInterests.mockImplementation(() => {});
+    interestsService.resetRemoveInterestState.mockImplementation(() => {});
+    interestsService.loadProductInterests.mockImplementation(() => {});
+    translationService.translate.mockReturnValue(of(''));
 
     fixture = TestBed.createComponent(StockNotificationComponent);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -198,7 +177,7 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should not show element expcept out of stock product', () => {
-    currentProductService.getProduct.and.returnValue(
+    currentProductService.getProduct.mockReturnValue(
       of({
         ...product,
         stock: {
@@ -212,9 +191,9 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should show elements for anonymous specific', () => {
-    interestsService.getProductInterests.and.returnValue(of({}));
-    notificationPrefService.getEnabledPreferences.and.returnValue(of([]));
-    userIdService.getUserId.and.returnValue(of(OCC_USER_ID_ANONYMOUS));
+    interestsService.getProductInterests.mockReturnValue(of({}));
+    notificationPrefService.getEnabledPreferences.mockReturnValue(of([]));
+    userIdService.getUserId.mockReturnValue(of(OCC_USER_ID_ANONYMOUS));
     fixture.detectChanges();
 
     expect(el.query(By.css('a')).nativeElement).toBeTruthy();
@@ -227,8 +206,8 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should show correct elements for active customer without enabled preferences', () => {
-    interestsService.getProductInterests.and.returnValue(of({}));
-    notificationPrefService.getEnabledPreferences.and.returnValue(of([]));
+    interestsService.getProductInterests.mockReturnValue(of({}));
+    notificationPrefService.getEnabledPreferences.mockReturnValue(of([]));
     fixture.detectChanges();
 
     expect(el.query(By.css('a')).nativeElement).toBeTruthy();
@@ -241,9 +220,9 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to show dialog for create stock notification for active user with channel set', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
-    interestsService.getProductInterests.and.returnValue(of({}));
+    interestsService.getProductInterests.mockReturnValue(of({}));
     fixture.detectChanges();
 
     expect(
@@ -273,9 +252,9 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to close dialog when adding interest fail', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
-    interestsService.getProductInterests.and.returnValue(of({}));
+    interestsService.getProductInterests.mockReturnValue(of({}));
     fixture.detectChanges();
     expect(
       el.query(By.css('.stock-notification-notes')).nativeElement
@@ -293,7 +272,7 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to unsubscribe in destory', () => {
-    spyOn(component['subscriptions'], 'unsubscribe').and.stub();
+    vi.spyOn(component['subscriptions'], 'unsubscribe').mockImplementation(() => {});
     component.ngOnDestroy();
 
     expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();

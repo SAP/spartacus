@@ -1,5 +1,5 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
   ConsentTemplate,
@@ -38,7 +38,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   let anonymousConsentsService: AnonymousConsentsService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, AnonymousConsentManagementBannerComponent],
       providers: [
@@ -52,7 +52,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -71,8 +71,8 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('viewDetails', () => {
     it('should hide the banner and open the dialog', () => {
-      spyOn(component, 'hideBanner').and.stub();
-      spyOn(launchDialogService, 'openDialog');
+      vi.spyOn(component, 'hideBanner').mockImplementation(() => {});
+      vi.spyOn(launchDialogService, 'openDialog');
 
       component.viewDetails();
 
@@ -87,11 +87,11 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('allowAll', () => {
     it('should give all anonymous consents and call hideBanner()', () => {
-      spyOn<any>(component['subscriptions'], 'add').and.callThrough();
-      spyOn(anonymousConsentsService, 'giveAllConsents').and.returnValue(
+      vi.spyOn<any>(component['subscriptions'], 'add');
+      vi.spyOn(anonymousConsentsService, 'giveAllConsents').mockReturnValue(
         of([])
       );
-      spyOn(component, 'hideBanner').and.stub();
+      vi.spyOn(component, 'hideBanner').mockImplementation(() => {});
 
       component.allowAll();
 
@@ -103,7 +103,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('hideBanner', () => {
     it('should anonymousConsentsService.toggleBannerDismissed call with true as an argument', () => {
-      spyOn(anonymousConsentsService, 'toggleBannerDismissed').and.stub();
+      vi.spyOn(anonymousConsentsService, 'toggleBannerDismissed').mockImplementation(() => {});
       component.hideBanner();
       expect(
         anonymousConsentsService.toggleBannerDismissed
@@ -113,7 +113,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe', () => {
-      spyOn<any>(component['subscriptions'], 'unsubscribe').and.stub();
+      vi.spyOn<any>(component['subscriptions'], 'unsubscribe').mockImplementation(() => {});
       component.ngOnDestroy();
       expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
     });

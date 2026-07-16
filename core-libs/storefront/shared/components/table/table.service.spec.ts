@@ -83,7 +83,7 @@ describe('TableService', () => {
     describe('buildStructure', () => {
       describe('merge fields', () => {
         it('should return fields for xs screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.xs)
           );
           let result: TableStructure;
@@ -94,7 +94,7 @@ describe('TableService', () => {
         });
 
         it('should return fields for sm screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.sm)
           );
           let result: TableStructure;
@@ -105,7 +105,7 @@ describe('TableService', () => {
         });
 
         it('should return fields for md screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.md)
           );
           let result: TableStructure;
@@ -116,7 +116,7 @@ describe('TableService', () => {
         });
 
         it('should return fields for lg screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.lg)
           );
           let result: TableStructure;
@@ -127,7 +127,7 @@ describe('TableService', () => {
         });
 
         it('should return fields for xl screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.xl)
           );
           let result: TableStructure;
@@ -138,7 +138,7 @@ describe('TableService', () => {
         });
 
         it('should return default fields for md screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.md)
           );
           let result: TableStructure;
@@ -151,7 +151,7 @@ describe('TableService', () => {
 
       describe('merge options', () => {
         it('should return default options for md screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.md)
           );
           let result: TableStructure;
@@ -162,7 +162,7 @@ describe('TableService', () => {
         });
 
         it('should merge options for xl screen', () => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.xl)
           );
           let result: TableStructure;
@@ -175,7 +175,7 @@ describe('TableService', () => {
 
       describe('lg breakpoint', () => {
         beforeEach(() => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.lg)
           );
         });
@@ -194,7 +194,7 @@ describe('TableService', () => {
 
       describe('xs breakpoint', () => {
         beforeEach(() => {
-          spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+          vi.spyOn(breakpointService, 'breakpoint$', 'get').mockReturnValue(
             of(BREAKPOINT.xs)
           );
         });
@@ -233,7 +233,7 @@ describe('TableService', () => {
         it('should generate random table structure', () => {
           let result: TableStructure;
           const logger = TestBed.inject(LoggerService);
-          spyOn(logger, 'warn').and.stub();
+          vi.spyOn(logger, 'warn').mockImplementation(() => {});
           tableService
             .buildStructure('unknown')
             .subscribe((structure) => (result = structure));

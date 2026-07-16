@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BtnLikeLinkDirective } from './btn-like-link.directive';
 import { BtnLikeLinkModule } from './btn-like-link.module';
@@ -31,7 +31,7 @@ class TestContainerComponent {
 describe('BtnLikeLinkDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         BtnLikeLinkModule,
@@ -39,18 +39,18 @@ describe('BtnLikeLinkDirective', () => {
         TestContainerComponent,
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
   });
 
   it('should react on enter and spacebar clicks', () => {
-    const onClickSpy = spyOn(
+    const onClickSpy = vi.spyOn(
       fixture.componentInstance,
       'onClick'
-    ).and.callThrough();
-    const mockClickHandlerSpy = spyOn(Mock, 'clickHandler').and.callThrough();
+    );
+    const mockClickHandlerSpy = vi.spyOn(Mock, 'clickHandler');
 
     const affectedLink = fixture.debugElement.query(By.css('.affected-link'));
     const unaffectedLink1 = fixture.debugElement.query(

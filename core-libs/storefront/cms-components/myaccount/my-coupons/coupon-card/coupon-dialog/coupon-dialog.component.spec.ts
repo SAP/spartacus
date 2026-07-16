@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CustomerCoupon,
@@ -46,7 +46,7 @@ describe('CouponDialogComponent', () => {
   let fixture: ComponentFixture<CouponDialogComponent>;
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -59,7 +59,7 @@ describe('CouponDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CouponDialogComponent);
@@ -107,7 +107,7 @@ describe('CouponDialogComponent', () => {
   });
 
   it('should be able to close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
     fixture.detectChanges();
     const closeBtn = fixture.debugElement.query(By.css('button'));
     closeBtn.nativeElement.click();
@@ -115,8 +115,8 @@ describe('CouponDialogComponent', () => {
   });
 
   it('should emit handleClick event', () => {
-    spyOn(component, 'handleClick').and.callThrough();
-    spyOn(component, 'close');
+    vi.spyOn(component, 'handleClick');
+    vi.spyOn(component, 'close');
 
     expect(component.handleClick).toHaveBeenCalledTimes(0);
 

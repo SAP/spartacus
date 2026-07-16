@@ -1,7 +1,8 @@
 import { Component, ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { firstValueFrom } from 'rxjs';
 import { DomChangeDirective } from './dom-change.directive';
 
 @Component({
@@ -19,7 +20,7 @@ describe('DomChangeDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let testElement: ElementRef;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, TestHostComponent, DomChangeDirective],
     }).compileComponents();
@@ -27,57 +28,57 @@ describe('DomChangeDirective', () => {
     fixture = TestBed.createComponent(TestHostComponent);
 
     testElement = fixture.debugElement.query(By.directive(DomChangeDirective));
-  }));
+  });
 
-  it('should emit when a child element is added', (done) => {
+  it('should emit when a child element is added', async () => {
     const directive = fixture.debugElement
       .query(By.directive(DomChangeDirective))
       .injector.get(DomChangeDirective);
     const newElement = document.createElement('div');
 
-    directive.cxDomChange.subscribe((mutation: MutationRecord) => {
-      expect(mutation.type).toBe('childList');
-      done();
-    });
+    const mutationPromise = firstValueFrom(directive.cxDomChange);
 
     // Set DOM
     testElement.nativeElement.appendChild(newElement);
     fixture.detectChanges();
+
+    const mutation = await mutationPromise;
+    expect(mutation.type).toBe('childList');
   });
 
-  it('should emit when a child element is removed', (done) => {
+  it('should emit when a child element is removed', async () => {
     const directive = fixture.debugElement
       .query(By.directive(DomChangeDirective))
       .injector.get(DomChangeDirective);
     const childElement =
       testElement.nativeElement.querySelector('.targetElement');
 
-    directive.cxDomChange.subscribe((mutation: MutationRecord) => {
-      expect(mutation.type).toBe('childList');
-      done();
-    });
+    const mutationPromise = firstValueFrom(directive.cxDomChange);
 
     // Set DOM
     testElement.nativeElement.removeChild(childElement);
     fixture.detectChanges();
+
+    const mutation = await mutationPromise;
+    expect(mutation.type).toBe('childList');
   });
 
-  it('should filter mutations based on the target selector', (done) => {
+  it('should filter mutations based on the target selector', async () => {
     const directive = fixture.debugElement
       .query(By.directive(DomChangeDirective))
       .injector.get(DomChangeDirective);
     directive.cxDomChangeTargetSelector = '.targetElement';
 
-    directive.cxDomChange.subscribe((mutation: MutationRecord) => {
-      expect(mutation.target).toHaveClass('targetElement');
-      done();
-    });
+    const mutationPromise = firstValueFrom(directive.cxDomChange);
 
     // Set DOM
     const targetElement =
       testElement.nativeElement.querySelector('.targetElement');
     targetElement.appendChild(document.createTextNode('Test Text'));
     fixture.detectChanges();
+
+    const mutation = await mutationPromise;
+    expect(mutation.target).toHaveClass('targetElement');
   });
 
   it('should not emit when mutations do not match target selector', () => {

@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusDirective } from './auto-focus.directive';
@@ -50,7 +50,7 @@ class MockAutoFocusService {
 describe('AutoFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: AutoFocusService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent, CustomFocusDirective],
       providers: [
@@ -63,7 +63,7 @@ describe('AutoFocusDirective', () => {
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(AutoFocusService);
-  }));
+  });
 
   const event = {
     preventDefault: () => {},
@@ -77,7 +77,7 @@ describe('AutoFocusDirective', () => {
       const host: HTMLElement = fixture.debugElement.query(
         By.css('#a')
       ).nativeElement;
-      spyOn(service, 'findFirstFocusable');
+      vi.spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
       expect(service.findFirstFocusable).toHaveBeenCalledWith(host, {
         autofocus: true,
@@ -93,7 +93,7 @@ describe('AutoFocusDirective', () => {
       const host: HTMLElement = fixture.debugElement.query(
         By.css('#b')
       ).nativeElement;
-      spyOn(service, 'findFirstFocusable');
+      vi.spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
       expect(service.findFirstFocusable).toHaveBeenCalledWith(host, {
         autofocus: true,
@@ -107,7 +107,7 @@ describe('AutoFocusDirective', () => {
       const host: HTMLElement = fixture.debugElement.query(
         By.css('#d')
       ).nativeElement;
-      spyOn(service, 'findFirstFocusable');
+      vi.spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
       expect(service.findFirstFocusable).toHaveBeenCalledWith(host, {
         autofocus: 'button:nth-child(2)',
@@ -117,7 +117,7 @@ describe('AutoFocusDirective', () => {
     it('should handle real focus', () => {
       const host = fixture.debugElement.query(By.css('#b'));
       const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
+      vi.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
       fixture.detectChanges();
       host.triggerEventHandler('focus', event);
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(
@@ -131,9 +131,9 @@ describe('AutoFocusDirective', () => {
     const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
     const f2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
 
-    spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-    spyOn(f1, 'focus').and.callThrough();
-    spyOn(f2, 'focus').and.callThrough();
+    vi.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+    vi.spyOn(f1, 'focus');
+    vi.spyOn(f2, 'focus');
 
     fixture.detectChanges();
     host.triggerEventHandler('focus', event);
@@ -144,7 +144,7 @@ describe('AutoFocusDirective', () => {
 
   it('should not focus host element if autofocus = false', () => {
     const host = fixture.debugElement.query(By.css('#c'));
-    spyOn(service, 'findFirstFocusable');
+    vi.spyOn(service, 'findFirstFocusable');
 
     fixture.detectChanges();
     host.triggerEventHandler('focus', event);

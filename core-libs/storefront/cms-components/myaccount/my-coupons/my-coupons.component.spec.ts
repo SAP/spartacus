@@ -7,7 +7,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import {
@@ -169,25 +169,12 @@ describe('MyCouponsComponent', () => {
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
 
-  const customerCouponService = jasmine.createSpyObj('CustomerCouponService', [
-    'getCustomerCoupons',
-    'getCustomerCouponsLoading',
-    'loadCustomerCoupons',
-    'subscribeCustomerCoupon',
-    'unsubscribeCustomerCoupon',
-    'getSubscribeCustomerCouponResultLoading',
-    'getUnsubscribeCustomerCouponResultLoading',
-    'getSubscribeCustomerCouponResultError',
-    'getUnsubscribeCustomerCouponResultError',
-  ]);
+  const customerCouponService = { getCustomerCoupons: vi.fn(), getCustomerCouponsLoading: vi.fn(), loadCustomerCoupons: vi.fn(), subscribeCustomerCoupon: vi.fn(), unsubscribeCustomerCoupon: vi.fn(), getSubscribeCustomerCouponResultLoading: vi.fn(), getUnsubscribeCustomerCouponResultLoading: vi.fn(), getSubscribeCustomerCouponResultError: vi.fn(), getUnsubscribeCustomerCouponResultError: vi.fn() };
 
-  const myCouponsComponentService = jasmine.createSpyObj(
-    'MyCouponsComponentService',
-    ['getSortLabels']
-  );
+  const myCouponsComponentService = { getSortLabels: vi.fn() };
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
@@ -239,7 +226,7 @@ describe('MyCouponsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);
@@ -247,27 +234,27 @@ describe('MyCouponsComponent', () => {
     el = fixture.debugElement;
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(emptyCouponResult)
     );
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(false));
-    customerCouponService.loadCustomerCoupons.and.stub();
-    customerCouponService.subscribeCustomerCoupon.and.stub();
-    customerCouponService.unsubscribeCustomerCoupon.and.stub();
-    customerCouponService.getSubscribeCustomerCouponResultLoading.and.returnValue(
+    customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(false));
+    customerCouponService.loadCustomerCoupons.mockImplementation(() => {});
+    customerCouponService.subscribeCustomerCoupon.mockImplementation(() => {});
+    customerCouponService.unsubscribeCustomerCoupon.mockImplementation(() => {});
+    customerCouponService.getSubscribeCustomerCouponResultLoading.mockReturnValue(
       subLoading$
     );
-    customerCouponService.getUnsubscribeCustomerCouponResultLoading.and.returnValue(
+    customerCouponService.getUnsubscribeCustomerCouponResultLoading.mockReturnValue(
       unsubLoading$
     );
-    customerCouponService.getSubscribeCustomerCouponResultError.and.returnValue(
+    customerCouponService.getSubscribeCustomerCouponResultError.mockReturnValue(
       subscriptionFail
     );
-    customerCouponService.getUnsubscribeCustomerCouponResultError.and.returnValue(
+    customerCouponService.getUnsubscribeCustomerCouponResultError.mockReturnValue(
       subscriptionFail
     );
 
-    myCouponsComponentService.getSortLabels.and.returnValue(of(sortLabels));
+    myCouponsComponentService.getSortLabels.mockReturnValue(of(sortLabels));
   });
 
   it('should create', () => {
@@ -294,13 +281,13 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should show spinner when loading', () => {
-    customerCouponService.getCustomerCouponsLoading.and.returnValue(of(true));
+    customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(true));
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should be able to show coupons', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -344,7 +331,7 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to change coupon notification', () => {
-    customerCouponService.getCustomerCoupons.and.returnValue(
+    customerCouponService.getCustomerCoupons.mockReturnValue(
       of(couponsSearchResult)
     );
     fixture.detectChanges();
@@ -369,8 +356,8 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to open coupon claim dialog if has hash str in location', () => {
-    spyOn(component, 'getHashStr').and.returnValue(String('#testcode'));
-    spyOn(launchDialogService, 'openDialog').and.returnValue(EMPTY);
+    vi.spyOn(component, 'getHashStr').mockReturnValue(String('#testcode'));
+    vi.spyOn(launchDialogService, 'openDialog').mockReturnValue(EMPTY);
     component.ngOnInit();
     fixture.detectChanges();
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
@@ -383,8 +370,8 @@ describe('MyCouponsComponent', () => {
 
   describe('focus restoration after dialog close', () => {
     it('should pass the host element ref to openDialog so focus is restored on close', () => {
-      spyOn(component, 'getHashStr').and.returnValue('#testcode');
-      spyOn(launchDialogService, 'openDialog').and.returnValue(EMPTY);
+      vi.spyOn(component, 'getHashStr').mockReturnValue('#testcode');
+      vi.spyOn(launchDialogService, 'openDialog').mockReturnValue(EMPTY);
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -401,7 +388,7 @@ describe('MyCouponsComponent', () => {
   describe('navigation', () => {
     it('should close the dialog on NavigationStart', () => {
       const router = TestBed.inject(Router);
-      spyOn(launchDialogService, 'closeDialog');
+      vi.spyOn(launchDialogService, 'closeDialog');
 
       fixture.detectChanges();
       router.navigate(['/']);

@@ -1,7 +1,7 @@
 import { FocusableCarouselItemDirective } from './focusable-carousel-item.directive';
 import { LoggerService } from '@spartacus/core';
 import { ElementRef } from '@angular/core';
-const createSpy = jasmine.createSpy;
+const createSpy = vi.fn;
 
 describe('FocusableCarouselItemDirective', () => {
   let directive: FocusableCarouselItemDirective;

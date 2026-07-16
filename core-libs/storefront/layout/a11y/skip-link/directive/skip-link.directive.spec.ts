@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkConfig, SkipLinkDirective } from '../index';
 import { SkipLinkService } from '../service/skip-link.service';
 
@@ -19,7 +19,7 @@ describe('SkipLinkDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [TestContainerComponent],
       providers: [
@@ -30,7 +30,7 @@ describe('SkipLinkDirective', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
@@ -38,7 +38,7 @@ describe('SkipLinkDirective', () => {
   });
 
   it('should add skip links on component creation', () => {
-    const spy = spyOn(service, 'add');
+    const spy = vi.spyOn(service, 'add');
     const nodes = fixture.debugElement.nativeElement.childNodes;
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledTimes(2);
@@ -47,7 +47,7 @@ describe('SkipLinkDirective', () => {
   });
 
   it('should remove skip links on component destruction', () => {
-    const spy = spyOn(service, 'remove');
+    const spy = vi.spyOn(service, 'remove');
     fixture.detectChanges();
     fixture.destroy();
     expect(spy).toHaveBeenCalledTimes(2);

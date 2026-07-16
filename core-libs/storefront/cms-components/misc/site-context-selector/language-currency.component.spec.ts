@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -86,7 +86,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     data$: of(mockComponentData),
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
@@ -130,7 +130,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageCurrencyComponent);

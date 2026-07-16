@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -19,7 +19,7 @@ describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ItemCounterComponent],
     })
@@ -28,7 +28,7 @@ describe('ItemCounterComponent', () => {
         add: { imports: [MockTranslatePipe, MockKeyboardFocusDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemCounterComponent);
@@ -54,7 +54,7 @@ describe('ItemCounterComponent', () => {
     expect(input.value).toEqual('5');
   });
 
-  it('should update the form control when the input is changed', waitForAsync(() => {
+  it('should update the form control when the input is changed', async () => {
     const input: HTMLInputElement = fixture.debugElement.query(
       By.css('input')
     ).nativeElement;
@@ -65,24 +65,24 @@ describe('ItemCounterComponent', () => {
     fixture.detectChanges();
 
     expect(component.control.value).toEqual(10);
-  }));
+  });
 
   describe('readonly', () => {
-    it('should add readonly class', waitForAsync(() => {
+    it('should add readonly class', async () => {
       component.readonly = true;
       fixture.detectChanges();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).toContain('readonly');
-    }));
+    });
 
-    it('should not add readonly class', waitForAsync(() => {
+    it('should not add readonly class', async () => {
       component.readonly = false;
       fixture.detectChanges();
       expect(
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).not.toContain('readonly');
-    }));
+    });
   });
 
   describe('validate value', () => {
@@ -102,7 +102,7 @@ describe('ItemCounterComponent', () => {
       expect(component.control.value).toEqual(3);
     });
 
-    it('should avoid invalid characters in the input to silently fail', waitForAsync(() => {
+    it('should avoid invalid characters in the input to silently fail', async () => {
       component.min = 5;
       const input: HTMLInputElement = fixture.debugElement.query(
         By.css('input')
@@ -113,7 +113,7 @@ describe('ItemCounterComponent', () => {
       fixture.detectChanges();
 
       expect(input.value).toEqual('5');
-    }));
+    });
 
     it('should ignore 0 value in case `allowZero` is set to true', () => {
       component.allowZero = true;

@@ -922,9 +922,9 @@ describe('MediaService', () => {
         const featureToggles = TestBed.inject(FeatureToggles);
         featureToggles.enableMediaPrefix = true;
         logger = TestBed.inject(LoggerService);
-        spyOn(logger, 'error').and.callFake((msg: string) => msg);
-        spyOn(logger, 'warn').and.callFake((msg: string) => msg);
-        isDevModeSpy = spyOnProperty(AngularCore, 'isDevMode').and.returnValue(
+        vi.spyOn(logger, 'error').mockImplementation((msg: string) => msg);
+        vi.spyOn(logger, 'warn').mockImplementation((msg: string) => msg);
+        isDevModeSpy = vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(
           () => true
         );
         service = TestBed.inject(MediaService);
@@ -937,7 +937,7 @@ describe('MediaService', () => {
       });
 
       it('should return "" (and log the warrning in non dev mode) if baseUrl with prefix is not a valid URL', () => {
-        isDevModeSpy.and.returnValue(() => false);
+        isDevModeSpy.mockReturnValue(() => false);
         const result = service.getBaseUrl();
         expect(result).toBe('not-a-valid-url');
         expect(logger.warn).toHaveBeenCalled();

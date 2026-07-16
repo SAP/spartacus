@@ -56,7 +56,7 @@ describe('InlineRenderStrategy', () => {
       TestContainerComponent
     ).componentInstance;
 
-    spyOn(component.vcr, 'createComponent');
+    vi.spyOn(component.vcr, 'createComponent');
   });
 
   it('should be created', () => {

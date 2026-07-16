@@ -5,10 +5,9 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
+import { firstValueFrom, of, Observable } from 'rxjs';
 import { isEmpty } from 'rxjs/operators';
 import { ProductListComponentService } from '../../container/product-list-component.service';
-import { FacetList } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
 
 class MockRoutingService {
@@ -65,46 +64,28 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockCategoryPage as any)
         );
         (productListComponentService.model$ as any) = of(mockCategoryResult);
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should return facets', (done) => {
-        let result: FacetList;
-        service.facetList$
-          .subscribe((facetList) => {
-            result = facetList;
-            expect(result.facets.length).toEqual(1);
-            done();
-          })
-          .unsubscribe();
+      it('should return facets', async () => {
+        const result = await firstValueFrom(service.facetList$);
+        expect(result.facets.length).toEqual(1);
       });
 
-      it('should return active facets', (done) => {
-        let result: FacetList;
-        service.facetList$
-          .subscribe((facetList) => {
-            result = facetList;
-            expect(result.activeFacets?.length).toEqual(1);
-            done();
-          })
-          .unsubscribe();
+      it('should return active facets', async () => {
+        const result = await firstValueFrom(service.facetList$);
+        expect(result.activeFacets?.length).toEqual(1);
       });
 
-      it('should not return active facets with category code', (done) => {
-        let result: FacetList;
-        service.facetList$
-          .subscribe((facetList) => {
-            result = facetList;
-            expect(
-              result.activeFacets?.find((f) => f.facetCode === 'allCategories')
-            ).toBeFalsy();
-            done();
-          })
-          .unsubscribe();
+      it('should not return active facets with category code', async () => {
+        const result = await firstValueFrom(service.facetList$);
+        expect(
+          result.activeFacets?.find((f) => f.facetCode === 'allCategories')
+        ).toBeFalsy();
       });
     });
 
@@ -131,22 +112,16 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockBrandPage as any)
         );
         (productListComponentService.model$ as any) = of(mockBrandResult);
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should return facets without brand facet', (done) => {
-        let result: FacetList;
-        service.facetList$
-          .subscribe((facetList) => {
-            result = facetList;
-            expect(result.activeFacets?.length).toEqual(2);
-            done();
-          })
-          .unsubscribe();
+      it('should return facets without brand facet', async () => {
+        const result = await firstValueFrom(service.facetList$);
+        expect(result.activeFacets?.length).toEqual(2);
       });
     });
 
@@ -169,22 +144,16 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockSearchPage as any)
         );
         (productListComponentService.model$ as any) = of(mockSearchResult);
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should return facets', (done) => {
-        let result: FacetList;
-        service.facetList$
-          .subscribe((facetList) => {
-            result = facetList;
-            expect(result.facets.length).toEqual(1);
-            done();
-          })
-          .unsubscribe();
+      it('should return facets', async () => {
+        const result = await firstValueFrom(service.facetList$);
+        expect(result.facets.length).toEqual(1);
       });
     });
 
@@ -209,7 +178,7 @@ describe('ProductFacetService', () => {
 
       beforeEach(() => {
         routingService = TestBed.inject(RoutingService);
-        spyOn(routingService, 'getRouterState').and.returnValue(
+        vi.spyOn(routingService, 'getRouterState').mockReturnValue(
           of(mockAnyPage as RouterState)
         );
 
@@ -217,15 +186,12 @@ describe('ProductFacetService', () => {
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should not return result', (done) => {
-        service.facetList$
-          .pipe(isEmpty())
-          .subscribe((result) => {
-            // Expect observable.isEmpty to be true
-            expect(result).toBeTruthy();
-            done();
-          })
-          .unsubscribe();
+      it('should not return result', async () => {
+        const result = await firstValueFrom(
+          service.facetList$.pipe(isEmpty())
+        );
+        // Expect observable.isEmpty to be true
+        expect(result).toBeTruthy();
       });
     });
   });

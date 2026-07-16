@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { TabComponent } from './tab.component';
@@ -31,11 +31,11 @@ describe('TabComponent', () => {
 
   const mockTabs$ = of(mockTabs);
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, TabComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabComponent);
@@ -104,7 +104,7 @@ describe('TabComponent', () => {
     });
 
     it('should navigate menu buttons with arrow keys', () => {
-      const focusSpy = spyOn(component, 'focus');
+      const focusSpy = vi.spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         0,
@@ -140,7 +140,7 @@ describe('TabComponent', () => {
     });
 
     it('should wrap navigation on menu buttons with arrow keys', () => {
-      const focusSpy = spyOn(component, 'focus');
+      const focusSpy = vi.spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         0,
@@ -184,7 +184,7 @@ describe('TabComponent', () => {
       };
       fixture.detectChanges();
 
-      const focusSpy = spyOn(component, 'focus');
+      const focusSpy = vi.spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         0,
@@ -220,7 +220,7 @@ describe('TabComponent', () => {
     });
 
     it('should navigate to last tab with END key', () => {
-      const focusSpy = spyOn(component, 'focus');
+      const focusSpy = vi.spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         1,
@@ -233,7 +233,7 @@ describe('TabComponent', () => {
     });
 
     it('should navigate to first tab with HOME key', () => {
-      const focusSpy = spyOn(component, 'focus');
+      const focusSpy = vi.spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         2,
@@ -326,7 +326,7 @@ describe('TabComponent', () => {
     });
 
     it('should NOT navigate menu buttons with restricted arrow keys', () => {
-      const spy = spyOn(component, 'selectOrFocus');
+      const spy = vi.spyOn(component, 'selectOrFocus');
       component.config = {
         label: 'test',
         mode: TAB_MODE.ACCORDIAN,

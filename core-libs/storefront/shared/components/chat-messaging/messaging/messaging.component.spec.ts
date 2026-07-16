@@ -74,7 +74,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should call onSend on click of send', () => {
-    spyOn(component, 'onSend');
+    vi.spyOn(component, 'onSend');
 
     fixture.debugElement.query(By.css('.cx-send')).nativeElement.click();
     fixture.detectChanges();
@@ -95,7 +95,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should emit send event', () => {
-    spyOn(component.send, 'emit');
+    vi.spyOn(component.send, 'emit');
     component.form.get('message')?.setValue('mockMessage');
     component.onSend();
 
@@ -106,7 +106,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should emit trigger downloadAttachment event', () => {
-    spyOn(component.downloadAttachment, 'emit');
+    vi.spyOn(component.downloadAttachment, 'emit');
     component.form.get('message')?.setValue('mockMessage');
     component.triggerDownload('mockCode', 'mockId', 'mockName');
 
@@ -135,7 +135,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should fire itemClicked event when clicking item link', () => {
-      spyOn(component.itemClicked, 'emit');
+      vi.spyOn(component.itemClicked, 'emit');
       fixture.debugElement
         .query(By.css('.cx-message-card:nth-child(2) .cx-message-item-link'))
         .nativeElement.click();
@@ -168,7 +168,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should emit selected itemId when adding a new message', () => {
-      spyOn(component.send, 'emit');
+      vi.spyOn(component.send, 'emit');
       messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
 
@@ -206,10 +206,7 @@ describe('MessagingComponent', () => {
   });
   describe('resetForm', () => {
     beforeEach(() => {
-      component.fileUploadComponent = jasmine.createSpyObj(
-        'fileUploadComponent',
-        ['removeFile']
-      );
+      component.fileUploadComponent = { removeFile: vi.fn() };
     });
     it('should remove all files uploaded', () => {
       component.resetForm();
@@ -217,7 +214,7 @@ describe('MessagingComponent', () => {
     });
     it('should not fail if there is no file upload component', () => {
       component.fileUploadComponent = undefined;
-      spyOn(component.form, 'reset');
+      vi.spyOn(component.form, 'reset');
       component.resetForm();
       expect(component.form.reset).toHaveBeenCalled();
     });
@@ -225,7 +222,7 @@ describe('MessagingComponent', () => {
     it('should reset item DDLB to the default entry', () => {
       const defaultItemId = 'default';
       messagingConfig.defaultItemId = defaultItemId;
-      spyOn(component.form, 'reset');
+      vi.spyOn(component.form, 'reset');
       component.resetForm();
       expect(component.form.reset).toHaveBeenCalledWith({
         item: defaultItemId,

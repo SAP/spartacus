@@ -81,20 +81,16 @@ describe('CmsFeaturesService', () => {
   });
 
   describe('getCmsMapping', () => {
-    it('should return cms mapping for feature module', (done) => {
-      service.getCmsMapping('component1').subscribe((mapping) => {
-        expect(mapping).toBeTruthy();
-        expect(mapping.component).toEqual('component1Class');
-        done();
-      });
+    it('should return cms mapping for feature module', async () => {
+      const mapping = await firstValueFrom(service.getCmsMapping('component1'));
+      expect(mapping).toBeTruthy();
+      expect(mapping.component).toEqual('component1Class');
     });
 
-    it('should call FeatureModulesService.resolveFeature', (done) => {
-      spyOn(featureModules, 'resolveFeature').and.callThrough();
-      service.getCmsMapping('component1').subscribe(() => {
-        expect(featureModules.resolveFeature).toHaveBeenCalledWith('feature1');
-        done();
-      });
+    it('should call FeatureModulesService.resolveFeature', async () => {
+      vi.spyOn(featureModules, 'resolveFeature');
+      await firstValueFrom(service.getCmsMapping('component1'));
+      expect(featureModules.resolveFeature).toHaveBeenCalledWith('feature1');
     });
   });
 

@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
 import { RoutingContextService } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 const contextToken1 = 'contextToken1';
 const contextToken2 = Symbol('contextToken2');
@@ -15,7 +14,7 @@ const contextInstance1 = 'contextInstance1';
 const contextInstance2 = 'contextInstance2';
 
 const mockInjector = {
-  get: createSpy('get').and.callFake((providerToken: string) =>
+  get: vi.fn().mockImplementation((providerToken: string) =>
     providerToken === providerToken1
       ? of(contextInstance1)
       : of(contextInstance2)
@@ -51,7 +50,7 @@ describe('RoutingContextService', () => {
   });
 
   afterEach(() => {
-    mockInjector.get.calls.reset();
+    mockInjector.get.mockClear();
   });
 
   describe('get', () => {

@@ -62,7 +62,7 @@ describe('StructuredDataFactory', () => {
   });
 
   it('should call jsonLdScriptFactory with 2 schemas', () => {
-    spyOn(jsonLdScriptFactory, 'build').and.stub();
+    vi.spyOn(jsonLdScriptFactory, 'build').mockImplementation(() => {});
     service.build();
     expect(jsonLdScriptFactory.build).toHaveBeenCalledWith([
       productSchema,

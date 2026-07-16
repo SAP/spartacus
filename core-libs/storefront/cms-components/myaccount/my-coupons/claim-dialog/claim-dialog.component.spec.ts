@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormControl,
   FormGroup,
@@ -48,17 +48,11 @@ describe('ClaimDialogComponent', () => {
   let fixture: ComponentFixture<ClaimDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
-  const couponService = jasmine.createSpyObj('CustomerCouponService', [
-    'claimCustomerCoupon',
-    'getClaimCustomerCouponResultSuccess',
-    'loadCustomerCoupons',
-  ]);
-  const routingService = jasmine.createSpyObj('RoutingService', ['go']);
-  const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
-    'add',
-  ]);
+  const couponService = { claimCustomerCoupon: vi.fn(), getClaimCustomerCouponResultSuccess: vi.fn(), loadCustomerCoupons: vi.fn() };
+  const routingService = { go: vi.fn() };
+  const globalMessageService = { add: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, FormErrorsModule, ClaimDialogComponent],
       providers: [
@@ -74,7 +68,7 @@ describe('ClaimDialogComponent', () => {
         add: { imports: [MockTranslatePipe, MockCxIconComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ClaimDialogComponent);
@@ -105,7 +99,7 @@ describe('ClaimDialogComponent', () => {
   });
 
   it('should be able to close dialog', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
     fixture.detectChanges();
     const closeBtn = fixture.debugElement.query(By.css('button'));
     closeBtn.nativeElement.click();
@@ -127,13 +121,13 @@ describe('ClaimDialogComponent', () => {
     it('should succeed on submit', () => {
       (form.get('couponCode') as FormControl).setValue(mockCoupon);
       fixture.detectChanges();
-      couponService.claimCustomerCoupon.and.stub();
-      couponService.loadCustomerCoupons.and.stub();
-      couponService.getClaimCustomerCouponResultSuccess.and.returnValue(
+      couponService.claimCustomerCoupon.mockImplementation(() => {});
+      couponService.loadCustomerCoupons.mockImplementation(() => {});
+      couponService.getClaimCustomerCouponResultSuccess.mockReturnValue(
         of(true)
       );
-      routingService.go.and.stub();
-      globalMessageService.add.and.stub();
+      routingService.go.mockImplementation(() => {});
+      globalMessageService.add.mockImplementation(() => {});
       component.onSubmit();
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -148,13 +142,13 @@ describe('ClaimDialogComponent', () => {
     it('should fail on submit', () => {
       (form.get('couponCode') as FormControl).setValue(mockCoupon);
       fixture.detectChanges();
-      couponService.claimCustomerCoupon.and.stub();
-      couponService.loadCustomerCoupons.and.stub();
-      couponService.getClaimCustomerCouponResultSuccess.and.returnValue(
+      couponService.claimCustomerCoupon.mockImplementation(() => {});
+      couponService.loadCustomerCoupons.mockImplementation(() => {});
+      couponService.getClaimCustomerCouponResultSuccess.mockReturnValue(
         of(false)
       );
-      routingService.go.and.stub();
-      globalMessageService.add.and.stub();
+      routingService.go.mockImplementation(() => {});
+      globalMessageService.add.mockImplementation(() => {});
       component.onSubmit();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'coupons' });
     });

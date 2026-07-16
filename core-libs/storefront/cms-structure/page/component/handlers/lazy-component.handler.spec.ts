@@ -4,10 +4,9 @@ import { Priority } from '@spartacus/core';
 import { DefaultComponentHandler } from '@spartacus/storefront';
 import { lastValueFrom, of } from 'rxjs';
 import { LazyComponentHandler } from './lazy-component.handler';
-import createSpy = jasmine.createSpy;
 
 class MockDefaultComponentHandler {
-  launcher = createSpy().and.returnValue(of({}));
+  launcher = vi.fn().mockReturnValue(of({}));
 }
 
 describe('LazyComponentHandler', () => {

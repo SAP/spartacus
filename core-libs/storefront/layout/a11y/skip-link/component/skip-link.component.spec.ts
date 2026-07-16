@@ -1,11 +1,12 @@
 import { Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { FocusDirective } from '../../keyboard-focus/focus.directive';
 import { SkipLink, SkipLinkConfig } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { SkipLinkComponent } from './skip-link.component';
+import { vi } from 'vitest';
 
 const mockSkipLinks: SkipLink[] = [
   {
@@ -43,7 +44,7 @@ describe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
   let fixture: ComponentFixture<SkipLinkComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [SkipLinkComponent],
       providers: [
@@ -59,7 +60,7 @@ describe('SkipLinkComponent', () => {
         add: { imports: [MockTranslatePipe, MockFocusDirective] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(SkipLinkComponent);
@@ -78,13 +79,13 @@ describe('SkipLinkComponent', () => {
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
     expect(buttons.length).toEqual(3);
-    expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
-    expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
-    expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
+    expect(buttons[0].textContent).toContain(mockSkipLinks[0].i18nKey);
+    expect(buttons[1].textContent).toContain(mockSkipLinks[1].i18nKey);
+    expect(buttons[2].textContent).toContain(mockSkipLinks[2].i18nKey);
   });
 
   it('should call `scrollToTarget` on each button click', () => {
-    const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
+    const spyComponent = vi.spyOn(skipLinkComponent, 'scrollToTarget').mockImplementation(() => {});
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
 

@@ -9,15 +9,13 @@ import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
 
 const combinedUrlMatcher: UrlMatcher = () => null;
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getCombined = jasmine
-    .createSpy('combine')
-    .and.returnValue(combinedUrlMatcher);
+  getCombined = vi.fn()
+    .mockReturnValue(combinedUrlMatcher);
 }
 
 const mockDefaultUrlMatcher: UrlMatcher = () => null;
-const mockDefaultUrlMatcherFactory: UrlMatcherFactory = jasmine
-  .createSpy('mockDefaultUrlMatcherFactory')
-  .and.returnValue(mockDefaultUrlMatcher);
+const mockDefaultUrlMatcherFactory: UrlMatcherFactory = vi.fn()
+  .mockReturnValue(mockDefaultUrlMatcher);
 
 describe('PRODUCT_LISTING_URL_MATCHER', () => {
   let urlMatcherService: UrlMatcherService;
@@ -43,7 +41,7 @@ describe('PRODUCT_LISTING_URL_MATCHER', () => {
     const mockRoute = {};
     const urlMatcher = factory(mockRoute);
     const combinedMatchers =
-      urlMatcherService.getCombined['calls'].argsFor(0)[0];
+      urlMatcherService.getCombined.mock.calls[0][0];
     expect(mockDefaultUrlMatcherFactory).toHaveBeenCalledWith(mockRoute);
     expect(combinedMatchers[0]).toBe(mockDefaultUrlMatcher);
     expect(combinedMatchers[1]._suffixRouteConfig).toEqual({

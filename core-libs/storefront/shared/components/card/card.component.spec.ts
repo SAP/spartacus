@@ -6,7 +6,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -72,7 +72,7 @@ describe('CardComponent', () => {
   let fixture: ComponentFixture<CardComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [CardComponent, FocusDirective, RouterModule.forRoot([])],
     })
@@ -97,7 +97,7 @@ describe('CardComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CardComponent);
@@ -105,11 +105,11 @@ describe('CardComponent', () => {
     el = fixture.debugElement;
     fixture.detectChanges();
 
-    spyOn(component.deleteCard, 'emit').and.callThrough();
-    spyOn(component.cancelCard, 'emit').and.callThrough();
-    spyOn(component.setDefaultCard, 'emit').and.callThrough();
-    spyOn(component.sendCard, 'emit').and.callThrough();
-    spyOn(component.editCard, 'emit').and.callThrough();
+    vi.spyOn(component.deleteCard, 'emit');
+    vi.spyOn(component.cancelCard, 'emit');
+    vi.spyOn(component.setDefaultCard, 'emit');
+    vi.spyOn(component.sendCard, 'emit');
+    vi.spyOn(component.editCard, 'emit');
   });
 
   it('should create', () => {

@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -14,7 +14,7 @@ describe('ConsentManagementFormComponent', () => {
   let fixture: ComponentFixture<ConsentManagementFormComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ConsentManagementFormComponent],
     })
@@ -23,7 +23,7 @@ describe('ConsentManagementFormComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsentManagementFormComponent);
@@ -84,7 +84,7 @@ describe('ConsentManagementFormComponent', () => {
         const consentGiven = true;
         component.consentGiven = consentGiven;
         component.consentTemplate = mockConsentTemplate;
-        spyOn(component.consentChanged, 'emit').and.stub();
+        vi.spyOn(component.consentChanged, 'emit').mockImplementation(() => {});
 
         component.onConsentChange();
 
@@ -120,7 +120,7 @@ describe('ConsentManagementFormComponent', () => {
         id: 'mock ID',
       };
       it('should call onConsentChange()', () => {
-        spyOn(component, 'onConsentChange').and.stub();
+        vi.spyOn(component, 'onConsentChange').mockImplementation(() => {});
 
         component.consentTemplate = mockConsentTemplate;
         component.consentGiven = true;

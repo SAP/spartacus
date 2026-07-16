@@ -1,18 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { SiteThemeService, SiteTheme } from '@spartacus/core';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
 describe('SiteThemeSwitcherComponentService', () => {
   let service: SiteThemeSwitcherComponentService;
-  let siteThemeService: jasmine.SpyObj<SiteThemeService>;
+  let siteThemeService: any;
 
   beforeEach(() => {
-    const siteThemeServiceSpy = jasmine.createSpyObj('SiteThemeService', [
-      'getAll',
-      'getActive',
-      'setActive',
-    ]);
+    const siteThemeServiceSpy = { getAll: vi.fn(), getActive: vi.fn(), setActive: vi.fn() };
 
     TestBed.configureTestingModule({
       providers: [
@@ -24,37 +20,31 @@ describe('SiteThemeSwitcherComponentService', () => {
     service = TestBed.inject(SiteThemeSwitcherComponentService);
     siteThemeService = TestBed.inject(
       SiteThemeService
-    ) as jasmine.SpyObj<SiteThemeService>;
+    ) as any;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getItems should return all themes', (done: DoneFn) => {
+  it('getItems should return all themes', async () => {
     const mockThemes: SiteTheme[] = [
       { className: 'theme1', i18nNameKey: 'theme1' },
       { className: 'theme2', i18nNameKey: 'theme2' },
     ];
-    siteThemeService.getAll.and.returnValue(of(mockThemes));
+    siteThemeService.getAll.mockReturnValue(of(mockThemes));
 
-    service.getItems().subscribe((themes) => {
-      expect(themes).toEqual(mockThemes);
-      done();
-    });
-
+    const themes = await firstValueFrom(service.getItems());
+    expect(themes).toEqual(mockThemes);
     expect(siteThemeService.getAll).toHaveBeenCalled();
   });
 
-  it('getActiveItem should return active theme and set it', (done: DoneFn) => {
+  it('getActiveItem should return active theme and set it', async () => {
     const activeTheme = 'theme1';
-    siteThemeService.getActive.and.returnValue(of(activeTheme));
+    siteThemeService.getActive.mockReturnValue(of(activeTheme));
 
-    service.getActiveItem().subscribe((theme) => {
-      expect(theme).toBe(activeTheme);
-      done();
-    });
-
+    const theme = await firstValueFrom(service.getActiveItem());
+    expect(theme).toBe(activeTheme);
     expect(siteThemeService.getActive).toHaveBeenCalled();
   });
 

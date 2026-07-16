@@ -144,15 +144,15 @@ function createComponent(elementType: 'picture' | 'img' = 'img') {
   const service = TestBed.inject(MediaService);
   const fixture = TestBed.createComponent(MediaComponent);
   const component = fixture.componentInstance;
-  const getMediaSpy = spyOn(service, 'getMedia').and.callThrough();
-  const getMediaForPictureElementSpy = spyOn(
+  const getMediaSpy = vi.spyOn(service, 'getMedia');
+  const getMediaForPictureElementSpy = vi.spyOn(
     service,
     'getMediaForPictureElement'
-  ).and.callThrough();
-  const getMediaBasedOnHTMLElementType = spyOn(
+  );
+  const getMediaBasedOnHTMLElementType = vi.spyOn(
     service,
     'getMediaBasedOnHTMLElementType'
-  ).and.callThrough();
+  );
 
   component.container = mockImageContainer;
 
@@ -255,7 +255,7 @@ describe('MediaComponent', () => {
     configureTestingModule(new MockMediaService(null));
     const { service } = createComponent();
 
-    spyOnProperty(service, 'loadingStrategy').and.returnValue(
+    vi.spyOn(service, 'loadingStrategy', 'get').mockReturnValue(
       ImageLoadingStrategy.LAZY
     );
     const lazyFixture = TestBed.createComponent(MediaComponent);
@@ -304,7 +304,7 @@ describe('MediaComponent', () => {
     component.ngOnChanges();
     fixture.detectChanges();
 
-    getMediaSpy.and.returnValue(null);
+    getMediaSpy.mockReturnValue(null);
     component.container = mockMissingImageContainer;
 
     component.ngOnChanges();
@@ -411,7 +411,7 @@ describe('MediaComponent', () => {
       component.fetchPriority = undefined;
       component.loading = null;
 
-      spyOnProperty(component, 'loadingStrategy', 'get').and.returnValue(
+      vi.spyOn(component, 'loadingStrategy', 'get').mockReturnValue(
         ImageLoadingStrategy.LAZY
       );
 

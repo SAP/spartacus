@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { EscapeFocusDirective } from './escape-focus.directive';
@@ -59,7 +59,7 @@ describe('EscapeFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: EscapeFocusService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent, CustomFocusDirective],
       providers: [
@@ -74,13 +74,13 @@ describe('EscapeFocusDirective', () => {
     component = fixture.componentInstance;
     service = TestBed.inject(EscapeFocusService);
 
-    spyOn(service, 'shouldFocus').and.callThrough();
-    spyOn(service, 'handleEscape').and.callThrough();
+    vi.spyOn(service, 'shouldFocus');
+    vi.spyOn(service, 'handleEscape');
 
-    spyOn(component, 'handleEmit');
+    vi.spyOn(component, 'handleEmit');
 
     fixture.detectChanges();
-  }));
+  });
 
   describe('config', () => {
     it('should use focusOnEscape by default', () => {

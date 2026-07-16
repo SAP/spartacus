@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconComponent } from '@spartacus/storefront';
@@ -50,7 +50,7 @@ describe('ProductFacetNavigationComponent', () => {
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
   let element: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -73,7 +73,7 @@ describe('ProductFacetNavigationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);
@@ -86,23 +86,23 @@ describe('ProductFacetNavigationComponent', () => {
   });
 
   describe('mobile', () => {
-    it('should not have facet list when trigger button is visible', waitForAsync(async () => {
+    it('should not have facet list when trigger button is visible', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
 
       const facetList = element.query(By.css('cx-facet-list'));
       expect(facetList).toBeNull();
-    }));
+    });
 
     it('should invoke launch when trigger button is clicked', () => {
-      spyOn(component, 'launch');
+      vi.spyOn(component, 'launch');
       fixture.detectChanges();
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
       expect(component.launch).toHaveBeenCalled();
     });
 
-    it('should have facet list after trigger button is clicked', waitForAsync(async () => {
+    it('should have facet list after trigger button is clicked', async () => {
       fixture.detectChanges();
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
@@ -112,10 +112,10 @@ describe('ProductFacetNavigationComponent', () => {
 
       const facetList = element.query(By.css('cx-facet-list')).nativeElement;
       expect(facetList).toBeTruthy();
-    }));
+    });
 
-    it('should invoke close when closeList is emitted', waitForAsync(async () => {
-      spyOn(component, 'close');
+    it('should invoke close when closeList is emitted', async () => {
+      vi.spyOn(component, 'close');
       fixture.detectChanges();
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
@@ -127,11 +127,11 @@ describe('ProductFacetNavigationComponent', () => {
       facetList.dispatchEvent(new Event('closeList'));
 
       expect(component.close).toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('desktop', () => {
-    it('should have facet list when trigger button is hidden', waitForAsync(async () => {
+    it('should have facet list when trigger button is hidden', async () => {
       fixture.detectChanges();
 
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
@@ -142,6 +142,6 @@ describe('ProductFacetNavigationComponent', () => {
 
       const facetList = element.query(By.css('cx-facet-list')).nativeElement;
       expect(facetList).toBeTruthy();
-    }));
+    });
   });
 });

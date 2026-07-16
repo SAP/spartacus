@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -31,9 +31,7 @@ describe('StockNotificationDialogComponent', () => {
     closeDialog(_reason: string): void {}
   }
 
-  const interestsService = jasmine.createSpyObj('interestsService', [
-    'resetAddInterestState',
-  ]);
+  const interestsService = { resetAddInterestState: vi.fn() };
 
   const preferences: NotificationPreference[] = [
     {
@@ -44,7 +42,7 @@ describe('StockNotificationDialogComponent', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterModule.forRoot([])],
       providers: [
@@ -61,7 +59,7 @@ describe('StockNotificationDialogComponent', () => {
       .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StockNotificationDialogComponent);
@@ -70,7 +68,7 @@ describe('StockNotificationDialogComponent', () => {
 
     component.subscribeSuccess$ = of(true);
     component.enabledPrefs = preferences;
-    interestsService.resetAddInterestState.and.stub();
+    interestsService.resetAddInterestState.mockImplementation(() => {});
   });
 
   it('should create', () => {
@@ -96,7 +94,7 @@ describe('StockNotificationDialogComponent', () => {
   });
 
   it('should be able to close dialog by close button', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     fixture.detectChanges();
     el.query(By.css('.close')).nativeElement.click();
@@ -106,7 +104,7 @@ describe('StockNotificationDialogComponent', () => {
   });
 
   it('should be able to close dialog by OK button', () => {
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
 
     fixture.detectChanges();
     el.query(By.css('.btn-ok')).nativeElement.click();

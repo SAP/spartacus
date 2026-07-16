@@ -1,5 +1,5 @@
 import { DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
@@ -32,7 +32,7 @@ describe('PaginationComponent', () => {
   let fixture: ComponentFixture<PaginationComponent>;
   let debugEl: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [PaginationComponent],
       providers: [
@@ -54,7 +54,7 @@ describe('PaginationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);

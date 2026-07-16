@@ -6,13 +6,10 @@ import { of } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsInjectorService } from './cms-injector.service';
 
-const mockCmsComponentsService = jasmine.createSpyObj('CmsMappingService', [
-  'getMapping',
-  'getStaticData',
-]);
+const mockCmsComponentsService = { getMapping: vi.fn(), getStaticData: vi.fn() };
 
 const mockCmsService = {
-  getComponentData: jasmine.createSpy().and.returnValue(of('data')),
+  getComponentData: vi.fn().mockReturnValue(of('data')),
 };
 
 describe('CmsInjectorService', () => {

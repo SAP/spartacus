@@ -1,6 +1,6 @@
 import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeaturesConfigModule, Product } from '@spartacus/core';
 import {
@@ -94,7 +94,7 @@ describe('ProductImagesComponent', () => {
   let currentProductService: CurrentProductService;
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -125,11 +125,11 @@ describe('ProductImagesComponent', () => {
       .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
-  }));
+  });
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithMultiplePictures)
       );
 
@@ -149,21 +149,21 @@ describe('ProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should have 2 thumbnails', waitForAsync(() => {
+    it('should have 2 thumbnails', async () => {
       fixture.detectChanges();
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
-    }));
+    });
 
-    it('should have thumb with url in first product', waitForAsync(() => {
+    it('should have thumb with url in first product', async () => {
       fixture.detectChanges();
       let thumbs: Observable<Product>[];
       component.thumbs$.subscribe((i) => (thumbs = i));
       let thumb: any;
       thumbs[0].subscribe((p) => (thumb = p));
       expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
-    }));
+    });
 
     describe('UI test', () => {
       it('should have cx-carousel-scrolling element', () => {
@@ -174,13 +174,13 @@ describe('ProductImagesComponent', () => {
         expect(carousel).toBeTruthy();
       });
 
-      it('should have 2 rendered templates', waitForAsync(() => {
+      it('should have 2 rendered templates', async () => {
         fixture.detectChanges();
         const el = fixture.debugElement.queryAll(
           By.css('cx-carousel-scrolling cx-media')
         );
         expect(el.length).toEqual(2);
-      }));
+      });
 
       describe('LCP context handling', () => {
         describe('when contains LCP element', () => {
@@ -239,7 +239,7 @@ describe('ProductImagesComponent', () => {
 
   describe('with one pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWithOnePicture)
       );
 
@@ -258,11 +258,11 @@ describe('ProductImagesComponent', () => {
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
-    it('should not have thumbnails in case there is only one GALLERY image', waitForAsync(() => {
+    it('should not have thumbnails in case there is only one GALLERY image', async () => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(0);
-    }));
+    });
 
     describe('(UI test)', () => {
       it('should not render cx-carousel-scrolling for one GALLERY image', () => {
@@ -311,7 +311,7 @@ describe('ProductImagesComponent', () => {
 
   describe('without pictures', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      vi.spyOn(currentProductService, 'getProduct').mockReturnValue(
         of(mockDataWitoutPrimaryPictures)
       );
 

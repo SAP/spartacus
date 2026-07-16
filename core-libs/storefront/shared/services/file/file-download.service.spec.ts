@@ -20,11 +20,11 @@ describe('FileDownloadService', () => {
   it('should download the file', () => {
     const link = document.createElement('a');
 
-    spyOn(document, 'createElement').and.returnValue(link);
-    spyOn(link, 'setAttribute').and.callThrough();
-    spyOn(document.body, 'appendChild').and.callThrough();
-    spyOn(link, 'click').and.callThrough();
-    spyOn(document.body, 'removeChild').and.callThrough();
+    vi.spyOn(document, 'createElement').mockReturnValue(link);
+    vi.spyOn(link, 'setAttribute');
+    vi.spyOn(document.body, 'appendChild');
+    vi.spyOn(link, 'click');
+    vi.spyOn(document.body, 'removeChild');
 
     service.download(fakeUrl, fileName);
 

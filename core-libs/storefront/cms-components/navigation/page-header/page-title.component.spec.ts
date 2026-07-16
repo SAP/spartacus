@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -20,7 +20,7 @@ describe('PageTitleComponent', () => {
   let fixture: ComponentFixture<PageTitleComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, PageTitleComponent],
       providers: [
@@ -33,7 +33,7 @@ describe('PageTitleComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PageTitleComponent);

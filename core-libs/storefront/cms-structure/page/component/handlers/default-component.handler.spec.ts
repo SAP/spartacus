@@ -1,7 +1,7 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Priority } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { DefaultComponentHandler } from './default-component.handler';
 
@@ -47,17 +47,14 @@ describe('DefaultComponentHandler', () => {
     expect(handler.getPriority()).toEqual(Priority.FALLBACK);
   });
 
-  it('should launch component', (done) => {
+  it('should launch component', async () => {
     const fixture = TestBed.createComponent(WrapperComponent);
     fixture.detectChanges();
 
-    handler
-      .launcher({ component: TestComponent }, fixture.componentInstance.vcr)
-      .pipe(take(1))
-      .subscribe(({ elementRef, componentRef }) => {
-        expect(componentRef.componentType).toBe(TestComponent);
-        expect(elementRef.nativeElement.innerText).toBe('testComponent');
-        done();
-      });
+    const { elementRef, componentRef } = await firstValueFrom(
+      handler.launcher({ component: TestComponent }, fixture.componentInstance.vcr)
+    );
+    expect(componentRef.componentType).toBe(TestComponent);
+    expect(elementRef.nativeElement.innerText).toBe('testComponent');
   });
 });

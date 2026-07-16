@@ -6,7 +6,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -169,11 +169,11 @@ describe('ProductReferencesComponent', () => {
       .compileComponents();
   });
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;
-  }));
+  });
 
   it('should emit component data', () => {
     fixture.detectChanges();
@@ -192,7 +192,7 @@ describe('ProductReferencesComponent', () => {
 
   it('should get productCode', () => {
     fixture.detectChanges();
-    spyOn(productReferenceService, 'cleanReferences').and.stub();
+    vi.spyOn(productReferenceService, 'cleanReferences').mockImplementation(() => {});
 
     let result: string;
     component['productCode$']
@@ -205,8 +205,8 @@ describe('ProductReferencesComponent', () => {
 
   it('should have 2 items', () => {
     fixture.detectChanges();
-    spyOn(productReferenceService, 'loadProductReferences').and.callThrough();
-    spyOn(productReferenceService, 'getProductReferences').and.callThrough();
+    vi.spyOn(productReferenceService, 'loadProductReferences');
+    vi.spyOn(productReferenceService, 'getProductReferences');
 
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i)).unsubscribe();

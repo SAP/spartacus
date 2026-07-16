@@ -7,7 +7,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -26,13 +26,10 @@ const MOCK_ITEMS: Array<SiteTheme> = [
 describe('ThemeSwitcherComponent', () => {
   let component: SiteThemeSwitcherComponent;
   let fixture: ComponentFixture<SiteThemeSwitcherComponent>;
-  let themeSwitcherComponentService: jasmine.SpyObj<SiteThemeSwitcherComponentService>;
+  let themeSwitcherComponentService: any;
 
   beforeEach(async () => {
-    const themeSwitcherServiceSpy = jasmine.createSpyObj(
-      'ThemeSwitcherComponentService',
-      ['getItems', 'getActiveItem', 'setActive']
-    );
+    const themeSwitcherServiceSpy = { getItems: vi.fn(), getActiveItem: vi.fn(), setActive: vi.fn() };
 
     await TestBed.configureTestingModule({
       imports: [
@@ -53,9 +50,9 @@ describe('ThemeSwitcherComponent', () => {
 
     themeSwitcherComponentService = TestBed.inject(
       SiteThemeSwitcherComponentService
-    ) as jasmine.SpyObj<SiteThemeSwitcherComponentService>;
-    themeSwitcherComponentService.getItems.and.returnValue(of([]));
-    themeSwitcherComponentService.getActiveItem.and.returnValue(of(''));
+    ) as any;
+    themeSwitcherComponentService.getItems.mockReturnValue(of([]));
+    themeSwitcherComponentService.getActiveItem.mockReturnValue(of(''));
   });
 
   describe('when no options available', () => {
@@ -69,25 +66,19 @@ describe('ThemeSwitcherComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should get items from the service', (done: DoneFn) => {
-      themeSwitcherComponentService.getItems.and.returnValue(of(MOCK_ITEMS));
-
-      component.items$.subscribe((items) => {
-        expect(items).toEqual(MOCK_ITEMS);
-        done();
-      });
+    it('should get items from the service', async () => {
+      themeSwitcherComponentService.getItems.mockReturnValue(of(MOCK_ITEMS));
+      const items = await firstValueFrom(component.items$);
+      expect(items).toEqual(MOCK_ITEMS);
     });
 
-    it('should get active item from the service', (done: DoneFn) => {
+    it('should get active item from the service', async () => {
       const activeItemMock = 'theme1';
-      themeSwitcherComponentService.getActiveItem.and.returnValue(
+      themeSwitcherComponentService.getActiveItem.mockReturnValue(
         of(activeItemMock)
       );
-
-      component.activeItem$.subscribe((activeItem) => {
-        expect(activeItem).toBe(activeItemMock);
-        done();
-      });
+      const activeItem = await firstValueFrom(component.activeItem$);
+      expect(activeItem).toBe(activeItemMock);
     });
 
     it('should set active item using the service', () => {
@@ -101,7 +92,7 @@ describe('ThemeSwitcherComponent', () => {
 
   describe('when the options available', () => {
     beforeEach(() => {
-      themeSwitcherComponentService.getItems.and.returnValue(of(MOCK_ITEMS));
+      themeSwitcherComponentService.getItems.mockReturnValue(of(MOCK_ITEMS));
       fixture = TestBed.createComponent(SiteThemeSwitcherComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();

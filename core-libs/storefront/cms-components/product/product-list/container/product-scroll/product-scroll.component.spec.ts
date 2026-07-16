@@ -5,7 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -24,7 +24,7 @@ import { ProductListItemComponent } from '../../product-list-item/product-list-i
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -178,12 +178,12 @@ class MockAddToCartComponent {
 }
 
 class MockProductListComponentService {
-  setQuery = createSpy('setQuery');
-  viewPage = createSpy('viewPage');
-  sort = createSpy('sort');
-  clearSearchResults = createSpy('clearSearchResults');
-  getPageItems = createSpy('getPageItems');
-  model$ = createSpy('model$');
+  setQuery = vi.fn();
+  viewPage = vi.fn();
+  sort = vi.fn();
+  clearSearchResults = vi.fn();
+  getPageItems = vi.fn();
+  model$ = vi.fn();
 }
 
 @Component({
@@ -200,7 +200,7 @@ describe('ProductScrollComponent', () => {
   let fixture: ComponentFixture<ProductScrollComponent>;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         InfiniteScrollDirective,
@@ -239,7 +239,7 @@ describe('ProductScrollComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductScrollComponent);
@@ -259,14 +259,14 @@ describe('ProductScrollComponent', () => {
       component.setModel = mockModel1Page2;
 
       const totalLength =
-        mockModel1.products.length + mockModel1Page2.products.length;
+        (mockModel1.products?.length ?? 0 ) + (mockModel1Page2.products?.length ?? 0);
 
-      expect(component.model.products.length).toEqual(totalLength);
-      expect(component.model.products).toContain(
-        jasmine.objectContaining(mockModel1.products[0])
+      expect(component.model.products?.length).toEqual(totalLength);
+      expect(component.model.products).toContainEqual(
+        expect.objectContaining((mockModel1.products ?? [])[0])
       );
-      expect(component.model.products).toContain(
-        jasmine.objectContaining(mockModel1Page2.products[0])
+      expect(component.model.products).toContainEqual(
+        expect.objectContaining((mockModel1Page2.products ?? [])[0])
       );
     });
 
@@ -311,7 +311,7 @@ describe('ProductScrollComponent', () => {
 
       it('should NOT display buttons when limit is not reached', () => {
         expect(component.productLimit).toEqual(2);
-        expect(mockModel1.products.length).toEqual(1);
+        expect(mockModel1.products?.length).toEqual(1);
         expect(component.isMaxProducts).toBeFalsy();
 
         fixture.detectChanges();
@@ -321,7 +321,7 @@ describe('ProductScrollComponent', () => {
 
       it('should display buttons when limit is reached', () => {
         expect(component.productLimit).toEqual(2);
-        expect(component.model.products.length).toEqual(1);
+        expect(component.model.products?.length).toEqual(1);
         expect(component.isMaxProducts).toBeFalsy();
         expect(component.isLastPage).toBeFalsy();
 
@@ -331,7 +331,7 @@ describe('ProductScrollComponent', () => {
         fixture.detectChanges();
 
         expect(component.productLimit).toEqual(2);
-        expect(component.model.products.length).toEqual(2);
+        expect(component.model.products?.length).toEqual(2);
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 
@@ -356,8 +356,8 @@ describe('ProductScrollComponent', () => {
       });
 
       it('should display "show more" and "back to top" buttons when there are additional pages', () => {
-        expect(mockModel1Page2.pagination.currentPage).not.toEqual(
-          mockModel1Page2.pagination.totalPages - 1
+        expect(mockModel1Page2.pagination?.currentPage).not.toEqual(
+          (mockModel1Page2.pagination?.totalPages ?? 0) - 1
         );
 
         component.setModel = mockModel1Page2;
@@ -373,7 +373,7 @@ describe('ProductScrollComponent', () => {
       });
 
       it('should NOT display "Back to Top" button when on the first page', () => {
-        expect(mockModel1.pagination.currentPage).toEqual(0);
+        expect(mockModel1.pagination?.currentPage).toEqual(0);
 
         component.setModel = mockModel1;
 
@@ -388,8 +388,8 @@ describe('ProductScrollComponent', () => {
       });
 
       it('should NOT display "show more" button when there are no addtional pages', () => {
-        expect(mockModel1Page3.pagination.currentPage).toEqual(
-          mockModel1Page3.pagination.totalPages - 1
+        expect(mockModel1Page3.pagination?.currentPage).toEqual(
+          (mockModel1Page3.pagination?.totalPages ?? 0) - 1
         );
 
         component.setModel = mockModel1Page3;

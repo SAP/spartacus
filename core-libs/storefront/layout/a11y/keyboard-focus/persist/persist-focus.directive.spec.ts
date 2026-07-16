@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggles } from '@spartacus/core';
 import { PersistFocusConfig } from '../keyboard-focus.model';
@@ -55,7 +55,7 @@ describe('PersistFocusDirective', () => {
   let service: PersistFocusService;
   let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent, CustomFocusDirective],
       providers: [
@@ -72,10 +72,10 @@ describe('PersistFocusDirective', () => {
     service = TestBed.inject(PersistFocusService);
     featureToggles = TestBed.inject(FeatureToggles);
 
-    spyOn(service, 'get').and.callThrough();
-    spyOn(service, 'set').and.callThrough();
-    spyOn(service, 'clear').and.callThrough();
-  }));
+    vi.spyOn(service, 'get');
+    vi.spyOn(service, 'set');
+    vi.spyOn(service, 'clear');
+  });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
@@ -117,7 +117,7 @@ describe('PersistFocusDirective', () => {
       const el: HTMLElement = fixture.debugElement.query(
         By.css('#d')
       ).nativeElement;
-      spyOn(el, 'focus');
+      vi.spyOn(el, 'focus');
       fixture.detectChanges();
 
       expect(el.focus).toHaveBeenCalled();
@@ -138,13 +138,13 @@ describe('PersistFocusDirective', () => {
 
   describe('focusTargetSelector', () => {
     it('should focus a descendant matching the selector instead of the host', () => {
-      (service.get as jasmine.Spy).and.returnValue('key-e');
+      (service.get as any).mockReturnValue('key-e');
       const host: HTMLElement = fixture.debugElement.query(
         By.css('#e')
       ).nativeElement;
       const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
-      spyOn(host, 'focus');
-      spyOn(inner, 'focus');
+      vi.spyOn(host, 'focus');
+      vi.spyOn(inner, 'focus');
 
       fixture.detectChanges();
 
@@ -153,11 +153,11 @@ describe('PersistFocusDirective', () => {
     });
 
     it('should fall back to host when the selector matches no descendant', () => {
-      (service.get as jasmine.Spy).and.returnValue('key-f');
+      (service.get as any).mockReturnValue('key-f');
       const host: HTMLElement = fixture.debugElement.query(
         By.css('#f')
       ).nativeElement;
-      spyOn(host, 'focus');
+      vi.spyOn(host, 'focus');
 
       fixture.detectChanges();
 
@@ -167,7 +167,7 @@ describe('PersistFocusDirective', () => {
 
   describe('clearOnRestore', () => {
     it('should clear the persisted key after restoring focus when set to true', () => {
-      (service.get as jasmine.Spy).and.returnValue('key-g');
+      (service.get as any).mockReturnValue('key-g');
 
       fixture.detectChanges();
 
@@ -175,7 +175,7 @@ describe('PersistFocusDirective', () => {
     });
 
     it('should not clear the persisted key when not set', () => {
-      (service.get as jasmine.Spy).and.returnValue('key-d');
+      (service.get as any).mockReturnValue('key-d');
 
       fixture.detectChanges();
 
@@ -189,13 +189,13 @@ describe('PersistFocusDirective', () => {
     });
 
     it('should focus host directly (not inner descendant) when toggle is off', () => {
-      (service.get as jasmine.Spy).and.returnValue('key-e');
+      (service.get as any).mockReturnValue('key-e');
       const host: HTMLElement = fixture.debugElement.query(
         By.css('#e')
       ).nativeElement;
       const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
-      spyOn(host, 'focus');
-      spyOn(inner, 'focus');
+      vi.spyOn(host, 'focus');
+      vi.spyOn(inner, 'focus');
 
       fixture.detectChanges();
 
@@ -204,7 +204,7 @@ describe('PersistFocusDirective', () => {
     });
 
     it('should NOT clear the persisted key even when clearOnRestore is true', () => {
-      (service.get as jasmine.Spy).and.returnValue('key-g');
+      (service.get as any).mockReturnValue('key-g');
 
       fixture.detectChanges();
 

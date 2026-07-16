@@ -1,5 +1,5 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
   ConsentTemplate,
@@ -41,7 +41,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   let fixture: ComponentFixture<AnonymousConsentOpenDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [AnonymousConsentOpenDialogComponent],
       providers: [
@@ -64,7 +64,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);
@@ -89,7 +89,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
       });
     });
 
-    it('should show the button and open the dialog if the banner is not visible', waitForAsync(() => {
+    it('should show the button and open the dialog if the banner is not visible', async () => {
       component.bannerVisible$ = of(false);
       fixture.detectChanges();
 
@@ -98,7 +98,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
           fixture.debugElement.nativeElement.querySelector('button');
         expect(button).not.toBeNull();
 
-        spyOn(launchDialogService, 'openDialog');
+        vi.spyOn(launchDialogService, 'openDialog');
         button.click();
 
         expect(launchDialogService.openDialog).toHaveBeenCalledWith(
@@ -107,6 +107,6 @@ describe('AnonymousConsentOpenDialogComponent', () => {
           component['vcr']
         );
       });
-    }));
+    });
   });
 });

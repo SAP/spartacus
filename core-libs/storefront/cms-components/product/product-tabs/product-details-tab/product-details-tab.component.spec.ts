@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -66,7 +66,7 @@ describe('ProductDetailsTabComponent', () => {
   let productDetailsTabComponent: ProductDetailsTabComponent;
   let fixture: ComponentFixture<ProductDetailsTabComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ProductDetailsTabComponent],
       providers: [
@@ -84,7 +84,7 @@ describe('ProductDetailsTabComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductDetailsTabComponent);

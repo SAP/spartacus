@@ -109,7 +109,7 @@ describe('NgSelectA11yDirective', () => {
     expect(arrowWrapper.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('should set the input value from the selected option text', (done) => {
+  it('should set the input value from the selected option text', async () => {
     directive['platformId'] = 'browser';
     fixture.detectChanges();
     const ngSelectInstance = getNgSelect().componentInstance;
@@ -117,16 +117,14 @@ describe('NgSelectA11yDirective', () => {
     ngSelectInstance.detectChanges();
 
     // Wait for the mutation observer to update the input value
-    setTimeout(() => {
-      const select = getNgSelect().nativeElement;
-      const inputElement = select.querySelector('input');
+    await new Promise((resolve) => setTimeout(resolve));
+    const select = getNgSelect().nativeElement;
+    const inputElement = select.querySelector('input');
 
-      expect(inputElement.value).toContain(`${component.selected}`);
-      done();
-    });
+    expect(inputElement.value).toContain(`${component.selected}`);
   });
 
-  it('should update input value when selection changes', (done) => {
+  it('should update input value when selection changes', async () => {
     directive['platformId'] = 'browser';
     fixture.detectChanges();
     const ngSelectInstance = getNgSelect().componentInstance;
@@ -134,21 +132,18 @@ describe('NgSelectA11yDirective', () => {
     ngSelectInstance.detectChanges();
 
     // Wait for the mutation observer to update the input value
-    setTimeout(() => {
-      const select = getNgSelect().nativeElement;
-      const inputElement = select.querySelector('input');
+    await new Promise((resolve) => setTimeout(resolve));
+    const select = getNgSelect().nativeElement;
+    const inputElement = select.querySelector('input');
 
-      expect(inputElement.value).toContain(`${component.selected}`);
+    expect(inputElement.value).toContain(`${component.selected}`);
 
-      component.selected = 2;
-      ngSelectInstance.writeValue(component.selected);
-      ngSelectInstance.detectChanges();
+    component.selected = 2;
+    ngSelectInstance.writeValue(component.selected);
+    ngSelectInstance.detectChanges();
 
-      setTimeout(() => {
-        expect(inputElement.value).toContain(`${component.selected}`);
-        done();
-      });
-    });
+    await new Promise((resolve) => setTimeout(resolve));
+    expect(inputElement.value).toContain(`${component.selected}`);
   });
 
   describe('vocalizeItemCount()', () => {
@@ -162,7 +157,7 @@ describe('NgSelectA11yDirective', () => {
 
     it('should call translate with the correct key and item count', () => {
       const translationService = TestBed.inject(TranslationService);
-      spyOn(translationService, 'translate').and.returnValue(of('3 items'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('3 items'));
       fixture.detectChanges();
       // We expect count 3 because of the MockComponent defined at the top contains [items]="[1, 2, 3]"
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -173,7 +168,7 @@ describe('NgSelectA11yDirective', () => {
 
     it('should use count 0 when items is an empty array', () => {
       const translationService = TestBed.inject(TranslationService);
-      spyOn(translationService, 'translate').and.returnValue(of('0 items'));
+      vi.spyOn(translationService, 'translate').mockReturnValue(of('0 items'));
 
       const emptyFixture = TestBed.createComponent(MockNoItemsComponent);
       emptyFixture.detectChanges();

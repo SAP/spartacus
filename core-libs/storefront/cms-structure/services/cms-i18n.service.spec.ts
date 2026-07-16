@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsI18nService } from './cms-i18n.service';
 import { CmsComponentsService } from './cms-components.service';
-import createSpy = jasmine.createSpy;
 
 describe('CmsI18nService', () => {
   let service: CmsI18nService;
@@ -12,10 +11,10 @@ describe('CmsI18nService', () => {
     getI18nKeys: () => ['key1', 'key2'],
   };
   const mockTranslation = {
-    loadChunks: createSpy('loadChunks'),
+    loadChunks: vi.fn(),
   };
   const mockTranslationChunk = {
-    getChunkNameForKey: createSpy('getChunkNameForKey').and.callFake(
+    getChunkNameForKey: vi.fn().mockImplementation(
       (key) => `chunkFor-${key}`
     ),
   };

@@ -1,11 +1,8 @@
 import { Component, Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+  } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
@@ -78,7 +75,7 @@ class MockLockFocusService {
 describe('LockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: LockFocusService;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [MockComponent, CustomFocusDirective],
       providers: [
@@ -91,13 +88,13 @@ describe('LockFocusDirective', () => {
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(LockFocusService);
-  }));
+  });
 
   beforeEach(() => {
     const children = fixture.debugElement.queryAll(
       By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
     );
-    spyOn(service, 'findFocusable').and.returnValue(
+    vi.spyOn(service, 'findFocusable').mockReturnValue(
       children.map((c) => c.nativeElement)
     );
   });
@@ -137,8 +134,8 @@ describe('LockFocusDirective', () => {
 
   describe('configuration', () => {
     beforeEach(() => {
-      spyOn(event, 'stopPropagation');
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      vi.spyOn(event, 'stopPropagation');
+      vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
@@ -165,16 +162,18 @@ describe('LockFocusDirective', () => {
   });
 
   describe('lock focusable children', () => {
-    it('should lock child elements', fakeAsync(() => {
+    it('should lock child elements', async () => {
+      vi.useFakeTimers();
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
       fixture.detectChanges();
-      tick(500);
+      await vi.advanceTimersByTimeAsync(500);
+      vi.useRealTimers();
       expect(b1.getAttribute('tabindex')).toEqual('-1');
       expect(b2.getAttribute('tabindex')).toEqual('-1');
       expect(b3.getAttribute('tabindex')).toEqual('-1');
-    }));
+    });
 
     it('should not lock non-focusable', () => {
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
@@ -193,7 +192,7 @@ describe('LockFocusDirective', () => {
     });
 
     it('should not lock if child has persisted ...', () => {
-      spyOn(service, 'hasPersistedFocus').and.returnValue(true);
+      vi.spyOn(service, 'hasPersistedFocus').mockReturnValue(true);
 
       const host = fixture.debugElement.query(By.css('#d'));
       const d1 = fixture.debugElement.query(By.css('#d1')).nativeElement;
@@ -211,7 +210,7 @@ describe('LockFocusDirective', () => {
 
   describe('unlock group', () => {
     beforeEach(() => {
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
@@ -258,7 +257,7 @@ describe('LockFocusDirective', () => {
 
   describe('persist group on focusable children', () => {
     it('should persist group on focusable children', () => {
-      spyOn(service, 'getPersistenceGroup').and.returnValue('g1');
+      vi.spyOn(service, 'getPersistenceGroup').mockReturnValue('g1');
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
@@ -269,7 +268,7 @@ describe('LockFocusDirective', () => {
     });
 
     it('should not persist group on non-focusable children', () => {
-      spyOn(service, 'getPersistenceGroup').and.returnValue('g1');
+      vi.spyOn(service, 'getPersistenceGroup').mockReturnValue('g1');
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
       const b5 = fixture.debugElement.query(By.css('#b5')).nativeElement;
       fixture.detectChanges();
@@ -281,7 +280,7 @@ describe('LockFocusDirective', () => {
   describe('select host element on escape', () => {
     it('should focus on escape by default', () => {
       const host = fixture.debugElement.query(By.css('#a'));
-      spyOn(service, 'handleEscape');
+      vi.spyOn(service, 'handleEscape');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).toHaveBeenCalledTimes(1);
@@ -289,7 +288,7 @@ describe('LockFocusDirective', () => {
 
     it('should focus on escape if lock=true', () => {
       const host = fixture.debugElement.query(By.css('#b'));
-      spyOn(service, 'handleEscape');
+      vi.spyOn(service, 'handleEscape');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).toHaveBeenCalledTimes(1);
@@ -297,7 +296,7 @@ describe('LockFocusDirective', () => {
 
     it('should not focus on escape if lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      spyOn(service, 'handleEscape').and.callThrough();
+      vi.spyOn(service, 'handleEscape');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
@@ -305,7 +304,7 @@ describe('LockFocusDirective', () => {
 
     it('should focus on escape if configured to false', () => {
       const host = fixture.debugElement.query(By.css('#d'));
-      spyOn(service, 'handleEscape').and.callThrough();
+      vi.spyOn(service, 'handleEscape');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
@@ -313,7 +312,7 @@ describe('LockFocusDirective', () => {
 
     it('should clear persistence focus on escape', () => {
       const host = fixture.debugElement.query(By.css('#d'));
-      spyOn(service, 'clear').and.callThrough();
+      vi.spyOn(service, 'clear');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.clear).toHaveBeenCalled();
@@ -321,7 +320,7 @@ describe('LockFocusDirective', () => {
 
     it('should not clear persistence focus if lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
-      spyOn(service, 'clear').and.callThrough();
+      vi.spyOn(service, 'clear');
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.clear).not.toHaveBeenCalled();
@@ -330,54 +329,58 @@ describe('LockFocusDirective', () => {
 
   describe('use autofocus', () => {
     beforeEach(() => {
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      vi.spyOn(service, 'hasFocusableChildren').mockReturnValue(false);
       fixture.detectChanges();
     });
 
-    it('should autofocus first focusable by default', fakeAsync(() => {
+    it('should autofocus first focusable by default', async () => {
+      vi.useFakeTimers();
       const host = fixture.debugElement.query(By.css('#a'));
       const f1 = fixture.debugElement.query(By.css('#a1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#a2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      vi.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      vi.spyOn(f1, 'focus');
+      vi.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should autofocus if lock=true', fakeAsync(() => {
+    it('should autofocus if lock=true', async () => {
+      vi.useFakeTimers();
       const host = fixture.debugElement.query(By.css('#b'));
       const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      vi.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      vi.spyOn(f1, 'focus');
+      vi.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
-    }));
+    });
 
     it('should not autofocus if lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
       const f1 = fixture.debugElement.query(By.css('#c1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#c2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      vi.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      vi.spyOn(f1, 'focus');
+      vi.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
@@ -391,9 +394,9 @@ describe('LockFocusDirective', () => {
       const f1 = fixture.debugElement.query(By.css('#d1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#d2')).nativeElement;
 
-      spyOn(service, 'findFirstFocusable').and.returnValue(f1);
-      spyOn(f1, 'focus').and.callThrough();
-      spyOn(f2, 'focus').and.callThrough();
+      vi.spyOn(service, 'findFirstFocusable').mockReturnValue(f1);
+      vi.spyOn(f1, 'focus');
+      vi.spyOn(f2, 'focus');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
@@ -402,14 +405,16 @@ describe('LockFocusDirective', () => {
       expect(f2.focus).not.toHaveBeenCalled();
     });
 
-    it('should find focusable with configured autofocus selector', fakeAsync(() => {
+    it('should find focusable with configured autofocus selector', async () => {
+      vi.useFakeTimers();
       const host = fixture.debugElement.query(By.css('#e'));
-      spyOn(service, 'findFirstFocusable');
+      vi.spyOn(service, 'findFirstFocusable');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
-      tick(100);
+      await vi.advanceTimersByTimeAsync(100);
+      vi.useRealTimers();
 
       const hostConfig = {
         lock: true,
@@ -422,6 +427,6 @@ describe('LockFocusDirective', () => {
         hostConfig
       );
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
 });
