@@ -16,6 +16,7 @@ sides, and how they work together.
     - [4b. Create apps/storefrontapp/project.json](#4b-create-appsstorefrontappprojectjson)
     - [4c. Migrate angular.json to project.json](#4c-migrate-angularjson-to-projectjson-existing-angular-cli-projects-only)
     - [4d. Add @repo/bff/* path aliases to the storefrontapp tsconfig.json](#4d-add-repobff-path-aliases-to-the-storefrontapp-tsconfigjson)
+    - [4e. Fix .angular/cache appearing as untracked files](#4e-fix-angularcache-appearing-as-untracked-files)
   - [Step 5: Base Spartacus configuration](#step-5-base-spartacus-configuration)
 - [Architecture and URL injection](#architecture-and-url-injection)
 - [Spartacus changes](#spartacus-changes)
@@ -95,7 +96,7 @@ The `@vivaldi/nx` scaffolder also creates a `.npmrc` in the workspace root with 
 Use the Vivaldi Nx generator to scaffold a workspace.
 
 ```bash
-npx @vivaldi/nx@0.24.10 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
+npx @vivaldi/nx@0.25.0 --no-interactive --workspace=my-vivaldi-workspace --nxCloud=skip
 cd my-vivaldi-workspace
 ```
 
@@ -130,7 +131,7 @@ npm install --save-dev nx@22.7.7 @nx/angular@22.7.7
 >
 > Trigger the analytics prompt now (before Step 3), then commit everything:
 > ```bash
-> nx show projects   # triggers the analytics prompt if not yet answered
+> npx nx show projects   # triggers the analytics prompt if not yet answered
 > git add -A && git commit -m "chore: align nx and @nx/angular versions"
 > ```
 
@@ -192,7 +193,7 @@ Return to the Vivaldi workspace root and run the import:
 
 ```bash
 cd ../my-vivaldi-workspace
-nx import ../my-storefront-app apps/storefrontapp --ref=main
+npx nx import ../my-storefront-app apps/storefrontapp --ref=main
 ```
 
 The command asks two questions interactively — press **Enter** at both (import the
@@ -361,14 +362,22 @@ run `nx import`), Nx provides an automated path:
 npx nx@latest init
 ```
 
-This command installs Nx, creates `nx.json`, and splits `angular.json` into a
-`project.json` per project. The resulting `project.json` retains `architect`/`builder`
-keys (Angular CLI format) — Nx reads both formats transparently. You can then run the
-`@nx/angular:convert-to-application-executor` generator to upgrade any legacy builders:
+This command installs Nx, creates `nx.json`, and converts `angular.json` into a
+`project.json` using the modern `@angular/build:application` executor — no
+`architect`/`builder` keys to rename manually.
 
-```bash
-nx generate @nx/angular:convert-to-application-executor storefrontapp
-```
+> **What `nx init` does NOT do:** it does not prefix paths to the workspace root.
+> After `nx import`, all paths in the generated `project.json` are still relative
+> to the app directory (`src/main.ts`, `tsconfig.app.json`, etc.), not the workspace
+> root (`apps/storefrontapp/src/main.ts`). `nx import` itself warns about this:
+> *"Source directory (.) differs from destination (apps/storefrontapp) — update
+> relative paths in configuration files."* Building immediately fails until the
+> paths are fixed.
+>
+> After the import you still need to apply steps 2–6 from the manual migration below:
+> prefix all paths with `apps/storefrontapp/`, update `outputPath`, add `proxyConfig`,
+> add `serve-ssr`, fix `buildTarget` references, and rename the project to
+> `storefrontapp` (the `name` field in `project.json` keeps the original app name).
 
 > **Limitation:** `nx init` is designed for standalone Angular CLI workspaces. Once
 > the storefront has been imported into the Vivaldi monorepo via `nx import` (Step 3),
@@ -506,6 +515,19 @@ under `compilerOptions`:
 
 3. Run `npm install` at the workspace root.
 4. Verify: `nx run storefrontapp:serve` starts the app successfully.
+
+#### 4e. Fix `.angular/cache` appearing as untracked files
+
+After `nx import`, `apps/storefrontapp/.gitignore` contains `/.angular/cache` — but
+that path is relative to `apps/storefrontapp/`, while Angular actually writes its build
+cache to the **workspace root** `.angular/cache/`. The entry has no effect, so the
+entire Angular cache appears as untracked files in `git status` after every build.
+
+Add `.angular/cache` to the **workspace root** `.gitignore`:
+
+```
+.angular/cache
+```
 
 ---
 
