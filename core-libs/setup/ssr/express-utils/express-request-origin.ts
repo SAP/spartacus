@@ -78,6 +78,16 @@ function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
       // Turn the wildcard pattern into a strict, anchored regex. Only `*` is
       // treated specially; every other character is escaped so it can't be
       // interpreted as a regex metacharacter.
+      //
+      // NOTE: a matching origin is reflected verbatim (see `getRequestOrigin`),
+      // so a wildcard entry does NOT bound the host dimension of the SSR cache
+      // key. An attacker able to spoof `X-Forwarded-Host` can cycle through
+      // arbitrary labels (e.g. `a.shop.com`, `b.shop.com`, ...) that all match
+      // `*.shop.com`, each producing a distinct cache key. This preserves
+      // cache-poisoning protection (every reflected host is a domain the
+      // operator controls) but reopens the cache fragmentation/exhaustion
+      // vector. Operators who need exhaustion resistance should prefer exact
+      // entries.
       const pattern = normalizedAllowed
         .split('*')
         .map((segment) =>
