@@ -1155,7 +1155,6 @@ import { BffClientService } from '../bff-client.service';
 
 @Component({
   selector: 'app-say-hello',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
   template: `
