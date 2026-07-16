@@ -8,30 +8,6 @@
       *ngFor="let value of facet.values | slice: 0 : state.topVisible"
     >
       <a
-        *cxFeature="'!a11yFilteredFacetAnnouncement'"
-        #facetValue
-        routerLink="./"
-        [queryParams]="getLinkParams(value)"
-        class="value"
-        [class.selected]="value.selected"
-        [cxFocus]="{ key: value.name }"
-        (keydown)="onKeydown($event)"
-        (keydown.space)="openLink($any($event))"
-        role="option"
-        [attr.aria-selected]="value.selected"
-        attr.aria-label="{{
-          'productFacetNavigation.ariaLabelItemsAvailable'
-            | cxTranslate: { name: value.name, count: value.count }
-        }}"
-      >
-        <span aria-hidden="true"
-          >{{ value.name
-          }}<span aria-hidden="true" class="count">{{
-            value.count
-          }}</span></span
-        >
-      </a>
-      <a
         *cxFeature="'a11yFilteredFacetAnnouncement'"
         #facetValue
         routerLink="./"
@@ -61,6 +37,30 @@
           }}</span></span
         >
       </a>
+      <a
+        *cxFeature="'!a11yFilteredFacetAnnouncement'"
+        #facetValue
+        routerLink="./"
+        [queryParams]="getLinkParams(value)"
+        class="value"
+        [class.selected]="value.selected"
+        [cxFocus]="{ key: value.name }"
+        (keydown)="onKeydown($event)"
+        (keydown.space)="openLink($any($event))"
+        role="option"
+        [attr.aria-selected]="value.selected"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelItemsAvailable'
+            | cxTranslate: { name: value.name, count: value.count }
+        }}"
+      >
+        <span aria-hidden="true"
+          >{{ value.name
+          }}<span aria-hidden="true" class="count">{{
+            value.count
+          }}</span></span
+        >
+      </a>
     </ng-container>
 
     <div class="more" role="presentation">
@@ -70,27 +70,6 @@
             | slice: state.topVisible ?? 0 : state.maxVisible
         "
       >
-        <a
-          *cxFeature="'!a11yFilteredFacetAnnouncement'"
-          #facetValue
-          routerLink="./"
-          [queryParams]="getLinkParams(value)"
-          class="value"
-          [class.selected]="value.selected"
-          [cxFocus]="{ key: value.name }"
-          (keydown)="onKeydown($event)"
-          (keydown.space)="openLink($any($event))"
-          role="option"
-          [attr.aria-selected]="value.selected"
-          attr.aria-label="{{
-            'productFacetNavigation.ariaLabelItemsAvailable'
-              | cxTranslate: { name: value.name, count: value.count }
-          }}"
-        >
-          <span
-            >{{ value.name }}<span class="count">{{ value.count }}</span></span
-          >
-        </a>
         <a
           *cxFeature="'a11yFilteredFacetAnnouncement'"
           #facetValue
@@ -113,6 +92,27 @@
               : 'productList.filterAdded'
             ) | cxTranslate: { filter: value.name }
           "
+        >
+          <span
+            >{{ value.name }}<span class="count">{{ value.count }}</span></span
+          >
+        </a>
+        <a
+          *cxFeature="'!a11yFilteredFacetAnnouncement'"
+          #facetValue
+          routerLink="./"
+          [queryParams]="getLinkParams(value)"
+          class="value"
+          [class.selected]="value.selected"
+          [cxFocus]="{ key: value.name }"
+          (keydown)="onKeydown($event)"
+          (keydown.space)="openLink($any($event))"
+          role="option"
+          [attr.aria-selected]="value.selected"
+          attr.aria-label="{{
+            'productFacetNavigation.ariaLabelItemsAvailable'
+              | cxTranslate: { name: value.name, count: value.count }
+          }}"
         >
           <span
             >{{ value.name }}<span class="count">{{ value.count }}</span></span

@@ -37,9 +37,9 @@ class MockComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
+  remove = createSpy().and.stub();
   get = createSpy().and.returnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
 }
-
 describe('AtMessageDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
@@ -113,6 +113,26 @@ describe('AtMessageDirective', () => {
       getCancelButton().nativeElement.querySelector('.cancel-label');
     childSpan.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(globalMessageService.add).toHaveBeenCalledWith(
+      'common.cancel',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should remove existing assistive message before adding the new one', () => {
+    const mockServiceWithExisting = TestBed.inject(GlobalMessageService) as any;
+    mockServiceWithExisting.get.and.returnValue(
+      of({
+        [GlobalMessageType.MSG_TYPE_ASSISTIVE]: [{ raw: 'old message' }],
+      })
+    );
+
+    fixture.detectChanges();
+    getCancelButton().nativeElement.click();
+
+    expect(mockServiceWithExisting.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+    expect(mockServiceWithExisting.add).toHaveBeenCalledWith(
       'common.cancel',
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );

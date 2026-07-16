@@ -1,12 +1,24 @@
+<div
+  *cxFeature="'a11yFilteredFacetAnnouncement'"
+  class="cx-visually-hidden"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  <span *ngFor="let assistiveMsg of assistiveMsgs$ | async">{{
+    assistiveMsg | cxTranslate
+  }}</span>
+</div>
 <div *ngIf="messages$ | async as messages">
-  <div
-    *ngFor="let assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]"
-    class="cx-visually-hidden"
-    aria-live="assertive"
-    aria-atomic="true"
-  >
-    <span>{{ assistiveMsg | cxTranslate }}</span>
-  </div>
+  <ng-container *cxFeature="'!a11yFilteredFacetAnnouncement'">
+    <div
+      *ngFor="let assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]"
+      class="cx-visually-hidden"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <span>{{ assistiveMsg | cxTranslate }}</span>
+    </div>
+  </ng-container>
   <div
     class="alert alert-success"
     *ngFor="

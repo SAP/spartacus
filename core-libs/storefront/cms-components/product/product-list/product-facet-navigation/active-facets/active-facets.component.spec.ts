@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import {
   Breadcrumb,
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
@@ -68,7 +69,7 @@ describe('ActiveFacetsComponent', () => {
       providers: [
         { provide: FacetService, useClass: MockFacetService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
+        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: false }),
       ],
     })
       .overrideComponent(ActiveFacetsComponent, {
@@ -145,5 +146,58 @@ describe('ActiveFacetsComponent', () => {
     fixture.detectChanges();
 
     expect(component.removeFilterWithSpacebar).toHaveBeenCalled();
+  });
+});
+
+describe('ActiveFacetsComponent with a11yFilteredFacetAnnouncement', () => {
+  let component: ActiveFacetsComponent;
+  let fixture: ComponentFixture<ActiveFacetsComponent>;
+  let element: DebugElement;
+  let globalMessageService: MockGlobalMessageService;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusModule,
+        ActiveFacetsComponent,
+        MockCxIconComponent,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
+      ],
+    })
+      .overrideComponent(ActiveFacetsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ActiveFacetsComponent);
+    element = fixture.debugElement;
+    component = fixture.componentInstance;
+    globalMessageService = TestBed.inject(
+      GlobalMessageService
+    ) as unknown as MockGlobalMessageService;
+    component.facetList$ = of(mockFacetList);
+    fixture.detectChanges();
+  });
+
+  it('should render anchor links for every active facet', () => {
+    const links = element.queryAll(By.css('a'));
+    expect(links.length).toEqual(2);
+  });
+
+  it('should announce filter removal when active facet is clicked', () => {
+    const link = element.query(By.css('a')).nativeElement;
+    link.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'productList.filterRemoved filter:undefined',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
   });
 });

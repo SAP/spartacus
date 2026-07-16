@@ -34,11 +34,11 @@ import { FacetService } from '../services/facet.service';
     NgFor,
     RouterLink,
     FocusDirective,
+    FeatureDirective,
     IconComponent,
     AsyncPipe,
     TranslatePipe,
     AtMessageDirective,
-    FeatureDirective,
   ],
 })
 export class ActiveFacetsComponent {
@@ -84,6 +84,8 @@ export class ActiveFacetsComponent {
    */
   removeFilterWithSpacebar(event?: Event): void {
     event?.preventDefault(); // Avoid spacebar scroll
-    event?.target?.dispatchEvent(new MouseEvent('click', { cancelable: true }));
+    event?.target?.dispatchEvent(
+      new MouseEvent('click', { cancelable: true, bubbles: true })
+    );
   }
 }
