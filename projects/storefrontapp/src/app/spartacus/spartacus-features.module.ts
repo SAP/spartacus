@@ -309,7 +309,6 @@ if (environment.cpq) {
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yNgSelectUnicodeCarets: true,
         productListItemSummaryReadMore: true,
-        productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
         cdsLoginEventsToken: true,
         incrementProcessesCountForMergeCart: true,
