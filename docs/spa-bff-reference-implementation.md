@@ -29,6 +29,7 @@ sides, and how they work together.
   - [5. bff-timeout.link.ts](#5-srcappbffbff-timeoutlinkts-new-file)
   - [6. bff-client.service.ts](#6-srcappbffbff-clientservicets-new-file)
   - [7. app.module.server.ts](#7-srcappappmoduleserverts-modify)
+  - [7b. server.ts](#7b-srcserverts-modify)
   - [8. proxy.conf.js](#8-proxyconfjs-new-file-project-root)
   - [9. project.json](#9-projectjson-modify)
   - [10. package.json scripts](#10-packagejson-scripts)
@@ -305,10 +306,26 @@ Add to `nx.json` → `plugins` array:
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
-      "options": { "buildTarget": "storefrontapp:build" },
+      "options": {
+        "buildTarget": "storefrontapp:build",
+        "proxyConfig": "apps/storefrontapp/proxy.conf.js"
+      },
       "configurations": {
         "production": { "buildTarget": "storefrontapp:build:production,noSsr" },
         "development": { "buildTarget": "storefrontapp:build:development,noSsr" }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve-ssr": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "buildTarget": "storefrontapp:build",
+        "proxyConfig": "apps/storefrontapp/proxy.conf.js"
+      },
+      "configurations": {
+        "production": { "buildTarget": "storefrontapp:build:production" },
+        "development": { "buildTarget": "storefrontapp:build:development" }
       },
       "defaultConfiguration": "development"
     },
@@ -329,6 +346,17 @@ Add to `nx.json` → `plugins` array:
 
 > **Important:** make sure `outputPath` is `dist/apps/storefrontapp` (not
 > `dist/apps/my-storefront-app` or whatever the Angular CLI defaulted to).
+
+> **Note:** After `nx import`, `apps/storefrontapp/angular.json` is present alongside
+> this `project.json`. Nx uses `project.json` when the `@nx/angular` plugin is registered
+> (step 4a), but keeping both files can cause confusing target merges. Once
+> `nx run storefrontapp:build` succeeds, delete `apps/storefrontapp/angular.json`. This
+> applies to the fresh Spartacus path (Steps 1–2) as well as existing projects.
+
+> **Note:** This template already includes `proxyConfig` in `serve` and the `serve-ssr`
+> target. If you are following the fresh Spartacus path (Steps 1–2), step 9 (`project.json`
+> modify) in the Spartacus changes section is already covered by this template — you do
+> not need to add `proxyConfig` again separately.
 
 #### 4c. Migrate `angular.json` to `project.json` (existing Angular CLI projects only)
 
@@ -419,6 +447,7 @@ and save the result as `apps/storefrontapp/project.json`:
    "serve-ssr": {
      "executor": "@angular/build:dev-server",
      "options": {
+       "buildTarget": "storefrontapp:build",
        "proxyConfig": "apps/storefrontapp/proxy.conf.js"
      },
      "configurations": {
@@ -951,6 +980,63 @@ export class AppServerModule {}
 
 ---
 
+### 7b. `src/server.ts` *(modify)*
+
+The Express SSR server has a catch-all route `server.get(/.*/, ...)` that renders every
+unmatched URL through the Angular engine. Without an explicit `/bff` proxy, BFF API calls
+made during SSR (e.g. `GET /bff/api/sample.sayHello?...`) are intercepted by that catch-all
+and the Angular engine tries to render them as pages — returning HTML instead of JSON,
+which causes `TRPCClientError: Unexpected token '<'`.
+
+Add a proxy for `/bff` **before** the static file handler and the Angular catch-all.
+`http-proxy-middleware` is available as a transitive dependency — no extra install needed.
+
+```ts
+import { APP_BASE_HREF } from '@angular/common';
+import {
+  NgExpressEngineDecorator,
+  defaultExpressErrorHandlers,
+  ngExpressEngine as engine,
+} from '@spartacus/setup/ssr';
+import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import bootstrap from './main.server';
+
+// ... (ngExpressEngine setup unchanged)
+
+export function app(): express.Express {
+  const server = express();
+  // ...
+
+  // Proxy /bff requests to the BFF server — must come before the Angular catch-all
+  // so the Express SSR engine does not try to render BFF API calls as Angular pages.
+  const bffBaseUrl = process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api';
+  const bffTarget = new URL(bffBaseUrl).origin;
+  server.use(
+    '/bff',
+    createProxyMiddleware({
+      target: bffTarget,
+      changeOrigin: true,
+      secure: false,
+    })
+  );
+
+  // Serve static files from /browser
+  server.get(/.*\..*/, express.static(browserDistFolder, { maxAge: '1y' }));
+
+  // All regular routes use the Universal engine
+  server.get(/.*/, (req, res) => { /* ... */ });
+}
+```
+
+> **Note:** `secure: false` is needed because the local BFF dev server uses a self-signed
+> certificate. On CCv2 the BFF has a CA-signed certificate and `secure: true` can be used.
+
+---
+
 ### 8. `proxy.conf.js` *(new file, project root)*
 
 Reads `CX_BFF_BASE_URL` at dev-server startup and sets the proxy target dynamically.
@@ -1006,23 +1092,31 @@ members consistent commands regardless of which nx target names are used interna
     "build:bff": "vivaldi build bff",
     "dev:bff": "vivaldi dev bff",
     "start:storefrontapp": "nx serve storefrontapp",
-    "start:storefrontapp:ssr": "nx serve-ssr storefrontapp",
+    "start:storefrontapp:ssr": "SERVER_REQUEST_ORIGIN=http://localhost:4200 nx serve-ssr storefrontapp",
     "build:storefrontapp": "nx build storefrontapp",
     "test:storefrontapp": "nx test storefrontapp",
-    "serve:ssr:storefrontapp": "node dist/apps/storefrontapp/server/server.mjs"
+    "serve:ssr:storefrontapp": "SERVER_REQUEST_ORIGIN=http://localhost:4000 BFF_BASE_URL=https://localhost:8482/bff/api node dist/apps/storefrontapp/server/server.mjs"
   }
 }
 ```
 
-| Script                             | What it does                                         |
-|------------------------------------|------------------------------------------------------|
-| `npm run build:bff`                | Builds the BFF into `dist/apps/bff/vivaldi.mjs`     |
-| `npm run dev:bff`                  | Starts the BFF dev server via `vivaldi dev bff`     |
-| `npm run start:storefrontapp`      | Starts the Angular dev server (no SSR) on port 4200 |
-| `npm run start:storefrontapp:ssr`  | Starts the Angular dev server with SSR enabled      |
-| `npm run build:storefrontapp`      | Production build of the storefront                  |
-| `npm run test:storefrontapp`       | Runs unit tests for the storefront                  |
-| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle directly with Node  |
+| Script                             | What it does                                                              |
+|------------------------------------|---------------------------------------------------------------------------|
+| `npm run build:bff`                | Builds the BFF into `dist/apps/bff/vivaldi.mjs`                          |
+| `npm run dev:bff`                  | Starts the BFF dev server via `vivaldi dev bff`                          |
+| `npm run start:storefrontapp`      | Starts the Angular dev server (no SSR) on port 4200                      |
+| `npm run start:storefrontapp:ssr`  | Starts the Angular dev server with SSR on port 4200 (sets `SERVER_REQUEST_ORIGIN`) |
+| `npm run build:storefrontapp`      | Production build of the storefront                                        |
+| `npm run test:storefrontapp`       | Runs unit tests for the storefront                                        |
+| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle with Node (sets `SERVER_REQUEST_ORIGIN` and `BFF_BASE_URL`) |
+
+> **Required environment variables for SSR:**
+> - `SERVER_REQUEST_ORIGIN` — required by `@spartacus/setup/ssr`'s `provideServer` to resolve
+>   the request origin. Without it the app throws at bootstrap.
+> - `BFF_BASE_URL` — required by the SSR process to make BFF calls with an absolute URL.
+>   Node.js has no proxy and cannot resolve relative URLs like `/bff/api`. If omitted,
+>   the server falls back to `https://localhost:8482/bff/api` (the local BFF dev server).
+>   On CCv2 this is injected automatically when a BFF is connected.
 
 ---
 
@@ -1364,6 +1458,7 @@ OCC_BASE_URL=https://api.your-commerce-host.model-t.myhybris.cloud
 ```
 src/
   index.html                                  ← add bff-base-url meta tag
+  server.ts                                   ← add /bff proxy before Angular catch-all
   app/
     app.module.ts                             ← spread bffExampleProviders
     app.module.server.ts                      ← SSR: override BFF_BASE_URL with absolute URL
