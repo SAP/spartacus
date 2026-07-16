@@ -638,9 +638,10 @@ verification and will **reject self-signed certificates** (e.g. raw IP addresses
   security exception
 - **Node.js** (the BFF container) has no such mechanism — it rejects self-signed certs
   by default in production
-- Vivaldi builds the HTTPS agent as `new Agent({ rejectUnauthorized: !isDev })` —
-  locally `isDev=true` so self-signed certs are accepted, on CCv2 `isDev=false` so
-  they are rejected
+- Vivaldi builds the HTTPS agent as `new Agent({ rejectUnauthorized: !vivaldi.env.isDev })`
+  — in development mode, outgoing requests with certificates not authorized by known
+  authorities are allowed (see docs: [Environment variables](https://help.sap.com/docs/CC_CEE/098d0a4925094840a656c02370c78e30/854a20159b0e401fad32c13e368b26d2.html?locale=en-US&state=PRODUCTION&version=SHIP&q=environment%20variable#development-environment));
+  on CCv2 `vivaldi.env.isDev=false` so self-signed certs are rejected
 
 **Fix:** The `OCC_BASE_URL` used by the BFF must point to an OCC hostname with a
 CA-signed certificate (e.g. `https://api.xxx.model-t.myhybris.cloud`), not a raw IP.
@@ -876,12 +877,12 @@ annotations needed.
 
 **Link order matters:**
 
-| Position | Link | Purpose |
-|---|---|---|
-| 1st | `bffErrorHandlingLink` | Observes all errors; forwards to `ErrorHandler` in SSR |
-| 2nd | `bffAuthLink` | Injects `Authorization` header when user is logged in |
-| 3rd | `bffTimeoutLink` | Aborts calls that exceed the SSR timeout |
-| 4th | `createTerminationLink` | Vivaldi's HTTP link (superjson, OTEL, error envelope) |
+| Position | Link                   | Purpose                                              |
+|----------|------------------------|------------------------------------------------------|
+| 1st      | `bffErrorHandlingLink` | Observes all errors; forwards to `ErrorHandler` in SSR |
+| 2nd      | `bffAuthLink`          | Injects `Authorization` header when user is logged in |
+| 3rd      | `bffTimeoutLink`       | Aborts calls that exceed the SSR timeout             |
+| 4th      | `createTerminationLink` | Vivaldi's HTTP link (superjson, OTEL, error envelope) |
 
 ```ts
 import { Injectable, inject } from '@angular/core';
@@ -1013,15 +1014,15 @@ members consistent commands regardless of which nx target names are used interna
 }
 ```
 
-| Script | What it does |
-|---|---|
-| `npm run build:bff` | Builds the BFF into `dist/apps/bff/vivaldi.mjs` |
-| `npm run dev:bff` | Starts the BFF dev server via `vivaldi dev bff` |
-| `npm run start:storefrontapp` | Starts the Angular dev server (no SSR) on port 4200 |
-| `npm run start:storefrontapp:ssr` | Starts the Angular dev server with SSR enabled |
-| `npm run build:storefrontapp` | Production build of the storefront |
-| `npm run test:storefrontapp` | Runs unit tests for the storefront |
-| `npm run serve:ssr:storefrontapp` | Serves the pre-built SSR bundle directly with Node |
+| Script                             | What it does                                         |
+|------------------------------------|------------------------------------------------------|
+| `npm run build:bff`                | Builds the BFF into `dist/apps/bff/vivaldi.mjs`     |
+| `npm run dev:bff`                  | Starts the BFF dev server via `vivaldi dev bff`     |
+| `npm run start:storefrontapp`      | Starts the Angular dev server (no SSR) on port 4200 |
+| `npm run start:storefrontapp:ssr`  | Starts the Angular dev server with SSR enabled      |
+| `npm run build:storefrontapp`      | Production build of the storefront                  |
+| `npm run test:storefrontapp`       | Runs unit tests for the storefront                  |
+| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle directly with Node  |
 
 ---
 
