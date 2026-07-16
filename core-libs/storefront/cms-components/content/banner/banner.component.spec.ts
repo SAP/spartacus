@@ -8,6 +8,7 @@ import {
   FeatureDirective,
   FeaturesConfig,
   FeaturesConfigModule,
+  LanguageService,
   Page,
   PageContext,
   SemanticPathService,
@@ -22,6 +23,7 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponent } from './banner.component';
 
@@ -55,6 +57,7 @@ const mockNoLinkBannerData: CmsBannerComponent = {
 const data$: BehaviorSubject<CmsBannerComponent> = new BehaviorSubject(
   mockBannerData
 );
+
 class MockCmsComponentData {
   get data$(): Observable<CmsBannerComponent> {
     return data$.asObservable();
@@ -70,6 +73,12 @@ class MockCmsService {
 class MockSemanticPathService {
   transform(test: UrlCommand): any[] {
     return test.params.code ?? test.cxRoute;
+  }
+}
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return of('en');
   }
 }
 
@@ -106,6 +115,7 @@ describe('BannerComponent', () => {
         },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
+        { provide: LanguageService, useClass: MockLanguageService },
         {
           provide: FeaturesConfig,
           useValue: {
@@ -173,64 +183,59 @@ describe('BannerComponent', () => {
     });
   });
 
-  describe('setRouterLink()', () => {
-    it('should return url', () => {
-      spyOn<any>(bannerComponent, 'setRouterLink');
+  describe('resolveRouterLink()', () => {
+    it('should emit serialized urlLink', (done) => {
       data$.next(mockBannerData);
       fixture.detectChanges();
-      expect(bannerComponent.routerLink).toEqual(mockBannerData.urlLink);
-      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerData
-      );
+      bannerComponent.routerLink$.pipe(take(1)).subscribe((link) => {
+        expect(link).toEqual(mockBannerData.urlLink);
+        done();
+      });
     });
 
-    it('should return content page', () => {
+    it('should emit serialized content page label', (done) => {
       const mockBannerDataWithContentPage: CmsBannerComponent = {
         uid: 'SiteLogoComponent',
         typeCode: 'SimpleBannerComponent',
         contentPage: 'HomePage',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
       data$.next(mockBannerDataWithContentPage);
       fixture.detectChanges();
-      expect(bannerComponent.routerLink).toEqual('HomePage');
-      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerDataWithContentPage
-      );
+      bannerComponent.routerLink$.pipe(take(1)).subscribe((link) => {
+        expect(typeof link).toBe('string');
+        done();
+      });
     });
 
-    it('should return product page', () => {
+    it('should emit serialized product page url', (done) => {
       const mockBannerDataWithProduct: CmsBannerComponent = {
         uid: 'CamerasComponent',
         typeCode: 'SimpleBannerComponent',
         product: 'Sony X Camera',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
       data$.next(mockBannerDataWithProduct);
       fixture.detectChanges();
-      expect(bannerComponent.routerLink).toEqual('Sony X Camera');
-      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerDataWithProduct
-      );
+      bannerComponent.routerLink$.pipe(take(1)).subscribe((link) => {
+        expect(link).toEqual('Sony X Camera');
+        done();
+      });
     });
 
-    it('should return category page', () => {
+    it('should emit serialized category page url', (done) => {
       const mockBannerDataWithCategory: CmsBannerComponent = {
         uid: 'CamerasComponent',
         typeCode: 'SimpleBannerComponent',
-        product: 'Cameras',
+        category: 'Cameras',
       };
-      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
       data$.next(mockBannerDataWithCategory);
       fixture.detectChanges();
-      expect(bannerComponent.routerLink).toEqual('Cameras');
-      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
-        mockBannerDataWithCategory
-      );
+      bannerComponent.routerLink$.pipe(take(1)).subscribe((link) => {
+        expect(link).toEqual('Cameras');
+        done();
+      });
     });
 
     it('should show content even there is no link', () => {
-      bannerComponent.routerLink = undefined;
       data$.next(mockNoLinkBannerData);
       fixture.detectChanges();
 

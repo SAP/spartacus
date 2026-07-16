@@ -5,18 +5,20 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import {
   AuthService,
+  FeatureToggles,
+  LanguageService,
+  SemanticPathService,
   TranslatePipe,
   TranslationService,
-  UrlPipe,
 } from '@spartacus/core';
 import { DomChangeDirective, PageSlotComponent } from '@spartacus/storefront';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-login',
@@ -27,7 +29,6 @@ import { switchMap } from 'rxjs/operators';
     DomChangeDirective,
     RouterLink,
     AsyncPipe,
-    UrlPipe,
     TranslatePipe,
   ],
 })
@@ -35,6 +36,26 @@ export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
   greeting$: Observable<string | undefined>;
   usingASMClient$: Observable<boolean>;
+
+  protected router = inject(Router);
+  protected languageService = inject(LanguageService);
+  protected urlService = inject(SemanticPathService);
+  private featureToggles = inject(FeatureToggles);
+
+  loginLink$: Observable<string | any[]> = this.featureToggles
+    .fixLanguageContextLinks
+    ? this.languageService
+        .getActive()
+        .pipe(
+          map(() =>
+            this.router.serializeUrl(
+              this.router.createUrlTree(
+                this.urlService.transform({ cxRoute: 'login' })
+              )
+            )
+          )
+        )
+    : of(this.urlService.transform({ cxRoute: 'login' }));
 
   constructor(
     private auth: AuthService,

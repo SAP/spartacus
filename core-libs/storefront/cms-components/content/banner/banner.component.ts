@@ -14,8 +14,8 @@ import {
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { MediaComponent } from '../../../shared/components/media/media.component';
@@ -34,16 +34,18 @@ import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.dir
   ],
 })
 export class BannerComponent {
-  routerLink: string | any[] | undefined;
-
   @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
     tap((data) => {
-      this.setRouterLink(data);
       this.styleClasses = data.styleClasses;
     })
   );
+
+  routerLink$: Observable<string | any[] | undefined> =
+    this.component.data$.pipe(
+      switchMap((data) => this.resolveRouterLink(data))
+    );
 
   constructor(
     protected component: CmsComponentData<CmsBannerComponent>,
@@ -59,30 +61,37 @@ export class BannerComponent {
     return data.external === 'true' || data.external === true ? '_blank' : null;
   }
 
-  protected setRouterLink(data: CmsBannerComponent): void {
+  protected resolveRouterLink(
+    data: CmsBannerComponent
+  ): Observable<string | any[] | undefined> {
     if (data.urlLink) {
-      this.routerLink = data.urlLink;
+      return of(data.urlLink);
     } else if (data.contentPage) {
-      this.cmsService
+      return this.cmsService
         .getPage({
           id: data.contentPage,
           type: PageType.CONTENT_PAGE,
         })
-        .pipe(take(1))
-        .subscribe((page) => {
-          this.routerLink = page?.label;
-        });
+        .pipe(
+          take(1),
+          map((page) => page?.label ?? undefined)
+        );
     } else if (data.product) {
-      this.routerLink = this.urlService.transform({
-        cxRoute: 'product',
-        params: { code: data.product },
-      });
+      return of(
+        this.urlService.transform({
+          cxRoute: 'product',
+          params: { code: data.product },
+        })
+      );
     } else if (data.category) {
-      this.routerLink = this.urlService.transform({
-        cxRoute: 'category',
-        params: { code: data.category },
-      });
+      return of(
+        this.urlService.transform({
+          cxRoute: 'category',
+          params: { code: data.category },
+        })
+      );
     }
+    return of(undefined);
   }
 
   getImage(data: CmsBannerComponent): Image | ImageGroup | undefined {

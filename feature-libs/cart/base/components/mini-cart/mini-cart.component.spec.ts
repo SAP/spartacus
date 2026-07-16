@@ -1,27 +1,21 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter, RouterLink } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
+  LanguageService,
   MockDatePipe,
   MockTranslatePipe,
+  SemanticPathService,
   TranslatePipe,
-  UrlCommandRoute,
-  UrlPipe,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { IconComponent } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(options: UrlCommandRoute): string {
-    return options.cxRoute;
-  }
-}
 
 @Component({
   selector: 'cx-icon',
@@ -30,6 +24,20 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockCxIconComponent {
   @Input() type;
+}
+
+const mockActiveLanguage$ = new BehaviorSubject<string>('en');
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return mockActiveLanguage$.asObservable();
+  }
+}
+
+class MockSemanticPathService {
+  transform(): any[] {
+    return ['/cart'];
+  }
 }
 
 const mockMiniCartComponentService: Partial<MiniCartComponentService> = {
@@ -54,19 +62,17 @@ describe('MiniCartComponent', () => {
           provide: MiniCartComponentService,
           useValue: mockMiniCartComponentService,
         },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
+        provideMockFeatureToggles({ fixLanguageContextLinks: false }),
       ],
     })
       .overrideComponent(MiniCartComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, IconComponent],
+          imports: [TranslatePipe, CxDatePipe, IconComponent],
         },
         add: {
-          imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockUrlPipe,
-            MockCxIconComponent,
-          ],
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
         },
       })
       .compileComponents();

@@ -554,6 +554,18 @@ export interface FeatureTogglesInterface {
    * the button, and rounds its bottom corners.
    */
   improvedTabStyling?: boolean;
+
+  /**
+   * When enabled, fixes links in CMS components (banners, navigation, mini-cart, login)
+   * not updating their `href` attributes after a language switch without a full page reload.
+   *
+   * The fix bakes the active language into the UrlTree's `siteContext` at creation time,
+   * so Angular RouterLink's signal equality check detects the language change and updates
+   * the DOM href immediately.
+   *
+   * Affects: `GenericLinkComponent`, `MiniCartComponent`, `LoginComponent`
+   */
+  fixLanguageContextLinks?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -629,4 +641,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
+  fixLanguageContextLinks: false,
 };

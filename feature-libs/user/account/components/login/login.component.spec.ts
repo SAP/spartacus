@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -6,16 +6,18 @@ import {
   AuthService,
   CxDatePipe,
   I18nTestingModule,
+  LanguageService,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
+  SemanticPathService,
   TranslatePipe,
-  UrlPipe,
   User,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 import createSpy = jasmine.createSpy;
 
@@ -46,6 +48,20 @@ class MockUserAccountFacade {
   load(): void {}
 }
 
+const mockActiveLanguage$ = new BehaviorSubject<string>('en');
+
+class MockLanguageService {
+  getActive(): Observable<string> {
+    return mockActiveLanguage$.asObservable();
+  }
+}
+
+class MockSemanticPathService {
+  transform(): any[] {
+    return ['/login'];
+  }
+}
+
 @Component({
   selector: 'cx-page-slot',
   template: `
@@ -63,11 +79,6 @@ class MockUserAccountFacade {
 class MockDynamicSlotComponent {
   @Input()
   position: string;
-}
-
-@Pipe({ name: 'cxUrl' })
-class MockUrlPipe implements PipeTransform {
-  transform(): void {}
 }
 
 let expectedGreeting = `miniLogin.userGreeting name:${mockUserDetails.name}`;
@@ -97,19 +108,17 @@ describe('LoginComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
+        provideMockFeatureToggles({ fixLanguageContextLinks: false }),
       ],
     })
       .overrideComponent(LoginComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, PageSlotComponent, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, PageSlotComponent],
         },
         add: {
-          imports: [
-            MockTranslatePipe,
-            MockDatePipe,
-            MockDynamicSlotComponent,
-            MockUrlPipe,
-          ],
+          imports: [MockTranslatePipe, MockDatePipe, MockDynamicSlotComponent],
         },
       })
       .compileComponents();
