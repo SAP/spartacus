@@ -501,6 +501,85 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
   });
 
+  describe('primary button disabling with disableAllButtons (feature toggle)', () => {
+    // A fresh fixture is required because `*cxFeature` resolves its (static)
+    // expression only once, when the embedded view is created. The toggle
+    // state therefore has to be set before the first change detection.
+    function initUnselectedPrimaryButton(
+      multiSelect: boolean,
+      toggleEnabled: boolean
+    ): void {
+      consolidatedButtonDisabling = toggleEnabled;
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeProductCardComponent
+      );
+      htmlElem = fixture.nativeElement;
+      component = fixture.componentInstance;
+      component.productCardOptions = {
+        hideRemoveButton: false,
+        multiSelect,
+        productBoundValue: createValue(
+          '888',
+          'description',
+          [createImage('url', 'alt')],
+          1,
+          false,
+          '1111-2222',
+          'Lorem Ipsum Dolor'
+        ),
+        singleDropdown: false,
+        withQuantity: true,
+        disableAllButtons: true,
+        attributeId: 123,
+        attributeLabel: 'Attribute Label',
+        attributeName: 'Attribute Name',
+        itemCount: 3,
+        itemIndex: 1,
+      };
+      fixture.detectChanges();
+    }
+
+    it('should ignore disableAllButtons for the single-select "Select" button when the toggle is enabled', () => {
+      initUnselectedPrimaryButton(false, true);
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.disabled).toBe(false);
+    });
+
+    it('should honor disableAllButtons for the single-select "Select" button when the toggle is disabled', () => {
+      initUnselectedPrimaryButton(false, false);
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.select');
+      expect(button.disabled).toBe(true);
+    });
+
+    it('should ignore disableAllButtons for the multi-select "Add" button when the toggle is enabled', () => {
+      initUnselectedPrimaryButton(true, true);
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.disabled).toBe(false);
+    });
+
+    it('should honor disableAllButtons for the multi-select "Add" button when the toggle is disabled', () => {
+      initUnselectedPrimaryButton(true, false);
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn-primary')
+      ).nativeElement;
+      expect(button.innerText).toContain('configurator.button.add');
+      expect(button.disabled).toBe(true);
+    });
+  });
+
   describe('quantity', () => {
     it('should quantity be hidden when card type is no multi select', () => {
       component.productCardOptions.multiSelect = false;

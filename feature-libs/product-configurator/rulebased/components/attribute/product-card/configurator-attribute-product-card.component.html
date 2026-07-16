@@ -106,6 +106,23 @@
 
             <ng-template #select>
               <button
+                *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="disableActions$ | async"
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelMultiUnselected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.add' | cxTranslate }}
+              </button>
+              <button
+                *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
                 class="btn btn-primary"
                 (click)="onHandleSelect()"
                 [disabled]="
@@ -127,25 +144,48 @@
           </ng-container>
 
           <ng-template #single>
-            <button
-              class="btn btn-primary"
-              (click)="onHandleSelect()"
-              [disabled]="
-                productCardOptions.disableAllButtons ||
-                (disableActions$ | async)
-              "
+            <ng-container
               *ngIf="
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
               "
-              [cxFocus]="focusConfig"
-              [attr.aria-label]="getAriaLabelSingleUnselected(product)"
-              [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions.attributeName)
-              "
             >
-              {{ 'configurator.button.select' | cxTranslate }}
-            </button>
+              <button
+                *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="disableActions$ | async"
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelSingleUnselected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.select' | cxTranslate }}
+              </button>
+              <button
+                *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="
+                  productCardOptions.disableAllButtons ||
+                  (disableActions$ | async)
+                "
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelSingleUnselected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.select' | cxTranslate }}
+              </button>
+            </ng-container>
             <ng-template #deselect>
               <ng-container
                 *ngIf="
