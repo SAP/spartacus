@@ -769,7 +769,7 @@ function createAuthHeader(op: Operation, token: AuthToken) {
 
   // Strip newlines — Node.js rejects header values containing \r or \n with
   // "Invalid character in header content". OAuth tokens can contain newline
-  // characters from base64 padding or copy-paste artefacts.
+  // characters from base64 padding or copy-paste artifacts.
   const sanitizedToken = accessToken.replace(/[\r\n]/g, '');
 
   return headers.append('Authorization', `${tokenType} ${sanitizedToken}`);
