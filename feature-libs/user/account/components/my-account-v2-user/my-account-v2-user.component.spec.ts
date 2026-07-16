@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
+  LanguageService,
   MockTranslatePipe,
   MockTranslationService,
   RoutingService,
@@ -11,11 +12,18 @@ import {
   UrlPipe,
   User,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { Observable, of } from 'rxjs';
 import { UserAccountFacade } from '../../root/facade';
 import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 import createSpy = jasmine.createSpy;
+
+class MockLanguageService implements Partial<LanguageService> {
+  getActive(): Observable<string> {
+    return of('en');
+  }
+}
 
 class MockAuthService {
   login = createSpy();
@@ -69,6 +77,8 @@ describe('MyAccountV2UserComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({}),
       ],
     })
       .overrideComponent(MyAccountV2UserComponent, {

@@ -2,10 +2,17 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { CmsLinkComponent } from '@spartacus/core';
+import { CmsLinkComponent, LanguageService } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CmsComponentData } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LinkComponent } from './link.component';
+
+class MockLanguageService implements Partial<LanguageService> {
+  getActive(): Observable<string> {
+    return of('en');
+  }
+}
 
 const mockLinkData = {
   uid: '001',
@@ -47,6 +54,8 @@ describe('LinkComponent', () => {
           provide: CmsComponentData,
           useClass: MockCmsComponentData,
         },
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({}),
       ],
     }).compileComponents();
 

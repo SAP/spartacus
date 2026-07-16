@@ -1,14 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
-import { CmsPickupItemDetails, I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CmsPickupItemDetails,
+  I18nModule,
+  LanguageService,
+  UrlModule,
+} from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   CardModule,
   CmsComponentData,
   IconModule,
   MediaModule,
 } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
+class MockLanguageService implements Partial<LanguageService> {
+  getActive(): Observable<string> {
+    return of('en');
+  }
+}
 import { StoreModule } from '../../presentational/store';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 import { DeliveryPointsServiceMock } from '../../services/delivery-points.service.spec';
@@ -46,6 +58,8 @@ describe('Order - PickUpItemsDetailsComponent', () => {
           provide: CmsComponentData,
           useValue: data,
         },
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({}),
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(PickUpItemsDetailsComponent);
@@ -89,6 +103,8 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
           provide: CmsComponentData,
           useValue: data,
         },
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({}),
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(PickUpItemsDetailsComponent);

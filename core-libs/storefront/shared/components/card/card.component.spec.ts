@@ -10,10 +10,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
+  LanguageService,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   AtMessageDirective,
   FocusDirective,
@@ -21,6 +23,13 @@ import {
 } from '@spartacus/storefront';
 import { ICON_TYPE, IconComponent } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
+import { Observable, of } from 'rxjs';
+
+class MockLanguageService implements Partial<LanguageService> {
+  getActive(): Observable<string> {
+    return of('en');
+  }
+}
 
 @Directive({ selector: '[cxAtMessage]' })
 export class MockAtMessageDirective {
@@ -75,6 +84,10 @@ describe('CardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CardComponent, FocusDirective, RouterModule.forRoot([])],
+      providers: [
+        { provide: LanguageService, useClass: MockLanguageService },
+        provideMockFeatureToggles({}),
+      ],
     })
       .overrideComponent(CardComponent, {
         remove: {
