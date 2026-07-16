@@ -224,7 +224,7 @@
     "@types/fs-extra": "^11.0.1",
     "@types/http-proxy": "^1.17.15",
     "@types/i18next": "^13.0.0",
-    "@types/jasmine": "~5.1.0",
+    "@types/jasmine": "~6.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.19.1",
     "@types/semver": "7.7.1",
