@@ -556,6 +556,34 @@ describe('ConfiguratorEffect', () => {
 
       expect(configEffects.updateConfiguration$).toBeObservable(expected);
     });
+
+    it('should process concurrent updates for a configuration strictly sequentially (concatMap, not mergeMap)', () => {
+      // Give the connector some virtual "processing time" so that overlapping vs.
+      // sequential handling becomes observable on the marble time line. The same cold
+      // observable is replayed relative to each (sequential) subscription.
+      updateConfigurationMock.and.returnValue(
+        cold('--(c|)', { c: productConfiguration })
+      );
+      const action = new ConfiguratorActions.UpdateConfiguration(
+        productConfiguration
+      );
+      const completion = new ConfiguratorActions.UpdateConfigurationSuccess(
+        productConfiguration
+      );
+
+      // Two rapid updates for the same configuration are dispatched at the same frame.
+      actions$ = hot('-(ab)', { a: action, b: action });
+
+      // With concatMap the second update is only sent after the first has completed,
+      // so the two success actions are emitted two frames apart (frames 3 and 5).
+      // With mergeMap both inner requests would run in parallel and complete together
+      // at frame 3 ('---(bc)') - which is exactly the race that triggers the CPQ V2
+      // "Only one value can be selected" (HTTP 400) error.
+      const expected = cold('---b-c', { b: completion, c: completion });
+
+      expect(configEffects.updateConfiguration$).toBeObservable(expected);
+      expect(updateConfigurationMock).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe('Effect updatePriceSummary', () => {

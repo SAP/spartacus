@@ -20,14 +20,12 @@ $space: 0.5rem;
       padding: 0 10px;
     }
 
-    @include forFeature('unifiedDefaultHeaderSlotsAcrossBreakpoints') {
-      @include media-breakpoint-down(md) {
-        .SiteContext,
-        .SiteLinks,
-        .SiteLogin,
-        .NavigationBar {
-          display: none;
-        }
+    @include media-breakpoint-down(md) {
+      .SiteContext,
+      .SiteLinks,
+      .SiteLogin,
+      .NavigationBar {
+        display: none;
       }
     }
 

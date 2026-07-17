@@ -14,35 +14,18 @@
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
   <ng-container *ngIf="product$ | async as product">
-    <ng-container *cxFeature="'productCarouselScrolling'">
-      <cx-carousel-scrolling
-        role="region"
-        [attr.aria-label]="
-          'carousel.carouselForProduct' | cxTranslate: { product: product.name }
-        "
-        tabindex="-1"
-        *ngIf="thumbs.length"
-        class="thumbs"
-        [items]="thumbs"
-        [template]="thumb"
-        [trackByFn]="trackByFn"
-      ></cx-carousel-scrolling>
-    </ng-container>
-    <ng-container *cxFeature="'!productCarouselScrolling'">
-      <cx-carousel
-        role="region"
-        [attr.aria-label]="
-          'carousel.carouselForProduct' | cxTranslate: { product: product.name }
-        "
-        tabindex="-1"
-        *ngIf="thumbs.length"
-        class="thumbs"
-        [items]="thumbs"
-        itemWidth="120px"
-        [hideIndicators]="false"
-        [template]="thumb"
-      ></cx-carousel>
-    </ng-container>
+    <cx-carousel-scrolling
+      role="region"
+      [attr.aria-label]="
+        'carousel.carouselForProduct' | cxTranslate: { product: product.name }
+      "
+      tabindex="-1"
+      *ngIf="thumbs.length"
+      class="thumbs"
+      [items]="thumbs"
+      [template]="thumb"
+      [trackByFn]="trackByFn"
+    ></cx-carousel-scrolling>
   </ng-container>
 </ng-container>
 
