@@ -177,6 +177,11 @@ Add the Spartacus schematics:
 ng add @spartacus/schematics@221121.13.1 --ssr --skip-confirmation
 ```
 
+> **Note:** The `--ssr` flag sets up server-side rendering. SSR is not required for BFF
+> integration — see the **SSR only** markers throughout the [Spartacus changes](#spartacus-changes)
+> section for which steps apply only when using SSR. This flag may be made optional in a
+> future version of this guide once CSR-only instructions are fully validated.
+
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
 to confirm. Accept the defaults or customise the selection to match your project's needs.
 
