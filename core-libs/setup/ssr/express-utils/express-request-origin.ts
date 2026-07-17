@@ -27,10 +27,16 @@ export function getRequestOrigin(
   // Defense-in-depth: only when the operator opted in by providing an
   // allowlist. Spartacus does NOT know the valid hosts otherwise, so with no
   // allowlist we trust the (trusted) reverse proxy as before.
+  /* eslint-disable-next-line no-console */
+  console.log('allowedOrigins size: ' + allowedOrigins?.length);
   if (allowedOrigins?.length) {
-    return isAllowedOrigin(resolvedOrigin, allowedOrigins)
+    const ret = isAllowedOrigin(resolvedOrigin, allowedOrigins)
       ? resolvedOrigin
       : allowedOrigins[0];
+
+    /* eslint-disable-next-line no-console */
+    console.log('ben2-resolved origin: ' + ret);
+    return ret;
   }
 
   return resolvedOrigin;
@@ -96,6 +102,9 @@ function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
         .join('[^.]+');
       return new RegExp(`^${pattern}$`).test(normalizedOrigin);
     }
+
+    /* eslint-disable-next-line no-console */
+    console.log('ben1-normalizedOrigin: ' + normalizedOrigin);
     return normalizedAllowed === normalizedOrigin;
   });
 }
