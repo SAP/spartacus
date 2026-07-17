@@ -15,7 +15,8 @@
       "placeholder": "Enter password"
     },
     "pleaseInputPassword": "Please input password",
-    "emailUpdateSuccess": "Success. Please sign in with {{ newUid }}"
+    "emailUpdateSuccess": "Success. Please sign in with {{ newUid }}",
+    "heading": "Update Email Address"
   },
   "register": {
     "confirmPassword": {

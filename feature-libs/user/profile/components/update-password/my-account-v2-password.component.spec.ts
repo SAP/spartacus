@@ -12,6 +12,7 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
@@ -26,6 +27,7 @@ import {
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';
@@ -76,6 +78,7 @@ describe('MyAccountV2PasswordComponent', () => {
         FormErrorsModule,
         PasswordVisibilityToggleModule,
         MyAccountV2PasswordComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -87,7 +90,13 @@ describe('MyAccountV2PasswordComponent', () => {
     })
       .overrideComponent(MyAccountV2PasswordComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
@@ -95,6 +104,7 @@ describe('MyAccountV2PasswordComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -173,6 +183,14 @@ describe('MyAccountV2PasswordComponent', () => {
       fixture.detectChanges();
       const cxMsg = el.query(By.css('cx-message'));
       expect(cxMsg).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend inside the form', () => {
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
     });
   });
 });

@@ -86,7 +86,7 @@ describe('UpdateProfileComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '5.2' },
+            features: { level: '5.2', a11yFormFieldSectionLegend: true },
           },
         },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -173,6 +173,14 @@ describe('UpdateProfileComponent', () => {
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend inside the form', () => {
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
     });
   });
 });

@@ -16,7 +16,12 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { GlobalMessageType, TranslatePipe, User } from '@spartacus/core';
+import {
+  FeatureDirective,
+  GlobalMessageType,
+  TranslatePipe,
+  User,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   MessageComponent,
@@ -43,6 +48,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
     PasswordVisibilityToggleDirective,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class MyAccountV2EmailComponent implements OnInit {

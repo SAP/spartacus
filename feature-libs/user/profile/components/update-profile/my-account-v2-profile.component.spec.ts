@@ -12,7 +12,11 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
@@ -74,6 +78,12 @@ describe('MyAccountV2ProfileComponent', () => {
         {
           provide: UpdateProfileComponentService,
           useClass: MockProfileService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '7.0', a11yFormFieldSectionLegend: true },
+          },
         },
       ],
     })
@@ -160,6 +170,16 @@ describe('MyAccountV2ProfileComponent', () => {
       component.cancelEdit();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend inside the form when editing', () => {
+      component.onEdit();
+      fixture.detectChanges();
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
     });
   });
 });
