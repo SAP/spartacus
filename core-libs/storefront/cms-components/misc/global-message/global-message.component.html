@@ -4,9 +4,12 @@
   aria-live="polite"
   aria-atomic="true"
 >
-  <span *ngFor="let assistiveMsg of assistiveMsgs$ | async">{{
-    assistiveMsg | cxTranslate
-  }}</span>
+  <span
+    *ngFor="
+      let assistiveMsg of (messages$ | async)?.[messageType.MSG_TYPE_ASSISTIVE]
+    "
+    >{{ assistiveMsg | cxTranslate }}</span
+  >
 </div>
 <div *ngIf="messages$ | async as messages">
   <ng-container *cxFeature="'!a11yFilteredFacetAnnouncement'">

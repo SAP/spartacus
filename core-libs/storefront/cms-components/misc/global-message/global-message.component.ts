@@ -11,12 +11,10 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
-  Translatable,
   TranslatePipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { IconComponent } from '../icon/icon.component';
 
@@ -36,7 +34,6 @@ export class GlobalMessageComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   messages$: Observable<GlobalMessageEntities>;
-  assistiveMsgs$: Observable<Translatable[]>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
 
   constructor(protected globalMessageService: GlobalMessageService) {
@@ -45,9 +42,6 @@ export class GlobalMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.messages$ = this.globalMessageService.get();
-    this.assistiveMsgs$ = this.messages$.pipe(
-      map((messages) => messages[GlobalMessageType.MSG_TYPE_ASSISTIVE] ?? [])
-    );
   }
 
   clear(type: GlobalMessageType, index: number): void {
