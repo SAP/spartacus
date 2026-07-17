@@ -344,6 +344,9 @@ Add to `nx.json` → `plugins` array:
 }
 ```
 
+> **SSR only:** the `serve-ssr` target is only needed if your application uses
+> server-side rendering. Omit it if you are building a CSR-only application.
+
 > **Important:** make sure `outputPath` is `dist/apps/storefrontapp` (not
 > `dist/apps/my-storefront-app` or whatever the Angular CLI defaulted to).
 
@@ -607,6 +610,12 @@ so the browser never makes a cross-origin call.
 
 ## Spartacus changes
 
+**Prerequisites:** install `@vivaldi/angular` before applying the changes below:
+
+```bash
+npm install @vivaldi/angular
+```
+
 ### 1. `src/index.html`
 
 Add the `bff-base-url` meta tag inside `<head>`. CCv2 replaces the placeholders
@@ -775,8 +784,6 @@ This link must be placed **before** `createTerminationLink`. Vivaldi's terminati
 link intentionally omits `headers` and `fetch` from its options, so auth must be
 injected at the link layer via `OperationHeaders`.
 
-Requires `@vivaldi/angular` (`npm install @vivaldi/angular`).
-
 ```ts
 import { inject, Injector } from '@angular/core';
 import { AuthHttpHeaderService, AuthService, AuthToken } from '@spartacus/core';
@@ -832,6 +839,10 @@ function createAuthHeader(op: Operation, token: AuthToken) {
 
 ### 5. `src/app/bff/bff-timeout.link.ts` *(new file)*
 
+> **SSR note:** this link is included in the chain for all applications, but its timeout
+> enforcement only activates in SSR (and in dev mode). In a CSR-only app it is a no-op
+> in production and can be omitted if preferred.
+
 Aborts BFF calls that exceed a platform-specific timeout:
 
 - **SSR**: 20-second default. A hung BFF call stalls the Node render indefinitely —
@@ -844,8 +855,6 @@ Aborts BFF calls that exceed a platform-specific timeout:
 
 Place this as the **last** link before `createTerminationLink` so the `AbortController`
 signal reaches the fetch.
-
-Requires `@vivaldi/angular` (`npm install @vivaldi/angular`).
 
 ```ts
 import { isPlatformBrowser } from '@angular/common';
@@ -955,6 +964,8 @@ const bad = await this.bff.client.sample.sayHello.query({ name: 123 }); // ← c
 
 ### 7. `src/app/app.module.server.ts` *(modify)*
 
+> **SSR only:** this file is only needed if your application uses server-side rendering.
+
 In SSR, Node.js has no document origin so the relative `/bff/api` fallback from the
 meta tag cannot be resolved. Override `BFF_BASE_URL` with an absolute URL from the
 environment:
@@ -981,6 +992,8 @@ export class AppServerModule {}
 ---
 
 ### 7b. `src/server.ts` *(modify)*
+
+> **SSR only:** this file is only needed if your application uses server-side rendering.
 
 The Express SSR server has a catch-all route `server.get(/.*/, ...)` that renders every
 unmatched URL through the Angular engine. Without an explicit `/bff` proxy, BFF API calls
@@ -1099,6 +1112,10 @@ members consistent commands regardless of which nx target names are used interna
   }
 }
 ```
+
+> **SSR only:** `start:storefrontapp:ssr` and `serve:ssr:storefrontapp` are only needed
+> if your application uses server-side rendering. The remaining scripts apply to all
+> applications.
 
 | Script                             | What it does                                                              |
 |------------------------------------|---------------------------------------------------------------------------|
