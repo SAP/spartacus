@@ -321,19 +321,6 @@ Add to `nx.json` → `plugins` array:
       },
       "defaultConfiguration": "development"
     },
-    "serve-ssr": {
-      "continuous": true,
-      "executor": "@angular/build:dev-server",
-      "options": {
-        "buildTarget": "storefrontapp:build",
-        "proxyConfig": "apps/storefrontapp/proxy.conf.js"
-      },
-      "configurations": {
-        "production": { "buildTarget": "storefrontapp:build:production" },
-        "development": { "buildTarget": "storefrontapp:build:development" }
-      },
-      "defaultConfiguration": "development"
-    },
     "test": {
       "executor": "@angular/build:unit-test",
       "options": {
@@ -361,10 +348,10 @@ Add to `nx.json` → `plugins` array:
 > `nx run storefrontapp:build` succeeds, delete `apps/storefrontapp/angular.json`. This
 > applies to the fresh Spartacus path (Steps 1–2) as well as existing projects.
 
-> **Note:** This template already includes `proxyConfig` in `serve` and the `serve-ssr`
-> target. If you are following the fresh Spartacus path (Steps 1–2), step 9 (`project.json`
-> modify) in the Spartacus changes section is already covered by this template — you do
-> not need to add `proxyConfig` again separately.
+> **Note:** This template already includes `proxyConfig` in `serve`. If you are
+> following the fresh Spartacus path (Steps 1–2), step 9 (`project.json` modify) in
+> the Spartacus changes section is already covered by this template — you do not need
+> to add `proxyConfig` again separately.
 
 #### 4c. Migrate `angular.json` to `project.json` (existing Angular CLI projects only)
 
@@ -385,7 +372,6 @@ that differ from what `project.json` expects in a Vivaldi workspace:
 | All paths relative to the app directory (`src/main.ts`) | All paths relative to workspace root (`apps/storefrontapp/src/main.ts`) |
 | No `outputPath` — defaults to project `root` | Explicit `outputPath: "dist/apps/storefrontapp"` required |
 | `serve` has no top-level `options` block | `serve` carries `proxyConfig` in top-level `options` |
-| No `serve-ssr` target | Separate `serve-ssr` target for SSR dev mode |
 | `test` options inline under `options` | `test` delegates to `buildTarget` for shared build config |
 
 **Automated option — `nx init`:**
@@ -410,10 +396,10 @@ This command installs Nx, creates `nx.json`, and converts `angular.json` into a
 > relative paths in configuration files."* Building immediately fails until the
 > paths are fixed.
 >
-> After the import you still need to apply steps 2–6 from the manual migration below:
+> After the import you still need to apply steps 2–5 from the manual migration below:
 > prefix all paths with `apps/storefrontapp/`, update `outputPath`, add `proxyConfig`,
-> add `serve-ssr`, fix `buildTarget` references, and rename the project to
-> `storefrontapp` (the `name` field in `project.json` keeps the original app name).
+> fix `buildTarget` references, and rename the project to `storefrontapp`
+> (the `name` field in `project.json` keeps the original app name).
 
 > **Limitation:** `nx init` is designed for standalone Angular CLI workspaces. Once
 > the storefront has been imported into the Vivaldi monorepo via `nx import` (Step 3),
@@ -449,24 +435,7 @@ and save the result as `apps/storefrontapp/project.json`:
    }
    ```
 
-5. **Add a `serve-ssr` target** alongside `serve`, pointing to the SSR build configurations
-   (omit the `noSsr` configuration override):
-   ```json
-   "serve-ssr": {
-     "executor": "@angular/build:dev-server",
-     "options": {
-       "buildTarget": "storefrontapp:build",
-       "proxyConfig": "apps/storefrontapp/proxy.conf.js"
-     },
-     "configurations": {
-       "production": { "buildTarget": "storefrontapp:build:production" },
-       "development": { "buildTarget": "storefrontapp:build:development" }
-     },
-     "defaultConfiguration": "development"
-   }
-   ```
-
-6. **Update `buildTarget` references** in `serve` configurations. The Angular CLI
+5. **Update `buildTarget` references** in `serve` configurations. The Angular CLI
    `angular.json` names them after the original project name
    (e.g. `ccv2-spa-doc-test4-storefront:build:development,noSsr`). Change all
    references to use the Nx project name `storefrontapp`:
@@ -475,7 +444,7 @@ and save the result as `apps/storefrontapp/project.json`:
    "development": { "buildTarget": "storefrontapp:build:development,noSsr" }
    ```
 
-7. **Simplify the `test` target.** The `angular.json` `test` target inlines all style
+6. **Simplify the `test` target.** The `angular.json` `test` target inlines all style
    options directly. Replace it with the leaner form that delegates to the `build`
    target's `test` configuration (which carries the style preprocessor options):
    ```json
@@ -500,7 +469,7 @@ and save the result as `apps/storefrontapp/project.json`:
    }
    ```
 
-8. **Add Nx project metadata** at the top level:
+7. **Add Nx project metadata** at the top level:
    ```json
    {
      "$schema": "../../node_modules/nx/schemas/project-schema.json",
@@ -512,7 +481,7 @@ and save the result as `apps/storefrontapp/project.json`:
    }
    ```
 
-9. **Delete `angular.json`.** Once `project.json` is in place and
+8. **Delete `angular.json`.** Once `project.json` is in place and
    `nx run storefrontapp:build` succeeds, remove `apps/storefrontapp/angular.json`.
    Keeping both files causes Nx to merge targets from both, which can produce
    confusing duplicates.
@@ -1110,35 +1079,24 @@ members consistent commands regardless of which nx target names are used interna
     "build:bff": "vivaldi build bff",
     "dev:bff": "vivaldi dev bff",
     "start:storefrontapp": "nx serve storefrontapp",
-    "start:storefrontapp:ssr": "SERVER_REQUEST_ORIGIN=http://localhost:4200 nx serve-ssr storefrontapp",
     "build:storefrontapp": "nx build storefrontapp",
     "test:storefrontapp": "nx test storefrontapp",
-    "serve:ssr:storefrontapp": "SERVER_REQUEST_ORIGIN=http://localhost:4000 BFF_BASE_URL=https://localhost:8482/bff/api node dist/apps/storefrontapp/server/server.mjs"
+    "serve:ssr:storefrontapp": "NG_ALLOWED_HOSTS=localhost node dist/apps/storefrontapp/server/server.mjs"
   }
 }
 ```
 
-> **SSR only:** `start:storefrontapp:ssr` and `serve:ssr:storefrontapp` are only needed
-> if your application uses server-side rendering. The remaining scripts apply to all
-> applications.
+> **SSR only:** `serve:ssr:storefrontapp` is only needed if your application uses
+> server-side rendering.
 
-| Script                             | What it does                                                              |
-|------------------------------------|---------------------------------------------------------------------------|
-| `npm run build:bff`                | Builds the BFF into `dist/apps/bff/vivaldi.mjs`                          |
-| `npm run dev:bff`                  | Starts the BFF dev server via `vivaldi dev bff`                          |
-| `npm run start:storefrontapp`      | Starts the Angular dev server (no SSR) on port 4200                      |
-| `npm run start:storefrontapp:ssr`  | Starts the Angular dev server with SSR on port 4200 (sets `SERVER_REQUEST_ORIGIN`) |
-| `npm run build:storefrontapp`      | Production build of the storefront                                        |
-| `npm run test:storefrontapp`       | Runs unit tests for the storefront                                        |
-| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle with Node (sets `SERVER_REQUEST_ORIGIN` and `BFF_BASE_URL`) |
-
-> **Required environment variables for SSR:**
-> - `SERVER_REQUEST_ORIGIN` — required by `@spartacus/setup/ssr`'s `provideServer` to resolve
->   the request origin. Without it the app throws at bootstrap.
-> - `BFF_BASE_URL` — required by the SSR process to make BFF calls with an absolute URL.
->   Node.js has no proxy and cannot resolve relative URLs like `/bff/api`. If omitted,
->   the server falls back to `https://localhost:8482/bff/api` (the local BFF dev server).
->   On CCv2 this is injected automatically when a BFF is connected.
+| Script                             | What it does                                                     |
+|------------------------------------|------------------------------------------------------------------|
+| `npm run build:bff`                | Builds the BFF into `dist/apps/bff/vivaldi.mjs`                 |
+| `npm run dev:bff`                  | Starts the BFF dev server via `vivaldi dev bff`                 |
+| `npm run start:storefrontapp`      | Starts the Angular dev server (no SSR) on port 4200             |
+| `npm run build:storefrontapp`      | Production build of the storefront                               |
+| `npm run test:storefrontapp`       | Runs unit tests for the storefront                               |
+| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle directly with Node *(SSR only)* |
 
 ---
 
