@@ -1249,6 +1249,21 @@ export const bffExampleProviders: Provider[] = [
 
 Spread into `app.module.ts` providers: `providers: [privateProviders, ...bffExampleProviders]`
 
+```ts
+import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { AppRoutingModule } from '@spartacus/storefront';
+import { SpartacusModule } from './spartacus/spartacus.module';
+import { bffExampleProviders } from './bff/examples/bff-example.providers';
+
+@NgModule({
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule],
+  providers: [...bffExampleProviders],
+})
+export class AppModule {}
+```
+
 > **Important:** Register `bffExampleProviders` directly in `NgModule.providers`, not
 > inside `makeEnvironmentProviders()`. Lazy routes registered via the `ROUTES` token
 > inside `makeEnvironmentProviders()` cause Angular pending task leaks.
