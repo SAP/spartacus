@@ -556,6 +556,22 @@ export interface FeatureTogglesInterface {
   improvedTabStyling?: boolean;
 
   /**
+   * When enabled, a guest cart is merged into the user cart after login even
+   * when the login uses the OAuth 2.1 authorization-code flow (which fully
+   * re-bootstraps the SPA and wipes in-memory state).
+   *
+   * The guest cart entries are persisted to storage before the redirect and
+   * re-added to the user cart after login. This is needed because the backend
+   * rejects a native merge of a guest cart (`"Cart is not anonymous"`), and the
+   * guest cart is no longer reachable with the user token after login.
+   *
+   * NOTE: Most relevant when `authorizationCodeFlowByDefault` is enabled.
+   *
+   * Affects: `ActiveCartService`
+   */
+  mergeGuestCartOnCodeFlowLogin?: boolean;
+
+  /**
    * When enabled, the product configurator product card action buttons are
    * consistently disabled while a configuration update round trip is in
    * progress (`disableActions$`). In particular, the multi-select "Remove"
@@ -641,4 +657,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  mergeGuestCartOnCodeFlowLogin: false,
 };
