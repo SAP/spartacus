@@ -312,7 +312,7 @@ if (environment.cpq) {
         a11yFutureStockAccordionAriaControls: true,
         cdsLoginEventsToken: true,
         incrementProcessesCountForMergeCart: true,
-        authorizationCodeFlowByDefault: true,
+        authorizationCodeFlowByDefault: false,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: true,
