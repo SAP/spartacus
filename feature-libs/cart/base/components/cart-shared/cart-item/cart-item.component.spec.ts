@@ -32,7 +32,7 @@ import {
   OutletModule,
   PromotionsComponent,
 } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -110,11 +110,6 @@ describe('CartItemComponent', () => {
   let componentInjector: Injector;
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
-
-  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -270,12 +265,10 @@ describe('CartItemComponent', () => {
   });
 
   it('should create cart details component', () => {
-    featureConfig.isEnabled.and.returnValue(true);
     expect(cartItemComponent).toBeTruthy();
 
     fixture.detectChanges();
 
-    featureConfig.isEnabled.and.returnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 

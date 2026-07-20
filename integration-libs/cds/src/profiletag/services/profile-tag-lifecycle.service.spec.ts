@@ -1,21 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ActionsSubject, StoreModule } from '@ngrx/store';
-import {
-  AuthActions,
-  ConsentService,
-  FeatureConfigService,
-} from '@spartacus/core';
+import { AuthActions, ConsentService, FeatureToggles } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { CdsConfig } from '../../config/cds-config';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
-import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
-import { fakeAsync, tick, flush } from '@angular/core/testing';
 import { LOGIN_EVENTS, LoginEventEnvelope } from '../tokens/login-events.token';
+import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 
 describe('ProfileTagLifecycleService', () => {
   let service: ProfileTagLifecycleService;
   let consentService: jasmine.SpyObj<ConsentService>;
-  let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
+  let featureToggles: FeatureToggles;
   let actionsSubject: ActionsSubject;
   let loginEventsSubject: Subject<LoginEventEnvelope>;
 
@@ -24,18 +19,16 @@ describe('ProfileTagLifecycleService', () => {
       'getConsent',
       'isConsentGiven',
     ]);
-    const featureConfigServiceSpy = jasmine.createSpyObj(
-      'FeatureConfigService',
-      ['isEnabled']
-    );
-
     loginEventsSubject = new Subject<LoginEventEnvelope>();
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         { provide: ConsentService, useValue: consentServiceSpy },
-        { provide: FeatureConfigService, useValue: featureConfigServiceSpy },
+        {
+          provide: FeatureToggles,
+          useValue: { cdsLoginEventsToken: false } satisfies FeatureToggles,
+        },
         {
           provide: CdsConfig,
           useValue: { cds: { consentTemplateId: 'templateId' } },
@@ -49,9 +42,7 @@ describe('ProfileTagLifecycleService', () => {
     consentService = TestBed.inject(
       ConsentService
     ) as jasmine.SpyObj<ConsentService>;
-    featureConfigService = TestBed.inject(
-      FeatureConfigService
-    ) as jasmine.SpyObj<FeatureConfigService>;
+    featureToggles = TestBed.inject(FeatureToggles);
 
     actionsSubject = TestBed.inject(ActionsSubject);
   });
@@ -96,7 +87,7 @@ describe('ProfileTagLifecycleService', () => {
   describe('loginSuccessful()', () => {
     describe('when cdsLoginEventsToken feature flag is disabled', () => {
       beforeEach(() => {
-        featureConfigService.isEnabled.and.returnValue(false);
+        featureToggles.cdsLoginEventsToken = false;
       });
 
       it('should return login successful event from ActionsSubject', fakeAsync(() => {
@@ -111,9 +102,6 @@ describe('ProfileTagLifecycleService', () => {
         tick();
 
         expect(result).toBe(true);
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'cdsLoginEventsToken'
-        );
 
         flush();
       }));
@@ -137,7 +125,7 @@ describe('ProfileTagLifecycleService', () => {
 
     describe('when cdsLoginEventsToken feature flag is enabled', () => {
       beforeEach(() => {
-        featureConfigService.isEnabled.and.returnValue(true);
+        featureToggles.cdsLoginEventsToken = true;
       });
 
       it('should return login successful event from LOGIN_EVENTS token', fakeAsync(() => {
@@ -155,9 +143,6 @@ describe('ProfileTagLifecycleService', () => {
         tick();
 
         expect(result).toBe(true);
-        expect(featureConfigService.isEnabled).toHaveBeenCalledWith(
-          'cdsLoginEventsToken'
-        );
 
         flush();
       }));

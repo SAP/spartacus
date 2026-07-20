@@ -1,20 +1,23 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
+  AuthActions,
   AuthMultisiteIsolationService,
+  AuthNotificationService,
+  AuthNotificationType,
   AuthRedirectService,
   AuthToken,
   CrossSiteRequestForgeryService,
   GlobalMessageService,
   OAuthLibWrapperService,
+  OCC_USER_ID_ANONYMOUS,
   PROCESS_FEATURE,
   RoutingService,
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { getReducers } from 'projects/core/src/process/store/reducers/index';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { getReducers } from 'core-libs/core/src/process/store/reducers/index';
+import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
   ASM_FEATURE,
   getReducers as getAsmReducers,
@@ -56,12 +59,17 @@ class MockUserIdService {
 class MockOAuthLibWrapperService {
   revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
   initLoginFlow = jasmine.createSpy();
+  tryLogin = jasmine
+    .createSpy()
+    .and.returnValue(Promise.resolve({ result: true, tokenReceived: false }));
 
   authorizeWithPasswordFlow = () => Promise.resolve();
 }
 
 class MockAsmAuthStorageService {
   clearEmulatedUserToken = jasmine.createSpy();
+  switchTokenTargetToCSAgent = jasmine.createSpy();
+  getItem = jasmine.createSpy().and.returnValue(null);
 
   getToken = () => authToken$.asObservable();
   getTokenTarget = () => tokenTarget$.asObservable();
@@ -71,8 +79,12 @@ class MockGlobalMessageService {
   add = jasmine.createSpy();
 }
 
-class MockAuthRedirectService {}
-class MockRoutingService {}
+class MockAuthRedirectService {
+  redirect = jasmine.createSpy();
+}
+class MockRoutingService {
+  go = jasmine.createSpy();
+}
 
 class MockCrossSiteRequestForgeryService
   implements Partial<CrossSiteRequestForgeryService>
@@ -84,6 +96,11 @@ class MockCrossSiteRequestForgeryService
       token: 'token',
     });
   }
+}
+
+class MockAuthNotificationService implements Partial<AuthNotificationService> {
+  notifications$ = new Subject<AuthNotificationType>();
+  sendNotification(_data: AuthNotificationType): void {}
 }
 
 describe('AsmAuthService', () => {
@@ -128,6 +145,10 @@ describe('AsmAuthService', () => {
         {
           provide: CrossSiteRequestForgeryService,
           useClass: MockCrossSiteRequestForgeryService,
+        },
+        {
+          provide: AuthNotificationService,
+          useClass: MockAuthNotificationService,
         },
       ],
     });
@@ -186,13 +207,19 @@ describe('AsmAuthService', () => {
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
 
-    it('should warn about CS Agent if user cannot login', () => {
+    it('should redirect to homepage when CS Agent is already logged in but not emulating', () => {
+      // CS Agent active: token present + tokenTarget=CSAgent.
+      // Guards like CheckoutAuthGuard would route through /login here; we
+      // send the user home instead of showing "Cannot login as user".
       tokenTarget$.next(TokenTarget.CSAgent);
+      const routingService = TestBed.inject(RoutingService);
 
       const result = service.loginWithRedirect();
 
-      expect(result).toBeFalse();
-      expect(globalMessageService.add).toHaveBeenCalled();
+      expect(result).toBeTrue();
+      expect(routingService.go).toHaveBeenCalledWith('/');
+      expect(oAuthLibWrapperService.initLoginFlow).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 
@@ -204,75 +231,147 @@ describe('AsmAuthService', () => {
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
     });
 
-    it('should logout when emulating user', (done: DoneFn) => {
+    it('should logout when emulating user', async () => {
       isEmulated$.next(true);
 
-      service.coreLogout().then(() => {
-        expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
-        expect(userIdService.clearUserId).toHaveBeenCalled();
-        expect(store.dispatch).toHaveBeenCalled();
+      await service.coreLogout();
 
-        done();
-      });
+      expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
+      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalled();
     });
   });
 
   describe('isUserLoggedIn()', () => {
     describe('without access_token', () => {
-      it('should return false', (done: DoneFn) => {
+      it('should return false', async () => {
         const newToken = { ...authToken };
         delete newToken['access_token'];
-
         authToken$ = new BehaviorSubject(newToken);
 
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeFalse();
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeFalse();
       });
     });
 
     describe('with access_token', () => {
-      it('should return true for users', (done: DoneFn) => {
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeTrue();
+      it('should return true for users', async () => {
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeTrue();
       });
 
-      it('should return true for CSAgents emulating user', (done: DoneFn) => {
+      it('should return true for CSAgents emulating user', async () => {
         tokenTarget$.next(TokenTarget.CSAgent);
         isEmulated$.next(true);
 
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeTrue();
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeTrue();
       });
 
-      it('should return false for CSAgents not emulating user', (done: DoneFn) => {
+      it('should return false for CSAgents not emulating user', async () => {
         tokenTarget$.next(TokenTarget.CSAgent);
 
-        service
-          .isUserLoggedIn()
-          .pipe(take(1))
-          .subscribe((isLoggedIn: boolean) => {
-            expect(isLoggedIn).toBeFalse();
+        const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-            done();
-          });
+        expect(isLoggedIn).toBeFalse();
+      });
+    });
+  });
+
+  describe('checkOAuthParamsInUrl()', () => {
+    let authRedirectService: AuthRedirectService;
+
+    /** Stubs the tryLogin() promise result. */
+    const stubTryLogin = (tokenReceived: boolean) =>
+      (oAuthLibWrapperService.tryLogin as jasmine.Spy).and.returnValue(
+        Promise.resolve({ result: true, tokenReceived })
+      );
+
+    /** Stubs the value returned by authStorageService.getItem('access_token'). */
+    const stubStoredAccessToken = (value: string | null) =>
+      (asmAuthStorageService.getItem as jasmine.Spy).and.returnValue(value);
+
+    beforeEach(() => {
+      authRedirectService = TestBed.inject(AuthRedirectService);
+    });
+
+    it('should delegate to parent when not using ASM client', async () => {
+      spyOn(service, 'isUsingASMClient').and.returnValue(of(false));
+      const parentSpy = spyOn(
+        Object.getPrototypeOf(Object.getPrototypeOf(service)),
+        'checkOAuthParamsInUrl'
+      ).and.returnValue(Promise.resolve());
+
+      await service.checkOAuthParamsInUrl();
+
+      expect(parentSpy).toHaveBeenCalled();
+    });
+
+    describe('when using ASM client', () => {
+      beforeEach(() => {
+        spyOn(service, 'isUsingASMClient').and.returnValue(of(true));
+      });
+
+      it('should set CS Agent token target, dispatch Login and redirect when returning from auth server', async () => {
+        stubTryLogin(true);
+        stubStoredAccessToken('access_token_value');
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).toHaveBeenCalled();
+        expect(userIdService.setUserId).toHaveBeenCalledWith(
+          OCC_USER_ID_ANONYMOUS
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        expect(authRedirectService.redirect).toHaveBeenCalled();
+      });
+
+      it('should NOT complete login when token was not received (e.g. page refresh)', async () => {
+        stubTryLogin(false);
+        stubStoredAccessToken('access_token_value');
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).not.toHaveBeenCalled();
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new AuthActions.Login()
+        );
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
+
+      it('should NOT complete login when no access token is stored', async () => {
+        stubTryLogin(true);
+        stubStoredAccessToken(null);
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).not.toHaveBeenCalled();
+        expect(store.dispatch).not.toHaveBeenCalledWith(
+          new AuthActions.Login()
+        );
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
+
+      it('should swallow errors thrown by tryLogin()', async () => {
+        (oAuthLibWrapperService.tryLogin as jasmine.Spy).and.returnValue(
+          Promise.reject(new Error('oauth failure'))
+        );
+
+        await expectAsync(service.checkOAuthParamsInUrl()).toBeResolved();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).not.toHaveBeenCalled();
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
     });
   });

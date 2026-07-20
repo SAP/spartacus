@@ -23,6 +23,7 @@ export type OpfPaymentMerchantCallback = (
 export interface OpfPaymentGlobalMethods {
   getRedirectParams?(): Array<OpfKeyValueMap>;
   submit?(options: {
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
     cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
@@ -33,6 +34,7 @@ export interface OpfPaymentGlobalMethods {
     paymentSessionId?: string;
   }): Promise<boolean>;
   submitComplete?(options: {
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
     cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
@@ -42,7 +44,8 @@ export interface OpfPaymentGlobalMethods {
     paymentSessionId?: string;
   }): Promise<boolean>;
   submitCompleteRedirect?(options: {
-    cartId: string;
+    /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
@@ -61,8 +64,23 @@ export interface OpfPaymentGlobalMethods {
   setDeliveryMode?(mode: string): Promise<DeliveryMode | undefined>;
   getDeliveryMode?(): Promise<DeliveryMode | undefined>;
   deleteAddress?(addressId: string): Promise<void>;
+  /**
+   * Starts a new payment session for a configuration.
+   *
+   * Should be used when no payment session exists yet,
+   * or when they intentionally want to bootstrap a fresh session.
+   */
   initiatePayment?(
     configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
+  ): Promise<OpfPaymentSessionData>;
+  /**
+   * Updates an existing payment transaction/session.
+   *
+   * Should be used for subsequent updates once a
+   * payment session ID is available.
+   */
+  updatePaymentTransaction?(
+    updatePaymentConfig: OpfPaymentUpdateConfig
   ): Promise<OpfPaymentSessionData>;
   verifyPayment?(
     paymentSessionId: string,
@@ -165,8 +183,21 @@ export interface OpfPaymentInitiationConfig {
   config?: OpfPaymentConfig;
 }
 
+export interface OpfPaymentUpdateConfig {
+  paymentSessionId: string;
+  otpKey?: string;
+  config?: OpfPaymentUpdatePayload;
+}
+
+export interface OpfPaymentUpdatePayload {
+  channel?: string;
+  browserInfo?: OpfPaymentBrowserInfo;
+  additionalData?: Array<OpfKeyValueMap>;
+}
+
 export interface OpfPaymentConfig {
   configurationId?: string;
+  /** @deprecated Property no longer used. Cart ID is currently derived from the OTP access code header. */
   cartId?: string;
   resultURL?: string;
   cancelURL?: string;

@@ -4,9 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggles,
   ImageGroup,
   MockDatePipe,
   MockTranslatePipe,
@@ -14,7 +12,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
-  CarouselComponent,
   CarouselScrollingComponent,
   CurrentProductService,
   ImageFetchPriority,
@@ -94,25 +91,6 @@ class MockMediaComponent {
 }
 
 @Component({
-  selector: 'cx-carousel',
-  template: `
-    cx-carousel
-    <ng-container *ngFor="let item$ of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
-    </ng-container>
-  `,
-  imports: [NgFor, NgTemplateOutlet, AsyncPipe],
-})
-class MockCarouselComponent {
-  @Input() items: any;
-  @Input() itemWidth: any;
-  @Input() template: any;
-  @Input() hideIndicators: any;
-}
-
-@Component({
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
@@ -141,23 +119,6 @@ class MockProductImageZoomTriggerComponent {
   @Output() dialogClose = new EventEmitter<void>();
 }
 
-let mockFeatureToggles: FeatureToggles;
-
-class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
-
 describe('ProductImageZoomProductImagesComponent', () => {
   let component: ProductImageZoomProductImagesComponent;
   let fixture: ComponentFixture<ProductImageZoomProductImagesComponent>;
@@ -165,9 +126,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
   let mockLcpPresence$: BehaviorSubject<LcpPresence>;
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
@@ -177,7 +135,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
         ProductImageZoomProductImagesComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: LCP_PRESENCE,
           useValue: mockLcpPresence$,
@@ -194,7 +151,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
             TranslatePipe,
             CxDatePipe,
             MediaComponent,
-            CarouselComponent,
             CarouselScrollingComponent,
             ProductImageZoomTriggerComponent,
           ],
@@ -204,7 +160,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
             MockTranslatePipe,
             MockDatePipe,
             MockMediaComponent,
-            MockCarouselComponent,
             MockCarouselScrollingComponent,
             MockProductImageZoomTriggerComponent,
           ],
@@ -259,23 +214,12 @@ describe('ProductImageZoomProductImagesComponent', () => {
     }));
 
     describe('UI test', () => {
-      describe('when feature toggle "productCarouselScrolling" is enabled', () => {
-        it('should have cx-carousel-scrolling element', () => {
-          fixture.detectChanges();
-          const carousel = fixture.debugElement.query(
-            By.css('cx-carousel-scrolling')
-          );
-          expect(carousel).toBeTruthy();
-        });
-      });
-
-      describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-        it('should have cx-carousel element', () => {
-          mockFeatureToggles.productCarouselScrolling = false;
-          fixture.detectChanges();
-          const carousel = fixture.debugElement.query(By.css('cx-carousel'));
-          expect(carousel).toBeTruthy();
-        });
+      it('should have cx-carousel-scrolling element', () => {
+        fixture.detectChanges();
+        const carousel = fixture.debugElement.query(
+          By.css('cx-carousel-scrolling')
+        );
+        expect(carousel).toBeTruthy();
       });
 
       it('should have 2 rendered templates', () => {

@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/root';
 import {
-  FeatureConfigService,
   FeatureDirective,
   GlobalMessageService,
   MockTranslatePipe,
@@ -25,7 +24,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, Subject } from 'rxjs';
 import { CustomerSelectionComponent } from './customer-selection.component';
 
@@ -108,7 +107,6 @@ describe('CustomerSelectionComponent', () => {
   let el: DebugElement;
   let searchResultItems: Array<ElementRef<HTMLElement>> = [];
   let launchDialogService: LaunchDialogService;
-  let featureConfig: FeatureConfigService;
 
   const validSearchTerm = 'cUstoMer@test.com';
   const validSearchOrderID = 'valid_order_id';
@@ -150,9 +148,6 @@ describe('CustomerSelectionComponent', () => {
   }));
 
   beforeEach(() => {
-    featureConfig = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfig, 'isEnabled').and.callFake(() => true);
-
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
 

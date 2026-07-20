@@ -1,4 +1,4 @@
-import { Component, Directive, Type } from '@angular/core';
+import { Component, Directive, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -28,16 +28,20 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
+  FocusConfig,
+  FocusDirective,
   InnerComponentsHostDirective,
   OutletModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-spinner',
@@ -128,6 +132,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 })
 class MockInnerComponentsHostDirective {}
 
+@Directive({ selector: '[cxFocus]' })
+class MockFocusDirective {
+  @Input() cxFocus: FocusConfig | undefined;
+}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -156,6 +165,7 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        provideMockFeatureToggles({ a11yDeliveryModeFocusPreservation: true }),
       ],
     })
       .overrideComponent(CheckoutDeliveryModeComponent, {
@@ -165,15 +175,18 @@ describe('CheckoutDeliveryModeComponent', () => {
             CxDatePipe,
             FeatureDirective,
             InnerComponentsHostDirective,
+            SpinnerComponent,
+            FocusDirective,
           ],
         },
         add: {
           imports: [
             MockTranslatePipe,
             MockDatePipe,
-            MockSpinnerComponent,
             MockFeatureDirective,
+            MockSpinnerComponent,
             MockInnerComponentsHostDirective,
+            MockFocusDirective,
           ],
         },
       })
@@ -400,6 +413,35 @@ describe('CheckoutDeliveryModeComponent', () => {
       expect(fixture.debugElement.nativeElement.textContent).toContain(
         'checkoutMode.deliveryEntries'
       );
+    });
+  });
+
+  describe('[cxFocus] directive bindings', () => {
+    beforeEach(() => {
+      supportedDeliveryModes$.next(mockSupportedDeliveryModes);
+      component.isUpdating$ = of(false);
+      fixture.detectChanges();
+    });
+
+    it('should bind autofocus: true and refreshFocus to fieldset', () => {
+      const fieldset = fixture.debugElement.query(By.css('fieldset'));
+      const directive = fieldset.injector.get(MockFocusDirective);
+
+      expect(directive.cxFocus).toEqual(
+        jasmine.objectContaining({ autofocus: true, refreshFocus: false })
+      );
+    });
+
+    it('should bind key matching mode.code to each radio input', () => {
+      const radios = fixture.debugElement.queryAll(By.css('input[type=radio]'));
+
+      expect(radios.length).toBe(mockSupportedDeliveryModes.length);
+      radios.forEach((radio, i) => {
+        const directive = radio.injector.get(MockFocusDirective);
+        expect(directive.cxFocus).toEqual(
+          jasmine.objectContaining({ key: mockSupportedDeliveryModes[i].code })
+        );
+      });
     });
   });
 });

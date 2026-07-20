@@ -15,7 +15,6 @@ import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
   CxDatePipe,
-  FeatureConfigService,
   FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
@@ -29,7 +28,7 @@ import {
   CurrentProductService,
   IconComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -106,12 +105,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 @Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
@@ -137,7 +130,6 @@ describe('AddToWishListComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
       .overrideComponent(AddToWishListComponent, {

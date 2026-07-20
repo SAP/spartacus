@@ -1,0 +1,37 @@
+<label *ngIf="items$ | async as themes">
+  <span> {{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
+  <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
+    <select (change)="activeItem = $any($event).target.value">
+      <option
+        [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
+        *ngFor="let theme of themes; index as i"
+        value="{{ theme.className }}"
+        [selected]="(activeItem$ | async) === theme.className"
+      >
+        {{
+          theme.i18nNameKey
+            ? (theme.i18nNameKey | cxTranslate)
+            : theme.className
+        }}
+      </option>
+    </select>
+    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
+  </div>
+  <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
+    <select (change)="activeItem = $any($event).target.value">
+      <option
+        [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
+        *ngFor="let theme of themes; index as i"
+        value="{{ theme.className }}"
+        [selected]="(activeItem$ | async) === theme.className"
+      >
+        {{
+          theme.i18nNameKey
+            ? (theme.i18nNameKey | cxTranslate)
+            : theme.className
+        }}
+      </option>
+    </select>
+    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
+  </ng-container>
+</label>

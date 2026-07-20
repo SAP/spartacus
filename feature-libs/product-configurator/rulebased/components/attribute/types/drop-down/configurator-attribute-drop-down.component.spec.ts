@@ -13,7 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import { FocusDirective } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -92,6 +92,9 @@ class MockConfiguratorShowMoreComponent {
 
 class MockConfiguratorCommonsService {
   updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 let showRequiredErrorMessage: boolean;

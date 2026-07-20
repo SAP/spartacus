@@ -14,6 +14,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   FormsModule,
@@ -22,7 +23,13 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Config, Product, TranslatePipe, WindowRef } from '@spartacus/core';
+import {
+  Config,
+  FeatureToggles,
+  Product,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -67,6 +74,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
+  private featureToggles = inject(FeatureToggles);
 
   constructor(
     public config: Config,
@@ -96,20 +104,30 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
 
-      requestAnimationFrame(() => {
-        this.quickOrderInput.nativeElement.focus();
-      });
+      if (!this.featureToggles.a11yQuickOrderResetFocus) {
+        requestAnimationFrame(() => {
+          this.quickOrderInput.nativeElement.focus();
+        });
+      }
     }
 
     const product = this.form.get('product')?.value;
 
-    if (!!product) {
-      this.form.reset();
+    if (product) {
+      this.featureToggles.a11yQuickOrderResetFocus
+        ? this.form.reset({}, { emitEvent: false })
+        : this.form.reset();
     }
 
     // We have to call 'close' method every time to make sure results list is empty and call detectChanges to change icon type in form
     this.close();
     this.cd?.detectChanges();
+
+    if (this.featureToggles.a11yQuickOrderResetFocus) {
+      requestAnimationFrame(() => {
+        this.quickOrderInput.nativeElement.focus();
+      });
+    }
   }
 
   add(product: Product, event: Event): void {

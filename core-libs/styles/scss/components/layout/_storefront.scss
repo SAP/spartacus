@@ -1,0 +1,60 @@
+@import './progress-bar';
+
+%cx-storefront {
+  @include cx-highContrastTheme {
+    background-color: var(--cx-color-background);
+  }
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  &:focus {
+    outline: none;
+  }
+
+  &.start-navigating {
+    @extend %progress-bar, %progress-bar-loading-animation !optional;
+  }
+  &.stop-navigating {
+    @extend %progress-bar, %progress-bar-loaded-animation !optional;
+  }
+
+  > footer {
+    margin-top: auto;
+
+    cx-paragraph {
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // prevents visible focus when the UI is not used by keyboard.
+  .mouse-focus {
+    :focus,
+    .ng-select-focused {
+      --cx-visual-focus-width: 0;
+      // this change is not kicking-in, minor issue, it does work work when unwraping, unwrap in next major
+      box-shadow: 0 0 0 0;
+    }
+
+    :focus-within {
+      --cx-visual-focus-width: 0;
+    }
+  }
+
+  main {
+    @include cx-highContrastTheme {
+      background-color: var(--cx-color-background);
+    }
+  }
+
+  &.cx-theme-high-contrast-dark,
+  &.cx-theme-high-contrast-light {
+    @media (forced-colors: active) {
+      // Prevents forced colors from being applied while Spartacus contrast themes are active.
+      // This prevents interference with the contrast themes yet still allows the default one to be modified.
+      forced-color-adjust: none !important;
+    }
+  }
+}

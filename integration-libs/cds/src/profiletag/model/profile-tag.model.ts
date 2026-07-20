@@ -7,10 +7,21 @@
 import { PersonalizationAction } from '@spartacus/tracking/personalization/core';
 import { Cart } from '@spartacus/cart/base/root';
 
+export interface RecentSearches {
+  getPhrases(): string[];
+  addListener(callback: (recentSearches: string[]) => void): void;
+  removePhrase(phrase: string): void;
+  clearPhrases(): void;
+}
+
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
     eventLayer?: ProfileTagPushEvent[];
+    recentSearches?: RecentSearches;
+    config?: {
+      cdsSiteId?: string;
+    };
   };
 }
 

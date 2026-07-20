@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
+  FeatureToggles,
   HttpErrorModel,
   MockTranslatePipe,
   TranslatePipe,
@@ -30,6 +31,7 @@ describe('OpfPaymentVerificationComponent', () => {
   let routeMock: jasmine.SpyObj<ActivatedRoute>;
   let opfPaymentVerificationServiceMock: jasmine.SpyObj<OpfPaymentVerificationService>;
   let windowRefMock: jasmine.SpyObj<WindowRef>;
+  let featureToggles: FeatureToggles;
 
   beforeEach(() => {
     routeMock = jasmine.createSpyObj('ActivatedRoute', [], {
@@ -42,6 +44,7 @@ describe('OpfPaymentVerificationComponent', () => {
         'verifyResultUrl',
         'goToPage',
         'displayError',
+        'clearPaymentSessionForReinitiation',
         'removeResourcesAndGlobalFunctions',
         'runHostedFieldsPattern',
         'runHostedPagePattern',
@@ -55,6 +58,9 @@ describe('OpfPaymentVerificationComponent', () => {
     windowRefMock = jasmine.createSpyObj('WindowRef', [], {
       nativeWindow: mockNativeWindow,
     });
+    featureToggles = {
+      opfPaymentVerificationCheckProcessingCartOnErrorOnly: true,
+    };
 
     TestBed.configureTestingModule({
       imports: [OpfPaymentVerificationComponent],
@@ -63,6 +69,10 @@ describe('OpfPaymentVerificationComponent', () => {
         {
           provide: OpfPaymentVerificationService,
           useValue: opfPaymentVerificationServiceMock,
+        },
+        {
+          provide: FeatureToggles,
+          useValue: featureToggles,
         },
         { provide: WindowRef, useValue: windowRefMock },
       ],
@@ -86,13 +96,13 @@ describe('OpfPaymentVerificationComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should call checkIfProcessingCartIdExist', () => {
+    it('should not call checkIfProcessingCartIdExist on init success path', () => {
       opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
 
       component.ngOnInit();
       expect(
         opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
-      ).toHaveBeenCalled();
+      ).not.toHaveBeenCalled();
     });
 
     it('should handle success scenario', () => {
@@ -149,6 +159,9 @@ describe('OpfPaymentVerificationComponent', () => {
 
       component.ngOnInit();
 
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalled();
       expect(component.onError).toHaveBeenCalledWith(mockError);
     });
 
@@ -195,6 +208,42 @@ describe('OpfPaymentVerificationComponent', () => {
         opfPaymentVerificationServiceMock.runHostedPagePattern
       ).not.toHaveBeenCalled();
     });
+
+    it('should call checkIfProcessingCartIdExist on init when feature toggle is disabled', () => {
+      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly =
+        false;
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(of());
+
+      component.ngOnInit();
+
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalled();
+    });
+
+    it('should not call checkIfProcessingCartIdExist in error path when feature toggle is disabled', () => {
+      featureToggles.opfPaymentVerificationCheckProcessingCartOnErrorOnly =
+        false;
+      const mockError: HttpErrorModel = { status: 500, message: 'Error' };
+      const mockVerifyResult = {
+        paymentSessionId: '1',
+        paramsMap: [],
+        afterRedirectScriptFlag: 'false',
+      };
+
+      opfPaymentVerificationServiceMock.verifyResultUrl.and.returnValue(
+        of(mockVerifyResult)
+      );
+      opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
+        throwError(() => mockError)
+      );
+
+      component.ngOnInit();
+
+      expect(
+        opfPaymentVerificationServiceMock.checkIfProcessingCartIdExist
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('onError', () => {
@@ -206,6 +255,9 @@ describe('OpfPaymentVerificationComponent', () => {
       expect(
         opfPaymentVerificationServiceMock.displayError
       ).toHaveBeenCalledWith(mockError);
+      expect(
+        opfPaymentVerificationServiceMock.clearPaymentSessionForReinitiation
+      ).toHaveBeenCalled();
       expect(opfPaymentVerificationServiceMock.goToPage).toHaveBeenCalledWith(
         OpfPage.CHECKOUT_REVIEW_PAGE
       );

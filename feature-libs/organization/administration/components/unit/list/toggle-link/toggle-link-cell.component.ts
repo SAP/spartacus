@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,13 +15,15 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   B2BUnit,
-  FeatureConfigService,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
+  BREAKPOINT,
+  BreakpointService,
   IconComponent,
   OutletContextData,
   TableDataOutletContext,
@@ -34,7 +36,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, IconComponent, UrlPipe, TranslatePipe],
+  imports: [NgIf, AsyncPipe, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')
@@ -44,7 +46,11 @@ export class ToggleLinkCellComponent extends CellComponent {
 
   protected elementRef = inject(ElementRef);
   protected routingService = inject(RoutingService);
-  private featureService = inject(FeatureConfigService);
+  private featureService = inject(FeatureToggles);
+
+  protected readonly isLargeScreen$ = inject(BreakpointService).isUp(
+    BREAKPOINT.lg
+  );
 
   constructor(
     protected outlet: OutletContextData<TableDataOutletContext>,
@@ -137,11 +143,7 @@ export class ToggleLinkCellComponent extends CellComponent {
     this.routingService
       ?.go({ cxRoute: this.route, params: this.routeModel })
       .then(() => {
-        if (
-          !this.featureService.isEnabled(
-            'isA11yCardNotificationMessageFeatureEnabled'
-          )
-        ) {
+        if (!this.featureService.a11yCardNotificationMessage) {
           this.restoreFocus();
         }
       });
@@ -168,11 +170,7 @@ export class ToggleLinkCellComponent extends CellComponent {
   onArrowRight(event: KeyboardEvent): void {
     if (!this.expanded && this.isSwitchable) {
       this.toggleItem(event);
-      if (
-        !this.featureService.isEnabled(
-          'isA11yCardNotificationMessageFeatureEnabled'
-        )
-      ) {
+      if (!this.featureService.a11yCardNotificationMessage) {
         this.restoreFocus();
       }
     }
@@ -181,18 +179,14 @@ export class ToggleLinkCellComponent extends CellComponent {
   onArrowLeft(event: KeyboardEvent): void {
     if (this.expanded && this.isSwitchable) {
       this.toggleItem(event);
-      if (
-        !this.featureService.isEnabled(
-          'isA11yCardNotificationMessageFeatureEnabled'
-        )
-      ) {
+      if (!this.featureService.a11yCardNotificationMessage) {
         this.restoreFocus();
       }
     }
   }
 
   /**
-   * To be removed when isA11yCardNotificationMessageFeatureEnabled is enabled.
+   * To be removed when a11yCardNotificationMessage is enabled.
    * @deprecated
    */
   restoreFocus(): void {

@@ -18,9 +18,9 @@ URL_PARAMETERS="baseSite,language,currency"
 CURRENCY="USD,EUR"
 
 SPARTACUS_PROJECTS=(
-        "dist/core:projects/core"
-        "dist/storefrontlib:projects/storefrontlib"
-        "dist/assets:projects/assets"
+        "dist/core:core-libs/core"
+        "dist/storefront:core-libs/storefront"
+        "dist/assets:core-libs/assets"
         "dist/checkout:feature-libs/checkout"
         "dist/product:feature-libs/product"
         "dist/setup:core-libs/setup"
@@ -48,8 +48,9 @@ SPARTACUS_PROJECTS=(
         "dist/pickup-in-store:feature-libs/pickup-in-store"
         "dist/pdf-invoices:feature-libs/pdf-invoices"
         "dist/estimated-delivery-date:feature-libs/estimated-delivery-date"
-        "projects/storefrontstyles:projects/storefrontstyles"
-        "projects/schematics:projects/schematics"
+        "core-libs/styles:core-libs/styles"
+        "core-libs/schematics:core-libs/schematics"
+        "core-libs/skills:core-libs/skills"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
@@ -69,6 +70,11 @@ SPARTACUS_VERSION='latest'
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+# Comma-separated list of hostnames allowed by the SSR engine (maps to CommonEngine allowedHosts)
+# e.g. SSR_ALLOWED_HOSTS="localhost,my-host.eastus.cloudapp.azure.com"
+# If empty, defaults to "localhost"
+SSR_ALLOWED_HOSTS=
 
 SSL_CERT_PATH=
 SSL_KEY_PATH=

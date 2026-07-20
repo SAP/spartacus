@@ -11,7 +11,7 @@ import {
   MockTranslatePipe,
   TranslatePipe,
   TranslationService,
-} from 'projects/core/src/i18n';
+} from 'core-libs/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ArrivalSlots } from '../../root/model';

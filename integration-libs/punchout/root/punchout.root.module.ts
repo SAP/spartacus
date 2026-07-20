@@ -16,7 +16,7 @@ import {
   DEFAULT_AUTH_HTTP_HEADER_SERVICE,
   DELEGATED_AUTH_HTTP_HEADER_SERVICE,
   EXPIRED_REFRESH_TOKEN_HANDLERS,
-  FeatureConfigService,
+  FeatureToggles,
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
@@ -50,7 +50,7 @@ import {
     {
       provide: AuthHttpHeaderService,
       useFactory: () => {
-        const featureConfig = inject(FeatureConfigService);
+        const featureToggles = inject(FeatureToggles);
         const delegatedAuthHttpHeaderService = inject(
           DELEGATED_AUTH_HTTP_HEADER_SERVICE,
           {
@@ -58,7 +58,7 @@ import {
           }
         );
         // delegatedService is expected to be used by ASM to address breaking changes of CXSPA-12514
-        return featureConfig.isEnabled('enableExpiredRefreshTokenHandlers')
+        return featureToggles.enableExpiredRefreshTokenHandlers
           ? (delegatedAuthHttpHeaderService ??
               inject(DEFAULT_AUTH_HTTP_HEADER_SERVICE))
           : inject(PunchoutAuthHttpHeaderService);

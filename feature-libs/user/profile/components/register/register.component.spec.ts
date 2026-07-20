@@ -18,7 +18,7 @@ import {
   BaseSiteService,
   ConsentTemplate,
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
@@ -41,7 +41,7 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
@@ -179,7 +179,7 @@ describe('RegisterComponent', () => {
   let anonymousConsentService: AnonymousConsentsService;
   let authConfigService: AuthConfigService;
   let registerComponentService: RegisterComponentService;
-  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -263,8 +263,9 @@ describe('RegisterComponent', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authConfigService = TestBed.inject(AuthConfigService);
     registerComponentService = TestBed.inject(RegisterComponentService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
-    spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
+    featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.useEnhancedSecurePasswordValidators = false;
+    featureToggles.authorizationCodeFlowByDefault = false;
 
     component = fixture.componentInstance;
 
@@ -485,7 +486,7 @@ describe('RegisterComponent', () => {
 
   describe('password validators', () => {
     it('should validate password ends with legal character when useEnhancedSecurePasswordValidators is enabled', () => {
-      (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      featureToggles.useEnhancedSecurePasswordValidators = true;
 
       fixture = TestBed.createComponent(RegisterComponent);
       component = fixture.componentInstance;

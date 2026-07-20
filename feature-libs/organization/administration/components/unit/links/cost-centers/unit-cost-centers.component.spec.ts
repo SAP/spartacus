@@ -7,7 +7,7 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY } from 'rxjs';
 import { ItemService, SubListComponent } from '../../../shared';
 import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';

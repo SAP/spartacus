@@ -4,6 +4,7 @@ permissions:
   contents: write
   pull-requests: write
   id-token: write
+  actions: write
 
 on:
   workflow_dispatch:
@@ -24,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.inputs.source || 'develop' }}
 
@@ -88,10 +89,10 @@ jobs:
           major="$MAJOR"
           minor="$MINOR"
           patch="$PATCH"
-          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" projects/storefrontstyles/scss/_versioning.scss
-          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" projects/storefrontstyles/scss/_versioning.scss
-          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" projects/storefrontstyles/scss/_versioning.scss
-          echo "Updated versions in projects/storefrontstyles/scss/_versioning.scss."
+          sed -i "s/major: [0-9]\\{1,\\},/major: $major,/" core-libs/styles/scss/_versioning.scss
+          sed -i "s/minor: [0-9]\\{1,\\},/minor: $minor,/" core-libs/styles/scss/_versioning.scss
+          sed -i "s/patch: [0-9]\\{1,\\},/patch: $patch,/" core-libs/styles/scss/_versioning.scss
+          echo "Updated versions in core-libs/styles/scss/_versioning.scss."
 
       - name: Update Publishing Version
         env:
@@ -148,7 +149,7 @@ jobs:
 
       - name: Sync branch to a private repo
         env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
@@ -163,7 +164,7 @@ jobs:
       - name: Create Pull Request to develop
         if: ${{ github.event.inputs.create_pr == 'true' }}
         env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
           SOURCE_BRANCH: ${{ github.event.inputs.source }}
           VERSION: ${{ env.version }}

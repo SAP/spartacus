@@ -7,7 +7,17 @@
 // TODO: (CXSPA-8363) This is only a temporary solution until we deploy the proper sample data to the CI server. Once that is done, this code should be removed.
 import { cmsEndpoints } from './cms-endpoints';
 
-export function interceptToAddThemeCompnent() {
+export function interceptToSetBaseSiteTheme(theme: string) {
+  cy.intercept('GET', /\/basesites\?fields=.*/, (req) => {
+    req.continue((res) => {
+      res?.body?.baseSites?.forEach((baseSite) => {
+        baseSite.theme = theme;
+      });
+    });
+  }).as('baseSitesWithTheme');
+}
+
+function interceptCmsPageToAddThemeComponent() {
   const path = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
     'BASE_SITE'
   )}/${cmsEndpoints.pages}?lang=en&curr=USD`;
@@ -45,5 +55,20 @@ export function interceptToAddThemeCompnent() {
       }
     });
   }).as('modifiedRequest');
-  cy.wait('@modifiedRequest');
+}
+
+export function interceptToAddThemeCompnent() {
+  cy.intercept('GET', /\/basesites\?fields=.*/, (req) => {
+    req.continue((res) => {
+      res?.body?.baseSites?.forEach((baseSite) => {
+        delete baseSite.theme;
+      });
+    });
+  }).as('baseSitesNoTheme');
+
+  interceptCmsPageToAddThemeComponent();
+}
+
+export function interceptToAddThemeCompnentWithoutBaseSiteIntercept() {
+  interceptCmsPageToAddThemeComponent();
 }

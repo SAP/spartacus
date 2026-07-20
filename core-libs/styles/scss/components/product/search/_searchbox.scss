@@ -1,0 +1,871 @@
+@import '../../../theme';
+
+// To control visual effects while searching the searchbox requires
+// some CSS rules to the outer elements.
+%cx-searchbox__body {
+  // hide the mobile search button by default and how on mobile
+  button.search {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+  // hide the search icon on mobile
+  div.search-icon {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  // when there are results and the searchbox is active
+  // we display the searchbox
+  &.searchbox-is-active {
+    // the searchbox requires an overlay over the page (except for the header)
+    // we do this with an overlay under the header, on top of the rest of the page
+    header,
+    .header {
+      position: relative;
+      z-index: 100;
+    }
+    cx-searchbox {
+      &.search-box-v2 {
+        .results.has-outer-results {
+          display: flex;
+          @include media-breakpoint-down(sm) {
+            display: block;
+          }
+        }
+      }
+    }
+    &.has-searchbox-results {
+      cx-searchbox {
+        .results {
+          display: block;
+        }
+        &.search-box-v2 {
+          .results {
+            display: flex;
+            @include media-breakpoint-down(sm) {
+              display: block;
+            }
+          }
+        }
+      }
+      cx-storefront {
+        &:before {
+          content: '';
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 10;
+
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+
+  &:not(.searchbox-is-active) {
+    @include media-breakpoint-down(sm) {
+      // hide the input on mobile when there's no interaction with searchbox
+      cx-searchbox {
+        .cx-label-inner-container,
+        input {
+          width: 0;
+          padding: 0;
+          border: none;
+        }
+
+        .cx-input-label {
+          display: none;
+        }
+
+        button.reset {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+%cx-searchbox {
+  --cx-mobile-header-height: 60px;
+  @include media-breakpoint-up(md) {
+    // we position the parent relative to ensure the result panel
+    // is aligned to the left of searchbox
+    position: relative;
+    z-index: 0;
+  }
+
+  z-index: 10;
+  display: block;
+
+  > * {
+    z-index: 20;
+    @include media-breakpoint-up(md) {
+      background-color: var(--cx-color-inverse);
+      position: relative;
+    }
+  }
+
+  > .cx-searchbox-container {
+    @include media-breakpoint-up(md) {
+      background-color: unset;
+      position: unset;
+    }
+  }
+
+  a,
+  h3 {
+    padding: 6px 16px;
+    color: currentColor;
+    user-select: none;
+  }
+
+  .cx-input-label {
+    color: var(--cx-color-text);
+
+    @include media-breakpoint-down(sm) {
+      position: absolute;
+      top: var(--cx-mobile-header-height);
+      left: 10px;
+      z-index: 30;
+    }
+  }
+
+  label {
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    margin: 0;
+    padding-top: 6px;
+    padding-inline-end: 6px;
+    padding-bottom: 6px;
+    padding-inline-start: 10px;
+    gap: 15px;
+
+    @include media-breakpoint-up(md) {
+      // hide search icon when the input is dirty
+      &.dirty div.search-icon {
+        display: none;
+      }
+    }
+
+    &:not(.dirty) button.reset {
+      display: none;
+    }
+
+    .cx-label-inner-container {
+      display: flex;
+      align-content: stretch;
+      align-items: center;
+      padding-top: 6px;
+      padding-inline-end: 6px;
+      padding-bottom: 6px;
+      padding-inline-start: 10px;
+
+      &:focus-within {
+        @include visible-focus();
+      }
+
+      @include forFeature('a11yFixSearchBoxDoubleFocus') {
+        input:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      @include media-breakpoint-up(md) {
+        border: 1px solid var(--cx-color-medium);
+        width: 27vw;
+        min-width: 300px;
+        max-width: 550px;
+        background-color: var(--cx-color-inverse);
+      }
+
+      @include media-breakpoint-down(sm) {
+        position: absolute;
+        left: 0;
+        top: var(--cx-mobile-header-height);
+        width: 100%;
+        background-color: var(--cx-color-inverse);
+        z-index: 20;
+        padding-top: 25px;
+
+        &:focus-within {
+          padding: 27px 10px 8px;
+          outline: 0;
+
+          @include forFeature('a11yFixSearchBoxDoubleFocus') {
+            @include visible-focus();
+          }
+        }
+      }
+    }
+
+    input {
+      background: none;
+      border: none;
+      outline: none;
+      display: block;
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+        padding: 6px 16px;
+        height: 48px;
+        border: 1px solid var(--cx-color-medium);
+        border-radius: 4px;
+      }
+
+      flex-basis: 100%;
+      height: 35px;
+      color: var(--cx-color-text);
+      z-index: 20;
+
+      @include placeholder {
+        color: var(--cx-color-dark);
+      }
+    }
+
+    button,
+    div.search-icon {
+      flex-basis: 48px;
+      text-align: center;
+      background: none;
+      border: none;
+      padding: 6px;
+      color: var(--cx-color-secondary);
+
+      @include media-breakpoint-down(sm) {
+        color: var(--cx-color-primary);
+        font-size: var(--cx-font-size, 1.563rem);
+
+        &.reset {
+          display: none;
+        }
+      }
+
+      &.reset cx-icon {
+        &:before {
+          font-size: 1.4rem;
+        }
+        @include media-breakpoint-down(sm) {
+          position: relative;
+          left: 74px;
+          z-index: 20;
+          top: 52px;
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .results {
+    // hide the result by default
+    display: none;
+    position: absolute;
+    left: 0;
+    padding-top: 14px;
+    width: 100%;
+    color: #000;
+    background-color: #fff;
+    font-size: var(--cx-font-small, 1rem);
+
+    &.no-headers {
+      padding-top: 4px;
+    }
+
+    @include type('8');
+
+    h3 {
+      @include type('8');
+    }
+
+    @include media-breakpoint-down(sm) {
+      top: calc(var(--cx-mobile-header-height) + 79px);
+      z-index: 10;
+    }
+
+    a {
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 800;
+
+      .highlight,
+      .search-results-highlight {
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      &:hover,
+      &:focus {
+        background: var(--cx-color-light);
+        color: currentColor;
+      }
+    }
+
+    .trending-searches-container {
+      display: none;
+    }
+
+    .recent-searches,
+    .trending-searches,
+    .suggestions {
+      margin-bottom: 20px;
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+        border-top: solid 1px var(--cx-color-light);
+        &.no-headers {
+          border-top: none;
+        }
+        li,
+        a {
+          flex: 100%;
+          line-height: 2rem;
+          display: block;
+          max-width: 100%;
+        }
+      }
+    }
+
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches {
+        position: relative;
+
+        cx-recent-searches-header .recentSearches-header {
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            align-items: center;
+
+            button {
+              min-height: 20px;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .products {
+      cx-carousel {
+        display: none;
+      }
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+      ul {
+        list-style: none;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+
+        a {
+          display: grid;
+          grid-column-gap: 16px;
+
+          &.has-media {
+            // create a grid layout in case we show an image
+            grid-template-columns: 50px 1fr;
+          }
+
+          border-top: solid 1px var(--cx-color-light);
+
+          cx-media {
+            grid-row: 1 / 3;
+          }
+
+          div.name {
+            text-overflow: ellipsis;
+
+            font-size: inherit;
+            font-weight: inherit;
+
+            @include type('8');
+
+            // Required for text-overflow to do anything
+            white-space: nowrap;
+            overflow: hidden;
+          }
+          .price {
+            font-weight: normal;
+            @include type('8');
+          }
+        }
+      }
+    }
+  }
+  .search-panel-close-btn {
+    display: none;
+  }
+  &.search-box-v2 {
+    input {
+      @include media-breakpoint-down(sm) {
+        background-color: var(--cx-color-light);
+        &:focus {
+          box-shadow: 0 -2px 0 $medium;
+        }
+      }
+    }
+    .search-panel-close-btn {
+      display: block;
+      position: absolute;
+      right: 40px; //padding panel
+      top: 24px; //padding panel
+      min-height: 1rem;
+      color: $primary;
+      padding: 5px 8px;
+      z-index: 1;
+      @include type('6');
+      @include media-breakpoint-down(sm) {
+        display: block;
+        right: 12px;
+        top: 20px;
+      }
+    }
+    @include forFeature('searchBoxRecentSearchesRemoval') {
+      .recent-searches cx-recent-searches-header .clear-recent-searches-btn {
+        display: none;
+        position: absolute;
+        padding: 0;
+        min-height: 21px;
+        @include media-breakpoint-down(sm) {
+          display: block;
+          right: 0;
+          top: 0;
+        }
+      }
+    }
+    position: unset;
+
+    a:hover {
+      background: none;
+    }
+    .results {
+      height: 350px;
+      display: none;
+      padding: 24px 40px 48px 40px;
+      margin-top: 14px;
+      overflow: hidden;
+      flex-wrap: wrap;
+
+      .search-panel-header {
+        width: 100%;
+        display: flex;
+        order: -1;
+        height: min-content;
+        &.header-panel-divider {
+          border-bottom: 1px solid var(--cx-color-medium);
+        }
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+        .search-panel-close-btn {
+          display: block;
+        }
+
+        h3:not(.cx-product-name) {
+          padding-inline-start: 0;
+          font-size: $font-size-base; // 16px
+          @include weight('semi');
+          @include media-breakpoint-down(sm) {
+            display: none;
+          }
+
+          &.search-panel-message {
+            display: inline-block;
+          }
+        }
+
+        .suggestions-header {
+          width: 20%;
+          display: none;
+        }
+        .trendingSearches-header {
+          width: 20%;
+        }
+        .recentSearches-header {
+          width: 20%;
+          display: none;
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            width: 100%;
+            button {
+              min-height: 20px;
+              padding: 0 30px;
+            }
+          }
+        }
+      }
+      cx-recent-searches:has(.recent-searches)
+        ~ .search-panel-header
+        .recentSearches-header {
+        display: inline-block;
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          display: flex;
+        }
+      }
+
+      .trending-searches-container:has(.trending-searches)
+        ~ .search-panel-header
+        .trendingSearches-header {
+        display: inline-block;
+      }
+
+      .suggestions ~ .search-panel-header .suggestions-header {
+        display: inline-block;
+      }
+
+      .suggestions
+        ~ cx-recent-searches:has(.recent-searches)
+        ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 60%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            flex-basis: 56%;
+          }
+        }
+      }
+
+      .trending-searches-container:has(.trending-searches)
+        ~ cx-recent-searches:has(.recent-searches)
+        ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 60%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+          @include forFeature('searchBoxRecentSearchesRemoval') {
+            flex-basis: 56%;
+          }
+        }
+      }
+
+      .suggestions ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 80%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+
+      cx-recent-searches:has(.recent-searches) ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 80%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+      .trending-searches-container:has(.trending-searches)
+        ~ .search-panel-header {
+        .products-header {
+          display: inline-block;
+          flex-basis: 80%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+      }
+
+      @include media-breakpoint-down(sm) {
+        height: inherit;
+        margin-top: inherit;
+        padding: 20px;
+      }
+
+      a {
+        padding: 6px 0;
+        color: currentColor;
+        user-select: none;
+        max-width: 160px;
+        display: block;
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        @include type('6');
+
+        .highlight,
+        .search-results-highlight {
+          font-weight: normal;
+          font-style: normal;
+        }
+      }
+
+      h3:not(.cx-product-name) {
+        display: none;
+        padding-inline-start: 0;
+        font-size: $font-size-base; // 16px
+        @include weight('semi');
+        @include media-breakpoint-down(sm) {
+          display: inline-block;
+          border-bottom: 1px solid var(--cx-color-medium);
+          width: 100%;
+        }
+        @include weight('semi');
+      }
+      ul {
+        padding-inline-start: 0;
+        width: 100%;
+      }
+
+      .suggestions {
+        width: 20%;
+        flex-wrap: wrap;
+        list-style: none;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+        border-top: none;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+          margin-bottom: 20px;
+        }
+        &:focus {
+          background-color: pink;
+        }
+        ul {
+          border-top: none;
+          li {
+            padding: 0 40px 0 0;
+            @include media-breakpoint-down(sm) {
+              padding: 0;
+            }
+          }
+        }
+        a {
+          &:hover {
+            color: var(--cx-color-primary);
+            text-decoration: underline;
+          }
+        }
+      }
+
+      cx-recent-searches {
+        flex-wrap: wrap;
+        list-style: none;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+        border-top: none;
+        &:has(.recent-searches) {
+          width: 20%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+        ul {
+          border-top: none;
+          li {
+            padding: 0 40px 0 0;
+            @include media-breakpoint-down(sm) {
+              padding: 0;
+            }
+            @include forFeature('searchBoxRecentSearchesRemoval') {
+              display: flex;
+              padding: 0 30px 0 0;
+              @include media-breakpoint-down(sm) {
+                padding: 0;
+              }
+              .close {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+        a {
+          &:hover {
+            color: var(--cx-color-primary);
+            text-decoration: underline;
+          }
+        }
+      }
+      .trending-searches-container {
+        display: none;
+        &:has(.trending-searches) {
+          width: 20%;
+          @include media-breakpoint-down(sm) {
+            width: 100%;
+          }
+        }
+        cx-trending-searches {
+          flex-wrap: wrap;
+          list-style: none;
+          padding-inline-start: 0;
+          margin-bottom: 0;
+          border-top: none;
+          &:has(.trending-searches) {
+            @include media-breakpoint-down(sm) {
+              width: 100%;
+            }
+          }
+          ul {
+            border-top: none;
+            li {
+              padding: 0 40px 0 0;
+              @include media-breakpoint-down(sm) {
+                padding: 0;
+              }
+            }
+          }
+          a {
+            &:hover {
+              color: var(--cx-color-primary);
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      .products {
+        cx-carousel {
+          display: flex;
+        }
+
+        ul {
+          display: none;
+        }
+
+        width: 100%;
+        flex-wrap: wrap;
+        list-style: none;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+        overflow: hidden;
+        position: relative;
+        min-height: 100%;
+        .slides {
+          text-align: center;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          cx-media {
+            &.is-missing {
+              height: 120px;
+            }
+            img {
+              max-width: 120px;
+            }
+          }
+          h3.cx-product-name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          a {
+            &:hover {
+              color: var(--cx-color-primary);
+              text-decoration: underline;
+            }
+          }
+        }
+        @include media-breakpoint-down(sm) {
+          display: block;
+        }
+      }
+      .suggestions ~ cx-recent-searches:has(.recent-searches) ~ .products {
+        flex-basis: 60%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          flex-basis: 56%;
+        }
+      }
+
+      .trending-searches-container:has(.trending-searches)
+        ~ cx-recent-searches:has(.recent-searches)
+        ~ .products {
+        flex-basis: 60%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+        @include forFeature('searchBoxRecentSearchesRemoval') {
+          flex-basis: 56%;
+        }
+      }
+
+      .suggestions ~ .products {
+        flex-basis: 80%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+      cx-recent-searches:has(.recent-searches) ~ .products {
+        flex-basis: 80%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+      .trending-searches-container:has(.trending-searches) ~ .products {
+        flex-basis: 80%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+      }
+      %cx-carousel {
+        .indicators {
+          display: none;
+          @include media-breakpoint-down(sm) {
+            display: flex;
+          }
+        }
+      }
+    }
+
+    .message {
+      border-bottom: solid 1px var(--cx-color-medium);
+      font-size: var(--cx-font-small, 0.9rem);
+      font-weight: 600;
+      padding-top: 16px;
+      padding-bottom: 5px;
+    }
+  }
+
+  @include cx-highContrastTheme {
+    border: 1px solid var(--cx-color-background);
+    label {
+      background-color: var(--cx-color-background);
+      input {
+        background-color: var(--cx-color-background);
+        color: var(--cx-color-text);
+      }
+      input:focus {
+        outline-style: none;
+        box-shadow: none;
+      }
+      .cx-label-inner-container {
+        background-color: var(--cx-color-background);
+        border: 1px solid var(--cx-color-text);
+      }
+    }
+    .suggestions {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    .results {
+      border: 1px solid var(--cx-color-text);
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+      a {
+        &:hover,
+        &:focus {
+          background: var(--cx-color-text);
+          color: var(--cx-color-background);
+        }
+      }
+    }
+    .products {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+  }
+}

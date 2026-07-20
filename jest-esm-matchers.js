@@ -36,6 +36,7 @@ const esmMatchers = [
   'yoctocolors',
   'get-east-asian-width',
   'parse5',
+  'entities',
 ];
 
 module.exports = { esmMatchers };

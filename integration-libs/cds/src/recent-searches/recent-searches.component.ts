@@ -13,14 +13,22 @@ import {
   Optional,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
+  FeatureToggles,
+  FeatureDirective,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  ICON_TYPE,
   HighlightPipe,
+  IconComponent,
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { RecentSearchesHeaderComponent } from './recent-searches-header.component';
 import { RecentSearchesService } from './recent-searches.service';
 
 export interface SearchBoxOutlet {
@@ -30,6 +38,7 @@ export interface SearchBoxOutlet {
 }
 
 const MAX_RECENT_SEARCHES = 5;
+const CLOSE_BUTTON_SELECTOR = 'button.close';
 
 @Component({
   selector: 'cx-recent-searches',
@@ -43,6 +52,9 @@ const MAX_RECENT_SEARCHES = 5;
     TranslatePipe,
     HighlightPipe,
     UrlPipe,
+    IconComponent,
+    FeatureDirective,
+    RecentSearchesHeaderComponent,
   ],
 })
 export class RecentSearchesComponent implements OnInit {
@@ -50,6 +62,7 @@ export class RecentSearchesComponent implements OnInit {
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
+  private readonly featureToggles = inject(FeatureToggles);
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
@@ -84,10 +97,44 @@ export class RecentSearchesComponent implements OnInit {
     this.searchBoxComponentService.changeSelectedWord(chosenWord);
   }
 
-  shareEvent(event: KeyboardEvent) {
+  shareEvent(event: KeyboardEvent | FocusEvent) {
     if (!event) {
       throw new Error('Missing Event');
     }
-    this.searchBoxComponentService.shareEvent(event);
+
+    if (!this.featureToggles.searchBoxRecentSearchesRemoval) {
+      this.searchBoxComponentService.shareEvent(event as KeyboardEvent);
+      return;
+    }
+
+    // Only share keyboard events. Blur events are handled by SearchBoxComponent's own handlers.
+    if (event.type === 'keydown' || event.type === 'keyup') {
+      const keyboardEvent = event as KeyboardEvent;
+      // Skip sharing Enter when focus is on the remove (X) button.
+      if (
+        keyboardEvent.code === 'Enter' &&
+        (keyboardEvent.target as HTMLElement)?.closest?.(CLOSE_BUTTON_SELECTOR)
+      ) {
+        return;
+      }
+      this.searchBoxComponentService.shareEvent(keyboardEvent);
+    }
   }
+
+  removeFromRecentSearch(phrase?: string): void {
+    if (!phrase) {
+      return;
+    }
+    this.recentSearchesService.removePhrase(phrase);
+  }
+
+  handleCloseButtonEnter(event: KeyboardEvent, phrase: string): void {
+    event.stopPropagation();
+    event.preventDefault();
+    event.stopImmediatePropagation?.();
+
+    this.removeFromRecentSearch(phrase);
+  }
+
+  protected readonly iconTypes = ICON_TYPE;
 }

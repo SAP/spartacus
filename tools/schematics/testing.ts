@@ -50,7 +50,7 @@ const integrationLibsFolders: string[] = [
 
 const commands = [
   'publish',
-  'build projects/schematics',
+  'build core-libs/schematics',
   'build asm/schematics',
   'build cart/schematics',
   'build order/schematics',
@@ -101,12 +101,8 @@ function startVerdaccio(): ChildProcess {
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
   try {
     execSync(`npx wait-on ${verdaccioRegistryUrl} --timeout 10000`);
-  } catch (_e) {
-    console.log(
-      chalk.red(
-        `\n❌ Couldn't boot verdaccio. Make sure to install it globally: \n> npm i -g verdaccio@4`
-      )
-    );
+  } catch (error) {
+    console.log(chalk.red(`\n❌ Couldn't boot verdaccio:\n${error}`));
     process.exit(1);
   }
   console.log('Pointing npm to verdaccio');
@@ -140,8 +136,9 @@ type PackagePublishingResult = {
  */
 function getPackageJsonFiles(): string[] {
   const sourceFiles = [
-    'projects/storefrontstyles/package.json',
-    'projects/schematics/package.json',
+    'core-libs/styles/package.json',
+    'core-libs/schematics/package.json',
+    'core-libs/skills/package.json',
   ];
   const distFiles = globSync(`dist/!(node_modules)/package.json`);
   return [...sourceFiles, ...distFiles];
@@ -327,7 +324,7 @@ async function buildSchematicsAndPublish(buildCmd: string): Promise<void> {
 
 function testAllSchematics(): void {
   try {
-    execSync('npm --prefix projects/schematics run test --coverage', {
+    execSync('npm --prefix core-libs/schematics run test --coverage', {
       stdio: 'inherit',
     });
 
@@ -418,7 +415,7 @@ async function executeCommand(command: Command): Promise<void> {
         task: () => publishAllPackages(),
       });
       break;
-    case 'build projects/schematics':
+    case 'build core-libs/schematics':
       await notifyOnComplete({
         taskName: 'Schematics build',
         task: () => buildSchematics({ publish: true }),

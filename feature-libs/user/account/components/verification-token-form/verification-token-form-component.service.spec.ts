@@ -3,11 +3,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
   AuthService,
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { VerificationTokenFacade } from '../../root/facade';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
@@ -25,11 +26,9 @@ class MockAuthService implements Partial<AuthService> {
   );
 }
 
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string): boolean {
-    return false;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  authorizationCodeFlowByDefault: false,
+};
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
   getCustomLoginFormEndpoint() {
@@ -90,7 +89,7 @@ describe('VerificationTokenFormComponentService', () => {
           provide: VerificationTokenFacade,
           useClass: MockVerificationTokenFacade,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
       ],
     }).compileComponents();
   }));
@@ -171,7 +170,7 @@ describe('VerificationTokenFormComponentService', () => {
     });
   });
   describe('new flow', () => {
-    // Reset test module to reconfigure FeatureConfigService
+    // Reset test module to reconfigure FeatureToggles
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
@@ -184,12 +183,10 @@ describe('VerificationTokenFormComponentService', () => {
           },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
           {
-            provide: FeatureConfigService,
-            useClass: class {
-              isEnabled(_feature: string): boolean {
-                return true;
-              }
-            },
+            provide: FeatureToggles,
+            useValue: {
+              authorizationCodeFlowByDefault: true,
+            } satisfies FeatureToggles,
           },
         ],
       }).compileComponents();

@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -25,12 +25,11 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResetPasswordComponentService {
-  // TODO: Delete FeatureConfigService injection
+  // TODO: Delete FeatureToggles injection
   // When: upon removing feature toogle: useEnhancedSecurePasswordValidators and not used anywhere else
-  private featureConfigService = inject(FeatureConfigService);
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'useEnhancedSecurePasswordValidators'
-  )
+  private featureToggles = inject(FeatureToggles);
+  protected passwordValidators = this.featureToggles
+    .useEnhancedSecurePasswordValidators
     ? [
         ...CustomFormValidators.securePasswordValidators,
         CustomFormValidators.mustEndWithLegalCharacter,

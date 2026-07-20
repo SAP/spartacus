@@ -8,16 +8,19 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   Address,
   Country,
+  FeatureToggles,
   TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
@@ -29,6 +32,7 @@ import {
 } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
@@ -55,6 +59,8 @@ export class OpfCheckoutBillingAddressFormComponent
   protected activeCartFacade = inject(ActiveCartFacade);
   protected checkoutStepService = inject(CheckoutStepService);
   protected activatedRoute = inject(ActivatedRoute);
+  protected destroyRef = inject(DestroyRef);
+  private featureToggles = inject(FeatureToggles);
 
   protected cart: Cart | null = null;
 
@@ -71,19 +77,39 @@ export class OpfCheckoutBillingAddressFormComponent
   countries$: Observable<Country[]>;
 
   ngOnInit() {
-    this.subscription.add(
-      this.activeCartFacade.getActive().subscribe((cart) => (this.cart = cart))
-    );
+    if (this.featureToggles.opfUseDestroyRef) {
+      this.activeCartFacade
+        .getActive()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((cart) => (this.cart = cart));
+    } else {
+      this.subscription.add(
+        this.activeCartFacade
+          .getActive()
+          .subscribe((cart) => (this.cart = cart))
+      );
+    }
+
     this.countries$ = this.service.getCountries();
     this.userAddressService.loadAddresses();
     this.service.setDefaultBillingAddress();
     this.service.getAddresses();
-    this.subscription.add(
-      this.service.pickupNoDefaultAddress$.subscribe(() => {
-        this.isEditBillingAddress = true;
-        this.isAddingBillingAddressInProgress = true;
-      })
-    );
+
+    if (this.featureToggles.opfUseDestroyRef) {
+      this.service.pickupNoDefaultAddress$
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
+          this.isEditBillingAddress = true;
+          this.isAddingBillingAddressInProgress = true;
+        });
+    } else {
+      this.subscription.add(
+        this.service.pickupNoDefaultAddress$.subscribe(() => {
+          this.isEditBillingAddress = true;
+          this.isAddingBillingAddressInProgress = true;
+        })
+      );
+    }
   }
 
   cancelAndHideForm(): void {
@@ -98,11 +124,19 @@ export class OpfCheckoutBillingAddressFormComponent
   }
 
   onBackToAddress(): void {
-    this.subscription.add(
-      this.service.paymentOptionsDisabled$.subscribe((isDisabled) =>
-        isDisabled ? this.back() : this.cancelAndHideForm()
-      )
-    );
+    if (this.featureToggles.opfUseDestroyRef) {
+      this.service.paymentOptionsDisabled$
+        .pipe(take(1))
+        .subscribe((isDisabled) =>
+          isDisabled ? this.back() : this.cancelAndHideForm()
+        );
+    } else {
+      this.subscription.add(
+        this.service.paymentOptionsDisabled$.subscribe((isDisabled) =>
+          isDisabled ? this.back() : this.cancelAndHideForm()
+        )
+      );
+    }
   }
 
   editCustomBillingAddress(): void {
@@ -135,6 +169,7 @@ export class OpfCheckoutBillingAddressFormComponent
       return;
     }
 
+    this.service.setIsSameAsDeliveryValue(false);
     this.service.setBillingAddress(address).subscribe({
       next: () => {
         this.service.setPaymentOptionsDisabled(false);

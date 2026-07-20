@@ -16,7 +16,6 @@ import {
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   AuthService,
-  FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -31,7 +30,7 @@ import {
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { ProcessesLoaderState } from 'projects/core/src/state/utils/processes-loader';
+import { ProcessesLoaderState } from 'core-libs/core/src/state/utils/processes-loader';
 import {
   BehaviorSubject,
   EMPTY,
@@ -150,7 +149,6 @@ describe('AsmBindCartComponent', () => {
   let launchDialogService: LaunchDialogService;
   let savedCartFacade: SavedCartFacade;
   let asmComponentService: AsmComponentService;
-  let featureConfig: FeatureConfigService;
   let routingService: RoutingService;
 
   const inactiveCartId = '00000002';
@@ -167,7 +165,6 @@ describe('AsmBindCartComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         AsmBindCartComponent,
-
         DotSpinnerComponent,
       ],
       providers: [
@@ -204,7 +201,6 @@ describe('AsmBindCartComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     savedCartFacade = TestBed.inject(SavedCartFacade);
-    featureConfig = TestBed.inject(FeatureConfigService);
     asmComponentService = TestBed.inject(AsmComponentService);
     routingService = TestBed.inject(RoutingService);
 
@@ -219,7 +215,6 @@ describe('AsmBindCartComponent', () => {
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
     spyOn(savedCartFacade, 'saveCart').and.callThrough();
-    spyOn(featureConfig, 'isLevel').and.returnValue(true);
   });
 
   it('should leave the cart field blank when there is no current active cart for the customer', () => {
