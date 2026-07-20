@@ -1801,7 +1801,7 @@ describe('CpqConfiguratorNormalizer', () => {
     });
   });
 
-  describe('addDocumentationValue', () => {
+  describe('addRequiredSelectionPromptValue', () => {
     it('should add a documentation value for required drop-down ui types when no value is selected', () => {
       const sourceAttribute: Cpq.Attribute = {
         pA_ID: 1,
@@ -1819,7 +1819,7 @@ describe('CpqConfiguratorNormalizer', () => {
           uiType,
         };
         const values: Configurator.Value[] = [];
-        cpqConfiguratorNormalizer['addDocumentationValue'](
+        cpqConfiguratorNormalizer['addRequiredSelectionPromptValue'](
           sourceAttribute,
           attribute,
           values
@@ -1843,7 +1843,7 @@ describe('CpqConfiguratorNormalizer', () => {
         uiType: Configurator.UiType.DROPDOWN,
       };
       const values: Configurator.Value[] = [];
-      cpqConfiguratorNormalizer['addDocumentationValue'](
+      cpqConfiguratorNormalizer['addRequiredSelectionPromptValue'](
         sourceAttribute,
         attribute,
         values
@@ -1864,7 +1864,7 @@ describe('CpqConfiguratorNormalizer', () => {
         uiType: Configurator.UiType.DROPDOWN,
       };
       const values: Configurator.Value[] = [];
-      cpqConfiguratorNormalizer['addDocumentationValue'](
+      cpqConfiguratorNormalizer['addRequiredSelectionPromptValue'](
         sourceAttribute,
         attribute,
         values
@@ -1885,7 +1885,7 @@ describe('CpqConfiguratorNormalizer', () => {
         uiType: Configurator.UiType.RADIOBUTTON,
       };
       const values: Configurator.Value[] = [];
-      cpqConfiguratorNormalizer['addDocumentationValue'](
+      cpqConfiguratorNormalizer['addRequiredSelectionPromptValue'](
         sourceAttribute,
         attribute,
         values
@@ -1906,7 +1906,7 @@ describe('CpqConfiguratorNormalizer', () => {
         uiType: Configurator.UiType.READ_ONLY,
       };
       const values: Configurator.Value[] = [];
-      cpqConfiguratorNormalizer['addDocumentationValue'](
+      cpqConfiguratorNormalizer['addRequiredSelectionPromptValue'](
         sourceAttribute,
         attribute,
         values
@@ -1927,7 +1927,7 @@ describe('CpqConfiguratorNormalizer', () => {
         uiType: Configurator.UiType.DROPDOWN,
       };
       const values: Configurator.Value[] = [];
-      cpqConfiguratorNormalizer['addDocumentationValue'](
+      cpqConfiguratorNormalizer['addRequiredSelectionPromptValue'](
         sourceAttribute,
         attribute,
         values

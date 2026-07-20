@@ -259,15 +259,15 @@ export class CpqConfiguratorNormalizer
   }
 
   /**
-   * Adds a documentation value for a required drop-down list when no value is
-   * selected. Although it looks the same in the UI as a retract value, it only
-   * documents that a value still needs to be picked.
+   * Adds a required selection prompt value for a required drop-down list when
+   * no value is selected. Although it looks the same in the UI as a retract
+   * value, it only prompts the user that a value still needs to be picked.
    *
    * @param sourceAttribute - source CPQ attribute
    * @param attribute - converted attribute
-   * @param values - list of converted values the documentation value is added to
+   * @param values - list of converted values the required selection prompt value is added to
    */
-  protected addDocumentationValue(
+  protected addRequiredSelectionPromptValue(
     sourceAttribute: Cpq.Attribute,
     attribute: Configurator.Attribute,
     values: Configurator.Value[]
@@ -341,7 +341,7 @@ export class CpqConfiguratorNormalizer
     ) {
       const values: Configurator.Value[] = [];
       this.addRetractValue(sourceAttribute, attribute, values);
-      this.addDocumentationValue(sourceAttribute, attribute, values);
+      this.addRequiredSelectionPromptValue(sourceAttribute, attribute, values);
       sourceAttribute.values.forEach((value) =>
         this.convertValue(value, sourceAttribute, currency, values)
       );
