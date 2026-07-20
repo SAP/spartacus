@@ -26,7 +26,6 @@ import {
   UserConsentService,
   isNotNullable,
 } from '@spartacus/core';
-import { filter, map } from 'rxjs/operators';
 import {
   BehaviorSubject,
   combineLatest,
@@ -41,6 +40,8 @@ import {
   skipWhile,
   tap,
   withLatestFrom,
+  filter,
+  map,
 } from 'rxjs/operators';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
