@@ -16,6 +16,7 @@ import {
 import { Observable, of } from 'rxjs';
 import {
   catchError,
+  concatMap,
   filter,
   map,
   mergeMap,
@@ -161,10 +162,11 @@ export class ConfiguratorBasicEffects {
     this.actions$.pipe(
       ofType(ConfiguratorActions.UPDATE_CONFIGURATION),
       map((action: ConfiguratorActions.UpdateConfiguration) => action.payload),
-      //mergeMap here as we need to process each update
-      //(which only sends one changed attribute at a time),
-      //so we must not cancel inner emissions
-      mergeMap((payload: Configurator.Configuration) => {
+      //concatMap (not mergeMap) so that updates are processed strictly one after
+      //another: concatMap queues the updates without cancelling in-flight
+      //emissions (switchMap would cancel and lose changes; each update only sends
+      //one changed attribute at a time).
+      concatMap((payload: Configurator.Configuration) => {
         return this.configuratorCommonsConnector
           .updateConfiguration(payload)
           .pipe(

@@ -56,12 +56,6 @@ export interface FeatureTogglesInterface {
   productListItemSummaryReadMore?: boolean;
 
   /**
-   * Introduces characters left for product review form elements.
-   * Affects: ProductReviewsComponent
-   */
-  productReviewCharactersLeft?: boolean;
-
-  /**
    * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
    * references a non-existent element when accordion is collapsed.
    * When enabled, content element is always in DOM but hidden when collapsed,
@@ -119,31 +113,6 @@ export interface FeatureTogglesInterface {
   cdsBottomHeaderSlotAdjustPosition?: boolean;
 
   /**
-   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
-   * in the following components instead of the old `<cx-carousel>`:
-   * - `ProductCarouselComponent`
-   * - `ProductReferencesComponent`
-   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
-   *
-   * The previous carousel had number of issues:
-   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
-   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
-   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
-   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
-   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
-   * - Was not swipe-friendly on mobile devices
-   *
-   * The new carousel:
-   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
-   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
-   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
-   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
-   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
-   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
-   */
-  productCarouselScrolling?: boolean;
-
-  /**
    * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
    *
    * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
@@ -174,31 +143,6 @@ export interface FeatureTogglesInterface {
    * NOTE: Only applies when `authorizationCodeFlowByDefault` is also enabled.
    */
   authorizationCodeFlowByDefaultCsrfTokenRefresh?: boolean;
-
-  /**
-   * Feature flag to control the default image loading strategy.
-   *
-   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
-   * due to the fallback logic in the `MediaService`, which defaults to
-   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
-   *
-   * This flag, when enabled, changes the default image loading behavior to use
-   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
-   * immediately, reducing unnecessary network usage and improving performance.
-   *
-   * Lazy loading frees up bandwidth to prioritize more important assets,
-   * such as the largest content element on the page, which can positively
-   * impact the LCP (Largest Contentful Paint) metric.
-   *
-   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
-   * by specifying CMS component IDs via the Spartacus config:
-   * `provideConfig({ lcpCmsComponents: ... })`
-   * ... or by passing the special input directly to the `MediaComponent`:
-   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
-   *
-   * Set to `true` to enable lazy loading by default.
-   */
-  lazyLoadImagesByDefault?: boolean;
 
   /**
    * Feature flag to enable incrementing the processes count for the merge cart action.
@@ -625,11 +569,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectUnicodeCarets: true,
   a11yPreventWindowsHighContrastOverride: false,
   productListItemSummaryReadMore: false,
-  productReviewCharactersLeft: true,
   a11yFutureStockAccordionAriaControls: true,
-  productCarouselScrolling: true,
   cdsLoginEventsToken: true,
-  lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: true,
   authorizationCodeFlowByDefaultCsrfTokenRefresh: false,
   incrementProcessesCountForMergeCart: true,
