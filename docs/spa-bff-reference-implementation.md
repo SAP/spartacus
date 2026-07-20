@@ -65,7 +65,7 @@ before applying the BFF integration changes described in the rest of this docume
 | Node.js | 20 LTS or 22 LTS | Earlier versions are not tested |
 | Angular CLI | 21.2.x | Do **not** use 21.1.x — it has peer-dep conflicts with Spartacus 221121.13.1 |
 | Spartacus schematics | 221121.13.1 | — |
-| `@vivaldi/nx` generator | 0.24.10 | Latest release on the prod registry |
+| `@vivaldi/nx` generator | 0.25.0 | Minimum version — fixes the Cloudflare `__cf_bm` cookie crash |
 
 #### SAP npm registry access
 
@@ -520,7 +520,10 @@ under `compilerOptions`:
 2. Delete `apps/storefrontapp/package.json` and `apps/storefrontapp/package-lock.json`.
 
 3. Run `npm install` at the workspace root.
-4. Verify: `nx run storefrontapp:serve` starts the app successfully.
+4. Verify: `nx run storefrontapp:build` completes successfully.
+
+> **Note:** `nx run storefrontapp:serve` requires `proxy.conf.js` which is created in
+> step 8. Use `build` for the verification at this stage.
 
 #### 4e. Fix `.angular/cache` appearing as untracked files
 
@@ -587,7 +590,7 @@ so the browser never makes a cross-origin call.
 **Prerequisites:** install `@vivaldi/angular` before applying the changes below:
 
 ```bash
-npm install @vivaldi/angular
+npm install @vivaldi/angular@0.25.0
 ```
 
 ### 1. `src/index.html`
@@ -1030,7 +1033,7 @@ export function app(): express.Express {
 Reads `CX_BFF_BASE_URL` at dev-server startup and sets the proxy target dynamically.
 The browser always calls `/bff/api` (same origin — no CORS).
 
-In `@vivaldi` 0.24.10 `vivaldi dev bff` runs as an HTTPS server (self-signed cert)
+In `@vivaldi` 0.25.0 `vivaldi dev bff` runs as an HTTPS server (self-signed cert)
 on port 8482 and mounts tRPC at `/bff/api`. The proxy forwards `/bff` directly to the
 BFF — no path rewriting needed since the paths already match.
 
@@ -1116,7 +1119,7 @@ dev-server startup — never read by the Angular app itself:
 }
 ```
 
-> **Note:** In `@vivaldi` 0.24.10 the BFF runs with a self-signed HTTPS cert on port 8482
+> **Note:** In `@vivaldi` 0.25.0 the BFF runs with a self-signed HTTPS cert on port 8482
 > with tRPC at `/bff/api`. The proxy forwards `/bff` to the BFF without path rewriting.
 
 ---
@@ -1508,16 +1511,15 @@ npm run start:storefrontapp
 
 ## Known issue: Cloudflare `__cf_bm` cookie crash
 
-> **Status:** Present in `@vivaldi/connectivity@0.24.10` (current prod release). A fix
-> is available in `@vivaldi/connectivity@0.25.0` on the dev registry but not yet
-> promoted to the prod registry.
+> **Status:** Fixed in `@vivaldi/connectivity@0.25.0`. Use `@vivaldi/nx@0.25.0` or newer
+> to avoid this issue.
 
 **Symptom:** Every BFF request on CCv2 returns `{"message":"Invalid character","code":-32603}`
 even for procedures that do nothing (like `sample.sayHello`). The error fires before any
 procedure logic runs, responds in ~4ms, and affects all routes uniformly.
 
-**Root cause:** `@vivaldi/connectivity@0.24.x` uses `__` as an internal separator to encode
-cookies it forwards between the BFF and upstream APIs (format:
+**Root cause:** Earlier versions of `@vivaldi/connectivity` use `__` as an internal separator
+to encode cookies it forwards between the BFF and upstream APIs (format:
 `<hostName>__<base64Path>__<base36Timestamp>__<cookieName>`). The `parseClientCookie`
 function checks `cookie.includes('__')` — if true, it tries to split and parse the key as
 a Vivaldi-encoded cookie. Cloudflare's `__cf_bm` bot-management cookie also contains `__`,
@@ -1527,7 +1529,7 @@ produces only 2 parts instead of the expected 4, so the code calls
 throws "Invalid character"**. This runs in the `CookieManager` constructor on every
 single request on CCv2 (which is behind Cloudflare and always sends `__cf_bm`).
 
-**Fix (once available on prod registry):** `@vivaldi/connectivity@0.25.0` adds a guard:
+**Fix:** `@vivaldi/connectivity@0.25.0` adds a guard:
 `if (!host || cookieName.length === 0) return undefined` — any cookie that splits into
 fewer than 4 parts is silently skipped as a non-Vivaldi cookie.
 
