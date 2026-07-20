@@ -610,7 +610,7 @@ at deploy time.
 |---|---|---|
 | `OCC_BACKEND_BASE_URL_VALUE` | `OCC_BASE_URL` | User via VariableSet |
 | `MEDIA_BACKEND_BASE_URL_VALUE` | `MEDIA_BASE_URL` | User via VariableSet |
-| `BFF_BASE_URL_VALUE` | `BFF_BASE_URL` | Platform auto-injects on "Connect to BFF" (value: `/bff/`) |
+| `BFF_BASE_URL_VALUE` | `BFF_BASE_URL` | Platform auto-injects on "Connect to BFF" (value: `/bff/api`) |
 
 > **Note:** If no BFF is connected, `BFF_BASE_URL_VALUE` is left unreplaced.
 > The `BFF_BASE_URL` token treats the placeholder as "not configured" and falls
@@ -663,7 +663,8 @@ CA-signed certificate (e.g. `https://api.xxx.model-t.myhybris.cloud`), not a raw
 ### 2. `src/app/bff/bff-base-url.token.ts` *(new file)*
 
 Reads the `bff-base-url` meta tag at Angular bootstrap time. Falls back to `/bff/api`
-for local development (handled by the dev-server proxy).
+for local development (handled by the dev-server proxy). CCv2 injects the full tRPC
+endpoint URL as `BFF_BASE_URL_VALUE` (e.g. `/bff/api`) — the token uses it directly.
 
 ```ts
 import { InjectionToken, inject } from '@angular/core';
