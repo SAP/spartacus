@@ -257,9 +257,13 @@ export class ConfiguratorAttributeProductCardComponent
       this.productCardOptions.productBoundValue.quantity;
 
     return {
-      allowZero: !this.productCardOptions.hideRemoveButton,
+      allowZero: true,
       initialQuantity: quantityFromOptions ? quantityFromOptions : 0,
       disableQuantityActions$: this.disableActions$,
+      resetToInitialQuantityOnZero:
+        (this.productCardOptions.productBoundValue.selected &&
+          this.productCardOptions.hideRemoveButton) ??
+        false,
     };
   }
 

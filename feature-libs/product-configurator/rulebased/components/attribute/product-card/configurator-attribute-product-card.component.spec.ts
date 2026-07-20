@@ -628,6 +628,21 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(component['onHandleQuantity']).toHaveBeenCalled();
     });
 
+    it('should show deselection message and send no request when reducing quantity to zero is not possible', () => {
+      spyOn(component.handleDeselect, 'emit').and.callThrough();
+      spyOn(component.handleQuantity, 'emit').and.callThrough();
+      component.productCardOptions.multiSelect = true;
+      component.productCardOptions.hideRemoveButton = true;
+      setProductBoundValueAttributes(component);
+
+      component.onChangeQuantity(0);
+
+      expect(component.onHandleDeselect).toHaveBeenCalled();
+      expect(component.showDeselectionNotPossible).toBe(true);
+      expect(component.handleDeselect.emit).not.toHaveBeenCalled();
+      expect(component.handleQuantity.emit).not.toHaveBeenCalled();
+    });
+
     it('should transformToProductType return Product', () => {
       expect(
         component['transformToProductType'](
@@ -783,6 +798,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(qtyParams.allowZero).toBe(true);
       expect(qtyParams.initialQuantity).toBe(5);
       expect(qtyParams.disableQuantityActions$).toBeDefined();
+      expect(qtyParams.resetToInitialQuantityOnZero).toBe(false);
+    });
+
+    it('should extract quantity parameters with reset flag when removal is not possible', () => {
+      component.productCardOptions.hideRemoveButton = true;
+      setProductBoundValueAttributes(component, true, 5);
+      const qtyParams = component.extractQuantityParameters();
+      expect(qtyParams.allowZero).toBe(true);
+      expect(qtyParams.resetToInitialQuantityOnZero).toBe(true);
     });
 
     it('should disable stepper when loading', () => {
