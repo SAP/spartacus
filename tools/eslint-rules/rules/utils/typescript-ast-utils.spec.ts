@@ -130,7 +130,9 @@ const hasPropertyInitializationRule = ESLintUtils.RuleCreator(() => __filename)(
 
       return {
         PropertyDefinition(node: TSESTree.PropertyDefinition) {
-          if (node.key.type !== 'Identifier') return;
+          if (node.key.type !== 'Identifier') {
+            return;
+          }
 
           const tsNode = services.esTreeNodeToTSNodeMap.get(node);
           const propertyName = node.key.name;
@@ -605,7 +607,9 @@ const isInitializedConstructorParameterRule = ESLintUtils.RuleCreator(
       'MethodDefinition[kind="constructor"]'(node: TSESTree.Parameter) {
         const tsNode = services.esTreeNodeToTSNodeMap.get(node);
 
-        if (!ts.isConstructorDeclaration(tsNode)) return;
+        if (!ts.isConstructorDeclaration(tsNode)) {
+          return;
+        }
         // Only report if it's not a class property parameter
         const hasInitializerInConstructor = tsNode.parameters.some((param) =>
           isInitializedConstructorParameter(param, 'testProperty')

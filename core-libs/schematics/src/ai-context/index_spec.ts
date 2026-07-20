@@ -41,7 +41,9 @@ describe('ai-context standalone schematic', () => {
     seed?: (tree: Tree) => void
   ): Promise<UnitTestTree> {
     const tree = Tree.empty();
-    if (seed) seed(tree);
+    if (seed) {
+      seed(tree);
+    }
     return runner.runSchematic('ai-context', options, tree);
   }
 
