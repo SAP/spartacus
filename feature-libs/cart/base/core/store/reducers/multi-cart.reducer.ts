@@ -40,32 +40,17 @@ export function cartTypeIndexReducer(
 }
 
 /**
- * Module-level holder for the `enableCartSlowNetworkResilience` toggle.
- * Reducers cannot use Angular DI, so the value is captured at app bootstrap
- * by `getMultiCartReducers()` (see `./index.ts`) and read here at action
- * dispatch time. When false, the reducer skips the optimistic
- * `CART_ADD_ENTRY_SUCCESS` merge and behaves identically to pre-CXSPA-10582.
- */
-let cartSlowNetworkResilienceEnabled = false;
-
-export function setCartSlowNetworkResilienceEnabled(enabled: boolean): void {
-  cartSlowNetworkResilienceEnabled = enabled;
-}
-
-export const cartEntitiesInitialState = undefined;
-
-/**
  * Merges the entry returned by POST .../entries into the cart entity so the
  * UI surfaces it before the trailing LoadCart reconcile arrives. Without this,
  * on slow networks rapid multi-product adds appear to "lose" entries until
  * processesCount falls to 0 and a refresh runs (CXSPA-10582).
- * Returns `state` unchanged when the toggle is OFF or required data is absent.
+ * Returns `state` unchanged when required data is absent.
  */
 function mergeAddedEntry(
   state: Cart | undefined,
   entry: OrderEntry | undefined
 ): Cart | undefined {
-  if (!cartSlowNetworkResilienceEnabled || !state || !entry) {
+  if (!state || !entry) {
     return state;
   }
   const existing = state.entries ?? [];
@@ -79,21 +64,32 @@ function mergeAddedEntry(
   return { ...state, entries };
 }
 
-export function cartEntitiesReducer(
-  state: Cart | undefined = cartEntitiesInitialState,
+export const cartEntitiesInitialState = undefined;
+
+export function createCartEntitiesReducer(
+  slowNetworkResilienceEnabled: boolean
+): (
+  state: Cart | undefined,
   action: StateUtils.LoaderAction
-): Cart | undefined {
-  switch (action.type) {
-    case CartActions.LOAD_CARTS_SUCCESS:
-      return action.payload;
+) => Cart | undefined {
+  return function cartEntitiesReducer(
+    state: Cart | undefined = cartEntitiesInitialState,
+    action: StateUtils.LoaderAction
+  ): Cart | undefined {
+    switch (action.type) {
+      case CartActions.LOAD_CARTS_SUCCESS:
+        return action.payload;
 
-    case CartActions.LOAD_CART_SUCCESS:
-    case CartActions.CREATE_CART_SUCCESS:
-    case CartActions.SET_CART_DATA:
-      return action.payload.cart;
+      case CartActions.LOAD_CART_SUCCESS:
+      case CartActions.CREATE_CART_SUCCESS:
+      case CartActions.SET_CART_DATA:
+        return action.payload.cart;
 
-    case CartActions.CART_ADD_ENTRY_SUCCESS:
-      return mergeAddedEntry(state, action.payload?.entry);
-  }
-  return state;
+      case CartActions.CART_ADD_ENTRY_SUCCESS:
+        return slowNetworkResilienceEnabled
+          ? mergeAddedEntry(state, action.payload?.entry)
+          : state;
+    }
+    return state;
+  };
 }

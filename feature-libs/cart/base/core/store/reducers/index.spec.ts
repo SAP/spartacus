@@ -9,10 +9,7 @@ import { Cart } from '@spartacus/cart/base/root';
 import { FeatureToggles } from '@spartacus/core';
 import { CartActions } from '../actions/index';
 import { getMultiCartReducers } from './index';
-import {
-  cartEntitiesReducer,
-  setCartSlowNetworkResilienceEnabled,
-} from './multi-cart.reducer';
+import { createCartEntitiesReducer } from './multi-cart.reducer';
 
 const baseCart: Cart = {
   code: 'cart-1',
@@ -28,12 +25,6 @@ const addEntrySuccess = new CartActions.CartAddEntrySuccess({
 });
 
 describe('getMultiCartReducers (factory)', () => {
-  afterEach(() => {
-    // Restore module-level closure to its default (OFF) so neighbouring
-    // specs that re-import the reducer aren't contaminated.
-    setCartSlowNetworkResilienceEnabled(false);
-  });
-
   describe('inside an Angular injection context', () => {
     it('should set the slow-network branch ON when the toggle is enabled and merge entries', () => {
       TestBed.configureTestingModule({
@@ -49,9 +40,10 @@ describe('getMultiCartReducers (factory)', () => {
       expect(map.carts).toBeDefined();
       expect(map.index).toBeDefined();
 
-      // Drive a CART_ADD_ENTRY_SUCCESS through the entity reducer to confirm
-      // the closure flag was flipped — toggle ON merges the new entry.
-      const state = cartEntitiesReducer(baseCart, addEntrySuccess);
+      // Drive a CART_ADD_ENTRY_SUCCESS through a toggle-ON reducer to confirm
+      // the factory wires up the closure correctly.
+      const reducer = createCartEntitiesReducer(true);
+      const state = reducer(baseCart, addEntrySuccess);
       expect(state?.entries?.length).toBe(2);
       expect(state?.entries?.[1]?.product?.code).toBe('B');
     });
@@ -70,7 +62,8 @@ describe('getMultiCartReducers (factory)', () => {
       const map = TestBed.runInInjectionContext(() => getMultiCartReducers());
       expect(map.carts).toBeDefined();
 
-      const state = cartEntitiesReducer(baseCart, addEntrySuccess);
+      const reducer = createCartEntitiesReducer(false);
+      const state = reducer(baseCart, addEntrySuccess);
       expect(state).toBe(baseCart);
     });
   });
@@ -84,7 +77,8 @@ describe('getMultiCartReducers (factory)', () => {
       expect(map.carts).toBeDefined();
       expect(map.index).toBeDefined();
 
-      const state = cartEntitiesReducer(baseCart, addEntrySuccess);
+      const reducer = createCartEntitiesReducer(false);
+      const state = reducer(baseCart, addEntrySuccess);
       expect(state).toBe(baseCart);
     });
   });

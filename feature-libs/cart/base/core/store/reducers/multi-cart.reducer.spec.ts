@@ -13,6 +13,8 @@ const testCart: Cart = {
 
 describe('Multi Cart reducer', () => {
   describe('cartEntitiesReducer', () => {
+    const reducer = fromMultiCart.createCartEntitiesReducer(false);
+
     describe('LOAD_CART_SUCCESS action', () => {
       it('should set cart in state', () => {
         const initialState = {};
@@ -26,7 +28,7 @@ describe('Multi Cart reducer', () => {
           cartId: cart.code,
         };
         const action = new CartActions.LoadCartSuccess(payload);
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
     });
@@ -36,7 +38,7 @@ describe('Multi Cart reducer', () => {
         const initialState = fromMultiCart.cartEntitiesInitialState;
         const payload = [testCart];
         const action = new CartActions.LoadCartsSuccess(payload);
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(payload as unknown as Cart);
       });
     });
@@ -54,7 +56,7 @@ describe('Multi Cart reducer', () => {
           tempCartId: 'tempCartId',
         };
         const action = new CartActions.CreateCartSuccess(payload);
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
     });
@@ -69,24 +71,13 @@ describe('Multi Cart reducer', () => {
           cart,
           cartId: 'cartCode',
         });
-        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        const state = reducer(initialState, action);
         expect(state).toEqual(cart);
       });
     });
 
     describe('CART_ADD_ENTRY_SUCCESS action', () => {
-      beforeEach(() => {
-        // The reducer's CART_ADD_ENTRY_SUCCESS branch is gated behind
-        // enableCartSlowNetworkResilience. The flag is captured at module
-        // init via getMultiCartReducers() in production; flip it on here
-        // so the toggle-ON behaviour can be exercised directly against the
-        // pure reducer in isolation.
-        fromMultiCart.setCartSlowNetworkResilienceEnabled(true);
-      });
-
-      afterEach(() => {
-        fromMultiCart.setCartSlowNetworkResilienceEnabled(false);
-      });
+      const reducerOn = fromMultiCart.createCartEntitiesReducer(true);
 
       const baseCart: Cart = {
         code: 'cart-1',
@@ -110,7 +101,7 @@ describe('Multi Cart reducer', () => {
           quantity: 1,
           entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        const state = reducerOn(baseCart, action);
         expect(state?.entries).toEqual([
           { entryNumber: 0, quantity: 1, product: { code: 'A' } },
           { entryNumber: 1, quantity: 1, product: { code: 'B' } },
@@ -125,7 +116,7 @@ describe('Multi Cart reducer', () => {
           quantity: 1,
           entry: { entryNumber: 0, quantity: 2, product: { code: 'A' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        const state = reducerOn(baseCart, action);
         expect(state?.entries).toEqual([
           { entryNumber: 0, quantity: 2, product: { code: 'A' } },
         ]);
@@ -139,7 +130,7 @@ describe('Multi Cart reducer', () => {
           quantity: 1,
           entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        const state = reducerOn(baseCart, action);
         expect(state?.totalPrice).toEqual(baseCart.totalPrice);
         expect(state?.subTotal).toEqual(baseCart.subTotal);
         expect(state?.totalItems).toEqual(baseCart.totalItems);
@@ -153,7 +144,7 @@ describe('Multi Cart reducer', () => {
           quantity: 1,
           entry: { entryNumber: 0, quantity: 1, product: { code: 'B' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(undefined, action);
+        const state = reducerOn(undefined, action);
         expect(state).toBeUndefined();
       });
 
@@ -164,7 +155,7 @@ describe('Multi Cart reducer', () => {
           productCode: 'B',
           quantity: 1,
         });
-        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        const state = reducerOn(baseCart, action);
         expect(state).toBe(baseCart);
       });
 
@@ -177,10 +168,7 @@ describe('Multi Cart reducer', () => {
           quantity: 1,
           entry: { entryNumber: 0, quantity: 1, product: { code: 'A' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(
-          cartWithoutEntries,
-          action
-        );
+        const state = reducerOn(cartWithoutEntries, action);
         expect(state?.entries).toEqual([
           { entryNumber: 0, quantity: 1, product: { code: 'A' } },
         ]);
@@ -202,7 +190,7 @@ describe('Multi Cart reducer', () => {
           quantity: 2,
           entry: { entryNumber: 1, quantity: 2, product: { code: 'B' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(threeEntryCart, action);
+        const state = reducerOn(threeEntryCart, action);
         expect(state?.entries).toEqual([
           { entryNumber: 0, quantity: 1, product: { code: 'A' } },
           { entryNumber: 1, quantity: 2, product: { code: 'B' } },
@@ -219,7 +207,7 @@ describe('Multi Cart reducer', () => {
           // entryNumber omitted on purpose — the OCC response can be partial.
           entry: { quantity: 1, product: { code: 'B' } } as any,
         });
-        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        const state = reducerOn(baseCart, action);
         expect(state?.entries).toEqual([
           { entryNumber: 0, quantity: 1, product: { code: 'A' } },
           { quantity: 1, product: { code: 'B' } } as any,
@@ -228,9 +216,7 @@ describe('Multi Cart reducer', () => {
     });
 
     describe('CART_ADD_ENTRY_SUCCESS action — enableCartSlowNetworkResilience OFF', () => {
-      beforeEach(() => {
-        fromMultiCart.setCartSlowNetworkResilienceEnabled(false);
-      });
+      const reducerOff = fromMultiCart.createCartEntitiesReducer(false);
 
       const baseCart: Cart = {
         code: 'cart-1',
@@ -251,7 +237,7 @@ describe('Multi Cart reducer', () => {
           quantity: 1,
           entry: { entryNumber: 1, quantity: 1, product: { code: 'B' } },
         });
-        const state = fromMultiCart.cartEntitiesReducer(baseCart, action);
+        const state = reducerOff(baseCart, action);
         // Reference equality — the toggle-OFF branch must short-circuit
         // *before* any spread/copy.
         expect(state).toBe(baseCart);
@@ -262,7 +248,7 @@ describe('Multi Cart reducer', () => {
       it('should return the default state', () => {
         const previousState = { code: 'otherCode' };
         const action = { type: 'other', payload: { code: 'code' } } as any;
-        const state = fromMultiCart.cartEntitiesReducer(previousState, action);
+        const state = reducer(previousState, action);
         expect(state).toEqual(previousState);
       });
     });

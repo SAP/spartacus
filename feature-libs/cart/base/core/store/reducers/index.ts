@@ -10,9 +10,8 @@ import { Cart } from '@spartacus/cart/base/root';
 import { AuthActions, FeatureToggles, StateUtils } from '@spartacus/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
-  cartEntitiesReducer,
   cartTypeIndexReducer,
-  setCartSlowNetworkResilienceEnabled,
+  createCartEntitiesReducer,
 } from './multi-cart.reducer';
 
 export function clearMultiCartState(
@@ -33,24 +32,16 @@ export const multiCartReducerToken: InjectionToken<
 > = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
-  // Capture the `enableCartSlowNetworkResilience` toggle at app bootstrap so
-  // the pure `cartEntitiesReducer` (which has no DI access) can branch on
-  // it without changing its signature. Anything that re-runs this factory
-  // (e.g. a test override of FeatureToggles) re-syncs the snapshot.
-  // Some tests call this factory eagerly outside an Angular injection
-  // context — fall back to OFF (legacy behaviour) in that case so existing
-  // specs keep working without forcing every TestBed to provide FeatureToggles.
   let enabled = false;
   try {
     enabled = !!inject(FeatureToggles).enableCartSlowNetworkResilience;
   } catch {
     enabled = false;
   }
-  setCartSlowNetworkResilienceEnabled(enabled);
   return {
     carts: StateUtils.entityProcessesLoaderReducer<Cart | undefined>(
       MULTI_CART_DATA,
-      cartEntitiesReducer
+      createCartEntitiesReducer(enabled)
     ),
     index: cartTypeIndexReducer,
   };
