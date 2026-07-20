@@ -336,9 +336,6 @@ Add to `nx.json` → `plugins` array:
 }
 ```
 
-> **SSR only:** the `serve-ssr` target is only needed if your application uses
-> server-side rendering. Omit it if you are building a CSR-only application.
-
 > **Important:** make sure `outputPath` is `dist/apps/storefrontapp` (not
 > `dist/apps/my-storefront-app` or whatever the Angular CLI defaulted to).
 
