@@ -7,17 +7,21 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -110,19 +114,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionBundleComponent>;
   let htmlElem: HTMLElement;
-  let consolidatedButtonDisabling: boolean;
-
-  const mockFeatureConfigService: Partial<FeatureConfigService> = {
-    isEnabled: (feature) => {
-      const isNegated = feature.startsWith('!');
-      const key = isNegated ? feature.substring(1) : feature;
-      const enabled =
-        key === 'productConfiguratorConsolidatedButtonDisabling'
-          ? consolidatedButtonDisabling
-          : false;
-      return isNegated ? !enabled : enabled;
-    },
-  };
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -176,10 +167,9 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
-        {
-          provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        provideMockFeatureToggles({
+          productConfiguratorConsolidatedButtonDisabling: true,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
@@ -215,7 +205,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   }));
 
   beforeEach(() => {
-    consolidatedButtonDisabling = true;
     const values: Configurator.Value[] = [
       createValue(
         '1111 Description',
@@ -601,6 +590,76 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           quantity: 1,
         })
       ).toBeUndefined();
+    });
+  });
+
+  describe('productConfiguratorConsolidatedButtonDisabling feature toggle', () => {
+    let featureToggles: MockFeatureTogglesController;
+
+    function initComponentWithToggle(toggleEnabled: boolean): void {
+      featureToggles.set(
+        'productConfiguratorConsolidatedButtonDisabling',
+        toggleEnabled
+      );
+      fixture = TestBed.createComponent(
+        ConfiguratorAttributeMultiSelectionBundleComponent
+      );
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      component.ownerKey = 'theOwnerKey';
+      component.attribute = {
+        name: 'attributeName',
+        attrCode: 1111,
+        uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
+        required: true,
+        groupId: 'testGroup',
+        values: [
+          createValue(
+            '1111 Description',
+            [createImage('url', 'alt')],
+            'valueName',
+            1,
+            true,
+            '1111',
+            '1111Display'
+          ),
+        ],
+      };
+      // Simulate a running round trip so the (toggle-off) loading-based button
+      // disabling would kick in.
+      component.loading$.next(true);
+      component.ngOnInit();
+      fixture.detectChanges();
+    }
+
+    function getRenderedProductCardOptions(): ConfiguratorAttributeProductCardComponentOptions {
+      return fixture.debugElement.query(By.directive(MockProductCardComponent))
+        .componentInstance.productCardOptions;
+    }
+
+    beforeEach(() => {
+      featureToggles = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should render exactly one product card per value regardless of the active toggle branch', () => {
+      initComponentWithToggle(true);
+
+      expect(
+        htmlElem.querySelectorAll('cx-configurator-attribute-product-card')
+          .length
+      ).toBe(1);
+    });
+
+    it('should not disable the buttons based on the loading state when the toggle is enabled', () => {
+      initComponentWithToggle(true);
+
+      expect(getRenderedProductCardOptions().disableAllButtons).toBe(false);
+    });
+
+    it('should disable the buttons based on the loading state when the toggle is disabled', () => {
+      initComponentWithToggle(false);
+
+      expect(getRenderedProductCardOptions().disableAllButtons).toBe(true);
     });
   });
 });

@@ -12,7 +12,6 @@ import { By } from '@angular/platform-browser';
 
 import {
   CxDatePipe,
-  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -21,6 +20,10 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import {
   FocusDirective,
   ItemCounterComponent,
@@ -150,19 +153,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeProductCardComponent>;
   let htmlElem: HTMLElement;
   let value: Configurator.Value;
-  let consolidatedButtonDisabling: boolean;
-
-  const mockFeatureConfigService: Partial<FeatureConfigService> = {
-    isEnabled: (feature) => {
-      const isNegated = feature.startsWith('!');
-      const key = isNegated ? feature.substring(1) : feature;
-      const enabled =
-        key === 'productConfiguratorConsolidatedButtonDisabling'
-          ? consolidatedButtonDisabling
-          : false;
-      return isNegated ? !enabled : enabled;
-    },
-  };
+  let featureToggles: MockFeatureTogglesController;
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -211,10 +202,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useValue: {},
         },
-        {
-          provide: FeatureConfigService,
-          useValue: mockFeatureConfigService,
-        },
+        provideMockFeatureToggles({
+          productConfiguratorConsolidatedButtonDisabling: true,
+        }),
       ],
     })
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
@@ -244,7 +234,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   }));
 
   beforeEach(() => {
-    consolidatedButtonDisabling = true;
+    featureToggles = TestBed.inject(MockFeatureTogglesController);
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );
@@ -479,7 +469,6 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     }
 
     it('should disable the remove button during a loading round trip when the toggle is enabled', () => {
-      consolidatedButtonDisabling = true;
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
@@ -490,7 +479,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should keep the remove button enabled during a loading round trip when the toggle is disabled', () => {
-      consolidatedButtonDisabling = false;
+      featureToggles.set(
+        'productConfiguratorConsolidatedButtonDisabling',
+        false
+      );
       initSelectedMultiSelectRemoveButton(true);
 
       const button = fixture.debugElement.query(
@@ -509,7 +501,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       multiSelect: boolean,
       toggleEnabled: boolean
     ): void {
-      consolidatedButtonDisabling = toggleEnabled;
+      featureToggles.set(
+        'productConfiguratorConsolidatedButtonDisabling',
+        toggleEnabled
+      );
       fixture = TestBed.createComponent(
         ConfiguratorAttributeProductCardComponent
       );
