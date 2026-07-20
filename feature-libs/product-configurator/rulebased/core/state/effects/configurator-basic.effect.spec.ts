@@ -33,6 +33,7 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import { getConfiguratorReducers } from './../reducers/index';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';
@@ -52,6 +53,13 @@ const owner: CommonConfigurator.Owner = {
   id: productCode,
   key: 'product/CONF_LAPTOP',
   configuratorType: ConfiguratorType.VARIANT,
+};
+
+const cpqOwner: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.PRODUCT,
+  id: productCode,
+  key: 'product/CONF_LAPTOP_CPQ',
+  configuratorType: ConfiguratorType.CPQ,
 };
 
 const group: Configurator.Group = {
@@ -179,6 +187,7 @@ describe('ConfiguratorEffect', () => {
   let overviewMock: jasmine.Spy;
   let updateOverviewMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorBasicEffects;
+  let configuratorBasicEffectService: ConfiguratorBasicEffectService;
 
   let store: Store<StateWithConfigurator>;
 
@@ -233,6 +242,9 @@ describe('ConfiguratorEffect', () => {
 
     configEffects = TestBed.inject(
       fromEffects.ConfiguratorBasicEffects as Type<fromEffects.ConfiguratorBasicEffects>
+    );
+    configuratorBasicEffectService = TestBed.inject(
+      ConfiguratorBasicEffectService as Type<ConfiguratorBasicEffectService>
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
   });
@@ -355,6 +367,55 @@ describe('ConfiguratorEffect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(configEffects.readConfiguration$).toBeObservable(expected);
+    });
+
+    it('should serve an already loaded CPQ tab from the store without calling the connector', () => {
+      const cachedConfiguration: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(configId, cpqOwner),
+      };
+      spyOn(
+        configuratorBasicEffectService,
+        'getConfigurationIfTabAlreadyLoaded'
+      ).and.returnValue(cachedConfiguration);
+      readMock.calls.reset();
+
+      const action = new ConfiguratorActions.ReadConfiguration({
+        configuration: {
+          ...ConfiguratorTestUtils.createConfiguration(configId, cpqOwner),
+        },
+        groupId: 'cpq-tab',
+      });
+      const completion = new ConfiguratorActions.ReadConfigurationSuccess(
+        cachedConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfiguration$).toBeObservable(expected);
+      expect(readMock).not.toHaveBeenCalled();
+    });
+
+    it('should not consult the store cache for non-CPQ configurator types', () => {
+      const cacheSpy = spyOn(
+        configuratorBasicEffectService,
+        'getConfigurationIfTabAlreadyLoaded'
+      ).and.callThrough();
+
+      const action = new ConfiguratorActions.ReadConfiguration({
+        configuration: {
+          ...ConfiguratorTestUtils.createConfiguration(configId, owner),
+        },
+        groupId: '',
+      });
+      const completion = new ConfiguratorActions.ReadConfigurationSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfiguration$).toBeObservable(expected);
+      expect(cacheSpy).not.toHaveBeenCalled();
+      expect(readMock).toHaveBeenCalled();
     });
 
     it('should emit a fail action in case connector raises an error', () => {
@@ -699,7 +760,7 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
-    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup with group id of conflict group in case conflicts exist but current group is a conflict group', () => {
+    it('should raise UpdateConfigurationFinalize, UpdatePrices and ChangeGroup when current group is a conflict group', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: productConfiguration.owner.key,
