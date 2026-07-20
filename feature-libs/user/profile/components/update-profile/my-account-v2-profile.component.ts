@@ -17,7 +17,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { TranslatePipe } from '@spartacus/core';
+import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import {
   FormErrorsComponent,
   NgSelectA11yDirective,
@@ -46,6 +46,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
     AsyncPipe,
     TranslatePipe,
     TruncationTooltipDirective,
+    FeatureDirective,
   ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {

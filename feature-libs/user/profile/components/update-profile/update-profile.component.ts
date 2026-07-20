@@ -19,8 +19,10 @@ import {
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import {
   FeatureDirective,
+  PageMetaService,
   RoutingService,
   TranslatePipe,
+  isNotNullable,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -32,6 +34,7 @@ import {
 } from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
@@ -61,12 +64,17 @@ export class UpdateProfileComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+  protected pageMetaService = inject(PageMetaService);
 
   constructor(protected service: UpdateProfileComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$;
+  pageTitle$: Observable<string> = this.pageMetaService.getMeta().pipe(
+    filter(isNotNullable),
+    map((meta) => (meta.heading || meta.title) ?? '')
+  );
 
   onSubmit(): void {
     this.service.updateProfile();

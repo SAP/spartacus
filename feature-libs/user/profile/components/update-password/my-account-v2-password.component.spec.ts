@@ -24,6 +24,10 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
@@ -83,6 +87,7 @@ describe('MyAccountV2PasswordComponent', () => {
           useClass: MockUpdatePasswordService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2PasswordComponent, {
@@ -173,6 +178,40 @@ describe('MyAccountV2PasswordComponent', () => {
       fixture.detectChanges();
       const cxMsg = el.query(By.css('cx-message'));
       expect(cxMsg).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visible legend', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toContain(
+          'myAccountV2PasswordForm.newPasswordTitle'
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });

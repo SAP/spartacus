@@ -21,9 +21,12 @@ import {
   FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
+  PageMetaService,
   TranslatePipe,
   UserConsentService,
+  isNotNullable,
 } from '@spartacus/core';
+import { filter, map } from 'rxjs/operators';
 import {
   BehaviorSubject,
   combineLatest,
@@ -34,8 +37,6 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
-  filter,
-  map,
   scan,
   skipWhile,
   tap,
@@ -63,10 +64,15 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private subscriptions = new Subscription();
   private allConsentsLoading = new BehaviorSubject<boolean>(false);
+  protected pageMetaService = inject(PageMetaService);
 
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
   isLoading = signal(false);
+  pageTitle$: Observable<string> = this.pageMetaService.getMeta().pipe(
+    filter(isNotNullable),
+    map((meta) => (meta.heading || meta.title) ?? '')
+  );
 
   requiredConsents: string[] = [];
 

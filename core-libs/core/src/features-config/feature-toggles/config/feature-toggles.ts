@@ -396,6 +396,17 @@ export interface FeatureTogglesInterface {
   a11yDeliveryModeFocusPreservation?: boolean;
 
   /**
+   * When enabled, wraps form controls in a `<fieldset>` with `aria-labelledby`
+   * referencing the visible page heading, so screen readers announce the section
+   * heading when any field in the group receives focus.
+   * Affects: UpdateProfileComponent, MyAccountV2ProfileComponent,
+   *          UpdatePasswordComponent, MyAccountV2PasswordComponent,
+   *          UpdateEmailComponent, MyAccountV2EmailComponent,
+   *          ConsentManagementComponent
+   */
+  a11yFormFieldSectionLegend?: boolean;
+
+  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -613,6 +624,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yFormFieldSectionLegend: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,

@@ -15,6 +15,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
@@ -75,6 +79,7 @@ describe('MyAccountV2ProfileComponent', () => {
           provide: UpdateProfileComponentService,
           useClass: MockProfileService,
         },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2ProfileComponent, {
@@ -160,6 +165,42 @@ describe('MyAccountV2ProfileComponent', () => {
       component.cancelEdit();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        component.onEdit();
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visible legend', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toContain(
+          'myAccountV2UserProfile.myInformation'
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        component.onEdit();
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });
