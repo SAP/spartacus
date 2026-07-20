@@ -512,6 +512,8 @@ under `compilerOptions`:
 > `target: es2015`) that conflict with Angular 21's required `module: preserve` and `target: ES2022`
 > settings. Adding the paths manually avoids this conflict.
 
+**Merge `apps/storefrontapp/package.json` into the workspace root:**
+
 1. Move all `dependencies` and `devDependencies` from `apps/storefrontapp/package.json`
    into the root `package.json`, resolving any version conflicts.
 2. Delete `apps/storefrontapp/package.json` and `apps/storefrontapp/package-lock.json`.
@@ -1008,7 +1010,7 @@ export function app(): express.Express {
     createProxyMiddleware({
       target: bffTarget,
       changeOrigin: true,
-      secure: false,
+      secure: process.env['NODE_ENV'] === 'production',
     })
   );
 
@@ -1020,8 +1022,9 @@ export function app(): express.Express {
 }
 ```
 
-> **Note:** `secure: false` is needed because the local BFF dev server uses a self-signed
-> certificate. On CCv2 the BFF has a CA-signed certificate and `secure: true` can be used.
+> **Note:** `secure` is set to `true` in production (`NODE_ENV=production`) where the BFF
+> has a CA-signed certificate, and `false` in development where the local BFF uses a
+> self-signed certificate.
 
 ---
 
@@ -1053,6 +1056,11 @@ module.exports = {
 ---
 
 ### 9. `project.json` *(modify, storefrontapp)*
+
+> **Note:** If you followed Step 2 (fresh Spartacus app) and used the `project.json`
+> template from step 4b, `proxyConfig` is already included — skip this step.
+> This step is for existing Angular CLI projects that created `project.json` manually
+> via the 4c migration.
 
 Add `proxyConfig` to the `serve` target's `options`. The executor for a standard Angular
 app is `@angular/build:dev-server`:
@@ -1105,7 +1113,18 @@ members consistent commands regardless of which nx target names are used interna
 
 Create this file at the workspace root (or add to it if it already exists). Holds
 `CX_BFF_BASE_URL` for each dev profile. Used **only** by `proxy.conf.js` at
-dev-server startup — never read by the Angular app itself:
+dev-server startup — never read by the Angular app itself.
+
+To pass these variables automatically when starting the dev server, install `env-cmd`
+and update the `start:storefrontapp` script:
+
+```bash
+npm install --save-dev env-cmd
+```
+
+```json
+"start:storefrontapp": "env-cmd -e dev nx serve storefrontapp"
+```
 
 ```jsonc
 {
