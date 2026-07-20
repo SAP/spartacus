@@ -171,7 +171,6 @@ describe('GlobalMessageComponent with a11yFilteredFacetAnnouncement enabled', ()
     expect(assistiveDivs.length).toBe(1);
   });
 
-
   it('should display the assistive message text in the persistent container', () => {
     const assistiveDiv = fixture.debugElement.query(By.css(ASSISTIVE_SELECTOR));
     expect(assistiveDiv.nativeElement.textContent.trim()).toBe(
