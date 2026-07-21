@@ -48,7 +48,6 @@ sides, and how they work together.
   - [21. .env](#21-appsbffenv-local-dev-only)
 - [File overview](#file-overview)
 - [Testing locally](#testing-locally)
-- [@vivaldi Cloudflare cookie issue](#known-issue-cloudflare-__cf_bm-cookie-crash)
 
 ---
  
@@ -65,7 +64,7 @@ before applying the BFF integration changes described in the rest of this docume
 | Node.js | 20 LTS or 22 LTS | Earlier versions are not tested |
 | Angular CLI | 21.2.x | Do **not** use 21.1.x — it has peer-dep conflicts with Spartacus 221121.13.1 |
 | Spartacus schematics | 221121.13.1 | — |
-| `@vivaldi/nx` generator | 0.25.0 | Minimum version — fixes the Cloudflare `__cf_bm` cookie crash |
+| `@vivaldi/nx` generator | 0.25.0 | — |
 
 #### SAP npm registry access
 
