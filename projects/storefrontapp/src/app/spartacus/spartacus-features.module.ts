@@ -320,6 +320,7 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yMessagingListKeyboardFocus: true,
         a11yStoreFinderListItemFocus: true,
         a11yFixSearchBoxDoubleFocus: true,
         a11yFacetFilterByLabel: true,

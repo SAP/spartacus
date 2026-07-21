@@ -21,10 +21,17 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { CxDatePipe, TranslatePipe, WindowRef } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  TranslatePipe,
+  WindowRef,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
 import { FormErrorsComponent } from '../../form/form-errors/form-errors.component';
@@ -51,6 +58,8 @@ import {
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
+    FeatureDirective,
+    FocusDirective,
   ],
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
@@ -114,7 +123,9 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   constructor(
     protected windowRef: WindowRef,
     protected filesFormValidators: FilesFormValidators
-  ) {}
+  ) {
+    useFeatureStyles('a11yMessagingListKeyboardFocus');
+  }
 
   ngOnInit(): void {
     this.buildForm();

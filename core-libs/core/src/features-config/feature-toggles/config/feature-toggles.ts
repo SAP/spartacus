@@ -229,6 +229,15 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Fixes keyboard focus and screen reader date announcement for the
+   * chat messaging list items. Moves tabindex and aria-label to the
+   * role="listitem" element so all messages are keyboard-reachable
+   * and dates are announced by VoiceOver and JAWS.
+   * Affects: MessagingComponent
+   */
+  a11yMessagingListKeyboardFocus?: boolean;
+
+  /**
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
@@ -592,6 +601,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yMessagingListKeyboardFocus: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,

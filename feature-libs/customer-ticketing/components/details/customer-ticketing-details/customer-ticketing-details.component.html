@@ -1,38 +1,42 @@
 <ng-container *ngIf="ticketDetails$ | async as ticket; else spinner">
-  <div class="cx-ticket-details">
+  <ng-template #cards let-border="border">
     <div class="container">
       <div class="cx-details-card">
         <cx-card
+          [border]="border"
           [content]="
             prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
           "
-        ></cx-card>
+        />
       </div>
 
       <div class="cx-details-card">
         <cx-card
+          [border]="border"
           [content]="
             prepareCardContent(
               (ticket.createdAt | cxDate: dateFormat) ?? dateFormat,
               'customerTicketing.createdOn'
             ) | async
           "
-        ></cx-card>
+        />
       </div>
 
       <div class="cx-details-card">
         <cx-card
+          [border]="border"
           [content]="
             prepareCardContent(
               (ticket.modifiedAt | cxDate: dateFormat) ?? dateFormat,
               'customerTicketing.changedOn'
             ) | async
           "
-        ></cx-card>
+        />
       </div>
 
       <div class="cx-details-card">
         <cx-card
+          [border]="border"
           [content]="
             prepareCardContent(
               ticket.status ? ticket.status.name : undefined,
@@ -40,11 +44,26 @@
               ticket.status ? ticket.status.id : undefined
             ) | async
           "
-        ></cx-card>
+        />
       </div>
     </div>
+  </ng-template>
+
+  <div
+    *cxFeature="'a11yMessagingListKeyboardFocus'"
+    class="cx-ticket-details"
+    role="region"
+    [attr.aria-label]="
+      'customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate
+    "
+  >
+    <ng-container *ngTemplateOutlet="cards; context: { border: true }" />
+  </div>
+
+  <div *cxFeature="'!a11yMessagingListKeyboardFocus'" class="cx-ticket-details">
+    <ng-container *ngTemplateOutlet="cards; context: { border: false }" />
   </div>
 </ng-container>
 <ng-template #spinner>
-  <cx-spinner></cx-spinner>
+  <cx-spinner />
 </ng-template>
