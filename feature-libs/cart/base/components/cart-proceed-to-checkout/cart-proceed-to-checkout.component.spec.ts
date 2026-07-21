@@ -243,14 +243,14 @@ describe('CartProceedToCheckoutComponent — enableCartSlowNetworkResilience OFF
     component = fixture.componentInstance;
   });
 
-  it('should keep cartUpdating$ at false even when cart is unstable', fakeAsync(() => {
+  it('should still emit from cartUpdating$ when cart is unstable (UI suppressed by *cxFeature in template)', fakeAsync(() => {
     stable$.next(false);
     component.ngOnInit();
     const emissions: boolean[] = [];
     const sub = component.cartUpdating$.subscribe((v) => emissions.push(v));
 
-    tick(10_000);
-    expect(emissions).toEqual([false]);
+    tick(250);
+    expect(emissions).toEqual([false, true]);
 
     sub.unsubscribe();
   }));
