@@ -158,7 +158,7 @@ Navigate out of the Vivaldi workspace before creating the storefront:
 
 ```bash
 cd .. 
-ng new my-storefront-app --style=scss --ssr=false --zoneless=false \
+ng new my-storefront-app --style=scss --zoneless=false \
   --file-name-style-guide=2016
 cd my-storefront-app
 ```
@@ -839,7 +839,7 @@ import type { AnyTRPCRouter } from '@trpc/server';
 import { fromRxObservable, toRxObservable } from '@vivaldi/angular/utils';
 import { timeout, catchError, TimeoutError } from 'rxjs';
 
-const DEFAULT_SSR_TIMEOUT_MS = 20_000;
+const DEFAULT_TIMEOUT_MS = 20_000;
 
 export const bffTimeoutLink: TRPCLink<AnyTRPCRouter> = () => {
   const platformId = inject(PLATFORM_ID);
@@ -847,13 +847,13 @@ export const bffTimeoutLink: TRPCLink<AnyTRPCRouter> = () => {
 
   return ({ next, op }) => {
     const isBrowser = isPlatformBrowser(platformId);
-    const timeoutMs = isBrowser ? undefined : DEFAULT_SSR_TIMEOUT_MS;
+    const timeoutMs = isBrowser ? undefined : DEFAULT_TIMEOUT_MS;
 
     if (!timeoutMs && !isDevMode()) {
       return next(op);
     }
 
-    const effectiveTimeout = timeoutMs ?? DEFAULT_SSR_TIMEOUT_MS;
+    const effectiveTimeout = timeoutMs ?? DEFAULT_TIMEOUT_MS;
     const abortController = new AbortController();
     op.signal = abortController.signal;
 
@@ -1423,30 +1423,3 @@ npm run start:storefrontapp
 # http://localhost:4200/electronics-spa/en/USD/bff-say-hello
 # http://localhost:4200/electronics-spa/en/USD/occ-base-sites
 ```
-
----
-
-## Known issue: Cloudflare `__cf_bm` cookie crash
-
-> **Status:** Fixed in `@vivaldi/connectivity@0.25.0`. Use `@vivaldi/nx@0.25.0` or newer
-> to avoid this issue.
-
-**Symptom:** Every BFF request on CCv2 returns `{"message":"Invalid character","code":-32603}`
-even for procedures that do nothing (like `sample.sayHello`). The error fires before any
-procedure logic runs, responds in ~4ms, and affects all routes uniformly.
-
-**Root cause:** Earlier versions of `@vivaldi/connectivity` use `__` as an internal separator
-to encode cookies it forwards between the BFF and upstream APIs (format:
-`<hostName>__<base64Path>__<base36Timestamp>__<cookieName>`). The `parseClientCookie`
-function checks `cookie.includes('__')` — if true, it tries to split and parse the key as
-a Vivaldi-encoded cookie. Cloudflare's `__cf_bm` bot-management cookie also contains `__`,
-so `parseClientCookie('__cf_bm')` enters the parse path. Splitting `'__cf_bm'` on `'__'`
-produces only 2 parts instead of the expected 4, so the code calls
-`decodePathAttribute('cf_bm')` which tries `atob('cf_bm')` → **invalid base64 →
-throws "Invalid character"**. This runs in the `CookieManager` constructor on every
-single request on CCv2 (which is behind Cloudflare and always sends `__cf_bm`).
-
-**Fix:** `@vivaldi/connectivity@0.25.0` adds a guard:
-`if (!host || cookieName.length === 0) return undefined` — any cookie that splits into
-fewer than 4 parts is silently skipped as a non-Vivaldi cookie.
-
