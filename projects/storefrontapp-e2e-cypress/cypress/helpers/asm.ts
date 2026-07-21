@@ -79,6 +79,10 @@ export function placeOrderForB2CCustomer(
     cy.contains('a[role="link"]', 'Sign In / Register').should('be.visible');
 
     cy.contains('a[role="link"]', 'Sign In / Register').click();
+
+    cy.log('Waiting for SSR timeout to pass (8s)');
+    cy.wait(8000);
+
     cy.get('input[name="username"]').clear().type(customer);
     cy.get('input[name="password"]').clear().type(pwd);
     cy.contains('button.btn-primary', 'Sign In').should('be.visible');
@@ -144,6 +148,10 @@ export function doPlaceOrderForB2CCustomerForJDK21(
     );
 
     cy.contains('a[role="link"]', 'Sign In / Register').click();
+
+    cy.log('Waiting for SSR timeout to pass (8s)');
+    cy.wait(8000);
+
     cy.get('input[name="username"]').clear().type(customer);
     cy.get('input[name="password"]').clear().type(pwd);
     cy.contains('button.btn-primary', 'Sign In').should('be.visible');
@@ -169,11 +177,6 @@ export function doPlaceOrderForB2CCustomerForJDK21(
           );
           cy.requirePaymentMethodAdded(cartId);
           return cy.requirePlacedOrderForJDK21(response.access_token, cartId); // Return promise for JDK21
-          cy.log(
-            'aaaa=',
-            cy.requirePlacedOrderForJDK21(response.access_token, cartId)
-          );
-          cy.pause();
         });
     });
   });
