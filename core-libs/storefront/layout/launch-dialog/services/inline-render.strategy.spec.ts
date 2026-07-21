@@ -56,7 +56,7 @@ describe('InlineRenderStrategy', () => {
       TestContainerComponent
     ).componentInstance;
 
-    vi.spyOn(component.vcr, 'createComponent');
+    vi.spyOn(component.vcr, 'createComponent').mockReturnValue(undefined as any);
   });
 
   it('should be created', () => {

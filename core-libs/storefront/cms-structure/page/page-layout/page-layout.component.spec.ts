@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, Injectable, Input, NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CmsService, ContentSlotData, Page } from '@spartacus/core';
-import { TestModule } from 'core-libs/core/src/config/services/configuration.service.spec';
+import {
+  CmsService,
+  Config,
+  ContentSlotData,
+  Page,
+  provideConfig,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { DirectiveStateTransferService } from '../../../utils';

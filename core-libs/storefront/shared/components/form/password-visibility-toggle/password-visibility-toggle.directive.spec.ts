@@ -12,7 +12,7 @@ import {
   TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { MockIconComponent } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';

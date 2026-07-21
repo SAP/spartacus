@@ -153,6 +153,36 @@ describe('IntersectionService', () => {
   });
 
   describe('createIntersectionObservable', () => {
+    beforeEach(() => {
+      vi.stubGlobal(
+        'IntersectionObserver',
+        vi.fn().mockImplementation(function (
+          cb: IntersectionObserverCallback
+        ) {
+          // Immediately fire callback with a default entry so the observable emits
+          cb(
+            [
+              {
+                isIntersecting: false,
+                intersectionRatio: 0,
+                boundingClientRect: DOM_RECT_READ_ONLY,
+                intersectionRect: DOM_RECT_READ_ONLY,
+                rootBounds: null,
+                time: 0,
+                target: document.createElement('section'),
+              } as IntersectionObserverEntry,
+            ],
+            this
+          );
+          return { observe: vi.fn(), unobserve: vi.fn(), disconnect: vi.fn() };
+        })
+      );
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
     it('should emit observable containing an IntersectionObserverEntry', async () => {
       const element: HTMLElement = document.createElement('section');
       const result = await firstValueFrom(

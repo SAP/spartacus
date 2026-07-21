@@ -7,6 +7,7 @@ import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
+import { vi } from 'vitest';
 
 @Directive({ selector: '[cxLockFocus]' })
 class CustomFocusDirective extends LockFocusDirective {
@@ -100,8 +101,8 @@ describe('LockFocusDirective', () => {
   });
 
   const event = {
-    stopPropagation: () => {},
-    preventDefault: () => {},
+    stopPropagation: vi.fn(),
+    preventDefault: vi.fn(),
     target: undefined,
   };
 
@@ -154,6 +155,7 @@ describe('LockFocusDirective', () => {
     });
 
     it('should not unlock when lock=false', () => {
+      vi.clearAllMocks();
       const host = fixture.debugElement.query(By.css('#c'));
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);

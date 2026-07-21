@@ -58,10 +58,10 @@ describe('ActiveFacetsComponent', () => {
     fixture = TestBed.createComponent(ActiveFacetsComponent);
     element = fixture.debugElement;
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

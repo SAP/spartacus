@@ -121,7 +121,7 @@ describe('PopoverDirective', () => {
 
     const template = getPopoverComponent().query(By.css('h1'));
     expect(template).toBeTruthy();
-    expect(template.nativeElement.innerText).toContain('Test');
+    expect(template.nativeElement.textContent).toContain('Test');
   });
 
   it('should append popover before closing `body` tag', () => {

@@ -55,6 +55,6 @@ describe('DefaultComponentHandler', () => {
       handler.launcher({ component: TestComponent }, fixture.componentInstance.vcr)
     );
     expect(componentRef.componentType).toBe(TestComponent);
-    expect(elementRef.nativeElement.innerText).toBe('testComponent');
+    expect(elementRef.nativeElement.textContent).toBe('testComponent');
   });
 });

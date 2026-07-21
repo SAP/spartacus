@@ -10,8 +10,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { defaultViewConfig, ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, of, Subscription } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, Subscription } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
+import { vi } from 'vitest';
 
 class MockRouter {
   navigate = vi.fn();
@@ -109,12 +110,12 @@ describe('ProductListComponentService', () => {
       (res) => (activatedRouteState = res)
     );
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await vi.advanceTimersByTimeAsync(0);
     expect(activatedRouteState).toEqual(mockDefaultRouterState);
 
     mockRoutingState(mockNewActivatedRouteState);
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await vi.advanceTimersByTimeAsync(0);
     vi.useRealTimers();
     expect(activatedRouteState).toEqual(mockNewActivatedRouteState);
 
@@ -125,26 +126,22 @@ describe('ProductListComponentService', () => {
     it('should return search results', async () => {
       vi.useFakeTimers();
       let result: ProductSearchPage;
-      const subscription: Subscription = service.model$.subscribe(
-        (res) => (result = res)
-      );
-
-      await new Promise(resolve => setTimeout(resolve, 0));
+      service.model$.subscribe((r) => (result = r));
+      await vi.advanceTimersByTimeAsync(0);
       vi.useRealTimers();
-
-      subscription.unsubscribe();
-
       expect(result).toEqual({ products: [] });
     });
 
     describe('should perform search on change of routing', () => {
       it('with default "pageSize" 12', async () => {
         vi.useFakeTimers();
+        mockRoutingState({
+          params: { pageSize: 12 },
+        });
+
         const subscription: Subscription = service.model$.subscribe();
-
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
-
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
@@ -159,10 +156,8 @@ describe('ProductListComponentService', () => {
         });
 
         const subscription: Subscription = service.model$.subscribe();
-
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
-
         subscription.unsubscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
@@ -179,7 +174,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -198,7 +193,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -217,7 +212,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -237,7 +232,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -257,7 +252,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -277,7 +272,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -297,7 +292,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -322,7 +317,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -347,7 +342,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -372,7 +367,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -397,7 +392,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -422,7 +417,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -448,7 +443,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -475,7 +470,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -501,7 +496,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();
@@ -528,7 +523,7 @@ describe('ProductListComponentService', () => {
 
         const subscription: Subscription = service.model$.subscribe();
 
-        await new Promise(resolve => setTimeout(resolve, 0));
+        await vi.advanceTimersByTimeAsync(0);
         vi.useRealTimers();
 
         subscription.unsubscribe();

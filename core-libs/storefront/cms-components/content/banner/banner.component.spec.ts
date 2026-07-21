@@ -20,7 +20,7 @@ import {
   LcpPresence,
   MediaComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponent } from './banner.component';

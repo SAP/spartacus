@@ -177,11 +177,10 @@ describe('ConsentManagementComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

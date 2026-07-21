@@ -37,7 +37,7 @@ import { ProductListItemComponent } from './product-list-item.component';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+} from '../../../../../core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-star-rating',
@@ -204,7 +204,7 @@ describe('ProductListItemComponent in product-list', () => {
   it('should display noReviews when rating is unavailable', () => {
     component.product.averageRating = undefined;
     fixture.detectChanges();
-    expect(fixture.debugElement.nativeElement.innerText).toContain(
+    expect(fixture.debugElement.nativeElement.textContent).toContain(
       'productDetails.noReviews'
     );
   });

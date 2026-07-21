@@ -43,6 +43,10 @@ describe('MessagingComponent', () => {
   let htmlElement: Element;
 
   beforeEach(async () => {
+    vi.stubGlobal('ResizeObserver', vi.fn().mockImplementation(function() {
+      return { observe: vi.fn(), unobserve: vi.fn(), disconnect: vi.fn() };
+    }));
+
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -58,6 +62,10 @@ describe('MessagingComponent', () => {
       .compileComponents();
   });
 
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(MessagingComponent);
     component = fixture.componentInstance;
@@ -65,15 +73,16 @@ describe('MessagingComponent', () => {
     component.messagingConfigs = messagingConfig = {
       displayAddMessageSection: of(true),
     };
-    fixture.detectChanges();
     htmlElement = fixture.nativeElement;
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should call onSend on click of send', () => {
+    fixture.detectChanges();
     vi.spyOn(component, 'onSend');
 
     fixture.debugElement.query(By.css('.cx-send')).nativeElement.click();
@@ -83,6 +92,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should render send as btn-primary by default', () => {
+    fixture.detectChanges();
     expect(htmlElement.querySelectorAll('.btn-primary').length).toBe(1);
     expect(htmlElement.querySelectorAll('.btn-secondary').length).toBe(0);
   });
@@ -95,6 +105,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should emit send event', () => {
+    fixture.detectChanges();
     vi.spyOn(component.send, 'emit');
     component.form.get('message')?.setValue('mockMessage');
     component.onSend();
@@ -106,6 +117,7 @@ describe('MessagingComponent', () => {
   });
 
   it('should emit trigger downloadAttachment event', () => {
+    fixture.detectChanges();
     vi.spyOn(component.downloadAttachment, 'emit');
     component.form.get('message')?.setValue('mockMessage');
     component.triggerDownload('mockCode', 'mockId', 'mockName');
@@ -119,6 +131,7 @@ describe('MessagingComponent', () => {
 
   describe('with item support', () => {
     it('should not render an item link when there is no item attached to the message', () => {
+      fixture.detectChanges();
       expect(
         fixture.debugElement.query(
           By.css('.cx-message-card:nth-child(1) .cx-message-item-link')
@@ -127,6 +140,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should render an item link when there is an item attached to the message', () => {
+      fixture.detectChanges();
       expect(
         fixture.debugElement.query(
           By.css('.cx-message-card:nth-child(2) .cx-message-item-link')
@@ -135,6 +149,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should fire itemClicked event when clicking item link', () => {
+      fixture.detectChanges();
       vi.spyOn(component.itemClicked, 'emit');
       fixture.debugElement
         .query(By.css('.cx-message-card:nth-child(2) .cx-message-item-link'))
@@ -145,6 +160,7 @@ describe('MessagingComponent', () => {
     });
 
     it('should not render an item selection control (drop down list box) when there are no items provided', () => {
+      fixture.detectChanges();
       expect(
         fixture.debugElement.query(By.css('.cx-message-item-selection'))
       ).toBeNull();
@@ -168,9 +184,9 @@ describe('MessagingComponent', () => {
     });
 
     it('should emit selected itemId when adding a new message', () => {
-      vi.spyOn(component.send, 'emit');
       messagingConfig.itemList$ = of(mockItemList);
       fixture.detectChanges();
+      vi.spyOn(component.send, 'emit');
 
       const itemDDLB = fixture.debugElement.query(
         By.css('.cx-message-item-selection')
@@ -206,6 +222,7 @@ describe('MessagingComponent', () => {
   });
   describe('resetForm', () => {
     beforeEach(() => {
+      fixture.detectChanges();
       component.fileUploadComponent = { removeFile: vi.fn() };
     });
     it('should remove all files uploaded', () => {

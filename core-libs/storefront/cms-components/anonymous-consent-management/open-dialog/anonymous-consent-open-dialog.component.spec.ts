@@ -10,7 +10,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 

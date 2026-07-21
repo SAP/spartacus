@@ -9,7 +9,7 @@ import {
 import { ICON_TYPE } from '../../../../cms-components/misc/icon';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { FormConfig } from '../../../../shared/config/form-config';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 

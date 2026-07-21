@@ -38,7 +38,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
@@ -286,7 +286,7 @@ describe('MyInterestsComponent', () => {
 
   it('should display header', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+    expect(el.query(By.css('h2')).nativeElement.textContent).toEqual(
       'myInterests.header'
     );
   });

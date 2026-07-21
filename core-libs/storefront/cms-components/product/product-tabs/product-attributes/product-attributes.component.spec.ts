@@ -83,14 +83,14 @@ describe('ProductAttributesComponent in product', () => {
       productAttributesComponent.product$ = of(mockProduct1);
       fixture.detectChanges();
       const el = fixture.debugElement.queryAll(By.css('td:last-of-type li'));
-      expect(el[0].nativeElement.innerText).toEqual('mock1 MK');
+      expect(el[0].nativeElement.textContent?.trim().replace(/\s+/g, ' ')).toEqual('mock1 MK');
     });
 
     it('should have NOT rendered attribute symbols with unitType equal to 300', () => {
       productAttributesComponent.product$ = of(mockProduct2);
       fixture.detectChanges();
       const el = fixture.debugElement.queryAll(By.css('td:last-of-type li'));
-      expect(el[0].nativeElement.innerText).toEqual('mock2');
+      expect(el[0].nativeElement.textContent?.trim()).toEqual('mock2');
     });
 
     it('should have rendered multiple attributes entries', () => {

@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -13,6 +14,7 @@ import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { MockIconComponent } from '../../misc/icon/testing/icon-testing.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
+import { vi } from 'vitest';
 
 const mockData: CmsScrollToTopComponent = {
   scrollBehavior: ScrollBehavior.SMOOTH,
@@ -117,15 +119,18 @@ describe('ScrollToTopComponent', () => {
   });
 
   it('should focus first focusable element after activated with keyboard and pressing tab', async () => {
-    vi.spyOn(focusUtility, 'findFirstFocusable');
+    fixture.detectChanges();
+    vi.spyOn<any>(component['window'], 'scrollY', 'get').mockReturnValue(0);
+    const otherElement = document.createElement('button');
+    document.body.appendChild(otherElement);
+    vi.spyOn(focusUtility, 'findFirstFocusable').mockReturnValue(otherElement);
     scrollBtn.focus();
     component['triggedByKeypress'] = true;
     component['onTab'](new KeyboardEvent('keydown', { key: 'Tab' }));
 
-    // Wait for focus changes to propagate
-    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
     expect(document.activeElement).not.toBe(component.button.nativeElement);
+    document.body.removeChild(otherElement);
   });
 
   it('should reset triggedByKeypress flag when display is set to false', () => {

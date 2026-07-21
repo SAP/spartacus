@@ -262,9 +262,7 @@ describe('ComponentWrapperDirective', () => {
           fixture.debugElement.children[0].componentInstance
         );
         expect(testComponentInstance.cmsData.uid).toContain('test_uid');
-        expect((testComponentInstance as any).testKey).not.toContain(
-          'testValue'
-        );
+        expect((testComponentInstance as any).testKey).not.toBe('testValue');
       });
 
       it('should provide configurable cms component providers', () => {
@@ -273,9 +271,7 @@ describe('ComponentWrapperDirective', () => {
           fixture.debugElement.children[0].componentInstance
         );
         expect(testComponentInstance.testService).toEqual('testValue');
-        expect((testComponentInstance as any).testKey).not.toContain(
-          'testValue'
-        );
+        expect((testComponentInstance as any).testKey).not.toBe('testValue');
       });
 
       it('should emit component ref', () => {

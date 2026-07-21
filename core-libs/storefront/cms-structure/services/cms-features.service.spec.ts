@@ -6,7 +6,7 @@ import {
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, firstValueFrom } from 'rxjs';
 import { CmsFeaturesService } from './cms-features.service';
 
 const mockCmsConfig: CmsConfig = {

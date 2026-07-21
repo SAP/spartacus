@@ -15,6 +15,7 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ActiveFacetsComponent } from './active-facets';
 import { FacetListComponent } from './facet-list';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',
@@ -86,8 +87,20 @@ describe('ProductFacetNavigationComponent', () => {
   });
 
   describe('mobile', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      // Simulate mobile: trigger button is visible so hasTrigger returns true
+      // (jsdom offsetParent is always null so we must mock this explicitly)
+      vi.spyOn(component, 'hasTrigger', 'get').mockReturnValue(true);
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
     it('should not have facet list when trigger button is visible', async () => {
-      await fixture.whenStable();
+      fixture.detectChanges();
+      await vi.advanceTimersByTimeAsync(0);
       fixture.detectChanges();
 
       const facetList = element.query(By.css('cx-facet-list'));
@@ -107,7 +120,7 @@ describe('ProductFacetNavigationComponent', () => {
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
 
-      await fixture.whenStable();
+      await vi.advanceTimersByTimeAsync(0);
       fixture.detectChanges();
 
       const facetList = element.query(By.css('cx-facet-list')).nativeElement;
@@ -120,7 +133,7 @@ describe('ProductFacetNavigationComponent', () => {
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
 
-      await fixture.whenStable();
+      await vi.advanceTimersByTimeAsync(0);
       fixture.detectChanges();
 
       const facetList = element.query(By.css('cx-facet-list')).nativeElement;
@@ -131,13 +144,24 @@ describe('ProductFacetNavigationComponent', () => {
   });
 
   describe('desktop', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      // Simulate desktop: trigger button is hidden so hasTrigger returns false
+      // (jsdom offsetParent is always null so we must mock this explicitly)
+      vi.spyOn(component, 'hasTrigger', 'get').mockReturnValue(false);
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
     it('should have facet list when trigger button is hidden', async () => {
       fixture.detectChanges();
 
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.style.display = 'none';
 
-      await fixture.whenStable();
+      await vi.advanceTimersByTimeAsync(0);
       fixture.detectChanges();
 
       const facetList = element.query(By.css('cx-facet-list')).nativeElement;

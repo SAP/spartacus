@@ -56,7 +56,7 @@ describe('TruncateTextPopoverComponent', () => {
     fixture.detectChanges();
 
     const truncatedText = fixture.debugElement.query(By.css('.truncated-text'))
-      .nativeElement.innerText;
+      .nativeElement.textContent.trimStart();
 
     expect(el.query(By.css('.truncated-text'))).toBeTruthy();
     expect(truncatedText).toEqual(mockContentLimitTo100Characters);
@@ -65,7 +65,7 @@ describe('TruncateTextPopoverComponent', () => {
 
   it('should render button with "more" text', () => {
     const buttonText = fixture.debugElement.query(By.css('button'))
-      .nativeElement.innerText;
+      .nativeElement.textContent;
 
     expect(el.query(By.css('button'))).toBeTruthy();
     expect(buttonText).toContain('more');

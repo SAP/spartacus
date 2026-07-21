@@ -25,7 +25,7 @@ describe('FormRequiredAsterisksComponent', () => {
   it('should render correctly', () => {
     fixture.detectChanges();
     expect(component.titleTranslation).toEqual('common.required');
-    expect(fixture.debugElement.nativeElement.innerText).toBe('*');
+    expect(fixture.debugElement.nativeElement.textContent?.trim()).toBe('*');
   });
 
   it('should render correctly, when provided titleTranslation input value', () => {
@@ -33,7 +33,7 @@ describe('FormRequiredAsterisksComponent', () => {
     component.titleTranslation = translation;
     fixture.detectChanges();
     expect(component.titleTranslation).toEqual(translation);
-    expect(fixture.debugElement.nativeElement.innerText).toBe('*');
+    expect(fixture.debugElement.nativeElement.textContent?.trim()).toBe('*');
     expect(
       fixture.debugElement.nativeElement.querySelector('abbr.required-asterisk')
         .title

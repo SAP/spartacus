@@ -5,7 +5,7 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
 
 const mockErrorName = 'exampleError';
@@ -16,7 +16,7 @@ describe('FormErrors', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: UntypedFormControl;
 
-  const getContent = () => fixture.debugElement.nativeElement.innerText;
+  const getContent = () => fixture.debugElement.nativeElement.textContent;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({})
@@ -85,10 +85,10 @@ describe('FormErrors', () => {
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
-    expect(renderedErrors[0].innerText).toEqual(
+    expect(renderedErrors[0].textContent).toEqual(
       'formErrors.labeled.email,formErrors.email'
     );
-    expect(renderedErrors[1].innerText).toEqual(
+    expect(renderedErrors[1].textContent).toEqual(
       'formErrors.labeled.required,formErrors.required'
     );
   });

@@ -37,10 +37,10 @@ describe('AvatarComponent', () => {
     fixture = TestBed.createComponent(AvatarComponent);
     component = fixture.componentInstance;
     component.message = mockEvent;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -56,7 +56,7 @@ describe('AvatarComponent', () => {
     fixture.detectChanges();
     const element = fixture.debugElement.query(By.css('span')).nativeElement;
 
-    expect(element.innerText).toEqual('MR');
+    expect(element.textContent?.trim()).toEqual('MR');
   });
 
   it('should display icon if addedByAgent is truthy', () => {
@@ -67,7 +67,7 @@ describe('AvatarComponent', () => {
     const iconElement = fixture.nativeElement.querySelector('cx-icon');
     expect(iconElement).toBeTruthy();
 
-    expect(iconElement.textContent).toEqual(ICON_TYPE.HEADSET);
+    expect(iconElement.textContent?.trim()).toEqual(ICON_TYPE.HEADSET);
   });
 
   it('should display user icon if author is missing', () => {
@@ -78,6 +78,6 @@ describe('AvatarComponent', () => {
     const iconElement = fixture.nativeElement.querySelector('cx-icon');
     expect(iconElement).toBeTruthy();
 
-    expect(iconElement.textContent).toEqual(ICON_TYPE.USER);
+    expect(iconElement.textContent?.trim()).toEqual(ICON_TYPE.USER);
   });
 });

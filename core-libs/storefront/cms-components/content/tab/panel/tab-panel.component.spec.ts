@@ -41,14 +41,15 @@ describe('TabPanelComponent', () => {
     fixture = TestBed.createComponent(TabPanelComponent);
     component = fixture.componentInstance;
     component.tab = mockTab;
-    fixture.detectChanges();
   });
 
   it('should create an instance', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should have correct attribues when is open in TAB mode', () => {
+    fixture.detectChanges();
     const tabPanel = document.querySelector('div[role="tabpanel"]');
     expect(tabPanel?.getAttribute('id')).toEqual('section-1');
     expect(tabPanel?.getAttribute('tabindex')).toEqual('0');

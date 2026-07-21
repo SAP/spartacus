@@ -10,7 +10,7 @@ import { IconModule } from '@spartacus/storefront';
 import { firstValueFrom, of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
 
 class MockTranslationService {
   translate() {

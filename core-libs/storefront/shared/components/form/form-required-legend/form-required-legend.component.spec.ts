@@ -25,7 +25,7 @@ describe('FormRequiredLegendComponent', () => {
   it('should render correctly', () => {
     fixture.detectChanges();
     expect(component.formLegendTranslation).toEqual('formLegend.required');
-    expect(fixture.debugElement.nativeElement.innerText).toBe(
+    expect(fixture.debugElement.nativeElement.textContent.trim()).toBe(
       'formLegend.required'
     );
   });
@@ -35,6 +35,6 @@ describe('FormRequiredLegendComponent', () => {
     component.formLegendTranslation = translation;
     fixture.detectChanges();
     expect(component.formLegendTranslation).toEqual(translation);
-    expect(fixture.debugElement.nativeElement.innerText).toBe(translation);
+    expect(fixture.debugElement.nativeElement.textContent.trim()).toBe(translation);
   });
 });

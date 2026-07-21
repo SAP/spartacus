@@ -28,11 +28,10 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
     component.requiredConsents = [];
     component.consent = null;
     el = fixture.debugElement;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

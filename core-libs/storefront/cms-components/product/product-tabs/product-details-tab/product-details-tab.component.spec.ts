@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductDetailsTabComponent } from './product-details-tab.component';
@@ -117,14 +117,11 @@ describe('ProductDetailsTabComponent', () => {
     expect(result).toEqual([undefined, undefined]);
   });
 
-  it('should get children containing cms PDFComponent', () => {
+  it('should get children containing cms PDFComponent', async () => {
     let result: any[] | undefined;
     data$.next({ ...mockCmsComponentWithChildren });
-    productDetailsTabComponent.children$
-      .subscribe((children) => (result = children))
-      .unsubscribe();
-
-    expect(result).toContain({
+    result = await firstValueFrom(productDetailsTabComponent.children$);
+    expect(result).toContainEqual({
       ...mockPDFComponent,
       flexType: mockPDFComponent.typeCode,
     });

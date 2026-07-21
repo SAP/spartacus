@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { LayoutConfig } from '../../config/layout-config';
 import { LAUNCH_CALLER, LaunchInlineRootDialog } from '../config';
 import { InlineRootRenderStrategy } from './inline-root-render.strategy';
@@ -32,8 +33,12 @@ const mockLaunchConfig: LayoutConfig = {
   },
 };
 
-const hostView = 'hostView';
-const testComponentNativeNode = '<div></div>';
+const hostView = {
+  attachToAppRef: vi.fn(),
+  detachFromAppRef: vi.fn(),
+  destroy: vi.fn(),
+};
+const testComponentNativeNode = document.createElement('div');
 
 class MockComponentFactoryResolver {
   resolveComponentFactory() {
@@ -69,6 +74,13 @@ describe('InlineRootRenderStrategy', () => {
     fixture = TestBed.createComponent(MockRootComponent);
     appRef.components.push(fixture.componentRef);
     inlineRootRenderStrategy = TestBed.inject(InlineRootRenderStrategy);
+  });
+
+  afterEach(() => {
+    const idx = appRef.components.indexOf(fixture.componentRef);
+    if (idx > -1) {
+      appRef.components.splice(idx, 1);
+    }
   });
 
   it('should be created', () => {

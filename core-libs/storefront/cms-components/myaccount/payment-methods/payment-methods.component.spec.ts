@@ -18,7 +18,7 @@ import {
   FocusDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ICON_TYPE, IconComponent } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
@@ -146,7 +146,7 @@ describe('PaymentMethodsComponent', () => {
 
   it('should display header', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+    expect(el.query(By.css('h2')).nativeElement.textContent).toEqual(
       'paymentMethods.paymentMethods'
     );
   });

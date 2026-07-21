@@ -29,7 +29,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {

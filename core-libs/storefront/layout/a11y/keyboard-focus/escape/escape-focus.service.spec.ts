@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { EscapeFocusService } from './escape-focus.service';
+import { vi } from 'vitest';
 
 @Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>' })
 class MockComponent {}
@@ -63,8 +64,8 @@ describe('EscapeFocusService', () => {
   describe('handleEscape()', () => {
     let el: HTMLElement;
     const ev = {
-      preventDefault() {},
-      stopPropagation() {},
+      preventDefault: vi.fn(),
+      stopPropagation: vi.fn(),
       target: undefined,
     };
 
@@ -131,6 +132,7 @@ describe('EscapeFocusService', () => {
       });
 
       it('should not stop event bubbling', () => {
+        vi.clearAllMocks();
         service.handleEscape(el, { focusOnEscape: false }, ev as KeyboardEvent);
         expect(ev.preventDefault).not.toHaveBeenCalled();
         expect(ev.stopPropagation).not.toHaveBeenCalled();

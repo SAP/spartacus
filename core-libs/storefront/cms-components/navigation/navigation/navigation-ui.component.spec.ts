@@ -20,7 +20,7 @@ import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
 
 @Component({
   selector: 'cx-icon',
@@ -256,8 +256,8 @@ describe('Navigation UI Component', () => {
       const back: HTMLElement = navs[0].nativeElement;
       const root1: HTMLElement = navs[1].nativeElement;
       expect(navs.length).toBe(2);
-      expect(back.innerText).toEqual('common.back');
-      expect(root1.innerText).toEqual('');
+      expect(back.textContent).toEqual('common.back');
+      expect(root1.textContent).toEqual('');
     });
 
     it('should render link for nav nodes with a URL', () => {

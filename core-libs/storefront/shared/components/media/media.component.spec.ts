@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Directive,
   Input,
   Pipe,
@@ -15,6 +16,7 @@ import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
 import { ImageFetchPriority, ImageLoadingStrategy, Media } from './media.model';
 import { MediaService } from './media.service';
+import { vi } from 'vitest';
 
 const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
   'IS_CONFIGURABLE_MEDIA_COMPONENT'
@@ -266,7 +268,7 @@ describe('MediaComponent', () => {
     const el: HTMLElement = <HTMLImageElement>(
       lazyFixture.debugElement.query(By.css('img')).nativeElement
     );
-    expect(el.getAttribute('loading')).toEqual('lazy');
+    expect((el as HTMLImageElement).loading).toEqual('lazy');
   });
 
   it('should contain is-loading classes while loading', () => {
@@ -302,12 +304,14 @@ describe('MediaComponent', () => {
     component.container = mockImageContainer;
 
     component.ngOnChanges();
+    fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
     fixture.detectChanges();
 
     getMediaSpy.mockReturnValue(null);
     component.container = mockMissingImageContainer;
 
     component.ngOnChanges();
+    fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
     fixture.detectChanges();
 
     expect(
@@ -364,13 +368,14 @@ describe('MediaComponent', () => {
       const load = new UIEvent('load');
       imageNativeElement.dispatchEvent(load);
 
+      fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
       fixture.detectChanges();
 
       expect(component['effectiveLoadingStrategy']).toBe(
         ImageLoadingStrategy.EAGER
       );
 
-      expect(imageNativeElement.getAttribute('loading')).toBe('eager');
+      expect(imageNativeElement.loading).toBe('eager');
       expect(imageNativeElement.getAttribute('fetchpriority')).toBe('high');
     });
 
@@ -388,12 +393,13 @@ describe('MediaComponent', () => {
       component.fetchPriority = ImageFetchPriority.LOW;
       component.loading = ImageLoadingStrategy.LAZY;
 
+      fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
       fixture.detectChanges();
 
       expect(component['effectiveLoadingStrategy']).toBe(
         ImageLoadingStrategy.LAZY
       );
-      expect(imageNativeElement.getAttribute('loading')).toBe('lazy');
+      expect(imageNativeElement.loading).toBe('lazy');
       expect(imageNativeElement.getAttribute('fetchpriority')).toBe('low');
     });
 
@@ -419,9 +425,10 @@ describe('MediaComponent', () => {
         ImageLoadingStrategy.LAZY
       );
 
+      fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
       fixture.detectChanges();
 
-      expect(imageNativeElement.getAttribute('loading')).toBe('lazy');
+      expect(imageNativeElement.loading).toBe('lazy');
     });
   });
 });

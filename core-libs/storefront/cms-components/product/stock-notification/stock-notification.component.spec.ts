@@ -34,7 +34,7 @@ import { StockNotificationComponent } from './stock-notification.component';
 
 import { RouterModule } from '@angular/router';
 import { FocusDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
 

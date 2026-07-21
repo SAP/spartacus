@@ -227,19 +227,24 @@ describe('CarouselScrollingComponent', () => {
 
     beforeEach(() => {
       parentFixture = TestBed.createComponent(TestParentComponent);
-      parentFixture.detectChanges();
 
+      horizontalScrollingPositionDirective = null!;
+      carouselScrollingComponent = null!;
+    });
+
+    function detectAndQueryHelpers() {
+      parentFixture.detectChanges();
       horizontalScrollingPositionDirective = parentFixture.debugElement
         .query(By.css('.carousel-panel'))
         .injector.get(MockHorizontalScrollingPositionDirective);
-
       carouselScrollingComponent = parentFixture.debugElement.query(
         By.directive(CarouselScrollingComponent)
       ).componentInstance;
-    });
+    }
 
     describe('items', () => {
       it('should render all items with correct CSS class and structure', () => {
+        detectAndQueryHelpers();
         const items = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .item')
         );
@@ -256,21 +261,23 @@ describe('CarouselScrollingComponent', () => {
 
     describe('title', () => {
       it('should render h2 with title', () => {
+        detectAndQueryHelpers();
         const el = parentFixture.debugElement.query(By.css('h2'));
-        expect((<HTMLElement>el.nativeElement).innerText).toEqual(
+        expect((<HTMLElement>el.nativeElement).textContent).toEqual(
           'Test Carousel Title'
         );
       });
 
       it('should NOT render h2 with title when not given via input', () => {
         parentFixture.componentInstance.mockTitle = undefined;
-        parentFixture.detectChanges();
+        detectAndQueryHelpers();
         const el = parentFixture.debugElement.query(By.css('h2'));
         expect(el).toBeNull();
       });
     });
 
     describe('scrolling position tracking', () => {
+      beforeEach(() => detectAndQueryHelpers());
       it('should bind .carousel-items-start element to horizontalScrollingPositionDirective.scrollingAreaStart', () => {
         const carouselItemsStart = parentFixture.debugElement.queryAll(
           By.css('.carousel-panel .carousel-items .carousel-items-start')
@@ -313,6 +320,7 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('scrolling buttons', () => {
+      beforeEach(() => detectAndQueryHelpers());
       describe('previous button', () => {
         it('should have previous button', () => {
           const buttons = parentFixture.debugElement.queryAll(
@@ -464,6 +472,7 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('child template creation', () => {
+      beforeEach(() => detectAndQueryHelpers());
       it(`should pass item's data to each child template context`, () => {
         const itemsData = parentFixture.debugElement.queryAll(
           By.css('.child-item')
@@ -518,9 +527,13 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('when an item is focused in', () => {
+      beforeEach(() => detectAndQueryHelpers());
       it('should scroll it into view', () => {
         const items = parentFixture.debugElement.queryAll(By.css('.item'));
         const secondItem = items[1].nativeElement as HTMLElement;
+        if (!secondItem.scrollIntoView) {
+          secondItem.scrollIntoView = () => {};
+        }
         vi.spyOn(secondItem, 'scrollIntoView');
 
         secondItem.dispatchEvent(new FocusEvent('focusin'));
@@ -530,6 +543,7 @@ describe('CarouselScrollingComponent', () => {
     });
 
     describe('keyboard navigation', () => {
+      beforeEach(() => detectAndQueryHelpers());
       let firstChild: HTMLElement;
       let secondChild: HTMLElement;
 

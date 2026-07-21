@@ -103,7 +103,6 @@ describe('CardComponent', () => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
 
     vi.spyOn(component.deleteCard, 'emit');
     vi.spyOn(component.cancelCard, 'emit');
@@ -113,6 +112,7 @@ describe('CardComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 

@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { PageSlotService } from './page-slot.service';
 
 import { CmsComponentsService } from '@spartacus/storefront';
@@ -11,31 +12,31 @@ function createSlotElementStub(slotName, top) {
   };
 }
 
-const documentStub = {
-  querySelectorAll: () => [
-    createSlotElementStub('test', 20),
-    createSlotElementStub('test-2', 100),
-  ],
-
-  documentElement: {
-    clientHeight: 80,
-  },
-};
-
 describe('PageSlotService', () => {
   let pageSlotService: PageSlotService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: DOCUMENT,
-          useValue: documentStub,
-        },
-      ],
+      providers: [],
+    });
+
+    const doc = TestBed.inject(DOCUMENT);
+
+    vi.spyOn(doc, 'querySelectorAll').mockReturnValue([
+      createSlotElementStub('test', 20),
+      createSlotElementStub('test-2', 100),
+    ] as any);
+
+    Object.defineProperty(doc.documentElement, 'clientHeight', {
+      value: 80,
+      configurable: true,
     });
 
     pageSlotService = TestBed.inject(PageSlotService);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('should inject service', () => {
@@ -45,18 +46,18 @@ describe('PageSlotService', () => {
   describe('shouldNotDefer', () => {
     describe('for slot that is visible in SSR viewport', () => {
       it('should return true', () => {
-        expect(pageSlotService.shouldNotDefer('test')).toBeTrue();
+        expect(pageSlotService.shouldNotDefer('test')).toBe(true);
       });
 
       it('should return true only once', () => {
-        expect(pageSlotService.shouldNotDefer('test')).toBeTrue();
-        expect(pageSlotService.shouldNotDefer('test')).toBeFalse();
+        expect(pageSlotService.shouldNotDefer('test')).toBe(true);
+        expect(pageSlotService.shouldNotDefer('test')).toBe(false);
       });
     });
 
     describe('for slot that is visible in SSR viewport', () => {
       it('should return false', () => {
-        expect(pageSlotService.shouldNotDefer('test-2')).toBeFalse();
+        expect(pageSlotService.shouldNotDefer('test-2')).toBe(false);
       });
     });
   });

@@ -39,7 +39,6 @@ describe('ProvideLcpContextDirective', () => {
       providers: [],
     });
     fixture = TestBed.createComponent(TestHostComponent);
-    fixture.detectChanges();
   });
 
   function getInjectedLcpPresence(): string {
@@ -49,12 +48,14 @@ describe('ProvideLcpContextDirective', () => {
   }
 
   it('should provide something, but not fallback to DEFAULT_LCP_PRESENCE', () => {
+    fixture.detectChanges();
     const child = fixture.debugElement.query(By.directive(ChildComponent));
     expect(child.componentInstance.lcpPresence$).toBeTruthy();
     expect(child.componentInstance.lcpPresence$).not.toBe(DEFAULT_LCP_PRESENCE);
   });
 
   it('should provide default NO_LCP when input is null', () => {
+    fixture.detectChanges();
     const injectedLcpPresence = getInjectedLcpPresence();
     expect(injectedLcpPresence).toBe(LcpPresence.HAS_LCP);
   });

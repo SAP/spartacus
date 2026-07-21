@@ -20,7 +20,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { CarouselScrollingComponent } from '@spartacus/storefront';
-import { MediaComponent } from 'core-libs/storefront/shared/components/media/media.component';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
@@ -242,12 +242,12 @@ describe('ProductReferencesComponent', () => {
     const productNameElement = fixture.debugElement.query(
       By.css('a:first-child h4')
     ).nativeElement;
-    expect(productNameElement.innerText).toEqual('product reference 1');
+    expect(productNameElement.textContent).toEqual('product reference 1');
 
     const priceElement = fixture.debugElement.query(
       By.css('a:last-child .price')
     ).nativeElement;
-    expect(priceElement.innerText).toEqual('$200.00');
+    expect(priceElement.textContent).toEqual('$200.00');
 
     const productImage = fixture.debugElement.query(
       By.css('a:first-child cx-media')

@@ -31,6 +31,10 @@ describe('TrapFocusService', () => {
   let service: TrapFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [MockComponent],

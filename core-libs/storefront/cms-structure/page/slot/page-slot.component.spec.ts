@@ -1,4 +1,4 @@
-import { Component, Directive, Input, Renderer2 } from '@angular/core';
+import { ChangeDetectorRef, Component, Directive, Input, Renderer2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -309,6 +309,7 @@ describe('PageSlotComponent', () => {
       expect(el.classList).toContain('page-fold');
 
       pageSlotComponent.isPageFold = false;
+      fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
       fixture.detectChanges();
 
       expect(el.classList).not.toContain('page-fold');

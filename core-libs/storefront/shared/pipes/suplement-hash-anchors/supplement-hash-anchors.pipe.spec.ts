@@ -70,9 +70,9 @@ describe('AnchorPipe', () => {
       mockLink1.href = `${currentUrlWithoutFragment}#head1`;
       mockLink5.href = `${currentUrlWithoutFragment}#head5`;
       mockLink6.href = `${currentUrlWithoutFragment}#`;
-      mockLink1.innerText = `link1`;
-      mockLink5.innerText = `link5`;
-      mockLink6.innerText = `link6`;
+      mockLink1.textContent = `link1`;
+      mockLink5.textContent = `link5`;
+      mockLink6.textContent = `link6`;
 
       expect(pipe.transform(mockHtml)).toBe(expectedHtml);
       expect(renderer.createElement).toHaveBeenCalledWith('template');

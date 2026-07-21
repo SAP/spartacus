@@ -11,7 +11,7 @@ import { FeatureToggles } from '@spartacus/core';
 import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
 
 @Directive({ selector: '[cxVisibleFocus]' })
 class CustomFocusDirective extends VisibleFocusDirective {

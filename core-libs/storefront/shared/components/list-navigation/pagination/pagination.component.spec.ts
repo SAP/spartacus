@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../test/mock-feature-directive';
 import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
 import { PaginationItemType } from './pagination.model';

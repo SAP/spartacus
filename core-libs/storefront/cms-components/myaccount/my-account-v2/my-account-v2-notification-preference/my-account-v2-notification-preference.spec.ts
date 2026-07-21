@@ -9,7 +9,7 @@ import {
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { cold, getTestScheduler } from 'jasmine-marbles';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';

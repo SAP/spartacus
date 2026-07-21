@@ -8,6 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureToggles, I18nTestingModule } from '@spartacus/core';
 import { SortingComponent } from './sorting.component';
 import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
 
 describe('SortingComponent', () => {
   @Directive({ selector: '[cxNgSelectA11y]' })
@@ -55,21 +56,27 @@ describe('SortingComponent', () => {
 
   describe('sortList() focus management (a11yRestoreFocusOnNgSelect)', () => {
     it('should focus the inner combobox after sort when toggle is enabled', () => {
-      vi.useFakeTimers();
+      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+        cb(0);
+        return 0;
+      });
+      featureToggles.a11yRestoreFocusOnNgSelect = true;
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
       ) as HTMLElement;
       const focusSpy = vi.spyOn(combobox, 'focus');
 
       component.sortList('relevance');
-      vi.runAllTimers();
 
       expect(focusSpy).toHaveBeenCalled();
-      vi.useRealTimers();
+      vi.unstubAllGlobals();
     });
 
     it('should NOT focus the inner combobox after sort when toggle is disabled', () => {
-      vi.useFakeTimers();
+      vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+        cb(0);
+        return 0;
+      });
       featureToggles.a11yRestoreFocusOnNgSelect = false;
       const combobox = fixture.nativeElement.querySelector(
         '[role="combobox"]'
@@ -77,10 +84,9 @@ describe('SortingComponent', () => {
       const focusSpy = vi.spyOn(combobox, 'focus');
 
       component.sortList('relevance');
-      vi.runAllTimers();
 
       expect(focusSpy).not.toHaveBeenCalled();
-      vi.useRealTimers();
+      vi.unstubAllGlobals();
     });
   });
 

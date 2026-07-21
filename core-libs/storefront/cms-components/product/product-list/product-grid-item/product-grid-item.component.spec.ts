@@ -159,14 +159,15 @@ describe('ProductGridItemComponent in product-list', () => {
     component.product = mockProduct;
 
     component.ngOnChanges();
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display product name', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-name')
         .textContent
@@ -174,6 +175,7 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should display product formatted price', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('.cx-product-price')
         .textContent
@@ -181,6 +183,7 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should display product image', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
@@ -232,6 +235,7 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should display raiting component', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
@@ -255,10 +259,12 @@ describe('ProductGridItemComponent in product-list', () => {
   });
 
   it('should provide ProductListItemContextSource', () => {
+    fixture.detectChanges();
     expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
   });
 
   it('should provide ProductListItemContext', () => {
+    fixture.detectChanges();
     expect(componentInjector.get(ProductListItemContext)).toBe(
       componentInjector.get(ProductListItemContextSource)
     );

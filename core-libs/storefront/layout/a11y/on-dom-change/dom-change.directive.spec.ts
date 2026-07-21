@@ -78,7 +78,7 @@ describe('DomChangeDirective', () => {
     fixture.detectChanges();
 
     const mutation = await mutationPromise;
-    expect(mutation.target).toHaveClass('targetElement');
+    expect((mutation.target as HTMLElement).classList.contains('targetElement')).toBe(true);
   });
 
   it('should not emit when mutations do not match target selector', () => {

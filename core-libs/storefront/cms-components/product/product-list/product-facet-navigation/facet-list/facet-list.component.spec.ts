@@ -10,8 +10,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureConfigService, I18nTestingModule } from '@spartacus/core';
 import { KeyboardFocusService } from '@spartacus/storefront';
-import { TabModule } from 'core-libs/storefront/cms-components/content/tab/tab.module';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { TabModule } from '../../../../content/tab/tab.module';
+import { MockFeatureDirective } from '../../../../../shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {

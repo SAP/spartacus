@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { NgIf } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -43,7 +44,7 @@ class MockDeferLoaderService {
  * Returns the innerText of the fixture
  */
 function getContent(fixture: ComponentFixture<any>): string {
-  return fixture.debugElement.nativeElement.innerText;
+  return fixture.debugElement.nativeElement.textContent.trim();
 }
 
 /**
@@ -52,9 +53,9 @@ function getContent(fixture: ComponentFixture<any>): string {
  */
 function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
   fixture.componentInstance.outletVisible = false;
-  fixture.detectChanges();
+  fixture.changeDetectorRef.detectChanges();
   fixture.componentInstance.outletVisible = true;
-  fixture.detectChanges();
+  fixture.changeDetectorRef.detectChanges();
 }
 
 describe('OutletRefDirective', () => {
@@ -88,8 +89,10 @@ describe('OutletRefDirective', () => {
 
   it('should unregister template on cxOutletRef destroy', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.componentInstance.outletRefVisible = false;
+    fixture.detectChanges();
 
+    fixture.componentInstance.outletRefVisible = false;
+    fixture.detectChanges();
     refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeFalsy();
@@ -98,13 +101,14 @@ describe('OutletRefDirective', () => {
 
   it('should re-register template on cxOutletRef re-creation', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
+    fixture.detectChanges();
 
-    // destroy and re-define OutletRef
+    // destroy OutletRef
     fixture.componentInstance.outletRefVisible = false;
     fixture.detectChanges();
-    fixture.componentInstance.outletRefVisible = true;
-    fixture.detectChanges();
 
+    // re-create OutletRef and re-render outlet in one go
+    fixture.componentInstance.outletRefVisible = true;
     refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeTruthy();

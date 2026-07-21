@@ -12,7 +12,7 @@ import {
   ComponentCreateEvent,
   StarRatingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
@@ -138,9 +138,9 @@ describe('ProductIntroComponent in product', () => {
       const tab2: HTMLElement = document.createElement('button');
       const tab3: HTMLElement = document.createElement('button');
 
-      tab1.innerText = 'Tab 1';
-      tab2.innerText = 'Tab 2';
-      tab3.innerText = 'Tab 3';
+      tab1.textContent = 'Tab 1';
+      tab2.textContent = 'Tab 2';
+      tab3.textContent = 'Tab 3';
 
       tabsComponent.appendChild(tab1);
       tabsComponent.appendChild(tab2);
@@ -187,7 +187,7 @@ describe('ProductIntroComponent in product', () => {
         averageRating: undefined,
       } as Product);
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productDetails.noReviews'
       );
     });
@@ -197,7 +197,7 @@ describe('ProductIntroComponent in product', () => {
         averageRating: undefined,
       } as Product);
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+      expect(fixture.debugElement.nativeElement.textContent).not.toContain(
         'productSummary.showReviews'
       );
     });
@@ -217,7 +217,7 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent['getReviewsComponent'] = () => ({}) as HTMLElement;
 
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productSummary.showReviews'
       );
     });
@@ -237,7 +237,7 @@ describe('ProductIntroComponent in product', () => {
       productIntroComponent['getReviewsComponent'] = () => null;
 
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
+      expect(fixture.debugElement.nativeElement.textContent).toContain(
         'productSummary.showReviews'
       );
     });
@@ -246,8 +246,8 @@ describe('ProductIntroComponent in product', () => {
       const tab1: HTMLElement = document.createElement('button');
       const reviewsTab: HTMLElement = document.createElement('button');
 
-      tab1.innerText = 'Tab 1';
-      reviewsTab.innerText = reviewsLabel;
+      tab1.textContent = 'Tab 1';
+      reviewsTab.textContent = reviewsLabel;
 
       tabsComponent.appendChild(tab1);
       tabsComponent.appendChild(reviewsTab);

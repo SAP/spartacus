@@ -9,7 +9,7 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
