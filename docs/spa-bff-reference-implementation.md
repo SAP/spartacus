@@ -30,6 +30,9 @@ sides, and how they work together.
   - [4. bff-auth.link.ts](#4-srcappbffbff-authlinkts-new-file)
   - [5. bff-timeout.link.ts](#5-srcappbffbff-timeoutlinkts-new-file)
   - [6. bff-client.service.ts](#6-srcappbffbff-clientservicets-new-file)
+  - [7. app.module.server.ts](#7-srcappappmoduleserverts-modify)
+  - [7b. main.server.ts](#7b-srcmainserverts-modify)
+  - [7c. server.ts](#7c-srcserverts-modify)
   - [8. proxy.conf.js](#8-proxyconfjs-new-file-project-root)
   - [9. project.json](#9-projectjson-modify-storefrontapp)
   - [10. package.json scripts](#10-packagejson-scripts)
@@ -280,7 +283,10 @@ Add to `nx.json` → `plugins` array:
         "stylePreprocessorOptions": {
           "includePaths": ["node_modules/"],
           "sass": { "silenceDeprecations": ["import"] }
-        }
+        },
+        "server": "apps/storefrontapp/src/main.server.ts",
+        "ssr": { "entry": "apps/storefrontapp/src/server.ts" },
+        "prerender": false
       },
       "configurations": {
         "production": {
@@ -294,7 +300,8 @@ Add to `nx.json` → `plugins` array:
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
-        }
+        },
+        "noSsr": { "ssr": false, "prerender": false }
       },
       "defaultConfiguration": "production"
     },
@@ -306,8 +313,8 @@ Add to `nx.json` → `plugins` array:
         "proxyConfig": "apps/storefrontapp/proxy.conf.js"
       },
       "configurations": {
-        "production": { "buildTarget": "storefrontapp:build:production" },
-        "development": { "buildTarget": "storefrontapp:build:development" }
+        "production": { "buildTarget": "storefrontapp:build:production,noSsr" },
+        "development": { "buildTarget": "storefrontapp:build:development,noSsr" }
       },
       "defaultConfiguration": "development"
     },
@@ -935,6 +942,123 @@ const bad = await this.bff.client.sample.sayHello.query({ name: 123 }); // ← c
 
 ---
 
+### 7. `src/app/app.module.server.ts` *(modify)*
+
+> **SSR only:** this file is only needed if your application uses server-side rendering.
+
+In SSR, Node.js has no document origin so the relative `/bff/api` fallback from the
+meta tag cannot be resolved. Override `BFF_BASE_URL` with an absolute URL from the
+environment:
+
+```ts
+import { NgModule } from '@angular/core';
+import { provideServer } from '@spartacus/setup/ssr';
+import { BFF_BASE_URL } from './bff/bff-base-url.token';
+
+@NgModule({
+  providers: [
+    ...provideServer({
+      serverRequestOrigin:
+        process.env['SERVER_REQUEST_ORIGIN'] ??
+        `http://localhost:${process.env['PORT'] ?? 4200}`,
+    }),
+    {
+      provide: BFF_BASE_URL,
+      useValue: process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
+    },
+  ],
+})
+export class AppServerModule {}
+```
+
+---
+
+### 7b. `src/main.server.ts` *(modify)*
+
+> **SSR only:** this file is only needed if your application uses server-side rendering.
+
+Add a guard to disable TLS certificate verification in non-production environments.
+Without this, the local BFF dev server's self-signed certificate causes Node.js to reject
+outbound SSR requests with `UNABLE_TO_VERIFY_LEAF_SIGNATURE`. In production (`NODE_ENV=production`)
+the guard does not apply — the BFF on CCv2 uses a CA-signed certificate.
+
+```ts
+import { BootstrapContext, bootstrapApplication } from '@angular/platform-browser';
+import { App } from './app/app.component';
+import { config } from './app/app.config.server';
+
+if (process.env['NODE_ENV'] !== 'production') {
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+}
+
+const bootstrap = (context: BootstrapContext) =>
+    bootstrapApplication(App, config, context);
+
+export default bootstrap;
+```
+
+---
+
+### 7c. `src/server.ts` *(modify)*
+
+> **SSR only:** this file is only needed if your application uses server-side rendering.
+
+The Express SSR server has a catch-all route `server.get(/.*/, ...)` that renders every
+unmatched URL through the Angular engine. Without an explicit `/bff` proxy, BFF API calls
+made during SSR (e.g. `GET /bff/api/sample.sayHello?...`) are intercepted by that catch-all
+and the Angular engine tries to render them as pages — returning HTML instead of JSON,
+which causes `TRPCClientError: Unexpected token '<'`.
+
+Add a proxy for `/bff` **before** the static file handler and the Angular catch-all.
+`http-proxy-middleware` is available as a transitive dependency — no extra install needed.
+
+```ts
+import { APP_BASE_HREF } from '@angular/common';
+import {
+  NgExpressEngineDecorator,
+  defaultExpressErrorHandlers,
+  ngExpressEngine as engine,
+} from '@spartacus/setup/ssr';
+import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import { readFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import bootstrap from './main.server';
+
+// ... (ngExpressEngine setup unchanged)
+
+export function app(): express.Express {
+  const server = express();
+  // ...
+
+  // Proxy /bff requests to the BFF server — must come before the Angular catch-all
+  // so the Express SSR engine does not try to render BFF API calls as Angular pages.
+  const bffBaseUrl = process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api';
+  const bffTarget = new URL(bffBaseUrl).origin;
+  server.use(
+    '/bff',
+    createProxyMiddleware({
+      target: bffTarget,
+      changeOrigin: true,
+      secure: process.env['NODE_ENV'] === 'production',
+    }),
+  );
+
+  // Serve static files from /browser
+  server.get(/.*\..*/, express.static(browserDistFolder, { maxAge: '1y' }));
+
+  // All regular routes use the Universal engine
+  server.get(/.*/, (req, res) => { /* ... */ });
+}
+```
+
+> **Note:** `secure` is set to `true` in production (`NODE_ENV=production`) where the BFF
+> has a CA-signed certificate, and `false` in development where the local BFF uses a
+> self-signed certificate.
+
+---
+
 ### 8. `proxy.conf.js` *(new file, project root)*
 
 Reads `CX_BFF_BASE_URL` at dev-server startup and sets the proxy target dynamically.
@@ -996,7 +1120,8 @@ members consistent commands regardless of which nx target names are used interna
     "dev:bff": "vivaldi dev bff",
     "start:storefrontapp": "nx serve storefrontapp",
     "build:storefrontapp": "nx build storefrontapp",
-    "test:storefrontapp": "nx test storefrontapp"
+    "test:storefrontapp": "nx test storefrontapp",
+    "serve:ssr:storefrontapp": "NG_ALLOWED_HOSTS=localhost node dist/apps/storefrontapp/server/server.mjs"
   }
 }
 ```
@@ -1008,6 +1133,9 @@ members consistent commands regardless of which nx target names are used interna
 | `npm run start:storefrontapp`      | Starts the Angular dev server on port 4200                      |
 | `npm run build:storefrontapp`      | Production build of the storefront                               |
 | `npm run test:storefrontapp`       | Runs unit tests for the storefront                               |
+| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle directly with Node *(SSR only)* |
+
+> **SSR only:** `serve:ssr:storefrontapp` is only needed if your application uses server-side rendering.
 
 ---
 
@@ -1374,8 +1502,10 @@ OCC_BASE_URL=https://api.your-commerce-host.model-t.myhybris.cloud
 ```
 src/
   index.html                                  ← add bff-base-url meta tag
+  server.ts                                   ← add /bff proxy before Angular catch-all
   app/
     app.module.ts                             ← spread bffExampleProviders
+    app.module.server.ts                      ← SSR: override BFF_BASE_URL with absolute URL
     bff/
       bff-base-url.token.ts                   ← InjectionToken reading meta tag
       bff-error-handling.link.ts              ← tRPC link: error propagation
