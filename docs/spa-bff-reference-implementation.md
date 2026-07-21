@@ -5,6 +5,8 @@ BFF (Backend for Frontend) with Spartacus. It covers all files you need to
 create or modify on both the **Spartacus storefront** and the **Vivaldi BFF**
 sides, and how they work together.
 
+> **Scope:** This guide covers CSR (Client-Side Rendering) deployment only. SSR support on CCv2 is planned but not yet validated for the initial release.
+
 ## Table of Contents
 
 - [Getting started from scratch](#getting-started-from-scratch)
@@ -28,8 +30,6 @@ sides, and how they work together.
   - [4. bff-auth.link.ts](#4-srcappbffbff-authlinkts-new-file)
   - [5. bff-timeout.link.ts](#5-srcappbffbff-timeoutlinkts-new-file)
   - [6. bff-client.service.ts](#6-srcappbffbff-clientservicets-new-file)
-  - [7. app.module.server.ts](#7-srcappappmoduleserverts-modify)
-  - [7b. server.ts](#7b-srcserverts-modify)
   - [8. proxy.conf.js](#8-proxyconfjs-new-file-project-root)
   - [9. project.json](#9-projectjson-modify-storefrontapp)
   - [10. package.json scripts](#10-packagejson-scripts)
@@ -174,13 +174,8 @@ git init && git add -A && git commit -m "chore: initial Angular app"
 Add the Spartacus schematics:
 
 ```bash
-ng add @spartacus/schematics@221121.13.1 --ssr --skip-confirmation
+ng add @spartacus/schematics@221121.13.1 --skip-confirmation
 ```
-
-> **Note:** The `--ssr` flag sets up server-side rendering. SSR is not required for BFF
-> integration — see the **SSR only** markers throughout the [Spartacus changes](#spartacus-changes)
-> section for which steps apply only when using SSR. This flag may be made optional in a
-> future version of this guide once CSR-only instructions are fully validated.
 
 When the feature selection prompt appears, use **Space** to toggle features and **Enter**
 to confirm. Accept the defaults or customise the selection to match your project's needs.
@@ -286,10 +281,7 @@ Add to `nx.json` → `plugins` array:
         "stylePreprocessorOptions": {
           "includePaths": ["node_modules/"],
           "sass": { "silenceDeprecations": ["import"] }
-        },
-        "server": "apps/storefrontapp/src/main.server.ts",
-        "ssr": { "entry": "apps/storefrontapp/src/server.ts" },
-        "prerender": false
+        }
       },
       "configurations": {
         "production": {
@@ -303,8 +295,7 @@ Add to `nx.json` → `plugins` array:
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
-        },
-        "noSsr": { "ssr": false, "prerender": false }
+        }
       },
       "defaultConfiguration": "production"
     },
@@ -316,8 +307,8 @@ Add to `nx.json` → `plugins` array:
         "proxyConfig": "apps/storefrontapp/proxy.conf.js"
       },
       "configurations": {
-        "production": { "buildTarget": "storefrontapp:build:production,noSsr" },
-        "development": { "buildTarget": "storefrontapp:build:development,noSsr" }
+        "production": { "buildTarget": "storefrontapp:build:production" },
+        "development": { "buildTarget": "storefrontapp:build:development" }
       },
       "defaultConfiguration": "development"
     },
@@ -447,11 +438,11 @@ and save the result as `apps/storefrontapp/project.json`:
 
 5. **Update `buildTarget` references** in `serve` configurations. The Angular CLI
    `angular.json` names them after the original project name
-   (e.g. `ccv2-spa-doc-test4-storefront:build:development,noSsr`). Change all
+   (e.g. `ccv2-spa-doc-test4-storefront:build:development`). Change all
    references to use the Nx project name `storefrontapp`:
    ```json
-   "production": { "buildTarget": "storefrontapp:build:production,noSsr" },
-   "development": { "buildTarget": "storefrontapp:build:development,noSsr" }
+   "production": { "buildTarget": "storefrontapp:build:production" },
+   "development": { "buildTarget": "storefrontapp:build:development" }
    ```
 
 6. **Simplify the `test` target.** The `angular.json` `test` target inlines all style
@@ -709,10 +700,7 @@ export const BFF_BASE_URL = new InjectionToken<string>('BFF_BASE_URL', {
 
 ### 3. `src/app/bff/bff-error-handling.link.ts` *(new file)*
 
-Forwards BFF procedure errors to Angular's global `ErrorHandler`. In SSR this
-causes the server to respond with an error status code rather than silently serving
-a broken page. In the browser it only fires in dev mode to avoid leaking potentially
-confidential information to the console.
+Forwards BFF procedure errors to Angular's global `ErrorHandler`. In the browser it only fires in dev mode to avoid leaking potentially confidential information to the console.
 
 Place this as the **first** link in the array so it can observe errors from all
 subsequent links.
@@ -832,18 +820,11 @@ function createAuthHeader(op: Operation, token: AuthToken) {
 
 ### 5. `src/app/bff/bff-timeout.link.ts` *(new file)*
 
-> **SSR note:** this link is included in the chain for all applications, but its timeout
-> enforcement only activates in SSR (and in dev mode). In a CSR-only app it is a no-op
-> in production and can be omitted if preferred.
-
 Aborts BFF calls that exceed a platform-specific timeout:
 
-- **SSR**: 20-second default. A hung BFF call stalls the Node render indefinitely —
-  the timeout aborts the fetch via `AbortController` and throws, allowing the SSR
-  error handler to respond with 500.
 - **Browser**: no timeout by default. The browser's own network stack handles
   stalled requests.
-- **Dev mode**: the SSR timeout also applies in the browser so issues surface during
+- **Dev mode**: a 20-second timeout applies in the browser so issues surface during
   development.
 
 Place this as the **last** link before `createTerminationLink` so the `AbortController`
@@ -910,9 +891,9 @@ annotations needed.
 
 | Position | Link                   | Purpose                                              |
 |----------|------------------------|------------------------------------------------------|
-| 1st      | `bffErrorHandlingLink` | Observes all errors; forwards to `ErrorHandler` in SSR |
+| 1st      | `bffErrorHandlingLink` | Observes all errors; forwards to `ErrorHandler`      |
 | 2nd      | `bffAuthLink`          | Injects `Authorization` header when user is logged in |
-| 3rd      | `bffTimeoutLink`       | Aborts calls that exceed the SSR timeout             |
+| 3rd      | `bffTimeoutLink`       | Aborts calls that exceed the timeout (dev mode only) |
 | 4th      | `createTerminationLink` | Vivaldi's HTTP link (superjson, OTEL, error envelope) |
 
 ```ts
@@ -952,95 +933,6 @@ console.log(res.message); // string
 // TypeScript errors if input or property is wrong:
 const bad = await this.bff.client.sample.sayHello.query({ name: 123 }); // ← compile error
 ```
-
----
-
-### 7. `src/app/app.module.server.ts` *(modify)*
-
-> **SSR only:** this file is only needed if your application uses server-side rendering.
-
-In SSR, Node.js has no document origin so the relative `/bff/api` fallback from the
-meta tag cannot be resolved. Override `BFF_BASE_URL` with an absolute URL from the
-environment:
-
-```ts
-import { NgModule } from '@angular/core';
-import { provideServer } from '@spartacus/setup/ssr';
-import { BFF_BASE_URL } from './bff/bff-base-url.token';
-
-@NgModule({
-  providers: [
-    ...provideServer({
-      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-    }),
-    {
-      provide: BFF_BASE_URL,
-      useValue: process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api',
-    },
-  ],
-})
-export class AppServerModule {}
-```
-
----
-
-### 7b. `src/server.ts` *(modify)*
-
-> **SSR only:** this file is only needed if your application uses server-side rendering.
-
-The Express SSR server has a catch-all route `server.get(/.*/, ...)` that renders every
-unmatched URL through the Angular engine. Without an explicit `/bff` proxy, BFF API calls
-made during SSR (e.g. `GET /bff/api/sample.sayHello?...`) are intercepted by that catch-all
-and the Angular engine tries to render them as pages — returning HTML instead of JSON,
-which causes `TRPCClientError: Unexpected token '<'`.
-
-Add a proxy for `/bff` **before** the static file handler and the Angular catch-all.
-`http-proxy-middleware` is available as a transitive dependency — no extra install needed.
-
-```ts
-import { APP_BASE_HREF } from '@angular/common';
-import {
-  NgExpressEngineDecorator,
-  defaultExpressErrorHandlers,
-  ngExpressEngine as engine,
-} from '@spartacus/setup/ssr';
-import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import { readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import bootstrap from './main.server';
-
-// ... (ngExpressEngine setup unchanged)
-
-export function app(): express.Express {
-  const server = express();
-  // ...
-
-  // Proxy /bff requests to the BFF server — must come before the Angular catch-all
-  // so the Express SSR engine does not try to render BFF API calls as Angular pages.
-  const bffBaseUrl = process.env['BFF_BASE_URL'] ?? 'https://localhost:8482/bff/api';
-  const bffTarget = new URL(bffBaseUrl).origin;
-  server.use(
-    '/bff',
-    createProxyMiddleware({
-      target: bffTarget,
-      changeOrigin: true,
-      secure: process.env['NODE_ENV'] === 'production',
-    })
-  );
-
-  // Serve static files from /browser
-  server.get(/.*\..*/, express.static(browserDistFolder, { maxAge: '1y' }));
-
-  // All regular routes use the Universal engine
-  server.get(/.*/, (req, res) => { /* ... */ });
-}
-```
-
-> **Note:** `secure` is set to `true` in production (`NODE_ENV=production`) where the BFF
-> has a CA-signed certificate, and `false` in development where the local BFF uses a
-> self-signed certificate.
 
 ---
 
@@ -1105,23 +997,18 @@ members consistent commands regardless of which nx target names are used interna
     "dev:bff": "vivaldi dev bff",
     "start:storefrontapp": "nx serve storefrontapp",
     "build:storefrontapp": "nx build storefrontapp",
-    "test:storefrontapp": "nx test storefrontapp",
-    "serve:ssr:storefrontapp": "NG_ALLOWED_HOSTS=localhost node dist/apps/storefrontapp/server/server.mjs"
+    "test:storefrontapp": "nx test storefrontapp"
   }
 }
 ```
-
-> **SSR only:** `serve:ssr:storefrontapp` is only needed if your application uses
-> server-side rendering.
 
 | Script                             | What it does                                                     |
 |------------------------------------|------------------------------------------------------------------|
 | `npm run build:bff`                | Builds the BFF into `dist/apps/bff/vivaldi.mjs`                 |
 | `npm run dev:bff`                  | Starts the BFF dev server via `vivaldi dev bff`                 |
-| `npm run start:storefrontapp`      | Starts the Angular dev server (no SSR) on port 4200             |
+| `npm run start:storefrontapp`      | Starts the Angular dev server on port 4200                      |
 | `npm run build:storefrontapp`      | Production build of the storefront                               |
 | `npm run test:storefrontapp`       | Runs unit tests for the storefront                               |
-| `npm run serve:ssr:storefrontapp`  | Serves the pre-built SSR bundle directly with Node *(SSR only)* |
 
 ---
 
@@ -1488,15 +1375,13 @@ OCC_BASE_URL=https://api.your-commerce-host.model-t.myhybris.cloud
 ```
 src/
   index.html                                  ← add bff-base-url meta tag
-  server.ts                                   ← add /bff proxy before Angular catch-all
   app/
     app.module.ts                             ← spread bffExampleProviders
-    app.module.server.ts                      ← SSR: override BFF_BASE_URL with absolute URL
     bff/
       bff-base-url.token.ts                   ← InjectionToken reading meta tag
-      bff-error-handling.link.ts              ← tRPC link: SSR error propagation
+      bff-error-handling.link.ts              ← tRPC link: error propagation
       bff-auth.link.ts                        ← tRPC link: Bearer token injection
-      bff-timeout.link.ts                     ← tRPC link: SSR timeout + abort
+      bff-timeout.link.ts                     ← tRPC link: timeout + abort (dev mode)
       bff-client.service.ts                   ← typed TRPCClient<RootRouter>
       examples/
         bff-example.providers.ts              ← lazy route registration
