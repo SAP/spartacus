@@ -381,6 +381,14 @@ run `nx import`), Nx provides an automated path:
 npx nx@latest init
 ```
 
+After `nx init` completes, commit the newly added `nx.json` and `project.json` before
+running `nx import` — the workspace must be in a clean git state:
+
+```bash
+git add nx.json project.json
+git commit -m "chore: run nx init"
+```
+
 This command installs Nx, creates `nx.json`, and converts `angular.json` into a
 `project.json` using the modern `@angular/build:application` executor — no
 `architect`/`builder` keys to rename manually.
@@ -393,10 +401,15 @@ This command installs Nx, creates `nx.json`, and converts `angular.json` into a
 > relative paths in configuration files."* Building immediately fails until the
 > paths are fixed.
 >
-> After the import you still need to apply steps 2–5 from the manual migration below:
+> After the import you still need to apply steps 2–8 from the manual migration below:
 > prefix all paths with `apps/storefrontapp/`, update `outputPath`, add `proxyConfig`,
-> fix `buildTarget` references, and rename the project to `storefrontapp`
-> (the `name` field in `project.json` keeps the original app name).
+> fix `buildTarget` references, rename the project to `storefrontapp`
+> (the `name` field in `project.json` keeps the original app name), and ensure
+> dependencies are merged into the workspace root `package.json` (step 8).
+>
+> **If `nx run storefrontapp:build` fails after completing the migration steps**, run
+> `nx reset` to clear any stale cached configuration from before the import, then retry.
+> Nx can cache the old project graph and fail even after paths are correctly updated.
 
 > **Limitation:** `nx init` is designed for standalone Angular CLI workspaces. Once
 > the storefront has been imported into the Vivaldi monorepo via `nx import` (Step 3),
@@ -478,8 +491,11 @@ and save the result as `apps/storefrontapp/project.json`:
    }
    ```
 
-8. **Delete `angular.json`.** Once `project.json` is in place and
-   `nx run storefrontapp:build` succeeds, remove `apps/storefrontapp/angular.json`.
+8. **Delete `angular.json`.** Once `project.json` is in place, ensure
+   `apps/storefrontapp/package.json` dependencies have been merged into the workspace
+   root `package.json` and `npm install` has been run at the workspace root — the build
+   requires all packages to be resolved from the workspace root `node_modules`. Then
+   run `nx run storefrontapp:build` to verify, and remove `apps/storefrontapp/angular.json`.
    Keeping both files causes Nx to merge targets from both, which can produce
    confusing duplicates.
 
