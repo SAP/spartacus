@@ -572,6 +572,16 @@ export interface FeatureTogglesInterface {
    * Affects: `ConfiguratorAttributeProductCardComponent`
    */
   productConfiguratorConsolidatedButtonDisabling?: boolean;
+
+  /**
+   * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
+   * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
+   * stays legible on the danger background in the high-contrast dark theme
+   * (black glyph instead of white).
+   *
+   * Affects: `FormErrorsComponent`
+   */
+  a11yFormErrorIconContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -649,4 +659,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  a11yFormErrorIconContrast: false,
 };
