@@ -371,6 +371,7 @@ if (environment.cpq) {
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
+        a11yFormErrorIconContrast: true,
       };
       return appFeatureToggles;
     }),
