@@ -229,6 +229,13 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Applies a `10rem` inline-start padding to the order overview cards
+   * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
+   * not pushed inward, avoiding the horizontal shift on wide viewports.
+   */
+  orderOverviewCardsInlinePadding?: boolean;
+
+  /**
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
@@ -609,6 +616,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
