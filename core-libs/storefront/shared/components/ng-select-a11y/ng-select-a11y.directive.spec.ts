@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -9,9 +10,33 @@ import { of } from 'rxjs';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
 
+class MockMutationObserver {
+  private callback: MutationCallback;
+  observe = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn().mockReturnValue([]);
+  constructor(callback: MutationCallback) {
+    this.callback = callback;
+  }
+  trigger(mutations: MutationRecord[] = []) {
+    this.callback(mutations, this as unknown as MutationObserver);
+  }
+}
+
+const originalMutationObserver = globalThis.MutationObserver;
+
+beforeEach(() => {
+  globalThis.MutationObserver = MockMutationObserver as unknown as typeof MutationObserver;
+});
+
+afterEach(() => {
+  globalThis.MutationObserver = originalMutationObserver;
+});
+
 @Component({
   template: `
     <ng-select
+      id="1"
       [searchable]="isSearchable"
       [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
       [items]="[1, 2, 3]"
@@ -73,7 +98,7 @@ describe('NgSelectA11yDirective', () => {
         NgSelectA11yDirective,
       ],
       providers: [
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {provide: FeatureToggles, useValue: mockFeatureToggles},
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
@@ -116,7 +141,7 @@ describe('NgSelectA11yDirective', () => {
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
-    // Wait for the mutation observer to update the input value
+    (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
     await new Promise((resolve) => setTimeout(resolve));
     const select = getNgSelect().nativeElement;
     const inputElement = select.querySelector('input');
@@ -131,19 +156,21 @@ describe('NgSelectA11yDirective', () => {
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
-    // Wait for the mutation observer to update the input value
+    (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
     await new Promise((resolve) => setTimeout(resolve));
     const select = getNgSelect().nativeElement;
     const inputElement = select.querySelector('input');
 
-    expect(inputElement.value).toContain(`${component.selected}`);
+    expect(inputElement.value).toContainEqual(`${component.selected}`);
 
     component.selected = 2;
     ngSelectInstance.writeValue(component.selected);
     ngSelectInstance.detectChanges();
 
+    (directive['selectObserver'] as unknown as MockMutationObserver).trigger();
+
     await new Promise((resolve) => setTimeout(resolve));
-    expect(inputElement.value).toContain(`${component.selected}`);
+    expect(inputElement.value).toContainEqual(`${component.selected}`);
   });
 
   describe('vocalizeItemCount()', () => {

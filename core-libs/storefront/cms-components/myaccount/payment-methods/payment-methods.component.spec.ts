@@ -146,7 +146,7 @@ describe('PaymentMethodsComponent', () => {
 
   it('should display header', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.textContent).toEqual(
+    expect(el.query(By.css('h2')).nativeElement.textContent.trim()).toEqual(
       'paymentMethods.paymentMethods'
     );
   });

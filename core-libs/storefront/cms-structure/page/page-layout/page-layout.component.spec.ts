@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injectable, Input, NgModule } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -188,7 +188,12 @@ describe('SectionLayoutComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [TestModule],
+      imports: [
+        CommonModule,
+        OutletDirective,
+        MockHeaderComponent,
+        MockDynamicSlotComponent,
+      ],
       providers: [
         {
           provide: CmsService,

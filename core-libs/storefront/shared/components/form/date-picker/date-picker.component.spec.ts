@@ -52,12 +52,13 @@ describe('DatePickerComponent', () => {
     control = new UntypedFormControl('min');
 
     component.control = control;
-    fixture.detectChanges();
 
     inputEl = fixture.debugElement.query(By.css('input'));
   });
 
   it('should be created', () => {
+    fixture.detectChanges();
+    inputEl = fixture.debugElement.query(By.css('input'));
     expect(component).toBeTruthy();
   });
 
@@ -65,6 +66,7 @@ describe('DatePickerComponent', () => {
     beforeEach(() => {
       component.min = '2020-12-1';
       fixture.detectChanges();
+      inputEl = fixture.debugElement.query(By.css('input'));
     });
 
     it('should add minControl value to the min value', () => {
@@ -80,6 +82,7 @@ describe('DatePickerComponent', () => {
     beforeEach(() => {
       component.max = '2020-12-1';
       fixture.detectChanges();
+      inputEl = fixture.debugElement.query(By.css('input'));
     });
 
     it('should add maxControl value to the min value', () => {
@@ -92,6 +95,10 @@ describe('DatePickerComponent', () => {
   });
 
   describe('validates input date', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should not return invalid date', () => {
       expect(component.getDate('2020-12')).toBeUndefined();
     });
@@ -101,6 +108,11 @@ describe('DatePickerComponent', () => {
   });
 
   describe('change date', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      inputEl = fixture.debugElement.query(By.css('input'));
+    });
+
     it('should emit event', () => {
       vi.spyOn(component.update, 'emit');
       inputEl.triggerEventHandler('change', mockEvent);

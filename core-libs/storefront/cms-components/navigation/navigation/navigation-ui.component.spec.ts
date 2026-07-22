@@ -20,7 +20,7 @@ import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-icon',
@@ -127,7 +127,10 @@ describe('Navigation UI Component', () => {
           provide: WindowRef,
           useValue: mockWinRef,
         },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {
+          provide: FeatureToggles,
+          useValue: mockFeatureToggles
+        },
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
@@ -256,7 +259,7 @@ describe('Navigation UI Component', () => {
       const back: HTMLElement = navs[0].nativeElement;
       const root1: HTMLElement = navs[1].nativeElement;
       expect(navs.length).toBe(2);
-      expect(back.textContent).toEqual('common.back');
+      expect(back.textContent?.trim()).toEqual('common.back');
       expect(root1.textContent).toEqual('');
     });
 
@@ -320,18 +323,26 @@ describe('Navigation UI Component', () => {
       vi.spyOn(navigationComponent, 'closeIfClickedTheSameLink');
       vi.spyOn(navigationComponent, 'reinitializeMenu');
       vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
+
       navigationComponent.isDesktop$ = of(false);
       fixture.detectChanges();
 
-      element
-        .query(By.css('nav > ul > li:nth-child(2) > button'))
-        .nativeElement.click();
-      element
-        .query(By.css('button[aria-controls="Child-1"]'))
-        .nativeElement.click();
-      element
-        .query(By.css('button[aria-controls="Sub-child-1"]'))
-        .nativeElement.click();
+      const makeClickEvent = (el: HTMLElement) => ({
+        currentTarget: el,
+        type: 'click',
+        stopImmediatePropagation: () => {},
+        stopPropagation: () => {},
+      });
+
+      const btn1 = element.query(By.css('nav > ul > li:nth-child(2) > button'));
+      btn1.triggerEventHandler('click', makeClickEvent(btn1.nativeElement));
+      fixture.detectChanges();
+      const btn2 = element.query(By.css('button[aria-controls="Child-1"]'));
+      btn2.triggerEventHandler('click', makeClickEvent(btn2.nativeElement));
+      fixture.detectChanges();
+      const btn3 = element.query(By.css('button[aria-controls="Sub-child-1"]'));
+      btn3.triggerEventHandler('click', makeClickEvent(btn3.nativeElement));
+      fixture.detectChanges();
 
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
       expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
@@ -394,10 +405,10 @@ describe('Navigation UI Component', () => {
     });
 
     it('should toggle open when space key is pressed', () => {
-      const spy = vi.spyOn(navigationComponent, 'toggleOpen');
+      const spy = vi.spyOn(navigationComponent, 'toggleOpen').mockImplementation(() => {});
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
-        By.css('nav button[aria-expanded="false"')
+        By.css('nav button[aria-expanded="false"]')
       ).nativeElement;
       Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
 

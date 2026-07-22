@@ -6,6 +6,7 @@ import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
 import { provideMockFeatureToggles } from '../../../../../core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
 
 @Directive({ selector: '[cxPersistFocus]' })
 class CustomFocusDirective extends PersistFocusDirective {
@@ -71,6 +72,7 @@ describe('PersistFocusDirective', () => {
     component = fixture.componentInstance;
     service = TestBed.inject(PersistFocusService);
     featureToggles = TestBed.inject(FeatureToggles);
+    featureToggles.a11yRestoreFocusOnNgSelect = true;
 
     vi.spyOn(service, 'get');
     vi.spyOn(service, 'set');
@@ -143,8 +145,8 @@ describe('PersistFocusDirective', () => {
         By.css('#e')
       ).nativeElement;
       const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
-      vi.spyOn(host, 'focus');
-      vi.spyOn(inner, 'focus');
+      vi.spyOn(host, 'focus').mockImplementation(() => {});
+      vi.spyOn(inner, 'focus').mockImplementation(() => {});
 
       fixture.detectChanges();
 
@@ -194,8 +196,8 @@ describe('PersistFocusDirective', () => {
         By.css('#e')
       ).nativeElement;
       const inner = host.querySelector<HTMLElement>('.inner') as HTMLElement;
-      vi.spyOn(host, 'focus');
-      vi.spyOn(inner, 'focus');
+      vi.spyOn(host, 'focus').mockImplementation(() => {});
+      vi.spyOn(inner, 'focus').mockImplementation(() => {});
 
       fixture.detectChanges();
 

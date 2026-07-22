@@ -311,15 +311,17 @@ describe('OutletDirective', () => {
     });
 
     function getContent(fixture: ComponentFixture<any>): string {
-      return fixture.debugElement.nativeElement.innerText;
+      return fixture.debugElement.nativeElement.textContent;
     }
 
-    it('should render template for new outlet name', () => {
+    it('should render template for new outlet name', async () => {
       hostFixture.detectChanges();
+      await hostFixture.whenStable();
       expect(getContent(hostFixture)).toContain('A');
 
       hostFixture.componentInstance.outletName = 'B';
       hostFixture.detectChanges();
+      await hostFixture.whenStable();
 
       expect(getContent(hostFixture)).toContain('B');
     });

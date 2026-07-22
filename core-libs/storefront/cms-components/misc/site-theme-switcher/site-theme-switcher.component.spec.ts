@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   I18nTestingModule,
   SiteTheme,
   TranslationService,
@@ -10,7 +11,7 @@ import { IconModule } from '@spartacus/storefront';
 import { firstValueFrom, of } from 'rxjs';
 import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 
 class MockTranslationService {
   translate() {
@@ -44,9 +45,13 @@ describe('ThemeSwitcherComponent', () => {
           useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        provideMockFeatureToggles({ a11ySiteContextCaretClick: true }),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SiteThemeSwitcherComponent, {
+        remove: { imports: [FeatureDirective] },
+        add: { imports: [MockFeatureDirective] },
+      })
+      .compileComponents();
 
     themeSwitcherComponentService = TestBed.inject(
       SiteThemeSwitcherComponentService

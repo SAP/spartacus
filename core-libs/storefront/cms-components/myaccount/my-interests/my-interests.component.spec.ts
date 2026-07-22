@@ -306,8 +306,9 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').mockReturnValue(p553637$);
-    productService.get.withArgs('553638', 'details').mockReturnValue(p553638$);
+    productService.get.mockImplementation((code: string) =>
+      code === '553637' ? p553637$ : code === '553638' ? p553638$ : of(null)
+    );
     productInterestService.getProdutInterestsLoading.mockReturnValue(of(false));
     fixture.detectChanges();
 
@@ -374,8 +375,9 @@ describe('MyInterestsComponent', () => {
     productInterestService.getAndLoadProductInterests.mockReturnValue(
       of(mockedInterests)
     );
-    productService.get.withArgs('553637', 'details').mockReturnValue(p553637$);
-    productService.get.withArgs('553638', 'details').mockReturnValue(p553638$);
+    productService.get.mockImplementation((code: string) =>
+      code === '553637' ? p553637$ : code === '553638' ? p553638$ : of(null)
+    );
     productInterestService.getRemoveProdutInterestLoading.mockReturnValue(
       cold('-a|', { a: true })
     );

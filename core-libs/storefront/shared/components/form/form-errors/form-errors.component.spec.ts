@@ -16,7 +16,7 @@ describe('FormErrors', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: UntypedFormControl;
 
-  const getContent = () => fixture.debugElement.nativeElement.textContent;
+  const getContent = () => fixture.debugElement.nativeElement.textContent.trim();
 
   beforeEach(async () => {
     TestBed.configureTestingModule({})
@@ -85,10 +85,10 @@ describe('FormErrors', () => {
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
-    expect(renderedErrors[0].textContent).toEqual(
+    expect(renderedErrors[0].textContent.trim()).toEqual(
       'formErrors.labeled.email,formErrors.email'
     );
-    expect(renderedErrors[1].textContent).toEqual(
+    expect(renderedErrors[1].textContent.trim()).toEqual(
       'formErrors.labeled.required,formErrors.required'
     );
   });

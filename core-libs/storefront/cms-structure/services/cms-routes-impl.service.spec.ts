@@ -110,7 +110,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should include configured `data` property for cms driven route', () => {
-      vi.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValue({
+      vi.spyOn(cmsMappingService, 'getChildRoutes').mockReturnValueOnce({
         parent: { data: { test: 'test data' } },
         children: [{ path: 'sub-route' }],
       });

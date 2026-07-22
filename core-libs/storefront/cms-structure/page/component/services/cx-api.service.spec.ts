@@ -112,7 +112,7 @@ describe('CxApiService', () => {
 
   it('should be created', inject([CxApiService], (service: CxApiService) => {
     expect(service).toBeTruthy();
-  });
+  }));
 
   it('should provide specific facades', inject(
     [CxApiService],

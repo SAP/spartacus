@@ -78,10 +78,10 @@ describe('MessageComponent', () => {
     fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should create message component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -101,6 +101,7 @@ describe('MessageComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
+    testFixture.detectChanges();
     const element = testFixture.debugElement.query(
       By.css('cx-message')
     ).nativeElement;
@@ -108,6 +109,7 @@ describe('MessageComponent', () => {
   });
 
   it('should show close button and trigger close action', () => {
+    fixture.detectChanges();
     vi.spyOn(component.closeMessage, 'emit');
 
     const button = el.query(By.css('.cx-message .close')).nativeElement;
@@ -144,6 +146,7 @@ describe('MessageComponent', () => {
   });
 
   it('should focus on messageContainer after a message with an accordion renders', () => {
+    fixture.detectChanges();
     const focusSpy = vi.spyOn(component.messageContainer.nativeElement, 'focus');
     component.accordionText = 'Test';
 
@@ -153,6 +156,7 @@ describe('MessageComponent', () => {
   });
 
   it('should focus on messageContainer after a message with a button renders', () => {
+    fixture.detectChanges();
     const focusSpy = vi.spyOn(component.messageContainer.nativeElement, 'focus');
     component.actionButtonText = 'Test';
 

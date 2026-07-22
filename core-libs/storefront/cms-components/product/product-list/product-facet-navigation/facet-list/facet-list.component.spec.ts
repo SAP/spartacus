@@ -96,10 +96,10 @@ describe('FacetListComponent', () => {
     service = TestBed.inject(FacetService);
     focusService = TestBed.inject(KeyboardFocusService);
     featureConfigService = TestBed.inject(FeatureConfigService);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -110,10 +110,12 @@ describe('FacetListComponent', () => {
   });
 
   it('should not require dialog', () => {
+    fixture.detectChanges();
     expect(component.isDialog).toBeFalsy();
   });
 
   it('should render facets', () => {
+    fixture.detectChanges();
     expect(element.queryAll(By.css('cx-facet')).length).toEqual(1);
   });
 
@@ -130,6 +132,7 @@ describe('FacetListComponent', () => {
     });
 
     it('should remove modal class from body element', () => {
+      fixture.detectChanges();
       vi.spyOn(renderer, 'removeClass').mockImplementation(() => {});
       component.close();
       fixture.detectChanges();

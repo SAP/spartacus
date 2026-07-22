@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { NgIf } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
@@ -53,9 +53,15 @@ function getContent(fixture: ComponentFixture<any>): string {
  */
 function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
   fixture.componentInstance.outletVisible = false;
-  fixture.changeDetectorRef.detectChanges();
+  fixture.componentRef.changeDetectorRef.detectChanges();
   fixture.componentInstance.outletVisible = true;
-  fixture.changeDetectorRef.detectChanges();
+  fixture.componentRef.changeDetectorRef.detectChanges();
+}
+
+function stableDetectChanges(
+  fixture: ComponentFixture<TestContainerComponent>
+) {
+  fixture.componentRef.changeDetectorRef.detectChanges();
 }
 
 describe('OutletRefDirective', () => {
@@ -68,7 +74,11 @@ describe('OutletRefDirective', () => {
         OutletService,
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(TestContainerComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -89,10 +99,10 @@ describe('OutletRefDirective', () => {
 
   it('should unregister template on cxOutletRef destroy', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges();
 
     fixture.componentInstance.outletRefVisible = false;
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges();
     refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeFalsy();
@@ -101,11 +111,11 @@ describe('OutletRefDirective', () => {
 
   it('should re-register template on cxOutletRef re-creation', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges();
 
     // destroy OutletRef
     fixture.componentInstance.outletRefVisible = false;
-    fixture.detectChanges();
+    fixture.componentRef.changeDetectorRef.detectChanges();
 
     // re-create OutletRef and re-render outlet in one go
     fixture.componentInstance.outletRefVisible = true;

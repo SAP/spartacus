@@ -9,6 +9,7 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
+  FeatureDirective,
   I18nTestingModule,
   Language,
   LanguageService,
@@ -20,7 +21,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',
@@ -113,20 +114,21 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        provideMockFeatureToggles({
-          a11ySiteContextCaretClick: true,
-        }),
         contextServiceMapProvider,
       ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
-        set: {
+        remove: {
+          imports: [FeatureDirective],
+        },
+        add: {
           providers: [
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
             },
           ],
+          imports: [MockFeatureDirective],
         },
       })
       .compileComponents();

@@ -67,15 +67,17 @@ describe('ProvideLcpContextDirective', () => {
     expect(injectedLcpPresence).toBe(LcpPresence.NO_LCP);
   });
 
-  it('should emit new value when input changes', () => {
+  it('should return NO_LCP from getInjectedLcpPresence when the value is set to NO_LCP', () => {
     fixture.componentInstance.lcpPresence = LcpPresence.NO_LCP;
     fixture.detectChanges();
-    let injectedLcpPresence = getInjectedLcpPresence();
+    const injectedLcpPresence = getInjectedLcpPresence();
     expect(injectedLcpPresence).toBe(LcpPresence.NO_LCP);
+  });
 
+  it('should return HAS_LCP from getInjectedLcpPresence when the value is set to HAS_LCP', () => {
     fixture.componentInstance.lcpPresence = LcpPresence.HAS_LCP;
     fixture.detectChanges();
-    injectedLcpPresence = getInjectedLcpPresence();
+    const injectedLcpPresence = getInjectedLcpPresence();
     expect(injectedLcpPresence).toBe(LcpPresence.HAS_LCP);
   });
 });

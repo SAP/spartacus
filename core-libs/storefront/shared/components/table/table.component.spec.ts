@@ -1,5 +1,4 @@
-import * as AngularCore from '@angular/core';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, isDevMode } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OutletModule } from '../../../cms-structure';
@@ -8,6 +7,12 @@ import { TableComponent } from './table.component';
 import { Table, TableLayout } from './table.model';
 import { FeatureToggles } from '@spartacus/core';
 import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 
 const headers: string[] = ['key1', 'key2', 'key3'];
 
@@ -61,7 +66,6 @@ describe('TableComponent', () => {
     fixture = TestBed.createComponent(TableComponent);
     tableComponent = fixture.componentInstance;
     tableRendererService = TestBed.inject(TableRendererService);
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -84,7 +88,7 @@ describe('TableComponent', () => {
   });
 
   it('should add the table type to __cx-table-type attribute in devMode', () => {
-    vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => true);
+    vi.mocked(isDevMode).mockReturnValue(true);
 
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
@@ -95,7 +99,7 @@ describe('TableComponent', () => {
   });
 
   it('should not add the table type to __cx-table-type attribute in production mode', () => {
-    vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(() => false);
+    vi.mocked(isDevMode).mockReturnValue(false);
     tableComponent.structure = mockDataset.structure;
     fixture.detectChanges();
     const attr = (
@@ -230,22 +234,24 @@ describe('TableComponent', () => {
         table.structure.options.layout = TableLayout.VERTICAL;
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
-        fixture.detectChanges();
       });
 
       it('should have vertical class', () => {
+        fixture.detectChanges();
         expect(tableComponent.verticalLayout).toBeTruthy();
         const table: HTMLElement = fixture.debugElement.nativeElement;
         expect(table.classList).toContain('vertical');
       });
 
       it('should send out an event for the selected item', () => {
+        fixture.detectChanges();
         vi.spyOn(tableComponent.launch, 'emit');
         tableComponent.launchItem({ foo: 'bar' });
         expect(tableComponent.launch.emit).toHaveBeenCalledWith({ foo: 'bar' });
       });
 
       it('should launch on TR click', () => {
+        fixture.detectChanges();
         vi.spyOn(tableComponent.launch, 'emit');
         const rows = fixture.debugElement.queryAll(By.css('table > tr'));
         (rows[0].nativeElement as HTMLElement).click();
@@ -253,6 +259,7 @@ describe('TableComponent', () => {
       });
 
       it('should have a current item', () => {
+        fixture.detectChanges();
         tableComponent.currentItem = { property: 'key1', value: 'val7' };
         expect(tableComponent.isCurrentItem(mockDataset.data[2])).toBeTruthy();
       });
@@ -280,21 +287,23 @@ describe('TableComponent', () => {
         table.structure.options.layout = TableLayout.VERTICAL_STACKED;
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
-        fixture.detectChanges();
       });
 
       it('should have vertical-stacked class', () => {
+        fixture.detectChanges();
         expect(tableComponent.verticalStackedLayout).toBeTruthy();
         const table: HTMLElement = fixture.debugElement.nativeElement;
         expect(table.classList).toContain('vertical-stacked');
       });
 
       it('should have a tbody for each data item', () => {
+        fixture.detectChanges();
         const tbody = fixture.debugElement.queryAll(By.css('tbody'));
         expect(tbody.length).toEqual(data.length);
       });
 
       it('should have a tr in tbody for each data item', () => {
+        fixture.detectChanges();
         const tr = fixture.debugElement.queryAll(
           By.css('tbody:first-child tr')
         );
@@ -302,6 +311,7 @@ describe('TableComponent', () => {
       });
 
       it('should launch on tbody click', () => {
+        fixture.detectChanges();
         vi.spyOn(tableComponent.launch, 'emit');
         const rows = fixture.debugElement.queryAll(By.css('table > tbody'));
         (rows[0].nativeElement as HTMLElement).click();
@@ -330,10 +340,10 @@ describe('TableComponent', () => {
         table.structure.options.layout = TableLayout.HORIZONTAL;
         tableComponent.structure = table.structure;
         tableComponent.data = table.data;
-        fixture.detectChanges();
       });
 
       it('should have horizontal class', () => {
+        fixture.detectChanges();
         expect(tableComponent.horizontalLayout).toBeTruthy();
         const table: HTMLElement = fixture.debugElement.nativeElement;
         expect(table.classList).toContain('horizontal');

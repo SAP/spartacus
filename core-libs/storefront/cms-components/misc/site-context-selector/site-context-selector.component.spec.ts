@@ -14,6 +14,7 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
+  FeatureDirective,
   I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
@@ -29,7 +30,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { IconComponent } from '../icon';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
-import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -109,15 +110,12 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
-        provideMockFeatureToggles({
-          a11ySiteContextCaretClick: true,
-        }),
         contextServiceMapProvider,
       ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
         remove: {
-          imports: [UrlPipe, IconComponent, TranslatePipe],
+          imports: [UrlPipe, IconComponent, TranslatePipe, FeatureDirective],
         },
         add: {
           providers: [
@@ -126,7 +124,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
               useClass: SiteContextComponentService,
             },
           ],
-          imports: [MockUrlPipe, MockCxIconComponent, MockTranslatePipe],
+          imports: [MockUrlPipe, MockCxIconComponent, MockTranslatePipe, MockFeatureDirective],
         },
       })
       .compileComponents();

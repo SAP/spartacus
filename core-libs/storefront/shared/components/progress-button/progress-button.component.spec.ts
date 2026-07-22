@@ -3,6 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '../../../../core/src/i18n/testing';
 import { ProgressButtonComponent } from './progress-button.component';
+import { TranslationService } from '@spartacus/core';
+import { of } from 'rxjs';
+
+class MockTranslationService {
+  translate() {
+    return of('');
+  }
+}
 
 @Component({
   template: `<cx-progress-button>Test</cx-progress-button>`,
@@ -18,6 +26,7 @@ describe('ProgressButtonComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProgressButtonComponent, TestHostComponent],
+      providers: [{ provide: TranslationService, useClass: MockTranslationService }],
     }).compileComponents();
   });
 
@@ -25,14 +34,15 @@ describe('ProgressButtonComponent', () => {
     fixture = TestBed.createComponent(ProgressButtonComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should be created', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display empty button', () => {
+    fixture.detectChanges();
     expect(
       el.query(By.css('.cx-progress-button-container .loader-container'))
     ).toBeNull();
@@ -60,6 +70,7 @@ describe('ProgressButtonComponent', () => {
   });
 
   it('should trigger clickEvent on button click', () => {
+    fixture.detectChanges();
     vi.spyOn(component.clickEvent, 'emit');
 
     const button = el.query(By.css('.btn-primary')).nativeElement;
@@ -70,6 +81,7 @@ describe('ProgressButtonComponent', () => {
 
   it('should show <ng-content> content', () => {
     const testFixture = TestBed.createComponent(TestHostComponent);
+    testFixture.detectChanges();
     const element = testFixture.debugElement.query(By.css('div')).nativeElement;
 
     expect(element.textContent).toEqual('Test');

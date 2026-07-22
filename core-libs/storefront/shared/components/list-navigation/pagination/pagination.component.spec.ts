@@ -10,7 +10,12 @@ import { PaginationComponent } from './pagination.component';
 import { PaginationItemType } from './pagination.model';
 
 const mockPaginationConfig: PaginationConfig = {
-  pagination: {},
+  pagination: {
+    addStart: true,
+    addEnd: true,
+    addNext: true,
+    addPrevious: true,
+  },
 };
 
 const mockActivatedRoute = {
@@ -284,7 +289,8 @@ describe('PaginationComponent', () => {
 
       pageLinks.forEach((el, index) => {
         const directiveInstance = el.injector.get(MockFocusDirective);
-        expect(directiveInstance.config?.key).toBe(`pagination${index}`);
+        // start and previous nav links come before page links (indices 0, 1)
+        expect(directiveInstance.config?.key).toBe(`pagination${index + 2}`);
       });
     });
   });

@@ -257,7 +257,8 @@ describe('ProductIntroComponent in product', () => {
       } as Product);
 
       vi.spyOn(reviewsTab, 'focus');
-      vi.spyOn(reviewsTab, 'scrollIntoView');
+      HTMLElement.prototype.scrollIntoView = vi.fn();
+      vi.spyOn(reviewsTab, 'scrollIntoView').mockImplementation(() => {});
 
       fixture.detectChanges();
 

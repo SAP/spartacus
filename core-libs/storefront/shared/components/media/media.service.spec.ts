@@ -3,8 +3,14 @@ import { Config, FeatureToggles, Image, LoggerService } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { ImageLoadingStrategy, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
-import * as AngularCore from '@angular/core';
 import { provideMockFeatureToggles } from '../../../../core/src/features-config/feature-toggles/testing';
+import { vi } from 'vitest';
+import { isDevMode } from '@angular/core';
+
+vi.mock('@angular/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@angular/core')>();
+  return { ...actual, isDevMode: vi.fn() };
+});
 
 const MockStorefrontConfig: Config = {
   backend: {
@@ -916,7 +922,6 @@ describe('MediaService', () => {
           },
         },
       };
-      let isDevModeSpy: any;
       beforeEach(() => {
         configureTestingModule(config);
         const featureToggles = TestBed.inject(FeatureToggles);
@@ -924,9 +929,7 @@ describe('MediaService', () => {
         logger = TestBed.inject(LoggerService);
         vi.spyOn(logger, 'error').mockImplementation((msg: string) => msg);
         vi.spyOn(logger, 'warn').mockImplementation((msg: string) => msg);
-        isDevModeSpy = vi.spyOn(AngularCore, 'isDevMode', 'get').mockReturnValue(
-          () => true
-        );
+        vi.mocked(isDevMode).mockReturnValue(true);
         service = TestBed.inject(MediaService);
       });
 
@@ -937,7 +940,7 @@ describe('MediaService', () => {
       });
 
       it('should return "" (and log the warrning in non dev mode) if baseUrl with prefix is not a valid URL', () => {
-        isDevModeSpy.mockReturnValue(() => false);
+        vi.mocked(isDevMode).mockReturnValue(false);
         const result = service.getBaseUrl();
         expect(result).toBe('not-a-valid-url');
         expect(logger.warn).toHaveBeenCalled();
