@@ -104,7 +104,7 @@ export class CpqConfiguratorOverviewNormalizer
           }
         } else {
           this.logger.warn(
-            `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden fromm overview.`
+            `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
           );
         }
         break;
@@ -126,7 +126,7 @@ export class CpqConfiguratorOverviewNormalizer
         break;
       default:
         this.logger.warn(
-          `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden fromm overview.`
+          `Attribute '${attr.name}' (pA_ID=${(<any>attr).PA_ID}) is not supported and hence hidden from overview.`
         );
     }
     return ovValues;
