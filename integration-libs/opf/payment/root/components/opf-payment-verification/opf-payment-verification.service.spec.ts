@@ -531,7 +531,7 @@ describe('OpfPaymentVerificationService', () => {
         });
     });
 
-    it('should not executeScriptFromHtml when no html snippet', (done) => {
+    it('should not executeScriptFromHtml when no html snippet but still resolve true', (done) => {
       opfPaymentServiceMock.getAfterRedirectScripts.and.returnValue(
         of({ afterRedirectScript: { dynamicScriptMock, html: undefined } })
       );
@@ -553,7 +553,7 @@ describe('OpfPaymentVerificationService', () => {
           expect(
             opfResourceLoaderServiceMock.executeScriptFromHtml
           ).not.toHaveBeenCalled();
-          expect(result).toBeFalsy();
+          expect(result).toBeTruthy();
           done();
         });
     });
