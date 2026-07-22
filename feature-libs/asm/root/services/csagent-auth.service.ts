@@ -102,7 +102,9 @@ export class CsAgentAuthService {
 
     this.authStorageService.switchTokenTargetToCSAgent();
     try {
-      await this.oAuthLibWrapperService.initLoginFlow();
+      // Persist emulation state BEFORE the full-page redirect. initLoginFlow() navigates
+      // away, so anything after it does not run reliably; the agent token arrives later in
+      // AsmAuthService.checkOAuthParamsInUrl() on return.
       this.store.dispatch(new AuthActions.Logout());
 
       if (customerId !== undefined && userToken !== undefined) {
@@ -115,6 +117,8 @@ export class CsAgentAuthService {
         this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
         this.authStorageService.clearEmulatedUserToken();
       }
+
+      await this.oAuthLibWrapperService.initLoginFlow();
     } catch {
       this.authStorageService.switchTokenTargetToUser();
     }
