@@ -1,0 +1,13 @@
+{
+  "b2bUnitSelection": {
+    "dialog": {
+      "title": "Confirm B2B Unit",
+      "description": "Confirm the B2B unit you want to act on behalf of.",
+      "unitLabel": "B2B Unit",
+      "confirm": "Confirm"
+    },
+    "selector": {
+      "label": "Company"
+    }
+  }
+}
