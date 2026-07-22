@@ -1,5 +1,9 @@
 <cx-form-required-legend />
-<form (ngSubmit)="verifyAddress()" [formGroup]="addressForm">
+<form
+  (ngSubmit)="verifyAddress()"
+  [formGroup]="addressForm"
+  [cxFocus]="{ autofocus: false }"
+>
   <div class="form-group" formGroupName="country">
     <ng-container *ngIf="countries$ | async as countries">
       <div *ngIf="countries.length !== 0">
@@ -24,14 +28,13 @@
               'common.ngSelectDropdownOptionsList' | cxTranslate
             }}"
             [cxNgSelectA11y]="{}"
-          >
-          </ng-select>
+          />
           <cx-form-errors
             [translationParams]="{
               label: 'addressForm.country' | cxTranslate,
             }"
             [control]="addressForm.get('country.isocode')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
     </ng-container>
@@ -58,8 +61,7 @@
             [cxNgSelectA11y]="{
               ariaLabel: 'addressForm.titleOptional' | cxTranslate,
             }"
-          >
-          </ng-select>
+          />
         </label>
       </div>
     </ng-container>
@@ -88,7 +90,7 @@
           label: 'addressForm.firstName.label' | cxTranslate,
         }"
         [control]="addressForm.get('firstName')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
   <div class="form-group">
@@ -115,7 +117,7 @@
           label: 'addressForm.lastName.label' | cxTranslate,
         }"
         [control]="addressForm.get('lastName')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
   <div class="form-group">
@@ -141,7 +143,7 @@
           label: 'addressForm.address1' | cxTranslate,
         }"
         [control]="addressForm.get('line1')"
-      ></cx-form-errors>
+      />
     </label>
   </div>
   <div class="form-group">
@@ -189,14 +191,13 @@
                   [cxNgSelectA11y]="{
                     ariaLabel: 'addressForm.province' | cxTranslate,
                   }"
-                >
-                </ng-select>
+                />
                 <cx-form-errors
                   [translationParams]="{
                     label: 'addressForm.province' | cxTranslate,
                   }"
                   [control]="addressForm.get('region.isocode')"
-                ></cx-form-errors>
+                />
               </label>
             </div>
           </ng-container>
@@ -230,11 +231,10 @@
             [cxNgSelectA11y]="{
               ariaLabel: 'addressForm.city.label' | cxTranslate,
             }"
-          >
-          </ng-select>
+          />
         </ng-container>
         <ng-container *cxFeature="'!enableHierarchicalAddressFormat'">
-          <ng-container *ngTemplateOutlet="cityTextInput"></ng-container>
+          <ng-container *ngTemplateOutlet="cityTextInput" />
         </ng-container>
         <ng-template #cityTextInput>
           <input
@@ -256,7 +256,7 @@
             label: 'addressForm.city.label' | cxTranslate,
           }"
           [control]="addressForm.get('town')"
-        ></cx-form-errors>
+        />
       </label>
     </div>
     <ng-container *cxFeature="'enableHierarchicalAddressFormat'">
@@ -283,14 +283,13 @@
             [cxNgSelectA11y]="{
               ariaLabel: 'addressForm.district' | cxTranslate,
             }"
-          >
-          </ng-select>
+          />
           <cx-form-errors
             [translationParams]="{
               label: 'addressForm.district' | cxTranslate,
             }"
             [control]="addressForm.get('district')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
     </ng-container>
@@ -319,7 +318,7 @@
             label: 'addressForm.zipCode.label' | cxTranslate,
           }"
           [control]="addressForm.get('postalCode')"
-        ></cx-form-errors>
+        />
       </label>
     </div>
     <ng-container
@@ -350,11 +349,8 @@
               [cxNgSelectA11y]="{
                 ariaLabel: 'addressForm.state' | cxTranslate,
               }"
-            >
-            </ng-select>
-            <cx-form-errors
-              [control]="addressForm.get('region.isocode')"
-            ></cx-form-errors>
+            />
+            <cx-form-errors [control]="addressForm.get('region.isocode')" />
           </label>
         </div>
       </ng-container>
@@ -405,7 +401,7 @@
               label: 'addressForm.cellphone.requiredLabel' | cxTranslate,
             }"
             [control]="addressForm.get('cellphone')"
-          ></cx-form-errors>
+          />
         </label>
       </div>
     </ng-container>
