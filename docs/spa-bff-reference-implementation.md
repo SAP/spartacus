@@ -48,6 +48,7 @@ sides, and how they work together.
   - [21. .env](#21-appsbffenv-local-dev-only)
 - [File overview](#file-overview)
 - [Testing locally](#testing-locally)
+- [References](#references)
 
 ---
  
@@ -1422,3 +1423,6 @@ npm run start:storefrontapp
 # http://localhost:4200/electronics-spa/en/USD/bff-say-hello
 # http://localhost:4200/electronics-spa/en/USD/occ-base-sites
 ```
+## References
+
+[SAP Commerce Cloud Documentation](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/83616e9e152b4d16aaa4ee747ca8cad7/bb67d998b3d943d9887f3a2d2fa98eff.html?state=DRAFT&profile=20682543&profile=20682543&ai=true&version=DEV&locale=en-US)
