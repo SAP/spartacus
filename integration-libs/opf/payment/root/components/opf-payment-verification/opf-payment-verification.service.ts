@@ -331,12 +331,8 @@ export class OpfPaymentVerificationService {
         .then(() => {
           if (html && script?.htmlContentMode !== OpfHtmlContentMode.SEPARATE) {
             this.opfResourceLoaderService.executeScriptFromHtml(html);
-            resolve(true);
-          } else if (html) {
-            resolve(true);
-          } else {
-            resolve(false);
           }
+          resolve(true);
         })
         .catch(() => {
           resolve(false);
