@@ -122,6 +122,15 @@ node -e "console.log(require('./node_modules/@nx/vite/package.json').version)"
 npm install --save-dev nx@22.7.7 @nx/angular@22.7.7
 ```
 
+The scaffolded `tsconfig.base.json` uses `"baseUrl": "."` which TypeScript 5.9+ treats
+as deprecated, causing `nx run bff:typecheck` to fail with `TS5101`. Add
+`"ignoreDeprecations": "6.0"` to `tsconfig.base.json` to silence it:
+
+```json
+"baseUrl": ".",
+"ignoreDeprecations": "6.0"
+```
+
 > **Required before Step 3:** the workspace must be in a clean git state before
 > running `nx import`. Two things can make it dirty after this point:
 >
@@ -1431,19 +1440,38 @@ npm run start:storefrontapp
 
 ### Required custom variables
 
-Before deploying to CCv2, set the following variable in the BFF application's VariableSet
-in the Hosting Portal:
+Two separate applications need environment variables configured in the CCv2 Hosting Portal.
+
+#### BFF application
+
+Set in the BFF application's Variable Set:
 
 | Variable | Description |
 |---|---|
 | `OCC_BASE_URL` | Full OCC API hostname with CA-signed certificate, e.g. `https://api.your-tenant.model-t.myhybris.cloud` |
 
-Without `OCC_BASE_URL` the BFF container will fail to start with
-`HostOriginMissingError: Host "occ" has no origin configured`.
+Without `OCC_BASE_URL` the BFF container fails to start with:
+```
+HostOriginMissingError: Host "occ" has no origin configured.
+```
 
-The variable must use a CA-signed certificate hostname — not a raw IP address
+#### Storefront application
+
+The storefront reads its OCC backend URL from the `occ-backend-base-url` meta tag in
+`index.html`, which CCv2 replaces at deploy time using:
+
+| Variable | Placeholder replaced in `index.html` | Description |
+|---|---|---|
+| `OCC_BASE_URL` | `OCC_BACKEND_BASE_URL_VALUE` | OCC API hostname for the browser to call |
+
+Without this variable set, the placeholder remains unreplaced and Spartacus falls back
+to `https://localhost:9002`, causing all OCC requests to fail.
+
+#### CA-signed certificate requirement
+
+Both variables must use a hostname with a CA-signed certificate — not a raw IP address
 (e.g. `https://40.x.x.x:9002`). Node.js in production mode rejects self-signed
-certificates.
+certificates, and the browser will also reject them without a manual exception.
 
 ## References
 
