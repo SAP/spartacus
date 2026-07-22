@@ -12,7 +12,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import {
-  CarouselComponent,
   CarouselScrollingComponent,
   CurrentProductService,
   ImageFetchPriority,
@@ -25,10 +24,6 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
-import {
-  MockFeatureTogglesController,
-  provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 const firstImage = {
   zoom: {
@@ -96,25 +91,6 @@ class MockMediaComponent {
 }
 
 @Component({
-  selector: 'cx-carousel',
-  template: `
-    cx-carousel
-    <ng-container *ngFor="let item$ of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
-    </ng-container>
-  `,
-  imports: [NgFor, NgTemplateOutlet, AsyncPipe],
-})
-class MockCarouselComponent {
-  @Input() items: any;
-  @Input() itemWidth: any;
-  @Input() template: any;
-  @Input() hideIndicators: any;
-}
-
-@Component({
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
@@ -167,9 +143,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        provideMockFeatureToggles({
-          productCarouselScrolling: true,
-        }),
       ],
     })
       .overrideComponent(ProductImageZoomProductImagesComponent, {
@@ -178,7 +151,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
             TranslatePipe,
             CxDatePipe,
             MediaComponent,
-            CarouselComponent,
             CarouselScrollingComponent,
             ProductImageZoomTriggerComponent,
           ],
@@ -188,7 +160,6 @@ describe('ProductImageZoomProductImagesComponent', () => {
             MockTranslatePipe,
             MockDatePipe,
             MockMediaComponent,
-            MockCarouselComponent,
             MockCarouselScrollingComponent,
             MockProductImageZoomTriggerComponent,
           ],
@@ -243,24 +214,12 @@ describe('ProductImageZoomProductImagesComponent', () => {
     }));
 
     describe('UI test', () => {
-      describe('when feature toggle "productCarouselScrolling" is enabled', () => {
-        it('should have cx-carousel-scrolling element', () => {
-          fixture.detectChanges();
-          const carousel = fixture.debugElement.query(
-            By.css('cx-carousel-scrolling')
-          );
-          expect(carousel).toBeTruthy();
-        });
-      });
-
-      describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-        it('should have cx-carousel element', () => {
-          const toggles = TestBed.inject(MockFeatureTogglesController);
-          toggles.set('productCarouselScrolling', false);
-          fixture.detectChanges();
-          const carousel = fixture.debugElement.query(By.css('cx-carousel'));
-          expect(carousel).toBeTruthy();
-        });
+      it('should have cx-carousel-scrolling element', () => {
+        fixture.detectChanges();
+        const carousel = fixture.debugElement.query(
+          By.css('cx-carousel-scrolling')
+        );
+        expect(carousel).toBeTruthy();
       });
 
       it('should have 2 rendered templates', () => {
