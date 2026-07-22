@@ -9,6 +9,7 @@ import { EventService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
+  DATE_FORMAT,
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
@@ -108,6 +109,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
       charactersLimit:
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
+      dateFormat: DATE_FORMAT,
       displayAddMessageSection: this.ticketDetails$.pipe(
         map((ticket) =>
           this.customerTicketingMessagesComponentService.displayAddMessageSection(
