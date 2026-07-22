@@ -24,6 +24,14 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
   initialQuantity?: number;
   disableQuantityActions$?: Observable<boolean>;
+  /**
+   * If set to `true`, a reduction of the quantity to `0` is still reported to
+   * the parent (so it can react, e.g. by showing a message), but the control is
+   * afterwards snapped back to `initialQuantity` and the change subscription is
+   * re-armed. Used when the parent refuses the removal (e.g. a required value
+   * that must not be deselected).
+   */
+  resetToInitialQuantityOnZero?: boolean;
 }
 
 @Component({
@@ -82,6 +90,28 @@ export class ConfiguratorAttributeQuantityComponent
   }
 
   onChangeQuantity(): void {
-    this.changeQuantity.emit(this.quantity?.value);
+    const value = this.quantity?.value;
+    this.changeQuantity.emit(value);
+    if (!value && this.quantityOptions?.resetToInitialQuantityOnZero) {
+      this.resetToInitialQuantity();
+    }
+  }
+
+  /**
+   * Resets the quantity control back to `initialQuantity` without emitting a
+   * change event and re-arms the change subscription. The regular subscription
+   * created by `subscribeToQuantityChange` is `take(1)`, so after it emitted
+   * once it stays completed until a disable/enable round trip; when the parent
+   * refuses the removal no such round trip happens, so we re-arm here to keep
+   * the stepper responsive for further attempts.
+   */
+  protected resetToInitialQuantity(): void {
+    this.quantity.setValue(this.quantityOptions?.initialQuantity, {
+      emitEvent: false,
+    });
+    if (this.quantityChangeSub.closed) {
+      this.quantityChangeSub = new Subscription();
+    }
+    this.quantityChangeSub.add(this.subscribeToQuantityChange());
   }
 }
