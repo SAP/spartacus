@@ -48,6 +48,7 @@ sides, and how they work together.
   - [21. .env](#21-appsbffenv-local-dev-only)
 - [File overview](#file-overview)
 - [Testing locally](#testing-locally)
+- [Deployment notes](#deployment-notes)
 - [References](#references)
 
 ---
@@ -1423,6 +1424,30 @@ npm run start:storefrontapp
 # http://localhost:4200/electronics-spa/en/USD/bff-say-hello
 # http://localhost:4200/electronics-spa/en/USD/occ-base-sites
 ```
+
+---
+
+## Deployment notes
+
+### Required custom variables
+
+After deploying to CCv2, set the following variable in the BFF application's VariableSet
+in the Hosting Portal:
+
+| Variable | Description |
+|---|---|
+| `OCC_BASE_URL` | Full OCC API hostname with CA-signed certificate, e.g. `https://api.your-tenant.model-t.myhybris.cloud` |
+
+Without `OCC_BASE_URL` the BFF container will fail to start with
+`HostOriginMissingError: Host "occ" has no origin configured`.
+
+The variable must use a CA-signed certificate hostname — not a raw IP address
+(e.g. `https://40.x.x.x:9002`). Node.js in production mode rejects self-signed
+certificates.
+
 ## References
 
-[SAP Commerce Cloud Documentation](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/83616e9e152b4d16aaa4ee747ca8cad7/bb67d998b3d943d9887f3a2d2fa98eff.html?state=DRAFT&profile=20682543&profile=20682543&ai=true&version=DEV&locale=en-US)
+[Hosting Portal Documentation](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/83616e9e152b4d16aaa4ee747ca8cad7/bb67d998b3d943d9887f3a2d2fa98eff.html?state=DRAFT&profile=20682543&profile=20682543&ai=true&version=DEV&locale=en-US)
+
+[Composable Storefront for SAP Commerce Cloud](https://help.sap.com/docs/CC_CEE/24176fb554b4410caf1bcd0c6c7cf633/6698db3d8f92441ca3f364879e6bb4cf.html?locale=en-US&state=DRAFT&version=DEV&ai=true)
+
