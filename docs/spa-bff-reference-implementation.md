@@ -1431,7 +1431,7 @@ npm run start:storefrontapp
 
 ### Required custom variables
 
-After deploying to CCv2, set the following variable in the BFF application's VariableSet
+Before deploying to CCv2, set the following variable in the BFF application's VariableSet
 in the Hosting Portal:
 
 | Variable | Description |
