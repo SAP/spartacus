@@ -6,21 +6,48 @@
     {{ 'productList.appliedFilter' | cxTranslate }}
   </div>
 
-  <a
-    *ngFor="let facet of facetList?.activeFacets"
-    routerLink="./"
-    [queryParams]="getLinkParams(facet)"
-    [cxFocus]="{ key: getFocusKey(facetList, facet) }"
-    role="button"
-    (keydown.space)="removeFilterWithSpacebar($event)"
-    [attr.aria-label]="
-      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
-    "
-    [attr.title]="
-      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
-    "
-  >
-    <span>{{ facet.facetValueName }}</span>
-    <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
-  </a>
+  <ng-container *ngFor="let facet of facetList?.activeFacets">
+    <a
+      *cxFeature="'a11yFilteredFacetAnnouncement'"
+      routerLink="./"
+      [queryParams]="getLinkParams(facet)"
+      [cxFocus]="{ key: getFocusKey(facetList, facet) }"
+      role="button"
+      (keydown.space)="removeFilterWithSpacebar($event)"
+      [attr.aria-label]="
+        'productList.activeFilter'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+      [attr.title]="
+        'productList.activeFilter'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+      [cxAtMessage]="
+        'productList.filterRemoved'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+    >
+      <span>{{ facet.facetValueName }}</span>
+      <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+    </a>
+    <a
+      *cxFeature="'!a11yFilteredFacetAnnouncement'"
+      routerLink="./"
+      [queryParams]="getLinkParams(facet)"
+      [cxFocus]="{ key: getFocusKey(facetList, facet) }"
+      role="button"
+      (keydown.space)="removeFilterWithSpacebar($event)"
+      [attr.aria-label]="
+        'productList.activeFilter'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+      [attr.title]="
+        'productList.activeFilter'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+    >
+      <span>{{ facet.facetValueName }}</span>
+      <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+    </a>
+  </ng-container>
 </ng-container>
