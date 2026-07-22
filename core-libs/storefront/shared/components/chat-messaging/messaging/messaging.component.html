@@ -28,7 +28,7 @@
             i === 0 ? 'cx-messages-navigation-hint' : null
           "
           [attr.aria-label]="
-            'chatMessaging.informationLabel'
+            'chatMessaging.informationLabelWithPosition'
               | cxTranslate
                 : {
                     author: message.author,
@@ -41,7 +41,7 @@
                   }
           "
         >
-          <cx-avatar [message]="message"> </cx-avatar>
+          <cx-avatar [message]="message" />
 
           <div>
             <label aria-hidden="true">{{
@@ -88,7 +88,7 @@
           role="listitem"
           [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
         >
-          <cx-avatar [message]="message"> </cx-avatar>
+          <cx-avatar [message]="message" />
 
           <div>
             <label>{{
