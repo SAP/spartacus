@@ -48,6 +48,15 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  // Serve Markdown version of SSR pages.
+  // Must be registered before static files and the Angular catch-all so it
+  // can intercept requests with Accept: text/markdown or a .md URL suffix.
+  server.use(
+    createMarkdownPageHandler({
+      pages: ['pdp', 'plp', 'cms'],
+    })
+  );
+
   // Serve static files from /browser
   server.get(
     /.*\..*/,
@@ -85,3 +94,29 @@ function run() {
 }
 
 run();
+
+function createMarkdownPageHandler(props: any): express.RequestHandler {
+  console.log('[markdown] handler registered with', props);
+  return (req, res, next) => {
+    if (req.accepts(['text/html', 'text/markdown']) !== 'text/markdown') {
+      return next();
+    }
+
+    console.log('[markdown] markdown request:', req.method, req.originalUrl);
+
+    const originalSend = res.send.bind(res);
+    (res as any).send = function (body: any) {
+      const html = typeof body === 'string' ? body : (body?.toString?.() ?? '');
+      console.log('[markdown] intercepted rendered HTML, length:', html.length);
+
+      // TODO: transform html → markdown
+      const markdown = `# Intercepted\n\nURL: ${req.originalUrl}\nHTML length: ${html.length}`;
+
+      res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+      res.setHeader('Vary', 'Accept');
+      return originalSend(markdown);
+    };
+
+    next();
+  };
+}
