@@ -22,8 +22,6 @@ import {
   withNoHttpTransferCache,
 } from '@angular/platform-browser';
 import { AppModule } from './app.module';
-import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection';
-import { provideConfig } from '@spartacus/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,11 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideBrowserGlobalErrorListeners(),
-    provideConfig({                                                                                                                                                
-    b2bUnitSelection: {                                                                                                                                          
-      enabled: true,                                                                                                                                             
-    },                                                                                                                                                           
-  } as B2bUnitSelectionConfig),
 
     importProvidersFrom(AppModule),
   ],
