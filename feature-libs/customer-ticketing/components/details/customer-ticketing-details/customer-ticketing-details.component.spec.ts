@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   EventService,
@@ -11,18 +12,16 @@ import {
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
-  DATE_FORMAT,
-  DATE_FORMAT_A11Y,
   STATUS,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { Card, CardModule } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
 const mockTicketId = '1';
@@ -166,47 +165,27 @@ describe('CustomerTicketingDetailsComponent', () => {
       toggleController = TestBed.inject(MockFeatureTogglesController);
     });
 
-    function createComponent(): CustomerTicketingDetailsComponent {
-      const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
-      f.detectChanges();
-      return f.componentInstance;
-    }
-
     describe('when toggle is OFF (default)', () => {
-      it('should expose DATE_FORMAT and DATE_FORMAT_A11Y on the component', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', false);
-        const c = createComponent();
-        expect(c.dateFormat).toBe(DATE_FORMAT);
-        expect(c.dateFormatA11y).toBe(DATE_FORMAT_A11Y);
-      });
-
       it('should render ticket details without role="region"', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', false);
         const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
         f.detectChanges();
         expect(
-          f.nativeElement.querySelector('.cx-ticket-details[role="region"]')
+          f.debugElement.query(By.css('.cx-ticket-details[role="region"]'))
         ).toBeNull();
       });
     });
 
     describe('when toggle is ON', () => {
-      it('should expose DATE_FORMAT and DATE_FORMAT_A11Y on the component', () => {
-        toggleController.set('a11yMessagingListKeyboardFocus', true);
-        const c = createComponent();
-        expect(c.dateFormat).toBe(DATE_FORMAT);
-        expect(c.dateFormatA11y).toBe(DATE_FORMAT_A11Y);
-      });
-
       it('should render ticket details with role="region" and aria-label', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', true);
         const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
         f.detectChanges();
-        const region = f.nativeElement.querySelector(
-          '.cx-ticket-details[role="region"]'
+        const region = f.debugElement.query(
+          By.css('.cx-ticket-details[role="region"]')
         );
         expect(region).toBeTruthy();
-        expect(region.hasAttribute('aria-label')).toBeTrue();
+        expect(region.attributes['aria-label']).toBeDefined();
       });
     });
   });

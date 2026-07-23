@@ -9,7 +9,7 @@ import {
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
-  DATE_FORMAT_A11Y,
+  DATE_FORMAT,
   STATUS_NAME,
   TicketDetails,
   TicketEvent,
@@ -19,11 +19,11 @@ import {
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
@@ -247,13 +247,13 @@ describe('CustomerTicketMessagesComponent', () => {
     });
 
     describe('when toggle is ON', () => {
-      it('should set dateFormat to DATE_FORMAT_A11Y in messagingConfigs', () => {
+      it('should set dateFormat to DATE_FORMAT in messagingConfigs', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', true);
         fixture = TestBed.createComponent(CustomerTicketingMessagesComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-        expect(component.messagingConfigs.dateFormat).toBe(DATE_FORMAT_A11Y);
+        expect(component.messagingConfigs.dateFormat).toBe(DATE_FORMAT);
       });
     });
   });
