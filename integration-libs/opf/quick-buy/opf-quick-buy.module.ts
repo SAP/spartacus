@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { OpfQuickBuyComponentsModule } from '@spartacus/opf/quick-buy/components';
 import { OpfQuickBuyCoreModule } from '@spartacus/opf/quick-buy/core';
+import { OpfQuickBuyOccModule } from '@spartacus/opf/quick-buy/occ';
 import { OpfApiQuickBuyModule } from '@spartacus/opf/quick-buy/opf-api';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { OpfApiQuickBuyModule } from '@spartacus/opf/quick-buy/opf-api';
     OpfQuickBuyComponentsModule,
     OpfQuickBuyCoreModule,
     OpfApiQuickBuyModule,
+    OpfQuickBuyOccModule,
   ],
 })
 export class OpfQuickBuyModule {}
