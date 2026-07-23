@@ -11,6 +11,8 @@ import {
   AuthActions,
   B2BUnit,
   LoggerService,
+  OAuthLibWrapperService,
+  RoutingService,
   tryNormalizeHttpError,
   UserIdService,
 } from '@spartacus/core';
@@ -34,6 +36,8 @@ export class B2bUnitSelectionEffects {
   private coordinator = inject(B2bRedirectCoordinator);
   private applicationRef = inject(ApplicationRef);
   private stateService = inject(B2bUnitSelectorStateService);
+  private routingService = inject(RoutingService);
+  private oAuthLibWrapperService = inject(OAuthLibWrapperService);
 
   /**
    * 监听 LOGIN action，获取用户所属 org units 及默认 unit。
@@ -65,7 +69,7 @@ export class B2bUnitSelectionEffects {
                 // 无论 unit 数量多少，都写入状态服务，供 Company 选择器使用
                 this.stateService.setOrgUnits(orgUnits);
                 this.stateService.setActiveUnit(defaultUnitUid ?? null);
-                if (orgUnits.length > 1) {
+                if (orgUnits.length > 0) {
                   this.openDialogWhenReady(orgUnits, defaultUnitUid);
                 } else {
                   this.coordinator.allowRedirect();
@@ -96,7 +100,8 @@ export class B2bUnitSelectionEffects {
 
   /**
    * 监听 SET_DEFAULT_ORG_UNIT action，调用 PUT API 设置默认 unit。
-   * 成功后放行 redirect 并关闭 dialog。
+   * 成功后刷新 token（使新 unit 权限立即生效），再放行 redirect 并关闭 dialog。
+   * token 刷新失败时降级处理，不阻断主流程。
    */
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
@@ -109,12 +114,19 @@ export class B2bUnitSelectionEffects {
       map(
         (action: B2bUnitSelectionActions.SetDefaultOrgUnit) => action.payload
       ),
-      switchMap(({ userId, unitUid }) =>
+      switchMap(({ userId, unitUid, redirectToHome }) =>
         this.connector.setDefaultOrgUnit(userId, unitUid).pipe(
           tap(() => {
+            // 刷新 token，使新 unit 的权限上下文立即生效（fire-and-forget）
+            this.oAuthLibWrapperService.refreshToken();
             this.coordinator.allowRedirect();
             this.launchDialogService.closeDialog('CONFIRMED');
             this.stateService.setActiveUnit(unitUid);
+            // 仅 header 选择器切换（redirectToHome=true）才跳首页；
+            // dialog 确认走 coordinator 原有的 post-login redirect 逻辑
+            if (redirectToHome) {
+              this.routingService.go({ cxRoute: 'home' });
+            }
           }),
           map(() => new B2bUnitSelectionActions.SetDefaultOrgUnitSuccess()),
           catchError((error: HttpErrorResponse) =>
@@ -127,6 +139,21 @@ export class B2bUnitSelectionEffects {
         )
       )
     )
+  );
+
+  /**
+   * 监听 LOGOUT action，清空 stateService，确保退出登录后 Company 选择器隐藏。
+   */
+  clearOnLogout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType<AuthActions.Logout>(AuthActions.LOGOUT),
+        tap(() => {
+          this.stateService.setOrgUnits([]);
+          this.stateService.setActiveUnit(null);
+        })
+      ),
+    { dispatch: false }
   );
 
   constructor(

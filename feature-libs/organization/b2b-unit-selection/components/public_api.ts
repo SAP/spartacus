@@ -6,6 +6,6 @@
 
 export * from './b2b-unit-selection-components.module';
 export * from './b2b-unit-selection-dialog/b2b-unit-selection-dialog.component';
+export * from './b2b-unit-selector/abstract-b2b-unit-selector.component';
 export * from './b2b-unit-selector/b2b-unit-selector.component';
-export * from './b2b-unit-selector-outlet/b2b-unit-selector-outlet.component';
 export * from './default-b2b-unit-selection-layout.config';

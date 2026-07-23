@@ -1,3 +1,9 @@
+<!--
+  SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+
+  SPDX-License-Identifier: Apache-2.0
+-->
+
 <div
   class="cx-b2b-unit-selection-dialog cx-modal-container"
   role="dialog"
@@ -22,16 +28,15 @@
         <label for="b2b-unit-select" class="cx-required-field">
           {{ 'b2bUnitSelection.dialog.unitLabel' | cxTranslate }}
         </label>
-        <select
-          id="b2b-unit-select"
-          class="form-control"
+        <ng-select
+          inputId="b2b-unit-select"
           formControlName="selectedUnit"
-          [attr.aria-required]="true"
-        >
-          <option *ngFor="let unit of orgUnits" [value]="unit.name">
-            {{ unit.name }}
-          </option>
-        </select>
+          [items]="orgUnits"
+          bindLabel="name"
+          [clearable]="false"
+          [searchable]="false"
+          [cxNgSelectA11y]="{ ariaLabel: 'b2bUnitSelection.dialog.unitLabel' | cxTranslate }"
+        ></ng-select>
         <cx-form-errors
           [control]="form.get('selectedUnit')"
         ></cx-form-errors>

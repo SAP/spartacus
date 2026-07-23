@@ -4,42 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-} from '@angular/core';
-import { Store } from '@ngrx/store';
-import { UserIdService } from '@spartacus/core';
-import { IconComponent, ICON_TYPE } from '@spartacus/storefront';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { TranslatePipe } from '@spartacus/core';
-import { take } from 'rxjs/operators';
-import { SetDefaultOrgUnit } from '../../core/store/actions/b2b-unit-selection.actions';
-import { B2bUnitSelectorStateService } from '../../core/services/b2b-unit-selector-state.service';
+import { IconComponent, ICON_TYPE, NgSelectA11yDirective } from '@spartacus/storefront';
+import { AbstractB2bUnitSelectorComponent } from './abstract-b2b-unit-selector.component';
 
+/**
+ * Company（B2B Unit）选择器。
+ * 注册为 CMS Flex 组件（flexType: B2bUnitSelectorComponent），
+ * 通过 ImpEx 放置于 SiteContextSlot。
+ */
 @Component({
   selector: 'cx-b2b-unit-selector',
   templateUrl: './b2b-unit-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, IconComponent, TranslatePipe],
+  imports: [NgIf, FormsModule, NgSelectComponent, NgSelectA11yDirective, IconComponent, TranslatePipe],
 })
-export class B2bUnitSelectorComponent {
-  iconTypes = ICON_TYPE;
-
-  private stateService = inject(B2bUnitSelectorStateService);
-  private store = inject(Store);
-  private userIdService = inject(UserIdService);
-
-  orgUnits$ = this.stateService.orgUnits$;
-  activeUnitName$ = this.stateService.activeUnitName$;
-
-  onChange(name: string): void {
-    this.userIdService
-      .takeUserId(true)
-      .pipe(take(1))
-      .subscribe((userId) => {
-        this.store.dispatch(new SetDefaultOrgUnit({ userId, unitUid: name }));
-      });
-  }
+export class B2bUnitSelectorComponent extends AbstractB2bUnitSelectorComponent {
+  readonly iconTypes = ICON_TYPE;
 }

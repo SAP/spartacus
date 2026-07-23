@@ -4,16 +4,26 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<label *ngIf="(orgUnits$ | async)?.length ?? 0 > 1">
+<label *ngIf="hasAnyUnit()">
   <span>{{ 'b2bUnitSelection.selector.label' | cxTranslate }}:</span>
   <div class="cx-select-wrapper">
-    <select (change)="onChange($any($event).target.value)">
-      <option
-        *ngFor="let unit of orgUnits$ | async"
-        [value]="unit.name"
-        [selected]="(activeUnitName$ | async) === unit.name"
-      >{{ unit.name }}</option>
-    </select>
-    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
+    <ng-select
+      [items]="items()"
+      bindLabel="name"
+      bindValue="name"
+      [ngModel]="activeUnitName()"
+      [clearable]="false"
+      [searchable]="false"
+      [disabled]="!hasMultipleUnits()"
+      appendTo="cx-b2b-unit-selector"
+      (ngModelChange)="onSelect($event)"
+      [cxNgSelectA11y]="{ ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate }"
+    ></ng-select>
+    <cx-icon
+      *ngIf="hasMultipleUnits()"
+      aria-hidden="true"
+      [type]="iconTypes.CARET_DOWN"
+      class="small"
+    ></cx-icon>
   </div>
 </label>

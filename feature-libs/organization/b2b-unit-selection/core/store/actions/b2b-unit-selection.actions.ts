@@ -41,7 +41,14 @@ export const SET_DEFAULT_ORG_UNIT_FAIL =
 
 export class SetDefaultOrgUnit implements Action {
   readonly type = SET_DEFAULT_ORG_UNIT;
-  constructor(public payload: { userId: string; unitUid: string }) {}
+  constructor(
+    public payload: {
+      userId: string;
+      unitUid: string;
+      /** true = 来自 header 选择器切换，成功后跳转首页；false/undefined = 来自 dialog */
+      redirectToHome?: boolean;
+    }
+  ) {}
 }
 
 export class SetDefaultOrgUnitSuccess implements Action {

@@ -5,7 +5,6 @@
  */
 
 import { Component } from '@angular/core';
-import { B2bUnitSelectorOutletComponent } from '@spartacus/organization/b2b-unit-selection';
 import { StorefrontComponent } from '@spartacus/storefront';
 
 /**
@@ -14,10 +13,7 @@ import { StorefrontComponent } from '@spartacus/storefront';
  */
 @Component({
   selector: 'app-root',
-  template: `
-    <cx-storefront></cx-storefront>
-    <cx-b2b-unit-selector-outlet></cx-b2b-unit-selector-outlet>
-  `,
-  imports: [StorefrontComponent, B2bUnitSelectorOutletComponent],
+  template: `<cx-storefront></cx-storefront>`,
+  imports: [StorefrontComponent],
 })
 export class AppComponent {}

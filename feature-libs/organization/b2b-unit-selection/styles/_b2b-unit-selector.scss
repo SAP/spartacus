@@ -1,0 +1,123 @@
+$b2b-unit-selector-caret-size: 7px;
+
+cx-b2b-unit-selector {
+  display: inline-block;
+  position: relative;
+  margin-top: 14px;
+  margin-inline-end: 17px;
+  margin-bottom: 14px;
+  margin-inline-start: 0;
+
+  @include media-breakpoint-down(md) {
+    &:first-child {
+      margin-inline-start: 0;
+    }
+    &:not(:first-child) {
+      padding-inline-start: 16px;
+      border-inline-start: 1px solid var(--cx-color-secondary);
+    }
+  }
+
+  label {
+    display: flex;
+    margin: 0;
+
+    span {
+      color: var(--cx-color-text);
+      margin-inline-end: 5px;
+      white-space: nowrap;
+    }
+  }
+
+  // 与 site-context-selector 的 .cx-select-wrapper 结构保持一致
+  .cx-select-wrapper {
+    display: flex;
+    align-items: flex-start;
+
+    cx-icon {
+      margin-inline-start: -#{$b2b-unit-selector-caret-size * 2};
+      margin-top: -12px;
+      z-index: 1;
+      pointer-events: none;
+      color: var(--cx-color-text);
+    }
+  }
+
+  ng-select {
+    margin-top: -12px;
+    // 自适应宽度：收缩至选中值宽度，超出 max-width 时由 text-overflow:ellipsis 截断
+    max-width: 130px;
+
+    // 覆盖 ng-select default.theme.css：
+    //   .ng-select .ng-select-container                  { background-color:#fff; min-height:36px }
+    //   .ng-select.ng-select-single .ng-select-container { height:36px }
+    //   .ng-select .ng-select-container .ng-value-container { padding-left:10px }
+    .ng-select-container {
+      height: auto !important;
+      min-height: unset !important;
+      background-color: transparent !important;
+      border: none !important;
+      border-radius: 0;
+      box-shadow: none !important;
+      cursor: pointer;
+      padding: 0 4px 2px 0;
+
+      .ng-value-container {
+        // ng-select default theme 优先级（3 class）高于我们的规则，
+        // 需要 !important 才能覆盖 padding-left: 10px
+        padding: 0 !important;
+        padding-inline-end: #{$b2b-unit-selector-caret-size * 2} !important;
+        // 贴顶对齐，消除 ng-select-container align-items:center 导致的下移
+        align-self: flex-start;
+
+        .ng-value {
+          color: var(--cx-color-text);
+          font-weight: var(--cx-font-weight-semi);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 100%;
+        }
+
+        // 单选模式下 ng-select 对 .ng-input 设置 top:5px，需清零
+        .ng-input {
+          top: 0 !important;
+          padding: 0 !important;
+
+          > input {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .ng-arrow-wrapper {
+        display: none;
+      }
+    }
+
+    &.ng-select-focused .ng-select-container,
+    &.ng-select-opened .ng-select-container {
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    // 单 unit 禁用态：不可交互，光标还原
+    &.ng-select-disabled .ng-select-container {
+      cursor: default;
+
+      .ng-value-container .ng-value {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  // appendTo="cx-b2b-unit-selector" 使 panel 挂在宿主元素下，
+  // 而非 ng-select 内部，故选择器须在 ng-select {} 块之外
+  .ng-dropdown-panel {
+    // ng-select 通过内联样式将 panel 宽度设为控件宽度，
+    // !important 覆盖内联样式，让 panel 按选项内容自行决定宽度
+    width: auto !important;
+    min-width: max-content;
+  }
+}
