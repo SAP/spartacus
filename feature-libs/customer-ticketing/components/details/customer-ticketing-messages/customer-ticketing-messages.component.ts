@@ -5,11 +5,11 @@
  */
 
 import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { EventService, FeatureToggles } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
-  DATE_FORMAT,
+  DATE_FORMAT_A11Y,
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
@@ -31,6 +31,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
   protected customerTicketingMessagesComponentService = inject(
     CustomerTicketingMessagesComponentService
   );
+  private featureToggles = inject(FeatureToggles);
 
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
@@ -109,7 +110,9 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
       charactersLimit:
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
-      dateFormat: DATE_FORMAT,
+      ...(this.featureToggles.a11yMessagingListKeyboardFocus && {
+        dateFormat: DATE_FORMAT_A11Y,
+      }),
       displayAddMessageSection: this.ticketDetails$.pipe(
         map((ticket) =>
           this.customerTicketingMessagesComponentService.displayAddMessageSection(

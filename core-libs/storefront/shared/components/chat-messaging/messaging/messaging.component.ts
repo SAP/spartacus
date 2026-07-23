@@ -92,7 +92,8 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   MAX_INPUT_CHARACTERS: number = 2000;
   MAX_SIZE: number = 10;
   MAX_ENTRIES: number = 1;
-  dateFormat: string = 'MMMM d, y h:mm aa';
+  dateFormat: string = 'MMMM d, YYYY h:mm aa';
+  dateFormatA11y: string = 'MMMM d, y h:mm aa';
   updatedScrollHeight: number;
   scrollOnceOnLoad: boolean = true;
 

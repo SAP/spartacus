@@ -9,6 +9,7 @@ import {
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
+  DATE_FORMAT_A11Y,
   STATUS_NAME,
   TicketDetails,
   TicketEvent,
@@ -19,6 +20,10 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 import createSpy = jasmine.createSpy;
@@ -66,6 +71,7 @@ describe('CustomerTicketMessagesComponent', () => {
       imports: [I18nTestingModule, CustomerTicketingMessagesComponent],
       providers: [
         CustomerTicketingMessagesComponentService,
+        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
         {
           provide: CustomerTicketingFacade,
           useClass: MockCustomerTicketingFacade,
@@ -218,6 +224,37 @@ describe('CustomerTicketMessagesComponent', () => {
         customerTicketingConfig.customerTicketing?.inputCharactersLimit
       );
       expect(actual.enableFileUploadOption).toBe(true);
+      expect(actual.dateFormat).toBeUndefined();
+    });
+  });
+
+  describe('a11yMessagingListKeyboardFocus feature toggle', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when toggle is OFF (default)', () => {
+      it('should not set dateFormat in messagingConfigs', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', false);
+        fixture = TestBed.createComponent(CustomerTicketingMessagesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+
+        expect(component.messagingConfigs.dateFormat).toBeUndefined();
+      });
+    });
+
+    describe('when toggle is ON', () => {
+      it('should set dateFormat to DATE_FORMAT_A11Y in messagingConfigs', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        fixture = TestBed.createComponent(CustomerTicketingMessagesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+
+        expect(component.messagingConfigs.dateFormat).toBe(DATE_FORMAT_A11Y);
+      });
     });
   });
 });

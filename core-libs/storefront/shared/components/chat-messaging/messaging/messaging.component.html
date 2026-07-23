@@ -35,7 +35,8 @@
                     text: getMessageText(message),
                     date:
                       (message.createdAt
-                        | cxDate: messagingConfigs?.dateFormat) ?? dateFormat,
+                        | cxDate: messagingConfigs?.dateFormat) ??
+                      dateFormatA11y,
                     position: i + 1,
                     listLength: messageEvents.length,
                   }
@@ -46,7 +47,7 @@
           <div>
             <label aria-hidden="true">{{
               (message.createdAt | cxDate: messagingConfigs?.dateFormat) ??
-                dateFormat
+                dateFormatA11y
             }}</label>
             <div
               [ngClass]="

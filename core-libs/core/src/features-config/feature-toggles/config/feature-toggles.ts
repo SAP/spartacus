@@ -236,7 +236,7 @@ export interface FeatureTogglesInterface {
    * Affects: MessagingComponent
    */
   a11yMessagingListKeyboardFocus?: boolean;
-  
+
   /**
    * Applies a `10rem` inline-start padding to the order overview cards
    * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
