@@ -39,7 +39,7 @@ const mockAnonymousConsentsConfig = {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];

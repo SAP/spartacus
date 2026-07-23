@@ -42,7 +42,7 @@ class CustomFocusDirective extends EscapeFocusDirective {
   imports: [CustomFocusDirective],
 })
 class MockComponent {
-  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-match
+
   handleEmit(_event: boolean): void {}
 }
 

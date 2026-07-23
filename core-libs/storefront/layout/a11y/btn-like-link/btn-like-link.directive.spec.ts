@@ -46,10 +46,7 @@ describe('BtnLikeLinkDirective', () => {
   });
 
   it('should react on enter and spacebar clicks', () => {
-    const onClickSpy = vi.spyOn(
-      fixture.componentInstance,
-      'onClick'
-    );
+    const onClickSpy = vi.spyOn(fixture.componentInstance, 'onClick');
     const mockClickHandlerSpy = vi.spyOn(Mock, 'clickHandler');
 
     const affectedLink = fixture.debugElement.query(By.css('.affected-link'));

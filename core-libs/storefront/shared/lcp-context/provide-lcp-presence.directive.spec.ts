@@ -22,7 +22,7 @@ class ChildComponent {
   selector: 'cx-test-host',
   template: `Parent:
     <div [cxProvideLcpPresence]="lcpPresence">
-      <cx-child></cx-child>
+      <cx-child />
     </div>`,
   imports: [ProvideLcpPresenceDirective, ChildComponent],
 })

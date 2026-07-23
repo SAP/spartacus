@@ -31,7 +31,10 @@ describe('CouponClaimComponent', () => {
   let component: CouponClaimComponent;
   let fixture: ComponentFixture<CouponClaimComponent>;
 
-  const couponService = { claimCustomerCoupon: vi.fn(), getClaimCustomerCouponResultSuccess: vi.fn() };
+  const couponService = {
+    claimCustomerCoupon: vi.fn(),
+    getClaimCustomerCouponResultSuccess: vi.fn(),
+  };
   const routingService = { getRouterState: vi.fn(), go: vi.fn() };
   const globalMessageService = { add: vi.fn() };
   beforeEach(async () => {

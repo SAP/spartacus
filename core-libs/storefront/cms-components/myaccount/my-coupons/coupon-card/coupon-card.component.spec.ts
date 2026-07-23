@@ -50,8 +50,7 @@ class MockUrlPipe implements PipeTransform {
       [coupon]="coupon"
       [couponSubscriptionLoading$]="couponSubscriptionLoading$"
       (notificationChanged)="notificationChange($event)"
-    >
-    </cx-coupon-card>
+    />
   `,
   imports: [I18nTestingModule, CouponCardComponent],
 })
@@ -65,7 +64,8 @@ class MyCouponsComponent {
     map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
   );
 
-  notificationChange = vi.fn()
+  notificationChange = vi
+    .fn()
     .mockImplementation(({ couponId, notification }) => {
       this.eventObj = { couponId, notification };
     });

@@ -25,7 +25,14 @@ describe('NotificationPreferenceComponent', () => {
   let fixture: ComponentFixture<NotificationPreferenceComponent>;
   let el: DebugElement;
 
-  const notificationPreferenceService = { getPreferences: vi.fn(), loadPreferences: vi.fn(), getPreferencesLoading: vi.fn(), updatePreferences: vi.fn(), getUpdatePreferencesResultLoading: vi.fn(), resetNotificationPreferences: vi.fn() };
+  const notificationPreferenceService = {
+    getPreferences: vi.fn(),
+    loadPreferences: vi.fn(),
+    getPreferencesLoading: vi.fn(),
+    updatePreferences: vi.fn(),
+    getUpdatePreferencesResultLoading: vi.fn(),
+    resetNotificationPreferences: vi.fn(),
+  };
 
   const notificationPreference: NotificationPreference[] = [
     {
@@ -73,7 +80,9 @@ describe('NotificationPreferenceComponent', () => {
     component = fixture.componentInstance;
 
     notificationPreferenceService.loadPreferences.mockImplementation(() => {});
-    notificationPreferenceService.updatePreferences.mockImplementation(() => {});
+    notificationPreferenceService.updatePreferences.mockImplementation(
+      () => {}
+    );
     notificationPreferenceService.getPreferences.mockReturnValue(
       of(notificationPreference)
     );
@@ -83,7 +92,9 @@ describe('NotificationPreferenceComponent', () => {
     notificationPreferenceService.getUpdatePreferencesResultLoading.mockReturnValue(
       of(false)
     );
-    notificationPreferenceService.resetNotificationPreferences.mockImplementation(() => {});
+    notificationPreferenceService.resetNotificationPreferences.mockImplementation(
+      () => {}
+    );
   });
 
   it('should create', () => {

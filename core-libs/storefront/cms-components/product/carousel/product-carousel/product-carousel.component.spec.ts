@@ -42,7 +42,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
           template;
           context: { item: item$ | async, itemIndex: i }
         "
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [AsyncPipe, NgTemplateOutlet, NgFor],
@@ -64,7 +64,7 @@ class MockCarouselComponent {
           template;
           context: { item: item$ | async, itemIndex: i }
         "
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [AsyncPipe, NgTemplateOutlet, NgFor],

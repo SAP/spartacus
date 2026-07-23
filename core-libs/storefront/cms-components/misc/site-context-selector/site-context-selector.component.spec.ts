@@ -124,7 +124,12 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
               useClass: SiteContextComponentService,
             },
           ],
-          imports: [MockUrlPipe, MockCxIconComponent, MockTranslatePipe, MockFeatureDirective],
+          imports: [
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockTranslatePipe,
+            MockFeatureDirective,
+          ],
         },
       })
       .compileComponents();

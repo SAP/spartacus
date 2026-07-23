@@ -13,10 +13,10 @@ import { SiteContextType } from './site-context.model';
   template: `
     <cx-site-context-selector
       [context]="siteContextType.LANGUAGE"
-    ></cx-site-context-selector>
+    />
     <cx-site-context-selector
       [context]="siteContextType.CURRENCY"
-    ></cx-site-context-selector>
+    />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SiteContextSelectorComponent],

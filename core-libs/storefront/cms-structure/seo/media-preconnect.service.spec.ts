@@ -8,8 +8,7 @@ class MockPageMetaLinkService {
   addPreconnectLink = vi.fn();
 }
 class MockMediaService {
-  getBaseUrl = vi.fn()
-    .mockReturnValue('https://media.example.com');
+  getBaseUrl = vi.fn().mockReturnValue('https://media.example.com');
 }
 
 class MockWindowRef {

@@ -206,7 +206,9 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      vi.spyOn(eventService, 'get').mockReturnValueOnce(of(event)).mockReturnValueOnce(EMPTY);
+      vi.spyOn(eventService, 'get')
+        .mockReturnValueOnce(of(event))
+        .mockReturnValueOnce(EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -226,7 +228,9 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      vi.spyOn(eventService, 'get').mockReturnValueOnce(of(event)).mockReturnValueOnce(EMPTY);
+      vi.spyOn(eventService, 'get')
+        .mockReturnValueOnce(of(event))
+        .mockReturnValueOnce(EMPTY);
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;

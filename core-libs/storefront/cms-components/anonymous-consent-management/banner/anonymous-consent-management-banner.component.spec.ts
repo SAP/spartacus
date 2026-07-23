@@ -103,7 +103,10 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('hideBanner', () => {
     it('should anonymousConsentsService.toggleBannerDismissed call with true as an argument', () => {
-      vi.spyOn(anonymousConsentsService, 'toggleBannerDismissed').mockImplementation(() => {});
+      vi.spyOn(
+        anonymousConsentsService,
+        'toggleBannerDismissed'
+      ).mockImplementation(() => {});
       component.hideBanner();
       expect(
         anonymousConsentsService.toggleBannerDismissed
@@ -113,7 +116,10 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe', () => {
-      vi.spyOn<any>(component['subscriptions'], 'unsubscribe').mockImplementation(() => {});
+      vi.spyOn<any>(
+        component['subscriptions'],
+        'unsubscribe'
+      ).mockImplementation(() => {});
       component.ngOnDestroy();
       expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();
     });

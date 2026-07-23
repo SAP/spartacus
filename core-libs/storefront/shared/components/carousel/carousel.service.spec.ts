@@ -23,28 +23,36 @@ describe('Carousel Service', () => {
   it('should return 4 items per slide', async () => {
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(1000);
 
-    const value = await firstValueFrom(service.getItemsPerSlide(element, '250px'));
+    const value = await firstValueFrom(
+      service.getItemsPerSlide(element, '250px')
+    );
     expect(value).toEqual(4);
   });
 
   it('should return 2 items per slide', async () => {
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(500);
 
-    const value = await firstValueFrom(service.getItemsPerSlide(element, '250px'));
+    const value = await firstValueFrom(
+      service.getItemsPerSlide(element, '250px')
+    );
     expect(value).toEqual(2);
   });
 
   it('should round down the items per slide', async () => {
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(999);
 
-    const value = await firstValueFrom(service.getItemsPerSlide(element, '250px'));
+    const value = await firstValueFrom(
+      service.getItemsPerSlide(element, '250px')
+    );
     expect(value).toEqual(3);
   });
 
   it('should return 1 item per slide in case of 100%', async () => {
     vi.spyOn(element, 'clientWidth', 'get').mockReturnValue(1000);
 
-    const value = await firstValueFrom(service.getItemsPerSlide(element, '100%'));
+    const value = await firstValueFrom(
+      service.getItemsPerSlide(element, '100%')
+    );
     expect(value).toEqual(1);
   });
 });

@@ -197,7 +197,9 @@ describe('SearchBoxComponentService', () => {
     });
 
     it('should have exact match suggestion when there are no suggestions but at least one product', () => {
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service
         .getResults(searchBoxConfig)
@@ -226,7 +228,9 @@ describe('SearchBoxComponentService', () => {
 
     it('should not get a message when there are no results ', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(of({}));
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
@@ -236,7 +240,9 @@ describe('SearchBoxComponentService', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
         of({ products: [] })
       );
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeTruthy();
@@ -248,7 +254,9 @@ describe('SearchBoxComponentService', () => {
       vi.spyOn(searchBoxService, 'getResults').mockReturnValue(
         of(mockSearchResults)
       );
-      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(of([]));
+      vi.spyOn(searchBoxService, 'getSuggestionResults').mockReturnValue(
+        of([])
+      );
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();

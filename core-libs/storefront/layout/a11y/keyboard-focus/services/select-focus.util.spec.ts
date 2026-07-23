@@ -112,7 +112,7 @@ describe('SelectFocusUtility', () => {
         vi.spyOn(service as any, 'isHidden').mockImplementation(
           (el: HTMLElement) => {
             const host = fixture.debugElement.query(By.css('#e')).nativeElement;
-            if (!host.classList.contains('hide')) return false;
+            if (!host.classList.contains('hide')) {return false;}
             return (
               el.id === 'e1' ||
               !!el.closest('.parent') ||

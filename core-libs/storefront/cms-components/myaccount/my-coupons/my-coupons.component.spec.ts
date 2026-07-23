@@ -169,7 +169,17 @@ describe('MyCouponsComponent', () => {
   let el: DebugElement;
   let launchDialogService: LaunchDialogService;
 
-  const customerCouponService = { getCustomerCoupons: vi.fn(), getCustomerCouponsLoading: vi.fn(), loadCustomerCoupons: vi.fn(), subscribeCustomerCoupon: vi.fn(), unsubscribeCustomerCoupon: vi.fn(), getSubscribeCustomerCouponResultLoading: vi.fn(), getUnsubscribeCustomerCouponResultLoading: vi.fn(), getSubscribeCustomerCouponResultError: vi.fn(), getUnsubscribeCustomerCouponResultError: vi.fn() };
+  const customerCouponService = {
+    getCustomerCoupons: vi.fn(),
+    getCustomerCouponsLoading: vi.fn(),
+    loadCustomerCoupons: vi.fn(),
+    subscribeCustomerCoupon: vi.fn(),
+    unsubscribeCustomerCoupon: vi.fn(),
+    getSubscribeCustomerCouponResultLoading: vi.fn(),
+    getUnsubscribeCustomerCouponResultLoading: vi.fn(),
+    getSubscribeCustomerCouponResultError: vi.fn(),
+    getUnsubscribeCustomerCouponResultError: vi.fn(),
+  };
 
   const myCouponsComponentService = { getSortLabels: vi.fn() };
   const subscriptionFail = new BehaviorSubject<boolean>(false);
@@ -240,7 +250,9 @@ describe('MyCouponsComponent', () => {
     customerCouponService.getCustomerCouponsLoading.mockReturnValue(of(false));
     customerCouponService.loadCustomerCoupons.mockImplementation(() => {});
     customerCouponService.subscribeCustomerCoupon.mockImplementation(() => {});
-    customerCouponService.unsubscribeCustomerCoupon.mockImplementation(() => {});
+    customerCouponService.unsubscribeCustomerCoupon.mockImplementation(
+      () => {}
+    );
     customerCouponService.getSubscribeCustomerCouponResultLoading.mockReturnValue(
       subLoading$
     );

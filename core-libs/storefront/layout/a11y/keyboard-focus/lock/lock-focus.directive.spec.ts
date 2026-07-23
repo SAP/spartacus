@@ -1,8 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';

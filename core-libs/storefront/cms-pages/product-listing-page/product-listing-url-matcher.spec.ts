@@ -9,12 +9,12 @@ import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
 
 const combinedUrlMatcher: UrlMatcher = () => null;
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getCombined = vi.fn()
-    .mockReturnValue(combinedUrlMatcher);
+  getCombined = vi.fn().mockReturnValue(combinedUrlMatcher);
 }
 
 const mockDefaultUrlMatcher: UrlMatcher = () => null;
-const mockDefaultUrlMatcherFactory: UrlMatcherFactory = vi.fn()
+const mockDefaultUrlMatcherFactory: UrlMatcherFactory = vi
+  .fn()
   .mockReturnValue(mockDefaultUrlMatcher);
 
 describe('PRODUCT_LISTING_URL_MATCHER', () => {
@@ -40,8 +40,7 @@ describe('PRODUCT_LISTING_URL_MATCHER', () => {
     const factory = TestBed.inject(PRODUCT_LISTING_URL_MATCHER);
     const mockRoute = {};
     const urlMatcher = factory(mockRoute);
-    const combinedMatchers =
-      urlMatcherService.getCombined.mock.calls[0][0];
+    const combinedMatchers = urlMatcherService.getCombined.mock.calls[0][0];
     expect(mockDefaultUrlMatcherFactory).toHaveBeenCalledWith(mockRoute);
     expect(combinedMatchers[0]).toBe(mockDefaultUrlMatcher);
     expect(combinedMatchers[1]._suffixRouteConfig).toEqual({

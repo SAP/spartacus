@@ -85,7 +85,9 @@ describe('SkipLinkComponent', () => {
   });
 
   it('should call `scrollToTarget` on each button click', () => {
-    const spyComponent = vi.spyOn(skipLinkComponent, 'scrollToTarget').mockImplementation(() => {});
+    const spyComponent = vi
+      .spyOn(skipLinkComponent, 'scrollToTarget')
+      .mockImplementation(() => {});
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
 

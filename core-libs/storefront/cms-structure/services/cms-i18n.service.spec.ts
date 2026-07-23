@@ -14,9 +14,7 @@ describe('CmsI18nService', () => {
     loadChunks: vi.fn(),
   };
   const mockTranslationChunk = {
-    getChunkNameForKey: vi.fn().mockImplementation(
-      (key) => `chunkFor-${key}`
-    ),
+    getChunkNameForKey: vi.fn().mockImplementation((key) => `chunkFor-${key}`),
   };
 
   beforeEach(() => {

@@ -19,8 +19,7 @@ describe('CmsGuardsService', () => {
   }
 
   class PositiveGuard {
-    canActivate = vi.fn()
-      .mockReturnValue(true);
+    canActivate = vi.fn().mockReturnValue(true);
   }
 
   class PositiveGuardObservable {
@@ -96,9 +95,7 @@ describe('CmsGuardsService', () => {
         )
       );
       expect(result).toEqual(true);
-      expect(
-        TestBed.inject(PositiveGuard).canActivate
-      ).toHaveBeenCalledWith(
+      expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
         mockActivatedRouteSnapshot,
         mockRouterStateSnapshot
       );

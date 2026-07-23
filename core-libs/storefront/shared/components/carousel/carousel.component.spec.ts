@@ -1,8 +1,5 @@
 import { Component, Input, OnDestroy, TemplateRef } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureDirective as CxFeatureDirective,
@@ -689,9 +686,9 @@ class TestChildComponent implements OnDestroy {
       [title]="mockTitle"
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
-    ></cx-carousel>
+    />
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
-      <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
+      <cx-test-child [item]="item" [itemIndex]="itemIndex" />
     </ng-template>
   `,
   imports: [TestChildComponent, CarouselComponent],

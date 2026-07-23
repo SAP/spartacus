@@ -15,7 +15,7 @@
           role="listitem"
           [ngClass]="{ 'cx-message-display': message.rightAlign ?? false }"
         >
-          <cx-avatar [message]="message"> </cx-avatar>
+          <cx-avatar [message]="message" />
 
           <div>
             <label>{{
@@ -63,7 +63,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
+              <cx-icon [type]="iconTypes.ATTACHMENT" />
               {{ attachment.filename }}
             </a>
           </div>
@@ -137,7 +137,7 @@
           *ngIf="messagingConfigs?.enableFileUploadOption"
         >
           <ng-template>
-            <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+            <cx-icon [type]="iconTypes.UPLOAD" />
             <span class="cx-message-footer-text"
               >{{ 'chatMessaging.uploadFile' | cxTranslate }}
             </span>
@@ -154,7 +154,7 @@
       <cx-form-errors
         [control]="form.get('file')"
         prefix="formErrors.file"
-      ></cx-form-errors>
+      />
     </div>
   </div>
 </ng-container>

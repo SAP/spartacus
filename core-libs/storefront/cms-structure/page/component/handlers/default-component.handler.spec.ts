@@ -52,7 +52,10 @@ describe('DefaultComponentHandler', () => {
     fixture.detectChanges();
 
     const { elementRef, componentRef } = await firstValueFrom(
-      handler.launcher({ component: TestComponent }, fixture.componentInstance.vcr)
+      handler.launcher(
+        { component: TestComponent },
+        fixture.componentInstance.vcr
+      )
     );
     expect(componentRef.componentType).toBe(TestComponent);
     expect(elementRef.nativeElement.textContent).toBe('testComponent');

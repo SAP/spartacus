@@ -26,8 +26,7 @@
             placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
             [ariaLabel]="'myInterests.sortInterests' | cxTranslate"
             ariaControls="product-interests-table"
-          >
-          </cx-sorting>
+          />
         </label>
         <div
           class="cx-product-interests-pagination cx-product-interests-thead-mobile"
@@ -36,7 +35,7 @@
             [pagination]="pagination"
             (viewPageEvent)="pageChange($event)"
             paginationID="pagination-top"
-          ></cx-pagination>
+          />
         </div>
       </div>
 
@@ -87,7 +86,7 @@
                       <cx-media
                         [container]="product.images?.PRIMARY"
                         format="thumbnail"
-                      ></cx-media>
+                      />
                     </a>
                   </div>
 
@@ -216,15 +215,14 @@
             placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
             [ariaLabel]="'myInterests.sortInterests' | cxTranslate"
             ariaControls="product-interests-table"
-          >
-          </cx-sorting>
+          />
         </label>
         <div class="cx-product-interests-pagination">
           <cx-pagination
             [pagination]="pagination"
             (viewPageEvent)="pageChange($event)"
             paginationID="pagination-bottom"
-          ></cx-pagination>
+          />
         </div>
       </div>
     </ng-container>
@@ -237,6 +235,6 @@
 </ng-template>
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

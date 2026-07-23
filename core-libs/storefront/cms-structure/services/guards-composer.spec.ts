@@ -23,7 +23,9 @@ describe('GuardsComposer', () => {
   it('should return true if no guards are provided', async () => {
     const guards: CanActivate[] = [];
 
-    const result = await firstValueFrom(service.canActivate(guards, route, state));
+    const result = await firstValueFrom(
+      service.canActivate(guards, route, state)
+    );
     expect(result).toEqual(true);
   });
 
@@ -33,7 +35,9 @@ describe('GuardsComposer', () => {
       { canActivate: () => of(true) },
     ];
 
-    const result = await firstValueFrom(service.canActivate(guards, route, state));
+    const result = await firstValueFrom(
+      service.canActivate(guards, route, state)
+    );
     expect(result).toEqual(true);
   });
 
@@ -44,7 +48,9 @@ describe('GuardsComposer', () => {
       { canActivate: () => of(true) },
     ];
 
-    const result = await firstValueFrom(service.canActivate(guards, route, state));
+    const result = await firstValueFrom(
+      service.canActivate(guards, route, state)
+    );
     expect(result).toEqual(false);
   });
 
@@ -55,7 +61,9 @@ describe('GuardsComposer', () => {
       { canActivate: () => of(true) },
     ];
 
-    const result = await firstValueFrom(service.canActivate(guards, route, state));
+    const result = await firstValueFrom(
+      service.canActivate(guards, route, state)
+    );
     expect(result).toEqual(urlTree);
   });
 
@@ -67,7 +75,9 @@ describe('GuardsComposer', () => {
         { canActivate: () => of(false) },
       ];
 
-      const result = await firstValueFrom(service.canActivate(guards1, route, state));
+      const result = await firstValueFrom(
+        service.canActivate(guards1, route, state)
+      );
       expect(result).toEqual(urlTree);
     });
 
@@ -78,7 +88,9 @@ describe('GuardsComposer', () => {
         { canActivate: () => of(urlTree) },
       ];
 
-      const result = await firstValueFrom(service.canActivate(guards2, route, state));
+      const result = await firstValueFrom(
+        service.canActivate(guards2, route, state)
+      );
       expect(result).toEqual(false);
     });
 
@@ -89,7 +101,9 @@ describe('GuardsComposer', () => {
         { canActivate: () => of(false).pipe(delay(1)) },
       ];
 
-      const result = await firstValueFrom(service.canActivate(guards3, route, state));
+      const result = await firstValueFrom(
+        service.canActivate(guards3, route, state)
+      );
       expect(result).toEqual(urlTree);
     });
 
@@ -100,7 +114,9 @@ describe('GuardsComposer', () => {
         { canActivate: () => of(false).pipe(delay(2)) },
       ];
 
-      const result = await firstValueFrom(service.canActivate(guards4, route, state));
+      const result = await firstValueFrom(
+        service.canActivate(guards4, route, state)
+      );
       expect(result).toEqual(urlTree);
     });
   });

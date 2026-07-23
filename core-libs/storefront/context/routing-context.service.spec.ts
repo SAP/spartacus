@@ -14,11 +14,13 @@ const contextInstance1 = 'contextInstance1';
 const contextInstance2 = 'contextInstance2';
 
 const mockInjector = {
-  get: vi.fn().mockImplementation((providerToken: string) =>
-    providerToken === providerToken1
-      ? of(contextInstance1)
-      : of(contextInstance2)
-  ),
+  get: vi
+    .fn()
+    .mockImplementation((providerToken: string) =>
+      providerToken === providerToken1
+        ? of(contextInstance1)
+        : of(contextInstance2)
+    ),
 };
 
 const mockActivatedRoute1: ActivatedRouteSnapshot = {

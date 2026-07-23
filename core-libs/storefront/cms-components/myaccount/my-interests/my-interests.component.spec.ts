@@ -210,7 +210,15 @@ describe('MyInterestsComponent', () => {
   let fixture: ComponentFixture<MyInterestsComponent>;
   let el: DebugElement;
 
-  const productInterestService = { loadProductInterests: vi.fn(), getAndLoadProductInterests: vi.fn(), getProdutInterestsLoading: vi.fn(), getRemoveProdutInterestLoading: vi.fn(), removeProdutInterest: vi.fn(), clearProductInterests: vi.fn(), resetRemoveInterestState: vi.fn() };
+  const productInterestService = {
+    loadProductInterests: vi.fn(),
+    getAndLoadProductInterests: vi.fn(),
+    getProdutInterestsLoading: vi.fn(),
+    getRemoveProdutInterestLoading: vi.fn(),
+    removeProdutInterest: vi.fn(),
+    clearProductInterests: vi.fn(),
+    resetRemoveInterestState: vi.fn(),
+  };
   const productService = { get: vi.fn() };
 
   beforeEach(async () => {
@@ -276,7 +284,9 @@ describe('MyInterestsComponent', () => {
     productInterestService.loadProductInterests.mockImplementation(() => {});
     productInterestService.removeProdutInterest.mockImplementation(() => {});
     productInterestService.clearProductInterests.mockImplementation(() => {});
-    productInterestService.resetRemoveInterestState.mockImplementation(() => {});
+    productInterestService.resetRemoveInterestState.mockImplementation(
+      () => {}
+    );
   });
 
   it('should create', () => {

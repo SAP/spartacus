@@ -16,12 +16,14 @@ const mockWindowRef = {
 };
 
 const mockRenderer2 = {
-  createElement: vi.fn().mockImplementation((type: string) =>
-    document.createElement(type)
-  ),
-  setProperty: vi.fn().mockImplementation(
-    (el: HTMLElement, prop: string, val: string) => (el[prop] = val)
-  ),
+  createElement: vi
+    .fn()
+    .mockImplementation((type: string) => document.createElement(type)),
+  setProperty: vi
+    .fn()
+    .mockImplementation(
+      (el: HTMLElement, prop: string, val: string) => (el[prop] = val)
+    ),
 };
 
 const mockHtml = `<ul>

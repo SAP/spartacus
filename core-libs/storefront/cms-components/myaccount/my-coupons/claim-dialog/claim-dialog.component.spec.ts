@@ -48,7 +48,11 @@ describe('ClaimDialogComponent', () => {
   let fixture: ComponentFixture<ClaimDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
-  const couponService = { claimCustomerCoupon: vi.fn(), getClaimCustomerCouponResultSuccess: vi.fn(), loadCustomerCoupons: vi.fn() };
+  const couponService = {
+    claimCustomerCoupon: vi.fn(),
+    getClaimCustomerCouponResultSuccess: vi.fn(),
+    loadCustomerCoupons: vi.fn(),
+  };
   const routingService = { go: vi.fn() };
   const globalMessageService = { add: vi.fn() };
 

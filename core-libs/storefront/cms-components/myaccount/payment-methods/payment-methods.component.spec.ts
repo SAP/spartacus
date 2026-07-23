@@ -178,7 +178,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show payment methods after loading', () => {
-    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(of(false));
+    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(
+      of(false)
+    );
     function getCard(elem: DebugElement) {
       return elem.query(By.css('cx-card'));
     }
@@ -188,7 +190,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should render all payment methods', () => {
-    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(of(false));
+    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(
+      of(false)
+    );
     vi.spyOn(userService, 'getPaymentMethods').mockReturnValue(
       of([mockPayment, mockPayment])
     );
@@ -202,7 +206,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should render correct content in card', () => {
-    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(of(false));
+    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(
+      of(false)
+    );
     vi.spyOn(userService, 'getPaymentMethods').mockReturnValue(
       of([mockPayment, { ...mockPayment, defaultPayment: false }])
     );
@@ -238,7 +244,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show confirm on delete', () => {
-    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(of(false));
+    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(
+      of(false)
+    );
 
     function getDeleteMsg(elem: DebugElement): string {
       return elem.query(By.css('cx-card .cx-card-delete-msg')).nativeElement
@@ -261,7 +269,9 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should successfully delete card', () => {
-    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(of(false));
+    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(
+      of(false)
+    );
     vi.spyOn(userService, 'deletePaymentMethod').mockImplementation(() => {});
 
     function getDeleteButton(elem: DebugElement): any {
@@ -282,11 +292,15 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should successfully set card as default', () => {
-    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(of(false));
+    vi.spyOn(userService, 'getPaymentMethodsLoading').mockReturnValue(
+      of(false)
+    );
     vi.spyOn(userService, 'getPaymentMethods').mockReturnValue(
       of([mockPayment, { ...mockPayment, defaultPayment: false }])
     );
-    vi.spyOn(userService, 'setPaymentMethodAsDefault').mockImplementation(() => {});
+    vi.spyOn(userService, 'setPaymentMethodAsDefault').mockImplementation(
+      () => {}
+    );
 
     function getSetDefaultButton(elem: DebugElement): any {
       return elem.queryAll(By.css('cx-card .btn'))[1].nativeElement;

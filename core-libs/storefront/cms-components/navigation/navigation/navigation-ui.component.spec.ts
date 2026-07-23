@@ -1,8 +1,5 @@
 import { Component, DebugElement, ElementRef, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -129,7 +126,7 @@ describe('Navigation UI Component', () => {
         },
         {
           provide: FeatureToggles,
-          useValue: mockFeatureToggles
+          useValue: mockFeatureToggles,
         },
         {
           provide: BreakpointService,
@@ -308,13 +305,17 @@ describe('Navigation UI Component', () => {
 
     it('should reinitialize menu, when menu is expanded', () => {
       navigationComponent['resetMenuOnClose'] = true;
-      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(() => {});
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
+        () => {}
+      );
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalled();
     });
 
     it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
-      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(() => {});
+      vi.spyOn(navigationComponent, 'reinitializeMenu').mockImplementation(
+        () => {}
+      );
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
     });
@@ -405,7 +406,9 @@ describe('Navigation UI Component', () => {
     });
 
     it('should toggle open when space key is pressed', () => {
-      const spy = vi.spyOn(navigationComponent, 'toggleOpen').mockImplementation(() => {});
+      const spy = vi
+        .spyOn(navigationComponent, 'toggleOpen')
+        .mockImplementation(() => {});
       const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
       const dropDownButton = element.query(
         By.css('nav button[aria-expanded="false"]')

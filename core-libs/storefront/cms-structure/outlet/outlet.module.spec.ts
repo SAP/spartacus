@@ -18,7 +18,8 @@ function mockResolveComponentFactory<T>(
 }
 
 class MockComponentFactoryResolver extends ComponentFactoryResolver {
-  resolveComponentFactory = vi.fn()
+  resolveComponentFactory = vi
+    .fn()
     .mockImplementation(mockResolveComponentFactory);
 }
 

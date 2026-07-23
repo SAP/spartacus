@@ -86,13 +86,13 @@ class TestChildComponent implements OnDestroy {
       [title]="mockTitle"
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
-    ></cx-carousel-scrolling>
+    />
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
       <cx-test-child
         [item]="item"
         [itemIndex]="itemIndex"
         tabindex="0"
-      ></cx-test-child>
+      />
     </ng-template>
   `,
   imports: [I18nTestingModule, CarouselScrollingComponent, TestChildComponent],
@@ -117,14 +117,14 @@ class TestParentComponent {
       [title]="mockTitle"
       [template]="carouselItem"
       [trackByFn]="carouselTrackByFn"
-    ></cx-carousel-scrolling>
+    />
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
       <cx-test-child
         [item]="item"
         [itemIndex]="itemIndex"
         tabindex="0"
         cxFocusableCarouselItem
-      ></cx-test-child>
+      />
     </ng-template>
   `,
   imports: [I18nTestingModule, CarouselScrollingComponent, TestChildComponent],
@@ -148,13 +148,13 @@ class TestParentWithCxFocusableCarouselItemComponent {
       [items]="mockItems"
       [title]="mockTitle"
       [template]="carouselItem"
-    ></cx-carousel-scrolling>
+    />
     <ng-template #carouselItem let-item="item" let-itemIndex="itemIndex">
       <cx-test-child
         [item]="item"
         [itemIndex]="itemIndex"
         tabindex="0"
-      ></cx-test-child>
+      />
     </ng-template>
   `,
   imports: [I18nTestingModule, CarouselScrollingComponent, TestChildComponent],
@@ -178,7 +178,7 @@ class TestParentWithoutTrackByComponent {
       [items]="mockItems"
       [title]="mockTitle"
       [trackByFn]="carouselTrackByFn"
-    ></cx-carousel-scrolling>
+    />
   `,
   imports: [I18nTestingModule, CarouselScrollingComponent],
 })
@@ -573,10 +573,7 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should NOT focus the next item', () => {
-            vi.spyOn(
-              carouselScrollingComponent as any,
-              'focusNextPrevItem'
-            );
+            vi.spyOn(carouselScrollingComponent as any, 'focusNextPrevItem');
             vi.spyOn(secondChild, 'focus');
 
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
@@ -597,10 +594,7 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should NOT focus the previous child directive', () => {
-            vi.spyOn(
-              carouselScrollingComponent as any,
-              'focusNextPrevItem'
-            );
+            vi.spyOn(carouselScrollingComponent as any, 'focusNextPrevItem');
             vi.spyOn(firstChild, 'focus');
 
             secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
@@ -696,10 +690,7 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should focus the next item with cxFocusableCarouselItem directive', () => {
-            vi.spyOn(
-              carouselScrollingComponent as any,
-              'focusNextPrevItem'
-            );
+            vi.spyOn(carouselScrollingComponent as any, 'focusNextPrevItem');
 
             vi.spyOn(secondChild, 'focus');
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_RIGHT));
@@ -720,10 +711,7 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should focus the previous child with cxFocusableCarouselItem directive', () => {
-            vi.spyOn(
-              carouselScrollingComponent as any,
-              'focusNextPrevItem'
-            );
+            vi.spyOn(carouselScrollingComponent as any, 'focusNextPrevItem');
 
             vi.spyOn(firstChild, 'focus');
             secondChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ARROW_LEFT));
@@ -744,10 +732,7 @@ describe('CarouselScrollingComponent', () => {
           });
 
           it('should not call focusNextPrevItem', () => {
-            vi.spyOn(
-              carouselScrollingComponent as any,
-              'focusNextPrevItem'
-            );
+            vi.spyOn(carouselScrollingComponent as any, 'focusNextPrevItem');
 
             firstChild.dispatchEvent(createKeyboardEvent(KEY_NAME_ENTER));
 

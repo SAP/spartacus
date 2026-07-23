@@ -43,9 +43,12 @@ describe('MessagingComponent', () => {
   let htmlElement: Element;
 
   beforeEach(async () => {
-    vi.stubGlobal('ResizeObserver', vi.fn().mockImplementation(function() {
-      return { observe: vi.fn(), unobserve: vi.fn(), disconnect: vi.fn() };
-    }));
+    vi.stubGlobal(
+      'ResizeObserver',
+      vi.fn().mockImplementation(function () {
+        return { observe: vi.fn(), unobserve: vi.fn(), disconnect: vi.fn() };
+      })
+    );
 
     await TestBed.configureTestingModule({
       imports: [

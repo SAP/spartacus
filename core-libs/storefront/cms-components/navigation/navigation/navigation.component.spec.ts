@@ -9,7 +9,6 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
 import { NavigationUIComponent } from './navigation-ui.component';
 
-
 @Component({
   selector: 'cx-navigation-ui',
   template: '',

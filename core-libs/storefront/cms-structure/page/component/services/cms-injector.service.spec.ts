@@ -6,7 +6,10 @@ import { of } from 'rxjs';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsInjectorService } from './cms-injector.service';
 
-const mockCmsComponentsService = { getMapping: vi.fn(), getStaticData: vi.fn() };
+const mockCmsComponentsService = {
+  getMapping: vi.fn(),
+  getStaticData: vi.fn(),
+};
 
 const mockCmsService = {
   getComponentData: vi.fn().mockReturnValue(of('data')),

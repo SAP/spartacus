@@ -239,9 +239,7 @@ describe('CmsRoutesImplService', () => {
         '/testRoute2'
       );
 
-      const newRouterConfig = (
-        mockRouter.resetConfig as any
-      ).mock.lastCall![0];
+      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall![0];
       const newChildCmsRoutes = newRouterConfig[0].children;
       const testGuardFn = newChildCmsRoutes[0].canActivate[0];
       expect(typeof testGuardFn).toBe('function');
@@ -302,9 +300,7 @@ describe('CmsRoutesImplService', () => {
         '/testRoute2'
       );
 
-      const newRouterConfig = (
-        mockRouter.resetConfig as any
-      ).mock.lastCall![0];
+      const newRouterConfig = (mockRouter.resetConfig as any).mock.lastCall![0];
       const newChildCmsRoutes = newRouterConfig[0].children;
 
       expect(newChildCmsRoutes).toEqual([

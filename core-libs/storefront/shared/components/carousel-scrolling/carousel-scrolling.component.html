@@ -24,7 +24,7 @@
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
     >
-      <cx-icon [type]="previousIcon"></cx-icon>
+      <cx-icon [type]="previousIcon" />
     </button>
     <div class="carousel-items" #scrollingArea>
       <span #scrollingAreaStart class="carousel-items-start"></span>
@@ -40,7 +40,7 @@
         >
           <ng-container
             *ngTemplateOutlet="template; context: { item: data, itemIndex: i }"
-          ></ng-container>
+          />
         </div>
       </ng-container>
 
@@ -59,7 +59,7 @@
         cxHorizontalScrollingPosition.isScrollNeeded$ | async
       "
     >
-      <cx-icon [type]="nextIcon"></cx-icon>
+      <cx-icon [type]="nextIcon" />
     </button>
   </div>
 </ng-container>

@@ -33,7 +33,7 @@ import { ProductReferencesComponent } from './product-references.component';
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
+      />
     </ng-container>
   `,
   imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe, NgFor],
@@ -192,7 +192,9 @@ describe('ProductReferencesComponent', () => {
 
   it('should get productCode', () => {
     fixture.detectChanges();
-    vi.spyOn(productReferenceService, 'cleanReferences').mockImplementation(() => {});
+    vi.spyOn(productReferenceService, 'cleanReferences').mockImplementation(
+      () => {}
+    );
 
     let result: string;
     component['productCode$']

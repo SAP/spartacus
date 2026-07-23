@@ -1,6 +1,5 @@
 import { disableTabbingForTick } from './keyboard-focus.utils';
 
-
 describe('disableTabbingForTick', () => {
   let elements: HTMLElement[];
 

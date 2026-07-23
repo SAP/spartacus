@@ -147,7 +147,10 @@ describe('MessageComponent', () => {
 
   it('should focus on messageContainer after a message with an accordion renders', () => {
     fixture.detectChanges();
-    const focusSpy = vi.spyOn(component.messageContainer.nativeElement, 'focus');
+    const focusSpy = vi.spyOn(
+      component.messageContainer.nativeElement,
+      'focus'
+    );
     component.accordionText = 'Test';
 
     component.ngAfterViewInit();
@@ -157,7 +160,10 @@ describe('MessageComponent', () => {
 
   it('should focus on messageContainer after a message with a button renders', () => {
     fixture.detectChanges();
-    const focusSpy = vi.spyOn(component.messageContainer.nativeElement, 'focus');
+    const focusSpy = vi.spyOn(
+      component.messageContainer.nativeElement,
+      'focus'
+    );
     component.actionButtonText = 'Test';
 
     component.ngAfterViewInit();

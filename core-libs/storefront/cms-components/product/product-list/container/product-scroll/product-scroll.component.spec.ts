@@ -259,7 +259,8 @@ describe('ProductScrollComponent', () => {
       component.setModel = mockModel1Page2;
 
       const totalLength =
-        (mockModel1.products?.length ?? 0 ) + (mockModel1Page2.products?.length ?? 0);
+        (mockModel1.products?.length ?? 0) +
+        (mockModel1Page2.products?.length ?? 0);
 
       expect(component.model.products?.length).toEqual(totalLength);
       expect(component.model.products).toContainEqual(

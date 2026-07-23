@@ -286,7 +286,7 @@ describe('OutletDirective', () => {
       template: `
         <ng-template cxOutletRef="A">A</ng-template>
         <ng-template cxOutletRef="B">B</ng-template>
-        <ng-container *cxOutlet="outletName"> </ng-container>
+        <ng-container *cxOutlet="outletName" />
       `,
       imports: [OutletDirective, OutletRefDirective],
     })
@@ -478,8 +478,7 @@ describe('OutletDirective', () => {
         <ng-template
           [cxOutlet]="'${keptOutlet}'"
           [(cxComponentRef)]="innerCompRef"
-        >
-        </ng-template>
+        />
       `,
       imports: [OutletDirective],
       changeDetection: ChangeDetectionStrategy.OnPush,

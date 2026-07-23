@@ -45,7 +45,9 @@ describe('AddToHomeScreenService', () => {
   ));
 
   it('should enableAddToHomeScreen after beforeinstallprompt is fired', () => {
-    vi.spyOn(addToHomeService, 'enableAddToHomeScreen').mockImplementation(() => {});
+    vi.spyOn(addToHomeService, 'enableAddToHomeScreen').mockImplementation(
+      () => {}
+    );
 
     const event = new Event('beforeinstallprompt');
     winRef.nativeWindow.dispatchEvent(event);
@@ -53,7 +55,9 @@ describe('AddToHomeScreenService', () => {
   });
 
   it('should disableAddToHomeScreen after appinstalled is fired', () => {
-    vi.spyOn(addToHomeService, 'disableAddToHomeScreen').mockImplementation(() => {});
+    vi.spyOn(addToHomeService, 'disableAddToHomeScreen').mockImplementation(
+      () => {}
+    );
 
     const event = new Event('appinstalled');
     winRef.nativeWindow.dispatchEvent(event);

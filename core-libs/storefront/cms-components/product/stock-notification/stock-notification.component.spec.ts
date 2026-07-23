@@ -59,8 +59,24 @@ describe('StockNotificationComponent', () => {
   const dialogComponent = vi.fn();
   const userIdService = { getUserId: vi.fn() };
   const currentProductService = { getProduct: vi.fn() };
-  const notificationPrefService = { loadPreferences: vi.fn(), getEnabledPreferences: vi.fn(), clearPreferences: vi.fn() };
-  const interestsService = { getAddProductInterestSuccess: vi.fn(), getRemoveProdutInterestLoading: vi.fn(), getRemoveProdutInterestSuccess: vi.fn(), getAddProductInterestError: vi.fn(), resetRemoveInterestState: vi.fn(), resetAddInterestState: vi.fn(), addProductInterest: vi.fn(), removeProdutInterest: vi.fn(), getProductInterests: vi.fn(), clearProductInterests: vi.fn(), loadProductInterests: vi.fn() };
+  const notificationPrefService = {
+    loadPreferences: vi.fn(),
+    getEnabledPreferences: vi.fn(),
+    clearPreferences: vi.fn(),
+  };
+  const interestsService = {
+    getAddProductInterestSuccess: vi.fn(),
+    getRemoveProdutInterestLoading: vi.fn(),
+    getRemoveProdutInterestSuccess: vi.fn(),
+    getAddProductInterestError: vi.fn(),
+    resetRemoveInterestState: vi.fn(),
+    resetAddInterestState: vi.fn(),
+    addProductInterest: vi.fn(),
+    removeProdutInterest: vi.fn(),
+    getProductInterests: vi.fn(),
+    clearProductInterests: vi.fn(),
+    loadProductInterests: vi.fn(),
+  };
 
   const preferences: NotificationPreference[] = [
     {
@@ -272,7 +288,9 @@ describe('StockNotificationComponent', () => {
   });
 
   it('should be able to unsubscribe in destory', () => {
-    vi.spyOn(component['subscriptions'], 'unsubscribe').mockImplementation(() => {});
+    vi.spyOn(component['subscriptions'], 'unsubscribe').mockImplementation(
+      () => {}
+    );
     component.ngOnDestroy();
 
     expect(component['subscriptions'].unsubscribe).toHaveBeenCalled();

@@ -30,7 +30,11 @@ describe('ThemeSwitcherComponent', () => {
   let themeSwitcherComponentService: any;
 
   beforeEach(async () => {
-    const themeSwitcherServiceSpy = { getItems: vi.fn(), getActiveItem: vi.fn(), setActive: vi.fn() };
+    const themeSwitcherServiceSpy = {
+      getItems: vi.fn(),
+      getActiveItem: vi.fn(),
+      setActive: vi.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [

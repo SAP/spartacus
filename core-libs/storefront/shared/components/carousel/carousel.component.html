@@ -16,7 +16,7 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="previousIcon"></cx-icon>
+        <cx-icon [type]="previousIcon" />
       </button>
       <button
         *cxFeature="'!a11yCarouselPreventNavigationFocus'"
@@ -33,7 +33,7 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="previousIcon"></cx-icon>
+        <cx-icon [type]="previousIcon" />
       </button>
     </ng-container>
     <div class="slides">
@@ -64,7 +64,7 @@
                     itemIndex: i + j,
                   }
                 "
-              ></ng-container>
+              />
             </div>
           </ng-container>
         </div>
@@ -85,7 +85,7 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="nextIcon"></cx-icon>
+        <cx-icon [type]="nextIcon" />
       </button>
       <button
         *cxFeature="'!a11yCarouselPreventNavigationFocus'"
@@ -104,7 +104,7 @@
         (keydown.arrowup)="shareEvent($any($event))"
         (keydown.arrowdown)="shareEvent($any($event))"
       >
-        <cx-icon [type]="nextIcon"></cx-icon>
+        <cx-icon [type]="nextIcon" />
       </button>
     </ng-container>
   </div>
@@ -133,7 +133,7 @@
                 }
         "
       >
-        <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
+        <cx-icon [type]="indicatorIcon" aria-hidden="true" />
       </button>
     </ng-container>
   </div>

@@ -32,7 +32,7 @@ class MockTemplate1Component extends MockTemplateComponent {}
 @Component({
   template: `
     <div id="host2">
-      <ng-template cxPageTemplateStyle> </ng-template>
+      <ng-template cxPageTemplateStyle />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,7 +56,7 @@ class MockTemplate3Component extends MockTemplateComponent {}
 @Component({
   template: `
     <div id="host4">
-      <ng-template cxPageTemplateStyle="customClass2"> </ng-template>
+      <ng-template cxPageTemplateStyle="customClass2" />
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +68,7 @@ class MockTemplate4Component extends MockTemplateComponent {}
   template: `
     <div id="host5">
       <ng-template>
-        <ng-template cxPageTemplateStyle> </ng-template>
+        <ng-template cxPageTemplateStyle />
       </ng-template>
     </div>
   `,
@@ -210,9 +210,7 @@ describe('PageTemplateDirective', () => {
   });
 
   it('should remove the transfer state class', () => {
-    (directiveStateTransferService.get as any).mockReturnValue(
-      oldClass
-    );
+    (directiveStateTransferService.get as any).mockReturnValue(oldClass);
 
     const el = createHostComponent('#host6');
 

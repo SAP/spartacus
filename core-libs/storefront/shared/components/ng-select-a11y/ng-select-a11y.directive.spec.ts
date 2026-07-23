@@ -26,7 +26,8 @@ class MockMutationObserver {
 const originalMutationObserver = globalThis.MutationObserver;
 
 beforeEach(() => {
-  globalThis.MutationObserver = MockMutationObserver as unknown as typeof MutationObserver;
+  globalThis.MutationObserver =
+    MockMutationObserver as unknown as typeof MutationObserver;
 });
 
 afterEach(() => {
@@ -41,8 +42,7 @@ afterEach(() => {
       [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
       [items]="[1, 2, 3]"
       [(ngModel)]="selected"
-    >
-    </ng-select>
+    />
     <div id="size-results"></div>
   `,
   imports: [NgSelectA11yModule, NgSelectModule],
@@ -60,8 +60,7 @@ class MockComponent {
       [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
       [items]="[]"
       [(ngModel)]="selected"
-    >
-    </ng-select>
+    />
     <div id="size-results"></div>
   `,
   imports: [NgSelectA11yModule, NgSelectModule, FormsModule],
@@ -98,7 +97,7 @@ describe('NgSelectA11yDirective', () => {
         NgSelectA11yDirective,
       ],
       providers: [
-        {provide: FeatureToggles, useValue: mockFeatureToggles},
+        { provide: FeatureToggles, useValue: mockFeatureToggles },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();

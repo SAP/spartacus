@@ -10,7 +10,7 @@ import {
   ComponentFixture,
   TestBed,
   TestModuleMetadata,
-  } from '@angular/core/testing';
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsComponent,
@@ -234,10 +234,7 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should add SmartEdit contract if app launch in SmartEdit', () => {
-        vi.spyOn(
-          dynamicAttributeService,
-          'addAttributesToComponent'
-        );
+        vi.spyOn(dynamicAttributeService, 'addAttributesToComponent');
 
         fixture.detectChanges();
         const el = fixture.debugElement;

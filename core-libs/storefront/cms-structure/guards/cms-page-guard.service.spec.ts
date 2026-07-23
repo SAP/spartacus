@@ -185,7 +185,9 @@ describe('CmsPageGuardService', () => {
         componentTypes = ['componentType1, componentType2'];
 
         vi.spyOn(cmsGuards, 'cmsPageCanActivate').mockReturnValue(of(true));
-        vi.spyOn(cms, 'getPageComponentTypes').mockReturnValue(of(componentTypes));
+        vi.spyOn(cms, 'getPageComponentTypes').mockReturnValue(
+          of(componentTypes)
+        );
       });
 
       it('should load i18n keys for the page', () => {

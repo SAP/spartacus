@@ -55,7 +55,8 @@ describe('TruncateTextPopoverComponent', () => {
     component.charactersLimit = 5;
     fixture.detectChanges();
 
-    const truncatedText = fixture.debugElement.query(By.css('.truncated-text'))
+    const truncatedText = fixture.debugElement
+      .query(By.css('.truncated-text'))
       .nativeElement.textContent.trimStart();
 
     expect(el.query(By.css('.truncated-text'))).toBeTruthy();

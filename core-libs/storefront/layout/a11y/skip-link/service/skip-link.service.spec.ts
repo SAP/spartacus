@@ -34,7 +34,7 @@ class MockKeyboadFocusService {
 
 @Component({
   template: `
-    <ng-container></ng-container>
+    <ng-container />
     <div></div>
     <button class="target" id="skip1" tabindex="0">skip 1</button>
     <div class="target" id="skip2"></div>

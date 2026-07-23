@@ -10,7 +10,7 @@ import { IconModule } from './icon.module';
 @Component({
   selector: 'cx-icon-test',
   template: `
-    <cx-icon type="CART"></cx-icon>
+    <cx-icon type="CART" />
     <button cxIcon="CART"></button>
     <div cxIcon type="CART"></div>
     <p class="original" cxIcon="CART"></p>

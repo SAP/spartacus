@@ -187,9 +187,7 @@ describe('ProductFacetService', () => {
       });
 
       it('should not return result', async () => {
-        const result = await firstValueFrom(
-          service.facetList$.pipe(isEmpty())
-        );
+        const result = await firstValueFrom(service.facetList$.pipe(isEmpty()));
         // Expect observable.isEmpty to be true
         expect(result).toBeTruthy();
       });

@@ -16,7 +16,8 @@ describe('FormErrors', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: UntypedFormControl;
 
-  const getContent = () => fixture.debugElement.nativeElement.textContent.trim();
+  const getContent = () =>
+    fixture.debugElement.nativeElement.textContent.trim();
 
   beforeEach(async () => {
     TestBed.configureTestingModule({})
@@ -130,9 +131,12 @@ describe('FormErrors', () => {
         ];
         vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
           (key: any, params: any) =>
-            JSON.stringify(key) === JSON.stringify(errorKeys) && JSON.stringify(params) === JSON.stringify({})
+            JSON.stringify(key) === JSON.stringify(errorKeys) &&
+            JSON.stringify(params) === JSON.stringify({})
               ? errorKeys[1]
-              : Array.isArray(key) ? key.join(',') : key
+              : Array.isArray(key)
+                ? key.join(',')
+                : key
         );
 
         control.setErrors(mockError);
@@ -159,9 +163,12 @@ describe('FormErrors', () => {
         ];
         vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
           (key: any, params: any) =>
-            JSON.stringify(key) === JSON.stringify(errorKeys) && JSON.stringify(params) === JSON.stringify({})
+            JSON.stringify(key) === JSON.stringify(errorKeys) &&
+            JSON.stringify(params) === JSON.stringify({})
               ? errorKeys[1]
-              : Array.isArray(key) ? key.join(',') : key
+              : Array.isArray(key)
+                ? key.join(',')
+                : key
         );
 
         control.setErrors(mockError);

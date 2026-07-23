@@ -37,7 +37,7 @@ const MockFacetService = {
   toggle: vi.fn(),
   increaseVisibleValues: vi.fn(),
   decreaseVisibleValues: vi.fn(),
-  getLinkParams: vi.fn()
+  getLinkParams: vi.fn(),
 };
 
 const MockFacet: Facet = {
@@ -118,7 +118,9 @@ describe('FacetComponent', () => {
 
   describe('count', () => {
     it('should call increaseVisible()', () => {
-      vi.spyOn(facetService, 'increaseVisibleValues').mockImplementation(() => {});
+      vi.spyOn(facetService, 'increaseVisibleValues').mockImplementation(
+        () => {}
+      );
       component.increaseVisibleValues();
       expect(facetService.increaseVisibleValues).toHaveBeenCalledWith(
         component.facet
@@ -126,7 +128,9 @@ describe('FacetComponent', () => {
     });
 
     it('should call decreaseVisible()', () => {
-      vi.spyOn(facetService, 'decreaseVisibleValues').mockImplementation(() => {});
+      vi.spyOn(facetService, 'decreaseVisibleValues').mockImplementation(
+        () => {}
+      );
       component.decreaseVisibleValues();
       expect(facetService.decreaseVisibleValues).toHaveBeenCalledWith(
         component.facet

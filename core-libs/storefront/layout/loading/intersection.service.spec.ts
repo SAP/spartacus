@@ -67,7 +67,9 @@ describe('IntersectionService', () => {
         intersectionObservable
       );
 
-      const isIntersected = await firstValueFrom(service.isIntersecting(element));
+      const isIntersected = await firstValueFrom(
+        service.isIntersecting(element)
+      );
       expect(isIntersected).toBe(false);
     });
 
@@ -85,7 +87,9 @@ describe('IntersectionService', () => {
       vi.spyOn<any>(service, 'createIntersectionObservable').mockReturnValue(
         intersectionObservable
       );
-      const isIntersected = await firstValueFrom(service.isIntersecting(element));
+      const isIntersected = await firstValueFrom(
+        service.isIntersecting(element)
+      );
       expect(isIntersected).toBe(true);
     });
   });
@@ -156,9 +160,7 @@ describe('IntersectionService', () => {
     beforeEach(() => {
       vi.stubGlobal(
         'IntersectionObserver',
-        vi.fn().mockImplementation(function (
-          cb: IntersectionObserverCallback
-        ) {
+        vi.fn().mockImplementation(function (cb: IntersectionObserverCallback) {
           // Immediately fire callback with a default entry so the observable emits
           cb(
             [
@@ -225,13 +227,17 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should return false immediately for isIntersected in SSR', async () => {
       const element: HTMLElement = document.createElement('section');
-      const isIntersected = await firstValueFrom(service.isIntersected(element));
+      const isIntersected = await firstValueFrom(
+        service.isIntersected(element)
+      );
       expect(isIntersected).toBe(false);
     });
 
     it('should return false immediately for isIntersecting in SSR', async () => {
       const element: HTMLElement = document.createElement('section');
-      const isIntersected = await firstValueFrom(service.isIntersecting(element));
+      const isIntersected = await firstValueFrom(
+        service.isIntersecting(element)
+      );
       expect(isIntersected).toBe(false);
     });
 
@@ -260,18 +266,17 @@ describe('IntersectionService SSR Platform Detection', () => {
 
     it('should create IntersectionObserver in browser', () => {
       const element: HTMLElement = document.createElement('section');
-      const createIntersectionObservableSpy = vi.spyOn<any>(
-        service,
-        'createIntersectionObservable'
-      ).mockReturnValue(
-        of([
-          {
-            ...INTERSECTION_OBSERVER_ENTRY,
-            target: element,
-            isIntersecting: true,
-          },
-        ])
-      );
+      const createIntersectionObservableSpy = vi
+        .spyOn<any>(service, 'createIntersectionObservable')
+        .mockReturnValue(
+          of([
+            {
+              ...INTERSECTION_OBSERVER_ENTRY,
+              target: element,
+              isIntersecting: true,
+            },
+          ])
+        );
 
       service.isIntersected(element).subscribe();
 

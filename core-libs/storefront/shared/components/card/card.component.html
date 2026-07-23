@@ -49,8 +49,7 @@
                 text: line,
               }
             "
-          >
-          </ng-container>
+          />
         </div>
         <div
           class="cx-card-paragraph"
@@ -69,11 +68,10 @@
                   text: text,
                 }
               "
-            >
-            </ng-container>
+            />
           </div>
         </div>
-        <ng-content select="[label_container_bottom]"></ng-content>
+        <ng-content select="[label_container_bottom]" />
       </div>
       <!-- Image -->
       <div
@@ -85,7 +83,7 @@
         role="img"
         [attr.title]="content.imgLabel ?? 'paymentCard.credit' | cxTranslate"
       >
-        <cx-icon [type]="content.img"></cx-icon>
+        <cx-icon [type]="content.img" />
       </div>
     </div>
     <!-- Edit Mode Actions -->
@@ -182,5 +180,5 @@
     [charactersLimit]="charactersLimit"
     [content]="text"
     [customClass]="content.customClass || class"
-  ></cx-truncate-text-popover>
+  />
 </ng-template>

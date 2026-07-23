@@ -1,8 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -314,7 +311,9 @@ describe('SearchBoxComponent', () => {
       const mockResults = {
         products: [{ name: 'Product 1' }, { name: 'Product 2' }],
       };
-      serviceSpy.getResults = vi.fn().mockReturnValue(of(mockResults).pipe(delay(1000)));
+      serviceSpy.getResults = vi
+        .fn()
+        .mockReturnValue(of(mockResults).pipe(delay(1000)));
 
       let results: any;
       searchBoxComponent.results$.subscribe((res) => (results = res));
@@ -516,10 +515,9 @@ describe('SearchBoxComponent', () => {
           const mockElement = { focus: vi.fn() };
 
           // Mock getGroupElements to return arrays with mock elements
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            [mockElement],
-            ['element2'],
-          ]);
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [[mockElement], ['element2']]
+          );
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -549,10 +547,9 @@ describe('SearchBoxComponent', () => {
 
         it('should not change focus if current group is empty', () => {
           const mockEvent = { preventDefault: vi.fn() };
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            [],
-            ['element2'],
-          ]); // First group is empty
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [[], ['element2']]
+          ); // First group is empty
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -566,10 +563,9 @@ describe('SearchBoxComponent', () => {
         it('should focus on the previous group if valid', () => {
           const mockEvent = { preventDefault: vi.fn() };
           const mockElement = { focus: vi.fn() };
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            [mockElement],
-            ['element2'],
-          ]);
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [[mockElement], ['element2']]
+          );
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -583,10 +579,9 @@ describe('SearchBoxComponent', () => {
         it('should focus on the first group when current group is the first', () => {
           const mockEvent = { preventDefault: vi.fn() };
           const mockElement = { focus: vi.fn() };
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            [mockElement],
-            ['element2'],
-          ]);
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [[mockElement], ['element2']]
+          );
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -605,10 +600,9 @@ describe('SearchBoxComponent', () => {
           const mockElement = { focus: vi.fn() };
 
           // Mock getGroupElements to return arrays with mock elements
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            ['element1'],
-            [mockElement],
-          ]);
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [['element1'], [mockElement]]
+          );
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -638,10 +632,9 @@ describe('SearchBoxComponent', () => {
 
         it('should not change focus if all groups are empty', () => {
           const mockEvent = { preventDefault: vi.fn() };
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            [],
-            [],
-          ]); // Both groups are empty
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [[], []]
+          ); // Both groups are empty
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -655,10 +648,9 @@ describe('SearchBoxComponent', () => {
         it('should focus on the next group if valid', () => {
           const mockEvent = { preventDefault: vi.fn() };
           const mockElement = { focus: vi.fn() };
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            ['element1'],
-            [mockElement],
-          ]);
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [['element1'], [mockElement]]
+          );
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'
@@ -672,10 +664,9 @@ describe('SearchBoxComponent', () => {
         it('should wrap around and focus on the first group if last group is focused', () => {
           const mockEvent = { preventDefault: vi.fn() };
           const mockElement = { focus: vi.fn() };
-          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue([
-            [mockElement],
-            ['element2'],
-          ]);
+          vi.spyOn<any>(searchBoxComponent, 'getGroupElements').mockReturnValue(
+            [[mockElement], ['element2']]
+          );
           vi.spyOn<any>(
             searchBoxComponent,
             'getFocusedGroupIndex'

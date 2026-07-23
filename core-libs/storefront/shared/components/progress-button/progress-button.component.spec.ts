@@ -26,7 +26,9 @@ describe('ProgressButtonComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ProgressButtonComponent, TestHostComponent],
-      providers: [{ provide: TranslationService, useClass: MockTranslationService }],
+      providers: [
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
     }).compileComponents();
   });
 

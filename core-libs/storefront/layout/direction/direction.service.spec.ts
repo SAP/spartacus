@@ -155,7 +155,9 @@ describe('DirectionService', () => {
         const TEST_LANGUAGE = 'testLanguage';
         const TEST_DIRECTION = 'testDirection' as DirectionMode;
 
-        vi.spyOn(languageService, 'getActive').mockReturnValue(of(TEST_LANGUAGE));
+        vi.spyOn(languageService, 'getActive').mockReturnValue(
+          of(TEST_LANGUAGE)
+        );
         vi.spyOn(service, 'setDirection').mockImplementation(() => {});
         vi.spyOn(service, 'getDirection').mockReturnValue(TEST_DIRECTION);
 

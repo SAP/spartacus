@@ -83,7 +83,9 @@ describe('ProductAttributesComponent in product', () => {
       productAttributesComponent.product$ = of(mockProduct1);
       fixture.detectChanges();
       const el = fixture.debugElement.queryAll(By.css('td:last-of-type li'));
-      expect(el[0].nativeElement.textContent?.trim().replace(/\s+/g, ' ')).toEqual('mock1 MK');
+      expect(
+        el[0].nativeElement.textContent?.trim().replace(/\s+/g, ' ')
+      ).toEqual('mock1 MK');
     });
 
     it('should have NOT rendered attribute symbols with unitType equal to 300', () => {
