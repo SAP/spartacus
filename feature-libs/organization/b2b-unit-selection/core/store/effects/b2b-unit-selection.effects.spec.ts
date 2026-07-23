@@ -26,7 +26,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 // Side-effect import: registers LAUNCH_CALLER.B2B_UNIT_SELECTION enum extension.
 import '../../../root/model/augmented-core.model';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { B2bUnitSelectionConfig } from '../../../root/config/b2b-unit-selection.config';
 import { B2bRedirectCoordinator } from '../../../root/b2b-redirect-coordinator.service';
@@ -153,24 +153,25 @@ describe('B2bUnitSelectionEffects', () => {
       actions$ = hot('-a', { a: action });
 
       effects.checkOrgUnitsOnLogin$.subscribe();
+      getTestScheduler().flush();
 
       expect(stateService.setOrgUnits).toHaveBeenCalledWith(mockUnits);
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(mockDefaultUid);
     });
 
-    it('should open the dialog when orgUnits.length > 0', fakeAsync(() => {
+    it('should open the dialog when orgUnits.length > 0', () => {
       const action = new AuthActions.Login();
       actions$ = hot('-a', { a: action });
 
       effects.checkOrgUnitsOnLogin$.subscribe();
-      tick();
+      getTestScheduler().flush();
 
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
         LAUNCH_CALLER.B2B_UNIT_SELECTION,
         undefined,
         { orgUnits: mockUnits, defaultUnitUid: mockDefaultUid }
       );
-    }));
+    });
 
     it('should call allowRedirect() when orgUnits is empty', () => {
       connector.loadOrgUnits.and.returnValue(of([]));
@@ -180,6 +181,7 @@ describe('B2bUnitSelectionEffects', () => {
       actions$ = hot('-a', { a: action });
 
       effects.checkOrgUnitsOnLogin$.subscribe();
+      getTestScheduler().flush();
 
       expect(coordinator.allowRedirect).toHaveBeenCalled();
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
@@ -223,6 +225,10 @@ describe('B2bUnitSelectionEffects', () => {
       const expected = cold('-');
 
       expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
+
+      // allowRedirect() is called synchronously inside the exhaustMap guard.
+      getTestScheduler().flush();
+      expect(coordinator.allowRedirect).toHaveBeenCalled();
     });
   });
 
@@ -246,6 +252,7 @@ describe('B2bUnitSelectionEffects', () => {
       actions$ = hot('-a', { a: action });
 
       effects.setDefaultOrgUnit$.subscribe();
+      getTestScheduler().flush();
 
       expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalled();
       expect(coordinator.allowRedirect).toHaveBeenCalled();
@@ -261,6 +268,7 @@ describe('B2bUnitSelectionEffects', () => {
       actions$ = hot('-a', { a: action });
 
       effects.setDefaultOrgUnit$.subscribe();
+      getTestScheduler().flush();
 
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
@@ -270,6 +278,7 @@ describe('B2bUnitSelectionEffects', () => {
       actions$ = hot('-a', { a: action });
 
       effects.setDefaultOrgUnit$.subscribe();
+      getTestScheduler().flush();
 
       expect(routingService.go).not.toHaveBeenCalled();
     });
