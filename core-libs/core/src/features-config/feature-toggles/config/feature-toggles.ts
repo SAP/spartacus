@@ -410,6 +410,12 @@ export interface FeatureTogglesInterface {
   a11yDeliveryModeFocusPreservation?: boolean;
 
   /**
+   * Improve auto focus during checkout process.
+   * Affects: CheckoutPaymentMethodComponent
+   */
+  a11yImproveCheckoutFocus?: boolean;
+
+  /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
    * `ExpiredRefreshTokenHandler` to take over `handleExpiredRefreshToken()` behavior in case of expired refresh token scenarios.
    * It avoids the need to override the entire AuthHttpHeaderService just to handle expired refresh token scenarios in a custom way, for example by ending punchout session when it's active.
@@ -639,6 +645,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
