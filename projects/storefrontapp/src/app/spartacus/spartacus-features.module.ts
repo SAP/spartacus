@@ -296,6 +296,7 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
+        productConfiguratorConsolidatedButtonDisabling: true,
         improvedTabStyling: true,
         alignNavigationMenuWithHeader: true,
         a11yKeyboardAccessibleZoom: true,
@@ -309,11 +310,8 @@ if (environment.cpq) {
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yNgSelectUnicodeCarets: true,
         productListItemSummaryReadMore: true,
-        productReviewCharactersLeft: true,
         a11yFutureStockAccordionAriaControls: true,
-        productCarouselScrolling: true,
         cdsLoginEventsToken: true,
-        lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
         navigationMenuCloseOnSameLinkClick: true,
@@ -322,6 +320,7 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        orderOverviewCardsInlinePadding: true,
         a11yStoreFinderListItemFocus: true,
         a11yFixSearchBoxDoubleFocus: true,
         a11yFacetFilterByLabel: true,
@@ -340,6 +339,7 @@ if (environment.cpq) {
         showOnlyActiveCurrencies: true,
         a11yAddedToCartDialogHeading: true,
         a11yListSemanticsForFacets: true,
+        a11yFilteredFacetAnnouncement: true,
         a11yCartItemListHideEmptyOutlets: true,
         a11yReviewsKeyboardControls: true,
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
@@ -372,6 +372,7 @@ if (environment.cpq) {
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
+        a11yFormErrorIconContrast: true,
       };
       return appFeatureToggles;
     }),

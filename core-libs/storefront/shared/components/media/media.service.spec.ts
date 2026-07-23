@@ -47,7 +47,6 @@ const MockStorefrontConfig: Config = {
 };
 
 const mockFeatureToggles: FeatureToggles = {
-  lazyLoadImagesByDefault: true,
   // default off — individual "media prefix enabled ..." describe blocks override this
   enableMediaPrefix: false,
 };

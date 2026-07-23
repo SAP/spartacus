@@ -275,6 +275,29 @@ describe('OpfPaymentHostedFieldsService', () => {
       });
     }));
 
+    it('should pass cartId to placePaymentAuthorizedOrder', fakeAsync(() => {
+      const response: OpfPaymentSubmitResponse = {
+        ...mockSubmitResponse,
+        status: OpfPaymentSubmitStatus.ACCEPTED,
+      };
+
+      service['paymentResponseHandler'](
+        response,
+        {
+          onSuccess: mockSubmitSuccess,
+          onPending: mockSubmitPending,
+          onFailure: mockSubmitFailure,
+        },
+        'quick-buy-cart-id'
+      ).subscribe(() => {
+        expect(orderFacade.placePaymentAuthorizedOrder).toHaveBeenCalledWith(
+          true,
+          'quick-buy-cart-id'
+        );
+        flush();
+      });
+    }));
+
     it('should handle pending payment response', fakeAsync(() => {
       const response: OpfPaymentSubmitResponse = {
         ...mockSubmitResponse,

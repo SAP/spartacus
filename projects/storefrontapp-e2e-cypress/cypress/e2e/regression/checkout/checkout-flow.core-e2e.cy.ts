@@ -58,7 +58,7 @@ context('Checkout flow', () => {
         clickSearchIcon();
       });
       searchForProduct(product.name);
-      checkout.checkoutFirstDisplayedProduct(user);
+      checkout.checkoutFirstDisplayedProduct(user, true);
     });
   });
 });
