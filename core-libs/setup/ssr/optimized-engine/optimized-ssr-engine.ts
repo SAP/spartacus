@@ -112,7 +112,7 @@ export class OptimizedSsrEngine {
   protected getRenderingKey(request: Request): string {
     return this.ssrOptions?.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(request)
-      : getDefaultRenderKey(request);
+      : getDefaultRenderKey(request, undefined, this.logger);
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {

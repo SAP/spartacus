@@ -5,6 +5,7 @@
  */
 
 import { Request } from 'express';
+import type { ExpressServerLogger } from '../logger/loggers/express-server-logger';
 
 /**
  * Resolves the origin (`protocol://host`) of the incoming request.
@@ -17,25 +18,28 @@ import { Request } from 'express';
  * When `allowedOrigins` is non-empty, the resolved origin is validated against
  * it as a defense-in-depth measure: if it matches no entry, the first entry is
  * returned instead of the (potentially spoofed) resolved origin.
+ *
+ * When a `logger` is provided, diagnostic messages are emitted through it as
+ * structured (JSON) log entries carrying the request context, so they land in
+ * the `logs-json-*` index of SAP Cloud Logging.
  */
 export function getRequestOrigin(
   req: Request,
-  allowedOrigins?: string[]
+  allowedOrigins?: string[],
+  logger?: ExpressServerLogger
 ): string {
   const resolvedOrigin = resolveOriginFromRequest(req);
 
   // Defense-in-depth: only when the operator opted in by providing an
   // allowlist. Spartacus does NOT know the valid hosts otherwise, so with no
   // allowlist we trust the (trusted) reverse proxy as before.
-  /* eslint-disable-next-line no-console */
-  console.log('allowedOrigins size: ' + allowedOrigins?.length);
+  logger?.log('allowedOrigins size: ' + allowedOrigins?.length, { request: req });
   if (allowedOrigins?.length) {
-    const ret = isAllowedOrigin(resolvedOrigin, allowedOrigins)
+    const ret = isAllowedOrigin(resolvedOrigin, allowedOrigins, req, logger)
       ? resolvedOrigin
       : allowedOrigins[0];
 
-    /* eslint-disable-next-line no-console */
-    console.log('ben2-resolved origin: ' + ret);
+    logger?.log('ben2-resolved origin: ' + ret, { request: req });
     return ret;
   }
 
@@ -76,7 +80,12 @@ function resolveOriginFromRequest(req: Request): string {
  * `https://shop.my.domain.com` but neither `https://my.domain.com` (apex) nor
  * `https://a.b.my.domain.com` (two labels).
  */
-function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
+function isAllowedOrigin(
+  origin: string,
+  allowedOrigins: string[],
+  req: Request,
+  logger?: ExpressServerLogger
+): boolean {
   const normalizedOrigin = origin.toLowerCase();
   return allowedOrigins.some((allowed) => {
     const normalizedAllowed = allowed.toLowerCase();
@@ -103,8 +112,7 @@ function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
       return new RegExp(`^${pattern}$`).test(normalizedOrigin);
     }
 
-    /* eslint-disable-next-line no-console */
-    console.log('ben1-normalizedOrigin: ' + normalizedOrigin);
+    logger?.log('ben1-normalizedOrigin: ' + normalizedOrigin, { request: req });
     return normalizedAllowed === normalizedOrigin;
   });
 }

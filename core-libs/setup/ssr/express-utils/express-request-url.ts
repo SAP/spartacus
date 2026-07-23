@@ -5,8 +5,13 @@
  */
 
 import { Request } from 'express';
+import type { ExpressServerLogger } from '../logger/loggers/express-server-logger';
 import { getRequestOrigin } from './express-request-origin';
 
-export function getRequestUrl(req: Request, allowedOrigins?: string[]): string {
-  return getRequestOrigin(req, allowedOrigins) + req.originalUrl;
+export function getRequestUrl(
+  req: Request,
+  allowedOrigins?: string[],
+  logger?: ExpressServerLogger
+): string {
+  return getRequestOrigin(req, allowedOrigins, logger) + req.originalUrl;
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Provider, StaticProvider } from '@angular/core';
+import { Optional, Provider, StaticProvider } from '@angular/core';
 import {
   LoggerService,
   MULTI_ERROR_HANDLER,
@@ -16,7 +16,11 @@ import { Request } from 'express';
 import { PropagatingToServerErrorHandler } from '../error-handling/multi-error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
 import { getRequestUrl } from '../express-utils/express-request-url';
-import { serverLoggerServiceFactory } from '../logger';
+import {
+  EXPRESS_SERVER_LOGGER,
+  ExpressServerLogger,
+  serverLoggerServiceFactory,
+} from '../logger';
 import { REQUEST } from '../tokens/express.tokens';
 import { ServerOptions } from './model';
 import { serverRequestOriginFactory } from './server-request-origin';
@@ -58,14 +62,15 @@ export function getServerRequestProviders(
   return [
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useFactory: (req: Request) =>
-        getRequestOrigin(req, options?.allowedOrigins),
-      deps: [REQUEST],
+      useFactory: (req: Request, logger: ExpressServerLogger | null) =>
+        getRequestOrigin(req, options?.allowedOrigins, logger ?? undefined),
+      deps: [REQUEST, [new Optional(), EXPRESS_SERVER_LOGGER]],
     },
     {
       provide: SERVER_REQUEST_URL,
-      useFactory: (req: Request) => getRequestUrl(req, options?.allowedOrigins),
-      deps: [REQUEST],
+      useFactory: (req: Request, logger: ExpressServerLogger | null) =>
+        getRequestUrl(req, options?.allowedOrigins, logger ?? undefined),
+      deps: [REQUEST, [new Optional(), EXPRESS_SERVER_LOGGER]],
     },
   ];
 }
