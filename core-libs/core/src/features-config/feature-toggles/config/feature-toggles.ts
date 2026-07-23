@@ -229,6 +229,15 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Fixes keyboard focus and screen reader date announcement for the
+   * chat messaging list items. Moves tabindex and aria-label to the
+   * role="listitem" element so all messages are keyboard-reachable
+   * and dates are announced by VoiceOver and JAWS.
+   * Affects: MessagingComponent
+   */
+  a11yMessagingListKeyboardFocus?: boolean;
+
+  /**
    * Applies a `10rem` inline-start padding to the order overview cards
    * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
    * not pushed inward, avoiding the horizontal shift on wide viewports.
@@ -622,6 +631,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
