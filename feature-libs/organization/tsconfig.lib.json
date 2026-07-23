@@ -78,7 +78,7 @@
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/assets": ["dist/order/assets"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/wishlist": ["dist/user/wishlist"],
       "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],
