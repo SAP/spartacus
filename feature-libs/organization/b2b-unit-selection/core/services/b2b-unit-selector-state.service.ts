@@ -21,8 +21,7 @@ export class B2bUnitSelectorStateService {
   private _activeUnitName$ = new BehaviorSubject<string | null>(null);
 
   /** All org units assigned to the current user. */
-  readonly orgUnits$: Observable<B2BUnit[]> =
-    this._orgUnits$.asObservable();
+  readonly orgUnits$: Observable<B2BUnit[]> = this._orgUnits$.asObservable();
 
   /** The name of the currently active (default) org unit. */
   readonly activeUnitName$: Observable<string | null> =

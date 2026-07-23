@@ -11,7 +11,7 @@ import {
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ApplicationRef } from '@angular/core';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import {
@@ -29,7 +29,6 @@ import '../../../root/model/augmented-core.model';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { B2bUnitSelectionConfig } from '../../../root/config/b2b-unit-selection.config';
-import { B2bRedirectCoordinator } from '../../../root/b2b-redirect-coordinator.service';
 import { B2bUnitSelectionConnector } from '../../connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-state.service';
 import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions';
@@ -57,7 +56,9 @@ class MockB2bUnitSelectionConnector {
   loadDefaultOrgUnitUid = createSpy('loadDefaultOrgUnitUid').and.returnValue(
     of(mockDefaultUid)
   );
-  setDefaultOrgUnit = createSpy('setDefaultOrgUnit').and.returnValue(of(void 0));
+  setDefaultOrgUnit = createSpy('setDefaultOrgUnit').and.returnValue(
+    of(void 0)
+  );
 }
 
 class MockB2bUnitSelectorStateService {
@@ -78,11 +79,6 @@ class MockRoutingService {
   go = createSpy('go');
 }
 
-class MockB2bRedirectCoordinator {
-  allowRedirect = createSpy('allowRedirect');
-  isBlocked = createSpy('isBlocked').and.returnValue(false);
-}
-
 class MockOAuthLibWrapperService {
   refreshToken = createSpy('refreshToken');
 }
@@ -92,7 +88,6 @@ describe('B2bUnitSelectionEffects', () => {
   let connector: MockB2bUnitSelectionConnector;
   let stateService: MockB2bUnitSelectorStateService;
   let launchDialogService: MockLaunchDialogService;
-  let coordinator: MockB2bRedirectCoordinator;
   let routingService: MockRoutingService;
   let oAuthLibWrapperService: MockOAuthLibWrapperService;
   let actions$: Observable<Action>;
@@ -101,19 +96,31 @@ describe('B2bUnitSelectionEffects', () => {
   beforeEach(() => {
     applicationRef = {
       components: [{}] as any[],
-      afterTick: { subscribe: jasmine.createSpy().and.returnValue({ unsubscribe: () => {} }) },
+      afterTick: {
+        subscribe: jasmine
+          .createSpy()
+          .and.returnValue({ unsubscribe: () => {} }),
+      },
     };
 
     TestBed.configureTestingModule({
       providers: [
         B2bUnitSelectionEffects,
-        { provide: B2bUnitSelectionConnector, useClass: MockB2bUnitSelectionConnector },
-        { provide: B2bUnitSelectorStateService, useClass: MockB2bUnitSelectorStateService },
+        {
+          provide: B2bUnitSelectionConnector,
+          useClass: MockB2bUnitSelectionConnector,
+        },
+        {
+          provide: B2bUnitSelectorStateService,
+          useClass: MockB2bUnitSelectorStateService,
+        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: B2bRedirectCoordinator, useClass: MockB2bRedirectCoordinator },
-        { provide: OAuthLibWrapperService, useClass: MockOAuthLibWrapperService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
         { provide: ApplicationRef, useValue: applicationRef },
         { provide: LoggerService, useClass: MockLoggerService },
         {
@@ -130,7 +137,6 @@ describe('B2bUnitSelectionEffects', () => {
     connector = TestBed.inject(B2bUnitSelectionConnector) as any;
     stateService = TestBed.inject(B2bUnitSelectorStateService) as any;
     launchDialogService = TestBed.inject(LaunchDialogService) as any;
-    coordinator = TestBed.inject(B2bRedirectCoordinator) as any;
     routingService = TestBed.inject(RoutingService) as any;
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService) as any;
   });
@@ -140,7 +146,9 @@ describe('B2bUnitSelectionEffects', () => {
   describe('checkOrgUnitsOnLogin$', () => {
     it('should dispatch LoadUserOrgUnitsSuccess on successful login with multiple units', () => {
       const action = new AuthActions.Login();
-      const completion = new B2bUnitSelectionActions.LoadUserOrgUnitsSuccess(mockUnits);
+      const completion = new B2bUnitSelectionActions.LoadUserOrgUnitsSuccess(
+        mockUnits
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -173,7 +181,7 @@ describe('B2bUnitSelectionEffects', () => {
       );
     });
 
-    it('should call allowRedirect() when orgUnits is empty', () => {
+    it('should NOT open the dialog when orgUnits is empty', () => {
       connector.loadOrgUnits.and.returnValue(of([]));
       connector.loadDefaultOrgUnitUid.and.returnValue(of(undefined));
 
@@ -183,11 +191,10 @@ describe('B2bUnitSelectionEffects', () => {
       effects.checkOrgUnitsOnLogin$.subscribe();
       getTestScheduler().flush();
 
-      expect(coordinator.allowRedirect).toHaveBeenCalled();
       expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
     });
 
-    it('should dispatch LoadUserOrgUnitsFail and call allowRedirect() on connector error', () => {
+    it('should dispatch LoadUserOrgUnitsFail on connector error', () => {
       connector.loadOrgUnits.and.returnValue(throwError(() => mockError));
 
       const action = new AuthActions.Login();
@@ -202,33 +209,20 @@ describe('B2bUnitSelectionEffects', () => {
     });
 
     it('should degrade gracefully when loadDefaultOrgUnitUid fails', () => {
-      connector.loadDefaultOrgUnitUid.and.returnValue(throwError(() => mockError));
+      connector.loadDefaultOrgUnitUid.and.returnValue(
+        throwError(() => mockError)
+      );
 
       const action = new AuthActions.Login();
-      const completion = new B2bUnitSelectionActions.LoadUserOrgUnitsSuccess(mockUnits);
+      const completion = new B2bUnitSelectionActions.LoadUserOrgUnitsSuccess(
+        mockUnits
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(null);
-    });
-
-    it('should return EMPTY and call allowRedirect() when feature is disabled', () => {
-      TestBed.overrideProvider(B2bUnitSelectionConfig, {
-        useValue: { b2bUnitSelection: { enabled: false } },
-      });
-      effects = TestBed.inject(B2bUnitSelectionEffects);
-
-      const action = new AuthActions.Login();
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-');
-
-      expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
-
-      // allowRedirect() is called synchronously inside the exhaustMap guard.
-      getTestScheduler().flush();
-      expect(coordinator.allowRedirect).toHaveBeenCalled();
     });
   });
 
@@ -247,7 +241,7 @@ describe('B2bUnitSelectionEffects', () => {
       expect(effects.setDefaultOrgUnit$).toBeObservable(expected);
     });
 
-    it('should refresh token, allow redirect, close dialog, and update state', () => {
+    it('should refresh token, close dialog, and update state', () => {
       const action = new B2bUnitSelectionActions.SetDefaultOrgUnit(payload);
       actions$ = hot('-a', { a: action });
 
@@ -255,7 +249,6 @@ describe('B2bUnitSelectionEffects', () => {
       getTestScheduler().flush();
 
       expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalled();
-      expect(coordinator.allowRedirect).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('CONFIRMED');
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(payload.unitUid);
     });
@@ -306,9 +299,70 @@ describe('B2bUnitSelectionEffects', () => {
       actions$ = hot('-a', { a: action });
 
       effects.clearOnLogout$.subscribe();
+      getTestScheduler().flush();
 
       expect(stateService.setOrgUnits).toHaveBeenCalledWith([]);
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(null);
     });
+  });
+});
+
+// ── B2bUnitSelectionEffects (feature disabled) ────────────────────────────
+// Isolated top-level describe so TestBed can be freshly configured without
+// interference from the parent describe's beforeEach which calls inject().
+
+describe('B2bUnitSelectionEffects (feature disabled)', () => {
+  let effects: B2bUnitSelectionEffects;
+  let actions$: Observable<Action>;
+
+  beforeEach(() => {
+    const appRef: any = {
+      components: [{}] as any[],
+      afterTick: {
+        subscribe: jasmine
+          .createSpy()
+          .and.returnValue({ unsubscribe: () => {} }),
+      },
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        B2bUnitSelectionEffects,
+        {
+          provide: B2bUnitSelectionConnector,
+          useClass: MockB2bUnitSelectionConnector,
+        },
+        {
+          provide: B2bUnitSelectorStateService,
+          useClass: MockB2bUnitSelectorStateService,
+        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: OAuthLibWrapperService,
+          useClass: MockOAuthLibWrapperService,
+        },
+        { provide: ApplicationRef, useValue: appRef },
+        { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: B2bUnitSelectionConfig,
+          useValue: { b2bUnitSelection: { enabled: false } },
+        },
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+
+    effects = TestBed.inject(B2bUnitSelectionEffects);
+  });
+
+  it('checkOrgUnitsOnLogin$ should return EMPTY when the feature is disabled', () => {
+    const action = new AuthActions.Login();
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-');
+
+    expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
   });
 });

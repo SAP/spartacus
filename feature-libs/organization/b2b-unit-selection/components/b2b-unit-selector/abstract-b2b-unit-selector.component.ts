@@ -66,7 +66,11 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
       .pipe(take(1))
       .subscribe((userId) => {
         this.store.dispatch(
-          new SetDefaultOrgUnit({ userId, unitUid: unitName, redirectToHome: true })
+          new SetDefaultOrgUnit({
+            userId,
+            unitUid: unitName,
+            redirectToHome: true,
+          })
         );
       });
   }

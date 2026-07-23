@@ -14,8 +14,9 @@ import { Config } from '@spartacus/core';
 export abstract class B2bUnitSelectionConfig {
   b2bUnitSelection?: {
     /**
-     * 是否启用 B2B Unit 选择功能（登录后弹窗 + header Company 选择器）。
-     * 默认 false，客户通过 provideConfig() 显式开启。
+     * Whether to enable the B2B Unit selection feature
+     * (post-login dialog + header Company selector).
+     * Defaults to false; consumers opt in via provideConfig().
      */
     enabled?: boolean;
   };

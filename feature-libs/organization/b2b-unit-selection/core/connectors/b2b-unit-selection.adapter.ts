@@ -9,18 +9,20 @@ import { Observable } from 'rxjs';
 
 export abstract class B2bUnitSelectionAdapter {
   /**
-   * 获取当前 B2B 用户个人信息，返回默认 org unit 的 uid。
-   * 对应 GET /{baseSiteId}/orgUsers/{userId}
+   * Fetches the current B2B user profile and returns the default org unit uid.
+   * Corresponds to GET /{baseSiteId}/orgUsers/{userId}
    */
-  abstract loadDefaultOrgUnitUid(userId: string): Observable<string | undefined>;
+  abstract loadDefaultOrgUnitUid(
+    userId: string
+  ): Observable<string | undefined>;
 
   /**
-   * 获取当前 B2B 用户被分配的所有 org units
+   * Fetches all org units assigned to the current B2B user.
    */
   abstract loadOrgUnits(userId: string): Observable<B2BUnit[]>;
 
   /**
-   * 设置当前 B2B 用户的默认 org unit
+   * Sets the default org unit for the current B2B user.
    */
   abstract setDefaultOrgUnit(userId: string, unitUid: string): Observable<void>;
 }

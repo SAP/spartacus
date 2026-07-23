@@ -66,17 +66,16 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.launchDialogService.data$.pipe(take(1)).subscribe(
-        (data: { orgUnits: B2BUnit[]; defaultUnitUid?: string }) => {
+      this.launchDialogService.data$
+        .pipe(take(1))
+        .subscribe((data: { orgUnits: B2BUnit[]; defaultUnitUid?: string }) => {
           this.orgUnits = data?.orgUnits ?? [];
-          // OCC /orgUsers/{userId}/orgUnits 只返回 name，不含 uid，以 name 做匹配预选。
           const matched =
             this.orgUnits.find((u) => u.name === data?.defaultUnitUid) ??
             this.orgUnits[0] ??
             null;
           this.form.get('selectedUnit')?.setValue(matched);
-        }
-      )
+        })
     );
   }
 

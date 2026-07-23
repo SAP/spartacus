@@ -35,11 +35,11 @@
           bindLabel="name"
           [clearable]="false"
           [searchable]="false"
-          [cxNgSelectA11y]="{ ariaLabel: 'b2bUnitSelection.dialog.unitLabel' | cxTranslate }"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'b2bUnitSelection.dialog.unitLabel' | cxTranslate,
+          }"
         ></ng-select>
-        <cx-form-errors
-          [control]="form.get('selectedUnit')"
-        ></cx-form-errors>
+        <cx-form-errors [control]="form.get('selectedUnit')"></cx-form-errors>
       </div>
     </div>
 

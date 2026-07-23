@@ -17,7 +17,9 @@
       [disabled]="!hasMultipleUnits()"
       appendTo="cx-b2b-unit-selector"
       (ngModelChange)="onSelect($event)"
-      [cxNgSelectA11y]="{ ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate }"
+      [cxNgSelectA11y]="{
+        ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate,
+      }"
     ></ng-select>
     <cx-icon
       *ngIf="hasMultipleUnits()"

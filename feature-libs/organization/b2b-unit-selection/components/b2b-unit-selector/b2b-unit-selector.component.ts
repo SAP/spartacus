@@ -9,7 +9,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { TranslatePipe } from '@spartacus/core';
-import { IconComponent, ICON_TYPE, NgSelectA11yDirective } from '@spartacus/storefront';
+import {
+  IconComponent,
+  ICON_TYPE,
+  NgSelectA11yDirective,
+} from '@spartacus/storefront';
 import { AbstractB2bUnitSelectorComponent } from './abstract-b2b-unit-selector.component';
 
 /**
@@ -21,7 +25,14 @@ import { AbstractB2bUnitSelectorComponent } from './abstract-b2b-unit-selector.c
   selector: 'cx-b2b-unit-selector',
   templateUrl: './b2b-unit-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, FormsModule, NgSelectComponent, NgSelectA11yDirective, IconComponent, TranslatePipe],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    IconComponent,
+    TranslatePipe,
+  ],
 })
 export class B2bUnitSelectorComponent extends AbstractB2bUnitSelectorComponent {
   readonly iconTypes = ICON_TYPE;

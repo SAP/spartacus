@@ -32,8 +32,7 @@ export class LoadUserOrgUnitsFail implements Action {
 
 // ── Set Default Org Unit ──────────────────────────────────────────────────────
 
-export const SET_DEFAULT_ORG_UNIT =
-  '[B2BUnitSelection] Set Default Org Unit';
+export const SET_DEFAULT_ORG_UNIT = '[B2BUnitSelection] Set Default Org Unit';
 export const SET_DEFAULT_ORG_UNIT_SUCCESS =
   '[B2BUnitSelection] Set Default Org Unit Success';
 export const SET_DEFAULT_ORG_UNIT_FAIL =
@@ -45,7 +44,7 @@ export class SetDefaultOrgUnit implements Action {
     public payload: {
       userId: string;
       unitUid: string;
-      /** true = 来自 header 选择器切换，成功后跳转首页；false/undefined = 来自 dialog */
+      /** true = triggered from the header selector (navigates home on success); false/undefined = triggered from the dialog */
       redirectToHome?: boolean;
     }
   ) {}

@@ -25,6 +25,7 @@ const mockDefaultUid = 'Rustic';
 
 /** Minimal concrete subclass for testing. */
 @Component({
+  standalone: true,
   selector: 'cx-test-selector',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -72,10 +73,13 @@ describe('AbstractB2bUnitSelectorComponent', () => {
     stateService.orgUnits$ = of(initialUnits);
 
     TestBed.configureTestingModule({
-      declarations: [TestB2bUnitSelectorComponent],
+      imports: [TestB2bUnitSelectorComponent],
       providers: [
         { provide: B2bUnitSelectorStateService, useValue: stateService },
-        { provide: B2bUnitSelectionConnector, useClass: MockB2bUnitSelectionConnector },
+        {
+          provide: B2bUnitSelectionConnector,
+          useClass: MockB2bUnitSelectionConnector,
+        },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: Store, useClass: MockStore },
         {
@@ -127,6 +131,7 @@ describe('AbstractB2bUnitSelectorComponent', () => {
 
     it('should set active unit to null when loadDefaultOrgUnitUid fails', () => {
       createComponent(true, []);
+      connector = TestBed.inject(B2bUnitSelectionConnector) as any;
       connector.loadDefaultOrgUnitUid.and.returnValue(
         throwError(() => new Error('not found'))
       );

@@ -112,9 +112,12 @@ describe('OccB2bUnitSelectionAdapter', () => {
 
       httpMock.expectOne((req: HttpRequest<void>) => req.method === 'GET');
 
-      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('orgUserUnits', {
-        urlParams: { userId },
-      });
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'orgUserUnits',
+        {
+          urlParams: { userId },
+        }
+      );
     }));
 
     it('should return the units array from the response', (done) => {
@@ -172,15 +175,10 @@ describe('OccB2bUnitSelectionAdapter', () => {
       );
     }));
 
-    it('should complete without a value on success', (done) => {
-      let nextCalled = false;
-
+    it('should complete (and not error) on success', (done) => {
       adapter.setDefaultOrgUnit(userId, unitUid).subscribe({
-        next: () => (nextCalled = true),
-        complete: () => {
-          expect(nextCalled).toBeFalse();
-          done();
-        },
+        error: () => fail('should not error'),
+        complete: done,
       });
 
       httpMock

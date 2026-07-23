@@ -29,7 +29,7 @@ cx-b2b-unit-selector {
     }
   }
 
-  // 与 site-context-selector 的 .cx-select-wrapper 结构保持一致
+  // Mirrors the .cx-select-wrapper structure used in site-context-selector.
   .cx-select-wrapper {
     display: flex;
     align-items: flex-start;
@@ -45,10 +45,11 @@ cx-b2b-unit-selector {
 
   ng-select {
     margin-top: -12px;
-    // 自适应宽度：收缩至选中值宽度，超出 max-width 时由 text-overflow:ellipsis 截断
+    // Adaptive width: shrinks to fit the selected value; text-overflow:ellipsis
+    // truncates when the value exceeds max-width.
     max-width: 130px;
 
-    // 覆盖 ng-select default.theme.css：
+    // Override ng-select default.theme.css rules:
     //   .ng-select .ng-select-container                  { background-color:#fff; min-height:36px }
     //   .ng-select.ng-select-single .ng-select-container { height:36px }
     //   .ng-select .ng-select-container .ng-value-container { padding-left:10px }
@@ -63,11 +64,11 @@ cx-b2b-unit-selector {
       padding: 0 4px 2px 0;
 
       .ng-value-container {
-        // ng-select default theme 优先级（3 class）高于我们的规则，
-        // 需要 !important 才能覆盖 padding-left: 10px
+        // ng-select default theme specificity (3 classes) is higher than our rules;
+        // !important is required to override padding-left: 10px.
         padding: 0 !important;
         padding-inline-end: #{$b2b-unit-selector-caret-size * 2} !important;
-        // 贴顶对齐，消除 ng-select-container align-items:center 导致的下移
+        // Align to the top to cancel the vertical offset caused by ng-select-container's align-items:center.
         align-self: flex-start;
 
         .ng-value {
@@ -79,7 +80,7 @@ cx-b2b-unit-selector {
           max-width: 100%;
         }
 
-        // 单选模式下 ng-select 对 .ng-input 设置 top:5px，需清零
+        // ng-select sets top:5px on .ng-input in single-select mode; reset to zero.
         .ng-input {
           top: 0 !important;
           padding: 0 !important;
@@ -102,17 +103,17 @@ cx-b2b-unit-selector {
       box-shadow: none !important;
     }
 
-    // 单 unit 禁用态：不可交互，光标还原，字色保持不变
+    // Disabled state for single-unit users: non-interactive, restore default cursor.
     &.ng-select-disabled .ng-select-container {
       cursor: default;
     }
   }
 
-  // appendTo="cx-b2b-unit-selector" 使 panel 挂在宿主元素下，
-  // 而非 ng-select 内部，故选择器须在 ng-select {} 块之外
+  // appendTo="cx-b2b-unit-selector" attaches the dropdown panel to the host element
+  // rather than inside ng-select, so this selector must live outside the ng-select {} block.
   .ng-dropdown-panel {
-    // ng-select 通过内联样式将 panel 宽度设为控件宽度，
-    // !important 覆盖内联样式，让 panel 按选项内容自行决定宽度
+    // ng-select sets panel width via inline style to match the control width;
+    // !important overrides the inline style, letting the panel size to its content.
     width: auto !important;
     min-width: max-content;
   }

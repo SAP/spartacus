@@ -8,19 +8,19 @@ import { OccEndpoint } from '@spartacus/core';
 
 export interface B2bUnitSelectionOccEndpoints {
   /**
-   * 获取当前 B2B 用户个人信息（含 orgUnit 默认 unit）
+   * Fetches current B2B user profile (includes the default orgUnit).
    * GET /{baseSiteId}/orgUsers/{userId}
    */
   orgUser?: string | OccEndpoint;
 
   /**
-   * 获取当前 B2B 用户所被分配的所有 org units
+   * Fetches all org units assigned to the current B2B user.
    * GET /{baseSiteId}/orgUsers/{userId}/orgUnits
    */
   orgUserUnits?: string | OccEndpoint;
 
   /**
-   * 设置当前 B2B 用户的默认 org unit
+   * Sets the default org unit for the current B2B user.
    * PUT /{baseSiteId}/orgUsers/{userId}/defaultOrgUnit
    */
   orgUserDefaultUnit?: string | OccEndpoint;

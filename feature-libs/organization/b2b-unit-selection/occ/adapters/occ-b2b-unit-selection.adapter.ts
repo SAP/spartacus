@@ -29,9 +29,9 @@ export class OccB2bUnitSelectionAdapter implements B2bUnitSelectionAdapter {
 
   loadDefaultOrgUnitUid(userId: string): Observable<string | undefined> {
     return this.http
-      .get<{ orgUnit?: { name?: string } }>(
-        this.occEndpoints.buildUrl('orgUser', { urlParams: { userId } })
-      )
+      .get<{
+        orgUnit?: { name?: string };
+      }>(this.occEndpoints.buildUrl('orgUser', { urlParams: { userId } }))
       .pipe(
         map((response) => response?.orgUnit?.name),
         catchError((error: HttpErrorResponse) => {
