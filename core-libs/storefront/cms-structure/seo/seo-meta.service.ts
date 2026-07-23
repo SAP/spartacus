@@ -50,7 +50,7 @@ export class SeoMetaService implements OnDestroy {
 
   protected set description(value: string | undefined) {
     if (value) {
-      this.addTag({ name: 'description', content: value ?? '' });
+      this.addTag({ name: 'description', content: value });
     } else {
       this.ngMeta.removeTag('name="description"');
     }
@@ -65,7 +65,7 @@ export class SeoMetaService implements OnDestroy {
   }
 
   protected set robots(value: PageRobotsMeta[] | undefined) {
-    if (value && value.length > 0) {
+    if (value?.length) {
       this.addTag({ name: 'robots', content: value.join(', ') });
     }
   }
