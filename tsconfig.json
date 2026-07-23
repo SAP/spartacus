@@ -21,11 +21,20 @@
       "@spartacus/schematics": [
         "core-libs/schematics/index"
       ],
+      "@spartacus/storefront": [
+        "core-libs/storefront/public_api"
+      ],
       "@spartacus/setup": [
         "core-libs/setup/public_api"
       ],
       "@spartacus/setup/ssr": [
         "core-libs/setup/ssr/public_api"
+      ],
+      "@spartacus/core": [
+        "core-libs/core/public_api"
+      ],
+      "@spartacus/assets": [
+        "core-libs/assets/src/public_api"
       ],
       "@spartacus/user": [
         "feature-libs/user/public_api"
@@ -243,29 +252,6 @@
       "@spartacus/product-configurator/common": [
         "feature-libs/product-configurator/common/public_api"
       ],
-      "@spartacus/opf/gift-card/components": [
-        "integration-libs/opf/gift-card/components/public_api"
-      ],
-      "@spartacus/opf/gift-card/core": [
-        "integration-libs/opf/gift-card/core/public_api"
-      ],
-      "@spartacus/opf/gift-card": [
-        "integration-libs/opf/gift-card/public_api"
-      ],
-      "@spartacus/opf/gift-card/occ": [
-        "integration-libs/opf/gift-card/occ/public_api"
-      ],
-      "@spartacus/opf/gift-card/root": [
-        "integration-libs/opf/gift-card/root/public_api"
-      ],
-      "@spartacus/opf/gift-card/assets": [
-        "integration-libs/opf/gift-card/assets/public_api"
-      ],
-      "@spartacus/opf": ["integration-libs/opf/public_api"],
-      "@spartacus/opf/order": ["integration-libs/opf/order/public_api"],
-      "@spartacus/opf/payment/assets": [
-        "integration-libs/opf/payment/assets/public_api"
-      ],
       "@spartacus/product-configurator/common/assets": [
         "feature-libs/product-configurator/common/assets/public_api"
       ],
@@ -454,24 +440,6 @@
       ],
       "@spartacus/organization/account-summary/assets": [
         "feature-libs/organization/account-summary/assets/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection": [
-        "feature-libs/organization/b2b-unit-selection/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/root": [
-        "feature-libs/organization/b2b-unit-selection/root/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/core": [
-        "feature-libs/organization/b2b-unit-selection/core/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/occ": [
-        "feature-libs/organization/b2b-unit-selection/occ/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/components": [
-        "feature-libs/organization/b2b-unit-selection/components/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/assets": [
-        "feature-libs/organization/b2b-unit-selection/assets/public_api"
       ],
       "@spartacus/order": [
         "feature-libs/order/public_api"
@@ -773,6 +741,9 @@
       "@spartacus/opps/root": [
         "integration-libs/opps/root/public_api"
       ],
+      "@spartacus/opf": [
+        "integration-libs/opf/public_api"
+      ],
       "@spartacus/opf/tokenisation": [
         "integration-libs/opf/tokenisation/public_api"
       ],
@@ -815,6 +786,12 @@
       "@spartacus/opf/payment/core": [
         "integration-libs/opf/payment/core/public_api"
       ],
+      "@spartacus/opf/payment/assets": [
+        "integration-libs/opf/payment/assets/public_api"
+      ],
+      "@spartacus/opf/order": [
+        "integration-libs/opf/order/public_api"
+      ],
       "@spartacus/opf/global-functions": [
         "integration-libs/opf/global-functions/public_api"
       ],
@@ -823,6 +800,24 @@
       ],
       "@spartacus/opf/global-functions/core": [
         "integration-libs/opf/global-functions/core/public_api"
+      ],
+      "@spartacus/opf/gift-card": [
+        "integration-libs/opf/gift-card/public_api"
+      ],
+      "@spartacus/opf/gift-card/root": [
+        "integration-libs/opf/gift-card/root/public_api"
+      ],
+      "@spartacus/opf/gift-card/occ": [
+        "integration-libs/opf/gift-card/occ/public_api"
+      ],
+      "@spartacus/opf/gift-card/core": [
+        "integration-libs/opf/gift-card/core/public_api"
+      ],
+      "@spartacus/opf/gift-card/components": [
+        "integration-libs/opf/gift-card/components/public_api"
+      ],
+      "@spartacus/opf/gift-card/assets": [
+        "integration-libs/opf/gift-card/assets/public_api"
       ],
       "@spartacus/opf/cta": [
         "integration-libs/opf/cta/public_api"
@@ -961,15 +956,6 @@
       ],
       "@spartacus/cdc/assets": [
         "integration-libs/cdc/assets/public_api"
-      ],
-      "@spartacus/storefront": [
-        "core-libs/storefront/public_api"
-      ],
-      "@spartacus/core": [
-        "core-libs/core/public_api"
-      ],
-      "@spartacus/assets": [
-        "core-libs/assets/src/public_api"
       ]
     },
     "useDefineForClassFields": false
