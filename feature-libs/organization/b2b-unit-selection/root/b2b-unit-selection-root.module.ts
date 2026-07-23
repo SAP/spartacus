@@ -7,8 +7,9 @@
 import { APP_INITIALIZER, ApplicationRef, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { META_REDUCERS } from '@ngrx/store';
-import { AuthRedirectService } from '@spartacus/core';
+import { AuthRedirectService, provideDefaultConfig } from '@spartacus/core';
 import { B2bAwareAuthRedirectService } from './b2b-aware-auth-redirect.service';
+import { defaultB2bUnitSelectionConfig } from './config/default-b2b-unit-selection-config';
 import { createB2bLoginMetaReducer } from './b2b-login-meta-reducer';
 import { createB2bRedirectPatcher } from './b2b-redirect-patcher';
 import { B2bRedirectCoordinator } from './b2b-redirect-coordinator.service';
@@ -17,6 +18,7 @@ import './model/augmented-core.model';
 
 @NgModule({
   providers: [
+    provideDefaultConfig(defaultB2bUnitSelectionConfig),
     /**
      * 覆盖 AuthRedirectService：在 B2B unit 选择进行中时延迟 redirect()。
      * 这是拦截 post-login redirect 最精准的切入点，只影响 redirect() 调用，

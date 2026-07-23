@@ -102,13 +102,9 @@ cx-b2b-unit-selector {
       box-shadow: none !important;
     }
 
-    // 单 unit 禁用态：不可交互，光标还原
+    // 单 unit 禁用态：不可交互，光标还原，字色保持不变
     &.ng-select-disabled .ng-select-container {
       cursor: default;
-
-      .ng-value-container .ng-value {
-        opacity: 0.6;
-      }
     }
   }
 

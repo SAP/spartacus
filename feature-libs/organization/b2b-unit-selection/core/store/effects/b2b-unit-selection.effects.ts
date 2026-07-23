@@ -25,6 +25,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { B2bUnitSelectionConfig } from '../../../root/config/b2b-unit-selection.config';
 import { B2bRedirectCoordinator } from '../../../root/b2b-redirect-coordinator.service';
 import { B2bUnitSelectionConnector } from '../../connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-state.service';
@@ -33,6 +34,7 @@ import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions'
 @Injectable()
 export class B2bUnitSelectionEffects {
   protected logger = inject(LoggerService);
+  private config = inject(B2bUnitSelectionConfig);
   private coordinator = inject(B2bRedirectCoordinator);
   private applicationRef = inject(ApplicationRef);
   private stateService = inject(B2bUnitSelectorStateService);
@@ -55,8 +57,13 @@ export class B2bUnitSelectionEffects {
   > = createEffect(() =>
     this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
-      exhaustMap(() =>
-        this.userIdService.takeUserId(true).pipe(
+      exhaustMap(() => {
+        // feature toggle：未启用时放行 redirect，不执行后续逻辑
+        if (!this.config.b2bUnitSelection?.enabled) {
+          this.coordinator.allowRedirect();
+          return EMPTY;
+        }
+        return this.userIdService.takeUserId(true).pipe(
           switchMap((userId) =>
             forkJoin({
               orgUnits: this.connector.loadOrgUnits(userId),
@@ -93,8 +100,8 @@ export class B2bUnitSelectionEffects {
             this.coordinator.allowRedirect();
             return EMPTY;
           })
-        )
-      )
+        );
+      })
     )
   );
 

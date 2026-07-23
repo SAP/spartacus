@@ -13,6 +13,7 @@ import { catchError, take } from 'rxjs/operators';
 import { B2bUnitSelectionConnector } from '../../core/connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../core/services/b2b-unit-selector-state.service';
 import { SetDefaultOrgUnit } from '../../core/store/actions/b2b-unit-selection.actions';
+import { B2bUnitSelectionConfig } from '../../root/config/b2b-unit-selection.config';
 
 /**
  * 抽象基类：封装 Company 选择器的状态与交互逻辑。
@@ -27,6 +28,7 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   protected store = inject(Store);
   protected userIdService = inject(UserIdService);
   protected connector = inject(B2bUnitSelectionConnector);
+  private config = inject(B2bUnitSelectionConfig);
 
   private _orgUnits = toSignal(this.stateService.orgUnits$, {
     initialValue: [] as B2BUnit[],
@@ -48,6 +50,10 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   readonly activeUnitName = computed(() => this._activeUnitName());
 
   ngOnInit(): void {
+    // feature toggle：未启用时不加载数据，组件保持空态（hasAnyUnit() = false，不渲染）
+    if (!this.config.b2bUnitSelection?.enabled) {
+      return;
+    }
     // 页面刷新后 BehaviorSubject 为空（effects 可能尚未写入），主动补充加载一次
     this.stateService.orgUnits$.pipe(take(1)).subscribe((units) => {
       if (units.length === 0) {
