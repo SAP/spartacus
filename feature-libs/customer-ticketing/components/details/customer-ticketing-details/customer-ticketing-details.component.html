@@ -1,5 +1,5 @@
 <ng-container *ngIf="ticketDetails$ | async as ticket; else spinner">
-  <ng-template #cards let-df="df">
+  <ng-template #cards>
     <div class="container">
       <div class="cx-details-card">
         <cx-card
@@ -13,7 +13,7 @@
         <cx-card
           [content]="
             prepareCardContent(
-              (ticket.createdAt | cxDate: df) ?? df,
+              (ticket.createdAt | cxDate: dateFormat) ?? dateFormat,
               'customerTicketing.createdOn'
             ) | async
           "
@@ -24,7 +24,7 @@
         <cx-card
           [content]="
             prepareCardContent(
-              (ticket.modifiedAt | cxDate: df) ?? df,
+              (ticket.modifiedAt | cxDate: dateFormat) ?? dateFormat,
               'customerTicketing.changedOn'
             ) | async
           "
@@ -53,11 +53,11 @@
       'customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate
     "
   >
-    <ng-container *ngTemplateOutlet="cards; context: { df: dateFormatA11y }" />
+    <ng-container *ngTemplateOutlet="cards" />
   </div>
 
   <div *cxFeature="'!a11yMessagingListKeyboardFocus'" class="cx-ticket-details">
-    <ng-container *ngTemplateOutlet="cards; context: { df: dateFormat }" />
+    <ng-container *ngTemplateOutlet="cards" />
   </div>
 </ng-container>
 <ng-template #spinner>

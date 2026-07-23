@@ -9,7 +9,7 @@ import { EventService, FeatureToggles } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
-  DATE_FORMAT_A11Y,
+  DATE_FORMAT,
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
@@ -111,7 +111,7 @@ export class CustomerTicketingMessagesComponent implements OnDestroy {
         this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
       enableFileUploadOption: true,
       ...(this.featureToggles.a11yMessagingListKeyboardFocus && {
-        dateFormat: DATE_FORMAT_A11Y,
+        dateFormat: DATE_FORMAT,
       }),
       displayAddMessageSection: this.ticketDetails$.pipe(
         map((ticket) =>

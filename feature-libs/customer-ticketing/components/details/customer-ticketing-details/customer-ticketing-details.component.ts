@@ -8,8 +8,8 @@ import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   CxDatePipe,
-  FeatureDirective,
   EventService,
+  FeatureDirective,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -17,7 +17,6 @@ import {
 import {
   CustomerTicketingFacade,
   DATE_FORMAT,
-  DATE_FORMAT_A11Y,
   GetTicketQueryReloadEvent,
   STATUS,
   TEXT_COLOR_CLASS,
@@ -44,7 +43,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;
-  dateFormatA11y = DATE_FORMAT_A11Y;
   subscription = new Subscription();
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
