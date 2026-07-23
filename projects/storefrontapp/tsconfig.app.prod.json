@@ -271,6 +271,24 @@
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
       ],
+      "@spartacus/organization/b2b-unit-selection": [
+        "dist/organization/b2b-unit-selection/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/root": [
+        "dist/organization/b2b-unit-selection/root/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/occ": [
+        "dist/organization/b2b-unit-selection/occ/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/core": [
+        "dist/organization/b2b-unit-selection/core/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/components": [
+        "dist/organization/b2b-unit-selection/components/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/assets": [
+        "dist/organization/b2b-unit-selection/assets/public_api"
+      ],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/order/occ": ["dist/order/occ"],

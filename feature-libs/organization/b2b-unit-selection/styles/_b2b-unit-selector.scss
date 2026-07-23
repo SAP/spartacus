@@ -49,10 +49,6 @@ cx-b2b-unit-selector {
     // truncates when the value exceeds max-width.
     max-width: 130px;
 
-    // Override ng-select default.theme.css rules:
-    //   .ng-select .ng-select-container                  { background-color:#fff; min-height:36px }
-    //   .ng-select.ng-select-single .ng-select-container { height:36px }
-    //   .ng-select .ng-select-container .ng-value-container { padding-left:10px }
     .ng-select-container {
       height: auto !important;
       min-height: unset !important;
