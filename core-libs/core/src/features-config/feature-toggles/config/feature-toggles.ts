@@ -604,6 +604,15 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
+   * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
+   * `--cx-color-border-focus`, so their border/background/text meet the
+   * WCAG 1.4.11 3:1 (7:1 in high-contrast themes) non-text contrast
+   * requirement.
+   */
+  a11yDisabledButtonContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -685,4 +694,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yDisabledButtonContrast: false,
 };

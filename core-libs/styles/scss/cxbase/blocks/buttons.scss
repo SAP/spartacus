@@ -69,6 +69,17 @@ button {
       &:hover {
         border-color: var(--cx-color-border-focus);
       }
+
+      // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1,
+      // 7:1 in high-contrast themes) for the button's border/background.
+      @include forFeature('a11yDisabledButtonContrast') {
+        background-color: var(--cx-color-disabled);
+        border: var(--cx-color-disabled);
+
+        &:hover {
+          border-color: var(--cx-color-disabled);
+        }
+      }
     }
 
     &:focus {
@@ -127,6 +138,17 @@ button {
 
       &:hover {
         border-color: var(--cx-color-border-focus);
+      }
+
+      // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1,
+      // 7:1 in high-contrast themes) for the button's border and label.
+      @include forFeature('a11yDisabledButtonContrast') {
+        border-color: var(--cx-color-disabled);
+        color: var(--cx-color-disabled);
+
+        &:hover {
+          border-color: var(--cx-color-disabled);
+        }
       }
     }
 
@@ -209,6 +231,15 @@ button {
   &.disabled {
     @include cx-lighten(88);
     color: var(--cx-color-border-focus);
+
+    // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1,
+    // 7:1 in high-contrast themes) for the button label. The lighten filter is
+    // dropped so it does not wash out the darker disabled color.
+    @include forFeature('a11yDisabledButtonContrast') {
+      color: var(--cx-color-disabled);
+      -webkit-filter: none;
+      filter: none;
+    }
   }
 }
 
