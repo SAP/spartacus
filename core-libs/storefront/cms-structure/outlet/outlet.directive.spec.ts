@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { ApplicationRef, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,12 +8,12 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
-import { OutletService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletContextData, OutletPosition } from './outlet.model';
+import { OutletService } from './outlet.service';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
@@ -314,14 +314,13 @@ describe('OutletDirective', () => {
       return fixture.debugElement.nativeElement.textContent;
     }
 
-    it('should render template for new outlet name', async () => {
+    it('should render template for new outlet name', () => {
       hostFixture.detectChanges();
-      await hostFixture.whenStable();
       expect(getContent(hostFixture)).toContain('A');
 
       hostFixture.componentInstance.outletName = 'B';
-      hostFixture.detectChanges();
-      await hostFixture.whenStable();
+      hostFixture.componentRef.changeDetectorRef.markForCheck();
+      hostFixture.detectChanges(false);
 
       expect(getContent(hostFixture)).toContain('B');
     });

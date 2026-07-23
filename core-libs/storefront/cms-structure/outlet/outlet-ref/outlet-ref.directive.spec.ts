@@ -1,6 +1,5 @@
-// @vitest-environment happy-dom
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
@@ -40,28 +39,23 @@ class MockDeferLoaderService {
   }
 }
 
-/**
- * Returns the innerText of the fixture
- */
 function getContent(fixture: ComponentFixture<any>): string {
   return fixture.debugElement.nativeElement.textContent.trim();
 }
 
 /**
- * Re-renders whole cxOutlet by destroying and recreating it.
- * It's needed in tests, because cxOutlet won't re-render itself after the list of declared OutletRefs change.
+ * Re-renders the cxOutlet by toggling outletVisible off/on.
+ * Uses detectChanges(false) + markForCheck() to avoid NG0100: OutletDirective.render()
+ * calls vcr.clear() during ngOnChanges which corrupts LView binding state, causing
+ * the no-changes verifier in a subsequent detectChanges() to throw.
  */
 function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
   fixture.componentInstance.outletVisible = false;
-  fixture.componentRef.changeDetectorRef.detectChanges();
+  fixture.changeDetectorRef.markForCheck();
+  fixture.detectChanges(false);
   fixture.componentInstance.outletVisible = true;
-  fixture.componentRef.changeDetectorRef.detectChanges();
-}
-
-function stableDetectChanges(
-  fixture: ComponentFixture<TestContainerComponent>
-) {
-  fixture.componentRef.changeDetectorRef.detectChanges();
+  fixture.changeDetectorRef.markForCheck();
+  fixture.detectChanges(false);
 }
 
 describe('OutletRefDirective', () => {
@@ -74,11 +68,7 @@ describe('OutletRefDirective', () => {
         OutletService,
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
       ],
-    })
-      .overrideComponent(TestContainerComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
-      })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -99,10 +89,8 @@ describe('OutletRefDirective', () => {
 
   it('should unregister template on cxOutletRef destroy', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.componentRef.changeDetectorRef.detectChanges();
-
     fixture.componentInstance.outletRefVisible = false;
-    fixture.componentRef.changeDetectorRef.detectChanges();
+
     refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeFalsy();
@@ -111,14 +99,9 @@ describe('OutletRefDirective', () => {
 
   it('should re-register template on cxOutletRef re-creation', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
-    fixture.componentRef.changeDetectorRef.detectChanges();
-
-    // destroy OutletRef
     fixture.componentInstance.outletRefVisible = false;
-    fixture.componentRef.changeDetectorRef.detectChanges();
-
-    // re-create OutletRef and re-render outlet in one go
     fixture.componentInstance.outletRefVisible = true;
+
     refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeTruthy();

@@ -111,6 +111,8 @@ describe('FormErrors', () => {
   });
 
   describe('i18n', () => {
+    afterEach(() => vi.restoreAllMocks());
+
     describe('key', () => {
       it('should use the error key with default prefix', () => {
         control.setErrors(mockError);
@@ -126,9 +128,12 @@ describe('FormErrors', () => {
           `${component.prefix}.${mockErrorName}`,
           `${component.fallbackPrefix}.${mockErrorName}`,
         ];
-        vi.spyOn(MockTranslatePipe.prototype, 'transform')
-          .withArgs(errorKeys, {})
-          .mockReturnValue(errorKeys[1]);
+        vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
+          (key: any, params: any) =>
+            JSON.stringify(key) === JSON.stringify(errorKeys) && JSON.stringify(params) === JSON.stringify({})
+              ? errorKeys[1]
+              : Array.isArray(key) ? key.join(',') : key
+        );
 
         control.setErrors(mockError);
         control.markAsTouched();
@@ -152,9 +157,12 @@ describe('FormErrors', () => {
           `${component.prefix}.${mockErrorName}`,
           `${component.fallbackPrefix}.${mockErrorName}`,
         ];
-        vi.spyOn(MockTranslatePipe.prototype, 'transform')
-          .withArgs(errorKeys, {})
-          .mockReturnValue(errorKeys[1]);
+        vi.spyOn(MockTranslatePipe.prototype, 'transform').mockImplementation(
+          (key: any, params: any) =>
+            JSON.stringify(key) === JSON.stringify(errorKeys) && JSON.stringify(params) === JSON.stringify({})
+              ? errorKeys[1]
+              : Array.isArray(key) ? key.join(',') : key
+        );
 
         control.setErrors(mockError);
         control.markAsTouched();
