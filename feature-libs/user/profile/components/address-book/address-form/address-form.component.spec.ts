@@ -21,8 +21,15 @@ import {
   Title,
   UserAddressService,
 } from '@spartacus/core';
-import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import {
+  FocusDirective,
+  FormErrorsModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -637,6 +644,31 @@ describe('AddressFormComponent', () => {
       component.isHierarchicalAddressFormat = false;
       component.countrySelected({ isocode: 'CN' });
       expect(component.isHierarchicalAddressFormat).toBe(false);
+    });
+  });
+
+  describe('a11yAddressFormInitialFocus', () => {
+    let featureTogglesController: MockFeatureTogglesController;
+
+    const getFocusForm = (): DebugElement =>
+      fixture.debugElement.query(By.directive(FocusDirective));
+
+    beforeEach(() => {
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should apply cxFocus to the form when a11yAddressFormInitialFocus is true', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeTruthy();
+    });
+
+    it('should not apply cxFocus to the form when a11yAddressFormInitialFocus is false', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeNull();
     });
   });
 });
