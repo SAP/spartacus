@@ -1,9 +1,21 @@
 <cx-form-required-legend />
+<!-- When deprecating a11yAddressFormInitialFocus, remove ng-template -->
 <form
+  *cxFeature="'a11yAddressFormInitialFocus'"
   (ngSubmit)="verifyAddress()"
   [formGroup]="addressForm"
-  [cxFocus]="{ autofocus: false }"
+  [cxFocus]="{ autofocus: true }"
 >
+  <ng-container *ngTemplateOutlet="formContent" />
+</form>
+<form
+  *cxFeature="'!a11yAddressFormInitialFocus'"
+  (ngSubmit)="verifyAddress()"
+  [formGroup]="addressForm"
+>
+  <ng-container *ngTemplateOutlet="formContent" />
+</form>
+<ng-template #formContent>
   <div class="form-group" formGroupName="country">
     <ng-container *ngIf="countries$ | async as countries">
       <div *ngIf="countries.length !== 0">
@@ -456,4 +468,4 @@
       </div>
     </div>
   </div>
-</form>
+</ng-template>

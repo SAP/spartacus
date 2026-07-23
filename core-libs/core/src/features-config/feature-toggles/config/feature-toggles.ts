@@ -595,6 +595,14 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the address form applies the `cxFocus` directive with autofocus
+   * to manage initial keyboard focus.
+   *
+   * Affects: `AddressFormComponent`
+   */
+  a11yAddressFormInitialFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -675,4 +683,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yAddressFormInitialFocus: false,
 };
