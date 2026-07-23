@@ -1,7 +1,6 @@
 import { take } from 'rxjs/operators';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthStorageService } from './auth-storage.service';
-import { firstValueFrom } from 'rxjs';
 
 describe('AuthStorageService', () => {
   let service: AuthStorageService;
@@ -25,14 +24,20 @@ describe('AuthStorageService', () => {
   });
 
   describe('getToken()', () => {
-    it('should return the token', async () => {
-      const tokenValue = await firstValueFrom(service.getToken().pipe(take(1)));
-      expect(tokenValue).toEqual(authToken);
+    it('should return the token', (done: DoneFn) => {
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(authToken);
+
+          done();
+        });
     });
   });
 
   describe('setToken()', () => {
-    it('should set a new token', async () => {
+    it('should set a new token', (done: DoneFn) => {
       const newAuthToken: AuthToken = {
         ...authToken,
         access_token: 'newAccessToken',
@@ -40,8 +45,14 @@ describe('AuthStorageService', () => {
 
       service.setToken(newAuthToken);
 
-      const tokenValue = await firstValueFrom(service.getToken().pipe(take(1)));
-      expect(tokenValue).toEqual(newAuthToken);
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(newAuthToken);
+
+          done();
+        });
     });
   });
 
@@ -59,16 +70,21 @@ describe('AuthStorageService', () => {
     });
   });
 
-  describe('removeItem()', async () => {
-    it('should not remove anything if wrong key passed', async () => {
+  describe('removeItem()', () => {
+    it('should not remove anything if wrong key passed', (done: DoneFn) => {
       service.removeItem('wrongKey');
 
-      const value = await firstValueFrom(service.getToken().pipe(take(1)));
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(authToken);
 
-      expect(value).toEqual(authToken);
+          done();
+        });
     });
 
-    it('should remove the item', async () => {
+    it('should remove the item', (done: DoneFn) => {
       const key = 'access_token';
       const newAuthToken: AuthToken = {
         ...authToken,
@@ -77,20 +93,32 @@ describe('AuthStorageService', () => {
 
       service.removeItem(key);
 
-      const value = await firstValueFrom(service.getToken().pipe(take(1)));
-      expect(value).toEqual(newAuthToken);
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(newAuthToken);
+
+          done();
+        });
     });
   });
 
   describe('setItem()', () => {
-    it('should not set item if no key passed', async () => {
+    it('should not set item if no key passed', (done: DoneFn) => {
       service.setItem(null, {});
-      const value = await firstValueFrom(service.getToken().pipe(take(1)));
 
-      expect(value).toEqual(authToken);
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(authToken);
+
+          done();
+        });
     });
 
-    it('should update existing item', async () => {
+    it('should update existing item', (done: DoneFn) => {
       const newKey = 'access_token';
       const newValue = 'newAccessToken';
 
@@ -101,12 +129,17 @@ describe('AuthStorageService', () => {
         [newKey]: newValue,
       };
 
-      const value = await firstValueFrom(service.getToken().pipe(take(1)));
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(newAuthToken);
 
-      expect(value).toEqual(newAuthToken);
+          done();
+        });
     });
 
-    it('should set a new item', async () => {
+    it('should set a new item', (done: DoneFn) => {
       const newKey = 'newItem';
       const newValue = {};
 
@@ -117,8 +150,14 @@ describe('AuthStorageService', () => {
         [newKey]: newValue,
       };
 
-      const value = await firstValueFrom(service.getToken().pipe(take(1)));
-      expect(value).toEqual(newAuthToken);
+      service
+        .getToken()
+        .pipe(take(1))
+        .subscribe((token: AuthToken) => {
+          expect(token).toEqual(newAuthToken);
+
+          done();
+        });
     });
   });
 });

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
@@ -6,6 +5,7 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
+import createSpy = jasmine.createSpy;
 
 class MockLanguageService implements Partial<LanguageService> {
   getActive() {
@@ -14,7 +14,7 @@ class MockLanguageService implements Partial<LanguageService> {
   isInitialized() {
     return false;
   }
-  setActive = vi.fn();
+  setActive = createSpy('setActive');
 }
 
 const mockLanguages = ['ja', 'de'];
@@ -54,13 +54,13 @@ describe('LanguageStatePersistenceService', () => {
   describe('initSync', () => {
     it('should call StatePersistenceService with the correct attributes', () => {
       const state$ = of('en');
-      vi.spyOn(languageService, 'getActive').mockReturnValue(state$);
-      vi.spyOn(persistenceService, 'syncWithStorage');
+      spyOn(languageService, 'getActive').and.returnValue(state$);
+      spyOn(persistenceService, 'syncWithStorage');
 
       service.initSync();
 
       expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-        expect.objectContaining({
+        jasmine.objectContaining({
           key: LANGUAGE_CONTEXT_ID,
           state$,
         })
@@ -71,20 +71,20 @@ describe('LanguageStatePersistenceService', () => {
 
   describe('onRead', () => {
     it('should NOT set active if no value is provided', () => {
-      vi.spyOn(languageService, 'isInitialized').mockReturnValue(false);
+      spyOn(languageService, 'isInitialized').and.returnValue(false);
       service['onRead']('');
 
       expect(languageService.setActive).not.toHaveBeenCalled();
     });
     it('should NOT set active if the language is initialized', () => {
-      vi.spyOn(languageService, 'isInitialized').mockReturnValue(true);
+      spyOn(languageService, 'isInitialized').and.returnValue(true);
 
       service['onRead']('ja');
 
       expect(languageService.setActive).not.toHaveBeenCalled();
     });
     it('should set active value if the currency is NOT initialized and a value is provided', () => {
-      vi.spyOn(languageService, 'isInitialized').mockReturnValue(false);
+      spyOn(languageService, 'isInitialized').and.returnValue(false);
       const language = 'ja';
 
       service['onRead'](language);

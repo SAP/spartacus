@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
@@ -61,10 +60,8 @@ describe('ConsentService', () => {
 
   describe('getConsent', () => {
     it('should merge both anonymous and registered-consent getConsent methods', () => {
-      vi.spyOn(userConsentService, 'getConsent').mockReturnValue(
-        of(mockConsent)
-      );
-      vi.spyOn(anonymousConsentsService, 'getConsent').mockReturnValue(
+      spyOn(userConsentService, 'getConsent').and.returnValue(of(mockConsent));
+      spyOn(anonymousConsentsService, 'getConsent').and.returnValue(
         of(mockAnonymousConsent)
       );
 
@@ -85,7 +82,7 @@ describe('ConsentService', () => {
 
   describe('checkConsentGivenByTemplateId', () => {
     it('should return false if the consent is falsy', () => {
-      vi.spyOn(service, 'getConsent').mockReturnValue(of(undefined));
+      spyOn(service, 'getConsent').and.returnValue(of(undefined));
       let result = true;
       service
         .checkConsentGivenByTemplateId(mockTemplateId)
@@ -95,16 +92,10 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type anonymous consent', () => {
       it('should call anonymousConsentsService.isConsentGiven', () => {
-        vi.spyOn(service, 'getConsent').mockReturnValue(
-          of(mockAnonymousConsent)
-        );
-        vi.spyOn(service, 'isAnonymousConsentType').mockReturnValue(true);
-        vi.spyOn(anonymousConsentsService, 'isConsentGiven').mockReturnValue(
-          true
-        );
-        vi.spyOn(userConsentService, 'isConsentGiven').mockImplementation(
-          () => {}
-        );
+        spyOn(service, 'getConsent').and.returnValue(of(mockAnonymousConsent));
+        spyOn(service, 'isAnonymousConsentType').and.returnValue(true);
+        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValue(true);
+        spyOn(userConsentService, 'isConsentGiven').and.stub();
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
@@ -119,12 +110,10 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type registered consent', () => {
       it('should call userConsentService.isConsentGiven', () => {
-        vi.spyOn(service, 'getConsent').mockReturnValue(of(mockConsent));
-        vi.spyOn(service, 'isAnonymousConsentType').mockReturnValue(false);
-        vi.spyOn(anonymousConsentsService, 'isConsentGiven').mockImplementation(
-          () => {}
-        );
-        vi.spyOn(userConsentService, 'isConsentGiven').mockReturnValue(true);
+        spyOn(service, 'getConsent').and.returnValue(of(mockConsent));
+        spyOn(service, 'isAnonymousConsentType').and.returnValue(false);
+        spyOn(anonymousConsentsService, 'isConsentGiven').and.stub();
+        spyOn(userConsentService, 'isConsentGiven').and.returnValue(true);
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
@@ -141,7 +130,7 @@ describe('ConsentService', () => {
 
   describe('checkConsentWithdrawnByTemplateId', () => {
     it('should return true if the consent is falsy', () => {
-      vi.spyOn(service, 'getConsent').mockReturnValue(of(undefined));
+      spyOn(service, 'getConsent').and.returnValue(of(undefined));
       let result = false;
       service
         .checkConsentWithdrawnByTemplateId(mockTemplateId)
@@ -151,17 +140,12 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type anonymous consent', () => {
       it('should call anonymousConsentsService.isConsentWithdrawn', () => {
-        vi.spyOn(service, 'getConsent').mockReturnValue(
-          of(mockAnonymousConsent)
+        spyOn(service, 'getConsent').and.returnValue(of(mockAnonymousConsent));
+        spyOn(service, 'isAnonymousConsentType').and.returnValue(true);
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
+          true
         );
-        vi.spyOn(service, 'isAnonymousConsentType').mockReturnValue(true);
-        vi.spyOn(
-          anonymousConsentsService,
-          'isConsentWithdrawn'
-        ).mockReturnValue(true);
-        vi.spyOn(userConsentService, 'isConsentWithdrawn').mockImplementation(
-          () => {}
-        );
+        spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
@@ -176,15 +160,10 @@ describe('ConsentService', () => {
     });
     describe('when the returned consent is of type registered consent', () => {
       it('should call userConsentService.isConsentWithdrawn', () => {
-        vi.spyOn(service, 'getConsent').mockReturnValue(of(mockConsent));
-        vi.spyOn(service, 'isAnonymousConsentType').mockReturnValue(false);
-        vi.spyOn(
-          anonymousConsentsService,
-          'isConsentWithdrawn'
-        ).mockImplementation(() => {});
-        vi.spyOn(userConsentService, 'isConsentWithdrawn').mockReturnValue(
-          true
-        );
+        spyOn(service, 'getConsent').and.returnValue(of(mockConsent));
+        spyOn(service, 'isAnonymousConsentType').and.returnValue(false);
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.stub();
+        spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
@@ -204,12 +183,8 @@ describe('ConsentService', () => {
   describe('isConsentGiven', () => {
     describe('when anonymous consent is provided', () => {
       it('should delegate to anonymousConsentsService.isConsentGiven()', () => {
-        vi.spyOn(anonymousConsentsService, 'isConsentGiven').mockReturnValue(
-          true
-        );
-        vi.spyOn(userConsentService, 'isConsentGiven').mockImplementation(
-          () => {}
-        );
+        spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValue(true);
+        spyOn(userConsentService, 'isConsentGiven').and.stub();
 
         const result = service.isConsentGiven(mockAnonymousConsent);
 
@@ -222,10 +197,8 @@ describe('ConsentService', () => {
     });
     describe('when registered consent is provided', () => {
       it('should delegate to userConsentService.isConsentGiven()', () => {
-        vi.spyOn(anonymousConsentsService, 'isConsentGiven').mockImplementation(
-          () => {}
-        );
-        vi.spyOn(userConsentService, 'isConsentGiven').mockReturnValue(true);
+        spyOn(anonymousConsentsService, 'isConsentGiven').and.stub();
+        spyOn(userConsentService, 'isConsentGiven').and.returnValue(true);
 
         const result = service.isConsentGiven(mockConsent);
 
@@ -241,13 +214,10 @@ describe('ConsentService', () => {
   describe('isConsentWithdrawn', () => {
     describe('when anonymous consent is provided', () => {
       it('should delegate to anonymousConsentsService.isConsentWithdrawn()', () => {
-        vi.spyOn(
-          anonymousConsentsService,
-          'isConsentWithdrawn'
-        ).mockReturnValue(true);
-        vi.spyOn(userConsentService, 'isConsentWithdrawn').mockImplementation(
-          () => {}
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValue(
+          true
         );
+        spyOn(userConsentService, 'isConsentWithdrawn').and.stub();
 
         const result = service.isConsentWithdrawn(mockAnonymousConsent);
 
@@ -260,13 +230,8 @@ describe('ConsentService', () => {
     });
     describe('when registered consent is provided', () => {
       it('should delegate to userConsentService.isConsentWithdrawn()', () => {
-        vi.spyOn(
-          anonymousConsentsService,
-          'isConsentWithdrawn'
-        ).mockImplementation(() => {});
-        vi.spyOn(userConsentService, 'isConsentWithdrawn').mockReturnValue(
-          true
-        );
+        spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.stub();
+        spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
         const result = service.isConsentWithdrawn(mockConsent);
 

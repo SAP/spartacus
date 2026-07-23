@@ -1,5 +1,5 @@
 import { Applicable, resolveApplicable } from '@spartacus/core';
-import { vi } from 'vitest';
+import createSpy = jasmine.createSpy;
 
 describe('resolveApplicable', () => {
   it('should resolve applicable when hasMatch returns true', () => {
@@ -101,7 +101,7 @@ describe('resolveApplicable', () => {
   it('will pass hasMatch parameters to hasMatch method', () => {
     const applicables: Applicable[] = [
       {
-        hasMatch: vi.fn(),
+        hasMatch: createSpy(),
       },
     ];
     const hasMatchParams = ['a', 3];
@@ -112,10 +112,10 @@ describe('resolveApplicable', () => {
   it('will pass getPriority parameters to getPriority method', () => {
     const applicables: Applicable[] = [
       {
-        getPriority: vi.fn(),
+        getPriority: createSpy(),
       },
       {
-        getPriority: vi.fn(),
+        getPriority: createSpy(),
       },
     ];
     const getPriorityParams = ['a', 3];
@@ -131,7 +131,7 @@ describe('resolveApplicable', () => {
   it('should not do priority valuation if only one applicable is matching', () => {
     const applicables: Applicable[] = [
       {
-        getPriority: vi.fn(),
+        getPriority: createSpy(),
       },
     ];
     resolveApplicable(applicables);

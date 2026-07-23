@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -18,7 +17,7 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { LoggerService } from '../../logger';
@@ -36,33 +35,6 @@ const CUSTOM_SERVER_TIMEOUT = 6_000;
 
 const VERY_LONG_TIME = 100_000;
 
-function buildTestBed(extraProviders: any[] = []) {
-  TestBed.configureTestingModule({
-    providers: [
-      {
-        provide: HTTP_INTERCEPTORS,
-        useExisting: HttpTimeoutInterceptor,
-        multi: true,
-      },
-      {
-        provide: OccConfig,
-        useValue: {
-          backend: {
-            timeout: {
-              browser: BROWSER_TIMEOUT,
-              server: SERVER_TIMEOUT,
-            },
-          },
-        },
-      },
-      { provide: WindowRef, useValue: { isBrowser: () => {} } },
-      provideHttpClient(withInterceptorsFromDi()),
-      provideHttpClientTesting(),
-      ...extraProviders,
-    ],
-  });
-}
-
 describe('HttpTimeoutInterceptor', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
@@ -71,8 +43,29 @@ describe('HttpTimeoutInterceptor', () => {
   let logger: LoggerService;
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    buildTestBed();
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: HTTP_INTERCEPTORS,
+          useExisting: HttpTimeoutInterceptor,
+          multi: true,
+        },
+        {
+          provide: OccConfig,
+          useValue: {
+            backend: {
+              timeout: {
+                browser: BROWSER_TIMEOUT,
+                server: SERVER_TIMEOUT,
+              },
+            },
+          },
+        },
+        { provide: WindowRef, useValue: { isBrowser: () => {} } },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
 
     httpMock = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
@@ -80,22 +73,22 @@ describe('HttpTimeoutInterceptor', () => {
     config = TestBed.inject(OccConfig);
     logger = TestBed.inject(LoggerService);
 
-    vi.spyOn(logger, 'warn');
+    spyOn(logger, 'warn');
   });
 
-  afterEach(() => {
-    vi.useRealTimers();
+  afterEach(fakeAsync(() => {
     httpMock.verify();
-  });
+    flush();
+  }));
 
   describe('in platform browser', () => {
     beforeEach(() => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
     });
 
-    it('should NOT timeout, when request succeeded in expected time', async () => {
-      let response: any;
-      let error: any;
+    it('should NOT timeout, when request succeeded in expected time', fakeAsync(() => {
+      let response;
+      let error;
       httpClient.get(testUrl).subscribe({
         error: (e) => (error = e),
         next: (r) => (response = r),
@@ -104,18 +97,18 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(BROWSER_TIMEOUT - 1);
+      tick(BROWSER_TIMEOUT - 1);
       request.event(new HttpResponse({ body: 'ok' }));
 
       expect(error).toBe(undefined);
       expect(response).toBe('ok');
-    });
+    }));
 
-    it('should NOT timeout, when no timeout config is configured', async () => {
+    it('should NOT timeout, when no timeout config is configured', fakeAsync(() => {
       config.backend = { timeout: undefined };
 
-      let response: any;
-      let error: any;
+      let response;
+      let error;
       httpClient.get(testUrl).subscribe({
         error: (e) => (error = e),
         next: (r) => (response = r),
@@ -124,37 +117,37 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(VERY_LONG_TIME);
+      tick(VERY_LONG_TIME);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
       request.event(new HttpResponse({ body: 'ok' }));
       expect(response).toBe('ok');
-    });
+    }));
 
-    it('should use the global timeout config for browser', async () => {
-      let error: any;
+    it('should use the global timeout config for browser', fakeAsync(() => {
+      let error;
       httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
       const request = httpMock.expectOne(testUrl);
 
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(BROWSER_TIMEOUT - 1);
+      tick(BROWSER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
-      await vi.advanceTimersByTimeAsync(1);
+      tick(1);
       expect(request.cancelled).toBe(true);
       expect(error).not.toBe(undefined);
-    });
+    }));
 
-    it('should use the local browser timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', async () => {
+    it('should use the local browser timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', fakeAsync(() => {
       const context = new HttpContext().set(HTTP_TIMEOUT_CONFIG, {
         browser: CUSTOM_BROWSER_TIMEOUT,
         server: CUSTOM_SERVER_TIMEOUT,
       });
 
-      let error: any;
+      let error;
       httpClient
         .get(testUrl, { context })
         .subscribe({ error: (e) => (error = e) });
@@ -162,24 +155,24 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(CUSTOM_BROWSER_TIMEOUT - 1);
+      tick(CUSTOM_BROWSER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
-      await vi.advanceTimersByTimeAsync(1);
+      tick(1);
       expect(error).not.toBe(undefined);
       expect(request.cancelled).toBe(true);
-    });
+    }));
   });
 
   describe('in platform server', () => {
     beforeEach(() => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
     });
 
-    it('should NOT timeout, when request succeeded in expected time', async () => {
-      let response: any;
-      let error: any;
+    it('should NOT timeout, when request succeeded in expected time', fakeAsync(() => {
+      let response;
+      let error;
       httpClient.get(testUrl).subscribe({
         error: (e) => (error = e),
         next: (r) => (response = r),
@@ -188,18 +181,18 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(SERVER_TIMEOUT - 1);
+      tick(SERVER_TIMEOUT - 1);
       request.event(new HttpResponse({ body: 'ok' }));
 
       expect(error).toBe(undefined);
       expect(response).toBe('ok');
-    });
+    }));
 
-    it('should not timeout, when no timeout config is configured', async () => {
+    it('should not timeout, when no timeout config is configured', fakeAsync(() => {
       config.backend = { timeout: undefined };
 
-      let response: any;
-      let error: any;
+      let response;
+      let error;
       httpClient.get(testUrl).subscribe({
         error: (e) => (error = e),
         next: (r) => (response = r),
@@ -208,37 +201,37 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(VERY_LONG_TIME);
+      tick(VERY_LONG_TIME);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
       request.event(new HttpResponse({ body: 'ok' }));
       expect(response).toBe('ok');
-    });
+    }));
 
-    it('should use the global timeout config for server', async () => {
-      let error: any;
+    it('should use the global timeout config for server', fakeAsync(() => {
+      let error;
       httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
 
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(SERVER_TIMEOUT - 1);
+      tick(SERVER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
-      await vi.advanceTimersByTimeAsync(1);
+      tick(1);
       expect(request.cancelled).toBe(true);
       expect(error).not.toBe(undefined);
-    });
+    }));
 
-    it('should use the local server timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', async () => {
+    it('should use the local server timeout config passed via HttpContext token HTTP_TIMEOUT_CONFIG', fakeAsync(() => {
       const context = new HttpContext().set(HTTP_TIMEOUT_CONFIG, {
         browser: CUSTOM_BROWSER_TIMEOUT,
         server: CUSTOM_SERVER_TIMEOUT,
       });
 
-      let error: any;
+      let error;
       httpClient
         .get(testUrl, { context })
         .subscribe({ error: (e) => (error = e) });
@@ -246,18 +239,18 @@ describe('HttpTimeoutInterceptor', () => {
       const request = httpMock.expectOne(testUrl);
       request.event({ type: HttpEventType.Sent });
 
-      await vi.advanceTimersByTimeAsync(CUSTOM_SERVER_TIMEOUT - 1);
+      tick(CUSTOM_SERVER_TIMEOUT - 1);
       expect(request.cancelled).toBe(false);
       expect(error).toBe(undefined);
 
-      await vi.advanceTimersByTimeAsync(1);
+      tick(1);
       expect(error).not.toBe(undefined);
       expect(request.cancelled).toBe(true);
-    });
+    }));
   });
 
-  it('in case of timeout, it should throw HttpErrorResponse with url and Error object', async () => {
-    vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+  it('in case of timeout, it should throw HttpErrorResponse with url and Error object', fakeAsync(() => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
     let error: any;
     httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
@@ -265,7 +258,7 @@ describe('HttpTimeoutInterceptor', () => {
     const request = httpMock.expectOne(testUrl);
     request.event({ type: HttpEventType.Sent });
 
-    await vi.advanceTimersByTimeAsync(VERY_LONG_TIME);
+    tick(VERY_LONG_TIME);
 
     expect(error.url).toEqual(testUrl);
     expect(error instanceof HttpErrorResponse).toBe(true);
@@ -273,22 +266,22 @@ describe('HttpTimeoutInterceptor', () => {
     expect(error.error.message).toEqual(
       `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
     );
-  });
+  }));
 
-  it('in case of timeout, it should logger.warn', async () => {
-    vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+  it('in case of timeout, it should logger.warn', fakeAsync(() => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
     httpClient.get(testUrl).subscribe({ error: () => {} });
 
     const request = httpMock.expectOne(testUrl);
     request.event({ type: HttpEventType.Sent });
 
-    await vi.advanceTimersByTimeAsync(VERY_LONG_TIME);
+    tick(VERY_LONG_TIME);
 
     expect(logger.warn).toHaveBeenCalledWith(
       `Request to URL '${testUrl}' exceeded expected time of ${SERVER_TIMEOUT}ms and was aborted.`
     );
-  });
+  }));
 });
 
 describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => {
@@ -312,7 +305,6 @@ describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => 
   let windowRef: WindowRef;
 
   beforeEach(() => {
-    vi.useFakeTimers();
     TestBed.configureTestingModule({
       providers: [
         {
@@ -347,33 +339,33 @@ describe('HttpTimeoutInterceptor used alongside other slow interceptors', () => 
     windowRef = TestBed.inject(WindowRef);
   });
 
-  afterEach(() => {
-    vi.useRealTimers();
+  afterEach(fakeAsync(() => {
     httpMock.verify();
-  });
+    flush();
+  }));
 
-  it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', async () => {
+  it('should count time for timeout only after the request was sent (but not time spent in other interceptors in the chain) ', fakeAsync(() => {
     TestBed.inject(DelayInterceptor).delay = VERY_LONG_TIME;
-    vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+    spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
-    let error: any;
+    let error;
     httpClient.get(testUrl).subscribe({ error: (e) => (error = e) });
 
     // very long time passes, but the request is not sent yet
     const request = httpMock.expectOne(testUrl);
-    await vi.advanceTimersByTimeAsync(VERY_LONG_TIME);
+    tick(VERY_LONG_TIME);
 
     expect(request.cancelled).toBe(false);
     expect(error).toBe(undefined);
 
     request.event({ type: HttpEventType.Sent });
 
-    await vi.advanceTimersByTimeAsync(SERVER_TIMEOUT - 1);
+    tick(SERVER_TIMEOUT - 1);
     expect(request.cancelled).toBe(false);
     expect(error).toBe(undefined);
 
-    await vi.advanceTimersByTimeAsync(1);
+    tick(1);
     expect(request.cancelled).toBe(true);
     expect(error).not.toBe(undefined);
-  });
+  }));
 });

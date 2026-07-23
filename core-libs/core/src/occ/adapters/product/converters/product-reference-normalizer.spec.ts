@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductReferenceNormalizer } from './product-reference-normalizer';
 
@@ -19,7 +18,7 @@ describe('ProductReferenceConverterService', () => {
   it('should convert product reference', inject(
     [ProductReferenceNormalizer],
     (productReferenceConverterService: ProductReferenceNormalizer) => {
-      vi.spyOn(productReferenceConverterService, 'convert');
+      spyOn(productReferenceConverterService, 'convert');
       expect(productReferenceConverterService.convert).toBeTruthy();
     }
   ));

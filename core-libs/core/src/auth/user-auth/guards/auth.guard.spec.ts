@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RedirectCommand, UrlTree } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -20,7 +19,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = vi.fn();
+  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
 describe('AuthGuard', () => {
@@ -52,7 +51,7 @@ describe('AuthGuard', () => {
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
     it('should return login url to redirect', () => {
@@ -72,7 +71,7 @@ describe('AuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     });
 
     it('should return true', () => {

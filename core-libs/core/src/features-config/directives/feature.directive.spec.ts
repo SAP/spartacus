@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 
@@ -22,7 +22,7 @@ describe('cxFeature directive', () => {
   let fixture: ComponentFixture<any>;
 
   afterEach(() => {
-    fixture = null as any;
+    fixture = null;
   });
 
   beforeEach(() => {
@@ -39,19 +39,19 @@ describe('cxFeature directive', () => {
     });
   });
 
-  it('should show components for enabled feature level', () => {
+  it('should show components for enabled feature level', waitForAsync(() => {
     const template = `<span *cxFeature="'testFeature'">hello</span>`;
     fixture = createTestComponent(template);
     fixture.detectChanges();
     expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
     expect(fixture.nativeElement.textContent).toEqual('hello');
-  });
+  }));
 
-  it('should hide components for not enabled feature level', () => {
+  it('should hide components for not enabled feature level', waitForAsync(() => {
     const template = `<span *cxFeature="'disabledFeature'">hello</span>`;
     fixture = createTestComponent(template);
     fixture.detectChanges();
     expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(0);
     expect(fixture.nativeElement.textContent).toEqual('');
-  });
+  }));
 });

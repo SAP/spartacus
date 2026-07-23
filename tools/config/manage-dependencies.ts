@@ -526,9 +526,7 @@ function categorizeUsageOfDependencies(
           file.endsWith('spec.ts') ||
           file === `${lib.directory}/test.ts` ||
           file === `${lib.directory}/src/test.ts` ||
-          file === `${lib.directory}/setup-jest.ts` ||
-          file === `${lib.directory}/setup-test.ts` ||
-          file === `${lib.directory}/vitest.config.ts`
+          file === `${lib.directory}/setup-jest.ts`
         ) {
           imp.usageIn.spec = true;
         } else if (file.includes('schematics')) {
@@ -959,11 +957,8 @@ function checkTsLibDep(
   const updates = new Set<string>();
   let errorsFound = false;
   Object.values(libraries).forEach((lib) => {
-    // Styles and skills are the libraries without TS, so they don't need tslib
-    if (
-      lib.name !== `${SPARTACUS_SCOPE}/styles` &&
-      lib.name !== `${SPARTACUS_SCOPE}/skills`
-    ) {
+    // Styles library is the only library without TS
+    if (lib.name !== `${SPARTACUS_SCOPE}/styles`) {
       const pathToPackageJson = `${lib.directory}/${PACKAGE_JSON}`;
       const errors = [];
       if (!Object.keys(lib.dependencies).includes(tsLibName)) {

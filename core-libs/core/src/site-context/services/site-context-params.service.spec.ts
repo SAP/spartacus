@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   contextServiceMapProvider,
@@ -15,6 +14,7 @@ import {
   LANGUAGE_CONTEXT_ID,
 } from '../providers/context-ids';
 import { SiteContextParamsService } from './site-context-params.service';
+import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
@@ -34,14 +34,14 @@ describe('SiteContextParamsService', () => {
   beforeEach(() => {
     mockLanguageService = {
       getAll: () => of([]),
-      getActive: vi.fn().mockReturnValue(of('de')),
-      setActive: vi.fn(),
+      getActive: createSpy().and.returnValue(of('de')),
+      setActive: createSpy(),
     };
 
     mockCurrencyService = {
       getAll: () => of([]),
-      setActive: vi.fn(),
-      getActive: vi.fn().mockReturnValue(of('')),
+      setActive: createSpy(),
+      getActive: createSpy().and.returnValue(of('')),
     };
 
     TestBed.configureTestingModule({
@@ -104,8 +104,8 @@ describe('SiteContextParamsService', () => {
   describe('getValues', () => {
     afterAll(() => {
       // set to initial mock values
-      mockLanguageService.getActive = vi.fn().mockReturnValue(of('de'));
-      mockCurrencyService.getActive = vi.fn().mockReturnValue(of(''));
+      mockLanguageService.getActive = createSpy().and.returnValue(of('de'));
+      mockCurrencyService.getActive = createSpy().and.returnValue(of(''));
     });
 
     it('should emit empty array for empty context', () => {
@@ -116,9 +116,9 @@ describe('SiteContextParamsService', () => {
     });
 
     it('should emit active values for single service', () => {
-      mockLanguageService.getActive = vi
-        .fn()
-        .mockReturnValue(of('en', 'de', 'en'));
+      mockLanguageService.getActive = createSpy().and.returnValue(
+        of('en', 'de', 'en')
+      );
       service
         .getValues([LANGUAGE_CONTEXT_ID])
         .pipe(bufferCount(3), take(1))
@@ -128,10 +128,10 @@ describe('SiteContextParamsService', () => {
     });
 
     it('should emit active values for multiple services', () => {
-      mockLanguageService.getActive = vi.fn().mockReturnValue(of('ja'));
-      mockCurrencyService.getActive = vi
-        .fn()
-        .mockReturnValue(of('', 'USD', 'JPY', 'USD'));
+      mockLanguageService.getActive = createSpy().and.returnValue(of('ja'));
+      mockCurrencyService.getActive = createSpy().and.returnValue(
+        of('', 'USD', 'JPY', 'USD')
+      );
       service
         .getValues([LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID])
         .pipe(bufferCount(3), take(1))

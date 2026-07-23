@@ -1,20 +1,11 @@
-import { vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LoggerService, Priority } from '@spartacus/core';
+import { FeatureConfigService, LoggerService, Priority } from '@spartacus/core';
 import { GlobalMessageService } from '../../../facade';
 import { UnknownErrorHandler } from './unknown-error.handler';
-import { isDevMode } from '@angular/core';
 
 class MockGlobalMessageService {}
-
-vi.mock('@angular/core', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@angular/core')>();
-  return {
-    ...actual,
-    isDevMode: vi.fn(),
-  };
-});
 describe('UnknownErrorHandler', () => {
   let service: UnknownErrorHandler;
 
@@ -26,6 +17,7 @@ describe('UnknownErrorHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        FeatureConfigService,
         LoggerService,
       ],
     });
@@ -49,11 +41,11 @@ describe('UnknownErrorHandler', () => {
 
     beforeEach(() => {
       loggerService = TestBed.inject(LoggerService);
-      vi.spyOn(loggerService, 'warn');
+      spyOn(loggerService, 'warn');
     });
 
     it('should log error in dev mode', () => {
-      vi.mocked(isDevMode).mockReturnValue(true);
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
       service.handleError({} as any, { message: 'error' } as HttpErrorResponse);
       expect(loggerService.warn).toHaveBeenCalledWith(
         'An unknown http error occurred\n',
@@ -62,7 +54,7 @@ describe('UnknownErrorHandler', () => {
     });
 
     it('should not log error if it is not a dev mode', () => {
-      vi.mocked(isDevMode).mockReturnValue(false);
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
       service.handleError({} as any, { message: 'error' } as HttpErrorResponse);
       expect(loggerService.warn).not.toHaveBeenCalled();
     });

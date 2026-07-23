@@ -1,17 +1,32 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
+import { ProductReferencesAdapter } from './product-references.adapter';
 import { ProductReferencesConnector } from './product-references.connector';
+import createSpy = jasmine.createSpy;
+
+class MockProductReferencesAdapter implements ProductReferencesAdapter {
+  load = createSpy('ProductReferencesAdapter.load').and.callFake((code) =>
+    of('product' + code)
+  );
+}
 
 describe('ProductReferencesConnector', () => {
   let service: ProductReferencesConnector;
-  let adapter: { load: ReturnType<typeof vi.fn> };
-  let result: any;
+  let adapter: ProductReferencesAdapter;
+  let result;
 
   beforeEach(() => {
-    adapter = {
-      load: vi.fn().mockImplementation((code) => of('product' + code)),
-    };
-    service = new ProductReferencesConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: ProductReferencesAdapter,
+          useClass: MockProductReferencesAdapter,
+        },
+      ],
+    });
+
+    service = TestBed.inject(ProductReferencesConnector);
+    adapter = TestBed.inject(ProductReferencesAdapter);
   });
 
   it('should be created', () => {

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -38,9 +37,9 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     adapter = TestBed.inject(OccAnonymousConsentTemplatesAdapter);
-    vi.spyOn(converter, 'pipeable');
-    vi.spyOn(converter, 'pipeableMany');
-    vi.spyOn(occEnpointsService, 'buildUrl');
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
@@ -79,8 +78,8 @@ describe('RoutingPageMetaResolver', () => {
 
       const result = await firstValueFrom(resolver['routesWithExtras$']);
       expect(result).toEqual([
-        expect.objectContaining({ route: { url: [{ path: 'parent' }] } }),
-        expect.objectContaining({ route: { url: [{ path: 'child' }] } }),
+        jasmine.objectContaining({ route: { url: [{ path: 'parent' }] } }),
+        jasmine.objectContaining({ route: { url: [{ path: 'child' }] } }),
       ]);
     });
 
@@ -94,9 +93,9 @@ describe('RoutingPageMetaResolver', () => {
 
       const result = await firstValueFrom(resolver['routesWithExtras$']);
       expect(result).toEqual([
-        expect.objectContaining({ url: '/grandparent' }),
-        expect.objectContaining({ url: '/grandparent/test/parent' }),
-        expect.objectContaining({ url: '/grandparent/test/parent/child' }),
+        jasmine.objectContaining({ url: '/grandparent' }),
+        jasmine.objectContaining({ url: '/grandparent/test/parent' }),
+        jasmine.objectContaining({ url: '/grandparent/test/parent/child' }),
       ]);
     });
 
@@ -124,9 +123,9 @@ describe('RoutingPageMetaResolver', () => {
       const result = await firstValueFrom(resolver['routesWithExtras$']);
 
       expect(result).toEqual([
-        expect.objectContaining({ resolver: resolverInstanceA }),
-        expect.objectContaining({ resolver: resolverInstanceB }),
-        expect.objectContaining({ resolver: resolverInstanceC }),
+        jasmine.objectContaining({ resolver: resolverInstanceA }),
+        jasmine.objectContaining({ resolver: resolverInstanceB }),
+        jasmine.objectContaining({ resolver: resolverInstanceC }),
       ]);
     });
 
@@ -152,9 +151,9 @@ describe('RoutingPageMetaResolver', () => {
       const result = await firstValueFrom(resolver['routesWithExtras$']);
 
       expect(result).toEqual([
-        expect.objectContaining({ resolver: resolverInstanceA }),
-        expect.objectContaining({ resolver: resolverInstanceA }),
-        expect.objectContaining({ resolver: resolverInstanceC }),
+        jasmine.objectContaining({ resolver: resolverInstanceA }),
+        jasmine.objectContaining({ resolver: resolverInstanceA }),
+        jasmine.objectContaining({ resolver: resolverInstanceC }),
       ]);
     });
 
@@ -176,9 +175,9 @@ describe('RoutingPageMetaResolver', () => {
       const result = await firstValueFrom(resolver['routesWithExtras$']);
 
       expect(result).toEqual([
-        expect.objectContaining({ resolver: defaultResolverInstance }),
-        expect.objectContaining({ resolver: defaultResolverInstance }),
-        expect.objectContaining({ resolver: resolverInstanceC }),
+        jasmine.objectContaining({ resolver: defaultResolverInstance }),
+        jasmine.objectContaining({ resolver: defaultResolverInstance }),
+        jasmine.objectContaining({ resolver: resolverInstanceC }),
       ]);
     });
   });
@@ -188,7 +187,7 @@ describe('RoutingPageMetaResolver', () => {
 
     beforeEach(() => {
       defaultResolver = TestBed.inject(DefaultRoutePageMetaResolver);
-      vi.spyOn(defaultResolver, 'resolveBreadcrumbs').mockImplementation(
+      spyOn(defaultResolver, 'resolveBreadcrumbs').and.callFake(
         ({ url, pageMetaConfig }) =>
           pageMetaConfig?.breadcrumb
             ? of([{ link: url, label: pageMetaConfig?.breadcrumb as string }])

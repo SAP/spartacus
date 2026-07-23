@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -47,7 +46,7 @@ describe('Currencies Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.CurrenciesEffects);
 
-    vi.spyOn(connector, 'getCurrencies').mockReturnValue(of(currencies));
+    spyOn(connector, 'getCurrencies').and.returnValue(of(currencies));
   });
 
   describe('loadCurrencies$', () => {

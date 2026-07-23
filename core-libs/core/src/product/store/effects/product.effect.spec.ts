@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -18,6 +17,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import createSpy = jasmine.createSpy;
 
 const router = {
   state: {
@@ -40,11 +40,9 @@ const product: Product = {
 };
 
 class MockProductConnector {
-  getMany = vi
-    .fn()
-    .mockImplementation((products) =>
-      products.map((pr) => ({ ...pr, data$: of(product) }))
-    );
+  getMany = createSpy().and.callFake((products) =>
+    products.map((pr) => ({ ...pr, data$: of(product) }))
+  );
 }
 
 describe('Product Effects', () => {

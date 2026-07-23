@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
@@ -27,7 +26,7 @@ describe('getSelectedProductSearchByCodeStateFactory', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should return the initial loader state when no product is found', () => {

@@ -1,12 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  BehaviorSubject,
-  firstValueFrom,
-  of,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, of, Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { CxEvent } from './cx-event';
 import { EventService } from './event.service';
 
@@ -40,12 +35,25 @@ class AddToCartFailEvent extends CartEvent {
   }
 }
 
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
+}
+
 describe('EventService', () => {
   let service: EventService;
   let sub: Subscription;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+      ],
+    });
     service = TestBed.inject(EventService);
   });
 
@@ -164,13 +172,12 @@ describe('EventService', () => {
     expect(results).toEqual([1, 1]);
   });
 
-  it('should allow for dispatching event after subscription', async () => {
-    const event$ = service.get(EventA);
-    const event = firstValueFrom(event$);
+  it('should allow for dispatching event after subscription', (done) => {
+    sub = service.get(EventA).subscribe((event) => {
+      expect(event.a).toBe(1);
+      done();
+    });
     service.dispatch(new EventA(1));
-
-    const awaitedEvent = await event;
-    expect(awaitedEvent.a).toBe(1);
   });
 
   it('should register the parent class', () => {

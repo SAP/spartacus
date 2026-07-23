@@ -1,8 +1,8 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { Store, StoreModule } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
+import * as NgrxStore from '@ngrx/store';
+import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
+import { EMPTY, of } from 'rxjs';
 import {
   ProductSearchPage,
   Suggestion,
@@ -11,6 +11,7 @@ import { SearchConfig } from '../model/index';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
+import { ProductSelectors } from '../store/selectors/index';
 import { ProductSearchService } from './product-search.service';
 import { SearchboxService } from './searchbox.service';
 
@@ -40,7 +41,24 @@ describe('SearchboxService', () => {
     { value: 'sug2' },
   ];
 
+  const mockSelect = (
+    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
+  ) => {
+    switch (selector) {
+      case ProductSelectors.getSearchResults:
+        return () => of(mockSearchResults);
+      case ProductSelectors.getAuxSearchResults:
+        return () => of(mockAuxSearchResults);
+      case ProductSelectors.getProductSuggestions:
+        return () => of(mockSuggestions);
+      default:
+        return () => EMPTY;
+    }
+  };
+
   beforeEach(() => {
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -61,8 +79,8 @@ describe('SearchboxService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(SearchboxService);
 
-    vi.spyOn(service, 'search');
-    vi.spyOn(store, 'dispatch');
+    spyOn(service, 'search').and.callThrough();
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should ProductSearchService is injected', inject(
@@ -97,12 +115,13 @@ describe('SearchboxService', () => {
       );
     });
 
-    it('should be able to get search results', async () => {
-      store.dispatch(
-        new ProductActions.SearchProductsSuccess(mockAuxSearchResults, true)
-      );
-      const result = await firstValueFrom(service.getResults());
-      expect(result).toEqual(mockAuxSearchResults);
+    it('should be able to get search results', () => {
+      let tempSearchResult: ProductSearchPage;
+      service
+        .getResults()
+        .subscribe((result) => (tempSearchResult = result))
+        .unsubscribe();
+      expect(tempSearchResult).toEqual(mockAuxSearchResults);
     });
   });
 
@@ -118,12 +137,13 @@ describe('SearchboxService', () => {
       );
     });
 
-    it('should be able to get search suggestions', async () => {
-      store.dispatch(
-        new ProductActions.GetProductSuggestionsSuccess(mockSuggestions)
-      );
-      const result = await firstValueFrom(service.getSuggestionResults());
-      expect(result).toEqual(mockSuggestions);
+    it('should be able to get search suggestions', () => {
+      let tempSearchResult: Suggestion[];
+      service
+        .getSuggestionResults()
+        .subscribe((result) => (tempSearchResult = result))
+        .unsubscribe();
+      expect(tempSearchResult).toEqual(mockSuggestions);
     });
   });
 });

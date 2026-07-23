@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
@@ -6,6 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { SiteContextParamsService } from './site-context-params.service';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
+import createSpy = jasmine.createSpy;
 
 describe('SiteContextRoutesHandler', () => {
   let mockRouterEvents;
@@ -23,26 +23,26 @@ describe('SiteContextRoutesHandler', () => {
     mockRouter = {
       events: mockRouterEvents,
       url: 'test',
-      parseUrl: vi.fn().mockImplementation((url) => url + '_a'),
-      serializeUrl: vi.fn().mockImplementation((url) => url + '_b'),
+      parseUrl: createSpy().and.callFake((url) => url + '_a'),
+      serializeUrl: createSpy().and.callFake((url) => url + '_b'),
     };
 
     mockLocation = {
-      replaceState: vi.fn(),
+      replaceState: createSpy(),
       path: () => 'test',
     };
 
     activeLanguage = new BehaviorSubject('en');
 
     mockLanguageService = {
-      getActive: vi.fn().mockReturnValue(activeLanguage),
+      getActive: createSpy().and.returnValue(activeLanguage),
     };
 
     mockSiteContextParamsService = {
       getUrlEncodingParameters: () => ['language'],
       getSiteContextService: () => mockLanguageService,
       getParamValues: () => ['en', 'de'],
-      setValue: vi.fn(),
+      setValue: createSpy('setValue'),
     };
 
     mockSiteContextUrlSerializer = {

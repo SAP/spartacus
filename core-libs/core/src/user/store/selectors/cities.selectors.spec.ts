@@ -27,7 +27,7 @@ describe('Cities Selectors', () => {
       ],
     });
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('getCitiesDataAndLoading', () => {

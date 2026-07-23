@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { NgModule, NgModuleRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -6,7 +5,7 @@ import {
   EventService,
   ModuleInitializedEvent,
 } from '@spartacus/core';
-import { firstValueFrom, lastValueFrom, Observable, zip } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { LazyModulesService } from './lazy-modules.service';
 
@@ -26,78 +25,84 @@ describe('LazyModulesService', () => {
   });
 
   describe('resolveModuleInstance', () => {
-    it('should resolve module instance ', async () => {
-      const moduleRef = await firstValueFrom(
-        service.resolveModuleInstance(async () => MockLazyModule)
-      );
-      expect(moduleRef.instance).toBeInstanceOf(MockLazyModule);
+    it('should resolve module instance ', (done) => {
+      service
+        .resolveModuleInstance(async () => MockLazyModule)
+        .subscribe((moduleRef) => {
+          expect(moduleRef.instance).toBeInstanceOf(MockLazyModule);
+          done();
+        });
     });
 
-    it('should emit ModuleInitializedEvent', async () => {
+    it('should emit ModuleInitializedEvent', (done) => {
       const events = TestBed.inject(EventService);
 
-      const eventPromise = firstValueFrom(
-        events.get(ModuleInitializedEvent).pipe(take(1))
-      );
+      events
+        .get(ModuleInitializedEvent)
+        .pipe(take(1))
+        .subscribe((event) => {
+          expect(event.feature).toEqual('feature');
+          done();
+        });
 
       service
         .resolveModuleInstance(async () => MockLazyModule, 'feature')
         .subscribe();
-
-      const event = await eventPromise;
-      expect(event.feature).toEqual('feature');
     });
 
-    it('should resolve two module instances for the same module ', async () => {
+    it('should resolve two module instances for the same module ', (done) => {
       const moduleInstance$ = service.resolveModuleInstance(
         async () => MockLazyModule
       );
 
-      const [module1, module2] = await firstValueFrom(
-        zip(moduleInstance$, moduleInstance$)
-      );
-      expect(module1).not.toBe(module2);
+      zip(moduleInstance$, moduleInstance$).subscribe(([module1, module2]) => {
+        expect(module1).not.toBe(module2);
+        done();
+      });
     });
   });
 
   describe('resolveDependencyModuleInstance', () => {
-    it('should resolve module instance ', async () => {
-      const moduleRef = await firstValueFrom(
-        service.resolveDependencyModuleInstance(async () => MockLazyModule)
-      );
-      expect(moduleRef.instance).toBeInstanceOf(MockLazyModule);
+    it('should resolve module instance ', (done) => {
+      service
+        .resolveDependencyModuleInstance(async () => MockLazyModule)
+        .subscribe((moduleRef) => {
+          expect(moduleRef.instance).toBeInstanceOf(MockLazyModule);
+          done();
+        });
     });
 
-    it('should emit ModuleInitializedEvent', async () => {
+    it('should emit ModuleInitializedEvent', (done) => {
       const events = TestBed.inject(EventService);
 
-      const eventPromise = firstValueFrom(
-        events.get(ModuleInitializedEvent).pipe(take(1))
-      );
+      events
+        .get(ModuleInitializedEvent)
+        .pipe(take(1))
+        .subscribe((event) => {
+          expect(event.moduleRef.instance).toBeInstanceOf(MockLazyModule);
+          done();
+        });
 
       service.resolveModuleInstance(async () => MockLazyModule).subscribe();
-
-      const event = await eventPromise;
-      expect(event.moduleRef.instance).toBeInstanceOf(MockLazyModule);
     });
 
-    it('should resolve only one instance for the same module', async () => {
+    it('should resolve only one instance for the same module', (done) => {
       const moduleInstance$ = service.resolveDependencyModuleInstance(
         async () => MockLazyModule
       );
 
-      const [module1, module2] = await firstValueFrom(
-        zip(moduleInstance$, moduleInstance$)
-      );
-      expect(module1).toBe(module2);
+      zip(moduleInstance$, moduleInstance$).subscribe(([module1, module2]) => {
+        expect(module1).toBe(module2);
+        done();
+      });
     });
   });
 
   describe('runModuleInitializersForModule', () => {
-    it('should run init functions provided by dependency injection and return module ref.', async () => {
-      const initFuncion: () => {} = vi.fn();
-      const mockInjector = { get: vi.fn() };
-      mockInjector.get.mockReturnValue([initFuncion]);
+    it('should run init functions provided by dependency injection and return module ref.', (done) => {
+      const initFuncion: () => {} = jasmine.createSpy('initFuncion');
+      const mockInjector = jasmine.createSpyObj('mockInjector', ['get']);
+      mockInjector.get.and.returnValue([initFuncion]);
       const mockModuleRef = {
         injector: mockInjector,
       } as NgModuleRef<any>;
@@ -106,8 +111,10 @@ describe('LazyModulesService', () => {
         service.runModuleInitializersForModule(mockModuleRef);
 
       expect(initFuncion).toHaveBeenCalled();
-      const result = await firstValueFrom(result$);
-      expect(result).toBe(mockModuleRef);
+      result$.subscribe((result) => {
+        expect(result).toBe(mockModuleRef);
+        done();
+      });
     });
   });
 
@@ -121,9 +128,9 @@ describe('LazyModulesService', () => {
       const promiseResult = new Promise((resolve) => {
         resolve(123);
       });
-      const f1: () => {} = vi.fn().mockReturnValue('');
-      const f2: () => {} = vi.fn().mockReturnValue('');
-      const f3: () => {} = vi.fn().mockReturnValue(promiseResult);
+      const f1: () => {} = jasmine.createSpy().and.returnValue('');
+      const f2: () => {} = jasmine.createSpy().and.returnValue('');
+      const f3: () => {} = jasmine.createSpy().and.returnValue(promiseResult);
       const result = service.runModuleInitializerFunctions([f1, f2, f3]);
       expect(result.length).toEqual(1);
       expect(f1).toHaveBeenCalled();
@@ -143,14 +150,14 @@ describe('LazyModulesService', () => {
       events = TestBed.inject(EventService);
     });
 
-    it('should store lazy loaded module instances ', async () => {
+    it('should store lazy loaded module instances ', (done) => {
       events.dispatch(event1);
       events.dispatch(event2);
 
-      const modules = await firstValueFrom(
-        service.modules$.pipe(take(2), toArray())
-      );
-      expect(modules).toEqual([module1, module2]);
+      service.modules$.pipe(take(2), toArray()).subscribe((modules) => {
+        expect(modules).toEqual([module1, module2]);
+        done();
+      });
     });
 
     it('should emit when new module is initialized', () => {
@@ -165,14 +172,14 @@ describe('LazyModulesService', () => {
       expect(modules.length).toBe(2);
     });
 
-    it('should replay previous emissions for late subscribers', async () => {
+    it('should replay previous emissions for late subscribers', (done) => {
       events.dispatch(event1);
       events.dispatch(event2);
 
-      const modules = await lastValueFrom(
-        service.modules$.pipe(take(2), toArray())
-      );
-      expect(modules).toEqual([module1, module2]);
+      service.modules$.pipe(take(2), toArray()).subscribe((modules) => {
+        expect(modules).toEqual([module1, module2]);
+        done();
+      });
     });
   });
 });

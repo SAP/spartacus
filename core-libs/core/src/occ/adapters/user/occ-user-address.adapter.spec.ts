@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -9,7 +8,7 @@ import {
   ADDRESS_SERIALIZER,
   ADDRESS_VALIDATION_NORMALIZER,
   ConverterService,
-  FeatureToggles,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Address, AddressValidation } from '../../../model/address.model';
 import { OccConfig } from '../../config/occ-config';
@@ -24,7 +23,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { provideMockFeatureToggles } from '../../../features-config/feature-toggles/testing';
 
 const username = 'mockUsername';
 const address: Address = {
@@ -35,16 +33,18 @@ const suggestedAddresses: AddressValidation = {
   suggestedAddresses: [address],
 };
 
-const mockFeatureToggles: FeatureToggles = {
-  enableHierarchicalAddressFormat: true,
-};
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
+}
 
 describe('OccUserAddressAdapter', () => {
   let occUserAddressAdapter: OccUserAddressAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
-  let featureToggles: FeatureToggles;
+  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +55,10 @@ describe('OccUserAddressAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -65,12 +68,11 @@ describe('OccUserAddressAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    featureToggles = TestBed.inject(FeatureToggles);
-
-    vi.spyOn(converter, 'pipeable');
-    vi.spyOn(converter, 'pipeableMany');
-    vi.spyOn(converter, 'convert');
-    vi.spyOn(occEnpointsService, 'buildUrl');
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -165,7 +167,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should request FULL address fields when enableHierarchicalAddressFormat is enabled', () => {
-      featureToggles.enableHierarchicalAddressFormat = true;
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBe('addresses(FULL)');
@@ -173,7 +175,7 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should not request fields param when enableHierarchicalAddressFormat is disabled', () => {
-      featureToggles.enableHierarchicalAddressFormat = false;
+      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
       occUserAddressAdapter.loadAll(username).subscribe();
       const mockReq = httpMock.expectOne((req) => req.method === 'GET');
       expect(mockReq.request.params.get('fields')).toBeNull();

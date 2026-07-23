@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -33,13 +32,13 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
     httpMock = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
 
-    vi.spyOn(httpClient, 'get');
+    spyOn(httpClient, 'get').and.callThrough();
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const i18nextHttpBackendClient = TestBed.inject(
       I18NEXT_HTTP_BACKEND_CLIENT
     )!;
-    testCallback = vi.fn();
+    testCallback = jasmine.createSpy('testCallback');
 
     i18nextHttpBackendClient({}, testUrl, {}, testCallback);
 
@@ -51,7 +50,7 @@ describe('I18NEXT_HTTP_BACKEND_CLIENT', () => {
   });
 
   it("should use Angular's HttpClient", () => {
-    expect(httpClient.get).toHaveBeenCalledWith(testUrl, expect.any(Object));
+    expect(httpClient.get).toHaveBeenCalledWith(testUrl, jasmine.any(Object));
   });
 
   it('should request for responseType text', () => {

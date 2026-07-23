@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
@@ -13,14 +12,14 @@ import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 describe('ProductSearchByCodeEffects', () => {
   let actions$: Observable<any>;
   let effects: ProductSearchByCodeEffects;
-  let productSearchConnector: ProductSearchConnector;
-  let logger: LoggerService;
+  let productSearchConnector: jasmine.SpyObj<ProductSearchConnector>;
+  let logger: jasmine.SpyObj<LoggerService>;
 
   beforeEach(() => {
-    productSearchConnector = {
-      searchByCodes: vi.fn(),
-    };
-    logger = { error: vi.fn() };
+    productSearchConnector = jasmine.createSpyObj('ProductSearchConnector', [
+      'searchByCodes',
+    ]);
+    logger = jasmine.createSpyObj('LoggerService', ['error']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -47,7 +46,7 @@ describe('ProductSearchByCodeEffects', () => {
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-a|', { a: { products: [{ code: '123' }] } });
-    vi.spyOn(productSearchConnector, 'searchByCodes').mockReturnValue(response);
+    productSearchConnector.searchByCodes.and.returnValue(response);
 
     const expected = cold('--b', { b: completion });
 
@@ -70,7 +69,7 @@ describe('ProductSearchByCodeEffects', () => {
 
     actions$ = hot('-a-', { a: action });
     const response = cold('-#|', {}, error);
-    vi.spyOn(productSearchConnector, 'searchByCodes').mockReturnValue(response);
+    productSearchConnector.searchByCodes.and.returnValue(response);
 
     const expected = cold('--b', { b: completion });
 

@@ -1,28 +1,35 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import {
   NotificationType,
   ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
+import { UserInterestsAdapter } from './user-interests.adapter';
 import { UserInterestsConnector } from './user-interests.connector';
+
+import createSpy = jasmine.createSpy;
+
+class MockUserInterestsAdapter implements UserInterestsAdapter {
+  getInterests = createSpy('getInterests').and.callFake((userId) =>
+    of(`loadList-${userId}`)
+  );
+  removeInterest = createSpy('removeInterest').and.returnValue(of([]));
+  addInterest = createSpy('addInterest').and.stub();
+}
 
 describe('UserInterestsConnector', () => {
   let service: UserInterestsConnector;
-  let adapter: {
-    getInterests: ReturnType<typeof vi.fn>;
-    removeInterest: ReturnType<typeof vi.fn>;
-    addInterest: ReturnType<typeof vi.fn>;
-  };
+  let adapter: UserInterestsAdapter;
 
   beforeEach(() => {
-    adapter = {
-      getInterests: vi
-        .fn()
-        .mockImplementation((userId) => of(`loadList-${userId}`)),
-      removeInterest: vi.fn().mockReturnValue(of([])),
-      addInterest: vi.fn(),
-    };
-    service = new UserInterestsConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: UserInterestsAdapter, useClass: MockUserInterestsAdapter },
+      ],
+    });
+
+    service = TestBed.inject(UserInterestsConnector);
+    adapter = TestBed.inject(UserInterestsAdapter);
   });
 
   it('should be created', () => {
@@ -30,7 +37,7 @@ describe('UserInterestsConnector', () => {
   });
 
   it('get interests should call adapter', () => {
-    let result: any;
+    let result;
     service
       .getInterests(
         'user-id',
@@ -53,7 +60,7 @@ describe('UserInterestsConnector', () => {
   });
 
   it('remove interests should call adapter', () => {
-    let result: any;
+    let result;
     const relationData: ProductInterestEntryRelation = {
       product: {},
       productInterestEntry: [],

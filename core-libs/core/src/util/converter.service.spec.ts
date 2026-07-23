@@ -167,16 +167,16 @@ describe('ConverterService', () => {
     };
 
     it('should register converters from lazy-loaded modules', () => {
-      expect(service.hasConverters(TestLazyConverterInjectionToken)).toBe(
-        false
-      );
+      expect(
+        service.hasConverters(TestLazyConverterInjectionToken)
+      ).toBeFalse();
 
       const lazyModules = TestBed.inject<MockLazyModulesService>(
         LazyModulesService as any
       );
       lazyModules.modules$.next(moduleInstanceWithTestConverter);
 
-      expect(service.hasConverters(TestLazyConverterInjectionToken)).toBe(true);
+      expect(service.hasConverters(TestLazyConverterInjectionToken)).toBeTrue();
     });
   });
 });

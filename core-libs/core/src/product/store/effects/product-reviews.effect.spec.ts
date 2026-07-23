@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -13,6 +12,7 @@ import { Review } from '../../../model/product.model';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
+import createSpy = jasmine.createSpy;
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 import {
@@ -36,8 +36,8 @@ class GlobalMessageServiceMock {
 }
 
 class MockProductReviewsConnector {
-  get = vi.fn().mockReturnValue(of(reviewData));
-  add = vi.fn().mockReturnValue(of({}));
+  get = createSpy('getList').and.returnValue(of(reviewData));
+  add = createSpy('addReview').and.returnValue(of({}));
 }
 
 describe('Product reviews effect', () => {

@@ -40,8 +40,8 @@ describe('ConfigModule', () => {
     });
 
     const config: any = TestBed.inject(Config);
-    expect(config).toEqual(expect.objectContaining({ test1: 'test1' }));
-    expect(config).toEqual(expect.objectContaining({ test2: 'test2' }));
+    expect(config).toEqual(jasmine.objectContaining({ test1: 'test1' }));
+    expect(config).toEqual(jasmine.objectContaining({ test2: 'test2' }));
   });
 
   it('should allow to provide config with ConfigModule.withConfig', () => {

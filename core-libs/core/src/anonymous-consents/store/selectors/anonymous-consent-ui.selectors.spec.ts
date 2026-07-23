@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { AnonymousConsentsActions } from '../actions/index';
@@ -24,7 +23,7 @@ describe('anonymous consent ui selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('getAnonymousConsentTemplatesUpdate', () => {

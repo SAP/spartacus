@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -46,7 +45,7 @@ describe('UserNotificationPreferenceService', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
     userNotificationPreferenceService = TestBed.inject(
       UserNotificationPreferenceService
     );

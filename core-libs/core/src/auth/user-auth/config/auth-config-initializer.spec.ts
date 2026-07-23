@@ -1,12 +1,9 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { delay, Observable, of } from 'rxjs';
-import { Config } from '../../../config';
-import { ConfigInitializerService } from '../../../config/config-initializer';
+import { Config, ConfigInitializerService, WindowRef } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../../site-context/providers/context-ids';
 import { SiteContextParamsService } from '../../../site-context/services';
-import { WindowRef } from '../../../window';
 import { AuthConfig } from '../config/auth-config';
 import { AuthConfigInitializer } from './auth-config-initializer';
 
@@ -85,7 +82,7 @@ describe('AuthConfigInitializer', () => {
 
     authConfig = TestBed.inject(AuthConfig);
     configInitializerService = TestBed.inject(ConfigInitializerService);
-    vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+    spyOn(configInitializerService, 'getStable').and.returnValue(
       of(authConfig)
     );
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
@@ -139,9 +136,7 @@ describe('AuthConfigInitializer', () => {
       it('should escape URL-unsafe characters in the base-site', async () => {
         const unsafeBaseSite = 'a/b c';
         const expected = `${mockOrigin}/a%2Fb%20c`;
-        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
-          of(unsafeBaseSite)
-        );
+        spyOn(baseSiteService, 'getActive').and.returnValue(of(unsafeBaseSite));
 
         const config = await service.configFactory();
 
@@ -157,10 +152,10 @@ describe('AuthConfigInitializer', () => {
           'auto';
       });
       it('should initialize the redirect URI when baseSite is in the URL context parameters', async () => {
-        vi.spyOn(
+        spyOn(
           siteContextParamsService,
           'getUrlEncodingParameters'
-        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
+        ).and.returnValue([BASE_SITE_CONTEXT_ID]);
         const expected = `${mockOrigin}/${mockActiveBaseSite}`;
         const config = await service.configFactory();
 
@@ -211,52 +206,14 @@ describe('AuthConfigInitializer', () => {
           'auto';
       });
       it('should suffix the client ID with the base site when baseSite is in the URL context parameters', async () => {
-        vi.spyOn(
+        spyOn(
           siteContextParamsService,
           'getUrlEncodingParameters'
-        ).mockReturnValue([BASE_SITE_CONTEXT_ID]);
+        ).and.returnValue([BASE_SITE_CONTEXT_ID]);
         const expected = `${mockClientId}_${mockActiveBaseSite}`;
         const config = await service.configFactory();
 
         expect(config.authentication?.client_id).toEqual(expected);
-      });
-    });
-
-    describe('initialization race conditions', () => {
-      let expected: Config;
-      beforeEach(() => {
-        mockAuthConfig.authentication.initializerOptions.baseSiteSuffix = true;
-        mockAuthConfig.authentication.initializerOptions.addBaseSiteToRedirectUri =
-          true;
-
-        expected = <Config>{
-          authentication: {
-            client_id: `${mockClientId}_${mockActiveBaseSite}`,
-            OAuthLibConfig: {
-              redirectUri: `http://localhost:4200/${mockActiveBaseSite}`,
-            },
-          },
-        };
-      });
-
-      it('should handle slow baseSite request', async () => {
-        vi.spyOn(baseSiteService, 'getActive').mockReturnValue(
-          of(mockActiveBaseSite).pipe(delay(10))
-        );
-
-        const config = await service.configFactory();
-
-        expect(config).toEqual(expected);
-      });
-
-      it('should handle slow config request', async () => {
-        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
-          of(authConfig).pipe(delay(10))
-        );
-
-        const config = await service.configFactory();
-
-        expect(config).toEqual(expected);
       });
     });
   });

@@ -1,10 +1,5 @@
-import { vi } from 'vitest';
-import { Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
-
-vi.mock('@angular/core', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@angular/core')>();
-  return { ...actual, isDevMode: vi.fn() };
-});
+import * as AngularCore from '@angular/core';
+import { Injectable, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { PageType } from '../../model/cms.model';
@@ -87,7 +82,7 @@ class MockLanguageService {
 }
 
 class MockCmsService {
-  refreshLatestPage = vi.fn();
+  refreshLatestPage = jasmine.createSpy('refreshLatestPage');
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
   }
@@ -191,20 +186,18 @@ describe('PageMetaService', () => {
       service = TestBed.inject(PageMetaService);
 
       cmsService = TestBed.inject(CmsService);
-      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
-        of(mockProductPage)
-      );
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
 
       resolver = TestBed.inject(PageWithAllResolvers);
-      vi.spyOn(resolver, 'resolveTitle');
-      vi.spyOn(resolver, 'resolveDescription');
-      vi.spyOn(resolver, 'resolveRobots');
-      vi.spyOn(resolver, 'resolveImage');
+      spyOn(resolver, 'resolveTitle').and.callThrough();
+      spyOn(resolver, 'resolveDescription').and.callThrough();
+      spyOn(resolver, 'resolveRobots').and.callThrough();
+      spyOn(resolver, 'resolveImage').and.callThrough();
     });
 
     describe('when in dev mode', () => {
       beforeEach(() => {
-        vi.mocked(isDevMode).mockReturnValue(true);
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
       });
 
       it('should call all resolvers', async () => {
@@ -218,7 +211,7 @@ describe('PageMetaService', () => {
 
     describe('when in production mode', () => {
       beforeEach(() => {
-        vi.mocked(isDevMode).mockReturnValue(false);
+        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
       });
 
       it('should call all resolvers', async () => {
@@ -304,13 +297,13 @@ describe('PageMetaService', () => {
 
     it('should resolve page title using resolveTitle()', async () => {
       const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
-      vi.spyOn(resolver, 'resolveTitle');
+      spyOn(resolver, 'resolveTitle').and.callThrough();
       await firstValueFrom(service.getMeta());
       expect(resolver.resolveTitle).toHaveBeenCalled();
     });
 
     it('should resolve page heading', async () => {
-      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(
         of(mockContentPageWithTemplate)
       );
 
@@ -320,9 +313,7 @@ describe('PageMetaService', () => {
     });
 
     it('should resolve meta data for product page', async () => {
-      vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
-        of(mockProductPage)
-      );
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
       const result = await firstValueFrom(service.getMeta());
 
       expect(result?.title).toEqual('page title');
@@ -396,7 +387,7 @@ describe('Custom PageTitleService', () => {
   });
 
   it('should resolve keywords for custom page meta service', async () => {
-    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(of(mockKeywordPage));
+    spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockKeywordPage));
 
     const result: CustomPageMeta | null = await firstValueFrom(
       service.getMeta()

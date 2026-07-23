@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
@@ -44,12 +43,12 @@ describe('ClientErrorHandlingService', () => {
     clientTokenService = TestBed.inject(ClientTokenService);
     httpHandler = TestBed.inject(HttpHandler);
 
-    vi.spyOn(httpHandler, 'handle');
+    spyOn(httpHandler, 'handle').and.callThrough();
   });
 
   describe(`handleExpiredClientToken`, () => {
     it('should get a new client token and resend the request', () => {
-      vi.spyOn(clientTokenService, 'refreshClientToken');
+      spyOn(clientTokenService, 'refreshClientToken').and.callThrough();
 
       const sub = service
         .handleExpiredClientToken(httpRequest, httpHandler)

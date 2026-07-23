@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -37,7 +36,7 @@ describe('Router Effects', () => {
 
       actions$ = hot('-a', { a: action });
 
-      vi.spyOn(router, 'resetConfig');
+      spyOn(router, 'resetConfig');
       effects.clearCmsRoutes$.subscribe(() => {
         expect(router.resetConfig).toHaveBeenCalledWith([
           { path: 'test2', component: true } as any,

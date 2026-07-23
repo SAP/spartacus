@@ -1,12 +1,12 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '../../../../model/product.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 import { OccProductReferencesListNormalizer } from './occ-product-references-list-normalizer';
+import createSpy = jasmine.createSpy;
 
 class MockConverterService {
-  convert = vi.fn().mockReturnValue({
+  convert = createSpy('ConverterService.convert').and.returnValue({
     images: ['images'],
   });
 }

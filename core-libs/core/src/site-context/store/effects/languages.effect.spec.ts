@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -47,7 +46,7 @@ describe('Languages Effects', () => {
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.LanguagesEffects);
 
-    vi.spyOn(connector, 'getLanguages').mockReturnValue(of(languages));
+    spyOn(connector, 'getLanguages').and.returnValue(of(languages));
   });
 
   describe('loadLanguages$', () => {

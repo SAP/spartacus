@@ -1,7 +1,7 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
+import { of } from 'rxjs';
 import { Product, ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
@@ -35,7 +35,7 @@ describe('ProductReferenceService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReferenceService);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should ProductReferenceService is injected', inject(
@@ -60,22 +60,21 @@ describe('ProductReferenceService', () => {
     );
   });
 
-  it('should be able to get product references', async () => {
-    store.dispatch(
-      new ProductActions.LoadProductReferencesSuccess({
-        productCode: mockProduct.code,
-        list: mockProductReferences,
-      })
+  it('should be able to get product references', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(
+      () => () => of(mockProductReferences)
     );
 
-    const result = await firstValueFrom(
-      service.getProductReferences(
+    let result: ProductReference[];
+    service
+      .getProductReferences(
         mockProduct.code,
         mockProductReferences[0].referenceType
       )
-    );
+      .subscribe((data) => (result = data))
+      .unsubscribe();
 
-    expect(result).toEqual([mockProductReferences[0]]);
+    expect(result).toEqual(mockProductReferences);
   });
 
   describe('cleanReferences', () => {

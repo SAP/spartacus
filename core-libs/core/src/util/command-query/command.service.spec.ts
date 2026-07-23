@@ -1,4 +1,3 @@
-import { vi, Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -14,12 +13,18 @@ import {
 import { Command, CommandService, CommandStrategy } from './command.service';
 
 /** Utility function to create a full observer filled with spies */
-function createObserverSpy<T>(_name: string): PartialObserver<T> {
-  const mockObserver = {
-    next: vi.fn(),
-    error: vi.fn(),
-    complete: vi.fn(),
-  };
+function createObserverSpy<T>(
+  name: string
+): jasmine.SpyObj<PartialObserver<T>> {
+  const mockObserver = jasmine.createSpyObj(name, {
+    next: () => {},
+    error: () => {},
+    complete: () => {},
+  });
+  // use default method
+  mockObserver.next.and.callThrough();
+  mockObserver.error.and.callThrough();
+  mockObserver.complete.and.callThrough();
 
   return mockObserver;
 }
@@ -68,25 +73,31 @@ describe('CommandService', () => {
   describe('command()', () => {
     let mockRuntimeError: Error;
     let faultyCommandFactoryControl: { shouldThrowError: boolean };
-    let faultyCommandFactory: Mock<
+    let faultyCommandFactory: jasmine.Spy<
       (cmd: Observable<string>) => Observable<string>
     >;
-    let commandFactory: Mock<(cmd: Observable<string>) => Observable<string>>;
+    let commandFactory: jasmine.Spy<
+      (cmd: Observable<string>) => Observable<string>
+    >;
 
     beforeEach(() => {
-      commandFactory = vi.fn((cmd) => cmd);
+      commandFactory = jasmine.createSpy('commandFactory', (cmd) => cmd);
+      commandFactory.and.callThrough();
 
       faultyCommandFactoryControl = { shouldThrowError: true };
       mockRuntimeError = new Error('mock runtime error');
       mockRuntimeError.stack = undefined; // stack trace not relevant on a static error value
-      faultyCommandFactory = vi.fn((cmd) => {
-        if (faultyCommandFactoryControl.shouldThrowError) {
-          throw mockRuntimeError;
-        } else {
-          return cmd;
+      faultyCommandFactory = jasmine.createSpy(
+        'faultyCommandFactory',
+        (cmd) => {
+          if (faultyCommandFactoryControl.shouldThrowError) {
+            throw mockRuntimeError;
+          } else {
+            return cmd;
+          }
         }
-      });
-      faultyCommandFactory;
+      );
+      faultyCommandFactory.and.callThrough();
     });
 
     it('should execute command without subscription', () => {
@@ -110,8 +121,8 @@ describe('CommandService', () => {
     describe('with CommandStrategy.Queue', () => {
       let queueCommand: Command<Observable<string>, string>;
       const strategy = CommandStrategy.Queue;
-      let observer1: PartialObserver<string>;
-      let observer2: PartialObserver<string>;
+      let observer1: jasmine.SpyObj<PartialObserver<string>>;
+      let observer2: jasmine.SpyObj<PartialObserver<string>>;
 
       beforeEach(() => {
         // use argument as command request
@@ -119,8 +130,8 @@ describe('CommandService', () => {
           strategy: strategy,
         });
 
-        vi.spyOn(request1, 'subscribe');
-        vi.spyOn(request2, 'subscribe');
+        spyOn(request1, 'subscribe').and.callThrough();
+        spyOn(request2, 'subscribe').and.callThrough();
 
         observer1 = createObserverSpy('observer1');
         observer2 = createObserverSpy('observer2');
@@ -207,8 +218,8 @@ describe('CommandService', () => {
         parallelCommand = service.create(commandFactory, {
           strategy: strategy,
         });
-        vi.spyOn(request1, 'subscribe');
-        vi.spyOn(request2, 'subscribe');
+        spyOn(request1, 'subscribe').and.callThrough();
+        spyOn(request2, 'subscribe').and.callThrough();
       });
 
       it('should catch commandFactory errors and pass them to the notifier', () => {
@@ -274,7 +285,7 @@ describe('CommandService', () => {
         cancelPrevCommand = service.create(commandFactory, {
           strategy: strategy,
         });
-        vi.spyOn(request1, 'unsubscribe');
+        spyOn(request1, 'unsubscribe').and.callThrough();
       });
 
       it('should cancel in-progress requests', () => {
@@ -346,7 +357,7 @@ describe('CommandService', () => {
       it('should error in-progress requests when new request comes in', () => {
         let actual: Error | undefined;
         const observer1 = createObserverSpy('observer1');
-        (observer1.error as Mock).mockImplementation(
+        (observer1.error as jasmine.Spy).and.callFake(
           (result) => (actual = result)
         );
         const observer2 = createObserverSpy('observer2');
@@ -357,7 +368,7 @@ describe('CommandService', () => {
         request1.next('r1');
         request1.complete();
 
-        expect(observer1.error).toHaveBeenCalledWith(expect.any(Error));
+        expect(observer1.error).toHaveBeenCalledWith(jasmine.any(Error));
         expect(actual?.message).toEqual('Canceled by next command');
       });
 

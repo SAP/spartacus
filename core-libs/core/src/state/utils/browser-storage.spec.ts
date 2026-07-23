@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
 import {
@@ -40,27 +39,21 @@ describe('Browser storage utilities', () => {
   describe('getStorage', () => {
     describe('when no storage type is requested', () => {
       it(`should return winRef's default storage`, () => {
-        const spy = vi
-          .spyOn(winRef, 'sessionStorage', 'get', 'get')
-          .mockImplementation(() => {});
+        const spy = spyOnProperty(winRef, 'sessionStorage', 'get').and.stub();
         getStorage(undefined as any, winRef);
         expect(spy).toHaveBeenCalled();
       });
     });
     describe('when localStorage type is requested', () => {
       it(`should return winRef's local storage`, () => {
-        const spy = vi
-          .spyOn(winRef, 'localStorage', 'get', 'get')
-          .mockImplementation(() => {});
+        const spy = spyOnProperty(winRef, 'localStorage', 'get').and.stub();
         getStorage(StorageSyncType.LOCAL_STORAGE, winRef);
         expect(spy).toHaveBeenCalled();
       });
     });
     describe('when sessionStorage type is requested', () => {
       it(`should return winRef's default storage`, () => {
-        const spy = vi
-          .spyOn(winRef, 'sessionStorage', 'get', 'get')
-          .mockImplementation(() => {});
+        const spy = spyOnProperty(winRef, 'sessionStorage', 'get').and.stub();
         getStorage(StorageSyncType.SESSION_STORAGE, winRef);
         expect(spy).toHaveBeenCalled();
       });
@@ -76,7 +69,7 @@ describe('Browser storage utilities', () => {
   describe('persistToStorage', () => {
     describe('when the provided value does NOT exist', () => {
       it('should NOT persist it', () => {
-        vi.spyOn(sessionStorageMock, 'setItem').mockImplementation(() => {});
+        spyOn(sessionStorageMock, 'setItem').and.stub();
 
         persistToStorage('a', undefined, sessionStorageMock);
         expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
@@ -84,8 +77,8 @@ describe('Browser storage utilities', () => {
     });
     describe('when the provided value exists', () => {
       it('should persist it', () => {
-        vi.spyOn(JSON, 'stringify');
-        vi.spyOn(sessionStorageMock, 'setItem').mockImplementation(() => {});
+        spyOn(JSON, 'stringify').and.callThrough();
+        spyOn(sessionStorageMock, 'setItem').and.stub();
 
         persistToStorage('a', 'xxx', sessionStorageMock);
         expect(JSON.stringify).toHaveBeenCalledWith('xxx');
@@ -104,7 +97,7 @@ describe('Browser storage utilities', () => {
 
     describe('when there is no value under the provided key', () => {
       it('should return undefined', () => {
-        vi.spyOn(sessionStorageMock, 'getItem').mockReturnValue(undefined);
+        spyOn(sessionStorageMock, 'getItem').and.returnValue(undefined);
         const result = readFromStorage(sessionStorageMock, 'a');
         expect(result).toBeUndefined();
       });
@@ -112,8 +105,8 @@ describe('Browser storage utilities', () => {
 
     describe('when there is no value under the provided key', () => {
       it('should return undefined', () => {
-        vi.spyOn(JSON, 'parse');
-        vi.spyOn(sessionStorageMock, 'getItem').mockReturnValue('"a"');
+        spyOn(JSON, 'parse').and.callThrough();
+        spyOn(sessionStorageMock, 'getItem').and.returnValue('"a"');
 
         const result = readFromStorage(sessionStorageMock, 'a');
         expect(JSON.parse).toHaveBeenCalledWith('"a"');

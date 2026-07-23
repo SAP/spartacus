@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { BaseSite } from '../../../model/misc.model';
@@ -39,7 +38,7 @@ describe(`SecurePortalConfigInitializer`, () => {
 
   describe(`resolveConfig`, () => {
     it(`should throw error when the base site loaded is undefined or not found`, async () => {
-      vi.spyOn(baseSiteService, 'get').mockReturnValue(of(undefined));
+      spyOn(baseSiteService, 'get').and.returnValue(of(undefined));
       let message = false;
       try {
         await initializer.configFactory();
@@ -50,7 +49,7 @@ describe(`SecurePortalConfigInitializer`, () => {
     });
 
     it(`should return routing config based on BaseSite.requiresAuthentication value`, async () => {
-      vi.spyOn(baseSiteService, 'get').mockReturnValue(of(mockBaseSites[0]));
+      spyOn(baseSiteService, 'get').and.returnValue(of(mockBaseSites[0]));
 
       const result = await initializer.configFactory();
 

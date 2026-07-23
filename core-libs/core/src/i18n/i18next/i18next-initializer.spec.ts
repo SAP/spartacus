@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import type { i18n, InitOptions } from 'i18next';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -54,70 +53,70 @@ describe('I18nextInitializer', () => {
 
   describe('initialize', () => {
     it('should initialize i18next instance', () => {
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
       initializer.initialize();
       expect(i18next.init).toHaveBeenCalled();
     });
 
     it('should populate config fallbackLang', () => {
       config.i18n = { fallbackLang: 'en' };
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
 
       initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
-        expect.objectContaining({ fallbackLng: ['en'] }),
-        expect.any(Function)
+        jasmine.objectContaining({ fallbackLng: 'en' }),
+        jasmine.any(Function)
       );
     });
 
     it('should populate config debug flag', () => {
       config.i18n = { debug: true };
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
 
       initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
-        expect.objectContaining({ debug: true }),
-        expect.any(Function)
+        jasmine.objectContaining({ debug: true }),
+        jasmine.any(Function)
       );
     });
 
     it('should disable config interpolation options: escapeValue and skipOnVariables', () => {
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
 
       initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
-        expect.objectContaining({
+        jasmine.objectContaining({
           interpolation: {
             escapeValue: false,
             skipOnVariables: false,
           },
         }),
-        expect.any(Function)
+        jasmine.any(Function)
       );
     });
 
     it('should set config `showSupportNotice` to false', () => {
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
 
       initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
-        expect.objectContaining({ showSupportNotice: false }),
-        expect.any(Function)
+        jasmine.objectContaining({ showSupportNotice: false }),
+        jasmine.any(Function)
       );
     });
 
     it('should set config  `ns` to empty array', () => {
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
 
       initializer.initialize();
 
       expect(i18next.init).toHaveBeenCalledWith(
-        expect.objectContaining({ ns: [] }),
-        expect.any(Function)
+        jasmine.objectContaining({ ns: [] }),
+        jasmine.any(Function)
       );
     });
 
@@ -125,37 +124,39 @@ describe('I18nextInitializer', () => {
       config.i18n = {
         resources: { en: { testChunk: { testKey: 'testValue' } } },
       };
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init');
 
       initializer.initialize();
 
-      expect(vi.mocked(i18next.init).mock.calls[0][0].resources).toEqual(
-        undefined
-      );
+      expect(
+        (i18next.init as jasmine.Spy)['calls'].argsFor(0)[0].resources
+      ).toEqual(undefined);
     });
 
-    it('should add `resources` right after i18next initialization', async () => {
+    it('should add `resources` right after i18next initialization', (done) => {
       config.i18n = {
         resources: { en: { testChunk: { testKey: 'testValue' } } },
       };
-      vi.spyOn(i18next, 'init');
+      spyOn(i18next, 'init').and.callThrough();
 
       i18next.on('initialized', () => {
         // method `addResourceBundle` doesn't exist on object i18next before calling i18next.init
-        vi.spyOn(i18next, 'addResourceBundle');
+        spyOn(i18next, 'addResourceBundle').and.callThrough();
       });
 
       initializer.initialize();
 
       // wait for callback passed to i18next.init to be executed
-      await new Promise((resolve) => setTimeout(resolve, 0));
-      expect(i18next.addResourceBundle as Mock).toHaveBeenCalledWith(
-        'en',
-        'testChunk',
-        { testKey: 'testValue' },
-        true,
-        true
-      );
+      setTimeout(() => {
+        expect(i18next.addResourceBundle as jasmine.Spy).toHaveBeenCalledWith(
+          'en',
+          'testChunk',
+          { testKey: 'testValue' },
+          true,
+          true
+        );
+        done();
+      }, 0);
     });
 
     describe('when i18n.backend.loadPath is provided', () => {
@@ -165,8 +166,8 @@ describe('I18nextInitializer', () => {
             loadPath: 'some-path',
           },
         };
-        vi.spyOn(i18next, 'init');
-        vi.spyOn(i18nextBackendService, 'initialize').mockReturnValue({
+        spyOn(i18next, 'init');
+        spyOn(i18nextBackendService, 'initialize').and.returnValue({
           backend: {
             a: 1,
             b: 2,
@@ -176,19 +177,19 @@ describe('I18nextInitializer', () => {
         initializer.initialize();
 
         expect(i18next.init).toHaveBeenCalledWith(
-          expect.objectContaining({
+          jasmine.objectContaining({
             backend: {
               a: 1,
               b: 2,
             },
           }),
-          expect.any(Function)
+          jasmine.any(Function)
         );
       });
     });
 
-    it('should ensure to update i18next language whenever active language is changed', async () => {
-      vi.spyOn(i18next, 'init');
+    it('should ensure to update i18next language whenever active language is changed', (done) => {
+      spyOn(i18next, 'init').and.callThrough();
 
       initializer.initialize();
 
@@ -197,8 +198,10 @@ describe('I18nextInitializer', () => {
       mockActiveLanguage$.next('de');
 
       // i18next language is updated asynchronously, so we need to wait for it
-      await new Promise((resolve) => setTimeout(resolve, 0));
-      expect(i18next.language).toEqual('de');
+      setTimeout(() => {
+        expect(i18next.language).toEqual('de');
+        done();
+      }, 0);
     });
   });
 });

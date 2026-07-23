@@ -1,7 +1,9 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
+import createSpy = jasmine.createSpy;
 
 const user = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -13,29 +15,28 @@ const mockNotificationPreference: NotificationPreference[] = [
   },
 ];
 
+class MocktAdapter implements UserNotificationPreferenceAdapter {
+  loadAll = createSpy('loadAll').and.callFake((userId) =>
+    of(`loadAll-notification-preferences-${userId}`)
+  );
+  update = createSpy('update').and.callFake((userId, preferences) =>
+    of(`update-notification-preferences-${userId}-${preferences[0].channel}`)
+  );
+}
+
 describe('UserNotificationPreferenceConnector', () => {
   let service: UserNotificationPreferenceConnector;
-  let adapter: {
-    loadAll: ReturnType<typeof vi.fn>;
-    update: ReturnType<typeof vi.fn>;
-  };
+  let adapter: UserNotificationPreferenceAdapter;
 
   beforeEach(() => {
-    adapter = {
-      loadAll: vi
-        .fn()
-        .mockImplementation((userId) =>
-          of(`loadAll-notification-preferences-${userId}`)
-        ),
-      update: vi
-        .fn()
-        .mockImplementation((userId, preferences) =>
-          of(
-            `update-notification-preferences-${userId}-${preferences[0].channel}`
-          )
-        ),
-    };
-    service = new UserNotificationPreferenceConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: UserNotificationPreferenceAdapter, useClass: MocktAdapter },
+      ],
+    });
+
+    service = TestBed.inject(UserNotificationPreferenceConnector);
+    adapter = TestBed.inject(UserNotificationPreferenceAdapter);
   });
 
   it('should be created', () => {
@@ -43,14 +44,14 @@ describe('UserNotificationPreferenceConnector', () => {
   });
 
   it('loadAll should call adapter', () => {
-    let result: any;
+    let result;
     service.loadAll(user).subscribe((res) => (result = res));
     expect(result).toEqual('loadAll-notification-preferences-testUser');
     expect(adapter.loadAll).toHaveBeenCalledWith(user);
   });
 
   it('update should call adapter', () => {
-    let result: any;
+    let result;
     service
       .update(user, mockNotificationPreference)
       .subscribe((res) => (result = res));

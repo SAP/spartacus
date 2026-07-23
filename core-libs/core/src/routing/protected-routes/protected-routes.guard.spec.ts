@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
@@ -7,7 +6,9 @@ import { ProtectedRoutesGuard } from './protected-routes.guard';
 import { ProtectedRoutesService } from './protected-routes.service';
 
 class MockAuthGuard {
-  canActivate = vi.fn().mockReturnValue(of('authGuard-result'));
+  canActivate = jasmine
+    .createSpy('AuthGuard.canActivate')
+    .and.returnValue(of('authGuard-result'));
 }
 
 class MockProtectedRoutesService {
@@ -40,7 +41,7 @@ describe('ProtectedRoutesGuard', () => {
   describe('canActivate', () => {
     describe('when anticipated url is NOT protected', () => {
       beforeEach(() => {
-        vi.spyOn(service, 'isUrlProtected').mockReturnValue(false);
+        spyOn(service, 'isUrlProtected').and.returnValue(false);
       });
 
       it('should emit true', () => {
@@ -54,7 +55,7 @@ describe('ProtectedRoutesGuard', () => {
 
     describe('when anticipated url is protected', () => {
       beforeEach(() => {
-        vi.spyOn(service, 'isUrlProtected').mockReturnValue(true);
+        spyOn(service, 'isUrlProtected').and.returnValue(true);
       });
 
       it('should emit result of AuthGuard.canActivate', () => {

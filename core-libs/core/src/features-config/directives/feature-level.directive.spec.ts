@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 
@@ -40,38 +40,38 @@ describe('cxFeatureLevel directive', () => {
   });
 
   describe('when using string parameter', () => {
-    it('should show components for enabled feature level', () => {
+    it('should show components for enabled feature level', waitForAsync(() => {
       const template = `<span *cxFeatureLevel="'1.1'">hello</span>`;
       fixture = createTestComponent(template);
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
       expect(fixture.nativeElement.textContent).toEqual('hello');
-    });
+    }));
 
-    it('should hide components for not enabled feature level', () => {
+    it('should hide components for not enabled feature level', waitForAsync(() => {
       const template = `<span *cxFeatureLevel="'1.3'">hello</span>`;
       fixture = createTestComponent(template);
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(0);
       expect(fixture.nativeElement.textContent).toEqual('');
-    });
+    }));
   });
 
   describe('when using number parameter', () => {
-    it('should show components for enabled feature level', () => {
+    it('should show components for enabled feature level', waitForAsync(() => {
       const template = `<span *cxFeatureLevel="1.1">hello</span>`;
       fixture = createTestComponent(template);
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(1);
       expect(fixture.nativeElement.textContent).toEqual('hello');
-    });
+    }));
 
-    it('should hide components for not enabled feature level', () => {
+    it('should hide components for not enabled feature level', waitForAsync(() => {
       const template = `<span *cxFeatureLevel="1.3">hello</span>`;
       fixture = createTestComponent(template);
       fixture.detectChanges();
       expect(fixture.debugElement.queryAll(By.css('span')).length).toEqual(0);
       expect(fixture.nativeElement.textContent).toEqual('');
-    });
+    }));
   });
 });

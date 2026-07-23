@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -177,9 +176,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should gracefully return null for product without images', () => {
-    vi.spyOn(productService, 'get').mockReturnValue(
-      of(MockProductWithoutImages)
-    );
+    spyOn(productService, 'get').and.returnValue(of(MockProductWithoutImages));
 
     let result!: string;
     service
@@ -232,11 +229,11 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the PageLinkService.getCanonicalUrl()', async () => {
-    vi.spyOn(routingService, 'getFullUrl').mockReturnValue(
+    spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/123'
     );
 
-    vi.spyOn(pageLinkService, 'getCanonicalUrl');
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
       {},
@@ -245,18 +242,17 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve canonical url for product variant', async () => {
-    vi.spyOn(productService, 'get')
-      .mockReturnValueOnce(of(MockProductVariant))
-      .mockReturnValueOnce(
-        of({
-          code: 'base_1234',
-        })
-      );
-    vi.spyOn(routingService, 'getFullUrl').mockReturnValue(
+    spyOn(productService, 'get').and.returnValues(
+      of(MockProductVariant),
+      of({
+        code: 'base_1234',
+      })
+    );
+    spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/base_1234'
     );
 
-    vi.spyOn(pageLinkService, 'getCanonicalUrl');
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
 
     expect(routingService.getFullUrl).toHaveBeenCalledWith({
@@ -270,24 +266,21 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve canonical url for multi-leveled variant', async () => {
-    vi.spyOn(productService, 'get')
-      .mockReturnValueOnce(of(MockProductVariant))
-      .mockReturnValueOnce(
-        of({
-          code: 'base_1234',
-          baseProduct: 'super_base_1234',
-        })
-      )
-      .mockReturnValueOnce(
-        of({
-          code: 'super_base_1234',
-        })
-      );
-    vi.spyOn(routingService, 'getFullUrl').mockReturnValueOnce(
+    spyOn(productService, 'get').and.returnValues(
+      of(MockProductVariant),
+      of({
+        code: 'base_1234',
+        baseProduct: 'super_base_1234',
+      }),
+      of({
+        code: 'super_base_1234',
+      })
+    );
+    spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/super_base_1234'
     );
 
-    vi.spyOn(pageLinkService, 'getCanonicalUrl');
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
 
     expect(routingService.getFullUrl).toHaveBeenCalledWith({
@@ -301,12 +294,12 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should not resolve canonical url for undefined product', async () => {
-    vi.spyOn(productService, 'get').mockReturnValueOnce(of(undefined));
-    vi.spyOn(routingService, 'getFullUrl').mockReturnValue(
+    spyOn(productService, 'get').and.returnValues(of(undefined));
+    spyOn(routingService, 'getFullUrl').and.returnValue(
       'https://store.com/product/123'
     );
 
-    vi.spyOn(pageLinkService, 'getCanonicalUrl');
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(pageLinkService.getCanonicalUrl).not.toHaveBeenCalled();
   });

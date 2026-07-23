@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -53,7 +52,7 @@ describe('ClientTokenService', () => {
   });
 
   it('should call loadClientToken() when no token is present', () => {
-    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    spyOn(store, 'dispatch').and.stub();
 
     const subscription = service.getClientToken().subscribe((_token) => {});
     subscription.unsubscribe();
@@ -68,7 +67,7 @@ describe('ClientTokenService', () => {
       new ClientAuthActions.LoadClientTokenSuccess(mockClientToken)
     );
 
-    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    spyOn(store, 'dispatch').and.stub();
 
     const sub = service.refreshClientToken().subscribe();
     sub.unsubscribe();

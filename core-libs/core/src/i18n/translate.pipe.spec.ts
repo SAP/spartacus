@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, of } from 'rxjs';
@@ -51,7 +50,7 @@ describe('TranslatePipe', () => {
     });
 
     it('should return result of service.translate', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(of('expectedValue'));
+      spyOn(service, 'translate').and.returnValue(of('expectedValue'));
       const result = pipe.transform('testKey', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledWith(
         'testKey',
@@ -62,7 +61,7 @@ describe('TranslatePipe', () => {
     });
 
     it('should return result of service.translate if first argument is an array', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(of('expectedValue'));
+      spyOn(service, 'translate').and.returnValue(of('expectedValue'));
       const result = pipe.transform(['testKey', 'anotherTestKey'], {
         param: 'param1',
       });
@@ -75,7 +74,7 @@ describe('TranslatePipe', () => {
     });
 
     it('should translate with merged params from the first and the second argument', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform(
         { key: 'testKey', params: { param1: 'value1' } },
         { param2: 'value2' }
@@ -88,7 +87,7 @@ describe('TranslatePipe', () => {
     });
 
     it('should translate with merged params from the first and the second argument, if key in first argument contains array', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(of());
+      spyOn(service, 'translate').and.returnValue(of());
       pipe.transform(
         {
           key: ['testKey', 'anotherTestKey'],
@@ -104,21 +103,21 @@ describe('TranslatePipe', () => {
     });
 
     it('should NOT call service.translate twice if pipe.transform was called twice with the same arguments', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledTimes(1);
     });
 
     it('should call service.translate every time pipe.transform was called with different keys', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKeyOther', { param: 'param1' });
       expect(service.translate).toHaveBeenCalledTimes(2);
     });
 
     it('should call service.translate every time pipe.transform was called with different options', () => {
-      vi.spyOn(service, 'translate').mockReturnValue(EMPTY);
+      spyOn(service, 'translate').and.returnValue(EMPTY);
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
       pipe.transform('testKey', { param: 'param2', otherParam: 'otherParam1' });
@@ -126,8 +125,8 @@ describe('TranslatePipe', () => {
     });
 
     it('should call cd.markForCheck every time when service.translate emits value', () => {
-      const markForCheckSpy = vi.spyOn(cd, 'markForCheck');
-      vi.spyOn(service, 'translate').mockReturnValueOnce(
+      const markForCheckSpy = spyOn(cd, 'markForCheck').and.callThrough();
+      spyOn(service, 'translate').and.returnValues(
         of('value1', 'value2'),
         of('value3')
       );

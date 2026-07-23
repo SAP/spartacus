@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   Address,
@@ -8,12 +7,12 @@ import {
 } from '@spartacus/core';
 import { OccAddressListNormalizer } from './occ-address-list-normalizer';
 
+import createSpy = jasmine.createSpy;
+
 class MockOccEndpointsService {
-  buildUrl = vi
-    .fn()
-    .mockImplementation((url, { orgUnitId }) =>
-      url === 'orgUnit' ? url + orgUnitId : url
-    );
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
+  );
 }
 
 describe('OccAddressListNormalizer', () => {

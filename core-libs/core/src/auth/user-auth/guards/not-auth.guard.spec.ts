@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RedirectCommand, UrlTree } from '@angular/router';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -35,7 +34,7 @@ describe('NotAuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     });
 
     it('should return homepage url to redirect to', () => {
@@ -51,7 +50,7 @@ describe('NotAuthGuard', () => {
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
     it('should return true', () => {

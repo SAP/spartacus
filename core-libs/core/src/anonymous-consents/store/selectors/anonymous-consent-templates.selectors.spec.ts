@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/index';
@@ -26,7 +25,7 @@ describe('anonymous consent templates selectors', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   const mockTemplateCode = 'MARKETING';

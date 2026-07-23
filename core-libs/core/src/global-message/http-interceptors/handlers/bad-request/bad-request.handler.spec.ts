@@ -1,12 +1,10 @@
-import { vi } from 'vitest';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { BadRequestHandler } from './bad-request.handler';
-import { FeatureToggles } from '@spartacus/core';
-import { provideMockFeatureToggles } from '../../../../features-config/feature-toggles/testing';
+import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
 
 const MockRequest = {
   url: 'https://electronics-spa/occ/user/password',
@@ -98,9 +96,11 @@ class MockGlobalMessageService {
   remove() {}
 }
 
-const mockFeatureToggles: FeatureToggles = {
-  enablePasswordExpiredErrorTranslation: true,
-};
+class MockFeatureConfigService {
+  isEnabled(_feature: string): boolean {
+    return true;
+  }
+}
 
 const MockBadGuestDuplicateEmailResponse = {
   error: {
@@ -125,14 +125,17 @@ describe('BadRequestHandler', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        provideMockFeatureToggles({ ...mockFeatureToggles }),
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
     service = TestBed.inject(BadRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    vi.spyOn(globalMessageService, 'add');
-    vi.spyOn(globalMessageService, 'remove');
+    spyOn(globalMessageService, 'add');
+    spyOn(globalMessageService, 'remove');
   });
 
   it('should be created', () => {
@@ -159,7 +162,7 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle bad password message', () => {
-    vi.spyOn(service, 'getErrorTranslationKey');
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockBadPasswordResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockBadPasswordResponse.error.error_description
@@ -176,7 +179,7 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle expired password message', () => {
-    vi.spyOn(service, 'getErrorTranslationKey');
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockExpiredPasswordResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockExpiredPasswordResponse.error.error_description
@@ -193,7 +196,7 @@ describe('BadRequestHandler', () => {
   });
 
   it('should handle disabled user message', () => {
-    vi.spyOn(service, 'getErrorTranslationKey');
+    spyOn(service, 'getErrorTranslationKey').and.callThrough();
     service.handleError(MockBadPasswordRequest, MockDisabledUserResponse);
     expect(service.getErrorTranslationKey).toHaveBeenCalledWith(
       MockDisabledUserResponse.error.error_description

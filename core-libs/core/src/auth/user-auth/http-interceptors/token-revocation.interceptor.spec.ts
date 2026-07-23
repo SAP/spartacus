@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
@@ -11,7 +10,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { of, Subscription, firstValueFrom } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -72,60 +71,61 @@ describe('TokenRevocationInterceptor', () => {
     expect(tokenRevocationInterceptor).toBeTruthy();
   });
 
-  it(`Should not add 'Authorization' header for non revoke requests`, async () => {
-    const getResultAsync = firstValueFrom(http.get('/xxx'));
+  it(`Should not add 'Authorization' header for non revoke requests`, (done) => {
+    const sub: Subscription = http.get('/xxx').subscribe((result) => {
+      expect(result).toBeTruthy();
+      done();
+    });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
-    const authHeader: string | null =
-      mockReq.request.headers.get('Authorization');
+    const authHeader: string = mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeFalsy();
     expect(authHeader).toEqual(null);
-    mockReq.flush('someData');
 
-    const getResult = await getResultAsync;
-    expect(getResult).toBeTruthy();
+    mockReq.flush('someData');
+    sub.unsubscribe();
   });
 
-  it(`Should add 'Authorization' header for revoke request`, async () => {
-    const getResultAsync = firstValueFrom(http.get('/revoke'));
+  it(`Should add 'Authorization' header for revoke request`, (done) => {
+    const sub: Subscription = http.get('/revoke').subscribe((result) => {
+      expect(result).toBeTruthy();
+      done();
+    });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
-    const authHeader: string | null =
-      mockReq.request.headers.get('Authorization');
+    const authHeader: string = mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeTruthy();
     expect(authHeader).toEqual(`Bearer acc_token`);
 
     mockReq.flush('someData');
-
-    const getResult = await getResultAsync;
-    expect(getResult).toBeTruthy();
+    sub.unsubscribe();
   });
 
-  it(`Should not add 'Authorization' header for revoke request when disabled`, async () => {
-    vi.spyOn(mockAuthConfigService, 'sendAuthHeaderOnRevoke').mockReturnValue(
+  it(`Should not add 'Authorization' header for revoke request when disabled`, (done) => {
+    spyOn(mockAuthConfigService, 'sendAuthHeaderOnRevoke').and.returnValue(
       false
     );
 
-    const getResultAsync = firstValueFrom(http.get('/revoke'));
+    const sub: Subscription = http.get('/revoke').subscribe((result) => {
+      expect(result).toBeTruthy();
+      done();
+    });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
-    const authHeader: string | null =
-      mockReq.request.headers.get('Authorization');
+    const authHeader: string = mockReq.request.headers.get('Authorization');
     expect(authHeader).toBeFalsy();
     expect(authHeader).toEqual(null);
 
     mockReq.flush('someData');
-
-    const getResult = await getResultAsync;
-    expect(getResult).toBeTruthy();
+    sub.unsubscribe();
   });
 });

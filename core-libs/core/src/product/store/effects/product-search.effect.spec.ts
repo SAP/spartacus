@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -12,18 +11,19 @@ import { ProductSearchConnector } from '../../connectors/search/product-search.c
 import { SearchConfig } from '../../model/search-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product-search.effect';
+import createSpy = jasmine.createSpy;
 import { GlobalMessageService } from '@spartacus/core';
 
 const searchResult: ProductSearchPage = { products: [] };
 const suggestionList: Occ.SuggestionList = { suggestions: [] };
 
 class MockProductSearchConnector {
-  search = vi.fn().mockReturnValue(of(searchResult));
-  getSuggestions = vi.fn().mockReturnValue(of(suggestionList.suggestions));
+  search = createSpy().and.returnValue(of(searchResult));
+  getSuggestions = createSpy().and.returnValue(of(suggestionList.suggestions));
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = vi.fn();
+  add = createSpy();
 }
 describe('ProductSearch Effects', () => {
   let actions$: Observable<Action>;

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Observable, firstValueFrom, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { UserIdService } from '../../auth';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
@@ -70,53 +69,61 @@ describe('HttpErrorHandlerInterceptor', () => {
   });
 
   describe('error handling', () => {
-    it('should call handleError with OutboundHttpError for any HTTP error except 404 cms page not found', async () => {
+    it('should call handleError with OutboundHttpError for any HTTP error except 404 cms page not found', (done) => {
       const error: HttpErrorResponse = new HttpErrorResponse({
         status: 500,
         statusText: 'error',
       });
-      vi.spyOn(errorHandler, 'handleError');
+      spyOn(errorHandler, 'handleError');
 
       next.handle = () => throwError(() => error);
 
-      await expect(
-        firstValueFrom(interceptor.intercept(request, next))
-      ).rejects.toEqual(error);
-      expect(errorHandler.handleError).toHaveBeenCalledWith(
-        expect.any(OutboundHttpError)
-      );
+      interceptor.intercept(request, next).subscribe({
+        error: (err) => {
+          expect(err).toEqual(error);
+          expect(errorHandler.handleError).toHaveBeenCalledWith(
+            jasmine.any(OutboundHttpError)
+          );
+          done();
+        },
+      });
     });
 
-    it('should call handleError with CmsPageNotFoundOutboundHttpError when CMS page not found', async () => {
+    it('should call handleError with CmsPageNotFoundOutboundHttpError when CMS page not found', (done) => {
       const error: HttpErrorResponse = new HttpErrorResponse({
         url: 'pages',
         status: 404,
       });
-      vi.spyOn(errorHandler, 'handleError');
+      spyOn(errorHandler, 'handleError');
 
       next.handle = () => throwError(() => error);
 
-      await expect(
-        firstValueFrom(interceptor.intercept(request, next))
-      ).rejects.toEqual(error);
-      expect(errorHandler.handleError).toHaveBeenCalledWith(
-        expect.any(CmsPageNotFoundOutboundHttpError)
-      );
+      interceptor.intercept(request, next).subscribe({
+        error: (err) => {
+          expect(err).toEqual(error);
+          expect(errorHandler.handleError).toHaveBeenCalledWith(
+            jasmine.any(CmsPageNotFoundOutboundHttpError)
+          );
+          done();
+        },
+      });
     });
 
-    it('should not call handleError when it is not SSR', async () => {
-      vi.spyOn(errorHandler, 'handleError');
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+    it('should not call handleError when it is not SSR', (done) => {
+      spyOn(errorHandler, 'handleError');
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
 
       next.handle = () => throwError(() => new HttpErrorResponse({}));
 
-      await expect(
-        firstValueFrom(interceptor.intercept(request, next))
-      ).rejects.toBeTruthy();
-      expect(errorHandler.handleError).not.toHaveBeenCalled();
+      interceptor.intercept(request, next).subscribe({
+        error: () => {
+          expect(errorHandler.handleError).not.toHaveBeenCalled();
+          done();
+        },
+      });
     });
 
-    it('should pass through the request when there is no error', async () => {
+    it('should pass through the request when there is no error', (done) => {
       const response: HttpEvent<any> = {
         status: 200,
         statusText: 'ok',
@@ -124,8 +131,10 @@ describe('HttpErrorHandlerInterceptor', () => {
       next.handle = () =>
         new Observable<HttpEvent<any>>((observer) => observer.next(response));
 
-      const result = await firstValueFrom(interceptor.intercept(request, next));
-      expect(result).toBe(response);
+      interceptor.intercept(request, next).subscribe((result) => {
+        expect(result).toBe(response);
+        done();
+      });
     });
   });
 });

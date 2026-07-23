@@ -1,7 +1,7 @@
-import { vi } from 'vitest';
 import { AbstractType } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
+import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import {
@@ -14,7 +14,7 @@ import {
   Subject,
   timer,
 } from 'rxjs';
-import { delay, switchMap, take, toArray } from 'rxjs/operators';
+import { delay, switchMap, take } from 'rxjs/operators';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
@@ -23,13 +23,16 @@ import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
+import createSpy = jasmine.createSpy;
 
 class MyEvent extends CxEvent {}
 
 class MockLoadingScopesService {
-  expand = vi.fn().mockImplementation((_: string, scopes: string[]) => scopes);
-  getMaxAge = vi.fn().mockReturnValue(0);
-  getReloadTriggers = vi.fn().mockReturnValue([MyEvent]);
+  expand = createSpy('expand').and.callFake(
+    (_: string, scopes: string[]) => scopes
+  );
+  getMaxAge = createSpy('getMaxAge').and.returnValue(0);
+  getReloadTriggers = createSpy('getReloadTriggers').and.returnValue([MyEvent]);
 }
 
 class MockEventService implements Partial<EventService> {
@@ -84,8 +87,10 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
-      store.dispatch(new ProductActions.LoadProductSuccess(mockProduct, ''));
-      const result: Product = await firstValueFrom(service.get(code, ['']));
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(mockProduct)
+      );
+      const result: Product = await lastValueFrom(service.get(code, ['']));
       expect(result).toEqual(mockProduct);
     });
 
@@ -147,7 +152,7 @@ describe('ProductLoadingService', () => {
         });
       });
 
-      it('should take into account order of scopes for subsequent emissions', async () => {
+      it('should take into account order of scopes for subsequent emissions', (done) => {
         const action1scope1 = new ProductActions.LoadProductSuccess(
           { code, name: 'first', summary: 'a' },
           'scope1'
@@ -165,9 +170,24 @@ describe('ProductLoadingService', () => {
           'scope2'
         );
 
-        const resultsPromise = lastValueFrom(
-          service.get(code, ['scope1', 'scope2']).pipe(take(4), toArray())
-        );
+        const results: Product[] = [];
+        service
+          .get(code, ['scope1', 'scope2'])
+          .pipe(take(4))
+          .subscribe({
+            next: (res) => {
+              results.push(res);
+            },
+            complete: () => {
+              expect(results).toEqual([
+                undefined,
+                { code, name: 'second', summary: 'a', description: 'b' },
+                { code, name: 'second', summary: 'c', description: 'b' }, // after 1st subsequent emission
+                { code, name: 'fourth', summary: 'c', description: 'e' }, // after 2nd subsequent emission
+              ]);
+              done();
+            },
+          });
 
         store.dispatch(action1scope1);
         store.dispatch(action1scope2);
@@ -178,22 +198,17 @@ describe('ProductLoadingService', () => {
             store.dispatch(action2scope2);
           });
         });
-
-        const results = await resultsPromise;
-        expect(results).toEqual([
-          undefined,
-          { code, name: 'second', summary: 'a', description: 'b' },
-          { code, name: 'second', summary: 'c', description: 'b' }, // after 1st subsequent emission
-          { code, name: 'fourth', summary: 'c', description: 'e' }, // after 2nd subsequent emission
-        ]);
       });
     });
 
-    it('should emit undefined if there is no scope ready', async () => {
-      const result = await firstValueFrom(
-        service.get(code, ['scope1', 'scope2'])
-      );
-      expect(result).toEqual(undefined);
+    it('should emit undefined if there is no scope ready', (done) => {
+      service
+        .get(code, ['scope1', 'scope2'])
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(undefined);
+          done();
+        });
     });
 
     it('should expand loading scopes', () => {
@@ -208,7 +223,7 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to trigger the product load action for a product.', async () => {
-      vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+      spyOn(store, 'dispatch').and.stub();
 
       await firstValueFrom(
         service.get('productCode', ['']).pipe(
@@ -222,7 +237,7 @@ describe('ProductLoadingService', () => {
     });
 
     it('should not trigger multiple product load actions for multiple product subscription.', async () => {
-      vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+      spyOn(store, 'dispatch').and.stub();
 
       service.get('productCode', ['']).pipe(take(1)).subscribe();
       await firstValueFrom(service.get('productCode', ['']).pipe(delay(0)));

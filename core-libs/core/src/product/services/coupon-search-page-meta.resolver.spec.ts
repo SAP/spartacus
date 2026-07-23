@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRoute,
@@ -35,13 +34,13 @@ const mockProductPage: Page = {
 describe('CouponSearchPageResolver', () => {
   let service: CouponSearchPageResolver;
   let route: ActivatedRoute;
-  const authService = { isUserLoggedIn: vi.fn() };
-  const semanticPathService = {
-    transform: vi.fn(),
-  };
+  const authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
+  const semanticPathService = jasmine.createSpyObj('SemanticPathService', [
+    'transform',
+  ]);
 
   class MockActivatedRoute {
-    getSnapshot = vi.fn();
+    getSnapshot = jasmine.createSpy('getSnapshot');
     // we need to spyOnProperty...
     get snapshot() {
       return this.getSnapshot();
@@ -81,7 +80,7 @@ describe('CouponSearchPageResolver', () => {
   describe('scoring', () => {
     describe('with coupon', () => {
       beforeEach(() => {
-        vi.spyOn(route, 'snapshot', 'get').mockReturnValue({
+        spyOnProperty(route, 'snapshot').and.returnValue({
           queryParams: {
             couponcode: 'a',
           } as Params,
@@ -102,7 +101,7 @@ describe('CouponSearchPageResolver', () => {
 
     describe('without coupon', () => {
       beforeEach(() => {
-        vi.spyOn(route, 'snapshot', 'get').mockReturnValue(
+        spyOnProperty(route, 'snapshot').and.returnValue(
           {} as ActivatedRouteSnapshot
         );
       });
@@ -123,7 +122,7 @@ describe('CouponSearchPageResolver', () => {
 
   describe('resolve metadata', () => {
     beforeEach(() => {
-      vi.spyOn(route, 'snapshot', 'get').mockReturnValue({
+      spyOnProperty(route, 'snapshot').and.returnValue({
         queryParams: {
           couponcode: 'coupon1',
         } as Params,
@@ -142,7 +141,7 @@ describe('CouponSearchPageResolver', () => {
     });
 
     it('should resolve 1 breadcrumbs for anonymous search', () => {
-      authService.isUserLoggedIn.mockReturnValue(of(false));
+      authService.isUserLoggedIn.and.returnValue(of(false));
 
       let result: BreadcrumbMeta[];
       service
@@ -155,7 +154,7 @@ describe('CouponSearchPageResolver', () => {
     });
 
     it('should resolve 2 breadcrumbs for known user search', () => {
-      authService.isUserLoggedIn.mockReturnValue(of(true));
+      authService.isUserLoggedIn.and.returnValue(of(true));
 
       let result: BreadcrumbMeta[];
       service

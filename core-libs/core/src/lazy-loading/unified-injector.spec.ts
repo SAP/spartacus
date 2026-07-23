@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { InjectionToken, Injector, NgModuleRef } from '@angular/core';
 import { LazyModulesService } from '@spartacus/core';
-import { firstValueFrom, lastValueFrom, of, ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 import { delay, take, tap, toArray } from 'rxjs/operators';
 import { UnifiedInjector } from './unified-injector';
 
@@ -72,9 +72,14 @@ describe('UnifiedInjector', () => {
   });
 
   describe('get', () => {
-    it('should emit instances from root injector', async () => {
-      const instance = await firstValueFrom(service.get(TEST_TOKEN));
-      expect(instance).toEqual('root');
+    it('should emit instances from root injector', (done) => {
+      service
+        .get(TEST_TOKEN)
+        .subscribe((instance) => {
+          expect(instance).toEqual('root');
+          done();
+        })
+        .unsubscribe();
     });
 
     it('should emit instances if they appear in lazy loaded modules', () => {
@@ -120,26 +125,32 @@ describe('UnifiedInjector', () => {
   });
 
   describe('getMulti', () => {
-    it('should emit instances from root injector', async () => {
-      const instances = await firstValueFrom(
-        service.getMulti(TEST_MULTI_TOKEN).pipe(take(1))
-      );
-      expect(instances).toEqual(['root1', 'root2']);
+    it('should emit instances from root injector', (done) => {
+      service
+        .getMulti(TEST_MULTI_TOKEN)
+        .pipe(take(1))
+        .subscribe((instances) => {
+          expect(instances).toEqual(['root1', 'root2']);
+          done();
+        });
     });
 
-    it('should return multi instances from root and lazy modules', async () => {
+    it('should return multi instances from root and lazy modules', (done) => {
       lazyModules.modules$.next(moduleInstanceWithTestMultiToken);
 
-      const instances = await lastValueFrom(
-        service.getMulti(TEST_MULTI_TOKEN).pipe(take(2), toArray())
-      );
-      expect(instances).toEqual([
-        ['root1', 'root2'],
-        ['root1', 'root2', 'lazy1', 'lazy2'],
-      ]);
+      service
+        .getMulti(TEST_MULTI_TOKEN)
+        .pipe(take(2), toArray())
+        .subscribe((instances) => {
+          expect(instances).toEqual([
+            ['root1', 'root2'],
+            ['root1', 'root2', 'lazy1', 'lazy2'],
+          ]);
+          done();
+        });
     });
 
-    it('should re-emit new values if new instances are provided with new lazy module', async () => {
+    it('should re-emit new values if new instances are provided with new lazy module', (done) => {
       const testLogic$ = of(null).pipe(
         delay(0), // postpone next step to next macro task to trigger asap emissions
         tap(() => {
@@ -151,21 +162,22 @@ describe('UnifiedInjector', () => {
         })
       );
 
-      const resultPromise = lastValueFrom(
-        service.getMulti(TEST_MULTI_TOKEN).pipe(take(3), toArray())
-      );
+      service
+        .getMulti(TEST_MULTI_TOKEN)
+        .pipe(take(3), toArray())
+        .subscribe((result) => {
+          expect(result).toEqual([
+            ['root1', 'root2'],
+            ['root1', 'root2', 'lazy1', 'lazy2'],
+            ['root1', 'root2', 'lazy1', 'lazy2', 'lazy1', 'lazy2'],
+          ]);
+          done();
+        });
 
       testLogic$.subscribe();
-
-      const result = await resultPromise;
-      expect(result).toEqual([
-        ['root1', 'root2'],
-        ['root1', 'root2', 'lazy1', 'lazy2'],
-        ['root1', 'root2', 'lazy1', 'lazy2', 'lazy1', 'lazy2'],
-      ]);
     });
 
-    it('should not re-emit new values if no new instances exists in new lazy module', async () => {
+    it('should not re-emit new values if no new instances exists in new lazy module', (done) => {
       const testLogic$ = of(null).pipe(
         delay(0), // postpone next step to next macro task to trigger asap emissions
         tap(() => {
@@ -177,17 +189,18 @@ describe('UnifiedInjector', () => {
         })
       );
 
-      const resultPromise = lastValueFrom(
-        service.getMulti(TEST_MULTI_TOKEN).pipe(take(2), toArray())
-      );
+      service
+        .getMulti(TEST_MULTI_TOKEN)
+        .pipe(take(2), toArray())
+        .subscribe((result) => {
+          expect(result).toEqual([
+            ['root1', 'root2'],
+            ['root1', 'root2', 'lazy1', 'lazy2'],
+          ]);
+          done();
+        });
 
       testLogic$.subscribe();
-
-      const result = await resultPromise;
-      expect(result).toEqual([
-        ['root1', 'root2'],
-        ['root1', 'root2', 'lazy1', 'lazy2'],
-      ]);
     });
   });
 });

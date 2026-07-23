@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { INIT } from '@ngrx/store';
 import { StateConfig, StateTransferType } from '../config/state-config';
 import {
@@ -29,7 +28,7 @@ describe('TransferStateReducer', () => {
         } as StateConfig
       );
 
-      expect(reducer).toEqual(expect.any(Function));
+      expect(reducer).toEqual(jasmine.any(Function));
     });
   });
 
@@ -41,7 +40,7 @@ describe('TransferStateReducer', () => {
 
     beforeEach(() => {
       transferStateMock = {
-        set: vi.fn(),
+        set: jasmine.createSpy(),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
       metaReducer = getServerTransferStateReducer(transferStateMock, {
@@ -84,8 +83,8 @@ describe('TransferStateReducer', () => {
     beforeEach(() => {
       serverState = { test: 'state' };
       transferStateMock = {
-        get: vi.fn().mockReturnValue(serverState),
-        hasKey: vi.fn().mockReturnValue(true),
+        get: jasmine.createSpy().and.returnValue(serverState),
+        hasKey: jasmine.createSpy().and.returnValue(true),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
       metaReducer = getBrowserTransferStateReducer(

@@ -1,7 +1,7 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { FeatureConfigService } from '@spartacus/core';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CmsComponent, PageType } from '../../../model/cms.model';
@@ -32,6 +32,12 @@ class MockCmsComponentConnector {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel() {
+    return true;
+  }
+}
+
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: CmsComponentConnector;
@@ -50,6 +56,7 @@ describe('Component Effects', () => {
         fromEffects.ComponentsEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
@@ -72,7 +79,7 @@ describe('Component Effects', () => {
         uid: action.payload.uid,
         pageContext,
       });
-      vi.spyOn(service, 'getList').mockReturnValue(of([component]));
+      spyOn(service, 'getList').and.returnValue(of([component]));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -97,7 +104,7 @@ describe('Component Effects', () => {
         uid: action.payload.uid,
         pageContext,
       });
-      vi.spyOn(service, 'getList').mockReturnValue(of([]));
+      spyOn(service, 'getList').and.returnValue(of([]));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -131,7 +138,7 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext,
         });
-        vi.spyOn(service, 'getList').mockReturnValue(
+        spyOn(service, 'getList').and.returnValue(
           cold('---c', { c: [component, component2] })
         );
 
@@ -182,11 +189,9 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext: pageContext2,
         });
-        const getListSpy = vi
-          .spyOn(service, 'getList')
-          .mockImplementation((ids) =>
-            cold('---a', { a: [{ ...component, uid: ids[0] }] })
-          );
+        const getListSpy = spyOn(service, 'getList').and.callFake((ids) =>
+          cold('---a', { a: [{ ...component, uid: ids[0] }] })
+        );
 
         actions$ = hot('-ab', { a: action1, b: action2 });
         const expected = cold('------ab', {
@@ -202,7 +207,7 @@ describe('Component Effects', () => {
         ).toBeObservable(expected);
         expect(service.getList).toHaveBeenCalledTimes(2);
         // check all the arguments for which the method was called (reason: https://github.com/jasmine/jasmine/issues/228#issuecomment-270599719)
-        expect(getListSpy.mock.calls).toEqual([
+        expect(getListSpy.calls.allArgs()).toEqual([
           [['comp1'], pageContext1],
           [['comp2'], pageContext2],
         ]);

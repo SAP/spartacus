@@ -4,16 +4,9 @@
     "outDir": "../../out-tsc/spec",
     "module": "preserve",
     "strict": false,
-    "types": [
-      "vitest/globals",
-      "vitest/importMeta",
-      "vite/client",
-      "node",
-      "vitest"
-    ],
-    "moduleResolution": "bundler",
-    "allowJs": true
+    "types": ["jasmine", "node"],
+    "moduleResolution": "bundler"
   },
-  "files": ["setup-test.ts"],
-  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "files": ["src/test.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

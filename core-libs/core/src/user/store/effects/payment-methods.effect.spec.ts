@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -11,9 +10,10 @@ import { UserPaymentAdapter } from '../../connectors/payment/user-payment.adapte
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
 import * as fromPaymentMethodsEffect from './payment-methods.effect';
+import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = vi.fn();
+  add = createSpy();
 }
 
 const mockPaymentMethods: PaymentDetails[] = [{ id: '3710178129845' }];
@@ -40,12 +40,12 @@ describe('Payment methods effect', () => {
     userPaymentConnector = TestBed.inject(UserPaymentConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    vi.spyOn(userPaymentConnector, 'getAll').mockReturnValue(
+    spyOn(userPaymentConnector, 'getAll').and.returnValue(
       of(mockPaymentMethods)
     );
-    vi.spyOn(userPaymentConnector, 'setDefault').mockReturnValue(of({}));
+    spyOn(userPaymentConnector, 'setDefault').and.returnValue(of({}));
 
-    vi.spyOn(userPaymentConnector, 'delete').mockReturnValue(of({}));
+    spyOn(userPaymentConnector, 'delete').and.returnValue(of({}));
   });
 
   describe('loadUserPaymentMethods$', () => {

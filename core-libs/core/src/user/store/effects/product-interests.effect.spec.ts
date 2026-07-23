@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
@@ -56,7 +55,7 @@ describe('Product Interests Effect', () => {
         sorts: [],
         pagination: {},
       };
-      vi.spyOn(userInterestConnector, 'getInterests').mockReturnValue(
+      spyOn(userInterestConnector, 'getInterests').and.returnValue(
         of(interests)
       );
       const action = new UserActions.LoadProductInterests(loadParams);
@@ -69,7 +68,7 @@ describe('Product Interests Effect', () => {
       );
     });
     it('should be able to handle failures for load product interests', () => {
-      vi.spyOn(userInterestConnector, 'getInterests').mockReturnValue(
+      spyOn(userInterestConnector, 'getInterests').and.returnValue(
         throwError(() => error)
       );
       const action = new UserActions.LoadProductInterests(loadParams);
@@ -106,7 +105,7 @@ describe('Product Interests Effect', () => {
 
     it('should be able to remove product interests', () => {
       const delRes = '200';
-      vi.spyOn(userInterestConnector, 'removeInterest').mockReturnValue(
+      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
         of([delRes])
       );
       const action = new UserActions.RemoveProductInterest(delParams);
@@ -126,7 +125,7 @@ describe('Product Interests Effect', () => {
 
     it('should be able to remove single product interest', () => {
       const delRes = '200';
-      vi.spyOn(userInterestConnector, 'removeInterest').mockReturnValue(
+      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
         of([delRes])
       );
       const removeAction = new UserActions.RemoveProductInterest(delParams1);
@@ -147,7 +146,7 @@ describe('Product Interests Effect', () => {
     });
 
     it('should be able to handle failures for remove product interest', () => {
-      vi.spyOn(userInterestConnector, 'removeInterest').mockReturnValue(
+      spyOn(userInterestConnector, 'removeInterest').and.returnValue(
         throwError(() => error)
       );
       const action = new UserActions.RemoveProductInterest(delParams);

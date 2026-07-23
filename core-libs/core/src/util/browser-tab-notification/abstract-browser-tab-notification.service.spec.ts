@@ -4,14 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  createEnvironmentInjector,
-  EnvironmentInjector,
-  Injectable,
-} from '@angular/core';
+import { EnvironmentInjector, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { vi } from 'vitest';
 import { LoggerService } from '../../logger';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window';
@@ -29,7 +24,7 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
 }
 
 class MockLoggerService implements Partial<LoggerService> {
-  warn = vi.fn();
+  warn = jasmine.createSpy('warn');
 }
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -64,22 +59,12 @@ describe('AbstractTabNotificationService', () => {
   let mockChannel: MockBroadcastChannel;
   let windowRef: MockWindowRef;
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-    vi.unstubAllGlobals();
-  });
-
   beforeEach(() => {
     mockChannel = new MockBroadcastChannel();
-    vi.spyOn(mockChannel, 'addEventListener');
-    vi.spyOn(mockChannel, 'postMessage');
-    vi.spyOn(mockChannel, 'close');
-    vi.stubGlobal(
-      'BroadcastChannel',
-      vi.fn().mockImplementation(function () {
-        return mockChannel;
-      })
-    );
+    spyOn(mockChannel, 'addEventListener');
+    spyOn(mockChannel, 'postMessage');
+    spyOn(mockChannel, 'close');
+    spyOn(window, 'BroadcastChannel').and.returnValue(mockChannel as any);
 
     TestBed.configureTestingModule({
       providers: [
@@ -100,7 +85,7 @@ describe('AbstractTabNotificationService', () => {
     it('should create a BroadcastChannel with the correct channel id', () => {
       service.listen();
 
-      expect(BroadcastChannel).toHaveBeenCalledWith(mockChannelId);
+      expect(window.BroadcastChannel).toHaveBeenCalledWith(mockChannelId);
     });
 
     it('should register a message event listener on the channel', () => {
@@ -108,15 +93,15 @@ describe('AbstractTabNotificationService', () => {
 
       expect(mockChannel.addEventListener).toHaveBeenCalledWith(
         'message',
-        expect.any(Function)
+        jasmine.any(Function)
       );
     });
 
     it('should log a warning if BroadcastChannel throws', () => {
       const errorMessage = 'BroadcastChannel not supported';
-      vi.mocked(BroadcastChannel).mockImplementationOnce(function () {
-        throw new Error(errorMessage);
-      } as any);
+      (window.BroadcastChannel as unknown as jasmine.Spy).and.throwError(
+        errorMessage
+      );
 
       service.listen();
 
@@ -126,11 +111,11 @@ describe('AbstractTabNotificationService', () => {
     });
 
     it('should not listen when server-side', () => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
 
       service.listen();
 
-      expect(BroadcastChannel).not.toHaveBeenCalled();
+      expect(window.BroadcastChannel).not.toHaveBeenCalled();
     });
   });
 
@@ -138,8 +123,9 @@ describe('AbstractTabNotificationService', () => {
     it('should emit when a message is received for the active base site', () => {
       service.listen();
 
-      const listenerCallback = vi.mocked(mockChannel.addEventListener).mock
-        .calls[0][1] as (event: MessageEvent) => void;
+      const listenerCallback = (
+        mockChannel.addEventListener as jasmine.Spy
+      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -158,8 +144,9 @@ describe('AbstractTabNotificationService', () => {
     it('should not emit when a message does not match the payload guard', () => {
       service.listen();
 
-      const listenerCallback = vi.mocked(mockChannel.addEventListener).mock
-        .calls[0][1] as (event: MessageEvent) => void;
+      const listenerCallback = (
+        mockChannel.addEventListener as jasmine.Spy
+      ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
       const emittedValues: unknown[] = [];
       service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -183,8 +170,9 @@ describe('AbstractTabNotificationService', () => {
       it('should not emit when a message is received for a different base site', () => {
         service.listen();
 
-        const listenerCallback = vi.mocked(mockChannel.addEventListener).mock
-          .calls[0][1] as (event: MessageEvent) => void;
+        const listenerCallback = (
+          mockChannel.addEventListener as jasmine.Spy
+        ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
         const emittedValues: unknown[] = [];
         service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -209,8 +197,9 @@ describe('AbstractTabNotificationService', () => {
       it('should emit messages received from different base sites', () => {
         service.listen();
 
-        const listenerCallback = vi.mocked(mockChannel.addEventListener).mock
-          .calls[0][1] as (event: MessageEvent) => void;
+        const listenerCallback = (
+          mockChannel.addEventListener as jasmine.Spy
+        ).calls.mostRecent().args[1] as (event: MessageEvent) => void;
 
         const emittedValues: unknown[] = [];
         service.notifications$.subscribe((val) => emittedValues.push(val));
@@ -259,17 +248,11 @@ describe('AbstractTabNotificationService', () => {
   });
 
   it('should close the BroadcastChannel on destruction', () => {
-    const parentInjector = TestBed.inject(EnvironmentInjector);
-    const childInjector = createEnvironmentInjector(
-      [TabNotificationService],
-      parentInjector
-    );
-    const childService = childInjector.get(TabNotificationService);
-    const closeSpy = vi.spyOn(mockChannel, 'close');
-    childService.listen();
+    const injector = TestBed.inject(EnvironmentInjector);
+    service.listen();
 
-    childInjector.destroy();
+    injector.destroy();
 
-    expect(closeSpy).toHaveBeenCalled();
+    expect(mockChannel.close).toHaveBeenCalled();
   });
 });

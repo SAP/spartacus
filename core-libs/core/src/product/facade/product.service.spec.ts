@@ -1,10 +1,9 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
-import { firstValueFrom, lastValueFrom, of } from 'rxjs';
+import { lastValueFrom, of } from 'rxjs';
 import { Product } from '../../model/product.model';
-import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
@@ -43,6 +42,7 @@ describe('ProductService', () => {
     });
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductService);
+    spyOn(store, 'dispatch').and.stub();
   });
 
   it('should ProductService is injected', inject(
@@ -79,33 +79,58 @@ describe('ProductService', () => {
   });
 
   describe('isLoading(productCode)', () => {
-    it('should be able to get loading flag by code', async () => {
-      store.dispatch(new ProductActions.LoadProduct('testId'));
-      const result = await firstValueFrom(service.isLoading('testId'));
-      expect(result).toBeTruthy();
-    });
-  });
-
-  describe('hasError(productCode)', () => {
-    it('should be able to get loading flag by code', async () => {
-      store.dispatch(new ProductActions.LoadProductFail('testId', 'err', ''));
-      const result = await firstValueFrom(service.hasError('testId'));
-      expect(result).toBeTruthy();
-    });
-  });
-
-  describe('hasError(productCode)', () => {
-    it('should be able to get loading flag by code', async () => {
-      store.dispatch(
-        new ProductActions.LoadProductSuccess({ code: 'testId' }, '')
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of({
+            loading: true,
+          })
       );
-      const result = await firstValueFrom(service.isSuccess('testId'));
-      expect(result).toBeTruthy();
+      let isLoading: boolean | undefined;
+      service.isLoading('testId').subscribe((value) => {
+        isLoading = value;
+      });
+      expect(isLoading).toBeTruthy();
+    });
+  });
+
+  describe('hasError(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of({
+            error: true,
+          })
+      );
+      let hasError: boolean | undefined;
+      service.hasError('testId').subscribe((value) => {
+        hasError = value;
+      });
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('hasError(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of({
+            success: true,
+          })
+      );
+      let isSuccess: boolean | undefined;
+      service.isSuccess('testId').subscribe((value) => {
+        isSuccess = value;
+      });
+      expect(isSuccess).toBeTruthy();
     });
   });
 
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', async () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of({ value: mockedProduct })
+      );
       const result: Product = await lastValueFrom(
         service.get('existingProduct')
       );

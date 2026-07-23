@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -114,7 +113,7 @@ describe('CategoryPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
-    vi.spyOn(basePageMetaResolver, 'resolveCanonicalUrl');
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
     service.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });

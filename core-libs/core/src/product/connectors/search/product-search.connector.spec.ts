@@ -1,32 +1,41 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
+import { ProductSearchAdapter } from './product-search.adapter';
 import { ProductSearchConnector } from './product-search.connector';
+import createSpy = jasmine.createSpy;
+
+class MockProductSearchAdapter implements ProductSearchAdapter {
+  search = createSpy('ProductSearchAdapter.loadSearch').and.callFake((query) =>
+    of('search:' + query)
+  );
+
+  loadSuggestions = createSpy(
+    'ProductSearchAdapter.loadSuggestions'
+  ).and.callFake((term) => of('term:' + term));
+
+  searchByCodes = createSpy('ProductSearchAdapter.searchByCodes').and.callFake(
+    (codes, scope) => of({ products: codes.map((code) => ({ code, scope })) })
+  );
+
+  searchByCategory = createSpy(
+    'ProductSearchAdapter.searchByCategory'
+  ).and.callFake((_category, scope) =>
+    of({ products: [{ code: 'product1', scope }] })
+  );
+}
 
 describe('ProductSearchConnector', () => {
   let service: ProductSearchConnector;
-  let adapter: {
-    search: ReturnType<typeof vi.fn>;
-    loadSuggestions: ReturnType<typeof vi.fn>;
-    searchByCodes: ReturnType<typeof vi.fn>;
-    searchByCategory: ReturnType<typeof vi.fn>;
-  };
+  let adapter: ProductSearchAdapter;
 
   beforeEach(() => {
-    adapter = {
-      search: vi.fn().mockImplementation((query) => of('search:' + query)),
-      loadSuggestions: vi.fn().mockImplementation((term) => of('term:' + term)),
-      searchByCodes: vi
-        .fn()
-        .mockImplementation((codes, scope) =>
-          of({ products: codes.map((code: string) => ({ code, scope })) })
-        ),
-      searchByCategory: vi
-        .fn()
-        .mockImplementation((_category, scope) =>
-          of({ products: [{ code: 'product1', scope }] })
-        ),
-    };
-    service = new ProductSearchConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
+      ],
+    });
+    service = TestBed.inject(ProductSearchConnector);
+    adapter = TestBed.inject(ProductSearchAdapter);
   });
 
   it('should be created', () => {
@@ -34,7 +43,7 @@ describe('ProductSearchConnector', () => {
   });
 
   it('search should call adapter', () => {
-    let result: any;
+    let result;
     service.search('test query').subscribe((res) => (result = res));
     expect(result).toBe('search:test query');
     expect(adapter.search).toHaveBeenCalledWith(
@@ -45,7 +54,7 @@ describe('ProductSearchConnector', () => {
   });
 
   it('searchByCodes should call adapter', () => {
-    let result: any;
+    let result;
     service
       .searchByCodes(['code1', 'code2'])
       .subscribe((res) => (result = res));
@@ -62,7 +71,7 @@ describe('ProductSearchConnector', () => {
   });
 
   it('getSuggestions should call adapter', () => {
-    let result: any;
+    let result;
     service.getSuggestions('test term').subscribe((res) => (result = res));
     expect(result).toBe('term:test term');
     expect(adapter.loadSuggestions).toHaveBeenCalledWith(
@@ -72,7 +81,7 @@ describe('ProductSearchConnector', () => {
   });
 
   it('searchByCategory should call adapter', () => {
-    let result: any;
+    let result;
     service.searchByCategory('testCategory', 'testScope').subscribe((res) => {
       result = res;
     });

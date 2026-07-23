@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RouterState } from '@angular/router';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
@@ -118,7 +117,7 @@ describe('SearchPageMetaResolver', () => {
   });
 
   it('should resolve robots from the BasePageMetaResolver', async () => {
-    vi.spyOn(basePageMetaResolver, 'resolveRobots').mockReturnValue(
+    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
       of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
     );
     let result: PageRobotsMeta[] | undefined;
@@ -131,7 +130,7 @@ describe('SearchPageMetaResolver', () => {
   });
 
   it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
-    vi.spyOn(basePageMetaResolver, 'resolveCanonicalUrl');
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
     resolver.resolveCanonicalUrl().subscribe().unsubscribe();
     expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });

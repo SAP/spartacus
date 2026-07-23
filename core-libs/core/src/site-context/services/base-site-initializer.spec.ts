@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
@@ -6,6 +5,7 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { BaseSiteInitializer } from './base-site-initializer';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
+import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
@@ -17,7 +17,7 @@ class MockBaseSiteService implements Partial<BaseSiteService> {
   isInitialized() {
     return false;
   }
-  setActive = vi.fn().mockImplementation(() => {});
+  setActive = createSpy().and.stub();
 }
 
 class MockConfigInitializerService
@@ -29,7 +29,7 @@ class MockConfigInitializerService
 class MockSiteContextRoutesHandler
   implements Partial<SiteContextRoutesHandler>
 {
-  initOnce = vi.fn().mockReturnValue(of(undefined));
+  initOnce = createSpy().and.returnValue(of(undefined));
 }
 
 describe('BaseSiteInitializer', () => {
@@ -62,9 +62,7 @@ describe('BaseSiteInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteContextRoutesHandler initOnce()', async () => {
-      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(
-        of(null)
-      );
+      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
       await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
@@ -76,7 +74,7 @@ describe('BaseSiteInitializer', () => {
     });
 
     it('should NOT set default from config is the baseSite is initialized', async () => {
-      vi.spyOn(baseSiteService, 'isInitialized').mockReturnValue(true);
+      spyOn(baseSiteService, 'isInitialized').and.returnValue(true);
       await initializer.initialize();
       expect(baseSiteService.setActive).not.toHaveBeenCalled();
     });

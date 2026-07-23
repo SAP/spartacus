@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -72,9 +71,9 @@ describe('OccUserNotificationPreferenceAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    vi.spyOn(converter, 'pipeableMany');
-    vi.spyOn(converter, 'convert');
-    vi.spyOn(occEnpointsService, 'buildUrl');
+    spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {

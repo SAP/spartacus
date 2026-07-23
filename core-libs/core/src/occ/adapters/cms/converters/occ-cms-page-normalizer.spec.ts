@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ContentSlotComponentData, PageRobotsMeta } from '../../../../cms';
 import { CmsComponent } from '../../../../model';
@@ -24,7 +23,7 @@ describe('OccCmsPageNormalizer', () => {
 
     occCmsPageNormalizer = TestBed.inject(OccCmsPageNormalizer);
     converter = TestBed.inject(ConverterService);
-    vi.spyOn(converter, 'convert').mockImplementation(((page: Occ.CMSPage) => ({
+    spyOn(converter, 'convert').and.callFake(((page: Occ.CMSPage) => ({
       ...page,
     })) as any);
   });

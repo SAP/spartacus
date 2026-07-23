@@ -1,10 +1,9 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { LoggerService } from '../../logger';
 import { LoggingErrorHandler } from './logging-error-handler';
 
 class MockLoggerService implements Partial<LoggerService> {
-  error = vi.fn();
+  error = jasmine.createSpy('error');
 }
 
 describe('LoggingErrorHandler', () => {

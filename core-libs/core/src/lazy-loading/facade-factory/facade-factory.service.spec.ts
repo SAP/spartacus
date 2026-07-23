@@ -1,6 +1,10 @@
-import { vi } from 'vitest';
 import { Injectable, NgModule } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import {
+  fakeAsync,
+  flushMicrotasks,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import {
   BehaviorSubject,
   firstValueFrom,
@@ -116,13 +120,11 @@ describe('FacadeFactoryService', () => {
       expect(service.isProxyFacadeInstance(facade)).toBeTruthy();
     });
 
-    it('should not trigger lazy loading', async () => {
-      vi.useFakeTimers();
+    it('should not trigger lazy loading', fakeAsync(() => {
       service.create(testFacadeDescriptor);
-      await vi.advanceTimersByTimeAsync(0);
+      flushMicrotasks();
       expect(moduleInitializedEvent).toBeUndefined();
-      vi.useRealTimers();
-    });
+    }));
 
     describe('async option', () => {
       it('should not delay initialization if set to false', async () => {
@@ -154,37 +156,34 @@ describe('FacadeFactoryService', () => {
     });
 
     describe('method call', () => {
-      it('should trigger lazy loading', async () => {
-        vi.useFakeTimers();
+      it('should trigger lazy loading', fakeAsync(() => {
         const a = facade.testMethod('a', 1);
         expect(a).toBeTruthy();
         expect(isObservable(a)).toBeTruthy();
-        await vi.advanceTimersByTimeAsync(0);
+        flushMicrotasks();
         expect(moduleInitializedEvent).toBeDefined();
-        await vi.runAllTimersAsync(); // to finish running timers in the test implementation
-        vi.useRealTimers();
-      });
+        tick(); // to finish running timers in the test implementation
+      }));
       it('should proxy return observable from the method', async () => {
         const result = await lastValueFrom(facade.testMethod('a', 1));
         expect(result).toEqual('a1');
       });
-      it('should call the method logic without subscribing', async () => {
+      it('should call the method logic without subscribing', fakeAsync(() => {
         facade.testMethod2('test1');
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        flushMicrotasks();
         expect(getLastValueSync(facade.testProperty2)).toEqual('test1');
-      });
+        tick(); // to finish running timers in the test implementation
+      }));
     });
 
     describe('property get', () => {
-      it('should not trigger lazy loading without subscribing', async () => {
-        vi.useFakeTimers();
+      it('should not trigger lazy loading without subscribing', fakeAsync(() => {
         const a = facade.testProperty;
         expect(a).toBeTruthy();
         expect(isObservable(a)).toBeTruthy();
-        await vi.advanceTimersByTimeAsync(0);
+        flushMicrotasks();
         expect(moduleInitializedEvent).toBeUndefined();
-        vi.useRealTimers();
-      });
+      }));
       it('should  trigger lazy load on subscribe', async () => {
         await lastValueFrom(facade.testProperty);
         expect(moduleInitializedEvent).toBeDefined();

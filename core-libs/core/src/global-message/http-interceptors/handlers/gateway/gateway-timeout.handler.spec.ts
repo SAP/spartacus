@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
@@ -35,7 +34,7 @@ describe('GatewayTimeoutHandler', () => {
   });
 
   it('should send error to global message service', () => {
-    vi.spyOn(globalMessageService, 'add');
+    spyOn(globalMessageService, 'add');
     service.handleError();
 
     expect(globalMessageService.add).toHaveBeenCalledWith(

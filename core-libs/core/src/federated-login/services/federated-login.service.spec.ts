@@ -13,6 +13,7 @@ import { FederatedLoginContext } from '../model';
 import { FederatedLoginContextSerializerService } from './federated-login-context-serializer.service';
 import { FederatedLoginContextStorageService } from './federated-login-context-storage';
 import { FederatedLoginService } from './federated-login.service';
+import createSpy = jasmine.createSpy;
 
 const mockOriginMap: Record<string, string> = {
   shop1: 'https://storefront1.de',
@@ -29,14 +30,14 @@ const mockConfig: FederatedLoginConfig = {
 };
 
 class MockLanguageService implements Partial<LanguageService> {
-  getActive = vi.fn().mockReturnValue(of('en'));
+  getActive = createSpy().and.returnValue(of('en'));
 }
 
 class MockFederatedLoginContextSerializerService
   implements Partial<FederatedLoginContextSerializerService>
 {
-  serializeContext = vi.fn().mockReturnValue('shop1:en');
-  deserializeContext = vi.fn().mockReturnValue({
+  serializeContext = createSpy().and.returnValue('shop1:en');
+  deserializeContext = createSpy().and.returnValue({
     origin: 'https://storefront1.de',
     language: 'en',
   });
@@ -45,8 +46,8 @@ class MockFederatedLoginContextSerializerService
 class MockFederatedLoginContextStorageService
   implements Partial<FederatedLoginContextStorageService>
 {
-  read = vi.fn().mockReturnValue(undefined);
-  write = vi.fn();
+  read = createSpy().and.returnValue(undefined);
+  write = createSpy().and.stub();
 }
 
 function buildWindowRef(href: string): Partial<WindowRef> {
@@ -114,11 +115,11 @@ describe('FederatedLoginService', () => {
 
     describe('context accessors', () => {
       it('should return undefined because contextValue is not set', () => {
-        contextStorageService.read.mockReturnValue({
+        contextStorageService.read.and.returnValue({
           origin: 'https://storefront1.de',
           language: 'de',
         });
-        contextSerializerService.deserializeContext.mockReturnValue({
+        contextSerializerService.deserializeContext.and.returnValue({
           origin: 'https://storefront1.de',
           language: 'de',
         });
@@ -138,7 +139,7 @@ describe('FederatedLoginService', () => {
         await firstValueFrom(service.getParameters());
 
         expect(contextSerializerService.serializeContext).toHaveBeenCalledWith(
-          expect.objectContaining({
+          jasmine.objectContaining({
             language: 'en',
             origin: winRef.location.origin,
           })
@@ -207,11 +208,11 @@ describe('FederatedLoginService', () => {
       });
 
       it('should merge stored context with deserialized context, giving deserialized priority', () => {
-        contextStorageService.read.mockReturnValue({
+        contextStorageService.read.and.returnValue({
           origin: 'https://old.example.com',
           language: 'fr',
         } as FederatedLoginContext);
-        contextSerializerService.deserializeContext.mockReturnValue({
+        contextSerializerService.deserializeContext.and.returnValue({
           origin: 'https://storefront1.de',
         });
 
@@ -222,10 +223,10 @@ describe('FederatedLoginService', () => {
       });
 
       it('should retain stored fields not overridden by deserialized context', () => {
-        contextStorageService.read.mockReturnValue({
+        contextStorageService.read.and.returnValue({
           origin: 'https://storefront1.de',
         } as FederatedLoginContext);
-        contextSerializerService.deserializeContext.mockReturnValue({
+        contextSerializerService.deserializeContext.and.returnValue({
           language: 'en',
         });
 
@@ -236,10 +237,10 @@ describe('FederatedLoginService', () => {
       });
 
       it('should reject stored origin value that is not known', () => {
-        contextStorageService.read.mockReturnValue({
+        contextStorageService.read.and.returnValue({
           origin: 'https://questionable-domain.com',
         } as FederatedLoginContext);
-        contextSerializerService.deserializeContext.mockReturnValue({
+        contextSerializerService.deserializeContext.and.returnValue({
           language: 'en',
         });
 
@@ -252,7 +253,7 @@ describe('FederatedLoginService', () => {
 
     describe('getParameters()', () => {
       it('should use service origin for the context value when serializing', async () => {
-        contextStorageService.read.mockReturnValue({
+        contextStorageService.read.and.returnValue({
           origin: 'https://storefront1.de',
         });
         service.detectContext();
@@ -260,7 +261,7 @@ describe('FederatedLoginService', () => {
         await firstValueFrom(service.getParameters());
 
         expect(contextSerializerService.serializeContext).toHaveBeenCalledWith(
-          expect.objectContaining({ origin: 'https://storefront1.de' })
+          jasmine.objectContaining({ origin: 'https://storefront1.de' })
         );
       });
     });

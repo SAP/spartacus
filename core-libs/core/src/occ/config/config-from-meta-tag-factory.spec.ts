@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { Meta } from '@angular/platform-browser';
 import {
   mediaServerConfigFromMetaTagFactory,
@@ -14,7 +13,7 @@ describe('config from MetaTag Factory', () => {
 
   describe('OCC config from meta tag', () => {
     it('should get content of tag "occ-backend-base-url"', () => {
-      mockMeta.getTag = vi.fn();
+      mockMeta.getTag = jasmine.createSpy();
       occServerConfigFromMetaTagFactory(mockMeta as Meta);
       expect(mockMeta.getTag).toHaveBeenCalledWith(
         'name="occ-backend-base-url"'
@@ -47,7 +46,7 @@ describe('config from MetaTag Factory', () => {
 
   describe('Media config from meta tag', () => {
     it('should get content of tag "media-backend-base-url"', () => {
-      mockMeta.getTag = vi.fn();
+      mockMeta.getTag = jasmine.createSpy();
       mediaServerConfigFromMetaTagFactory(mockMeta as Meta);
       expect(mockMeta.getTag).toHaveBeenCalledWith(
         'name="media-backend-base-url"'

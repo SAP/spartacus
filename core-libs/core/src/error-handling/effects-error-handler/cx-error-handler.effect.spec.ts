@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -11,13 +10,13 @@ import { ErrorActionService } from './error-action.service';
 describe('CxErrorHandlerEffect', () => {
   let effect: CxErrorHandlerEffect;
   let actions$: Observable<Action>;
-  let errorActionService: ErrorActionService;
+  let errorActionService: jasmine.SpyObj<ErrorActionService>;
 
   beforeEach(() => {
-    const errorActionServiceSpy = {
-      handle: vi.fn(),
-      isErrorAction: vi.fn(),
-    };
+    const errorActionServiceSpy = jasmine.createSpyObj('ErrorActionService', [
+      'handle',
+      'isErrorAction',
+    ]);
     TestBed.configureTestingModule({
       providers: [
         CxErrorHandlerEffect,
@@ -33,7 +32,7 @@ describe('CxErrorHandlerEffect', () => {
     actions$ = TestBed.inject(Actions);
     errorActionService = TestBed.inject(
       ErrorActionService
-    ) as ErrorActionService;
+    ) as jasmine.SpyObj<ErrorActionService>;
   });
 
   it('should be created', () => {
@@ -48,7 +47,7 @@ describe('CxErrorHandlerEffect', () => {
           error: new Error(),
         };
 
-        vi.spyOn(errorActionService, 'isErrorAction').mockReturnValue(true);
+        errorActionService.isErrorAction.and.returnValue(true);
 
         actions$ = of(mockErrorAction);
 
@@ -62,7 +61,7 @@ describe('CxErrorHandlerEffect', () => {
           type: 'SOME_ACTION',
         };
 
-        vi.spyOn(errorActionService, 'isErrorAction').mockReturnValue(false);
+        errorActionService.isErrorAction.and.returnValue(false);
 
         actions$ = of(mockNonErrorAction);
 

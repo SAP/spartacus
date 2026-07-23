@@ -27,7 +27,7 @@ describe('Districts Selectors', () => {
       ],
     });
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('getDistrictsDataAndLoading', () => {

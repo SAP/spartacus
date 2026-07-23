@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -16,6 +15,7 @@ import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
+import createSpy = jasmine.createSpy;
 import { Router } from '@angular/router';
 import {
   provideHttpClient,
@@ -23,7 +23,9 @@ import {
 } from '@angular/common/http';
 
 class MockOccEndpointsService {
-  buildUrl = vi.fn().mockImplementation((url) => url);
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    (url) => url
+  );
 }
 
 const queryText = 'test';
@@ -63,8 +65,8 @@ describe('OccProductSearchAdapter', () => {
     endpoints = TestBed.inject(OccEndpointsService);
     router = TestBed.inject(Router);
 
-    vi.spyOn(converter, 'pipeable');
-    vi.spyOn(converter, 'pipeableMany');
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -156,7 +158,7 @@ describe('OccProductSearchAdapter', () => {
         };
 
         service.search(queryText, mockSearchConfig).subscribe();
-        vi.spyOn(router, 'navigate').mockReturnValue(Promise.resolve(true));
+        spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
         httpMock.expectOne('productSearch').flush(searchResults);
 
         expect(router.navigate).toHaveBeenCalledWith(resultPath, resultExtra);
@@ -208,7 +210,7 @@ describe('OccProductSearchAdapter', () => {
     };
 
     it('should return products for given codes', () => {
-      vi.spyOn(service, 'search').mockReturnValue(
+      spyOn(service, 'search').and.returnValue(
         of({ products: mockProductsFromCodes })
       );
 
@@ -224,7 +226,7 @@ describe('OccProductSearchAdapter', () => {
     });
 
     it('should handle empty input', () => {
-      vi.spyOn(service, 'search');
+      spyOn(service, 'search');
       service.searchByCodes([]).subscribe((result) => {
         expect(result.products).toEqual([]);
       });
@@ -236,7 +238,7 @@ describe('OccProductSearchAdapter', () => {
       const largeArray = Array.from({ length: 250 }, (_, i) => i.toString());
       const chunkedProducts = largeArray.map((code) => ({ code }));
 
-      vi.spyOn(service, 'search').mockImplementation((_, config) => {
+      spyOn(service, 'search').and.callFake((_, config) => {
         const codes = config.filters.split(':')[1].split(',');
         return of({ products: codes.map((code) => ({ code })) });
       });

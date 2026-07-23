@@ -1,4 +1,3 @@
-import { vi, Mock } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -65,7 +64,7 @@ describe('User Consents effect', () => {
       },
     ];
     it('should return LoadUserConsentsSuccess', () => {
-      vi.spyOn(userConsentAdapter, 'loadConsents').mockReturnValue(
+      spyOn(userConsentAdapter, 'loadConsents').and.returnValue(
         of(templateList)
       );
 
@@ -88,7 +87,7 @@ describe('User Consents effect', () => {
       version: consentTemplateVersion,
     };
     it('should return GiveUserConsentSuccess', () => {
-      vi.spyOn(userConsentAdapter, 'giveConsent').mockReturnValue(
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
         of(consentTemplate)
       );
 
@@ -112,7 +111,7 @@ describe('User Consents effect', () => {
         status: 409,
         msg: 'Mock error',
       };
-      vi.spyOn(userConsentAdapter, 'giveConsent').mockReturnValue(
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
         throwError(() => mockError)
       );
 
@@ -139,7 +138,7 @@ describe('User Consents effect', () => {
         status: 409,
         msg: 'Mock error',
       };
-      vi.spyOn(userConsentAdapter, 'giveConsent').mockReturnValue(
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
         throwError(() => mockError)
       );
 
@@ -161,7 +160,7 @@ describe('User Consents effect', () => {
 
   describe('withdrawConsent$', () => {
     it('should return WithdrawUserConsentSuccess', () => {
-      vi.spyOn(userConsentAdapter, 'withdrawConsent').mockReturnValue(of({}));
+      spyOn(userConsentAdapter, 'withdrawConsent').and.returnValue(of({}));
 
       const action = new UserActions.WithdrawUserConsent({
         userId: 'xxx@xxx.xxx',

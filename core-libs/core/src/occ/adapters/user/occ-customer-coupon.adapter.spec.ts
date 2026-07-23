@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -60,8 +59,8 @@ describe('OccCustomerCouponAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    vi.spyOn(converter, 'pipeable');
-    vi.spyOn(occEnpointsService, 'buildUrl');
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {

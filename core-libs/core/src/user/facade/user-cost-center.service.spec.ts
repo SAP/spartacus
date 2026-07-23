@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -40,7 +39,7 @@ describe('PaymentTypeService', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(UserCostCenterService);
   });
 
@@ -71,7 +70,7 @@ describe('PaymentTypeService', () => {
   });
 
   it('should be able to get the active Cost Centers after trigger data loading when they do not exist', () => {
-    vi.spyOn(service, 'loadActiveCostCenters');
+    spyOn(service, 'loadActiveCostCenters').and.callThrough();
 
     let costCenter: CostCenter[];
     service

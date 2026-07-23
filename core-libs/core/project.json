@@ -18,10 +18,12 @@
       }
     },
     "test": {
-      "executor": "nx:run-commands",
+      "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "command": "npx vitest run --config vitest.config.ts",
-        "cwd": "{projectRoot}"
+        "main": "core-libs/core/src/test.ts",
+        "tsConfig": "core-libs/core/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "karmaConfig": "core-libs/core/karma.conf.js"
       }
     },
     "lint": {

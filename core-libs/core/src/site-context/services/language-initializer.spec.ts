@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { FederatedLoginService } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
@@ -8,6 +7,7 @@ import { LanguageService } from '../facade/language.service';
 import { LanguageInitializer } from './language-initializer';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
 import { SiteContextRoutesHandler } from './site-context-routes-handler';
+import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
@@ -19,7 +19,7 @@ class MockLanguageService implements Partial<LanguageService> {
   isInitialized() {
     return false;
   }
-  setActive = vi.fn().mockImplementation(() => {});
+  setActive = createSpy().and.stub();
 }
 
 class MockFederatedLoginService implements Partial<FederatedLoginService> {
@@ -30,7 +30,7 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
 class MockLanguageStatePersistenceService
   implements Partial<LanguageStatePersistenceService>
 {
-  initSync = vi.fn().mockReturnValue(of(EMPTY));
+  initSync = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
@@ -42,7 +42,7 @@ class MockConfigInitializerService
 class MockSiteContextRoutesHandler
   implements Partial<SiteContextRoutesHandler>
 {
-  initOnce = vi.fn().mockReturnValue(of(undefined));
+  initOnce = createSpy().and.returnValue(of(undefined));
 }
 
 describe('LanguageInitializer', () => {
@@ -88,9 +88,7 @@ describe('LanguageInitializer', () => {
 
   describe('initialize', () => {
     it('should call SiteContextRoutesHandler initOnce() and LanguageStatePersistenceService initSync()', async () => {
-      vi.spyOn<any, any>(initializer, 'setFallbackValue').mockReturnValue(
-        of(null)
-      );
+      spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
       await initializer.initialize();
       expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(languageStatePersistenceService.initSync).toHaveBeenCalled();
@@ -103,7 +101,7 @@ describe('LanguageInitializer', () => {
     });
 
     it('should NOT set default from config is the language is initialized', async () => {
-      vi.spyOn(languageService, 'isInitialized').mockReturnValue(true);
+      spyOn(languageService, 'isInitialized').and.returnValue(true);
       await initializer.initialize();
       expect(languageService.setActive).not.toHaveBeenCalled();
     });

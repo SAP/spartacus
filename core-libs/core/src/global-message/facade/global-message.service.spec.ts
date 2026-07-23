@@ -1,7 +1,7 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
+import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
+import { of } from 'rxjs';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
 import {
@@ -10,8 +10,18 @@ import {
 } from '../store/global-message-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
+import createSpy = jasmine.createSpy;
+
+const mockMessages = {
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
+  [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'Error' }],
+};
 
 describe('GlobalMessageService', () => {
+  const mockSelect = createSpy('select').and.returnValue(() =>
+    of(mockMessages)
+  );
+
   let service: GlobalMessageService;
   let store: Store<GlobalMessageState>;
 
@@ -28,7 +38,8 @@ describe('GlobalMessageService', () => {
     });
 
     store = TestBed.inject(Store);
-    vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
+    spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
     service = TestBed.inject(GlobalMessageService);
   });
 
@@ -39,23 +50,9 @@ describe('GlobalMessageService', () => {
     }
   ));
 
-  it('Should be able to get all messages', async () => {
-    store.dispatch(
-      new GlobalMessageActions.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        text: { raw: 'Confirmation' },
-      })
-    );
-    store.dispatch(
-      new GlobalMessageActions.AddMessage({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: { raw: 'Error' },
-      })
-    );
-    const result = await firstValueFrom(service.get());
-    expect(result).toEqual({
-      [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
-      [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'Error' }],
+  it('Should be able to get all messages', () => {
+    service.get().subscribe((results) => {
+      expect(results).toEqual(mockMessages);
     });
   });
 

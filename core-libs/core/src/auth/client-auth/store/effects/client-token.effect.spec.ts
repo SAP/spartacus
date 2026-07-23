@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -41,10 +40,10 @@ describe('ClientTokenEffect', () => {
       ClientAuthenticationTokenService
     );
 
-    vi.spyOn(
+    spyOn(
       clientAuthenticationTokenService,
       'loadClientAuthenticationToken'
-    ).mockReturnValue(of(testToken));
+    ).and.returnValue(of(testToken));
   });
 
   describe('loadClientToken$', () => {

@@ -1,5 +1,4 @@
-import { vi } from 'vitest';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   AuthConfig,
   Config,
@@ -85,8 +84,8 @@ class MockFederatedLoginService implements Partial<FederatedLoginService> {
   enabled = false;
   isLoginDomain = false;
   origin: string | undefined = undefined;
-  detectContext = vi.fn();
-  getParameters = vi.fn().mockReturnValue(of('ctx=de:en'));
+  detectContext = jasmine.createSpy();
+  getParameters = jasmine.createSpy().and.returnValue(of('ctx=de:en'));
 }
 
 class MockStorage implements Storage {
@@ -149,10 +148,6 @@ describe('OAuthLibWrapperService', () => {
   let federatedLoginService: MockFederatedLoginService;
   let configInitializerService: MockConfigInitializerService;
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -184,7 +179,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('initialize()', () => {
     it('should configure lib with the config', () => {
-      vi.spyOn(oAuthService, 'configure');
+      spyOn(oAuthService, 'configure').and.callThrough();
 
       service = TestBed.inject(OAuthLibWrapperService);
 
@@ -203,26 +198,26 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should use redirectUrl on SSR when passed', () => {
-      vi.spyOn(oAuthService, 'configure');
-      vi.spyOn(winRef, 'isBrowser').mockReturnValue(false);
+      spyOn(oAuthService, 'configure').and.callThrough();
+      spyOn(winRef, 'isBrowser').and.returnValue(false);
 
       service = TestBed.inject(OAuthLibWrapperService);
 
       expect(oAuthService.configure).toHaveBeenCalledWith(
-        expect.objectContaining({
+        jasmine.objectContaining({
           redirectUri: 'redUri',
         })
       );
     });
 
     it('should use current location as a redirectUrl when not explicitly set in browser', () => {
-      const configureSpy = vi.spyOn(oAuthService, 'configure');
-      vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
+      spyOn(oAuthService, 'configure').and.callThrough();
+      spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
 
       service = TestBed.inject(OAuthLibWrapperService);
 
-      expect(configureSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
+      expect(oAuthService.configure).toHaveBeenCalledWith(
+        jasmine.objectContaining({
           redirectUri: winRef.nativeWindow?.location.origin,
           issuer: 'base',
         })
@@ -230,14 +225,14 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should use "" as a redirectUrl when not explicitly set on SSR', () => {
-      vi.spyOn(oAuthService, 'configure');
-      vi.spyOn(winRef, 'isBrowser').mockReturnValue(false);
-      vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
+      spyOn(oAuthService, 'configure').and.callThrough();
+      spyOn(winRef, 'isBrowser').and.returnValue(false);
+      spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
 
       service = TestBed.inject(OAuthLibWrapperService);
 
       expect(oAuthService.configure).toHaveBeenCalledWith(
-        expect.objectContaining({
+        jasmine.objectContaining({
           redirectUri: '',
         })
       );
@@ -262,10 +257,10 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait for a stable configuration before configuring', () => {
         const getStable = new ReplaySubject<AuthConfig>(1);
-        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           getStable.asObservable()
         );
-        vi.spyOn(oAuthService, 'configure');
+        spyOn(oAuthService, 'configure').and.callThrough();
 
         service = TestBed.inject(OAuthLibWrapperService);
 
@@ -284,30 +279,30 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should re-configure the auth service with federated login context parameters on loginUrl', () => {
-        vi.spyOn(oAuthService, 'configure');
-        vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
+        spyOn(oAuthService, 'configure').and.callThrough();
+        spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
 
         service = TestBed.inject(OAuthLibWrapperService);
 
         expect(federatedLoginService.getParameters).toHaveBeenCalled();
         expect(oAuthService.configure).toHaveBeenCalledWith(
-          expect.objectContaining({
+          jasmine.objectContaining({
             loginUrl: 'login?ctx=de:en',
           })
         );
       });
 
       it('should append params with & when loginUrl already has a query string', () => {
-        vi.spyOn(oAuthService, 'configure');
-        vi.spyOn(authConfigService, 'getLoginUrl').mockReturnValue(
+        spyOn(oAuthService, 'configure').and.callThrough();
+        spyOn(authConfigService, 'getLoginUrl').and.returnValue(
           'login?foo=bar'
         );
-        vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
+        spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
 
         service = TestBed.inject(OAuthLibWrapperService);
 
         expect(oAuthService.configure).toHaveBeenCalledWith(
-          expect.objectContaining({
+          jasmine.objectContaining({
             loginUrl: 'login?foo=bar&ctx=de:en',
           })
         );
@@ -322,13 +317,13 @@ describe('OAuthLibWrapperService', () => {
         });
 
         it('should use origin as base href for redirectUri', () => {
-          const configureSpy = vi.spyOn(oAuthService, 'configure');
-          vi.spyOn(authConfigService, 'getOAuthLibConfig').mockReturnValue({});
+          spyOn(oAuthService, 'configure').and.callThrough();
+          spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
 
           service = TestBed.inject(OAuthLibWrapperService);
 
-          expect(configureSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
+          expect(oAuthService.configure).toHaveBeenCalledWith(
+            jasmine.objectContaining({
               redirectUri: originatingDomain,
             })
           );
@@ -339,10 +334,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('authorizeWithPasswordFlow()', () => {
     it('should call fetchTokenUsingPasswordFlow method from the lib', async () => {
-      const fetchTokenUsingPasswordFlowSpy = vi.spyOn(
-        oAuthService,
-        'fetchTokenUsingPasswordFlow'
-      );
+      spyOn(oAuthService, 'fetchTokenUsingPasswordFlow').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
 
       const result = await service.authorizeWithPasswordFlow(
@@ -351,7 +343,7 @@ describe('OAuthLibWrapperService', () => {
       );
 
       expect(result).toEqual({ state: 'done' } as TokenResponse);
-      expect(fetchTokenUsingPasswordFlowSpy).toHaveBeenCalledWith(
+      expect(oAuthService.fetchTokenUsingPasswordFlow).toHaveBeenCalledWith(
         'username',
         'pass'
       );
@@ -364,10 +356,10 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call fetchTokenUsingPasswordFlow until the oauth service is configured', async () => {
         const getStable = new ReplaySubject<AuthConfig>(1);
-        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           getStable.asObservable()
         );
-        vi.spyOn(oAuthService, 'fetchTokenUsingPasswordFlow');
+        spyOn(oAuthService, 'fetchTokenUsingPasswordFlow').and.callThrough();
         service = TestBed.inject(OAuthLibWrapperService);
 
         expect(oAuthService.fetchTokenUsingPasswordFlow).not.toHaveBeenCalled();
@@ -385,7 +377,7 @@ describe('OAuthLibWrapperService', () => {
 
     beforeEach(() => {
       getStable = new ReplaySubject(1);
-      vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+      spyOn(configInitializerService, 'getStable').and.returnValue(
         getStable.asObservable()
       );
     });
@@ -396,7 +388,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should wait to call refreshToken until the oauth service is configured', () => {
-        vi.spyOn(oAuthService, 'refreshToken');
+        spyOn(oAuthService, 'refreshToken').and.callThrough();
         service = TestBed.inject(OAuthLibWrapperService);
 
         service.refreshToken();
@@ -410,7 +402,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call refreshToken method from lib', () => {
-      vi.spyOn(oAuthService, 'refreshToken');
+      spyOn(oAuthService, 'refreshToken').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
       getStable.next({});
 
@@ -428,10 +420,10 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call revokeTokenAndLogout until the oauth service is configured', async () => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           getConfig.asObservable()
         );
-        vi.spyOn(oAuthService, 'revokeTokenAndLogout');
+        spyOn(oAuthService, 'revokeTokenAndLogout').and.callThrough();
         service = TestBed.inject(OAuthLibWrapperService);
 
         const actual = service.revokeAndLogout();
@@ -446,8 +438,8 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call revokeTokenAndLogout method from the lib', async () => {
-      vi.spyOn(oAuthService, 'revokeTokenAndLogout');
-      vi.spyOn(oAuthService, 'logOut');
+      spyOn(oAuthService, 'revokeTokenAndLogout').and.callThrough();
+      spyOn(oAuthService, 'logOut').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
 
       await service.revokeAndLogout();
@@ -457,8 +449,8 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call logOut method from the lib when the revoke fails', async () => {
-      vi.spyOn(oAuthService, 'logOut');
-      vi.spyOn(oAuthService, 'revokeTokenAndLogout').mockReturnValue(
+      spyOn(oAuthService, 'logOut').and.callThrough();
+      spyOn(oAuthService, 'revokeTokenAndLogout').and.returnValue(
         Promise.reject()
       );
       service = TestBed.inject(OAuthLibWrapperService);
@@ -476,7 +468,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call logOut method from the lib', () => {
-      vi.spyOn(oAuthService, 'logOut');
+      spyOn(oAuthService, 'logOut').and.callThrough();
 
       service.logout();
 
@@ -490,7 +482,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should return the result from the getIdToken method from lib', () => {
-      vi.spyOn(oAuthService, 'getIdToken').mockReturnValue('id_tok');
+      spyOn(oAuthService, 'getIdToken').and.returnValue('id_tok');
 
       const token = service.getIdToken();
       expect(token).toEqual('id_tok');
@@ -505,10 +497,10 @@ describe('OAuthLibWrapperService', () => {
 
       it('should wait to call initLoginFlow until the oauth service is configured', async () => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           getConfig.asObservable()
         );
-        vi.spyOn(oAuthService, 'initLoginFlow');
+        spyOn(oAuthService, 'initLoginFlow').and.callThrough();
         service = TestBed.inject(OAuthLibWrapperService);
 
         const actual = service.initLoginFlow();
@@ -523,7 +515,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call initLoginFlow from the lib', () => {
-      vi.spyOn(oAuthService, 'initLoginFlow');
+      spyOn(oAuthService, 'initLoginFlow').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
 
       service.initLoginFlow();
@@ -533,7 +525,7 @@ describe('OAuthLibWrapperService', () => {
 
     it('should not set oAuth flow key in local storage when authorizationCodeFlowByDefault is enabled', () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      vi.spyOn(winRef.localStorage as Storage, 'setItem');
+      spyOn(winRef.localStorage as Storage, 'setItem').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
 
       service.initLoginFlow();
@@ -543,7 +535,7 @@ describe('OAuthLibWrapperService', () => {
 
     it('should set oAuth flow key in local storage when authorizationCodeFlowByDefault is disabled', () => {
       featureToggles.authorizationCodeFlowByDefault = false;
-      vi.spyOn(winRef.localStorage as Storage, 'setItem');
+      spyOn(winRef.localStorage as Storage, 'setItem').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
 
       service.initLoginFlow();
@@ -575,7 +567,7 @@ describe('OAuthLibWrapperService', () => {
       });
 
       it('should set the flag for oAuth flow key', () => {
-        vi.spyOn(winRef.localStorage as Storage, 'setItem');
+        spyOn(winRef.localStorage as Storage, 'setItem').and.callThrough();
         service = TestBed.inject(OAuthLibWrapperService);
 
         service.initLoginFlow();
@@ -599,7 +591,7 @@ describe('OAuthLibWrapperService', () => {
 
   describe('tryLogin()', () => {
     beforeEach(() => {
-      vi.spyOn(winRef.localStorage as Storage, 'removeItem');
+      spyOn(winRef.localStorage as Storage, 'removeItem').and.callThrough();
     });
 
     describe('when asyncAuthConfigInitializer is enabled', () => {
@@ -607,31 +599,31 @@ describe('OAuthLibWrapperService', () => {
         featureToggles.asyncAuthConfigInitializer = true;
       });
 
-      it('should wait to call tryLogin until the oauth service is configured', async () => {
+      it('should wait to call tryLogin until the oauth service is configured', fakeAsync(() => {
         const getConfig = new ReplaySubject<AuthConfig>(1);
-        vi.spyOn(configInitializerService, 'getStable').mockReturnValue(
+        spyOn(configInitializerService, 'getStable').and.returnValue(
           getConfig.asObservable()
         );
-        vi.spyOn(oAuthService, 'tryLogin');
+        spyOn(oAuthService, 'tryLogin').and.callThrough();
         service = TestBed.inject(OAuthLibWrapperService);
         service.events$ = new BehaviorSubject<OAuthEvent>({
           type: 'token_received',
         });
 
         service.tryLogin();
-        await Promise.resolve();
+        tick();
 
         expect(oAuthService.tryLogin).not.toHaveBeenCalled();
 
         getConfig.next({});
-        await Promise.resolve();
+        tick();
 
         expect(oAuthService.tryLogin).toHaveBeenCalled();
-      });
+      }));
     });
 
     it('should call tryLogin method from the lib', () => {
-      vi.spyOn(oAuthService, 'tryLogin');
+      spyOn(oAuthService, 'tryLogin').and.callThrough();
       service = TestBed.inject(OAuthLibWrapperService);
       service.events$ = new BehaviorSubject<OAuthEvent>({
         type: 'token_received',
@@ -677,7 +669,7 @@ describe('OAuthLibWrapperService', () => {
 
     it('should reject promise and clear the oAuth redirect key if oAuthService.tryLogin throws an error', async () => {
       const error = new Error('Login failed');
-      vi.spyOn(oAuthService, 'tryLogin').mockReturnValue(Promise.reject(error));
+      spyOn(oAuthService, 'tryLogin').and.returnValue(Promise.reject(error));
       service = TestBed.inject(OAuthLibWrapperService);
       service.events$ = new BehaviorSubject<OAuthEvent>({
         type: 'token_received',
@@ -685,7 +677,7 @@ describe('OAuthLibWrapperService', () => {
 
       try {
         await service.tryLogin();
-        throw new Error('Expected tryLogin() to throw');
+        fail('Expected tryLogin() to throw');
       } catch (err) {
         expect(err).toEqual(error);
       }
@@ -705,7 +697,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call initialize method', () => {
-      const initializeSpy = vi.spyOn(service as any, 'initialize');
+      const initializeSpy = spyOn(service as any, 'initialize');
       service.refreshAuthConfig();
       expect(initializeSpy).toHaveBeenCalled();
     });
@@ -717,10 +709,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should call changeClientWhenInitialize method', () => {
-      const initializeSpy = vi.spyOn(
-        service as any,
-        'changeClientWhenInitialize'
-      );
+      const initializeSpy = spyOn(service as any, 'changeClientWhenInitialize');
       service.changeAuthConfigClientId('testClientId');
       expect(initializeSpy).toHaveBeenCalled();
     });

@@ -1,22 +1,30 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
+import { UserPaymentAdapter } from './user-payment.adapter';
 import { UserPaymentConnector } from './user-payment.connector';
+import createSpy = jasmine.createSpy;
+
+class MockUserPaymentAdapter implements UserPaymentAdapter {
+  delete = createSpy('load').and.returnValue(of({}));
+  loadAll = createSpy('loadAll').and.callFake((userId) =>
+    of(`loadList-${userId}`)
+  );
+  setDefault = createSpy('setDefault').and.returnValue(of({}));
+}
 
 describe('UserPaymentConnector', () => {
   let service: UserPaymentConnector;
-  let adapter: {
-    delete: ReturnType<typeof vi.fn>;
-    loadAll: ReturnType<typeof vi.fn>;
-    setDefault: ReturnType<typeof vi.fn>;
-  };
+  let adapter: UserPaymentAdapter;
 
   beforeEach(() => {
-    adapter = {
-      delete: vi.fn().mockReturnValue(of({})),
-      loadAll: vi.fn().mockImplementation((userId) => of(`loadList-${userId}`)),
-      setDefault: vi.fn().mockReturnValue(of({})),
-    };
-    service = new UserPaymentConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: UserPaymentAdapter, useClass: MockUserPaymentAdapter },
+      ],
+    });
+
+    service = TestBed.inject(UserPaymentConnector);
+    adapter = TestBed.inject(UserPaymentAdapter);
   });
 
   it('should be created', () => {
@@ -24,21 +32,21 @@ describe('UserPaymentConnector', () => {
   });
 
   it('delete should call adapter', () => {
-    let result: any;
+    let result;
     service.delete('user-id', 'payment-id').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.delete).toHaveBeenCalledWith('user-id', 'payment-id');
   });
 
   it('getAll should call adapter', () => {
-    let result: any;
+    let result;
     service.getAll('user-id').subscribe((res) => (result = res));
     expect(result).toEqual('loadList-user-id');
     expect(adapter.loadAll).toHaveBeenCalledWith('user-id');
   });
 
   it('setDefault should call adapter', () => {
-    let result: any;
+    let result;
     service
       .setDefault('user-id', 'payment-id')
       .subscribe((res) => (result = res));

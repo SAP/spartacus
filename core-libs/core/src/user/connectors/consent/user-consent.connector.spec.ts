@@ -1,22 +1,26 @@
+import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { vi } from 'vitest';
+import { UserConsentAdapter } from './user-consent.adapter';
 import { UserConsentConnector } from './user-consent.connector';
+import createSpy = jasmine.createSpy;
+
+class MockUserAdapter implements UserConsentAdapter {
+  loadConsents = createSpy('loadConsents').and.returnValue(of({}));
+  giveConsent = createSpy('giveConsent').and.returnValue(of({}));
+  withdrawConsent = createSpy('withdrawConsent').and.returnValue(of({}));
+}
 
 describe('UserConsentConnector', () => {
   let service: UserConsentConnector;
-  let adapter: {
-    loadConsents: ReturnType<typeof vi.fn>;
-    giveConsent: ReturnType<typeof vi.fn>;
-    withdrawConsent: ReturnType<typeof vi.fn>;
-  };
+  let adapter: UserConsentAdapter;
 
   beforeEach(() => {
-    adapter = {
-      loadConsents: vi.fn().mockReturnValue(of({})),
-      giveConsent: vi.fn().mockReturnValue(of({})),
-      withdrawConsent: vi.fn().mockReturnValue(of({})),
-    };
-    service = new UserConsentConnector(adapter as any);
+    TestBed.configureTestingModule({
+      providers: [{ provide: UserConsentAdapter, useClass: MockUserAdapter }],
+    });
+
+    service = TestBed.inject(UserConsentConnector);
+    adapter = TestBed.inject(UserConsentAdapter);
   });
 
   it('should be created', () => {
@@ -24,14 +28,14 @@ describe('UserConsentConnector', () => {
   });
 
   it('loadConsents should call adapter', () => {
-    let result: any;
+    let result;
     service.loadConsents('userId').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.loadConsents).toHaveBeenCalledWith('userId');
   });
 
   it('giveConsent should call adapter', () => {
-    let result: any;
+    let result;
     service
       .giveConsent('userId', 'templateId', 0)
       .subscribe((res) => (result = res));
@@ -40,7 +44,7 @@ describe('UserConsentConnector', () => {
   });
 
   it('withdrawConsent should call adapter', () => {
-    let result: any;
+    let result;
     service
       .withdrawConsent('userId', 'consentCode', 'consentId')
       .subscribe((res) => (result = res));

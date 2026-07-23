@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -9,12 +8,12 @@ import { ErrorActionService } from './error-action.service';
 describe('ErrorActionService', () => {
   let errorActionService: ErrorActionService;
   let windowRef: WindowRef;
-  let errorHandlerSpy: ErrorHandler;
+  let errorHandlerSpy: jasmine.SpyObj<ErrorHandler>;
 
   beforeEach(() => {
-    const errorHandlerSpyObj = {
-      handleError: vi.fn(),
-    };
+    const errorHandlerSpyObj = jasmine.createSpyObj('ErrorHandler', [
+      'handleError',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
@@ -26,7 +25,9 @@ describe('ErrorActionService', () => {
 
     errorActionService = TestBed.inject(ErrorActionService);
     windowRef = TestBed.inject(WindowRef);
-    errorHandlerSpy = TestBed.inject(ErrorHandler) as ErrorHandler;
+    errorHandlerSpy = TestBed.inject(
+      ErrorHandler
+    ) as jasmine.SpyObj<ErrorHandler>;
   });
 
   it('should be created', () => {
@@ -70,7 +71,7 @@ describe('ErrorActionService', () => {
     });
 
     it('should not call ErrorHandler.handleError in browser runtime environment', () => {
-      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
 
       const mockErrorAction: ErrorAction = {
         type: 'ERROR_ACTION_TYPE',

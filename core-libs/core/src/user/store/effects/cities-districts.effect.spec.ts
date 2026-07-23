@@ -46,8 +46,8 @@ describe('CitiesDistrictsEffects', () => {
     effect = TestBed.inject(CitiesDistrictsEffects);
     service = TestBed.inject(SiteConnector);
 
-    vi.spyOn(service, 'getCities').mockReturnValue(of(mockCities));
-    vi.spyOn(service, 'getDistricts').mockReturnValue(of(mockDistricts));
+    spyOn(service, 'getCities').and.returnValue(of(mockCities));
+    spyOn(service, 'getDistricts').and.returnValue(of(mockDistricts));
   });
 
   describe('loadCities$', () => {

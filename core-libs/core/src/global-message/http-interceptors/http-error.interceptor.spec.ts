@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpClient,
   HTTP_INTERCEPTORS,
@@ -9,7 +8,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -17,9 +16,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { HttpResponseStatus } from '../models/response-status.model';
 import {
   BadGatewayHandler,
@@ -32,73 +30,73 @@ import {
   UnknownErrorHandler,
 } from './handlers';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-
-@Injectable()
-class MockGlobalMessageService {
-  add = vi.fn();
-  remove = vi.fn();
-}
-
-@Injectable()
-class MockAuthService {
-  logout() {}
-}
+import createSpy = jasmine.createSpy;
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
+  let mockMessageService: any;
+  let mockAuthService: any;
   let http: HttpClient;
 
   beforeEach(() => {
+    mockMessageService = {
+      add: createSpy(),
+      remove: createSpy(),
+    };
+
+    mockAuthService = {
+      logout() {},
+    };
+
     TestBed.configureTestingModule({
       providers: [
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: AuthService, useClass: MockAuthService },
-        UnknownErrorHandler,
-        BadGatewayHandler,
-        BadRequestHandler,
-        ConflictHandler,
-        ForbiddenHandler,
-        GatewayTimeoutHandler,
-        NotFoundHandler,
-        {
-          provide: UnifiedInjector,
-          useFactory: (
-            unknownHandler: UnknownErrorHandler,
-            badGatewayHandler: BadGatewayHandler,
-            badRequestHandler: BadRequestHandler,
-            conflictHandler: ConflictHandler,
-            forbiddenHandler: ForbiddenHandler,
-            gatewayTimeoutHandler: GatewayTimeoutHandler,
-            notFoundHandler: NotFoundHandler
-          ) => ({
-            getMulti: (_token: any) =>
-              of([
-                unknownHandler,
-                badGatewayHandler,
-                badRequestHandler,
-                conflictHandler,
-                forbiddenHandler,
-                gatewayTimeoutHandler,
-                notFoundHandler,
-              ]),
-          }),
-          deps: [
-            UnknownErrorHandler,
-            BadGatewayHandler,
-            BadRequestHandler,
-            ConflictHandler,
-            ForbiddenHandler,
-            GatewayTimeoutHandler,
-            NotFoundHandler,
-          ],
-        },
         {
           provide: HTTP_INTERCEPTORS,
-          useFactory: (unifiedInjector: UnifiedInjector) =>
-            new HttpErrorInterceptor(unifiedInjector),
-          deps: [UnifiedInjector],
+          useClass: HttpErrorInterceptor,
           multi: true,
         },
+        {
+          provide: HttpErrorHandler,
+          useClass: HttpErrorHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: UnknownErrorHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: BadGatewayHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: BadRequestHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: ConflictHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: ForbiddenHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: GatewayTimeoutHandler,
+          multi: true,
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: NotFoundHandler,
+          multi: true,
+        },
+        { provide: GlobalMessageService, useValue: mockMessageService },
+        { provide: AuthService, useValue: mockAuthService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -110,15 +108,20 @@ describe('HttpErrorInterceptor', () => {
 
   describe('Error Handlers', () => {
     function testHandlers(handlerClass, responseStatus) {
-      it('should call handleError for ' + handlerClass.name, () => {
+      it('should call handleError for ' + handlerClass.name, function () {
         http
           .get('/123')
           .pipe(catchError((error: any) => throwError(() => error)))
-          .subscribe({ error: () => {} });
+          .subscribe({
+            error: (error) => (this.error = error),
+          });
+        const mockReq = httpMock.expectOne((req) => {
+          return req.method === 'GET';
+        });
 
-        const mockReq = httpMock.expectOne((req) => req.method === 'GET');
         const handler = TestBed.inject(handlerClass) as ErrorHandler;
-        vi.spyOn(handler, 'handleError');
+
+        spyOn(handler, 'handleError');
         mockReq.flush({}, { status: responseStatus, statusText: '' });
 
         expect(handler.handleError).toHaveBeenCalled();
@@ -151,7 +154,13 @@ describe('HttpErrorInterceptor', () => {
         http
           .get('/validation-error')
           .pipe(catchError((error: any) => throwError(() => error)))
-          .subscribe({ error: () => {} });
+          .subscribe({
+            error: (error) => ({
+              if(this) {
+                this.error = error;
+              },
+            }),
+          });
 
         httpMock
           .expectOne('/validation-error')
@@ -166,13 +175,21 @@ describe('HttpErrorInterceptor', () => {
 
     describe('Unknown response warning for non production env', () => {
       it(`should display proper warning message in the console`, () => {
-        vi.spyOn(console, 'warn');
+        spyOn(console, 'warn');
         http
           .get('/unknown')
           .pipe(catchError((error: any) => throwError(() => error)))
-          .subscribe({ error: () => {} });
+          .subscribe({
+            error: (error) => ({
+              if(this) {
+                this.error = error;
+              },
+            }),
+          });
 
-        const mockReq = httpMock.expectOne((req) => req.method === 'GET');
+        const mockReq = httpMock.expectOne((req) => {
+          return req.method === 'GET';
+        });
         mockReq.flush({}, { status: 123, statusText: 'unknown' });
         // eslint-disable-next-line no-console
         expect(console.warn).toHaveBeenCalledWith(

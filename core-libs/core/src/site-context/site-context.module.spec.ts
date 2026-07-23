@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ConfigInitializer } from '../config/config-initializer/config-initializer';
 import { SiteContextConfigInitializer } from './config/config-loader/site-context-config-initializer';
@@ -32,7 +31,7 @@ describe('SiteContextModule', () => {
     config = TestBed.inject(SiteContextConfig);
     initializer = TestBed.inject(SiteContextConfigInitializer);
 
-    vi.spyOn(initializer, 'configFactory');
+    spyOn(initializer, 'configFactory').and.callThrough();
   });
 
   it(`should not resolve SiteContextConfig when it was already configured statically `, () => {

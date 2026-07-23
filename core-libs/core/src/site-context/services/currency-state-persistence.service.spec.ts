@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
@@ -6,6 +5,7 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { CurrencyService } from '../facade/currency.service';
 import { CURRENCY_CONTEXT_ID } from '../providers';
 import { CurrencyStatePersistenceService } from './currency-state-persistence.service';
+import createSpy = jasmine.createSpy;
 
 class MockCurrencyService implements Partial<CurrencyService> {
   getActive() {
@@ -14,7 +14,7 @@ class MockCurrencyService implements Partial<CurrencyService> {
   isInitialized() {
     return false;
   }
-  setActive = vi.fn();
+  setActive = createSpy('setActive');
 }
 
 const mockCurrencies = ['USD', 'JPY'];
@@ -54,13 +54,13 @@ describe('CurrencyStatePersistenceService', () => {
   describe('initSync', () => {
     it('should call StatePersistenceService with the correct attributes', () => {
       const state$ = of('USD');
-      vi.spyOn(currencyService, 'getActive').mockReturnValue(state$);
-      vi.spyOn(persistenceService, 'syncWithStorage');
+      spyOn(currencyService, 'getActive').and.returnValue(state$);
+      spyOn(persistenceService, 'syncWithStorage');
 
       service.initSync();
 
       expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-        expect.objectContaining({
+        jasmine.objectContaining({
           key: CURRENCY_CONTEXT_ID,
           state$,
         })
@@ -71,20 +71,20 @@ describe('CurrencyStatePersistenceService', () => {
 
   describe('onRead', () => {
     it('should NOT set active if no value is provided', () => {
-      vi.spyOn(currencyService, 'isInitialized').mockReturnValue(false);
+      spyOn(currencyService, 'isInitialized').and.returnValue(false);
       service['onRead']('');
 
       expect(currencyService.setActive).not.toHaveBeenCalled();
     });
     it('should NOT set active if the currency is initialized', () => {
-      vi.spyOn(currencyService, 'isInitialized').mockReturnValue(true);
+      spyOn(currencyService, 'isInitialized').and.returnValue(true);
 
       service['onRead']('CAD');
 
       expect(currencyService.setActive).not.toHaveBeenCalled();
     });
     it('should set active value if the currency is NOT initialized and a value is provided', () => {
-      vi.spyOn(currencyService, 'isInitialized').mockReturnValue(false);
+      spyOn(currencyService, 'isInitialized').and.returnValue(false);
       const currency = 'CAD';
 
       service['onRead'](currency);

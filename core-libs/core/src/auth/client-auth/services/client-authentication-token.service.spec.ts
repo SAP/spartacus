@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import {
   HttpTestingController,
   TestRequest,
@@ -52,7 +51,7 @@ describe('ClientAuthenticationTokenService', () => {
     service = TestBed.inject(ClientAuthenticationTokenService);
     httpMock = TestBed.inject(HttpTestingController);
     authConfigService = TestBed.inject(AuthConfigService);
-    vi.spyOn(authConfigService, 'getTokenEndpoint');
+    spyOn(authConfigService, 'getTokenEndpoint').and.callThrough();
   });
 
   afterEach(() => {

@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from '../../../routing/configurable-routes/config/routing-config';
 import { UrlParsingService } from '../../../routing/configurable-routes/url-translation/url-parsing.service';
@@ -49,7 +48,7 @@ describe('AuthFlowRoutesService', () => {
     describe(`when route is NOT configured as a part of the user auth flow`, () => {
       it('should return false', () => {
         const testUrl = 'not/auth/flow';
-        vi.spyOn(urlParsingService, 'matchPath').mockImplementation(
+        spyOn(urlParsingService, 'matchPath').and.callFake(
           (_: string, path: string) => path === testUrl
         );
         expect(service.isAuthFlow(testUrl)).toBe(false);
@@ -59,7 +58,7 @@ describe('AuthFlowRoutesService', () => {
     describe(`when route is configured as a part of the user auth flow`, () => {
       it('should return true for path without aliases', () => {
         const testUrl = 'login';
-        vi.spyOn(urlParsingService, 'matchPath').mockImplementation(
+        spyOn(urlParsingService, 'matchPath').and.callFake(
           (_: string, path: string) => path === testUrl
         );
         expect(service.isAuthFlow(testUrl)).toBe(true);
@@ -67,7 +66,7 @@ describe('AuthFlowRoutesService', () => {
 
       it('should return true for its one path alias', () => {
         const testUrl = 'register/alias/one';
-        vi.spyOn(urlParsingService, 'matchPath').mockImplementation(
+        spyOn(urlParsingService, 'matchPath').and.callFake(
           (_: string, path: string) => path === testUrl
         );
         expect(service.isAuthFlow(testUrl)).toBe(true);
@@ -75,7 +74,7 @@ describe('AuthFlowRoutesService', () => {
 
       it('should return true for its other path alias', () => {
         const testUrl = 'register/alias/two';
-        vi.spyOn(urlParsingService, 'matchPath').mockImplementation(
+        spyOn(urlParsingService, 'matchPath').and.callFake(
           (_: string, path: string) => path === testUrl
         );
         expect(service.isAuthFlow(testUrl)).toBe(true);

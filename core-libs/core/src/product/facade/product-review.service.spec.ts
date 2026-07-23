@@ -1,26 +1,18 @@
-import { vi } from 'vitest';
 import { inject, TestBed } from '@angular/core/testing';
-import { select, Store, StoreModule } from '@ngrx/store';
-import { firstValueFrom, of } from 'rxjs';
+import * as ngrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
-const mockReview: Review = { id: 'testId' };
-vi.mock('@ngrx/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@ngrx/store')>();
-  return {
-    ...actual,
-    select: vi.fn(),
-  };
-});
-
 describe('ReviewService', () => {
   let service: ProductReviewService;
   let store: Store<ProductsState>;
-  let dispatchSpy;
+  const mockReview: Review = { id: 'testId' };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,7 +27,7 @@ describe('ReviewService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(ProductReviewService);
 
-    dispatchSpy = vi.spyOn(store, 'dispatch');
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should ReviewService is injected', inject(
@@ -46,21 +38,22 @@ describe('ReviewService', () => {
   ));
 
   describe('getByProductCode(productCode)', () => {
-    it('should be able to get product reviews if reviews exist', async () => {
-      vi.mocked(select).mockReturnValue(() => of([mockReview]));
-      let result: Review[];
-      const productByCode = await firstValueFrom(
-        service.getByProductCode('testId')
+    it('should be able to get product reviews if reviews exist', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of([mockReview])
       );
+      let result: Review[];
       service.getByProductCode('testId').subscribe((reviews) => {
         result = reviews;
       });
-      expect(productByCode).toEqual([mockReview]);
+      expect(result).toEqual([mockReview]);
     });
 
-    it('should be able to load product reviews if reviews not exist', async () => {
-      vi.mocked(select).mockReturnValue(() => of(undefined));
-      await firstValueFrom(service.getByProductCode('testId'));
+    it('should be able to load product reviews if reviews not exist', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(undefined)
+      );
+      service.getByProductCode('testId').subscribe().unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProductReviews('testId')
