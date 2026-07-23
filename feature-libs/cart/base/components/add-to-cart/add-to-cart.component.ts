@@ -147,16 +147,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription.add(
-      this.addToCartForm
-        .get('quantity')
-        ?.valueChanges.pipe(
-          startWith(this.addToCartForm.get('quantity')?.value)
-        )
-        .subscribe((quantity) =>
-          this.cartItemQuantityService.setQuantity(quantity ?? 1)
-        )
-    );
+    this.subscribeToQuantityChanges();
 
     if (this.product) {
       this.productCode = this.product.code ?? '';
@@ -191,6 +182,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  protected subscribeToQuantityChanges(): void {
+    this.subscription.add(
+      this.addToCartForm
+        .get('quantity')
+        ?.valueChanges.pipe(
+          startWith(this.addToCartForm.get('quantity')?.value)
+        )
+        .subscribe((quantity) =>
+          this.cartItemQuantityService.setQuantity(quantity ?? 1)
+        )
+    );
   }
 
   protected setStockInfo(product: Product): void {
