@@ -4,28 +4,31 @@
   SPDX-License-Identifier: Apache-2.0
 -->
 
-<label *ngIf="hasAnyUnit()">
-  <span>{{ 'b2bUnitSelection.selector.label' | cxTranslate }}:</span>
-  <div class="cx-select-wrapper">
-    <ng-select
-      [items]="items()"
-      bindLabel="name"
-      bindValue="name"
-      [ngModel]="activeUnitName()"
-      [clearable]="false"
-      [searchable]="false"
-      [disabled]="!hasMultipleUnits()"
-      appendTo="cx-b2b-unit-selector"
-      (ngModelChange)="onSelect($event)"
-      [cxNgSelectA11y]="{
-        ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate,
-      }"
-    ></ng-select>
-    <cx-icon
-      *ngIf="hasMultipleUnits()"
-      aria-hidden="true"
-      [type]="iconTypes.CARET_DOWN"
-      class="small"
-    ></cx-icon>
-  </div>
-</label>
+@if (hasAnyUnit()) {
+  <label>
+    <span>{{ 'b2bUnitSelection.selector.label' | cxTranslate }}:</span>
+    <div class="cx-select-wrapper">
+      <ng-select
+        [items]="items()"
+        bindLabel="name"
+        bindValue="name"
+        [ngModel]="activeUnitName()"
+        [clearable]="false"
+        [searchable]="false"
+        [disabled]="!hasMultipleUnits()"
+        appendTo="cx-b2b-unit-selector"
+        (ngModelChange)="onSelect($event)"
+        [cxNgSelectA11y]="{
+          ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate,
+        }"
+      />
+      @if (hasMultipleUnits()) {
+        <cx-icon
+          aria-hidden="true"
+          [type]="iconTypes.CARET_DOWN"
+          class="small"
+        />
+      }
+    </div>
+  </label>
+}

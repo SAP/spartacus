@@ -84,7 +84,10 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
-    const unit = this.form.value.selectedUnit!;
+    const unit = this.form.value.selectedUnit;
+    if (!unit) {
+      return;
+    }
     this.userIdService
       .takeUserId(true)
       .pipe(take(1))

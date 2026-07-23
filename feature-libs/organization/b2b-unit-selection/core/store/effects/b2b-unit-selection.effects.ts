@@ -27,11 +27,11 @@ import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions'
 @Injectable()
 export class B2bUnitSelectionEffects {
   protected logger = inject(LoggerService);
-  private config = inject(B2bUnitSelectionConfig);
-  private applicationRef = inject(ApplicationRef);
-  private stateService = inject(B2bUnitSelectorStateService);
-  private routingService = inject(RoutingService);
-  private oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  protected config = inject(B2bUnitSelectionConfig);
+  protected applicationRef = inject(ApplicationRef);
+  protected stateService = inject(B2bUnitSelectorStateService);
+  protected routingService = inject(RoutingService);
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
 
   /**
    * Listens for the LOGIN action and loads the user's org units and default unit.
@@ -150,10 +150,10 @@ export class B2bUnitSelectionEffects {
   );
 
   constructor(
-    private actions$: Actions,
-    private connector: B2bUnitSelectionConnector,
-    private userIdService: UserIdService,
-    private launchDialogService: LaunchDialogService
+    protected actions$: Actions,
+    protected connector: B2bUnitSelectionConnector,
+    protected userIdService: UserIdService,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   /**
@@ -164,7 +164,7 @@ export class B2bUnitSelectionEffects {
    * - Not yet mounted (OAuth Code Flow / token restore during APP_INITIALIZER):
    *   poll via requestAnimationFrame until Angular bootstraps AppComponent.
    */
-  private openDialogWhenReady(
+  protected openDialogWhenReady(
     orgUnits: B2BUnit[],
     defaultUnitUid: string | undefined
   ): void {

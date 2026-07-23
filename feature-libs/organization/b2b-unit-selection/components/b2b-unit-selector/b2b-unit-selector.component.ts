@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgSelectComponent } from '@ng-select/ng-select';
@@ -26,7 +25,6 @@ import { AbstractB2bUnitSelectorComponent } from './abstract-b2b-unit-selector.c
   templateUrl: './b2b-unit-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     NgSelectComponent,
     NgSelectA11yDirective,

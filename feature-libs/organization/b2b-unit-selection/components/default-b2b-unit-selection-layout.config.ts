@@ -12,7 +12,9 @@ import {
 import { B2bUnitSelectionDialogComponent } from './b2b-unit-selection-dialog/b2b-unit-selection-dialog.component';
 // Side-effect import: ensures LAUNCH_CALLER.B2B_UNIT_SELECTION is assigned
 // before this config constant is evaluated.
-import '../root/model/augmented-core.model';
+// Imported via the root entry point to avoid cross-entry-point relative imports
+// (which break ng-packagr's secondary entry point compilation).
+import '@spartacus/organization/b2b-unit-selection/root';
 
 export const defaultB2bUnitSelectionLayoutConfig: LayoutConfig = {
   launch: {

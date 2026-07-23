@@ -28,7 +28,7 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   protected store = inject(Store);
   protected userIdService = inject(UserIdService);
   protected connector = inject(B2bUnitSelectionConnector);
-  private config = inject(B2bUnitSelectionConfig);
+  protected config = inject(B2bUnitSelectionConfig);
 
   /** All assignable B2B units for the current user. */
   readonly items = toSignal(this.stateService.orgUnits$, {

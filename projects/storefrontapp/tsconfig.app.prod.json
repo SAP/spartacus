@@ -2,8 +2,11 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "paths": {
+      "@spartacus/storefront": ["dist/storefront"],
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/assets": ["dist/assets"],
       "@spartacus/user": ["dist/user"],
       "@spartacus/user/wishlist": ["dist/user/wishlist"],
       "@spartacus/user/wishlist/root": ["dist/user/wishlist/root"],
@@ -235,6 +238,24 @@
       "@spartacus/organization/order-approval/assets": [
         "dist/organization/order-approval/assets"
       ],
+      "@spartacus/organization/b2b-unit-selection": [
+        "dist/organization/b2b-unit-selection"
+      ],
+      "@spartacus/organization/b2b-unit-selection/root": [
+        "dist/organization/b2b-unit-selection/root"
+      ],
+      "@spartacus/organization/b2b-unit-selection/occ": [
+        "dist/organization/b2b-unit-selection/occ"
+      ],
+      "@spartacus/organization/b2b-unit-selection/core": [
+        "dist/organization/b2b-unit-selection/core"
+      ],
+      "@spartacus/organization/b2b-unit-selection/components": [
+        "dist/organization/b2b-unit-selection/components"
+      ],
+      "@spartacus/organization/b2b-unit-selection/assets": [
+        "dist/organization/b2b-unit-selection/assets"
+      ],
       "@spartacus/organization/administration": [
         "dist/organization/administration"
       ],
@@ -270,24 +291,6 @@
       ],
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
-      ],
-      "@spartacus/organization/b2b-unit-selection": [
-        "dist/organization/b2b-unit-selection/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/root": [
-        "dist/organization/b2b-unit-selection/root/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/occ": [
-        "dist/organization/b2b-unit-selection/occ/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/core": [
-        "dist/organization/b2b-unit-selection/core/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/components": [
-        "dist/organization/b2b-unit-selection/components/public_api"
-      ],
-      "@spartacus/organization/b2b-unit-selection/assets": [
-        "dist/organization/b2b-unit-selection/assets/public_api"
       ],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/root": ["dist/order/root"],
@@ -518,10 +521,7 @@
       ],
       "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc/components": ["dist/cdc/components"],
-      "@spartacus/cdc/assets": ["dist/cdc/assets"],
-      "@spartacus/storefront": ["dist/storefront"],
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/assets": ["dist/assets"]
+      "@spartacus/cdc/assets": ["dist/cdc/assets"]
     }
   }
 }

@@ -74,6 +74,24 @@
       "@spartacus/organization/order-approval/assets": [
         "dist/organization/order-approval/assets"
       ],
+      "@spartacus/organization/b2b-unit-selection": [
+        "dist/organization/b2b-unit-selection"
+      ],
+      "@spartacus/organization/b2b-unit-selection/root": [
+        "dist/organization/b2b-unit-selection/root"
+      ],
+      "@spartacus/organization/b2b-unit-selection/occ": [
+        "dist/organization/b2b-unit-selection/occ"
+      ],
+      "@spartacus/organization/b2b-unit-selection/core": [
+        "dist/organization/b2b-unit-selection/core"
+      ],
+      "@spartacus/organization/b2b-unit-selection/components": [
+        "dist/organization/b2b-unit-selection/components"
+      ],
+      "@spartacus/organization/b2b-unit-selection/assets": [
+        "dist/organization/b2b-unit-selection/assets"
+      ],
       "@spartacus/organization/administration": [
         "dist/organization/administration"
       ],

@@ -20,8 +20,11 @@
     "esModuleInterop": true,
     "paths": {
       "@spartacus/schematics": ["../../core-libs/schematics/index"],
+      "@spartacus/storefront": ["../../core-libs/storefront/public_api"],
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
+      "@spartacus/core": ["../../core-libs/core/public_api"],
+      "@spartacus/assets": ["../../core-libs/assets/src/public_api"],
       "@spartacus/user": ["../../feature-libs/user/public_api"],
       "@spartacus/user/wishlist": [
         "../../feature-libs/user/wishlist/public_api"
@@ -358,6 +361,24 @@
       ],
       "@spartacus/organization/order-approval/assets": [
         "../../feature-libs/organization/order-approval/assets/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection": [
+        "../../feature-libs/organization/b2b-unit-selection/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/root": [
+        "../../feature-libs/organization/b2b-unit-selection/root/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/occ": [
+        "../../feature-libs/organization/b2b-unit-selection/occ/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/core": [
+        "../../feature-libs/organization/b2b-unit-selection/core/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/components": [
+        "../../feature-libs/organization/b2b-unit-selection/components/public_api"
+      ],
+      "@spartacus/organization/b2b-unit-selection/assets": [
+        "../../feature-libs/organization/b2b-unit-selection/assets/public_api"
       ],
       "@spartacus/organization/administration": [
         "../../feature-libs/organization/administration/public_api"
@@ -840,10 +861,7 @@
       "@spartacus/cdc/components": [
         "../../integration-libs/cdc/components/public_api"
       ],
-      "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"],
-      "@spartacus/storefront": ["../../core-libs/storefront/public_api"],
-      "@spartacus/core": ["../../core-libs/core/public_api"],
-      "@spartacus/assets": ["../../core-libs/assets/src/public_api"]
+      "@spartacus/cdc/assets": ["../../integration-libs/cdc/assets/public_api"]
     }
   },
   "include": ["schematics/**/*.ts"],
