@@ -12,6 +12,7 @@ import {
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   MockDatePipe,
@@ -27,6 +28,7 @@ import {
 } from '@spartacus/storefront';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
@@ -89,6 +91,7 @@ describe('MyAccountV2EmailComponent', () => {
         FormErrorsModule,
         PasswordVisibilityToggleModule,
         MyAccountV2EmailComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -104,7 +107,13 @@ describe('MyAccountV2EmailComponent', () => {
     })
       .overrideComponent(MyAccountV2EmailComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
         },
         add: {
           imports: [
@@ -112,6 +121,7 @@ describe('MyAccountV2EmailComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockCxSpinnerComponent,
+            MockFeatureDirective,
           ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -213,6 +223,16 @@ describe('MyAccountV2EmailComponent', () => {
       fixture.detectChanges();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend inside the form when editing', () => {
+      component.onEdit();
+      fixture.detectChanges();
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
     });
   });
 });

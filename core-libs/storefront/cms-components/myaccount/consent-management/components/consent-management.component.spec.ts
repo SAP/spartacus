@@ -31,6 +31,7 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementComponent } from './consent-management.component';
+import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-spinner',
@@ -168,6 +169,7 @@ describe('ConsentManagementComponent', () => {
             MockTranslatePipe,
             MockCxSpinnerComponent,
             MockConsentManagementFormComponent,
+            MockFeatureDirective,
           ],
         },
       })
@@ -802,6 +804,19 @@ describe('ConsentManagementComponent', () => {
           ).toEqual(3);
         });
       });
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend when consents are loaded', () => {
+      spyOn(userService, 'getConsents').and.returnValue(
+        of([mockConsentTemplate])
+      );
+      component.ngOnInit();
+      fixture.detectChanges();
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
     });
   });
 });

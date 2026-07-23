@@ -12,7 +12,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   BtnLikeLinkDirective,
   FormErrorsComponent,
@@ -43,6 +43,7 @@ import { UpdateEmailComponentService } from './update-email-component.service';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UpdateEmailComponent {

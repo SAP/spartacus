@@ -24,7 +24,8 @@
     },
     "bothPasswordMustMatch": "Both password must match",
     "passwordUpdateSuccess": "Password updated with success",
-    "accessDeniedError": "Access is denied"
+    "accessDeniedError": "Access is denied",
+    "heading": "Update Password"
   },
   "updateProfileForm": {
     "title": "Title",
@@ -40,11 +41,13 @@
     },
     "lastNameIsRequired": "Last name is required.",
     "profileUpdateSuccess": "Personal details successfully updated",
-    "customerId": "Customer #"
+    "customerId": "Customer #",
+    "heading": "Update Personal Details"
   },
   "consentManagementForm": {
     "clearAll": "Clear all",
     "selectAll": "Select all",
+    "heading": "Privacy Consent Management",
     "message": {
       "success": {
         "given": "Consent successfully given.",

@@ -163,4 +163,12 @@ describe('UpdateEmailComponent', () => {
       expect(service.save).toHaveBeenCalled();
     });
   });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend inside the form', () => {
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
+    });
+  });
 });

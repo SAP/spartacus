@@ -16,7 +16,11 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
@@ -43,6 +47,7 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UpdatePasswordComponent {

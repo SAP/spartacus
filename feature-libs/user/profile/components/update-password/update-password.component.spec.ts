@@ -10,7 +10,11 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
@@ -81,7 +85,11 @@ describe('UpdatePasswordComponent', () => {
       ],
     })
       .overrideComponent(UpdatePasswordComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: { imports: [FeatureDirective] },
+        add: {
+          imports: [MockFeatureDirective],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));
@@ -150,6 +158,14 @@ describe('UpdatePasswordComponent', () => {
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should render a fieldset with a visually-hidden legend inside the form', () => {
+      const legend = el.query(By.css('fieldset legend'));
+      expect(legend).toBeTruthy();
+      expect(legend.nativeElement.classList).toContain('cx-visually-hidden');
     });
   });
 });
