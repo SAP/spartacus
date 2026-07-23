@@ -42,14 +42,15 @@ export class B2bUnitSelectionEffects {
   private oAuthLibWrapperService = inject(OAuthLibWrapperService);
 
   /**
-   * 监听 LOGIN action，获取用户所属 org units 及默认 unit。
+   * Listens for the LOGIN action and loads the user's org units and default unit.
    *
-   * 有两种触发场景：
-   * 1. 手动登录（ROPC，用户在 Spartacus login 页填表提交）：
-   *    ApplicationRef.components 已有挂载组件，可直接开 dialog。
+   * Two login scenarios are handled:
+   * 1. Manual login (ROPC — user submits the Spartacus login form):
+   *    ApplicationRef.components already has mounted components; the dialog opens immediately.
    *
-   * 2. OAuth Code Flow 登录或页面刷新自动还原 token：
-   *    ApplicationRef.components 可能为空，需轮询等待 AppComponent 挂载后再开 dialog。
+   * 2. OAuth Authorization Code Flow or page-refresh token restore:
+   *    ApplicationRef.components may be empty; polling waits for AppComponent to mount
+   *    before opening the dialog.
    */
   checkOrgUnitsOnLogin$: Observable<
     | B2bUnitSelectionActions.LoadUserOrgUnitsSuccess
@@ -58,7 +59,7 @@ export class B2bUnitSelectionEffects {
     this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
       exhaustMap(() => {
-        // feature toggle：未启用时放行 redirect，不执行后续逻辑
+        // Feature toggle: release the redirect immediately when the feature is disabled.
         if (!this.config.b2bUnitSelection?.enabled) {
           this.coordinator.allowRedirect();
           return EMPTY;
@@ -67,13 +68,13 @@ export class B2bUnitSelectionEffects {
           switchMap((userId) =>
             forkJoin({
               orgUnits: this.connector.loadOrgUnits(userId),
-              // 获取用户默认 unit 失败时降级为 undefined，不阻断主流程
+              // Gracefully degrade if loading the default unit fails — do not block the main flow.
               defaultUnitUid: this.connector
                 .loadDefaultOrgUnitUid(userId)
                 .pipe(catchError(() => of(undefined))),
             }).pipe(
               tap(({ orgUnits, defaultUnitUid }) => {
-                // 无论 unit 数量多少，都写入状态服务，供 Company 选择器使用
+                // Always write to the state service so the Company header selector is populated.
                 this.stateService.setOrgUnits(orgUnits);
                 this.stateService.setActiveUnit(defaultUnitUid ?? null);
                 if (orgUnits.length > 0) {
@@ -106,9 +107,10 @@ export class B2bUnitSelectionEffects {
   );
 
   /**
-   * 监听 SET_DEFAULT_ORG_UNIT action，调用 PUT API 设置默认 unit。
-   * 成功后刷新 token（使新 unit 权限立即生效），再放行 redirect 并关闭 dialog。
-   * token 刷新失败时降级处理，不阻断主流程。
+   * Listens for SET_DEFAULT_ORG_UNIT and calls the PUT API to persist the selection.
+   * On success, refreshes the token so the new unit's permissions take effect immediately,
+   * then releases the redirect and closes the dialog.
+   * Token refresh failures are swallowed so they do not block the main flow.
    */
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
@@ -124,13 +126,13 @@ export class B2bUnitSelectionEffects {
       switchMap(({ userId, unitUid, redirectToHome }) =>
         this.connector.setDefaultOrgUnit(userId, unitUid).pipe(
           tap(() => {
-            // 刷新 token，使新 unit 的权限上下文立即生效（fire-and-forget）
+            // Refresh the token so the new unit's permission context takes effect (fire-and-forget).
             this.oAuthLibWrapperService.refreshToken();
             this.coordinator.allowRedirect();
             this.launchDialogService.closeDialog('CONFIRMED');
             this.stateService.setActiveUnit(unitUid);
-            // 仅 header 选择器切换（redirectToHome=true）才跳首页；
-            // dialog 确认走 coordinator 原有的 post-login redirect 逻辑
+            // Only navigate home for header selector switches (redirectToHome=true);
+            // dialog confirmations rely on the coordinator's existing post-login redirect.
             if (redirectToHome) {
               this.routingService.go({ cxRoute: 'home' });
             }
@@ -149,7 +151,8 @@ export class B2bUnitSelectionEffects {
   );
 
   /**
-   * 监听 LOGOUT action，清空 stateService，确保退出登录后 Company 选择器隐藏。
+   * Listens for LOGOUT and clears the state service so the Company selector
+   * is hidden after the user logs out.
    */
   clearOnLogout$ = createEffect(
     () =>
@@ -171,16 +174,18 @@ export class B2bUnitSelectionEffects {
   ) {}
 
   /**
-   * 根据 AppComponent 是否已挂载决定打开 dialog 的时机。
+   * Determines when to open the unit-selection dialog based on whether
+   * AppComponent has already been mounted.
    *
-   * InlineRootRenderStrategy 需要 ApplicationRef.components[0] 存在才能渲染 dialog。
-   * 以 components.length > 0 作为判断依据，直接对应该前提条件：
-   * - components 已就绪（手动登录：用户在页面上操作）：立即打开。
-   * - components 尚未就绪（APP_INITIALIZER 阶段自动还原 token）：等 Angular
-   *   bootstrap 完成（isStable 首次为 true）后再打开。
+   * InlineRootRenderStrategy requires ApplicationRef.components[0] to be present.
+   * Using components.length > 0 directly maps to that prerequisite:
+   * - Already mounted (manual login — user interaction on the page): open immediately.
+   * - Not yet mounted (token restore during APP_INITIALIZER): poll via requestAnimationFrame
+   *   until Angular bootstraps and mounts AppComponent.
    *
-   * 注意：不再使用 coordinator.isBlocked() 判断，因为 MetaReducer 在所有
-   * LOGIN dispatch 时都会设置 blocked（包括页面刷新场景），会导致误判。
+   * Note: coordinator.isBlocked() is not used here because the MetaReducer sets
+   * the blocked state for all LOGIN dispatches (including page refresh), which
+   * would produce false positives.
    */
   private openDialogWhenReady(
     orgUnits: B2BUnit[],
@@ -195,11 +200,11 @@ export class B2bUnitSelectionEffects {
     };
 
     if (this.applicationRef.components.length > 0) {
-      // 手动登录 / AppComponent 已挂载：立即打开
+      // Manual login / AppComponent already mounted: open immediately.
       open();
     } else {
-      // OAuth Code Flow / APP_INITIALIZER 阶段：轮询直到 AppComponent 挂载
-      // 比 isStable 更快，避免等待所有 HTTP 请求完成
+      // OAuth Code Flow / APP_INITIALIZER phase: poll until AppComponent mounts.
+      // Faster than isStable, which waits for all pending HTTP requests to settle.
       const poll = () => {
         if (this.applicationRef.components.length > 0) {
           open();

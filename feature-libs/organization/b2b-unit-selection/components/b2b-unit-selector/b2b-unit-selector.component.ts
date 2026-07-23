@@ -13,9 +13,9 @@ import { IconComponent, ICON_TYPE, NgSelectA11yDirective } from '@spartacus/stor
 import { AbstractB2bUnitSelectorComponent } from './abstract-b2b-unit-selector.component';
 
 /**
- * Company（B2B Unit）选择器。
- * 注册为 CMS Flex 组件（flexType: B2bUnitSelectorComponent），
- * 通过 ImpEx 放置于 SiteContextSlot。
+ * Company (B2B Unit) selector component.
+ * Registered as a CMS Flex component (flexType: B2bUnitSelectorComponent)
+ * and placed in SiteContextSlot via ImpEx.
  */
 @Component({
   selector: 'cx-b2b-unit-selector',

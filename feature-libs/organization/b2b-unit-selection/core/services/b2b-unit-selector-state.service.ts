@@ -9,20 +9,22 @@ import { B2BUnit } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
- * 轻量级状态服务：在 B2B unit 选择 Dialog 及常驻 Company 选择器之间共享状态。
+ * Lightweight state service that shares B2B unit data between the unit-selection
+ * dialog and the persistent Company selector in the header.
  *
- * 数据由 B2bUnitSelectionEffects 在登录后写入，组件直接订阅，无需重复调用 API。
+ * Data is written by B2bUnitSelectionEffects after login; components subscribe
+ * directly without issuing additional API calls.
  */
 @Injectable({ providedIn: 'root' })
 export class B2bUnitSelectorStateService {
   private _orgUnits$ = new BehaviorSubject<B2BUnit[]>([]);
   private _activeUnitName$ = new BehaviorSubject<string | null>(null);
 
-  /** 当前用户被分配的所有 org units */
+  /** All org units assigned to the current user. */
   readonly orgUnits$: Observable<B2BUnit[]> =
     this._orgUnits$.asObservable();
 
-  /** 当前激活（默认）unit 的 name */
+  /** The name of the currently active (default) org unit. */
   readonly activeUnitName$: Observable<string | null> =
     this._activeUnitName$.asObservable();
 

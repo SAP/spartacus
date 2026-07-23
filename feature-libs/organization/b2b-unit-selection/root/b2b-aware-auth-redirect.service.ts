@@ -9,12 +9,11 @@ import { AuthRedirectService } from '@spartacus/core';
 import { B2bRedirectCoordinator } from './b2b-redirect-coordinator.service';
 
 /**
- * 拦截 AuthRedirectService.redirect()：
- * 若 B2B unit 选择流程正在进行（coordinator.isBlocked），
- * 则等待 coordinator.whenAllowed$() 信号后再执行实际跳转。
+ * Overrides AuthRedirectService.redirect() to defer the post-login navigation
+ * while a B2B unit selection is in progress.
  *
- * 通过 MetaReducer 在 LOGIN action dispatch 时同步设置 blocked 状态，
- * 确保此处能在 redirect() 调用时感知到拦截标志。
+ * The coordinator is set to blocked synchronously inside the LOGIN MetaReducer,
+ * guaranteeing that this guard is already active when redirect() is first called.
  */
 @Injectable()
 export class B2bAwareAuthRedirectService extends AuthRedirectService {

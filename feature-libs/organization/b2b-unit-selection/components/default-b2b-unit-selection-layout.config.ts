@@ -10,7 +10,8 @@ import {
   LayoutConfig,
 } from '@spartacus/storefront';
 import { B2bUnitSelectionDialogComponent } from './b2b-unit-selection-dialog/b2b-unit-selection-dialog.component';
-// Side-effect import：确保 LAUNCH_CALLER.B2B_UNIT_SELECTION 在 config 常量求值前已被赋值
+// Side-effect import: ensures LAUNCH_CALLER.B2B_UNIT_SELECTION is assigned
+// before this config constant is evaluated.
 import '../root/model/augmented-core.model';
 
 export const defaultB2bUnitSelectionLayoutConfig: LayoutConfig = {

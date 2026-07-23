@@ -15,7 +15,7 @@ import {
 import { B2bUnitSelectionAdapter } from '../../core/connectors/b2b-unit-selection.adapter';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-// 注册 OccEndpoints module augmentation
+// Side-effect import: registers the OccEndpoints module augmentation.
 import '../model/occ-b2b-unit-selection-endpoints.model';
 
 @Injectable()

@@ -9,28 +9,28 @@ import { Router } from '@angular/router';
 import { B2bRedirectCoordinator } from './b2b-redirect-coordinator.service';
 
 /**
- * APP_INITIALIZER 工厂：在 bootstrap 阶段直接 patch Angular Router 内部的
- * scheduleNavigation() 方法——所有路由跳转（包括 Guard UrlTree 重定向）的
- * 唯一真正入口。
+ * APP_INITIALIZER factory that patches the Angular Router's internal
+ * scheduleNavigation() method — the single entry point for every navigation,
+ * including Guard UrlTree redirects.
  *
- * 调用链（所有路径最终都汇聚到此方法）：
- *   router.navigate()       → router.navigateByUrl() → scheduleNavigation()
- *   router.navigateByUrl()                           → scheduleNavigation()
- *   Guard 返回 UrlTree      → RedirectRequest 事件   → scheduleNavigation()
- *   浏览器触发的历史导航                              → scheduleNavigation()
+ * Call chain (all paths converge here):
+ *   router.navigate()     → router.navigateByUrl() → scheduleNavigation()
+ *   router.navigateByUrl()                         → scheduleNavigation()
+ *   Guard returns UrlTree → RedirectRequest event  → scheduleNavigation()
+ *   Browser history navigation                     → scheduleNavigation()
  *
- * 拦截条件（两个条件同时满足才拦截）：
- *   1. coordinator.isBlocked()：MetaReducer 已在 dispatch(Login) 时同步设置。
- *   2. applicationRef.components.length > 0：AppComponent 已挂载，表明这是
- *      用户主动登录场景（而非页面刷新时的 token 自动恢复场景）。
+ * Intercept conditions (both must be true):
+ *   1. coordinator.isBlocked() — set synchronously by the MetaReducer on LOGIN.
+ *   2. appRef.components.length > 0 — AppComponent is mounted, indicating an
+ *      interactive login rather than a token restore on page refresh.
  *
- * 区分两种 LOGIN 场景：
- *   - 页面刷新（token 自动恢复）：LOGIN 在 APP_INITIALIZER 阶段 dispatch，
- *     此时 AppComponent 尚未挂载（components.length = 0），不拦截导航，
- *     页面正常加载；dialog 通过 ApplicationRef.isStable 延迟打开。
- *   - 手动登录（用户填写表单）：LOGIN 在用户交互后 dispatch，
- *     此时 AppComponent 已挂载（components.length > 0），拦截 redirect，
- *     用户停留在 login 页面，等待 B2B unit 选择完成后再跳转。
+ * Two LOGIN scenarios distinguished:
+ *   - Page refresh (token restore): LOGIN dispatched in APP_INITIALIZER phase
+ *     while components.length === 0; navigation is not intercepted and the page
+ *     loads normally. The dialog opens later via requestAnimationFrame polling.
+ *   - Manual login (user submits form): LOGIN dispatched after user interaction
+ *     while components.length > 0; navigation is intercepted and the user stays
+ *     on the login page until B2B unit selection completes.
  */
 export function createB2bRedirectPatcher(
   router: Router,
@@ -49,11 +49,9 @@ export function createB2bRedirectPatcher(
       extras: any,
       priorPromise?: any
     ): Promise<boolean> => {
-      const blocked = coordinator.isBlocked();
-      const componentsLen = appRef.components.length;
-      // 仅在手动登录场景（AppComponent 已挂载）时拦截，
-      // 页面刷新 token 恢复场景（components.length = 0）直接放行
-      if (!blocked || componentsLen === 0) {
+      // Only intercept during interactive login (AppComponent already mounted).
+      // Token restore on page refresh (components.length === 0) passes through.
+      if (!coordinator.isBlocked() || appRef.components.length === 0) {
         return originalScheduleNavigation(
           rawUrl,
           source,
@@ -62,7 +60,7 @@ export function createB2bRedirectPatcher(
           priorPromise
         );
       }
-      // B2B unit 选择进行中：挂起导航，待 allowRedirect() 后执行
+      // B2B unit selection in progress: defer navigation until allowRedirect().
       coordinator.whenAllowed$().subscribe(() => {
         originalScheduleNavigation(
           rawUrl,
