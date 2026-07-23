@@ -19,7 +19,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
-import { B2bUnitSelectionConfig } from '../../../root/config/b2b-unit-selection.config';
+import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection/root';
 import { B2bUnitSelectionConnector } from '../../connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-state.service';
 import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions';
@@ -170,7 +170,7 @@ export class B2bUnitSelectionEffects {
   ): void {
     const open = () => {
       this.launchDialogService.openDialogAndSubscribe(
-        LAUNCH_CALLER.B2B_UNIT_SELECTION,
+        (LAUNCH_CALLER as any)['B2B_UNIT_SELECTION'],
         undefined,
         { orgUnits, defaultUnitUid }
       );

@@ -28,7 +28,7 @@ import {
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SetDefaultOrgUnit } from '../../core/store/actions/b2b-unit-selection.actions';
+import { SetDefaultOrgUnit } from '@spartacus/organization/b2b-unit-selection/core';
 
 @Component({
   selector: 'cx-b2b-unit-selection-dialog',

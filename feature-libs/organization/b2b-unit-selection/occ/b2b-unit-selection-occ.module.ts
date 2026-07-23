@@ -6,7 +6,7 @@
 
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { B2bUnitSelectionAdapter } from '../core/connectors/b2b-unit-selection.adapter';
+import { B2bUnitSelectionAdapter } from '@spartacus/organization/b2b-unit-selection/core';
 import { OccB2bUnitSelectionAdapter } from './adapters/occ-b2b-unit-selection.adapter';
 import { defaultOccB2bUnitSelectionConfig } from './config/default-occ-b2b-unit-selection-config';
 

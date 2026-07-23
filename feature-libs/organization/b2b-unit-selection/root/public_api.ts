@@ -8,4 +8,3 @@ export * from './b2b-unit-selection-root.module';
 export * from './config/b2b-unit-selection.config';
 export * from './config/default-b2b-unit-selection-config';
 export * from './feature-name';
-export * from './model/index';

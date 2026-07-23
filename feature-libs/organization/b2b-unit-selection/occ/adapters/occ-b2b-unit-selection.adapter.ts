@@ -12,7 +12,7 @@ import {
   OccEndpointsService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { B2bUnitSelectionAdapter } from '../../core/connectors/b2b-unit-selection.adapter';
+import { B2bUnitSelectionAdapter } from '@spartacus/organization/b2b-unit-selection/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 // Side-effect import: registers the OccEndpoints module augmentation.

@@ -10,10 +10,10 @@ import { Store } from '@ngrx/store';
 import { B2BUnit, UserIdService } from '@spartacus/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
-import { B2bUnitSelectionConnector } from '../../core/connectors/b2b-unit-selection.connector';
-import { B2bUnitSelectorStateService } from '../../core/services/b2b-unit-selector-state.service';
-import { SetDefaultOrgUnit } from '../../core/store/actions/b2b-unit-selection.actions';
-import { B2bUnitSelectionConfig } from '../../root/config/b2b-unit-selection.config';
+import { B2bUnitSelectionConnector } from '@spartacus/organization/b2b-unit-selection/core';
+import { B2bUnitSelectorStateService } from '@spartacus/organization/b2b-unit-selection/core';
+import { SetDefaultOrgUnit } from '@spartacus/organization/b2b-unit-selection/core';
+import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection/root';
 
 /**
  * Abstract base class encapsulating state and interaction logic for the Company selector.
