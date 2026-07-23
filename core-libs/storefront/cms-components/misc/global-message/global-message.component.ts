@@ -7,6 +7,7 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
@@ -20,7 +21,14 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
-  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class GlobalMessageComponent implements OnInit {
   iconTypes = ICON_TYPE;

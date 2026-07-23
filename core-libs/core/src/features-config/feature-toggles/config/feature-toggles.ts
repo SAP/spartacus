@@ -229,6 +229,13 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Applies a `10rem` inline-start padding to the order overview cards
+   * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
+   * not pushed inward, avoiding the horizontal shift on wide viewports.
+   */
+  orderOverviewCardsInlinePadding?: boolean;
+
+  /**
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
@@ -312,6 +319,13 @@ export interface FeatureTogglesInterface {
    * Affects: FacetComponent
    */
   a11yListSemanticsForFacets?: boolean;
+
+  /**
+   * In `ActiveFacetsComponent`, announces filter changes to screen readers.
+   * Before: no announcement when a filter is added or removed from the applied filters section.
+   * After: an assertive `aria-live` message is read out — "Filter added: <name>" or "Filter removed: <name>".
+   */
+  a11yFilteredFacetAnnouncement?: boolean;
 
   /**
    * Hides empty outlet wrapper elements in the cart item list table when they have no content.
@@ -572,6 +586,16 @@ export interface FeatureTogglesInterface {
    * Affects: `ConfiguratorAttributeProductCardComponent`
    */
   productConfiguratorConsolidatedButtonDisabling?: boolean;
+
+  /**
+   * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
+   * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
+   * stays legible on the danger background in the high-contrast dark theme
+   * (black glyph instead of white).
+   *
+   * Affects: `FormErrorsComponent`
+   */
+  a11yFormErrorIconContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -599,6 +623,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
@@ -615,6 +640,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
   a11yListSemanticsForFacets: false,
+  a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
@@ -649,4 +675,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  a11yFormErrorIconContrast: false,
 };
