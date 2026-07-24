@@ -374,6 +374,7 @@ if (environment.cpq) {
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
         a11yFormErrorIconContrast: true,
+        a11yFocusIndicatorContrast: true,
       };
       return appFeatureToggles;
     }),

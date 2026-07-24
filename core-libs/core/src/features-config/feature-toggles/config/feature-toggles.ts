@@ -604,6 +604,15 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the default theme's keyboard focus indicator color
+   * (`--cx-color-visual-focus`) is darkened so the focus outline of all UI
+   * elements (input fields, search box, comboboxes, checkboxes, radio buttons,
+   * etc.) meets the WCAG 1.4.11 non-text contrast requirement of >=3:1 against
+   * the adjacent surface.
+   */
+  a11yFocusIndicatorContrast?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -685,4 +694,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yFocusIndicatorContrast: false,
 };

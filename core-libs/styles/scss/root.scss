@@ -43,3 +43,7 @@
     }
   }
 }
+
+.#{getFeatureCssClass('a11yFocusIndicatorContrast')} {
+  --cx-color-visual-focus: #1f3a93;
+}
