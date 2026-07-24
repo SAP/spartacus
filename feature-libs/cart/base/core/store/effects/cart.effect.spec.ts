@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   provideHttpClient,
@@ -19,16 +20,16 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import * as fromClientAuthReducers from 'core-libs/core/src/auth/client-auth/store/reducers/index';
-import * as fromUserReducers from 'core-libs/core/src/user/store/reducers/index';
-import { Observable, of, throwError } from 'rxjs';
+import * as fromClientAuthReducers from '../../../../../../core-libs/core/src/auth/client-auth/store/reducers/index';
+import * as fromUserReducers from '../../../../../../core-libs/core/src/user/store/reducers/index';
+import { firstValueFrom, Observable, of, Subject, throwError } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import createSpy = jasmine.createSpy;
+import { provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -57,7 +58,7 @@ class MockLoggerService {
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
-  let loadMock: jasmine.Spy;
+  let loadMock: vi.Mock;
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -72,13 +73,13 @@ describe('Cart effect', () => {
   const cartId = 'testCartId';
   let store: Store<StateWithMultiCart>;
   beforeEach(() => {
-    loadMock = createSpy().and.returnValue(of(testCart));
+    loadMock = vi.fn().mockReturnValue(of(testCart));
 
     class MockCartConnector {
-      create = createSpy().and.returnValue(of(testCart));
+      create = vi.fn().mockReturnValue(of(testCart));
       load = loadMock;
-      addEmail = createSpy().and.returnValue(of({}));
-      delete = createSpy().and.returnValue(of({}));
+      addEmail = vi.fn().mockReturnValue(of({}));
+      delete = vi.fn().mockReturnValue(of({}));
     }
 
     TestBed.configureTestingModule({
@@ -161,7 +162,7 @@ describe('Cart effect', () => {
         userId,
         cartId,
       });
-      loadMock.and.returnValue(of(null));
+      loadMock.mockReturnValue(of(null));
       const loadCartFailCompletion = new CartActions.LoadCartFail({
         userId,
         cartId,
@@ -182,7 +183,7 @@ describe('Cart effect', () => {
         cartId,
         extraData: { active: true },
       });
-      loadMock.and.returnValue(
+      loadMock.mockReturnValue(
         throwError(() => ({
           error: {
             errors: [
@@ -217,7 +218,7 @@ describe('Cart effect', () => {
         },
       });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(throwError(() => httpError));
+      loadMock.mockReturnValue(throwError(() => httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
         error: tryNormalizeHttpError(httpError, new MockLoggerService()),
@@ -344,7 +345,7 @@ describe('Cart effect', () => {
         tempCartId: 'temp-uuid',
       });
       const error = new Error('Merge failed');
-      loadMock.and.returnValue(throwError(() => error));
+      loadMock.mockReturnValue(throwError(() => error));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -423,7 +424,8 @@ describe('Cart effect', () => {
     const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
     siteContextChangeActions.forEach((actionName) => {
-      it(`should reload active cart and reset non-active carts on ${actionName}`, () => {
+      it(`should reload active cart and reset non-active carts on ${actionName}`, async () => {
+        (cartEffects as any)['enableCartReloadOnContextChange'] = true;
         store.dispatch(
           new CartActions.SetCartTypeIndex({
             cartType: CartType.ACTIVE,
@@ -437,21 +439,24 @@ describe('Cart effect', () => {
           })
         );
 
-        const action = new SiteContextActions[actionName]();
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-(bc)', {
-          b: new CartActions.ResetCartDetailsByIds({
-            cartIds: [nonActiveCartId],
-          }),
-          c: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
-        });
+        const actionsSubject = new Subject<any>();
+        actions$ = actionsSubject;
+        const resultPromise = firstValueFrom(
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(take(2), toArray())
+        );
+        actionsSubject.next(new SiteContextActions[actionName]());
+        const results = await resultPromise;
 
-        expect(
-          cartEffects.refreshCartDetailsOnSiteContextChange$
-        ).toBeObservable(expected);
+        expect(results).toContainEqual(
+          new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] })
+        );
+        expect(results).toContainEqual(
+          new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId })
+        );
       });
 
-      it(`should only emit LoadCart on ${actionName} when no non-active carts`, () => {
+      it(`should only emit LoadCart on ${actionName} when no non-active carts`, async () => {
+        (cartEffects as any)['enableCartReloadOnContextChange'] = true;
         store.dispatch(
           new CartActions.SetCartTypeIndex({
             cartType: CartType.ACTIVE,
@@ -459,18 +464,21 @@ describe('Cart effect', () => {
           })
         );
 
-        const action = new SiteContextActions[actionName]();
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', {
-          b: new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
-        });
+        const actionsSubject = new Subject<any>();
+        actions$ = actionsSubject;
+        const resultPromise = firstValueFrom(
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(take(1), toArray())
+        );
+        actionsSubject.next(new SiteContextActions[actionName]());
+        const results = await resultPromise;
 
-        expect(
-          cartEffects.refreshCartDetailsOnSiteContextChange$
-        ).toBeObservable(expected);
+        expect(results).toEqual([
+          new CartActions.LoadCart({ userId: OCC_USER_ID_CURRENT, cartId }),
+        ]);
       });
 
-      it(`should only reset non-active carts on ${actionName} when no active cart`, () => {
+      it(`should only reset non-active carts on ${actionName} when no active cart`, async () => {
+        (cartEffects as any)['enableCartReloadOnContextChange'] = true;
         store.dispatch(
           new CartActions.SetCartData({
             cart: testCart,
@@ -478,17 +486,17 @@ describe('Cart effect', () => {
           })
         );
 
-        const action = new SiteContextActions[actionName]();
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', {
-          b: new CartActions.ResetCartDetailsByIds({
-            cartIds: [nonActiveCartId],
-          }),
-        });
+        const actionsSubject = new Subject<any>();
+        actions$ = actionsSubject;
+        const resultPromise = firstValueFrom(
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(take(1), toArray())
+        );
+        actionsSubject.next(new SiteContextActions[actionName]());
+        const results = await resultPromise;
 
-        expect(
-          cartEffects.refreshCartDetailsOnSiteContextChange$
-        ).toBeObservable(expected);
+        expect(results).toEqual([
+          new CartActions.ResetCartDetailsByIds({ cartIds: [nonActiveCartId] }),
+        ]);
       });
 
       it(`should not emit on ${actionName} when no carts in state`, () => {

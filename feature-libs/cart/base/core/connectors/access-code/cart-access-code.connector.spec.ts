@@ -3,10 +3,9 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartAccessCodeAdapter } from './cart-access-code.adapter';
 import { CartAccessCodeConnector } from './cart-access-code.connector';
-import createSpy = jasmine.createSpy;
 
 class MockCartAccessCodeAdapter implements CartAccessCodeAdapter {
-  getCartAccessCode = createSpy().and.returnValue(of({}));
+  getCartAccessCode = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CartAccessCodeConnector', () => {

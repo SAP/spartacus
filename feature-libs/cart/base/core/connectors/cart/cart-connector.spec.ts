@@ -3,7 +3,6 @@ import { Cart } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { CartAdapter } from './cart.adapter';
 import { CartConnector } from './cart.connector';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
@@ -16,16 +15,16 @@ const mockSavedCart: Cart = {
   description: 'test-cart-description',
 };
 class MockCartAdapter implements CartAdapter {
-  create = createSpy().and.callFake((id) => of('create' + id));
-  load = createSpy().and.callFake((user, cart) => of('load' + user + cart));
-  loadAll = createSpy().and.callFake((user) => of('loadAll' + user));
-  addEmail = createSpy().and.callFake((userId, cartId, email) =>
+  create = vi.fn().mockImplementation((id) => of('create' + id));
+  load = vi.fn().mockImplementation((user, cart) => of('load' + user + cart));
+  loadAll = vi.fn().mockImplementation((user) => of('loadAll' + user));
+  addEmail = vi.fn().mockImplementation((userId, cartId, email) =>
     of('addEmail' + userId + cartId + email)
   );
-  delete = createSpy().and.callFake((userId: string, cartId: string) =>
+  delete = vi.fn().mockImplementation((userId: string, cartId: string) =>
     of('delete' + userId + cartId)
   );
-  save = createSpy().and.returnValue(of(mockSavedCart));
+  save = vi.fn().mockReturnValue(of(mockSavedCart));
 }
 
 describe('CartConnector', () => {

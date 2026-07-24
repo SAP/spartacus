@@ -5,20 +5,19 @@ import { MultiCartFacade } from '../facade/multi-cart.facade';
 import { LoadCartEvent, RemoveCartEvent } from './cart.events';
 import { MultiCartEventListener } from './multi-cart-event.listener';
 
-import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 const mockUserId = 'testUserId';
 const mockCartId = 'testCartId';
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  removeCart = createSpy();
-  loadCart = createSpy();
+  removeCart = vi.fn();
+  loadCart = vi.fn();
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe(`MultiCartEventListener`, () => {

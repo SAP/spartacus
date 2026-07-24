@@ -121,14 +121,14 @@ describe('QuickOrderItemComponent', () => {
   });
 
   it('should delete entry', () => {
-    spyOn(quickOrderService, 'softDeleteEntry');
+    vi.spyOn(quickOrderService, 'softDeleteEntry');
     component.removeEntry();
 
     expect(quickOrderService.softDeleteEntry).toHaveBeenCalledWith(mockIndex);
   });
 
   it('should update entry on quantity change', () => {
-    spyOn(quickOrderService, 'updateEntryQuantity');
+    vi.spyOn(quickOrderService, 'updateEntryQuantity');
     component.quantityControl.setValue(5);
 
     expect(quickOrderService.updateEntryQuantity).toHaveBeenCalledWith(
@@ -138,7 +138,7 @@ describe('QuickOrderItemComponent', () => {
   });
 
   it('should update quantity on secondary product add', () => {
-    spyOn(quickOrderService, 'getProductAdded').and.returnValue(
+    vi.spyOn(quickOrderService, 'getProductAdded').mockReturnValue(
       mockCodeSubject
     );
     component.ngOnInit();

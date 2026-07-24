@@ -12,7 +12,6 @@ import { ContextService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 import { ExportOrderEntriesComponent } from './export-order-entries.component';
-import createSpy = jasmine.createSpy;
 
 const entry: OrderEntry = {
   basePrice: {
@@ -92,16 +91,16 @@ const entry: OrderEntry = {
 const entries: OrderEntry[] = [entry, entry];
 
 class MockExportProductsToCsvService {
-  downloadCsv = createSpy('downloadCsv');
+  downloadCsv = vi.fn();
 }
 
 class MockImportExportContext {
-  getEntries = createSpy('getEntries').and.returnValue(of(entries));
+  getEntries = vi.fn().mockReturnValue(of(entries));
 }
 const contextService = new MockImportExportContext();
 
 class MockContextService implements Partial<ContextService> {
-  get = createSpy().and.returnValue(of(contextService));
+  get = vi.fn().mockReturnValue(of(contextService));
 }
 
 describe('ExportOrderEntriesComponent', () => {
@@ -149,7 +148,7 @@ describe('ExportOrderEntriesComponent', () => {
   it('should display export to csv link and run downloadCsv on click', () => {
     fixture.detectChanges();
 
-    const exportToCsvSpy = spyOn(component, 'exportCsv').and.callThrough();
+    const exportToCsvSpy = vi.spyOn(component, 'exportCsv');
     const btn = fixture.debugElement.query(By.css('button.cx-export-btn'));
 
     expect(btn.nativeElement).toBeTruthy();
@@ -165,7 +164,7 @@ describe('ExportOrderEntriesComponent', () => {
     expect(
       fixture.debugElement
         .query(By.css('button.cx-export-btn'))
-        .nativeElement.innerText.trim()
+        .nativeElement.textContent?.trim()
     ).toEqual('exportEntries.exportProductToCsv');
   });
 });

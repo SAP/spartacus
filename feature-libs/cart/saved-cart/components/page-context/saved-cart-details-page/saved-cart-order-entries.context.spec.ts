@@ -11,7 +11,6 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RouterState, RoutingService, UserIdService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { SavedCartOrderEntriesContext } from './saved-cart-order-entries.context';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user';
 const mockCartId = '00004546';
@@ -35,18 +34,18 @@ const mockSavedCart: Cart = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockMultiCartService implements Partial<MultiCartFacade> {
-  addEntries = createSpy().and.callThrough();
+  addEntries = vi.fn();
 }
 
 class MockSavedCartService implements Partial<SavedCartFacade> {
-  get = createSpy().and.returnValue(of(mockSavedCart));
-  saveCart = createSpy().and.callThrough();
-  loadSavedCarts = createSpy().and.callThrough();
-  getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
+  get = vi.fn().mockReturnValue(of(mockSavedCart));
+  saveCart = vi.fn();
+  loadSavedCarts = vi.fn();
+  getSaveCartProcessLoading = vi.fn().mockReturnValue(of(false));
 }
 
 const routerStateSubject = new BehaviorSubject<RouterState>({
@@ -59,7 +58,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
+  getRouterState = vi.fn().mockReturnValue(
     routerStateSubject.asObservable()
   );
 }
@@ -69,7 +68,7 @@ const mockProductImportInfo = {
   statusCode: 'testStatusCode',
 };
 class MockProductImportInfoService {
-  getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+  getResults = vi.fn().mockReturnValue(of(mockProductImportInfo));
 }
 
 describe('SavedCartOrderEntriesContext', () => {

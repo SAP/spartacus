@@ -12,7 +12,6 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';
 import { SavedCartService } from './saved-cart.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user';
 const mockCartId = 'test-cart';
@@ -55,18 +54,18 @@ const mockSavedCartsWithWishListAndSelectiveCart: Cart[] = [
 ];
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = createSpy().and.returnValue(of(mockUser));
+  get = vi.fn().mockReturnValue(of(mockUser));
 }
 
 class MockMultiCartService implements Partial<MultiCartFacade> {
-  getCartEntity = createSpy().and.returnValue(of({}));
-  isStable = createSpy().and.returnValue(of(true));
-  getCarts = createSpy().and.returnValue(of(mockSavedCarts));
-  deleteCart = createSpy();
+  getCartEntity = vi.fn().mockReturnValue(of({}));
+  isStable = vi.fn().mockReturnValue(of(true));
+  getCarts = vi.fn().mockReturnValue(of(mockSavedCarts));
+  deleteCart = vi.fn();
 }
 
 describe('SavedCartService', () => {
@@ -90,7 +89,7 @@ describe('SavedCartService', () => {
     store = TestBed.inject(Store);
     userIdService = TestBed.inject(UserIdService);
     multiCartService = TestBed.inject(MultiCartFacade);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should be created', () => {
@@ -126,7 +125,7 @@ describe('SavedCartService', () => {
     });
 
     it('should not trigger loadSavedCart(userId) when state is in store', () => {
-      multiCartService.getCartEntity = createSpy().and.returnValue(
+      multiCartService.getCartEntity = vi.fn().mockReturnValue(
         of({
           value: mockSavedCarts[0],
           loading: false,
@@ -153,7 +152,7 @@ describe('SavedCartService', () => {
   });
 
   it('should return state of the saved cart', () => {
-    multiCartService.getCartEntity = createSpy().and.returnValue(
+    multiCartService.getCartEntity = vi.fn().mockReturnValue(
       of({
         value: mockSavedCarts[0],
         loading: false,
@@ -190,7 +189,7 @@ describe('SavedCartService', () => {
 
   describe('List of Saved Carts', () => {
     it('should dispatch a load for a list of saved carts ', () => {
-      multiCartService.getCarts = createSpy().and.returnValue(
+      multiCartService.getCarts = vi.fn().mockReturnValue(
         of(mockSavedCarts)
       );
 
@@ -239,7 +238,7 @@ describe('SavedCartService', () => {
     });
 
     it('should filter saved carts without wishlist and selective carts', () => {
-      multiCartService.getCarts = createSpy().and.returnValue(
+      multiCartService.getCarts = vi.fn().mockReturnValue(
         of(mockSavedCartsWithWishListAndSelectiveCart)
       );
 

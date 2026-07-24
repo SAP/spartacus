@@ -6,7 +6,7 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
+import * as fromProcessReducers from '../../../../../core-libs/core/src/process/store/reducers/index';
 import { Observable, of } from 'rxjs';
 import { CartActions } from '../store/actions/index';
 import { CartVoucherService } from './cart-voucher.service';
@@ -63,7 +63,7 @@ describe('CartVoucherService', () => {
 
   describe('add Voucher', () => {
     it('should dispatch addVoucher action', () => {
-      spyOn(store, 'dispatch').and.stub();
+      vi.spyOn(store, 'dispatch').mockImplementation(() => {});
       service.addVoucher(voucherId, cart.code);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -123,7 +123,7 @@ describe('CartVoucherService', () => {
     });
 
     it('should dispatch a reset action', () => {
-      spyOn(store, 'dispatch').and.stub();
+      vi.spyOn(store, 'dispatch').mockImplementation(() => {});
       service.resetAddVoucherProcessingState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartResetAddVoucher()
@@ -133,7 +133,7 @@ describe('CartVoucherService', () => {
 
   describe('remove Voucher', () => {
     it('should be able to removeVoucher', () => {
-      spyOn(store, 'dispatch').and.stub();
+      vi.spyOn(store, 'dispatch').mockImplementation(() => {});
       service.removeVoucher(voucherId);
 
       expect(store.dispatch).toHaveBeenCalledWith(

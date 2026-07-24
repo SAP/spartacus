@@ -5,7 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { MockOccEndpointsService } from 'core-libs/core/src/occ/adapters/user/unit-test.helper';
+import { MockOccEndpointsService } from '../../../../../core-libs/core/src/occ/adapters/user/unit-test.helper';
 import { OccSavedCartAdapter } from './occ-saved-cart.adapter';
 import {
   provideHttpClient,
@@ -48,8 +48,8 @@ describe('OccSavedCartAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     adapter = TestBed.inject(OccSavedCartAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'pipeableMany').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'pipeableMany');
   });
 
   afterEach(() => {

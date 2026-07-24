@@ -76,8 +76,8 @@ describe('BadVoucherRequestHandler', () => {
     service = TestBed.inject(BadVoucherRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'remove');
   });
 
   it('should be created', () => {
@@ -89,12 +89,12 @@ describe('BadVoucherRequestHandler', () => {
   });
 
   it('should match voucher error', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
+    vi.spyOn(HttpErrorHandler.prototype, 'hasMatch').mockReturnValue(true);
     expect(service.hasMatch(MockVoucherErrorResponse)).toBe(true);
   });
 
   it('should not have a match when super.hasMatch() is false', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(false);
+    vi.spyOn(HttpErrorHandler.prototype, 'hasMatch').mockReturnValue(false);
     expect(service.hasMatch(MockVoucherErrorResponse)).toBe(false);
   });
 

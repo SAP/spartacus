@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import {
@@ -20,9 +21,9 @@ import { WishListV2Service } from './wish-list-v2.service';
 describe('WishListV2Service', () => {
   let service: WishListV2Service;
 
-  let userIdService: jasmine.SpyObj<UserIdService>;
-  let connector: jasmine.SpyObj<UserWishlistConnector>;
-  let productSearchConnector: jasmine.SpyObj<ProductSearchConnector>;
+  let userIdService: vi.MockObj<UserIdService>;
+  let connector: vi.MockObj<UserWishlistConnector>;
+  let productSearchConnector: vi.MockObj<ProductSearchConnector>;
 
   const MOCK_USER_ID = 'testUser';
   const MOCK_WISHLIST_ID = 'wishlist-uuid-123';
@@ -49,25 +50,17 @@ describe('WishListV2Service', () => {
   };
 
   beforeEach(() => {
-    userIdService = jasmine.createSpyObj<UserIdService>('UserIdService', [
-      'getUserId',
-    ]);
-    connector = jasmine.createSpyObj<UserWishlistConnector>(
-      'UserWishlistConnector',
-      ['getWishlist', 'addEntry', 'removeEntry']
-    );
-    productSearchConnector = jasmine.createSpyObj<ProductSearchConnector>(
-      'ProductSearchConnector',
-      ['searchByCodes']
-    );
+    userIdService = { getUserId: vi.fn() } as any;
+    connector = { getWishlist: vi.fn(), addEntry: vi.fn(), removeEntry: vi.fn() } as any;
+    productSearchConnector = { searchByCodes: vi.fn() } as any;
 
-    userIdService.getUserId.and.returnValue(of(MOCK_USER_ID));
-    connector.getWishlist.and.returnValue(of(mockWishlist));
-    connector.addEntry.and.returnValue(
+    userIdService.getUserId.mockReturnValue(of(MOCK_USER_ID));
+    connector.getWishlist.mockReturnValue(of(mockWishlist));
+    connector.addEntry.mockReturnValue(
       of({ id: 'new-entry', productCode: MOCK_PRODUCT_CODE })
     );
-    connector.removeEntry.and.returnValue(of(undefined as void));
-    productSearchConnector.searchByCodes.and.returnValue(
+    connector.removeEntry.mockReturnValue(of(undefined as void));
+    productSearchConnector.searchByCodes.mockReturnValue(
       of({ products: [mockProduct] })
     );
 
@@ -142,8 +135,8 @@ describe('WishListV2Service', () => {
           { id: 'entry-uuid-789', productCode: '999999' },
         ],
       };
-      connector.getWishlist.and.returnValue(of(wishlistWithTwo));
-      productSearchConnector.searchByCodes.and.returnValue(
+      connector.getWishlist.mockReturnValue(of(wishlistWithTwo));
+      productSearchConnector.searchByCodes.mockReturnValue(
         of({ products: [mockProduct, mockProduct2] })
       );
 
@@ -165,7 +158,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should skip product fetch and return empty entries when wishlist has no entries', () => {
-      connector.getWishlist.and.returnValue(
+      connector.getWishlist.mockReturnValue(
         of({ id: MOCK_WISHLIST_ID, entries: [] })
       );
       let cart: Cart | undefined;
@@ -176,7 +169,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should fall back to original wishlist entries when searchByCodes fails', () => {
-      productSearchConnector.searchByCodes.and.returnValue(
+      productSearchConnector.searchByCodes.mockReturnValue(
         throwError(() => new Error('Search API error'))
       );
       let cart: Cart | undefined;
@@ -187,7 +180,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should emit an empty cart and recover when connector.getWishlist fails', () => {
-      connector.getWishlist.and.returnValue(
+      connector.getWishlist.mockReturnValue(
         throwError(() => new Error('Network error'))
       );
       let cart: Cart | undefined;
@@ -197,7 +190,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should not emit for anonymous users', () => {
-      userIdService.getUserId.and.returnValue(of(OCC_USER_ID_ANONYMOUS));
+      userIdService.getUserId.mockReturnValue(of(OCC_USER_ID_ANONYMOUS));
       let emitted = false;
       service.getWishList().subscribe(() => (emitted = true));
 
@@ -225,7 +218,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should use "default" as wishlistId when wishlist has no id', () => {
-      connector.getWishlist.and.returnValue(of({ entries: [] }));
+      connector.getWishlist.mockReturnValue(of({ entries: [] }));
       service.addEntry(MOCK_PRODUCT_CODE);
       expect(connector.addEntry).toHaveBeenCalledWith(
         MOCK_USER_ID,
@@ -235,10 +228,10 @@ describe('WishListV2Service', () => {
     });
 
     it('should trigger refresh$.next() after successful add', () => {
-      const refreshSpy = spyOn(
+      const refreshSpy = vi.spyOn(
         (service as any).refresh$,
         'next'
-      ).and.callThrough();
+      );
       service.addEntry(MOCK_PRODUCT_CODE);
       expect(refreshSpy).toHaveBeenCalled();
     });
@@ -260,10 +253,10 @@ describe('WishListV2Service', () => {
     });
 
     it('should trigger refresh$.next() after successful remove', () => {
-      const refreshSpy = spyOn(
+      const refreshSpy = vi.spyOn(
         (service as any).refresh$,
         'next'
-      ).and.callThrough();
+      );
       service.removeEntry(mockEntry);
       expect(refreshSpy).toHaveBeenCalled();
     });

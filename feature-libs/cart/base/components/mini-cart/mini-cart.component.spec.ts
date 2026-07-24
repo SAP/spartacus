@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter, RouterLink } from '@angular/router';
 import {
@@ -45,7 +45,7 @@ describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [RouterLink, MiniCartComponent],
       providers: [
@@ -70,7 +70,7 @@ describe('MiniCartComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MiniCartComponent);
@@ -94,13 +94,13 @@ describe('MiniCartComponent', () => {
 
     it('should contain number of items in cart', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
+        .nativeElement.textContent?.trim();
       expect(cartItemsNumber).toEqual('miniCart.count count:7');
     });
     it('should contain total price of the cart', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.total'))
-        .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.total total:122$ ');
+        .nativeElement.textContent?.trim();
+      expect(cartItemsNumber).toEqual('miniCart.total total:122$');
     });
   });
 });

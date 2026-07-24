@@ -238,21 +238,21 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should display header', () => {
-    expect(el.query(By.css('h2')).nativeElement.innerText).toEqual(
+    expect(el.query(By.css('h2')).nativeElement.textContent?.trim()).toEqual(
       'quickOrderList.header'
     );
   });
 
   it('should call service method clearDeletedEntries on component destroy', () => {
-    spyOn(quickOrderService, 'clearDeletedEntries').and.callThrough();
+    vi.spyOn(quickOrderService, 'clearDeletedEntries');
     component.ngOnDestroy();
 
     expect(quickOrderService.clearDeletedEntries).toHaveBeenCalled();
   });
 
   it('should trigger clear the list method from the service', () => {
-    spyOn(quickOrderService, 'clearList').and.callThrough();
-    spyOn(globalMessageService, 'add').and.stub();
+    vi.spyOn(quickOrderService, 'clearList');
+    vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
     component.clear();
     expect(quickOrderService.clearList).toHaveBeenCalled();
@@ -266,10 +266,10 @@ describe('QuickOrderComponent', () => {
 
   describe('should trigger add to cart', () => {
     it('in standard way', () => {
-      spyOn(quickOrderService, 'addToCart').and.returnValue(
+      vi.spyOn(quickOrderService, 'addToCart').mockReturnValue(
         of([[mockEntry], []])
       );
-      spyOn(globalMessageService, 'add').and.stub();
+      vi.spyOn(globalMessageService, 'add').mockImplementation(() => {});
 
       component.addToCart([mockEntry]);
 
@@ -283,7 +283,7 @@ describe('QuickOrderComponent', () => {
     });
 
     it('with warning and success messages', () => {
-      spyOn(quickOrderService, 'addToCart').and.returnValue(
+      vi.spyOn(quickOrderService, 'addToCart').mockReturnValue(
         of([[mockEntry, mockEntry2], [mockQuickOrderAddEntryEvent]])
       );
 
@@ -295,7 +295,7 @@ describe('QuickOrderComponent', () => {
     });
 
     it('and get info message that list is empty', () => {
-      spyOn(quickOrderService, 'addToCart').and.returnValue(of([[], []]));
+      vi.spyOn(quickOrderService, 'addToCart').mockReturnValue(of([[], []]));
 
       component.addToCart([]);
       fixture.detectChanges();
@@ -325,7 +325,7 @@ describe('QuickOrderComponent', () => {
 
   describe('on undoDeletion method', () => {
     it('should trigger restoreSoftDeletedEntry from service', () => {
-      spyOn(quickOrderService, 'restoreSoftDeletedEntry').and.callThrough();
+      vi.spyOn(quickOrderService, 'restoreSoftDeletedEntry');
 
       component.undoDeletion(mockEntry);
       expect(quickOrderService.restoreSoftDeletedEntry).toHaveBeenCalledWith(
@@ -334,7 +334,7 @@ describe('QuickOrderComponent', () => {
     });
 
     it('should not trigger restoreSoftDeletedEntry from service on empty entry', () => {
-      spyOn(quickOrderService, 'restoreSoftDeletedEntry').and.callThrough();
+      vi.spyOn(quickOrderService, 'restoreSoftDeletedEntry');
 
       component.undoDeletion(mockEmptyEntry);
       expect(quickOrderService.restoreSoftDeletedEntry).not.toHaveBeenCalled();
@@ -343,7 +343,7 @@ describe('QuickOrderComponent', () => {
 
   describe('on clearDeletion method', () => {
     it('should trigger hardDeleteEntry from service', () => {
-      spyOn(quickOrderService, 'hardDeleteEntry').and.callThrough();
+      vi.spyOn(quickOrderService, 'hardDeleteEntry');
 
       component.clearDeletion(mockEntry);
       expect(quickOrderService.hardDeleteEntry).toHaveBeenCalledWith(
@@ -352,7 +352,7 @@ describe('QuickOrderComponent', () => {
     });
 
     it('should not trigger hardDeleteEntry from service on empty entry', () => {
-      spyOn(quickOrderService, 'hardDeleteEntry').and.callThrough();
+      vi.spyOn(quickOrderService, 'hardDeleteEntry');
 
       component.clearDeletion(mockEmptyEntry);
       expect(quickOrderService.hardDeleteEntry).not.toHaveBeenCalled();
@@ -360,7 +360,7 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should get information if there is possible to add more products', () => {
-    spyOn(quickOrderService, 'canAdd').and.callThrough();
+    vi.spyOn(quickOrderService, 'canAdd');
 
     component.canAddProduct().subscribe((canAdd) => {
       expect(canAdd).toBeTruthy();
@@ -387,10 +387,10 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger clearNonPurchasableProductError on clearNonPurchasableError', () => {
-    spyOn(
+    vi.spyOn(
       quickOrderService,
       'clearNonPurchasableProductError'
-    ).and.callThrough();
+    );
 
     component.clearNonPurchasableError();
 

@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { AbstractType } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -13,7 +14,7 @@ import {
   ProductSearchPage,
   SearchConfig,
 } from '@spartacus/core';
-import { Observable, of, queueScheduler } from 'rxjs';
+import { Observable, of, queueScheduler, firstValueFrom } from 'rxjs';
 import { observeOn, take, tap } from 'rxjs/operators';
 import { QuickOrderService } from './quick-order.service';
 
@@ -140,193 +141,139 @@ describe('QuickOrderService', () => {
   });
 
   it('should clear timeout subscriptions on service destroy', () => {
-    spyOn(service, 'clearDeletedEntries').and.callThrough();
+    vi.spyOn(service, 'clearDeletedEntries');
     service.ngOnDestroy();
 
     expect(service.clearDeletedEntries).toHaveBeenCalled();
   });
 
-  it('should return an empty list of entries', (done) => {
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([]);
-        done();
-      });
+  it('should return an empty list of entries', async () => {
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([]);
   });
 
-  it('should load and return list of entries', (done) => {
+  it('should load and return list of entries', async () => {
     service.loadEntries(mockEntries);
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual(mockEntries);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual(mockEntries);
   });
 
-  it('should clear list of entries', (done) => {
+  it('should clear list of entries', async () => {
     service.loadEntries(mockEntries);
     service.clearList();
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([]);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([]);
   });
 
   describe('should trigger search products', () => {
     beforeEach(() => {
-      spyOn(productSearchConnector, 'search').and.returnValue(
+      vi.spyOn(productSearchConnector, 'search').mockReturnValue(
         of(mockProductSearchPage)
       );
     });
 
-    it('with provided maxProducts', (done) => {
-      service
-        .searchProducts(mockProduct1Code, mockMaxProducts)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(productSearchConnector.search).toHaveBeenCalledWith(
-            mockProduct1Code,
-            mockSearchConfig
-          );
-          done();
-        });
+    it('with provided maxProducts', async () => {
+      await firstValueFrom(service.searchProducts(mockProduct1Code, mockMaxProducts));
+      expect(productSearchConnector.search).toHaveBeenCalledWith(
+        mockProduct1Code,
+        mockSearchConfig
+      );
     });
 
-    it('with default config maxProducts value', (done) => {
-      service
-        .searchProducts(mockProduct1Code)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(productSearchConnector.search).toHaveBeenCalledWith(
-            mockProduct1Code,
-            mockDefaultSearchConfig
-          );
-          done();
-        });
+    it('with default config maxProducts value', async () => {
+      await firstValueFrom(service.searchProducts(mockProduct1Code));
+      expect(productSearchConnector.search).toHaveBeenCalledWith(
+        mockProduct1Code,
+        mockDefaultSearchConfig
+      );
     });
   });
 
-  it('should update entry quantity', (done) => {
+  it('should update entry quantity', async () => {
     service.loadEntries([mockEntry1]);
     service.updateEntryQuantity(0, 4);
 
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([mockEntry1AfterUpdate]);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([mockEntry1AfterUpdate]);
   });
 
-  it('should delete entry', (done) => {
+  it('should delete entry', async () => {
     service.loadEntries([mockEntry1, mockEntry2]);
     service.softDeleteEntry(0);
 
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([mockEntry2]);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([mockEntry2]);
   });
 
-  it('should add products to the cart', (done) => {
-    spyOn(activeCartService, 'addEntries').and.callThrough();
-    spyOn(activeCartService, 'isStable').and.callThrough();
-    spyOn(service, 'clearList').and.callThrough();
+  it('should add products to the cart', async () => {
+    vi.spyOn(activeCartService, 'addEntries');
+    vi.spyOn(activeCartService, 'isStable');
+    vi.spyOn(service, 'clearList');
 
     service.loadEntries([mockEntry1]);
-    service
-      .addToCart()
-      .pipe(take(1))
-      .subscribe(() => {
-        expect(activeCartService.addEntries).toHaveBeenCalled();
-        expect(activeCartService.isStable).toHaveBeenCalled();
-        expect(service.clearList).toHaveBeenCalled();
-        done();
-      });
+    await firstValueFrom(service.addToCart());
+    expect(activeCartService.addEntries).toHaveBeenCalled();
+    expect(activeCartService.isStable).toHaveBeenCalled();
+    expect(service.clearList).toHaveBeenCalled();
   });
 
-  it('should add product to the quick order list', (done) => {
+  it('should add product to the quick order list', async () => {
     service.addProduct(mockProduct1);
 
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([
-          {
-            product: mockProduct1,
-            quantity: 1,
-            basePrice: {
-              value: 1,
-            },
-            totalPrice: {
-              value: 1,
-            },
-          },
-        ]);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([
+      {
+        product: mockProduct1,
+        quantity: 1,
+        basePrice: {
+          value: 1,
+        },
+        totalPrice: {
+          value: 1,
+        },
+      },
+    ]);
   });
 
-  it('should add product to the quick order list with custom quantity', (done) => {
+  it('should add product to the quick order list with custom quantity', async () => {
     service.addProduct(mockProduct1, 4);
 
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([
-          {
-            product: mockProduct1,
-            quantity: 4,
-            basePrice: {
-              value: 1,
-            },
-            totalPrice: {
-              value: 1,
-            },
-          },
-        ]);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([
+      {
+        product: mockProduct1,
+        quantity: 4,
+        basePrice: {
+          value: 1,
+        },
+        totalPrice: {
+          value: 1,
+        },
+      },
+    ]);
   });
 
-  it('should add product to the quick order list by increasing current existing product quantity', (done) => {
+  it('should add product to the quick order list by increasing current existing product quantity', async () => {
     service.addProduct(mockProduct1);
     service.addProduct(mockProduct1);
 
-    service
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        expect(entries).toEqual([
-          {
-            product: mockProduct1,
-            quantity: 2,
-            basePrice: {
-              value: 1,
-            },
-            totalPrice: {
-              value: 1,
-            },
-          },
-        ]);
-        done();
-      });
+    const entries = await firstValueFrom(service.getEntries());
+    expect(entries).toEqual([
+      {
+        product: mockProduct1,
+        quantity: 2,
+        basePrice: {
+          value: 1,
+        },
+        totalPrice: {
+          value: 1,
+        },
+      },
+    ]);
   });
 
-  it('should add deleted entry and after 7s delete it', fakeAsync(() => {
+  it('should add deleted entry and after 7s delete it', async () => {
+    vi.useFakeTimers();
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
 
@@ -348,68 +295,50 @@ describe('QuickOrderService', () => {
         softDeletedEntries = result;
       });
 
-    tick(7000);
+    await vi.advanceTimersByTimeAsync(7000);
+    vi.useRealTimers();
 
     expect(softDeletedEntries).toEqual({});
-  }));
+  });
 
-  it('should not add deleted entry', (done) => {
+  it('should not add deleted entry', async () => {
     service.loadEntries([mockEmptyEntry]);
     service.softDeleteEntry(0);
 
-    service
-      .getSoftDeletedEntries()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual({});
-        done();
-      });
+    const result = await firstValueFrom(service.getSoftDeletedEntries());
+    expect(result).toEqual({});
   });
 
-  it('should return deleted entries', (done) => {
+  it('should return deleted entries', async () => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
 
-    service
-      .getSoftDeletedEntries()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual({ mockCode1: mockEntry1 });
-        done();
-      });
+    const result = await firstValueFrom(service.getSoftDeletedEntries());
+    expect(result).toEqual({ mockCode1: mockEntry1 });
   });
 
-  it('should undo deleted entry', (done) => {
+  it('should undo deleted entry', async () => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
 
-    service
-      .getSoftDeletedEntries()
-      .pipe(
+    const result = await firstValueFrom(
+      service.getSoftDeletedEntries().pipe(
         observeOn(queueScheduler),
-        take(1),
         tap((softDeletedEntries) => {
           expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
         }),
         tap(() => service.restoreSoftDeletedEntry(mockProduct1Code))
       )
-      .subscribe((result) => {
-        expect(result).toEqual({});
-        done();
-      });
+    );
+    expect(result).toEqual({});
   });
 
-  it('should clear deleted entry', (done) => {
+  it('should clear deleted entry', async () => {
     service.loadEntries([mockEntry1]);
     service.softDeleteEntry(0);
     service.hardDeleteEntry(mockProduct1Code);
-    service
-      .getSoftDeletedEntries()
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual({});
-        done();
-      });
+    const result = await firstValueFrom(service.getSoftDeletedEntries());
+    expect(result).toEqual({});
   });
 
   describe('canAdd', () => {
@@ -503,28 +432,22 @@ describe('QuickOrderService', () => {
   });
 
   describe('Non purchasable product', () => {
-    it('should return null if there is no error set up', (done) => {
-      service.getNonPurchasableProductError().subscribe((value) => {
-        expect(value).toBeNull();
-        done();
-      });
+    it('should return null if there is no error set up', async () => {
+      const value = await firstValueFrom(service.getNonPurchasableProductError());
+      expect(value).toBeNull();
     });
 
-    it('should set error and return it', (done) => {
+    it('should set error and return it', async () => {
       service.setNonPurchasableProductError(mockProduct1);
-      service.getNonPurchasableProductError().subscribe((value) => {
-        expect(value).toEqual(mockProduct1);
-        done();
-      });
+      const value = await firstValueFrom(service.getNonPurchasableProductError());
+      expect(value).toEqual(mockProduct1);
     });
 
-    it('should clear error', (done) => {
+    it('should clear error', async () => {
       service.setNonPurchasableProductError(mockProduct1);
       service.clearNonPurchasableProductError();
-      service.getNonPurchasableProductError().subscribe((value) => {
-        expect(value).toBeNull();
-        done();
-      });
+      const value = await firstValueFrom(service.getNonPurchasableProductError());
+      expect(value).toBeNull();
     });
   });
 });

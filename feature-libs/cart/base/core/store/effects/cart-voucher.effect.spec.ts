@@ -18,7 +18,6 @@ import { CartVoucherAdapter } from '../../connectors';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-voucher.effect';
-import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -38,7 +37,7 @@ class MockLoggerService {
 }
 
 class MockGlobalMessageService {
-  add = createSpy();
+  add = vi.fn();
 }
 
 describe('Cart Voucher effect', () => {
@@ -67,8 +66,8 @@ describe('Cart Voucher effect', () => {
     voucherEffects = TestBed.inject(fromEffects.CartVoucherEffects);
     cartVoucherConnector = TestBed.inject(CartVoucherConnector);
 
-    spyOn(cartVoucherConnector, 'add').and.returnValue(of({}));
-    spyOn(cartVoucherConnector, 'remove').and.returnValue(of({}));
+    vi.spyOn(cartVoucherConnector, 'add').mockReturnValue(of({}));
+    vi.spyOn(cartVoucherConnector, 'remove').mockReturnValue(of({}));
   });
 
   describe('addCartVoucher$', () => {
@@ -97,7 +96,7 @@ describe('Cart Voucher effect', () => {
 
     it('should fail', () => {
       const error = new HttpErrorResponse({ error: 'error' });
-      cartVoucherConnector.add = createSpy().and.returnValue(
+      cartVoucherConnector.add = vi.fn().mockReturnValue(
         throwError(() => error)
       );
       const action = new CartActions.CartAddVoucher({

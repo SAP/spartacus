@@ -58,7 +58,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should trigger clear cart', () => {
-    spyOn(clearCartService, 'deleteActiveCart');
+    vi.spyOn(clearCartService, 'deleteActiveCart');
 
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-primary')
@@ -70,7 +70,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on cancel', () => {
-    spyOn(clearCartService, 'closeDialog');
+    vi.spyOn(clearCartService, 'closeDialog');
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-secondary')
     ).nativeElement;
@@ -81,7 +81,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on cross click', () => {
-    spyOn(clearCartService, 'closeDialog');
+    vi.spyOn(clearCartService, 'closeDialog');
     const clearBtn = fixture.debugElement.query(By.css('.close')).nativeElement;
 
     clearBtn.click();

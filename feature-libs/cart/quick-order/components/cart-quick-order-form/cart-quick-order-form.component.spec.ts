@@ -21,7 +21,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
@@ -149,14 +149,14 @@ describe('CartQuickOrderFormComponent', () => {
   });
 
   it('should do nothing on applyQuickOrder if form is invalid', () => {
-    spyOn(activeCartService, 'addEntry').and.callThrough();
+    vi.spyOn(activeCartService, 'addEntry');
     component.quickOrderForm.setErrors({ invalid: true });
     component.applyQuickOrder();
     expect(activeCartService.addEntry).not.toHaveBeenCalled();
   });
 
   it('should add entry on form submit', () => {
-    spyOn(activeCartService, 'addEntry').and.callThrough();
+    vi.spyOn(activeCartService, 'addEntry');
 
     component.quickOrderForm.controls['productCode'].setValue('test');
     component.applyQuickOrder();
@@ -174,8 +174,8 @@ describe('CartQuickOrderFormComponent', () => {
 
   describe('should show global confirmation message on add entry success event', () => {
     beforeEach(() => {
-      spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(eventService, 'get').and.callThrough();
+      vi.spyOn(globalMessageService, 'add');
+      vi.spyOn(eventService, 'get');
 
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
@@ -217,7 +217,7 @@ describe('CartQuickOrderFormComponent', () => {
 
   describe('global error message', () => {
     it('should not show global error message on add entry fail event', () => {
-      spyOn(globalMessageService, 'add').and.callThrough();
+      vi.spyOn(globalMessageService, 'add');
       component.ngOnInit();
       component.quickOrderForm.controls['productCode'].setValue('test');
       featureToggles.a11yCartQuickOrderFormEnableSubmitAndAddValidation = true;

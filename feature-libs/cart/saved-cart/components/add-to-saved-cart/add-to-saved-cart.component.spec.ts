@@ -13,12 +13,12 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { RouterModule } from '@angular/router';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockUrlPipe } from '../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 const mockCart: Cart = {
@@ -111,7 +111,7 @@ describe('AddToSavedCartComponent', () => {
   });
 
   it('should open service dialog', () => {
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     component.openDialog(mockCart);
 
@@ -126,7 +126,7 @@ describe('AddToSavedCartComponent', () => {
     );
   });
 
-  it("should enable the 'Save cart for later' button", (done) => {
+  it("should enable the 'Save cart for later' button", async () => {
     fixture.destroy();
 
     const activeCartFacade = TestBed.inject(ActiveCartFacade);
@@ -136,42 +136,36 @@ describe('AddToSavedCartComponent', () => {
       entries: [{}],
     };
 
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(cart));
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(of(cart));
 
     fixture = TestBed.createComponent(AddToSavedCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.disableSaveCartForLater$
-      .pipe(take(1))
-      .subscribe((disableSaveCartForLater) => {
-        expect(disableSaveCartForLater).toBe(false);
-
-        done();
-      });
+    const disableSaveCartForLater = await firstValueFrom(
+      component.disableSaveCartForLater$
+    );
+    expect(disableSaveCartForLater).toBe(false);
   });
 
-  it("should disable the 'Save cart for later' button if the cart is an empty object", (done) => {
+  it("should disable the 'Save cart for later' button if the cart is an empty object", async () => {
     fixture.destroy();
 
     const activeCartFacade = TestBed.inject(ActiveCartFacade);
 
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of({}));
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(of({}));
 
     fixture = TestBed.createComponent(AddToSavedCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.disableSaveCartForLater$
-      .pipe(take(1))
-      .subscribe((disableSaveCartForLater) => {
-        expect(disableSaveCartForLater).toBe(true);
-
-        done();
-      });
+    const disableSaveCartForLater = await firstValueFrom(
+      component.disableSaveCartForLater$
+    );
+    expect(disableSaveCartForLater).toBe(true);
   });
 
-  it("should disable the 'Save cart for later' button if the cart has no entries", (done) => {
+  it("should disable the 'Save cart for later' button if the cart has no entries", async () => {
     fixture.destroy();
 
     const activeCartFacade = TestBed.inject(ActiveCartFacade);
@@ -180,25 +174,22 @@ describe('AddToSavedCartComponent', () => {
       entries: [],
     };
 
-    spyOn(activeCartFacade, 'getActive').and.returnValue(of(emptyCart));
+    vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(of(emptyCart));
 
     fixture = TestBed.createComponent(AddToSavedCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.disableSaveCartForLater$
-      .pipe(take(1))
-      .subscribe((disableSaveCartForLater) => {
-        expect(disableSaveCartForLater).toBe(true);
-
-        done();
-      });
+    const disableSaveCartForLater = await firstValueFrom(
+      component.disableSaveCartForLater$
+    );
+    expect(disableSaveCartForLater).toBe(true);
   });
 
   describe('should trigger action on save cart method', () => {
     describe('when user is not logged in', () => {
       it('should redirect to login page', () => {
-        spyOn(routingService, 'go').and.callThrough();
+        vi.spyOn(routingService, 'go');
         component.disableSaveCartForLater$ = of(false);
 
         component.saveCart(mockCart);
@@ -211,7 +202,7 @@ describe('AddToSavedCartComponent', () => {
 
     describe('when user is logged in', () => {
       it('should open dialog ', () => {
-        spyOn(launchDialogService, 'openDialog').and.stub();
+        vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
         isLoggedInSubject$.next(true);
         component.disableSaveCartForLater$ = of(false);
 
@@ -230,7 +221,7 @@ describe('AddToSavedCartComponent', () => {
 
       describe('should not trigger save cart method', () => {
         it('when saved cart button is disabled', () => {
-          spyOn(routingService, 'go').and.callThrough();
+          vi.spyOn(routingService, 'go');
           component.disableSaveCartForLater$ = of(true);
 
           component.saveCart(mockCart);

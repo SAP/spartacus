@@ -13,12 +13,11 @@ import {
 import { LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -83,12 +82,12 @@ describe('ClearCartDialogComponentService', () => {
   });
 
   it('should clear the active cart and display success message', () => {
-    spyOn(eventService, 'get').and.returnValue(of(ClearActiveCartSuccessEvent));
-    spyOn(multiCartFacade, 'deleteCart').and.callThrough();
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
-    spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
-    spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(of('00001122'));
-    spyOn<any>(service, 'displayGlobalMessage').and.callThrough();
+    vi.spyOn(eventService, 'get').mockReturnValue(of(ClearActiveCartSuccessEvent));
+    vi.spyOn(multiCartFacade, 'deleteCart');
+    vi.spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
+    vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(of('00001122'));
+    vi.spyOn(service, 'displayGlobalMessage');
 
     service.deleteActiveCart();
 
@@ -106,11 +105,11 @@ describe('ClearCartDialogComponentService', () => {
   });
 
   it('should not display global message if clear cart is not successful', () => {
-    spyOn(eventService, 'get').and.returnValue(EMPTY);
-    spyOn(multiCartFacade, 'deleteCart').and.callThrough();
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
-    spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
-    spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(of('00001122'));
+    vi.spyOn(eventService, 'get').mockReturnValue(EMPTY);
+    vi.spyOn(multiCartFacade, 'deleteCart');
+    vi.spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
+    vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(of('00001122'));
 
     service.deleteActiveCart();
 
@@ -118,7 +117,7 @@ describe('ClearCartDialogComponentService', () => {
   });
 
   it('should close dialog on close method', () => {
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     service.closeDialog(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(

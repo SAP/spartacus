@@ -16,7 +16,6 @@ import { CartConfigService } from '../services/cart-config.service';
 import { CartValidationStateService } from '../services/cart-validation-state.service';
 import { CartValidationGuard } from './cart-validation.guard';
 
-import createSpy = jasmine.createSpy;
 
 const cartModificationSubject = new BehaviorSubject<CartModificationList>({
   cartModifications: [],
@@ -55,11 +54,11 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
   }
 }
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId = () => of(mockCartId);
-  reloadActiveCart = createSpy().and.stub();
+  reloadActiveCart = vi.fn().mockImplementation(() => {});
   getEntries = () => mockEntriesSubject.asObservable();
 }
 class MockCartValidationStateService

@@ -7,7 +7,6 @@ import {
 } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { ActiveCartOrderEntriesContext } from './active-cart-order-entries.context';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = '00004546';
 
@@ -24,9 +23,9 @@ const mockEntries: OrderEntry[] = [
 ];
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  addEntries = createSpy().and.callThrough();
-  getEntries = createSpy().and.returnValue(of(mockEntries));
-  getActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  addEntries = vi.fn();
+  getEntries = vi.fn().mockReturnValue(of(mockEntries));
+  getActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
 }
 
 const mockProductImportInfo = {
@@ -34,7 +33,7 @@ const mockProductImportInfo = {
   statusCode: 'testStatusCode',
 };
 class MockProductImportInfoService {
-  getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+  getResults = vi.fn().mockReturnValue(of(mockProductImportInfo));
 }
 
 describe('ActiveCartOrderEntriesContext', () => {

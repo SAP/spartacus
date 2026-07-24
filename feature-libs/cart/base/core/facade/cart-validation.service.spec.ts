@@ -6,11 +6,10 @@ import { CartValidationConnector } from '../connectors/validation/cart-validatio
 import { CartValidationStateService } from '../services/cart-validation-state.service';
 import { CartValidationService } from './cart-validation.service';
 
-import createSpy = jasmine.createSpy;
 
 const cartValidationResult = { cartModificationList: [] };
 class MockCartValidationConnector implements Partial<CartValidationConnector> {
-  validate = createSpy().and.callFake(() => of(cartValidationResult));
+  validate = vi.fn().mockImplementation(() => of(cartValidationResult));
 }
 
 class MockUserIdService implements Partial<UserIdService> {

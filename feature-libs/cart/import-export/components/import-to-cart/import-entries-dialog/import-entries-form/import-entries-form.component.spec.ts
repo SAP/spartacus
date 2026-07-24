@@ -92,9 +92,9 @@ describe('ImportEntriesFormComponent', () => {
     filesFormValidators = TestBed.inject(FilesFormValidators);
     importCsvService = TestBed.inject(ImportCsvFileService);
 
-    spyOn(importToCartService, 'csvDataToProduct').and.callThrough();
-    spyOn(importCsvService, 'validateFile').and.callThrough();
-    spyOn(filesFormValidators, 'maxSize').and.callThrough();
+    vi.spyOn(importToCartService, 'csvDataToProduct');
+    vi.spyOn(importCsvService, 'validateFile');
+    vi.spyOn(filesFormValidators, 'maxSize');
     fixture.detectChanges();
   });
 
@@ -111,7 +111,7 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should close dialog on close method', () => {
     const mockCloseReason = 'Close Import Products Dialog';
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -132,7 +132,7 @@ describe('ImportEntriesFormComponent', () => {
     const mockSubmitData = {
       products: mockProducts,
     };
-    spyOn(component.submitEvent, 'emit');
+    vi.spyOn(component.submitEvent, 'emit');
     component.save();
 
     expect(importToCartService.csvDataToProduct).toHaveBeenCalledWith(

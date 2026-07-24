@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartFacade,
@@ -39,22 +40,13 @@ describe('SaveForLaterComponent', () => {
   let component: SaveForLaterComponent;
   let fixture: ComponentFixture<SaveForLaterComponent>;
 
-  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
-    'addEntry',
-    'isStable',
-    'getActive',
-  ]);
+  const mockActiveCartService = { addEntry: vi.fn(), isStable: vi.fn(), getActive: vi.fn() };
 
-  const mockSelectiveCartService = jasmine.createSpyObj(
-    'SelectiveCartService',
-    ['getCart', 'isStable', 'removeEntry', 'getEntries']
-  );
+  const mockSelectiveCartService = { getCart: vi.fn(), isStable: vi.fn(), removeEntry: vi.fn(), getEntries: vi.fn() };
 
-  const mockCmsService = jasmine.createSpyObj('CmsService', [
-    'getComponentData',
-  ]);
+  const mockCmsService = { getComponentData: vi.fn() };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, SaveForLaterComponent],
       providers: [
@@ -72,22 +64,22 @@ describe('SaveForLaterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
     component = fixture.componentInstance;
 
-    mockSelectiveCartService.isStable.and.returnValue(of(true));
-    mockActiveCartService.isStable.and.returnValue(of(true));
-    mockActiveCartService.getActive.and.returnValue(
+    mockSelectiveCartService.isStable.mockReturnValue(of(true));
+    mockActiveCartService.isStable.mockReturnValue(of(true));
+    mockActiveCartService.getActive.mockReturnValue(
       of({ code: '00001', totalItems: 0 } as Cart)
     );
-    mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
-    mockSelectiveCartService.getCart.and.returnValue(
+    mockCmsService.getComponentData.mockReturnValue(of({ content: 'content' }));
+    mockSelectiveCartService.getCart.mockReturnValue(
       of({ code: '123' } as Cart)
     );
-    mockSelectiveCartService.getEntries.and.returnValue(
+    mockSelectiveCartService.getEntries.mockReturnValue(
       of([{}] as OrderEntry[])
     );
   });
@@ -98,7 +90,7 @@ describe('SaveForLaterComponent', () => {
   });
 
   it('should display save for later text with items', () => {
-    mockSelectiveCartService.getCart.and.returnValue(
+    mockSelectiveCartService.getCart.mockReturnValue(
       of({
         code: '123',
         totalItems: 5,
@@ -106,12 +98,12 @@ describe('SaveForLaterComponent', () => {
     );
     fixture.detectChanges();
     const el = fixture.debugElement.query(By.css('.cx-total'));
-    const cartHead = el.nativeElement.innerText;
+    const cartHead = el.nativeElement.textContent?.trim();
     expect(cartHead).toEqual('saveForLaterItems.itemTotal count:5');
   });
 
   it('should display empty cart info when cart is empty and save for later has items', () => {
-    mockSelectiveCartService.getCart.and.returnValue(
+    mockSelectiveCartService.getCart.mockReturnValue(
       of({
         code: '123',
         totalItems: 5,
@@ -120,7 +112,7 @@ describe('SaveForLaterComponent', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.cx-empty-cart-info')).nativeElement
-        .innerText
+        .textContent?.trim()
     ).toEqual('content');
   });
 

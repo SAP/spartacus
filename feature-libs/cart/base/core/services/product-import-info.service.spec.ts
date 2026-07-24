@@ -122,7 +122,7 @@ describe('ProductImportInfoService', () => {
     });
 
     it('should return unknown error action', () => {
-      spyOn(logger, 'warn');
+      vi.spyOn(logger, 'warn');
       let result;
       const payload = {
         userId: mockUserId,

@@ -5,7 +5,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions, MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
 import * as fromCartReducers from '../store/reducers/index';
@@ -46,8 +46,8 @@ describe('MultiCartStatePersistenceService', () => {
     persistenceService = TestBed.inject(StatePersistenceService);
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(store, 'dispatch').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
   });
 
   it('should inject service', () => {
@@ -79,12 +79,12 @@ describe('MultiCartStatePersistenceService', () => {
   it('should call persistenceService with correct attributes', () => {
     const state$ = of('');
     const context$ = of(['']);
-    spyOn(siteContextParamsService, 'getValues').and.returnValue(context$);
-    spyOn(service as any, 'getCartState').and.returnValue(state$);
+    vi.spyOn(siteContextParamsService, 'getValues').mockReturnValue(context$);
+    vi.spyOn(service as any, 'getCartState').mockReturnValue(state$);
 
     service.initSync();
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
-      jasmine.objectContaining({
+      expect.objectContaining({
         key: 'cart',
         context$,
         state$,
@@ -96,12 +96,8 @@ describe('MultiCartStatePersistenceService', () => {
     ]);
   });
 
-  it('should return active from cart state', (done) => {
-    service['getCartState']()
-      .pipe(take(1))
-      .subscribe((state) => {
-        expect(state).toEqual({ active: '' });
-        done();
-      });
+  it('should return active from cart state', async () => {
+    const state = await firstValueFrom(service['getCartState']());
+    expect(state).toEqual({ active: '' });
   });
 });

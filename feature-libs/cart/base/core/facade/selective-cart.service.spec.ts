@@ -10,8 +10,8 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import * as fromProcessReducers from 'core-libs/core/src/process/store/reducers/index';
-import { Observable, of } from 'rxjs';
+import * as fromProcessReducers from '../../../../../core-libs/core/src/process/store/reducers/index';
+import { Observable, of, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
 import * as fromReducers from '../store/reducers/index';
@@ -99,7 +99,7 @@ describe('Selective Cart Service', () => {
     userProfileFacade = TestBed.inject(UserProfileFacade);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should return the stream directly if the selectiveCart$ exist', () => {
@@ -113,8 +113,8 @@ describe('Selective Cart Service', () => {
   });
 
   it('should load selective cart when it does not exist', () => {
-    spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
-    spyOn(multiCartFacade, 'loadCart').and.stub();
+    vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(of(undefined));
+    vi.spyOn(multiCartFacade, 'loadCart').mockImplementation(() => {});
     let result;
     service
       .getCart()
@@ -125,8 +125,8 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load cart when it exists', () => {
-    spyOn(multiCartFacade, 'getCart').and.returnValue(of({}));
-    spyOn(multiCartFacade, 'loadCart').and.stub();
+    vi.spyOn(multiCartFacade, 'getCart').mockReturnValue(of({}));
+    vi.spyOn(multiCartFacade, 'loadCart').mockImplementation(() => {});
     let result;
     service
       .getCart()
@@ -137,25 +137,25 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load selective cart for anonymous user', () => {
-    spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
-    spyOn(userIdService, 'getUserId').and.returnValue(
+    vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(of(undefined));
+    vi.spyOn(userIdService, 'getUserId').mockReturnValue(
       of(OCC_USER_ID_ANONYMOUS)
     );
-    spyOn(multiCartFacade, 'loadCart').and.stub();
+    vi.spyOn(multiCartFacade, 'loadCart').mockImplementation(() => {});
     service.getCart().subscribe().unsubscribe();
     expect(multiCartFacade.loadCart).not.toHaveBeenCalled();
   });
 
   it('should not load selective cart for if customerId not exist', () => {
-    spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
-    spyOn(userProfileFacade, 'get').and.returnValue(of({}));
-    spyOn(multiCartFacade, 'loadCart').and.stub();
+    vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(of(undefined));
+    vi.spyOn(userProfileFacade, 'get').mockReturnValue(of({}));
+    vi.spyOn(multiCartFacade, 'loadCart').mockImplementation(() => {});
     service.getCart().subscribe().unsubscribe();
     expect(multiCartFacade.loadCart).not.toHaveBeenCalled();
   });
 
   it('should return cart entries', () => {
-    spyOn(multiCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
+    vi.spyOn(multiCartFacade, 'getEntries').mockReturnValue(of([mockCartEntry]));
     let result;
     service
       .getEntries()
@@ -169,7 +169,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should add entry one by one ', () => {
-    spyOn(multiCartFacade, 'addEntry').and.callThrough();
+    vi.spyOn(multiCartFacade, 'addEntry');
 
     service.addEntry('productCode1', 2);
     service.addEntry('productCode2', 2);
@@ -190,7 +190,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should call multiCartFacade remove entry method with selective cart', () => {
-    spyOn(multiCartFacade, 'removeEntry').and.callThrough();
+    vi.spyOn(multiCartFacade, 'removeEntry');
 
     service.removeEntry({
       entryNumber: 3,
@@ -203,7 +203,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should call multiCartFacade update entry method with selective cart', () => {
-    spyOn(multiCartFacade, 'updateEntry').and.callThrough();
+    vi.spyOn(multiCartFacade, 'updateEntry');
 
     service.updateEntry(1, 2);
     expect(multiCartFacade['updateEntry']).toHaveBeenCalledWith(
@@ -215,7 +215,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should return entry by product code', () => {
-    spyOn(multiCartFacade, 'getEntry').and.returnValue(of(mockCartEntry));
+    vi.spyOn(multiCartFacade, 'getEntry').mockReturnValue(of(mockCartEntry));
 
     let result;
     service
@@ -231,28 +231,18 @@ describe('Selective Cart Service', () => {
   });
 
   describe('isStable', () => {
-    it('should return true when isStable returns true', (done) => {
-      spyOn(multiCartFacade, 'isStable').and.returnValue(of(true));
+    it('should return true when isStable returns true', async () => {
+      vi.spyOn(multiCartFacade, 'isStable').mockReturnValue(of(true));
 
-      service
-        .isStable()
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toBe(true);
-          done();
-        });
+      const val = await firstValueFrom(service.isStable());
+      expect(val).toBe(true);
     });
 
-    it('should return false when isStable returns false', (done) => {
-      spyOn(multiCartFacade, 'isStable').and.returnValue(of(false));
+    it('should return false when isStable returns false', async () => {
+      vi.spyOn(multiCartFacade, 'isStable').mockReturnValue(of(false));
 
-      service
-        .isStable()
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toBe(false);
-          done();
-        });
+      const val = await firstValueFrom(service.isStable());
+      expect(val).toBe(false);
     });
   });
 });

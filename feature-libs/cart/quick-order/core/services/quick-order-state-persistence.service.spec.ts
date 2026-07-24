@@ -6,7 +6,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, firstValueFrom, Subscription } from 'rxjs';
 import { QuickOrderStatePersistenceService } from './quick-order-state-persistance.service';
 
 class MockSiteContextParamsService {
@@ -59,7 +59,7 @@ describe('QuickOrderStatePersistenceService', () => {
     service = TestBed.inject(QuickOrderStatePersistenceService);
     persistenceService = TestBed.inject(StatePersistenceService);
     quickOrderService = TestBed.inject(QuickOrderFacade);
-    spyOn(persistenceService, 'syncWithStorage').and.stub();
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
   });
 
   it('should inject service', () => {
@@ -74,7 +74,7 @@ describe('QuickOrderStatePersistenceService', () => {
 
   describe('on read', () => {
     it('with state should load entries', () => {
-      spyOn(quickOrderService, 'loadEntries');
+      vi.spyOn(quickOrderService, 'loadEntries');
 
       service['onRead']([mockEntry]);
 
@@ -82,7 +82,7 @@ describe('QuickOrderStatePersistenceService', () => {
     });
 
     it('without state should not load entries', () => {
-      spyOn(quickOrderService, 'loadEntries');
+      vi.spyOn(quickOrderService, 'loadEntries');
 
       service['onRead'](undefined);
 
@@ -91,20 +91,18 @@ describe('QuickOrderStatePersistenceService', () => {
   });
 
   describe('getEntries()', () => {
-    it('should return the full state', (done: DoneFn) => {
-      spyOn(quickOrderService, 'getEntries').and.returnValue(
+    it('should return the full state', async () => {
+      vi.spyOn(quickOrderService, 'getEntries').mockReturnValue(
         new BehaviorSubject<OrderEntry[]>([])
       );
 
-      quickOrderService['getEntries']().subscribe((state) => {
-        expect(state).toEqual([]);
-        done();
-      });
+      const state = await firstValueFrom(quickOrderService['getEntries']());
+      expect(state).toEqual([]);
     });
   });
 
   it('should unsubscribe on ngOnDestroy', () => {
-    const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+    const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
     service.ngOnDestroy();
     expect(spyUnsubscribe).toHaveBeenCalled();
   });

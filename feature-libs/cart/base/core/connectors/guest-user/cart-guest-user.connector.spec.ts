@@ -3,11 +3,10 @@ import { of } from 'rxjs';
 import { CartGuestUserAdapter } from './cart-guest-user.adapter';
 import { CartGuestUserConnector } from './cart-guest-user.connector';
 
-import createSpy = jasmine.createSpy;
 
 class MockCartGuestUserAdapter implements CartGuestUserAdapter {
-  createCartGuestUser = createSpy().and.returnValue(of({}));
-  updateCartGuestUser = createSpy().and.returnValue(of({}));
+  createCartGuestUser = vi.fn().mockReturnValue(of({}));
+  updateCartGuestUser = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CartGuestUserConnector', () => {

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { FeatureToggles, UserIdService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
 import {
@@ -11,9 +11,8 @@ import {
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../../core-libs/core/src/features-config/feature-toggles/testing';
 
-import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
   code: 'xxx',
@@ -56,7 +55,7 @@ const mockCarts: Cart[] = [testCart, testCart2];
 
 const userId = 'currentUserId';
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.callFake(() => {
+  takeUserId = vi.fn().mockImplementation(() => {
     return of(userId);
   });
 }
@@ -90,7 +89,7 @@ describe('MultiCartService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(MultiCartService);
     featureToggles = TestBed.inject(FeatureToggles);
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('getCart', () => {
@@ -215,17 +214,12 @@ describe('MultiCartService', () => {
   });
 
   describe('isStable', () => {
-    it('should return true when cart is stable when there is no active cart', (done) => {
-      service
-        .isStable('xxx')
-        .pipe(take(1))
-        .subscribe((isStable) => {
-          expect(isStable).toBe(true);
-          done();
-        });
+    it('should return true when cart is stable when there is no active cart', async () => {
+      const isStable = await firstValueFrom(service.isStable('xxx'));
+      expect(isStable).toBe(true);
     });
 
-    it('should return true when cart is stable when there are 0 processes and loading is false', (done) => {
+    it('should return true when cart is stable when there are 0 processes and loading is false', async () => {
       store.dispatch(
         new CartActions.LoadCartSuccess({
           userId: 'userId',
@@ -236,16 +230,11 @@ describe('MultiCartService', () => {
           cartId: testCart.code,
         })
       );
-      service
-        .isStable('xxx')
-        .pipe(take(1))
-        .subscribe((isStable) => {
-          expect(isStable).toBe(true);
-          done();
-        });
+      const isStable = await firstValueFrom(service.isStable('xxx'));
+      expect(isStable).toBe(true);
     });
 
-    it('should return false when there are pending processes', (done) => {
+    it('should return false when there are pending processes', async () => {
       store.dispatch(
         new CartActions.LoadCart({
           userId: 'userId',
@@ -256,13 +245,8 @@ describe('MultiCartService', () => {
         })
       );
 
-      service
-        .isStable('xxx')
-        .pipe(take(1))
-        .subscribe((isStable) => {
-          expect(isStable).toBe(false);
-          done();
-        });
+      const isStable = await firstValueFrom(service.isStable('xxx'));
+      expect(isStable).toBe(false);
     });
   });
 
@@ -276,7 +260,7 @@ describe('MultiCartService', () => {
     };
 
     it('should create a non-active cart and return observable with cart', () => {
-      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue('temp-uuid');
 
       let result;
       service
@@ -305,7 +289,7 @@ describe('MultiCartService', () => {
     });
 
     it('should create an active cart and return observable with cart', () => {
-      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue('temp-uuid');
 
       let result;
       service
@@ -334,7 +318,7 @@ describe('MultiCartService', () => {
   describe('mergeToCurrentCart', () => {
     describe('feature flag incrementProcessesCountForMergeCart is enabled', () => {
       it('should merge cart', () => {
-        spyOn(service as any, 'generateTempCartId').and.returnValue(
+        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
           'temp-uuid'
         );
         featureToggles.incrementProcessesCountForMergeCart = true;
@@ -356,7 +340,7 @@ describe('MultiCartService', () => {
     });
     describe('feature flag authorizationCodeFlowByDefault is enabled', () => {
       it('should merge cart', () => {
-        spyOn(service as any, 'generateTempCartId').and.returnValue(
+        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
           'temp-uuid'
         );
         featureToggles.authorizationCodeFlowByDefault = true;
@@ -378,7 +362,7 @@ describe('MultiCartService', () => {
     });
     describe('feature flags incrementProcessesCountForMergeCart and authorizationCodeFlowByDefault are disabled', () => {
       it('should merge cart', () => {
-        spyOn(service as any, 'generateTempCartId').and.returnValue(
+        vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
           'temp-uuid'
         );
         featureToggles.incrementProcessesCountForMergeCart = false;
@@ -482,8 +466,8 @@ describe('MultiCartService', () => {
         { productCode: 'productCode', quantity: 2 },
         { productCode: 'productCode2', quantity: 3 },
       ]);
-      // @ts-ignore
-      expect(store.dispatch.calls.argsFor(0)[0]).toEqual(
+      expect(store.dispatch).toHaveBeenNthCalledWith(
+        1,
         new CartActions.CartAddEntry({
           cartId: 'cartId',
           userId: 'userId',
@@ -491,8 +475,8 @@ describe('MultiCartService', () => {
           quantity: 2,
         })
       );
-      // @ts-ignore
-      expect(store.dispatch.calls.argsFor(1)[0]).toEqual(
+      expect(store.dispatch).toHaveBeenNthCalledWith(
+        2,
         new CartActions.CartAddEntry({
           cartId: 'cartId',
           userId: 'userId',
@@ -563,7 +547,7 @@ describe('MultiCartService', () => {
     });
 
     it('should dispatch RemoveEntry action for quantity = 0', () => {
-      spyOn(service, 'removeEntry').and.callThrough();
+      vi.spyOn(service, 'removeEntry');
 
       service.updateEntry('userId', 'cartId', 0, 0);
 

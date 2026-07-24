@@ -99,10 +99,10 @@ describe('MiniCartComponentService', () => {
 
   describe('getCartStateFromBrowserStorage', () => {
     it('should return the state from the browser storage', () => {
-      spyOn(siteContextParamsService, 'getValues').and.returnValue(
+      vi.spyOn(siteContextParamsService, 'getValues').mockReturnValue(
         cold('a', { a: [mockBaseSite] })
       );
-      spyOn(statePersistenceService, 'readStateFromStorage').and.returnValue(
+      vi.spyOn(statePersistenceService, 'readStateFromStorage').mockReturnValue(
         mockBrowserCartStateWithCart
       );
       const result = (service as any)['getCartStateFromBrowserStorage']();
@@ -114,7 +114,7 @@ describe('MiniCartComponentService', () => {
 
   describe('hasActiveCartInStorage', () => {
     it('should return true when the browser storage has an active cart.', () => {
-      spyOn(service as any, 'getCartStateFromBrowserStorage').and.returnValue(
+      vi.spyOn(service as any, 'getCartStateFromBrowserStorage').mockReturnValue(
         cold('a', {
           a: mockBrowserCartStateWithCart,
         })
@@ -125,7 +125,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return false when the browser storage has no active cart.', () => {
-      spyOn(service as any, 'getCartStateFromBrowserStorage').and.returnValue(
+      vi.spyOn(service as any, 'getCartStateFromBrowserStorage').mockReturnValue(
         cold('a', {
           a: mockBrowserCartStateNoCart,
         })
@@ -136,7 +136,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return false and then true if we swiitch to a site with a cart in storage.', () => {
-      spyOn(service as any, 'getCartStateFromBrowserStorage').and.returnValue(
+      vi.spyOn(service as any, 'getCartStateFromBrowserStorage').mockReturnValue(
         cold('a---b', {
           a: mockBrowserCartStateNoCart,
           b: mockBrowserCartStateWithCart,
@@ -150,14 +150,14 @@ describe('MiniCartComponentService', () => {
 
   describe('isCartCreated', () => {
     it('should return flase if no event is caught', () => {
-      spyOn(eventService, 'get').and.returnValue(cold('-'));
+      vi.spyOn(eventService, 'get').mockReturnValue(cold('-'));
 
       expect((service as any)['isCartCreated']()).toBeObservable(
         cold('f', booleanValues)
       );
     });
     it('should return true when the CreateCart event is caught', () => {
-      spyOn(eventService, 'get').and.returnValue(cold('e', { e: {} }));
+      vi.spyOn(eventService, 'get').mockReturnValue(cold('e', { e: {} }));
 
       expect((service as any)['isCartCreated']()).toBeObservable(
         cold('(ft)', booleanValues)
@@ -167,13 +167,13 @@ describe('MiniCartComponentService', () => {
 
   describe('activeCartRequired', () => {
     it('should return false if no user is logged in and no cart in browser storage and no new cart created', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -182,13 +182,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if there is a cart in browser storage', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('t', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -197,13 +197,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if a user is logged in.', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('t', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -212,13 +212,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if a cart iis created', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('t', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('t', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -227,13 +227,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if ther is a cart in browser storage', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f--t', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -242,13 +242,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if a user eventually logs in.', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f--f--t', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -257,13 +257,13 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if a cart is eventually created.', () => {
-      spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
+      vi.spyOn(service as any, 'hasActiveCartInStorage').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(service as any, 'isCartCreated').and.returnValue(
+      vi.spyOn(service as any, 'isCartCreated').mockReturnValue(
         cold('f--t', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -274,16 +274,16 @@ describe('MiniCartComponentService', () => {
 
   describe('getTotalPrice', () => {
     it('should return default value when user has no cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(activeCartFacade, 'getActive').and.stub();
+      vi.spyOn(activeCartFacade, 'getActive').mockImplementation(() => {});
       expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '' }));
       expect(activeCartFacade.getActive).not.toHaveBeenCalled();
     });
 
     it('should return value from activeCartFacade when user has a cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
@@ -292,7 +292,7 @@ describe('MiniCartComponentService', () => {
         },
       } as Partial<Cart>;
 
-      spyOn(activeCartFacade, 'getActive').and.returnValue(
+      vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
         cold('c', { c: mockActiveCart })
       );
       expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '122$' }));
@@ -301,23 +301,23 @@ describe('MiniCartComponentService', () => {
 
   describe('getQuantity', () => {
     it('should return default value when user has no cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('f', booleanValues)
       );
-      spyOn(activeCartFacade, 'getActive').and.stub();
+      vi.spyOn(activeCartFacade, 'getActive').mockImplementation(() => {});
       expect(service.getQuantity()).toBeObservable(cold('a', { a: 0 }));
       expect(activeCartFacade.getActive).not.toHaveBeenCalled();
     });
 
     it('should return value from activeCartFacade when user has a cart', () => {
-      spyOn(service as any, 'activeCartRequired').and.returnValue(
+      vi.spyOn(service as any, 'activeCartRequired').mockReturnValue(
         cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
         totalUnitCount: 7,
       } as Partial<Cart>;
 
-      spyOn(activeCartFacade, 'getActive').and.returnValue(
+      vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(
         cold('c', { c: mockActiveCart })
       );
       expect(service.getQuantity()).toBeObservable(

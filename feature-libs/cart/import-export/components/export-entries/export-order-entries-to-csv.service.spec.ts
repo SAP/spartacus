@@ -1,4 +1,5 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   defaultImportExportConfig,
@@ -17,7 +18,6 @@ import {
 } from '@spartacus/storefront';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 
-import createSpy = jasmine.createSpy;
 
 const csvData = [
   [
@@ -108,10 +108,10 @@ const entry: OrderEntry = {
 const entries: OrderEntry[] = [entry, entry];
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 class MockExportCsvFileService implements Partial<ExportCsvFileService> {
-  download = createSpy().and.callThrough();
+  download = vi.fn();
 }
 
 describe('ExportOrderEntriesToCsvService', () => {
@@ -135,7 +135,7 @@ describe('ExportOrderEntriesToCsvService', () => {
     translationService = TestBed.inject(TranslationService);
     exportCsvFileService = TestBed.inject(ExportCsvFileService);
 
-    spyOn(translationService, 'translate').and.callThrough();
+    vi.spyOn(translationService, 'translate');
   });
 
   it('should be created', () => {
@@ -214,8 +214,9 @@ describe('ExportOrderEntriesToCsvService', () => {
     expect(result.length).toEqual(2);
   });
 
-  it(`should downloadCsv`, fakeAsync(() => {
-    spyOn<any>(service, 'download').and.callThrough();
+  it(`should downloadCsv`, async () => {
+    vi.useFakeTimers();
+    vi.spyOn(service, 'download');
     const downloadDelay = 0;
     service['importExportConfig'] = {
       cartImportExport: {
@@ -228,7 +229,8 @@ describe('ExportOrderEntriesToCsvService', () => {
     };
 
     service.downloadCsv(entries);
-    tick(downloadDelay);
+    await vi.advanceTimersByTimeAsync(downloadDelay);
+    vi.useRealTimers();
 
     expect(service['download']).toHaveBeenCalledWith(csvData);
     expect(exportCsvFileService.download).toHaveBeenCalledWith(
@@ -236,5 +238,5 @@ describe('ExportOrderEntriesToCsvService', () => {
       defaultImportExportConfig.cartImportExport?.file.separator,
       defaultImportExportConfig.cartImportExport?.export.fileOptions
     );
-  }));
+  });
 });

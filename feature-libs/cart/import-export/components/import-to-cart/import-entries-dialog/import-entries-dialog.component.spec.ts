@@ -122,7 +122,7 @@ describe('ImportEntriesDialogComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(service, 'addEntries').and.callThrough();
+    vi.spyOn(service, 'addEntries');
     fixture.detectChanges();
   });
 
@@ -132,7 +132,7 @@ describe('ImportEntriesDialogComponent', () => {
 
   it('should close dialog on close method', () => {
     const mockCloseReason = 'Close Import Products Dialog';
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -158,7 +158,7 @@ describe('ImportEntriesDialogComponent', () => {
     });
 
     it('should call populateSummary when products are loaded', () => {
-      spyOn<any>(component, 'populateSummary');
+      vi.spyOn(component, 'populateSummary');
       component.importProducts(service, {
         products: mockProducts,
         savedCartInfo: {

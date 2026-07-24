@@ -9,13 +9,12 @@ import { of } from 'rxjs';
 import { CartGuestUserConnector } from '../connectors';
 import { CartGuestUserService } from './cart-guest-user.service';
 
-import createSpy = jasmine.createSpy;
 
 class MockCartCartGuestUserConnector
   implements Partial<CartGuestUserConnector>
 {
-  createCartGuestUser = createSpy().and.callFake(() => of({}));
-  updateCartGuestUser = createSpy().and.callFake(() => of({}));
+  createCartGuestUser = vi.fn().mockImplementation(() => of({}));
+  updateCartGuestUser = vi.fn().mockImplementation(() => of({}));
 }
 
 const userId = 'userId';

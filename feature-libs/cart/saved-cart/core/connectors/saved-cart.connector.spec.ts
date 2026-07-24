@@ -3,7 +3,6 @@ import { Cart } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 import { SavedCartConnector } from './saved-cart.connector';
-import createSpy = jasmine.createSpy;
 
 const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
@@ -16,10 +15,10 @@ const mockSavedCart: Cart = {
 };
 
 class MockSavedCartAdapter implements Partial<SavedCartAdapter> {
-  load = createSpy().and.returnValue(of(mockSavedCart));
-  loadList = createSpy().and.returnValue(of([mockSavedCart]));
-  restoreSavedCart = createSpy().and.returnValue(of(mockSavedCart));
-  cloneSavedCart = createSpy().and.returnValue(of(mockSavedCart));
+  load = vi.fn().mockReturnValue(of(mockSavedCart));
+  loadList = vi.fn().mockReturnValue(of([mockSavedCart]));
+  restoreSavedCart = vi.fn().mockReturnValue(of(mockSavedCart));
+  cloneSavedCart = vi.fn().mockReturnValue(of(mockSavedCart));
 }
 
 describe('SavedCartConnector', () => {

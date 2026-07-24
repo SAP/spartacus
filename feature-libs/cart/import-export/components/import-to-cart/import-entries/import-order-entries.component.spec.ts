@@ -9,7 +9,6 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportOrderEntriesComponent } from './import-order-entries.component';
-import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialogAndSubscribe(
@@ -20,13 +19,13 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 class MockImportExportContext {
-  addEntries = createSpy('addEntries');
+  addEntries = vi.fn();
 }
 
 const contextService = new MockImportExportContext();
 
 class MockContextService implements Partial<ContextService> {
-  get = createSpy().and.returnValue(of(contextService));
+  get = vi.fn().mockReturnValue(of(contextService));
 }
 
 describe('ImportOrderEntriesComponent', () => {
@@ -52,7 +51,7 @@ describe('ImportOrderEntriesComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(() => {});
 
     fixture.detectChanges();
     el = fixture.debugElement;

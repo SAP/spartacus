@@ -18,7 +18,6 @@ import { WishListActions } from '../actions';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 
-import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
 const cartName = 'name';
@@ -53,16 +52,16 @@ const savedCart: Cart = {
 };
 
 class MockCartConnector {
-  create = createSpy().and.returnValue(of(testCart));
-  load = createSpy().and.returnValue(of(wishList));
+  create = vi.fn().mockReturnValue(of(testCart));
+  load = vi.fn().mockReturnValue(of(wishList));
   loadAll(): Observable<Cart[]> {
     return EMPTY;
   }
-  save = createSpy().and.returnValue(of(savedCart));
+  save = vi.fn().mockReturnValue(of(savedCart));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(userId));
+  getUserId = vi.fn().mockReturnValue(of(userId));
 }
 
 describe('Wish List Effect', () => {
@@ -89,7 +88,7 @@ describe('Wish List Effect', () => {
     cartConnector = TestBed.inject(CartConnector);
     store = TestBed.inject(Store);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   describe('createWishList$', () => {
@@ -115,7 +114,7 @@ describe('Wish List Effect', () => {
 
   describe('loadWishList$', () => {
     it('should create wish list if it does NOT exist', () => {
-      spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
+      vi.spyOn(cartConnector, 'loadAll').mockReturnValue(of([testCart]));
 
       const payload = {
         userId,
@@ -142,7 +141,7 @@ describe('Wish List Effect', () => {
     });
 
     it('should dispatch load wish list success if it exists', () => {
-      spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
+      vi.spyOn(cartConnector, 'loadAll').mockReturnValue(of([testCart, wishList]));
 
       const payload = {
         userId,

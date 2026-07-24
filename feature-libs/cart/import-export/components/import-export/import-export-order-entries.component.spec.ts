@@ -14,7 +14,6 @@ import { BehaviorSubject } from 'rxjs';
 import { ExportOrderEntriesComponent } from '../export-entries';
 import { ImportOrderEntriesComponent } from '../import-to-cart';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
-import createSpy = jasmine.createSpy;
 
 const mockLoadProduct: ProductImportInfo = {
   productCode: '123456',
@@ -47,7 +46,7 @@ const importExportContext = new BehaviorSubject<
 >(new MockImportExportContext());
 
 class MockContextService implements Partial<ContextService> {
-  get = createSpy().and.returnValue(importExportContext.asObservable());
+  get = vi.fn().mockReturnValue(importExportContext.asObservable());
 }
 
 @Component({

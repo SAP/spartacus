@@ -21,7 +21,7 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
@@ -186,7 +186,7 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should trigger save cart', () => {
-    spyOn(savedCartService, 'saveCart');
+    vi.spyOn(savedCartService, 'saveCart');
 
     component.saveOrEditCart(mockCartId);
 
@@ -198,7 +198,7 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should trigger edit saved cart', () => {
-    spyOn(savedCartService, 'editSavedCart');
+    vi.spyOn(savedCartService, 'editSavedCart');
 
     mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'edit' });
 
@@ -212,7 +212,7 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should trigger delete cart', () => {
-    spyOn(savedCartService, 'deleteSavedCart');
+    vi.spyOn(savedCartService, 'deleteSavedCart');
 
     component.deleteCart(mockCartId);
 
@@ -220,8 +220,8 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should trigger restore saved cart with no cloning', () => {
-    spyOn(savedCartService, 'restoreSavedCart');
-    spyOn(savedCartService, 'cloneSavedCart');
+    vi.spyOn(savedCartService, 'restoreSavedCart');
+    vi.spyOn(savedCartService, 'cloneSavedCart');
 
     component.isCloneSavedCart = false;
 
@@ -231,8 +231,8 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should trigger restore saved cart with cloning', () => {
-    spyOn(savedCartService, 'restoreSavedCart');
-    spyOn(savedCartService, 'cloneSavedCart');
+    vi.spyOn(savedCartService, 'restoreSavedCart');
+    vi.spyOn(savedCartService, 'cloneSavedCart');
 
     component?.form?.get('cloneName')?.setValue(mockCart.name);
     component.isCloneSavedCart = true;
@@ -246,7 +246,7 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should close dialog on close method', () => {
-    spyOn(launchDialogService, 'closeDialog');
+    vi.spyOn(launchDialogService, 'closeDialog');
     component.close(mockSuccessDeleteCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
@@ -262,7 +262,7 @@ describe('SavedCartFormDialogComponent', () => {
 
   // TODO(#12660): Remove once backend is updated
   it('should provide default value to saveCartDescription when empty', () => {
-    spyOn(savedCartService, 'editSavedCart');
+    vi.spyOn(savedCartService, 'editSavedCart');
 
     mockDialogData$.next({
       cart: {
@@ -282,7 +282,7 @@ describe('SavedCartFormDialogComponent', () => {
   });
 
   it('should not trigger saveOrEditCart when empty cart name is empty', () => {
-    spyOn(savedCartService, 'editSavedCart');
+    vi.spyOn(savedCartService, 'editSavedCart');
 
     component.form?.get('name')?.setValue('');
 
@@ -332,11 +332,11 @@ describe('SavedCartFormDialogComponent', () => {
 
   describe('should trigger onComplete from ngOnInit', () => {
     beforeEach(() => {
-      spyOn(component, 'onComplete').and.stub();
+      vi.spyOn(component, 'onComplete').mockImplementation(() => {});
     });
 
     it('should trigger onComplete when there was a successful saved cart', () => {
-      spyOn(savedCartService, 'getSaveCartProcessSuccess').and.returnValue(
+      vi.spyOn(savedCartService, 'getSaveCartProcessSuccess').mockReturnValue(
         of(true)
       );
 
@@ -345,16 +345,16 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('should trigger onComplete when there was a successful delete saved cart event', () => {
-      spyOn(eventService, 'get').and.returnValue(of(mockDeleteSavedCartEvent));
+      vi.spyOn(eventService, 'get').mockReturnValue(of(mockDeleteSavedCartEvent));
       component.ngOnInit();
       expect(component.onComplete).toHaveBeenCalled();
     });
 
     it('should trigger onComplete when there was a successful restore cart', () => {
-      spyOn(
+      vi.spyOn(
         savedCartService,
         'getRestoreSavedCartProcessSuccess'
-      ).and.returnValue(of(true));
+      ).mockReturnValue(of(true));
 
       component.ngOnInit();
       expect(component.onComplete).toHaveBeenCalled();
@@ -363,12 +363,12 @@ describe('SavedCartFormDialogComponent', () => {
 
   describe('should perform actions from onComplete', () => {
     beforeEach(() => {
-      spyOn(component, 'close');
-      spyOn(globalMessageService, 'add');
+      vi.spyOn(component, 'close');
+      vi.spyOn(globalMessageService, 'add');
     });
 
     it('when successfully saving a cart', () => {
-      spyOn(savedCartService, 'clearSaveCart');
+      vi.spyOn(savedCartService, 'clearSaveCart');
 
       mockDialogData$.next(mockFilledDialogData);
 
@@ -388,7 +388,7 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('when successfully deleting a cart', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
 
       mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'delete' });
 
@@ -407,7 +407,7 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('when successfully editing a cart', () => {
-      spyOn(savedCartService, 'clearSaveCart');
+      vi.spyOn(savedCartService, 'clearSaveCart');
 
       mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'edit' });
 
@@ -429,10 +429,10 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('when successfully restoring a cart', () => {
-      spyOn(routingService, 'go');
-      spyOn(savedCartService, 'clearSaveCart');
-      spyOn(savedCartService, 'clearCloneSavedCart');
-      spyOn(savedCartService, 'clearRestoreSavedCart');
+      vi.spyOn(routingService, 'go');
+      vi.spyOn(savedCartService, 'clearSaveCart');
+      vi.spyOn(savedCartService, 'clearCloneSavedCart');
+      vi.spyOn(savedCartService, 'clearRestoreSavedCart');
 
       mockDialogData$.next({
         ...mockFilledDialogData,
@@ -455,7 +455,7 @@ describe('SavedCartFormDialogComponent', () => {
 
   describe('disabling and enabling delete button using events', () => {
     it('should return true when the trigger event fired', () => {
-      spyOn(eventService, 'get').and.callFake((type) => {
+      vi.spyOn(eventService, 'get').mockImplementation((type) => {
         if ((type as any).type === 'DeleteCartEvent') {
           return of(new DeleteCartEvent() as any);
         } else {
@@ -475,7 +475,7 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('should return false when the fail event fired', () => {
-      spyOn(eventService, 'get').and.callFake((type) => {
+      vi.spyOn(eventService, 'get').mockImplementation((type) => {
         if ((type as any).type === 'DeleteCartEvent') {
           return of(new DeleteCartEvent() as any);
         } else {

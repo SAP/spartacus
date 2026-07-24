@@ -9,7 +9,7 @@ import {
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
@@ -97,7 +97,7 @@ describe('WishListItemComponent', () => {
   let el: DebugElement;
   let componentInjector: Injector;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -131,7 +131,7 @@ describe('WishListItemComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListItemComponent);
@@ -139,33 +139,36 @@ describe('WishListItemComponent', () => {
     component.cartEntry = mockCartEntry;
     componentInjector = fixture.debugElement.injector;
     el = fixture.debugElement;
-
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display product name', () => {
+    fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-name').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-name').textContent?.trim()
     ).toContain(component.cartEntry.product.name);
   });
 
   it('should display product code', () => {
+    fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-code').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-code').textContent?.trim()
     ).toContain(component.cartEntry.product.code);
   });
 
   it('should display product formatted price', () => {
+    fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-price').textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-price').textContent?.trim()
     ).toContain(component.cartEntry.basePrice.formattedValue);
   });
 
   it('should display product image', () => {
+    fixture.detectChanges();
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
@@ -180,7 +183,8 @@ describe('WishListItemComponent', () => {
   });
 
   it('should call remove', () => {
-    spyOn(component, 'removeEntry');
+    fixture.detectChanges();
+    vi.spyOn(component, 'removeEntry');
     el.query(By.css('button.cx-remove-btn')).nativeElement.click();
     expect(component.removeEntry).toHaveBeenCalledWith(mockCartEntry);
   });
@@ -196,9 +200,10 @@ describe('WishListItemComponent', () => {
 
   describe('variants', () => {
     it('should display variants', () => {
+      fixture.detectChanges();
       el.queryAll(By.css('.cx-property')).forEach((element, index) => {
         expect(
-          element.query(By.css('.cx-label')).nativeElement.innerText
+          element.query(By.css('.cx-label')).nativeElement.textContent?.trim()
         ).toEqual(
           `${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].name}: ${mockCartEntry.product.baseOptions[0].selected.variantOptionQualifiers[index].value}`
         );
@@ -214,24 +219,28 @@ describe('WishListItemComponent', () => {
 
   describe('ProductListItemContext', () => {
     it('should have defined instance of list item context', () => {
+      fixture.detectChanges();
       expect(component['productListItemContextSource']).toBeDefined();
     });
 
     it('should provide ProductListItemContextSource', () => {
+      fixture.detectChanges();
       expect(componentInjector.get(ProductListItemContextSource)).toBeTruthy();
     });
 
     it('should provide ProductListItemContext', () => {
+      fixture.detectChanges();
       expect(componentInjector.get(ProductListItemContext)).toBe(
         componentInjector.get(ProductListItemContextSource)
       );
     });
 
     it('should push changes of input"product" to context', () => {
+      fixture.detectChanges();
       const contextSource: ProductListItemContextSource = componentInjector.get(
         ProductListItemContextSource
       );
-      spyOn(contextSource.product$, 'next');
+      vi.spyOn(contextSource.product$, 'next');
       component.cartEntry = { product: { code: 'testProduct' } };
       component.ngOnChanges({
         cartEntry: { currentValue: component.cartEntry } as SimpleChange,

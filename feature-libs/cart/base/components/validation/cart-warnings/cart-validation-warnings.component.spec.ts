@@ -128,7 +128,7 @@ describe('CartValidationWarningsComponent', () => {
   });
 
   it('should close / hide warning when clicked icon for certain product', () => {
-    spyOn(component, 'removeMessage').and.callThrough();
+    vi.spyOn(component, 'removeMessage');
     let alerts = el.queryAll(By.css('div.alert'));
     expect(alerts.length).toEqual(2);
     let closeButton = el.queryAll(By.css('button.close'));

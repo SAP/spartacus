@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';
 import {
   CxDatePipe,
@@ -11,7 +11,6 @@ import {
 import { ProgressButtonModule } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
-import createSpy = jasmine.createSpy;
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -28,7 +27,7 @@ describe('CartProceedToCheckoutComponent', () => {
   let component: CartProceedToCheckoutComponent;
   let fixture: ComponentFixture<CartProceedToCheckoutComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ProgressButtonModule,
@@ -42,7 +41,7 @@ describe('CartProceedToCheckoutComponent', () => {
         },
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+          useValue: { markForCheck: vi.fn() },
         },
       ],
     })
@@ -55,7 +54,7 @@ describe('CartProceedToCheckoutComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartProceedToCheckoutComponent);

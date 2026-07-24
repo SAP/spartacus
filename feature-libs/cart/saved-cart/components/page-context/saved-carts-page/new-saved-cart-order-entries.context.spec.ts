@@ -10,7 +10,6 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries.context';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user';
 const mockCartId = '00004546';
@@ -27,19 +26,19 @@ const mockProductData: ProductData[] = [
 ];
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  createCart = createSpy().and.returnValue(of(mockCartData));
-  addEntries = createSpy().and.callThrough();
+  createCart = vi.fn().mockReturnValue(of(mockCartData));
+  addEntries = vi.fn();
 }
 
 class MockSavedCartService implements Partial<SavedCartFacade> {
-  saveCart = createSpy().and.callThrough();
-  loadSavedCarts = createSpy().and.callThrough();
-  getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
-  deleteSavedCart = createSpy();
+  saveCart = vi.fn();
+  loadSavedCarts = vi.fn();
+  getSaveCartProcessLoading = vi.fn().mockReturnValue(of(false));
+  deleteSavedCart = vi.fn();
 }
 
 const mockProductImportInfo = {
@@ -47,7 +46,7 @@ const mockProductImportInfo = {
   statusCode: 'testStatusCode',
 };
 class MockProductImportInfoService {
-  getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+  getResults = vi.fn().mockReturnValue(of(mockProductImportInfo));
 }
 
 describe('NewSavedCartOrderEntriesContext that successfully imports products', () => {
@@ -112,7 +111,7 @@ const mockFailingProductImportWithUnknownIdentifier = {
   statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
 };
 class MockFailingProductImportInfoServiceWithUnknownIdentifier {
-  getResults = createSpy().and.returnValue(
+  getResults = vi.fn().mockReturnValue(
     of(mockFailingProductImportWithUnknownIdentifier)
   );
 }
@@ -180,7 +179,7 @@ const mockFailingProductImportWithUnknownError = {
   statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
 };
 class MockFailingProductImportInfoServiceWithUnknownError {
-  getResults = createSpy().and.returnValue(
+  getResults = vi.fn().mockReturnValue(
     of(mockFailingProductImportWithUnknownError)
   );
 }

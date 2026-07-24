@@ -28,7 +28,7 @@ import {
   LaunchDialogService,
   SiteContextComponentService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
@@ -110,6 +110,10 @@ describe('SavedCartListComponent', () => {
   let siteContextComponentService: SiteContextComponentService;
   let el: DebugElement;
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SavedCartListComponent, RouterModule.forRoot([])],
@@ -151,7 +155,7 @@ describe('SavedCartListComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     siteContextComponentService = TestBed.inject(SiteContextComponentService);
 
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
 
     fixture = TestBed.createComponent(SavedCartListComponent);
 
@@ -165,7 +169,7 @@ describe('SavedCartListComponent', () => {
 
   it('should display header', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('h2')).nativeElement.innerText).toContain(
+    expect(el.query(By.css('h2')).nativeElement.textContent?.trim()).toContain(
       'savedCartList.savedCarts'
     );
   });
@@ -189,14 +193,14 @@ describe('SavedCartListComponent', () => {
   });
 
   it('should trigger loadSavedCarts OnInit', () => {
-    spyOn(savedCartFacade, 'loadSavedCarts').and.callThrough();
+    vi.spyOn(savedCartFacade, 'loadSavedCarts');
     component.savedCarts$ = savedCartFacade.getList();
     fixture.detectChanges();
     expect(savedCartFacade.loadSavedCarts).toHaveBeenCalledWith();
   });
 
   it('should trigger goToSavedCartDetails with proper route', () => {
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     component.goToSavedCartDetails(mockCart1);
     fixture.detectChanges();
     expect(routingService.go).toHaveBeenCalledWith({
@@ -221,11 +225,11 @@ describe('SavedCartListComponent', () => {
 
   describe('observeAndReloadSavedCartOnContextChange()', () => {
     it('should not call getActiveItem() if context is empty array', () => {
-      spyOn(Object, 'values').and.returnValue([]);
-      const getActiveItemSpy = spyOn(
+      vi.spyOn(Object, 'values').mockReturnValue([]);
+      const getActiveItemSpy = vi.spyOn(
         siteContextComponentService,
         'getActiveItem'
-      ).and.callThrough();
+      );
 
       component.ngOnInit();
 
@@ -233,7 +237,7 @@ describe('SavedCartListComponent', () => {
     });
 
     it('should add subscription if context is not empty array', () => {
-      const subSpy = spyOn(Subscription.prototype, 'add').and.callThrough();
+      const subSpy = vi.spyOn(Subscription.prototype, 'add');
 
       component.ngOnInit();
 
@@ -241,8 +245,8 @@ describe('SavedCartListComponent', () => {
     });
 
     it('should not add subscription if context is empty array', () => {
-      spyOn(Object, 'values').and.returnValue([]);
-      const subSpy = spyOn(Subscription.prototype, 'add').and.callThrough();
+      vi.spyOn(Object, 'values').mockReturnValue([]);
+      const subSpy = vi.spyOn(Subscription.prototype, 'add');
 
       component.ngOnInit();
 
@@ -250,10 +254,10 @@ describe('SavedCartListComponent', () => {
     });
 
     it('should reload saved carts if context changed', () => {
-      const loadSavedCartsSpy = spyOn(
+      const loadSavedCartsSpy = vi.spyOn(
         savedCartFacade,
         'loadSavedCarts'
-      ).and.callThrough();
+      );
 
       component.ngOnInit();
 
@@ -263,11 +267,11 @@ describe('SavedCartListComponent', () => {
     });
 
     it('should not reload saved carts if context did not changed', () => {
-      spyOn(siteContextComponentService, 'getActiveItem').and.returnValue(of());
-      const loadSavedCartsSpy = spyOn(
+      vi.spyOn(siteContextComponentService, 'getActiveItem').mockReturnValue(of());
+      const loadSavedCartsSpy = vi.spyOn(
         savedCartFacade,
         'loadSavedCarts'
-      ).and.callThrough();
+      );
 
       component.ngOnInit();
 

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
@@ -22,7 +23,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../../../core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, Subject, of } from 'rxjs';
 import { CartItemListRowComponent } from '../cart-item-list-row';
 import { CartItemComponent } from '../cart-item/cart-item.component';
@@ -134,10 +135,7 @@ describe('CartItemListComponent', () => {
   let activeCartService: ActiveCartFacade;
   let multiCartService: MultiCartFacade;
 
-  const mockSelectiveCartService = jasmine.createSpyObj(
-    'SelectiveCartService',
-    ['removeEntry', 'updateEntry']
-  );
+  const mockSelectiveCartService = { removeEntry: vi.fn(), updateEntry: vi.fn() };
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
@@ -177,9 +175,9 @@ describe('CartItemListComponent', () => {
     fixture.componentRef.setInput('items', [mockItem0, mockItem1]);
     component.options = { isSaveForLater: false };
 
-    spyOn(activeCartService, 'updateEntry').and.callThrough();
-    spyOn(multiCartService, 'updateEntry').and.callThrough();
-    spyOn(multiCartService, 'removeEntry').and.callThrough();
+    vi.spyOn(activeCartService, 'updateEntry');
+    vi.spyOn(multiCartService, 'updateEntry');
+    vi.spyOn(multiCartService, 'removeEntry');
 
     fixture.detectChanges();
   }
@@ -348,7 +346,7 @@ describe('CartItemListComponent', () => {
     });
 
     it('remove entry from cart', () => {
-      spyOn(activeCartService, 'removeEntry').and.callThrough();
+      vi.spyOn(activeCartService, 'removeEntry');
       const item = mockItems[0];
       expect(component.form.controls[item.entryNumber]).toBeDefined();
       component.removeEntry(item);
@@ -439,6 +437,10 @@ describe('CartItemListComponent', () => {
   });
 
   describe('Use outlet with outlet context data', () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it('should be able to get inputs from outlet context data', () => {
       const newContext = structuredClone(mockContext);
       newContext.items = [mockItem0];
@@ -449,8 +451,8 @@ describe('CartItemListComponent', () => {
       TestBed.compileComponents();
       stubServiceAndCreateComponent();
 
-      spyOn(<any>component, '_setItems').and.callThrough();
-      const cartIsLoading = spyOnProperty(component, 'cartIsLoading', 'set');
+      vi.spyOn(<any>component, '_setItems');
+      const cartIsLoading = vi.spyOn(component, 'cartIsLoading', 'set');
       component.ngOnInit();
       context$.next(newContext);
       expect(component.cartId).toEqual(newContext.cartId);
@@ -475,7 +477,7 @@ describe('CartItemListComponent', () => {
       stubServiceAndCreateComponent();
       const control0 = component.form.get(mockItem0.entryNumber.toString());
       const control1 = component.form.get(mockItem1.entryNumber.toString());
-      spyOn(component['cd'], 'markForCheck').and.callThrough();
+      vi.spyOn(component['cd'], 'markForCheck');
 
       component.ngOnInit();
 
@@ -495,11 +497,17 @@ describe('CartItemListComponent', () => {
       TestBed.compileComponents();
       stubServiceAndCreateComponent();
 
-      spyOn(<any>component, '_setItems').and.callThrough();
+      // Pre-conditions: readonly matches context (contextRequiresRerender=false),
+      // items match context.items (isItemsChanged=false),
+      // and feature toggle is explicitly enabled (dual-token issue under Vite)
+      component.readonly = mockContext.readonly;
+      fixture.componentRef.setInput('items', mockContext.items);
+      (component as any)['featureToggles'] = { a11yPreventCartItemsFormRedundantRecreation: true };
+
+      const spySetItems = vi.spyOn(<any>component, '_setItems');
       component.ngOnInit();
 
-      // context$ emits mockContext which has the same items that were set in stubSeviceAndCreateComponent
-      expect(component['_setItems']).not.toHaveBeenCalled();
+      expect(spySetItems).not.toHaveBeenCalled();
     });
   });
 });
