@@ -5,3 +5,4 @@
  */
 
 export * from './opf-quick-buy.facade';
+export * from './opf-quick-buy-single-product-cart-options.facade';
