@@ -30,11 +30,10 @@ export class NativeSelectSpaceDirective {
   onKeyDown(event: KeyboardEvent): void {
     if (
       this.featureToggles?.a11yNavigationSpaceKeyOnKeyUp &&
-      (event.key === ' ' || event.code === 'Space')
+      (event.key === ' ' || event.code === 'Space') &&
+      event.repeat
     ) {
-      if (event.repeat) {
-        event.preventDefault();
-      }
+      event.preventDefault();
     }
   }
 
