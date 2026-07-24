@@ -386,6 +386,13 @@ export interface FeatureTogglesInterface {
   useEnhancedSecurePasswordValidators?: boolean;
 
   /**
+   * When enabled, uses `POST /carts/{cartId}/applyVoucher` with the voucherId
+   * in the request body instead of `POST /carts/{cartId}/vouchers?voucherId={voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableApplyVoucherEndpoint?: boolean;
+
+  /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
    * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
@@ -669,6 +676,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
+  enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,

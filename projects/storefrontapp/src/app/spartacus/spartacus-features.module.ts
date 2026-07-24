@@ -351,6 +351,7 @@ if (environment.cpq) {
         a11yRestoreFocusOnNgSelect: true,
         a11yKeepFocusOnConsentManagementButtons: true,
         useEnhancedSecurePasswordValidators: true,
+        enableApplyVoucherEndpoint: true,
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
