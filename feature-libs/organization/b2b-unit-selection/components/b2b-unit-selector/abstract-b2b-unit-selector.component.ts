@@ -10,9 +10,11 @@ import { Store } from '@ngrx/store';
 import { B2BUnit, UserIdService } from '@spartacus/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
-import { B2bUnitSelectionConnector } from '@spartacus/organization/b2b-unit-selection/core';
-import { B2bUnitSelectorStateService } from '@spartacus/organization/b2b-unit-selection/core';
-import { SetDefaultOrgUnit } from '@spartacus/organization/b2b-unit-selection/core';
+import {
+  B2bUnitSelectionConnector,
+  B2bUnitSelectorStateService,
+  SetDefaultOrgUnit,
+} from '@spartacus/organization/b2b-unit-selection/core';
 import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection/root';
 
 /**

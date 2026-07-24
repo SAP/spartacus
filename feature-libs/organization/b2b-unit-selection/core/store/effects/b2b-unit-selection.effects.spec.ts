@@ -24,7 +24,7 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-// Side-effect import: registers LAUNCH_CALLER.B2B_UNIT_SELECTION enum extension.
+// Side-effect import: ensures the LAUNCH_CALLER runtime assignment runs before tests.
 import '../../../root/model/augmented-core.model';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -175,7 +175,7 @@ describe('B2bUnitSelectionEffects', () => {
       getTestScheduler().flush();
 
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
-        LAUNCH_CALLER.B2B_UNIT_SELECTION,
+        (LAUNCH_CALLER as any)['B2B_UNIT_SELECTION'],
         undefined,
         { orgUnits: mockUnits, defaultUnitUid: mockDefaultUid }
       );
