@@ -10,8 +10,7 @@
           then hasExistingPaymentMethods;
           else newPaymentForm
         "
-      >
-      </ng-container>
+      />
     </ng-container>
 
     <ng-template #hasExistingPaymentMethods>
@@ -21,6 +20,15 @@
 
       <div class="cx-checkout-btns cx-checkout-btns-top">
         <button
+          *cxFeature="'a11yImproveCheckoutFocus'"
+          [cxFocus]="{ autofocus: true }"
+          class="btn btn-block btn-secondary"
+          (click)="showNewPaymentForm()"
+        >
+          {{ 'paymentForm.addNewPayment' | cxTranslate }}
+        </button>
+        <button
+          *cxFeature="'!a11yImproveCheckoutFocus'"
           class="btn btn-block btn-secondary"
           (click)="showNewPaymentForm()"
         >
@@ -43,7 +51,7 @@
               [content]="card.content"
               [index]="i"
               (sendCard)="selectPaymentMethod(card.paymentMethod)"
-            ></cx-card>
+            />
           </div>
         </div>
       </div>
@@ -77,20 +85,32 @@
 
     <ng-template #newPaymentForm>
       <cx-payment-form
+        *cxFeature="'a11yImproveCheckoutFocus'"
+        [cxFocus]="{ autofocus: true }"
         (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"
         [paymentMethodsCount]="cards?.length || 0"
         [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
-        [loading]="isUpdating$ | async"
+        [loading]="(isUpdating$ | async) ?? false"
         [paymentDetails]="paymentDetails"
-      ></cx-payment-form>
+      />
+      <cx-payment-form
+        *cxFeature="'!a11yImproveCheckoutFocus'"
+        (setPaymentDetails)="setPaymentDetails($event)"
+        (closeForm)="hideNewPaymentForm()"
+        (goBack)="back()"
+        [paymentMethodsCount]="cards?.length || 0"
+        [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
+        [loading]="(isUpdating$ | async) ?? false"
+        [paymentDetails]="paymentDetails"
+      />
     </ng-template>
   </ng-container>
 </section>
 
 <ng-template #loading>
   <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
+    <cx-spinner />
   </div>
 </ng-template>

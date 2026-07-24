@@ -49,7 +49,8 @@ export abstract class OrderFacade {
    * Places an order after the payment was authorized
    */
   abstract placePaymentAuthorizedOrder(
-    termsChecked: boolean
+    termsChecked: boolean,
+    cartId?: string
   ): Observable<Order>;
   /**
    * Return order's pickup entries
