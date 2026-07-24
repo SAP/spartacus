@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import {
   CxDatePipe,
   EventService,
-  FeatureDirective,
+  FeatureToggles,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -32,16 +37,15 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    NgTemplateOutlet,
     CardComponent,
     SpinnerComponent,
     AsyncPipe,
     CxDatePipe,
-    FeatureDirective,
     TranslatePipe,
   ],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
+  protected featureToggles = inject(FeatureToggles);
   dateFormat = DATE_FORMAT;
   subscription = new Subscription();
   ticketDetails$: Observable<TicketDetails | undefined> =

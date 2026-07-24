@@ -1,65 +1,23 @@
 <ng-container *ngIf="ticketDetails$ | async as ticket; else spinner">
   <div
-    *cxFeature="'a11yMessagingListKeyboardFocus'"
     class="cx-ticket-details"
-    role="region"
-    tabindex="0"
+    [attr.role]="
+      featureToggles.a11yMessagingListKeyboardFocus ? 'region' : null
+    "
+    [attr.tabindex]="featureToggles.a11yMessagingListKeyboardFocus ? 0 : null"
     [attr.aria-label]="
-      'customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate
+      featureToggles.a11yMessagingListKeyboardFocus
+        ? ('customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate)
+        : null
     "
   >
     <div class="container">
-      <div class="cx-details-card">
-        <cx-card
-          [border]="true"
-          [content]="
-            prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
-          "
-        />
-      </div>
-
-      <div class="cx-details-card">
-        <cx-card
-          [border]="true"
-          [content]="
-            prepareCardContent(
-              (ticket.createdAt | cxDate: dateFormat) ?? dateFormat,
-              'customerTicketing.createdOn'
-            ) | async
-          "
-        />
-      </div>
-
-      <div class="cx-details-card">
-        <cx-card
-          [border]="true"
-          [content]="
-            prepareCardContent(
-              (ticket.modifiedAt | cxDate: dateFormat) ?? dateFormat,
-              'customerTicketing.changedOn'
-            ) | async
-          "
-        />
-      </div>
-
-      <div class="cx-details-card">
-        <cx-card
-          [border]="true"
-          [content]="
-            prepareCardContent(
-              ticket.status ? ticket.status.name : undefined,
-              'customerTicketing.status',
-              ticket.status ? ticket.status.id : undefined
-            ) | async
-          "
-        />
-      </div>
-    </div>
-  </div>
-
-  <div *cxFeature="'!a11yMessagingListKeyboardFocus'" class="cx-ticket-details">
-    <div class="container">
-      <div class="cx-details-card">
+      <div
+        class="cx-details-card"
+        [attr.tabindex]="
+          featureToggles.a11yMessagingListKeyboardFocus ? 0 : null
+        "
+      >
         <cx-card
           [content]="
             prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
@@ -67,7 +25,12 @@
         />
       </div>
 
-      <div class="cx-details-card">
+      <div
+        class="cx-details-card"
+        [attr.tabindex]="
+          featureToggles.a11yMessagingListKeyboardFocus ? 0 : null
+        "
+      >
         <cx-card
           [content]="
             prepareCardContent(
@@ -78,7 +41,12 @@
         />
       </div>
 
-      <div class="cx-details-card">
+      <div
+        class="cx-details-card"
+        [attr.tabindex]="
+          featureToggles.a11yMessagingListKeyboardFocus ? 0 : null
+        "
+      >
         <cx-card
           [content]="
             prepareCardContent(
@@ -89,7 +57,12 @@
         />
       </div>
 
-      <div class="cx-details-card">
+      <div
+        class="cx-details-card"
+        [attr.tabindex]="
+          featureToggles.a11yMessagingListKeyboardFocus ? 0 : null
+        "
+      >
         <cx-card
           [content]="
             prepareCardContent(
