@@ -1,5 +1,63 @@
 <ng-container *ngIf="ticketDetails$ | async as ticket; else spinner">
-  <ng-template #cards>
+  <div
+    *cxFeature="'a11yMessagingListKeyboardFocus'"
+    class="cx-ticket-details"
+    role="region"
+    tabindex="0"
+    [attr.aria-label]="
+      'customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate
+    "
+  >
+    <div class="container">
+      <div class="cx-details-card">
+        <cx-card
+          [border]="true"
+          [content]="
+            prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
+          "
+        />
+      </div>
+
+      <div class="cx-details-card">
+        <cx-card
+          [border]="true"
+          [content]="
+            prepareCardContent(
+              (ticket.createdAt | cxDate: dateFormat) ?? dateFormat,
+              'customerTicketing.createdOn'
+            ) | async
+          "
+        />
+      </div>
+
+      <div class="cx-details-card">
+        <cx-card
+          [border]="true"
+          [content]="
+            prepareCardContent(
+              (ticket.modifiedAt | cxDate: dateFormat) ?? dateFormat,
+              'customerTicketing.changedOn'
+            ) | async
+          "
+        />
+      </div>
+
+      <div class="cx-details-card">
+        <cx-card
+          [border]="true"
+          [content]="
+            prepareCardContent(
+              ticket.status ? ticket.status.name : undefined,
+              'customerTicketing.status',
+              ticket.status ? ticket.status.id : undefined
+            ) | async
+          "
+        />
+      </div>
+    </div>
+  </div>
+
+  <div *cxFeature="'!a11yMessagingListKeyboardFocus'" class="cx-ticket-details">
     <div class="container">
       <div class="cx-details-card">
         <cx-card
@@ -43,21 +101,6 @@
         />
       </div>
     </div>
-  </ng-template>
-
-  <div
-    *cxFeature="'a11yMessagingListKeyboardFocus'"
-    class="cx-ticket-details"
-    role="region"
-    [attr.aria-label]="
-      'customerTicketingDetails.a11y.ticketDetailsRegion' | cxTranslate
-    "
-  >
-    <ng-container *ngTemplateOutlet="cards" />
-  </div>
-
-  <div *cxFeature="'!a11yMessagingListKeyboardFocus'" class="cx-ticket-details">
-    <ng-container *ngTemplateOutlet="cards" />
   </div>
 </ng-container>
 <ng-template #spinner>

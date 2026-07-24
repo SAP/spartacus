@@ -166,18 +166,21 @@ describe('CustomerTicketingDetailsComponent', () => {
     });
 
     describe('when toggle is OFF (default)', () => {
-      it('should render ticket details without role="region"', () => {
+      it('should render ticket details without role="region" or tabindex', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', false);
         const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
         f.detectChanges();
         expect(
           f.debugElement.query(By.css('.cx-ticket-details[role="region"]'))
         ).toBeNull();
+        expect(
+          f.debugElement.query(By.css('.cx-ticket-details[tabindex]'))
+        ).toBeNull();
       });
     });
 
     describe('when toggle is ON', () => {
-      it('should render ticket details with role="region" and aria-label', () => {
+      it('should render ticket details with role="region", aria-label and tabindex="0"', () => {
         toggleController.set('a11yMessagingListKeyboardFocus', true);
         const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
         f.detectChanges();
@@ -186,6 +189,7 @@ describe('CustomerTicketingDetailsComponent', () => {
         );
         expect(region).toBeTruthy();
         expect(region.attributes['aria-label']).toBeDefined();
+        expect(region.attributes['tabindex']).toBe('0');
       });
     });
   });
