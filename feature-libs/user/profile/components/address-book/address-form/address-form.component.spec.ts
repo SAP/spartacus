@@ -21,13 +21,20 @@ import {
   Title,
   UserAddressService,
 } from '@spartacus/core';
-import { FormErrorsModule, LaunchDialogService } from '@spartacus/storefront';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import {
+  FocusDirective,
+  FormErrorsModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { UserProfileFacade } from '../../../root/facade/user-profile.facade';
 import { AddressFormComponent } from './address-form.component';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import createSpy = jasmine.createSpy;
 
 const mockTitles: Title[] = [
@@ -190,7 +197,7 @@ describe('AddressFormComponent', () => {
       ],
     })
       .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Eager },
       })
       .compileComponents();
 
@@ -240,19 +247,19 @@ describe('AddressFormComponent', () => {
 
     component.ngOnInit();
 
-    let countries: Country[];
+    let countries: Country[] | undefined;
     component.countries$
       .subscribe((data) => {
         countries = data;
       })
       .unsubscribe();
-    let titles: Title[];
+    let titles: Title[] | undefined;
     component.titles$
       .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
-    let regions: Region[];
+    let regions: Region[] | undefined;
     component.regions$
       .subscribe((data) => {
         regions = data;
@@ -300,7 +307,9 @@ describe('AddressFormComponent', () => {
 
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
-    mockAddressVerificationResult.errors.errors = [{ subject: 'titleCode' }];
+    if (mockAddressVerificationResult.errors) {
+      mockAddressVerificationResult.errors.errors = [{ subject: 'titleCode' }];
+    }
     component.ngOnInit();
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
   });
@@ -377,6 +386,7 @@ describe('AddressFormComponent', () => {
     );
 
     fixture.detectChanges();
+    // eslint-disable-next-line no-restricted-syntax
     defaultAddressCheckbox().nativeElement.click();
 
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
@@ -389,7 +399,9 @@ describe('AddressFormComponent', () => {
     component.ngOnInit();
     component.regions$.subscribe();
     expect(
-      component.addressForm['controls'].country['controls'].isocode.value
+      (component.addressForm['controls'].country as UntypedFormGroup)[
+        'controls'
+      ].isocode.value
     ).toEqual(mockCountryIsocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountryIsocode
@@ -479,7 +491,8 @@ describe('AddressFormComponent', () => {
     component.regions$.subscribe();
     component.verifyAddress();
     expect(
-      component.addressForm['controls'].region['controls'].isocode.value
+      (component.addressForm['controls'].region as UntypedFormGroup)['controls']
+        .isocode.value
     ).toEqual(mockCountryIsocode);
     expect(component.verifyAddress).toHaveBeenCalled();
   });
@@ -496,6 +509,7 @@ describe('AddressFormComponent', () => {
 
       fixture.detectChanges();
 
+      // eslint-disable-next-line no-restricted-syntax
       getContinueBtn().nativeElement.click();
       expect(component.verifyAddress).toHaveBeenCalledTimes(1);
 
@@ -504,11 +518,16 @@ describe('AddressFormComponent', () => {
       controls['lastName'].setValue('test lastName');
       controls['line1'].setValue('test line1');
       controls['town'].setValue('test town');
-      controls.region['controls'].isocode.setValue('test region isocode');
-      controls.country['controls'].isocode.setValue('test country isocode');
+      (controls.region as UntypedFormGroup)['controls'].isocode.setValue(
+        'test region isocode'
+      );
+      (controls.country as UntypedFormGroup)['controls'].isocode.setValue(
+        'test country isocode'
+      );
       controls['postalCode'].setValue('test postalCode');
       fixture.detectChanges();
 
+      // eslint-disable-next-line no-restricted-syntax
       getContinueBtn().nativeElement.click();
       expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
@@ -525,14 +544,16 @@ describe('AddressFormComponent', () => {
       component.cancelBtnLabel = 'Back to cart';
       fixture.detectChanges();
       expect(
+        // eslint-disable-next-line no-restricted-syntax
         fixture.nativeElement.querySelector('.btn-secondary').innerText
       ).toEqual('Back to cart');
     });
 
     it('should show the "Choose Address", if there is no "cancelBtnLabel" input provided', () => {
-      component.cancelBtnLabel = undefined;
+      component.cancelBtnLabel = undefined as unknown as string;
       fixture.detectChanges();
       expect(
+        // eslint-disable-next-line no-restricted-syntax
         fixture.nativeElement.querySelector('.btn-secondary').innerText
       ).toEqual('addressForm.chooseAddress');
     });
@@ -562,6 +583,7 @@ describe('AddressFormComponent', () => {
     it('should call "back" function after being clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'back');
+      // eslint-disable-next-line no-restricted-syntax
       getBackBtn().nativeElement.click();
       expect(component.back).toHaveBeenCalled();
     });
@@ -622,6 +644,31 @@ describe('AddressFormComponent', () => {
       component.isHierarchicalAddressFormat = false;
       component.countrySelected({ isocode: 'CN' });
       expect(component.isHierarchicalAddressFormat).toBe(false);
+    });
+  });
+
+  describe('a11yAddressFormInitialFocus', () => {
+    let featureTogglesController: MockFeatureTogglesController;
+
+    const getFocusForm = (): DebugElement =>
+      fixture.debugElement.query(By.directive(FocusDirective));
+
+    beforeEach(() => {
+      featureTogglesController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    it('should apply cxFocus to the form when a11yAddressFormInitialFocus is true', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', true);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeTruthy();
+    });
+
+    it('should not apply cxFocus to the form when a11yAddressFormInitialFocus is false', () => {
+      featureTogglesController.set('a11yAddressFormInitialFocus', false);
+      fixture.detectChanges();
+
+      expect(getFocusForm()).toBeNull();
     });
   });
 });
