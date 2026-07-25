@@ -4,10 +4,14 @@ cx-b2b-unit-selector {
   display: inline-block;
   position: relative;
   margin-top: 14px;
-  margin-inline-end: 17px;
+  margin-inline-end: 24px;
   margin-bottom: 14px;
-  margin-inline-start: 0;
-
+  // The SiteContext slot contains a hidden cx-site-context-selector (currency) between
+  // Language and Theme when only one currency is configured.  That hidden host element
+  // still contributes its margin-inline-end: 17px, making the Language→Theme gap 34px.
+  // Setting margin-inline-start: 17px here gives Theme→Company the same 34px gap so
+  // all three selectors appear evenly spaced.
+  margin-inline-start: 17px;
   @include media-breakpoint-down(md) {
     &:first-child {
       margin-inline-start: 0;
@@ -20,6 +24,7 @@ cx-b2b-unit-selector {
 
   label {
     display: flex;
+    align-items: center;
     margin: 0;
 
     span {
@@ -32,11 +37,11 @@ cx-b2b-unit-selector {
   // Mirrors the .cx-select-wrapper structure used in site-context-selector.
   .cx-select-wrapper {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 
     cx-icon {
-      margin-inline-start: -#{$b2b-unit-selector-caret-size * 2};
-      margin-top: -12px;
+      // Match cx-site-context-selector / cx-site-theme-switcher which use -10px.
+      margin-inline-start: -10px;
       z-index: 1;
       pointer-events: none;
       color: var(--cx-color-text);
@@ -44,28 +49,31 @@ cx-b2b-unit-selector {
   }
 
   ng-select {
-    margin-top: -12px;
     // Adaptive width: shrinks to fit the selected value; text-overflow:ellipsis
     // truncates when the value exceeds max-width.
     max-width: 130px;
 
     .ng-select-container {
-      height: auto !important;
-      min-height: unset !important;
       background-color: transparent !important;
       border: none !important;
       border-radius: 0;
       box-shadow: none !important;
       cursor: pointer;
-      padding: 0 4px 2px 0;
+      // Force the ng-select-container to exactly the same height as the native <select>
+      // in cx-site-context-selector (padding: 2px 4px → height = line-height + 4px).
+      // height: auto leaves the door open for ng-select library styles (height: 36px,
+      // min-height: 36px) to affect layout; an explicit calc() value closes that gap
+      // so SiteContext height = Language/Theme height and align-items: center on
+      // SiteContext does not shift Language / Theme downward ("too low" effect).
+      height: calc(var(--cx-font-size, 0.875rem) * var(--cx-line-height, 1.2222) + 4px) !important;
+      min-height: unset !important;
+      padding: 2px 0 2px 0;
 
       .ng-value-container {
         // ng-select default theme specificity (3 classes) is higher than our rules;
         // !important is required to override padding-left: 10px.
         padding: 0 !important;
         padding-inline-end: #{$b2b-unit-selector-caret-size * 2} !important;
-        // Align to the top to cancel the vertical offset caused by ng-select-container's align-items:center.
-        align-self: flex-start;
 
         .ng-value {
           color: var(--cx-color-text);

@@ -1,0 +1,60 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+// Dialog width: narrower than the default modal width (768px) to suit a simple selection form.
+$b2b-unit-selection-dialog-width: 400px;
+
+.cx-b2b-unit-selection-dialog {
+  // Replaces .cx-modal-container layout so the base 768px !important rules don't apply.
+  display: flex;
+  align-items: center;
+  margin: auto;
+  height: 100%;
+  overflow-y: auto;
+  max-width: $b2b-unit-selection-dialog-width;
+  min-width: $b2b-unit-selection-dialog-width;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+  }
+}
+
+.cx-required-asterisk {
+  color: var(--cx-color-danger);
+  margin-inline-start: 2px;
+}
+
+// SiteContext: cx-page-slot defaults to flex-wrap: wrap (_common-template.scss), which causes
+// Company (cx-b2b-unit-selector) to wrap to a second line when Language + Theme +
+// Company together exceed the 50% slot width.
+//
+// flex-wrap: nowrap  – keeps all three items on a single row.
+// min-width: 0       – overrides the flex item's default min-width: auto.  Without this,
+//                      the browser widens SiteContext to fit its non-wrappable content,
+//                      pushing SiteLinks (Quick Order …) to a second row.
+// align-items: center – Language / Theme use a native <select> whose browser-rendered height
+//                      is larger than Company's borderless ng-select.  center aligns all three
+//                      items to the same vertical midline regardless of their individual heights.
+//
+// SiteLinks: cx-link <a> tags have margin: 8px which positions their text at the same midline
+// as Language / Theme via the default flex stretch — no align-items override needed here.
+//
+// Selector specificity:
+//   Core rule (SiteContext nowrap):  header .header .SiteContext              → (0, 2, 1)
+//   Our override:                   header cx-page-layout.header .SiteContext → (0, 2, 2) ← wins
+header {
+  @include media-breakpoint-up(lg) {
+    cx-page-layout.header {
+      .SiteContext {
+        flex-wrap: nowrap;
+        min-width: 0;
+        align-items: center;
+      }
+    }
+  }
+}

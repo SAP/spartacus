@@ -5,7 +5,7 @@
 -->
 
 <div
-  class="cx-b2b-unit-selection-dialog cx-modal-container"
+  class="cx-b2b-unit-selection-dialog"
   role="dialog"
   [attr.aria-labelledby]="'b2b-unit-selection-title'"
   [cxFocus]="focusConfig"
@@ -13,9 +13,9 @@
   <div class="cx-modal-content">
     <!-- Header -->
     <div class="cx-dialog-header modal-header">
-      <h2 id="b2b-unit-selection-title" class="modal-title">
+      <h3 id="b2b-unit-selection-title" class="modal-title">
         {{ 'b2bUnitSelection.dialog.title' | cxTranslate }}
-      </h2>
+      </h3>
     </div>
 
     <!-- Body -->
@@ -27,6 +27,7 @@
       <div class="form-group">
         <label for="b2b-unit-select" class="cx-required-field">
           {{ 'b2bUnitSelection.dialog.unitLabel' | cxTranslate }}
+          <span aria-hidden="true" class="cx-required-asterisk">*</span>
         </label>
         <ng-select
           inputId="b2b-unit-select"
