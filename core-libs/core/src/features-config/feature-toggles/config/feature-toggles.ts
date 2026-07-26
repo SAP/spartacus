@@ -229,6 +229,22 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Fixes keyboard focus and screen reader date announcement for the
+   * chat messaging list items. Moves tabindex and aria-label to the
+   * role="listitem" element so all messages are keyboard-reachable
+   * and dates are announced by VoiceOver and JAWS.
+   * Affects: MessagingComponent
+   */
+  a11yMessagingListKeyboardFocus?: boolean;
+
+  /**
+   * Applies a `10rem` inline-start padding to the order overview cards
+   * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
+   * not pushed inward, avoiding the horizontal shift on wide viewports.
+   */
+  orderOverviewCardsInlinePadding?: boolean;
+
+  /**
    * Adds Filter By label to product facets when in desktop mode.
    */
   a11yFacetFilterByLabel?: boolean;
@@ -314,6 +330,13 @@ export interface FeatureTogglesInterface {
   a11yListSemanticsForFacets?: boolean;
 
   /**
+   * In `ActiveFacetsComponent`, announces filter changes to screen readers.
+   * Before: no announcement when a filter is added or removed from the applied filters section.
+   * After: an assertive `aria-live` message is read out — "Filter added: <name>" or "Filter removed: <name>".
+   */
+  a11yFilteredFacetAnnouncement?: boolean;
+
+  /**
    * Hides empty outlet wrapper elements in the cart item list table when they have no content.
    * Otherwise screen readers would interpret them as extra table columns.
    * Affects: CartItemListComponent
@@ -363,6 +386,13 @@ export interface FeatureTogglesInterface {
   useEnhancedSecurePasswordValidators?: boolean;
 
   /**
+   * When enabled, uses `POST /carts/{cartId}/applyVoucher` with the voucherId
+   * in the request body instead of `POST /carts/{cartId}/vouchers?voucherId={voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableApplyVoucherEndpoint?: boolean;
+
+  /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
    * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
@@ -394,6 +424,12 @@ export interface FeatureTogglesInterface {
    * Affects: CheckoutDeliveryModeComponent, VisibleFocusDirective
    */
   a11yDeliveryModeFocusPreservation?: boolean;
+
+  /**
+   * Improve auto focus during checkout process.
+   * Affects: CheckoutPaymentMethodComponent
+   */
+  a11yImproveCheckoutFocus?: boolean;
 
   /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
@@ -554,6 +590,35 @@ export interface FeatureTogglesInterface {
    * the button, and rounds its bottom corners.
    */
   improvedTabStyling?: boolean;
+
+  /**
+   * When enabled, the product configurator product card action buttons are
+   * consistently disabled while a configuration update round trip is in
+   * progress (`disableActions$`). In particular, the multi-select "Remove"
+   * (secondary) button is disabled during loading to prevent triggering a
+   * concurrent, potentially conflicting request.
+   *
+   * Affects: `ConfiguratorAttributeProductCardComponent`
+   */
+  productConfiguratorConsolidatedButtonDisabling?: boolean;
+
+  /**
+   * When enabled, the form-error icon glyph (`cx-form-errors`) uses the
+   * `--cx-color-danger-accent` color instead of `--cx-color-inverse`, so it
+   * stays legible on the danger background in the high-contrast dark theme
+   * (black glyph instead of white).
+   *
+   * Affects: `FormErrorsComponent`
+   */
+  a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the address form applies the `cxFocus` directive with autofocus
+   * to manage initial keyboard focus.
+   *
+   * Affects: `AddressFormComponent`
+   */
+  a11yAddressFormInitialFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -581,6 +646,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yMessagingListKeyboardFocus: false,
+  orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
   a11yFacetFilterByLabel: false,
@@ -597,15 +664,18 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   showOnlyActiveCurrencies: false,
   a11yAddedToCartDialogHeading: false,
   a11yListSemanticsForFacets: false,
+  a11yFilteredFacetAnnouncement: false,
   a11yCartItemListHideEmptyOutlets: false,
   a11yReviewsKeyboardControls: false,
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
+  enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
@@ -629,4 +699,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   applyBaseSiteThemeFromCms: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
+  productConfiguratorConsolidatedButtonDisabling: false,
+  a11yFormErrorIconContrast: false,
+  a11yAddressFormInitialFocus: false,
 };

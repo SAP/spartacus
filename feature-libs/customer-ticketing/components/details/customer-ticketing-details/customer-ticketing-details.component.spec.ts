@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   EventService,
@@ -15,6 +16,10 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { Card, CardModule } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
@@ -62,6 +67,7 @@ describe('CustomerTicketingDetailsComponent', () => {
         CustomerTicketingDetailsComponent,
       ],
       providers: [
+        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
         { provide: TranslationService, useClass: MockTranslationService },
         {
           provide: CustomerTicketingFacade,
@@ -150,5 +156,37 @@ describe('CustomerTicketingDetailsComponent', () => {
     component['reloadOnRedirection']();
 
     expect(eventService.dispatch).not.toHaveBeenCalled();
+  });
+
+  describe('a11yMessagingListKeyboardFocus feature toggle', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when toggle is OFF (default)', () => {
+      it('should render ticket details without role="region"', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', false);
+        const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
+        f.detectChanges();
+        expect(
+          f.debugElement.query(By.css('.cx-ticket-details[role="region"]'))
+        ).toBeNull();
+      });
+    });
+
+    describe('when toggle is ON', () => {
+      it('should render ticket details with role="region" and aria-label', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        const f = TestBed.createComponent(CustomerTicketingDetailsComponent);
+        f.detectChanges();
+        const region = f.debugElement.query(
+          By.css('.cx-ticket-details[role="region"]')
+        );
+        expect(region).toBeTruthy();
+        expect(region.attributes['aria-label']).toBeDefined();
+      });
+    });
   });
 });

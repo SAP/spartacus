@@ -44,11 +44,11 @@ import { FacetService } from '../services/facet.service';
     NgFor,
     RouterLink,
     FocusDirective_1,
+    FeatureDirective,
     AtMessageDirective,
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
-    FeatureDirective,
   ],
 })
 export class FacetComponent implements AfterViewInit {
