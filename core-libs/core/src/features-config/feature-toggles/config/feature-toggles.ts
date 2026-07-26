@@ -386,6 +386,13 @@ export interface FeatureTogglesInterface {
   useEnhancedSecurePasswordValidators?: boolean;
 
   /**
+   * When enabled, uses `POST /carts/{cartId}/applyVoucher` with the voucherId
+   * in the request body instead of `POST /carts/{cartId}/vouchers?voucherId={voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableApplyVoucherEndpoint?: boolean;
+
+  /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
    * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
@@ -604,6 +611,14 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the address form applies the `cxFocus` directive with autofocus
+   * to manage initial keyboard focus.
+   *
+   * Affects: `AddressFormComponent`
+   */
+  a11yAddressFormInitialFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -660,6 +675,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
+  enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
@@ -685,4 +701,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yAddressFormInitialFocus: false,
 };
