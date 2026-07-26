@@ -44,6 +44,21 @@
   }
 }
 
-.#{getFeatureCssClass('a11yFocusIndicatorContrast')} {
-  --cx-color-visual-focus: #1f3a93;
+// Darkens the default theme's keyboard focus indicator so the focus outline
+// of all UI elements meets the WCAG 1.4.11 non-text contrast requirement
+// (>=3:1). The value matches the already-compliant `.santorini-updated`
+// variant. The `cxFeat_` class is applied to the application root element
+// (`app-root`) by `FeatureStylesService`, so overriding the inherited CSS
+// custom property on that class propagates to every descendant consumer of
+// `--cx-color-visual-focus` (and the `visible-focus` mixin).
+//
+// `!important` is required because CMS theme classes (e.g. `.santorini`) also
+// set this property on the same element with equal specificity and are loaded
+// afterwards, so they would otherwise win. The `:not()` guards exclude the
+// high-contrast themes, which define their own compliant focus colors that
+// must not be overridden.
+.#{getFeatureCssClass('a11yFocusIndicatorContrast')}:not(
+    .cx-theme-high-contrast-dark
+  ):not(.cx-theme-high-contrast-light) {
+  --cx-color-visual-focus: #1f3a93 !important;
 }
