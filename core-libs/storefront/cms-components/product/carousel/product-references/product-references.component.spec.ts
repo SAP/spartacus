@@ -11,9 +11,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
-  FeatureConfigService,
   FeaturesConfigModule,
-  FeatureToggles,
   MockTranslatePipe,
   Product,
   ProductReference,
@@ -21,33 +19,12 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import {
-  CarouselComponent,
-  CarouselScrollingComponent,
-} from '@spartacus/storefront';
+import { CarouselScrollingComponent } from '@spartacus/storefront';
 import { MediaComponent } from 'core-libs/storefront/shared/components/media/media.component';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
-
-@Component({
-  selector: 'cx-carousel',
-  template: `
-    cx-carousel
-    <ng-container *ngFor="let item$ of items">
-      <ng-container
-        *ngTemplateOutlet="template; context: { item: item$ | async }"
-      ></ng-container>
-    </ng-container>
-  `,
-  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
-})
-class MockCarouselComponent {
-  @Input() title: string;
-  @Input() template: TemplateRef<any>;
-  @Input() items: any[];
-}
 
 @Component({
   selector: 'cx-carousel-scrolling',
@@ -147,22 +124,6 @@ class MockProductReferenceService {
   cleanReferences(): void {}
 }
 RouterModule.forRoot([]);
-let mockFeatureToggles: FeatureToggles;
-
-class MockFeatureConfigService {
-  isEnabled(
-    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
-  ): boolean {
-    const hasNegation = feature.startsWith('!');
-    const featureName = (
-      hasNegation ? feature.slice(1) : feature
-    ) as keyof FeatureToggles;
-
-    return hasNegation
-      ? !mockFeatureToggles[featureName]
-      : !!mockFeatureToggles[featureName];
-  }
-}
 
 describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
@@ -173,7 +134,6 @@ describe('ProductReferencesComponent', () => {
     TestBed.configureTestingModule({
       imports: [FeaturesConfigModule, RouterModule.forRoot([])],
       providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: CmsComponentData,
           useValue: MockCmsProductCarouselComponent,
@@ -195,7 +155,6 @@ describe('ProductReferencesComponent', () => {
             UrlPipe,
             MediaComponent,
             CarouselScrollingComponent,
-            CarouselComponent,
           ],
         },
         add: {
@@ -204,7 +163,6 @@ describe('ProductReferencesComponent', () => {
             MockUrlPipe,
             MockMediaComponent,
             MockCarouselScrollingComponent,
-            MockCarouselComponent,
           ],
         },
       })
@@ -212,9 +170,6 @@ describe('ProductReferencesComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    mockFeatureToggles = {
-      productCarouselScrolling: true,
-    };
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;
@@ -303,30 +258,11 @@ describe('ProductReferencesComponent', () => {
     expect(el.nativeElement).toBeTruthy();
   });
 
-  describe('when feature toggle "productCarouselScrolling" is enabled', () => {
-    beforeEach(() => {
-      mockFeatureToggles.productCarouselScrolling = true;
-    });
-
-    it('should render cx-carousel-scrolling component', () => {
-      fixture.detectChanges();
-      const carouselScrollingComponent = fixture.debugElement.query(
-        By.css('cx-carousel-scrolling')
-      );
-      expect(carouselScrollingComponent).toBeTruthy();
-    });
-  });
-  describe('when feature toggle "productCarouselScrolling" is disabled', () => {
-    beforeEach(() => {
-      mockFeatureToggles.productCarouselScrolling = false;
-    });
-
-    it('should render cx-carousel component', () => {
-      fixture.detectChanges();
-      const carouselComponent = fixture.debugElement.query(
-        By.css('cx-carousel')
-      );
-      expect(carouselComponent).toBeTruthy();
-    });
+  it('should render cx-carousel-scrolling component', () => {
+    fixture.detectChanges();
+    const carouselScrollingComponent = fixture.debugElement.query(
+      By.css('cx-carousel-scrolling')
+    );
+    expect(carouselScrollingComponent).toBeTruthy();
   });
 });

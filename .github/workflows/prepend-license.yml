@@ -15,7 +15,7 @@ jobs:
     outputs:
       RUN_CHECKS: ${{ steps.detect_code_changes.outputs.RUN_CHECKS }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Detect code changes
         id: detect_code_changes
         uses: ./.github/actions/detect-changes
@@ -23,16 +23,15 @@ jobs:
   add_license_header:
     needs: [detect_changes]
     name: Add license header to files
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
-    if: ${{ needs.detect_changes.outputs.RUN_CHECKS == 'true' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GH_TEMPORARY_TOKEN }}
-      - uses: actions/setup-python@v6
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.14'
       - name: Download reuse tool

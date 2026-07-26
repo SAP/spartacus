@@ -38,6 +38,15 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     });
   }
 
+  protected getApplyCartVoucherEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('cartApplyVoucher', {
+      urlParams: { userId, cartId },
+    });
+  }
+
   protected getRemoveCartVoucherEndpoint(
     userId: string,
     cartId: string
@@ -60,13 +69,24 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   }
 
   add(userId: string, cartId: string, voucherId: string): Observable<{}> {
+    const headers = this.getHeaders(userId);
+
+    if (this.featureToggles.enableApplyVoucherEndpoint) {
+      const applyVoucherUrl = this.getApplyCartVoucherEndpoint(userId, cartId);
+      const body = { voucherId };
+      return this.http.post(applyVoucherUrl, body, { headers }).pipe(
+        catchError((error: any) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        }),
+        this.converter.pipeable(CART_VOUCHER_NORMALIZER)
+      );
+    }
+
     const url = this.getCartVoucherEndpoint(userId, cartId);
 
     const toAdd = JSON.stringify({});
 
     const params: HttpParams = new HttpParams().set('voucherId', voucherId);
-
-    const headers = this.getHeaders(userId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
       catchError((error: any) => {

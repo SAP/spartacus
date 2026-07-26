@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { FeatureConfigService } from '@spartacus/core';
+import { FeatureToggles } from '@spartacus/core';
 import {
   AmendOrderActionsComponent,
   CancelOrReturnItemsComponent,
@@ -39,12 +39,6 @@ const mockEntries = [
   { product: { code: 'prod2' }, returnableQuantity: 0 },
   { product: { code: 'prod3' }, returnableQuantity: 0 },
 ];
-
-class MockFeatureConfigService implements Partial<FeatureConfigService> {
-  isEnabled(_feature: string) {
-    return true;
-  }
-}
 
 class MockOrderAmendService {
   getForm() {
@@ -104,7 +98,7 @@ class MockAmendOrderActionComponent {
 describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
-  let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
+  let featureToggles: FeatureToggles;
   let orderAmendService: jasmine.SpyObj<OrderAmendService>;
 
   beforeEach(waitForAsync(() => {
@@ -129,13 +123,11 @@ describe('ReturnOrderComponent', () => {
   }));
 
   beforeEach(() => {
-    featureConfigService = jasmine.createSpyObj('FeatureConfigService', [
-      'isEnabled',
-    ]);
-    // Mock the isEnabled method to return true
-    featureConfigService.isEnabled.and.returnValue(true);
-    TestBed.overrideProvider(FeatureConfigService, {
-      useValue: featureConfigService,
+    featureToggles = {
+      enableReturnOrderReturnableQuantityConsigmentFallback: true,
+    };
+    TestBed.overrideProvider(FeatureToggles, {
+      useValue: featureToggles,
     });
     orderAmendService = jasmine.createSpyObj('OrderAmendService', [
       'getForm',
@@ -293,8 +285,10 @@ describe('ReturnOrderComponent', () => {
         providers: [
           { provide: OrderAmendService, useClass: NewMockOrderAmendService },
           {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
+            provide: FeatureToggles,
+            useValue: {
+              enableReturnOrderReturnableQuantityConsigmentFallback: true,
+            } satisfies FeatureToggles,
           },
         ],
       })
@@ -355,8 +349,10 @@ describe('ReturnOrderComponent', () => {
             },
           },
           {
-            provide: FeatureConfigService,
-            useValue: { isEnabled: () => false },
+            provide: FeatureToggles,
+            useValue: {
+              enableReturnOrderReturnableQuantityConsigmentFallback: false,
+            } satisfies FeatureToggles,
           },
         ],
       })
@@ -416,10 +412,10 @@ describe('ReturnOrderComponent', () => {
     }));
 
     beforeEach(() => {
-      // Mock the isEnabled method to return false
-      featureConfigService.isEnabled.and.returnValue(false);
-      TestBed.overrideProvider(FeatureConfigService, {
-        useValue: featureConfigService,
+      featureToggles.enableReturnOrderReturnableQuantityConsigmentFallback =
+        false;
+      TestBed.overrideProvider(FeatureToggles, {
+        useValue: featureToggles,
       });
       orderAmendService.getForm.and.returnValue(of(mockForm));
       const expectedEntries = mockEntries.map((entry) => ({

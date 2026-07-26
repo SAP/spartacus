@@ -215,14 +215,12 @@ export class ApplePayService {
     event: ApplePayJS.ApplePayValidateMerchantEvent
   ): Observable<ApplePaySessionVerificationResponse> {
     return this.opfQuickBuyTransactionService.handleCartGuestUser().pipe(
-      switchMap(() => this.opfQuickBuyTransactionService.getCurrentCartId()),
-      switchMap((cartId: string) => {
+      switchMap(() => {
         const verificationRequest: ApplePaySessionVerificationRequest = {
           validationUrl: event.validationURL,
           initiative: 'web',
           initiativeContext: (this.winRef?.nativeWindow as Window).location
             ?.hostname,
-          cartId,
         };
         return this.verifyApplePaySession(verificationRequest);
       })
@@ -441,17 +439,22 @@ export class ApplePayService {
           JSON.stringify(applePayPayment.token.paymentData)
         );
 
-        return this.opfPaymentFacade.submitPayment({
-          additionalData: [],
-          paymentSessionId: '',
-          callbacks: {
-            onSuccess: () => {},
-            onPending: () => {},
-            onFailure: () => {},
-          },
-          paymentMethod: OpfQuickBuyProviderType.APPLE_PAY as any,
-          encryptedToken,
-        });
+        return this.opfQuickBuyTransactionService.getCurrentCartId().pipe(
+          switchMap((cartId) =>
+            this.opfPaymentFacade.submitPayment({
+              additionalData: [],
+              paymentSessionId: '',
+              callbacks: {
+                onSuccess: () => {},
+                onPending: () => {},
+                onFailure: () => {},
+              },
+              paymentMethod: OpfQuickBuyProviderType.APPLE_PAY as any,
+              encryptedToken,
+              cartId,
+            })
+          )
+        );
       })
     );
   }

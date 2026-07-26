@@ -54,14 +54,13 @@ context('scroll Position Restoration', () => {
         cy.log('Go back to product list');
         cy.go(-1);
         waitForCategoryPageLoad();
+        cy.get('cx-product-list-item').should('have.length.at.least', 4);
         cy.window().its('scrollY').should('be.greaterThan', 0);
 
         cy.log('Go forward to product details');
         cy.go(1);
         verifyProductPageLoaded(productName);
-        cy.window().then(($window) => {
-          expect($window.scrollY).to.be.greaterThan(0);
-        });
+        cy.window().its('scrollY').should('be.greaterThan', 0);
       });
   });
 });

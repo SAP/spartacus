@@ -24,6 +24,9 @@ import { FeatureTogglesInterface } from './config/feature-toggles';
 export abstract class FeatureToggles {}
 export interface FeatureToggles extends FeatureTogglesInterface {}
 
+export type FeatureToggleKey = keyof FeatureToggles;
+export type FeatureToggleExpression = FeatureToggleKey | `!${FeatureToggleKey}`;
+
 /**
  * DefaultFeatureToggles token, used to build FeatureToggles. Built from DefaultFeatureTogglesChunk's
  */

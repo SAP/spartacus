@@ -7,12 +7,15 @@ import {
   QueryList,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   Facet,
-  FeatureConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
@@ -43,6 +46,12 @@ class MockFacetService {
   getLinkParams() {}
 }
 
+class MockGlobalMessageService {
+  add = jasmine.createSpy('add');
+  remove = jasmine.createSpy('remove');
+  get = jasmine.createSpy('get').and.returnValue(of({}));
+}
+
 const MockFacet: Facet = {
   name: 'f1',
   values: [
@@ -51,12 +60,6 @@ const MockFacet: Facet = {
     },
   ],
 };
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
 
 describe('FacetComponent', () => {
   let component: FacetComponent;
@@ -75,7 +78,7 @@ describe('FacetComponent', () => {
       ],
       providers: [
         { provide: FacetService, useClass: MockFacetService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     })
       .overrideComponent(FacetComponent, {
@@ -239,5 +242,70 @@ describe('FacetComponent', () => {
         component.values.get(currentIndex - 1)?.nativeElement.focus
       ).toHaveBeenCalled();
     });
+  });
+});
+
+describe('FacetComponent with a11yFilteredFacetAnnouncement', () => {
+  let component: FacetComponent;
+  let fixture: ComponentFixture<FacetComponent>;
+  let element: DebugElement;
+  let globalMessageService: MockGlobalMessageService;
+
+  const MockFacetWithSelectedValue: Facet = {
+    name: 'f1',
+    values: [
+      { name: 'v1', selected: false },
+      { name: 'v2', selected: true },
+    ],
+  };
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        FacetComponent,
+        MockCxIconComponent,
+        MockKeyboadFocusDirective,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
+      ],
+    })
+      .overrideComponent(FacetComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(FacetComponent);
+    element = fixture.debugElement;
+    component = fixture.componentInstance;
+    globalMessageService = TestBed.inject(
+      GlobalMessageService
+    ) as unknown as MockGlobalMessageService;
+    component.facet = MockFacetWithSelectedValue;
+    fixture.detectChanges();
+  });
+
+  it('should announce "filterAdded" when clicking an unselected facet value', () => {
+    const unselectedLink = element.queryAll(By.css('a.value'))[0].nativeElement;
+    unselectedLink.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'productList.filterAdded filter:v1',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should announce "filterRemoved" when clicking a selected facet value', () => {
+    const selectedLink = element.queryAll(By.css('a.value'))[1].nativeElement;
+    selectedLink.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'productList.filterRemoved filter:v2',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
   });
 });

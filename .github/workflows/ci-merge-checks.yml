@@ -33,7 +33,7 @@ jobs:
     outputs:
       RUN_E2E_BY_CHANGES: ${{ steps.detect_code_changes.outputs.RUN_CHECKS }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Detect code changes
         id: detect_code_changes
         uses: ./.github/actions/detect-changes
@@ -44,7 +44,7 @@ jobs:
     # and the job returns a success code.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Prevent retries
         uses: ./.github/actions/prevent-retries
   validate_e2e_execution:
@@ -53,21 +53,21 @@ jobs:
     outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
       - name: Determine whether to run e2es
         id: save-e2e-output-result
         run: |
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+          echo "SHOULD_RUN_E2E=$RUN_E2E" >> "$GITHUB_OUTPUT"
   build_libs:
     needs: [no_retries, validate_e2e_execution]
     name: MC - Build Spartacus libraries
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Setup Node and Cache
         uses: ./.github/actions/setup-node-and-cache
         with:
@@ -100,7 +100,7 @@ jobs:
         with:
           phase: verify
       - name: Cache built libraries
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             dist
@@ -125,7 +125,7 @@ jobs:
             cache_key: ci-b2c
             name: B2C SSR
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Setup Node and Cache
         uses: ./.github/actions/setup-node-and-cache
         with:
@@ -149,7 +149,7 @@ jobs:
             build_csr
           fi
       - name: Cache built app (${{ matrix.spa_env }}-${{ matrix.build_type }})
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |
             dist/storefrontapp
@@ -163,7 +163,7 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' && needs.detect_changes.outputs.RUN_E2E_BY_CHANGES == 'true' }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -182,7 +182,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' && needs.detect_changes.outputs.RUN_E2E_BY_CHANGES == 'true' }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -204,7 +204,7 @@ jobs:
         containers: [1, 2, 3, 4]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' && needs.detect_changes.outputs.RUN_E2E_BY_CHANGES == 'true' }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -226,7 +226,7 @@ jobs:
         containers: [1, 2, 3]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' && needs.detect_changes.outputs.RUN_E2E_BY_CHANGES == 'true' }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -254,7 +254,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       # Currently only A11Y screenshots are collected, but this can be extended
       # to merge screenshots from other test suites (B2C, B2B, etc.) as needed
       - name: Merge A11Y screenshots
@@ -264,7 +264,7 @@ jobs:
           total-containers: 3
         if: ${{ needs.a11y_e2e_tests.result != 'skipped' }}
       - name: Post PR comment with screenshot details
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         if: ${{ github.event_name == 'pull_request' && needs.a11y_e2e_tests.result == 'failure' }}
         with:
           script: |
@@ -277,7 +277,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Aggregate Required Job Results
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             github.rest.issues.createComment({

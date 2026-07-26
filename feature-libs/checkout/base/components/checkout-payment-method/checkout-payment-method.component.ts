@@ -21,6 +21,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureDirective,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
@@ -33,6 +34,7 @@ import {
 import {
   Card,
   CardComponent,
+  FocusDirective,
   ICON_TYPE,
   SelectFocusUtility,
   SpinnerComponent,
@@ -67,6 +69,8 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-p
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    FocusDirective,
+    FeatureDirective,
   ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {

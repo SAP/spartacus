@@ -12,7 +12,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
-  FeatureConfigService,
+  FeatureToggles,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -22,6 +22,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { Observable, Subject, of } from 'rxjs';
 import { CartItemListRowComponent } from '../cart-item-list-row';
 import { CartItemComponent } from '../cart-item/cart-item.component';
@@ -119,11 +120,9 @@ const mockContext = {
 };
 const context$ = of(mockContext);
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
+const mockFeatureToggles: FeatureToggles = {
+  a11yPreventCartItemsFormRedundantRecreation: true,
+};
 
 const mockProductCatalogService = {
   isProductInCatalog: (_product?: Product) => true,
@@ -148,7 +147,7 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        provideMockFeatureToggles({ ...mockFeatureToggles }),
         {
           provide: ProductCatalogService,
           useValue: mockProductCatalogService,
@@ -169,13 +168,13 @@ describe('CartItemListComponent', () => {
     });
   }
 
-  function stubSeviceAndCreateComponent() {
+  function stubServiceAndCreateComponent() {
     fixture = TestBed.createComponent(CartItemListComponent);
     activeCartService = TestBed.inject(ActiveCartFacade);
     multiCartService = TestBed.inject(MultiCartFacade);
 
     component = fixture.componentInstance;
-    component.items = [mockItem0, mockItem1];
+    fixture.componentRef.setInput('items', [mockItem0, mockItem1]);
     component.options = { isSaveForLater: false };
 
     spyOn(activeCartService, 'updateEntry').and.callThrough();
@@ -188,7 +187,7 @@ describe('CartItemListComponent', () => {
   describe('Not use outlet with outlet context data', () => {
     beforeEach(() => {
       configureTestingModule();
-      stubSeviceAndCreateComponent();
+      stubServiceAndCreateComponent();
     });
 
     it('should create', () => {
@@ -196,7 +195,7 @@ describe('CartItemListComponent', () => {
     });
 
     it('should work with consignment entries', () => {
-      component.items = mockConsignmentItems;
+      fixture.componentRef.setInput('items', mockConsignmentItems);
       expect(component.items[0].quantity).toEqual(3);
       expect(component.items[0].product.code).toEqual('PR0000');
     });
@@ -222,7 +221,7 @@ describe('CartItemListComponent', () => {
     });
 
     it('should return disabled form group when updatable is false', () => {
-      component.items = [nonUpdatableItem, mockItem1];
+      fixture.componentRef.setInput('items', [nonUpdatableItem, mockItem1]);
       fixture.detectChanges();
 
       let result: UntypedFormGroup;
@@ -238,7 +237,7 @@ describe('CartItemListComponent', () => {
 
     it('should return disabled form group when readonly is true', () => {
       component.readonly = true;
-      component.items = [mockItem0, mockItem1];
+      fixture.componentRef.setInput('items', [mockItem0, mockItem1]);
       fixture.detectChanges();
       const item = mockItems[0];
       let result: UntypedFormGroup;
@@ -300,7 +299,7 @@ describe('CartItemListComponent', () => {
           },
         },
       ];
-      component.items = multipleMockItems;
+      fixture.componentRef.setInput('items', multipleMockItems);
       fixture.detectChanges();
       expect(
         component.form.controls[multipleMockItems[0].entryNumber]
@@ -314,7 +313,7 @@ describe('CartItemListComponent', () => {
       fixture.detectChanges();
       const mockItem0Qty = mockItem0.quantity;
       mockItem0.quantity = 20;
-      component.items = [mockItem0, mockItem1];
+      fixture.componentRef.setInput('items', [mockItem0, mockItem1]);
       expect(
         component.form.controls[mockItem0.entryNumber].get('quantity')?.value
       ).toEqual(20);
@@ -330,9 +329,9 @@ describe('CartItemListComponent', () => {
         },
         updateable: true,
       };
-      component.items = [mockItem0, mockItem1, mockItem3];
+      fixture.componentRef.setInput('items', [mockItem0, mockItem1, mockItem3]);
       fixture.detectChanges();
-      component.items = [mockItem0];
+      fixture.componentRef.setInput('items', [mockItem0]);
       fixture.detectChanges();
       expect(component.form.controls[mockItem0.entryNumber]).toBeDefined();
       expect(Object.keys(component.form.controls).length).toEqual(1);
@@ -358,7 +357,7 @@ describe('CartItemListComponent', () => {
     });
 
     it('should handle null item lists properly', () => {
-      component.items = undefined;
+      fixture.componentRef.setInput('items', undefined);
       const itemCount = component.items.length;
       expect(itemCount).toEqual(0);
     });
@@ -394,12 +393,12 @@ describe('CartItemListComponent', () => {
     });
 
     it('should disable form if cart data is loading', () => {
-      component.setLoading = true;
+      component.cartIsLoading = true;
       expect(component.form.disabled).toEqual(true);
     });
 
     it('should enable form if cart data finished loading', () => {
-      component.setLoading = false;
+      component.cartIsLoading = false;
       expect(component.form.disabled).toEqual(false);
     });
 
@@ -407,7 +406,7 @@ describe('CartItemListComponent', () => {
       const removedObjectEntryName = mockItems[0].entryNumber.toString();
       const newItems = [mockItems[1]];
       expect(component.form.controls[removedObjectEntryName]).toBeDefined();
-      component.items = newItems;
+      fixture.componentRef.setInput('items', newItems);
       fixture.detectChanges();
       expect(component.form.controls[removedObjectEntryName]).toBeUndefined();
     });
@@ -448,10 +447,10 @@ describe('CartItemListComponent', () => {
         useValue: { context$ },
       });
       TestBed.compileComponents();
-      stubSeviceAndCreateComponent();
+      stubServiceAndCreateComponent();
 
       spyOn(<any>component, '_setItems').and.callThrough();
-      const setLoading = spyOnProperty(component, 'setLoading', 'set');
+      const cartIsLoading = spyOnProperty(component, 'cartIsLoading', 'set');
       component.ngOnInit();
       context$.next(newContext);
       expect(component.cartId).toEqual(newContext.cartId);
@@ -462,7 +461,7 @@ describe('CartItemListComponent', () => {
       expect(component.options).toEqual(newContext.options);
       expect(component.promotionLocation).toEqual(newContext.promotionLocation);
       expect(component.readonly).toEqual(newContext.readonly);
-      expect(setLoading).toHaveBeenCalledWith(newContext.cartIsLoading);
+      expect(cartIsLoading).toHaveBeenCalledWith(newContext.cartIsLoading);
     });
 
     it('should mark view for check and force re-creation of item controls when outlet context emits with changed read-only flag', () => {
@@ -473,7 +472,7 @@ describe('CartItemListComponent', () => {
         useValue: { context$ },
       });
       TestBed.compileComponents();
-      stubSeviceAndCreateComponent();
+      stubServiceAndCreateComponent();
       const control0 = component.form.get(mockItem0.entryNumber.toString());
       const control1 = component.form.get(mockItem1.entryNumber.toString());
       spyOn(component['cd'], 'markForCheck').and.callThrough();
@@ -494,7 +493,7 @@ describe('CartItemListComponent', () => {
         useValue: { context$ },
       });
       TestBed.compileComponents();
-      stubSeviceAndCreateComponent();
+      stubServiceAndCreateComponent();
 
       spyOn(<any>component, '_setItems').and.callThrough();
       component.ngOnInit();

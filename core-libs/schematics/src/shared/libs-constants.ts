@@ -13,6 +13,7 @@ export const SPARTACUS_CORE = `@spartacus/core`;
 export const SPARTACUS_STOREFRONTLIB = `@spartacus/storefront`;
 export const SPARTACUS_ASSETS = `@spartacus/assets`;
 export const SPARTACUS_STYLES = `@spartacus/styles`;
+export const SPARTACUS_SKILLS = `@spartacus/skills`;
 
 export const SPARTACUS_SETUP = `@spartacus/setup`;
 export const SPARTACUS_SETUP_SSR = `@spartacus/setup/ssr`;
@@ -23,6 +24,7 @@ export const CORE_SPARTACUS_SCOPES: string[] = [
   SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
+  SPARTACUS_SKILLS,
   SPARTACUS_SETUP,
 ];
 export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
@@ -264,6 +266,7 @@ export const SPARTACUS_OPF_ORDER = `@spartacus/opf/order`;
 
 export const SPARTACUS_OPF_QUICK_BUY = `@spartacus/opf/quick-buy`;
 export const SPARTACUS_OPF_QUICK_BUY_ROOT = `@spartacus/opf/quick-buy/root`;
+export const SPARTACUS_OPF_QUICK_BUY_PICKUP_IN_STORE = `@spartacus/opf/quick-buy/pickup-in-store`;
 
 export const SPARTACUS_OPF_GIFT_CARD = `@spartacus/opf/gift-card`;
 export const SPARTACUS_OPF_GIFT_CARD_ROOT = `@spartacus/opf/gift-card/root`;
@@ -399,6 +402,8 @@ export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
 export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
 export const OPF_GLOBAL_FUNCTIONS_FEATURE_NAME = 'OPF-Global-Functions';
 export const OPF_QUICK_BUY_FEATURE_NAME = 'OPF-Quick-Buy';
+export const OPF_QUICK_BUY_PICKUP_IN_STORE_FEATURE_NAME =
+  'OPF-Quick-Buy-Pickup-In-Store';
 export const OPF_GIFT_CARD_FEATURE_NAME = 'OPF-Gift-Card';
 export const OPF_TOKENISATION_FEATURE_NAME = 'OPF-Tokenisation';
 

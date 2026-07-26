@@ -27,7 +27,7 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
+  FeatureToggles,
   ProductCatalogService,
   TranslatePipe,
   UserIdService,
@@ -81,7 +81,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected _items: OrderEntry[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
 
-  @Input('items')
+  @Input()
   set items(items: OrderEntry[]) {
     this._setItems(items);
   }
@@ -91,7 +91,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  @Input('cartIsLoading') set setLoading(value: boolean) {
+  @Input() set cartIsLoading(value: boolean) {
+    this.setLoading = value; // CXSPA-13739: Replace with underlying logic
+  }
+
+  /** @deprecated Use `cartIsLoading` */
+  // CXSPA-13739: Move logic to `cartIsLoading` when removing
+  set setLoading(value: boolean) {
     if (!this.readonly) {
       // Whenever the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
@@ -102,7 +108,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  private featureConfigService = inject(FeatureConfigService);
+  private featureToggles = inject(FeatureToggles);
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -152,7 +158,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         this.promotionLocation = context.promotionLocation;
       }
       if (context.cartIsLoading !== undefined) {
-        this.setLoading = context.cartIsLoading;
+        this.cartIsLoading = context.cartIsLoading;
       }
       this.updateItemsOnContextChange(context, contextRequiresRerender);
     });
@@ -163,9 +169,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     contextRequiresRerender: boolean
   ) {
     const preventRedundantRecreationEnabled =
-      this.featureConfigService.isEnabled(
-        'a11yPreventCartItemsFormRedundantRecreation'
-      );
+      this.featureToggles.a11yPreventCartItemsFormRedundantRecreation;
     if (
       context.items !== undefined &&
       (!preventRedundantRecreationEnabled ||
