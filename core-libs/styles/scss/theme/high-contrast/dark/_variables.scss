@@ -19,5 +19,9 @@
   --cx-color-info-accent: #000000;
   --cx-color-warning-accent: #000000;
   --cx-color-transparent: transparent;
-  --cx-color-disabled: #767676;
+  // Disabled colors split by surface so both meet 7:1 in this dark theme:
+  // `disabled` (border/label) sits on the light button fill; `disabled-accent`
+  // (fill) sits on the dark page.
+  --cx-color-disabled: #565656;
+  --cx-color-disabled-accent: #a6a6a6;
 }

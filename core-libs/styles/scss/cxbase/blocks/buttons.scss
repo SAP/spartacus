@@ -70,14 +70,16 @@ button {
         border-color: var(--cx-color-border-focus);
       }
 
-      // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1,
-      // 7:1 in high-contrast themes) for the button's border/background.
+      // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1;
+      // 7:1 in high-contrast themes). The primary button's disabled fill sits
+      // on the page background, so it uses `--cx-color-disabled-accent` (the
+      // background-surface variant).
       @include forFeature('a11yDisabledButtonContrast') {
-        background-color: var(--cx-color-disabled);
-        border: var(--cx-color-disabled);
+        background-color: var(--cx-color-disabled-accent, #767676);
+        border-color: var(--cx-color-disabled-accent, #767676);
 
         &:hover {
-          border-color: var(--cx-color-disabled);
+          border-color: var(--cx-color-disabled-accent, #767676);
         }
       }
     }
@@ -140,14 +142,16 @@ button {
         border-color: var(--cx-color-border-focus);
       }
 
-      // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1,
-      // 7:1 in high-contrast themes) for the button's border and label.
+      // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1;
+      // 7:1 in high-contrast themes). The secondary button keeps a light
+      // (`--cx-color-inverse`) fill, so its border/label use
+      // `--cx-color-disabled` (the on-light-surface variant).
       @include forFeature('a11yDisabledButtonContrast') {
-        border-color: var(--cx-color-disabled);
-        color: var(--cx-color-disabled);
+        border-color: var(--cx-color-disabled, #767676);
+        color: var(--cx-color-disabled, #767676);
 
         &:hover {
-          border-color: var(--cx-color-disabled);
+          border-color: var(--cx-color-disabled, #767676);
         }
       }
     }
@@ -232,11 +236,14 @@ button {
     @include cx-lighten(88);
     color: var(--cx-color-border-focus);
 
-    // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1,
-    // 7:1 in high-contrast themes) for the button label. The lighten filter is
-    // dropped so it does not wash out the darker disabled color.
+    // Increase contrast of the disabled state to meet WCAG 1.4.11 (>=3:1;
+    // 7:1 in high-contrast themes) for the button label.
     @include forFeature('a11yDisabledButtonContrast') {
-      color: var(--cx-color-disabled);
+      color: var(--cx-color-disabled, #767676);
+      // Drop the lighten filter so it does not wash out the darker disabled
+      // color. `filter` applies to the whole element (text, background, icons,
+      // child elements) - safe here since `.btn-tertiary` has no background or
+      // border.
       -webkit-filter: none;
       filter: none;
     }
