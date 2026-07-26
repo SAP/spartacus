@@ -6,6 +6,10 @@ import { AvatarComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
 import { FileUploadModule, FormErrorsModule } from '../../form';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MessagingComponent } from './messaging.component';
 import {
   MessageEvent,
@@ -50,10 +54,17 @@ describe('MessagingComponent', () => {
         FileUploadModule,
         FormErrorsModule,
       ],
+      providers: [
+        provideMockFeatureToggles({ a11yMessagingListKeyboardFocus: false }),
+      ],
     })
       .overrideComponent(MessagingComponent, {
-        remove: { imports: [AvatarComponent, CxDatePipe, TranslatePipe] },
-        add: { imports: [AvatarComponent, I18nTestingModule] },
+        remove: {
+          imports: [AvatarComponent, CxDatePipe, TranslatePipe],
+        },
+        add: {
+          imports: [AvatarComponent, I18nTestingModule],
+        },
       })
       .compileComponents();
   });
@@ -229,6 +240,95 @@ describe('MessagingComponent', () => {
       component.resetForm();
       expect(component.form.reset).toHaveBeenCalledWith({
         item: defaultItemId,
+      });
+    });
+  });
+
+  describe('a11yMessagingListKeyboardFocus feature toggle', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    function createFixture(): { el: Element } {
+      const f = TestBed.createComponent(MessagingComponent);
+      f.componentInstance.messageEvents$ = of(mockMessageEvents);
+      f.componentInstance.messagingConfigs = {
+        displayAddMessageSection: of(true),
+      };
+      f.detectChanges();
+      return { el: f.nativeElement };
+    }
+
+    describe('when toggle is OFF (default)', () => {
+      it('should render legacy listitem without tabindex on the wrapper', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', false);
+        const { el } = createFixture();
+        el.querySelectorAll('[role="listitem"]').forEach((item) => {
+          expect(item.hasAttribute('tabindex')).toBeFalse();
+        });
+      });
+
+      it('should not have aria-label on role="listitem" wrapper', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', false);
+        const { el } = createFixture();
+        el.querySelectorAll('[role="listitem"]').forEach((item) => {
+          expect(item.hasAttribute('aria-label')).toBeFalse();
+        });
+      });
+
+      it('should not focus any listitem on init', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', false);
+        const { el } = createFixture();
+        const listitems = el.querySelectorAll('[role="listitem"]');
+        listitems.forEach((item) => {
+          expect(document.activeElement).not.toBe(item);
+        });
+      });
+    });
+
+    describe('when toggle is ON', () => {
+      it('should set tabindex="0" on the first listitem and tabindex="-1" on the rest', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        const { el } = createFixture();
+        const listitems = el.querySelectorAll('[role="listitem"]');
+        expect(listitems[0].getAttribute('tabindex')).toBe('0');
+        expect(listitems[1].getAttribute('tabindex')).toBe('-1');
+      });
+
+      it('should set aria-label on role="listitem" elements', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        const { el } = createFixture();
+        el.querySelectorAll('[role="listitem"]').forEach((item) => {
+          expect(item.hasAttribute('aria-label')).toBeTrue();
+        });
+      });
+
+      it('should mark the date label as aria-hidden to prevent double announcement', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        const { el } = createFixture();
+        const dateLabels = el.querySelectorAll(
+          '[role="listitem"] label[aria-hidden="true"]'
+        );
+        expect(dateLabels.length).toBe(mockMessageEvents.length);
+      });
+
+      it('should set aria-describedby on the first listitem only', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        const { el } = createFixture();
+        const listitems = el.querySelectorAll('[role="listitem"]');
+        expect(listitems[0].getAttribute('aria-describedby')).toBe(
+          'cx-messages-navigation-hint'
+        );
+        expect(listitems[1].hasAttribute('aria-describedby')).toBeFalse();
+      });
+
+      it('should focus the first listitem on init', () => {
+        toggleController.set('a11yMessagingListKeyboardFocus', true);
+        const { el } = createFixture();
+        const firstItem = el.querySelector('[role="listitem"]');
+        expect(document.activeElement).toBe(firstItem);
       });
     });
   });

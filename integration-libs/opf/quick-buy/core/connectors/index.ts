@@ -5,4 +5,6 @@
  */
 
 export * from './opf-quick-buy.adapter';
+export * from './opf-quick-buy-cart.adapter';
+export * from './opf-quick-buy-cart.connector';
 export * from './opf-quick-buy.connector';

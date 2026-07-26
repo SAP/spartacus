@@ -10,17 +10,10 @@ import {
   Component,
   TrackByFunction,
 } from '@angular/core';
-import {
-  FeatureDirective,
-  ImageGroup,
-  Product,
-  isNotNullable,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CarouselScrollingComponent } from '../../../shared/components/carousel-scrolling/carousel-scrolling.component';
-import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { MediaComponent } from '../../../shared/components/media/media.component';
 import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
 import { CurrentProductService } from '../current-product.service';
@@ -34,9 +27,7 @@ import { CurrentProductService } from '../current-product.service';
     LcpContextDirective,
     MediaComponent,
     CarouselScrollingComponent,
-    CarouselComponent,
     AsyncPipe,
-    FeatureDirective,
   ],
 })
 export class ProductImagesComponent {
@@ -61,10 +52,7 @@ export class ProductImagesComponent {
     this.mainMediaContainer,
   ]).pipe(map(([, container]) => container));
 
-  constructor(protected currentProductService: CurrentProductService) {
-    useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
-    useFeatureStyles('productCarouselScrolling');
-  }
+  constructor(protected currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);

@@ -82,10 +82,23 @@ export class ConfiguratorProductTitleComponent {
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
   }): string | undefined {
-    if (!!container.routerData.productCode) {
+    // For cart entries the productCode carried in the URL can become stale,
+    // e.g. after a cart entry is deleted and the user navigates back via the
+    // browser: the URL still points to the deleted product while the
+    // configuration is re-read for the (now different) cart entry. The loaded
+    // configuration is always read per owner and is therefore authoritative,
+    // so we prefer it and fall back to the router productCode only.
+    if (container.routerData.isOwnerCartEntry) {
+      return (
+        container.configuration.productCode ||
+        container.configuration.overview?.productCode ||
+        container.routerData.productCode
+      );
+    }
+    if (container.routerData.productCode) {
       return container.routerData.productCode;
     }
-    return !!container.configuration.productCode
+    return container.configuration.productCode
       ? container.configuration.productCode
       : container.configuration.overview?.productCode;
   }
