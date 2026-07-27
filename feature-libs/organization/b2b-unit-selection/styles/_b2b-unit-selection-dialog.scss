@@ -54,7 +54,35 @@ header {
         flex-wrap: nowrap;
         min-width: 0;
         align-items: center;
+        // Clip Company (cx-b2b-unit-selector) when it overflows the 50% slot boundary
+        // so it never bleeds visually into the SiteLinks region.
+        // Safe now that appendTo="body" renders the dropdown outside this element —
+        // ng-select positions the panel via getBoundingClientRect(), bypassing overflow.
+        overflow: hidden;
+
+        // ROOT CAUSE FIX: Core sets ".SiteContext > * { flex: none }" which expands to
+        // flex: 0 0 auto (flex-shrink: 0).  flex-shrink: 0 prevents cx-b2b-unit-selector
+        // from shrinking at all — our min-width: 0 on the host was therefore ignored.
+        // Override to flex: 0 1 auto (shrink allowed, no grow) so Company yields space
+        // to Language/Theme and does not overflow into the SiteLinks 50% region.
+        > cx-b2b-unit-selector {
+          flex: 0 1 auto;
+        }
       }
     }
   }
+}
+
+// ng-select uses appendTo="body", so the dropdown panel is rendered as a direct child
+// of <body> rather than inside cx-b2b-unit-selector.  This global rule styles the panel
+// for the B2B unit selector specifically (ng-select sets a data attribute or we can rely
+// on the panel appearing after the host in DOM order — using a broad rule is fine here
+// because all ng-select dropdowns benefit from auto-sizing).
+//
+// ng-select sets panel width via inline style to match the control width;
+// !important overrides the inline style, letting the panel size to its content.
+cx-b2b-unit-selector + .ng-dropdown-panel,
+body > .ng-dropdown-panel {
+  width: auto !important;
+  min-width: max-content;
 }

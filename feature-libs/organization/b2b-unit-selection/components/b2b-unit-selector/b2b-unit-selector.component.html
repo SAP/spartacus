@@ -16,7 +16,7 @@
         [clearable]="false"
         [searchable]="false"
         [disabled]="!hasMultipleUnits()"
-        [appendTo]="'cx-b2b-unit-selector'"
+        [appendTo]="'body'"
         (ngModelChange)="onSelect($event)"
         [cxNgSelectA11y]="{
           ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate,

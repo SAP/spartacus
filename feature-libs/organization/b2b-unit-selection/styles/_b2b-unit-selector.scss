@@ -3,6 +3,12 @@ $b2b-unit-selector-caret-size: 7px;
 cx-b2b-unit-selector {
   display: inline-block;
   position: relative;
+  // min-width: 0 allows this flex item to shrink when SiteContext runs out of space
+  // (default min-width: auto would prevent shrinking entirely).
+  // DO NOT add overflow: hidden here — the cx-icon caret sits at the component's right
+  // edge and would be clipped first, making the arrow half-visible or invisible.
+  // Overflow clipping is handled at the SiteContext level instead.
+  min-width: 0;
   margin-top: 14px;
   margin-inline-end: 24px;
   margin-bottom: 14px;
@@ -38,10 +44,25 @@ cx-b2b-unit-selector {
   .cx-select-wrapper {
     display: flex;
     align-items: center;
+    // position: relative makes this the containing block for the absolutely-positioned icon.
+    // min-width: 0 allows the wrapper to shrink below its natural content width when the
+    // host flex item (cx-b2b-unit-selector) is squeezed in SiteContext.
+    // overflow: hidden clips ng-select value text at the wrapper boundary; the icon is
+    // safe because it is absolutely positioned and stays within the wrapper bounds.
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
 
     cx-icon {
-      // Match cx-site-context-selector / cx-site-theme-switcher which use -10px.
-      margin-inline-start: -10px;
+      // Absolute positioning removes the icon from the flex flow so it never contributes
+      // to (or is displaced by) flex-shrink calculations.  It is pinned to the inline-end
+      // of the wrapper — always visible regardless of how much ng-select is shrunk.
+      // The ng-value-container's padding-inline-end (= caret-size * 2) still reserves
+      // space inside ng-select so the value text does not slide under the icon.
+      position: absolute;
+      inset-inline-end: 0;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 1;
       pointer-events: none;
       color: var(--cx-color-text);
@@ -49,9 +70,13 @@ cx-b2b-unit-selector {
   }
 
   ng-select {
-    // Adaptive width: shrinks to fit the selected value; text-overflow:ellipsis
-    // truncates when the value exceeds max-width.
+    // flex: 1 1 auto fills the full wrapper width (icon is out of flow); max-width caps
+    // the comfortable display size.  min-width: 0 allows ng-select to shrink below its
+    // content size — the internal overflow: hidden on .ng-select-container then clips
+    // the value text, producing the ellipsis truncation.
+    flex: 1 1 auto;
     max-width: 130px;
+    min-width: 0;
 
     .ng-select-container {
       background-color: transparent !important;
@@ -111,14 +136,5 @@ cx-b2b-unit-selector {
     &.ng-select-disabled .ng-select-container {
       cursor: default;
     }
-  }
-
-  // appendTo="cx-b2b-unit-selector" attaches the dropdown panel to the host element
-  // rather than inside ng-select, so this selector must live outside the ng-select {} block.
-  .ng-dropdown-panel {
-    // ng-select sets panel width via inline style to match the control width;
-    // !important overrides the inline style, letting the panel size to its content.
-    width: auto !important;
-    min-width: max-content;
   }
 }
