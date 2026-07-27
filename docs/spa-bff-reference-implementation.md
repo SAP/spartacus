@@ -61,6 +61,12 @@ before applying the BFF integration changes described in the rest of this docume
 
 ### Prerequisites
 
+> **Version pinning note:** This guide pins exact versions of Spartacus and Vivaldi
+> packages because it documents what was tested for the initial release. In future
+> iterations the exact versions will be replaced with `@latest` so customers always
+> start from the newest available release without needing doc updates on every version
+> bump.
+
 | Tool | Required version | Notes |
 |---|---|---|
 | Node.js | 20 LTS or 22 LTS | Earlier versions are not tested |
