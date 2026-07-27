@@ -5,6 +5,7 @@
  */
 
 import { Injectable, OnDestroy, inject } from '@angular/core';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   BASE_SITE_CONTEXT_ID,
@@ -17,14 +18,6 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-/**
- * Storage key (feature part, without the `spartacus⚿<context>⚿` prefix added by
- * `StatePersistenceService`) holding the guest cart entries pending merge into
- * the user cart after an OAuth 2.1 authorization-code login
- * (see `mergeGuestCartOnCodeFlowLogin`).
- */
-export const PENDING_GUEST_CART_MERGE_KEY = 'pendingGuestCartMerge';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -35,15 +28,23 @@ export class ActiveCartStatePersistenceService implements OnDestroy {
   protected subscription?: Subscription;
 
   /**
+   * Storage key (feature part, without the `spartacus⚿<context>⚿` prefix added
+   * by `StatePersistenceService`) holding the guest cart entries pending merge
+   * into the user cart after an OAuth 2.1 authorization-code login.
+   */
+  protected key = 'pendingGuestCartMerge';
+
+  /**
    * Starts persisting the given guest cart entries under the base-site context.
    * Each emission is normalized to the minimal `{ product: { code }, quantity }`
-   * shape before it is written to storage.
+   * shape and overwrites the stored value. Use `clearState()` to remove the
+   * entry; emitting an empty array only persists `[]`, it does not remove it.
    *
-   * @param guestCartEntries$ Guest cart entries to persist (empty array clears).
+   * @param guestCartEntries$ Guest cart entries to persist.
    */
   initSync(guestCartEntries$: Observable<OrderEntry[]>): void {
     this.subscription = this.statePersistenceService.syncWithStorage({
-      key: PENDING_GUEST_CART_MERGE_KEY,
+      key: this.key,
       state$: guestCartEntries$.pipe(
         map((entries) => this.normalizeEntriesToPersist(entries))
       ),
@@ -60,7 +61,7 @@ export class ActiveCartStatePersistenceService implements OnDestroy {
     const entries = this.statePersistenceService.readStateFromStorage<
       OrderEntry[]
     >({
-      key: PENDING_GUEST_CART_MERGE_KEY,
+      key: this.key,
       context: getLastValueSync(this.getContext$()),
       storageType: StorageSyncType.LOCAL_STORAGE,
     });
@@ -76,7 +77,7 @@ export class ActiveCartStatePersistenceService implements OnDestroy {
   clearState(): void {
     const context = getLastValueSync(this.getContext$()) ?? '';
     this.winRef.localStorage?.removeItem(
-      this.generateKeyWithContext(context, PENDING_GUEST_CART_MERGE_KEY)
+      this.generateKeyWithContext(context, this.key)
     );
   }
 

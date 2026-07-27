@@ -5,6 +5,7 @@
  */
 
 import { Injectable, OnDestroy, inject } from '@angular/core';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import {
   ActiveCartFacade,
   Cart,
