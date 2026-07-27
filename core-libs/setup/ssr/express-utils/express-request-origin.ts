@@ -33,7 +33,15 @@ export function getRequestOrigin(
   // Defense-in-depth: only when the operator opted in by providing an
   // allowlist. Spartacus does NOT know the valid hosts otherwise, so with no
   // allowlist we trust the (trusted) reverse proxy as before.
-  logger?.log('allowedOrigins size: ' + allowedOrigins?.length, { request: req });
+  logger?.log('allowedOrigins size: ' + allowedOrigins?.length, {
+    request: req,
+  });
+  // TESTING Print all as key=value pairs (to be deleted)
+  for (const [key, value] of Object.entries(process.env)) {
+    logger?.log(`${key}=${value}`, {
+      request: req,
+    });
+  }
   if (allowedOrigins?.length) {
     const ret = isAllowedOrigin(resolvedOrigin, allowedOrigins, req, logger)
       ? resolvedOrigin
