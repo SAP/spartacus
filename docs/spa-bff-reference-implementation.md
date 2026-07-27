@@ -558,14 +558,32 @@ Add `.angular/cache` to the **workspace root** `.gitignore`:
 
 ### Step 5: Base Spartacus configuration
 
-After the import, add the minimum site-context configuration so Spartacus can
-initialise. Without this the app fails to bootstrap because no `baseSite` is defined.
+After the import, configure the site context in
+`apps/storefrontapp/src/app/spartacus/spartacus-configuration.module.ts`.
+The schematics generate a `provideConfig(<SiteContextConfig>{ context: {} })` block —
+you have two options:
 
-In `apps/storefrontapp/src/app/spartacus/spartacus-configuration.module.ts`, the
-schematics already generate a `provideConfig(<SiteContextConfig>{ context: {} })` block
-with an empty `context`. Fill it in with your site's values. The example below uses
-the standard SAP Commerce demo sites — replace with your own `baseSite`, `language`,
-and `currency` values:
+**Option A — Automatic site context (recommended for existing customers)**
+
+Leave the `context` block empty. Spartacus will make an initial call to the
+`/basesites` OCC endpoint, compare the current URL against the URL patterns defined
+in the CMS, and determine the active base site, languages, and currencies automatically.
+No code change is needed:
+
+```ts
+provideConfig(<SiteContextConfig>{
+  context: {},
+}),
+```
+
+See [Automatic Multi-Site Configuration](https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/c9d3b569e57f4db19d4e62a69609f3f0/5b91ded34aaf4a0a91c3e19c7601e4b2.html)
+for details on URL pattern matching and caching strategies (SSR, PWA service worker).
+
+**Option B — Static site context**
+
+Explicitly define the base sites, languages, and currencies. Use this if you want
+deterministic bootstrapping without the initial `/basesites` call, or if your URL
+patterns require it. Replace the example values with your own:
 
 ```ts
 provideConfig(<SiteContextConfig>{
@@ -578,9 +596,6 @@ provideConfig(<SiteContextConfig>{
 ```
 
 Do not add a second `SiteContextConfig` block — update the one that already exists.
-
-This must come **before** the BFF integration changes below — the app will not serve
-any page without a valid `baseSite` configuration.
 
 ---
 
@@ -1019,6 +1034,11 @@ members consistent commands regardless of which nx target names are used interna
 | `npm run start:storefrontapp`      | Starts the Angular dev server on port 4200                      |
 | `npm run build:storefrontapp`      | Production build of the storefront                               |
 | `npm run test:storefrontapp`       | Runs unit tests for the storefront                               |
+
+> **Note:** The Hosting Portal may require specific `package.json` script names to be
+> present in order to trigger builds and deployments. Please refer to the
+> [Hosting Portal documentation](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/83616e9e152b4d16aaa4ee747ca8cad7/bb67d998b3d943d9887f3a2d2fa98eff.html?state=DRAFT&profile=20682543&profile=20682543&ai=true&version=DEV&locale=en-US)
+> for the required script names and their expected behaviour.
 
 ---
 
