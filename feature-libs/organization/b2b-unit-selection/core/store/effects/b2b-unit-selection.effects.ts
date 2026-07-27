@@ -11,7 +11,6 @@ import {
   AuthActions,
   B2BUnit,
   LoggerService,
-  OAuthLibWrapperService,
   RoutingService,
   tryNormalizeHttpError,
   UserIdService,
@@ -31,7 +30,6 @@ export class B2bUnitSelectionEffects {
   protected applicationRef = inject(ApplicationRef);
   protected stateService = inject(B2bUnitSelectorStateService);
   protected routingService = inject(RoutingService);
-  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
 
   /**
    * Listens for the LOGIN action and loads the user's org units and default unit.
@@ -93,8 +91,8 @@ export class B2bUnitSelectionEffects {
 
   /**
    * Listens for SET_DEFAULT_ORG_UNIT and calls the PUT API to persist the selection.
-   * On success, refreshes the token so the new unit's permissions take effect immediately,
-   * then closes the dialog and updates the header selector state.
+   * On success, closes the dialog, updates the header selector state, and navigates
+   * home when triggered from the header selector (redirectToHome = true).
    */
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
@@ -110,8 +108,6 @@ export class B2bUnitSelectionEffects {
       switchMap(({ userId, unitUid, redirectToHome }) =>
         this.connector.setDefaultOrgUnit(userId, unitUid).pipe(
           tap(() => {
-            // Refresh the token so the new unit's permission context takes effect (fire-and-forget).
-            this.oAuthLibWrapperService.refreshToken();
             this.launchDialogService.closeDialog('CONFIRMED');
             this.stateService.setActiveUnit(unitUid);
             // Only navigate home for header selector switches (redirectToHome=true);

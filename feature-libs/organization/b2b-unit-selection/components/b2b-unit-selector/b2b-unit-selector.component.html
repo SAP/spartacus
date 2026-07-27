@@ -7,7 +7,7 @@
 <ng-container *ngIf="hasAnyUnit()">
   <label>
     <span>{{ 'b2bUnitSelection.selector.label' | cxTranslate }}</span>
-    <div class="cx-select-wrapper">
+    <div class="cx-select-wrapper" [title]="activeUnitName() ?? ''">
       <ng-select
         [items]="items()"
         bindLabel="name"
