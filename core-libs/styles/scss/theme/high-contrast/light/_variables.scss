@@ -19,4 +19,8 @@
   --cx-color-info-accent: #ffffff;
   --cx-color-warning-accent: #ffffff;
   --cx-color-transparent: transparent;
+  // All surfaces are white in this theme, so both disabled variants use the
+  // same value (7:1 against white).
+  --cx-color-disabled: #565656;
+  --cx-color-disabled-accent: #565656;
 }
