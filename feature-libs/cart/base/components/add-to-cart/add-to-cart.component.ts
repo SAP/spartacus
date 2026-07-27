@@ -30,6 +30,7 @@ import {
   Cart,
   CartConfig,
   CartItemComponentOptions,
+  CartItemQuantityService,
   CartOutlets,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
@@ -54,7 +55,7 @@ import {
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, startWith, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -117,6 +118,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   private productAvailabilityService = inject(ProductAvailabilityService);
   protected productCatalogService = inject(ProductCatalogService);
+  protected cartItemQuantityService = inject(CartItemQuantityService);
   protected realTimeStockEnabled =
     !!inject(CartConfig).cart?.showRealTimeStockInPDP?.enabled;
 
@@ -145,6 +147,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.subscribeToQuantityChanges();
+
     if (this.product) {
       this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
@@ -178,6 +182,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  protected subscribeToQuantityChanges(): void {
+    this.subscription.add(
+      this.addToCartForm
+        .get('quantity')
+        ?.valueChanges.pipe(
+          startWith(this.addToCartForm.get('quantity')?.value)
+        )
+        .subscribe((quantity) =>
+          this.cartItemQuantityService.setQuantity(quantity ?? 1)
+        )
+    );
   }
 
   protected setStockInfo(product: Product): void {
