@@ -36,9 +36,13 @@ export function getRequestOrigin(
   logger?.log('allowedOrigins size: ' + allowedOrigins?.length, {
     request: req,
   });
+
+  logger?.log('process.env key value pairs', {
+    request: req,
+  });
   // TESTING Print all as key=value pairs (to be deleted)
   for (const [key, value] of Object.entries(process.env)) {
-    logger?.log(`${key}=${value}`, {
+    logger?.log(`ssr-key-value: ${key}=${value}`, {
       request: req,
     });
   }
