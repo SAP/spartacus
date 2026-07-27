@@ -194,6 +194,15 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       this.stopNavigating &&
       this.document?.activeElement !== this.document?.body
     ) {
+      if (this.featureToggles.a11yFocusBreadcrumbOnNavigation) {
+        const breadcrumbLink = this.document?.querySelector<HTMLElement>(
+          'cx-breadcrumb nav a'
+        );
+        if (breadcrumbLink) {
+          breadcrumbLink.focus();
+          return;
+        }
+      }
       this.skipLinkService?.scrollToTarget('cx-main');
     }
   }

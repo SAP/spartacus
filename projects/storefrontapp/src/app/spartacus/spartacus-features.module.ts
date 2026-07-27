@@ -376,6 +376,7 @@ if (environment.cpq) {
         b2bCheckoutShippingAddressFilter: true,
         a11yFormErrorIconContrast: true,
         a11yAddressFormInitialFocus: true,
+        a11yFocusBreadcrumbOnNavigation: true,
       };
       return appFeatureToggles;
     }),

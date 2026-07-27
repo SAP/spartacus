@@ -619,6 +619,16 @@ export interface FeatureTogglesInterface {
    * Affects: `AddressFormComponent`
    */
   a11yAddressFormInitialFocus?: boolean;
+
+  /**
+   * When enabled, after navigating via a header/navigation link the keyboard
+   * focus moves to the first anchor inside the breadcrumb (`#cx-breadcrumb a`)
+   * rather than the first focusable element in `<main>`.
+   * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present.
+   *
+   * Affects: `StorefrontComponent`, `BreadcrumbComponent`
+   */
+  a11yFocusBreadcrumbOnNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -702,4 +712,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
   a11yAddressFormInitialFocus: false,
+  a11yFocusBreadcrumbOnNavigation: false,
 };
