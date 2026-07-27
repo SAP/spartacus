@@ -18,12 +18,10 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "nx:run-commands",
       "options": {
-        "main": "feature-libs/asm/test.ts",
-        "tsConfig": "feature-libs/asm/tsconfig.spec.json",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "karmaConfig": "feature-libs/asm/karma.conf.js"
+        "command": "npx vitest run --config vitest.config.ts",
+        "cwd": "{projectRoot}"
       }
     },
     "test-jest": {
@@ -43,5 +41,7 @@
       }
     }
   },
-  "tags": ["type:feature"]
+  "tags": [
+    "type:feature"
+  ]
 }
