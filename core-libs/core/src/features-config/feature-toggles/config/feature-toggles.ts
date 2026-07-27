@@ -626,7 +626,7 @@ export interface FeatureTogglesInterface {
    * rather than the first focusable element in `<main>`.
    * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present.
    *
-   * Affects: `StorefrontComponent`, `BreadcrumbComponent`
+   * Affects: `StorefrontComponent`
    */
   a11yFocusBreadcrumbOnNavigation?: boolean;
 }
