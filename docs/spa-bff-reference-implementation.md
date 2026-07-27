@@ -1035,10 +1035,11 @@ members consistent commands regardless of which nx target names are used interna
 | `npm run build:storefrontapp`      | Production build of the storefront                               |
 | `npm run test:storefrontapp`       | Runs unit tests for the storefront                               |
 
-> **Note:** The Hosting Portal may require specific `package.json` script names to be
-> present in order to trigger builds and deployments. Please refer to the
+> **Note:** The Hosting Portal builds each application by running `npm run build:<appname>`
+> where `<appname>` is the application folder name (e.g. `build:bff`, `build:storefrontapp`).
+> The scripts above follow this convention. Please see the Hosting Portal docs 
 > [Hosting Portal documentation](https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/83616e9e152b4d16aaa4ee747ca8cad7/bb67d998b3d943d9887f3a2d2fa98eff.html?state=DRAFT&profile=20682543&profile=20682543&ai=true&version=DEV&locale=en-US)
-> for the required script names and their expected behaviour.
+> for the full build and deployment requirements.
 
 ---
 
