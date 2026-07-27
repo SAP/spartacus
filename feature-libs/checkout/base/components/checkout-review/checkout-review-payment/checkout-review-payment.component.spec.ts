@@ -1,5 +1,12 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  Directive,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CheckoutPaymentFacade,
@@ -15,7 +22,13 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { Card, CardComponent } from '@spartacus/storefront';
+import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
+import {
+  Card,
+  CardComponent,
+  FocusConfig,
+  FocusDirective,
+} from '@spartacus/storefront';
 import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -84,6 +97,11 @@ class MockCardComponent {
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Directive({ selector: '[cxFocus]' })
+class MockFocusDirective {
+  @Input() cxFocus: FocusConfig | undefined;
 }
 
 describe('CheckoutReviewPaymentComponent', () => {
@@ -176,5 +194,80 @@ describe('CheckoutReviewPaymentComponent', () => {
     expect(component.paymentDetailsStepRoute).toEqual(
       mockCheckoutStep.routeName
     );
+  });
+});
+
+describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
+  let fixture: ComponentFixture<CheckoutReviewPaymentComponent>;
+
+  function configure(featureToggle: boolean) {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterModule.forRoot([]),
+        IconTestingModule,
+        CheckoutReviewPaymentComponent,
+      ],
+      providers: [
+        {
+          provide: CheckoutPaymentFacade,
+          useClass: MockCheckoutPaymentService,
+        },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+        provideMockFeatureToggles({
+          a11yImproveCheckoutFocus: featureToggle,
+        }),
+      ],
+    })
+      .overrideComponent(CheckoutReviewPaymentComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            CardComponent,
+            FocusDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCardComponent,
+            MockFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(CheckoutReviewPaymentComponent);
+    fixture.detectChanges();
+  }
+
+  it('should render the review summary with autofocus when the feature is enabled', () => {
+    configure(true);
+
+    const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
+    expect(summary).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
+    ).toBeTruthy();
+
+    const directive = summary.injector.get(MockFocusDirective);
+    expect(directive.cxFocus).toEqual(
+      jasmine.objectContaining({ autofocus: true })
+    );
+  });
+
+  it('should render the review summary without autofocus when the feature is disabled', () => {
+    configure(false);
+
+    const summary = fixture.debugElement.query(By.css('.cx-review-summary'));
+    expect(summary).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.cx-review-summary-edit-step'))
+    ).toBeTruthy();
+
+    expect(() => summary.injector.get(MockFocusDirective)).toThrow();
   });
 });

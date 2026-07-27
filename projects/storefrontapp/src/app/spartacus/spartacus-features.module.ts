@@ -320,6 +320,7 @@ if (environment.cpq) {
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
         enableMediaPrefix: true,
         a11yCustomerTicketingVisualFocusFix: true,
+        a11yMessagingListKeyboardFocus: true,
         orderOverviewCardsInlinePadding: true,
         a11yStoreFinderListItemFocus: true,
         a11yFixSearchBoxDoubleFocus: true,
@@ -345,10 +346,12 @@ if (environment.cpq) {
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
         a11yDeliveryModeFocusPreservation: true,
+        a11yImproveCheckoutFocus: true,
         a11yVocalizeDropdownItemCount: true,
         a11yRestoreFocusOnNgSelect: true,
         a11yKeepFocusOnConsentManagementButtons: true,
         useEnhancedSecurePasswordValidators: true,
+        enableApplyVoucherEndpoint: true,
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
@@ -372,6 +375,7 @@ if (environment.cpq) {
         applyBaseSiteThemeFromCms: true,
         b2bCheckoutShippingAddressFilter: true,
         a11yFormErrorIconContrast: true,
+        a11yAddressFormInitialFocus: true,
       };
       return appFeatureToggles;
     }),

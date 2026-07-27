@@ -229,6 +229,15 @@ export interface FeatureTogglesInterface {
   a11yCustomerTicketingVisualFocusFix?: boolean;
 
   /**
+   * Fixes keyboard focus and screen reader date announcement for the
+   * chat messaging list items. Moves tabindex and aria-label to the
+   * role="listitem" element so all messages are keyboard-reachable
+   * and dates are announced by VoiceOver and JAWS.
+   * Affects: MessagingComponent
+   */
+  a11yMessagingListKeyboardFocus?: boolean;
+
+  /**
    * Applies a `10rem` inline-start padding to the order overview cards
    * (`.cx-order-details-cards`) on large screens. When disabled, the cards are
    * not pushed inward, avoiding the horizontal shift on wide viewports.
@@ -377,6 +386,13 @@ export interface FeatureTogglesInterface {
   useEnhancedSecurePasswordValidators?: boolean;
 
   /**
+   * When enabled, uses `POST /carts/{cartId}/applyVoucher` with the voucherId
+   * in the request body instead of `POST /carts/{cartId}/vouchers?voucherId={voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableApplyVoucherEndpoint?: boolean;
+
+  /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
    * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
@@ -408,6 +424,12 @@ export interface FeatureTogglesInterface {
    * Affects: CheckoutDeliveryModeComponent, VisibleFocusDirective
    */
   a11yDeliveryModeFocusPreservation?: boolean;
+
+  /**
+   * Improve auto focus during checkout process.
+   * Affects: CheckoutPaymentMethodComponent
+   */
+  a11yImproveCheckoutFocus?: boolean;
 
   /**
    * When enabled, `AuthHttpHeaderService` executes DI-provided
@@ -589,6 +611,14 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the address form applies the `cxFocus` directive with autofocus
+   * to manage initial keyboard focus.
+   *
+   * Affects: `AddressFormComponent`
+   */
+  a11yAddressFormInitialFocus?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -616,6 +646,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableReturnOrderReturnableQuantityConsigmentFallback: true,
   enableMediaPrefix: false,
   a11yCustomerTicketingVisualFocusFix: false,
+  a11yMessagingListKeyboardFocus: false,
   orderOverviewCardsInlinePadding: false,
   a11yStoreFinderListItemFocus: false,
   a11yFixSearchBoxDoubleFocus: false,
@@ -639,10 +670,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
+  enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
@@ -668,4 +701,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yAddressFormInitialFocus: false,
 };
