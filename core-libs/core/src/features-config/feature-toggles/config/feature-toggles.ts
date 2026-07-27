@@ -622,6 +622,15 @@ export interface FeatureTogglesInterface {
   a11yFocusIndicatorContrast?: boolean;
 
   /**
+   * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
+   * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
+   * `--cx-color-border-focus`, so their border/background/text meet the
+   * WCAG 1.4.11 3:1 (7:1 in high-contrast themes) non-text contrast
+   * requirement.
+   */
+  a11yDisabledButtonContrast?: boolean;
+
+  /**
    * When enabled, the address form applies the `cxFocus` directive with autofocus
    * to manage initial keyboard focus.
    *
@@ -711,5 +720,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
+  a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
 };
