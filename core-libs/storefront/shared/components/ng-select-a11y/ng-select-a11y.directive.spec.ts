@@ -269,4 +269,167 @@ describe('NgSelectA11yDirective', () => {
       await Promise.resolve();
     });
   });
+
+  describe('a11yNavigationSpaceKeyOnKeyUp toggle', () => {
+    let directiveWithToggle: NgSelectA11yDirective;
+
+    beforeEach(() => {
+      // Re-configure with a11yNavigationSpaceKeyOnKeyUp enabled
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [
+          NgSelectA11yModule,
+          NgSelectModule,
+          MockComponent,
+          NgSelectA11yDirective,
+        ],
+        providers: [
+          provideMockFeatureToggles({
+            ...mockFeatureToggles,
+            a11yNavigationSpaceKeyOnKeyUp: true,
+          }),
+          { provide: TranslationService, useClass: MockTranslationService },
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(MockComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      const directiveEl = fixture.debugElement.query(
+        By.directive(NgSelectA11yDirective)
+      );
+      directiveWithToggle = directiveEl.injector.get(NgSelectA11yDirective);
+    });
+
+    describe('interceptEnterKeyDown()', () => {
+      it('should wrap NgSelectComponent.handleKeyDown so Enter keydown when open sets wasOpenOnEnterKeydown and calls preventDefault', () => {
+        // Open the dropdown so isOpen() returns true
+        directiveWithToggle['selectComponent'].open();
+        fixture.detectChanges();
+
+        const enterEvent = new KeyboardEvent('keydown', {
+          key: 'Enter',
+          bubbles: true,
+          cancelable: true,
+        });
+        spyOn(enterEvent, 'preventDefault');
+
+        // Call the wrapped handleKeyDown directly (bypasses HostListener order)
+        directiveWithToggle['selectComponent'].handleKeyDown(enterEvent);
+
+        expect(enterEvent.preventDefault).toHaveBeenCalled();
+        expect(directiveWithToggle['wasOpenOnEnterKeydown']).toBeTrue();
+      });
+
+      it('should NOT intercept Enter keydown when dropdown is closed — delegates to original handler', () => {
+        // Dropdown is closed by default
+        const enterEvent = new KeyboardEvent('keydown', {
+          key: 'Enter',
+          bubbles: true,
+          cancelable: true,
+        });
+        spyOn(enterEvent, 'preventDefault');
+
+        directiveWithToggle['selectComponent'].handleKeyDown(enterEvent);
+
+        // Our intercept does not block it — preventDefault not called by us
+        expect(directiveWithToggle['wasOpenOnEnterKeydown']).toBeFalse();
+      });
+
+      it('should NOT intercept non-Enter keys when dropdown is open', () => {
+        directiveWithToggle['selectComponent'].open();
+        fixture.detectChanges();
+
+        const arrowEvent = new KeyboardEvent('keydown', {
+          key: 'ArrowDown',
+          bubbles: true,
+          cancelable: true,
+        });
+        spyOn(arrowEvent, 'preventDefault');
+
+        directiveWithToggle['selectComponent'].handleKeyDown(arrowEvent);
+
+        expect(directiveWithToggle['wasOpenOnEnterKeydown']).toBeFalse();
+      });
+    });
+
+    describe('onKeyUp() — Enter selection on key release (WCAG 2.5.2)', () => {
+      it('should call toggleItem on keyup-Enter when wasOpenOnEnterKeydown is set, then reset the flag', () => {
+        // Simulate that Enter was pressed while dropdown was open
+        directiveWithToggle['wasOpenOnEnterKeydown'] = true;
+        spyOn(
+          directiveWithToggle['selectComponent'],
+          'toggleItem'
+        ).and.callThrough();
+
+        const keyupEvent = new KeyboardEvent('keyup', {
+          key: 'Enter',
+          bubbles: true,
+        });
+        getNgSelect().nativeElement.dispatchEvent(keyupEvent);
+
+        expect(
+          directiveWithToggle['selectComponent'].toggleItem
+        ).toHaveBeenCalled();
+        // Flag is reset so repeated keyup does not re-fire
+        expect(directiveWithToggle['wasOpenOnEnterKeydown']).toBeFalse();
+      });
+
+      it('should NOT call toggleItem on keyup-Enter when wasOpenOnEnterKeydown is false', () => {
+        directiveWithToggle['wasOpenOnEnterKeydown'] = false;
+        spyOn(
+          directiveWithToggle['selectComponent'],
+          'toggleItem'
+        ).and.callThrough();
+
+        const keyupEvent = new KeyboardEvent('keyup', {
+          key: 'Enter',
+          bubbles: true,
+        });
+        getNgSelect().nativeElement.dispatchEvent(keyupEvent);
+
+        expect(
+          directiveWithToggle['selectComponent'].toggleItem
+        ).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('onKeyDown() — Space scroll prevention', () => {
+      it('should call preventDefault on Space keydown when dropdown is open to prevent page scroll', () => {
+        directiveWithToggle['selectComponent'].open();
+        fixture.detectChanges();
+
+        const spaceEvent = new KeyboardEvent('keydown', {
+          key: ' ',
+          code: 'Space',
+          bubbles: true,
+          cancelable: true,
+        });
+        spyOn(spaceEvent, 'preventDefault');
+
+        getNgSelect().nativeElement.dispatchEvent(spaceEvent);
+
+        expect(spaceEvent.preventDefault).toHaveBeenCalled();
+      });
+
+      it('should NOT prevent page scroll (no extra preventDefault) on Space keydown when dropdown is closed — ng-select opens normally', () => {
+        // When the dropdown is closed, Space should open it (ng-select default behaviour).
+        // Our directive only calls preventDefault when the dropdown is already open.
+        // Verify the dropdown opens normally rather than asserting on preventDefault,
+        // because ng-select itself calls preventDefault as part of its open logic.
+        const spaceEvent = new KeyboardEvent('keydown', {
+          key: ' ',
+          code: 'Space',
+          bubbles: true,
+          cancelable: true,
+        });
+
+        getNgSelect().nativeElement.dispatchEvent(spaceEvent);
+        fixture.detectChanges();
+
+        // ng-select should have opened — our code did not block it
+        expect(directiveWithToggle['selectComponent'].isOpen()).toBeTrue();
+      });
+    });
+  });
 });

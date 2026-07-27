@@ -1,43 +1,76 @@
-<label *ngIf="items$ | async as themes">
-  <span> {{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
-  <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
-    <select
-      cxNativeSelectSpace
-      (change)="activeItem = $any($event).target.value"
-    >
-      <option
-        [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
-        *ngFor="let theme of themes; index as i"
-        value="{{ theme.className }}"
-        [selected]="(activeItem$ | async) === theme.className"
-      >
-        {{
-          theme.i18nNameKey
-            ? (theme.i18nNameKey | cxTranslate)
-            : theme.className
-        }}
-      </option>
-    </select>
-    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
-  </div>
-  <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
-    <select
-      cxNativeSelectSpace
-      (change)="activeItem = $any($event).target.value"
-    >
-      <option
-        [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
-        *ngFor="let theme of themes; index as i"
-        value="{{ theme.className }}"
-        [selected]="(activeItem$ | async) === theme.className"
-      >
-        {{
-          theme.i18nNameKey
-            ? (theme.i18nNameKey | cxTranslate)
-            : theme.className
-        }}
-      </option>
-    </select>
-    <cx-icon aria-hidden="true" [type]="iconTypes.CARET_DOWN" class="small" />
+<ng-container *ngIf="items$ | async as themes">
+  <ng-container *ngIf="themes.length">
+    <ng-container *cxFeature="'a11yNavigationSpaceKeyOnKeyUp'">
+      <div class="cx-ng-select-label">
+        <span>{{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="translatedItems$ | async"
+          bindValue="className"
+          bindLabel="label"
+          [ngModel]="selectedItem"
+          (change)="activeItem = $event?.className"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'siteThemeSwitcher.theme' | cxTranslate,
+          }"
+        ></ng-select>
+      </div>
+    </ng-container>
+
+    <label *cxFeature="'!a11yNavigationSpaceKeyOnKeyUp'">
+      <span> {{ 'siteThemeSwitcher.theme' | cxTranslate }}:</span>
+      <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
+        <select
+          cxNativeSelectSpace
+          (change)="activeItem = $any($event).target.value"
+        >
+          <option
+            [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
+            *ngFor="let theme of themes; index as i"
+            value="{{ theme.className }}"
+            [selected]="(activeItem$ | async) === theme.className"
+          >
+            {{
+              theme.i18nNameKey
+                ? (theme.i18nNameKey | cxTranslate)
+                : theme.className
+            }}
+          </option>
+        </select>
+        <cx-icon
+          aria-hidden="true"
+          [type]="iconTypes.CARET_DOWN"
+          class="small"
+        />
+      </div>
+      <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
+        <select
+          cxNativeSelectSpace
+          (change)="activeItem = $any($event).target.value"
+        >
+          <option
+            [attr.aria-label]="ariaLabel$(theme, i, themes.length) | async"
+            *ngFor="let theme of themes; index as i"
+            value="{{ theme.className }}"
+            [selected]="(activeItem$ | async) === theme.className"
+          >
+            {{
+              theme.i18nNameKey
+                ? (theme.i18nNameKey | cxTranslate)
+                : theme.className
+            }}
+          </option>
+        </select>
+        <cx-icon
+          aria-hidden="true"
+          [type]="iconTypes.CARET_DOWN"
+          class="small"
+        />
+      </ng-container>
+    </label>
   </ng-container>
-</label>
+</ng-container>
