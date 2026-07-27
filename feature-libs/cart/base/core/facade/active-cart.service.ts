@@ -13,29 +13,18 @@ import {
   OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
-  BASE_SITE_CONTEXT_ID,
   FeatureToggles,
   OAUTH_REDIRECT_FLOW_KEY,
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_GUEST,
-  SiteContextParamsService,
-  StatePersistenceService,
   StateUtils,
-  StorageSyncType,
   User,
   UserIdService,
   WindowRef,
   getLastValueSync,
 } from '@spartacus/core';
-import {
-  Observable,
-  Subject,
-  Subscription,
-  combineLatest,
-  of,
-  using,
-} from 'rxjs';
+import { Observable, Subscription, combineLatest, of, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -47,6 +36,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { ActiveCartStatePersistenceService } from '../services/active-cart-state-persistence.service';
 import {
   getCartIdByUserId,
   isEmail,
@@ -55,27 +45,14 @@ import {
   isTempCartId,
 } from '../utils/utils';
 
-/**
- * Storage key (feature part, without the `spartacus⚿<context>⚿` prefix added by
- * `StatePersistenceService`) holding the guest cart entries pending merge into
- * the user cart after an OAuth 2.1 authorization-code login
- * (see `mergeGuestCartOnCodeFlowLogin`).
- */
-export const PENDING_GUEST_CART_MERGE_KEY = 'pendingGuestCartMerge';
-
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   private featureToggles = inject(FeatureToggles);
-  protected statePersistenceService = inject(StatePersistenceService);
-  protected siteContextParamsService = inject(SiteContextParamsService);
+  protected activeCartStatePersistenceService = inject(
+    ActiveCartStatePersistenceService
+  );
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
-
-  /**
-   * Feeds guest cart entries (or an empty array to clear) to the
-   * `StatePersistenceService` sync for `mergeGuestCartOnCodeFlowLogin`.
-   */
-  protected pendingGuestCartMerge$ = new Subject<OrderEntry[]>();
 
   // This stream is used for referencing carts in API calls.
   protected activeCartId$ = this.userIdService.getUserId().pipe(
@@ -317,7 +294,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       });
     } else if (
       this.featureToggles.mergeGuestCartOnCodeFlowLogin &&
-      this.readPendingGuestCartMerge()
+      this.activeCartStatePersistenceService.readState()
     ) {
       // Authorization-code flow: the SPA was re-bootstrapped on login, so the
       // in-memory guest cart (and thus `isGuestCart()`) is gone. Fall back to
@@ -347,10 +324,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // because in-memory state does not survive the SPA re-bootstrap, and the
     // guest cart can no longer be read/deleted with the user token.
     const pendingMerge = this.featureToggles.mergeGuestCartOnCodeFlowLogin
-      ? this.readPendingGuestCartMerge()
+      ? this.activeCartStatePersistenceService.readState()
       : undefined;
     if (pendingMerge) {
-      this.clearPendingGuestCartMerge();
+      this.activeCartStatePersistenceService.clearState();
       this.addEntriesGuestMerge(pendingMerge);
       return;
     }
@@ -383,69 +360,23 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   /**
-   * Persists the active guest cart entries to storage so they can be merged
-   * into the user cart after an OAuth 2.1 authorization-code login. The login
-   * redirect re-bootstraps the SPA and wipes in-memory state, and the guest
-   * cart can no longer be read with the user token afterwards, so the entries
-   * must be captured beforehand while the guest cart is still the active cart.
+   * Persists the active guest cart entries so they can be merged into the user
+   * cart after an OAuth 2.1 authorization-code login. The login redirect
+   * re-bootstraps the SPA and wipes in-memory state, and the guest cart can no
+   * longer be read with the user token afterwards, so the entries must be
+   * captured beforehand while the guest cart is still the active cart.
    *
-   * Persistence is delegated to `StatePersistenceService` so the entries are
-   * stored under the base-site context (`spartacus⚿<baseSite>⚿pendingGuestCartMerge`),
-   * consistent with the active cart id persisted by `MultiCartStatePersistenceService`.
+   * Persistence is delegated to `ActiveCartStatePersistenceService`.
    *
    * Only enabled when the `mergeGuestCartOnCodeFlowLogin` feature toggle is on.
    */
   protected persistGuestCartForCodeFlowMerge(): void {
-    // Establish the storage sync first so it captures the (synchronous) first
-    // emission from `getActive()` below.
-
-    this.statePersistenceService.syncWithStorage({
-      key: PENDING_GUEST_CART_MERGE_KEY,
-      state$: this.pendingGuestCartMerge$,
-      context$: this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]),
-      storageType: StorageSyncType.LOCAL_STORAGE,
-    });
-
-    this.subscription.add(
-      this.getActive()
-        .pipe(filter((cart) => this.isCartUserGuest(cart)))
-        .subscribe((cart) =>
-          this.pendingGuestCartMerge$.next(
-            this.normalizeEntriesToPersist(cart.entries)
-          )
-        )
+    this.activeCartStatePersistenceService.initSync(
+      this.getActive().pipe(
+        filter((cart) => this.isCartUserGuest(cart)),
+        map((cart) => cart.entries ?? [])
+      )
     );
-  }
-
-  protected normalizeEntriesToPersist(
-    entries: OrderEntry[] = []
-  ): OrderEntry[] {
-    return entries
-      .map((entry) => ({
-        product: { code: entry.product?.code },
-        quantity: entry.quantity,
-      }))
-      .filter((entry) => entry.product.code && entry.quantity);
-  }
-
-  protected readPendingGuestCartMerge(): OrderEntry[] | undefined {
-    const context = getLastValueSync(
-      this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID])
-    );
-    const entries = this.statePersistenceService.readStateFromStorage<
-      OrderEntry[]
-    >({
-      key: PENDING_GUEST_CART_MERGE_KEY,
-      context,
-      storageType: StorageSyncType.LOCAL_STORAGE,
-    });
-    return entries?.length ? entries : undefined;
-  }
-
-  protected clearPendingGuestCartMerge(): void {
-    // `StatePersistenceService` has no imperative remove, so clear by writing an
-    // empty state (same idiom as `MultiCartStatePersistenceService`).
-    this.pendingGuestCartMerge$.next([]);
   }
 
   protected isCartCreating(

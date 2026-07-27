@@ -15,10 +15,8 @@ import {
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import {
-  ActiveCartService,
-  PENDING_GUEST_CART_MERGE_KEY,
-} from './active-cart.service';
+import { PENDING_GUEST_CART_MERGE_KEY } from '../services/active-cart-state-persistence.service';
+import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
@@ -851,8 +849,24 @@ describe('ActiveCartService', () => {
           persisted as OrderEntry[]
         );
         expect(multiCartFacade.deleteCart).not.toHaveBeenCalled();
-        // Cleared by writing an empty state, so it no longer reads back.
-        expect(service['readPendingGuestCartMerge']()).toBeUndefined();
+        // Storage entry is removed, so it no longer reads back.
+        expect(winRef.localStorage?.getItem(STORAGE_KEY)).toBeFalsy();
+      });
+
+      it('should remove the storage key entirely rather than leaving an empty value', () => {
+        spyOn<any>(service, 'addEntriesGuestMerge').and.callFake(() => {});
+        spyOn(winRef.localStorage as Storage, 'removeItem').and.callThrough();
+        winRef.localStorage?.setItem(
+          STORAGE_KEY,
+          JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
+        );
+
+        service['guestCartMerge']('cartId');
+
+        expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
+          STORAGE_KEY
+        );
+        expect(winRef.localStorage?.getItem(STORAGE_KEY)).toBeFalsy();
       });
     });
   });
