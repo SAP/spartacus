@@ -18,7 +18,6 @@ import {
   AuthActions,
   B2BUnit,
   LoggerService,
-  OAuthLibWrapperService,
   RoutingService,
   UserIdService,
   tryNormalizeHttpError,
@@ -79,17 +78,12 @@ class MockRoutingService {
   go = createSpy('go');
 }
 
-class MockOAuthLibWrapperService {
-  refreshToken = createSpy('refreshToken');
-}
-
 describe('B2bUnitSelectionEffects', () => {
   let effects: B2bUnitSelectionEffects;
   let connector: MockB2bUnitSelectionConnector;
   let stateService: MockB2bUnitSelectorStateService;
   let launchDialogService: MockLaunchDialogService;
   let routingService: MockRoutingService;
-  let oAuthLibWrapperService: MockOAuthLibWrapperService;
   let actions$: Observable<Action>;
   let applicationRef: any;
 
@@ -117,10 +111,6 @@ describe('B2bUnitSelectionEffects', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: OAuthLibWrapperService,
-          useClass: MockOAuthLibWrapperService,
-        },
         { provide: ApplicationRef, useValue: applicationRef },
         { provide: LoggerService, useClass: MockLoggerService },
         {
@@ -138,7 +128,6 @@ describe('B2bUnitSelectionEffects', () => {
     stateService = TestBed.inject(B2bUnitSelectorStateService) as any;
     launchDialogService = TestBed.inject(LaunchDialogService) as any;
     routingService = TestBed.inject(RoutingService) as any;
-    oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService) as any;
   });
 
   // ── checkOrgUnitsOnLogin$ ─────────────────────────────────────────────────
@@ -241,14 +230,13 @@ describe('B2bUnitSelectionEffects', () => {
       expect(effects.setDefaultOrgUnit$).toBeObservable(expected);
     });
 
-    it('should refresh token, close dialog, and update state', () => {
+    it('should close dialog and update state', () => {
       const action = new B2bUnitSelectionActions.SetDefaultOrgUnit(payload);
       actions$ = hot('-a', { a: action });
 
       effects.setDefaultOrgUnit$.subscribe();
       getTestScheduler().flush();
 
-      expect(oAuthLibWrapperService.refreshToken).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('CONFIRMED');
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(payload.unitUid);
     });
@@ -339,10 +327,6 @@ describe('B2bUnitSelectionEffects (feature disabled)', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: OAuthLibWrapperService,
-          useClass: MockOAuthLibWrapperService,
-        },
         { provide: ApplicationRef, useValue: appRef },
         { provide: LoggerService, useClass: MockLoggerService },
         {

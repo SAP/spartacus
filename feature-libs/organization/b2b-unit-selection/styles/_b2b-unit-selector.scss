@@ -90,7 +90,9 @@ cx-b2b-unit-selector {
       // min-height: 36px) to affect layout; an explicit calc() value closes that gap
       // so SiteContext height = Language/Theme height and align-items: center on
       // SiteContext does not shift Language / Theme downward ("too low" effect).
-      height: calc(var(--cx-font-size, 0.875rem) * var(--cx-line-height, 1.2222) + 4px) !important;
+      height: calc(
+        var(--cx-font-size, 0.875rem) * var(--cx-line-height, 1.2222) + 4px
+      ) !important;
       min-height: unset !important;
       padding: 2px 0 2px 0;
 
