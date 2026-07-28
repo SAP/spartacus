@@ -426,6 +426,17 @@ export interface FeatureTogglesInterface {
   a11yDeliveryModeFocusPreservation?: boolean;
 
   /**
+   * When enabled, wraps form controls in a `<fieldset>` with `aria-labelledby`
+   * referencing the visible page heading, so screen readers announce the section
+   * heading when any field in the group receives focus.
+   * Affects: UpdateProfileComponent, MyAccountV2ProfileComponent,
+   *          UpdatePasswordComponent, MyAccountV2PasswordComponent,
+   *          UpdateEmailComponent, MyAccountV2EmailComponent,
+   *          ConsentManagementComponent
+   */
+  a11yFormFieldSectionLegend?: boolean;
+
+  /**
    * Improve auto focus during checkout process.
    * Affects: CheckoutPaymentMethodComponent
    */
@@ -563,6 +574,16 @@ export interface FeatureTogglesInterface {
   siteIsolationForCustomLoginPage?: boolean;
 
   /**
+   * When enabled, the navigation menu buttons (e.g. "My Account") and dropdown
+   * headers activate on spacebar key *release* (`keyup`) rather than key *press*
+   * (`keydown`), preventing the action from firing repeatedly while the key is
+   * held down.
+   * Fixes WCAG 2.5.2 (Pointer Cancellation) ACC-270.16 (Level A).
+   * Affects: `NavigationUIComponent`, 'NativeSelectSpaceDirective'
+   */
+  a11yNavigationSpaceKeyOnKeyUp?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -611,6 +632,15 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the default theme's keyboard focus indicator color
+   * (`--cx-color-visual-focus`) is darkened so the focus outline of all UI
+   * elements (input fields, search box, comboboxes, checkboxes, radio buttons,
+   * etc.) meets the WCAG 1.4.11 non-text contrast requirement of >=3:1 against
+   * the adjacent surface.
+   */
+  a11yFocusIndicatorContrast?: boolean;
 
   /**
    * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
@@ -679,6 +709,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
@@ -706,10 +737,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
+  a11yNavigationSpaceKeyOnKeyUp: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
 };

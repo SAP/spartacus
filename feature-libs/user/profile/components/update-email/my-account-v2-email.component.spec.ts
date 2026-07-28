@@ -16,6 +16,8 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   TranslatePipe,
   UrlPipe,
   User,
@@ -25,6 +27,10 @@ import {
   PasswordVisibilityToggleModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
@@ -32,6 +38,11 @@ import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import createSpy = jasmine.createSpy;
+
+const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -100,6 +111,8 @@ describe('MyAccountV2EmailComponent', () => {
           useClass: MockNewProfileFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(MyAccountV2EmailComponent, {
@@ -213,6 +226,42 @@ describe('MyAccountV2EmailComponent', () => {
       fixture.detectChanges();
       const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn).toBeNull();
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        component.onEdit();
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visible legend', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toContain(
+          'myAccountV2Email.myEmailAddress'
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        component.onEdit();
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });
