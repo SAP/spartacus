@@ -380,6 +380,7 @@ if (environment.cpq) {
         a11yFocusIndicatorContrast: true,
         a11yDisabledButtonContrast: true,
         a11yAddressFormInitialFocus: true,
+        a11yFocusBreadcrumbOnNavigation: true,
       };
       return appFeatureToggles;
     }),
