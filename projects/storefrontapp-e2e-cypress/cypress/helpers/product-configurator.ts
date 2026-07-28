@@ -301,27 +301,35 @@ export function getAttributeLabelId(attributeName: string): string {
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {boolean} waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
+ * @param {boolean} force - optional, default is false. if true, clicks with { force: true } and skips scrollIntoView
+ *   (useful in modals where Angular re-renders can detach the element during actionability checks)
  */
 export function selectAttribute(
   attributeName: string,
   uiType: uiType,
   valueName: string,
-  waitForUpdateMsg: boolean = true
+  waitForUpdateMsg: boolean = true,
+  force: boolean = false
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
   let valueId = `${attributeId}--${valueName}`;
   valueId = this.maskCharacter(valueId, '#');
   cy.log('valueId: ' + valueId);
+  const clickOptions = force ? { force: true } : undefined;
 
   switch (uiType) {
     case 'radioGroup':
     case 'checkBoxList':
     case 'multi_selection_image':
-      cy.get(`#${valueId}`).scrollIntoView();
+      // Break get → assert → click into separate commands so Cypress re-queries
+      // after Angular re-renders (avoids "detached from DOM" on the subject).
+      if (!force) {
+        cy.get(`#${valueId}`).scrollIntoView();
+      }
+      cy.get(`#${valueId}`).should('be.visible');
       cy.get(`#${valueId}`)
-        .should('be.visible')
-        .click()
+        .click(clickOptions)
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
@@ -331,10 +339,12 @@ export function selectAttribute(
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;
       cy.log('labelId: ' + labelId);
-      cy.get(`#${labelId}`).scrollIntoView();
+      if (!force) {
+        cy.get(`#${labelId}`).scrollIntoView();
+      }
+      cy.get(`#${labelId}`).should('be.visible');
       cy.get(`#${labelId}`)
-        .should('be.visible')
-        .click()
+        .click(clickOptions)
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
@@ -354,10 +364,12 @@ export function selectAttribute(
     case 'checkBoxListProduct':
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
-      cy.get(btnLoc).scrollIntoView();
+      if (!force) {
+        cy.get(btnLoc).scrollIntoView();
+      }
+      cy.get(btnLoc).should('be.visible');
       cy.get(btnLoc)
-        .should('be.visible')
-        .click()
+        .click(clickOptions)
         .then(() => {
           if (waitForUpdateMsg) {
             checkUpdatingMessageNotDisplayed();
