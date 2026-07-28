@@ -299,7 +299,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     } else if (
       this.featureToggles.authorizationCodeFlowByDefault &&
       this.featureToggles.mergeGuestCartOnCodeFlowLogin &&
-      this.activeCartStatePersistenceService.readState()
+      this.activeCartStatePersistenceService.readGuestCartState()
     ) {
       // Authorization-code flow: the SPA was re-bootstrapped on login, so the
       // in-memory guest cart (and thus `isGuestCart()`) is gone. Fall back to
@@ -331,10 +331,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     const pendingMerge =
       this.featureToggles.authorizationCodeFlowByDefault &&
       this.featureToggles.mergeGuestCartOnCodeFlowLogin
-        ? this.activeCartStatePersistenceService.readState()
+        ? this.activeCartStatePersistenceService.readGuestCartState()
         : undefined;
     if (pendingMerge) {
-      this.activeCartStatePersistenceService.clearState();
+      this.activeCartStatePersistenceService.clearGuestCartState();
       this.addEntriesGuestMerge(pendingMerge);
       return;
     }

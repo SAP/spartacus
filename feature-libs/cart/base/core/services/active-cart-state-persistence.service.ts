@@ -37,8 +37,8 @@ export class ActiveCartStatePersistenceService implements OnDestroy {
   /**
    * Starts persisting the given guest cart entries under the base-site context.
    * Each emission is normalized to the minimal `{ product: { code }, quantity }`
-   * shape and overwrites the stored value. Use `clearState()` to remove the
-   * entry; emitting an empty array only persists `[]`, it does not remove it.
+   * shape and overwrites the stored value. Use `clearGuestCartState()` to remove
+   * the entry; emitting an empty array only persists `[]`, it does not remove it.
    *
    * @param guestCartEntries$ Guest cart entries to persist.
    */
@@ -57,7 +57,7 @@ export class ActiveCartStatePersistenceService implements OnDestroy {
    * Synchronously reads the persisted guest cart entries, or `undefined` when
    * nothing (or an empty list) is stored.
    */
-  readState(): OrderEntry[] | undefined {
+  readGuestCartState(): OrderEntry[] | undefined {
     const entries = this.statePersistenceService.readStateFromStorage<
       OrderEntry[]
     >({
@@ -74,7 +74,7 @@ export class ActiveCartStatePersistenceService implements OnDestroy {
    * merge. Writing an empty state through `syncWithStorage` would only overwrite
    * it with `[]`, not remove it, so we clear the key directly.
    */
-  clearState(): void {
+  clearGuestCartState(): void {
     const context = getLastValueSync(this.getContext$()) ?? '';
     this.winRef.localStorage?.removeItem(
       this.generateKeyWithContext(context, this.key)

@@ -108,26 +108,26 @@ describe('ActiveCartStatePersistenceService', () => {
     });
   });
 
-  describe('readState', () => {
+  describe('readGuestCartState', () => {
     it('should read persisted entries', () => {
       const persisted = [{ product: { code: 'code' }, quantity: 1 }];
       winRef.localStorage?.setItem(STORAGE_KEY, JSON.stringify(persisted));
 
-      expect(service.readState()).toEqual(persisted as OrderEntry[]);
+      expect(service.readGuestCartState()).toEqual(persisted as OrderEntry[]);
     });
 
     it('should return undefined when nothing is persisted', () => {
-      expect(service.readState()).toBeUndefined();
+      expect(service.readGuestCartState()).toBeUndefined();
     });
 
     it('should return undefined when an empty list is persisted', () => {
       winRef.localStorage?.setItem(STORAGE_KEY, JSON.stringify([]));
 
-      expect(service.readState()).toBeUndefined();
+      expect(service.readGuestCartState()).toBeUndefined();
     });
   });
 
-  describe('clearState', () => {
+  describe('clearGuestCartState', () => {
     it('should remove the storage entry entirely rather than leaving an empty value', () => {
       spyOn(winRef.localStorage as Storage, 'removeItem').and.callThrough();
       winRef.localStorage?.setItem(
@@ -135,7 +135,7 @@ describe('ActiveCartStatePersistenceService', () => {
         JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
       );
 
-      service.clearState();
+      service.clearGuestCartState();
 
       expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(STORAGE_KEY);
       expect(winRef.localStorage?.getItem(STORAGE_KEY)).toBeFalsy();
