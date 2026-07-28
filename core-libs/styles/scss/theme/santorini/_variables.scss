@@ -50,6 +50,12 @@ $transparent: transparent !default;
 $visual-focus: #6d9df7 !default;
 $background-focus: rgba(80, 176, 244, 0.1);
 $border-focus: rgba(166, 204, 232, 0.6);
+// Disabled UI element color. `$disabled` is for borders/labels on light
+// surfaces; `$disabled-accent` is for disabled fills (backgrounds) sitting on
+// the page. They are split so high-contrast themes can meet 7:1 against both
+// the light fill and the dark page.
+$disabled: #767676 !default;
+$disabled-accent: #767676 !default;
 
 $theme-colors: (
   'primary': $primary,
@@ -74,6 +80,8 @@ $theme-colors: (
   'visual-focus': $visual-focus,
   'background-focus': $background-focus,
   'border-focus': $border-focus,
+  'disabled': $disabled,
+  'disabled-accent': $disabled-accent,
 );
 
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225
@@ -189,6 +197,8 @@ $useAccordionOnly: true !default;
   --cx-color-visual-focus: #1f3a93;
   --cx-color-background-focus: rgba(80, 176, 244, 0.1);
   --cx-color-border-focus: rgba(166, 204, 232, 0.6);
+  --cx-color-disabled: #767676;
+  --cx-color-disabled-accent: #767676;
   --cx-page-width-max: 1140px;
   --cx-font-weight-light: 300;
   --cx-font-weight-normal: 400;
