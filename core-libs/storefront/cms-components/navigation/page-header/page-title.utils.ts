@@ -5,16 +5,12 @@
  */
 
 import { isNotNullable, PageMetaService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 export function getPageTitle(
-  pageMetaService: PageMetaService,
-  title?: string
+  pageMetaService: PageMetaService
 ): Observable<string> {
-  if (title !== undefined) {
-    return of(title);
-  }
   return pageMetaService.getMeta().pipe(
     filter(isNotNullable),
     map((meta) => (meta.heading || meta.title) ?? '')

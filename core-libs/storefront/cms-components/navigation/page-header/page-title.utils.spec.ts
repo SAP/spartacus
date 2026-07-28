@@ -15,67 +15,48 @@ describe('getPageTitle', () => {
     pageMetaService = jasmine.createSpyObj('PageMetaService', ['getMeta']);
   });
 
-  describe('when title argument is provided', () => {
-    it('should return an observable of the provided title without calling pageMetaService', (done) => {
-      getPageTitle(pageMetaService, 'Custom Title').subscribe((result) => {
-        expect(result).toBe('Custom Title');
-        expect(pageMetaService.getMeta).not.toHaveBeenCalled();
-        done();
-      });
-    });
+  it('should return heading from pageMetaService when heading is present', (done) => {
+    const meta: PageMeta = { heading: 'Page Heading', title: 'Page Title' };
+    pageMetaService.getMeta.and.returnValue(of(meta));
 
-    it('should return an observable of an empty string when title is empty string', (done) => {
-      getPageTitle(pageMetaService, '').subscribe((result) => {
-        expect(result).toBe('');
-        done();
-      });
+    getPageTitle(pageMetaService).subscribe((result) => {
+      expect(result).toBe('Page Heading');
+      done();
     });
   });
 
-  describe('when title argument is not provided', () => {
-    it('should return heading from pageMetaService when heading is present', (done) => {
-      const meta: PageMeta = { heading: 'Page Heading', title: 'Page Title' };
-      pageMetaService.getMeta.and.returnValue(of(meta));
+  it('should fall back to title when heading is absent', (done) => {
+    const meta: PageMeta = { title: 'Page Title' };
+    pageMetaService.getMeta.and.returnValue(of(meta));
 
-      getPageTitle(pageMetaService).subscribe((result) => {
-        expect(result).toBe('Page Heading');
-        done();
-      });
+    getPageTitle(pageMetaService).subscribe((result) => {
+      expect(result).toBe('Page Title');
+      done();
     });
+  });
 
-    it('should fall back to title when heading is absent', (done) => {
-      const meta: PageMeta = { title: 'Page Title' };
-      pageMetaService.getMeta.and.returnValue(of(meta));
+  it('should return empty string when both heading and title are absent', (done) => {
+    const meta: PageMeta = {};
+    pageMetaService.getMeta.and.returnValue(of(meta));
 
-      getPageTitle(pageMetaService).subscribe((result) => {
-        expect(result).toBe('Page Title');
-        done();
-      });
+    getPageTitle(pageMetaService).subscribe((result) => {
+      expect(result).toBe('');
+      done();
     });
+  });
 
-    it('should return empty string when both heading and title are absent', (done) => {
-      const meta: PageMeta = {};
-      pageMetaService.getMeta.and.returnValue(of(meta));
+  it('should filter out null meta emissions', (done) => {
+    pageMetaService.getMeta.and.returnValue(
+      of(null, { heading: 'After Null' }) as any
+    );
 
-      getPageTitle(pageMetaService).subscribe((result) => {
-        expect(result).toBe('');
+    const results: string[] = [];
+    getPageTitle(pageMetaService).subscribe({
+      next: (result) => results.push(result),
+      complete: () => {
+        expect(results).toEqual(['After Null']);
         done();
-      });
-    });
-
-    it('should filter out null meta emissions', (done) => {
-      pageMetaService.getMeta.and.returnValue(
-        of(null, { heading: 'After Null' }) as any
-      );
-
-      const results: string[] = [];
-      getPageTitle(pageMetaService).subscribe({
-        next: (result) => results.push(result),
-        complete: () => {
-          expect(results).toEqual(['After Null']);
-          done();
-        },
-      });
+      },
     });
   });
 });
