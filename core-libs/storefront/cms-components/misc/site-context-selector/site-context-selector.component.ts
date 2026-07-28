@@ -19,6 +19,7 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { map, Observable } from 'rxjs';
+import { NativeSelectSpaceDirective } from '../../../layout/a11y/native-select-space/native-select-space.directive';
 import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
@@ -35,6 +36,7 @@ import { SiteContextType } from './site-context.model';
     AsyncPipe,
     I18nModule,
     FeatureDirective,
+    NativeSelectSpaceDirective,
   ],
 })
 export class SiteContextSelectorComponent {
