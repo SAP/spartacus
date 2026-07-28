@@ -13,15 +13,15 @@ import { B2bUnitSelectionAdapter } from './b2b-unit-selection.adapter';
 export class B2bUnitSelectionConnector {
   constructor(protected adapter: B2bUnitSelectionAdapter) {}
 
-  loadDefaultOrgUnitUid(userId: string): Observable<string | undefined> {
-    return this.adapter.loadDefaultOrgUnitUid(userId);
+  loadDefaultOrgUnitName(userId: string): Observable<string | undefined> {
+    return this.adapter.loadDefaultOrgUnitName(userId);
   }
 
   loadOrgUnits(userId: string): Observable<B2BUnit[]> {
     return this.adapter.loadOrgUnits(userId);
   }
 
-  setDefaultOrgUnit(userId: string, unitUid: string): Observable<void> {
-    return this.adapter.setDefaultOrgUnit(userId, unitUid);
+  setDefaultOrgUnit(userId: string, unitName: string): Observable<void> {
+    return this.adapter.setDefaultOrgUnit(userId, unitName);
   }
 }

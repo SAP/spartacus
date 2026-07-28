@@ -16,8 +16,17 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, forkJoin, Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
+import { EMPTY, forkJoin, interval, Observable, of, race, timer } from 'rxjs';
+import {
+  catchError,
+  exhaustMap,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection/root';
 import { B2bUnitSelectionConnector } from '../../connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-state.service';
@@ -58,16 +67,16 @@ export class B2bUnitSelectionEffects {
             forkJoin({
               orgUnits: this.connector.loadOrgUnits(userId),
               // Gracefully degrade if loading the default unit fails — do not block the main flow.
-              defaultUnitUid: this.connector
-                .loadDefaultOrgUnitUid(userId)
+              defaultUnitName: this.connector
+                .loadDefaultOrgUnitName(userId)
                 .pipe(catchError(() => of(undefined))),
             }).pipe(
-              tap(({ orgUnits, defaultUnitUid }) => {
+              tap(({ orgUnits, defaultUnitName }) => {
                 // Always write to the state service so the Company header selector is populated.
                 this.stateService.setOrgUnits(orgUnits);
-                this.stateService.setActiveUnit(defaultUnitUid ?? null);
+                this.stateService.setActiveUnit(defaultUnitName ?? null);
                 if (orgUnits.length > 0) {
-                  this.openDialogWhenReady(orgUnits, defaultUnitUid);
+                  this.openDialogWhenReady(orgUnits, defaultUnitName);
                 }
               }),
               map(
@@ -105,11 +114,11 @@ export class B2bUnitSelectionEffects {
       map(
         (action: B2bUnitSelectionActions.SetDefaultOrgUnit) => action.payload
       ),
-      switchMap(({ userId, unitUid, redirectToHome }) =>
-        this.connector.setDefaultOrgUnit(userId, unitUid).pipe(
+      switchMap(({ userId, unitName, redirectToHome }) =>
+        this.connector.setDefaultOrgUnit(userId, unitName).pipe(
           tap(() => {
             this.launchDialogService.closeDialog('CONFIRMED');
-            this.stateService.setActiveUnit(unitUid);
+            this.stateService.setActiveUnit(unitName);
             // Only navigate home for header selector switches (redirectToHome=true);
             // dialog confirmations stay on the current page.
             if (redirectToHome) {
@@ -152,37 +161,47 @@ export class B2bUnitSelectionEffects {
     protected launchDialogService: LaunchDialogService
   ) {}
 
+  /** Maximum time (ms) to wait for AppComponent to mount before opening the dialog anyway. */
+  protected readonly STABLE_TIMEOUT_MS = 10_000;
+
   /**
-   * Opens the unit-selection dialog once AppComponent is mounted.
+   * Opens the unit-selection dialog once the AppComponent is mounted.
    *
-   * InlineRootRenderStrategy requires ApplicationRef.components[0] to be present.
-   * - Already mounted (manual login): open immediately.
-   * - Not yet mounted (OAuth Code Flow / token restore during APP_INITIALIZER):
-   *   poll via requestAnimationFrame until Angular bootstraps AppComponent.
+   * Polls `ApplicationRef.components` every 50 ms (with an immediate synchronous
+   * check via `startWith(0)`) so the dialog opens as soon as the root component
+   * is bootstrapped — typically within one or two ticks after login.
+   *
+   * Using `ApplicationRef.isStable` instead would delay the dialog by several
+   * seconds because it waits for ALL Zone tasks (routing, HTTP, etc.) to drain.
+   *
+   * A `timer(STABLE_TIMEOUT_MS)` fallback ensures the subscription always
+   * completes even if AppComponent never mounts (e.g. an error during bootstrap),
+   * preventing a memory leak.
    */
   protected openDialogWhenReady(
     orgUnits: B2BUnit[],
-    defaultUnitUid: string | undefined
+    defaultUnitName: string | undefined
   ): void {
     const open = () => {
       this.launchDialogService.openDialogAndSubscribe(
-        (LAUNCH_CALLER as any)['B2B_UNIT_SELECTION'],
+        LAUNCH_CALLER.B2B_UNIT_SELECTION,
         undefined,
-        { orgUnits, defaultUnitUid }
+        { orgUnits, defaultUnitName }
       );
     };
 
-    if (this.applicationRef.components.length > 0) {
-      open();
-    } else {
-      const poll = () => {
-        if (this.applicationRef.components.length > 0) {
-          open();
-        } else {
-          requestAnimationFrame(poll);
-        }
-      };
-      requestAnimationFrame(poll);
-    }
+    // Poll until AppComponent is mounted, then open immediately.
+    // startWith(0) performs a synchronous check — if components are already
+    // present (manual ROPC login), the dialog opens without any async delay.
+    race(
+      interval(50).pipe(
+        startWith(0),
+        filter(() => this.applicationRef.components.length > 0),
+        take(1)
+      ),
+      timer(this.STABLE_TIMEOUT_MS)
+    )
+      .pipe(take(1))
+      .subscribe(() => open());
   }
 }

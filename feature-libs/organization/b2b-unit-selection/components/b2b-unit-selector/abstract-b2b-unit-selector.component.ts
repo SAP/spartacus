@@ -70,7 +70,7 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
         this.store.dispatch(
           new SetDefaultOrgUnit({
             userId,
-            unitUid: unitName,
+            unitName,
             redirectToHome: true,
           })
         );
@@ -85,15 +85,15 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
         switchMap((userId) =>
           forkJoin({
             orgUnits: this.connector.loadOrgUnits(userId),
-            defaultUnitUid: this.connector
-              .loadDefaultOrgUnitUid(userId)
+            defaultUnitName: this.connector
+              .loadDefaultOrgUnitName(userId)
               .pipe(catchError(() => of(undefined))),
           })
         )
       )
-      .subscribe(({ orgUnits, defaultUnitUid }) => {
+      .subscribe(({ orgUnits, defaultUnitName }) => {
         this.stateService.setOrgUnits(orgUnits);
-        this.stateService.setActiveUnit(defaultUnitUid ?? null);
+        this.stateService.setActiveUnit(defaultUnitName ?? null);
       });
   }
 }

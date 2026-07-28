@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
 
 export abstract class B2bUnitSelectionAdapter {
   /**
-   * Fetches the current B2B user profile and returns the default org unit uid.
+   * Fetches the current B2B user profile and returns the default org unit name.
    * Corresponds to GET /{baseSiteId}/orgUsers/{userId}
    */
-  abstract loadDefaultOrgUnitUid(
+  abstract loadDefaultOrgUnitName(
     userId: string
   ): Observable<string | undefined>;
 
@@ -24,5 +24,8 @@ export abstract class B2bUnitSelectionAdapter {
   /**
    * Sets the default org unit for the current B2B user.
    */
-  abstract setDefaultOrgUnit(userId: string, unitUid: string): Observable<void>;
+  abstract setDefaultOrgUnit(
+    userId: string,
+    unitName: string
+  ): Observable<void>;
 }

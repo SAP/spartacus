@@ -55,11 +55,11 @@ describe('OccB2bUnitSelectionAdapter', () => {
     httpMock.verify();
   });
 
-  // ── loadDefaultOrgUnitUid ────────────────────────────────────────────────
+  // ── loadDefaultOrgUnitName ───────────────────────────────────────────────
 
-  describe('loadDefaultOrgUnitUid()', () => {
+  describe('loadDefaultOrgUnitName()', () => {
     it('should call the orgUser endpoint', fakeAsync(() => {
-      adapter.loadDefaultOrgUnitUid(userId).subscribe();
+      adapter.loadDefaultOrgUnitName(userId).subscribe();
 
       httpMock.expectOne((req: HttpRequest<void>) => req.method === 'GET');
 
@@ -69,7 +69,7 @@ describe('OccB2bUnitSelectionAdapter', () => {
     }));
 
     it('should return the orgUnit name from the response', (done) => {
-      adapter.loadDefaultOrgUnitUid(userId).subscribe((name) => {
+      adapter.loadDefaultOrgUnitName(userId).subscribe((name) => {
         expect(name).toBe('Rustic');
         done();
       });
@@ -80,7 +80,7 @@ describe('OccB2bUnitSelectionAdapter', () => {
     });
 
     it('should return undefined when orgUnit is missing from response', (done) => {
-      adapter.loadDefaultOrgUnitUid(userId).subscribe((name) => {
+      adapter.loadDefaultOrgUnitName(userId).subscribe((name) => {
         expect(name).toBeUndefined();
         done();
       });
@@ -91,7 +91,7 @@ describe('OccB2bUnitSelectionAdapter', () => {
     });
 
     it('should rethrow a normalised error on HTTP failure', (done) => {
-      adapter.loadDefaultOrgUnitUid(userId).subscribe({
+      adapter.loadDefaultOrgUnitName(userId).subscribe({
         error: (err) => {
           expect(err).toBeDefined();
           done();

@@ -11,7 +11,7 @@ import {
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ApplicationRef } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import {
@@ -26,7 +26,7 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 // Side-effect import: ensures the LAUNCH_CALLER runtime assignment runs before tests.
 import '../../../root/model/augmented-core.model';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { B2bUnitSelectionConfig } from '../../../root/config/b2b-unit-selection.config';
 import { B2bUnitSelectionConnector } from '../../connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-state.service';
@@ -52,7 +52,7 @@ class MockLoggerService {
 
 class MockB2bUnitSelectionConnector {
   loadOrgUnits = createSpy('loadOrgUnits').and.returnValue(of(mockUnits));
-  loadDefaultOrgUnitUid = createSpy('loadDefaultOrgUnitUid').and.returnValue(
+  loadDefaultOrgUnitName = createSpy('loadDefaultOrgUnitName').and.returnValue(
     of(mockDefaultUid)
   );
   setDefaultOrgUnit = createSpy('setDefaultOrgUnit').and.returnValue(
@@ -89,12 +89,13 @@ describe('B2bUnitSelectionEffects', () => {
 
   beforeEach(() => {
     applicationRef = {
-      components: [{}] as any[],
-      afterTick: {
-        subscribe: jasmine
-          .createSpy()
-          .and.returnValue({ unsubscribe: () => {} }),
-      },
+      // Simulate AppComponent already mounted (manual ROPC login).
+      components: [{}],
+      // Required by Angular's ChangeDetectionSchedulerImpl (Angular 18+):
+      // - isStable: used by older internal code paths
+      // - afterTick: Subject subscribed to in the constructor
+      isStable: of(true),
+      afterTick: new Subject<void>(),
     };
 
     TestBed.configureTestingModule({
@@ -164,15 +165,15 @@ describe('B2bUnitSelectionEffects', () => {
       getTestScheduler().flush();
 
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
-        (LAUNCH_CALLER as any)['B2B_UNIT_SELECTION'],
+        LAUNCH_CALLER.B2B_UNIT_SELECTION,
         undefined,
-        { orgUnits: mockUnits, defaultUnitUid: mockDefaultUid }
+        { orgUnits: mockUnits, defaultUnitName: mockDefaultUid }
       );
     });
 
     it('should NOT open the dialog when orgUnits is empty', () => {
       connector.loadOrgUnits.and.returnValue(of([]));
-      connector.loadDefaultOrgUnitUid.and.returnValue(of(undefined));
+      connector.loadDefaultOrgUnitName.and.returnValue(of(undefined));
 
       const action = new AuthActions.Login();
       actions$ = hot('-a', { a: action });
@@ -197,8 +198,8 @@ describe('B2bUnitSelectionEffects', () => {
       expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
     });
 
-    it('should degrade gracefully when loadDefaultOrgUnitUid fails', () => {
-      connector.loadDefaultOrgUnitUid.and.returnValue(
+    it('should degrade gracefully when loadDefaultOrgUnitName fails', () => {
+      connector.loadDefaultOrgUnitName.and.returnValue(
         throwError(() => mockError)
       );
 
@@ -213,12 +214,49 @@ describe('B2bUnitSelectionEffects', () => {
       expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(null);
     });
+
+    it('should open the dialog via polling when AppComponent is not yet mounted (OAuth flow)', fakeAsync(() => {
+      // Simulate OAuth / page-refresh: components array is empty on LOGIN.
+      applicationRef.components = [];
+
+      const action = new AuthActions.Login();
+      actions$ = hot('-a', { a: action });
+
+      effects.checkOrgUnitsOnLogin$.subscribe();
+      getTestScheduler().flush();
+
+      // Dialog not yet opened — AppComponent not mounted.
+      expect(launchDialogService.openDialogAndSubscribe).not.toHaveBeenCalled();
+
+      // AppComponent mounts → next polling tick opens the dialog.
+      applicationRef.components = [{}];
+      tick(51); // advance past the 50 ms polling interval
+
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    }));
+
+    it('should still open dialog via timer fallback when AppComponent never mounts', fakeAsync(() => {
+      // Simulate OAuth / page-refresh: components array is empty on LOGIN.
+      applicationRef.components = [];
+      // AppComponent never mounts — components stays empty.
+
+      const action = new AuthActions.Login();
+      actions$ = hot('-a', { a: action });
+
+      effects.checkOrgUnitsOnLogin$.subscribe();
+      getTestScheduler().flush();
+
+      // Fast-forward past STABLE_TIMEOUT_MS so the timer fallback fires.
+      tick((effects as any).STABLE_TIMEOUT_MS + 1);
+
+      expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
+    }));
   });
 
   // ── setDefaultOrgUnit$ ────────────────────────────────────────────────────
 
   describe('setDefaultOrgUnit$', () => {
-    const payload = { userId: mockUserId, unitUid: 'Rustic Services' };
+    const payload = { userId: mockUserId, unitName: 'Rustic Services' };
 
     it('should dispatch SetDefaultOrgUnitSuccess', () => {
       const action = new B2bUnitSelectionActions.SetDefaultOrgUnit(payload);
@@ -238,7 +276,7 @@ describe('B2bUnitSelectionEffects', () => {
       getTestScheduler().flush();
 
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('CONFIRMED');
-      expect(stateService.setActiveUnit).toHaveBeenCalledWith(payload.unitUid);
+      expect(stateService.setActiveUnit).toHaveBeenCalledWith(payload.unitName);
     });
 
     it('should navigate to home when redirectToHome is true', () => {
@@ -305,12 +343,12 @@ describe('B2bUnitSelectionEffects (feature disabled)', () => {
 
   beforeEach(() => {
     const appRef: any = {
-      components: [{}] as any[],
-      afterTick: {
-        subscribe: jasmine
-          .createSpy()
-          .and.returnValue({ unsubscribe: () => {} }),
-      },
+      components: [{}],
+      // Required by Angular's ChangeDetectionSchedulerImpl (Angular 18+):
+      // - isStable: used by older internal code paths
+      // - afterTick: Subject subscribed to in the constructor
+      isStable: of(true),
+      afterTick: new Subject<void>(),
     };
 
     TestBed.configureTestingModule({

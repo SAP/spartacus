@@ -48,7 +48,7 @@ class MockB2bUnitSelectorStateService {
 
 class MockB2bUnitSelectionConnector {
   loadOrgUnits = createSpy('loadOrgUnits').and.returnValue(of(mockUnits));
-  loadDefaultOrgUnitUid = createSpy('loadDefaultOrgUnitUid').and.returnValue(
+  loadDefaultOrgUnitName = createSpy('loadDefaultOrgUnitName').and.returnValue(
     of(mockDefaultUid)
   );
 }
@@ -129,10 +129,10 @@ describe('AbstractB2bUnitSelectorComponent', () => {
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(mockDefaultUid);
     });
 
-    it('should set active unit to null when loadDefaultOrgUnitUid fails', () => {
+    it('should set active unit to null when loadDefaultOrgUnitName fails', () => {
       createComponent(true, []);
       connector = TestBed.inject(B2bUnitSelectionConnector) as any;
-      connector.loadDefaultOrgUnitUid.and.returnValue(
+      connector.loadDefaultOrgUnitName.and.returnValue(
         throwError(() => new Error('not found'))
       );
       fixture.detectChanges();
@@ -153,7 +153,7 @@ describe('AbstractB2bUnitSelectorComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new SetDefaultOrgUnit({
           userId: mockUserId,
-          unitUid: 'Rustic Services',
+          unitName: 'Rustic Services',
           redirectToHome: true,
         })
       );

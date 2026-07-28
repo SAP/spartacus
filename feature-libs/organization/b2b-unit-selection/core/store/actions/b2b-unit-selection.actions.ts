@@ -43,7 +43,7 @@ export class SetDefaultOrgUnit implements Action {
   constructor(
     public payload: {
       userId: string;
-      unitUid: string;
+      unitName: string;
       /** true = triggered from the header selector (navigates home on success); false/undefined = triggered from the dialog */
       redirectToHome?: boolean;
     }
