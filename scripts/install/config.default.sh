@@ -54,7 +54,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='fix/CXSPA-12468-flo'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -74,7 +74,7 @@ SSR_PWA_PORT=
 # Comma-separated list of hostnames allowed by the SSR engine (maps to CommonEngine allowedHosts)
 # e.g. SSR_ALLOWED_HOSTS="localhost,my-host.eastus.cloudapp.azure.com"
 # If empty, defaults to "localhost"
-SSR_ALLOWED_HOSTS=
+SSR_ALLOWED_HOSTS="localhost,spartacus-dev-asx1.eastus.cloudapp.azure.com"
 
 SSL_CERT_PATH=
 SSL_KEY_PATH=
