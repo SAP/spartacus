@@ -109,7 +109,7 @@ context('Assisted Service Module', () => {
         cy.get('button.close[title="Close ASM"]').click();
         cy.get('a[role="link"]').contains('Sign In / Register').click();
       });
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
 
