@@ -426,6 +426,17 @@ export interface FeatureTogglesInterface {
   a11yDeliveryModeFocusPreservation?: boolean;
 
   /**
+   * When enabled, wraps form controls in a `<fieldset>` with `aria-labelledby`
+   * referencing the visible page heading, so screen readers announce the section
+   * heading when any field in the group receives focus.
+   * Affects: UpdateProfileComponent, MyAccountV2ProfileComponent,
+   *          UpdatePasswordComponent, MyAccountV2PasswordComponent,
+   *          UpdateEmailComponent, MyAccountV2EmailComponent,
+   *          ConsentManagementComponent
+   */
+  a11yFormFieldSectionLegend?: boolean;
+
+  /**
    * Improve auto focus during checkout process.
    * Affects: CheckoutPaymentMethodComponent
    */
@@ -708,6 +719,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
