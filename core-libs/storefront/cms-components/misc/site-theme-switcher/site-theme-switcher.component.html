@@ -6,7 +6,7 @@
         <ng-select
           [searchable]="false"
           [clearable]="false"
-          [items]="translatedItems$ | async"
+          [items]="(translatedItems$ | async) ?? []"
           bindValue="className"
           bindLabel="label"
           [ngModel]="selectedItem"

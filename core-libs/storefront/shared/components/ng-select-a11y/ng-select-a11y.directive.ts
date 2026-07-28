@@ -97,13 +97,12 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    if (this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
-      if (
-        (event.key === ' ' || event.code === 'Space') &&
-        this.selectComponent.isOpen()
-      ) {
-        event.preventDefault();
-      }
+    if (
+      this.featureToggles.a11yNavigationSpaceKeyOnKeyUp &&
+      (event.key === ' ' || event.code === 'Space') &&
+      this.selectComponent.isOpen()
+    ) {
+      event.preventDefault();
     }
     if (!this.featureToggles.a11yRestoreFocusOnNgSelect) {
       return;
