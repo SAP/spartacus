@@ -1,0 +1,33 @@
+<!--
+  SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+
+  SPDX-License-Identifier: Apache-2.0
+-->
+
+<ng-container *ngIf="hasAnyUnit()">
+  <label>
+    <span>{{ 'b2bUnitSelection.selector.label' | cxTranslate }}</span>
+    <div class="cx-select-wrapper" [title]="activeUnitName() ?? ''">
+      <ng-select
+        [items]="items()"
+        bindLabel="name"
+        bindValue="name"
+        [ngModel]="activeUnitName()"
+        [clearable]="false"
+        [searchable]="false"
+        [disabled]="!hasMultipleUnits()"
+        [appendTo]="'body'"
+        (ngModelChange)="onSelect($event)"
+        [cxNgSelectA11y]="{
+          ariaLabel: 'b2bUnitSelection.selector.label' | cxTranslate,
+        }"
+      />
+      <cx-icon
+        *ngIf="hasMultipleUnits()"
+        aria-hidden="true"
+        [type]="iconTypes.CARET_DOWN"
+        class="small"
+      />
+    </div>
+  </label>
+</ng-container>

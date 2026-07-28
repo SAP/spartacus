@@ -41,6 +41,7 @@ import {
   waitForProductPage,
 } from '../checkout-flow';
 import { waitForPage } from '../navigation';
+import { confirmB2bUnitSelectionDialogIfPresent } from './b2b-unit-selection';
 
 export function loginB2bUser() {
   let adminToken;
@@ -67,6 +68,7 @@ export function loginB2bUser() {
       return cy.requireLoggedIn(b2bUser);
     })
     .then(() => {
+      confirmB2bUnitSelectionDialogIfPresent();
       visitHomePage();
       cy.get('.cx-login-greet').should('contain', user.fullName);
     });

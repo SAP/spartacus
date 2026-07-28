@@ -7,6 +7,7 @@
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { isolateTests } from '../../../support/utils/test-isolation';
+import { confirmB2bUnitSelectionDialogIfPresent } from '../b2b-unit-selection';
 import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import {
   testCoreFeaturesFromConfig,
@@ -70,6 +71,7 @@ export function loginAsMyCompanyAdmin(): void {
   var maxWait = 1500;
   cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
   cy.requireLoggedIn(myCompanyAdminUser);
+  confirmB2bUnitSelectionDialogIfPresent();
 }
 
 /**

@@ -1,0 +1,142 @@
+$b2b-unit-selector-caret-size: 7px;
+
+cx-b2b-unit-selector {
+  display: inline-block;
+  position: relative;
+  // min-width: 0 allows this flex item to shrink when SiteContext runs out of space
+  // (default min-width: auto would prevent shrinking entirely).
+  // DO NOT add overflow: hidden here — the cx-icon caret sits at the component's right
+  // edge and would be clipped first, making the arrow half-visible or invisible.
+  // Overflow clipping is handled at the SiteContext level instead.
+  min-width: 0;
+  margin-top: 14px;
+  margin-inline-end: 24px;
+  margin-bottom: 14px;
+  // The SiteContext slot contains a hidden cx-site-context-selector (currency) between
+  // Language and Theme when only one currency is configured.  That hidden host element
+  // still contributes its margin-inline-end: 17px, making the Language→Theme gap 34px.
+  // Setting margin-inline-start: 17px here gives Theme→Company the same 34px gap so
+  // all three selectors appear evenly spaced.
+  margin-inline-start: 17px;
+  @include media-breakpoint-down(md) {
+    &:first-child {
+      margin-inline-start: 0;
+    }
+    &:not(:first-child) {
+      padding-inline-start: 16px;
+      border-inline-start: 1px solid var(--cx-color-secondary);
+    }
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    span {
+      color: var(--cx-color-text);
+      margin-inline-end: 5px;
+      white-space: nowrap;
+    }
+  }
+
+  // Mirrors the .cx-select-wrapper structure used in site-context-selector.
+  .cx-select-wrapper {
+    display: flex;
+    align-items: center;
+    // position: relative makes this the containing block for the absolutely-positioned icon.
+    // min-width: 0 allows the wrapper to shrink below its natural content width when the
+    // host flex item (cx-b2b-unit-selector) is squeezed in SiteContext.
+    // overflow: hidden clips ng-select value text at the wrapper boundary; the icon is
+    // safe because it is absolutely positioned and stays within the wrapper bounds.
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+
+    cx-icon {
+      // Absolute positioning removes the icon from the flex flow so it never contributes
+      // to (or is displaced by) flex-shrink calculations.  It is pinned to the inline-end
+      // of the wrapper — always visible regardless of how much ng-select is shrunk.
+      // The ng-value-container's padding-inline-end (= caret-size * 2) still reserves
+      // space inside ng-select so the value text does not slide under the icon.
+      position: absolute;
+      inset-inline-end: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      pointer-events: none;
+      color: var(--cx-color-text);
+    }
+  }
+
+  ng-select {
+    // flex: 1 1 auto fills the full wrapper width (icon is out of flow); max-width caps
+    // the comfortable display size.  min-width: 0 allows ng-select to shrink below its
+    // content size — the internal overflow: hidden on .ng-select-container then clips
+    // the value text, producing the ellipsis truncation.
+    flex: 1 1 auto;
+    max-width: 130px;
+    min-width: 0;
+
+    .ng-select-container {
+      background-color: transparent !important;
+      border: none !important;
+      border-radius: 0;
+      box-shadow: none !important;
+      cursor: pointer;
+      // Force the ng-select-container to exactly the same height as the native <select>
+      // in cx-site-context-selector (padding: 2px 4px → height = line-height + 4px).
+      // height: auto leaves the door open for ng-select library styles (height: 36px,
+      // min-height: 36px) to affect layout; an explicit calc() value closes that gap
+      // so SiteContext height = Language/Theme height and align-items: center on
+      // SiteContext does not shift Language / Theme downward ("too low" effect).
+      height: calc(
+        var(--cx-font-size, 0.875rem) * var(--cx-line-height, 1.2222) + 4px
+      ) !important;
+      min-height: unset !important;
+      padding: 2px 0 2px 0;
+
+      .ng-value-container {
+        // ng-select default theme specificity (3 classes) is higher than our rules;
+        // !important is required to override padding-left: 10px.
+        padding: 0 !important;
+        padding-inline-end: #{$b2b-unit-selector-caret-size * 2} !important;
+
+        .ng-value {
+          color: var(--cx-color-text);
+          font-weight: var(--cx-font-weight-semi);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 100%;
+        }
+
+        // ng-select sets top:5px on .ng-input in single-select mode; reset to zero.
+        .ng-input {
+          top: 0 !important;
+          padding: 0 !important;
+
+          > input {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .ng-arrow-wrapper {
+        display: none;
+      }
+    }
+
+    &.ng-select-focused .ng-select-container,
+    &.ng-select-opened .ng-select-container {
+      background-color: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    // Disabled state for single-unit users: non-interactive, restore default cursor.
+    &.ng-select-disabled .ng-select-container {
+      cursor: default;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+// SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
+// Dialog width: narrower than the default modal width (768px) to suit a simple selection form.
+$b2b-unit-selection-dialog-width: 400px;
+
+.cx-b2b-unit-selection-dialog {
+  // Replaces .cx-modal-container layout so the base 768px !important rules don't apply.
+  display: flex;
+  align-items: center;
+  margin: auto;
+  height: 100%;
+  overflow-y: auto;
+  max-width: $b2b-unit-selection-dialog-width;
+  min-width: $b2b-unit-selection-dialog-width;
+
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+    min-width: 100%;
+    height: 100%;
+  }
+}
+
+.cx-required-asterisk {
+  color: var(--cx-color-danger);
+  margin-inline-start: 2px;
+}
+
+// SiteContext: cx-page-slot defaults to flex-wrap: wrap (_common-template.scss), which causes
+// Company (cx-b2b-unit-selector) to wrap to a second line when Language + Theme +
+// Company together exceed the 50% slot width.
+//
+// flex-wrap: nowrap  – keeps all three items on a single row.
+// min-width: 0       – overrides the flex item's default min-width: auto.  Without this,
+//                      the browser widens SiteContext to fit its non-wrappable content,
+//                      pushing SiteLinks (Quick Order …) to a second row.
+// align-items: center – Language / Theme use a native <select> whose browser-rendered height
+//                      is larger than Company's borderless ng-select.  center aligns all three
+//                      items to the same vertical midline regardless of their individual heights.
+//
+// SiteLinks: cx-link <a> tags have margin: 8px which positions their text at the same midline
+// as Language / Theme via the default flex stretch — no align-items override needed here.
+//
+// Selector specificity:
+//   Core rule (SiteContext nowrap):  header .header .SiteContext              → (0, 2, 1)
+//   Our override:                   header cx-page-layout.header .SiteContext → (0, 2, 2) ← wins
+header {
+  @include media-breakpoint-up(lg) {
+    cx-page-layout.header {
+      .SiteContext {
+        flex-wrap: nowrap;
+        min-width: 0;
+        align-items: center;
+        // Clip Company (cx-b2b-unit-selector) when it overflows the 50% slot boundary
+        // so it never bleeds visually into the SiteLinks region.
+        // Safe now that appendTo="body" renders the dropdown outside this element —
+        // ng-select positions the panel via getBoundingClientRect(), bypassing overflow.
+        overflow: hidden;
+
+        // ROOT CAUSE FIX: Core sets ".SiteContext > * { flex: none }" which expands to
+        // flex: 0 0 auto (flex-shrink: 0).  flex-shrink: 0 prevents cx-b2b-unit-selector
+        // from shrinking at all — our min-width: 0 on the host was therefore ignored.
+        // Override to flex: 0 1 auto (shrink allowed, no grow) so Company yields space
+        // to Language/Theme and does not overflow into the SiteLinks 50% region.
+        > cx-b2b-unit-selector {
+          flex: 0 1 auto;
+        }
+      }
+    }
+  }
+}
+
+// ng-select uses appendTo="body", so the dropdown panel is rendered as a direct child
+// of <body> rather than inside cx-b2b-unit-selector.  This global rule styles the panel
+// for the B2B unit selector specifically (ng-select sets a data attribute or we can rely
+// on the panel appearing after the host in DOM order — using a broad rule is fine here
+// because all ng-select dropdowns benefit from auto-sizing).
+//
+// ng-select sets panel width via inline style to match the control width;
+// !important overrides the inline style, letting the panel size to its content.
+cx-b2b-unit-selector + .ng-dropdown-panel,
+body > .ng-dropdown-panel {
+  width: auto !important;
+  min-width: max-content;
+}
