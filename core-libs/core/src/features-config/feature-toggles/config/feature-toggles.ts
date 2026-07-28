@@ -660,10 +660,12 @@ export interface FeatureTogglesInterface {
   a11yAddressFormInitialFocus?: boolean;
 
   /**
-   * When enabled, after navigating via a header/navigation link the keyboard
-   * focus moves to the first anchor inside the breadcrumb (`#cx-breadcrumb a`)
+   * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
+   * via a header navigation link, keyboard focus moves to the first anchor inside
+   * `cx-breadcrumb` (resolved via `StorefrontComponent.categoryPageFocusSelector`)
    * rather than the first focusable element in `<main>`.
-   * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present.
+   * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present
+   * or the destination is not a CategoryPage.
    *
    * Affects: `StorefrontComponent`
    */

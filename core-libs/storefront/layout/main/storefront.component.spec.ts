@@ -12,8 +12,8 @@ import {
   PageContext,
   PageType,
   RoutingService,
-  provideFeatureToggles,
 } from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { GlobalMessageComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -121,7 +121,7 @@ describe('StorefrontComponent', () => {
           provide: SkipLinkService,
           useClass: MockSkipLinkService,
         },
-        provideFeatureToggles({ a11yFocusBreadcrumbOnNavigation: false }),
+        provideMockFeatureToggles({ a11yFocusBreadcrumbOnNavigation: false }),
       ],
     })
       .overrideComponent(StorefrontComponent, {
@@ -283,7 +283,9 @@ describe('StorefrontComponent', () => {
         activeElement: document.createElement('button'),
         body: document.createElement('body'),
         querySelector: (selector: string) =>
-          selector === 'cx-breadcrumb nav a' ? mockAnchor : null,
+          selector === component['categoryPageFocusSelector']
+            ? mockAnchor
+            : null,
       };
       component['document'] = mockDocument as any;
 

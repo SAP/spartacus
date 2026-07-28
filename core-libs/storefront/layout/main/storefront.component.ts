@@ -107,6 +107,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   private featureToggles = inject(FeatureToggles);
 
+  protected categoryPageFocusSelector = 'cx-breadcrumb nav a';
+
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
@@ -206,7 +208,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 const breadcrumbLink =
                   this.document?.querySelector<HTMLElement>(
-                    'cx-breadcrumb nav a'
+                    this.categoryPageFocusSelector
                   );
                 if (breadcrumbLink) {
                   breadcrumbLink.focus();
