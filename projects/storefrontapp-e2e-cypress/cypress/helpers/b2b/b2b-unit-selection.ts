@@ -20,9 +20,7 @@ const B2B_UNIT_SELECTION_DIALOG = 'cx-b2b-unit-selection-dialog';
 export function confirmB2bUnitSelectionDialogIfPresent(): void {
   cy.get('body').then(($body) => {
     if ($body.find(B2B_UNIT_SELECTION_DIALOG).length > 0) {
-      cy.get(B2B_UNIT_SELECTION_DIALOG)
-        .find('button.btn-primary')
-        .click();
+      cy.get(B2B_UNIT_SELECTION_DIALOG).find('button.btn-primary').click();
     }
   });
 }
