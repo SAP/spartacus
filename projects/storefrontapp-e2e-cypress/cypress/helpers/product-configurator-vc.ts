@@ -700,19 +700,22 @@ export function registerConfigurationPricingRoute() {
  * @param {string} valueName - Value name
  * @param {boolean} isPricingEnabled - will wait for pricing request in case pricing is enabled
  * @param {boolean} waitForUpdateMsg - will wait for update message to disappear
+ * @param {boolean} force - will click with { force: true } (see configuration.selectAttribute)
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
   isPricingEnabled: boolean = true,
-  waitForUpdateMsg: boolean = true
+  waitForUpdateMsg: boolean = true,
+  force: boolean = false
 ): void {
   configuration.selectAttribute(
     attributeName,
     uiType,
     valueName,
-    waitForUpdateMsg
+    waitForUpdateMsg,
+    force
   );
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
 }
