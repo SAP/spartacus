@@ -16,6 +16,8 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   TranslatePipe,
   UrlPipe,
   User,
@@ -36,6 +38,11 @@ import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import createSpy = jasmine.createSpy;
+
+const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -104,6 +111,7 @@ describe('MyAccountV2EmailComponent', () => {
           useClass: MockNewProfileFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
         ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })

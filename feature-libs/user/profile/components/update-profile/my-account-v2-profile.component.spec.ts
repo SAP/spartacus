@@ -12,7 +12,12 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nTestingModule,
+  PageMeta,
+  PageMetaService,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import {
@@ -23,6 +28,11 @@ import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import createSpy = jasmine.createSpy;
+
+const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
@@ -79,6 +89,7 @@ describe('MyAccountV2ProfileComponent', () => {
           provide: UpdateProfileComponentService,
           useClass: MockProfileService,
         },
+        { provide: PageMetaService, useClass: MockPageMetaService },
         ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })

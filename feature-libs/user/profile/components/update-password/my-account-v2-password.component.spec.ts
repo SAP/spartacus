@@ -16,6 +16,8 @@ import {
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
@@ -30,10 +32,15 @@ import {
 } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;
+
+const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -87,6 +94,7 @@ describe('MyAccountV2PasswordComponent', () => {
           useClass: MockUpdatePasswordService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
         ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
