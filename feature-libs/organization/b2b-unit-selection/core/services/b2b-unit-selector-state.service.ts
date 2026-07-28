@@ -10,7 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Lightweight state service that shares B2B unit data between the unit-selection
- * dialog and the persistent Company selector in the header.
+ * dialog and the persistent B2B Unit selector in the header.
  *
  * Data is written by B2bUnitSelectionEffects after login; components subscribe
  * directly without issuing additional API calls.
