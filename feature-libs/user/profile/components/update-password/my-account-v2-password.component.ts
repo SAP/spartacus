@@ -11,9 +11,15 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  GlobalMessageType,
+  PageMetaService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
+  getPageTitle,
   MessageComponent,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
@@ -36,10 +42,12 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class MyAccountV2PasswordComponent {
   protected service = inject(UpdatePasswordComponentService);
+  protected pageMetaService = inject(PageMetaService);
   showingAlert: boolean = true;
   globalMessageType = GlobalMessageType;
   oldPassword: string;
@@ -48,6 +56,7 @@ export class MyAccountV2PasswordComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updatePassword();

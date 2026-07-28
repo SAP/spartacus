@@ -16,11 +16,17 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  PageMetaService,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
+  getPageTitle,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -43,17 +49,20 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UpdatePasswordComponent {
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
+  protected pageMetaService = inject(PageMetaService);
 
   constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updatePassword();
