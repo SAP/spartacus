@@ -83,7 +83,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   ) {
     this.initActiveCart();
     this.detectUserChange();
-    if (this.featureToggles.mergeGuestCartOnCodeFlowLogin) {
+    if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin
+    ) {
       this.persistGuestCartForCodeFlowMerge();
     }
   }
@@ -294,6 +297,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         },
       });
     } else if (
+      this.featureToggles.authorizationCodeFlowByDefault &&
       this.featureToggles.mergeGuestCartOnCodeFlowLogin &&
       this.activeCartStatePersistenceService.readState()
     ) {
@@ -324,9 +328,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // Authorization-code flow: entries were persisted before the login redirect
     // because in-memory state does not survive the SPA re-bootstrap, and the
     // guest cart can no longer be read/deleted with the user token.
-    const pendingMerge = this.featureToggles.mergeGuestCartOnCodeFlowLogin
-      ? this.activeCartStatePersistenceService.readState()
-      : undefined;
+    const pendingMerge =
+      this.featureToggles.authorizationCodeFlowByDefault &&
+      this.featureToggles.mergeGuestCartOnCodeFlowLogin
+        ? this.activeCartStatePersistenceService.readState()
+        : undefined;
     if (pendingMerge) {
       this.activeCartStatePersistenceService.clearState();
       this.addEntriesGuestMerge(pendingMerge);
@@ -369,7 +375,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * Persistence is delegated to `ActiveCartStatePersistenceService`.
    *
-   * Only enabled when the `mergeGuestCartOnCodeFlowLogin` feature toggle is on.
+   * Only enabled when both the `authorizationCodeFlowByDefault` and
+   * `mergeGuestCartOnCodeFlowLogin` feature toggles are on.
    */
   protected persistGuestCartForCodeFlowMerge(): void {
     this.activeCartStatePersistenceService.initSync(
