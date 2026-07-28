@@ -1,4 +1,5 @@
-import { AuthToken } from '@spartacus/core';
+import { TestBed } from '@angular/core/testing';
+import { AuthToken, StatePersistenceService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
@@ -35,6 +36,35 @@ describe('AsmAuthStorageService', () => {
     });
   });
 
+  describe('initial state from storage', () => {
+    it('should restore token target and emulated user token from persisted asm state', (done: DoneFn) => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: StatePersistenceService,
+            useValue: {
+              readStateFromStorage: () => ({
+                emulatedUserToken: authToken,
+                tokenTarget: TokenTarget.CSAgent,
+              }),
+            },
+          },
+        ],
+      });
+
+      const initializedService = TestBed.inject(AsmAuthStorageService);
+
+      expect(initializedService.getEmulatedUserToken()).toEqual(authToken);
+      initializedService
+        .getTokenTarget()
+        .pipe(take(1))
+        .subscribe((tokenTarget) => {
+          expect(tokenTarget).toEqual(TokenTarget.CSAgent);
+          done();
+        });
+    });
+  });
+
   describe('getEmulatedUserToken()', () => {
     it('should return undefined without token set', () => {
       const token: AuthToken = service.getEmulatedUserToken();
@@ -48,6 +78,35 @@ describe('AsmAuthStorageService', () => {
       const token: AuthToken = service.getEmulatedUserToken();
 
       expect(token).toEqual(authToken);
+    });
+  });
+
+  describe('getEmulatedUserTokenState()', () => {
+    it('should emit undefined without token set', (done: DoneFn) => {
+      service
+        .getEmulatedUserTokenState()
+        .pipe(take(1))
+        .subscribe((token) => {
+          expect(token).toBeUndefined();
+          done();
+        });
+    });
+
+    it('should emit emulated user token changes', (done: DoneFn) => {
+      const tokens: (AuthToken | undefined)[] = [];
+
+      service
+        .getEmulatedUserTokenState()
+        .pipe(take(2))
+        .subscribe({
+          next: (token) => tokens.push(token),
+          complete: () => {
+            expect(tokens).toEqual([undefined, authToken]);
+            done();
+          },
+        });
+
+      service.setEmulatedUserToken(authToken);
     });
   });
 
