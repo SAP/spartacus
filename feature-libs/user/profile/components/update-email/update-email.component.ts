@@ -23,6 +23,7 @@ import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
+  getPageTitle,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -58,7 +59,7 @@ export class UpdateEmailComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.save();

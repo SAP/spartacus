@@ -27,6 +27,7 @@ import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
+  getPageTitle,
   NgSelectA11yDirective,
   SpinnerComponent,
   TruncationTooltipDirective,
@@ -69,7 +70,7 @@ export class UpdateProfileComponent {
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$;
-  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updateProfile();

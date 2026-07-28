@@ -25,6 +25,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
+  getPageTitle,
   MessageComponent,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
@@ -60,7 +61,7 @@ export class MyAccountV2EmailComponent implements OnInit {
   isUpdating$: Observable<boolean> = this.emailComponentService.isUpdating$;
   isEditing: boolean;
   showingAlert: boolean;
-  pageTitle$ = this.pageMetaService.getHeading();
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   user$ = this.userProfile
     .get()

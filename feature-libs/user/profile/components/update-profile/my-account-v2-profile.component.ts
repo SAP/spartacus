@@ -24,6 +24,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
+  getPageTitle,
   NgSelectA11yDirective,
   SpinnerComponent,
   TruncationTooltipDirective,
@@ -66,7 +67,7 @@ export class MyAccountV2ProfileComponent implements OnInit {
   user$: Observable<User> = this.service.user$;
   isEditing: boolean;
   originalEditValue: User;
-  pageTitle$ = this.pageMetaService.getHeading();
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updateProfile();

@@ -14,6 +14,7 @@ import {
 import { CmsPageTitleComponent, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { getPageTitle } from './page-title.utils';
 
 @Component({
   selector: 'cx-page-title',
@@ -39,6 +40,6 @@ export class PageTitleComponent implements OnInit, AfterViewInit {
   }
 
   private setTitle(): void {
-    this.title$ = this.pageMetaService.getHeading();
+    this.title$ = getPageTitle(this.pageMetaService);
   }
 }

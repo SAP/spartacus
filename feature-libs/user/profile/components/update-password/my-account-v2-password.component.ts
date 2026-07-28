@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
+  getPageTitle,
   MessageComponent,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
@@ -55,7 +56,7 @@ export class MyAccountV2PasswordComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  pageTitle$ = this.pageMetaService.getHeading();
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.updatePassword();

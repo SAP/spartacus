@@ -46,6 +46,7 @@ import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { getPageTitle } from '../../../navigation/page-header/page-title.utils';
 
 @Component({
   selector: 'cx-consent-management',
@@ -69,7 +70,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
   isLoading = signal(false);
-  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   requiredConsents: string[] = [];
 
