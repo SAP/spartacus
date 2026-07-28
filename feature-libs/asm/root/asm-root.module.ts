@@ -6,14 +6,23 @@
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
   DELEGATED_AUTH_HTTP_HEADER_SERVICE,
+  HOME_PAGE_CONTEXT,
+  PageType,
   ProtectedRoutesService,
   provideDefaultConfig,
+  RoutingConfig,
 } from '@spartacus/core';
+import {
+  CmsPageGuard,
+  PageLayoutComponent,
+  PageLayoutModule,
+} from '@spartacus/storefront';
 import { AsmLoaderModule } from './asm-loader.module';
 import { defaultAsmConfig } from './config/default-asm-config';
 import { UserIdHttpHeaderInterceptor } from './interceptors/user-id-http-header.interceptor';
@@ -23,9 +32,36 @@ import { AsmAuthService } from './services/asm-auth.service';
 import { AsmProtectedRoutesService } from './services/asm-protected-routes.service';
 
 @NgModule({
-  imports: [AsmLoaderModule],
+  imports: [
+    AsmLoaderModule,
+    PageLayoutModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'asmDeepLink',
+          cxCmsRouteContext: {
+            id: HOME_PAGE_CONTEXT,
+            type: PageType.CONTENT_PAGE,
+          },
+        },
+      },
+    ]),
+  ],
   providers: [
     provideDefaultConfig(defaultAsmConfig),
+    provideDefaultConfig(<RoutingConfig>{
+      routing: {
+        routes: {
+          asmDeepLink: {
+            paths: ['assisted-service/emulate'],
+          },
+        },
+      },
+    }),
     {
       provide: AuthStorageService,
       useExisting: AsmAuthStorageService,
