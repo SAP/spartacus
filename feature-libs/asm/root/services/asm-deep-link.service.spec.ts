@@ -50,7 +50,7 @@ describe('AsmDeepLinkService', () => {
 
   describe('isEmulateInURL', () => {
     it('should call enabler service', () => {
-      spyOn(asmEnablerService, 'isEmulateInURL');
+      vi.spyOn(asmEnablerService, 'isEmulateInURL');
       asmDeepLinkService.isEmulateInURL();
       expect(asmEnablerService.isEmulateInURL).toHaveBeenCalled();
     });
@@ -67,7 +67,7 @@ describe('AsmDeepLinkService', () => {
 
   describe('handleNavigation', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
     });
     it('should navigate to active cart', () => {
       asmDeepLinkService.handleNavigation({

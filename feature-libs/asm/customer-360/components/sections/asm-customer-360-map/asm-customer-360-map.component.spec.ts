@@ -5,7 +5,7 @@ import {
   StoreFinderSearchPage,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, firstValueFrom } from 'rxjs';
 
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
@@ -160,20 +160,20 @@ describe('AsmCustomer360MapComponent', () => {
     expect(component.selectedStore?.displayName).toBe('New York');
   });
 
-  it('should parse store openings into strings', (done) => {
+  it('should parse store openings into strings', async () => {
     const [closed, open, openWithNoClose] =
       stores[0].openingHours.weekDayOpeningList;
 
-    forkJoin([
-      component.getStoreOpening(closed),
-      component.getStoreOpening(open),
-      component.getStoreOpening(openWithNoClose),
-    ]).subscribe(([str1, str2, str3]) => {
-      expect(str1).toBe('asmCustomer360.maps.storeClosed');
-      expect(str2).toBe('9:00AM - 5:00PM');
-      expect(str3).toBe('12:00AM');
+    const [str1, str2, str3] = await firstValueFrom(
+      forkJoin([
+        component.getStoreOpening(closed),
+        component.getStoreOpening(open),
+        component.getStoreOpening(openWithNoClose),
+      ])
+    );
 
-      done();
-    });
+    expect(str1).toBe('asmCustomer360.maps.storeClosed');
+    expect(str2).toBe('9:00AM - 5:00PM');
+    expect(str3).toBe('12:00AM');
   });
 });

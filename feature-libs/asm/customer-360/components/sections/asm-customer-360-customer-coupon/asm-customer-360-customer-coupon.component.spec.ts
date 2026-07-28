@@ -231,7 +231,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should reload customer coupon list when searching customer coupon ', () => {
-    spyOn(component, 'searchCustomerCoupon').and.callThrough();
+    vi.spyOn(component, 'searchCustomerCoupon');
     el.query(
       By.css('.cx-asm-customer-360-promotion-listing-search-icon-search')
     ).nativeElement.click();
@@ -248,7 +248,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to assign customer coupon to customer', () => {
-    spyOn(customerCouponService, 'claimCustomerCoupon').and.stub();
+    vi.spyOn(customerCouponService, 'claimCustomerCoupon').mockImplementation(() => {});
     mockCustomerCouponEntryList[1].applied = false;
     component.claimCouponToCustomer(mockCustomerCouponEntryList[1]);
     expect(customerCouponService.claimCustomerCoupon).toHaveBeenCalled();
@@ -258,8 +258,8 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to remove customer coupon from customer', () => {
-    spyOn(customerCouponService, 'disclaimCustomerCoupon').and.stub();
-    spyOn(customerCouponService, 'resetDisclaimCustomerCoupon').and.stub();
+    vi.spyOn(customerCouponService, 'disclaimCustomerCoupon').mockImplementation(() => {});
+    vi.spyOn(customerCouponService, 'resetDisclaimCustomerCoupon').mockImplementation(() => {});
     mockCustomerCouponEntryList[0].applied = true;
     component.disclaimCouponToCustomer(mockCustomerCouponEntryList[0]);
     expect(
@@ -272,22 +272,22 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should reload customer coupon list when applying customer coupon failed', () => {
-    spyOn(
+    vi.spyOn(
       customerCouponService,
       'getClaimCustomerCouponResultError'
-    ).and.returnValue(of(true));
-    spyOn(component, 'changeTab').and.callThrough();
+    ).mockReturnValue(of(true));
+    vi.spyOn(component, 'changeTab');
     component.ngOnInit();
     customerCouponService.getClaimCustomerCouponResultError();
     expect(component.changeTab).toHaveBeenCalled();
   });
 
   it('should reload customer coupon list when removing customer coupon failed', () => {
-    spyOn(
+    vi.spyOn(
       customerCouponService,
       'getDisclaimCustomerCouponResultError'
-    ).and.returnValue(of(true));
-    spyOn(component, 'changeTab').and.callThrough();
+    ).mockReturnValue(of(true));
+    vi.spyOn(component, 'changeTab');
     component.ngOnInit();
     customerCouponService.getDisclaimCustomerCouponResultError();
     expect(component.changeTab).toHaveBeenCalled();

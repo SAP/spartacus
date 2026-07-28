@@ -77,7 +77,7 @@ describe('AsmCustomer360ProductItemComponent', () => {
   });
 
   it('should display product for interest item', () => {
-    spyOn(component.selectProduct, 'emit').and.stub();
+    vi.spyOn(component.selectProduct, 'emit').mockImplementation(() => {});
 
     component.product = mockProduct;
     component.isOrderEntry = false;
@@ -109,7 +109,7 @@ describe('AsmCustomer360ProductItemComponent', () => {
   });
 
   it('should display product for cart item', () => {
-    spyOn(component.selectProduct, 'emit').and.stub();
+    vi.spyOn(component.selectProduct, 'emit').mockImplementation(() => {});
 
     component.product = mockProduct;
     component.quantity = 1;

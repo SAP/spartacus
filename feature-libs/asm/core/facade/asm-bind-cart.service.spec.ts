@@ -37,7 +37,7 @@ describe('AsmBindCartService', () => {
     asmConnector = TestBed.inject(AsmConnector);
     userAccountFacade = TestBed.inject(UserAccountFacade);
 
-    spyOn(asmConnector, 'bindCart').and.callThrough();
+    vi.spyOn(asmConnector, 'bindCart');
   });
 
   it('should be created', () => {
@@ -45,7 +45,7 @@ describe('AsmBindCartService', () => {
   });
 
   it('should bind the cart with the current user', () => {
-    spyOn(userAccountFacade, 'get').and.callThrough();
+    vi.spyOn(userAccountFacade, 'get');
     const inputCartId = '0123456789';
     const expected: BindCartParams = {
       cartId: inputCartId,

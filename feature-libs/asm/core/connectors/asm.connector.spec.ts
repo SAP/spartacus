@@ -8,7 +8,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable, of, firstValueFrom } from 'rxjs';
 import { AsmAdapter } from './asm.adapter';
 import { AsmConnector } from './asm.connector';
 
@@ -111,64 +111,56 @@ describe('AsmConnector', () => {
   });
 
   it('should call adapter for customerSearch', () => {
-    spyOn(asmAdapter, 'customerSearch').and.stub();
+    vi.spyOn(asmAdapter, 'customerSearch').mockImplementation(() => {});
     asmConnector.customerSearch(testSearchOptions);
     expect(asmAdapter.customerSearch).toHaveBeenCalledWith(testSearchOptions);
   });
 
-  it('should return customerSearch results ', (done) => {
-    spyOn(asmAdapter, 'customerSearch').and.returnValue(of(testSearchResults));
-    asmConnector.customerSearch(testSearchOptions).subscribe((results) => {
-      expect(results).toEqual(testSearchResults);
-      done();
-    });
+  it('should return customerSearch results ', async () => {
+    vi.spyOn(asmAdapter, 'customerSearch').mockReturnValue(of(testSearchResults));
+    const results = await firstValueFrom(asmConnector.customerSearch(testSearchOptions));
+    expect(results).toEqual(testSearchResults);
   });
 
   it('should call adapter for customerLists', () => {
-    spyOn(asmAdapter, 'customerLists').and.stub();
+    vi.spyOn(asmAdapter, 'customerLists').mockImplementation(() => {});
     asmConnector.customerLists();
     expect(asmAdapter.customerLists).toHaveBeenCalled();
   });
 
-  it('should return customerLists results', (done) => {
-    spyOn(asmAdapter, 'customerLists').and.returnValue(
+  it('should return customerLists results', async () => {
+    vi.spyOn(asmAdapter, 'customerLists').mockReturnValue(
       of(mockCustomerListPage)
     );
-    asmConnector.customerLists().subscribe((results) => {
-      expect(results).toEqual(mockCustomerListPage);
-      done();
-    });
+    const results = await firstValueFrom(asmConnector.customerLists());
+    expect(results).toEqual(mockCustomerListPage);
   });
 
   it('should call adapter for bind cart', () => {
-    spyOn(asmAdapter, 'bindCart').and.callThrough();
+    vi.spyOn(asmAdapter, 'bindCart');
 
     asmConnector.bindCart(mockBindCartParams);
 
     expect(asmAdapter.bindCart).toHaveBeenCalledWith(mockBindCartParams);
   });
 
-  it('should pass the adapter bind cart response through to calling context ', (done) => {
-    spyOn(asmAdapter, 'bindCart').and.returnValue(of(mockBindCartResponse));
+  it('should pass the adapter bind cart response through to calling context ', async () => {
+    vi.spyOn(asmAdapter, 'bindCart').mockReturnValue(of(mockBindCartResponse));
 
-    asmConnector.bindCart(mockBindCartParams).subscribe((results) => {
-      expect(results).toEqual(mockBindCartResponse);
-      done();
-    });
+    const results = await firstValueFrom(asmConnector.bindCart(mockBindCartParams));
+    expect(results).toEqual(mockBindCartResponse);
   });
 
-  it('should create a new customer', (done) => {
-    spyOn(asmAdapter, 'createCustomer').and.returnValue(of(user));
-    asmConnector
-      .createCustomer(customerRegistrationForm)
-      .subscribe((results) => {
-        expect(results).toEqual(user);
-        done();
-      });
+  it('should create a new customer', async () => {
+    vi.spyOn(asmAdapter, 'createCustomer').mockReturnValue(of(user));
+    const results = await firstValueFrom(
+      asmConnector.createCustomer(customerRegistrationForm)
+    );
+    expect(results).toEqual(user);
   });
 
   it('should call adapter for createAsmSessionEvent', () => {
-    spyOn(asmAdapter, 'createAsmSessionEvent').and.stub();
+    vi.spyOn(asmAdapter, 'createAsmSessionEvent').mockImplementation(() => {});
     const options: AsmSessionCreationOptions = { eventType: 'startSession' };
     asmConnector.createAsmSessionEvent(options);
     expect(asmAdapter.createAsmSessionEvent).toHaveBeenCalled();

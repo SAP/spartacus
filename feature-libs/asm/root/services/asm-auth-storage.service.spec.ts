@@ -1,5 +1,5 @@
 import { AuthToken } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 describe('AsmAuthStorageService', () => {
@@ -23,15 +23,9 @@ describe('AsmAuthStorageService', () => {
   });
 
   describe('getTokenTarget()', () => {
-    it('should return token target', (done: DoneFn) => {
-      service
-        .getTokenTarget()
-        .pipe(take(1))
-        .subscribe((tokenTarget) => {
-          expect(tokenTarget).toEqual(TokenTarget.User);
-
-          done();
-        });
+    it('should return token target', async () => {
+      const tokenTarget = await firstValueFrom(service.getTokenTarget());
+      expect(tokenTarget).toEqual(TokenTarget.User);
     });
   });
 
@@ -62,48 +56,30 @@ describe('AsmAuthStorageService', () => {
   });
 
   describe('setTokenTarget()', () => {
-    it('should set token target', (done: DoneFn) => {
+    it('should set token target', async () => {
       service.setTokenTarget(TokenTarget.CSAgent);
 
-      service
-        .getTokenTarget()
-        .pipe(take(1))
-        .subscribe((tokenTarget) => {
-          expect(tokenTarget).toEqual(TokenTarget.CSAgent);
-
-          done();
-        });
+      const tokenTarget = await firstValueFrom(service.getTokenTarget());
+      expect(tokenTarget).toEqual(TokenTarget.CSAgent);
     });
   });
 
   describe('switchTokenTargetToCSAgent()', () => {
-    it('should change target to CSAgent', (done: DoneFn) => {
+    it('should change target to CSAgent', async () => {
       service.switchTokenTargetToCSAgent();
 
-      service
-        .getTokenTarget()
-        .pipe(take(1))
-        .subscribe((tokenTarget) => {
-          expect(tokenTarget).toEqual(TokenTarget.CSAgent);
-
-          done();
-        });
+      const tokenTarget = await firstValueFrom(service.getTokenTarget());
+      expect(tokenTarget).toEqual(TokenTarget.CSAgent);
     });
   });
 
   describe('switchTokenTargetToUser()', () => {
-    it('should change target to User', (done: DoneFn) => {
+    it('should change target to User', async () => {
       service.switchTokenTargetToCSAgent();
       service.switchTokenTargetToUser();
 
-      service
-        .getTokenTarget()
-        .pipe(take(1))
-        .subscribe((tokenTarget) => {
-          expect(tokenTarget).toEqual(TokenTarget.User);
-
-          done();
-        });
+      const tokenTarget = await firstValueFrom(service.getTokenTarget());
+      expect(tokenTarget).toEqual(TokenTarget.User);
     });
   });
 

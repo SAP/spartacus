@@ -191,7 +191,7 @@ describe('AsmCustomer360ActivityComponent', () => {
     });
 
     it('should navigate to cart, order detail, saved cart detail, and support ticket detail', () => {
-      spyOn(context.navigate$, 'next').and.stub();
+      vi.spyOn(context.navigate$, 'next').mockImplementation(() => {});
       const tableBody = el.query(By.css('.cx-asm-customer-360-table tbody'));
       const tableRows = tableBody.queryAll(By.css('tr'));
       const linkCell = tableRows[0].query(

@@ -172,7 +172,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to apply coupon to cart and refresh coupon status', () => {
-    spyOn(cartVoucherService, 'addVoucher').and.stub();
+    vi.spyOn(cartVoucherService, 'addVoucher').mockImplementation(() => {});
     const couponEntry = mockCouponList.coupons[1];
     expect(couponEntry.applied).toBe(false);
     component.applyCouponToCustomer(couponEntry);
@@ -183,7 +183,7 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to remove coupon to cart and refresh coupon status', () => {
-    spyOn(cartVoucherService, 'removeVoucher').and.stub();
+    vi.spyOn(cartVoucherService, 'removeVoucher').mockImplementation(() => {});
     const couponEntry = mockCouponList.coupons[0];
     expect(couponEntry.applied).toBe(true);
     component.removeCouponToCustomer(couponEntry);
@@ -194,10 +194,10 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should reload coupon list when applying coupon failed', () => {
-    spyOn(cartVoucherService, 'getAddVoucherResultError').and.returnValue(
+    vi.spyOn(cartVoucherService, 'getAddVoucherResultError').mockReturnValue(
       of(true)
     );
-    spyOn(component, 'refreshComponent').and.callThrough();
+    vi.spyOn(component, 'refreshComponent');
     component.ngOnInit();
     cartVoucherService.getAddVoucherResultError();
     expect(component.refreshComponent).toHaveBeenCalled();

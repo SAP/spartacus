@@ -43,7 +43,7 @@ describe('AsmBindCartDialogComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'closeDialog').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
   });
 
   it('should create', () => {

@@ -30,7 +30,7 @@ describe('AsmCustomer360Connector', () => {
     service = TestBed.inject(AsmCustomer360Connector);
 
     asmCustomer360Adapter = TestBed.inject(AsmCustomer360Adapter);
-    spyOn(asmCustomer360Adapter, 'getAsmCustomer360Data').and.callThrough();
+    vi.spyOn(asmCustomer360Adapter, 'getAsmCustomer360Data');
   });
 
   it('should be created', () => {

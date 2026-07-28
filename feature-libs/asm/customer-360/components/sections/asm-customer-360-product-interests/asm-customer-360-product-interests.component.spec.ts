@@ -92,7 +92,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
     ],
   };
 
-  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  const productService = { get: vi.fn() };
 
   class MockBreakpointService {
     get breakpoint$(): Observable<BREAKPOINT> {
@@ -147,7 +147,7 @@ describe('AsmCustomer360ProductInterestsComponent', () => {
 
     const mockProductService = TestBed.inject(ProductService);
 
-    (<jasmine.Spy>mockProductService.get).and.callFake((code: string) => {
+    (mockProductService.get as any).mockImplementation((code: string) => {
       switch (code) {
         case '553637':
           return of(mockProduct1);

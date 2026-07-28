@@ -40,7 +40,7 @@ describe('AsmSessionEffects', () => {
 
   describe('createAsmSessionEvent$', () => {
     it('should emit AsmSessionCreationSuccess on successful creation', () => {
-      spyOn(asmConnector, 'createAsmSessionEvent').and.returnValue(of(void 0));
+      vi.spyOn(asmConnector, 'createAsmSessionEvent').mockReturnValue(of(void 0));
 
       const action = new AsmSessionActions.AsmSessionCreationAction(payload);
       const completion = new AsmSessionActions.AsmSessionCreationSuccess();

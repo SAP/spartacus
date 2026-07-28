@@ -122,7 +122,7 @@ describe('AsmCustomer360ActiveCartComponent', () => {
     },
   };
 
-  const productService = jasmine.createSpyObj('ProductService', ['get']);
+  const productService = { get: vi.fn() };
 
   @Component({
     template: '',
@@ -172,7 +172,7 @@ describe('AsmCustomer360ActiveCartComponent', () => {
 
     const mockProductService = TestBed.inject(ProductService);
 
-    (<jasmine.Spy>mockProductService.get).and.callFake((code: string) => {
+    (mockProductService.get as any).mockImplementation((code: string) => {
       switch (code) {
         case '553637':
           return of(mockProduct1);
@@ -244,7 +244,7 @@ describe('AsmCustomer360ActiveCartComponent', () => {
   });
 
   it('should navigate Product', () => {
-    spyOn(contextSource.navigate$, 'next').and.stub();
+    vi.spyOn(contextSource.navigate$, 'next').mockImplementation(() => {});
     const productName = el.queryAll(
       By.css(
         'cx-asm-customer-360-product-item .cx-asm-customer-360-product-item-name'

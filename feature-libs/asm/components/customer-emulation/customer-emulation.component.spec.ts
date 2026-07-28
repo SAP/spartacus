@@ -1,5 +1,5 @@
 import { Component, DebugElement, Injectable } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { MockFeatureLevelDirective } from 'core-libs/storefront/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from '../../../../core-libs/storefront/shared/test/mock-feature-level-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmBindCartComponent } from '../public_api';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -65,7 +65,7 @@ describe('CustomerEmulationComponent', () => {
   let el: DebugElement;
   let featureModulesService: FeatureModulesService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, CustomerEmulationComponent],
       providers: [
@@ -103,12 +103,11 @@ describe('CustomerEmulationComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerEmulationComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     userAccountFacade = TestBed.inject(UserAccountFacade);
     asmComponentService = TestBed.inject(AsmComponentService);
     featureModulesService = TestBed.inject(FeatureModulesService);
@@ -116,12 +115,13 @@ describe('CustomerEmulationComponent', () => {
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display user info during customer emulation.', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
+    vi.spyOn(userAccountFacade, 'get').mockReturnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -139,7 +139,7 @@ describe('CustomerEmulationComponent', () => {
   it("should call logoutCustomer() on 'End Session' button click", () => {
     //customer login
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
+    vi.spyOn(userAccountFacade, 'get').mockReturnValue(of(testUser));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -148,7 +148,7 @@ describe('CustomerEmulationComponent', () => {
     const endSessionButton = fixture.debugElement.query(
       By.css('button[formControlName="logoutCustomer"]')
     );
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    vi.spyOn(asmComponentService, 'logoutCustomer').mockImplementation(() => {});
     endSessionButton.nativeElement.click();
 
     //assert
@@ -156,18 +156,17 @@ describe('CustomerEmulationComponent', () => {
   });
 
   it('should open customer 360 dialog', () => {
+    fixture.detectChanges();
     const launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.stub();
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(() => {});
 
-    spyOn(asmComponentService, 'handleAsmDialogAction').and.stub();
+    vi.spyOn(asmComponentService, 'handleAsmDialogAction').mockImplementation(() => {});
 
     component.openAsmCustomer360();
 
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(1);
-    const [caller, , data] = (<jasmine.Spy>(
-      launchDialogService.openDialogAndSubscribe
-    )).calls.argsFor(0);
+    const [caller, , data] = vi.mocked(launchDialogService.openDialogAndSubscribe).mock.calls[0];
     expect(caller).toBe(LAUNCH_CALLER.ASM_CUSTOMER_360);
     expect(data).toEqual({ customer: {} });
 
@@ -182,8 +181,8 @@ describe('CustomerEmulationComponent', () => {
   });
 
   it('should display customer 360 button if asm customer360 is configured.', () => {
-    spyOn(featureModulesService, 'isConfigured').and.returnValue(true);
-    spyOn(userAccountFacade, 'get').and.returnValue(
+    vi.spyOn(featureModulesService, 'isConfigured').mockReturnValue(true);
+    vi.spyOn(userAccountFacade, 'get').mockReturnValue(
       of({ uid: 'user@test.com', name: 'Test User' })
     );
     component.ngOnInit();
@@ -194,8 +193,8 @@ describe('CustomerEmulationComponent', () => {
   });
 
   it('should not display customer 360 button if asm customer360 is not configured.', () => {
-    spyOn(featureModulesService, 'isConfigured').and.returnValue(false);
-    spyOn(userAccountFacade, 'get').and.returnValue(
+    vi.spyOn(featureModulesService, 'isConfigured').mockReturnValue(false);
+    vi.spyOn(userAccountFacade, 'get').mockReturnValue(
       of({ uid: 'user@test.com', name: 'Test User' })
     );
     component.ngOnInit();

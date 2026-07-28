@@ -18,7 +18,7 @@ import {
   provideConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 import { UserIdHttpHeaderInterceptor } from './user-id-http-header.interceptor';
 
@@ -67,16 +67,11 @@ describe('UserIdHttpHeaderInterceptor', () => {
     expect(interceptor).toBeTruthy();
   });
 
-  it("should pass the original request if the endpoint's response does not need to be emulated", (done) => {
+  it("should pass the original request if the endpoint's response does not need to be emulated", async () => {
     initializeMocks();
 
-    http
-      .get('/foo')
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBe('bar');
-        done();
-      });
+    const result$ = http.get('/foo');
+    const resultPromise = firstValueFrom(result$);
 
     httpMock
       .expectOne(
@@ -86,21 +81,17 @@ describe('UserIdHttpHeaderInterceptor', () => {
           !headers.get('sap-commerce-cloud-user-id')
       )
       .flush('bar');
+
+    expect(await resultPromise).toBe('bar');
   });
 
-  it('should pass the original request if a customer is not being emulated', (done) => {
+  it('should pass the original request if a customer is not being emulated', async () => {
     initializeMocks();
 
     const userIdService = TestBed.inject(UserIdService);
-    spyOn(userIdService, 'takeUserId').and.returnValue(of(undefined));
+    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(of(undefined));
 
-    http
-      .get('/products/search')
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBe('bar');
-        done();
-      });
+    const resultPromise = firstValueFrom(http.get('/products/search'));
 
     httpMock
       .expectOne(
@@ -110,21 +101,17 @@ describe('UserIdHttpHeaderInterceptor', () => {
           !headers.get('sap-commerce-cloud-user-id')
       )
       .flush('bar');
+
+    expect(await resultPromise).toBe('bar');
   });
 
-  it('should pass the original request if the current user ID is a mock', (done) => {
+  it('should pass the original request if the current user ID is a mock', async () => {
     initializeMocks();
 
     const userIdService = TestBed.inject(UserIdService);
-    spyOn(userIdService, 'takeUserId').and.returnValue(of(OCC_USER_ID_CURRENT));
+    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(of(OCC_USER_ID_CURRENT));
 
-    http
-      .get('/products/search')
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBe('bar');
-        done();
-      });
+    const resultPromise = firstValueFrom(http.get('/products/search'));
 
     httpMock
       .expectOne(
@@ -134,22 +121,18 @@ describe('UserIdHttpHeaderInterceptor', () => {
           !headers.get('sap-commerce-cloud-user-id')
       )
       .flush('bar');
+
+    expect(await resultPromise).toBe('bar');
   });
 
-  it("should add a 'sap-commerce-cloud-user-id' header to the request if a user is being emulated", (done) => {
+  it("should add a 'sap-commerce-cloud-user-id' header to the request if a user is being emulated", async () => {
     initializeMocks();
 
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: true,
     });
 
-    http
-      .get('/products/search', { context })
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBe('bar');
-        done();
-      });
+    const resultPromise = firstValueFrom(http.get('/products/search', { context }));
 
     httpMock
       .expectOne(
@@ -159,22 +142,18 @@ describe('UserIdHttpHeaderInterceptor', () => {
           headers.get('sap-commerce-cloud-user-id') === 'user001'
       )
       .flush('bar');
+
+    expect(await resultPromise).toBe('bar');
   });
 
-  it("should add a 'sap-commerce-cloud-user-id' header to the request if a user ID is provided", (done) => {
+  it("should add a 'sap-commerce-cloud-user-id' header to the request if a user ID is provided", async () => {
     initializeMocks();
 
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {
       sendUserIdAsHeader: 'user002',
     });
 
-    http
-      .get('/products/search', { context })
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBe('bar');
-        done();
-      });
+    const resultPromise = firstValueFrom(http.get('/products/search', { context }));
 
     httpMock
       .expectOne(
@@ -184,9 +163,11 @@ describe('UserIdHttpHeaderInterceptor', () => {
           headers.get('sap-commerce-cloud-user-id') === 'user002'
       )
       .flush('bar');
+
+    expect(await resultPromise).toBe('bar');
   });
 
-  it('should pass the original request if the interceptor is not feature-enabled', (done) => {
+  it('should pass the original request if the interceptor is not feature-enabled', async () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: OCC_USER_ID_CONSTANTS, useValue: [] },
@@ -214,13 +195,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
       sendUserIdAsHeader: true,
     });
 
-    http
-      .get('/products/search', { context })
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toBe('bar');
-        done();
-      });
+    const resultPromise = firstValueFrom(http.get('/products/search', { context }));
 
     httpMock
       .expectOne(
@@ -230,5 +205,7 @@ describe('UserIdHttpHeaderInterceptor', () => {
           headers.get('sap-commerce-cloud-user-id') !== 'user001'
       )
       .flush('bar');
+
+    expect(await resultPromise).toBe('bar');
   });
 });

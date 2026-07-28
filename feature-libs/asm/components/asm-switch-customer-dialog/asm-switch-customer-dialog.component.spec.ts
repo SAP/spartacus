@@ -107,8 +107,8 @@ describe('AsmSwitchCustomerDialogComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     asmComponentService = TestBed.inject(AsmComponentService);
 
-    spyOn(launchDialogService, 'closeDialog').and.stub();
-    spyOn(asmComponentService, 'logoutCustomer').and.stub();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
+    vi.spyOn(asmComponentService, 'logoutCustomer').mockImplementation(() => {});
   });
 
   it('should create', () => {

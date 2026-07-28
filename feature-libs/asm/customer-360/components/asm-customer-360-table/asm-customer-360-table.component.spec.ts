@@ -260,7 +260,7 @@ describe('AsmCustomer360TableComponent', () => {
       .compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
-    spyOn(languageService, 'getActive').and.returnValue(of('en'));
+    vi.spyOn(languageService, 'getActive').mockReturnValue(of('en'));
   });
 
   beforeEach(() => {
@@ -282,7 +282,7 @@ describe('AsmCustomer360TableComponent', () => {
     fixture.detectChanges();
 
     const header = el.query(By.css('.cx-asm-customer-360-table-heading-text'));
-    expect(header.nativeElement.innerText).toBe(mockHeaderText);
+    expect(header.nativeElement.textContent?.trim()).toBe(mockHeaderText);
   });
 
   it('should display table', () => {
@@ -372,10 +372,7 @@ describe('AsmCustomer360TableComponent', () => {
       testHost.headerText = mockHeaderText;
       testHost.entries = mockEntries;
 
-      fixture.autoDetectChanges(true);
-    });
-    afterEach(() => {
-      fixture.autoDetectChanges(false);
+      fixture.detectChanges();
     });
 
     it('should display the list of pages', () => {
@@ -395,6 +392,7 @@ describe('AsmCustomer360TableComponent', () => {
       );
 
       pages[1].nativeElement.click();
+      fixture.detectChanges();
 
       const tableBody = el.query(By.css('.cx-asm-customer-360-table tbody'));
       const tableRows = tableBody.queryAll(By.css('tr'));
@@ -412,10 +410,7 @@ describe('AsmCustomer360TableComponent', () => {
       testHost.headerText = mockHeaderText;
       testHost.entries = mockEntries;
 
-      fixture.autoDetectChanges(true);
-    });
-    afterEach(() => {
-      fixture.autoDetectChanges(false);
+      fixture.detectChanges();
     });
 
     it('should display the column headers', () => {
@@ -427,10 +422,11 @@ describe('AsmCustomer360TableComponent', () => {
       const tableRows = component.table.nativeElement.rows;
       const childElement = tableRows[0].cells[0].firstChild;
 
-      expect(tableRows[1].cells[0].innerText).toBe('Ticket');
+      expect(tableRows[1].cells[0].textContent?.trim()).toBe('Ticket');
 
       childElement.click();
-      expect(tableRows[1].cells[0].innerText).toBe('Cart');
+      fixture.detectChanges();
+      expect(tableRows[1].cells[0].textContent?.trim()).toBe('Cart');
     });
   });
 
@@ -443,10 +439,7 @@ describe('AsmCustomer360TableComponent', () => {
       testHost.headerText = mockHeaderText;
       testHost.entries = mockEntries;
 
-      fixture.autoDetectChanges(true);
-    });
-    afterEach(() => {
-      fixture.autoDetectChanges(false);
+      fixture.detectChanges();
     });
 
     it('should change focus by key input', () => {

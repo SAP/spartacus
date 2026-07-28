@@ -16,7 +16,7 @@ import {
   StateWithClientAuth,
   UserIdService,
 } from '@spartacus/core';
-import { getReducers } from 'core-libs/core/src/process/store/reducers/index';
+import { getReducers } from '../../../../core-libs/core/src/process/store/reducers/index';
 import { BehaviorSubject, firstValueFrom, Observable, of, Subject } from 'rxjs';
 import {
   ASM_FEATURE,
@@ -50,40 +50,40 @@ class MockAuthMultisiteIsolationService
 }
 
 class MockUserIdService {
-  clearUserId = jasmine.createSpy();
-  setUserId = jasmine.createSpy();
+  clearUserId = vi.fn();
+  setUserId = vi.fn();
 
   isEmulated = () => isEmulated$.asObservable();
 }
 
 class MockOAuthLibWrapperService {
-  revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
-  initLoginFlow = jasmine.createSpy();
-  tryLogin = jasmine
-    .createSpy()
-    .and.returnValue(Promise.resolve({ result: true, tokenReceived: false }));
+  revokeAndLogout = vi.fn().mockReturnValue(Promise.resolve());
+  initLoginFlow = vi.fn();
+  tryLogin = vi
+    .fn()
+    .mockReturnValue(Promise.resolve({ result: true, tokenReceived: false }));
 
   authorizeWithPasswordFlow = () => Promise.resolve();
 }
 
 class MockAsmAuthStorageService {
-  clearEmulatedUserToken = jasmine.createSpy();
-  switchTokenTargetToCSAgent = jasmine.createSpy();
-  getItem = jasmine.createSpy().and.returnValue(null);
+  clearEmulatedUserToken = vi.fn();
+  switchTokenTargetToCSAgent = vi.fn();
+  getItem = vi.fn().mockReturnValue(null);
 
   getToken = () => authToken$.asObservable();
   getTokenTarget = () => tokenTarget$.asObservable();
 }
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 
 class MockAuthRedirectService {
-  redirect = jasmine.createSpy();
+  redirect = vi.fn();
 }
 class MockRoutingService {
-  go = jasmine.createSpy();
+  go = vi.fn();
 }
 
 class MockCrossSiteRequestForgeryService
@@ -160,7 +160,7 @@ describe('AsmAuthService', () => {
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   beforeEach(() => {
@@ -178,10 +178,10 @@ describe('AsmAuthService', () => {
 
   describe('loginWithCredentials()', () => {
     it('should authorize if user can login', async () => {
-      spyOn(
+      vi.spyOn(
         oAuthLibWrapperService,
         'authorizeWithPasswordFlow'
-      ).and.callThrough();
+      );
 
       await service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
@@ -203,7 +203,7 @@ describe('AsmAuthService', () => {
     it('should login and redirect if user can login', () => {
       const result = service.loginWithRedirect();
 
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
     });
 
@@ -216,7 +216,7 @@ describe('AsmAuthService', () => {
 
       const result = service.loginWithRedirect();
 
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
       expect(routingService.go).toHaveBeenCalledWith('/');
       expect(oAuthLibWrapperService.initLoginFlow).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
@@ -251,7 +251,7 @@ describe('AsmAuthService', () => {
 
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-        expect(isLoggedIn).toBeFalse();
+        expect(isLoggedIn).toBe(false);
       });
     });
 
@@ -259,7 +259,7 @@ describe('AsmAuthService', () => {
       it('should return true for users', async () => {
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-        expect(isLoggedIn).toBeTrue();
+        expect(isLoggedIn).toBe(true);
       });
 
       it('should return true for CSAgents emulating user', async () => {
@@ -268,7 +268,7 @@ describe('AsmAuthService', () => {
 
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-        expect(isLoggedIn).toBeTrue();
+        expect(isLoggedIn).toBe(true);
       });
 
       it('should return false for CSAgents not emulating user', async () => {
@@ -276,7 +276,7 @@ describe('AsmAuthService', () => {
 
         const isLoggedIn = await firstValueFrom(service.isUserLoggedIn());
 
-        expect(isLoggedIn).toBeFalse();
+        expect(isLoggedIn).toBe(false);
       });
     });
   });
@@ -286,24 +286,24 @@ describe('AsmAuthService', () => {
 
     /** Stubs the tryLogin() promise result. */
     const stubTryLogin = (tokenReceived: boolean) =>
-      (oAuthLibWrapperService.tryLogin as jasmine.Spy).and.returnValue(
+      (oAuthLibWrapperService.tryLogin as any).mockReturnValue(
         Promise.resolve({ result: true, tokenReceived })
       );
 
     /** Stubs the value returned by authStorageService.getItem('access_token'). */
     const stubStoredAccessToken = (value: string | null) =>
-      (asmAuthStorageService.getItem as jasmine.Spy).and.returnValue(value);
+      (asmAuthStorageService.getItem as any).mockReturnValue(value);
 
     beforeEach(() => {
       authRedirectService = TestBed.inject(AuthRedirectService);
     });
 
     it('should delegate to parent when not using ASM client', async () => {
-      spyOn(service, 'isUsingASMClient').and.returnValue(of(false));
-      const parentSpy = spyOn(
+      vi.spyOn(service, 'isUsingASMClient').mockReturnValue(of(false));
+      const parentSpy = vi.spyOn(
         Object.getPrototypeOf(Object.getPrototypeOf(service)),
         'checkOAuthParamsInUrl'
-      ).and.returnValue(Promise.resolve());
+      ).mockReturnValue(Promise.resolve());
 
       await service.checkOAuthParamsInUrl();
 
@@ -312,7 +312,7 @@ describe('AsmAuthService', () => {
 
     describe('when using ASM client', () => {
       beforeEach(() => {
-        spyOn(service, 'isUsingASMClient').and.returnValue(of(true));
+        vi.spyOn(service, 'isUsingASMClient').mockReturnValue(of(true));
       });
 
       it('should set CS Agent token target, dispatch Login and redirect when returning from auth server', async () => {
@@ -362,11 +362,11 @@ describe('AsmAuthService', () => {
       });
 
       it('should swallow errors thrown by tryLogin()', async () => {
-        (oAuthLibWrapperService.tryLogin as jasmine.Spy).and.returnValue(
+        (oAuthLibWrapperService.tryLogin as any).mockReturnValue(
           Promise.reject(new Error('oauth failure'))
         );
 
-        await expectAsync(service.checkOAuthParamsInUrl()).toBeResolved();
+        await expect(service.checkOAuthParamsInUrl()).resolves.not.toThrow();
 
         expect(
           asmAuthStorageService.switchTokenTargetToCSAgent

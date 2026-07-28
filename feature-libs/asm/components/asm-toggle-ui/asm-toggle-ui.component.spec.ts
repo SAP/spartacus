@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmUi } from '@spartacus/asm/root';
@@ -25,27 +25,27 @@ describe('AsmToggleuUiComponent', () => {
   let asmService: AsmService;
   let el: DebugElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, AsmToggleUiComponent],
       providers: [{ provide: AsmService, useClass: MockAsmService }],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmToggleUiComponent);
     component = fixture.componentInstance;
     asmService = TestBed.inject(AsmService);
     el = fixture.debugElement;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display expandIcon when AsmUi collapse state is true', () => {
-    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    vi.spyOn(asmService, 'getAsmUiState').mockReturnValue(of({ collapsed: true }));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -55,6 +55,7 @@ describe('AsmToggleuUiComponent', () => {
   });
 
   it('should display collapseIcon when AsmUi collapse state is false', () => {
+    fixture.detectChanges();
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -63,7 +64,8 @@ describe('AsmToggleuUiComponent', () => {
   });
 
   it('should call toggleUi() and toggle the collapse value', () => {
-    spyOn(asmService, 'updateAsmUiState').and.stub();
+    fixture.detectChanges();
+    vi.spyOn(asmService, 'updateAsmUiState').mockImplementation(() => {});
 
     el.query(By.css('.toggleUi')).nativeElement.dispatchEvent(
       new MouseEvent('click')

@@ -117,19 +117,19 @@ describe('AsmCustomer360ProfileComponent', () => {
       By.css('.billing-address .address-country')
     );
 
-    expect(billingLine1.nativeElement.innerText).toBe(
+    expect(billingLine1.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.billingAddress?.line1
     );
-    expect(billingLine2.nativeElement.innerText).toBe(
+    expect(billingLine2.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.billingAddress?.line2
     );
-    expect(billingTown.nativeElement.innerText).toBe(
-      mockCustomerProfile.profile?.billingAddress?.town + ', '
+    expect(billingTown.nativeElement.textContent?.trim()).toBe(
+      mockCustomerProfile.profile?.billingAddress?.town + ','
     );
-    expect(billingRegion.nativeElement.innerText).toBe(
-      mockCustomerProfile.profile?.billingAddress?.region?.isocode + ', '
+    expect(billingRegion.nativeElement.textContent?.trim()).toBe(
+      mockCustomerProfile.profile?.billingAddress?.region?.isocode + ','
     );
-    expect(billingCountry.nativeElement.innerText).toBe(
+    expect(billingCountry.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.billingAddress?.country?.name
     );
   });
@@ -141,19 +141,19 @@ describe('AsmCustomer360ProfileComponent', () => {
     const region = el.query(By.css('.delivery-address .address-region'));
     const country = el.query(By.css('.delivery-address .address-country'));
 
-    expect(line1.nativeElement.innerText).toBe(
+    expect(line1.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.deliveryAddress?.line1
     );
-    expect(line2.nativeElement.innerText).toBe(
+    expect(line2.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.deliveryAddress?.line2
     );
-    expect(town.nativeElement.innerText).toBe(
-      mockCustomerProfile.profile?.deliveryAddress?.town + ', '
+    expect(town.nativeElement.textContent?.trim()).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.town + ','
     );
-    expect(region.nativeElement.innerText).toBe(
-      mockCustomerProfile.profile?.deliveryAddress?.region?.isocode + ', '
+    expect(region.nativeElement.textContent?.trim()).toBe(
+      mockCustomerProfile.profile?.deliveryAddress?.region?.isocode + ','
     );
-    expect(country.nativeElement.innerText).toBe(
+    expect(country.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.deliveryAddress?.country?.name
     );
   });
@@ -161,10 +161,10 @@ describe('AsmCustomer360ProfileComponent', () => {
   it('should display phone number', () => {
     const phone1 = el.query(By.css('.profile-phone1'));
     const phone2 = el.query(By.css('.profile-phone2'));
-    expect(phone1.nativeElement.innerText).toBe(
+    expect(phone1.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.phone1
     );
-    expect(phone2.nativeElement.innerText).toBe(
+    expect(phone2.nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.phone2
     );
   });
@@ -174,7 +174,7 @@ describe('AsmCustomer360ProfileComponent', () => {
     expect(cards.length).toEqual(1);
 
     const cardLabels = cards[0].queryAll(By.css('cx-card .cx-card-label'));
-    expect(cardLabels[0].nativeElement.innerText).toBe(
+    expect(cardLabels[0].nativeElement.textContent?.trim()).toBe(
       mockCustomerProfile.profile?.paymentDetails?.[0]?.cardNumber
     );
   });
