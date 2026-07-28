@@ -14,10 +14,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { EMPTY, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -33,33 +32,33 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
 ];
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(EMPTY);
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(EMPTY);
+  dispatch = vi.fn();
 }
 
 class MockCheckoutDeliveryModesConnector
   implements Partial<CheckoutDeliveryModesConnector>
 {
-  getSupportedModes = createSpy().and.returnValue(
+  getSupportedModes = vi.fn().mockReturnValue(
     of(mockSupportedDeliveryModes)
   );
-  setMode = createSpy().and.returnValue(of('setMode'));
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(
+  setMode = vi.fn().mockReturnValue(of('setMode'));
+  clearCheckoutDeliveryMode = vi.fn().mockReturnValue(
     of('clearCheckoutDeliveryMode')
   );
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
 }
@@ -99,28 +98,23 @@ describe(`CheckoutDeliveryModesService`, () => {
   ));
 
   describe(`getSupportedDeliveryModesState`, () => {
-    it(`should call the checkoutDeliveryModesConnector.getSupportedModes()`, (done) => {
-      service
-        .getSupportedDeliveryModesState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockSupportedDeliveryModes,
-          });
-          expect(connector.getSupportedModes).toHaveBeenCalledWith(
-            mockUserId,
-            mockCartId
-          );
-          done();
-        });
+    it(`should call the checkoutDeliveryModesConnector.getSupportedModes()`, async () => {
+      const state = await firstValueFrom(service.getSupportedDeliveryModesState());
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockSupportedDeliveryModes,
+      });
+      expect(connector.getSupportedModes).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId
+      );
     });
   });
 
   describe(`getSupportedDeliveryModes`, () => {
-    it(`should call facade's getSupportedDeliveryModesState()`, (done) => {
-      spyOn(service, 'getSupportedDeliveryModesState').and.returnValue(
+    it(`should call facade's getSupportedDeliveryModesState()`, async () => {
+      vi.spyOn(service, 'getSupportedDeliveryModesState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -128,18 +122,13 @@ describe(`CheckoutDeliveryModesService`, () => {
         })
       );
 
-      service
-        .getSupportedDeliveryModes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockSupportedDeliveryModes);
-          expect(service.getSupportedDeliveryModesState).toHaveBeenCalled();
-          done();
-        });
+      const result = await firstValueFrom(service.getSupportedDeliveryModes());
+      expect(result).toEqual(mockSupportedDeliveryModes);
+      expect(service.getSupportedDeliveryModesState).toHaveBeenCalled();
     });
 
-    it(`should return an empty array if query's data is falsy`, (done) => {
-      spyOn(service, 'getSupportedDeliveryModesState').and.returnValue(
+    it(`should return an empty array if query's data is falsy`, async () => {
+      vi.spyOn(service, 'getSupportedDeliveryModesState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -147,19 +136,14 @@ describe(`CheckoutDeliveryModesService`, () => {
         })
       );
 
-      service
-        .getSupportedDeliveryModes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual([]);
-          done();
-        });
+      const result = await firstValueFrom(service.getSupportedDeliveryModes());
+      expect(result).toEqual([]);
     });
   });
 
   describe(`getSelectedDeliveryModeState`, () => {
-    it(`should return the delivery modes`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return the delivery modes`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -169,17 +153,12 @@ describe(`CheckoutDeliveryModesService`, () => {
         })
       );
 
-      service
-        .getSelectedDeliveryModeState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<DeliveryMode | undefined>>{
-            loading: false,
-            error: false,
-            data: mockDeliveryMode,
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getSelectedDeliveryModeState());
+      expect(result).toEqual(<QueryState<DeliveryMode | undefined>>{
+        loading: false,
+        error: false,
+        data: mockDeliveryMode,
+      });
     });
   });
 
@@ -233,7 +212,7 @@ describe(`CheckoutDeliveryModesService`, () => {
     });
 
     it(`should dispatch CheckoutDeliveryModeClearedErrorEvent event on error`, () => {
-      connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
+      connector.clearCheckoutDeliveryMode = vi.fn().mockReturnValue(
         throwError(() => 'err')
       );
 

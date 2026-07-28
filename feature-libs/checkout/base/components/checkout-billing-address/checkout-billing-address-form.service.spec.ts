@@ -78,7 +78,7 @@ describe('CheckoutBillingAddressFormComponentService', () => {
   describe('markAllAsTouched', () => {
     it('should mark all form controls as touched', () => {
       const form = service.getBillingAddressForm();
-      spyOn(form, 'markAllAsTouched');
+      vi.spyOn(form, 'markAllAsTouched');
       service.markAllAsTouched();
       expect(form.markAllAsTouched).toHaveBeenCalled();
     });

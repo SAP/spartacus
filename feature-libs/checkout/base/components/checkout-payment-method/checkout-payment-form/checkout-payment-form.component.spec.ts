@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -31,14 +31,13 @@ import {
   NgSelectA11yModule,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   CheckoutBillingAddressFormComponent,
   CheckoutBillingAddressFormService,
 } from '../../checkout-billing-address';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
@@ -156,9 +155,9 @@ class MockCxIconComponent {
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  loadSupportedCardTypes = createSpy();
-  getPaymentCardTypes = createSpy().and.returnValue(EMPTY);
-  getSetPaymentDetailsResultProcess = createSpy().and.returnValue(
+  loadSupportedCardTypes = vi.fn();
+  getPaymentCardTypes = vi.fn().mockReturnValue(EMPTY);
+  getSetPaymentDetailsResultProcess = vi.fn().mockReturnValue(
     of({ loading: false })
   );
 }
@@ -166,23 +165,23 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
 class MockCheckoutDeliveryService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = createSpy().and.returnValue(
+  getDeliveryAddressState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
-  getAddressVerificationResults = createSpy().and.returnValue(EMPTY);
-  verifyAddress = createSpy();
-  clearAddressVerificationResults = createSpy();
+  getAddressVerificationResults = vi.fn().mockReturnValue(EMPTY);
+  verifyAddress = vi.fn();
+  clearAddressVerificationResults = vi.fn();
 }
 
 class MockUserPaymentService implements Partial<UserPaymentService> {
-  loadBillingCountries = createSpy();
-  getAllBillingCountries = createSpy().and.returnValue(
+  loadBillingCountries = vi.fn();
+  getAllBillingCountries = vi.fn().mockReturnValue(
     of(mockBillingCountries)
   );
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -191,8 +190,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 class MockUserAddressService implements Partial<UserAddressService> {
-  getRegions = createSpy().and.returnValue(of([]));
-  verifyAddress = createSpy().and.returnValue(of({}));
+  getRegions = vi.fn().mockReturnValue(of([]));
+  verifyAddress = vi.fn().mockReturnValue(of({}));
 }
 
 class MockCheckoutBillingAddressFormService
@@ -221,7 +220,7 @@ describe('CheckoutPaymentFormComponent', () => {
     payment: UntypedFormGroup['controls'];
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
     mockCheckoutPaymentService = new MockCheckoutPaymentService();
     mockUserPaymentService = new MockUserPaymentService();
@@ -280,7 +279,7 @@ describe('CheckoutPaymentFormComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentFormComponent);
@@ -288,8 +287,8 @@ describe('CheckoutPaymentFormComponent', () => {
     controls = {
       payment: component.paymentForm.controls,
     };
-    spyOn(component.setPaymentDetails, 'emit').and.callThrough();
-    spyOn(component.closeForm, 'emit').and.callThrough();
+    vi.spyOn(component.setPaymentDetails, 'emit');
+    vi.spyOn(component.closeForm, 'emit');
   });
 
   it('should be created', () => {
@@ -301,7 +300,7 @@ describe('CheckoutPaymentFormComponent', () => {
       id: 'test',
     };
     component.paymentDetails = mockPaymentDetails;
-    spyOn(component.paymentForm, 'patchValue').and.callThrough();
+    vi.spyOn(component.paymentForm, 'patchValue');
 
     component.ngOnInit();
 
@@ -311,7 +310,7 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('it should NOT patch the form if the payment details is NOT provided', () => {
-    spyOn(component.paymentForm, 'patchValue').and.callThrough();
+    vi.spyOn(component.paymentForm, 'patchValue');
 
     component.ngOnInit();
 
@@ -320,7 +319,7 @@ describe('CheckoutPaymentFormComponent', () => {
 
   it('should call ngOnInit to get supported card types if they exist', () => {
     mockCheckoutPaymentService.getPaymentCardTypes =
-      createSpy().and.returnValue(of(mockCardTypes));
+      vi.fn().mockReturnValue(of(mockCardTypes));
 
     component.ngOnInit();
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
@@ -360,14 +359,14 @@ describe('CheckoutPaymentFormComponent', () => {
 
     it('should call "next" function when being clicked and when form is valid - with billing address', () => {
       mockCheckoutPaymentService.getPaymentCardTypes =
-        createSpy().and.returnValue(of(mockCardTypes));
+        vi.fn().mockReturnValue(of(mockCardTypes));
       mockCheckoutDeliveryService.getDeliveryAddressState =
-        createSpy().and.returnValue(
+        vi.fn().mockReturnValue(
           of({ loading: false, error: false, data: mockAddress })
         );
       mockUserPaymentService.getAllBillingCountries =
-        createSpy().and.returnValue(of(mockBillingCountries));
-      spyOn(component, 'next');
+        vi.fn().mockReturnValue(of(mockBillingCountries));
+      vi.spyOn(component, 'next');
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
@@ -380,14 +379,14 @@ describe('CheckoutPaymentFormComponent', () => {
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
       mockCheckoutPaymentService.getPaymentCardTypes =
-        createSpy().and.returnValue(of(mockCardTypes));
+        vi.fn().mockReturnValue(of(mockCardTypes));
       mockCheckoutDeliveryService.getDeliveryAddressState =
-        createSpy().and.returnValue(
+        vi.fn().mockReturnValue(
           of({ loading: false, error: false, data: mockAddress })
         );
       mockUserPaymentService.getAllBillingCountries =
-        createSpy().and.returnValue(of(mockBillingCountries));
-      spyOn(component, 'next');
+        vi.fn().mockReturnValue(of(mockBillingCountries));
+      vi.spyOn(component, 'next');
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
@@ -408,13 +407,15 @@ describe('CheckoutPaymentFormComponent', () => {
       expect(component.next).toHaveBeenCalledTimes(2);
     });
 
-    it('should check setAsDefaultField to determine whether setAsDefault checkbox displayed or not', () => {
+    it('should hide setAsDefault checkbox when setAsDefaultField is false', () => {
       component.setAsDefaultField = false;
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
       ).toEqual(0);
+    });
 
+    it('should show setAsDefault checkbox when setAsDefaultField is true', () => {
       component.setAsDefaultField = true;
       fixture.detectChanges();
       expect(
@@ -436,14 +437,14 @@ describe('CheckoutPaymentFormComponent', () => {
     it('should call "back" function after being clicked', () => {
       component.paymentMethodsCount = 0;
       fixture.detectChanges();
-      spyOn(component, 'back');
+      vi.spyOn(component, 'back');
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.back).toHaveBeenCalled();
     });
 
     it('should call back()', () => {
-      spyOn(component.goBack, 'emit').and.callThrough();
+      vi.spyOn(component.goBack, 'emit');
       component.back();
 
       expect(component.goBack.emit).toHaveBeenCalledWith();
@@ -452,7 +453,7 @@ describe('CheckoutPaymentFormComponent', () => {
     it('should call "close" function after being clicked', () => {
       component.paymentMethodsCount = 1;
       fixture.detectChanges();
-      spyOn(component, 'close');
+      vi.spyOn(component, 'close');
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.close).toHaveBeenCalled();

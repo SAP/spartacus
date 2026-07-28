@@ -15,10 +15,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';
 import { CheckoutPaymentTypeService } from './checkout-payment-type.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -29,31 +28,31 @@ const mockPaymentType: PaymentType = {
 const mockPurchaseOrderNumber = 'purchaseOrderNumber';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
-  getActive = createSpy().and.returnValue(
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
+  getActive = vi.fn().mockReturnValue(
     of({ purchaseOrderNumber: 'cartpurchaseOrderNumber' })
   );
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(EMPTY);
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(EMPTY);
+  dispatch = vi.fn();
 }
 
 class MockCheckoutPaymentTypeConnector
   implements Partial<CheckoutPaymentTypeConnector>
 {
-  getPaymentTypes = createSpy().and.returnValue(of([mockPaymentType]));
-  setPaymentType = createSpy().and.returnValue(of('setPaymentType'));
+  getPaymentTypes = vi.fn().mockReturnValue(of([mockPaymentType]));
+  setPaymentType = vi.fn().mockReturnValue(of('setPaymentType'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of(of({ loading: false, error: false, data: undefined }))
   );
 }
@@ -93,25 +92,20 @@ describe(`CheckoutPaymentTypeService`, () => {
   ));
 
   describe(`getPaymentTypesState`, () => {
-    it(`should call paymentTypeConnector.getPaymentTypes`, (done) => {
-      service
-        .getPaymentTypesState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(connector.getPaymentTypes).toHaveBeenCalled();
-          expect(result).toEqual({
-            loading: false,
-            error: false,
-            data: [mockPaymentType],
-          });
-          done();
-        });
+    it(`should call paymentTypeConnector.getPaymentTypes`, async () => {
+      const result = await firstValueFrom(service.getPaymentTypesState());
+      expect(connector.getPaymentTypes).toHaveBeenCalled();
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        data: [mockPaymentType],
+      });
     });
   });
 
   describe(`getPaymentTypes`, () => {
-    it(`should call facade's getPaymentTypesState()`, (done) => {
-      spyOn(service, 'getPaymentTypesState').and.returnValue(
+    it(`should call facade's getPaymentTypesState()`, async () => {
+      vi.spyOn(service, 'getPaymentTypesState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -119,18 +113,13 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      service
-        .getPaymentTypes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual([mockPaymentType]);
-          expect(service.getPaymentTypesState).toHaveBeenCalled();
-          done();
-        });
+      const result = await firstValueFrom(service.getPaymentTypes());
+      expect(result).toEqual([mockPaymentType]);
+      expect(service.getPaymentTypesState).toHaveBeenCalled();
     });
 
-    it(`should return an empty array if query's data is falsy`, (done) => {
-      spyOn(service, 'getPaymentTypesState').and.returnValue(
+    it(`should return an empty array if query's data is falsy`, async () => {
+      vi.spyOn(service, 'getPaymentTypesState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -138,54 +127,39 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      service
-        .getPaymentTypes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual([]);
-          done();
-        });
+      const result = await firstValueFrom(service.getPaymentTypes());
+      expect(result).toEqual([]);
     });
   });
 
   describe(`setPaymentType`, () => {
-    it(`should call paymentTypeConnector.setPaymentType`, (done) => {
-      service
-        .setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(connector.setPaymentType).toHaveBeenCalledWith(
-            mockUserId,
-            mockCartId,
-            mockPaymentType.code,
-            mockPurchaseOrderNumber
-          );
-          done();
-        });
+    it(`should call paymentTypeConnector.setPaymentType`, async () => {
+      await firstValueFrom(service.setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber));
+      expect(connector.setPaymentType).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockPaymentType.code,
+        mockPurchaseOrderNumber
+      );
     });
 
-    it(`should call dispatch CheckoutPaymentTypeSetEvent`, (done) => {
-      service
-        .setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(eventService.dispatch).toHaveBeenCalledWith(
-            {
-              cartId: mockCartId,
-              userId: mockUserId,
-              paymentTypeCode: mockB2bPaymentType,
-              purchaseOrderNumber: mockPurchaseOrderNumber,
-            },
-            CheckoutPaymentTypeSetEvent
-          );
-          done();
-        });
+    it(`should call dispatch CheckoutPaymentTypeSetEvent`, async () => {
+      await firstValueFrom(service.setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber));
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          cartId: mockCartId,
+          userId: mockUserId,
+          paymentTypeCode: mockB2bPaymentType,
+          purchaseOrderNumber: mockPurchaseOrderNumber,
+        },
+        CheckoutPaymentTypeSetEvent
+      );
     });
   });
 
   describe(`getSelectedPaymentTypeState`, () => {
-    it(`should return the payment type`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return the payment type`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -195,23 +169,18 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      service
-        .getSelectedPaymentTypeState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<PaymentType | undefined>>{
-            loading: false,
-            error: false,
-            data: mockPaymentType,
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getSelectedPaymentTypeState());
+      expect(result).toEqual(<QueryState<PaymentType | undefined>>{
+        loading: false,
+        error: false,
+        data: mockPaymentType,
+      });
     });
   });
 
   describe(`isAccountPayment`, () => {
-    it(`should return true if the payment type is of type ACCOUNT_PAYMENT`, (done) => {
-      spyOn(service, 'getSelectedPaymentTypeState').and.returnValue(
+    it(`should return true if the payment type is of type ACCOUNT_PAYMENT`, async () => {
+      vi.spyOn(service, 'getSelectedPaymentTypeState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -219,17 +188,12 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      service
-        .isAccountPayment()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeTruthy();
-          done();
-        });
+      const result = await firstValueFrom(service.isAccountPayment());
+      expect(result).toBeTruthy();
     });
 
-    it(`should return false if the payment type is NOT of type ACCOUNT_PAYMENT`, (done) => {
-      spyOn(service, 'getSelectedPaymentTypeState').and.returnValue(
+    it(`should return false if the payment type is NOT of type ACCOUNT_PAYMENT`, async () => {
+      vi.spyOn(service, 'getSelectedPaymentTypeState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -237,19 +201,14 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      service
-        .isAccountPayment()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toBeFalsy();
-          done();
-        });
+      const result = await firstValueFrom(service.isAccountPayment());
+      expect(result).toBeFalsy();
     });
   });
 
   describe(`getPurchaseOrderNumberState`, () => {
-    it(`should return PO number`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return PO number`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -259,17 +218,12 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      service
-        .getPurchaseOrderNumberState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<string | undefined>>{
-            loading: false,
-            error: false,
-            data: 'cartpurchaseOrderNumber',
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getPurchaseOrderNumberState());
+      expect(result).toEqual(<QueryState<string | undefined>>{
+        loading: false,
+        error: false,
+        data: 'cartpurchaseOrderNumber',
+      });
     });
   });
 });

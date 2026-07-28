@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -29,7 +29,6 @@ import {
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
-import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -46,41 +45,41 @@ const mockReplenishmentOrderFormData$ =
   );
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(EMPTY);
-  clearPlacedOrder = createSpy();
+  placeOrder = vi.fn().mockReturnValue(EMPTY);
+  clearPlacedOrder = vi.fn();
 }
 
 class MockScheduledReplenishmentOrderFacade
   implements Partial<ScheduledReplenishmentOrderFacade>
 {
-  scheduleReplenishmentOrder = createSpy().and.returnValue(EMPTY);
+  scheduleReplenishmentOrder = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
-  getOrderType = createSpy().and.returnValue(
+  getOrderType = vi.fn().mockReturnValue(
     of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
   );
-  getScheduleReplenishmentFormData = createSpy().and.returnValue(
+  getScheduleReplenishmentFormData = vi.fn().mockReturnValue(
     mockReplenishmentOrderFormData$.asObservable()
   );
-  setScheduleReplenishmentFormData = createSpy();
-  resetScheduleReplenishmentFormData = createSpy();
+  setScheduleReplenishmentFormData = vi.fn();
+  resetScheduleReplenishmentFormData = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve(true));
+  go = vi.fn().mockReturnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch = createSpy();
-  clear = createSpy();
+  launch = vi.fn();
+  clear = vi.fn();
 }
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
-  transform = createSpy();
+  transform = vi.fn();
 }
 
 describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
@@ -94,7 +93,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let launchDialogService: LaunchDialogService;
   let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = {
       getActive: () => of('USD'),
     };
@@ -137,7 +136,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -225,7 +224,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
   describe('when order was successfully placed', () => {
     it('should open popover dialog', () => {
-      spyOnProperty(component.checkoutSubmitForm, 'valid').and.returnValue(
+      vi.spyOn(component.checkoutSubmitForm, 'valid', 'get').mockReturnValue(
         true
       );
 

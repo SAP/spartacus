@@ -16,9 +16,8 @@ import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
-import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '../../../../../core-libs/core/src/features-config/feature-toggles/testing';
 
-import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -45,7 +44,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = vi.fn();
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
@@ -61,7 +60,7 @@ class MockUserAccountFacade implements Partial<UserAccountFacade> {
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 const mockFeatureToggles: FeatureToggles = {
@@ -70,7 +69,7 @@ const mockFeatureToggles: FeatureToggles = {
 
 const mockWindowRef = {
   localStorage: {
-    setItem: createSpy(),
+    setItem: vi.fn(),
   },
 };
 
@@ -136,13 +135,13 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
     });
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(of({}));
-        spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(false));
+        vi.spyOn(activeCartFacade, 'getAssignedUser').mockReturnValue(of({}));
+        vi.spyOn(activeCartFacade, 'isGuestCart').mockReturnValue(of(false));
       });
 
       describe('when authorizationCodeFlowByDefault feature flag is enabled', () => {
@@ -161,7 +160,7 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-          spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
+          vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(true);
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
             .canActivate()
@@ -190,7 +189,7 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login without forced flag when guestCheckout feature enabled', () => {
-          spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
+          vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(true);
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
             .canActivate()
@@ -208,7 +207,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(
+        vi.spyOn(activeCartFacade, 'getAssignedUser').mockReturnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
       });
@@ -226,9 +225,9 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is in checkout pages,', () => {
     it('should NOT redirect route when cart is unstable', () => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(activeCartFacade, 'isStable').and.returnValue(of(false));
-      spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(false));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(false));
+      vi.spyOn(activeCartFacade, 'isStable').mockReturnValue(of(false));
+      vi.spyOn(activeCartFacade, 'isGuestCart').mockReturnValue(of(false));
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(
@@ -239,12 +238,12 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      vi.spyOn(authService, 'isUserLoggedIn').mockReturnValue(of(true));
     });
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(of({}));
+        vi.spyOn(activeCartFacade, 'getAssignedUser').mockReturnValue(of({}));
       });
 
       it('should return true', () => {
@@ -259,7 +258,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(
+        vi.spyOn(activeCartFacade, 'getAssignedUser').mockReturnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
       });
@@ -285,11 +284,11 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and user is b2b user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(of({}));
+        vi.spyOn(activeCartFacade, 'getAssignedUser').mockReturnValue(of({}));
       });
 
       it('should return true when user roles has b2bcustomergroup', () => {
-        spyOn(userService, 'get').and.returnValue(
+        vi.spyOn(userService, 'get').mockReturnValue(
           of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] })
         );
         let result: boolean | UrlTree | RedirectCommand | undefined;
@@ -301,7 +300,7 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return to /home when user roles does not have b2bcustomergroup', () => {
-        spyOn(userService, 'get').and.returnValue(
+        vi.spyOn(userService, 'get').mockReturnValue(
           of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] })
         );
         let result: boolean | UrlTree | RedirectCommand | undefined;

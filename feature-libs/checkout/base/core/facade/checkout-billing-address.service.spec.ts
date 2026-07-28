@@ -3,10 +3,9 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import { Address, OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutBillingAddressConnector } from '../connectors/checkout-billing-address/checkout-billing-address.connector';
 import { CheckoutBillingAddressService } from './checkout-billing-address.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -15,22 +14,22 @@ const mockAddress: Partial<Address> = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockCheckoutBillingAddressConnector
   implements Partial<CheckoutBillingAddressConnector>
 {
-  setBillingAddress = createSpy().and.returnValue(of('setAddress'));
+  setBillingAddress = vi.fn().mockReturnValue(of('setAddress'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
 }
@@ -65,28 +64,16 @@ describe(`CheckoutBillingAddressService`, () => {
   ));
 
   describe(`setBillingAddress`, () => {
-    it(`should throw an error if the address is not present`, (done) => {
-      service
-        .setBillingAddress(undefined as unknown as Address)
-        .pipe(take(1))
-        .subscribe({
-          error: (error) => {
-            expect(error).toEqual(new Error('Checkout conditions not met'));
-            done();
-          },
-        });
+    it(`should throw an error if the address is not present`, async () => {
+      await expect(
+        firstValueFrom(service.setBillingAddress(undefined as unknown as Address))
+      ).rejects.toEqual(new Error('Checkout conditions not met'));
     });
 
-    it(`should throw an error if the address object is empty`, (done) => {
-      service
-        .setBillingAddress({})
-        .pipe(take(1))
-        .subscribe({
-          error: (error) => {
-            expect(error).toEqual(new Error('Checkout conditions not met'));
-            done();
-          },
-        });
+    it(`should throw an error if the address object is empty`, async () => {
+      await expect(
+        firstValueFrom(service.setBillingAddress({}))
+      ).rejects.toEqual(new Error('Checkout conditions not met'));
     });
 
     it(`should call checkoutBillingConnector.setAddress`, () => {

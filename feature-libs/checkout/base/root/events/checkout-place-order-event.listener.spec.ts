@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { CheckoutPlaceOrderEventListener } from './checkout-place-order-event.listener';
 import { CheckoutQueryResetEvent } from './checkout.events';
 
-import createSpy = jasmine.createSpy;
 
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
@@ -17,8 +16,8 @@ const mockOrder: Order = {
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 describe(`CheckoutPlaceOrderEventListener`, () => {

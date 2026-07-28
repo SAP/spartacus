@@ -13,10 +13,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -26,27 +25,27 @@ const mockCart: Cart = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(EMPTY);
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(EMPTY);
+  dispatch = vi.fn();
 }
 
 class MockCheckoutCostCenterConnector
   implements Partial<CheckoutCostCenterConnector>
 {
-  setCostCenter = createSpy().and.returnValue(of(mockCart));
+  setCostCenter = vi.fn().mockReturnValue(of(mockCart));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of(of({ loading: false, error: false, data: undefined }))
   );
 }
@@ -86,8 +85,8 @@ describe(`CheckoutCostCenterService`, () => {
   ));
 
   describe(`getCostCenterState`, () => {
-    it(`should return the cost center`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return the cost center`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -97,51 +96,36 @@ describe(`CheckoutCostCenterService`, () => {
         })
       );
 
-      service
-        .getCostCenterState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<CostCenter | undefined>>{
-            loading: false,
-            error: false,
-            data: mockCostCenter,
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getCostCenterState());
+      expect(result).toEqual(<QueryState<CostCenter | undefined>>{
+        loading: false,
+        error: false,
+        data: mockCostCenter,
+      });
     });
   });
 
   describe(`setCostCenter`, () => {
-    it(`should call checkoutCostCenterConnector.setCostCenter`, (done) => {
-      service
-        .setCostCenter(mockCostCenter.code ?? '')
-        .pipe(take(1))
-        .subscribe((cart) => {
-          expect(connector.setCostCenter).toHaveBeenCalledWith(
-            mockUserId,
-            mockCartId,
-            mockCostCenter.code
-          );
-          expect(cart).toEqual(mockCart);
-          done();
-        });
+    it(`should call checkoutCostCenterConnector.setCostCenter`, async () => {
+      const cart = await firstValueFrom(service.setCostCenter(mockCostCenter.code ?? ''));
+      expect(connector.setCostCenter).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockCostCenter.code
+      );
+      expect(cart).toEqual(mockCart);
     });
 
-    it(`should call dispatch CheckoutCostCenterSetEvent`, (done) => {
-      service
-        .setCostCenter(mockCostCenter.code ?? '')
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(eventService.dispatch).toHaveBeenCalledWith(
-            {
-              cartId: mockCartId,
-              userId: mockUserId,
-              code: mockCostCenter.code ?? '',
-            },
-            CheckoutCostCenterSetEvent
-          );
-          done();
-        });
+    it(`should call dispatch CheckoutCostCenterSetEvent`, async () => {
+      await firstValueFrom(service.setCostCenter(mockCostCenter.code ?? ''));
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          cartId: mockCartId,
+          userId: mockUserId,
+          code: mockCostCenter.code ?? '',
+        },
+        CheckoutCostCenterSetEvent
+      );
     });
   });
 });

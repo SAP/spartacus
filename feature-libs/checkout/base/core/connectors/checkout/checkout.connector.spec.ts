@@ -4,16 +4,13 @@ import { take } from 'rxjs/operators';
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
 
-import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements Partial<CheckoutAdapter> {
-  placeOrder = createSpy('CheckoutAdapter.placeOrder').and.callFake(
+  placeOrder = vi.fn().mockImplementation(
     (userId: string, cartId: string, termsChecked: boolean) =>
       of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
   );
-  getCheckoutDetails = createSpy(
-    'CheckoutAdapter.loadCheckoutDetails'
-  ).and.callFake((userId: string, cartId: string) =>
+  getCheckoutDetails = vi.fn().mockImplementation((userId: string, cartId: string) =>
     of(`loadCheckoutDetails-${userId}-${cartId}`)
   );
 }

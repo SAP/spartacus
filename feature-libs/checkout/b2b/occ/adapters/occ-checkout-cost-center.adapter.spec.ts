@@ -1,3 +1,4 @@
+import { take } from 'rxjs/operators';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,7 +9,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   ConverterService,
@@ -19,7 +20,7 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 class MockLoggerService {
   log(): void {}
@@ -88,7 +89,7 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    vi.spyOn(converter, 'pipeableMany');
   });
 
   afterEach(() => {
@@ -98,14 +99,10 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
   describe(`setCostCenter`, () => {
     const costCenterId = 'testCostCenterId';
 
-    it(`should set cost center cart`, (done) => {
-      service
-        .setCostCenter(userId, cartId, costCenterId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(cartData);
-          done();
-        });
+    it(`should set cost center cart`, async () => {
+      const resultPromise = firstValueFrom(
+        service.setCostCenter(userId, cartId, costCenterId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -118,11 +115,16 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(cartData);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'put').and.returnValue(
+      beforeEach(() => { vi.useFakeTimers(); });
+      afterEach(() => { vi.useRealTimers(); });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'put').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -132,17 +134,17 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'put').and.returnValue(
+        vi.spyOn(httpClient, 'put').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -161,19 +163,19 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(cartData);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 });

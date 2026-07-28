@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -40,11 +40,10 @@ import {
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { MockIconComponent } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { MockIconComponent } from '../../../../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
-import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   guid: 'test',
@@ -122,7 +121,7 @@ class MockCheckoutDeliveryAddressService
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  loadSupportedDeliveryModes = createSpy();
+  loadSupportedDeliveryModes = vi.fn();
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
@@ -220,7 +219,7 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
   let component: B2BCheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<B2BCheckoutReviewSubmitComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
@@ -275,7 +274,7 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(B2BCheckoutReviewSubmitComponent);

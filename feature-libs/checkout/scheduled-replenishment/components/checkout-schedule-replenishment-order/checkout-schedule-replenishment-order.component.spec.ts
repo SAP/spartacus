@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   DaysOfWeek,
@@ -6,11 +6,10 @@ import {
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
-import { of } from 'rxjs';
+import { IconTestingModule } from '../../../../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { firstValueFrom, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
-import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: '14',
@@ -24,10 +23,10 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
 class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
-  getOrderType = createSpy().and.returnValue(of(ORDER_TYPE.PLACE_ORDER));
-  setOrderType = createSpy();
-  getScheduleReplenishmentFormData = createSpy().and.returnValue(of({}));
-  setScheduleReplenishmentFormData = createSpy();
+  getOrderType = vi.fn().mockReturnValue(of(ORDER_TYPE.PLACE_ORDER));
+  setOrderType = vi.fn();
+  getScheduleReplenishmentFormData = vi.fn().mockReturnValue(of({}));
+  setScheduleReplenishmentFormData = vi.fn();
 }
 
 describe('CheckoutScheduleReplenishmentOrderComponent', () => {
@@ -36,7 +35,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
 
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -50,7 +49,7 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -65,11 +64,9 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     component.scheduleReplenishmentFormData = mockReplenishmentOrderFormData;
   });
 
-  it('should get selected order type', (done) => {
-    component.selectedOrderType$.subscribe((result) => {
-      expect(result).toEqual(ORDER_TYPE.PLACE_ORDER);
-      done();
-    });
+  it('should get selected order type', async () => {
+    const result = await firstValueFrom(component.selectedOrderType$);
+    expect(result).toEqual(ORDER_TYPE.PLACE_ORDER);
   });
 
   it('should change order type', () => {

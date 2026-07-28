@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -13,18 +13,17 @@ import {
   User,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
-import createSpy = jasmine.createSpy;
 
 class MockActiveCartService {
-  addEmail = createSpy('MockCartService.addEmail');
-  getAssignedUser = createSpy().and.returnValue(EMPTY);
-  isGuestCart = createSpy().and.returnValue(false);
+  addEmail = vi.fn();
+  getAssignedUser = vi.fn().mockReturnValue(EMPTY);
+  isGuestCart = vi.fn().mockReturnValue(false);
 }
 class MockRedirectAfterAuthService {
-  redirect = createSpy('AuthRedirectService.redirect');
+  redirect = vi.fn();
 }
 
 const testEmail = 'john@acme.com';
@@ -38,7 +37,7 @@ describe('CheckoutLoginComponent', () => {
   let email: AbstractControl;
   let emailConfirmation: AbstractControl;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, FormErrorsModule, CheckoutLoginComponent],
       providers: [
@@ -57,7 +56,7 @@ describe('CheckoutLoginComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
@@ -83,10 +82,10 @@ describe('CheckoutLoginComponent', () => {
 
   describe('submitting form', () => {
     beforeEach(() => {
-      activeCartFacade.getAssignedUser = createSpy().and.returnValue(
+      activeCartFacade.getAssignedUser = vi.fn().mockReturnValue(
         of({ name: 'guest', uid: 'john@acme.com' } as User)
       );
-      activeCartFacade.isGuestCart = createSpy().and.returnValue(of(true));
+      activeCartFacade.isGuestCart = vi.fn().mockReturnValue(of(true));
     });
 
     it('should work, when form is valid', () => {

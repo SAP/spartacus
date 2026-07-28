@@ -16,10 +16,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -39,30 +38,30 @@ const mockPaymentInfo: PaymentDetails = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(EMPTY);
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(EMPTY);
+  dispatch = vi.fn();
 }
 
 class MockCheckoutPaymentConnector
   implements Partial<CheckoutPaymentConnector>
 {
-  getPaymentCardTypes = createSpy().and.returnValue(of(mockCardTypes));
-  createPaymentDetails = createSpy().and.returnValue(of(mockPaymentInfo));
-  setPaymentDetails = createSpy().and.returnValue(of('set'));
-  deletePaymentDetails = createSpy().and.returnValue(of('deleted'));
+  getPaymentCardTypes = vi.fn().mockReturnValue(of(mockCardTypes));
+  createPaymentDetails = vi.fn().mockReturnValue(of(mockPaymentInfo));
+  setPaymentDetails = vi.fn().mockReturnValue(of('set'));
+  deletePaymentDetails = vi.fn().mockReturnValue(of('deleted'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
 }
@@ -102,25 +101,20 @@ describe(`CheckoutPaymentService`, () => {
   ));
 
   describe(`getPaymentCardTypesState`, () => {
-    it(`should call the checkoutPaymentConnector.getPaymentCardTypes()`, (done) => {
-      service
-        .getPaymentCardTypesState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getPaymentCardTypes).toHaveBeenCalled();
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockCardTypes,
-          });
-          done();
-        });
+    it(`should call the checkoutPaymentConnector.getPaymentCardTypes()`, async () => {
+      const state = await firstValueFrom(service.getPaymentCardTypesState());
+      expect(connector.getPaymentCardTypes).toHaveBeenCalled();
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockCardTypes,
+      });
     });
   });
 
   describe(`getPaymentCardTypes`, () => {
-    it(`should call facade's getPaymentCardTypesState()`, (done) => {
-      spyOn(service, 'getPaymentCardTypesState').and.returnValue(
+    it(`should call facade's getPaymentCardTypesState()`, async () => {
+      vi.spyOn(service, 'getPaymentCardTypesState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -128,18 +122,13 @@ describe(`CheckoutPaymentService`, () => {
         })
       );
 
-      service
-        .getPaymentCardTypes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockCardTypes);
-          expect(service.getPaymentCardTypesState).toHaveBeenCalled();
-          done();
-        });
+      const result = await firstValueFrom(service.getPaymentCardTypes());
+      expect(result).toEqual(mockCardTypes);
+      expect(service.getPaymentCardTypesState).toHaveBeenCalled();
     });
 
-    it(`should return an empty array if query's data is falsy`, (done) => {
-      spyOn(service, 'getPaymentCardTypesState').and.returnValue(
+    it(`should return an empty array if query's data is falsy`, async () => {
+      vi.spyOn(service, 'getPaymentCardTypesState').mockReturnValue(
         of({
           loading: false,
           error: false,
@@ -147,19 +136,14 @@ describe(`CheckoutPaymentService`, () => {
         })
       );
 
-      service
-        .getPaymentCardTypes()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual([]);
-          done();
-        });
+      const result = await firstValueFrom(service.getPaymentCardTypes());
+      expect(result).toEqual([]);
     });
   });
 
   describe(`getPaymentDetailsState`, () => {
-    it(`should return the delivery modes`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return the delivery modes`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -169,17 +153,12 @@ describe(`CheckoutPaymentService`, () => {
         })
       );
 
-      service
-        .getPaymentDetailsState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<PaymentDetails | undefined>>{
-            loading: false,
-            error: false,
-            data: mockPaymentInfo,
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getPaymentDetailsState());
+      expect(result).toEqual(<QueryState<PaymentDetails | undefined>>{
+        loading: false,
+        error: false,
+        data: mockPaymentInfo,
+      });
     });
   });
 
@@ -209,16 +188,10 @@ describe(`CheckoutPaymentService`, () => {
   });
 
   describe(`setPaymentDetails`, () => {
-    it(`should throw an error if the payment details ID is not present`, (done) => {
-      service
-        .setPaymentDetails({})
-        .pipe(take(1))
-        .subscribe({
-          error: (error) => {
-            expect(error).toEqual(new Error('Checkout conditions not met'));
-            done();
-          },
-        });
+    it(`should throw an error if the payment details ID is not present`, async () => {
+      await expect(firstValueFrom(service.setPaymentDetails({}))).rejects.toEqual(
+        new Error('Checkout conditions not met')
+      );
     });
 
     it(`should call checkoutPaymentConnector.set`, () => {

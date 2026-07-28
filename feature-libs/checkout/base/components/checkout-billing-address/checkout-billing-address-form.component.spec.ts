@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
@@ -17,10 +17,9 @@ import {
   LaunchDialogService,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-form.component';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
-import createSpy = jasmine.createSpy;
 
 const mockBillingCountries: Country[] = [
   {
@@ -62,23 +61,23 @@ class MockCardComponent {
 class MockCheckoutDeliveryService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = createSpy().and.returnValue(
+  getDeliveryAddressState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
-  getAddressVerificationResults = createSpy().and.returnValue(EMPTY);
-  verifyAddress = createSpy();
-  clearAddressVerificationResults = createSpy();
+  getAddressVerificationResults = vi.fn().mockReturnValue(EMPTY);
+  verifyAddress = vi.fn();
+  clearAddressVerificationResults = vi.fn();
 }
 
 class MockUserPaymentService implements Partial<UserPaymentService> {
-  loadBillingCountries = createSpy();
-  getAllBillingCountries = createSpy().and.returnValue(
+  loadBillingCountries = vi.fn();
+  getAllBillingCountries = vi.fn().mockReturnValue(
     of(mockBillingCountries)
   );
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
+  add = vi.fn();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -87,8 +86,8 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 class MockUserAddressService implements Partial<UserAddressService> {
-  getRegions = createSpy().and.returnValue(of([]));
-  verifyAddress = createSpy().and.returnValue(of({}));
+  getRegions = vi.fn().mockReturnValue(of([]));
+  verifyAddress = vi.fn().mockReturnValue(of({}));
 }
 
 describe('CheckoutBillingAddressFormComponent', () => {
@@ -99,7 +98,7 @@ describe('CheckoutBillingAddressFormComponent', () => {
   let mockGlobalMessageService: MockGlobalMessageService;
   let userAddressService: UserAddressService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
     mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
@@ -130,7 +129,7 @@ describe('CheckoutBillingAddressFormComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     userAddressService = TestBed.inject(UserAddressService);
@@ -143,36 +142,30 @@ describe('CheckoutBillingAddressFormComponent', () => {
   });
 
   describe('ngOnInit()', () => {
-    it('should call ngOnInit to get billing countries', (done) => {
+    it('should call ngOnInit to get billing countries', async () => {
       mockUserPaymentService.getAllBillingCountries =
-        createSpy().and.returnValue(of(mockBillingCountries));
+        vi.fn().mockReturnValue(of(mockBillingCountries));
       component.ngOnInit();
-      component.countries$.subscribe((countries: Country[]) => {
-        expect(countries).toBe(mockBillingCountries);
-        done();
-      });
+      const countries = await firstValueFrom(component.countries$);
+      expect(countries).toBe(mockBillingCountries);
     });
-    it('should call ngOnInit to get delivery address set in cart', (done) => {
+    it('should call ngOnInit to get delivery address set in cart', async () => {
       mockCheckoutDeliveryService.getDeliveryAddressState =
-        createSpy().and.returnValue(
+        vi.fn().mockReturnValue(
           of({ loading: false, error: false, data: mockAddress })
         );
       component.ngOnInit();
-      component.deliveryAddress$.subscribe((address) => {
-        expect(address).toBe(mockAddress);
-        done();
-      });
+      const address = await firstValueFrom(component.deliveryAddress$);
+      expect(address).toBe(mockAddress);
     });
-    it('should call ngOnInit to load billing countries', (done) => {
+    it('should call ngOnInit to load billing countries', async () => {
       mockUserPaymentService.getAllBillingCountries =
-        createSpy().and.returnValue(of(mockBillingCountriesEmpty));
+        vi.fn().mockReturnValue(of(mockBillingCountriesEmpty));
 
       component.ngOnInit();
-      component.countries$.subscribe((countries: Country[]) => {
-        expect(countries).toBe(mockBillingCountriesEmpty);
-        expect(mockUserPaymentService.loadBillingCountries).toHaveBeenCalled();
-        done();
-      });
+      const countries = await firstValueFrom(component.countries$);
+      expect(countries).toBe(mockBillingCountriesEmpty);
+      expect(mockUserPaymentService.loadBillingCountries).toHaveBeenCalled();
     });
     it('should add address with address verification result "accept"', () => {
       const mockAddressVerificationResult = { decision: 'ACCEPT' };
@@ -195,7 +188,7 @@ describe('CheckoutBillingAddressFormComponent', () => {
       const mockAddressVerificationResult: AddressValidation = {
         decision: 'REVIEW',
       };
-      spyOn(component, 'openSuggestedAddress');
+      vi.spyOn(component, 'openSuggestedAddress');
       component.ngOnInit();
       component['handleAddressVerificationResults'](
         mockAddressVerificationResult
@@ -205,7 +198,7 @@ describe('CheckoutBillingAddressFormComponent', () => {
   });
 
   it('should call toggleSameAsDeliveryAddress()', () => {
-    spyOn(component, 'toggleSameAsDeliveryAddress').and.callThrough();
+    vi.spyOn(component, 'toggleSameAsDeliveryAddress');
     component.sameAsDeliveryAddress = true;
 
     component.toggleSameAsDeliveryAddress();
@@ -214,22 +207,20 @@ describe('CheckoutBillingAddressFormComponent', () => {
     expect(component.sameAsDeliveryAddress).toBeFalsy();
   });
 
-  it('should call getAddressCardContent(address)', (done) => {
-    component.getAddressCardContent(mockAddress).subscribe((card) => {
-      expect(card?.textBold).toEqual('John Doe');
-      expect(card?.text).toEqual([
-        'Toyosaki 2 create on cart',
-        'line2',
-        'town, JP-27, JP',
-        'zip',
-        undefined,
-      ]);
-      done();
-    });
+  it('should call getAddressCardContent(address)', async () => {
+    const card = await firstValueFrom(component.getAddressCardContent(mockAddress));
+    expect(card?.textBold).toEqual('John Doe');
+    expect(card?.text).toEqual([
+      'Toyosaki 2 create on cart',
+      'line2',
+      'town, JP-27, JP',
+      'zip',
+      undefined,
+    ]);
   });
 
   it('should call verifyAddress() when billing address not same as shipping', () => {
-    userAddressService.verifyAddress = createSpy().and.returnValue(
+    userAddressService.verifyAddress = vi.fn().mockReturnValue(
       of({
         decision: 'ACCEPT',
       })

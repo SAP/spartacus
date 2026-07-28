@@ -12,11 +12,9 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { ExpressCheckoutService } from './express-checkout.service';
-import createSpy = jasmine.createSpy;
 
 const mockCheckoutDeliveryAddress: Address = {
   firstName: 'firstName',
@@ -35,9 +33,9 @@ const mockAddresses = new BehaviorSubject<Address[]>([
 const mockGetAddressesLoadedSuccess = new BehaviorSubject<boolean>(true);
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getAddresses = createSpy().and.returnValue(mockAddresses.asObservable());
-  loadAddresses = createSpy();
-  getAddressesLoadedSuccess = createSpy().and.returnValue(
+  getAddresses = vi.fn().mockReturnValue(mockAddresses.asObservable());
+  loadAddresses = vi.fn();
+  getAddressesLoadedSuccess = vi.fn().mockReturnValue(
     mockGetAddressesLoadedSuccess.asObservable()
   );
 }
@@ -47,13 +45,13 @@ const mockGetPaymentMethods = new BehaviorSubject<PaymentDetails[]>([
 ]);
 const mockGetPaymentMethodsLoadedSuccess = new BehaviorSubject<boolean>(true);
 class MockUserPaymentService implements Partial<UserPaymentService> {
-  getPaymentMethods = createSpy().and.returnValue(
+  getPaymentMethods = vi.fn().mockReturnValue(
     mockGetPaymentMethods.asObservable()
   );
-  getPaymentMethodsLoadedSuccess = createSpy().and.returnValue(
+  getPaymentMethodsLoadedSuccess = vi.fn().mockReturnValue(
     mockGetPaymentMethodsLoadedSuccess.asObservable()
   );
-  loadPaymentMethods = createSpy();
+  loadPaymentMethods = vi.fn();
 }
 
 const mockGetDeliveryAddressState = new BehaviorSubject<
@@ -66,44 +64,44 @@ const mockGetDeliveryAddressState = new BehaviorSubject<
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  setDeliveryAddress = createSpy().and.returnValue(of(undefined));
-  getDeliveryAddressState = createSpy().and.returnValue(
+  setDeliveryAddress = vi.fn().mockReturnValue(of(undefined));
+  getDeliveryAddressState = vi.fn().mockReturnValue(
     mockGetDeliveryAddressState.asObservable()
   );
 }
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSelectedDeliveryModeState = createSpy().and.returnValue(
+  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,
       error: false,
       data: mockCheckoutDeliveryMode,
     })
   );
-  getSupportedDeliveryModesState = createSpy().and.returnValue(
+  getSupportedDeliveryModesState = vi.fn().mockReturnValue(
     of({
       loading: false,
       error: false,
       data: [mockCheckoutDeliveryMode],
     })
   );
-  setDeliveryMode = createSpy().and.returnValue(of('setDeliveryMode'));
+  setDeliveryMode = vi.fn().mockReturnValue(of('setDeliveryMode'));
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState = createSpy().and.returnValue(
+  getPaymentDetailsState = vi.fn().mockReturnValue(
     of({
       loading: false,
       error: false,
       data: mockCheckoutPaymentInfo,
     })
   );
-  setPaymentDetails = createSpy().and.returnValue(of('setPaymentDetails'));
+  setPaymentDetails = vi.fn().mockReturnValue(of('setPaymentDetails'));
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  getPreferredDeliveryMode = createSpy().and.returnValue(
+  getPreferredDeliveryMode = vi.fn().mockReturnValue(
     mockCheckoutDeliveryMode?.code
   );
 }
@@ -171,171 +169,111 @@ describe('ExpressCheckoutService', () => {
   });
 
   describe('trySetDefaultCheckoutDetails', () => {
-    it('should return true if express checkout is possible', (done) => {
-      service
-        .trySetDefaultCheckoutDetails()
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(data).toBeTruthy();
-          done();
-        });
+    it('should return true if express checkout is possible', async () => {
+      const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+      expect(data).toBeTruthy();
     });
 
     describe('deliveryAddressSet$', () => {
-      it('should load addresses if they are not loaded', (done) => {
+      it('should load addresses if they are not loaded', async () => {
         mockGetAddressesLoadedSuccess.next(false);
 
-        userAddressService.loadAddresses = createSpy().and.callFake(() =>
+        userAddressService.loadAddresses = vi.fn().mockImplementation(() =>
           mockGetAddressesLoadedSuccess.next(true)
         );
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(userAddressService.loadAddresses).toHaveBeenCalled();
-            expect(data).toBeTruthy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(userAddressService.loadAddresses).toHaveBeenCalled();
+        expect(data).toBeTruthy();
       });
 
-      it('should set delivery address if it has been not loaded yet', (done) => {
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(
-              checkoutDeliveryAddressFacade.setDeliveryAddress
-            ).toHaveBeenCalledWith(mockCheckoutDeliveryAddress);
-            expect(data).toBeTruthy();
-            done();
-          });
+      it('should set delivery address if it has been not loaded yet', async () => {
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(
+          checkoutDeliveryAddressFacade.setDeliveryAddress
+        ).toHaveBeenCalledWith(mockCheckoutDeliveryAddress);
+        expect(data).toBeTruthy();
       });
 
-      it('should return false if set delivery address error', (done) => {
+      it('should return false if set delivery address error', async () => {
         checkoutDeliveryAddressFacade.setDeliveryAddress =
-          createSpy().and.returnValue(throwError(() => 'err'));
+          vi.fn().mockReturnValue(throwError(() => 'err'));
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(data).toBeFalsy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(data).toBeFalsy();
       });
 
-      it('should return false if there are no addresses', (done) => {
+      it('should return false if there are no addresses', async () => {
         mockAddresses.next([]);
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(data).toBeFalsy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(data).toBeFalsy();
       });
     });
 
     describe('paymentMethodSet$', () => {
-      it('should load payment methods if they are not loaded', (done) => {
+      it('should load payment methods if they are not loaded', async () => {
         mockGetPaymentMethodsLoadedSuccess.next(false);
-        userPaymentService.loadPaymentMethods = createSpy().and.callFake(() =>
+        userPaymentService.loadPaymentMethods = vi.fn().mockImplementation(() =>
           mockGetPaymentMethodsLoadedSuccess.next(true)
         );
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(userPaymentService.loadPaymentMethods).toHaveBeenCalled();
-            expect(data).toBeTruthy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(userPaymentService.loadPaymentMethods).toHaveBeenCalled();
+        expect(data).toBeTruthy();
       });
 
-      it('should set payment method if it has been not loaded yet', (done) => {
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(
-              checkoutPaymentService.setPaymentDetails
-            ).toHaveBeenCalledWith(mockCheckoutPaymentInfo);
-            expect(data).toBeTruthy();
-            done();
-          });
+      it('should set payment method if it has been not loaded yet', async () => {
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(
+          checkoutPaymentService.setPaymentDetails
+        ).toHaveBeenCalledWith(mockCheckoutPaymentInfo);
+        expect(data).toBeTruthy();
       });
 
-      it('should return false if set payment method error', (done) => {
-        checkoutPaymentService.setPaymentDetails = createSpy().and.returnValue(
+      it('should return false if set payment method error', async () => {
+        checkoutPaymentService.setPaymentDetails = vi.fn().mockReturnValue(
           throwError(() => 'err')
         );
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(data).toBeFalsy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(data).toBeFalsy();
       });
 
-      it('should return false if there are no payment methods', (done) => {
+      it('should return false if there are no payment methods', async () => {
         mockGetPaymentMethods.next([]);
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(data).toBeFalsy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(data).toBeFalsy();
       });
     });
 
     describe('deliveryModeSet$', () => {
-      it('should set delivery mode if it has been not loaded yet', (done) => {
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(
-              checkoutDeliveryModesFacade.setDeliveryMode
-            ).toHaveBeenCalledWith(mockCheckoutDeliveryMode.code);
-            expect(data).toBeTruthy();
-            done();
-          });
+      it('should set delivery mode if it has been not loaded yet', async () => {
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(
+          checkoutDeliveryModesFacade.setDeliveryMode
+        ).toHaveBeenCalledWith(mockCheckoutDeliveryMode.code);
+        expect(data).toBeTruthy();
       });
 
-      it('should return false if set delivery mode error', (done) => {
+      it('should return false if set delivery mode error', async () => {
         checkoutDeliveryModesFacade.setDeliveryMode =
-          createSpy().and.returnValue(throwError(() => 'err'));
+          vi.fn().mockReturnValue(throwError(() => 'err'));
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(data).toBeFalsy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(data).toBeFalsy();
       });
 
-      it('should return false if there are no delivery modes', (done) => {
+      it('should return false if there are no delivery modes', async () => {
         mockGetDeliveryAddressState.next({
           loading: false,
           error: false,
           data: {},
         });
 
-        service
-          .trySetDefaultCheckoutDetails()
-          .pipe(take(1))
-          .subscribe((data) => {
-            expect(data).toBeFalsy();
-            done();
-          });
+        const data = await firstValueFrom(service.trySetDefaultCheckoutDetails());
+        expect(data).toBeFalsy();
       });
     });
   });

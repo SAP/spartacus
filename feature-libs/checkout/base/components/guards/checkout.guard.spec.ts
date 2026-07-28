@@ -6,19 +6,18 @@ import {
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { defaultCheckoutRoutingConfig } from '../../root/config/default-checkout-routing-config';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { CheckoutGuard } from './checkout.guard';
-import createSpy = jasmine.createSpy;
 
 const MockRoutesConfig: RoutesConfig =
   defaultCheckoutRoutingConfig.routing?.routes ?? {};
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  isExpressCheckout = createSpy().and.returnValue(true);
+  isExpressCheckout = vi.fn().mockReturnValue(true);
 }
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
@@ -39,11 +38,11 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
-  getCheckoutStepRoute = createSpy().and.returnValue('checkoutReviewOrder');
+  getCheckoutStepRoute = vi.fn().mockReturnValue('checkoutReviewOrder');
 }
 
 class MockExpressCheckoutService implements Partial<ExpressCheckoutService> {
-  trySetDefaultCheckoutDetails = createSpy().and.returnValue(of(false));
+  trySetDefaultCheckoutDetails = vi.fn().mockReturnValue(of(false));
 }
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
@@ -53,7 +52,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 }
 
 class MockCartService implements Partial<ActiveCartFacade> {
-  isGuestCart = createSpy().and.returnValue(of(false));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 describe(`CheckoutGuard`, () => {
@@ -87,77 +86,57 @@ describe(`CheckoutGuard`, () => {
     expressCheckoutService = TestBed.inject(ExpressCheckoutService);
   });
 
-  it(`should redirect to first checkout step if express checkout is turned off`, (done) => {
+  it(`should redirect to first checkout step if express checkout is turned off`, async () => {
     checkoutConfigService.isExpressCheckout =
-      createSpy().and.returnValue(false);
+      vi.fn().mockReturnValue(false);
 
-    guard
-      .canActivate()
-      .subscribe((result) => {
-        expect(result.toString()).toEqual(
-          `/${
-            mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[0].routeName
-            )?.paths?.[0]
-          }`
-        );
-        done();
-      })
-      .unsubscribe();
+    const result = await firstValueFrom(guard.canActivate());
+    expect(result.toString()).toEqual(
+      `/${
+        mockRoutingConfigService.getRouteConfig(
+          mockCheckoutSteps[0].routeName
+        )?.paths?.[0]
+      }`
+    );
   });
 
-  it(`should redirect to first checkout step if is guest checkout`, (done) => {
-    cartService.isGuestCart = createSpy().and.returnValue(of(true));
+  it(`should redirect to first checkout step if is guest checkout`, async () => {
+    cartService.isGuestCart = vi.fn().mockReturnValue(of(true));
 
-    guard
-      .canActivate()
-      .subscribe((result) => {
-        expect(result.toString()).toEqual(
-          `/${
-            mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[0].routeName
-            )?.paths?.[0]
-          }`
-        );
-        done();
-      })
-      .unsubscribe();
+    const result = await firstValueFrom(guard.canActivate());
+    expect(result.toString()).toEqual(
+      `/${
+        mockRoutingConfigService.getRouteConfig(
+          mockCheckoutSteps[0].routeName
+        )?.paths?.[0]
+      }`
+    );
   });
 
-  it(`should redirect to first checkout step if express checkout is not possible`, (done) => {
-    guard
-      .canActivate()
-      .subscribe((result) => {
-        expect(result.toString()).toEqual(
-          `/${
-            mockRoutingConfigService.getRouteConfig(
-              mockCheckoutSteps[0].routeName
-            )?.paths?.[0]
-          }`
-        );
-        done();
-      })
-      .unsubscribe();
+  it(`should redirect to first checkout step if express checkout is not possible`, async () => {
+    const result = await firstValueFrom(guard.canActivate());
+    expect(result.toString()).toEqual(
+      `/${
+        mockRoutingConfigService.getRouteConfig(
+          mockCheckoutSteps[0].routeName
+        )?.paths?.[0]
+      }`
+    );
   });
 
-  it(`should redirect to review order`, (done) => {
+  it(`should redirect to review order`, async () => {
     expressCheckoutService.trySetDefaultCheckoutDetails =
-      createSpy().and.returnValue(of(true));
+      vi.fn().mockReturnValue(of(true));
 
-    guard
-      .canActivate()
-      .subscribe((result) => {
-        expect(result.toString()).toEqual(
-          `/${
-            mockRoutingConfigService.getRouteConfig(
-              mockCheckoutStepService.getCheckoutStepRoute(
-                CheckoutStepType.REVIEW_ORDER
-              ) as string
-            )?.paths?.[0]
-          }`
-        );
-        done();
-      })
-      .unsubscribe();
+    const result = await firstValueFrom(guard.canActivate());
+    expect(result.toString()).toEqual(
+      `/${
+        mockRoutingConfigService.getRouteConfig(
+          mockCheckoutStepService.getCheckoutStepRoute(
+            CheckoutStepType.REVIEW_ORDER
+          ) as string
+        )?.paths?.[0]
+      }`
+    );
   });
 });

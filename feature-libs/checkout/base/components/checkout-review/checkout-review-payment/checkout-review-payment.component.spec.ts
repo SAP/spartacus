@@ -29,11 +29,10 @@ import {
   FocusConfig,
   FocusDirective,
 } from '@spartacus/storefront';
-import { IconTestingModule } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from '../../../../../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
-import createSpy = jasmine.createSpy;
 
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
@@ -65,7 +64,7 @@ const mockCheckoutStep: CheckoutStep = {
 };
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState = createSpy().and.returnValue(
+  getPaymentDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: mockPaymentDetails })
   );
 }
@@ -79,7 +78,7 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.PAYMENT_DETAILS],
     },
   ]);
-  getCheckoutStepRoute = createSpy().and.returnValue(
+  getCheckoutStepRoute = vi.fn().mockReturnValue(
     mockCheckoutStep.routeName
   );
 }
@@ -255,7 +254,7 @@ describe('CheckoutReviewPaymentComponent - a11yImproveCheckoutFocus', () => {
 
     const directive = summary.injector.get(MockFocusDirective);
     expect(directive.cxFocus).toEqual(
-      jasmine.objectContaining({ autofocus: true })
+      expect.objectContaining({ autofocus: true })
     );
   });
 

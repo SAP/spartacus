@@ -42,7 +42,7 @@ describe('CheckoutFlowOrchestratorService', () => {
 
   it('should get payment provider', () => {
     const mockPaymentProvider = 'MockPaymentProvider';
-    spyOn(baseSiteService, 'get').and.returnValue(
+    vi.spyOn(baseSiteService, 'get').mockReturnValue(
       of({ baseStore: { paymentProvider: mockPaymentProvider } })
     );
 

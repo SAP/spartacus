@@ -1,3 +1,4 @@
+import { take } from 'rxjs/operators';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,7 +9,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   ConverterService,
@@ -18,8 +19,7 @@ import {
   OccEndpoints,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { defer, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { defer, firstValueFrom, of, throwError } from 'rxjs';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -96,7 +96,7 @@ describe('OccCheckoutAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
   });
 
   afterEach(() => {
@@ -104,14 +104,10 @@ describe('OccCheckoutAdapter', () => {
   });
 
   describe(`getCheckoutDetails`, () => {
-    it(`should get checkout details data for given userId, cartId`, (done) => {
-      service
-        .getCheckoutDetails(userId, cartId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(checkoutData as CheckoutState);
-          done();
-        });
+    it(`should get checkout details data for given userId, cartId`, async () => {
+      const resultPromise = firstValueFrom(
+        service.getCheckoutDetails(userId, cartId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -124,11 +120,16 @@ describe('OccCheckoutAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(checkoutData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(checkoutData as CheckoutState);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'get').and.returnValue(
+      beforeEach(() => { vi.useFakeTimers(); });
+      afterEach(() => { vi.useRealTimers(); });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'get').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -138,17 +139,17 @@ describe('OccCheckoutAdapter', () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'get').and.returnValue(
+        vi.spyOn(httpClient, 'get').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -167,19 +168,19 @@ describe('OccCheckoutAdapter', () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(checkoutData);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 });

@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -32,11 +32,10 @@ import {
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { MockIconComponent } from 'core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
+import { MockIconComponent } from '../../../../../core-libs/storefront/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
-import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   guid: 'test',
@@ -88,7 +87,7 @@ class MockCardComponent {
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = createSpy().and.returnValue(
+  getDeliveryAddressState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: mockAddress })
   );
 }
@@ -96,10 +95,10 @@ class MockCheckoutDeliveryAddressService
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = createSpy().and.returnValue(
+  getSupportedDeliveryModesState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: [] })
   );
-  getSelectedDeliveryModeState = createSpy().and.returnValue(
+  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,
       error: false,
@@ -109,14 +108,14 @@ class MockCheckoutDeliveryModesService
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState = createSpy().and.returnValue(
+  getPaymentDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: mockPaymentDetails })
   );
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getActive = createSpy().and.returnValue(of(mockCart));
-  getEntries = createSpy().and.returnValue(of(mockEntries));
+  getActive = vi.fn().mockReturnValue(of(mockCart));
+  getEntries = vi.fn().mockReturnValue(of(mockEntries));
 }
 
 const mockCheckoutStep: CheckoutStep = {
@@ -141,7 +140,7 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.REVIEW_ORDER],
     },
   ]);
-  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
+  getCheckoutStep = vi.fn().mockReturnValue(mockCheckoutStep);
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -153,7 +152,7 @@ describe('CheckoutReviewSubmitComponent', () => {
   let component: CheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<CheckoutReviewSubmitComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
@@ -196,7 +195,7 @@ describe('CheckoutReviewSubmitComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutReviewSubmitComponent);

@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, firstValueFrom, of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
-import createSpy = jasmine.createSpy;
 
 const homepagePath = '/home';
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
@@ -11,11 +10,11 @@ const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActive = createSpy().and.returnValue(EMPTY);
+  takeActive = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = createSpy().and.returnValue(homepagePath);
+  get = vi.fn().mockReturnValue(homepagePath);
 }
 
 describe('CartNotEmptyGuard', () => {
@@ -43,55 +42,40 @@ describe('CartNotEmptyGuard', () => {
   describe('canActivate()', () => {
     describe('when cart is NOT created', () => {
       beforeEach(() => {
-        activeCartFacade.takeActive = createSpy().and.returnValue(
+        activeCartFacade.takeActive = vi.fn().mockReturnValue(
           of(CART_NOT_CREATED)
         );
       });
 
-      it('should return the homepage route', (done) => {
-        cartNotEmptyGuard
-          .canActivate()
-          .subscribe((result) => {
-            expect(result.toString()).toEqual(homepagePath);
-            done();
-          })
-          .unsubscribe();
+      it('should return the homepage route', async () => {
+        const result = await firstValueFrom(cartNotEmptyGuard.canActivate());
+        expect(result.toString()).toEqual(homepagePath);
       });
     });
 
     describe('when cart is empty', () => {
       beforeEach(() => {
-        activeCartFacade.takeActive = createSpy().and.returnValue(
+        activeCartFacade.takeActive = vi.fn().mockReturnValue(
           of(CART_EMPTY)
         );
       });
 
-      it('should return the homepage route', (done) => {
-        cartNotEmptyGuard
-          .canActivate()
-          .subscribe((result) => {
-            expect(result.toString()).toEqual(homepagePath);
-            done();
-          })
-          .unsubscribe();
+      it('should return the homepage route', async () => {
+        const result = await firstValueFrom(cartNotEmptyGuard.canActivate());
+        expect(result.toString()).toEqual(homepagePath);
       });
     });
 
     describe('when cart is NOT empty', () => {
       beforeEach(() => {
-        activeCartFacade.takeActive = createSpy().and.returnValue(
+        activeCartFacade.takeActive = vi.fn().mockReturnValue(
           of(CART_NOT_EMPTY)
         );
       });
 
-      it('should return true', (done) => {
-        cartNotEmptyGuard
-          .canActivate()
-          .subscribe((result) => {
-            expect(result).toBe(true);
-            done();
-          })
-          .unsubscribe();
+      it('should return true', async () => {
+        const result = await firstValueFrom(cartNotEmptyGuard.canActivate());
+        expect(result).toBe(true);
       });
     });
   });

@@ -15,10 +15,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { config, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
-import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -27,30 +26,30 @@ const mockAddress: Partial<Address> = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(of(false));
+  takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
+  isGuestCart = vi.fn().mockReturnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(mockUserId));
+  takeUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  dispatch = createSpy();
+  dispatch = vi.fn();
 }
 
 class MockCheckoutDeliveryAddressConnector
   implements Partial<CheckoutDeliveryAddressConnector>
 {
-  createAddress = createSpy().and.returnValue(of(mockAddress));
-  setAddress = createSpy().and.returnValue(of('setAddress'));
-  clearCheckoutDeliveryAddress = createSpy().and.returnValue(
+  createAddress = vi.fn().mockReturnValue(of(mockAddress));
+  setAddress = vi.fn().mockReturnValue(of('setAddress'));
+  clearCheckoutDeliveryAddress = vi.fn().mockReturnValue(
     of('clearCheckoutDeliveryAddress')
   );
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = createSpy().and.returnValue(
+  getCheckoutDetailsState = vi.fn().mockReturnValue(
     of({ loading: false, error: false, data: undefined })
   );
 }
@@ -106,8 +105,8 @@ describe(`CheckoutDeliveryAddressService`, () => {
   ));
 
   describe(`getDeliveryAddress`, () => {
-    it(`should return the address`, (done) => {
-      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
+    it(`should return the address`, async () => {
+      checkoutQuery.getCheckoutDetailsState = vi.fn().mockReturnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -117,17 +116,12 @@ describe(`CheckoutDeliveryAddressService`, () => {
         })
       );
 
-      service
-        .getDeliveryAddressState()
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(<QueryState<Address | undefined>>{
-            loading: false,
-            error: false,
-            data: mockAddress,
-          });
-          done();
-        });
+      const result = await firstValueFrom(service.getDeliveryAddressState());
+      expect(result).toEqual(<QueryState<Address | undefined>>{
+        loading: false,
+        error: false,
+        data: mockAddress,
+      });
     });
   });
 
@@ -157,16 +151,10 @@ describe(`CheckoutDeliveryAddressService`, () => {
   });
 
   describe(`setDeliveryAddress`, () => {
-    it(`should throw an error if the address ID is not present`, (done) => {
-      service
-        .setDeliveryAddress({})
-        .pipe(take(1))
-        .subscribe({
-          error: (error) => {
-            expect(error).toEqual(new Error('Checkout conditions not met'));
-            done();
-          },
-        });
+    it(`should throw an error if the address ID is not present`, async () => {
+      await expect(
+        firstValueFrom(service.setDeliveryAddress({}))
+      ).rejects.toEqual(new Error('Checkout conditions not met'));
     });
 
     it(`should call checkoutDeliveryConnector.setAddress`, () => {

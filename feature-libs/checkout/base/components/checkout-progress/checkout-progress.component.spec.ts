@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -10,8 +10,8 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { MockUrlPipe } from '../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
 import { MultiLinePipe } from './multiline-titles.pipe';
@@ -55,7 +55,7 @@ describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = {
       getActive: () => of('USD'),
     };
@@ -79,7 +79,7 @@ describe('CheckoutProgressComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressComponent);
@@ -95,17 +95,15 @@ describe('CheckoutProgressComponent', () => {
     const steps = fixture.debugElement.query(By.css('.cx-nav')).nativeElement;
 
     mockCheckoutSteps.forEach((step) => {
-      expect(steps.innerText).toContain(step.name);
+      expect(steps.textContent?.trim()).toContain(step.name);
     });
   });
 
-  it('should combine currency and language into params$', (done) => {
+  it('should combine currency and language into params$', async () => {
     component.ngOnInit();
-    component.params$.subscribe(([currency, language]) => {
-      expect(currency).toBe('USD');
-      expect(language).toBe('en');
-      done();
-    });
+    const [currency, language] = await firstValueFrom(component.params$);
+    expect(currency).toBe('USD');
+    expect(language).toBe('en');
   });
 
   it('should contain link with "active" class', () => {

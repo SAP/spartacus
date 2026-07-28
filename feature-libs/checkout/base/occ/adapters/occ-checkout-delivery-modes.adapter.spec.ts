@@ -1,3 +1,4 @@
+import { take } from 'rxjs/operators';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,7 +9,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
 import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/base/core';
 import { CheckoutState } from '@spartacus/checkout/base/root';
@@ -21,8 +22,7 @@ import {
   OccEndpoints,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { defer, of, throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { defer, firstValueFrom, of, throwError } from 'rxjs';
 import { OccCheckoutDeliveryModesAdapter } from './occ-checkout-delivery-modes.adapter';
 
 const checkoutData: Partial<CheckoutState> = {
@@ -101,9 +101,9 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(converter, 'convert').and.callThrough();
+    vi.spyOn(converter, 'pipeable');
+    vi.spyOn(converter, 'pipeableMany');
+    vi.spyOn(converter, 'convert');
   });
 
   afterEach(() => {
@@ -115,14 +115,10 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       deliveryModes: [{ name: 'mockDeliveryMode' }],
     };
 
-    it(`should get all supported delivery modes for cart for given user id and cart id`, (done) => {
-      service
-        .getSupportedModes(userId, cartId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockDeliveryModes.deliveryModes);
-          done();
-        });
+    it(`should get all supported delivery modes for cart for given user id and cart id`, async () => {
+      const resultPromise = firstValueFrom(
+        service.getSupportedModes(userId, cartId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -134,14 +130,19 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockDeliveryModes);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockDeliveryModes.deliveryModes);
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         DELIVERY_MODE_NORMALIZER
       );
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'get').and.returnValue(
+      beforeEach(() => { vi.useFakeTimers(); });
+      afterEach(() => { vi.useRealTimers(); });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'get').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -150,17 +151,17 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
           .getSupportedModes(userId, cartId)
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'get').and.returnValue(
+        vi.spyOn(httpClient, 'get').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -179,33 +180,29 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(mockDeliveryModes.deliveryModes);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 
   describe(`set delivery mode for cart`, () => {
     const deliveryModeId = 'deliveryModeId';
 
-    it(`should set modes for cart for given user id, cart id and delivery mode id`, (done) => {
-      service
-        .setMode(userId, cartId, deliveryModeId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(cartData);
-          done();
-        });
+    it(`should set modes for cart for given user id, cart id and delivery mode id`, async () => {
+      const resultPromise = firstValueFrom(
+        service.setMode(userId, cartId, deliveryModeId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -218,11 +215,16 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(cartData);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'put').and.returnValue(
+      beforeEach(() => { vi.useFakeTimers(); });
+      afterEach(() => { vi.useRealTimers(); });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'put').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -232,17 +234,17 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'put').and.returnValue(
+        vi.spyOn(httpClient, 'put').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -261,31 +263,27 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(cartData);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 
   describe(`clear checkout delivery mode`, () => {
-    it(`should clear checkout delivery mode for given userId, cartId`, (done) => {
-      service
-        .clearCheckoutDeliveryMode(userId, cartId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(checkoutData);
-          done();
-        });
+    it(`should clear checkout delivery mode for given userId, cartId`, async () => {
+      const resultPromise = firstValueFrom(
+        service.clearCheckoutDeliveryMode(userId, cartId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -297,11 +295,16 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(checkoutData);
+
+      const result = await resultPromise;
+      expect(result).toEqual(checkoutData);
     });
 
     describe(`back-off`, () => {
-      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-        spyOn(httpClient, 'delete').and.returnValue(
+      beforeEach(() => { vi.useFakeTimers(); });
+      afterEach(() => { vi.useRealTimers(); });
+      it(`should unsuccessfully backOff on Jalo error`, async () => {
+        vi.spyOn(httpClient, 'delete').mockReturnValue(
           throwError(() => mockJaloError)
         );
 
@@ -311,17 +314,17 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
-        tick(4200);
+        await vi.advanceTimersByTimeAsync(4200);
 
         expect(result).toEqual(mockNormalizedJaloError);
 
         subscription.unsubscribe();
-      }));
+      });
 
-      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, async () => {
         let calledTimes = -1;
 
-        spyOn(httpClient, 'delete').and.returnValue(
+        vi.spyOn(httpClient, 'delete').mockReturnValue(
           defer(() => {
             calledTimes++;
             if (calledTimes === 3) {
@@ -340,19 +343,19 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
           });
 
         // 1*1*300 = 300
-        tick(300);
+        await vi.advanceTimersByTimeAsync(300);
         expect(result).toEqual(undefined);
 
         // 2*2*300 = 1200
-        tick(1200);
+        await vi.advanceTimersByTimeAsync(1200);
         expect(result).toEqual(undefined);
 
         // 3*3*300 = 2700
-        tick(2700);
+        await vi.advanceTimersByTimeAsync(2700);
 
         expect(result).toEqual(checkoutData);
         subscription.unsubscribe();
-      }));
+      });
     });
   });
 });

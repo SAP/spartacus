@@ -46,8 +46,8 @@ describe('BadCostCenterRequestHandler', () => {
     handler = TestBed.inject(BadCostCenterRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add');
-    spyOn(globalMessageService, 'remove');
+    vi.spyOn(globalMessageService, 'add');
+    vi.spyOn(globalMessageService, 'remove');
   });
 
   it('should be created', () => {
@@ -59,12 +59,12 @@ describe('BadCostCenterRequestHandler', () => {
   });
 
   it('should match cost center error', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
+    vi.spyOn(HttpErrorHandler.prototype, 'hasMatch').mockReturnValue(true);
     expect(handler.hasMatch(MockCostCenterErrorResponse)).toBe(true);
   });
 
   it('should not have a match when super.hasMatch() is false', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(false);
+    vi.spyOn(HttpErrorHandler.prototype, 'hasMatch').mockReturnValue(false);
     expect(handler.hasMatch(MockCostCenterErrorResponse)).toBe(false);
   });
 

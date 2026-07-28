@@ -2,10 +2,7 @@ import { Component, Directive, Input, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+      } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -35,12 +32,11 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
-import createSpy = jasmine.createSpy;
 import { provideMockFeatureToggles } from '@spartacus/core/src/features-config/feature-toggles/testing';
 
 @Component({
@@ -62,12 +58,12 @@ const selectedDeliveryModeState$ = new BehaviorSubject<
 class MockCheckoutDeliveryModeService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  loadSupportedDeliveryModes = createSpy();
-  setDeliveryMode = createSpy().and.returnValue(EMPTY);
+  loadSupportedDeliveryModes = vi.fn();
+  setDeliveryMode = vi.fn().mockReturnValue(EMPTY);
   getSupportedDeliveryModes = () => supportedDeliveryModes$.asObservable();
   getSelectedDeliveryModeState = () =>
     selectedDeliveryModeState$.asObservable();
-  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(EMPTY);
+  getLoadSupportedDeliveryModeProcess = vi.fn().mockReturnValue(EMPTY);
 }
 
 const preferredDeliveryMode$ = new BehaviorSubject<string | undefined>('');
@@ -76,9 +72,9 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  next = createSpy();
-  back = createSpy();
-  getBackBntText = createSpy().and.returnValue('common.back');
+  next = vi.fn();
+  back = vi.fn();
+  getBackBntText = vi.fn().mockReturnValue('common.back');
 }
 
 const mockCart: Cart = {
@@ -119,7 +115,7 @@ const hasPickupItems$ = new BehaviorSubject<boolean>(false);
 class MockCartService implements Partial<ActiveCartFacade> {
   getDeliveryEntries = () => deliveryEntries$.asObservable();
   hasPickupItems = () => hasPickupItems$.asObservable();
-  getPickupEntries = createSpy().and.returnValue(of([]));
+  getPickupEntries = vi.fn().mockReturnValue(of([]));
   getActive = () => cart$.asObservable();
 }
 
@@ -145,7 +141,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -198,7 +194,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
@@ -226,7 +222,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should pre-select preferred delivery mode if not chosen before', () => {
-    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.callThrough();
+    vi.spyOn(checkoutConfigService, 'getPreferredDeliveryMode');
     supportedDeliveryModes$.next(mockSupportedDeliveryModes);
     preferredDeliveryMode$.next(mockDeliveryMode1.code);
 
@@ -240,11 +236,11 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should show error message if setDeliveryMode fail', () => {
-    const showErrorMessageSpy = spyOn(
+    const showErrorMessageSpy = vi.spyOn(
       globalMessageService,
       'add'
-    ).and.callThrough();
-    checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
+    );
+    checkoutDeliveryModesFacade.setDeliveryMode = vi.fn().mockReturnValue(
       throwError('error')
     );
 
@@ -259,7 +255,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should remove pickup from supported delivery modes', () => {
-    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.callThrough();
+    vi.spyOn(checkoutConfigService, 'getPreferredDeliveryMode');
     supportedDeliveryModes$.next([{ code: 'pickup' }]);
     preferredDeliveryMode$.next('pickup');
 
@@ -275,7 +271,7 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
-    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.callThrough();
+    vi.spyOn(checkoutConfigService, 'getPreferredDeliveryMode');
     supportedDeliveryModes$.next(mockSupportedDeliveryModes);
     selectedDeliveryModeState$.next({
       loading: false,
@@ -307,28 +303,6 @@ describe('CheckoutDeliveryModeComponent', () => {
     expect(invalid).toBe(false);
   });
 
-  it('should refocus on the keyboard selected option after they are updated', fakeAsync(() => {
-    const lastFocusedId = 'standard-gross';
-    const mockEvent = new MouseEvent('click');
-    const mockElement = {
-      focus: jasmine.createSpy('focus'),
-      classList: { remove: jasmine.createSpy('remove') },
-    } as any;
-    component.isUpdating$ = of(false);
-    spyOn(document, 'querySelector').and.returnValue(mockElement);
-    spyOn(document, 'getElementById').and.returnValue(mockElement);
-    spyOn(component.mode, 'setValue');
-
-    component.changeMode(lastFocusedId, mockEvent);
-    tick();
-
-    expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
-    expect(mockElement.focus).toHaveBeenCalled();
-    expect(component.mode.setValue).toHaveBeenCalledWith({
-      deliveryModeId: lastFocusedId,
-    });
-  }));
-
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
@@ -354,7 +328,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     });
 
     it('should be disabled when setDeliveryMode failed', () => {
-      checkoutDeliveryModesFacade.setDeliveryMode = createSpy().and.returnValue(
+      checkoutDeliveryModesFacade.setDeliveryMode = vi.fn().mockReturnValue(
         throwError('error')
       );
 
@@ -366,7 +340,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     });
 
     it('should call "next" function after being clicked', () => {
-      spyOn(component, 'next');
+      vi.spyOn(component, 'next');
 
       setDeliveryModeId(mockDeliveryMode1.code);
       fixture.detectChanges();
@@ -390,7 +364,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       });
       component.isUpdating$ = of(false);
 
-      spyOn(component, 'back');
+      vi.spyOn(component, 'back');
 
       fixture.detectChanges();
       getBackBtn().nativeElement.click();
@@ -428,7 +402,7 @@ describe('CheckoutDeliveryModeComponent', () => {
       const directive = fieldset.injector.get(MockFocusDirective);
 
       expect(directive.cxFocus).toEqual(
-        jasmine.objectContaining({ autofocus: true, refreshFocus: false })
+        expect.objectContaining({ autofocus: true, refreshFocus: false })
       );
     });
 
@@ -439,8 +413,35 @@ describe('CheckoutDeliveryModeComponent', () => {
       radios.forEach((radio, i) => {
         const directive = radio.injector.get(MockFocusDirective);
         expect(directive.cxFocus).toEqual(
-          jasmine.objectContaining({ key: mockSupportedDeliveryModes[i].code })
+          expect.objectContaining({ key: mockSupportedDeliveryModes[i].code })
         );
+      });
+    });
+  });
+
+  describe('refocus on keyboard selected option', () => {
+    beforeEach(() => { vi.useFakeTimers(); });
+    afterEach(() => { vi.useRealTimers(); });
+
+    it('should refocus on the keyboard selected option after they are updated', async () => {
+      const lastFocusedId = 'standard-gross';
+      const mockEvent = new MouseEvent('click');
+      const mockElement = {
+        focus: vi.fn(),
+        classList: { remove: vi.fn() },
+      } as any;
+      component.isUpdating$ = of(false);
+      vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
+      vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+      vi.spyOn(component.mode, 'setValue');
+
+      component.changeMode(lastFocusedId, mockEvent);
+      await vi.advanceTimersByTimeAsync(0);
+
+      expect(mockElement.classList.remove).toHaveBeenCalledWith('mouse-focus');
+      expect(mockElement.focus).toHaveBeenCalled();
+      expect(component.mode.setValue).toHaveBeenCalledWith({
+        deliveryModeId: lastFocusedId,
       });
     });
   });

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
@@ -16,23 +16,22 @@ import {
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
-import createSpy = jasmine.createSpy;
 
 class MockOrderFacade implements Partial<OrderFacade> {
-  placeOrder = createSpy().and.returnValue(of({}));
+  placeOrder = vi.fn().mockReturnValue(of({}));
 
-  clearOrder = createSpy();
+  clearOrder = vi.fn();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.returnValue(Promise.resolve(true));
+  go = vi.fn().mockReturnValue(Promise.resolve(true));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch = createSpy();
-  clear = createSpy();
+  launch = vi.fn();
+  clear = vi.fn();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -48,7 +47,7 @@ describe('CheckoutPlaceOrderComponent', () => {
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const mockCurrencyService = {
       getActive: () => of('USD'),
     };
@@ -75,7 +74,7 @@ describe('CheckoutPlaceOrderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPlaceOrderComponent);
@@ -117,13 +116,11 @@ describe('CheckoutPlaceOrderComponent', () => {
     });
   });
 
-  it('should combine currency and language into params$', (done) => {
+  it('should combine currency and language into params$', async () => {
     component.ngOnInit();
-    component.params$.subscribe(([currency, language]) => {
-      expect(currency).toBe('USD');
-      expect(language).toBe('en');
-      done();
-    });
+    const [currency, language] = await firstValueFrom(component.params$);
+    expect(currency).toBe('USD');
+    expect(language).toBe('en');
   });
 
   describe('Place order UI', () => {

@@ -25,10 +25,9 @@ import {
   RouteConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, of } from 'rxjs';
 import { CheckoutB2BStepsSetGuard } from './checkout-b2b-steps-set.guard';
 
-import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
   getRouteConfig(stepRoute: string): RouteConfig | undefined {
@@ -86,8 +85,8 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
-  disableEnableStep = createSpy();
-  getCheckoutStep = createSpy().and.returnValue({});
+  disableEnableStep = vi.fn();
+  getCheckoutStep = vi.fn().mockReturnValue({});
 }
 
 class MockCheckoutCostCenterService
@@ -138,7 +137,7 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
 }
 
 class MockCartService implements Partial<ActiveCartFacade> {
-  hasDeliveryItems = createSpy().and.returnValue(of(false));
+  hasDeliveryItems = vi.fn().mockReturnValue(of(false));
 }
 
 describe(`CheckoutB2BStepsSetGuard`, () => {
@@ -193,87 +192,59 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
     });
 
     describe('there is no checkout data set yet', () => {
-      it('go to step1 (delivery address), should return true (no need cost center for CARD)', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step1 (delivery address), should return true (no need cost center for CARD)', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route1'] }));
+        expect(result).toBeTruthy();
       });
 
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
+      it('go to step2 (delivery mode), should return step1', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+        expect(result.toString()).toEqual('/checkout/route1');
       });
 
-      it('go to step3 (payment details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
+      it('go to step3 (payment details), should return step2', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+        expect(result.toString()).toEqual('/checkout/route2');
       });
 
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
+      it('go to step4 (review details), should return step3', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result.toString()).toEqual('/checkout/route3');
       });
     });
 
     describe('step1 (delivery address) data set', () => {
       beforeEach(() => {
-        spyOn(
+        vi.spyOn(
           checkoutDeliveryAddressFacade,
           'getDeliveryAddressState'
-        ).and.returnValue(
+        ).mockReturnValue(
           of({ loading: false, error: false, data: { id: 'test-address' } })
         );
       });
 
-      it('go to step2 (delivery mode), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step2 (delivery mode), should return true', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+        expect(result).toBeTruthy();
       });
 
-      it('go to step3 (payment details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
+      it('go to step3 (payment details), should return step2', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+        expect(result.toString()).toEqual('/checkout/route2');
       });
 
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
+      it('go to step4 (review details), should return step3', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result.toString()).toEqual('/checkout/route3');
       });
     });
 
     describe('step2 (delivery mode) data set', () => {
       beforeEach(() => {
-        spyOn(
+        vi.spyOn(
           checkoutDeliveryModesFacade,
           'getSelectedDeliveryModeState'
-        ).and.returnValue(
+        ).mockReturnValue(
           of({
             loading: false,
             error: false,
@@ -282,39 +253,27 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
         );
       });
 
-      it('go to step3 (payment details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step3 (payment details), should return true', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+        expect(result).toBeTruthy();
       });
 
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route3');
-            done();
-          });
+      it('go to step4 (review details), should return step3', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result.toString()).toEqual('/checkout/route3');
       });
     });
 
     describe('step3 (payment details) data set', () => {
       beforeEach(() => {
-        spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').and.returnValue(
+        vi.spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').mockReturnValue(
           of({ loading: false, error: false, data: { id: 'test-details' } })
         );
       });
 
-      it('go to step4 (review details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step4 (review details), should return true', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result).toBeTruthy();
       });
     });
   });
@@ -328,121 +287,85 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
     });
 
     describe('PAYMENT_DETAILS is not valid any more', () => {
-      it('go to step3 (payment details), should return to checkout', (done) => {
+      it('go to step3 (payment details), should return to checkout', async () => {
         const logger = TestBed.inject(LoggerService);
-        spyOn(logger, 'warn');
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route3'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout');
-            expect(logger.warn).toHaveBeenCalledWith(
-              `Missing step with route '/checkout/route3' in checkout configuration or this step is disabled.`
-            );
-            done();
-          });
+        vi.spyOn(logger, 'warn');
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+        expect(result.toString()).toEqual('/checkout');
+        expect(logger.warn).toHaveBeenCalledWith(
+          `Missing step with route '/checkout/route3' in checkout configuration or this step is disabled.`
+        );
       });
     });
 
     describe('there is no checkout data set yet', () => {
-      it('go to step1 (delivery address), should return step0', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route0');
-            done();
-          });
+      it('go to step1 (delivery address), should return step0', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route1'] }));
+        expect(result.toString()).toEqual('/checkout/route0');
       });
 
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
+      it('go to step2 (delivery mode), should return step1', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+        expect(result.toString()).toEqual('/checkout/route1');
       });
 
-      it('go to step4 (review details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
+      it('go to step4 (review details), should return step2', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result.toString()).toEqual('/checkout/route2');
       });
     });
 
     describe('step0 (payment type) data set', () => {
       beforeEach(() => {
-        spyOn(
+        vi.spyOn(
           checkoutPaymentTypeFacade,
           'getSelectedPaymentTypeState'
-        ).and.returnValue(of({ loading: false, error: false, data: {} }));
+        ).mockReturnValue(of({ loading: false, error: false, data: {} }));
       });
 
-      it('go to step1 (delivery address), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route1'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step1 (delivery address), should return true', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route1'] }));
+        expect(result).toBeTruthy();
       });
 
-      it('go to step2 (delivery mode), should return step1', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route1');
-            done();
-          });
+      it('go to step2 (delivery mode), should return step1', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+        expect(result.toString()).toEqual('/checkout/route1');
       });
 
-      it('go to step4 (review details), should return step2', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
+      it('go to step4 (review details), should return step2', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result.toString()).toEqual('/checkout/route2');
       });
     });
 
     describe('step1 (delivery address) data set', () => {
       beforeEach(() => {
-        spyOn(
+        vi.spyOn(
           checkoutDeliveryAddressFacade,
           'getDeliveryAddressState'
-        ).and.returnValue(
+        ).mockReturnValue(
           of({ loading: false, error: false, data: { id: 'test-address' } })
         );
       });
 
-      it('go to step2 (delivery mode), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route2'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step2 (delivery mode), should return true', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+        expect(result).toBeTruthy();
       });
 
-      it('go to step4 (review details), should return step3', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result.toString()).toEqual('/checkout/route2');
-            done();
-          });
+      it('go to step4 (review details), should return step3', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result.toString()).toEqual('/checkout/route2');
       });
     });
 
     describe('step2 (delivery mode) data set', () => {
       beforeEach(() => {
-        spyOn(
+        vi.spyOn(
           checkoutDeliveryModesFacade,
           'getSelectedDeliveryModeState'
-        ).and.returnValue(
+        ).mockReturnValue(
           of({
             loading: false,
             error: false,
@@ -451,13 +374,9 @@ describe(`CheckoutB2BStepsSetGuard`, () => {
         );
       });
 
-      it('go to step4 (review details), should return true', (done) => {
-        guard
-          .canActivate(<any>{ url: ['checkout', 'route4'] })
-          .subscribe((result) => {
-            expect(result).toBeTruthy();
-            done();
-          });
+      it('go to step4 (review details), should return true', async () => {
+        const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+        expect(result).toBeTruthy();
       });
     });
   });

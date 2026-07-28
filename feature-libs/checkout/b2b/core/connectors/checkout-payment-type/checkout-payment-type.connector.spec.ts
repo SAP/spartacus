@@ -4,11 +4,10 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeAdapter } from './checkout-payment-type.adapter';
 import { CheckoutPaymentTypeConnector } from './checkout-payment-type.connector';
-import createSpy = jasmine.createSpy;
 
 class MockPaymentTypeAdapter implements Partial<CheckoutPaymentTypeAdapter> {
-  getPaymentTypes = createSpy().and.returnValue(of([]));
-  setPaymentType = createSpy().and.returnValue(of({}));
+  getPaymentTypes = vi.fn().mockReturnValue(of([]));
+  setPaymentType = vi.fn().mockReturnValue(of({}));
 }
 
 describe('PaymentTypeConnector', () => {
