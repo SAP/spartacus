@@ -19,6 +19,7 @@ import {
 import {
   FeatureDirective,
   GlobalMessageType,
+  PageMetaService,
   TranslatePipe,
   User,
 } from '@spartacus/core';
@@ -54,10 +55,12 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 export class MyAccountV2EmailComponent implements OnInit {
   protected emailComponentService = inject(UpdateEmailComponentService);
   protected userProfile = inject(UserProfileFacade);
+  protected pageMetaService = inject(PageMetaService);
   form: UntypedFormGroup = this.emailComponentService.form;
   isUpdating$: Observable<boolean> = this.emailComponentService.isUpdating$;
   isEditing: boolean;
   showingAlert: boolean;
+  pageTitle$ = this.pageMetaService.getHeading();
 
   user$ = this.userProfile
     .get()

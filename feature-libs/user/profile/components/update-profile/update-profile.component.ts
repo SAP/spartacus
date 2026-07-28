@@ -22,7 +22,6 @@ import {
   PageMetaService,
   RoutingService,
   TranslatePipe,
-  isNotNullable,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -34,7 +33,6 @@ import {
 } from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
@@ -71,10 +69,7 @@ export class UpdateProfileComponent {
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$;
-  pageTitle$: Observable<string> = this.pageMetaService.getMeta().pipe(
-    filter(isNotNullable),
-    map((meta) => (meta.heading || meta.title) ?? '')
-  );
+  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
 
   onSubmit(): void {
     this.service.updateProfile();

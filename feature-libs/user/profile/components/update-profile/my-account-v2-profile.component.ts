@@ -17,7 +17,11 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  PageMetaService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
   NgSelectA11yDirective,
@@ -51,6 +55,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);
+  protected pageMetaService = inject(PageMetaService);
   ngOnInit(): void {
     this.isEditing = false;
   }
@@ -61,6 +66,7 @@ export class MyAccountV2ProfileComponent implements OnInit {
   user$: Observable<User> = this.service.user$;
   isEditing: boolean;
   originalEditValue: User;
+  pageTitle$ = this.pageMetaService.getHeading();
 
   onSubmit(): void {
     this.service.updateProfile();

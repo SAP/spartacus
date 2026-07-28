@@ -11,13 +11,8 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import {
-  CmsPageTitleComponent,
-  isNotNullable,
-  PageMetaService,
-} from '@spartacus/core';
+import { CmsPageTitleComponent, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -44,9 +39,6 @@ export class PageTitleComponent implements OnInit, AfterViewInit {
   }
 
   private setTitle(): void {
-    this.title$ = this.pageMetaService.getMeta().pipe(
-      filter(isNotNullable),
-      map((meta) => (meta.heading || meta.title) ?? '')
-    );
+    this.title$ = this.pageMetaService.getHeading();
   }
 }

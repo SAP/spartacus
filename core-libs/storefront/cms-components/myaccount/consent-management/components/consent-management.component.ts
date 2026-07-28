@@ -24,7 +24,6 @@ import {
   PageMetaService,
   TranslatePipe,
   UserConsentService,
-  isNotNullable,
 } from '@spartacus/core';
 import {
   BehaviorSubject,
@@ -70,10 +69,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
   isLoading = signal(false);
-  pageTitle$: Observable<string> = this.pageMetaService.getMeta().pipe(
-    filter(isNotNullable),
-    map((meta) => (meta.heading || meta.title) ?? '')
-  );
+  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
 
   requiredConsents: string[] = [];
 

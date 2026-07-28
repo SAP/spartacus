@@ -21,7 +21,6 @@ import {
   PageMetaService,
   RoutingService,
   TranslatePipe,
-  isNotNullable,
 } from '@spartacus/core';
 import {
   FormErrorsComponent,
@@ -31,7 +30,6 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 
 @Component({
@@ -63,10 +61,7 @@ export class UpdatePasswordComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  pageTitle$: Observable<string> = this.pageMetaService.getMeta().pipe(
-    filter(isNotNullable),
-    map((meta) => (meta.heading || meta.title) ?? '')
-  );
+  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
 
   onSubmit(): void {
     this.service.updatePassword();

@@ -14,6 +14,7 @@ import {
   skip,
   switchMap,
 } from 'rxjs/operators';
+import { isNotNullable } from '../../util/type-guards';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { resolveApplicable } from '../../util/applicable';
@@ -74,6 +75,17 @@ export class PageMetaService {
    */
   getMeta(): Observable<PageMeta | null> {
     return this.meta$;
+  }
+
+  /**
+   * Returns the page heading (or title as fallback) for the current page,
+   * filtering out null values.
+   */
+  getHeading(): Observable<string> {
+    return this.getMeta().pipe(
+      filter(isNotNullable),
+      map((meta) => (meta.heading || meta.title) ?? '')
+    );
   }
 
   /**

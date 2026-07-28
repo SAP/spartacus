@@ -14,6 +14,7 @@ import {
 import {
   FeatureDirective,
   GlobalMessageType,
+  PageMetaService,
   TranslatePipe,
 } from '@spartacus/core';
 import {
@@ -45,6 +46,7 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
 })
 export class MyAccountV2PasswordComponent {
   protected service = inject(UpdatePasswordComponentService);
+  protected pageMetaService = inject(PageMetaService);
   showingAlert: boolean = true;
   globalMessageType = GlobalMessageType;
   oldPassword: string;
@@ -53,6 +55,7 @@ export class MyAccountV2PasswordComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  pageTitle$ = this.pageMetaService.getHeading();
 
   onSubmit(): void {
     this.service.updatePassword();

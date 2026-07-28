@@ -17,7 +17,6 @@ import {
   PageMetaService,
   TranslatePipe,
   UrlPipe,
-  isNotNullable,
 } from '@spartacus/core';
 import {
   BtnLikeLinkDirective,
@@ -28,7 +27,6 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
 @Component({
@@ -60,10 +58,7 @@ export class UpdateEmailComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-  pageTitle$: Observable<string> = this.pageMetaService.getMeta().pipe(
-    filter(isNotNullable),
-    map((meta) => (meta.heading || meta.title) ?? '')
-  );
+  pageTitle$: Observable<string> = this.pageMetaService.getHeading();
 
   onSubmit(): void {
     this.service.save();
