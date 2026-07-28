@@ -1,8 +1,16 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import {
   FeatureDirective,
   FeatureToggles,
+  PageContext,
+  PageType,
   RoutingService,
   provideFeatureToggles,
 } from '@spartacus/core';
@@ -46,6 +54,9 @@ class MockFooterComponent {}
 class MockRoutingService {
   isNavigating(): Observable<boolean> {
     return EMPTY;
+  }
+  getPageContext(): Observable<PageContext> {
+    return of(new PageContext('homepage'));
   }
 }
 
@@ -258,8 +269,11 @@ describe('StorefrontComponent', () => {
       expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
     });
 
-    it('should focus breadcrumb first link when toggle is on and breadcrumb is present', () => {
+    it('should focus breadcrumb first link when toggle is on, page is CategoryPage and breadcrumb is present', fakeAsync(() => {
       spyOn(skipLinkService, 'scrollToTarget');
+      spyOn(routingService, 'getPageContext').and.returnValue(
+        of(new PageContext('category', PageType.CATEGORY_PAGE))
+      );
       featureToggles.a11yFocusBreadcrumbOnNavigation = true;
 
       const mockAnchor = document.createElement('a');
@@ -274,13 +288,37 @@ describe('StorefrontComponent', () => {
       component['document'] = mockDocument as any;
 
       component['onNavigation'](false);
+      tick();
 
       expect(mockAnchor.focus).toHaveBeenCalled();
       expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('should fall back to scrollToTarget cx-main when toggle is on but no breadcrumb is present', () => {
+    it('should fall back to scrollToTarget cx-main when toggle is on, page is CategoryPage but no breadcrumb is present', fakeAsync(() => {
       spyOn(skipLinkService, 'scrollToTarget');
+      spyOn(routingService, 'getPageContext').and.returnValue(
+        of(new PageContext('category', PageType.CATEGORY_PAGE))
+      );
+      featureToggles.a11yFocusBreadcrumbOnNavigation = true;
+
+      const mockDocument = {
+        activeElement: document.createElement('button'),
+        body: document.createElement('body'),
+        querySelector: () => null,
+      };
+      component['document'] = mockDocument as any;
+
+      component['onNavigation'](false);
+      tick();
+
+      expect(skipLinkService.scrollToTarget).toHaveBeenCalledWith('cx-main');
+    }));
+
+    it('should call scrollToTarget cx-main when toggle is on but page is not CategoryPage', () => {
+      spyOn(skipLinkService, 'scrollToTarget');
+      spyOn(routingService, 'getPageContext').and.returnValue(
+        of(new PageContext('my-account', PageType.CONTENT_PAGE))
+      );
       featureToggles.a11yFocusBreadcrumbOnNavigation = true;
 
       const mockDocument = {

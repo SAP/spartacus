@@ -22,11 +22,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import {
   FeatureToggles,
+  PageType,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
@@ -197,15 +198,29 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       this.document?.activeElement !== this.document?.body
     ) {
       if (this.featureToggles.a11yFocusBreadcrumbOnNavigation) {
-        const breadcrumbLink = this.document?.querySelector<HTMLElement>(
-          'cx-breadcrumb nav a'
-        );
-        if (breadcrumbLink) {
-          breadcrumbLink.focus();
-          return;
-        }
+        this.routingService
+          .getPageContext()
+          .pipe(take(1))
+          .subscribe((pageContext) => {
+            if (pageContext.type === PageType.CATEGORY_PAGE) {
+              setTimeout(() => {
+                const breadcrumbLink =
+                  this.document?.querySelector<HTMLElement>(
+                    'cx-breadcrumb nav a'
+                  );
+                if (breadcrumbLink) {
+                  breadcrumbLink.focus();
+                  return;
+                }
+                this.skipLinkService?.scrollToTarget('cx-main');
+              });
+            } else {
+              this.skipLinkService?.scrollToTarget('cx-main');
+            }
+          });
+      } else {
+        this.skipLinkService?.scrollToTarget('cx-main');
       }
-      this.skipLinkService?.scrollToTarget('cx-main');
     }
   }
 }
