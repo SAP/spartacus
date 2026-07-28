@@ -184,7 +184,7 @@ export class B2bUnitSelectionEffects {
   ): void {
     const open = () => {
       this.launchDialogService.openDialogAndSubscribe(
-        LAUNCH_CALLER.B2B_UNIT_SELECTION,
+        (LAUNCH_CALLER as any)['B2B_UNIT_SELECTION'],
         undefined,
         { orgUnits, defaultUnitName }
       );

@@ -165,7 +165,7 @@ describe('B2bUnitSelectionEffects', () => {
       getTestScheduler().flush();
 
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
-        LAUNCH_CALLER.B2B_UNIT_SELECTION,
+        (LAUNCH_CALLER as any)['B2B_UNIT_SELECTION'],
         undefined,
         { orgUnits: mockUnits, defaultUnitName: mockDefaultUid }
       );
