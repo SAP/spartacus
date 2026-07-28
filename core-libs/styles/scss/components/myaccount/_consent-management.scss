@@ -1,6 +1,10 @@
 @import '../../theme';
 
 %cx-consent-management {
+  fieldset {
+    display: contents;
+  }
+
   .cx-consent-action-links {
     text-align: end;
     display: flex;
