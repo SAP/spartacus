@@ -1,37 +1,66 @@
-<label *ngIf="(items$ | async)?.length > 1 && (items$ | async) as items">
-  <span>{{ label$ | async | cxTranslate }}:</span>
-  <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
-    <select (change)="active = $any($event).target.value">
-      <option
-        [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
-        *ngFor="let item of items; index as i"
-        value="{{ item.isocode }}"
-        [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
-      >
-        {{ item.label }}
-      </option>
-    </select>
-    <cx-icon
-      aria-hidden="true"
-      [type]="iconTypes.CARET_DOWN"
-      class="small"
-    ></cx-icon>
-  </div>
-  <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
-    <select (change)="active = $any($event).target.value">
-      <option
-        [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
-        *ngFor="let item of items; index as i"
-        value="{{ item.isocode }}"
-        [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
-      >
-        {{ item.label }}
-      </option>
-    </select>
-    <cx-icon
-      aria-hidden="true"
-      [type]="iconTypes.CARET_DOWN"
-      class="small"
-    ></cx-icon>
+<ng-container *ngIf="items$ | async as items">
+  <ng-container *ngIf="items.length > 1">
+    <ng-container *cxFeature="'a11yNavigationSpaceKeyOnKeyUp'">
+      <div class="cx-ng-select-label">
+        <span>{{ label$ | async | cxTranslate }}:</span>
+        <ng-select
+          [searchable]="false"
+          [clearable]="false"
+          [items]="items"
+          bindValue="isocode"
+          bindLabel="label"
+          [ngModel]="selectedItem"
+          (change)="active = $event?.isocode"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
+          [cxNgSelectA11y]="{ ariaLabel: label$ | async | cxTranslate }"
+        ></ng-select>
+      </div>
+    </ng-container>
+
+    <label *cxFeature="'!a11yNavigationSpaceKeyOnKeyUp'">
+      <span>{{ label$ | async | cxTranslate }}:</span>
+      <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
+        <select
+          cxNativeSelectSpace
+          (change)="active = $any($event).target.value"
+        >
+          <option
+            [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
+            *ngFor="let item of items; index as i"
+            value="{{ item.isocode }}"
+            [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
+          >
+            {{ item.label }}
+          </option>
+        </select>
+        <cx-icon
+          aria-hidden="true"
+          [type]="iconTypes.CARET_DOWN"
+          class="small"
+        ></cx-icon>
+      </div>
+      <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
+        <select
+          cxNativeSelectSpace
+          (change)="active = $any($event).target.value"
+        >
+          <option
+            [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
+            *ngFor="let item of items; index as i"
+            value="{{ item.isocode }}"
+            [attr.selected]="(activeItem$ | async) === item.isocode ? '' : null"
+          >
+            {{ item.label }}
+          </option>
+        </select>
+        <cx-icon
+          aria-hidden="true"
+          [type]="iconTypes.CARET_DOWN"
+          class="small"
+        ></cx-icon>
+      </ng-container>
+    </label>
   </ng-container>
-</label>
+</ng-container>

@@ -7,10 +7,16 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   Input,
+  OnInit,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   FeatureDirective,
   I18nModule,
@@ -19,6 +25,8 @@ import {
   useFeatureStyles,
 } from '@spartacus/core';
 import { map, Observable } from 'rxjs';
+import { NativeSelectSpaceDirective } from '../../../layout/a11y/native-select-space/native-select-space.directive';
+import { NgSelectA11yDirective } from '../../../shared/components/ng-select-a11y/ng-select-a11y.directive';
 import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
@@ -35,9 +43,13 @@ import { SiteContextType } from './site-context.model';
     AsyncPipe,
     I18nModule,
     FeatureDirective,
+    NativeSelectSpaceDirective,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormsModule,
   ],
 })
-export class SiteContextSelectorComponent {
+export class SiteContextSelectorComponent implements OnInit {
   /**
    * @deprecated since 2011.21 removed unused property
    */
@@ -50,26 +62,36 @@ export class SiteContextSelectorComponent {
   @Input() context: SiteContextType;
 
   protected translationService = inject(TranslationService);
+  private destroyRef = inject(DestroyRef);
+  private cdr = inject(ChangeDetectorRef);
+
+  selectedItem: string | undefined;
 
   constructor(private componentService: SiteContextComponentService) {
     useFeatureStyles('a11ySiteContextCaretClick');
+    useFeatureStyles('a11yNavigationSpaceKeyOnKeyUp');
   }
 
-  get items$(): Observable<any> {
-    return this.componentService.getItems(this.context);
+  ngOnInit(): void {
+    this.items$ = this.componentService.getItems(this.context);
+    this.activeItem$ = this.componentService.getActiveItem(this.context);
+    this.label$ = this.componentService.getLabel(this.context);
+    this.activeItem$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.selectedItem = value;
+        this.cdr.markForCheck();
+      });
   }
 
-  get activeItem$(): Observable<string> {
-    return this.componentService.getActiveItem(this.context);
-  }
+  items$!: Observable<any>;
+  activeItem$!: Observable<string>;
 
   set active(value: string) {
     this.componentService.setActive(value, this.context);
   }
 
-  get label$(): Observable<any> {
-    return this.componentService.getLabel(this.context);
-  }
+  label$!: Observable<any>;
 
   ariaLabel$(label: string, index: number, length: number): Observable<string> {
     return this.translationService.translate('common.of').pipe(

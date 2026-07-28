@@ -198,14 +198,23 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   toggleOpen(event: UIEvent): void {
-    if (event.type === 'keydown') {
+    const isKeyboard = event.type === 'keydown' || event.type === 'keyup';
+    if (this.featureToggles?.a11yNavigationSpaceKeyOnKeyUp) {
+      if (event.type === 'keydown') {
+        event.preventDefault();
+        return;
+      }
+    } else if (event.type === 'keyup') {
+      return;
+    }
+    if (isKeyboard) {
       event.preventDefault();
     }
     this.ariaCollapseNodes();
     const node = <HTMLElement>event.currentTarget;
     const parentNode = <HTMLElement>node.parentNode;
     if (this.openNodes.includes(parentNode)) {
-      if (event.type === 'keydown') {
+      if (isKeyboard) {
         this.back();
       } else {
         this.openNodes = this.openNodes.filter((n) => n !== parentNode);
@@ -226,6 +235,14 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Opens dropdown and starts keyboard navigation
    */
   onSpace(event: UIEvent): void {
+    if (this.featureToggles?.a11yNavigationSpaceKeyOnKeyUp) {
+      if (event.type === 'keydown') {
+        event.preventDefault();
+        return;
+      }
+    } else if (event.type === 'keyup') {
+      return;
+    }
     this.hamburgerMenuService.isExpanded
       .pipe(take(1))
       .subscribe((isExpanded) => {

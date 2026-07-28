@@ -54,6 +54,8 @@ export class NgSelectA11yDirective implements AfterViewInit {
   protected selectObserver: MutationObserver | null = null;
   protected breakpointService = inject(BreakpointService, { optional: true });
 
+  private wasOpenOnEnterKeydown = false;
+
   /**
    * When we inside a combo box using JAWS screen reader and press escape key
    * an escape keyboard event doesn't get fired, instead an AltLeft is fired.
@@ -63,6 +65,17 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const jawsEscapeCode = 'AltLeft';
     if (event.code === jawsEscapeCode) {
       this.selectComponent.close();
+      return;
+    }
+    if (
+      this.featureToggles.a11yNavigationSpaceKeyOnKeyUp &&
+      event.key === 'Enter' &&
+      this.wasOpenOnEnterKeydown
+    ) {
+      this.wasOpenOnEnterKeydown = false;
+      this.selectComponent.toggleItem(
+        this.selectComponent.itemsList.markedItem
+      );
     }
   }
 
@@ -82,8 +95,15 @@ export class NgSelectA11yDirective implements AfterViewInit {
    * reached `VisibleFocusDirective`, then clear the class on the closest
    * ancestor that has it.
    */
-  @HostListener('keydown')
-  onKeyDown() {
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (
+      this.featureToggles.a11yNavigationSpaceKeyOnKeyUp &&
+      (event.key === ' ' || event.code === 'Space') &&
+      this.selectComponent.isOpen()
+    ) {
+      event.preventDefault();
+    }
     if (!this.featureToggles.a11yRestoreFocusOnNgSelect) {
       return;
     }
@@ -183,6 +203,32 @@ export class NgSelectA11yDirective implements AfterViewInit {
           });
       }
     }
+
+    if (this.featureToggles.a11yNavigationSpaceKeyOnKeyUp) {
+      this.interceptEnterKeyDown();
+    }
+  }
+
+  /**
+   * Wraps `NgSelectComponent.handleKeyDown` to skip the built-in Enter handler
+   * when the dropdown is open, so selection is deferred to keyup (WCAG 2.5.2).
+   * `event.preventDefault()` alone cannot block another HostListener on the
+   * same element, hence the method wrap.
+   */
+  protected interceptEnterKeyDown(): void {
+    const selectComponent = this.selectComponent;
+    const original = selectComponent.handleKeyDown.bind(selectComponent);
+    selectComponent.handleKeyDown = ($event: KeyboardEvent) => {
+      if ($event.key === 'Enter' && selectComponent.isOpen()) {
+        this.wasOpenOnEnterKeydown = true;
+        $event.preventDefault();
+        return;
+      }
+      original($event);
+    };
+    this.destroyRef.onDestroy(() => {
+      selectComponent.handleKeyDown = original;
+    });
   }
 
   vocalizeItemCount() {
