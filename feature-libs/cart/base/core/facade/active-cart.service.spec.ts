@@ -768,7 +768,10 @@ describe('ActiveCartService', () => {
             provide: SiteContextParamsService,
             useValue: { getValues: () => of([BASE_SITE]) },
           },
-          provideMockFeatureToggles({ mergeGuestCartOnCodeFlowLogin: true }),
+          provideMockFeatureToggles({
+            authorizationCodeFlowByDefault: true,
+            mergeGuestCartOnCodeFlowLogin: true,
+          }),
         ],
       });
       service = TestBed.inject(ActiveCartService);
@@ -868,6 +871,85 @@ describe('ActiveCartService', () => {
         );
         expect(winRef.localStorage?.getItem(STORAGE_KEY)).toBeFalsy();
       });
+    });
+  });
+
+  describe('mergeGuestCartOnCodeFlowLogin feature with authorizationCodeFlowByDefault disabled', () => {
+    let service: ActiveCartService;
+    let winRef: WindowRef;
+    let multiCartFacade: MultiCartFacade;
+
+    const BASE_SITE = 'electronics-spa';
+    const STORAGE_KEY = `spartacus⚿${BASE_SITE}⚿pendingGuestCartMerge`;
+
+    beforeEach(() => {
+      winRef?.localStorage?.removeItem(STORAGE_KEY);
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          ActiveCartService,
+          StatePersistenceService,
+          { provide: MultiCartFacade, useClass: MultiCartFacadeStub },
+          { provide: UserIdService, useClass: UserIdServiceStub },
+          { provide: WindowRef, useValue: MockWindowRef },
+          {
+            provide: SiteContextParamsService,
+            useValue: { getValues: () => of([BASE_SITE]) },
+          },
+          provideMockFeatureToggles({
+            authorizationCodeFlowByDefault: false,
+            mergeGuestCartOnCodeFlowLogin: true,
+          }),
+        ],
+      });
+      service = TestBed.inject(ActiveCartService);
+      winRef = TestBed.inject(WindowRef);
+      multiCartFacade = TestBed.inject(MultiCartFacade);
+    });
+
+    afterEach(() => {
+      winRef.localStorage?.removeItem(STORAGE_KEY);
+    });
+
+    it('should not read persisted state in loadOrMerge and merge normally', () => {
+      spyOn<any>(service, 'guestCartMerge').and.callFake(() => {});
+      spyOn(multiCartFacade, 'mergeToCurrentCart').and.stub();
+      spyOn(service, 'isGuestCart').and.returnValue(of(false));
+      winRef.localStorage?.setItem(
+        STORAGE_KEY,
+        JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
+      );
+
+      service['loadOrMerge'](
+        'cartId',
+        OCC_USER_ID_CURRENT,
+        OCC_USER_ID_ANONYMOUS
+      );
+
+      expect(service['guestCartMerge']).not.toHaveBeenCalled();
+      expect(multiCartFacade.mergeToCurrentCart).toHaveBeenCalled();
+    });
+
+    it('should not use persisted state in guestCartMerge and fall back to deleting the guest cart', () => {
+      spyOn(multiCartFacade, 'deleteCart').and.stub();
+      spyOn<any>(service, 'addEntriesGuestMerge').and.callFake(() => {});
+      spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+      winRef.localStorage?.setItem(
+        STORAGE_KEY,
+        JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
+      );
+
+      service['guestCartMerge']('cartId');
+
+      expect(multiCartFacade.deleteCart).toHaveBeenCalledWith(
+        'cartId',
+        OCC_USER_ID_ANONYMOUS
+      );
+      expect(service['addEntriesGuestMerge']).toHaveBeenCalledWith([
+        mockCartEntry,
+      ]);
+      // Persisted entry is left untouched (never read/cleared) when disabled.
+      expect(winRef.localStorage?.getItem(STORAGE_KEY)).toBeTruthy();
     });
   });
 
