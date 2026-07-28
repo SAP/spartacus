@@ -52,6 +52,7 @@
       [tabindex]="getTabIndex(node, depth)"
       (focus)="depth || reinitializeMenu()"
       (keydown.space)="toggleOpen($any($event))"
+      (keyup.space)="toggleOpen($any($event))"
       (keydown.esc)="back()"
     >
       {{ node.title }}
@@ -71,6 +72,7 @@
           *ngIf="(isDesktop$ | async) && depth; else dropdownHeader"
           (keydown.arrowDown)="focusOnNode($any($event))"
           (keydown.space)="onSpace($any($event))"
+          (keyup.space)="onSpace($any($event))"
           tabindex="0"
         >
           {{ node.title }}
@@ -87,6 +89,7 @@
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
             (keydown.space)="onSpace($any($event))"
+            (keyup.space)="onSpace($any($event))"
             (keydown.enter)="onSpace($any($event))"
             (keydown.esc)="back()"
             (keydown.arrowDown)="focusOnNode($any($event))"

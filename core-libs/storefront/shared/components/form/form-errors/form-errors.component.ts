@@ -17,7 +17,7 @@ import {
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import { TranslatePipe, isObject } from '@spartacus/core';
+import { TranslatePipe, isObject, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -42,7 +42,9 @@ export class FormErrorsComponent implements DoCheck {
     optional: true,
   });
 
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
+  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {
+    useFeatureStyles('a11yFormErrorIconContrast');
+  }
 
   _control: UntypedFormControl | AbstractControl;
 
