@@ -331,7 +331,24 @@ describe('AsmAuthService', () => {
         expect(authRedirectService.redirect).toHaveBeenCalled();
       });
 
-      it('should NOT complete login when token was not received (e.g. page refresh)', async () => {
+      it('should preserve emulated customer userId (not anonymize) when returning with an emulation pending', async () => {
+        // Emulation was started before the code-flow redirect: the customer userId
+        // is restored eagerly from storage, so isEmulated() is true on return.
+        stubTryLogin(true);
+        stubStoredAccessToken('access_token_value');
+        isEmulated$.next(true);
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(
+          asmAuthStorageService.switchTokenTargetToCSAgent
+        ).toHaveBeenCalled();
+        expect(userIdService.setUserId).not.toHaveBeenCalled();
+        expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        expect(authRedirectService.redirect).toHaveBeenCalled();
+      });
+
+      it('should NOT complete login when tryLogin did not receive a token', async () => {
         stubTryLogin(false);
         stubStoredAccessToken('access_token_value');
 
