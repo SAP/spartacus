@@ -227,9 +227,7 @@ exports[`add-ssr server.ts should be configured properly 1`] = `
 "import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
-  SsrOptimizationOptions,
   defaultExpressErrorHandlers,
-  defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 import express from 'express';
@@ -238,19 +236,12 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './main.server';
 
-const ssrOptions: SsrOptimizationOptions = {
-  timeout: Number(
-    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
-  ),
-  cache: process.env['SSR_CACHE'] === 'true',
-};
-
 const allowedOrigins = process.env['SSR_ALLOWED_ORIGINS']
   ?.split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions, {
+const ngExpressEngine = NgExpressEngineDecorator.get(engine, undefined, {
   allowedOrigins,
 });
 
