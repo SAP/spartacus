@@ -79,7 +79,15 @@ export class AsmAuthService extends AuthService {
 
       if (loginResult.result && token && loginResult.tokenReceived) {
         this.authStorageService.switchTokenTargetToCSAgent();
-        this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+        // The customer userId is restored eagerly from storage before this handler runs
+        // (AuthStatePersistenceService). Preserve an emulation started before the code-flow
+        // redirect; only anonymize for a pure agent login (no emulation pending) — CXSPA-13777.
+        const isEmulated = await firstValueFrom(
+          this.userIdService.isEmulated()
+        );
+        if (!isEmulated) {
+          this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+        }
         this.store.dispatch(new AuthActions.Login());
         this.authRedirectService.redirect();
       }

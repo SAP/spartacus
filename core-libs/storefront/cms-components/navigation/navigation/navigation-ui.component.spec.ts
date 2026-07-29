@@ -49,6 +49,7 @@ class MockHamburgerMenuService {
 
 const mockFeatureToggles: FeatureToggles = {
   navigationMenuCloseOnSameLinkClick: true,
+  a11yNavigationSpaceKeyOnKeyUp: true,
 };
 
 class MockBreakpointService {
@@ -395,63 +396,6 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
     });
 
-    it('should toggle open when space key is pressed', () => {
-      const spy = spyOn(navigationComponent, 'toggleOpen');
-      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
-      const dropDownButton = element.query(
-        By.css('nav button[aria-expanded="false"')
-      ).nativeElement;
-      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
-
-      navigationComponent.onSpace(spaceEvent);
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should move focus to the opened node', () => {
-      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
-      const spy = spyOn(firstChild.nativeElement, 'focus');
-      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
-      const dropDownButton = element.query(
-        By.css('[depth="2"] h4')
-      ).nativeElement;
-      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
-
-      navigationComponent.focusOnNode(spaceEvent);
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should move focus inside node on up/down arrow press', () => {
-      navigationComponent.toggleOpen = () => {};
-      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
-      const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
-      const arrowDownEvent = new KeyboardEvent('keydown', {
-        code: 'ArrowDown',
-      });
-      const arrowUpEvent = new KeyboardEvent('keydown', {
-        code: 'ArrowUp',
-      });
-      const spaceEvent = new KeyboardEvent('keydown', { code: 'Space' });
-      const dropDownButton = element.query(
-        By.css('[depth="2"] h4')
-      ).nativeElement;
-      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
-      Object.defineProperty(arrowDownEvent, 'target', {
-        value: firstChild.nativeElement,
-      });
-      Object.defineProperty(arrowUpEvent, 'target', {
-        value: secondChild.nativeElement,
-      });
-
-      navigationComponent.onSpace(spaceEvent);
-
-      navigationComponent['arrowControls'].next(arrowDownEvent);
-      expect(document.activeElement).toEqual(secondChild.nativeElement);
-      navigationComponent['arrowControls'].next(arrowUpEvent);
-      expect(document.activeElement).toEqual(firstChild.nativeElement);
-    });
-
     it('should restore default tabbing order for non flyout navigation', () => {
       const childNode = {
         title: 'Child',
@@ -477,6 +421,316 @@ describe('Navigation UI Component', () => {
 
       expect(mockHeader.focus).toHaveBeenCalled();
     }));
+
+    it('should move focus to the opened node', () => {
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const spy = spyOn(firstChild.nativeElement, 'focus');
+      const spaceEvent = new KeyboardEvent('keyup', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('[depth="2"] h4')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+
+      navigationComponent.focusOnNode(spaceEvent);
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should move focus inside node on up/down arrow press', () => {
+      navigationComponent.toggleOpen = () => {};
+      const firstChild = element.query(By.css('[href="/sub-sub-child-1a"]'));
+      const secondChild = element.query(By.css('[href="/sub-sub-child-1b"]'));
+      const arrowDownEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+      const arrowUpEvent = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+      const spaceEvent = new KeyboardEvent('keyup', { code: 'Space' });
+      const dropDownButton = element.query(
+        By.css('[depth="2"] h4')
+      ).nativeElement;
+      Object.defineProperty(spaceEvent, 'target', { value: dropDownButton });
+      Object.defineProperty(arrowDownEvent, 'target', {
+        value: firstChild.nativeElement,
+      });
+      Object.defineProperty(arrowUpEvent, 'target', {
+        value: secondChild.nativeElement,
+      });
+
+      navigationComponent.onSpace(spaceEvent);
+
+      navigationComponent['arrowControls'].next(arrowDownEvent);
+      expect(document.activeElement).toEqual(secondChild.nativeElement);
+      navigationComponent['arrowControls'].next(arrowUpEvent);
+      expect(document.activeElement).toEqual(firstChild.nativeElement);
+    });
+
+    describe('onSpace — toggle a11yNavigationSpaceKeyOnKeyUp ON', () => {
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: true,
+        };
+      });
+
+      it('should call toggleOpen on keyup', () => {
+        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keyupEvent, 'target', { value: dropDownButton });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('should suppress action and only call preventDefault on keydown', () => {
+        const toggleSpy = spyOn(navigationComponent, 'toggleOpen');
+        const keydownEvent = new KeyboardEvent('keydown', {
+          code: 'Space',
+          cancelable: true,
+        });
+        spyOn(keydownEvent, 'preventDefault');
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keydownEvent, 'target', {
+          value: dropDownButton,
+        });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(keydownEvent.preventDefault).toHaveBeenCalled();
+        expect(toggleSpy).not.toHaveBeenCalled();
+      });
+
+      it('should not move focus or set up arrow controls on keydown', () => {
+        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(focusSpy).not.toHaveBeenCalled();
+        expect(arrowSpy).not.toHaveBeenCalled();
+      });
+
+      it('should move focus and set up arrow controls on keyup', () => {
+        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        spyOn(navigationComponent, 'toggleOpen');
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keyupEvent, 'target', { value: dropDownButton });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(focusSpy).toHaveBeenCalled();
+        expect(arrowSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('onSpace — toggle a11yNavigationSpaceKeyOnKeyUp OFF', () => {
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: false,
+        };
+      });
+
+      it('should call toggleOpen on keydown', () => {
+        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keydownEvent, 'target', {
+          value: dropDownButton,
+        });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('should ignore keyup and not call toggleOpen', () => {
+        const spy = spyOn(navigationComponent, 'toggleOpen');
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(spy).not.toHaveBeenCalled();
+      });
+
+      it('should not move focus or set up arrow controls on keyup', () => {
+        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+
+        navigationComponent.onSpace(keyupEvent);
+
+        expect(focusSpy).not.toHaveBeenCalled();
+        expect(arrowSpy).not.toHaveBeenCalled();
+      });
+
+      it('should move focus and set up arrow controls on keydown', () => {
+        const focusSpy = spyOn(navigationComponent, 'focusOnNode');
+        const arrowSpy = spyOn(navigationComponent, 'setupArrowControls');
+        spyOn(navigationComponent, 'toggleOpen');
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+        const dropDownButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        Object.defineProperty(keydownEvent, 'target', {
+          value: dropDownButton,
+        });
+
+        navigationComponent.onSpace(keydownEvent);
+
+        expect(focusSpy).toHaveBeenCalled();
+        expect(arrowSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('toggleOpen — toggle a11yNavigationSpaceKeyOnKeyUp ON', () => {
+      let parentNode: HTMLElement;
+      let triggerButton: HTMLElement;
+
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: true,
+        };
+        triggerButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        parentNode = triggerButton.parentElement as HTMLElement;
+      });
+
+      it('should open node on keyup', () => {
+        const keyupEvent = new KeyboardEvent('keyup', {
+          code: 'Space',
+          cancelable: true,
+        });
+        Object.defineProperty(keyupEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keyupEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+
+      it('should call preventDefault and not open node on keydown', () => {
+        const keydownEvent = new KeyboardEvent('keydown', {
+          code: 'Space',
+          cancelable: true,
+        });
+        spyOn(keydownEvent, 'preventDefault');
+        Object.defineProperty(keydownEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keydownEvent);
+
+        expect(keydownEvent.preventDefault).toHaveBeenCalled();
+        expect(navigationComponent['openNodes']).not.toContain(parentNode);
+      });
+
+      it('should call back() when keyup fires on an already-open node', () => {
+        const backSpy = spyOn(navigationComponent, 'back');
+        navigationComponent['openNodes'] = [parentNode];
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        Object.defineProperty(keyupEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keyupEvent);
+
+        expect(backSpy).toHaveBeenCalled();
+      });
+
+      it('should open node on click regardless of toggle', () => {
+        const clickEvent = new MouseEvent('click');
+        Object.defineProperty(clickEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(clickEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+    });
+
+    describe('toggleOpen — toggle a11yNavigationSpaceKeyOnKeyUp OFF', () => {
+      let parentNode: HTMLElement;
+      let triggerButton: HTMLElement;
+
+      beforeEach(() => {
+        navigationComponent['featureToggles'] = {
+          ...navigationComponent['featureToggles'],
+          a11yNavigationSpaceKeyOnKeyUp: false,
+        };
+        triggerButton = element.query(
+          By.css('nav button[aria-expanded="false"]')
+        ).nativeElement;
+        parentNode = triggerButton.parentElement as HTMLElement;
+      });
+
+      it('should open node on keydown', () => {
+        const keydownEvent = new KeyboardEvent('keydown', {
+          code: 'Space',
+          cancelable: true,
+        });
+        Object.defineProperty(keydownEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keydownEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+
+      it('should ignore keyup and not open node', () => {
+        const keyupEvent = new KeyboardEvent('keyup', { code: 'Space' });
+        Object.defineProperty(keyupEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keyupEvent);
+
+        expect(navigationComponent['openNodes']).not.toContain(parentNode);
+      });
+
+      it('should call back() when keydown fires on an already-open node', () => {
+        const backSpy = spyOn(navigationComponent, 'back');
+        navigationComponent['openNodes'] = [parentNode];
+        const keydownEvent = new KeyboardEvent('keydown', { code: 'Space' });
+        Object.defineProperty(keydownEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(keydownEvent);
+
+        expect(backSpy).toHaveBeenCalled();
+      });
+
+      it('should open node on click regardless of toggle', () => {
+        const clickEvent = new MouseEvent('click');
+        Object.defineProperty(clickEvent, 'currentTarget', {
+          value: triggerButton,
+        });
+
+        navigationComponent.toggleOpen(clickEvent);
+
+        expect(navigationComponent['openNodes']).toContain(parentNode);
+      });
+    });
   });
 
   describe('transformIntoValidID', () => {
