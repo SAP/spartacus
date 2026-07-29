@@ -426,6 +426,17 @@ export interface FeatureTogglesInterface {
   a11yDeliveryModeFocusPreservation?: boolean;
 
   /**
+   * When enabled, wraps form controls in a `<fieldset>` with `aria-labelledby`
+   * referencing the visible page heading, so screen readers announce the section
+   * heading when any field in the group receives focus.
+   * Affects: UpdateProfileComponent, MyAccountV2ProfileComponent,
+   *          UpdatePasswordComponent, MyAccountV2PasswordComponent,
+   *          UpdateEmailComponent, MyAccountV2EmailComponent,
+   *          ConsentManagementComponent
+   */
+  a11yFormFieldSectionLegend?: boolean;
+
+  /**
    * Improve auto focus during checkout process.
    * Affects: CheckoutPaymentMethodComponent
    */
@@ -563,6 +574,16 @@ export interface FeatureTogglesInterface {
   siteIsolationForCustomLoginPage?: boolean;
 
   /**
+   * When enabled, the navigation menu buttons (e.g. "My Account") and dropdown
+   * headers activate on spacebar key *release* (`keyup`) rather than key *press*
+   * (`keydown`), preventing the action from firing repeatedly while the key is
+   * held down.
+   * Fixes WCAG 2.5.2 (Pointer Cancellation) ACC-270.16 (Level A).
+   * Affects: `NavigationUIComponent`, 'NativeSelectSpaceDirective'
+   */
+  a11yNavigationSpaceKeyOnKeyUp?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -637,6 +658,18 @@ export interface FeatureTogglesInterface {
    * Affects: `AddressFormComponent`
    */
   a11yAddressFormInitialFocus?: boolean;
+
+  /**
+   * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
+   * via a header navigation link, keyboard focus moves to the first anchor inside
+   * `cx-breadcrumb` (resolved via `StorefrontComponent.categoryPageFocusSelector`)
+   * rather than the first focusable element in `<main>`.
+   * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present
+   * or the destination is not a CategoryPage.
+   *
+   * Affects: `StorefrontComponent`
+   */
+  a11yFocusBreadcrumbOnNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -688,6 +721,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
@@ -715,6 +749,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
+  a11yNavigationSpaceKeyOnKeyUp: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
   productConfiguratorConsolidatedButtonDisabling: false,
@@ -722,4 +757,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
+  a11yFocusBreadcrumbOnNavigation: false,
 };
