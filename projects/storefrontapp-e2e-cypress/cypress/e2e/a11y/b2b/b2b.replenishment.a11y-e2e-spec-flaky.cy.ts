@@ -16,6 +16,7 @@ import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { addB2bUser, setB2bPassword } from '../../../helpers/b2b/b2b-checkout';
 import { login } from '../../../support/utils/login';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { stubB2bUnitSelectionApis } from '../../../helpers/b2b/b2b-unit-selection';
 
 function loginB2bUser() {
   let adminToken;
@@ -35,6 +36,7 @@ function loginB2bUser() {
     .then((result: any) => {
       b2bUser.registrationData.email = user.email;
       b2bUser.registrationData.password = user.password;
+      stubB2bUnitSelectionApis();
       return cy.requireLoggedIn(b2bUser);
     });
 }

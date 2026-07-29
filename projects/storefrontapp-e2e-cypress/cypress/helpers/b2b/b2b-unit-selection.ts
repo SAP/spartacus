@@ -7,6 +7,32 @@
 const B2B_UNIT_SELECTION_DIALOG = 'cx-b2b-unit-selection-dialog';
 
 /**
+ * Stubs the OCC endpoint used by the B2B Unit Selection feature to load the
+ * user's assignable org units.
+ *
+ * `B2bUnitSelectorComponent` is placed in `SiteContextSlot` and fires this
+ * request on every B2B page load when the feature is enabled. Tests that do
+ * not exercise the unit selection dialog should call this helper before
+ * `cy.requireLoggedIn()` so that the request is intercepted before the app
+ * bootstraps and the response returns an empty list (preventing the dialog
+ * from appearing).
+ *
+ * Uses `pathname`-based matching (instead of `path`) so the wildcard does not
+ * accidentally match the broader `orgUsers/{userId}` profile endpoint.
+ *
+ * Intercepted endpoint:
+ *  - GET …/orgUsers/{userId}/orgUnits  (loadOrgUnits) → empty list, no dialog
+ */
+export function stubB2bUnitSelectionApis(): void {
+  const occPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
+
+  cy.intercept(
+    { method: 'GET', pathname: `${occPrefix}/orgUsers/*/orgUnits` },
+    { statusCode: 200, body: { orgUnits: [] } }
+  ).as('stubOrgUserUnits');
+}
+
+/**
  * Confirms the B2B Unit selection dialog if it appears within a short timeout.
  *
  * The dialog is shown after login when the feature `b2bUnitSelection.enabled` is true

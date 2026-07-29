@@ -7,6 +7,7 @@
 import * as sampleData from '../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+import { stubB2bUnitSelectionApis } from '../../../helpers/b2b/b2b-unit-selection';
 
 describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
   isolateTestsBefore();
@@ -16,6 +17,7 @@ describe('B2B Quick Order Accessibility', { testIsolation: false }, () => {
 
   before(() => {
     cy.a11yContinuumSetup();
+    stubB2bUnitSelectionApis();
     cy.requireLoggedIn();
     cy.visit('/my-account/quick-order');
   });
