@@ -145,6 +145,7 @@ describe('Graph utils', () => {
         SPARTACUS_CHECKOUT,
         SPARTACUS_STOREFINDER,
         SPARTACUS_REQUESTED_DELIVERY_DATE,
+        SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_TRACKING,
         SPARTACUS_CUSTOMER_TICKETING,
         SPARTACUS_ORGANIZATION,
@@ -169,7 +170,6 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
-        SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ESTIMATED_DELIVERY_DATE,
       ]);
     });
@@ -191,6 +191,7 @@ describe('Graph utils', () => {
           "Checkout",
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
+          "Store-Finder",
           "OPF-Gift-Card",
           "OPF-Quick-Buy",
           "OPF-Global-Functions",
@@ -199,10 +200,12 @@ describe('Graph utils', () => {
           "OPF-Payment",
           "OPF-Checkout",
           "OPF-Tokenisation",
+          "OPF-Quick-Buy-Pickup-In-Store",
           "OPF-B2B-Checkout",
           "Personalization",
           "TMS-AEPL",
           "TMS-GTM",
+          "Pickup-In-Store",
           "PDF-Invoices",
           "Requested-Delivery-Date",
           "Customer-Ticketing",
@@ -214,7 +217,6 @@ describe('Graph utils', () => {
           "VC-Configurator",
           "CPQ-Configurator",
           "Textfield-Configurator",
-          "Store-Finder",
           "ASM",
           "ASM-Customer-360",
           "Punchout",
@@ -240,7 +242,6 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Pickup-In-Store",
           "Quote",
         ]
       `);

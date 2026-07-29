@@ -164,7 +164,7 @@ context('Assisted Service Module', () => {
       cy.whenJDK21(() => {
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
       customerTicketing.visitElectronicTicketListingPage();
@@ -241,7 +241,7 @@ context('Assisted Service Module', () => {
       cy.whenJDK21(() => {
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
       savedCart.addProductToCart(sampleData.products[2], 2);
@@ -698,7 +698,7 @@ context('Assisted Service Module', () => {
       });
 
       visitLoginPage();
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
       customerTicketing.visitElectronicTicketListingPage();
@@ -778,7 +778,7 @@ context('Assisted Service Module', () => {
         cy.getLoginRegisterLink({ clickAndWait: true });
       });
       visitLoginPage();
-      login(customer.email, customer.password);
+      login(customer.email, customer.password, true);
       cy.get('cx-login .cx-login-greet').should('be.visible');
 
       savedCart.addProductToCart(sampleData.products[2], 2);

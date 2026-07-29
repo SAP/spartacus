@@ -126,6 +126,11 @@ export interface OpfPaymentSubmitInput {
   paymentMethod: OpfPaymentMethod;
   encryptedToken?: string;
   savePaymentMethod?: boolean;
+  /**
+   * Optional cart ID used to resolve the cart access code.
+   * When omitted, the active cart ID is used.
+   */
+  cartId?: string;
 }
 
 export enum OpfPaymentChannel {
@@ -172,6 +177,11 @@ export interface OpfPaymentSubmitCompleteInput {
     onFailure: OpfPaymentMerchantCallback;
   };
   returnPath?: string;
+  /**
+   * Optional cart ID used to resolve the cart access code.
+   * When omitted, the active cart ID is used.
+   */
+  cartId?: string;
 }
 
 export interface OpfPaymentAfterRedirectScriptResponse {

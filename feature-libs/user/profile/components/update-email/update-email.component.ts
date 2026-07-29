@@ -5,19 +5,25 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  PageMetaService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   BtnLikeLinkDirective,
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
+  getPageTitle,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -43,13 +49,17 @@ import { UpdateEmailComponentService } from './update-email-component.service';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class UpdateEmailComponent {
+  protected pageMetaService = inject(PageMetaService);
+
   constructor(protected service: UpdateEmailComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   onSubmit(): void {
     this.service.save();
