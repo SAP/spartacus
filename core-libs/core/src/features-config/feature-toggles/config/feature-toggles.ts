@@ -627,7 +627,7 @@ export interface FeatureTogglesInterface {
    * Affects: `ActiveCartService`
    */
   mergeGuestCartOnCodeFlowLogin?: boolean;
-  
+
   /**
    * When enabled, triggers a full page reload after a language switch so that
    * all `href` attributes (banners, navigation links, mini-cart, login) reflect
