@@ -79,7 +79,6 @@
       "@spartacus/s4-service",
       "@spartacus/s4om",
       "@spartacus/segment-refs",
-      "@spartacus/skills",
       "@spartacus/smartedit",
       "@spartacus/storefinder",
       "@spartacus/subscription-billing",

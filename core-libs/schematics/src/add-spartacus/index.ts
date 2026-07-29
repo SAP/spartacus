@@ -56,7 +56,8 @@ import {
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addStorefrontComponentToAppComponent } from './add-storefront-component-to-app-component';
-import { addAiContext, scheduleAiContext } from './ai-context';
+// TODO CXSPA-13991: Re-enable once @spartacus/skills passes audit and ships in the release bundle.
+// import { addAiContext, scheduleAiContext } from './ai-context';
 import { addSpartacusConfiguration } from './configuration';
 import { createAppModule } from './create-app-module';
 import { Schema as SpartacusOptions } from './schema';
@@ -568,7 +569,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
       addFeatures(options, features),
 
-      addAiContext(options),
+      // TODO CXSPA-13991: Re-enable once @spartacus/skills passes audit and ships in the release bundle.
+      // addAiContext(options),
 
       chain([
         addPackageJsonDependencies(
@@ -584,7 +586,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         replaceCaretWithTildeForSpartacusDependencies(options),
       ]),
 
-      scheduleAiContext(options),
+      // TODO CXSPA-13991: Re-enable once @spartacus/skills passes audit and ships in the release bundle.
+      // scheduleAiContext(options),
 
       finalizeInstallation(options, features),
     ])(tree, context);
