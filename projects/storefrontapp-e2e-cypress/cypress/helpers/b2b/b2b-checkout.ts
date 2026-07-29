@@ -72,8 +72,8 @@ export function loginB2bUser() {
       return cy.requireLoggedIn(b2bUser);
     })
     .then(() => {
-      confirmB2bUnitSelectionDialogIfPresent();
       visitHomePage();
+      confirmB2bUnitSelectionDialogIfPresent();
       cy.get('.cx-login-greet').should('contain', user.fullName);
     });
 }

@@ -17,7 +17,10 @@ import {
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { interceptGet } from '../../../../support/utils/intercept';
-import { stubB2bUnitSelectionApis } from '../../../../helpers/b2b/b2b-unit-selection';
+import {
+  confirmB2bUnitSelectionDialogIfPresent,
+  stubB2bUnitSelectionApis,
+} from '../../../../helpers/b2b/b2b-unit-selection';
 context('B2B - Assisted Service Module', () => {
   const customer = getASMB2BCustomer();
   const b2bAgent = getB2BAgent();
@@ -43,7 +46,6 @@ context('B2B - Assisted Service Module', () => {
       });
 
       cy.log('--> Agent logging in');
-      stubB2bUnitSelectionApis();
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
@@ -56,7 +58,9 @@ context('B2B - Assisted Service Module', () => {
         agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
       });
       cy.log('--> Agent emulate customer');
+      stubB2bUnitSelectionApis();
       asm.startCustomerEmulation(customer, true);
+      confirmB2bUnitSelectionDialogIfPresent();
 
       addB2bProductToCartAndCheckout();
 
