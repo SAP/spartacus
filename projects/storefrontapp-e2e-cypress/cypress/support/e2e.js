@@ -20,4 +20,3 @@ import './commands.ts';
 // require('./commands')
 
 import './csrf-global-interceptor.ts';
-import './b2b-unit-selection-global-interceptor.ts';

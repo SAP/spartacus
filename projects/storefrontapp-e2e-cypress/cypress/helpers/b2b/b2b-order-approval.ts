@@ -5,6 +5,7 @@
  */
 
 import * as sampleData from '../../sample-data/b2b-order-approval';
+import { stubB2bUnitSelectionApis } from './b2b-unit-selection';
 import {
   approvalOrderDetail,
   approvalOrderList,
@@ -35,10 +36,12 @@ export function visitOrderApprovalDetailPage() {
 }
 
 export function loginB2bUser() {
+  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUserAccount);
 }
 
 export function loginB2bApprover() {
+  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bApproverAccount);
 }
 
