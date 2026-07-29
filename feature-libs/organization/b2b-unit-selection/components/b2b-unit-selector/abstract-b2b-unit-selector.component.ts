@@ -84,7 +84,10 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
         take(1),
         switchMap((userId) =>
           forkJoin({
-            orgUnits: this.connector.loadOrgUnits(userId),
+            // Gracefully degrade on error so the component never blocks page rendering.
+            orgUnits: this.connector
+              .loadOrgUnits(userId)
+              .pipe(catchError(() => of([] as B2BUnit[]))),
             defaultUnitName: this.connector
               .loadDefaultOrgUnitName(userId)
               .pipe(catchError(() => of(undefined))),
