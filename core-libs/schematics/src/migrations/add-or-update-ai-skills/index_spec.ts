@@ -14,7 +14,11 @@ const MIGRATION_SCRIPT_NAME = 'add-or-update-ai-skills';
 const SKILLS_PACKAGE = '@spartacus/skills';
 const CLAUDE_SENTINEL = '.claude/skills/spartacus-developer/SKILL.md';
 
-describe('add/update AI skills migration', () => {
+// TODO CXSPA-13991: Re-enable once the `add-or-update-ai-skills` migration is
+// re-registered in migrations.json (skills passes audit and ships in the bundle).
+// The migration code is retained; only its collection registration is removed,
+// so this suite can't resolve the schematic and is skipped in the meantime.
+describe.skip('add/update AI skills migration', () => {
   let tree: Tree;
   let runner: SchematicTestRunner;
 

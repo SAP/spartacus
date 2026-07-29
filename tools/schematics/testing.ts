@@ -138,7 +138,7 @@ function getPackageJsonFiles(): string[] {
   const sourceFiles = [
     'core-libs/styles/package.json',
     'core-libs/schematics/package.json',
-    'core-libs/skills/package.json',
+    // TODO CXSPA-13991: Re-include skills once it passes audit and ships in the release bundle.
   ];
   const distFiles = globSync(`dist/!(node_modules)/package.json`);
   return [...sourceFiles, ...distFiles];
