@@ -11,9 +11,9 @@ import {
   AuthActions,
   B2BUnit,
   LoggerService,
-  RoutingService,
   tryNormalizeHttpError,
   UserIdService,
+  WindowRef,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, forkJoin, interval, Observable, of, race, timer } from 'rxjs';
@@ -39,7 +39,7 @@ export class B2bUnitSelectionEffects {
   protected applicationRef = inject(ApplicationRef);
   protected ngZone = inject(NgZone);
   protected stateService = inject(B2bUnitSelectorStateService);
-  protected routingService = inject(RoutingService);
+  protected windowRef = inject(WindowRef);
 
   /**
    * Listens for the LOGIN action and loads the user's org units and default unit.
@@ -101,8 +101,8 @@ export class B2bUnitSelectionEffects {
 
   /**
    * Listens for SET_DEFAULT_ORG_UNIT and calls the PUT API to persist the selection.
-   * On success, closes the dialog, updates the header selector state, and navigates
-   * home when triggered from the header selector (redirectToHome = true).
+   * On success, closes the dialog, updates the header selector state, and reloads
+   * the page so all org-context-dependent data (prices, catalog, CMS) is refreshed.
    */
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
@@ -120,10 +120,15 @@ export class B2bUnitSelectionEffects {
           tap(() => {
             this.launchDialogService.closeDialog('CONFIRMED');
             this.stateService.setActiveUnit(unitName);
-            // Only navigate home for header selector switches (redirectToHome=true);
-            // dialog confirmations stay on the current page.
+            // Reload the page so all org-context data is refreshed for the
+            // newly selected unit.
+            // Header selector: navigate to home root and trigger a full page
+            // reload in one step via location.assign('/').
+            // Dialog: reload the current page in-place via location.reload().
             if (redirectToHome) {
-              this.routingService.go({ cxRoute: 'home' });
+              this.windowRef.nativeWindow?.location?.assign('/');
+            } else {
+              this.windowRef.nativeWindow?.location?.reload();
             }
           }),
           map(() => new B2bUnitSelectionActions.SetDefaultOrgUnitSuccess()),

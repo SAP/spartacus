@@ -18,8 +18,8 @@ import {
   AuthActions,
   B2BUnit,
   LoggerService,
-  RoutingService,
   UserIdService,
+  WindowRef,
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -74,8 +74,13 @@ class MockUserIdService {
   takeUserId = createSpy('takeUserId').and.returnValue(of(mockUserId));
 }
 
-class MockRoutingService {
-  go = createSpy('go');
+class MockWindowRef {
+  nativeWindow = {
+    location: {
+      assign: createSpy('assign'),
+      reload: createSpy('reload'),
+    },
+  };
 }
 
 describe('B2bUnitSelectionEffects', () => {
@@ -83,7 +88,7 @@ describe('B2bUnitSelectionEffects', () => {
   let connector: MockB2bUnitSelectionConnector;
   let stateService: MockB2bUnitSelectorStateService;
   let launchDialogService: MockLaunchDialogService;
-  let routingService: MockRoutingService;
+  let windowRef: MockWindowRef;
   let actions$: Observable<Action>;
   let applicationRef: any;
 
@@ -113,7 +118,7 @@ describe('B2bUnitSelectionEffects', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provide: ApplicationRef, useValue: applicationRef },
         { provide: LoggerService, useClass: MockLoggerService },
         {
@@ -130,7 +135,7 @@ describe('B2bUnitSelectionEffects', () => {
     connector = TestBed.inject(B2bUnitSelectionConnector) as any;
     stateService = TestBed.inject(B2bUnitSelectorStateService) as any;
     launchDialogService = TestBed.inject(LaunchDialogService) as any;
-    routingService = TestBed.inject(RoutingService) as any;
+    windowRef = TestBed.inject(WindowRef) as any;
   });
 
   // ── checkOrgUnitsOnLogin$ ─────────────────────────────────────────────────
@@ -281,7 +286,18 @@ describe('B2bUnitSelectionEffects', () => {
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(payload.unitName);
     });
 
-    it('should navigate to home when redirectToHome is true', () => {
+    it('should call location.reload() when redirectToHome is false (dialog confirmation)', () => {
+      const action = new B2bUnitSelectionActions.SetDefaultOrgUnit(payload);
+      actions$ = hot('-a', { a: action });
+
+      effects.setDefaultOrgUnit$.subscribe();
+      getTestScheduler().flush();
+
+      expect(windowRef.nativeWindow.location.reload).toHaveBeenCalled();
+      expect(windowRef.nativeWindow.location.assign).not.toHaveBeenCalled();
+    });
+
+    it('should call location.assign("/") when redirectToHome is true (header selector)', () => {
       const action = new B2bUnitSelectionActions.SetDefaultOrgUnit({
         ...payload,
         redirectToHome: true,
@@ -291,17 +307,8 @@ describe('B2bUnitSelectionEffects', () => {
       effects.setDefaultOrgUnit$.subscribe();
       getTestScheduler().flush();
 
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
-    });
-
-    it('should NOT navigate to home when redirectToHome is false/undefined', () => {
-      const action = new B2bUnitSelectionActions.SetDefaultOrgUnit(payload);
-      actions$ = hot('-a', { a: action });
-
-      effects.setDefaultOrgUnit$.subscribe();
-      getTestScheduler().flush();
-
-      expect(routingService.go).not.toHaveBeenCalled();
+      expect(windowRef.nativeWindow.location.assign).toHaveBeenCalledWith('/');
+      expect(windowRef.nativeWindow.location.reload).not.toHaveBeenCalled();
     });
 
     it('should dispatch SetDefaultOrgUnitFail on connector error', () => {
@@ -366,7 +373,7 @@ describe('B2bUnitSelectionEffects (feature disabled)', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: WindowRef, useClass: MockWindowRef },
         { provide: ApplicationRef, useValue: appRef },
         { provide: LoggerService, useClass: MockLoggerService },
         {
