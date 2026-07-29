@@ -5,25 +5,19 @@
  */
 
 import * as sampleData from '../../sample-data/b2b-order-history';
-import { stubB2bUnitSelectionApis } from './b2b-unit-selection';
-
 export function loginB2bUnitOrderViewer() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccount);
 }
 
 export function loginB2bUnitOrderViewer2() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccount2);
 }
 
 export function loginB2bUnitOrderViewerManager() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUnitOrderViewerManagerAccount);
 }
 
 export function loginB2bCommonUser() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bCommonUserAccount);
 }
 

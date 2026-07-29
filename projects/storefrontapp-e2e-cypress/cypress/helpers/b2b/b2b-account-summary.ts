@@ -13,8 +13,6 @@ import {
   AccountData,
   RegistrationData,
 } from '../../support/require-logged-in.commands';
-import { stubB2bUnitSelectionApis } from './b2b-unit-selection';
-
 export function loginAsAdmin() {
   const linda = 'linda.wolf@pronto-hw.com';
   const registrationData: RegistrationData = {
@@ -145,7 +143,6 @@ function login(user: AccountData) {
   const minWait = 750;
   const maxWait = 1500;
   cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(user);
 }
 

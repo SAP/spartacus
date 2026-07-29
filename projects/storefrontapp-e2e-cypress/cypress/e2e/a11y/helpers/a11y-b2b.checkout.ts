@@ -13,8 +13,6 @@ import {
   POWERTOOLS_BASESITE,
   products,
 } from '../../../sample-data/b2b-checkout';
-import { stubB2bUnitSelectionApis } from '../../../helpers/b2b/b2b-unit-selection';
-
 export function loginB2bUser() {
   let adminToken;
   let user = getSampleUser();
@@ -33,7 +31,6 @@ export function loginB2bUser() {
     .then((result: any) => {
       b2bUser.registrationData.email = user.email;
       b2bUser.registrationData.password = user.password;
-      stubB2bUnitSelectionApis();
       return cy.requireLoggedIn(b2bUser);
     });
 }

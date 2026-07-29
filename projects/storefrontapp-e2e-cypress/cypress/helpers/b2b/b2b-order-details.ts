@@ -7,8 +7,6 @@
 import * as sampleData from '../../sample-data/b2b-order-details';
 import { unitLevelOrder } from '../../sample-data/b2b-order-details';
 import { waitForPage } from '../navigation';
-import { stubB2bUnitSelectionApis } from './b2b-unit-selection';
-
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
     '/my-account/approval-dashboard',
@@ -20,12 +18,10 @@ export function visitOrderApprovalListPage() {
 }
 
 export function loginB2bUnitOrderViewer() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUnitOrderViewerAccount);
 }
 
 export function loginB2bCommonUser() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUserAccount);
 }
 
