@@ -21,17 +21,20 @@ const B2B_UNIT_SELECTION_DIALOG = 'cx-b2b-unit-selection-dialog';
 export function stubB2bUnitSelectionApis(): void {
   const occPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
 
-  // Register the more-specific /orgUnits path first so it wins over the
-  // broader orgUsers/** pattern below.
-  cy.intercept('GET', `${occPrefix}/orgUsers/*/orgUnits`, {
-    statusCode: 200,
-    body: { orgUnits: [] },
-  }).as('stubOrgUserUnits');
+  // Use pathname-based matching to avoid glob ambiguity with query strings
+  // (e.g. ?lang=en&curr=USD appended by OccEndpointsService).
+  //
+  // Register the more-specific /orgUnits path first so Cypress routes it
+  // before the broader orgUsers/{userId} rule below.
+  cy.intercept(
+    { method: 'GET', pathname: `${occPrefix}/orgUsers/*/orgUnits` },
+    { statusCode: 200, body: { orgUnits: [] } }
+  ).as('stubOrgUserUnits');
 
-  cy.intercept('GET', `${occPrefix}/orgUsers/*`, {
-    statusCode: 200,
-    body: { orgUnit: { uid: 'Rustic', name: 'Rustic' } },
-  }).as('stubOrgUser');
+  cy.intercept(
+    { method: 'GET', pathname: `${occPrefix}/orgUsers/*` },
+    { statusCode: 200, body: { orgUnit: { uid: 'Rustic', name: 'Rustic' } } }
+  ).as('stubOrgUser');
 }
 
 /**
