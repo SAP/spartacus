@@ -32,6 +32,7 @@ import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/r
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
   OpfPaymentBrowserInfo,
+  OpfPaymentChannel,
   OpfPaymentConfig,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
@@ -387,6 +388,7 @@ export class OpfCheckoutPaymentWrapperService {
       otpKey,
       config: {
         browserInfo,
+        channel: OpfPaymentChannel.BROWSER,
         configurationId: String(paymentOptionId),
         resultURL: this.routingService.getFullUrl({
           cxRoute: 'paymentVerificationResult',
