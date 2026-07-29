@@ -68,11 +68,11 @@ export function loginB2bUser() {
       b2bUser.registrationData.email = user.email;
       b2bUser.registrationData.password = user.password;
 
-      stubB2bUnitSelectionApis();
       return cy.requireLoggedIn(b2bUser);
     })
     .then(() => {
       visitHomePage();
+      stubB2bUnitSelectionApis();
       confirmB2bUnitSelectionDialogIfPresent();
       cy.get('.cx-login-greet').should('contain', user.fullName);
     });
