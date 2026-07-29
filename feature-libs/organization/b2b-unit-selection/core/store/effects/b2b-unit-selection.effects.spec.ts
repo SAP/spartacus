@@ -94,8 +94,10 @@ describe('B2bUnitSelectionEffects', () => {
       // Required by Angular's ChangeDetectionSchedulerImpl (Angular 18+):
       // - isStable: used by older internal code paths
       // - afterTick: Subject subscribed to in the constructor
+      // - _tick: called by fakeAsync zone integration to trigger change detection
       isStable: of(true),
       afterTick: new Subject<void>(),
+      _tick: () => {},
     };
 
     TestBed.configureTestingModule({
