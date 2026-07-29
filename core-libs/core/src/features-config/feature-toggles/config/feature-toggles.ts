@@ -386,6 +386,13 @@ export interface FeatureTogglesInterface {
   useEnhancedSecurePasswordValidators?: boolean;
 
   /**
+   * When enabled, uses `POST /carts/{cartId}/applyVoucher` with the voucherId
+   * in the request body instead of `POST /carts/{cartId}/vouchers?voucherId={voucherId}`.
+   * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
+   */
+  enableApplyVoucherEndpoint?: boolean;
+
+  /**
    * When enabled, uses `POST /carts/{cartId}/removeVoucher` with the voucherId
    * in the request body instead of `DELETE /carts/{cartId}/vouchers/{voucherId}`.
    * Requires the corresponding OCC endpoint to be available on the backend (from 2211.28 version).
@@ -417,6 +424,17 @@ export interface FeatureTogglesInterface {
    * Affects: CheckoutDeliveryModeComponent, VisibleFocusDirective
    */
   a11yDeliveryModeFocusPreservation?: boolean;
+
+  /**
+   * When enabled, wraps form controls in a `<fieldset>` with `aria-labelledby`
+   * referencing the visible page heading, so screen readers announce the section
+   * heading when any field in the group receives focus.
+   * Affects: UpdateProfileComponent, MyAccountV2ProfileComponent,
+   *          UpdatePasswordComponent, MyAccountV2PasswordComponent,
+   *          UpdateEmailComponent, MyAccountV2EmailComponent,
+   *          ConsentManagementComponent
+   */
+  a11yFormFieldSectionLegend?: boolean;
 
   /**
    * Improve auto focus during checkout process.
@@ -556,6 +574,16 @@ export interface FeatureTogglesInterface {
   siteIsolationForCustomLoginPage?: boolean;
 
   /**
+   * When enabled, the navigation menu buttons (e.g. "My Account") and dropdown
+   * headers activate on spacebar key *release* (`keyup`) rather than key *press*
+   * (`keydown`), preventing the action from firing repeatedly while the key is
+   * held down.
+   * Fixes WCAG 2.5.2 (Pointer Cancellation) ACC-270.16 (Level A).
+   * Affects: `NavigationUIComponent`, 'NativeSelectSpaceDirective'
+   */
+  a11yNavigationSpaceKeyOnKeyUp?: boolean;
+
+  /**
    * When enabled, the storefront's active theme follows the `theme` field of
    * the active base site (configured in SAP Commerce BackOffice). The theme
    * is applied as a CSS class on the app's root element by `ThemeService`.
@@ -585,6 +613,18 @@ export interface FeatureTogglesInterface {
   improvedTabStyling?: boolean;
 
   /**
+   * When enabled, triggers a full page reload after a language switch so that
+   * all `href` attributes (banners, navigation links, mini-cart, login) reflect
+   * the new language immediately without requiring a manual page refresh.
+   *
+   * During SSR the reload is skipped — the server renders the page in the
+   * requested language without any reload mechanism.
+   *
+   * Affects: `LanguagesEffects`
+   */
+  reloadOnLanguageChange?: boolean;
+
+  /**
    * When enabled, the product configurator product card action buttons are
    * consistently disabled while a configuration update round trip is in
    * progress (`disableActions$`). In particular, the multi-select "Remove"
@@ -604,6 +644,44 @@ export interface FeatureTogglesInterface {
    * Affects: `FormErrorsComponent`
    */
   a11yFormErrorIconContrast?: boolean;
+
+  /**
+   * When enabled, the default theme's keyboard focus indicator color
+   * (`--cx-color-visual-focus`) is darkened so the focus outline of all UI
+   * elements (input fields, search box, comboboxes, checkboxes, radio buttons,
+   * etc.) meets the WCAG 1.4.11 non-text contrast requirement of >=3:1 against
+   * the adjacent surface.
+   */
+  a11yFocusIndicatorContrast?: boolean;
+
+  /**
+   * When enabled, disabled action buttons (`.btn-primary`, `.btn-secondary`,
+   * `.btn-tertiary`) use the new `--cx-color-disabled` token instead of
+   * `--cx-color-border-focus`, so their border/background/text meet the
+   * WCAG 1.4.11 3:1 (7:1 in high-contrast themes) non-text contrast
+   * requirement.
+   */
+  a11yDisabledButtonContrast?: boolean;
+
+  /**
+   * When enabled, the address form applies the `cxFocus` directive with autofocus
+   * to manage initial keyboard focus.
+   *
+   * Affects: `AddressFormComponent`
+   */
+  a11yAddressFormInitialFocus?: boolean;
+
+  /**
+   * When enabled, after navigating to a `CategoryPage` (e.g. a Product Listing Page)
+   * via a header navigation link, keyboard focus moves to the first anchor inside
+   * `cx-breadcrumb` (resolved via `StorefrontComponent.categoryPageFocusSelector`)
+   * rather than the first focusable element in `<main>`.
+   * Falls back to the existing `cx-main` skip-link target when no breadcrumb is present
+   * or the destination is not a CategoryPage.
+   *
+   * Affects: `StorefrontComponent`
+   */
+  a11yFocusBreadcrumbOnNavigation?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -655,11 +733,13 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yCartQuickOrderFormEnableSubmitAndAddValidation: false,
   a11yConsentManagementFocusPreservation: false,
   a11yDeliveryModeFocusPreservation: false,
+  a11yFormFieldSectionLegend: false,
   a11yImproveCheckoutFocus: false,
   a11yVocalizeDropdownItemCount: false,
   a11yRestoreFocusOnNgSelect: false,
   a11yKeepFocusOnConsentManagementButtons: false,
   useEnhancedSecurePasswordValidators: false,
+  enableApplyVoucherEndpoint: false,
   enableRemoveVoucherEndpoint: false,
   showSortFieldsOnlyAtTop: false,
   showRequiredAsterisks: false,
@@ -681,8 +761,14 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   asyncAuthConfigInitializer: false,
   siteIsolationForCustomLoginPage: false,
   applyBaseSiteThemeFromCms: false,
+  a11yNavigationSpaceKeyOnKeyUp: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
+  reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
+  a11yFocusIndicatorContrast: false,
+  a11yDisabledButtonContrast: false,
+  a11yAddressFormInitialFocus: false,
+  a11yFocusBreadcrumbOnNavigation: false,
 };

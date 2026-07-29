@@ -346,11 +346,13 @@ if (environment.cpq) {
         a11yCartQuickOrderFormEnableSubmitAndAddValidation: true,
         a11yConsentManagementFocusPreservation: true,
         a11yDeliveryModeFocusPreservation: true,
+        a11yFormFieldSectionLegend: true,
         a11yImproveCheckoutFocus: true,
         a11yVocalizeDropdownItemCount: true,
         a11yRestoreFocusOnNgSelect: true,
         a11yKeepFocusOnConsentManagementButtons: true,
         useEnhancedSecurePasswordValidators: true,
+        enableApplyVoucherEndpoint: true,
         enableRemoveVoucherEndpoint: true,
         showSortFieldsOnlyAtTop: true,
         showRequiredAsterisks: true,
@@ -372,8 +374,14 @@ if (environment.cpq) {
         asyncAuthConfigInitializer: false as boolean, // exception until sample data is updated
         siteIsolationForCustomLoginPage: true,
         applyBaseSiteThemeFromCms: true,
+        a11yNavigationSpaceKeyOnKeyUp: true,
         b2bCheckoutShippingAddressFilter: true,
+        reloadOnLanguageChange: true,
         a11yFormErrorIconContrast: true,
+        a11yFocusIndicatorContrast: true,
+        a11yDisabledButtonContrast: true,
+        a11yAddressFormInitialFocus: true,
+        a11yFocusBreadcrumbOnNavigation: true,
       };
       return appFeatureToggles;
     }),

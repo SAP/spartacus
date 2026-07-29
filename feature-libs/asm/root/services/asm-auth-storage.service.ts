@@ -5,7 +5,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AuthStorageService, AuthToken } from '@spartacus/core';
+import {
+  AuthStorageService,
+  AuthToken,
+  StatePersistenceService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
@@ -14,6 +18,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export enum TokenTarget {
   CSAgent = 'CSAgent',
   User = 'User',
+}
+
+interface PersistedAsmAuthState {
+  emulatedUserToken?: AuthToken;
+  tokenTarget?: TokenTarget;
 }
 
 /**
@@ -36,7 +45,28 @@ export class AsmAuthStorageService extends AuthStorageService {
    * This supports in-store use case when CS Agent want's to quickly help
    * customer and then give an option to customer to continue the process.
    */
-  protected emulatedUserToken?: AuthToken;
+  protected emulatedUserToken$ = new BehaviorSubject<AuthToken | undefined>(
+    undefined
+  );
+
+  constructor(protected statePersistenceService?: StatePersistenceService) {
+    super();
+    this.restorePersistedAsmAuthState();
+  }
+
+  protected restorePersistedAsmAuthState(): void {
+    const state =
+      this.statePersistenceService?.readStateFromStorage<PersistedAsmAuthState>(
+        { key: 'asm' }
+      );
+
+    if (state?.emulatedUserToken) {
+      this.setEmulatedUserToken(state.emulatedUserToken);
+    }
+    if (state?.tokenTarget) {
+      this.setTokenTarget(state.tokenTarget);
+    }
+  }
 
   /**
    * Get target user for current auth token.
@@ -62,7 +92,16 @@ export class AsmAuthStorageService extends AuthStorageService {
    * @return previously logged in user token.
    */
   getEmulatedUserToken(): AuthToken | undefined {
-    return this.emulatedUserToken;
+    return this.emulatedUserToken$.value;
+  }
+
+  /**
+   * Get token for previously interrupted user session as observable state.
+   *
+   * @return observable with previously logged in user token.
+   */
+  getEmulatedUserTokenState(): Observable<AuthToken | undefined> {
+    return this.emulatedUserToken$;
   }
 
   /**
@@ -71,7 +110,7 @@ export class AsmAuthStorageService extends AuthStorageService {
    * @param token
    */
   setEmulatedUserToken(token: AuthToken): void {
-    this.emulatedUserToken = token;
+    this.emulatedUserToken$.next(token);
   }
 
   /**
@@ -95,6 +134,6 @@ export class AsmAuthStorageService extends AuthStorageService {
    * Only available solution is to drop session we could restore, to avoid account hijack.
    */
   clearEmulatedUserToken(): void {
-    this.emulatedUserToken = undefined;
+    this.emulatedUserToken$.next(undefined);
   }
 }

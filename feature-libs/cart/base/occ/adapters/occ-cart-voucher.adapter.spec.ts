@@ -67,27 +67,69 @@ describe('OccCartVoucherAdapter', () => {
   });
 
   describe('add voucher to cart', () => {
-    beforeEach(() => setup());
+    describe('when enableApplyVoucherEndpoint is false', () => {
+      beforeEach(() => setup({ enableApplyVoucherEndpoint: false }));
 
-    it('should add voucher to cart for given user id, cart id and voucher id', () => {
-      let result;
-      service.add(userId, cartId, voucherId).subscribe((res) => (result = res));
+      it('should POST /vouchers with voucherId as query param', () => {
+        let result;
+        service
+          .add(userId, cartId, voucherId)
+          .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'POST';
+        const mockReq = httpMock.expectOne((req) => {
+          return req.method === 'POST';
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'cartVoucher',
+          {
+            urlParams: {
+              userId: userId,
+              cartId: cartId,
+            },
+          }
+        );
+        expect(mockReq.request.params.get('voucherId')).toEqual(voucherId);
+        expect(mockReq.cancelled).toBeFalsy();
+        mockReq.flush(cartData);
+        expect(result).toEqual(cartData);
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          CART_VOUCHER_NORMALIZER
+        );
       });
+    });
 
-      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('cartVoucher', {
-        urlParams: {
-          userId: userId,
-          cartId: cartId,
-        },
+    describe('when enableApplyVoucherEndpoint is true', () => {
+      beforeEach(() => setup({ enableApplyVoucherEndpoint: true }));
+
+      it('should POST /applyVoucher with voucherId in body', () => {
+        let result;
+        service
+          .add(userId, cartId, voucherId)
+          .subscribe((res) => (result = res));
+
+        const mockReq = httpMock.expectOne((req) => {
+          return req.method === 'POST';
+        });
+
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'cartApplyVoucher',
+          {
+            urlParams: {
+              userId: userId,
+              cartId: cartId,
+            },
+          }
+        );
+        expect(mockReq.request.body).toEqual({ voucherId });
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(cartData);
+        expect(result).toEqual(cartData);
+        expect(converter.pipeable).toHaveBeenCalledWith(
+          CART_VOUCHER_NORMALIZER
+        );
       });
-      expect(mockReq.request.params.get('voucherId')).toEqual(voucherId);
-      expect(mockReq.cancelled).toBeFalsy();
-      mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
-      expect(converter.pipeable).toHaveBeenCalledWith(CART_VOUCHER_NORMALIZER);
     });
   });
 

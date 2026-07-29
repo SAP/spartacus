@@ -1,103 +1,111 @@
 <cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
 <cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <label>
-    <span class="label-content"
-      >{{ 'updateEmailForm.newEmailAddress.label' | cxTranslate }}
+  <fieldset>
+    <legend
+      *cxFeature="'a11yFormFieldSectionLegend'"
+      class="cx-visually-hidden"
+    >
+      {{ pageTitle$ | async }}
+    </legend>
+    <label>
+      <span class="label-content"
+        >{{ 'updateEmailForm.newEmailAddress.label' | cxTranslate }}
 
-      <cx-form-required-asterisks />
-    </span>
-    <input
-      required="true"
-      type="email"
-      name="email"
-      formControlName="email"
-      placeholder="{{
-        'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
-      }}"
-      [attr.aria-invalid]="
-        form.get('email')?.touched && form.get('email')?.invalid
-      "
-      [attr.aria-errormessage]="'emailError'"
-      class="form-control"
-    />
+        <cx-form-required-asterisks />
+      </span>
+      <input
+        required="true"
+        type="email"
+        name="email"
+        formControlName="email"
+        placeholder="{{
+          'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
+        }}"
+        [attr.aria-invalid]="
+          form.get('email')?.touched && form.get('email')?.invalid
+        "
+        [attr.aria-errormessage]="'emailError'"
+        class="form-control"
+      />
 
-    <cx-form-errors
-      id="emailError"
-      [translationParams]="{
-        label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
-      }"
-      [control]="form.get('email')"
-    ></cx-form-errors>
-  </label>
+      <cx-form-errors
+        id="emailError"
+        [translationParams]="{
+          label: 'updateEmailForm.newEmailAddress.label' | cxTranslate,
+        }"
+        [control]="form.get('email')"
+      ></cx-form-errors>
+    </label>
 
-  <label>
-    <span class="label-content"
-      >{{ 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate }}
+    <label>
+      <span class="label-content"
+        >{{ 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate }}
 
-      <cx-form-required-asterisks />
-    </span>
-    <input
-      required="true"
-      type="email"
-      name="confirmEmail"
-      formControlName="confirmEmail"
-      placeholder="{{
-        'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
-      }}"
-      [attr.aria-invalid]="
-        form.get('confirmEmail')?.touched && form.get('confirmEmail')?.invalid
-      "
-      [attr.aria-errormessage]="'confirmEmailError'"
-      class="form-control"
-    />
+        <cx-form-required-asterisks />
+      </span>
+      <input
+        required="true"
+        type="email"
+        name="confirmEmail"
+        formControlName="confirmEmail"
+        placeholder="{{
+          'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
+        }}"
+        [attr.aria-invalid]="
+          form.get('confirmEmail')?.touched && form.get('confirmEmail')?.invalid
+        "
+        [attr.aria-errormessage]="'confirmEmailError'"
+        class="form-control"
+      />
 
-    <cx-form-errors
-      id="confirmEmailError"
-      [translationParams]="{
-        label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
-      }"
-      [control]="form.get('confirmEmail')"
-    ></cx-form-errors>
-  </label>
+      <cx-form-errors
+        id="confirmEmailError"
+        [translationParams]="{
+          label: 'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate,
+        }"
+        [control]="form.get('confirmEmail')"
+      ></cx-form-errors>
+    </label>
 
-  <label>
-    <span class="label-content"
-      >{{ 'updateEmailForm.password.label' | cxTranslate }}
+    <label>
+      <span class="label-content"
+        >{{ 'updateEmailForm.password.label' | cxTranslate }}
 
-      <cx-form-required-asterisks />
-    </span>
-    <input
-      required="true"
-      type="password"
-      name="password"
-      formControlName="password"
-      placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
-      class="form-control"
-      autocomplete="new-password"
-      [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
-      [attr.aria-describedby]="'passwordError'"
-      cxPasswordVisibilitySwitch
-    />
+        <cx-form-required-asterisks />
+      </span>
+      <input
+        required="true"
+        type="password"
+        name="password"
+        formControlName="password"
+        placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
+        class="form-control"
+        autocomplete="new-password"
+        [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
+        [attr.aria-describedby]="'passwordError'"
+        cxPasswordVisibilitySwitch
+      />
 
-    <cx-form-errors
-      id="passwordError"
-      [translationParams]="{
-        label: 'updateEmailForm.password.label' | cxTranslate,
-      }"
-      [control]="form.get('password')"
-    ></cx-form-errors>
-  </label>
+      <cx-form-errors
+        id="passwordError"
+        [translationParams]="{
+          label: 'updateEmailForm.password.label' | cxTranslate,
+        }"
+        [control]="form.get('password')"
+      ></cx-form-errors>
+    </label>
 
-  <a
-    class="btn btn-block btn-secondary"
-    [routerLink]="{ cxRoute: 'home' } | cxUrl"
-    cxBtnLikeLink
-  >
-    {{ 'common.cancel' | cxTranslate }}
-  </a>
+    <a
+      class="btn btn-block btn-secondary"
+      [routerLink]="{ cxRoute: 'home' } | cxUrl"
+      cxBtnLikeLink
+    >
+      {{ 'common.cancel' | cxTranslate }}
+    </a>
 
-  <button class="btn btn-block btn-primary" [disabled]="form.disabled">
-    {{ 'common.save' | cxTranslate }}
-  </button>
+    <button class="btn btn-block btn-primary" [disabled]="form.disabled">
+      {{ 'common.save' | cxTranslate }}
+    </button>
+  </fieldset>
 </form>
