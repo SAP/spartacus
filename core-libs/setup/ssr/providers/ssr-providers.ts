@@ -11,6 +11,7 @@ import {
   SERVER_REQUEST_ORIGIN,
   SERVER_REQUEST_URL,
 } from '@spartacus/core';
+import { Request } from 'express';
 
 import { PropagatingToServerErrorHandler } from '../error-handling/multi-error-handlers';
 import { getRequestOrigin } from '../express-utils/express-request-origin';
@@ -48,18 +49,22 @@ export function provideServer(options?: ServerOptions): Provider[] {
 /**
  * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
  *
- * @param options
+ * @param options server options; `allowedOrigins`, when non-empty, is used as a
+ *   defense-in-depth allowlist while resolving the request origin from headers.
  */
-export function getServerRequestProviders(): StaticProvider[] {
+export function getServerRequestProviders(
+  options?: ServerOptions
+): StaticProvider[] {
   return [
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useFactory: getRequestOrigin,
+      useFactory: (req: Request) =>
+        getRequestOrigin(req, options?.allowedOrigins),
       deps: [REQUEST],
     },
     {
       provide: SERVER_REQUEST_URL,
-      useFactory: getRequestUrl,
+      useFactory: (req: Request) => getRequestUrl(req, options?.allowedOrigins),
       deps: [REQUEST],
     },
   ];
