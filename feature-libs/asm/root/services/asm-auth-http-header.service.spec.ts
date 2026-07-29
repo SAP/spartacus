@@ -16,9 +16,11 @@ import {
   OAuthLibWrapperService,
   OccEndpointsService,
   RoutingService,
+  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { AsmAuthHttpHeaderService } from './asm-auth-http-header.service';
+import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 import { CsAgentAuthService } from './csagent-auth.service';
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
@@ -37,9 +39,35 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockAuthStorageService implements Partial<AuthStorageService> {
+class MockAsmAuthStorageService implements Partial<AsmAuthStorageService> {
+  protected tokenTarget$ = new BehaviorSubject<TokenTarget>(TokenTarget.User);
+  protected token: AuthToken | undefined = {
+    access_token: 'acc_token',
+  } as AuthToken;
+  protected emulatedUserToken: AuthToken | undefined;
+
   getToken() {
-    return of({ access_token: 'acc_token' } as AuthToken);
+    return of(this.token);
+  }
+
+  setToken(token: AuthToken | undefined) {
+    this.token = token;
+  }
+
+  getTokenTarget() {
+    return this.tokenTarget$.asObservable();
+  }
+
+  setTokenTarget(tokenTarget: TokenTarget) {
+    this.tokenTarget$.next(tokenTarget);
+  }
+
+  getEmulatedUserToken() {
+    return this.emulatedUserToken;
+  }
+
+  setEmulatedUserToken(token: AuthToken) {
+    this.emulatedUserToken = token;
   }
 }
 
@@ -73,6 +101,7 @@ describe('AsmAuthHttpHeaderService', () => {
   let csAgentAuthService: CsAgentAuthService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
+  let authStorageService: AsmAuthStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,7 +116,8 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
-        { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AsmAuthStorageService, useClass: MockAsmAuthStorageService },
+        { provide: AuthStorageService, useExisting: AsmAuthStorageService },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
@@ -100,6 +130,7 @@ describe('AsmAuthHttpHeaderService', () => {
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
+    authStorageService = TestBed.inject(AsmAuthStorageService);
   });
 
   it('should be created', () => {
@@ -141,19 +172,57 @@ describe('AsmAuthHttpHeaderService', () => {
     it('should add header for cs agent calls', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/csagent', {
-          headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
+          headers: new HttpHeaders({
+            [USE_CUSTOMER_SUPPORT_AGENT_TOKEN]: 'true',
+          }),
         })
       );
       expect(request.headers.get('Authorization')).toEqual('Bearer acc_token');
     });
 
+    it('should use emulated user token for occ calls during customer emulation', () => {
+      authStorageService.setTokenTarget(TokenTarget.CSAgent);
+      authStorageService.setEmulatedUserToken({
+        access_token: 'user_token',
+      } as AuthToken);
+
+      const request = service.alterRequest(
+        new HttpRequest('GET', 'some-server/occ/users/customer-id'),
+        { access_token: 'agent_token' } as AuthToken
+      );
+
+      expect(request.headers.get('Authorization')).toEqual('Bearer user_token');
+    });
+
+    it('should keep using cs agent token for marked cs agent calls during customer emulation', () => {
+      authStorageService.setTokenTarget(TokenTarget.CSAgent);
+      authStorageService.setEmulatedUserToken({
+        access_token: 'user_token',
+      } as AuthToken);
+
+      const request = service.alterRequest(
+        new HttpRequest('GET', 'some-server/csagent', {
+          headers: new HttpHeaders({
+            [USE_CUSTOMER_SUPPORT_AGENT_TOKEN]: 'true',
+          }),
+        }),
+        { access_token: 'agent_token' } as AuthToken
+      );
+
+      expect(request.headers.get('Authorization')).toEqual(
+        'Bearer agent_token'
+      );
+    });
+
     it('should remove cs agent header from requests', () => {
       const request = service.alterRequest(
         new HttpRequest('GET', 'some-server/csagent', {
-          headers: new HttpHeaders({ 'cx-use-csagent-token': 'true' }),
+          headers: new HttpHeaders({
+            [USE_CUSTOMER_SUPPORT_AGENT_TOKEN]: 'true',
+          }),
         })
       );
-      expect(request.headers.has('cx-use-csagent-token')).toBe(false);
+      expect(request.headers.has(USE_CUSTOMER_SUPPORT_AGENT_TOKEN)).toBe(false);
     });
 
     it('should not do anything for other requests', () => {
