@@ -623,7 +623,7 @@ export interface FeatureTogglesInterface {
    * Affects: `LanguagesEffects`
    */
   reloadOnLanguageChange?: boolean;
-  
+
   /**
    * When enabled, the product configurator product card action buttons are
    * consistently disabled while a configuration update round trip is in
