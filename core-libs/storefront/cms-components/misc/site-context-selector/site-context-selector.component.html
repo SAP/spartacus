@@ -1,7 +1,7 @@
 <label *ngIf="(items$ | async)?.length > 1 && (items$ | async) as items">
   <span>{{ label$ | async | cxTranslate }}:</span>
   <div *cxFeature="'a11ySiteContextCaretClick'" class="cx-select-wrapper">
-    <select (change)="active = $any($event).target.value">
+    <select cxNativeSelectSpace (change)="active = $any($event).target.value">
       <option
         [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
         *ngFor="let item of items; index as i"
@@ -18,7 +18,7 @@
     ></cx-icon>
   </div>
   <ng-container *cxFeature="'!a11ySiteContextCaretClick'">
-    <select (change)="active = $any($event).target.value">
+    <select cxNativeSelectSpace (change)="active = $any($event).target.value">
       <option
         [attr.aria-label]="ariaLabel$(item.label, i, items.length) | async"
         *ngFor="let item of items; index as i"
