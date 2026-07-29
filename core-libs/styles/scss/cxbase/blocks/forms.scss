@@ -68,6 +68,15 @@ cx-form-errors {
     &::after {
       content: '!' / '';
       color: var(--cx-color-inverse);
+
+      // The `::before` circle uses `--cx-color-danger` as its background, so the
+      // glyph on top should use the matching accent color for legibility across
+      // all themes (e.g. black on the red circle in the high-contrast dark
+      // theme). Falls back to `--cx-color-inverse` for themes that don't define
+      // the accent.
+      @include forFeature('a11yFormErrorIconContrast') {
+        color: var(--cx-color-danger-accent, var(--cx-color-inverse));
+      }
       font-weight: var(--cx-font-weight-bold);
       text-align: center;
       line-height: 20px;

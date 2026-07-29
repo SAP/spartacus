@@ -19,6 +19,7 @@ import {
 import { OPF_PAYMENT_AND_REVIEW_SEMANTIC_ROUTE } from '@spartacus/opf/checkout/root';
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
+  OpfPaymentChannel,
   OpfPaymentFacade,
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
@@ -179,6 +180,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           configurationId: mockPaymentOptionId.toString(),
           resultURL: mockUrl,
           cancelURL: mockUrl,
+          channel: OpfPaymentChannel.BROWSER,
           browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
         },
       });
@@ -555,6 +557,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         configurationId: mockPaymentOptionId.toString(),
         resultURL: mockUrl,
         cancelURL: mockUrl,
+        channel: OpfPaymentChannel.BROWSER,
         browserInfo: getBrowserInfo(windowRefMock.nativeWindow),
       },
     });

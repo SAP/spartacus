@@ -151,4 +151,28 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
     discardPeriodicTasks();
   }));
+
+  it('should emit zero, reset the control to the initial quantity and re-arm the subscription when resetToInitialQuantityOnZero is set', fakeAsync(() => {
+    const subject = new BehaviorSubject(false);
+    initializeWithObs(subject);
+    component.quantityOptions.initialQuantity = 1;
+    component.quantityOptions.resetToInitialQuantityOnZero = true;
+
+    component.quantity.setValue(0);
+    fixture.detectChanges();
+    tick(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).toHaveBeenCalledWith(0);
+    // control snapped back to initial quantity without an extra emission
+    expect(component.quantity.value).toBe(1);
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
+
+    // subscription is re-armed, so a subsequent reduction to zero emits again
+    component.quantity.setValue(0);
+    fixture.detectChanges();
+    tick(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(2);
+    discardPeriodicTasks();
+  }));
 });

@@ -16,9 +16,16 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { GlobalMessageType, TranslatePipe, User } from '@spartacus/core';
+import {
+  FeatureDirective,
+  GlobalMessageType,
+  PageMetaService,
+  TranslatePipe,
+  User,
+} from '@spartacus/core';
 import {
   FormErrorsComponent,
+  getPageTitle,
   MessageComponent,
   PasswordVisibilityToggleDirective,
   SpinnerComponent,
@@ -43,15 +50,18 @@ import { UpdateEmailComponentService } from './update-email-component.service';
     PasswordVisibilityToggleDirective,
     AsyncPipe,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class MyAccountV2EmailComponent implements OnInit {
   protected emailComponentService = inject(UpdateEmailComponentService);
   protected userProfile = inject(UserProfileFacade);
+  protected pageMetaService = inject(PageMetaService);
   form: UntypedFormGroup = this.emailComponentService.form;
   isUpdating$: Observable<boolean> = this.emailComponentService.isUpdating$;
   isEditing: boolean;
   showingAlert: boolean;
+  pageTitle$ = getPageTitle(this.pageMetaService);
 
   user$ = this.userProfile
     .get()
