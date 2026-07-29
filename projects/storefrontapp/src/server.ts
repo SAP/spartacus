@@ -25,7 +25,30 @@ const ssrOptions: SsrOptimizationOptions = {
   cache: process.env['SSR_CACHE'] === 'true',
 };
 
-const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
+// By default (no `allowedOrigins`), Spartacus trusts the request origin as
+// delivered by the trusted reverse proxy, gated by the `trust proxy` setting
+// below. Deployments that know their set of valid domains can additionally
+// pass a defense-in-depth allowlist against Host header injection / cache
+// poisoning.
+//
+// The allowlist is read from the `SSR_ALLOWED_ORIGINS` environment variable
+// (comma-separated), so it can be configured per environment without code
+// changes, e.g.:
+//   SSR_ALLOWED_ORIGINS="https://my.storefront.com,https://*.my.storefront.com"
+// Each entry must be a full origin with no trailing slash. A `*` wildcard
+// matches exactly one host label (it never crosses a dot or matches the apex),
+// and the first entry is used as the fallback when a request origin is not
+// allowed, so list the primary/canonical domain first. When the variable is
+// unset or empty, `allowedOrigins` is `undefined` / `[]` and the default
+// (opt-in) behavior is preserved.
+const allowedOrigins = process.env['SSR_ALLOWED_ORIGINS']
+  ?.split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions, {
+  allowedOrigins,
+});
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
