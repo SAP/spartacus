@@ -65,28 +65,69 @@
           *ngIf="!productCardOptions?.singleDropdown"
         >
           <ng-container *ngIf="productCardOptions?.multiSelect; else single">
-            <button
+            <ng-container
               *ngIf="
                 productCardOptions?.productBoundValue?.selected;
                 else select
               "
-              class="btn btn-secondary"
-              (click)="onHandleDeselect()"
-              [cxFocus]="focusConfig"
-              [attr.aria-label]="getAriaLabelMultiSelected(product)"
-              [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions.attributeName)
-              "
             >
-              {{ 'configurator.button.remove' | cxTranslate }}
-            </button>
+              <button
+                *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-secondary"
+                (click)="onHandleDeselect()"
+                [disabled]="disableActions$ | async"
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelMultiSelected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.remove' | cxTranslate }}
+              </button>
+              <button
+                *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-secondary"
+                (click)="onHandleDeselect()"
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelMultiSelected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.remove' | cxTranslate }}
+              </button>
+            </ng-container>
 
             <ng-template #select>
               <button
+                *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="disableActions$ | async"
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelMultiUnselected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.add' | cxTranslate }}
+              </button>
+              <button
+                *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
                 class="btn btn-primary"
                 (click)="onHandleSelect()"
                 [disabled]="
-                  productCardOptions.disableAllButtons || (loading$ | async)
+                  productCardOptions.disableAllButtons ||
+                  (disableActions$ | async)
                 "
                 [cxFocus]="focusConfig"
                 [attr.aria-label]="getAriaLabelMultiUnselected(product)"
@@ -103,24 +144,48 @@
           </ng-container>
 
           <ng-template #single>
-            <button
-              class="btn btn-primary"
-              (click)="onHandleSelect()"
-              [disabled]="
-                productCardOptions.disableAllButtons || (loading$ | async)
-              "
+            <ng-container
               *ngIf="
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
               "
-              [cxFocus]="focusConfig"
-              [attr.aria-label]="getAriaLabelSingleUnselected(product)"
-              [attr.aria-describedby]="
-                createAttributeUiKey('label', productCardOptions.attributeName)
-              "
             >
-              {{ 'configurator.button.select' | cxTranslate }}
-            </button>
+              <button
+                *cxFeature="'productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="disableActions$ | async"
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelSingleUnselected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.select' | cxTranslate }}
+              </button>
+              <button
+                *cxFeature="'!productConfiguratorConsolidatedButtonDisabling'"
+                class="btn btn-primary"
+                (click)="onHandleSelect()"
+                [disabled]="
+                  productCardOptions.disableAllButtons ||
+                  (disableActions$ | async)
+                "
+                [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelSingleUnselected(product)"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions.attributeName
+                  )
+                "
+              >
+                {{ 'configurator.button.select' | cxTranslate }}
+              </button>
+            </ng-container>
             <ng-template #deselect>
               <ng-container
                 *ngIf="
@@ -134,7 +199,8 @@
                   class="btn btn-secondary"
                   (click)="onHandleDeselect()"
                   [disabled]="
-                    productCardOptions.hideRemoveButton || (loading$ | async)
+                    productCardOptions.hideRemoveButton ||
+                    (disableActions$ | async)
                   "
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleSelected(product)"

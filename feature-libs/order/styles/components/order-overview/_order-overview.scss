@@ -22,6 +22,9 @@
         flex-grow: 1;
 
         @include media-breakpoint-up(lg) {
+          @include forFeature('orderOverviewCardsInlinePadding') {
+            padding-inline-start: 10rem;
+          }
           cx-card {
             padding: 10px 0;
             display: block;
