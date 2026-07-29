@@ -613,6 +613,18 @@ export interface FeatureTogglesInterface {
   improvedTabStyling?: boolean;
 
   /**
+   * When enabled, triggers a full page reload after a language switch so that
+   * all `href` attributes (banners, navigation links, mini-cart, login) reflect
+   * the new language immediately without requiring a manual page refresh.
+   *
+   * During SSR the reload is skipped — the server renders the page in the
+   * requested language without any reload mechanism.
+   *
+   * Affects: `LanguagesEffects`
+   */
+  reloadOnLanguageChange?: boolean;
+
+  /**
    * When enabled, the product configurator product card action buttons are
    * consistently disabled while a configuration update round trip is in
    * progress (`disableActions$`). In particular, the multi-select "Remove"
@@ -752,6 +764,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNavigationSpaceKeyOnKeyUp: false,
   b2bCheckoutShippingAddressFilter: false,
   improvedTabStyling: false,
+  reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,

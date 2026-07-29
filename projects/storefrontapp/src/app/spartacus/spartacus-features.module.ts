@@ -376,6 +376,7 @@ if (environment.cpq) {
         applyBaseSiteThemeFromCms: true,
         a11yNavigationSpaceKeyOnKeyUp: true,
         b2bCheckoutShippingAddressFilter: true,
+        reloadOnLanguageChange: true,
         a11yFormErrorIconContrast: true,
         a11yFocusIndicatorContrast: true,
         a11yDisabledButtonContrast: true,
