@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationRef, inject, Injectable } from '@angular/core';
+import { ApplicationRef, inject, Injectable, NgZone } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
@@ -37,6 +37,7 @@ export class B2bUnitSelectionEffects {
   protected logger = inject(LoggerService);
   protected config = inject(B2bUnitSelectionConfig);
   protected applicationRef = inject(ApplicationRef);
+  protected ngZone = inject(NgZone);
   protected stateService = inject(B2bUnitSelectorStateService);
   protected routingService = inject(RoutingService);
 
@@ -167,16 +168,16 @@ export class B2bUnitSelectionEffects {
   /**
    * Opens the unit-selection dialog once the AppComponent is mounted.
    *
-   * Polls `ApplicationRef.components` every 50 ms (with an immediate synchronous
-   * check via `startWith(0)`) so the dialog opens as soon as the root component
-   * is bootstrapped — typically within one or two ticks after login.
+   * Polls `ApplicationRef.components` every 50 ms so the dialog opens as soon
+   * as the root component is bootstrapped — typically within one or two ticks.
    *
-   * Using `ApplicationRef.isStable` instead would delay the dialog by several
-   * seconds because it waits for ALL Zone tasks (routing, HTTP, etc.) to drain.
+   * The polling runs OUTSIDE Angular's zone via `NgZone.runOutsideAngular` so
+   * the `setInterval` does not keep the zone perpetually unstable, which would
+   * otherwise prevent `ApplicationRef.isStable` from emitting and block CMS
+   * page rendering.
    *
    * A `timer(STABLE_TIMEOUT_MS)` fallback ensures the subscription always
-   * completes even if AppComponent never mounts (e.g. an error during bootstrap),
-   * preventing a memory leak.
+   * completes even if AppComponent never mounts, preventing a memory leak.
    */
   protected openDialogWhenReady(
     orgUnits: B2BUnit[],
@@ -190,18 +191,19 @@ export class B2bUnitSelectionEffects {
       );
     };
 
-    // Poll until AppComponent is mounted, then open immediately.
-    // startWith(0) performs a synchronous check — if components are already
-    // present (manual ROPC login), the dialog opens without any async delay.
-    race(
-      interval(50).pipe(
-        startWith(0),
-        filter(() => this.applicationRef.components.length > 0),
-        take(1)
-      ),
-      timer(this.STABLE_TIMEOUT_MS)
-    )
-      .pipe(take(1))
-      .subscribe(() => open());
+    // Run the polling interval outside Angular's zone so the continuous
+    // setInterval does not keep ApplicationRef.isStable from emitting true.
+    this.ngZone.runOutsideAngular(() => {
+      race(
+        interval(50).pipe(
+          startWith(0),
+          filter(() => this.applicationRef.components.length > 0),
+          take(1)
+        ),
+        timer(this.STABLE_TIMEOUT_MS)
+      )
+        .pipe(take(1))
+        .subscribe(() => this.ngZone.run(() => open()));
+    });
   }
 }

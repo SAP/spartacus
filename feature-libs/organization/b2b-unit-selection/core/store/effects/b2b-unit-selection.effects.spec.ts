@@ -10,7 +10,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ApplicationRef } from '@angular/core';
+import { ApplicationRef, NgZone } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -114,6 +114,15 @@ describe('B2bUnitSelectionEffects', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: ApplicationRef, useValue: applicationRef },
         { provide: LoggerService, useClass: MockLoggerService },
+        {
+          // Pass-through NgZone mock: runOutsideAngular/run execute callbacks
+          // synchronously so fakeAsync + tick() controls all timers.
+          provide: NgZone,
+          useValue: {
+            runOutsideAngular: (fn: () => void) => fn(),
+            run: (fn: () => void) => fn(),
+          },
+        },
         {
           provide: B2bUnitSelectionConfig,
           useValue: { b2bUnitSelection: { enabled: true } },
@@ -367,6 +376,13 @@ describe('B2bUnitSelectionEffects (feature disabled)', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: ApplicationRef, useValue: appRef },
         { provide: LoggerService, useClass: MockLoggerService },
+        {
+          provide: NgZone,
+          useValue: {
+            runOutsideAngular: (fn: () => void) => fn(),
+            run: (fn: () => void) => fn(),
+          },
+        },
         {
           provide: B2bUnitSelectionConfig,
           useValue: { b2bUnitSelection: { enabled: false } },
