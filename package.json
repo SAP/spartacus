@@ -198,7 +198,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^21.0.3",
-    "@angular-devkit/build-angular": "^21.2.17",
+    "@angular-devkit/build-angular": "^22.1.2",
     "@angular-devkit/core": "^21.2.17",
     "@angular-devkit/schematics": "^21.2.17",
     "@angular-eslint/builder": "^21.1.0",
@@ -210,7 +210,7 @@
     "@babel/runtime": "^7.26.10",
     "@lhci/cli": "^0.15.1",
     "@ngrx/store-devtools": "^21.0.1",
-    "@nx/angular": "^22.7.4",
+    "@nx/angular": "^23.1.0",
     "@nx/devkit": "^22.3.1",
     "@nx/eslint-plugin": "^22.3.1",
     "@nx/jest": "^22.3.1",
