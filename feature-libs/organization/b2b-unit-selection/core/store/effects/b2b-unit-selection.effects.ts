@@ -16,7 +16,16 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, forkJoin, interval, Observable, of, race, timer } from 'rxjs';
+import {
+  defer,
+  EMPTY,
+  forkJoin,
+  interval,
+  Observable,
+  of,
+  race,
+  timer,
+} from 'rxjs';
 import {
   catchError,
   exhaustMap,
@@ -64,7 +73,7 @@ export class B2bUnitSelectionEffects {
     | B2bUnitSelectionActions.LoadUserOrgUnitsFail
   > = createEffect(() => {
     if (!this.config.b2bUnitSelection?.enabled) {
-      return EMPTY;
+      return defer(() => EMPTY);
     }
     return this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
@@ -117,7 +126,7 @@ export class B2bUnitSelectionEffects {
     | B2bUnitSelectionActions.SetDefaultOrgUnitFail
   > = createEffect(() => {
     if (!this.config.b2bUnitSelection?.enabled) {
-      return EMPTY;
+      return defer(() => EMPTY);
     }
     return this.actions$.pipe(
       ofType<B2bUnitSelectionActions.SetDefaultOrgUnit>(
@@ -164,7 +173,7 @@ export class B2bUnitSelectionEffects {
   clearOnLogout$ = createEffect(
     () => {
       if (!this.config.b2bUnitSelection?.enabled) {
-        return EMPTY;
+        return defer(() => EMPTY);
       }
       return this.actions$.pipe(
         ofType<AuthActions.Logout>(AuthActions.LOGOUT),

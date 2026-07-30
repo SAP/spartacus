@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { computed, Directive, inject, OnInit, signal } from '@angular/core';
+import {
+  computed,
+  Directive,
+  inject,
+  NgZone,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { B2BUnit, UserIdService } from '@spartacus/core';
@@ -31,6 +38,7 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   protected userIdService = inject(UserIdService);
   protected connector = inject(B2bUnitSelectionConnector);
   protected config = inject(B2bUnitSelectionConfig);
+  protected ngZone = inject(NgZone);
 
   /**
    * Whether the B2B unit selection feature is enabled.
@@ -96,25 +104,34 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   }
 
   private loadAndPopulateState(): void {
-    this.userIdService
-      .takeUserId(true)
-      .pipe(
-        take(1),
-        switchMap((userId) =>
-          forkJoin({
-            // Gracefully degrade on error so the component never blocks page rendering.
-            orgUnits: this.connector
-              .loadOrgUnits(userId)
-              .pipe(catchError(() => of([] as B2BUnit[]))),
-            defaultUnitName: this.connector
-              .loadDefaultOrgUnitName(userId)
-              .pipe(catchError(() => of(undefined))),
-          })
+    // Run the HTTP requests outside Angular's zone so the pending subscription
+    // does not prevent ApplicationRef.isStable from emitting true.
+    // This mirrors the pattern used in B2bUnitSelectionEffects.openDialogWhenReady().
+    // Without this, Cypress cy.wait() calls time out because the zone never
+    // stabilises while these requests are in-flight.
+    this.ngZone.runOutsideAngular(() => {
+      this.userIdService
+        .takeUserId(true)
+        .pipe(
+          take(1),
+          switchMap((userId) =>
+            forkJoin({
+              // Gracefully degrade on error so the component never blocks page rendering.
+              orgUnits: this.connector
+                .loadOrgUnits(userId)
+                .pipe(catchError(() => of([] as B2BUnit[]))),
+              defaultUnitName: this.connector
+                .loadDefaultOrgUnitName(userId)
+                .pipe(catchError(() => of(undefined))),
+            })
+          )
         )
-      )
-      .subscribe(({ orgUnits, defaultUnitName }) => {
-        this.stateService.setOrgUnits(orgUnits);
-        this.stateService.setActiveUnit(defaultUnitName ?? null);
-      });
+        .subscribe(({ orgUnits, defaultUnitName }) => {
+          this.ngZone.run(() => {
+            this.stateService.setOrgUnits(orgUnits);
+            this.stateService.setActiveUnit(defaultUnitName ?? null);
+          });
+        });
+    });
   }
 }
