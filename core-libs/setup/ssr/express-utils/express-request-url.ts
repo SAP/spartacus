@@ -7,6 +7,6 @@
 import { Request } from 'express';
 import { getRequestOrigin } from './express-request-origin';
 
-export function getRequestUrl(req: Request, allowedOrigins?: string[]): string {
-  return getRequestOrigin(req, allowedOrigins) + req.originalUrl;
+export function getRequestUrl(req: Request): string {
+  return getRequestOrigin(req) + req.originalUrl;
 }
