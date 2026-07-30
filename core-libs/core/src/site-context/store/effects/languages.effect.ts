@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -14,7 +15,9 @@ import {
   exhaustMap,
   filter,
   map,
+  tap,
 } from 'rxjs/operators';
+import { FeatureToggles } from '../../../features-config';
 import { LoggerService } from '../../../logger';
 import { tryNormalizeHttpError } from '../../../util/try-normalize-http-error';
 import { SiteConnector } from '../../connectors/site.connector';
@@ -25,6 +28,8 @@ import { StateWithSiteContext } from '../state';
 @Injectable()
 export class LanguagesEffects {
   protected logger = inject(LoggerService);
+  private featureToggles = inject(FeatureToggles);
+  protected platformId = inject(PLATFORM_ID);
 
   loadLanguages$: Observable<
     | SiteContextActions.LoadLanguagesSuccess
@@ -63,6 +68,24 @@ export class LanguagesEffects {
         )
       )
     );
+
+  reloadPageOnLanguageChange$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SiteContextActions.LANGUAGE_CHANGE),
+        filter(
+          () =>
+            this.featureToggles.reloadOnLanguageChange === true &&
+            isPlatformBrowser(this.platformId)
+        ),
+        tap(() => this.reloadPage())
+      ),
+    { dispatch: false }
+  );
+
+  protected reloadPage(): void {
+    location.reload();
+  }
 
   constructor(
     private actions$: Actions,

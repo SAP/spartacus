@@ -25,6 +25,7 @@ ci:
         - warn
         - minScore: 0.3
       font-display: 'warn'
+      forced-reflow-insight: 'warn'
       image-alt: 'warn'
       image-size-responsive: 'warn'
       interactive:
