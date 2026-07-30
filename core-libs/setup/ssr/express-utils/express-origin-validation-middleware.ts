@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RequestHandler } from 'express';
+import { Request, RequestHandler } from 'express';
+import type { ExpressServerLogger } from '../logger/loggers/express-server-logger';
 import { getRequestOrigin } from './express-request-origin';
 
 export interface OriginValidationOptions {
   allowedOrigins?: string[];
+  logger?: ExpressServerLogger;
 }
 
 /**
@@ -24,6 +26,10 @@ export interface OriginValidationOptions {
  * When `allowedOrigins` is absent or empty, a no-op middleware is returned and
  * the default Express `trust proxy` behavior is preserved.
  *
+ * When a `logger` is provided, diagnostic messages are emitted through it as
+ * structured (JSON) log entries carrying the request context, so they land in
+ * the `logs-json-*` index of SAP Cloud Logging.
+ *
  * Usage in server.ts:
  * ```ts
  * import { getOriginValidationMiddleware } from '@spartacus/setup/ssr';
@@ -33,23 +39,37 @@ export interface OriginValidationOptions {
 export function getOriginValidationMiddleware(
   options: OriginValidationOptions
 ): RequestHandler {
-  const { allowedOrigins } = options;
+  const { allowedOrigins, logger } = options;
   if (!allowedOrigins?.length) {
     return (_req, _res, next) => next();
   }
   const canonicalHost = new URL(allowedOrigins[0]).host;
   return (req, _res, next) => {
     const origin = getRequestOrigin(req);
-    if (!isAllowedOrigin(origin, allowedOrigins)) {
+    logger?.log('allowedOrigins size: ' + allowedOrigins.length, {
+      request: req,
+    });
+    if (!isAllowedOrigin(origin, allowedOrigins, req, logger)) {
+      logger?.warn(
+        `Origin "${origin}" is not in the allowedOrigins list. Rewriting to canonical origin "${allowedOrigins[0]}".`,
+        { request: req }
+      );
       req.headers['host'] = canonicalHost;
       req.headers['x-forwarded-host'] = canonicalHost;
+    } else {
+      logger?.log(`Resolved origin: ${origin}`, { request: req });
     }
     next();
   };
 }
 
-function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
-  const normalized = origin.toLowerCase();
+function isAllowedOrigin(
+  origin: string,
+  allowedOrigins: string[],
+  req: Request,
+  logger?: ExpressServerLogger
+): boolean {
+  const normalizedOrigin = origin.toLowerCase();
   return allowedOrigins.some((allowed) => {
     const normalizedAllowed = allowed.toLowerCase();
     if (normalizedAllowed.includes('*')) {
@@ -59,8 +79,9 @@ function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
           segment.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`)
         )
         .join('[^.]+');
-      return new RegExp(`^${pattern}$`).test(normalized);
+      return new RegExp(`^${pattern}$`).test(normalizedOrigin);
     }
-    return normalizedAllowed === normalized;
+    logger?.log('normalizedOrigin: ' + normalizedOrigin, { request: req });
+    return normalizedAllowed === normalizedOrigin;
   });
 }

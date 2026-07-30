@@ -6,11 +6,11 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud"
+BACKEND_URL="https://spartacus-dev-backend2.eastus.cloudapp.azure.com:8443"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
-BASE_SITE=
+BASE_SITE="electronics-spa"
 
 OCC_PREFIX="/occ/v2/"
 
@@ -54,7 +54,7 @@ SPARTACUS_PROJECTS=(
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
-BRANCH='develop'
+BRANCH='fix/CXSPA-12468-middleware'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -74,7 +74,7 @@ SSR_PWA_PORT=
 # Comma-separated list of hostnames allowed by the SSR engine (maps to CommonEngine allowedHosts)
 # e.g. SSR_ALLOWED_HOSTS="localhost,my-host.eastus.cloudapp.azure.com"
 # If empty, defaults to "localhost"
-SSR_ALLOWED_HOSTS=
+SSR_ALLOWED_HOSTS="localhost,spartacus-dev-asx1.eastus.cloudapp.azure.com"
 
 SSL_CERT_PATH=
 SSL_KEY_PATH=
