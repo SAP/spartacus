@@ -228,6 +228,7 @@ exports[`add-ssr server.ts should be configured properly 1`] = `
 import {
   NgExpressEngineDecorator,
   defaultExpressErrorHandlers,
+  getOriginValidationMiddleware,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 import express from 'express';
@@ -247,6 +248,8 @@ export function app(): express.Express {
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
+
+  server.use(getOriginValidationMiddleware({ allowedOrigins }));
 
   server.engine(
     'html',
