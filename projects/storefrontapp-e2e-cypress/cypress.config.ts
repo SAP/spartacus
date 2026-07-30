@@ -32,7 +32,7 @@ export default defineConfig({
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
-    MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
+    MAIL_CCV2_URL: 'https://commerce-cloud-v2-test-mail.westeurope.cloudapp.azure.com',
     MAIL_CCV2_PREFIX: '/api/v1',
     JDK_VERSION,
   },

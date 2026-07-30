@@ -132,6 +132,7 @@ export function addB2bProductToCartAndCheckout() {
     cy.get('h1').should('contain', products[0].name);
   });
 
+  cy.wait(8000);
   addCheapProductToCart(products[0]);
 
   const paymentTypePage = waitForPage(
