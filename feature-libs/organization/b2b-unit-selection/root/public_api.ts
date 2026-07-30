@@ -7,4 +7,5 @@
 export * from './b2b-unit-selection-root.module';
 export * from './config/b2b-unit-selection.config';
 export * from './config/default-b2b-unit-selection-config';
+export * from './events/b2b-unit-selection.events';
 export * from './feature-name';

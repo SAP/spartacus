@@ -10,11 +10,17 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
   B2BUnit,
+  EventService,
   LoggerService,
   tryNormalizeHttpError,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
+import {
+  B2bUnitSelectionConfig,
+  B2bUnitSwitchedEvent,
+  B2bUnitSwitchFailedEvent,
+} from '@spartacus/organization/b2b-unit-selection/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   defer,
@@ -36,7 +42,6 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection/root';
 import { B2bUnitSelectionConnector } from '../../connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-state.service';
 import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions';
@@ -140,6 +145,10 @@ export class B2bUnitSelectionEffects {
           tap(() => {
             this.launchDialogService.closeDialog('CONFIRMED');
             this.stateService.setActiveUnit(unitName);
+            this.eventService.dispatch(
+              { userId, unitName, redirectedToHome: redirectToHome ?? false },
+              B2bUnitSwitchedEvent
+            );
             // Reload the page so all org-context data is refreshed for the
             // newly selected unit.
             // Header selector: navigate to home root and trigger a full page
@@ -152,13 +161,21 @@ export class B2bUnitSelectionEffects {
             }
           }),
           map(() => new B2bUnitSelectionActions.SetDefaultOrgUnitSuccess()),
-          catchError((error: HttpErrorResponse) =>
-            of(
+          catchError((error: HttpErrorResponse) => {
+            this.eventService.dispatch(
+              {
+                userId,
+                unitName,
+                error: tryNormalizeHttpError(error, this.logger),
+              },
+              B2bUnitSwitchFailedEvent
+            );
+            return of(
               new B2bUnitSelectionActions.SetDefaultOrgUnitFail(
                 tryNormalizeHttpError(error, this.logger)
               )
-            )
-          )
+            );
+          })
         )
       )
     );
@@ -190,7 +207,8 @@ export class B2bUnitSelectionEffects {
     protected actions$: Actions,
     protected connector: B2bUnitSelectionConnector,
     protected userIdService: UserIdService,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected eventService: EventService
   ) {}
 
   /** Maximum time (ms) to wait for AppComponent to mount before opening the dialog anyway. */
