@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-VITEST_MIGRATED_FOLDERS=core
+VITEST_MIGRATED_FOLDERS=cart
 EXCLUDE_APPLICATIONS=storefrontapp,ssr-tests
 EXCLUDE_JEST=storefrontstyles,schematics,setup,$VITEST_MIGRATED_FOLDERS
 
