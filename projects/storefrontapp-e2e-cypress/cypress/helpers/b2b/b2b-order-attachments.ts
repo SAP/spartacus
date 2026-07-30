@@ -6,10 +6,8 @@
 
 import * as sampleData from '../../sample-data/b2b-order-attachments';
 import { POWERTOOLS_BASESITE } from '../../sample-data/b2b-checkout';
-import { stubB2bUnitSelectionApis } from './b2b-unit-selection';
 
 export function loginB2bUser() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUserAccount);
 }
 
