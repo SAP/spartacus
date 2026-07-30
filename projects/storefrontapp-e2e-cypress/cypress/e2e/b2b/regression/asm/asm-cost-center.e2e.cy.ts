@@ -42,6 +42,8 @@ context('B2B - ASM Account Checkout', () => {
     cy.log('--> Agent emulate customer');
     asm.startCustomerEmulation(customer, true);
 
+    cy.log('Waiting for SSR timeout to pass (8s)');
+    cy.wait(8000);
     b2bCheckout.addB2bProductToCartAndCheckout();
     cy.get('cx-payment-type').within(() => {
       cy.findByText('Account').click({ force: true });
