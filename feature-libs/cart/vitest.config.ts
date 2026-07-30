@@ -24,14 +24,14 @@ export default defineConfig({
       coverage: {
         provider: 'v8',
         reporter: ['lcov'],
-        reportsDirectory: `${import.meta.dirname}/../../coverage/<lib-name>`, // ← adjust
+        reportsDirectory: `${import.meta.dirname}/../../coverage/cart`,
         exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts', 'setup-test.ts', 'vitest.config.ts'],
         thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
       },
       reporters: [
         'default',
         ['junit', {
-          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-<lib-name>.xml`, // ← adjust
+          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-cart.xml`,
         }],
       ],
     },

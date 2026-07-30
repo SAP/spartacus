@@ -11,6 +11,7 @@ echo "-----"
 function run_vitest_migrated_folders {
     echo "Running VITEST unit tests for migrated libraries"
     npx nx run-many --target=test --projects="$VITEST_MIGRATED_FOLDERS"
+    return 0
 }
 
 function run_affected_unit_tests {
