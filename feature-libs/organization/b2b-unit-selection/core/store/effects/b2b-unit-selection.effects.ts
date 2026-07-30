@@ -6,7 +6,13 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationRef, inject, Injectable, NgZone } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import {
+  Actions,
+  createEffect,
+  EffectNotification,
+  ofType,
+  OnRunEffects,
+} from '@ngrx/effects';
 import {
   AuthActions,
   B2BUnit,
@@ -23,7 +29,6 @@ import {
 } from '@spartacus/organization/b2b-unit-selection/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
-  defer,
   EMPTY,
   forkJoin,
   interval,
@@ -47,7 +52,7 @@ import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-st
 import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions';
 
 @Injectable()
-export class B2bUnitSelectionEffects {
+export class B2bUnitSelectionEffects implements OnRunEffects {
   protected logger = inject(LoggerService);
   protected config = inject(B2bUnitSelectionConfig);
   protected applicationRef = inject(ApplicationRef);
@@ -66,21 +71,12 @@ export class B2bUnitSelectionEffects {
    * 2. OAuth Authorization Code Flow or page-refresh token restore:
    *    ApplicationRef.components may be empty; polling waits for AppComponent to mount
    *    before opening the dialog.
-   *
-   * When the feature is disabled the effect factory returns EMPTY so NgRx never
-   * subscribes to `actions$`.  A persistent `actions$` subscription keeps
-   * Angular's zone perpetually unstable (via Zone.js-patched scheduler internals),
-   * which prevents `ApplicationRef.isStable` from emitting `true` and causes
-   * Cypress `cy.wait()` to time out even when no HTTP requests are issued.
    */
   checkOrgUnitsOnLogin$: Observable<
     | B2bUnitSelectionActions.LoadUserOrgUnitsSuccess
     | B2bUnitSelectionActions.LoadUserOrgUnitsFail
-  > = createEffect(() => {
-    if (!this.config.b2bUnitSelection?.enabled) {
-      return defer(() => EMPTY);
-    }
-    return this.actions$.pipe(
+  > = createEffect(() =>
+    this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
       exhaustMap(() =>
         this.userIdService.takeUserId(true).pipe(
@@ -116,24 +112,19 @@ export class B2bUnitSelectionEffects {
           catchError(() => EMPTY)
         )
       )
-    );
-  });
+    )
+  );
 
   /**
    * Listens for SET_DEFAULT_ORG_UNIT and calls the PUT API to persist the selection.
    * On success, closes the dialog, updates the header selector state, and reloads
    * the page so all org-context-dependent data (prices, catalog, CMS) is refreshed.
-   *
-   * Returns EMPTY when disabled so no `actions$` subscription is created.
    */
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
     | B2bUnitSelectionActions.SetDefaultOrgUnitFail
-  > = createEffect(() => {
-    if (!this.config.b2bUnitSelection?.enabled) {
-      return defer(() => EMPTY);
-    }
-    return this.actions$.pipe(
+  > = createEffect(() =>
+    this.actions$.pipe(
       ofType<B2bUnitSelectionActions.SetDefaultOrgUnit>(
         B2bUnitSelectionActions.SET_DEFAULT_ORG_UNIT
       ),
@@ -178,28 +169,22 @@ export class B2bUnitSelectionEffects {
           })
         )
       )
-    );
-  });
+    )
+  );
 
   /**
    * Listens for LOGOUT and clears the state service so the Company selector
    * is hidden after the user logs out.
-   *
-   * Returns EMPTY when disabled so no `actions$` subscription is created.
    */
   clearOnLogout$ = createEffect(
-    () => {
-      if (!this.config.b2bUnitSelection?.enabled) {
-        return defer(() => EMPTY);
-      }
-      return this.actions$.pipe(
+    () =>
+      this.actions$.pipe(
         ofType<AuthActions.Logout>(AuthActions.LOGOUT),
         tap(() => {
           this.stateService.setOrgUnits([]);
           this.stateService.setActiveUnit(null);
         })
-      );
-    },
+      ),
     { dispatch: false }
   );
 
@@ -213,6 +198,33 @@ export class B2bUnitSelectionEffects {
 
   /** Maximum time (ms) to wait for AppComponent to mount before opening the dialog anyway. */
   protected readonly STABLE_TIMEOUT_MS = 10_000;
+
+  /**
+   * NgRx `OnRunEffects` hook — called by NgRx in `resolveEffectSource` instead
+   * of subscribing to `mergedEffects$` directly.
+   *
+   * **Why this fixes zone stability:**
+   * `EffectsModule.forFeature` always registers the effects class, and NgRx's
+   * `EffectSources.toActions()` wraps every registered effect with `materialize()`
+   * then merges them inside an `exhaustMap` that lives for the entire application
+   * lifetime inside Angular's zone.  Even when individual effects return
+   * `defer(() => EMPTY)` immediately, the outer `merge()` + `exhaustMap()`
+   * subscription chain keeps a live observable in the zone indefinitely.
+   * This prevents `ApplicationRef.isStable` from emitting `true`, causing
+   * Cypress `cy.wait()` to time out with "No request ever occurred".
+   *
+   * Returning `EMPTY` from this hook causes `resolveEffectSource` to return
+   * `EMPTY` to `exhaustMap`, which completes synchronously and creates **no**
+   * Zone.js pending task — allowing the zone to stabilise normally.
+   */
+  ngrxOnRunEffects(
+    resolvedEffects$: Observable<EffectNotification>
+  ): Observable<EffectNotification> {
+    if (!this.config.b2bUnitSelection?.enabled) {
+      return EMPTY;
+    }
+    return resolvedEffects$;
+  }
 
   /**
    * Opens the unit-selection dialog once the AppComponent is mounted.
