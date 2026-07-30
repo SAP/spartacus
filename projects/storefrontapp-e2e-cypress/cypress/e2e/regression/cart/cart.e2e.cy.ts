@@ -5,10 +5,16 @@
  */
 
 import * as cart from '../../../helpers/cart';
-import { visitHomePage } from '../../../helpers/checkout-flow';
+import { loginAsGuest } from '../../../helpers/checkout-as-guest';
+import {
+  clickCheckoutButton,
+  visitHomePage,
+} from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import { clickHamburger } from '../../../helpers/navigation';
+import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { SampleUser } from '../../../sample-data/checkout-flow';
 import { login } from '../../../support/utils/login';
 
 describe('Cart', () => {
@@ -24,6 +30,7 @@ describe('Cart', () => {
         cart.loginRegisteredUser();
         visitHomePage();
       });
+
       it('should merge carts when user is authenticated; add product and manipulate cart quantity', () => {
         //should merge carts when user is authenticated:
         cart.registerCreateCartRoute();
@@ -56,6 +63,71 @@ describe('Cart', () => {
         cart.addProductAsAnonymous();
         cy.reload();
         cart.verifyCartNotEmpty();
+      });
+    });
+
+    context('Guest user', () => {
+      it('should merge a guest cart into the user cart after signing in', () => {
+        const productA = cart.products[0];
+        const productB = cart.products[1];
+        const guestUser = {
+          email: generateMail(randomString(), true),
+        } as SampleUser;
+        const registeredUser = {
+          ...cart.cartUser,
+          registrationData: {
+            ...cart.cartUser.registrationData,
+            email: generateMail(randomString(), true),
+          },
+        };
+
+        // 1. sign in (register a fresh user, then log in)
+        cart.registerCartUser(registeredUser);
+        cart.loginCartUser(registeredUser);
+
+        // 2. add an item to cart
+        cart.registerCartRefreshRoute();
+        cy.visit(`/product/${productA.code}`);
+        cy.get('cx-breadcrumb h1').contains(productA.name);
+        cart.clickAddToCart();
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+        cart.checkAddedToCartDialog();
+        cart.closeAddedToCartDialog();
+
+        // 3. logout
+        cart.logOutAndNavigateToEmptyCart();
+
+        // 4. add a different item to cart (as anonymous)
+        cy.visit(`/product/${productB.code}`);
+        cy.get('cx-breadcrumb h1').contains(productB.name);
+        cart.clickAddToCart();
+        cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+        cart.checkAddedToCartDialog();
+        cart.closeAddedToCartDialog();
+
+        // 5. proceed to checkout
+        cart.goToCart();
+        clickCheckoutButton();
+
+        // 6. use guest checkout (turns the anonymous cart into a guest cart)
+        loginAsGuest(guestUser);
+
+        // 7. sign in with the same user used in step 1
+        // Intercept the batch add-entries call the guest-cart merge performs so
+        // we can wait for the merge to actually finish before asserting.
+        cy.intercept('POST', `**/users/*/carts/*/entries?**`).as(
+          'guestCartMerge'
+        );
+        cart.loginCartUser(registeredUser);
+
+        cy.wait('@guestCartMerge')
+          .its('response.statusCode')
+          .should('be.oneOf', [200, 201]);
+
+        // 8. verify both items added are in the cart (item from 2 and from 4)
+        cart.goToCart();
+        cart.checkProductInCart(productA);
+        cart.checkProductInCart(productB);
       });
     });
 
