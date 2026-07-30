@@ -52,20 +52,28 @@
     </div>
 
     <ng-container *ngIf="!data.allConsentsLoading">
-      <div class="cx-consent-toggles">
-        <div class="col-sm-12 col-md-8 col-lg-6">
-          <cx-consent-management-form
-            *ngFor="
-              let consentTemplate of templateList;
-              trackBy: trackByTemplateId
-            "
-            [consentTemplate]="consentTemplate"
-            [requiredConsents]="requiredConsents"
-            [disabled]="!!data.loading"
-            (consentChanged)="onConsentChange($event)"
-          ></cx-consent-management-form>
+      <fieldset>
+        <legend
+          *cxFeature="'a11yFormFieldSectionLegend'"
+          class="cx-visually-hidden"
+        >
+          {{ pageTitle$ | async }}
+        </legend>
+        <div class="cx-consent-toggles">
+          <div class="col-sm-12 col-md-8 col-lg-6">
+            <cx-consent-management-form
+              *ngFor="
+                let consentTemplate of templateList;
+                trackBy: trackByTemplateId
+              "
+              [consentTemplate]="consentTemplate"
+              [requiredConsents]="requiredConsents"
+              [disabled]="!!data.loading"
+              (consentChanged)="onConsentChange($event)"
+            ></cx-consent-management-form>
+          </div>
         </div>
-      </div>
+      </fieldset>
     </ng-container>
   </ng-container>
 </ng-container>

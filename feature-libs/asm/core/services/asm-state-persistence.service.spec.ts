@@ -2,20 +2,33 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { AuthToken, StatePersistenceService } from '@spartacus/core';
-import { of } from 'rxjs';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { AsmActions, ASM_FEATURE, StateWithAsm } from '../store';
 import * as fromAsmReducers from '../store/reducers/index';
 import { AsmStatePersistenceService } from './asm-state-persistence.service';
 
 class MockAsmAuthStorageService implements Partial<AsmAuthStorageService> {
-  setEmulatedUserToken() {}
-  getEmulatedUserToken() {
-    return {} as AuthToken;
+  protected emulatedUserToken$ = new BehaviorSubject<AuthToken | undefined>(
+    undefined
+  );
+  protected tokenTarget$ = new BehaviorSubject<TokenTarget>(
+    TokenTarget.CSAgent
+  );
+
+  setEmulatedUserToken(token: AuthToken) {
+    this.emulatedUserToken$.next(token);
   }
-  setTokenTarget() {}
+  getEmulatedUserToken() {
+    return this.emulatedUserToken$.value;
+  }
+  getEmulatedUserTokenState() {
+    return this.emulatedUserToken$.asObservable();
+  }
+  setTokenTarget(tokenTarget: TokenTarget) {
+    this.tokenTarget$.next(tokenTarget);
+  }
   getTokenTarget() {
-    return of(TokenTarget.CSAgent);
+    return this.tokenTarget$.asObservable();
   }
 }
 
@@ -94,14 +107,12 @@ describe('AsmStatePersistenceService', () => {
   });
 
   it('should return state from asm store', async () => {
-    vi.spyOn(asmAuthStorageService, 'getEmulatedUserToken').mockReturnValue({
+    asmAuthStorageService.setEmulatedUserToken({
       access_token: 'token',
       access_token_stored_at: '1000',
       refresh_token: 'refresh_token', // this token should not be saved
     });
-    vi.spyOn(asmAuthStorageService, 'getTokenTarget').mockReturnValue(
-      of(TokenTarget.User)
-    );
+    asmAuthStorageService.setTokenTarget(TokenTarget.User);
 
     const state = await firstValueFrom(service['getAsmState']());
     expect(state).toEqual({
@@ -112,5 +123,29 @@ describe('AsmStatePersistenceService', () => {
       },
       tokenTarget: TokenTarget.User,
     });
+  });
+
+  it('should return updated state when emulated user token changes after sync starts', () => {
+    const states = [];
+    const subscription = service['getAsmState']().subscribe((state) => {
+      states.push(state);
+    });
+
+    asmAuthStorageService.setEmulatedUserToken({
+      access_token: 'token',
+      access_token_stored_at: '1000',
+      refresh_token: 'refresh_token', // this token should not be saved
+    });
+
+    expect(states[states.length - 1]).toEqual({
+      ui: { collapsed: false },
+      emulatedUserToken: {
+        access_token: 'token',
+        access_token_stored_at: '1000',
+      },
+      tokenTarget: TokenTarget.CSAgent,
+    });
+
+    subscription.unsubscribe();
   });
 });

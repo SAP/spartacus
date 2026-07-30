@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
@@ -12,6 +18,8 @@ import {
   FeaturesConfig,
   MockTranslatePipe,
   MockTranslationService,
+  PageMeta,
+  PageMetaService,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -21,7 +29,10 @@ import {
   NgSelectA11yDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
+import {
+  MockFeatureTogglesController,
+  provideMockFeatureToggles,
+} from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
@@ -58,6 +69,14 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+const mockPageMeta: PageMeta = {
+  title: 'Update Profile',
+  heading: 'Update Profile',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
+
 describe('UpdateProfileComponent', () => {
   let component: UpdateProfileComponent;
   let fixture: ComponentFixture<UpdateProfileComponent>;
@@ -76,7 +95,6 @@ describe('UpdateProfileComponent', () => {
         UpdateProfileComponent,
         MockCxSpinnerComponent,
         MockNgSelectA11yDirective,
-        MockFeatureDirective,
       ],
       providers: [
         {
@@ -91,6 +109,8 @@ describe('UpdateProfileComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
+        { provide: PageMetaService, useClass: MockPageMetaService },
+        ...provideMockFeatureToggles({ a11yFormFieldSectionLegend: true }),
       ],
     })
       .overrideComponent(UpdateProfileComponent, {
@@ -103,6 +123,7 @@ describe('UpdateProfileComponent', () => {
             MockCxSpinnerComponent,
             MockNgSelectA11yDirective,
           ],
+          changeDetection: ChangeDetectionStrategy.Default,
         },
       })
       .compileComponents();
@@ -173,6 +194,40 @@ describe('UpdateProfileComponent', () => {
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    });
+  });
+
+  describe('Accessibility', () => {
+    let toggleController: MockFeatureTogglesController;
+
+    beforeEach(() => {
+      toggleController = TestBed.inject(MockFeatureTogglesController);
+    });
+
+    describe('when a11yFormFieldSectionLegend is enabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', true);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset with a visually-hidden legend from page title', () => {
+        const legend = el.query(By.css('fieldset > legend'));
+        expect(legend).toBeTruthy();
+        expect(legend.nativeElement.textContent.trim()).toBe(
+          mockPageMeta.heading
+        );
+      });
+    });
+
+    describe('when a11yFormFieldSectionLegend is disabled', () => {
+      beforeEach(() => {
+        toggleController.set('a11yFormFieldSectionLegend', false);
+        fixture.detectChanges();
+      });
+
+      it('should render a fieldset', () => {
+        expect(el.query(By.css('fieldset'))).toBeTruthy();
+      });
     });
   });
 });
