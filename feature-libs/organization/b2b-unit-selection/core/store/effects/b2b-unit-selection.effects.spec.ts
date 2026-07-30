@@ -392,8 +392,27 @@ describe('B2bUnitSelectionEffects (feature disabled)', () => {
   it('checkOrgUnitsOnLogin$ should return EMPTY when the feature is disabled', () => {
     const action = new AuthActions.Login();
     actions$ = hot('-a', { a: action });
-    const expected = cold('-');
+    const expected = cold('|');
 
     expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
+  });
+
+  it('setDefaultOrgUnit$ should return EMPTY when the feature is disabled', () => {
+    const action = new B2bUnitSelectionActions.SetDefaultOrgUnit({
+      userId: 'current',
+      unitName: 'Rustic',
+    });
+    actions$ = hot('-a', { a: action });
+    const expected = cold('|');
+
+    expect(effects.setDefaultOrgUnit$).toBeObservable(expected);
+  });
+
+  it('clearOnLogout$ should return EMPTY when the feature is disabled', () => {
+    const action = new AuthActions.Logout();
+    actions$ = hot('-a', { a: action });
+    const expected = cold('|');
+
+    expect(effects.clearOnLogout$).toBeObservable(expected);
   });
 });

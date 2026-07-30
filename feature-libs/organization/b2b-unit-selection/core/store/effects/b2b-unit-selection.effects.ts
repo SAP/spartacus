@@ -52,18 +52,24 @@ export class B2bUnitSelectionEffects {
    * 2. OAuth Authorization Code Flow or page-refresh token restore:
    *    ApplicationRef.components may be empty; polling waits for AppComponent to mount
    *    before opening the dialog.
+   *
+   * When the feature is disabled the effect factory returns EMPTY so NgRx never
+   * subscribes to `actions$`.  A persistent `actions$` subscription keeps
+   * Angular's zone perpetually unstable (via Zone.js-patched scheduler internals),
+   * which prevents `ApplicationRef.isStable` from emitting `true` and causes
+   * Cypress `cy.wait()` to time out even when no HTTP requests are issued.
    */
   checkOrgUnitsOnLogin$: Observable<
     | B2bUnitSelectionActions.LoadUserOrgUnitsSuccess
     | B2bUnitSelectionActions.LoadUserOrgUnitsFail
-  > = createEffect(() =>
-    this.actions$.pipe(
+  > = createEffect(() => {
+    if (!this.config.b2bUnitSelection?.enabled) {
+      return EMPTY;
+    }
+    return this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
-      exhaustMap(() => {
-        if (!this.config.b2bUnitSelection?.enabled) {
-          return EMPTY;
-        }
-        return this.userIdService.takeUserId(true).pipe(
+      exhaustMap(() =>
+        this.userIdService.takeUserId(true).pipe(
           switchMap((userId) =>
             forkJoin({
               orgUnits: this.connector.loadOrgUnits(userId),
@@ -94,21 +100,26 @@ export class B2bUnitSelectionEffects {
             )
           ),
           catchError(() => EMPTY)
-        );
-      })
-    )
-  );
+        )
+      )
+    );
+  });
 
   /**
    * Listens for SET_DEFAULT_ORG_UNIT and calls the PUT API to persist the selection.
    * On success, closes the dialog, updates the header selector state, and reloads
    * the page so all org-context-dependent data (prices, catalog, CMS) is refreshed.
+   *
+   * Returns EMPTY when disabled so no `actions$` subscription is created.
    */
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
     | B2bUnitSelectionActions.SetDefaultOrgUnitFail
-  > = createEffect(() =>
-    this.actions$.pipe(
+  > = createEffect(() => {
+    if (!this.config.b2bUnitSelection?.enabled) {
+      return EMPTY;
+    }
+    return this.actions$.pipe(
       ofType<B2bUnitSelectionActions.SetDefaultOrgUnit>(
         B2bUnitSelectionActions.SET_DEFAULT_ORG_UNIT
       ),
@@ -141,22 +152,28 @@ export class B2bUnitSelectionEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Listens for LOGOUT and clears the state service so the Company selector
    * is hidden after the user logs out.
+   *
+   * Returns EMPTY when disabled so no `actions$` subscription is created.
    */
   clearOnLogout$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      if (!this.config.b2bUnitSelection?.enabled) {
+        return EMPTY;
+      }
+      return this.actions$.pipe(
         ofType<AuthActions.Logout>(AuthActions.LOGOUT),
         tap(() => {
           this.stateService.setOrgUnits([]);
           this.stateService.setActiveUnit(null);
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
