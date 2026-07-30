@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { computed, Directive, inject, OnInit } from '@angular/core';
+import { computed, Directive, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { B2BUnit, UserIdService } from '@spartacus/core';
@@ -32,15 +32,33 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   protected connector = inject(B2bUnitSelectionConnector);
   protected config = inject(B2bUnitSelectionConfig);
 
-  /** All assignable B2B units for the current user. */
-  readonly items = toSignal(this.stateService.orgUnits$, {
-    initialValue: [] as B2BUnit[],
-  });
+  /**
+   * Whether the B2B unit selection feature is enabled.
+   * Evaluated once at construction time so signal creation can be gated on it.
+   */
+  protected readonly enabled = this.config.b2bUnitSelection?.enabled ?? false;
+
+  /**
+   * All assignable B2B units for the current user.
+   *
+   * When the feature is disabled we use a static `signal([])` rather than
+   * `toSignal(observable)` to avoid creating any RxJS subscription.  In
+   * Angular 21 the signal-reactive scheduler (backed by `queueMicrotask`)
+   * is patched by Zone.js; a live `toSignal` subscription can therefore
+   * prevent `ApplicationRef.isStable` from emitting `true`, which in turn
+   * blocks Cypress' `cy.wait()` from resolving — causing test timeouts even
+   * when `enabled = false` and no HTTP requests are issued.
+   */
+  readonly items = this.enabled
+    ? toSignal(this.stateService.orgUnits$, { initialValue: [] as B2BUnit[] })
+    : signal([] as B2BUnit[]);
 
   /** Currently active (default) unit name. */
-  readonly activeUnitName = toSignal(this.stateService.activeUnitName$, {
-    initialValue: null as string | null,
-  });
+  readonly activeUnitName = this.enabled
+    ? toSignal(this.stateService.activeUnitName$, {
+        initialValue: null as string | null,
+      })
+    : signal(null as string | null);
 
   /** True when the user has more than one unit — selector is interactive. */
   readonly hasMultipleUnits = computed(() => this.items().length > 1);
@@ -49,7 +67,7 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   readonly hasAnyUnit = computed(() => this.items().length > 0);
 
   ngOnInit(): void {
-    if (!this.config.b2bUnitSelection?.enabled) {
+    if (!this.enabled) {
       return;
     }
     // After a page refresh the BehaviorSubject is empty (effects may not have written yet).

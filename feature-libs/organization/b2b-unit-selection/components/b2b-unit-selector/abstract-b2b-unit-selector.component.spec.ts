@@ -107,6 +107,32 @@ describe('AbstractB2bUnitSelectorComponent', () => {
     });
   });
 
+  describe('signal initialisation when disabled', () => {
+    it('should expose static empty signal for items when feature is disabled', () => {
+      createComponent(false, []);
+      fixture.detectChanges();
+
+      // items() must return an empty array without subscribing to stateService.orgUnits$
+      expect(component.items()).toEqual([]);
+    });
+
+    it('should expose static null signal for activeUnitName when feature is disabled', () => {
+      createComponent(false, []);
+      fixture.detectChanges();
+
+      expect(component.activeUnitName()).toBeNull();
+    });
+
+    it('hasAnyUnit and hasMultipleUnits should both be false when disabled', () => {
+      createComponent(false, mockUnits);
+      fixture.detectChanges();
+
+      // Even though stateService holds units, the static signal stays empty
+      expect(component.hasAnyUnit()).toBeFalse();
+      expect(component.hasMultipleUnits()).toBeFalse();
+    });
+  });
+
   describe('ngOnInit()', () => {
     it('should NOT load units when feature is disabled', () => {
       createComponent(false, []);
