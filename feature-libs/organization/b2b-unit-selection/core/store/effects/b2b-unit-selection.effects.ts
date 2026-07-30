@@ -18,6 +18,7 @@ import {
   B2BUnit,
   EventService,
   LoggerService,
+  OCC_USER_ID_ANONYMOUS,
   tryNormalizeHttpError,
   UserIdService,
   WindowRef,
@@ -79,7 +80,9 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
     this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
       exhaustMap(() =>
-        this.userIdService.takeUserId(true).pipe(
+        this.userIdService.getUserId().pipe(
+          filter((userId) => userId !== OCC_USER_ID_ANONYMOUS),
+          take(1),
           switchMap((userId) =>
             forkJoin({
               orgUnits: this.connector.loadOrgUnits(userId),
@@ -108,8 +111,7 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
                 )
               )
             )
-          ),
-          catchError(() => EMPTY)
+          )
         )
       )
     )
