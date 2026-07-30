@@ -72,6 +72,7 @@ class MockLaunchDialogService {
 
 class MockUserIdService {
   takeUserId = createSpy('takeUserId').and.returnValue(of(mockUserId));
+  getUserId = createSpy('getUserId').and.returnValue(of(mockUserId));
 }
 
 class MockWindowRef {
@@ -389,30 +390,15 @@ describe('B2bUnitSelectionEffects (feature disabled)', () => {
     effects = TestBed.inject(B2bUnitSelectionEffects);
   });
 
-  it('checkOrgUnitsOnLogin$ should return EMPTY when the feature is disabled', () => {
-    const action = new AuthActions.Login();
-    actions$ = hot('-a', { a: action });
+  it('ngrxOnRunEffects should return EMPTY when the feature is disabled', () => {
+    // The disabled gate lives in ngrxOnRunEffects, not in each individual effect.
+    // jasmine-marbles tests effect observables directly (bypassing NgRx's
+    // EffectSources runner), so this is the correct place to assert the behavior.
+    const resolvedEffects$ = cold('-a', { a: {} });
     const expected = cold('|');
 
-    expect(effects.checkOrgUnitsOnLogin$).toBeObservable(expected);
-  });
-
-  it('setDefaultOrgUnit$ should return EMPTY when the feature is disabled', () => {
-    const action = new B2bUnitSelectionActions.SetDefaultOrgUnit({
-      userId: 'current',
-      unitName: 'Rustic',
-    });
-    actions$ = hot('-a', { a: action });
-    const expected = cold('|');
-
-    expect(effects.setDefaultOrgUnit$).toBeObservable(expected);
-  });
-
-  it('clearOnLogout$ should return EMPTY when the feature is disabled', () => {
-    const action = new AuthActions.Logout();
-    actions$ = hot('-a', { a: action });
-    const expected = cold('|');
-
-    expect(effects.clearOnLogout$).toBeObservable(expected);
+    expect(effects.ngrxOnRunEffects(resolvedEffects$ as any)).toBeObservable(
+      expected
+    );
   });
 });

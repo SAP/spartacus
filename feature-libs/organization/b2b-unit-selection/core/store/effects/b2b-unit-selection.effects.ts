@@ -29,15 +29,7 @@ import {
   B2bUnitSwitchFailedEvent,
 } from '@spartacus/organization/b2b-unit-selection/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import {
-  EMPTY,
-  forkJoin,
-  interval,
-  Observable,
-  of,
-  race,
-  timer,
-} from 'rxjs';
+import { EMPTY, forkJoin, interval, Observable, of, race, timer } from 'rxjs';
 import {
   catchError,
   exhaustMap,
