@@ -17,7 +17,6 @@ import {
   SsrOptimizationOptions,
   defaultSsrOptimizationOptions,
 } from '../optimized-engine/ssr-optimization-options';
-import { ServerOptions } from '../providers/model';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
@@ -40,19 +39,12 @@ export class NgExpressEngineDecorator {
    *
    * @param ngExpressEngine
    * @param optimizationOptions SSR optimization options
-   * @param serverOptions server options; e.g. `allowedOrigins` for
-   *   defense-in-depth request-origin validation in SSR mode.
    */
   static get(
     ngExpressEngine: NgExpressEngine,
-    optimizationOptions?: SsrOptimizationOptions | null,
-    serverOptions?: ServerOptions
+    optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
-    return decorateExpressEngine(
-      ngExpressEngine,
-      optimizationOptions,
-      serverOptions
-    );
+    return decorateExpressEngine(ngExpressEngine, optimizationOptions);
   }
 }
 
@@ -61,15 +53,14 @@ export function decorateExpressEngine(
   optimizationOptions:
     | SsrOptimizationOptions
     | null
-    | undefined = defaultSsrOptimizationOptions,
-  serverOptions?: ServerOptions
+    | undefined = defaultSsrOptimizationOptions
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({
       ...setupOptions,
       providers: [
         // add spartacus related providers
-        ...getServerRequestProviders(serverOptions),
+        ...getServerRequestProviders(),
         ...(setupOptions.providers ?? []),
       ],
     });

@@ -31,14 +31,9 @@ const ssrOptions: SsrOptimizationOptions = {
 // changes, e.g.:
 //   SSR_ALLOWED_ORIGINS="https://my.storefront.com,https://*.my.storefront.com"
 // Each entry must be a full origin with no trailing slash. A `*` wildcard
-// matches exactly one host label (it never crosses a dot or matches the apex),
-// and the first entry is used as the canonical fallback. When the variable is
-// unset or empty the middleware is a no-op and the default trust proxy behavior
-// is preserved.
-const allowedOrigins = process.env['SSR_ALLOWED_ORIGINS']
-  ?.split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+// matches exactly one host label (it never crosses a dot or matches the apex).
+// When the variable is unset or empty the middleware is a no-op and the default
+// trust proxy behavior is preserved.
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
@@ -52,7 +47,9 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
-  server.use(getOriginValidationMiddleware({ allowedOrigins }));
+  server.use(getOriginValidationMiddleware({
+    allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+  }));
 
   server.engine(
     'html',

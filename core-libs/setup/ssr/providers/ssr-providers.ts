@@ -48,23 +48,17 @@ export function provideServer(options?: ServerOptions): Provider[] {
 }
 /**
  * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
- *
- * @param options server options; `allowedOrigins`, when non-empty, is used as a
- *   defense-in-depth allowlist while resolving the request origin from headers.
  */
-export function getServerRequestProviders(
-  options?: ServerOptions
-): StaticProvider[] {
+export function getServerRequestProviders(): StaticProvider[] {
   return [
     {
       provide: SERVER_REQUEST_ORIGIN,
-      useFactory: (req: Request) =>
-        getRequestOrigin(req, options?.allowedOrigins),
+      useFactory: (req: Request) => getRequestOrigin(req),
       deps: [REQUEST],
     },
     {
       provide: SERVER_REQUEST_URL,
-      useFactory: (req: Request) => getRequestUrl(req, options?.allowedOrigins),
+      useFactory: (req: Request) => getRequestUrl(req),
       deps: [REQUEST],
     },
   ];

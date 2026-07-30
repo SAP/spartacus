@@ -9,7 +9,7 @@ import type { ExpressServerLogger } from '../logger/loggers/express-server-logge
 import { getRequestOrigin } from './express-request-origin';
 
 export interface OriginValidationOptions {
-  allowedOrigins?: string[];
+  allowedOrigins?: string[] | string;
   logger?: ExpressServerLogger;
 }
 
@@ -18,13 +18,14 @@ export interface OriginValidationOptions {
  * cache poisoning by validating the resolved request origin against an
  * operator-provided allowlist.
  *
- * When the resolved origin is not in the allowlist, the `host` and
- * `x-forwarded-host` headers are overwritten with the canonical host parsed
- * from the first entry of `allowedOrigins`, so that downstream SSR URL
- * construction always uses a safe, operator-controlled origin.
+ * When the resolved origin is not in the allowlist, the request is rejected
+ * with a 403 Forbidden response.
  *
  * When `allowedOrigins` is absent or empty, a no-op middleware is returned and
  * the default Express `trust proxy` behavior is preserved.
+ *
+ * `allowedOrigins` accepts either an array or a comma-separated string (e.g.
+ * directly from `process.env['SSR_ALLOWED_ORIGINS']`).
  *
  * When a `logger` is provided, diagnostic messages are emitted through it as
  * structured (JSON) log entries carrying the request context, so they land in
@@ -33,34 +34,50 @@ export interface OriginValidationOptions {
  * Usage in server.ts:
  * ```ts
  * import { getOriginValidationMiddleware } from '@spartacus/setup/ssr';
- * server.use(getOriginValidationMiddleware({ allowedOrigins }));
+ * server.use(getOriginValidationMiddleware({
+ *   allowedOrigins: process.env['SSR_ALLOWED_ORIGINS']
+ * }));
  * ```
  */
 export function getOriginValidationMiddleware(
   options: OriginValidationOptions
 ): RequestHandler {
-  const { allowedOrigins, logger } = options;
-  if (!allowedOrigins?.length) {
+  const { logger } = options;
+  const allowedOrigins = parseAllowedOrigins(options.allowedOrigins);
+  if (!allowedOrigins.length) {
     return (_req, _res, next) => next();
   }
-  const canonicalHost = new URL(allowedOrigins[0]).host;
-  return (req, _res, next) => {
+  return (req, res, next) => {
     const origin = getRequestOrigin(req);
     logger?.log('allowedOrigins size: ' + allowedOrigins.length, {
       request: req,
     });
     if (!isAllowedOrigin(origin, allowedOrigins, req, logger)) {
       logger?.warn(
-        `Origin "${origin}" is not in the allowedOrigins list. Rewriting to canonical origin "${allowedOrigins[0]}".`,
+        `Origin "${origin}" is not in the allowedOrigins list. Rejecting request.`,
         { request: req }
       );
-      req.headers['host'] = canonicalHost;
-      req.headers['x-forwarded-host'] = canonicalHost;
-    } else {
-      logger?.log(`Resolved origin: ${origin}`, { request: req });
+      res.status(403).send('Forbidden');
+      return;
     }
+    logger?.log(`Resolved origin: ${origin}`, { request: req });
     next();
   };
+}
+
+function parseAllowedOrigins(
+  allowedOrigins: string[] | string | undefined
+): string[] {
+  if (!allowedOrigins) {
+    return [];
+  }
+  if (typeof allowedOrigins === 'string') {
+    return allowedOrigins
+      .split(',')
+      .map((o) => o.trim())
+      .filter(Boolean);
+  }
+  return allowedOrigins;
 }
 
 function isAllowedOrigin(

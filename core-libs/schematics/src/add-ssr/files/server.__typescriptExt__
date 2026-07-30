@@ -23,7 +23,9 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
-  server.use(getOriginValidationMiddleware({ allowedOrigins }));
+  server.use(getOriginValidationMiddleware({
+    allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+  }));
 
   server.engine(
     'html',
