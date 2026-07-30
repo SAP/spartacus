@@ -38,9 +38,9 @@ export function waitForPage(page: string, alias: string): string {
     page === 'homepage'
       ? {
           method: 'GET',
-          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/${cmsEndpoints.pages}?lang=en&curr=*`,
+          )}/${cmsEndpoints.pages}`,
         }
       : {
           method: 'GET',
