@@ -10,7 +10,7 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
 import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
-import { APPAREL_BASESITE, APPAREL_CURRENCY } from '../../../helpers/variants/apparel-checkout-flow';
+import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { getB2CAgent } from '../../../sample-data/asm-flow';
 import { visitLoginPage } from '../../../support/utils/login';
 
@@ -172,18 +172,23 @@ context('Assisted Service Module', () => {
   describe('Apparel Site', () => {
     before(() => {
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
-      Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
     });
 
     after(() => {
       Cypress.env('BASE_SITE', ELECTRONICS_BASESITE);
-      Cypress.env('BASE_CURRENCY', 'USD');
     });
 
     it("should fetch products in a category based on the emulated user's authentication", () => {
+      cy.cxConfig({
+        context: {
+          baseSite: ['apparel-uk-spa'],
+          currency: ['GBP'],
+        },
+      });
 
-      const customer = asm.registerUser(APPAREL_BASESITE, { currency: APPAREL_CURRENCY });
-      cy.visit(`/${APPAREL_BASESITE}/en/${APPAREL_CURRENCY}/`, { qs: { asm: true } });
+      const customer = asm.registerUser();
+
+      cy.visit('/', { qs: { asm: true } });
 
       cy.whenJDK17(() => {
         asm.agentLogin(b2cAgent.userName, b2cAgent.password);
@@ -192,7 +197,6 @@ context('Assisted Service Module', () => {
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
         agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
-        cy.visit(`/${APPAREL_BASESITE}/en/${APPAREL_CURRENCY}/`, { qs: { asm: true } });
       });
       asm.startCustomerEmulation(customer);
 

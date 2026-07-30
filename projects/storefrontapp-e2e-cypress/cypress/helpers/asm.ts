@@ -29,7 +29,7 @@ import {
   interceptPatch,
   interceptPost,
 } from '../support/utils/intercept';
-import { agentLoginForJDK21, login, register } from './auth-forms';
+import { agentLoginForJDK21, login } from './auth-forms';
 import * as loginHelper from './login';
 import {
   navigateToAMyAccountPage,
@@ -1291,40 +1291,10 @@ export function getCurrentCartIdAndAddProductsForJdk21(
   });
 }
 
-export function registerUser(
-  baseSite?: string,
-  options: { lang?: string; currency?: string } = {}
-) {
+export function registerUser() {
   clearAllStorage();
-
   const customer = getSampleUser();
-  if (baseSite) {
-    // Override BASE_SITE/BASE_CURRENCY so waitForPage() intercepts the correct
-    // OCC path. Env vars are NOT restored here — the caller's after() hook is responsible for cleanup.
-    const lang = options.lang ?? (Cypress.env('BASE_LANG') as string);
-    const currency = options.currency ?? (Cypress.env('BASE_CURRENCY') as string);
-    Cypress.env('BASE_SITE', baseSite);
-    Cypress.env('BASE_CURRENCY', currency);
-
-    const homePageAlias = waitForPage('homepage', 'getHomePage');
-    cy.visit(`/${baseSite}/${lang}/${currency}/`);
-    cy.wait(`@${homePageAlias}`);
-
-    cy.whenJDK17(() => {
-      checkout.registerUser(false, customer);
-    });
-    cy.whenJDK21(() => {
-      // JDK21: plain '/login/register' falls back to default baseSite (electronics-spa).
-      // Use full URL with site prefix to stay on the correct site.
-      const registerPage = waitForPage('/login/register', 'getRegisterPage');
-      cy.visit(`/${baseSite}/${lang}/${currency}/login/register`);
-      cy.wait(`@${registerPage}`);
-      register(customer);
-      cy.get('cx-breadcrumb').contains('Login');
-    });
-  } else {
-    checkout.visitHomePage();
-    checkout.registerUser(false, customer);
-  }
+  checkout.visitHomePage();
+  checkout.registerUser(false, customer);
   return customer;
 }
