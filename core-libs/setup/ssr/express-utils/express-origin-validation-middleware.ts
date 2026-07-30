@@ -19,7 +19,8 @@ export interface OriginValidationOptions {
  * operator-provided allowlist.
  *
  * When the resolved origin is not in the allowlist, the request is rejected
- * with a 403 Forbidden response.
+ * with a 421 Misdirected Request response and a `Cache-Control: no-store`
+ * header so intermediary caches don't retain the rejection.
  *
  * When `allowedOrigins` is absent or empty, a no-op middleware is returned and
  * the default Express `trust proxy` behavior is preserved.
@@ -57,7 +58,8 @@ export function getOriginValidationMiddleware(
         `Origin "${origin}" is not in the allowedOrigins list. Rejecting request.`,
         { request: req }
       );
-      res.status(403).send('Forbidden');
+      res.setHeader('Cache-Control', 'no-store');
+      res.status(421).send('Misdirected Request');
       return;
     }
     logger?.log(`Resolved origin: ${origin}`, { request: req });

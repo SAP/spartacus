@@ -10,8 +10,8 @@ import {
   SsrOptimizationOptions,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
-  getOriginValidationMiddleware,
   ngExpressEngine as engine,
+  getOriginValidationMiddleware,
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
@@ -26,15 +26,6 @@ const ssrOptions: SsrOptimizationOptions = {
   cache: process.env['SSR_CACHE'] === 'true',
 };
 
-// The allowlist is read from the `SSR_ALLOWED_ORIGINS` environment variable
-// (comma-separated), so it can be configured per environment without code
-// changes, e.g.:
-//   SSR_ALLOWED_ORIGINS="https://my.storefront.com,https://*.my.storefront.com"
-// Each entry must be a full origin with no trailing slash. A `*` wildcard
-// matches exactly one host label (it never crosses a dot or matches the apex).
-// When the variable is unset or empty the middleware is a no-op and the default
-// trust proxy behavior is preserved.
-
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -47,9 +38,22 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
-  server.use(getOriginValidationMiddleware({
-    allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
-  }));
+  // The allowlist is read from the `SSR_ALLOWED_ORIGINS` environment variable
+  // (comma-separated), so it can be configured per environment without code
+  // changes, e.g.:
+  //   SSR_ALLOWED_ORIGINS="https://my.storefront.com,https://*.my.storefront.com"
+  // If your deployment environment does not support environment variables,
+  // define the array directly instead, e.g.:
+  //   allowedOrigins: ['https://my.storefront.com', 'https://*.my.storefront.com']
+  // Each entry must be a full origin with no trailing slash. A `*` wildcard
+  // matches exactly one host label (it never crosses a dot or matches the apex).
+  // When the value is unset or empty the middleware is a no-op and the default
+  // trust proxy behavior is preserved.
+  server.use(
+    getOriginValidationMiddleware({
+      allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
+    })
+  );
 
   server.engine(
     'html',

@@ -38,6 +38,15 @@ function createMockNext(): NextFunction {
   return jest.fn() as unknown as NextFunction;
 }
 
+function createMockResponse(): Response {
+  const res = {
+    setHeader: jest.fn(),
+    send: jest.fn(),
+  } as Partial<Response>;
+  res.status = jest.fn().mockReturnValue(res) as unknown as Response['status'];
+  return res as Response;
+}
+
 describe('getOriginValidationMiddleware', () => {
   describe('when allowedOrigins is absent or empty', () => {
     it('should return a no-op middleware that calls next()', () => {
@@ -70,7 +79,7 @@ describe('getOriginValidationMiddleware', () => {
       expect(next).toHaveBeenCalled();
     });
 
-    it('should rewrite host headers to canonical host when origin does not match', () => {
+    it('should reject with 421 and no-store when origin does not match', () => {
       const middleware = getOriginValidationMiddleware({
         allowedOrigins: ['https://canonical.com', 'https://other.com'],
       });
@@ -78,11 +87,13 @@ describe('getOriginValidationMiddleware', () => {
         host: 'spoofed.com',
         trustProxy: false,
       });
+      const res = createMockResponse();
       const next = createMockNext();
-      middleware(req, {} as Response, next);
-      expect(req.headers['host']).toBe('canonical.com');
-      expect(req.headers['x-forwarded-host']).toBe('canonical.com');
-      expect(next).toHaveBeenCalled();
+      middleware(req, res, next);
+      expect(res.setHeader).toHaveBeenCalledWith('Cache-Control', 'no-store');
+      expect(res.status).toHaveBeenCalledWith(421);
+      expect(res.send).toHaveBeenCalledWith('Misdirected Request');
+      expect(next).not.toHaveBeenCalled();
     });
 
     it('should match case-insensitively', () => {
@@ -116,9 +127,11 @@ describe('getOriginValidationMiddleware', () => {
         host: 'domain.com',
         trustProxy: false,
       });
+      const res = createMockResponse();
       const next = createMockNext();
-      middleware(req, {} as Response, next);
-      expect(req.headers['host']).toBe('canonical.com');
+      middleware(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(421);
+      expect(next).not.toHaveBeenCalled();
     });
 
     it('should not match two-label subdomain for single wildcard (*.domain.com)', () => {
@@ -129,9 +142,11 @@ describe('getOriginValidationMiddleware', () => {
         host: 'a.b.domain.com',
         trustProxy: false,
       });
+      const res = createMockResponse();
       const next = createMockNext();
-      middleware(req, {} as Response, next);
-      expect(req.headers['host']).toBe('canonical.com');
+      middleware(req, res, next);
+      expect(res.status).toHaveBeenCalledWith(421);
+      expect(next).not.toHaveBeenCalled();
     });
 
     it('should use X-Forwarded-Host for origin resolution when proxy is trusted', () => {
