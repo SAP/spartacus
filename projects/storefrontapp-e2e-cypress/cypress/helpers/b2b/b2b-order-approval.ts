@@ -13,7 +13,6 @@ import {
   rejectedOrderDetails,
 } from '../../sample-data/b2b-order-approval';
 import { waitForPage } from '../navigation';
-import { stubB2bUnitSelectionApis } from './b2b-unit-selection';
 
 export function visitOrderApprovalListPage() {
   const alias = waitForPage(
@@ -36,12 +35,10 @@ export function visitOrderApprovalDetailPage() {
 }
 
 export function loginB2bUser() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bUserAccount);
 }
 
 export function loginB2bApprover() {
-  stubB2bUnitSelectionApis();
   cy.requireLoggedIn(sampleData.b2bApproverAccount);
 }
 
