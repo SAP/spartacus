@@ -200,8 +200,8 @@ describe('OptimizedSsrEngine', () => {
               renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
               logger: 'DefaultExpressServerLogger',
               shouldCacheRenderingResult: '({ entry: { err } }) => !err',
-              renderKeyResolver: 'function getRequestUrl(req, allowedOrigins) {\\n' +
-                '    return (0, express_request_origin_1.getRequestOrigin)(req, allowedOrigins) + req.originalUrl;\\n' +
+              renderKeyResolver: 'function getRequestUrl(req) {\\n' +
+                '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
                 '}',
               ssrFeatureToggles: {}
             }
@@ -1446,8 +1446,8 @@ describe('OptimizedSsrEngine', () => {
               "forcedSsrTimeout": 60000,
               "logger": "MockExpressServerLogger",
               "maxRenderTime": 300000,
-              "renderKeyResolver": "function getRequestUrl(req, allowedOrigins) {
-            return (0, express_request_origin_1.getRequestOrigin)(req, allowedOrigins) + req.originalUrl;
+              "renderKeyResolver": "function getRequestUrl(req) {
+            return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
         }",
               "renderingStrategyResolver": "(request) => {
             if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
