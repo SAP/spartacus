@@ -67,10 +67,7 @@ function parseAllowedOrigins(
   return allowedOrigins;
 }
 
-function isAllowedOrigin(
-  origin: string,
-  allowedOrigins: string[]
-): boolean {
+function isAllowedOrigin(origin: string, allowedOrigins: string[]): boolean {
   const normalizedOrigin = origin.toLowerCase();
   return allowedOrigins.some((allowed) => {
     const normalizedAllowed = allowed.toLowerCase();
