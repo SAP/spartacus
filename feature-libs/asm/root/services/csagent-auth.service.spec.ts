@@ -86,7 +86,7 @@ describe('CsAgentAuthService', () => {
   describe('authorizeCustomerSupportAgent()', () => {
     it('should only login cs agent when there is not any active session', async () => {
       vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
-      vi.spyOn(store, 'dispatch').mockImplementation(() => null!);
+      vi.spyOn(store, 'dispatch').mockImplementation(() => undefined as any);
       vi.spyOn(userIdService, 'setUserId');
       vi.spyOn(asmAuthStorageService, 'clearEmulatedUserToken');
 
@@ -102,7 +102,7 @@ describe('CsAgentAuthService', () => {
     });
 
     it('when there was logged in user, should login CS agent and start emulation for that user', async () => {
-      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => null!);
+      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => undefined as any);
       vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
       vi.spyOn(userIdService, 'setUserId');
       vi.spyOn(asmAuthStorageService, 'setEmulatedUserToken');

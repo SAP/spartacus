@@ -95,32 +95,22 @@ describe('AsmSessionTimerComponent', () => {
 
   it('should logout when time left is zero.', async () => {
     vi.useFakeTimers();
-    config.asm!.agentSessionTimer!.startingDelayInSeconds = 1;
-    vi.spyOn(
-      asmComponentService,
-      'logoutCustomerSupportAgentAndCustomer'
-    ).mockImplementation(() => {});
+    (config as any).asm.agentSessionTimer.startingDelayInSeconds = 1;
+    vi.spyOn(asmComponentService, 'logoutCustomerSupportAgentAndCustomer').mockImplementation(() => {});
     component.ngOnInit();
     await vi.advanceTimersByTimeAsync(2000);
-    expect(
-      asmComponentService.logoutCustomerSupportAgentAndCustomer
-    ).toHaveBeenCalled();
+    expect(asmComponentService.logoutCustomerSupportAgentAndCustomer).toHaveBeenCalled();
     component.ngOnDestroy();
     vi.useRealTimers();
   });
 
   it('should not call logout when there is some time left.', async () => {
     vi.useFakeTimers();
-    config.asm!.agentSessionTimer!.startingDelayInSeconds = 10;
-    vi.spyOn(
-      asmComponentService,
-      'logoutCustomerSupportAgentAndCustomer'
-    ).mockImplementation(() => {});
+    (config as any).asm.agentSessionTimer.startingDelayInSeconds = 10;
+    vi.spyOn(asmComponentService, 'logoutCustomerSupportAgentAndCustomer').mockImplementation(() => {});
     component.ngOnInit();
     await vi.advanceTimersByTimeAsync(1000);
-    expect(
-      asmComponentService.logoutCustomerSupportAgentAndCustomer
-    ).not.toHaveBeenCalled();
+    expect(asmComponentService.logoutCustomerSupportAgentAndCustomer).not.toHaveBeenCalled();
     component.ngOnDestroy();
     vi.useRealTimers();
   });
@@ -142,13 +132,14 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should use start delay from the config', () => {
-    config.asm!.agentSessionTimer!.startingDelayInSeconds = 632;
+    (config as any).asm.agentSessionTimer.startingDelayInSeconds = 632;
     component.ngOnInit();
     const result = component['getTimerStartDelayInSeconds']();
-    expect(result).toBe(config.asm!.agentSessionTimer!.startingDelayInSeconds);
+    expect(result).toBe((config as any).asm.agentSessionTimer.startingDelayInSeconds);
   });
+
   it('should use a maximum start delay', () => {
-    config.asm!.agentSessionTimer!.startingDelayInSeconds = 1000000;
+    (config as any).asm.agentSessionTimer.startingDelayInSeconds = 1000000;
     component.ngOnInit();
     const result = component['getTimerStartDelayInSeconds']();
     expect(result).toBe(component['maxStartDelayInSeconds']);
