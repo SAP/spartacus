@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
@@ -211,7 +211,7 @@ describe('CustomerTicketingListComponent', () => {
   let routingService: RoutingService;
   let customerTicketingFacade: CustomerTicketingFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -252,7 +252,7 @@ describe('CustomerTicketingListComponent', () => {
       .compileComponents();
 
     const translationService = TestBed.inject(TranslationService);
-    spyOn(translationService, 'translate').and.callFake((input) => {
+    vi.spyOn(translationService, 'translate').mockImplementation((input) => {
       switch (input) {
         case 'customerTicketing.ticketId':
           return of('ticket-id');
@@ -268,14 +268,15 @@ describe('CustomerTicketingListComponent', () => {
     fixture = TestBed.createComponent(CustomerTicketingListComponent);
     component = fixture.componentInstance;
     routingService = TestBed.inject(RoutingService);
-    fixture.detectChanges();
-  }));
+  });
 
   it('should be created', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should display tickets', () => {
+    fixture.detectChanges();
     const TWO_TICKETS = '(3)';
 
     const ticketsCount = fixture.debugElement.query(
@@ -293,7 +294,7 @@ describe('CustomerTicketingListComponent', () => {
   });
 
   it('should redirect to ticket details page', () => {
-    spyOn(routingService, 'go').and.stub();
+    vi.spyOn(routingService, 'go').mockImplementation(() => {});
 
     fixture.detectChanges();
     const rows = fixture.debugElement.queryAll(
@@ -310,13 +311,16 @@ describe('CustomerTicketingListComponent', () => {
   });
 
   it('should display next page', () => {
-    spyOn(customerTicketingFacade, 'getTickets').and.returnValue(
+    fixture.detectChanges();
+
+    vi.spyOn(customerTicketingFacade, 'getTickets').mockReturnValue(
       of(mockTicketList2)
     );
 
     component.pageChange(1);
 
     fixture.detectChanges();
+
     const idElements = fixture.debugElement
       .queryAll(By.css('.cx-ticketing-list-id a.cx-ticketing-list-value'))
       .map((debugElement) => debugElement.nativeElement as HTMLElement);

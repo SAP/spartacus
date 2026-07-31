@@ -19,8 +19,8 @@ import { Card, CardModule } from '@spartacus/storefront';
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+} from '@spartacus/core/feature-toggles/testing';
+import { BehaviorSubject, Observable, firstValueFrom, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
@@ -87,7 +87,7 @@ describe('CustomerTicketingDetailsComponent', () => {
       })
       .compileComponents();
     eventService = TestBed.inject(EventService);
-    spyOn(eventService, 'dispatch').and.callThrough();
+    vi.spyOn(eventService, 'dispatch');
     routerParam$.next({ ticketCode: '1' });
   });
 
@@ -101,19 +101,16 @@ describe('CustomerTicketingDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should prepare content for card', (done) => {
+  it('should prepare content for card', async () => {
     const mockCardContent: Card = {
       text: ['1'],
       title: 'ID',
       customClass: '',
     };
-    component
-      .prepareCardContent(mockTicketId, 'ID')
-      .pipe(take(1))
-      .subscribe((result) => {
-        expect(result).toEqual(mockCardContent);
-        done();
-      });
+    const result = await firstValueFrom(
+      component.prepareCardContent(mockTicketId, 'ID')
+    );
+    expect(result).toEqual(mockCardContent);
   });
 
   describe('getStatusClass', () => {

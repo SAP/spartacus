@@ -15,7 +15,6 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { EMPTY, of } from 'rxjs';
 import { CustomerTicketingPageMetaResolver } from './customer-ticketing-page-meta.resolver';
-import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   code: '1234',
@@ -31,14 +30,14 @@ const testCustomerServiceUrl = '/customer-service';
 const testHomeBreadcrumb: BreadcrumbMeta = { label: 'Test Home', link: '/' };
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  getActive = createSpy().and.returnValue(of(mockCart));
+  getActive = vi.fn().mockReturnValue(of(mockCart));
 }
 
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
-  resolveDescription = createSpy().and.returnValue(EMPTY);
-  resolveRobots = createSpy().and.returnValue(EMPTY);
-  resolveTitle = createSpy().and.returnValue(EMPTY);
-  resolveBreadcrumbs = createSpy().and.returnValue(of([testHomeBreadcrumb]));
+  resolveDescription = vi.fn().mockReturnValue(EMPTY);
+  resolveRobots = vi.fn().mockReturnValue(EMPTY);
+  resolveTitle = vi.fn().mockReturnValue(EMPTY);
+  resolveBreadcrumbs = vi.fn().mockReturnValue(of([testHomeBreadcrumb]));
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
@@ -46,7 +45,7 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = jasmine.createSpy('get').and.returnValue(testCustomerServiceUrl);
+  get = vi.fn().mockReturnValue(testCustomerServiceUrl);
 }
 
 describe('CustomerTicketingPageMetaResolver', () => {
@@ -87,7 +86,7 @@ describe('CustomerTicketingPageMetaResolver', () => {
   it(`should resolve page title`, () => {
     let result: string | undefined;
 
-    basePageMetaResolver.resolveTitle = createSpy().and.returnValue(
+    basePageMetaResolver.resolveTitle = vi.fn().mockReturnValue(
       of('Customer Ticketing')
     );
 
@@ -115,7 +114,7 @@ describe('CustomerTicketingPageMetaResolver', () => {
   it(`should resolve 'Page description' for resolveDescription()`, () => {
     let result: string | undefined;
 
-    basePageMetaResolver.resolveDescription = createSpy().and.returnValue(
+    basePageMetaResolver.resolveDescription = vi.fn().mockReturnValue(
       of('Page description')
     );
 
@@ -131,7 +130,7 @@ describe('CustomerTicketingPageMetaResolver', () => {
 
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
-    basePageMetaResolver.resolveRobots = createSpy().and.returnValue(
+    basePageMetaResolver.resolveRobots = vi.fn().mockReturnValue(
       of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX] as PageRobotsMeta[])
     );
 

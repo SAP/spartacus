@@ -953,8 +953,14 @@
       "@spartacus/storefront": [
         "core-libs/storefront/public_api"
       ],
+      "@spartacus/storefront/testing": [
+        "core-libs/storefront/shared/test/index.ts"
+      ],
       "@spartacus/core": [
         "core-libs/core/public_api"
+      ],
+      "@spartacus/core/feature-toggles/testing": [
+        "core-libs/core/src/features-config/feature-toggles/testing/index.ts"
       ],
       "@spartacus/assets": [
         "core-libs/assets/src/public_api"

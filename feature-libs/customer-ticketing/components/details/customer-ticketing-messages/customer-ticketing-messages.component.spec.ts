@@ -22,11 +22,10 @@ import {
 import {
   MockFeatureTogglesController,
   provideMockFeatureToggles,
-} from 'core-libs/core/src/features-config/feature-toggles/testing';
+} from '@spartacus/core/feature-toggles/testing';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import createSpy = jasmine.createSpy;
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -47,9 +46,9 @@ describe('CustomerTicketMessagesComponent', () => {
     implements Partial<CustomerTicketingFacade>
   {
     createTicketEvent = () => createTicketResponse$;
-    getTicket = createSpy().and.returnValue(getTicket$.asObservable());
-    downloadAttachment = createSpy().and.returnValue(EMPTY);
-    uploadAttachment = createSpy().and.returnValue(EMPTY);
+    getTicket = vi.fn().mockReturnValue(getTicket$.asObservable());
+    downloadAttachment = vi.fn().mockReturnValue(EMPTY);
+    uploadAttachment = vi.fn().mockReturnValue(EMPTY);
   }
 
   class MockEventService implements Partial<EventService> {
@@ -105,7 +104,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
   it('should call createTicketEvent on send', () => {
     const mustWaitForAttachment = false;
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     component.onSend(mockSendEvent);
 
     expect(customerTicketingFacade.createTicketEvent).toHaveBeenCalledWith(
@@ -128,7 +127,7 @@ describe('CustomerTicketMessagesComponent', () => {
       },
     } as unknown as FileList;
 
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 
@@ -150,7 +149,7 @@ describe('CustomerTicketMessagesComponent', () => {
       },
     } as unknown as FileList;
 
-    spyOn(customerTicketingFacade, 'createTicketEvent').and.callThrough();
+    vi.spyOn(customerTicketingFacade, 'createTicketEvent');
     mockSendEvent.files = fileList;
     component.onSend(mockSendEvent);
 

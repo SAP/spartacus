@@ -31,7 +31,6 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
-import createSpy = jasmine.createSpy;
 
 const mockCategories = [
   {
@@ -71,13 +70,13 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
-  createTicket = createSpy().and.returnValue(EMPTY);
-  getCreateTicketPayload = createSpy().and.returnValue(of(mockTicketStarter));
-  getTicketCategories = createSpy().and.returnValue(of(mockCategories));
-  getTicketAssociatedObjects = createSpy().and.returnValue(
+  createTicket = vi.fn().mockReturnValue(EMPTY);
+  getCreateTicketPayload = vi.fn().mockReturnValue(of(mockTicketStarter));
+  getTicketCategories = vi.fn().mockReturnValue(of(mockCategories));
+  getTicketAssociatedObjects = vi.fn().mockReturnValue(
     of(mockTicketAssociatedObjects)
   );
-  uploadAttachment = createSpy().and.returnValue(EMPTY);
+  uploadAttachment = vi.fn().mockReturnValue(EMPTY);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -150,7 +149,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    spyOn(globalMessageService, 'add').and.callThrough();
+    vi.spyOn(globalMessageService, 'add');
   });
 
   beforeEach(() => {
@@ -211,7 +210,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
           ],
         };
 
-        (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
+        (customerTicketingFacade.createTicket as any).mockReturnValue(
           of(mockTicketDetails)
         );
 
@@ -221,8 +220,8 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       });
 
       it('should close if there is an error creating the ticket', () => {
-        spyOn(component, 'close').and.callThrough();
-        (customerTicketingFacade.createTicket as jasmine.Spy).and.returnValue(
+        vi.spyOn(component, 'close');
+        (customerTicketingFacade.createTicket as any).mockReturnValue(
           throwError(() => 'error')
         );
 
@@ -242,7 +241,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       const expectedErrorMessage = 'mock-error-message';
       const error = new HttpErrorModel();
       error.details = [{ message: expectedErrorMessage }];
-      customerTicketingFacade.createTicket = createSpy().and.returnValue(
+      customerTicketingFacade.createTicket = vi.fn().mockReturnValue(
         throwError(error)
       );
       component.form.get('message')?.setValue(mockTicketStarter.message);
@@ -259,7 +258,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
     it('should handle other error correctly when creating a ticket', () => {
       const expectedErrorMessage = 'error';
-      customerTicketingFacade.createTicket = createSpy().and.returnValue(
+      customerTicketingFacade.createTicket = vi.fn().mockReturnValue(
         throwError(expectedErrorMessage)
       );
       component.form.get('message')?.setValue(mockTicketStarter.message);
