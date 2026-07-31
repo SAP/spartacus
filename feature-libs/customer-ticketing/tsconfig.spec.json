@@ -6,7 +6,10 @@
     "strict": false,
     "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
     "moduleResolution": "bundler",
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@spartacus/core/feature-toggles/testing": ["../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"]
+    }
   },
   "files": ["setup-test.ts"],
   "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
