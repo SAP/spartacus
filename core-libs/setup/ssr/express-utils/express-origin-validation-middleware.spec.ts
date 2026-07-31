@@ -164,4 +164,75 @@ describe('getOriginValidationMiddleware', () => {
       expect(next).toHaveBeenCalled();
     });
   });
+
+  describe('allowedOrigins parsing (comma-separated string)', () => {
+    it('should accept a single comma-separated string of origins', () => {
+      const middleware = getOriginValidationMiddleware({
+        allowedOrigins: 'https://a.com,https://b.com',
+      });
+      const req = createMockRequest({ host: 'b.com', trustProxy: false });
+      const next = createMockNext();
+      middleware(req, createMockResponse(), next);
+      expect(next).toHaveBeenCalled();
+    });
+
+    it('should trim whitespace around each entry', () => {
+      const middleware = getOriginValidationMiddleware({
+        allowedOrigins: '  https://a.com ,  https://b.com  ',
+      });
+      const req = createMockRequest({ host: 'a.com', trustProxy: false });
+      const next = createMockNext();
+      middleware(req, createMockResponse(), next);
+      expect(next).toHaveBeenCalled();
+    });
+
+    it('should ignore empty segments from leading/trailing/double commas', () => {
+      const middleware = getOriginValidationMiddleware({
+        allowedOrigins: ',https://a.com,,https://b.com,',
+      });
+      const allowed = createMockRequest({ host: 'a.com', trustProxy: false });
+      const allowedNext = createMockNext();
+      middleware(allowed, createMockResponse(), allowedNext);
+      expect(allowedNext).toHaveBeenCalled();
+
+      // an empty segment must not become a catch-all that allows anything
+      const spoofed = createMockRequest({
+        host: 'evil.com',
+        trustProxy: false,
+      });
+      const spoofedRes = createMockResponse();
+      const spoofedNext = createMockNext();
+      middleware(spoofed, spoofedRes, spoofedNext);
+      expect(spoofedRes.status).toHaveBeenCalledWith(421);
+      expect(spoofedNext).not.toHaveBeenCalled();
+    });
+
+    it('should return a no-op middleware for an empty string', () => {
+      const middleware = getOriginValidationMiddleware({ allowedOrigins: '' });
+      const req = createMockRequest({ host: 'any.com' });
+      const next = createMockNext();
+      middleware(req, {} as Response, next);
+      expect(next).toHaveBeenCalled();
+    });
+
+    it('should return a no-op middleware for a whitespace/comma-only string', () => {
+      const middleware = getOriginValidationMiddleware({
+        allowedOrigins: '  , ,  ',
+      });
+      const req = createMockRequest({ host: 'any.com' });
+      const next = createMockNext();
+      middleware(req, {} as Response, next);
+      expect(next).toHaveBeenCalled();
+    });
+
+    it('should return a no-op middleware when allowedOrigins is undefined', () => {
+      const middleware = getOriginValidationMiddleware({
+        allowedOrigins: undefined,
+      });
+      const req = createMockRequest({ host: 'any.com' });
+      const next = createMockNext();
+      middleware(req, {} as Response, next);
+      expect(next).toHaveBeenCalled();
+    });
+  });
 });
