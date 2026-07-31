@@ -38,17 +38,10 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
-  // The allowlist is read from the `SSR_ALLOWED_ORIGINS` environment variable
-  // (comma-separated), so it can be configured per environment without code
-  // changes, e.g.:
-  //   SSR_ALLOWED_ORIGINS="https://my.storefront.com,https://*.my.storefront.com"
-  // If your deployment environment does not support environment variables,
-  // define the array directly instead, e.g.:
-  //   allowedOrigins: ['https://my.storefront.com', 'https://*.my.storefront.com']
-  // Each entry must be a full origin with no trailing slash. A `*` wildcard
-  // matches exactly one host label (it never crosses a dot or matches the apex).
-  // When the value is unset or empty the middleware is a no-op and the default
-  // trust proxy behavior is preserved.
+  // Validates the resolved request origin against an allowlist. See the JSDoc
+  // of `getOriginValidationMiddleware` for the accepted formats and matching
+  // rules. Here it is read from the `SSR_ALLOWED_ORIGINS` environment variable
+  // (comma-separated); when unset or empty the middleware is a no-op.
   server.use(
     getOriginValidationMiddleware({
       allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],

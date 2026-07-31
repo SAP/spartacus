@@ -249,13 +249,11 @@ export function app(): express.Express {
 
   server.set('trust proxy', 'loopback');
 
+  // Validates the resolved request origin against an allowlist. See the JSDoc
+  // of \`getOriginValidationMiddleware\` for the accepted formats and matching
+  // rules. Here it is read from the \`SSR_ALLOWED_ORIGINS\` environment variable
+  // (comma-separated); when unset or empty the middleware is a no-op.
   server.use(getOriginValidationMiddleware({
-    // \`allowedOrigins\` accepts a comma-separated string (as read from the env
-    // var below) or a \`string[]\`. If your deployment environment does not
-    // support environment variables, replace \`process.env['SSR_ALLOWED_ORIGINS']\`
-    // with a hardcoded array of allowed origins instead, e.g.:
-    //   allowedOrigins: ['https://my-shop.com', 'https://*.my-shop.com'],
-    // Each origin must include the scheme (e.g. \`https://\`).
     allowedOrigins: process.env['SSR_ALLOWED_ORIGINS'],
   }));
 

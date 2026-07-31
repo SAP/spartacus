@@ -23,14 +23,28 @@ export interface OriginValidationOptions {
  * When `allowedOrigins` is absent or empty, a no-op middleware is returned and
  * the default Express `trust proxy` behavior is preserved.
  *
- * `allowedOrigins` accepts either an array or a comma-separated string (e.g.
- * directly from `process.env['SSR_ALLOWED_ORIGINS']`).
+ * `allowedOrigins` accepts either an array or a comma-separated string. It is
+ * typically read from the `SSR_ALLOWED_ORIGINS` environment variable so it can
+ * be configured per environment without code changes; if your deployment
+ * environment does not support environment variables, pass the array directly
+ * instead.
+ *
+ * Each entry must be a full origin (`protocol://host`) with no trailing slash,
+ * e.g. `"https://my.domain.com"`. Matching is case-insensitive. A `*` wildcard
+ * matches exactly one host label: it never crosses a dot and never matches the
+ * apex domain (e.g. `"https://*.my.domain.com"` matches
+ * `"https://shop.my.domain.com"` but not `"https://my.domain.com"`).
  *
  * Usage in server.ts:
  * ```ts
  * import { getOriginValidationMiddleware } from '@spartacus/setup/ssr';
+ * // from an environment variable (comma-separated):
  * server.use(getOriginValidationMiddleware({
  *   allowedOrigins: process.env['SSR_ALLOWED_ORIGINS']
+ * }));
+ * // or, when env vars are unavailable, as an explicit array:
+ * server.use(getOriginValidationMiddleware({
+ *   allowedOrigins: ['https://my.domain.com', 'https://*.my.domain.com']
  * }));
  * ```
  */
