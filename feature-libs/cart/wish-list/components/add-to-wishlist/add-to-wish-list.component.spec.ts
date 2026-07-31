@@ -29,7 +29,7 @@ import {
   CurrentProductService,
   IconComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockFeatureDirective } from '@spartacus/storefront/testing';
 import { BehaviorSubject, Observable, of, firstValueFrom } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 const mockProduct: Product = {

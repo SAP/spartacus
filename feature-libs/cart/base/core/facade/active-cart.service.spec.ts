@@ -15,7 +15,7 @@ import {
 import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import { provideMockFeatureToggles } from '../../../../../core-libs/core/src/features-config/feature-toggles/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -912,7 +912,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should not use persisted state in guestCartMerge and fall back to deleting the guest cart', () => {
-      vi.spyOn(multiCartFacade, 'deleteCart').mock
+      vi.spyOn(multiCartFacade, 'deleteCart').mockImplementation(() => {});
       vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(() => {});
       vi.spyOn(service, 'getEntries').mockImplementation(() => of([mockCartEntry]));
       winRef.localStorage?.setItem(

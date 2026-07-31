@@ -17,8 +17,8 @@ import { BehaviorSubject, EMPTY, Observable, of, firstValueFrom } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { RouterModule } from '@angular/router';
-import { MockUrlPipe } from '../../../../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { MockFeatureDirective } from '../../../../../core-libs/storefront/shared/test/mock-feature-directive';
+import { MockUrlPipe } from '@spartacus/core/testing';
+import { MockFeatureDirective } from '@spartacus/storefront/testing';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 const mockCart: Cart = {
