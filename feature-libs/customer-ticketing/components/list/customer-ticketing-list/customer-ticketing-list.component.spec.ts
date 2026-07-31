@@ -24,7 +24,7 @@ import {
   TicketList,
 } from '@spartacus/customer-ticketing/root';
 import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CustomerTicketingCreateComponent } from '../customer-ticketing-create';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
@@ -189,13 +189,15 @@ class MockTranslationService {
   }
 }
 
+const mockTicketList$ = new BehaviorSubject<TicketList>(mockTicketList);
+
 class MockCustomerTicketingFacade {
   getTickets(
     _pageSize: number,
     _currentPage?: number,
     _sort?: string
   ): Observable<TicketList> {
-    return of(mockTicketList);
+    return mockTicketList$.asObservable();
   }
 
   clearTicketList() {}
@@ -268,6 +270,7 @@ describe('CustomerTicketingListComponent', () => {
     fixture = TestBed.createComponent(CustomerTicketingListComponent);
     component = fixture.componentInstance;
     routingService = TestBed.inject(RoutingService);
+    mockTicketList$.next(mockTicketList);
   });
 
   it('should be created', () => {
@@ -313,12 +316,8 @@ describe('CustomerTicketingListComponent', () => {
   it('should display next page', () => {
     fixture.detectChanges();
 
-    vi.spyOn(customerTicketingFacade, 'getTickets').mockReturnValue(
-      of(mockTicketList2)
-    );
-
+    mockTicketList$.next(mockTicketList2);
     component.pageChange(1);
-
     fixture.detectChanges();
 
     const idElements = fixture.debugElement
