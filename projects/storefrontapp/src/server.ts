@@ -8,6 +8,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
+  createRobotsTxtHandler,
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
@@ -36,6 +37,11 @@ export function app(): express.Express {
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
+
+  const robotsTxtHandler = createRobotsTxtHandler();
+  if (robotsTxtHandler) {
+    server.get('/robots.txt', robotsTxtHandler);
+  }
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(

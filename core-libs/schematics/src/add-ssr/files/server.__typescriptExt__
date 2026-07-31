@@ -1,6 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import {
   NgExpressEngineDecorator,
+  createRobotsTxtHandler,
   defaultExpressErrorHandlers,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
@@ -21,6 +22,11 @@ export function app(): express.Express {
   const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
+
+  const robotsTxtHandler = createRobotsTxtHandler();
+  if (robotsTxtHandler) {
+    server.get('/robots.txt', robotsTxtHandler);
+  }
 
   server.engine(
     'html',
