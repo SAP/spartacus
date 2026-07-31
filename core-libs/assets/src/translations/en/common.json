@@ -96,7 +96,28 @@
       "empty": "Ask us anything"
     },
     "closeSearchPanel": "Close",
-    "queryError": "Your search query is incorrectly formatted. Please remove special characters like \":\" and try again."
+    "queryError": "Your search query is incorrectly formatted. Please remove special characters like \":\" and try again.",
+    "aiPlaceholder": "Describe what you're looking for in natural language. AI search may take a bit longer.",
+    "aiToggle": {
+      "groupLabel": "Search mode",
+      "regular": "Switch to standard search",
+      "regularLabel": "Search",
+      "regularTooltip": "Search",
+      "ai": "Switch to AI search",
+      "aiLabel": "AI Mode",
+      "aiTooltip": "AI Search"
+    },
+    "aiPanel": {
+      "examples": "AI search inspiration",
+      "results": "AI search suggestions"
+    },
+    "aiCriteria": {
+      "fullMatch": "Fully matches your search criteria",
+      "partialMatch": "Matches {{matched}} out of {{total}} search criteria",
+      "tooltipTitle": "Matches {{matched}} of {{total}} search criteria:",
+      "matched": "Matched",
+      "notMatched": "Not Matched"
+    }
   },
   "sorting": {
     "date": "Date",

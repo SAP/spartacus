@@ -121,3 +121,27 @@
     }
   }
 }
+
+cx-ai-answer-banner {
+  .cx-ai-answer-banner {
+    background-color: var(--cx-color-background-info, #e8f4fd);
+    border-inline-start: 3px solid var(--cx-color-primary, #1672b4);
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-block-end: 16px;
+    font-size: var(--cx-font-size-base, 14px);
+  }
+}
+
+cx-ai-answer-banner {
+  .cx-ai-answer-banner--loading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--cx-color-background, #f4f4f4);
+    border-inline-start: 3px solid var(--cx-color-primary, #1672b4);
+    border-radius: 4px;
+    padding: 10px 16px;
+    margin-block-end: 16px;
+  }
+}

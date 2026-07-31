@@ -16,6 +16,11 @@
   </ng-template>
 
   <ng-template
+    [cxOutlet]="outlets.AI_CRITERIA"
+    [cxOutletContext]="{ product: product }"
+  ></ng-template>
+
+  <ng-template
     [cxOutlet]="outlets.SUMMARY"
     [cxOutletContext]="{ product: product }"
   >

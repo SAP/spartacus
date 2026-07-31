@@ -1,0 +1,76 @@
+<div class="cx-ai-search-panel">
+
+  <!-- Info hint (always visible) -->
+  <div class="cx-ai-panel-hint">
+    <cx-icon class="cx-ai-panel-hint-icon" [type]="iconTypes.INFO"></cx-icon>
+    <span>{{ 'searchBox.aiPlaceholder' | cxTranslate }}</span>
+  </div>
+
+  <!-- Stream progress: shown while backend is processing -->
+  <ng-container *ngIf="isSearching$ | async">
+    <div class="cx-ai-stream-progress" aria-live="polite" aria-atomic="true">
+      <div class="cx-ai-loader-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span *ngIf="progress$ | async as progress" class="cx-ai-stream-message">
+        {{ progress.message }}
+      </span>
+    </div>
+  </ng-container>
+
+  <!-- Loader: shown while debouncing mock suggestions -->
+  <div *ngIf="isLoading && !isQueryEmpty && !(isSearching$ | async)" class="cx-ai-loader" aria-live="polite">
+    <div class="cx-ai-loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading && !(isSearching$ | async)">
+    <ng-container *ngIf="suggestions$ | async as suggestions">
+
+      <!-- Empty state: read-only inspiration phrases (not clickable) -->
+      <ng-container *ngIf="isQueryEmpty; else queryResults">
+        <ul
+          class="cx-ai-suggestions-list"
+          aria-live="polite"
+          aria-atomic="true"
+          [attr.aria-label]="'searchBox.aiPanel.examples' | cxTranslate"
+        >
+          <li
+            *ngFor="let item of suggestions"
+            class="cx-ai-suggestion-item cx-ai-suggestion-example"
+          >
+            <span class="cx-ai-suggestion-text">{{ item.phrase }}</span>
+          </li>
+        </ul>
+      </ng-container>
+
+      <!-- Typing state: clickable autocomplete suggestions -->
+      <ng-template #queryResults>
+        <ul
+          class="cx-ai-suggestions-list"
+          aria-live="polite"
+          aria-atomic="true"
+          [attr.aria-label]="'searchBox.aiPanel.results' | cxTranslate"
+        >
+          <li
+            *ngFor="let item of suggestions"
+            class="cx-ai-suggestion-item"
+          >
+            <button
+              class="cx-ai-suggestion-btn"
+              (click)="selectSuggestion(item.phrase)"
+              (keydown.arrowup)="shareEvent($any($event))"
+              (keydown.arrowdown)="shareEvent($any($event))"
+              (keydown.escape)="shareEvent($any($event))"
+            >
+              <strong>{{ item.matchedPrefix }}</strong>{{ item.suffix }}
+            </button>
+          </li>
+        </ul>
+      </ng-template>
+
+    </ng-container>
+  </ng-container>
+
+</div>

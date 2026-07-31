@@ -572,6 +572,7 @@ export interface FeatureTogglesInterface {
    * Login Page form submission.
    */
   siteIsolationForCustomLoginPage?: boolean;
+  useAiSearch?: boolean;
 
   /**
    * When enabled, the navigation menu buttons (e.g. "My Account") and dropdown
@@ -788,4 +789,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yDisabledButtonContrast: false,
   a11yAddressFormInitialFocus: false,
   a11yFocusBreadcrumbOnNavigation: false,
+  useAiSearch: false,
 };

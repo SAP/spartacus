@@ -38,6 +38,17 @@ export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
   searchCompleted = new BehaviorSubject<boolean>(false);
+  private readonly _currentQuery$ = new BehaviorSubject<string>('');
+  readonly currentQuery$: Observable<string> = this._currentQuery$.asObservable();
+
+  private readonly _isAiModeActive$ = new BehaviorSubject<boolean>(false);
+  readonly isAiModeActive$: Observable<boolean> = this._isAiModeActive$.asObservable();
+
+  private readonly _lastSearchWasAi$ = new BehaviorSubject<boolean>(false);
+  readonly lastSearchWasAi$: Observable<boolean> = this._lastSearchWasAi$.asObservable();
+
+  private readonly _lastAiQuery$ = new BehaviorSubject<string>('');
+  readonly lastAiQuery$: Observable<string> = this._lastAiQuery$.asObservable();
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -60,6 +71,7 @@ export class SearchBoxComponentService {
     this.hasKeywordRedirect = false;
     this.currentQueryLength = query ? query.length : 0;
     this.searchCompleted.next(false);
+    this._currentQuery$.next(query ?? '');
 
     if (
       !this.enableRecentSearches &&
@@ -161,6 +173,7 @@ export class SearchBoxComponentService {
   clearResults() {
     this.searchService.clearResults();
     this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, false);
+    this._currentQuery$.next('');
 
     // Reset search completion state
     this.hasKeywordRedirect = false;
@@ -359,5 +372,79 @@ export class SearchBoxComponentService {
 
   setRecentSearches(enabled: boolean = false) {
     this.enableRecentSearches = enabled;
+  }
+
+  setAiMode(active: boolean): void {
+    this._isAiModeActive$.next(active);
+    this.persistAiModePreference(active);
+  }
+
+  /**
+   * Persists the user's search-mode toggle choice (regular vs AI) so it is
+   * restored on the next visit. Uses localStorage because this is a lasting UI
+   * preference, unlike the per-search AI context which lives in sessionStorage.
+   */
+  private persistAiModePreference(active: boolean): void {
+    try {
+      this.winRef.localStorage?.setItem(
+        'cx_ai_mode_preference',
+        active ? '1' : '0'
+      );
+    } catch {
+      // localStorage may be unavailable (SSR, private mode, quota); ignore.
+    }
+  }
+
+  getAiModePreference(): boolean {
+    try {
+      return this.winRef.localStorage?.getItem('cx_ai_mode_preference') === '1';
+    } catch {
+      // localStorage may be unavailable (SSR, private mode); default to regular.
+      return false;
+    }
+  }
+
+  markAiSearchLaunched(isAiMode: boolean): void {
+    this._lastSearchWasAi$.next(isAiMode);
+    if (!isAiMode) {
+      this.clearAiContext();
+    }
+  }
+
+  setAiQuery(query: string): void {
+    this._lastAiQuery$.next(query);
+    this.persistAiContext(query);
+  }
+
+  private persistAiContext(query: string): void {
+    try {
+      const storage = this.winRef.sessionStorage;
+      if (storage) {
+        storage.setItem('cx_ai_context', JSON.stringify({ query, ts: Date.now() }));
+      }
+    } catch {}
+  }
+
+  restoreAiContextFromStorage(): void {
+    try {
+      const storage = this.winRef.sessionStorage;
+      const raw = storage?.getItem('cx_ai_context');
+      if (!raw) return;
+      const { query, ts } = JSON.parse(raw) as { query: string; ts: number };
+      // Ignore if older than 30 minutes
+      if (Date.now() - ts > 30 * 60 * 1000) {
+        storage?.removeItem('cx_ai_context');
+        return;
+      }
+      this._lastSearchWasAi$.next(true);
+      this._lastAiQuery$.next(query);
+    } catch {}
+  }
+
+  private clearAiContext(): void {
+    this._lastAiQuery$.next('');
+    try {
+      this.winRef.sessionStorage?.removeItem('cx_ai_context');
+    } catch {}
   }
 }

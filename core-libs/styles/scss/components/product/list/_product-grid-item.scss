@@ -84,3 +84,101 @@
     }
   }
 }
+
+
+// AI criteria badge — grid view
+.cx-ai-criteria {
+  margin: 0.5rem 0;
+  position: relative;
+  display: inline-block;
+
+  .cx-ai-criteria-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: default;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  // Full match: green badge
+  &.cx-ai-criteria--full .cx-ai-criteria-badge {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+  }
+
+  // Partial match: amber/yellow badge
+  &.cx-ai-criteria--partial .cx-ai-criteria-badge {
+    background-color: #fff8e1;
+    color: #e65100;
+    border: 1px solid #ffcc80;
+  }
+
+  // Help icon: small circle with "?"
+  .cx-ai-criteria-help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .cx-ai-criteria-tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 1000;
+    min-width: 240px;
+    background: var(--cx-color-background);
+    border: 1px solid var(--cx-color-medium);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 0.75rem 1rem;
+  }
+
+  &:hover .cx-ai-criteria-tooltip,
+  &:focus-within .cx-ai-criteria-tooltip {
+    display: block;
+  }
+
+  .cx-ai-criteria-tooltip-title {
+    margin: 0 0 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--cx-color-text);
+  }
+
+  .cx-ai-criteria-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .cx-ai-criteria-item {
+    font-size: 0.875rem;
+    color: var(--cx-color-text);
+
+    .cx-ai-criteria-status {
+      // inline — no extra styling for matched
+    }
+
+    &.cx-ai-criteria-item--missed {
+      color: #c62828;
+    }
+  }
+}

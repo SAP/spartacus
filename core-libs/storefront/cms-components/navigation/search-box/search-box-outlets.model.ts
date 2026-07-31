@@ -8,4 +8,6 @@ export enum SearchBoxOutlets {
   RECENT_SEARCHES = 'SearchBoxOutlets.RECENT_SEARCHES',
   RECENT_SEARCHES_HEADER = 'SearchBoxOutlets.RECENT_SEARCHES_HEADER',
   TRENDING_SEARCHES = 'SearchBoxOutlets.TRENDING_SEARCHES',
+  AI_TOGGLE = 'SearchBoxOutlets.AI_TOGGLE',
+  AI_SEARCH_PANEL = 'SearchBoxOutlets.AI_SEARCH_PANEL',
 }

@@ -13,3 +13,7 @@ export * from './src/config/index';
 export * from './src/merchandising/index';
 export * from './src/profiletag/index';
 export * from './src/trending-searches/index';
+export * from './src/ai-search/ai-search-suggestions.module';
+export * from './src/ai-search/ai-search-suggestions.service';
+export * from './src/ai-search/ai-product-criteria.service';
+
