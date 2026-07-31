@@ -6,13 +6,7 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationRef, inject, Injectable, NgZone } from '@angular/core';
-import {
-  Actions,
-  createEffect,
-  EffectNotification,
-  ofType,
-  OnRunEffects,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
   B2BUnit,
@@ -25,6 +19,7 @@ import {
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   EMPTY,
+  defer,
   forkJoin,
   interval,
   Observable,
@@ -48,7 +43,7 @@ import { B2bUnitSelectorStateService } from '../../services/b2b-unit-selector-st
 import * as B2bUnitSelectionActions from '../actions/b2b-unit-selection.actions';
 
 @Injectable()
-export class B2bUnitSelectionEffects implements OnRunEffects {
+export class B2bUnitSelectionEffects {
   protected logger = inject(LoggerService);
   protected config = inject(B2bUnitSelectionConfig);
   protected applicationRef = inject(ApplicationRef);
@@ -71,8 +66,11 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
   checkOrgUnitsOnLogin$: Observable<
     | B2bUnitSelectionActions.LoadUserOrgUnitsSuccess
     | B2bUnitSelectionActions.LoadUserOrgUnitsFail
-  > = createEffect(() =>
-    this.actions$.pipe(
+  > = createEffect(() => {
+    if (!this.config.b2bUnitSelection?.enabled) {
+      return defer(() => EMPTY);
+    }
+    return this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
       exhaustMap(() =>
         this.userIdService.getUserId().pipe(
@@ -109,8 +107,8 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Listens for SET_DEFAULT_ORG_UNIT and calls the PUT API to persist the selection.
@@ -120,8 +118,11 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
   setDefaultOrgUnit$: Observable<
     | B2bUnitSelectionActions.SetDefaultOrgUnitSuccess
     | B2bUnitSelectionActions.SetDefaultOrgUnitFail
-  > = createEffect(() =>
-    this.actions$.pipe(
+  > = createEffect(() => {
+    if (!this.config.b2bUnitSelection?.enabled) {
+      return defer(() => EMPTY);
+    }
+    return this.actions$.pipe(
       ofType<B2bUnitSelectionActions.SetDefaultOrgUnit>(
         B2bUnitSelectionActions.SET_DEFAULT_ORG_UNIT
       ),
@@ -154,22 +155,26 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Listens for LOGOUT and clears the state service so the Company selector
    * is hidden after the user logs out.
    */
   clearOnLogout$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      if (!this.config.b2bUnitSelection?.enabled) {
+        return defer(() => EMPTY);
+      }
+      return this.actions$.pipe(
         ofType<AuthActions.Logout>(AuthActions.LOGOUT),
         tap(() => {
           this.stateService.setOrgUnits([]);
           this.stateService.setActiveUnit(null);
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
@@ -182,32 +187,6 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
 
   /** Maximum time (ms) to wait for AppComponent to mount before opening the dialog anyway. */
   protected readonly STABLE_TIMEOUT_MS = 10_000;
-
-  /**
-   * NgRx `OnRunEffects` hook — called by NgRx before subscribing to any effect.
-   *
-   * **Why this fixes zone stability:**
-   * `EffectsModule.forFeature` always registers the effects class, and NgRx's
-   * `EffectSources.toActions()` wraps every registered effect with `materialize()`
-   * then merges them inside an `exhaustMap` that lives for the entire application
-   * lifetime inside Angular's zone. Even when individual effects return
-   * `defer(() => EMPTY)` immediately, the outer `merge()` + `exhaustMap()`
-   * subscription chain keeps a live observable in the zone indefinitely,
-   * preventing `ApplicationRef.isStable` from emitting `true` and causing
-   * Cypress `cy.wait()` to time out with "No request ever occurred".
-   *
-   * Returning `EMPTY` here causes `resolveEffectSource` to pass `EMPTY` to
-   * `exhaustMap`, which completes synchronously — no Zone.js pending task is
-   * created, the zone stabilises normally.
-   */
-  ngrxOnRunEffects(
-    resolvedEffects$: Observable<EffectNotification>
-  ): Observable<EffectNotification> {
-    if (!this.config.b2bUnitSelection?.enabled) {
-      return EMPTY;
-    }
-    return resolvedEffects$;
-  }
 
   /**
    * Opens the unit-selection dialog once the AppComponent is mounted.
