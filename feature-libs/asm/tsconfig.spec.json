@@ -6,7 +6,11 @@
     "strict": false,
     "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
     "moduleResolution": "bundler",
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@spartacus/storefront/testing": ["../../core-libs/storefront/shared/test/index.ts"],
+      "@spartacus/core/process/store/reducers": ["../../core-libs/core/src/process/store/reducers/index.ts"]
+    }
   },
   "files": ["setup-test.ts"],
   "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
