@@ -7,7 +7,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { B2BUnit, UserIdService } from '@spartacus/core';
+import { B2BUnit, OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
 import { B2bUnitSelectionConnector } from '../../core/connectors/b2b-unit-selection.connector';
 import { B2bUnitSelectorStateService } from '../../core/services/b2b-unit-selector-state.service';
@@ -54,6 +54,7 @@ class MockB2bUnitSelectionConnector {
 }
 
 class MockUserIdService {
+  getUserId = createSpy('getUserId').and.returnValue(of(mockUserId));
   takeUserId = createSpy('takeUserId').and.returnValue(of(mockUserId));
 }
 
@@ -153,6 +154,21 @@ describe('AbstractB2bUnitSelectorComponent', () => {
       expect(connector.loadOrgUnits).toHaveBeenCalledWith(mockUserId);
       expect(stateService.setOrgUnits).toHaveBeenCalledWith(mockUnits);
       expect(stateService.setActiveUnit).toHaveBeenCalledWith(mockDefaultUid);
+    });
+
+    it('should NOT throw when user is anonymous on init (page-refresh race condition)', () => {
+      // Simulate page refresh: component initialises before OAuth token is restored.
+      // getUserId() first emits OCC_USER_ID_ANONYMOUS, then the real userId.
+      createComponent(true, []);
+      const userIdService = TestBed.inject(UserIdService) as any;
+      // Emit anonymous first, then the real userId — mirrors token-restore sequence.
+      userIdService.getUserId.and.returnValue(
+        of(OCC_USER_ID_ANONYMOUS, mockUserId)
+      );
+
+      expect(() => fixture.detectChanges()).not.toThrow();
+      // The filter skips anonymous; the real userId triggers the load.
+      expect(connector.loadOrgUnits).toHaveBeenCalledWith(mockUserId);
     });
 
     it('should set active unit to null when loadDefaultOrgUnitName fails', () => {

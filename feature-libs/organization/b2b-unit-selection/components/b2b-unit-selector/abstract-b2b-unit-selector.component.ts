@@ -14,9 +14,9 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
-import { B2BUnit, UserIdService } from '@spartacus/core';
+import { B2BUnit, OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { forkJoin, of } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import {
   B2bUnitSelectionConnector,
   B2bUnitSelectorStateService,
@@ -110,9 +110,15 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
     // Without this, Cypress cy.wait() calls time out because the zone never
     // stabilises while these requests are in-flight.
     this.ngZone.runOutsideAngular(() => {
+      // Use getUserId() + filter instead of takeUserId(true) to avoid throwing
+      // "Requested user id for logged user while user is not logged in" during
+      // page refresh: on refresh the component initialises before the OAuth token
+      // is restored from localStorage, so the user appears anonymous at first.
+      // getUserId() + filter waits silently until the session is fully restored.
       this.userIdService
-        .takeUserId(true)
+        .getUserId()
         .pipe(
+          filter((userId) => userId !== OCC_USER_ID_ANONYMOUS),
           take(1),
           switchMap((userId) =>
             forkJoin({
