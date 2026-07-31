@@ -79,7 +79,7 @@ describe('getOriginValidationMiddleware', () => {
       expect(next).toHaveBeenCalled();
     });
 
-    it('should reject with 421 and no-store when origin does not match', () => {
+    it('should reject with 400 and no-store when origin does not match', () => {
       const middleware = getOriginValidationMiddleware({
         allowedOrigins: ['https://canonical.com', 'https://other.com'],
       });
@@ -91,8 +91,8 @@ describe('getOriginValidationMiddleware', () => {
       const next = createMockNext();
       middleware(req, res, next);
       expect(res.setHeader).toHaveBeenCalledWith('Cache-Control', 'no-store');
-      expect(res.status).toHaveBeenCalledWith(421);
-      expect(res.send).toHaveBeenCalledWith('Misdirected Request');
+      expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.send).toHaveBeenCalledWith('Bad Request');
       expect(next).not.toHaveBeenCalled();
     });
 
@@ -130,7 +130,7 @@ describe('getOriginValidationMiddleware', () => {
       const res = createMockResponse();
       const next = createMockNext();
       middleware(req, res, next);
-      expect(res.status).toHaveBeenCalledWith(421);
+      expect(res.status).toHaveBeenCalledWith(400);
       expect(next).not.toHaveBeenCalled();
     });
 
@@ -145,7 +145,7 @@ describe('getOriginValidationMiddleware', () => {
       const res = createMockResponse();
       const next = createMockNext();
       middleware(req, res, next);
-      expect(res.status).toHaveBeenCalledWith(421);
+      expect(res.status).toHaveBeenCalledWith(400);
       expect(next).not.toHaveBeenCalled();
     });
 
@@ -203,7 +203,7 @@ describe('getOriginValidationMiddleware', () => {
       const spoofedRes = createMockResponse();
       const spoofedNext = createMockNext();
       middleware(spoofed, spoofedRes, spoofedNext);
-      expect(spoofedRes.status).toHaveBeenCalledWith(421);
+      expect(spoofedRes.status).toHaveBeenCalledWith(400);
       expect(spoofedNext).not.toHaveBeenCalled();
     });
 
