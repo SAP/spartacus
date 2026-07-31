@@ -4,13 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Request, RequestHandler } from 'express';
-import type { ExpressServerLogger } from '../logger/loggers/express-server-logger';
+import { RequestHandler } from 'express';
 import { getRequestOrigin } from './express-request-origin';
 
 export interface OriginValidationOptions {
   allowedOrigins?: string[] | string;
-  logger?: ExpressServerLogger;
 }
 
 /**
@@ -28,10 +26,6 @@ export interface OriginValidationOptions {
  * `allowedOrigins` accepts either an array or a comma-separated string (e.g.
  * directly from `process.env['SSR_ALLOWED_ORIGINS']`).
  *
- * When a `logger` is provided, diagnostic messages are emitted through it as
- * structured (JSON) log entries carrying the request context, so they land in
- * the `logs-json-*` index of SAP Cloud Logging.
- *
  * Usage in server.ts:
  * ```ts
  * import { getOriginValidationMiddleware } from '@spartacus/setup/ssr';
@@ -43,26 +37,17 @@ export interface OriginValidationOptions {
 export function getOriginValidationMiddleware(
   options: OriginValidationOptions
 ): RequestHandler {
-  const { logger } = options;
   const allowedOrigins = parseAllowedOrigins(options.allowedOrigins);
   if (!allowedOrigins.length) {
     return (_req, _res, next) => next();
   }
   return (req, res, next) => {
     const origin = getRequestOrigin(req);
-    logger?.log('allowedOrigins size: ' + allowedOrigins.length, {
-      request: req,
-    });
-    if (!isAllowedOrigin(origin, allowedOrigins, req, logger)) {
-      logger?.warn(
-        `Origin "${origin}" is not in the allowedOrigins list. Rejecting request.`,
-        { request: req }
-      );
+    if (!isAllowedOrigin(origin, allowedOrigins)) {
       res.setHeader('Cache-Control', 'no-store');
       res.status(421).send('Misdirected Request');
       return;
     }
-    logger?.log(`Resolved origin: ${origin}`, { request: req });
     next();
   };
 }
@@ -84,9 +69,7 @@ function parseAllowedOrigins(
 
 function isAllowedOrigin(
   origin: string,
-  allowedOrigins: string[],
-  req: Request,
-  logger?: ExpressServerLogger
+  allowedOrigins: string[]
 ): boolean {
   const normalizedOrigin = origin.toLowerCase();
   return allowedOrigins.some((allowed) => {
@@ -100,7 +83,6 @@ function isAllowedOrigin(
         .join('[^.]+');
       return new RegExp(`^${pattern}$`).test(normalizedOrigin);
     }
-    logger?.log('normalizedOrigin: ' + normalizedOrigin, { request: req });
     return normalizedAllowed === normalizedOrigin;
   });
 }
