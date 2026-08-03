@@ -40,9 +40,18 @@ describe('SaveForLaterComponent', () => {
   let component: SaveForLaterComponent;
   let fixture: ComponentFixture<SaveForLaterComponent>;
 
-  const mockActiveCartService = { addEntry: vi.fn(), isStable: vi.fn(), getActive: vi.fn() };
+  const mockActiveCartService = {
+    addEntry: vi.fn(),
+    isStable: vi.fn(),
+    getActive: vi.fn(),
+  };
 
-  const mockSelectiveCartService = { getCart: vi.fn(), isStable: vi.fn(), removeEntry: vi.fn(), getEntries: vi.fn() };
+  const mockSelectiveCartService = {
+    getCart: vi.fn(),
+    isStable: vi.fn(),
+    removeEntry: vi.fn(),
+    getEntries: vi.fn(),
+  };
 
   const mockCmsService = { getComponentData: vi.fn() };
 
@@ -111,8 +120,9 @@ describe('SaveForLaterComponent', () => {
     );
     fixture.detectChanges();
     expect(
-      fixture.debugElement.query(By.css('.cx-empty-cart-info')).nativeElement
-        .textContent?.trim()
+      fixture.debugElement
+        .query(By.css('.cx-empty-cart-info'))
+        .nativeElement.textContent?.trim()
     ).toEqual('content');
   });
 

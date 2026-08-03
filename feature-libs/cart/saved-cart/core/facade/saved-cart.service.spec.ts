@@ -189,9 +189,7 @@ describe('SavedCartService', () => {
 
   describe('List of Saved Carts', () => {
     it('should dispatch a load for a list of saved carts ', () => {
-      multiCartService.getCarts = vi.fn().mockReturnValue(
-        of(mockSavedCarts)
-      );
+      multiCartService.getCarts = vi.fn().mockReturnValue(of(mockSavedCarts));
 
       service.loadSavedCarts();
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -238,9 +236,9 @@ describe('SavedCartService', () => {
     });
 
     it('should filter saved carts without wishlist and selective carts', () => {
-      multiCartService.getCarts = vi.fn().mockReturnValue(
-        of(mockSavedCartsWithWishListAndSelectiveCart)
-      );
+      multiCartService.getCarts = vi
+        .fn()
+        .mockReturnValue(of(mockSavedCartsWithWishListAndSelectiveCart));
 
       store.dispatch(
         new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })

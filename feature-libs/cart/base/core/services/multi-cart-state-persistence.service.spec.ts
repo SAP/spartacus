@@ -47,7 +47,9 @@ describe('MultiCartStatePersistenceService', () => {
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     store = TestBed.inject(Store);
     vi.spyOn(store, 'dispatch').mockImplementation(() => {});
-    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {

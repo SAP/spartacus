@@ -4,9 +4,9 @@ import { CartValidationAdapter } from './cart-validation.adapter';
 import { CartValidationConnector } from './cart-validation.connector';
 
 class MockCartValidationAdapter implements CartValidationAdapter {
-  validate = vi.fn().mockImplementation((cartId, userId) =>
-    of(`load-${cartId}-${userId}`)
-  );
+  validate = vi
+    .fn()
+    .mockImplementation((cartId, userId) => of(`load-${cartId}-${userId}`));
 }
 
 describe('CartValidationConnector', () => {

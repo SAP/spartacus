@@ -387,10 +387,7 @@ describe('QuickOrderComponent', () => {
   });
 
   it('should trigger clearNonPurchasableProductError on clearNonPurchasableError', () => {
-    vi.spyOn(
-      quickOrderService,
-      'clearNonPurchasableProductError'
-    );
+    vi.spyOn(quickOrderService, 'clearNonPurchasableProductError');
 
     component.clearNonPurchasableError();
 

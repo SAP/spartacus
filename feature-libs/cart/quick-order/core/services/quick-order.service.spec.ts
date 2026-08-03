@@ -173,7 +173,9 @@ describe('QuickOrderService', () => {
     });
 
     it('with provided maxProducts', async () => {
-      await firstValueFrom(service.searchProducts(mockProduct1Code, mockMaxProducts));
+      await firstValueFrom(
+        service.searchProducts(mockProduct1Code, mockMaxProducts)
+      );
       expect(productSearchConnector.search).toHaveBeenCalledWith(
         mockProduct1Code,
         mockSearchConfig
@@ -433,20 +435,26 @@ describe('QuickOrderService', () => {
 
   describe('Non purchasable product', () => {
     it('should return null if there is no error set up', async () => {
-      const value = await firstValueFrom(service.getNonPurchasableProductError());
+      const value = await firstValueFrom(
+        service.getNonPurchasableProductError()
+      );
       expect(value).toBeNull();
     });
 
     it('should set error and return it', async () => {
       service.setNonPurchasableProductError(mockProduct1);
-      const value = await firstValueFrom(service.getNonPurchasableProductError());
+      const value = await firstValueFrom(
+        service.getNonPurchasableProductError()
+      );
       expect(value).toEqual(mockProduct1);
     });
 
     it('should clear error', async () => {
       service.setNonPurchasableProductError(mockProduct1);
       service.clearNonPurchasableProductError();
-      const value = await firstValueFrom(service.getNonPurchasableProductError());
+      const value = await firstValueFrom(
+        service.getNonPurchasableProductError()
+      );
       expect(value).toBeNull();
     });
   });

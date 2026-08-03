@@ -13,7 +13,6 @@ import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
 import { provideMockFeatureToggles } from '@spartacus/core/testing';
 
-
 const testCart: Cart = {
   code: 'xxx',
   guid: 'xxx',
@@ -260,7 +259,9 @@ describe('MultiCartService', () => {
     };
 
     it('should create a non-active cart and return observable with cart', () => {
-      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue('temp-uuid');
+      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
+        'temp-uuid'
+      );
 
       let result;
       service
@@ -289,7 +290,9 @@ describe('MultiCartService', () => {
     });
 
     it('should create an active cart and return observable with cart', () => {
-      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue('temp-uuid');
+      vi.spyOn(service as any, 'generateTempCartId').mockReturnValue(
+        'temp-uuid'
+      );
 
       let result;
       service

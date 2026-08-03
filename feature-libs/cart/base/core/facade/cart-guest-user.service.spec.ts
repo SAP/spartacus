@@ -9,7 +9,6 @@ import { of } from 'rxjs';
 import { CartGuestUserConnector } from '../connectors';
 import { CartGuestUserService } from './cart-guest-user.service';
 
-
 class MockCartCartGuestUserConnector
   implements Partial<CartGuestUserConnector>
 {

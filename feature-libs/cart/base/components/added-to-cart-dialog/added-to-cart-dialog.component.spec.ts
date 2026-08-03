@@ -245,7 +245,9 @@ describe('AddedToCartDialogComponent', () => {
         cold('a', { a: mockOrderEntries[0] })
       );
 
-      vi.spyOn(component as any, 'getAddedEntryWasMerged').mockImplementation(() => {});
+      vi.spyOn(component as any, 'getAddedEntryWasMerged').mockImplementation(
+        () => {}
+      );
       component.ngOnInit();
 
       expect(component.quantity).toEqual(3);

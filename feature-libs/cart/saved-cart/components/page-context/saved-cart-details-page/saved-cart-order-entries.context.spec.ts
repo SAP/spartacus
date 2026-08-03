@@ -58,9 +58,7 @@ const routerStateSubject = new BehaviorSubject<RouterState>({
 } as unknown as RouterState);
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = vi.fn().mockReturnValue(
-    routerStateSubject.asObservable()
-  );
+  getRouterState = vi.fn().mockReturnValue(routerStateSubject.asObservable());
 }
 
 const mockProductImportInfo = {

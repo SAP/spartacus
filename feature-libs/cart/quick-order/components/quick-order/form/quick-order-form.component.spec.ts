@@ -129,10 +129,7 @@ describe('QuickOrderFormComponent', () => {
   describe('on add method', () => {
     it('should trigger addProduct', () => {
       vi.spyOn(quickOrderService, 'addProduct');
-      vi.spyOn(
-        quickOrderService,
-        'clearNonPurchasableProductError'
-      );
+      vi.spyOn(quickOrderService, 'clearNonPurchasableProductError');
       component.add(mockProduct, mockEvent);
 
       expect(
@@ -144,10 +141,7 @@ describe('QuickOrderFormComponent', () => {
     it('should not trigger addProduct because of non purchasable product', () => {
       vi.spyOn(component, 'clear');
       vi.spyOn(quickOrderService, 'addProduct');
-      vi.spyOn(
-        quickOrderService,
-        'setNonPurchasableProductError'
-      );
+      vi.spyOn(quickOrderService, 'setNonPurchasableProductError');
       component.add(mockNonPurchasableProduct, mockEvent);
 
       expect(quickOrderService.addProduct).not.toHaveBeenCalledWith(

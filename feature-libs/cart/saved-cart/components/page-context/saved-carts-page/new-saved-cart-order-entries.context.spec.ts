@@ -111,9 +111,9 @@ const mockFailingProductImportWithUnknownIdentifier = {
   statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
 };
 class MockFailingProductImportInfoServiceWithUnknownIdentifier {
-  getResults = vi.fn().mockReturnValue(
-    of(mockFailingProductImportWithUnknownIdentifier)
-  );
+  getResults = vi
+    .fn()
+    .mockReturnValue(of(mockFailingProductImportWithUnknownIdentifier));
 }
 
 describe('NewSavedCartOrderEntriesContext that does not successfully import products because of an unknown identifier', () => {
@@ -179,9 +179,9 @@ const mockFailingProductImportWithUnknownError = {
   statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
 };
 class MockFailingProductImportInfoServiceWithUnknownError {
-  getResults = vi.fn().mockReturnValue(
-    of(mockFailingProductImportWithUnknownError)
-  );
+  getResults = vi
+    .fn()
+    .mockReturnValue(of(mockFailingProductImportWithUnknownError));
 }
 
 describe('NewSavedCartOrderEntriesContext that does not successfully import products because of an unknown error', () => {

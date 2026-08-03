@@ -18,7 +18,6 @@ import { WishListActions } from '../actions';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 
-
 const userId = 'testUserId';
 const cartName = 'name';
 const cartDescription = 'description';
@@ -141,7 +140,9 @@ describe('Wish List Effect', () => {
     });
 
     it('should dispatch load wish list success if it exists', () => {
-      vi.spyOn(cartConnector, 'loadAll').mockReturnValue(of([testCart, wishList]));
+      vi.spyOn(cartConnector, 'loadAll').mockReturnValue(
+        of([testCart, wishList])
+      );
 
       const payload = {
         userId,

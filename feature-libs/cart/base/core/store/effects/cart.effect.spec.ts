@@ -442,7 +442,10 @@ describe('Cart effect', () => {
         const actionsSubject = new Subject<any>();
         actions$ = actionsSubject;
         const resultPromise = firstValueFrom(
-          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(take(2), toArray())
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(
+            take(2),
+            toArray()
+          )
         );
         actionsSubject.next(new SiteContextActions[actionName]());
         const results = await resultPromise;
@@ -467,7 +470,10 @@ describe('Cart effect', () => {
         const actionsSubject = new Subject<any>();
         actions$ = actionsSubject;
         const resultPromise = firstValueFrom(
-          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(take(1), toArray())
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(
+            take(1),
+            toArray()
+          )
         );
         actionsSubject.next(new SiteContextActions[actionName]());
         const results = await resultPromise;
@@ -489,7 +495,10 @@ describe('Cart effect', () => {
         const actionsSubject = new Subject<any>();
         actions$ = actionsSubject;
         const resultPromise = firstValueFrom(
-          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(take(1), toArray())
+          cartEffects.refreshCartDetailsOnSiteContextChange$.pipe(
+            take(1),
+            toArray()
+          )
         );
         actionsSubject.next(new SiteContextActions[actionName]());
         const results = await resultPromise;

@@ -6,7 +6,13 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, firstValueFrom, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  firstValueFrom,
+  Subscription,
+} from 'rxjs';
 import { QuickOrderStatePersistenceService } from './quick-order-state-persistance.service';
 
 class MockSiteContextParamsService {
@@ -59,7 +65,9 @@ describe('QuickOrderStatePersistenceService', () => {
     service = TestBed.inject(QuickOrderStatePersistenceService);
     persistenceService = TestBed.inject(StatePersistenceService);
     quickOrderService = TestBed.inject(QuickOrderFacade);
-    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(() => {});
+    vi.spyOn(persistenceService, 'syncWithStorage').mockImplementation(
+      () => {}
+    );
   });
 
   it('should inject service', () => {

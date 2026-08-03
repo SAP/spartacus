@@ -202,7 +202,9 @@ describe('AddToSavedCartComponent', () => {
 
     describe('when user is logged in', () => {
       it('should open dialog ', () => {
-        vi.spyOn(launchDialogService, 'openDialog').mockImplementation(() => {});
+        vi.spyOn(launchDialogService, 'openDialog').mockImplementation(
+          () => {}
+        );
         isLoggedInSubject$.next(true);
         component.disableSaveCartForLater$ = of(false);
 

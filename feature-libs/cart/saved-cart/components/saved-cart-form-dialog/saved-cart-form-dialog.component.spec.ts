@@ -345,7 +345,9 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('should trigger onComplete when there was a successful delete saved cart event', () => {
-      vi.spyOn(eventService, 'get').mockReturnValue(of(mockDeleteSavedCartEvent));
+      vi.spyOn(eventService, 'get').mockReturnValue(
+        of(mockDeleteSavedCartEvent)
+      );
       component.ngOnInit();
       expect(component.onComplete).toHaveBeenCalled();
     });

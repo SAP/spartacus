@@ -16,7 +16,6 @@ import { CartConfigService } from '../services/cart-config.service';
 import { CartValidationStateService } from '../services/cart-validation-state.service';
 import { CartValidationGuard } from './cart-validation.guard';
 
-
 const cartModificationSubject = new BehaviorSubject<CartModificationList>({
   cartModifications: [],
 });

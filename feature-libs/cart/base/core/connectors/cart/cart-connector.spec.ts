@@ -18,12 +18,16 @@ class MockCartAdapter implements CartAdapter {
   create = vi.fn().mockImplementation((id) => of('create' + id));
   load = vi.fn().mockImplementation((user, cart) => of('load' + user + cart));
   loadAll = vi.fn().mockImplementation((user) => of('loadAll' + user));
-  addEmail = vi.fn().mockImplementation((userId, cartId, email) =>
-    of('addEmail' + userId + cartId + email)
-  );
-  delete = vi.fn().mockImplementation((userId: string, cartId: string) =>
-    of('delete' + userId + cartId)
-  );
+  addEmail = vi
+    .fn()
+    .mockImplementation((userId, cartId, email) =>
+      of('addEmail' + userId + cartId + email)
+    );
+  delete = vi
+    .fn()
+    .mockImplementation((userId: string, cartId: string) =>
+      of('delete' + userId + cartId)
+    );
   save = vi.fn().mockReturnValue(of(mockSavedCart));
 }
 

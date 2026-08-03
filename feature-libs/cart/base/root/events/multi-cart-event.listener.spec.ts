@@ -5,7 +5,6 @@ import { MultiCartFacade } from '../facade/multi-cart.facade';
 import { LoadCartEvent, RemoveCartEvent } from './cart.events';
 import { MultiCartEventListener } from './multi-cart-event.listener';
 
-
 const mockEventStream$ = new Subject<CxEvent>();
 const mockUserId = 'testUserId';
 const mockCartId = 'testCartId';

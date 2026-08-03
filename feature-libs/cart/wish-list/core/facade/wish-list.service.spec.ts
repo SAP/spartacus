@@ -14,7 +14,6 @@ import { WishListActions } from '../store/actions/index';
 import { getWishlistName } from '../utils/utils';
 import { WishListService } from './wish-list.service';
 
-
 const userId = 'testUserId';
 const cartCode = 'xxx';
 const productCode = '123';
@@ -120,7 +119,9 @@ describe('WishListService', () => {
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
-      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(of(undefined));
+      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(
+        of(undefined)
+      );
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -200,7 +201,9 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(of(undefined));
+      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(
+        of(undefined)
+      );
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -230,7 +233,9 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(of(undefined));
+      vi.spyOn(multiCartFacade, 'getCartIdByType').mockReturnValue(
+        of(undefined)
+      );
       const payload = {
         userId,
         cartId: getWishlistName(customerId),

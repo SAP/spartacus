@@ -149,21 +149,27 @@ describe('WishListItemComponent', () => {
   it('should display product name', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-name').textContent?.trim()
+      fixture.debugElement.nativeElement
+        .querySelector('.cx-name')
+        .textContent?.trim()
     ).toContain(component.cartEntry.product.name);
   });
 
   it('should display product code', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-code').textContent?.trim()
+      fixture.debugElement.nativeElement
+        .querySelector('.cx-code')
+        .textContent?.trim()
     ).toContain(component.cartEntry.product.code);
   });
 
   it('should display product formatted price', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.nativeElement.querySelector('.cx-price').textContent?.trim()
+      fixture.debugElement.nativeElement
+        .querySelector('.cx-price')
+        .textContent?.trim()
     ).toContain(component.cartEntry.basePrice.formattedValue);
   });
 

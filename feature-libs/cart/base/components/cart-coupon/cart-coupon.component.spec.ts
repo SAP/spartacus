@@ -56,7 +56,10 @@ describe('CartCouponComponent', () => {
     getAddVoucherResultError: vi.fn(),
   };
 
-  const mockCustomerCouponService = { loadCustomerCoupons: vi.fn(), getCustomerCoupons: vi.fn() };
+  const mockCustomerCouponService = {
+    loadCustomerCoupons: vi.fn(),
+    getCustomerCoupons: vi.fn(),
+  };
 
   const couponsSearchResult: CustomerCouponSearchResult = {
     coupons: [
@@ -104,7 +107,9 @@ describe('CartCouponComponent', () => {
     mockCartVoucherService.getAddVoucherResultSuccess.mockReturnValue(EMPTY);
     mockCartVoucherService.getAddVoucherResultLoading.mockReturnValue(EMPTY);
     mockCartVoucherService.addVoucher.mockImplementation(() => {});
-    mockCartVoucherService.resetAddVoucherProcessingState.mockImplementation(() => {});
+    mockCartVoucherService.resetAddVoucherProcessingState.mockImplementation(
+      () => {}
+    );
     mockCartVoucherService.resetAddVoucherProcessingState.mockClear();
     mockCartVoucherService.getAddVoucherResultError.mockReturnValue(EMPTY);
     mockCustomerCouponService.loadCustomerCoupons.mockImplementation(() => {});

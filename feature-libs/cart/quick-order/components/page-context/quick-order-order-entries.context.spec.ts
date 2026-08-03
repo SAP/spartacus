@@ -107,9 +107,9 @@ describe('QuickOrderOrderEntriesContext', () => {
   describe('addEntries', () => {
     it('should try add entries to quick order', () => {
       canAdd$.next(true);
-      productConnector.get = vi.fn().mockImplementation((code) =>
-        of(products[code])
-      );
+      productConnector.get = vi
+        .fn()
+        .mockImplementation((code) => of(products[code]));
       const results = [];
 
       service
@@ -163,9 +163,9 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should not add entries due to limit', () => {
       canAdd$.next(false);
-      productConnector.get = vi.fn().mockImplementation((code) =>
-        of(products[code])
-      );
+      productConnector.get = vi
+        .fn()
+        .mockImplementation((code) => of(products[code]));
       const results = [];
 
       service
@@ -239,9 +239,7 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should catch unknown errors', () => {
       canAdd$.next(true);
-      productConnector.get = vi.fn().mockReturnValue(
-        throwError(() => ({}))
-      );
+      productConnector.get = vi.fn().mockReturnValue(throwError(() => ({})));
 
       const unableToAddProductsData: ProductData[] = [
         { productCode: unhandledItemErrorId, quantity: 1 },

@@ -51,7 +51,11 @@ describe('WishListV2Service', () => {
 
   beforeEach(() => {
     userIdService = { getUserId: vi.fn() } as any;
-    connector = { getWishlist: vi.fn(), addEntry: vi.fn(), removeEntry: vi.fn() } as any;
+    connector = {
+      getWishlist: vi.fn(),
+      addEntry: vi.fn(),
+      removeEntry: vi.fn(),
+    } as any;
     productSearchConnector = { searchByCodes: vi.fn() } as any;
 
     userIdService.getUserId.mockReturnValue(of(MOCK_USER_ID));
@@ -228,10 +232,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should trigger refresh$.next() after successful add', () => {
-      const refreshSpy = vi.spyOn(
-        (service as any).refresh$,
-        'next'
-      );
+      const refreshSpy = vi.spyOn((service as any).refresh$, 'next');
       service.addEntry(MOCK_PRODUCT_CODE);
       expect(refreshSpy).toHaveBeenCalled();
     });
@@ -253,10 +254,7 @@ describe('WishListV2Service', () => {
     });
 
     it('should trigger refresh$.next() after successful remove', () => {
-      const refreshSpy = vi.spyOn(
-        (service as any).refresh$,
-        'next'
-      );
+      const refreshSpy = vi.spyOn((service as any).refresh$, 'next');
       service.removeEntry(mockEntry);
       expect(refreshSpy).toHaveBeenCalled();
     });

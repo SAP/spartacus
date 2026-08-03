@@ -108,15 +108,19 @@ describe('AppliedCouponsComponent', () => {
     it('should show coupon tile and coupon when coupon applied', () => {
       component.coupons = [coupon2, coupon1];
       fixture.detectChanges();
-      const couponTitle = fixture.debugElement.query(
-        By.css('.cx-applied-coupon-title')
-      ).nativeElement.textContent?.trim();
+      const couponTitle = fixture.debugElement
+        .query(By.css('.cx-applied-coupon-title'))
+        .nativeElement.textContent?.trim();
       const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
       expect(couponTitle).toContain('voucher.vouchersApplied');
-      expect(elValue[0].nativeElement.textContent?.trim()).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.textContent?.trim()).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent?.trim()).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent?.trim()).toContain(
+        coupon2.voucherCode
+      );
     });
   });
 
@@ -146,8 +150,12 @@ describe('AppliedCouponsComponent', () => {
 
       expect(elButton.length).toBe(2);
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.textContent?.trim()).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.textContent?.trim()).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent?.trim()).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent?.trim()).toContain(
+        coupon2.voucherCode
+      );
     });
 
     it('should remove applied coupon', () => {
@@ -169,8 +177,12 @@ describe('AppliedCouponsComponent', () => {
       );
 
       expect(elValue.length).toBe(2);
-      expect(elValue[0].nativeElement.textContent?.trim()).toContain(coupon1.voucherCode);
-      expect(elValue[1].nativeElement.textContent?.trim()).toContain(coupon2.voucherCode);
+      expect(elValue[0].nativeElement.textContent?.trim()).toContain(
+        coupon1.voucherCode
+      );
+      expect(elValue[1].nativeElement.textContent?.trim()).toContain(
+        coupon2.voucherCode
+      );
     });
   });
 });

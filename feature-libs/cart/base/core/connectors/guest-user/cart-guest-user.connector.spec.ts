@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { CartGuestUserAdapter } from './cart-guest-user.adapter';
 import { CartGuestUserConnector } from './cart-guest-user.connector';
 
-
 class MockCartGuestUserAdapter implements CartGuestUserAdapter {
   createCartGuestUser = vi.fn().mockReturnValue(of({}));
   updateCartGuestUser = vi.fn().mockReturnValue(of({}));

@@ -254,10 +254,7 @@ describe('SavedCartListComponent', () => {
     });
 
     it('should reload saved carts if context changed', () => {
-      const loadSavedCartsSpy = vi.spyOn(
-        savedCartFacade,
-        'loadSavedCarts'
-      );
+      const loadSavedCartsSpy = vi.spyOn(savedCartFacade, 'loadSavedCarts');
 
       component.ngOnInit();
 
@@ -267,11 +264,10 @@ describe('SavedCartListComponent', () => {
     });
 
     it('should not reload saved carts if context did not changed', () => {
-      vi.spyOn(siteContextComponentService, 'getActiveItem').mockReturnValue(of());
-      const loadSavedCartsSpy = vi.spyOn(
-        savedCartFacade,
-        'loadSavedCarts'
+      vi.spyOn(siteContextComponentService, 'getActiveItem').mockReturnValue(
+        of()
       );
+      const loadSavedCartsSpy = vi.spyOn(savedCartFacade, 'loadSavedCarts');
 
       component.ngOnInit();
 

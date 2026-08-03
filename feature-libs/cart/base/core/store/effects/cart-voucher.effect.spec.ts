@@ -96,9 +96,9 @@ describe('Cart Voucher effect', () => {
 
     it('should fail', () => {
       const error = new HttpErrorResponse({ error: 'error' });
-      cartVoucherConnector.add = vi.fn().mockReturnValue(
-        throwError(() => error)
-      );
+      cartVoucherConnector.add = vi
+        .fn()
+        .mockReturnValue(throwError(() => error));
       const action = new CartActions.CartAddVoucher({
         userId,
         cartId,

@@ -155,7 +155,9 @@ describe('Selective Cart Service', () => {
   });
 
   it('should return cart entries', () => {
-    vi.spyOn(multiCartFacade, 'getEntries').mockReturnValue(of([mockCartEntry]));
+    vi.spyOn(multiCartFacade, 'getEntries').mockReturnValue(
+      of([mockCartEntry])
+    );
     let result;
     service
       .getEntries()

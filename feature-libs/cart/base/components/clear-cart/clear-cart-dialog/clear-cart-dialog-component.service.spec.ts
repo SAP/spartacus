@@ -82,11 +82,15 @@ describe('ClearCartDialogComponentService', () => {
   });
 
   it('should clear the active cart and display success message', () => {
-    vi.spyOn(eventService, 'get').mockReturnValue(of(ClearActiveCartSuccessEvent));
+    vi.spyOn(eventService, 'get').mockReturnValue(
+      of(ClearActiveCartSuccessEvent)
+    );
     vi.spyOn(multiCartFacade, 'deleteCart');
     vi.spyOn(launchDialogService, 'closeDialog');
     vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
-    vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(of('00001122'));
+    vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(
+      of('00001122')
+    );
     vi.spyOn(service, 'displayGlobalMessage');
 
     service.deleteActiveCart();
@@ -109,7 +113,9 @@ describe('ClearCartDialogComponentService', () => {
     vi.spyOn(multiCartFacade, 'deleteCart');
     vi.spyOn(launchDialogService, 'closeDialog');
     vi.spyOn(userIdService, 'getUserId').mockReturnValue(of('current'));
-    vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(of('00001122'));
+    vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(
+      of('00001122')
+    );
 
     service.deleteActiveCart();
 

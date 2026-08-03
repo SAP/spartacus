@@ -12,7 +12,14 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject, EMPTY, firstValueFrom, Observable, of, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  firstValueFrom,
+  Observable,
+  of,
+  Subject,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
 import { provideMockFeatureToggles } from '@spartacus/core/testing';
@@ -168,8 +175,7 @@ describe('ActiveCartService', () => {
   describe('takeActive', () => {
     it('should NOT emit if the cart is NOT stable', () => {
       const isStableMock = new Subject<boolean>();
-      service.isStable = vi.fn()
-        .mockReturnValue(isStableMock);
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
 
       let emissions = 0;
       service
@@ -188,10 +194,8 @@ describe('ActiveCartService', () => {
       };
       const isStableMock = new Subject<boolean>();
 
-      service.isStable = vi.fn()
-        .mockReturnValue(isStableMock);
-      service.getActive = vi.fn()
-        .mockReturnValue(of(mockCart));
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
       let result: Cart | undefined;
       service
@@ -234,8 +238,7 @@ describe('ActiveCartService', () => {
   describe('takeActiveCartId', () => {
     it('should NOT emit if the cart ID is NOT stable', () => {
       const isStableMock = new Subject<boolean>();
-      service.isStable = vi.fn()
-        .mockReturnValue(isStableMock);
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
 
       let emissions = 0;
       service
@@ -252,10 +255,8 @@ describe('ActiveCartService', () => {
       const mockCartId = 'xxx';
       const isStableMock = new Subject<boolean>();
 
-      service.isStable = vi.fn()
-        .mockReturnValue(isStableMock);
-      service.getActiveCartId = vi.fn()
-        .mockReturnValue(of(mockCartId));
+      service.isStable = vi.fn().mockReturnValue(isStableMock);
+      service.getActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
 
       let result: string | undefined;
       service
@@ -271,7 +272,9 @@ describe('ActiveCartService', () => {
 
   describe('getEntries', () => {
     it('should return cart entries', () => {
-      vi.spyOn(multiCartFacade, 'getEntries').mockReturnValue(of([mockCartEntry]));
+      vi.spyOn(multiCartFacade, 'getEntries').mockReturnValue(
+        of([mockCartEntry])
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -287,7 +290,9 @@ describe('ActiveCartService', () => {
 
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
-      vi.spyOn(multiCartFacade, 'getLastEntry').mockReturnValue(of(mockCartEntry));
+      vi.spyOn(multiCartFacade, 'getLastEntry').mockReturnValue(
+        of(mockCartEntry)
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -395,7 +400,9 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch merge for non guest cart', () => {
-      vi.spyOn(multiCartFacade, 'mergeToCurrentCart').mockImplementation(() => {});
+      vi.spyOn(multiCartFacade, 'mergeToCurrentCart').mockImplementation(
+        () => {}
+      );
 
       service['loadOrMerge']('cartId', 'userId', OCC_USER_ID_ANONYMOUS);
 
@@ -570,7 +577,9 @@ describe('ActiveCartService', () => {
 
   describe('getLastEntry', () => {
     it('should return last entry by product code', () => {
-      vi.spyOn(multiCartFacade, 'getLastEntry').mockReturnValue(of(mockCartEntry));
+      vi.spyOn(multiCartFacade, 'getLastEntry').mockReturnValue(
+        of(mockCartEntry)
+      );
       service['activeCartId$'] = of('cartId');
 
       let result;
@@ -823,7 +832,9 @@ describe('ActiveCartService', () => {
     describe('guestCartMerge', () => {
       it('should add the persisted entries and clear storage without deleting the guest cart', () => {
         vi.spyOn(multiCartFacade, 'deleteCart');
-        vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(() => {});
+        vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
+          () => {}
+        );
         const persisted = [{ product: { code: 'code' }, quantity: 1 }];
         winRef.localStorage?.setItem(STORAGE_KEY, JSON.stringify(persisted));
 
@@ -838,7 +849,9 @@ describe('ActiveCartService', () => {
       });
 
       it('should remove the storage key entirely rather than leaving an empty value', () => {
-        vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(() => {});
+        vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
+          () => {}
+        );
         vi.spyOn(winRef.localStorage as Storage, 'removeItem');
         winRef.localStorage?.setItem(
           STORAGE_KEY,
@@ -913,8 +926,12 @@ describe('ActiveCartService', () => {
 
     it('should not use persisted state in guestCartMerge and fall back to deleting the guest cart', () => {
       vi.spyOn(multiCartFacade, 'deleteCart').mockImplementation(() => {});
-      vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(() => {});
-      vi.spyOn(service, 'getEntries').mockImplementation(() => of([mockCartEntry]));
+      vi.spyOn(service as any, 'addEntriesGuestMerge').mockImplementation(
+        () => {}
+      );
+      vi.spyOn(service, 'getEntries').mockImplementation(() =>
+        of([mockCartEntry])
+      );
       winRef.localStorage?.setItem(
         STORAGE_KEY,
         JSON.stringify([{ product: { code: 'code' }, quantity: 1 }])
@@ -1102,8 +1119,7 @@ describe('ActiveCartService', () => {
       const mockCart: Cart = {
         pickupItemsQuantity: 1,
       };
-      service.getActive = vi.fn()
-        .mockReturnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
       const hasPickup = await firstValueFrom(service.hasPickupItems());
       expect(hasPickup).toBeTruthy();
@@ -1113,8 +1129,7 @@ describe('ActiveCartService', () => {
       const mockCart = {
         code: 'test',
       };
-      service.getActive = vi.fn()
-        .mockReturnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
       const hasPickup = await firstValueFrom(service.hasPickupItems());
       expect(hasPickup).toBeFalsy();
@@ -1124,8 +1139,7 @@ describe('ActiveCartService', () => {
       let mockCart: Cart = {
         deliveryItemsQuantity: 1,
       };
-      service.getActive = vi.fn()
-        .mockReturnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
       const hasDelivery = await firstValueFrom(service.hasDeliveryItems());
       expect(hasDelivery).toBeTruthy();
@@ -1133,8 +1147,7 @@ describe('ActiveCartService', () => {
       mockCart = {
         code: 'test',
       };
-      service.getActive = vi.fn()
-        .mockReturnValue(of(mockCart));
+      service.getActive = vi.fn().mockReturnValue(of(mockCart));
 
       const hasPickup = await firstValueFrom(service.hasDeliveryItems());
       expect(hasPickup).toBeFalsy();
@@ -1148,8 +1161,7 @@ describe('ActiveCartService', () => {
     ];
 
     it('should be able to get pickup entries', async () => {
-      service.getEntries = vi.fn()
-        .mockReturnValue(of(entries));
+      service.getEntries = vi.fn().mockReturnValue(of(entries));
 
       const pickupEntries = await firstValueFrom(service.getPickupEntries());
       expect(pickupEntries.length).toEqual(1);
@@ -1157,10 +1169,11 @@ describe('ActiveCartService', () => {
     });
 
     it('should be able to get delivery entries', async () => {
-      service.getEntries = vi.fn()
-        .mockReturnValue(of(entries));
+      service.getEntries = vi.fn().mockReturnValue(of(entries));
 
-      const deliveryEntries = await firstValueFrom(service.getDeliveryEntries());
+      const deliveryEntries = await firstValueFrom(
+        service.getDeliveryEntries()
+      );
       expect(deliveryEntries.length).toEqual(1);
       expect(deliveryEntries[0].orderCode).toEqual('deliveryEntry');
     });

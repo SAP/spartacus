@@ -114,7 +114,10 @@ describe('MiniCartComponentService', () => {
 
   describe('hasActiveCartInStorage', () => {
     it('should return true when the browser storage has an active cart.', () => {
-      vi.spyOn(service as any, 'getCartStateFromBrowserStorage').mockReturnValue(
+      vi.spyOn(
+        service as any,
+        'getCartStateFromBrowserStorage'
+      ).mockReturnValue(
         cold('a', {
           a: mockBrowserCartStateWithCart,
         })
@@ -125,7 +128,10 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return false when the browser storage has no active cart.', () => {
-      vi.spyOn(service as any, 'getCartStateFromBrowserStorage').mockReturnValue(
+      vi.spyOn(
+        service as any,
+        'getCartStateFromBrowserStorage'
+      ).mockReturnValue(
         cold('a', {
           a: mockBrowserCartStateNoCart,
         })
@@ -136,7 +142,10 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return false and then true if we swiitch to a site with a cart in storage.', () => {
-      vi.spyOn(service as any, 'getCartStateFromBrowserStorage').mockReturnValue(
+      vi.spyOn(
+        service as any,
+        'getCartStateFromBrowserStorage'
+      ).mockReturnValue(
         cold('a---b', {
           a: mockBrowserCartStateNoCart,
           b: mockBrowserCartStateWithCart,

@@ -51,7 +51,9 @@ describe('ImportOrderEntriesComponent', () => {
 
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(() => {});
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(
+      () => {}
+    );
 
     fixture.detectChanges();
     el = fixture.debugElement;

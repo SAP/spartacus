@@ -18,7 +18,6 @@ import {
 } from '@spartacus/storefront';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 
-
 const csvData = [
   [
     'exportEntries.columnNames.code',
