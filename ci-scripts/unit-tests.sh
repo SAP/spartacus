@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-VITEST_MIGRATED_FOLDERS=core
+VITEST_MIGRATED_FOLDERS=asm
 EXCLUDE_APPLICATIONS=storefrontapp,ssr-tests
 EXCLUDE_JEST=storefrontstyles,schematics,setup,$VITEST_MIGRATED_FOLDERS
 
@@ -10,7 +10,7 @@ echo "-----"
 
 function run_vitest_migrated_folders {
     echo "Running VITEST unit tests for migrated libraries"
-    npx nx run-many --target=test --projects="$VITEST_MIGRATED_FOLDERS" -- --coverage
+    npx nx run-many --target=test --projects="$VITEST_MIGRATED_FOLDERS"
     return 0
 }
 
