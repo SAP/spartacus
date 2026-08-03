@@ -22,13 +22,15 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
   Translatable,
   TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
+import { EMPTY, Observable, of } from 'rxjs';
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { MyAccountV2ConsentManagementFormComponent } from './consent-form/my-account-v2-consent-management-form.component';
-import { EMPTY, Observable, of } from 'rxjs';
 import { ConsentManagementComponentService } from '../../../consent-management/consent-management-component.service';
 import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
 
@@ -111,6 +113,14 @@ class AuthServiceMock {
   }
 }
 
+const mockPageMeta: PageMeta = {
+  title: 'Consent Management',
+  heading: 'Consent Management',
+};
+class MockPageMetaService implements Partial<PageMetaService> {
+  getMeta = () => of(mockPageMeta);
+}
+
 const mockConsentTemplate: ConsentTemplate = {
   id: 'mock ID',
   version: 0,
@@ -152,6 +162,7 @@ describe('MyAccountV2ConsentManagementComponent', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockAnonymousConsentsConfig,
         },
+        { provide: PageMetaService, useClass: MockPageMetaService },
       ],
     })
       .overrideComponent(MyAccountV2ConsentManagementComponent, {
