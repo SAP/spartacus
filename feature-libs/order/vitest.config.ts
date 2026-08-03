@@ -7,35 +7,19 @@
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
-import { resolve } from 'path';
 
-const root = resolve(import.meta.dirname, '../..');
+const root = `${import.meta.dirname}/../..`;
 
 export default defineConfig({
   root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
   resolve: {
     alias: {
-      '@spartacus/core/process/store/reducers': resolve(
-        root,
-        'core-libs/core/src/process/store/reducers/index.ts'
-      ),
-      '@spartacus/storefront/testing': resolve(
-        root,
-        'core-libs/storefront/shared/test/index.ts'
-      ),
-      '@spartacus/storefront/keyboard-focus/testing': resolve(
-        root,
-        'core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module.ts'
-      ),
-      '@spartacus/core/occ/testing': resolve(
-        root,
-        'core-libs/core/src/occ/adapters/user/unit-test.helper.ts'
-      ),
-      '@spartacus/core/routing/testing': resolve(
-        root,
-        'core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts'
-      ),
+      '@spartacus/core/process/store/reducers': `${root}/core-libs/core/src/process/store/reducers/index.ts`,
+      '@spartacus/storefront/testing': `${root}/core-libs/storefront/shared/test/index.ts`,
+      '@spartacus/storefront/keyboard-focus/testing': `${root}/core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module.ts`,
+      '@spartacus/core/occ/testing': `${root}/core-libs/core/src/occ/adapters/user/unit-test.helper.ts`,
+      '@spartacus/core/routing/testing': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
     },
   },
   test: {
