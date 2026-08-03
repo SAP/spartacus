@@ -73,9 +73,9 @@ class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
   createTicket = vi.fn().mockReturnValue(EMPTY);
   getCreateTicketPayload = vi.fn().mockReturnValue(of(mockTicketStarter));
   getTicketCategories = vi.fn().mockReturnValue(of(mockCategories));
-  getTicketAssociatedObjects = vi.fn().mockReturnValue(
-    of(mockTicketAssociatedObjects)
-  );
+  getTicketAssociatedObjects = vi
+    .fn()
+    .mockReturnValue(of(mockTicketAssociatedObjects));
   uploadAttachment = vi.fn().mockReturnValue(EMPTY);
 }
 
@@ -241,9 +241,9 @@ describe('CustomerTicketingCreateDialogComponent', () => {
       const expectedErrorMessage = 'mock-error-message';
       const error = new HttpErrorModel();
       error.details = [{ message: expectedErrorMessage }];
-      customerTicketingFacade.createTicket = vi.fn().mockReturnValue(
-        throwError(error)
-      );
+      customerTicketingFacade.createTicket = vi
+        .fn()
+        .mockReturnValue(throwError(error));
       component.form.get('message')?.setValue(mockTicketStarter.message);
       component.form.get('subject')?.setValue(mockTicketStarter.subject);
       component.form.get('ticketCategory')?.setValue(mockCategories);
@@ -258,9 +258,9 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
     it('should handle other error correctly when creating a ticket', () => {
       const expectedErrorMessage = 'error';
-      customerTicketingFacade.createTicket = vi.fn().mockReturnValue(
-        throwError(expectedErrorMessage)
-      );
+      customerTicketingFacade.createTicket = vi
+        .fn()
+        .mockReturnValue(throwError(expectedErrorMessage));
       component.form.get('message')?.setValue(mockTicketStarter.message);
       component.form.get('subject')?.setValue(mockTicketStarter.subject);
       component.form.get('ticketCategory')?.setValue(mockCategories);

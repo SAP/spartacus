@@ -88,7 +88,10 @@ describe('OccCustomerTicketingAdapter', () => {
       };
 
       let result: TicketDetails | undefined;
-      service.getTicket(mockCustomerId, mockTicketId).pipe(take(1)).subscribe((r) => (result = r));
+      service
+        .getTicket(mockCustomerId, mockTicketId)
+        .pipe(take(1))
+        .subscribe((r) => (result = r));
 
       const mockReq = httpMock.expectOne((req) => {
         return (

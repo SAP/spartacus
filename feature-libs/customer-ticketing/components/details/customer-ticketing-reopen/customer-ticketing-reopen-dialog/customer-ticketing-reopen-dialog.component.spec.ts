@@ -149,9 +149,9 @@ describe('CustomerTicketingReopenDialogComponent', () => {
           addedByAgent: true,
           ticketEventAttachments: [{}],
         };
-        (
-          customerTicketingFacade.createTicketEvent as any
-        ).mockReturnValue(of(mockTicketEvent));
+        (customerTicketingFacade.createTicketEvent as any).mockReturnValue(
+          of(mockTicketEvent)
+        );
 
         component.reopenRequest();
 

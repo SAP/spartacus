@@ -4,11 +4,19 @@
     "outDir": "../../out-tsc/spec",
     "module": "preserve",
     "strict": false,
-    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
     "moduleResolution": "bundler",
     "allowJs": true,
     "paths": {
-      "@spartacus/core/feature-toggles/testing": ["../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"]
+      "@spartacus/core/feature-toggles/testing": [
+        "../../core-libs/core/src/features-config/feature-toggles/testing/index.ts"
+      ]
     }
   },
   "files": ["setup-test.ts"],

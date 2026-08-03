@@ -168,9 +168,9 @@ class MockCustomerTicketingConnector
   getTicket = vi.fn().mockReturnValue(of(mockTicketDetails));
   getTickets = vi.fn().mockReturnValue(of(mockTicketList));
   createTicketEvent = vi.fn().mockReturnValue(of(mockCreateEventResponse));
-  getTicketAssociatedObjects = vi.fn().mockReturnValue(
-    of(mockTicketAssociatedObjects)
-  );
+  getTicketAssociatedObjects = vi
+    .fn()
+    .mockReturnValue(of(mockTicketAssociatedObjects));
   getTicketCategories = vi.fn().mockReturnValue(of(mockCategories));
   uploadAttachment = vi.fn().mockReturnValue(of(`uploadAttachment`));
   downloadAttachment = vi.fn().mockReturnValue(of(`downloadAttachment`));
@@ -455,7 +455,9 @@ describe('CustomerTicketingService', () => {
           name: 'Enquiry',
         },
       };
-      const data = await firstValueFrom(service.createTicket(mockTicketStarter));
+      const data = await firstValueFrom(
+        service.createTicket(mockTicketStarter)
+      );
       expect(connector.createTicket).toHaveBeenCalledWith(
         mockUserId,
         mockTicketStarter
