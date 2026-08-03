@@ -38,6 +38,14 @@
         flex-direction: row;
         gap: 0.875rem;
 
+        @include forFeature('a11yMessagingListKeyboardFocus') {
+          &:focus-visible {
+            @include visible-focus();
+            outline-offset: -2px;
+            box-shadow: none;
+          }
+        }
+
         div {
           width: 100%;
           @include cx-highContrastTheme {
