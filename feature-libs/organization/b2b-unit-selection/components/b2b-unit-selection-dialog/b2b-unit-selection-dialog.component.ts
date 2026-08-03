@@ -17,7 +17,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { B2BUnit, TranslatePipe, UserIdService } from '@spartacus/core';
 import {
   FocusConfig,
@@ -29,7 +28,7 @@ import {
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SetDefaultOrgUnit } from '@spartacus/organization/b2b-unit-selection/core';
+import { B2bUnitSelectionService } from '@spartacus/organization/b2b-unit-selection/core';
 
 @Component({
   selector: 'cx-b2b-unit-selection-dialog',
@@ -47,7 +46,7 @@ import { SetDefaultOrgUnit } from '@spartacus/organization/b2b-unit-selection/co
 export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
   protected launchDialogService = inject(LaunchDialogService);
   protected userIdService = inject(UserIdService);
-  protected store = inject(Store);
+  protected unitSelectionService = inject(B2bUnitSelectionService);
 
   orgUnits: B2BUnit[] = [];
   protected subscriptions = new Subscription();
@@ -93,9 +92,7 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
       .takeUserId(true)
       .pipe(take(1))
       .subscribe((userId) => {
-        this.store.dispatch(
-          new SetDefaultOrgUnit({ userId, unitName: unit.name ?? '' })
-        );
+        this.unitSelectionService.setDefaultUnit(userId, unit.name ?? '');
       });
   }
 

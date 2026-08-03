@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Store } from '@ngrx/store';
 import { B2BUnit, I18nTestingModule, UserIdService } from '@spartacus/core';
 import {
   FocusConfig,
@@ -18,7 +17,7 @@ import {
   NgSelectA11yDirective,
 } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { SetDefaultOrgUnit } from '../../core/store/actions/b2b-unit-selection.actions';
+import { B2bUnitSelectionService } from '../../core/services/b2b-unit-selection.service';
 import { B2bUnitSelectionDialogComponent } from './b2b-unit-selection-dialog.component';
 import createSpy = jasmine.createSpy;
 
@@ -42,14 +41,14 @@ class MockUserIdService {
   takeUserId = createSpy('takeUserId').and.returnValue(of(mockUserId));
 }
 
-class MockStore {
-  dispatch = createSpy('dispatch');
+class MockB2bUnitSelectionService {
+  setDefaultUnit = createSpy('setDefaultUnit');
 }
 
 describe('B2bUnitSelectionDialogComponent', () => {
   let component: B2bUnitSelectionDialogComponent;
   let fixture: ComponentFixture<B2bUnitSelectionDialogComponent>;
-  let store: MockStore;
+  let unitSelectionService: MockB2bUnitSelectionService;
   let data$: BehaviorSubject<any>;
 
   function createComponent(dialogData: any = {}): void {
@@ -66,7 +65,10 @@ describe('B2bUnitSelectionDialogComponent', () => {
       providers: [
         { provide: LaunchDialogService, useValue: { data$ } },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: Store, useClass: MockStore },
+        {
+          provide: B2bUnitSelectionService,
+          useClass: MockB2bUnitSelectionService,
+        },
       ],
     })
       .overrideComponent(B2bUnitSelectionDialogComponent, {
@@ -80,7 +82,7 @@ describe('B2bUnitSelectionDialogComponent', () => {
 
     fixture = TestBed.createComponent(B2bUnitSelectionDialogComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store) as any;
+    unitSelectionService = TestBed.inject(B2bUnitSelectionService) as any;
   }
 
   // ── ngOnInit ──────────────────────────────────────────────────────────────
@@ -134,20 +136,21 @@ describe('B2bUnitSelectionDialogComponent', () => {
       fixture.detectChanges();
     }));
 
-    it('should dispatch SetDefaultOrgUnit with correct payload', () => {
+    it('should call setDefaultUnit with correct payload', () => {
       component.confirm();
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new SetDefaultOrgUnit({ userId: mockUserId, unitName: 'Rustic' })
+      expect(unitSelectionService.setDefaultUnit).toHaveBeenCalledWith(
+        mockUserId,
+        'Rustic'
       );
     });
 
-    it('should mark form as touched and NOT dispatch when selectedUnit is null', () => {
+    it('should mark form as touched and NOT call setDefaultUnit when selectedUnit is null', () => {
       component.form.get('selectedUnit')?.setValue(null);
 
       component.confirm();
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(unitSelectionService.setDefaultUnit).not.toHaveBeenCalled();
       expect(component.form.get('selectedUnit')?.touched).toBeTrue();
     });
   });

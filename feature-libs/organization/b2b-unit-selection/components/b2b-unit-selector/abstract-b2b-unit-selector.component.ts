@@ -13,14 +13,13 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Store } from '@ngrx/store';
 import { B2BUnit, OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { forkJoin, of } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import {
   B2bUnitSelectionConnector,
+  B2bUnitSelectionService,
   B2bUnitSelectorStateService,
-  SetDefaultOrgUnit,
 } from '@spartacus/organization/b2b-unit-selection/core';
 import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selection/root';
 
@@ -34,7 +33,7 @@ import { B2bUnitSelectionConfig } from '@spartacus/organization/b2b-unit-selecti
 @Directive()
 export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
   protected stateService = inject(B2bUnitSelectorStateService);
-  protected store = inject(Store);
+  protected unitSelectionService = inject(B2bUnitSelectionService);
   protected userIdService = inject(UserIdService);
   protected connector = inject(B2bUnitSelectionConnector);
   protected config = inject(B2bUnitSelectionConfig);
@@ -78,7 +77,8 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
     if (!this.enabled) {
       return;
     }
-    // After a page refresh the BehaviorSubject is empty (effects may not have written yet).
+    // After a page refresh the BehaviorSubject is empty (the service subscribes
+    // to LoginEvent, but on refresh there is no login event — only token restore).
     // Proactively load once to ensure the selector is populated.
     this.stateService.orgUnits$.pipe(take(1)).subscribe((units) => {
       if (units.length === 0) {
@@ -87,26 +87,20 @@ export abstract class AbstractB2bUnitSelectorComponent implements OnInit {
     });
   }
 
-  /** Dispatches SetDefaultOrgUnit when the user switches units via the header selector. */
+  /** Calls the service to persist the unit change when the user switches via the header selector. */
   onSelect(unitName: string): void {
     this.userIdService
       .takeUserId(true)
       .pipe(take(1))
       .subscribe((userId) => {
-        this.store.dispatch(
-          new SetDefaultOrgUnit({
-            userId,
-            unitName,
-            redirectToHome: true,
-          })
-        );
+        this.unitSelectionService.setDefaultUnit(userId, unitName, true);
       });
   }
 
   private loadAndPopulateState(): void {
     // Run the HTTP requests outside Angular's zone so the pending subscription
     // does not prevent ApplicationRef.isStable from emitting true.
-    // This mirrors the pattern used in B2bUnitSelectionEffects.openDialogWhenReady().
+    // This mirrors the pattern used in B2bUnitSelectionService.openDialogWhenReady().
     // Without this, Cypress cy.wait() calls time out because the zone never
     // stabilises while these requests are in-flight.
     this.ngZone.runOutsideAngular(() => {

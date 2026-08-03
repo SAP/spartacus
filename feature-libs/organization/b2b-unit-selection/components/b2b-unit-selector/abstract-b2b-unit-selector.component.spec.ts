@@ -6,12 +6,11 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
 import { B2BUnit, OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
 import { B2bUnitSelectionConnector } from '../../core/connectors/b2b-unit-selection.connector';
+import { B2bUnitSelectionService } from '../../core/services/b2b-unit-selection.service';
 import { B2bUnitSelectorStateService } from '../../core/services/b2b-unit-selector-state.service';
-import { SetDefaultOrgUnit } from '../../core/store/actions/b2b-unit-selection.actions';
 import { B2bUnitSelectionConfig } from '../../root/config/b2b-unit-selection.config';
 import { AbstractB2bUnitSelectorComponent } from './abstract-b2b-unit-selector.component';
 import createSpy = jasmine.createSpy;
@@ -58,8 +57,8 @@ class MockUserIdService {
   takeUserId = createSpy('takeUserId').and.returnValue(of(mockUserId));
 }
 
-class MockStore {
-  dispatch = createSpy('dispatch');
+class MockB2bUnitSelectionService {
+  setDefaultUnit = createSpy('setDefaultUnit');
 }
 
 describe('AbstractB2bUnitSelectorComponent', () => {
@@ -67,7 +66,7 @@ describe('AbstractB2bUnitSelectorComponent', () => {
   let fixture: ComponentFixture<TestB2bUnitSelectorComponent>;
   let stateService: MockB2bUnitSelectorStateService;
   let connector: MockB2bUnitSelectionConnector;
-  let store: MockStore;
+  let unitSelectionService: MockB2bUnitSelectionService;
 
   function createComponent(enabled = true, initialUnits: B2BUnit[] = []): void {
     stateService = new MockB2bUnitSelectorStateService();
@@ -82,7 +81,10 @@ describe('AbstractB2bUnitSelectorComponent', () => {
           useClass: MockB2bUnitSelectionConnector,
         },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: Store, useClass: MockStore },
+        {
+          provide: B2bUnitSelectionService,
+          useClass: MockB2bUnitSelectionService,
+        },
         {
           provide: B2bUnitSelectionConfig,
           useValue: { b2bUnitSelection: { enabled } },
@@ -93,7 +95,7 @@ describe('AbstractB2bUnitSelectorComponent', () => {
     fixture = TestBed.createComponent(TestB2bUnitSelectorComponent);
     component = fixture.componentInstance;
     connector = TestBed.inject(B2bUnitSelectionConnector) as any;
-    store = TestBed.inject(Store) as any;
+    unitSelectionService = TestBed.inject(B2bUnitSelectionService) as any;
   }
 
   describe('computed signals', () => {
@@ -189,15 +191,13 @@ describe('AbstractB2bUnitSelectorComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should dispatch SetDefaultOrgUnit with correct payload', () => {
+    it('should call setDefaultUnit with correct payload', () => {
       component.onSelect('Rustic Services');
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new SetDefaultOrgUnit({
-          userId: mockUserId,
-          unitName: 'Rustic Services',
-          redirectToHome: true,
-        })
+      expect(unitSelectionService.setDefaultUnit).toHaveBeenCalledWith(
+        mockUserId,
+        'Rustic Services',
+        true
       );
     });
   });
