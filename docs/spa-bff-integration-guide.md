@@ -17,6 +17,25 @@
 
 ---
 
+---
+
+## Table of Contents
+
+- [Two approaches to BFF integration](#two-approaches-to-bff-integration)
+- [Which approach should I choose?](#which-approach-should-i-choose)
+- [The performance problem — PDP sequential calls](#the-performance-problem)
+- [The security problem — credentials reach the browser](#the-security-problem)
+- [The correctness problems — errors and localisation](#the-correctness-problems)
+- [What BFF fixes](#what-bff-fixes)
+- [How the overrides work](#how-the-overrides-work)
+- [The Angular DI problem](#the-angular-di-problem)
+- [Running and testing](#running-and-testing)
+- [Improvements borrowed from the spartacus-bff reference](#improvements-borrowed-from-the-spartacus-bff-reference)
+- [File layout](#file-layout)
+- [Approach 2 — Facade-level override](#approach-2--facade-level-override)
+
+---
+
 ## Two approaches to BFF integration
 
 There are two distinct ways to integrate a BFF with a Spartacus storefront.
@@ -111,20 +130,76 @@ benefits even in the connector-override form.
 
 ---
 
-## Table of Contents
+## Which approach should I choose?
 
-- [The performance problem — PDP sequential calls](#the-performance-problem)
-- [The security problem — credentials reach the browser](#the-security-problem)
-- [The correctness problems — errors and localisation](#the-correctness-problems)
-- [What BFF fixes](#what-bff-fixes)
-- [How the overrides work](#how-the-overrides-work)
-- [The Angular DI problem](#the-angular-di-problem)
-- [Running and testing](#running-and-testing)
-- [Improvements borrowed from the spartacus-bff reference](#improvements-borrowed-from-the-spartacus-bff-reference)
-- [File layout](#file-layout)
-- [Approach 2 — Facade-level override](#approach-2--facade-level-override)
+### Choose Approach A (connector override) if:
+
+**You have an existing Spartacus Classic storefront in production.**
+You cannot stop the world for a rewrite. Connector overrides let you introduce
+BFF one feature at a time — cart this sprint, product next quarter, checkout
+when you're ready — without touching UI components or breaking existing
+customisations.
+
+**Your team knows Spartacus Classic well.**
+The connector override keeps all the familiar Spartacus patterns intact. NgRx,
+facades, normalizers, the CMS — everything works exactly as before. The only
+new concept is a BFF procedure replacing an OCC adapter method.
+
+**You need to demonstrate BFF value quickly.**
+The PDP aggregation can be shipped in days. You get a measurable performance
+improvement (3× → 1× latency on Slow 3G) without a rewrite, which is a
+compelling proof-of-concept for stakeholders.
+
+**You are on CCv2 and need incremental deployment.**
+The connector override is a storefront-side change only. No new application
+type in the Hosting Portal until you are ready. The BFF can run as a sidecar
+while the classic OCC integration remains the fallback.
 
 ---
+
+### Choose Approach B (spartacus-bff / purpose-built) if:
+
+**You are starting a new storefront from scratch.**
+There is no migration cost. You start clean: no OCC dead code in the bundle,
+no adapter interfaces to carry, no normalizer chains. The `@spartacus-bff/*`
+libraries give you a production-grade, versioned API from day one.
+
+**Your team's primary skill is modern Angular rather than Spartacus Classic.**
+Approach B removes most of the Spartacus-specific indirection. `CartService`
+calls BFF procedures directly via `this.client.spartacus.mcs.auth.cart.addToCart.v1.mutateState$()`.
+There is no NgRx action to dispatch, no effect to configure, no adapter to
+implement. TypeScript enforces the contract end-to-end.
+
+**You need the full architectural benefit — no OCC in the browser at all.**
+With connector override, `OccCartAdapter`, normalizers, and endpoint configs
+are still in the bundle — they just do not get called. With Approach B they
+do not exist in the frontend at all. Bundle size, security posture, and upgrade
+isolation are all cleaner.
+
+**You are building a multi-backend storefront (OCC + ERP + custom services).**
+`spartacus-bff` procedures are real server-side business logic: they can
+aggregate, transform, and merge from multiple upstreams before sending one
+clean payload to the browser.
+
+---
+
+### The honest middle ground
+
+Neither approach is universally better. The practical recommendation is:
+
+1. **Start with Approach A** to prove BFF value to stakeholders using existing
+   infrastructure. The PDP aggregation demo makes the case concretely without
+   requiring a rewrite commitment.
+
+2. **Plan Approach B as the migration target.** As features are rebuilt or
+   major Spartacus upgrades happen, replace each feature module with its
+   `@spartacus-bff/*` equivalent. The BFF procedures stay the same — only the
+   Angular wiring changes.
+
+3. **The BFF procedures are portable between both approaches.** The `cart.ts`
+   and `product.ts` routers work identically regardless of whether the
+   storefront uses connector overrides or `@spartacus-bff/*` libraries.
+   Starting with Approach A does not waste the BFF investment.
 
 ## The performance problem
 
@@ -277,6 +352,8 @@ OCC responds in the user's browser locale.
 | Generic 502 on upstream errors | ✗ yes (naive proxy) | ✓ fixed |
 | `Accept-Language` forwarded | ✗ silently dropped | ✓ commonHeaders wrapper |
 | Stale cart GUID recovery | ✗ partial (anon only) | ✓ any 404 → new cart |
+| Anonymous cart `guid` vs `code` | N/A | ✓ `guid ?? code` in all write ops |
+| "Added to Cart" dialog empty (Approach 2) | N/A | ✓ dispatch `CartAddEntrySuccessEvent` manually |
 | Type-safe procedure contract | ✗ manual HTTP | ✓ tRPC end-to-end |
 | Storefront OCC ≠ BFF OCC | ✗ same instance | ✓ fully independent |
 
@@ -499,7 +576,8 @@ An alternative for cart in `bff-active-cart.service.ts` replaces
 `ActiveCartFacade` entirely using Angular Signals — no NgRx for cart.
 
 To activate: import `BffActiveCartModule` in `app.module.ts` and revert
-`cart-base-feature.module.ts` to use `CartBaseModule` directly.
+`cart-base-feature.module.ts` to use `CartBaseModule` directly (not
+`BffCartBaseModule` — both at once conflict).
 
 | Aspect | Approach 1 (active) | Approach 2 |
 |--------|---------------------|------------|
@@ -507,3 +585,184 @@ To activate: import `BffActiveCartModule` in `app.module.ts` and revert
 | NgRx | Kept intact | Eliminated for cart |
 | Upgrade safety | High — connector contract stable | Medium — facade contract must hold |
 | Recommended for | Migrating existing storefront | Greenfield / performance-critical |
+
+### Key implementation details
+
+#### `toObservable()` must be called inside an injection context
+
+Angular's `toObservable()` calls `inject(DestroyRef)` internally. If called
+inside a method at runtime (outside Angular's construction phase) it throws
+`NG0203: toObservable() can only be used within an injection context`.
+
+**Wrong — called inside a method:**
+```ts
+getActive(): Observable<Cart> {
+  return toObservable(this._cart).pipe(...); // ← throws NG0203 at runtime
+}
+```
+
+**Correct — called as field initializers (run during construction):**
+```ts
+@Injectable()
+export class BffActiveCartService implements ActiveCartFacade {
+  private readonly _cart = signal<Cart | undefined>(undefined);
+  private readonly _loading = signal(false);
+
+  // Converted once during construction — inside the injection context.
+  private readonly _cart$ = toObservable(this._cart);
+  private readonly _loading$ = toObservable(this._loading);
+
+  getActive(): Observable<Cart> {
+    return this._cart$.pipe(filter((c): c is Cart => c !== undefined));
+  }
+}
+```
+
+#### Anonymous carts use `guid`, not `code`
+
+OCC returns anonymous carts with a `guid` field as the identifier. The `code`
+field is only populated for named carts belonging to authenticated users. Using
+`cart.code` alone as the cart ID causes all write operations (`addEntry`,
+`removeEntry`, `updateEntry`) to silently bail out for anonymous sessions.
+
+**Wrong:**
+```ts
+addEntry(productCode: string, quantity: number): void {
+  const cartId = this._cart()?.code; // undefined for anonymous carts
+  if (!cartId) return;               // always exits early — no BFF call made
+  ...
+}
+```
+
+**Correct — prefer `guid`, fall back to `code` for authenticated users:**
+```ts
+addEntry(productCode: string, quantity: number, pickupStore?: string): void {
+  const cart = this._cart();
+  const cartId = cart?.guid ?? cart?.code; // guid for anonymous, code for auth
+  if (!cartId) return;
+  this._loading.set(true);
+  this.baseSite().then((baseSite) =>
+    this.bff.client.cart.addEntry
+      .mutate({ baseSite, userId: this._userId(), cartId, productCode, quantity, pickupStore })
+      .then(() => this._reload())
+      .finally(() => this._loading.set(false)),
+  );
+}
+```
+
+#### "Added to Cart" dialog flickers / shows empty — event ordering matters
+
+`AddedToCartDialogComponent` drives its display from two streams:
+
+- **`loaded$`** = `activeCartFacade.isStable()` — controls the spinner
+- **`entry$`** = `activeCartFacade.getLastEntry(productCode)` — the item to show
+
+Both are subscribed immediately when `CartAddEntrySuccessEvent` fires.
+
+If the event fires **before** `_reload()` completes, two bugs occur simultaneously:
+
+1. `getLastEntry()` returns nothing because the cart still has its pre-add state → empty dialog
+2. `_reload()` then sets `_loading = true` → `isStable()` emits `false` → spinner appears on top of the (empty) dialog → flicker
+
+**Fix:** make `_reload()` return `Promise<void>` and `await` it before dispatching the event. The cart is fully updated and `isStable()` is already `true` when the dialog subscribes:
+
+```ts
+private _reload(): Promise<void> {
+  this._loading.set(true);
+  return this.baseSite().then(async (baseSite) => {
+    try {
+      const userId = this._userId();
+      const existingGuid = this._cart()?.guid ?? this._cart()?.code;
+      if (existingGuid) {
+        const cart = await this.bff.client.cart.load.query({ baseSite, userId, cartId: existingGuid });
+        this._cart.set(cart as unknown as Cart);
+      } else {
+        const created: any = await this.bff.client.cart.create.mutate({ baseSite, userId });
+        const guid: string = created?.guid ?? created?.code ?? '';
+        if (guid) {
+          const cart = await this.bff.client.cart.load.query({ baseSite, userId, cartId: guid });
+          this._cart.set(cart as unknown as Cart);
+        }
+      }
+    } catch {
+      this._cart.set(undefined);
+    } finally {
+      this._loading.set(false);
+    }
+  });
+}
+
+addEntry(productCode: string, quantity: number, pickupStore?: string): void {
+  const cart = this._cart();
+  const cartId = cart?.guid ?? cart?.code;
+  if (!cartId) return;
+  this.baseSite().then((baseSite) =>
+    this.bff.client.cart.addEntry
+      .mutate({ baseSite, userId: this._userId(), cartId, productCode, quantity, pickupStore })
+      .then(async () => {
+        // Reload first — cart must contain the new entry and isStable() must
+        // be true before CartAddEntrySuccessEvent fires.
+        await this._reload();
+        const event = new CartAddEntrySuccessEvent();
+        event.productCode = productCode;
+        event.quantity = quantity;
+        event.cartId = cartId;
+        event.userId = this._userId();
+        this.eventService.dispatch(event, CartAddEntrySuccessEvent);
+      })
+      .catch((err) => {
+        const event = new CartAddEntryFailEvent();
+        event.productCode = productCode;
+        event.quantity = quantity;
+        event.cartId = cartId;
+        event.userId = this._userId();
+        event.error = err;
+        this.eventService.dispatch(event, CartAddEntryFailEvent);
+      }),
+  );
+}
+```
+
+Import `CartAddEntrySuccessEvent`, `CartAddEntryFailEvent` from `@spartacus/cart/base/root` and inject `EventService` from `@spartacus/core`.
+
+
+
+#### Cart creation before first load
+
+OCC does not accept `cartId: 'current'` for anonymous users via direct GUID
+lookup. `_reload()` must check whether a GUID is already known and, if not,
+create a new cart first:
+
+```ts
+private _reload(): void {
+  this._loading.set(true);
+  this.baseSite().then(async (baseSite) => {
+    try {
+      const userId = this._userId();
+      const existingGuid = this._cart()?.guid ?? this._cart()?.code;
+
+      if (existingGuid) {
+        // Load existing cart by GUID
+        const cart = await this.bff.client.cart.load.query({
+          baseSite, userId, cartId: existingGuid,
+        });
+        this._cart.set(cart as unknown as Cart);
+      } else {
+        // First load: create cart, then load by returned GUID
+        const created: any = await this.bff.client.cart.create.mutate({ baseSite, userId });
+        const guid: string = created?.guid ?? created?.code ?? '';
+        if (guid) {
+          const cart = await this.bff.client.cart.load.query({
+            baseSite, userId, cartId: guid,
+          });
+          this._cart.set(cart as unknown as Cart);
+        }
+      }
+    } catch {
+      this._cart.set(undefined);
+    } finally {
+      this._loading.set(false);
+    }
+  });
+}
+```
