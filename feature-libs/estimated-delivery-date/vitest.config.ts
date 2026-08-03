@@ -16,7 +16,7 @@ export default defineConfig({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./setup-test.ts'],
+    setupFiles: ['../../testing/setup-test.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
@@ -25,7 +25,7 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/estimated-delivery-date`,
-      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts', 'setup-test.ts', 'vitest.config.ts'],
+      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts', '../../testing/setup-test.ts', 'vitest.config.ts'],
       thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
     },
     reporters: [
