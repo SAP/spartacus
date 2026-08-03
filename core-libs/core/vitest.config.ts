@@ -16,7 +16,7 @@ export default defineConfig({
     watch: false,
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./setup-test.ts'],
+    setupFiles: ['../../testing/setup-vitest.ts'],
     include: ['**/*.spec.ts'],
     typecheck: {
       tsconfig: `${import.meta.dirname}/tsconfig.spec.json`,
@@ -29,7 +29,7 @@ export default defineConfig({
         '**/public_api.ts',
         '**/index.ts',
         '**/*.module.ts',
-        'setup-test.ts',
+        '../../testing/setup-test.ts',
       ],
       thresholds: {
         statements: 90,
