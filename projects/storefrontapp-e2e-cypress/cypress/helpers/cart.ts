@@ -135,7 +135,7 @@ export function clickAddToCart() {
     .scrollIntoView()
     .should('be.visible')
     .first()
-    .click();
+    .click({ force: true });
 }
 
 /**
@@ -151,11 +151,15 @@ export function addProductFromPdp(productCode: string = products[0].code) {
   // Add product from PDP directly
   cy.visit(pdpUrl);
 
+  cy.get('.ProductDetailsPageTemplate').should('be.visible');
+  cy.wait(8000); // wait for SSR timeout to pass (8s)
   clickAddToCart();
 
   cy.whenJDK17(() => {
     cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
   });
+
+  checkAddedToCartDialog();
 
   closeAddedToCartDialog();
 

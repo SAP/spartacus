@@ -37,11 +37,17 @@
     "@spartacus/checkout": "221121.17.0",
     "@spartacus/core": "221121.17.0",
     "@spartacus/order": "221121.17.0",
+    "@spartacus/pickup-in-store": "221121.17.0",
     "@spartacus/schematics": "221121.17.0",
     "@spartacus/storefront": "221121.17.0",
     "@spartacus/styles": "221121.17.0",
     "@spartacus/user": "221121.17.0",
     "rxjs": "^7.8.0"
+  },
+  "peerDependenciesMeta": {
+    "@spartacus/pickup-in-store": {
+      "optional": true
+    }
   },
   "engines": {
     "node": "^22.22.0"

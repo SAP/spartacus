@@ -9,5 +9,18 @@
     label {
       margin-inline-end: 0.5rem;
     }
+
+    // When the quantity form control is disabled (e.g. the retract value is
+    // selected), the item counter must not be interactive. The shared
+    // item-counter only marks its buttons as aria-disabled, so we block the
+    // pointer interaction here, scoped to the configurator. The disabled input
+    // is the reliable DOM signal set by the reactive forms directive.
+    cx-item-counter:has(input:disabled) {
+      cursor: not-allowed;
+
+      button {
+        pointer-events: none;
+      }
+    }
   }
 }

@@ -21,6 +21,7 @@ import {
   FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
+  PageMetaService,
   TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
@@ -34,17 +35,18 @@ import {
 import {
   debounceTime,
   distinctUntilChanged,
-  filter,
-  map,
   scan,
   skipWhile,
   tap,
   withLatestFrom,
+  filter,
+  map,
 } from 'rxjs/operators';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { getPageTitle } from '../../../navigation/page-header/page-title.utils';
 
 @Component({
   selector: 'cx-consent-management',
@@ -63,10 +65,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   private subscriptions = new Subscription();
   private allConsentsLoading = new BehaviorSubject<boolean>(false);
+  protected pageMetaService = inject(PageMetaService);
 
   templateList$: Observable<ConsentTemplate[]>;
   loading$: Observable<boolean>;
   isLoading = signal(false);
+  pageTitle$: Observable<string> = getPageTitle(this.pageMetaService);
 
   requiredConsents: string[] = [];
 

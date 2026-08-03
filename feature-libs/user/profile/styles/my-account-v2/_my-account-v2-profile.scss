@@ -59,6 +59,10 @@
   }
 
   form {
+    fieldset {
+      display: contents;
+    }
+
     label {
       padding-bottom: 0.75rem;
     }

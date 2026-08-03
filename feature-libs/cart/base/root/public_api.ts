@@ -11,6 +11,7 @@ export * from './events/index';
 export * from './facade/index';
 export * from './feature-name';
 export * from './models/index';
+export * from './services/index';
 export * from './tokens/index';
 
 /** AUGMENTABLE_TYPES_START */

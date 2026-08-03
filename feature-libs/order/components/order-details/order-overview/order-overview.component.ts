@@ -17,6 +17,7 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
+  useFeatureStyles,
 } from '@spartacus/core';
 import {
   OrderConfig,
@@ -74,7 +75,9 @@ export class OrderOverviewComponent {
     protected translation: TranslationService,
     protected orderDetailsService: OrderDetailsService,
     protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
-  ) {}
+  ) {
+    useFeatureStyles('orderOverviewCardsInlinePadding');
+  }
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(

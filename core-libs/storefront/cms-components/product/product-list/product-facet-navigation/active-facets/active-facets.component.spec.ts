@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +13,13 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
+import {
+  Breadcrumb,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 import { EMPTY, of } from 'rxjs';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
@@ -23,8 +35,16 @@ import { ActiveFacetsComponent } from './active-facets.component';
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
+
 class MockFacetService {
+  facetList$ = of({ facets: [], activeFacets: [] });
   getLinkParams() {}
+}
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy('add');
+  remove = jasmine.createSpy('remove');
+  get = jasmine.createSpy('get').and.returnValue(of({}));
 }
 
 const mockFacetList: FacetList = {
@@ -46,7 +66,11 @@ describe('ActiveFacetsComponent', () => {
         MockCxIconComponent,
         RouterModule.forRoot([]),
       ],
-      providers: [{ provide: FacetService, useClass: MockFacetService }],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: false }),
+      ],
     })
       .overrideComponent(ActiveFacetsComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
@@ -122,5 +146,58 @@ describe('ActiveFacetsComponent', () => {
     fixture.detectChanges();
 
     expect(component.removeFilterWithSpacebar).toHaveBeenCalled();
+  });
+});
+
+describe('ActiveFacetsComponent with a11yFilteredFacetAnnouncement', () => {
+  let component: ActiveFacetsComponent;
+  let fixture: ComponentFixture<ActiveFacetsComponent>;
+  let element: DebugElement;
+  let globalMessageService: MockGlobalMessageService;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusModule,
+        ActiveFacetsComponent,
+        MockCxIconComponent,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        { provide: FacetService, useClass: MockFacetService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        provideMockFeatureToggles({ a11yFilteredFacetAnnouncement: true }),
+      ],
+    })
+      .overrideComponent(ActiveFacetsComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ActiveFacetsComponent);
+    element = fixture.debugElement;
+    component = fixture.componentInstance;
+    globalMessageService = TestBed.inject(
+      GlobalMessageService
+    ) as unknown as MockGlobalMessageService;
+    component.facetList$ = of(mockFacetList);
+    fixture.detectChanges();
+  });
+
+  it('should render anchor links for every active facet', () => {
+    const links = element.queryAll(By.css('a'));
+    expect(links.length).toEqual(2);
+  });
+
+  it('should announce filter removal when active facet is clicked', () => {
+    const link = element.query(By.css('a')).nativeElement;
+    link.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'productList.filterRemoved filter:undefined',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
   });
 });

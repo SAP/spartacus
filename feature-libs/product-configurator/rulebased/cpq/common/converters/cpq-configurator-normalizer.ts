@@ -27,7 +27,7 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
-      configId: source.configurationId ? source.configurationId : '', //if empty, will later be populated with final value
+      configId: source.configurationId ?? '', //if empty, will later be populated with final value
       complete: !source.incompleteAttributes?.length,
       consistent:
         !source.invalidMessages?.length &&
@@ -46,10 +46,11 @@ export class CpqConfiguratorNormalizer
       warningMessages: this.generateWarningMessages(source),
       pricingEnabled: true,
     };
+
     source.tabs?.forEach((tab) =>
       this.convertGroup(
         tab,
-        source.attributes ?? [],
+        this.getTabAttributes(source, tab),
         source.currencyISOCode,
         resultTarget.groups,
         resultTarget.flatGroups
@@ -70,27 +71,24 @@ export class CpqConfiguratorNormalizer
   }
 
   protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
-    const numberOfIssues: number =
+    return (
       (source.incompleteAttributes?.length ?? 0) +
       (source.incompleteMessages?.length ?? 0) +
       (source.invalidMessages?.length ?? 0) +
       (source.failedValidations?.length ?? 0) +
-      (source.errorMessages?.length ?? 0);
-    return numberOfIssues;
+      (source.errorMessages?.length ?? 0)
+    );
   }
 
   protected generateWarningMessages(source: Cpq.Configuration): string[] {
-    let warnMsgs: string[] = [];
-    warnMsgs = warnMsgs.concat(source.failedValidations ?? []);
-    warnMsgs = warnMsgs.concat(source.incompleteMessages ?? []);
-    return warnMsgs;
+    return [
+      ...(source.failedValidations ?? []),
+      ...(source.incompleteMessages ?? []),
+    ];
   }
 
   protected generateErrorMessages(source: Cpq.Configuration): string[] {
-    let errorMsgs: string[] = [];
-    errorMsgs = errorMsgs.concat(source.errorMessages ?? []);
-    errorMsgs = errorMsgs.concat(source.invalidMessages ?? []);
-    return errorMsgs;
+    return [...(source.errorMessages ?? []), ...(source.invalidMessages ?? [])];
   }
 
   protected convertGroup(
@@ -101,11 +99,9 @@ export class CpqConfiguratorNormalizer
     flatGroupList: Configurator.Group[]
   ) {
     const attributes: Configurator.Attribute[] = [];
-    if (source.isSelected) {
-      sourceAttributes.forEach((sourceAttribute) =>
-        this.convertAttribute(sourceAttribute, source.id, currency, attributes)
-      );
-    }
+    sourceAttributes.forEach((sourceAttribute) =>
+      this.convertAttribute(sourceAttribute, source.id, currency, attributes)
+    );
 
     const group: Configurator.Group = {
       id: source.id.toString(),
@@ -154,6 +150,161 @@ export class CpqConfiguratorNormalizer
     flatGroupList.push(group);
   }
 
+  protected isUITypeReadOnly(attribute: Configurator.Attribute): boolean {
+    return attribute.uiType === Configurator.UiType.READ_ONLY;
+  }
+
+  protected hasRetractValue(sourceAttribute: Cpq.Attribute): boolean {
+    return sourceAttribute.values?.some((value) => value.paV_ID === 0) ?? false;
+  }
+
+  protected isNoValueSelected(sourceAttribute: Cpq.Attribute): boolean {
+    return !sourceAttribute.values?.filter((value) => value.selected).length;
+  }
+
+  protected setRetractValueDisplay(
+    attribute: Configurator.Attribute,
+    value: Configurator.Value
+  ) {
+    if (
+      (attribute.uiType === Configurator.UiType.DROPDOWN ||
+        attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT) &&
+      value.selected
+    ) {
+      this.translation
+        .translate('configurator.attribute.dropDownSelectMsg')
+        .pipe(take(1))
+        .subscribe((text) => (value.valueDisplay = text));
+    } else {
+      this.translation
+        .translate('configurator.attribute.noOptionSelectedMsg')
+        .pipe(take(1))
+        .subscribe((text) => (value.valueDisplay = text));
+    }
+  }
+
+  protected isSingleSelectionUiType(
+    attribute: Configurator.Attribute
+  ): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT ||
+      attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT
+    );
+  }
+
+  protected isDropDownUiType(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.uiType === Configurator.UiType.DROPDOWN ||
+      attribute.uiType === Configurator.UiType.DROPDOWN_PRODUCT
+    );
+  }
+
+  /**
+   * Determines whether a retract value needs to be added for the given attribute.
+   * A retract value is added when the attribute is not required and is of a single
+   * selection ui type (`RADIOBUTTON`, `DROPDOWN`, `DROPDOWN_PRODUCT` or
+   * `RADIOBUTTON_PRODUCT`). It allows the user to deselect a previously selected value.
+   *
+   * @param attribute - converted attribute
+   * @returns `true` - if a retract value needs to be added
+   */
+  protected isRetractValueNeeded(attribute: Configurator.Attribute): boolean {
+    return !attribute.required && this.isSingleSelectionUiType(attribute);
+  }
+
+  /**
+   * Determines whether a documentation value needs to be added for a required
+   * drop-down list. This is the case when the attribute is required, is of a
+   * drop-down ui type (`DROPDOWN` or `DROPDOWN_PRODUCT`) and no value is selected.
+   * It documents in the UI that a value still needs to be picked, without acting
+   * as a retract value.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @returns `true` - if a documentation value needs to be added
+   */
+  protected isRequiredDropDownDocumentationValueNeeded(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute
+  ): boolean {
+    return (
+      (attribute.required ?? false) &&
+      this.isDropDownUiType(attribute) &&
+      this.isNoValueSelected(sourceAttribute)
+    );
+  }
+
+  /**
+   * Adds a retract value for a not required single selection attribute, so that the
+   * user can deselect a previously selected value.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @param values - list of converted values the retract value is added to
+   */
+  protected addRetractValue(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    if (
+      !this.isUITypeReadOnly(attribute) &&
+      !this.hasRetractValue(sourceAttribute) &&
+      this.isRetractValueNeeded(attribute)
+    ) {
+      this.addGenericValue(sourceAttribute, attribute, values);
+    }
+  }
+
+  /**
+   * Adds a required selection prompt value for a required drop-down list when
+   * no value is selected. Although it looks the same in the UI as a retract
+   * value, it only prompts the user that a value still needs to be picked.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @param values - list of converted values the required selection prompt value is added to
+   */
+  protected addRequiredSelectionPromptValue(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    if (
+      !this.isUITypeReadOnly(attribute) &&
+      !this.hasRetractValue(sourceAttribute) &&
+      this.isRequiredDropDownDocumentationValueNeeded(
+        sourceAttribute,
+        attribute
+      )
+    ) {
+      this.addGenericValue(sourceAttribute, attribute, values);
+    }
+  }
+
+  /**
+   * Creates and adds a generic value (using the retract value code)
+   * to the given list of values and sets its display text.
+   *
+   * @param sourceAttribute - source CPQ attribute
+   * @param attribute - converted attribute
+   * @param values - list of converted values the value is added to
+   */
+  protected addGenericValue(
+    sourceAttribute: Cpq.Attribute,
+    attribute: Configurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    const value: Configurator.Value = {
+      valueCode: Configurator.RetractValueCode,
+      selected: this.isNoValueSelected(sourceAttribute),
+    };
+    this.setRetractValueDisplay(attribute, value);
+    values.push(value);
+  }
+
   protected convertAttribute(
     sourceAttribute: Cpq.Attribute,
     groupId: number,
@@ -189,6 +340,8 @@ export class CpqConfiguratorNormalizer
       sourceAttribute.displayAs !== Cpq.DisplayAs.INPUT
     ) {
       const values: Configurator.Value[] = [];
+      this.addRetractValue(sourceAttribute, attribute, values);
+      this.addRequiredSelectionPromptValue(sourceAttribute, attribute, values);
       sourceAttribute.values.forEach((value) =>
         this.convertValue(value, sourceAttribute, currency, values)
       );
@@ -220,10 +373,8 @@ export class CpqConfiguratorNormalizer
   protected setSelectedSingleValue(attribute: Configurator.Attribute) {
     const values = attribute.values;
     if (values) {
-      const selectedValues = values
-        .map((entry) => entry)
-        .filter((entry) => entry.selected);
-      if (selectedValues && selectedValues.length === 1) {
+      const selectedValues = values.filter((entry) => entry.selected);
+      if (selectedValues?.length === 1) {
         attribute.selectedSingleValue = selectedValues[0].valueCode;
       }
     }
@@ -295,13 +446,12 @@ export class CpqConfiguratorNormalizer
   ): Configurator.UiType {
     const displayAs = sourceAttribute.displayAs;
 
-    const displayAsProduct: boolean =
+    const displayAsProduct: boolean = !!(
       sourceAttribute.values &&
       this.cpqConfiguratorNormalizerUtilsService.hasAnyProducts(
         sourceAttribute.values
       )
-        ? true
-        : false;
+    );
     const isEnabled: boolean = sourceAttribute.isEnabled ?? false;
 
     if (
@@ -395,10 +545,7 @@ export class CpqConfiguratorNormalizer
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined
-            ? true
-            : false;
-
+          attribute.values?.find((value) => value.selected) !== undefined;
         if (!isOneValueSelected) {
           attribute.incomplete = true;
         }
@@ -411,9 +558,9 @@ export class CpqConfiguratorNormalizer
     attribute: Cpq.Attribute,
     value: Cpq.Value
   ): boolean {
-    const selectedValues = attribute.values
-      ?.map((entry) => entry)
-      .filter((entry) => entry.selected && entry.paV_ID !== 0);
+    const selectedValues = attribute.values?.filter(
+      (entry) => entry.selected && entry.paV_ID !== 0
+    );
     return (
       (attribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
         attribute.required &&
@@ -422,5 +569,15 @@ export class CpqConfiguratorNormalizer
         value.paV_ID === 0) ??
       false
     );
+  }
+
+  protected getTabAttributes(
+    source: Cpq.Configuration,
+    tab: Cpq.Tab
+  ): Cpq.Attribute[] {
+    if (source.hasFullConfigurationState) {
+      return tab.attributes ?? [];
+    }
+    return tab.isSelected ? (source.attributes ?? []) : [];
   }
 }
