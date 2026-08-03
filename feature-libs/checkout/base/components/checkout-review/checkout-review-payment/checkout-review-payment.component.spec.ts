@@ -64,9 +64,11 @@ const mockCheckoutStep: CheckoutStep = {
 };
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: mockPaymentDetails })
-  );
+  getPaymentDetailsState = vi
+    .fn()
+    .mockReturnValue(
+      of({ loading: false, error: false, data: mockPaymentDetails })
+    );
 }
 
 class MockCheckoutStepService {
@@ -78,9 +80,7 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.PAYMENT_DETAILS],
     },
   ]);
-  getCheckoutStepRoute = vi.fn().mockReturnValue(
-    mockCheckoutStep.routeName
-  );
+  getCheckoutStepRoute = vi.fn().mockReturnValue(mockCheckoutStep.routeName);
 }
 
 @Component({

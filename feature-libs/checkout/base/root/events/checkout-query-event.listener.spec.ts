@@ -20,7 +20,6 @@ import {
   CheckoutQueryResetEvent,
 } from './checkout.events';
 
-
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {

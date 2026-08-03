@@ -61,9 +61,9 @@ class MockCheckoutPaymentConnector
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 describe(`CheckoutPaymentService`, () => {
@@ -189,9 +189,9 @@ describe(`CheckoutPaymentService`, () => {
 
   describe(`setPaymentDetails`, () => {
     it(`should throw an error if the payment details ID is not present`, async () => {
-      await expect(firstValueFrom(service.setPaymentDetails({}))).rejects.toEqual(
-        new Error('Checkout conditions not met')
-      );
+      await expect(
+        firstValueFrom(service.setPaymentDetails({}))
+      ).rejects.toEqual(new Error('Checkout conditions not met'));
     });
 
     it(`should call checkoutPaymentConnector.set`, () => {

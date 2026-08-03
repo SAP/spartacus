@@ -87,15 +87,13 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, async () => {
-    checkoutConfigService.isExpressCheckout =
-      vi.fn().mockReturnValue(false);
+    checkoutConfigService.isExpressCheckout = vi.fn().mockReturnValue(false);
 
     const result = await firstValueFrom(guard.canActivate());
     expect(result.toString()).toEqual(
       `/${
-        mockRoutingConfigService.getRouteConfig(
-          mockCheckoutSteps[0].routeName
-        )?.paths?.[0]
+        mockRoutingConfigService.getRouteConfig(mockCheckoutSteps[0].routeName)
+          ?.paths?.[0]
       }`
     );
   });
@@ -106,9 +104,8 @@ describe(`CheckoutGuard`, () => {
     const result = await firstValueFrom(guard.canActivate());
     expect(result.toString()).toEqual(
       `/${
-        mockRoutingConfigService.getRouteConfig(
-          mockCheckoutSteps[0].routeName
-        )?.paths?.[0]
+        mockRoutingConfigService.getRouteConfig(mockCheckoutSteps[0].routeName)
+          ?.paths?.[0]
       }`
     );
   });
@@ -117,16 +114,16 @@ describe(`CheckoutGuard`, () => {
     const result = await firstValueFrom(guard.canActivate());
     expect(result.toString()).toEqual(
       `/${
-        mockRoutingConfigService.getRouteConfig(
-          mockCheckoutSteps[0].routeName
-        )?.paths?.[0]
+        mockRoutingConfigService.getRouteConfig(mockCheckoutSteps[0].routeName)
+          ?.paths?.[0]
       }`
     );
   });
 
   it(`should redirect to review order`, async () => {
-    expressCheckoutService.trySetDefaultCheckoutDetails =
-      vi.fn().mockReturnValue(of(true));
+    expressCheckoutService.trySetDefaultCheckoutDetails = vi
+      .fn()
+      .mockReturnValue(of(true));
 
     const result = await firstValueFrom(guard.canActivate());
     expect(result.toString()).toEqual(

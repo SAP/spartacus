@@ -121,8 +121,12 @@ describe(`OccCheckoutCostCenterAdapter`, () => {
     });
 
     describe(`back-off`, () => {
-      beforeEach(() => { vi.useFakeTimers(); });
-      afterEach(() => { vi.useRealTimers(); });
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+      afterEach(() => {
+        vi.useRealTimers();
+      });
       it(`should unsuccessfully backOff on Jalo error`, async () => {
         vi.spyOn(httpClient, 'put').mockReturnValue(
           throwError(() => mockJaloError)

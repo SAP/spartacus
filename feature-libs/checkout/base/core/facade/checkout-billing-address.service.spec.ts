@@ -29,9 +29,9 @@ class MockCheckoutBillingAddressConnector
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 describe(`CheckoutBillingAddressService`, () => {
@@ -66,7 +66,9 @@ describe(`CheckoutBillingAddressService`, () => {
   describe(`setBillingAddress`, () => {
     it(`should throw an error if the address is not present`, async () => {
       await expect(
-        firstValueFrom(service.setBillingAddress(undefined as unknown as Address))
+        firstValueFrom(
+          service.setBillingAddress(undefined as unknown as Address)
+        )
       ).rejects.toEqual(new Error('Checkout conditions not met'));
     });
 

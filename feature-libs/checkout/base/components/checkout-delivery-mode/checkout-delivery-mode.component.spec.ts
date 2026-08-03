@@ -1,8 +1,5 @@
 import { Component, Directive, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -236,13 +233,10 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should show error message if setDeliveryMode fail', () => {
-    const showErrorMessageSpy = vi.spyOn(
-      globalMessageService,
-      'add'
-    );
-    checkoutDeliveryModesFacade.setDeliveryMode = vi.fn().mockReturnValue(
-      throwError('error')
-    );
+    const showErrorMessageSpy = vi.spyOn(globalMessageService, 'add');
+    checkoutDeliveryModesFacade.setDeliveryMode = vi
+      .fn()
+      .mockReturnValue(throwError('error'));
 
     component.changeMode('pickup');
 
@@ -328,9 +322,9 @@ describe('CheckoutDeliveryModeComponent', () => {
     });
 
     it('should be disabled when setDeliveryMode failed', () => {
-      checkoutDeliveryModesFacade.setDeliveryMode = vi.fn().mockReturnValue(
-        throwError('error')
-      );
+      checkoutDeliveryModesFacade.setDeliveryMode = vi
+        .fn()
+        .mockReturnValue(throwError('error'));
 
       component.changeMode('pickup');
 
@@ -420,8 +414,12 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   describe('refocus on keyboard selected option', () => {
-    beforeEach(() => { vi.useFakeTimers(); });
-    afterEach(() => { vi.useRealTimers(); });
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+    });
 
     it('should refocus on the keyboard selected option after they are updated', async () => {
       const lastFocusedId = 'standard-gross';

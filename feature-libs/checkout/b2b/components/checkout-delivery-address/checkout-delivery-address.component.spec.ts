@@ -46,9 +46,9 @@ class MockCheckoutDeliveryAddressFacade
 {
   createAndSetAddress = vi.fn().mockReturnValue(of({}));
   setDeliveryAddress = vi.fn().mockReturnValue(EMPTY);
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 class MockCheckoutFlowOrchestratorService
@@ -65,9 +65,7 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
 
 const accountPayment$ = new BehaviorSubject<boolean>(true);
 class MockPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
-  isAccountPayment = vi.fn().mockReturnValue(
-    accountPayment$.asObservable()
-  );
+  isAccountPayment = vi.fn().mockReturnValue(accountPayment$.asObservable());
 }
 
 class MockUserCostCenterService implements Partial<UserCostCenterService> {
@@ -294,8 +292,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should return false when checkout flow is NOT ACCOUNT', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress1 })
         );
 
@@ -307,8 +306,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should return true when checkout flow is ACCOUNT', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress1 })
         );
       accountPayment$.next(true);
@@ -360,8 +360,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   });
 
   it('should NOT be able to select address if the selection is the same as the currently set delivery address', () => {
-    checkoutDeliveryAddressFacade.getDeliveryAddressState =
-      vi.fn().mockReturnValue(
+    checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+      .fn()
+      .mockReturnValue(
         of({ loading: false, error: false, data: mockAddress2 })
       );
 
@@ -428,15 +429,16 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', async () => {
       accountPayment$.next(true);
-      userCostCenterService.getCostCenterAddresses =
-        vi.fn().mockReturnValue(of([]));
+      userCostCenterService.getCostCenterAddresses = vi
+        .fn()
+        .mockReturnValue(of([]));
 
       component.ngOnInit();
       fixture.detectChanges();
       await firstValueFrom(component['getSupportedAddresses']());
-      expect(
-        userCostCenterService.getCostCenterAddresses
-      ).toHaveBeenCalledWith('test-cost-center');
+      expect(userCostCenterService.getCostCenterAddresses).toHaveBeenCalledWith(
+        'test-cost-center'
+      );
     });
 
     it('for CARD payment', async () => {
@@ -451,24 +453,30 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     it('for ACCOUNT payment, should filter to shipping addresses when b2bCheckoutShippingAddressFilter is enabled', async () => {
       accountPayment$.next(true);
       featureToggles.b2bCheckoutShippingAddressFilter = true;
-      userCostCenterService.getCostCenterAddresses =
-        vi.fn().mockReturnValue(of(mockAddresses));
+      userCostCenterService.getCostCenterAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       component.ngOnInit();
       fixture.detectChanges();
-      const addresses = await firstValueFrom(component['getSupportedAddresses']());
+      const addresses = await firstValueFrom(
+        component['getSupportedAddresses']()
+      );
       expect(addresses).toEqual([mockAddress1]);
     });
 
     it('for ACCOUNT payment, should return all addresses when b2bCheckoutShippingAddressFilter is disabled', async () => {
       accountPayment$.next(true);
       featureToggles.b2bCheckoutShippingAddressFilter = false;
-      userCostCenterService.getCostCenterAddresses =
-        vi.fn().mockReturnValue(of(mockAddresses));
+      userCostCenterService.getCostCenterAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       component.ngOnInit();
       fixture.detectChanges();
-      const addresses = await firstValueFrom(component['getSupportedAddresses']());
+      const addresses = await firstValueFrom(
+        component['getSupportedAddresses']()
+      );
       expect(addresses).toEqual(mockAddresses);
     });
   });
@@ -484,8 +492,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should be enabled when address is selected', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress1 })
         );
 
@@ -494,8 +503,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should call "next" function after being clicked', () => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress1 })
         );
       vi.spyOn(component, 'next');
@@ -549,19 +559,21 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.btn-secondary'))
         .find(
-          (el) => el.nativeElement.textContent?.trim() === 'checkoutAddress.addNewAddress'
+          (el) =>
+            el.nativeElement.textContent?.trim() ===
+            'checkoutAddress.addNewAddress'
         );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
       accountPayment$.next(false);
-      userAddressService.getAddressesLoading = vi.fn().mockReturnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = vi.fn().mockReturnValue(
-        of(mockAddresses)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -573,9 +585,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     it('should render on init if there are no existing addresses', () => {
       accountPayment$.next(false);
-      userAddressService.getAddressesLoading = vi.fn().mockReturnValue(
-        of(false)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
       vi.spyOn(component, 'getSupportedAddresses').mockReturnValue(of([]));
 
       fixture.detectChanges();
@@ -583,12 +595,12 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should not render on init if there are some existing addresses', () => {
-      userAddressService.getAddressesLoading = vi.fn().mockReturnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = vi.fn().mockReturnValue(
-        of(mockAddresses)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -617,12 +629,12 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should NOT render when existing addresses are NOT loading', () => {
-      userAddressService.getAddressesLoading = vi.fn().mockReturnValue(
-        of(false)
-      );
-      userAddressService.getAddresses = vi.fn().mockReturnValue(
-        of(mockAddresses)
-      );
+      userAddressService.getAddressesLoading = vi
+        .fn()
+        .mockReturnValue(of(false));
+      userAddressService.getAddresses = vi
+        .fn()
+        .mockReturnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getSpinner()).toBeFalsy();

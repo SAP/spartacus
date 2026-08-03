@@ -58,12 +58,12 @@ class MockScheduledReplenishmentOrderFacade
 class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
-  getOrderType = vi.fn().mockReturnValue(
-    of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
-  );
-  getScheduleReplenishmentFormData = vi.fn().mockReturnValue(
-    mockReplenishmentOrderFormData$.asObservable()
-  );
+  getOrderType = vi
+    .fn()
+    .mockReturnValue(of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER));
+  getScheduleReplenishmentFormData = vi
+    .fn()
+    .mockReturnValue(mockReplenishmentOrderFormData$.asObservable());
   setScheduleReplenishmentFormData = vi.fn();
   resetScheduleReplenishmentFormData = vi.fn();
 }

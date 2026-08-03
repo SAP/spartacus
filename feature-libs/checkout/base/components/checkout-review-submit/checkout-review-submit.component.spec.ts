@@ -87,17 +87,17 @@ class MockCardComponent {
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: mockAddress })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: mockAddress }));
 }
 
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: [] })
-  );
+  getSupportedDeliveryModesState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: [] }));
   getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,
@@ -108,9 +108,11 @@ class MockCheckoutDeliveryModesService
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: mockPaymentDetails })
-  );
+  getPaymentDetailsState = vi
+    .fn()
+    .mockReturnValue(
+      of({ loading: false, error: false, data: mockPaymentDetails })
+    );
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {

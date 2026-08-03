@@ -157,17 +157,17 @@ class MockCxIconComponent {
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = vi.fn();
   getPaymentCardTypes = vi.fn().mockReturnValue(EMPTY);
-  getSetPaymentDetailsResultProcess = vi.fn().mockReturnValue(
-    of({ loading: false })
-  );
+  getSetPaymentDetailsResultProcess = vi
+    .fn()
+    .mockReturnValue(of({ loading: false }));
 }
 
 class MockCheckoutDeliveryService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
   getAddressVerificationResults = vi.fn().mockReturnValue(EMPTY);
   verifyAddress = vi.fn();
   clearAddressVerificationResults = vi.fn();
@@ -175,9 +175,7 @@ class MockCheckoutDeliveryService
 
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadBillingCountries = vi.fn();
-  getAllBillingCountries = vi.fn().mockReturnValue(
-    of(mockBillingCountries)
-  );
+  getAllBillingCountries = vi.fn().mockReturnValue(of(mockBillingCountries));
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -318,8 +316,9 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get supported card types if they exist', () => {
-    mockCheckoutPaymentService.getPaymentCardTypes =
-      vi.fn().mockReturnValue(of(mockCardTypes));
+    mockCheckoutPaymentService.getPaymentCardTypes = vi
+      .fn()
+      .mockReturnValue(of(mockCardTypes));
 
     component.ngOnInit();
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
@@ -358,14 +357,17 @@ describe('CheckoutPaymentFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid - with billing address', () => {
-      mockCheckoutPaymentService.getPaymentCardTypes =
-        vi.fn().mockReturnValue(of(mockCardTypes));
-      mockCheckoutDeliveryService.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      mockCheckoutPaymentService.getPaymentCardTypes = vi
+        .fn()
+        .mockReturnValue(of(mockCardTypes));
+      mockCheckoutDeliveryService.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress })
         );
-      mockUserPaymentService.getAllBillingCountries =
-        vi.fn().mockReturnValue(of(mockBillingCountries));
+      mockUserPaymentService.getAllBillingCountries = vi
+        .fn()
+        .mockReturnValue(of(mockBillingCountries));
       vi.spyOn(component, 'next');
 
       fixture.detectChanges();
@@ -378,14 +380,17 @@ describe('CheckoutPaymentFormComponent', () => {
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
-      mockCheckoutPaymentService.getPaymentCardTypes =
-        vi.fn().mockReturnValue(of(mockCardTypes));
-      mockCheckoutDeliveryService.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      mockCheckoutPaymentService.getPaymentCardTypes = vi
+        .fn()
+        .mockReturnValue(of(mockCardTypes));
+      mockCheckoutDeliveryService.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress })
         );
-      mockUserPaymentService.getAllBillingCountries =
-        vi.fn().mockReturnValue(of(mockBillingCountries));
+      mockUserPaymentService.getAllBillingCountries = vi
+        .fn()
+        .mockReturnValue(of(mockBillingCountries));
       vi.spyOn(component, 'next');
 
       fixture.detectChanges();

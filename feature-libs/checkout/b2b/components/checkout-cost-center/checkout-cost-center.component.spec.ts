@@ -25,9 +25,11 @@ const mockCostCenters: CostCenter[] = [
 class MockCheckoutCostCenterService
   implements Partial<CheckoutCostCenterFacade>
 {
-  getCostCenterState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: mockCostCenters[0] })
-  );
+  getCostCenterState = vi
+    .fn()
+    .mockReturnValue(
+      of({ loading: false, error: false, data: mockCostCenters[0] })
+    );
 
   setCostCenter = vi.fn().mockReturnValue(of({}));
 }
@@ -129,9 +131,9 @@ describe('CheckoutCostCenterComponent', () => {
   });
 
   it('should set default if the cart does NOT contain a cost center', () => {
-    checkoutCostCenterService.getCostCenterState = vi.fn().mockReturnValue(
-      of({ loading: false, error: false, data: undefined })
-    );
+    checkoutCostCenterService.getCostCenterState = vi
+      .fn()
+      .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 
     component.ngOnInit();
     fixture.detectChanges();

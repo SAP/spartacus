@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import { CheckoutPlaceOrderEventListener } from './checkout-place-order-event.listener';
 import { CheckoutQueryResetEvent } from './checkout.events';
 
-
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
 const mockOrder: Order = {

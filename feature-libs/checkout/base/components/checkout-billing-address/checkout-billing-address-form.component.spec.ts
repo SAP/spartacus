@@ -61,9 +61,9 @@ class MockCardComponent {
 class MockCheckoutDeliveryService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
   getAddressVerificationResults = vi.fn().mockReturnValue(EMPTY);
   verifyAddress = vi.fn();
   clearAddressVerificationResults = vi.fn();
@@ -71,9 +71,7 @@ class MockCheckoutDeliveryService
 
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadBillingCountries = vi.fn();
-  getAllBillingCountries = vi.fn().mockReturnValue(
-    of(mockBillingCountries)
-  );
+  getAllBillingCountries = vi.fn().mockReturnValue(of(mockBillingCountries));
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -143,15 +141,17 @@ describe('CheckoutBillingAddressFormComponent', () => {
 
   describe('ngOnInit()', () => {
     it('should call ngOnInit to get billing countries', async () => {
-      mockUserPaymentService.getAllBillingCountries =
-        vi.fn().mockReturnValue(of(mockBillingCountries));
+      mockUserPaymentService.getAllBillingCountries = vi
+        .fn()
+        .mockReturnValue(of(mockBillingCountries));
       component.ngOnInit();
       const countries = await firstValueFrom(component.countries$);
       expect(countries).toBe(mockBillingCountries);
     });
     it('should call ngOnInit to get delivery address set in cart', async () => {
-      mockCheckoutDeliveryService.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      mockCheckoutDeliveryService.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockAddress })
         );
       component.ngOnInit();
@@ -159,8 +159,9 @@ describe('CheckoutBillingAddressFormComponent', () => {
       expect(address).toBe(mockAddress);
     });
     it('should call ngOnInit to load billing countries', async () => {
-      mockUserPaymentService.getAllBillingCountries =
-        vi.fn().mockReturnValue(of(mockBillingCountriesEmpty));
+      mockUserPaymentService.getAllBillingCountries = vi
+        .fn()
+        .mockReturnValue(of(mockBillingCountriesEmpty));
 
       component.ngOnInit();
       const countries = await firstValueFrom(component.countries$);
@@ -208,7 +209,9 @@ describe('CheckoutBillingAddressFormComponent', () => {
   });
 
   it('should call getAddressCardContent(address)', async () => {
-    const card = await firstValueFrom(component.getAddressCardContent(mockAddress));
+    const card = await firstValueFrom(
+      component.getAddressCardContent(mockAddress)
+    );
     expect(card?.textBold).toEqual('John Doe');
     expect(card?.text).toEqual([
       'Toyosaki 2 create on cart',

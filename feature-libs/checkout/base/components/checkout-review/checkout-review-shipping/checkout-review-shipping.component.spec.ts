@@ -70,17 +70,17 @@ const mockEntries: OrderEntry[] = [
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: mockAddress })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: mockAddress }));
 }
 
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: [] })
-  );
+  getSupportedDeliveryModesState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: [] }));
   getSelectedDeliveryModeState = vi.fn().mockReturnValue(
     of({
       loading: false,
@@ -105,9 +105,7 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.DELIVERY_MODE],
     },
   ]);
-  getCheckoutStepRoute = vi.fn().mockReturnValue(
-    mockCheckoutStep.routeName
-  );
+  getCheckoutStepRoute = vi.fn().mockReturnValue(mockCheckoutStep.routeName);
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {

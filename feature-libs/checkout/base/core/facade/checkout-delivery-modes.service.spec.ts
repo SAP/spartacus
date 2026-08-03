@@ -48,19 +48,17 @@ class MockEventService implements Partial<EventService> {
 class MockCheckoutDeliveryModesConnector
   implements Partial<CheckoutDeliveryModesConnector>
 {
-  getSupportedModes = vi.fn().mockReturnValue(
-    of(mockSupportedDeliveryModes)
-  );
+  getSupportedModes = vi.fn().mockReturnValue(of(mockSupportedDeliveryModes));
   setMode = vi.fn().mockReturnValue(of('setMode'));
-  clearCheckoutDeliveryMode = vi.fn().mockReturnValue(
-    of('clearCheckoutDeliveryMode')
-  );
+  clearCheckoutDeliveryMode = vi
+    .fn()
+    .mockReturnValue(of('clearCheckoutDeliveryMode'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 describe(`CheckoutDeliveryModesService`, () => {
@@ -99,7 +97,9 @@ describe(`CheckoutDeliveryModesService`, () => {
 
   describe(`getSupportedDeliveryModesState`, () => {
     it(`should call the checkoutDeliveryModesConnector.getSupportedModes()`, async () => {
-      const state = await firstValueFrom(service.getSupportedDeliveryModesState());
+      const state = await firstValueFrom(
+        service.getSupportedDeliveryModesState()
+      );
       expect(state).toEqual({
         loading: false,
         error: false,
@@ -153,7 +153,9 @@ describe(`CheckoutDeliveryModesService`, () => {
         })
       );
 
-      const result = await firstValueFrom(service.getSelectedDeliveryModeState());
+      const result = await firstValueFrom(
+        service.getSelectedDeliveryModeState()
+      );
       expect(result).toEqual(<QueryState<DeliveryMode | undefined>>{
         loading: false,
         error: false,
@@ -212,9 +214,9 @@ describe(`CheckoutDeliveryModesService`, () => {
     });
 
     it(`should dispatch CheckoutDeliveryModeClearedErrorEvent event on error`, () => {
-      connector.clearCheckoutDeliveryMode = vi.fn().mockReturnValue(
-        throwError(() => 'err')
-      );
+      connector.clearCheckoutDeliveryMode = vi
+        .fn()
+        .mockReturnValue(throwError(() => 'err'));
 
       service.clearCheckoutDeliveryMode();
 

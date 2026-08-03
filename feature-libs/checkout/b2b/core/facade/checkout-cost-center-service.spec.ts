@@ -45,9 +45,9 @@ class MockCheckoutCostCenterConnector
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of(of({ loading: false, error: false, data: undefined }))
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of(of({ loading: false, error: false, data: undefined })));
 }
 
 describe(`CheckoutCostCenterService`, () => {
@@ -107,7 +107,9 @@ describe(`CheckoutCostCenterService`, () => {
 
   describe(`setCostCenter`, () => {
     it(`should call checkoutCostCenterConnector.setCostCenter`, async () => {
-      const cart = await firstValueFrom(service.setCostCenter(mockCostCenter.code ?? ''));
+      const cart = await firstValueFrom(
+        service.setCostCenter(mockCostCenter.code ?? '')
+      );
       expect(connector.setCostCenter).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,

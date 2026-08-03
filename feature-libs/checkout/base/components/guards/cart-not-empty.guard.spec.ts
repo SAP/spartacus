@@ -42,9 +42,9 @@ describe('CartNotEmptyGuard', () => {
   describe('canActivate()', () => {
     describe('when cart is NOT created', () => {
       beforeEach(() => {
-        activeCartFacade.takeActive = vi.fn().mockReturnValue(
-          of(CART_NOT_CREATED)
-        );
+        activeCartFacade.takeActive = vi
+          .fn()
+          .mockReturnValue(of(CART_NOT_CREATED));
       });
 
       it('should return the homepage route', async () => {
@@ -55,9 +55,7 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is empty', () => {
       beforeEach(() => {
-        activeCartFacade.takeActive = vi.fn().mockReturnValue(
-          of(CART_EMPTY)
-        );
+        activeCartFacade.takeActive = vi.fn().mockReturnValue(of(CART_EMPTY));
       });
 
       it('should return the homepage route', async () => {
@@ -68,9 +66,9 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is NOT empty', () => {
       beforeEach(() => {
-        activeCartFacade.takeActive = vi.fn().mockReturnValue(
-          of(CART_NOT_EMPTY)
-        );
+        activeCartFacade.takeActive = vi
+          .fn()
+          .mockReturnValue(of(CART_NOT_EMPTY));
       });
 
       it('should return true', async () => {

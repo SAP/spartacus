@@ -30,9 +30,9 @@ const mockPurchaseOrderNumber = 'purchaseOrderNumber';
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = vi.fn().mockReturnValue(of(mockCartId));
   isGuestCart = vi.fn().mockReturnValue(of(false));
-  getActive = vi.fn().mockReturnValue(
-    of({ purchaseOrderNumber: 'cartpurchaseOrderNumber' })
-  );
+  getActive = vi
+    .fn()
+    .mockReturnValue(of({ purchaseOrderNumber: 'cartpurchaseOrderNumber' }));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -52,9 +52,9 @@ class MockCheckoutPaymentTypeConnector
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of(of({ loading: false, error: false, data: undefined }))
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of(of({ loading: false, error: false, data: undefined })));
 }
 
 describe(`CheckoutPaymentTypeService`, () => {
@@ -134,7 +134,9 @@ describe(`CheckoutPaymentTypeService`, () => {
 
   describe(`setPaymentType`, () => {
     it(`should call paymentTypeConnector.setPaymentType`, async () => {
-      await firstValueFrom(service.setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber));
+      await firstValueFrom(
+        service.setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
+      );
       expect(connector.setPaymentType).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
@@ -144,7 +146,9 @@ describe(`CheckoutPaymentTypeService`, () => {
     });
 
     it(`should call dispatch CheckoutPaymentTypeSetEvent`, async () => {
-      await firstValueFrom(service.setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber));
+      await firstValueFrom(
+        service.setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
+      );
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {
           cartId: mockCartId,
@@ -169,7 +173,9 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      const result = await firstValueFrom(service.getSelectedPaymentTypeState());
+      const result = await firstValueFrom(
+        service.getSelectedPaymentTypeState()
+      );
       expect(result).toEqual(<QueryState<PaymentType | undefined>>{
         loading: false,
         error: false,
@@ -218,7 +224,9 @@ describe(`CheckoutPaymentTypeService`, () => {
         })
       );
 
-      const result = await firstValueFrom(service.getPurchaseOrderNumberState());
+      const result = await firstValueFrom(
+        service.getPurchaseOrderNumberState()
+      );
       expect(result).toEqual(<QueryState<string | undefined>>{
         loading: false,
         error: false,

@@ -82,9 +82,9 @@ describe('CheckoutLoginComponent', () => {
 
   describe('submitting form', () => {
     beforeEach(() => {
-      activeCartFacade.getAssignedUser = vi.fn().mockReturnValue(
-        of({ name: 'guest', uid: 'john@acme.com' } as User)
-      );
+      activeCartFacade.getAssignedUser = vi
+        .fn()
+        .mockReturnValue(of({ name: 'guest', uid: 'john@acme.com' } as User));
       activeCartFacade.isGuestCart = vi.fn().mockReturnValue(of(true));
     });
 

@@ -75,24 +75,24 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getDeliveryAddressState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSelectedDeliveryModeState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getSelectedDeliveryModeState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
   setDeliveryMode = vi.fn();
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getPaymentDetailsState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 const hasDeliveryItems$ = new BehaviorSubject<boolean>(false);
@@ -167,54 +167,70 @@ describe(`CheckoutStepsSetGuard`, () => {
 
   describe('there is no checkout data set yet', () => {
     it('go to step1 (delivery address), should return true (no need cost center for CARD)', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route1'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route1'] })
+      );
       expect(result).toBeTruthy();
     });
 
     it('go to step2 (delivery mode), should return step1', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route2'] })
+      );
       expect(result.toString()).toEqual('/checkout/route1');
     });
 
     it('go to step3 (payment details), should return step2', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+      );
       expect(result.toString()).toEqual('/checkout/route2');
     });
 
     it('go to step4 (review details), should return step3', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route4'] })
+      );
       expect(result.toString()).toEqual('/checkout/route3');
     });
   });
 
   describe('step1 (delivery address) data set', () => {
     beforeEach(() => {
-      checkoutDeliveryAddressFacade.getDeliveryAddressState =
-        vi.fn().mockReturnValue(
+      checkoutDeliveryAddressFacade.getDeliveryAddressState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: { id: 'test-address' } })
         );
     });
 
     it('go to step2 (delivery mode), should return true', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route2'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route2'] })
+      );
       expect(result).toBeTruthy();
     });
 
     it('go to step3 (payment details), should return step2', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+      );
       expect(result.toString()).toEqual('/checkout/route2');
     });
 
     it('go to step4 (review details), should return step3', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route4'] })
+      );
       expect(result.toString()).toEqual('/checkout/route3');
     });
   });
 
   describe('step2 (delivery mode) data set', () => {
     beforeEach(() => {
-      checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
-        vi.fn().mockReturnValue(
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState = vi
+        .fn()
+        .mockReturnValue(
           of({
             loading: false,
             error: false,
@@ -224,35 +240,44 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     it('go to step3 (payment details), should return true', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route3'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route3'] })
+      );
       expect(result).toBeTruthy();
     });
 
     it('go to step4 (review details), should return step3', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route4'] })
+      );
       expect(result.toString()).toEqual('/checkout/route3');
     });
   });
 
   describe('step3 (payment details) data set', () => {
     beforeEach(() => {
-      checkoutPaymentFacade.getPaymentDetailsState =
-        vi.fn().mockReturnValue(
+      checkoutPaymentFacade.getPaymentDetailsState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: { id: 'test-details' } })
         );
     });
 
     it('go to step4 (review details), should return true', async () => {
-      const result = await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
+      const result = await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route4'] })
+      );
       expect(result).toBeTruthy();
     });
 
     it('before go to review step, if delivery mode step is disabled, should set it to pickup', async () => {
       testStep.disabled = true;
-      await firstValueFrom(guard.canActivate(<any>{ url: ['checkout', 'route4'] }));
-      expect(
-        checkoutDeliveryModesFacade.setDeliveryMode
-      ).toHaveBeenCalledWith('pickup');
+      await firstValueFrom(
+        guard.canActivate(<any>{ url: ['checkout', 'route4'] })
+      );
+      expect(checkoutDeliveryModesFacade.setDeliveryMode).toHaveBeenCalledWith(
+        'pickup'
+      );
     });
   });
 });

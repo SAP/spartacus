@@ -44,7 +44,6 @@ import { MockIconComponent } from '../../../../../core-libs/storefront/cms-compo
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
-
 const mockCart: Cart = {
   guid: 'test',
   code: 'test',

@@ -125,9 +125,7 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login and not set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature disabled', () => {
-          (
-            checkoutConfigService.isGuestCheckout as any
-          ).mockReturnValue(false);
+          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(false);
 
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
@@ -139,9 +137,7 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login and set IS_GUEST_USER_CHECKOUT_KEY when guestCheckout feature enabled', () => {
-          (
-            checkoutConfigService.isGuestCheckout as any
-          ).mockReturnValue(true);
+          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(true);
 
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
@@ -171,9 +167,7 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-          (
-            checkoutConfigService.isGuestCheckout as any
-          ).mockReturnValue(true);
+          (checkoutConfigService.isGuestCheckout as any).mockReturnValue(true);
 
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
@@ -187,9 +181,11 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        activeCartService.getAssignedUser = vi.fn().mockReturnValue(
-          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
-        );
+        activeCartService.getAssignedUser = vi
+          .fn()
+          .mockReturnValue(
+            of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
+          );
       });
 
       it('should return true', () => {
@@ -238,9 +234,11 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        activeCartService.getAssignedUser = vi.fn().mockReturnValue(
-          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
-        );
+        activeCartService.getAssignedUser = vi
+          .fn()
+          .mockReturnValue(
+            of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
+          );
       });
 
       it('should redirect to same route when cart is stable', () => {

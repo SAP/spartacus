@@ -1,8 +1,5 @@
 import { Component, Directive, Input, Type } from '@angular/core';
-import {
-  ComponentFixture,
-    TestBed,
-    } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
@@ -336,9 +333,10 @@ describe('CheckoutPaymentMethodComponent', () => {
       const selectedPaymentMethod$ = new Subject<
         QueryState<PaymentDetails | undefined>
       >();
-      vi.spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').mockReturnValue(
-        of(false)
-      );
+      vi.spyOn(
+        mockUserPaymentService,
+        'getPaymentMethodsLoading'
+      ).mockReturnValue(of(false));
       vi.spyOn(mockUserPaymentService, 'getPaymentMethods').mockReturnValue(
         of([])
       );
@@ -346,10 +344,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         mockCheckoutPaymentService,
         'getPaymentDetailsState'
       ).mockReturnValue(selectedPaymentMethod$);
-      vi.spyOn(
-        mockCheckoutPaymentService,
-        'createPaymentDetails'
-      );
+      vi.spyOn(mockCheckoutPaymentService, 'createPaymentDetails');
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -390,7 +385,9 @@ describe('CheckoutPaymentMethodComponent', () => {
       fixture.debugElement
         .queryAll(By.css('button'))
         .filter(
-          (btn) => btn.nativeElement.textContent?.trim() === 'paymentForm.addNewPayment'
+          (btn) =>
+            btn.nativeElement.textContent?.trim() ===
+            'paymentForm.addNewPayment'
         )[0]
         .nativeElement.click();
       fixture.detectChanges();
@@ -509,7 +506,9 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should not try to load methods for guest checkout', () => {
-      vi.spyOn(mockUserPaymentService, 'loadPaymentMethods').mockImplementation(() => {});
+      vi.spyOn(mockUserPaymentService, 'loadPaymentMethods').mockImplementation(
+        () => {}
+      );
       vi.spyOn(mockUserPaymentService, 'getPaymentMethods').mockReturnValue(
         of([])
       );
@@ -569,7 +568,9 @@ describe('CheckoutPaymentMethodComponent', () => {
       fixture.detectChanges();
       fixture.debugElement
         .queryAll(By.css('button'))
-        .filter((btn) => btn.nativeElement.textContent?.trim() === 'common.back')[0]
+        .filter(
+          (btn) => btn.nativeElement.textContent?.trim() === 'common.back'
+        )[0]
         .nativeElement.click();
       fixture.detectChanges();
 
@@ -593,8 +594,9 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should NOT be able to select payment method if the selection is the same as the currently set payment details', () => {
-      mockCheckoutPaymentService.getPaymentDetailsState =
-        vi.fn().mockReturnValue(
+      mockCheckoutPaymentService.getPaymentDetailsState = vi
+        .fn()
+        .mockReturnValue(
           of({ loading: false, error: false, data: mockPayments[0] })
         );
       fixture.detectChanges();
@@ -670,9 +672,10 @@ describe('CheckoutPaymentMethodComponent', () => {
         selectButton.focus();
         component['isUpdating$'] = of(false);
         vi.spyOn(card, 'focus');
-        vi.spyOn(component['focusService'], 'findFirstFocusable').mockReturnValue(
-          card
-        );
+        vi.spyOn(
+          component['focusService'],
+          'findFirstFocusable'
+        ).mockReturnValue(card);
 
         component.focusCardAfterSelecting();
         await vi.advanceTimersByTimeAsync(16); // Wait for requestAnimationFrame

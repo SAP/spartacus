@@ -18,7 +18,6 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
 import { provideMockFeatureToggles } from '../../../../../core-libs/core/src/features-config/feature-toggles/testing';
 
-
 class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return EMPTY;
@@ -160,7 +159,9 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-          vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(true);
+          vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(
+            true
+          );
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
             .canActivate()
@@ -189,7 +190,9 @@ describe('CheckoutAuthGuard', () => {
         });
 
         it('should return url to login without forced flag when guestCheckout feature enabled', () => {
-          vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(true);
+          vi.spyOn(checkoutConfigService, 'isGuestCheckout').mockReturnValue(
+            true
+          );
           let result: boolean | UrlTree | RedirectCommand | undefined;
           checkoutGuard
             .canActivate()

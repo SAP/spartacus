@@ -58,9 +58,9 @@ describe('CheckoutPageMetaResolver', () => {
   it(`should resolve page title`, () => {
     let result: string | undefined;
 
-    basePageMetaResolver.resolveTitle = vi.fn().mockReturnValue(
-      of('Checkout Delivery Mode')
-    );
+    basePageMetaResolver.resolveTitle = vi
+      .fn()
+      .mockReturnValue(of('Checkout Delivery Mode'));
 
     service
       .resolveTitle()
@@ -86,9 +86,9 @@ describe('CheckoutPageMetaResolver', () => {
   it(`should resolve 'Page description' for resolveDescription()`, () => {
     let result: string | undefined;
 
-    basePageMetaResolver.resolveDescription = vi.fn().mockReturnValue(
-      of('Page description')
-    );
+    basePageMetaResolver.resolveDescription = vi
+      .fn()
+      .mockReturnValue(of('Page description'));
 
     service
       .resolveDescription()
@@ -102,9 +102,14 @@ describe('CheckoutPageMetaResolver', () => {
 
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
-    basePageMetaResolver.resolveRobots = vi.fn().mockReturnValue(
-      of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX] as PageRobotsMeta[])
-    );
+    basePageMetaResolver.resolveRobots = vi
+      .fn()
+      .mockReturnValue(
+        of([
+          PageRobotsMeta.NOFOLLOW,
+          PageRobotsMeta.NOINDEX,
+        ] as PageRobotsMeta[])
+      );
 
     service
       .resolveRobots()

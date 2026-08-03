@@ -67,9 +67,11 @@ describe('CheckoutCartInterceptor', () => {
 
   describe('intercept', () => {
     it('should redirect to cart page if the cart is not found', () => {
-      routingService.getRouterState = vi.fn().mockReturnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        );
 
       const mockReq = createRequest();
 
@@ -80,9 +82,11 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT do anything if the route is not part of checkout', () => {
-      routingService.getRouterState = vi.fn().mockReturnValue(
-        of({ state: { semanticRoute: 'orderConfirmation' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'orderConfirmation' } } as any)
+        );
 
       const mockReq = createRequest();
 
@@ -93,9 +97,11 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT reload cart if there is no subject', () => {
-      routingService.getRouterState = vi.fn().mockReturnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        );
 
       const mockReq = createRequest();
 
@@ -117,9 +123,11 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT do anything if the error is not 400', () => {
-      routingService.getRouterState = vi.fn().mockReturnValue(
-        of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
-      );
+      routingService.getRouterState = vi
+        .fn()
+        .mockReturnValue(
+          of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
+        );
 
       const mockReq = createRequest();
 

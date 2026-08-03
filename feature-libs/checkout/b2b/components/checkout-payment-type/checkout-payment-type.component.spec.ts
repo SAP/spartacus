@@ -31,12 +31,12 @@ class MockCheckoutPaymentTypeService
 {
   getPaymentTypes = vi.fn().mockReturnValue(of(mockPaymentTypes));
   setPaymentType = vi.fn().mockReturnValue(of('setPaymentType'));
-  getSelectedPaymentTypeState = vi.fn().mockReturnValue(
-    selectedPaymentType$.asObservable()
-  );
-  getPurchaseOrderNumberState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: 'test-po' })
-  );
+  getSelectedPaymentTypeState = vi
+    .fn()
+    .mockReturnValue(selectedPaymentType$.asObservable());
+  getPurchaseOrderNumberState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: 'test-po' }));
 }
 
 class MockCheckoutOnePaymentTypeService
@@ -44,12 +44,12 @@ class MockCheckoutOnePaymentTypeService
 {
   getPaymentTypes = vi.fn().mockReturnValue(of(mockDisableOnePaymentTypes));
   setPaymentType = vi.fn().mockReturnValue(of(undefined));
-  getSelectedPaymentTypeState = vi.fn().mockReturnValue(
-    selectedPaymentType$.asObservable()
-  );
-  getPurchaseOrderNumberState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: 'test-po' })
-  );
+  getSelectedPaymentTypeState = vi
+    .fn()
+    .mockReturnValue(selectedPaymentType$.asObservable());
+  getPurchaseOrderNumberState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: 'test-po' }));
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
@@ -61,9 +61,9 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
 }
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getActive = vi.fn().mockReturnValue(
-    of({ quotePurchaseOrderNumber: 'quote-po-number' })
-  );
+  getActive = vi
+    .fn()
+    .mockReturnValue(of({ quotePurchaseOrderNumber: 'quote-po-number' }));
 }
 
 const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({

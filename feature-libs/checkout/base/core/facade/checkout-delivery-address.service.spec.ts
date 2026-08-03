@@ -43,15 +43,15 @@ class MockCheckoutDeliveryAddressConnector
 {
   createAddress = vi.fn().mockReturnValue(of(mockAddress));
   setAddress = vi.fn().mockReturnValue(of('setAddress'));
-  clearCheckoutDeliveryAddress = vi.fn().mockReturnValue(
-    of('clearCheckoutDeliveryAddress')
-  );
+  clearCheckoutDeliveryAddress = vi
+    .fn()
+    .mockReturnValue(of('clearCheckoutDeliveryAddress'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState = vi.fn().mockReturnValue(
-    of({ loading: false, error: false, data: undefined })
-  );
+  getCheckoutDetailsState = vi
+    .fn()
+    .mockReturnValue(of({ loading: false, error: false, data: undefined }));
 }
 
 describe(`CheckoutDeliveryAddressService`, () => {

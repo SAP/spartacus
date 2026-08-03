@@ -4,15 +4,18 @@ import { take } from 'rxjs/operators';
 import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
 
-
 class MockOrderAdapter implements Partial<CheckoutAdapter> {
-  placeOrder = vi.fn().mockImplementation(
-    (userId: string, cartId: string, termsChecked: boolean) =>
-      of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
-  );
-  getCheckoutDetails = vi.fn().mockImplementation((userId: string, cartId: string) =>
-    of(`loadCheckoutDetails-${userId}-${cartId}`)
-  );
+  placeOrder = vi
+    .fn()
+    .mockImplementation(
+      (userId: string, cartId: string, termsChecked: boolean) =>
+        of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
+    );
+  getCheckoutDetails = vi
+    .fn()
+    .mockImplementation((userId: string, cartId: string) =>
+      of(`loadCheckoutDetails-${userId}-${cartId}`)
+    );
 }
 
 describe('CheckoutConnector', () => {
