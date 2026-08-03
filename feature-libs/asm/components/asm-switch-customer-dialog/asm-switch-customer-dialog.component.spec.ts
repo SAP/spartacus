@@ -108,7 +108,9 @@ describe('AsmSwitchCustomerDialogComponent', () => {
     asmComponentService = TestBed.inject(AsmComponentService);
 
     vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
-    vi.spyOn(asmComponentService, 'logoutCustomer').mockImplementation(() => {});
+    vi.spyOn(asmComponentService, 'logoutCustomer').mockImplementation(
+      () => {}
+    );
   });
 
   it('should create', () => {

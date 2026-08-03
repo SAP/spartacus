@@ -4,12 +4,22 @@
     "outDir": "../../out-tsc/spec",
     "module": "preserve",
     "strict": false,
-    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
     "moduleResolution": "bundler",
     "allowJs": true,
     "paths": {
-      "@spartacus/storefront/testing": ["../../core-libs/storefront/shared/test/index.ts"],
-      "@spartacus/core/process/store/reducers": ["../../core-libs/core/src/process/store/reducers/index.ts"]
+      "@spartacus/storefront/testing": [
+        "../../core-libs/storefront/shared/test/index.ts"
+      ],
+      "@spartacus/core/process/store/reducers": [
+        "../../core-libs/core/src/process/store/reducers/index.ts"
+      ]
     }
   },
   "files": ["setup-test.ts"],

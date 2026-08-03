@@ -25,14 +25,23 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['lcov'],
       reportsDirectory: `${import.meta.dirname}/../../coverage/asm`,
-      exclude: ['**/public_api.ts', '**/index.ts', '**/*.module.ts', 'setup-test.ts', 'vitest.config.ts'],
+      exclude: [
+        '**/public_api.ts',
+        '**/index.ts',
+        '**/*.module.ts',
+        'setup-test.ts',
+        'vitest.config.ts',
+      ],
       thresholds: { statements: 90, lines: 90, branches: 80, functions: 90 },
     },
     reporters: [
       'default',
-      ['junit', {
-        outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-asm.xml`,
-      }],
+      [
+        'junit',
+        {
+          outputFile: `${import.meta.dirname}/../../unit-tests-reports/unit-test-asm.xml`,
+        },
+      ],
     ],
   },
 });

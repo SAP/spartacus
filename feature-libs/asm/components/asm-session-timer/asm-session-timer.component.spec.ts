@@ -4,10 +4,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import {
-  ComponentFixture,
-    TestBed,
-    } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AsmConfig } from '@spartacus/asm/root';
 import {
   MockTranslatePipe,
@@ -96,10 +93,15 @@ describe('AsmSessionTimerComponent', () => {
   it('should logout when time left is zero.', async () => {
     vi.useFakeTimers();
     (config as any).asm.agentSessionTimer.startingDelayInSeconds = 1;
-    vi.spyOn(asmComponentService, 'logoutCustomerSupportAgentAndCustomer').mockImplementation(() => {});
+    vi.spyOn(
+      asmComponentService,
+      'logoutCustomerSupportAgentAndCustomer'
+    ).mockImplementation(() => {});
     component.ngOnInit();
     await vi.advanceTimersByTimeAsync(2000);
-    expect(asmComponentService.logoutCustomerSupportAgentAndCustomer).toHaveBeenCalled();
+    expect(
+      asmComponentService.logoutCustomerSupportAgentAndCustomer
+    ).toHaveBeenCalled();
     component.ngOnDestroy();
     vi.useRealTimers();
   });
@@ -107,16 +109,24 @@ describe('AsmSessionTimerComponent', () => {
   it('should not call logout when there is some time left.', async () => {
     vi.useFakeTimers();
     (config as any).asm.agentSessionTimer.startingDelayInSeconds = 10;
-    vi.spyOn(asmComponentService, 'logoutCustomerSupportAgentAndCustomer').mockImplementation(() => {});
+    vi.spyOn(
+      asmComponentService,
+      'logoutCustomerSupportAgentAndCustomer'
+    ).mockImplementation(() => {});
     component.ngOnInit();
     await vi.advanceTimersByTimeAsync(1000);
-    expect(asmComponentService.logoutCustomerSupportAgentAndCustomer).not.toHaveBeenCalled();
+    expect(
+      asmComponentService.logoutCustomerSupportAgentAndCustomer
+    ).not.toHaveBeenCalled();
     component.ngOnDestroy();
     vi.useRealTimers();
   });
 
   it('should reset the time left when user navigates on a new page.', () => {
-    vi.spyOn(component as any, 'resetOnCustomerSessionChange').mockImplementation(() => {});
+    vi.spyOn(
+      component as any,
+      'resetOnCustomerSessionChange'
+    ).mockImplementation(() => {});
     vi.spyOn(component, 'resetTimer');
     vi.spyOn(routingService, 'isNavigating').mockReturnValue(of(true));
     component.ngOnInit();
@@ -124,7 +134,10 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should not reset the time left when user is not navigating to a new page', () => {
-    vi.spyOn(component as any, 'resetOnCustomerSessionChange').mockImplementation(() => {});
+    vi.spyOn(
+      component as any,
+      'resetOnCustomerSessionChange'
+    ).mockImplementation(() => {});
     vi.spyOn(component, 'resetTimer');
     vi.spyOn(routingService, 'isNavigating').mockReturnValue(of(false));
     component.ngOnInit();
@@ -135,7 +148,9 @@ describe('AsmSessionTimerComponent', () => {
     (config as any).asm.agentSessionTimer.startingDelayInSeconds = 632;
     component.ngOnInit();
     const result = component['getTimerStartDelayInSeconds']();
-    expect(result).toBe((config as any).asm.agentSessionTimer.startingDelayInSeconds);
+    expect(result).toBe(
+      (config as any).asm.agentSessionTimer.startingDelayInSeconds
+    );
   });
 
   it('should use a maximum start delay', () => {

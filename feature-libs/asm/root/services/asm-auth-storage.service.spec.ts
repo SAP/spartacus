@@ -50,7 +50,9 @@ describe('AsmAuthStorageService', () => {
       const initializedService = TestBed.inject(AsmAuthStorageService);
 
       expect(initializedService.getEmulatedUserToken()).toEqual(authToken);
-      const tokenTarget = await firstValueFrom(initializedService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        initializedService.getTokenTarget()
+      );
       expect(tokenTarget).toEqual(TokenTarget.CSAgent);
     });
   });
@@ -78,7 +80,9 @@ describe('AsmAuthStorageService', () => {
     });
 
     it('should emit emulated user token changes', async () => {
-      const tokens$ = service.getEmulatedUserTokenState().pipe(take(2), toArray());
+      const tokens$ = service
+        .getEmulatedUserTokenState()
+        .pipe(take(2), toArray());
       const tokensPromise = firstValueFrom(tokens$);
       service.setEmulatedUserToken(authToken);
       const tokens = await tokensPromise;

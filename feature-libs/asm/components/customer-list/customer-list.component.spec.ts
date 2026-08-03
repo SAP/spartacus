@@ -320,10 +320,7 @@ describe('CustomerListComponent', () => {
   });
 
   it('should use internal default when config is not defined', () => {
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
     if (config?.asm?.customerList) {
       config.asm.customerList.pageSize = undefined;
     }
@@ -334,10 +331,7 @@ describe('CustomerListComponent', () => {
   });
 
   it('should use config for page size', () => {
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
     const expectedSize = 7;
     if (config?.asm?.customerList) {
       config.asm.customerList.pageSize = expectedSize;
@@ -358,10 +352,7 @@ describe('CustomerListComponent', () => {
 
   it('should change sort type', () => {
     fixture.detectChanges();
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
 
     component.changeSortCode('byNameAsc');
 
@@ -377,10 +368,7 @@ describe('CustomerListComponent', () => {
   });
 
   it('should exclude sort code on request when empty', () => {
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
     component.sortCode = '';
     const expectedOptions: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
@@ -398,10 +386,7 @@ describe('CustomerListComponent', () => {
   it('should call enter onKey and dispatch query param', () => {
     component.searchBox.setValue(query.queryParams.query);
     fixture.detectChanges();
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
 
     component.onKey(enterKeyEvent);
     expect(
@@ -417,10 +402,7 @@ describe('CustomerListComponent', () => {
 
   it('should only call enter onKey', () => {
     component.onKey(badKeyEvent);
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
     expect(
       asmCustomerListFacade.customerListCustomersSearch
     ).not.toHaveBeenCalled();
@@ -454,10 +436,7 @@ describe('CustomerListComponent', () => {
         asmCustomerListFacade,
         'getCustomerListCustomersSearchResults'
       ).mockReturnValue(resultsPageController.asObservable());
-      vi.spyOn(
-        asmCustomerListFacade,
-        'customerListCustomersSearch'
-      );
+      vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
 
       fixture.detectChanges();
 
@@ -529,9 +508,7 @@ describe('CustomerListComponent', () => {
 
     it('should not go past the last page', () => {
       resultsPageController.next(mockCustomerSearchPage2);
-      (
-        asmCustomerListFacade.customerListCustomersSearch as any
-      ).mockClear();
+      (asmCustomerListFacade.customerListCustomersSearch as any).mockClear();
       Object.assign(component, { currentPage: 1, maxPage: 1, loaded: true });
 
       component.goToNextPage();
@@ -563,9 +540,7 @@ describe('CustomerListComponent', () => {
 
     it('should should ignore previous page when on the first page', () => {
       resultsPageController.next(mockCustomerSearchPage);
-      (
-        asmCustomerListFacade.customerListCustomersSearch as any
-      ).mockClear();
+      (asmCustomerListFacade.customerListCustomersSearch as any).mockClear();
       Object.assign(component, { loaded: true });
 
       component.goToPreviousPage();
@@ -627,10 +602,7 @@ describe('CustomerListComponent', () => {
   });
 
   it('should change to corresponding page when page changed with search query', () => {
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
     component.searchBox.setValue(query.queryParams.query);
     component.changePage(1);
     const expectedOptions: CustomerSearchOptions = {
@@ -646,10 +618,7 @@ describe('CustomerListComponent', () => {
   });
 
   it('should change to corresponding page when page changed without search query', () => {
-    vi.spyOn(
-      asmCustomerListFacade,
-      'customerListCustomersSearch'
-    );
+    vi.spyOn(asmCustomerListFacade, 'customerListCustomersSearch');
     component.changePage(1);
     const expectedOptions: CustomerSearchOptions = {
       customerListId: component.selectedUserGroupId,

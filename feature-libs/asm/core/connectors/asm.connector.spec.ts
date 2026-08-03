@@ -117,8 +117,12 @@ describe('AsmConnector', () => {
   });
 
   it('should return customerSearch results ', async () => {
-    vi.spyOn(asmAdapter, 'customerSearch').mockReturnValue(of(testSearchResults));
-    const results = await firstValueFrom(asmConnector.customerSearch(testSearchOptions));
+    vi.spyOn(asmAdapter, 'customerSearch').mockReturnValue(
+      of(testSearchResults)
+    );
+    const results = await firstValueFrom(
+      asmConnector.customerSearch(testSearchOptions)
+    );
     expect(results).toEqual(testSearchResults);
   });
 
@@ -147,7 +151,9 @@ describe('AsmConnector', () => {
   it('should pass the adapter bind cart response through to calling context ', async () => {
     vi.spyOn(asmAdapter, 'bindCart').mockReturnValue(of(mockBindCartResponse));
 
-    const results = await firstValueFrom(asmConnector.bindCart(mockBindCartParams));
+    const results = await firstValueFrom(
+      asmConnector.bindCart(mockBindCartParams)
+    );
     expect(results).toEqual(mockBindCartResponse);
   });
 

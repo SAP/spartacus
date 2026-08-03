@@ -45,7 +45,9 @@ describe('AsmToggleuUiComponent', () => {
   });
 
   it('should display expandIcon when AsmUi collapse state is true', () => {
-    vi.spyOn(asmService, 'getAsmUiState').mockReturnValue(of({ collapsed: true }));
+    vi.spyOn(asmService, 'getAsmUiState').mockReturnValue(
+      of({ collapsed: true })
+    );
 
     component.ngOnInit();
     fixture.detectChanges();

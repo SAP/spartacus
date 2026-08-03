@@ -248,7 +248,9 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to assign customer coupon to customer', () => {
-    vi.spyOn(customerCouponService, 'claimCustomerCoupon').mockImplementation(() => {});
+    vi.spyOn(customerCouponService, 'claimCustomerCoupon').mockImplementation(
+      () => {}
+    );
     mockCustomerCouponEntryList[1].applied = false;
     component.claimCouponToCustomer(mockCustomerCouponEntryList[1]);
     expect(customerCouponService.claimCustomerCoupon).toHaveBeenCalled();
@@ -258,8 +260,14 @@ describe('AsmCustomer360CouponComponent', () => {
   });
 
   it('should be able to remove customer coupon from customer', () => {
-    vi.spyOn(customerCouponService, 'disclaimCustomerCoupon').mockImplementation(() => {});
-    vi.spyOn(customerCouponService, 'resetDisclaimCustomerCoupon').mockImplementation(() => {});
+    vi.spyOn(
+      customerCouponService,
+      'disclaimCustomerCoupon'
+    ).mockImplementation(() => {});
+    vi.spyOn(
+      customerCouponService,
+      'resetDisclaimCustomerCoupon'
+    ).mockImplementation(() => {});
     mockCustomerCouponEntryList[0].applied = true;
     component.disclaimCouponToCustomer(mockCustomerCouponEntryList[0]);
     expect(

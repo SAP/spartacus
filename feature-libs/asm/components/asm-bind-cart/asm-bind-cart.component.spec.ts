@@ -208,7 +208,10 @@ describe('AsmBindCartComponent', () => {
     vi.spyOn(activeCartFacade, 'getActiveCartId').mockReturnValue(
       of(prevActiveCartId)
     );
-    vi.spyOn(asmComponentService, 'setShowDeeplinkCartInfoAlert').mockImplementation(() => {});
+    vi.spyOn(
+      asmComponentService,
+      'setShowDeeplinkCartInfoAlert'
+    ).mockImplementation(() => {});
     vi.spyOn(routingService, 'go');
     vi.spyOn(activeCartFacade, 'getActive').mockReturnValue(of(prevActiveCart));
     vi.spyOn(globalMessageService, 'add');
@@ -233,9 +236,7 @@ describe('AsmBindCartComponent', () => {
 
     it('should bind cart without saving the active cart when active cart is empty', () => {
       const emptyCart: Cart = { ...prevActiveCart, deliveryItemsQuantity: 0 };
-      (activeCartFacade.getActive as any).mockReturnValue(
-        of(emptyCart)
-      );
+      (activeCartFacade.getActive as any).mockReturnValue(of(emptyCart));
 
       component.bindCartToCustomer();
 
@@ -343,8 +344,12 @@ describe('AsmBindCartComponent', () => {
 
   describe('subscribe deeplink cart id', () => {
     beforeEach(() => {
-      vi.spyOn(component.displayBindCartBtn$, 'next').mockImplementation(() => {});
-      vi.spyOn(component.displaySaveCartBtn$, 'next').mockImplementation(() => {});
+      vi.spyOn(component.displayBindCartBtn$, 'next').mockImplementation(
+        () => {}
+      );
+      vi.spyOn(component.displaySaveCartBtn$, 'next').mockImplementation(
+        () => {}
+      );
       vi.spyOn(asmComponentService, 'isEmulatedByDeepLink').mockReturnValue(
         new BehaviorSubject(true)
       );
@@ -384,7 +389,9 @@ describe('AsmBindCartComponent', () => {
     beforeEach(() => {
       fixture.detectChanges();
       component.deepLinkCartId = inactiveCartId;
-      vi.spyOn(asmComponentService, 'getSearchParameter').mockReturnValue('anyId');
+      vi.spyOn(asmComponentService, 'getSearchParameter').mockReturnValue(
+        'anyId'
+      );
       vi.spyOn(multiCartFacade, 'getCartEntity').mockReturnValue(
         of({
           loading: false,
@@ -424,8 +431,12 @@ describe('AsmBindCartComponent', () => {
         vi.spyOn(savedCartFacade, 'getSaveCartProcessSuccess').mockReturnValue(
           of(true)
         );
-        vi.spyOn(component.displayBindCartBtn$, 'next').mockImplementation(() => {});
-        vi.spyOn(component.displaySaveCartBtn$, 'next').mockImplementation(() => {});
+        vi.spyOn(component.displayBindCartBtn$, 'next').mockImplementation(
+          () => {}
+        );
+        vi.spyOn(component.displaySaveCartBtn$, 'next').mockImplementation(
+          () => {}
+        );
 
         component.onSaveInactiveCart();
         expect(routingService.go).toHaveBeenCalled();
@@ -436,7 +447,9 @@ describe('AsmBindCartComponent', () => {
         vi.spyOn(savedCartFacade, 'getSaveCartProcessError').mockReturnValue(
           of(true)
         );
-        vi.spyOn(component.displaySaveCartBtn$, 'next').mockImplementation(() => {});
+        vi.spyOn(component.displaySaveCartBtn$, 'next').mockImplementation(
+          () => {}
+        );
         component.onSaveInactiveCart();
         expect(routingService.go).not.toHaveBeenCalled();
         expect(component.displaySaveCartBtn$.next).not.toHaveBeenCalledWith(

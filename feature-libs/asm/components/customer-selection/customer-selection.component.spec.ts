@@ -1,8 +1,5 @@
 import { DebugElement, ElementRef } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-      } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
@@ -372,7 +369,7 @@ describe('CustomerSelectionComponent', () => {
       fixture.detectChanges();
       searchResultItems = component.searchResultItems.toArray();
       component.searchTerm.nativeElement.focus();
-  });
+    });
     it('should navigate between result items', () => {
       vi.spyOn(searchResultItems[0].nativeElement, 'focus');
 
@@ -509,7 +506,7 @@ describe('CustomerSelectionComponent', () => {
       fixture.detectChanges();
       searchResultItems = component.searchResultItems.toArray();
       component.searchOrder.nativeElement.focus();
-  });
+    });
     it('should navigate between result items for order search', () => {
       vi.spyOn(searchResultItems[0].nativeElement, 'focus');
 

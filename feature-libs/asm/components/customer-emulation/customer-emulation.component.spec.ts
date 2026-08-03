@@ -148,7 +148,9 @@ describe('CustomerEmulationComponent', () => {
     const endSessionButton = fixture.debugElement.query(
       By.css('button[formControlName="logoutCustomer"]')
     );
-    vi.spyOn(asmComponentService, 'logoutCustomer').mockImplementation(() => {});
+    vi.spyOn(asmComponentService, 'logoutCustomer').mockImplementation(
+      () => {}
+    );
     endSessionButton.nativeElement.click();
 
     //assert
@@ -159,14 +161,20 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
     const launchDialogService = TestBed.inject(LaunchDialogService);
 
-    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(() => {});
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe').mockImplementation(
+      () => {}
+    );
 
-    vi.spyOn(asmComponentService, 'handleAsmDialogAction').mockImplementation(() => {});
+    vi.spyOn(asmComponentService, 'handleAsmDialogAction').mockImplementation(
+      () => {}
+    );
 
     component.openAsmCustomer360();
 
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(1);
-    const [caller, , data] = vi.mocked(launchDialogService.openDialogAndSubscribe).mock.calls[0];
+    const [caller, , data] = vi.mocked(
+      launchDialogService.openDialogAndSubscribe
+    ).mock.calls[0];
     expect(caller).toBe(LAUNCH_CALLER.ASM_CUSTOMER_360);
     expect(data).toEqual({ customer: {} });
 

@@ -21,7 +21,7 @@ import {
 import { CsAgentAuthService } from './csagent-auth.service';
 
 class MockAuthService implements Partial<AuthService> {
-  logout() { }
+  logout() {}
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
@@ -92,31 +92,49 @@ describe('CsAgentAuthService', () => {
 
       await service.authorizeCustomerSupportAgent('testUser', 'testPass');
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
-      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('testUser', 'testPass');
       expect(tokenTarget).toBe(TokenTarget.CSAgent);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_ANONYMOUS);
+      expect(userIdService.setUserId).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS
+      );
       expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
     });
 
     it('when there was logged in user, should login CS agent and start emulation for that user', async () => {
-      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => undefined as any);
+      const dispatch = vi
+        .spyOn(store, 'dispatch')
+        .mockImplementation(() => undefined as any);
       vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
       vi.spyOn(userIdService, 'setUserId');
       vi.spyOn(asmAuthStorageService, 'setEmulatedUserToken');
-      vi.spyOn(userAccountFacade, 'get').mockReturnValue(of({ customerId: 'custId' }));
+      vi.spyOn(userAccountFacade, 'get').mockReturnValue(
+        of({ customerId: 'custId' })
+      );
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
       await service.authorizeCustomerSupportAgent('testUser', 'testPass');
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
-      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('testUser', 'testPass');
       expect(tokenTarget).toBe(TokenTarget.CSAgent);
-      expect(vi.mocked(dispatch).mock.calls[0][0]).toEqual(new AuthActions.Logout());
-      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(new AuthActions.Login());
+      expect(vi.mocked(dispatch).mock.calls[0][0]).toEqual(
+        new AuthActions.Logout()
+      );
+      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(
+        new AuthActions.Login()
+      );
       expect(userIdService.setUserId).toHaveBeenCalledWith('custId');
       expect(asmAuthStorageService.setEmulatedUserToken).toHaveBeenCalledWith({
         access_token: 'token',
@@ -125,7 +143,10 @@ describe('CsAgentAuthService', () => {
 
     it('should not changed storage state, when authorization failed', async () => {
       vi.spyOn(store, 'dispatch').mockImplementation(() => null);
-      vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow').mockImplementation(() => {
+      vi.spyOn(
+        oAuthLibWrapperService,
+        'authorizeWithPasswordFlow'
+      ).mockImplementation(() => {
         return Promise.reject();
       });
       vi.spyOn(userIdService, 'setUserId');
@@ -134,14 +155,20 @@ describe('CsAgentAuthService', () => {
 
       await service.authorizeCustomerSupportAgent('testUser', 'testPass');
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
-      expect(oAuthLibWrapperService.authorizeWithPasswordFlow).toHaveBeenCalledWith('testUser', 'testPass');
+      expect(
+        oAuthLibWrapperService.authorizeWithPasswordFlow
+      ).toHaveBeenCalledWith('testUser', 'testPass');
       expect(tokenTarget).toBe(TokenTarget.User);
       expect(store.dispatch).not.toHaveBeenCalled();
       expect(userIdService.setUserId).not.toHaveBeenCalled();
       expect(asmAuthStorageService.setEmulatedUserToken).not.toHaveBeenCalled();
-      expect(asmAuthStorageService.clearEmulatedUserToken).not.toHaveBeenCalled();
+      expect(
+        asmAuthStorageService.clearEmulatedUserToken
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -154,31 +181,45 @@ describe('CsAgentAuthService', () => {
 
       await service.authorizeCustomerSupportAgentWhenUseCodeFlow();
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
       expect(tokenTarget).toBe(TokenTarget.CSAgent);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_ANONYMOUS);
+      expect(userIdService.setUserId).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS
+      );
       expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
     });
 
     it('when there was logged in user, should login CS agent and start emulation for that user', async () => {
-      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => null);
+      const dispatch = vi
+        .spyOn(store, 'dispatch')
+        .mockImplementation(() => null);
       vi.spyOn(oAuthLibWrapperService, 'initLoginFlow');
       vi.spyOn(userIdService, 'setUserId');
       vi.spyOn(asmAuthStorageService, 'setEmulatedUserToken');
-      vi.spyOn(userAccountFacade, 'get').mockReturnValue(of({ customerId: 'custId' }));
+      vi.spyOn(userAccountFacade, 'get').mockReturnValue(
+        of({ customerId: 'custId' })
+      );
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
       await service.authorizeCustomerSupportAgentWhenUseCodeFlow();
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
       expect(tokenTarget).toBe(TokenTarget.CSAgent);
-      expect(vi.mocked(dispatch).mock.calls[0][0]).toEqual(new AuthActions.Logout());
-      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(new AuthActions.Login());
+      expect(vi.mocked(dispatch).mock.calls[0][0]).toEqual(
+        new AuthActions.Logout()
+      );
+      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(
+        new AuthActions.Login()
+      );
       expect(userIdService.setUserId).toHaveBeenCalledWith('custId');
       expect(asmAuthStorageService.setEmulatedUserToken).toHaveBeenCalledWith({
         access_token: 'token',
@@ -187,16 +228,20 @@ describe('CsAgentAuthService', () => {
 
     it('should revert token target to User when the code-flow redirect fails', async () => {
       vi.spyOn(store, 'dispatch').mockImplementation(() => null);
-      vi.spyOn(oAuthLibWrapperService, 'initLoginFlow').mockImplementation(() => {
-        return Promise.reject();
-      });
+      vi.spyOn(oAuthLibWrapperService, 'initLoginFlow').mockImplementation(
+        () => {
+          return Promise.reject();
+        }
+      );
       vi.spyOn(userIdService, 'setUserId');
       vi.spyOn(asmAuthStorageService, 'setEmulatedUserToken');
       vi.spyOn(asmAuthStorageService, 'clearEmulatedUserToken');
 
       await service.authorizeCustomerSupportAgentWhenUseCodeFlow();
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
       // Emulation state is now persisted BEFORE the redirect (CXSPA-13923), so it
       // runs even here; with no active session this is the anonymous branch. On
@@ -204,7 +249,9 @@ describe('CsAgentAuthService', () => {
       expect(oAuthLibWrapperService.initLoginFlow).toHaveBeenCalled();
       expect(tokenTarget).toBe(TokenTarget.User);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_ANONYMOUS);
+      expect(userIdService.setUserId).toHaveBeenCalledWith(
+        OCC_USER_ID_ANONYMOUS
+      );
       expect(asmAuthStorageService.setEmulatedUserToken).not.toHaveBeenCalled();
       expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
     });
@@ -212,15 +259,21 @@ describe('CsAgentAuthService', () => {
 
   describe('startCustomerEmulationSession()', () => {
     it('should start emulation of a customer', () => {
-      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => null);
+      const dispatch = vi
+        .spyOn(store, 'dispatch')
+        .mockImplementation(() => null);
       vi.spyOn(asmAuthStorageService, 'clearEmulatedUserToken');
       vi.spyOn(userIdService, 'setUserId');
 
       service.startCustomerEmulationSession('custId');
 
       expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
-      expect(vi.mocked(dispatch).mock.calls[0][0]).toEqual(new AuthActions.Logout());
-      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(new AuthActions.Login());
+      expect(vi.mocked(dispatch).mock.calls[0][0]).toEqual(
+        new AuthActions.Logout()
+      );
+      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(
+        new AuthActions.Login()
+      );
       expect(userIdService.setUserId).toHaveBeenCalledWith('custId');
     });
   });
@@ -230,7 +283,9 @@ describe('CsAgentAuthService', () => {
       asmAuthStorageService.switchTokenTargetToCSAgent();
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
-      const result = await firstValueFrom(service.isCustomerSupportAgentLoggedIn());
+      const result = await firstValueFrom(
+        service.isCustomerSupportAgentLoggedIn()
+      );
       expect(result).toBe(true);
     });
 
@@ -240,30 +295,42 @@ describe('CsAgentAuthService', () => {
       asmAuthStorageService.setToken(userToken);
       asmAuthStorageService.switchTokenTargetToCSAgent();
 
-      const result = await firstValueFrom(service.isCustomerSupportAgentLoggedIn());
+      const result = await firstValueFrom(
+        service.isCustomerSupportAgentLoggedIn()
+      );
       expect(result).toBe(false);
     });
 
     it('should emit true when the current CS agent token differs from the emulated user token', async () => {
-      asmAuthStorageService.setEmulatedUserToken({ access_token: 'user_token' } as AuthToken);
-      asmAuthStorageService.setToken({ access_token: 'agent_token' } as AuthToken);
+      asmAuthStorageService.setEmulatedUserToken({
+        access_token: 'user_token',
+      } as AuthToken);
+      asmAuthStorageService.setToken({
+        access_token: 'agent_token',
+      } as AuthToken);
       asmAuthStorageService.switchTokenTargetToCSAgent();
 
-      const result = await firstValueFrom(service.isCustomerSupportAgentLoggedIn());
+      const result = await firstValueFrom(
+        service.isCustomerSupportAgentLoggedIn()
+      );
       expect(result).toBe(true);
     });
 
     it('should emit false when user logged in', async () => {
       asmAuthStorageService.switchTokenTargetToUser();
 
-      const result = await firstValueFrom(service.isCustomerSupportAgentLoggedIn());
+      const result = await firstValueFrom(
+        service.isCustomerSupportAgentLoggedIn()
+      );
       expect(result).toBe(false);
     });
 
     it('should emit false when no one is logged in', async () => {
       asmAuthStorageService.setToken(undefined);
 
-      const result = await firstValueFrom(service.isCustomerSupportAgentLoggedIn());
+      const result = await firstValueFrom(
+        service.isCustomerSupportAgentLoggedIn()
+      );
       expect(result).toBe(false);
     });
   });
@@ -289,12 +356,16 @@ describe('CsAgentAuthService', () => {
 
   describe('logoutCustomerSupportAgent()', () => {
     it('should logout CS agent', async () => {
-      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => null);
+      const dispatch = vi
+        .spyOn(store, 'dispatch')
+        .mockImplementation(() => null);
       vi.spyOn(oAuthLibWrapperService, 'revokeAndLogout');
 
       await service.logoutCustomerSupportAgent();
 
-      const tokenTarget = await firstValueFrom(asmAuthStorageService.getTokenTarget());
+      const tokenTarget = await firstValueFrom(
+        asmAuthStorageService.getTokenTarget()
+      );
 
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
       expect(dispatch).toHaveBeenCalledWith({
@@ -304,20 +375,30 @@ describe('CsAgentAuthService', () => {
     });
 
     it('should restore previous session when there is old session token', async () => {
-      const dispatch = vi.spyOn(store, 'dispatch').mockImplementation(() => null);
+      const dispatch = vi
+        .spyOn(store, 'dispatch')
+        .mockImplementation(() => null);
       vi.spyOn(asmAuthStorageService, 'setToken');
       vi.spyOn(asmAuthStorageService, 'clearEmulatedUserToken');
       vi.spyOn(userIdService, 'setUserId');
       userIdService.setUserId('cust-id');
-      asmAuthStorageService.setEmulatedUserToken({ access_token: 'user_token' } as AuthToken);
+      asmAuthStorageService.setEmulatedUserToken({
+        access_token: 'user_token',
+      } as AuthToken);
 
       await service.logoutCustomerSupportAgent();
 
-      expect(asmAuthStorageService.setToken).toHaveBeenCalledWith({ access_token: 'user_token' } as AuthToken);
+      expect(asmAuthStorageService.setToken).toHaveBeenCalledWith({
+        access_token: 'user_token',
+      } as AuthToken);
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
-      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(new AuthActions.Logout());
-      expect(vi.mocked(dispatch).mock.calls[2][0]).toEqual(new AuthActions.Login());
+      expect(vi.mocked(dispatch).mock.calls[1][0]).toEqual(
+        new AuthActions.Logout()
+      );
+      expect(vi.mocked(dispatch).mock.calls[2][0]).toEqual(
+        new AuthActions.Login()
+      );
     });
 
     it('should logout user, when we can not restore old session', async () => {

@@ -178,10 +178,7 @@ describe('AsmAuthService', () => {
 
   describe('loginWithCredentials()', () => {
     it('should authorize if user can login', async () => {
-      vi.spyOn(
-        oAuthLibWrapperService,
-        'authorizeWithPasswordFlow'
-      );
+      vi.spyOn(oAuthLibWrapperService, 'authorizeWithPasswordFlow');
 
       await service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
@@ -300,10 +297,12 @@ describe('AsmAuthService', () => {
 
     it('should delegate to parent when not using ASM client', async () => {
       vi.spyOn(service, 'isUsingASMClient').mockReturnValue(of(false));
-      const parentSpy = vi.spyOn(
-        Object.getPrototypeOf(Object.getPrototypeOf(service)),
-        'checkOAuthParamsInUrl'
-      ).mockReturnValue(Promise.resolve());
+      const parentSpy = vi
+        .spyOn(
+          Object.getPrototypeOf(Object.getPrototypeOf(service)),
+          'checkOAuthParamsInUrl'
+        )
+        .mockReturnValue(Promise.resolve());
 
       await service.checkOAuthParamsInUrl();
 

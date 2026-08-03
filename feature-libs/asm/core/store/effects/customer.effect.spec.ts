@@ -33,7 +33,9 @@ describe('Customer effect', () => {
     customerEffects = TestBed.inject(CustomerEffects);
     asmConnector = TestBed.inject(AsmConnector);
 
-    vi.spyOn(asmConnector, 'customerSearch').mockReturnValue(of({ entries: [] }));
+    vi.spyOn(asmConnector, 'customerSearch').mockReturnValue(
+      of({ entries: [] })
+    );
   });
 
   describe('customerSearch$', () => {

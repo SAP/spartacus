@@ -109,7 +109,9 @@ describe('UserIdHttpHeaderInterceptor', () => {
     initializeMocks();
 
     const userIdService = TestBed.inject(UserIdService);
-    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(of(OCC_USER_ID_CURRENT));
+    vi.spyOn(userIdService, 'takeUserId').mockReturnValue(
+      of(OCC_USER_ID_CURRENT)
+    );
 
     const resultPromise = firstValueFrom(http.get('/products/search'));
 
@@ -132,7 +134,9 @@ describe('UserIdHttpHeaderInterceptor', () => {
       sendUserIdAsHeader: true,
     });
 
-    const resultPromise = firstValueFrom(http.get('/products/search', { context }));
+    const resultPromise = firstValueFrom(
+      http.get('/products/search', { context })
+    );
 
     httpMock
       .expectOne(
@@ -153,7 +157,9 @@ describe('UserIdHttpHeaderInterceptor', () => {
       sendUserIdAsHeader: 'user002',
     });
 
-    const resultPromise = firstValueFrom(http.get('/products/search', { context }));
+    const resultPromise = firstValueFrom(
+      http.get('/products/search', { context })
+    );
 
     httpMock
       .expectOne(
@@ -195,7 +201,9 @@ describe('UserIdHttpHeaderInterceptor', () => {
       sendUserIdAsHeader: true,
     });
 
-    const resultPromise = firstValueFrom(http.get('/products/search', { context }));
+    const resultPromise = firstValueFrom(
+      http.get('/products/search', { context })
+    );
 
     httpMock
       .expectOne(

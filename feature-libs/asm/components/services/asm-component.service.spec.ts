@@ -103,7 +103,10 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
     it('should logout csagent no matter the emulation state', () => {
-      vi.spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').mockImplementation(() => {});
+      vi.spyOn(
+        csAgentAuthService,
+        'logoutCustomerSupportAgent'
+      ).mockImplementation(() => {});
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
@@ -121,7 +124,9 @@ describe('AsmComponentService', () => {
 
   describe('isCustomerEmulationSessionInProgress()', () => {
     it('should return true when user token is from an emulation session', async () => {
-      vi.spyOn(csAgentAuthService, 'isCustomerEmulated').mockReturnValue(of(true));
+      vi.spyOn(csAgentAuthService, 'isCustomerEmulated').mockReturnValue(
+        of(true)
+      );
       const result = await firstValueFrom(
         asmComponentService.isCustomerEmulationSessionInProgress()
       );
@@ -161,14 +166,18 @@ describe('AsmComponentService', () => {
     it('should emit true when user is emulated', async () => {
       asmComponentService.setEmulatedByDeepLink(true);
 
-      const result = await firstValueFrom(asmComponentService.isEmulatedByDeepLink());
+      const result = await firstValueFrom(
+        asmComponentService.isEmulatedByDeepLink()
+      );
       expect(result).toBe(true);
     });
 
     it('should emit false when setEmulated called with false', async () => {
       asmComponentService.setEmulatedByDeepLink(false);
 
-      const result = await firstValueFrom(asmComponentService.isEmulatedByDeepLink());
+      const result = await firstValueFrom(
+        asmComponentService.isEmulatedByDeepLink()
+      );
       expect(result).toBe(false);
     });
   });
