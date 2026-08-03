@@ -5,21 +5,29 @@
  */
 
 import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   b2bUnitSelectionTranslationChunksConfig,
   b2bUnitSelectionTranslationsEn,
 } from '@spartacus/organization/b2b-unit-selection/assets';
-import { B2bUnitSelectionModule } from '@spartacus/organization/b2b-unit-selection';
-import { B2bUnitSelectionRootModule } from '@spartacus/organization/b2b-unit-selection/root';
+import {
+  B2bUnitSelectionRootModule,
+  ORGANIZATION_B2B_UNIT_SELECTION_FEATURE,
+} from '@spartacus/organization/b2b-unit-selection/root';
 
-/**
- * Feature module for B2B Unit Selection.
- *
- */
 @NgModule({
-  imports: [B2bUnitSelectionRootModule, B2bUnitSelectionModule],
+  imports: [B2bUnitSelectionRootModule],
   providers: [
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [ORGANIZATION_B2B_UNIT_SELECTION_FEATURE]: {
+          module: () =>
+            import('@spartacus/organization/b2b-unit-selection').then(
+              (m) => m.B2bUnitSelectionModule
+            ),
+        },
+      },
+    }),
     provideConfig(<I18nConfig>{
       i18n: {
         resources: {
