@@ -50,7 +50,7 @@ describe(`OrderReturnGuard`, () => {
     guard = TestBed.inject(OrderReturnGuard);
     service = TestBed.inject(OrderReturnService);
 
-    spyOn(service, 'getForm').and.returnValue(of(mockForm));
+    vi.spyOn(service, 'getForm').mockReturnValue(of(mockForm));
   });
 
   it(`should redirect to the order detail page`, () => {

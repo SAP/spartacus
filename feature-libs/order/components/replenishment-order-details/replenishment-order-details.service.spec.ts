@@ -93,18 +93,12 @@ describe('ReplenishmentOrderDetailsService', () => {
       ReplenishmentOrderHistoryFacade
     );
 
-    spyOn(
-      replenishmentOrderHistoryFacade,
-      'loadReplenishmentOrderDetails'
-    ).and.callThrough();
-    spyOn(
-      replenishmentOrderHistoryFacade,
-      'clearReplenishmentOrderDetails'
-    ).and.callThrough();
-    spyOn(
+    vi.spyOn(replenishmentOrderHistoryFacade, 'loadReplenishmentOrderDetails');
+    vi.spyOn(replenishmentOrderHistoryFacade, 'clearReplenishmentOrderDetails');
+    vi.spyOn(
       replenishmentOrderHistoryFacade,
       'getReplenishmentOrderDetails'
-    ).and.returnValue(of(mockReplenishmentOrder));
+    ).mockReturnValue(of(mockReplenishmentOrder));
   });
 
   it('should be created', () => {

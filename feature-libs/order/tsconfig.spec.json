@@ -4,10 +4,38 @@
     "outDir": "../../out-tsc/spec",
     "module": "preserve",
     "strict": false,
-    "types": ["vitest/globals", "vitest/importMeta", "vite/client", "node", "vitest"],
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "vite/client",
+      "node",
+      "vitest"
+    ],
     "moduleResolution": "bundler",
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@spartacus/core/process/store/reducers": [
+        "../../core-libs/core/src/process/store/reducers/index.ts"
+      ],
+      "@spartacus/storefront/testing": [
+        "../../core-libs/storefront/shared/test/index.ts"
+      ],
+      "@spartacus/storefront/keyboard-focus/testing": [
+        "../../core-libs/storefront/layout/a11y/keyboard-focus/focus-testing.module.ts"
+      ],
+      "@spartacus/core/occ/testing": [
+        "../../core-libs/core/src/occ/adapters/user/unit-test.helper.ts"
+      ],
+      "@spartacus/core/routing/testing": [
+        "../../core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts"
+      ]
+    }
   },
   "files": ["setup-test.ts"],
-  "include": ["vitest.config.ts", "**/*.spec.ts", "**/*.d.ts"]
+  "include": [
+    "**/*.ts",
+    "../../core-libs/core/src/**/*.ts",
+    "../../core-libs/storefront/**/*.ts",
+    "../../feature-libs/**/*.ts"
+  ]
 }
