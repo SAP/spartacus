@@ -8,9 +8,17 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
 
+const root = `${import.meta.dirname}/../..`;
+
 export default defineConfig({
   root: import.meta.dirname,
   plugins: [angular(), nxViteTsPaths()],
+  resolve: {
+    alias: {
+      '@spartacus/core/testing': `${root}/core-libs/core/testing/public_api.ts`,
+      '@spartacus/storefront/testing': `${root}/core-libs/storefront/testing/public_api.ts`,
+    },
+  },
   test: {
     pool: 'forks',
     watch: false,
