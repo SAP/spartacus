@@ -9,3 +9,4 @@ export * from './b2b-unit-selection-dialog/b2b-unit-selection-dialog.component';
 export * from './b2b-unit-selector/abstract-b2b-unit-selector.component';
 export * from './b2b-unit-selector/b2b-unit-selector.component';
 export * from './default-b2b-unit-selection-layout.config';
+export * from './provide-b2b-unit-selector-cms-component';
