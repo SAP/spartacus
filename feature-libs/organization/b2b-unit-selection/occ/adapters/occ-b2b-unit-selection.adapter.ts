@@ -55,13 +55,13 @@ export class OccB2bUnitSelectionAdapter implements B2bUnitSelectionAdapter {
       );
   }
 
-  setDefaultOrgUnit(userId: string, unitUid: string): Observable<void> {
+  setDefaultOrgUnit(userId: string, unitName: string): Observable<void> {
     return this.http
       .put<void>(
         this.occEndpoints.buildUrl('orgUserDefaultUnit', {
           urlParams: { userId },
         }),
-        { uid: unitUid }
+        { uid: unitName }
       )
       .pipe(
         catchError((error: HttpErrorResponse) => {

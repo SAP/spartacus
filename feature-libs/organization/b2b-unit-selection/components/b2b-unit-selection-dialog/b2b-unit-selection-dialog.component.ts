@@ -7,6 +7,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -44,6 +45,10 @@ import { SetDefaultOrgUnit } from '@spartacus/organization/b2b-unit-selection/co
   ],
 })
 export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected userIdService = inject(UserIdService);
+  protected store = inject(Store);
+
   orgUnits: B2BUnit[] = [];
   protected subscriptions = new Subscription();
 
@@ -57,12 +62,6 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     selectedUnit: new FormControl<B2BUnit | null>(null, [Validators.required]),
   });
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected userIdService: UserIdService,
-    protected store: Store
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -86,10 +85,7 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
-    const unit = this.form.value.selectedUnit;
-    if (!unit) {
-      return;
-    }
+    const unit = this.form.value.selectedUnit!;
     this.userIdService
       .takeUserId(true)
       .pipe(take(1))

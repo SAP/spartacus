@@ -257,7 +257,6 @@ export class B2bUnitSelectionEffects implements OnRunEffects {
         ),
         timer(this.STABLE_TIMEOUT_MS)
       )
-        .pipe(take(1))
         .subscribe(() => this.ngZone.run(() => open()));
     });
   }

@@ -9,16 +9,10 @@ import { B2BUnit, ErrorAction } from '@spartacus/core';
 
 // ── Load Org Units ────────────────────────────────────────────────────────────
 
-export const LOAD_USER_ORG_UNITS = '[B2BUnitSelection] Load User Org Units';
 export const LOAD_USER_ORG_UNITS_SUCCESS =
   '[B2BUnitSelection] Load User Org Units Success';
 export const LOAD_USER_ORG_UNITS_FAIL =
   '[B2BUnitSelection] Load User Org Units Fail';
-
-export class LoadUserOrgUnits implements Action {
-  readonly type = LOAD_USER_ORG_UNITS;
-  constructor(public payload: { userId: string }) {}
-}
 
 export class LoadUserOrgUnitsSuccess implements Action {
   readonly type = LOAD_USER_ORG_UNITS_SUCCESS;
@@ -60,7 +54,6 @@ export class SetDefaultOrgUnitFail implements Action, ErrorAction {
 }
 
 export type B2bUnitSelectionAction =
-  | LoadUserOrgUnits
   | LoadUserOrgUnitsSuccess
   | LoadUserOrgUnitsFail
   | SetDefaultOrgUnit
