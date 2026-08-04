@@ -1,10 +1,11 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable, Subscription, of } from 'rxjs';
 import { ConfiguratorCartService } from '../configurator-cart.service';
 import { ConfiguratorRouterListener } from './configurator-router.listener';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
+import { vi } from 'vitest';
 
 const QUANTITY = 99;
 class MockConfiguratorCartService {
@@ -64,7 +65,7 @@ describe('ConfiguratorRouterListener', () => {
   let configuratorCartService: ConfiguratorCartService;
   let configuratorQuantityService: ConfiguratorQuantityService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -81,7 +82,7 @@ describe('ConfiguratorRouterListener', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     configuratorCartService = TestBed.inject(
       ConfiguratorCartService as Type<ConfiguratorCartService>
@@ -90,11 +91,11 @@ describe('ConfiguratorRouterListener', () => {
       ConfiguratorQuantityService as Type<ConfiguratorQuantityService>
     );
 
-    spyOn(
+    vi.spyOn(
       configuratorCartService,
       'removeCartBoundConfigurations'
-    ).and.callThrough();
-    spyOn(configuratorQuantityService, 'setQuantity').and.callThrough();
+    );
+    vi.spyOn(configuratorQuantityService, 'setQuantity');
   });
 
   describe('observeRouterChanges', () => {
@@ -142,7 +143,7 @@ describe('ConfiguratorRouterListener', () => {
       const classUnderTest = TestBed.inject(
         ConfiguratorRouterListener as Type<ConfiguratorRouterListener>
       );
-      const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+      const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
       classUnderTest.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
     });

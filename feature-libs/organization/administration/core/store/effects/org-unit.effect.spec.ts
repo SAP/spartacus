@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpHeaders,
@@ -31,7 +32,6 @@ import { B2BUnitNode } from '../../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 
-import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -70,20 +70,20 @@ const users: EntitiesModel<B2BUser> = {
 };
 
 class MockOrgUnitConnector {
-  get = createSpy().and.returnValue(of(orgUnit));
-  getList = createSpy().and.returnValue(of(orgUnitList));
-  create = createSpy().and.returnValue(of(orgUnit));
-  update = createSpy().and.returnValue(of(orgUnit));
-  createAddress = createSpy().and.returnValue(of(address));
-  updateAddress = createSpy().and.returnValue(of(address));
-  deleteAddress = createSpy().and.returnValue(of(address));
-  assignRole = createSpy().and.returnValue(of(roleId));
-  unassignRole = createSpy().and.returnValue(of(roleId));
-  assignApprover = createSpy().and.returnValue(of(roleId));
-  unassignApprover = createSpy().and.returnValue(of(roleId));
-  getApprovalProcesses = createSpy().and.returnValue(of(approvalProcesses));
-  getUsers = createSpy().and.returnValue(of(users));
-  getTree = createSpy().and.returnValue(of(unitNode));
+  get = vi.fn().mockReturnValue(of(orgUnit));
+  getList = vi.fn().mockReturnValue(of(orgUnitList));
+  create = vi.fn().mockReturnValue(of(orgUnit));
+  update = vi.fn().mockReturnValue(of(orgUnit));
+  createAddress = vi.fn().mockReturnValue(of(address));
+  updateAddress = vi.fn().mockReturnValue(of(address));
+  deleteAddress = vi.fn().mockReturnValue(of(address));
+  assignRole = vi.fn().mockReturnValue(of(roleId));
+  unassignRole = vi.fn().mockReturnValue(of(roleId));
+  assignApprover = vi.fn().mockReturnValue(of(roleId));
+  unassignApprover = vi.fn().mockReturnValue(of(roleId));
+  getApprovalProcesses = vi.fn().mockReturnValue(of(approvalProcesses));
+  getUsers = vi.fn().mockReturnValue(of(users));
+  getTree = vi.fn().mockReturnValue(of(unitNode));
 }
 
 class MockLoggerService {
@@ -152,7 +152,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadOrgUnitFail action if orgUnit not updated', () => {
-      orgUnitConnector.get = createSpy().and.returnValue(
+      orgUnitConnector.get = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });
@@ -182,7 +182,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
-      orgUnitConnector.getList = createSpy().and.returnValue(
+      orgUnitConnector.getList = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
@@ -208,7 +208,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
-      orgUnitConnector.create = createSpy().and.returnValue(
+      orgUnitConnector.create = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.CreateUnit({ userId, unit: orgUnit });
@@ -246,7 +246,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UpdateOrgUnitNodesFail action if orgUnits not loaded', () => {
-      orgUnitConnector.update = createSpy().and.returnValue(
+      orgUnitConnector.update = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UpdateUnit({
@@ -299,7 +299,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return CreateAddressFail action if address is not loaded', () => {
-      orgUnitConnector.createAddress = createSpy().and.returnValue(
+      orgUnitConnector.createAddress = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.CreateAddress({
@@ -349,7 +349,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UpdateAddressFail action if address is not loaded', () => {
-      orgUnitConnector.updateAddress = createSpy().and.returnValue(
+      orgUnitConnector.updateAddress = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UpdateAddress({
@@ -397,7 +397,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return DeleteAddressFail action if address is not loaded', () => {
-      orgUnitConnector.deleteAddress = createSpy().and.returnValue(
+      orgUnitConnector.deleteAddress = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.DeleteAddress({
@@ -446,7 +446,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return AssignRoleFail action if address is not loaded', () => {
-      orgUnitConnector.assignRole = createSpy().and.returnValue(
+      orgUnitConnector.assignRole = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.AssignRole({
@@ -494,7 +494,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UnassignRoleFail action if address is not loaded', () => {
-      orgUnitConnector.unassignRole = createSpy().and.returnValue(
+      orgUnitConnector.unassignRole = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UnassignRole({
@@ -545,7 +545,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return AssignApproverFail action if address is not loaded', () => {
-      orgUnitConnector.assignApprover = createSpy().and.returnValue(
+      orgUnitConnector.assignApprover = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.AssignApprover({
@@ -599,7 +599,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return UnassignApproverFail action if address is not loaded', () => {
-      orgUnitConnector.unassignApprover = createSpy().and.returnValue(
+      orgUnitConnector.unassignApprover = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.UnassignApprover({
@@ -644,7 +644,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadApprovalProcessesFail action if address is not loaded', () => {
-      orgUnitConnector.getApprovalProcesses = createSpy().and.returnValue(
+      orgUnitConnector.getApprovalProcesses = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadApprovalProcesses({
@@ -698,7 +698,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadUsersFail action if address is not loaded', () => {
-      orgUnitConnector.getUsers = createSpy().and.returnValue(
+      orgUnitConnector.getUsers = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadAssignedUsers({
@@ -740,7 +740,7 @@ describe('OrgUnit Effects', () => {
     });
 
     it('should return LoadTreeFail action if address is not loaded', () => {
-      orgUnitConnector.getTree = createSpy().and.returnValue(
+      orgUnitConnector.getTree = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrgUnitActions.LoadTree({

@@ -8,6 +8,7 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
+import { vi } from 'vitest';
 
 class MockConfiguratorCommonsService {
   readAttributeDomain() {}
@@ -47,7 +48,7 @@ describe('ConfiguratorShowOptionsComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService
     );
-    spyOn(configuratorCommonsService, 'readAttributeDomain');
+    vi.spyOn(configuratorCommonsService, 'readAttributeDomain');
     fixture = TestBed.createComponent(ConfiguratorShowOptionsComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -87,14 +88,14 @@ describe('ConfiguratorShowOptionsComponent', () => {
           a: false,
           b: true,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
-        spyOn(
+        ).mockReturnValue(configurationLoading);
+        vi.spyOn(
           configuratorStorefrontUtilsService,
           'focusFirstActiveElement'
-        ).and.callThrough();
+        );
         component['focusFirstValue']();
         flush();
         expect(

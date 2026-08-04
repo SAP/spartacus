@@ -1,9 +1,10 @@
+import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -28,7 +29,6 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
@@ -53,8 +53,8 @@ class MockUpdatePasswordService
     newPasswordConfirm: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updatePassword = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updatePassword = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -76,7 +76,7 @@ describe('UpdatePasswordComponent', () => {
   let routingService: RoutingService;
   let service: UpdatePasswordComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -151,7 +151,7 @@ describe('UpdatePasswordComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -163,7 +163,7 @@ describe('UpdatePasswordComponent', () => {
     });
 
     it('should navigate to home on cancel', () => {
-      spyOn(routingService, 'go');
+      vi.spyOn(routingService, 'go');
       const cancelBtn = el.query(By.css('button.btn-secondary'));
       cancelBtn.triggerEventHandler('click');
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });

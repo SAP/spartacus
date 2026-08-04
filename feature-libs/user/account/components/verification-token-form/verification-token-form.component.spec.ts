@@ -1,10 +1,11 @@
+import { vi } from 'vitest';
 import {
   ChangeDetectorRef,
   DebugElement,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -35,7 +36,6 @@ import {
 } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
-import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 
@@ -56,15 +56,15 @@ class MockFormComponentService
     tokenCode: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  login = createSpy().and.stub();
-  createVerificationToken = createSpy().and.returnValue(
+  login = vi.fn().mockImplementation(() => {});
+  createVerificationToken = vi.fn().mockReturnValue(
     of({ tokenId: 'testTokenId', expiresIn: '300' })
   );
-  displayMessage = createSpy('displayMessage').and.stub();
+  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 @Pipe({ name: 'cxUrl' })
@@ -73,7 +73,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe = createSpy().and.stub();
+  openDialogAndSubscribe = vi.fn().mockImplementation(() => {});
 }
 
 describe('VerificationTokenFormComponent', () => {
@@ -85,7 +85,7 @@ describe('VerificationTokenFormComponent', () => {
   let routineservice: RoutingService;
   let winRef: WindowRef;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -199,7 +199,7 @@ describe('VerificationTokenFormComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
@@ -227,7 +227,7 @@ describe('VerificationTokenFormComponent', () => {
     it('should resend OTP', () => {
       component.target = 'example@example.com';
       component.password = 'password';
-      spyOn(component, 'startWaitTimeInterval');
+      vi.spyOn(component, 'startWaitTimeInterval');
 
       component.resendOTP();
 
@@ -276,13 +276,9 @@ describe('VerificationTokenFormComponent', () => {
     it('should navigate to login and save loginId to sessionStorage', () => {
       component.target = 'user@example.com';
       component.password = 'myPass';
-      const storageSpy = jasmine.createSpyObj<Storage>('Storage', [
-        'getItem',
-        'setItem',
-        'removeItem',
-      ]);
-      spyOnProperty(winRef, 'sessionStorage', 'get').and.returnValue(
-        storageSpy
+      const storageSpy = { getItem: vi.fn(), setItem: vi.fn(), removeItem: vi.fn() };
+      vi.spyOn(winRef, 'sessionStorage', 'get').mockReturnValue(
+        storageSpy as any
       );
 
       component.goBack();

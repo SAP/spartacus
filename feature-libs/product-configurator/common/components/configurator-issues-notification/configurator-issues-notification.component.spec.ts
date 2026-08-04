@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
@@ -76,7 +76,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     mockCartItemContext.quantityControl$?.next(new UntypedFormControl());
   }
   describe('with cart item context', () => {
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [
@@ -100,7 +100,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           },
         })
         .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
@@ -117,31 +117,28 @@ describe('ConfigureIssuesNotificationComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should expose orderEntry$', (done) => {
+    it('should expose orderEntry$', async () => {
       const orderEntry: OrderEntry = { orderCode: '123' };
 
       component.orderEntry$.pipe(take(1)).subscribe((value) => {
         expect(value).toBe(orderEntry);
-        done();
       });
 
       mockCartItemContext.item$?.next(orderEntry);
     });
 
-    it('should expose quantityControl$', (done) => {
+    it('should expose quantityControl$', async () => {
       const quantityControl = new UntypedFormControl();
       component.quantityControl$.pipe(take(1)).subscribe((value) => {
         expect(value).toBe(quantityControl);
-        done();
       });
 
       mockCartItemContext.quantityControl$?.next(quantityControl);
     });
 
-    it('should expose readonly$', (done) => {
+    it('should expose readonly$', async () => {
       component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
         expect(values).toEqual([true, false]);
-        done();
       });
 
       mockCartItemContext.readonly$?.next(true);
@@ -301,7 +298,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
   });
   describe('without cart item context', () => {
-    beforeEach(waitForAsync(() => {
+    beforeEach(async () => {
       TestBed.configureTestingModule({
         imports: [ConfiguratorIssuesNotificationComponent],
         providers: [{ provide: CartItemContext, useValue: null }],
@@ -323,7 +320,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           },
         })
         .compileComponents();
-    }));
+    });
 
     beforeEach(() => {
       fixture = TestBed.createComponent(

@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -27,7 +28,6 @@ import { BehaviorSubject, of } from 'rxjs';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
 import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { RegisterVerificationTokenFormComponent } from './verification-token-form.component';
-import createSpy = jasmine.createSpy;
 const isBusySubject = new BehaviorSubject(false);
 
 class MockFormComponentService
@@ -37,23 +37,23 @@ class MockFormComponentService
     tokenId: new UntypedFormControl(),
     tokenCode: new UntypedFormControl(),
   });
-  login = createSpy().and.stub();
-  createVerificationToken = createSpy().and.returnValue(
+  login = vi.fn().mockImplementation(() => {});
+  createVerificationToken = vi.fn().mockReturnValue(
     of({ tokenId: 'testTokenId', expiresIn: '300' })
   );
-  displayMessage = createSpy('displayMessage').and.stub();
+  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 class MockStore {
-  dispatch = jasmine.createSpy();
-  select = jasmine.createSpy().and.returnValue(of({}));
+  dispatch = vi.fn();
+  select = vi.fn().mockReturnValue(of({}));
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe = createSpy().and.stub();
+  openDialogAndSubscribe = vi.fn().mockImplementation(() => {});
 }
 
 describe('RegisterVerificationTokenFormComponent', () => {
@@ -65,7 +65,7 @@ describe('RegisterVerificationTokenFormComponent', () => {
   let launchDialogService: LaunchDialogService;
   let routineservice: RoutingService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -157,7 +157,7 @@ describe('RegisterVerificationTokenFormComponent', () => {
 
   describe('refresh with no tokenId/loginId', () => {
     it('should navigate back to login page', () => {
-      spyOn(service, 'displayMessage');
+      vi.spyOn(service, 'displayMessage');
       history.pushState(
         {
           tokenId: '',
@@ -176,14 +176,14 @@ describe('RegisterVerificationTokenFormComponent', () => {
 
   describe('Form Interactions', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
     });
 
     it('should call the service method on submit', () => {
-      spyOn(service, 'registerUser').and.returnValue(
+      vi.spyOn(service, 'registerUser').mockReturnValue(
         of({
           email: 'test@example.com',
           firstName: 'John',
@@ -216,9 +216,9 @@ describe('RegisterVerificationTokenFormComponent', () => {
 
     it('should resend OTP', () => {
       component.target = 'example@example.com';
-      spyOn(component, 'startWaitTimeInterval');
-      spyOn(service, 'displayMessage');
-      spyOn(facade, 'createVerificationToken').and.returnValue(
+      vi.spyOn(component, 'startWaitTimeInterval');
+      vi.spyOn(service, 'displayMessage');
+      vi.spyOn(facade, 'createVerificationToken').mockReturnValue(
         of({
           tokenId: 'tokenId',
           expiresIn: '300',

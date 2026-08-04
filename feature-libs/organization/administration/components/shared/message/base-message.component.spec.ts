@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -110,14 +111,16 @@ describe('BaseMessageComponent', () => {
   });
 
   describe('close()', () => {
-    beforeEach(function () {
-      // https://github.com/gruntjs/grunt-contrib-jasmine/issues/213
-      jasmine.clock().uninstall();
-      jasmine.clock().install();
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
     });
 
     it('should emit close event', () => {
-      const nextEvent = spyOn(messageData.events, 'next');
+      const nextEvent = vi.spyOn(messageData.events, 'next');
       component.close();
       expect(nextEvent).toHaveBeenCalledWith({
         close: true,
@@ -125,12 +128,12 @@ describe('BaseMessageComponent', () => {
     });
 
     it('should close after message timeout', () => {
-      const nextEvent = spyOn(messageData.events, 'next');
+      const nextEvent = vi.spyOn(messageData.events, 'next');
       messageData.timeout = 10;
       component.ngOnInit();
 
       expect(nextEvent).not.toHaveBeenCalled();
-      jasmine.clock().tick(10);
+      vi.advanceTimersByTime(10);
       expect(nextEvent).toHaveBeenCalledWith({
         close: true,
       });

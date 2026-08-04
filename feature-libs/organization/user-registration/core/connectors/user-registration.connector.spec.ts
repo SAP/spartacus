@@ -1,10 +1,10 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
 import { of } from 'rxjs';
 import { UserRegistrationAdapter } from './user-registration.adapter';
 import { UserRegistrationConnector } from './user-registration.connector';
 
-import createSpy = jasmine.createSpy;
 
 const userData: OrganizationUserRegistration = {
   titleCode: 'Mr',
@@ -15,9 +15,9 @@ const userData: OrganizationUserRegistration = {
 };
 
 class MockUserRegistrationAdapter implements UserRegistrationAdapter {
-  registerUser = createSpy(
+  registerUser = vi.fn(
     'UserRegistrationAdapter.registerUser'
-  ).and.returnValue(of(userData));
+  ).mockReturnValue(of(userData));
 }
 
 describe('UserRegistrationConnector', () => {

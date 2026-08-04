@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CmsService, Page, PageType } from '@spartacus/core';
 import { PersonalizationConfig } from '@spartacus/tracking/personalization/root';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { PersonalizationContext } from '../model/personalization-context.model';
 import { PersonalizationContextService } from './personalization-context.service';
 
@@ -104,7 +105,7 @@ describe('PersonalizationContextService', () => {
   });
 
   it('should return undefined if PersonalizationScriptComponent does not exists', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
+    vi.spyOn(cmsService, 'getCurrentPage').mockReturnValue(
       of({
         slots: {
           PlaceholderContentSlot: {},

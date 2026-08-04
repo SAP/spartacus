@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -23,7 +24,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const orgCustomerId = 'orgCustomerId';
@@ -38,7 +38,7 @@ const userGroupId = 'userGroupId';
 const params: SearchConfig = { sort: 'code' };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { userId } }) =>
       url === 'b2bUser' ? `${url}/${userId}` : url
@@ -69,8 +69,8 @@ describe('OccB2BUserAdapter', () => {
     httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'convert');
   });
 
   afterEach(() => {

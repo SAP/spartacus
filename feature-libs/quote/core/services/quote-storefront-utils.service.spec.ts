@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
@@ -56,38 +57,38 @@ describe('QuoteStorefrontUtilsService', () => {
 
   describe('getElement', () => {
     it('should not get HTML element if not running in browser', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       expect(classUnderTest.getElement('elementMock')).toBeUndefined();
     });
 
     it('should get HTML element based on query selector when running in browser and element exists', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       const theElement = document.createElement('elementMock');
-      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(theElement);
       expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
     });
 
     it('should get null if element does not exist', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      spyOn(windowRef.document, 'querySelector').and.returnValue(null);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(null);
       expect(classUnderTest.getElement('unknownElement')).toEqual(null);
     });
   });
 
   describe('changeStyling', () => {
     it('should not change styling of HTML element if element does not exist', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       const element = document.createElement('notExistingElement');
-      spyOn(windowRef.document, 'querySelector').and.returnValue(undefined);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(undefined);
 
       classUnderTest.changeStyling('notExistingElement', 'position', 'sticky');
       expect(element.style.position).not.toEqual('sticky');
     });
 
     it('should change styling of HTML element', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       const theElement = document.createElement('elementMock');
-      spyOn(windowRef.document, 'querySelector').and.returnValue(theElement);
+      vi.spyOn(windowRef.document, 'querySelector').mockReturnValue(theElement);
       classUnderTest.changeStyling('elementMock', 'position', 'sticky');
       expect(theElement.style.position).toEqual('sticky');
     });
@@ -109,7 +110,7 @@ describe('QuoteStorefrontUtilsService', () => {
         label.style.height = '50px';
       });
 
-      spyOn(list, 'getBoundingClientRect').and.returnValue(
+      vi.spyOn(list, 'getBoundingClientRect').mockReturnValue(
         new DOMRect(100, 100, 250, 500)
       );
     });
@@ -167,7 +168,7 @@ describe('QuoteStorefrontUtilsService', () => {
       list.style.height = '50px';
       list.style.border = 'thick double #32a1ce;';
 
-      spyOn(list, 'getBoundingClientRect').and.returnValue(
+      vi.spyOn(list, 'getBoundingClientRect').mockReturnValue(
         new DOMRect(100, 100, 250, 500)
       );
     });
@@ -211,17 +212,17 @@ describe('QuoteStorefrontUtilsService', () => {
 
   describe('getWindowHeight', () => {
     it('should return zero if not running in browser', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(false);
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });
 
     it('should return zero if nativeWindow is undefined', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValues(true, false);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValueOnce(true).mockReturnValueOnce(false);
       expect(classUnderTest.getWindowHeight()).toBe(0);
     });
 
     it('should return the height of the window', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      vi.spyOn(windowRef, 'isBrowser').mockReturnValue(true);
       expect(classUnderTest.getWindowHeight()).toBeGreaterThan(0);
     });
   });

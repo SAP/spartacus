@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -47,6 +47,7 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
+import { vi } from 'vitest';
 
 const product: Product = {
   name: 'Product Name',
@@ -184,7 +185,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     return configValue;
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -231,7 +232,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     featureToggles = TestBed.inject(MockFeatureTogglesController);
@@ -265,9 +266,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       itemIndex: 1,
     };
 
-    spyOn(component, 'onHandleDeselect').and.callThrough();
-    spyOn(component as any, 'onHandleQuantity').and.callThrough();
-    spyOn(component, 'onHandleSelect').and.callThrough();
+    vi.spyOn(component, 'onHandleDeselect');
+    vi.spyOn(component as any, 'onHandleQuantity');
+    vi.spyOn(component, 'onHandleSelect');
 
     fixture.detectChanges();
   });
@@ -601,12 +602,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should call handleQuantity on event onHandleQuantity', () => {
-      spyOn(component.handleQuantity, 'emit').and.callThrough();
+      vi.spyOn(component.handleQuantity, 'emit');
 
       component['onHandleQuantity'](1);
 
       expect(component.handleQuantity.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
+        expect.objectContaining({
           quantity: 1,
           valueCode: component.productCardOptions?.productBoundValue?.valueCode,
         })
@@ -624,8 +625,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should show deselection message and send no request when reducing quantity to zero is not possible', () => {
-      spyOn(component.handleDeselect, 'emit').and.callThrough();
-      spyOn(component.handleQuantity, 'emit').and.callThrough();
+      vi.spyOn(component.handleDeselect, 'emit');
+      vi.spyOn(component.handleQuantity, 'emit');
       component.productCardOptions.multiSelect = true;
       component.productCardOptions.hideRemoveButton = true;
       setProductBoundValueAttributes(component);

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Directive, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
@@ -22,6 +22,7 @@ import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
+import { vi } from 'vitest';
 
 let routerStateObservable: any = null;
 
@@ -109,7 +110,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [
@@ -142,7 +143,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
@@ -163,10 +164,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'focusFirstAttribute'
-    ).and.callThrough();
+    );
   });
 
   it('should create', () => {
@@ -174,7 +175,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it("should not display 'previous' & 'next' buttons in case configuration contains one group", () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+    vi.spyOn(configuratorCommonsService, 'getConfiguration').mockReturnValue(
       of(configWithSingleGroup)
     );
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
@@ -184,7 +185,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display previous button as disabled if it is the first group', () => {
-    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
       of(null)
     );
     fixture.detectChanges();
@@ -195,7 +196,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display previous button as enabled if it is not the first group', () => {
-    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
       of('anyGroupId')
     );
     fixture.detectChanges();
@@ -206,7 +207,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display next button as disabled if it is the last group', () => {
-    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
       of(null)
     );
     fixture.detectChanges();
@@ -217,7 +218,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should display next button as enabled if it is not the last group', () => {
-    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
       of('anyGroupId')
     );
     fixture.detectChanges();
@@ -234,7 +235,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       c: null,
     });
 
-    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
       nextGroup
     );
 
@@ -256,7 +257,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       e: ' ',
     });
 
-    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
       previousGroup
     );
 
@@ -277,10 +278,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       b: ConfigurationTestData.GROUP_ID_2,
     });
 
-    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getPreviousGroupId').mockReturnValue(
       previousGroup
     );
-    spyOn(configurationGroupsService, 'navigateToGroup');
+    vi.spyOn(configurationGroupsService, 'navigateToGroup');
 
     classUnderTest.onPrevious(config);
     previousGroup.subscribe({
@@ -298,10 +299,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       b: ConfigurationTestData.GROUP_ID_2,
     });
 
-    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+    vi.spyOn(configurationGroupsService, 'getNextGroupId').mockReturnValue(
       nextGroup
     );
-    spyOn(configurationGroupsService, 'navigateToGroup');
+    vi.spyOn(configurationGroupsService, 'navigateToGroup');
 
     classUnderTest.onNext(config);
     nextGroup.subscribe({
@@ -321,10 +322,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
         a: true,
         b: false,
       });
-      spyOn(
+      vi.spyOn(
         configuratorCommonsService,
         'isConfigurationLoading'
-      ).and.returnValue(configurationLoading);
+      ).mockReturnValue(configurationLoading);
       classUnderTest['focusFirstAttribute']();
       flush();
       expect(

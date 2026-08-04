@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -22,11 +23,11 @@ const mockUser: User = {
 };
 
 class MockUserAddressService {
-  loadAddresses = jasmine.createSpy();
-  addUserAddress = jasmine.createSpy();
-  updateUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
-  deleteUserAddress = jasmine.createSpy();
+  loadAddresses = vi.fn();
+  addUserAddress = vi.fn();
+  updateUserAddress = vi.fn();
+  setAddressAsDefault = vi.fn();
+  deleteUserAddress = vi.fn();
 
   getAddresses(): Observable<Address[]> {
     return of(mockAddresses);

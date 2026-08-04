@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import {
@@ -17,6 +17,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
+import { vi } from 'vitest';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -35,7 +36,7 @@ let mockConfigCommonsService: ConfiguratorCommonsService;
 let ovConfig: Configurator.ConfigurationWithOverview;
 
 function asSpy(f: any) {
-  return <jasmine.Spy>f;
+  return f;
 }
 
 function initTestData() {
@@ -57,16 +58,16 @@ function initComponent() {
 }
 
 function initMocks() {
-  mockLaunchDialogService = jasmine.createSpyObj(['openDialogAndSubscribe']);
-  mockConfigRouterService = jasmine.createSpyObj(['extractRouterData']);
-  mockConfigCommonsService = jasmine.createSpyObj(['getConfiguration']);
-  asSpy(mockConfigRouterService.extractRouterData).and.returnValue(
+  mockLaunchDialogService = { openDialogAndSubscribe: vi.fn() } as any;
+  mockConfigRouterService = { extractRouterData: vi.fn() } as any;
+  mockConfigCommonsService = { getConfiguration: vi.fn() } as any;
+  (mockConfigRouterService.extractRouterData as any).mockReturnValue(
     of(ConfigurationTestData.mockRouterState)
   );
-  asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(
+  (mockConfigCommonsService.getConfiguration as any).mockReturnValue(
     of(ovConfig).pipe(delay(0)) // delay(0) to avoid NG0100 error in test
   );
-  asSpy(mockLaunchDialogService.openDialogAndSubscribe).and.returnValue(EMPTY);
+  (mockLaunchDialogService.openDialogAndSubscribe as any).mockReturnValue(EMPTY);
 }
 
 @Component({
@@ -86,7 +87,7 @@ class MockConfiguratorStorefrontUtilsService {
 }
 
 describe('ConfigurationOverviewFilterButtonComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
@@ -120,7 +121,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
       })
       .compileComponents();
     initComponent();
-  }));
+  });
 
   beforeEach(() => {
     fixture.detectChanges(); //due to the additional delay(0)
@@ -195,7 +196,7 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
   });
 
   it('while loading should not render filter button but ghost button instead', () => {
-    asSpy(mockConfigCommonsService.getConfiguration).and.returnValue(NEVER);
+    asSpy(mockConfigCommonsService.getConfiguration).mockReturnValue(NEVER);
     initComponent();
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,

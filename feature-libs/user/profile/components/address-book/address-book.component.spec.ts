@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   Component,
   DebugElement,
@@ -5,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
@@ -30,7 +31,7 @@ import { AddressBookComponentService } from './address-book.component.service';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
 
 class MockGlobalMessageService {
-  add = jasmine.createSpy();
+  add = vi.fn();
 }
 
 class MockLanguageService {
@@ -65,11 +66,11 @@ const isLoading = new BehaviorSubject<boolean>(false);
 const isError = new BehaviorSubject<boolean>(false);
 
 class MockComponentService {
-  loadAddresses = jasmine.createSpy();
-  addUserAddress = jasmine.createSpy();
-  updateUserAddress = jasmine.createSpy();
-  deleteUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
+  loadAddresses = vi.fn();
+  addUserAddress = vi.fn();
+  updateUserAddress = vi.fn();
+  deleteUserAddress = vi.fn();
+  setAddressAsDefault = vi.fn();
   getAddressesStateLoading(): Observable<boolean> {
     return isLoading.asObservable();
   }
@@ -121,7 +122,7 @@ describe('AddressBookComponent', () => {
   let el: DebugElement;
   let addressBookComponentService: AddressBookComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule, CardModule, AddressBookComponent],
       providers: [
@@ -166,7 +167,7 @@ describe('AddressBookComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
     component = fixture.componentInstance;
-    spyOn(component, 'addAddressButtonHandle');
+    vi.spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
     addressBookComponentService = TestBed.inject(AddressBookComponentService);
 
@@ -205,35 +206,35 @@ describe('AddressBookComponent', () => {
   });
 
   it('should call editAddressButtonHandle(address: Address)', () => {
-    spyOn(component, 'editAddressButtonHandle');
+    vi.spyOn(component, 'editAddressButtonHandle');
     component.editAddressButtonHandle(mockAddress);
 
     expect(component.editAddressButtonHandle).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddressSubmit(address: Address)', () => {
-    spyOn(component, 'addAddressSubmit');
+    vi.spyOn(component, 'addAddressSubmit');
     component.addAddressSubmit(mockAddress);
 
     expect(component.addAddressSubmit).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call addAddressCancel()', () => {
-    spyOn(component, 'addAddressCancel');
+    vi.spyOn(component, 'addAddressCancel');
     component.addAddressCancel();
 
     expect(component.addAddressCancel).toHaveBeenCalledWith();
   });
 
   it('should call editAddressSubmit(address: Address)', () => {
-    spyOn(component, 'editAddressSubmit');
+    vi.spyOn(component, 'editAddressSubmit');
     component.editAddressSubmit(mockAddress);
 
     expect(component.editAddressSubmit).toHaveBeenCalledWith(mockAddress);
   });
 
   it('should call editAddressCancel()', () => {
-    spyOn(component, 'editAddressCancel');
+    vi.spyOn(component, 'editAddressCancel');
     component.editAddressCancel();
 
     expect(component.editAddressCancel).toHaveBeenCalledWith();
@@ -277,7 +278,7 @@ describe('AddressBookComponent', () => {
   });
 
   it('should handle edit on card', () => {
-    spyOn(component, 'deleteAddress');
+    vi.spyOn(component, 'deleteAddress');
 
     component.setEdit(mockAddress.id || '1');
     expect(component.editCard).toEqual(mockAddress.id);
@@ -298,11 +299,11 @@ describe('AddressBookComponent', () => {
     beforeEach(() => {
       isLoading.next(false);
       isError.next(false);
-      spyOn(
+      vi.spyOn(
         addressBookComponentService,
         'getAddressesStateLoading'
-      ).and.callThrough();
-      spyOn(addressBookComponentService, 'getAddressesError').and.callThrough();
+      );
+      vi.spyOn(addressBookComponentService, 'getAddressesError');
     });
 
     it('should close the form when addUserAddress succeeds', () => {
@@ -354,11 +355,11 @@ describe('AddressBookComponent', () => {
     beforeEach(() => {
       isLoading.next(false);
       isError.next(false);
-      spyOn(
+      vi.spyOn(
         addressBookComponentService,
         'getAddressesStateLoading'
-      ).and.callThrough();
-      spyOn(addressBookComponentService, 'getAddressesError').and.callThrough();
+      );
+      vi.spyOn(addressBookComponentService, 'getAddressesError');
     });
 
     it('should close the form when updateUserAddress succeeds', () => {

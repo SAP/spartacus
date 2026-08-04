@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { B2BUser, SearchConfig } from '@spartacus/core';
@@ -9,7 +10,6 @@ import { of } from 'rxjs';
 import { B2BUserAdapter } from './b2b-user.adapter';
 import { B2BUserConnector } from './b2b-user.connector';
 
-import createSpy = jasmine.createSpy;
 
 const customerId = 'userId';
 const approverId = 'approverId';
@@ -30,40 +30,40 @@ const userGroup: UserGroup = {
 };
 
 class MockB2BUserAdapter implements B2BUserAdapter {
-  load = createSpy('B2BUserAdapter.load').and.returnValue(of(b2bUser));
-  loadList = createSpy('B2BUserAdapter.loadList').and.returnValue(
+  load = vi.fn('B2BUserAdapter.load').mockReturnValue(of(b2bUser));
+  loadList = vi.fn('B2BUserAdapter.loadList').mockReturnValue(
     of([b2bUser])
   );
-  create = createSpy('B2BUserAdapter.create').and.returnValue(of(b2bUser));
-  update = createSpy('B2BUserAdapter.update').and.returnValue(of(b2bUser));
+  create = vi.fn('B2BUserAdapter.create').mockReturnValue(of(b2bUser));
+  update = vi.fn('B2BUserAdapter.update').mockReturnValue(of(b2bUser));
 
-  loadApprovers = createSpy('B2BUserAdapter.loadApprovers').and.returnValue(
+  loadApprovers = vi.fn('B2BUserAdapter.loadApprovers').mockReturnValue(
     of([b2bUser])
   );
-  assignApprover = createSpy('B2BUserAdapter.assignApprover').and.returnValue(
+  assignApprover = vi.fn('B2BUserAdapter.assignApprover').mockReturnValue(
     of(b2bUser)
   );
-  unassignApprover = createSpy(
+  unassignApprover = vi.fn(
     'B2BUserAdapter.unassignApprover'
-  ).and.returnValue(of(b2bUser));
-  loadPermissions = createSpy('B2BUserAdapter.loadPermissions').and.returnValue(
+  ).mockReturnValue(of(b2bUser));
+  loadPermissions = vi.fn('B2BUserAdapter.loadPermissions').mockReturnValue(
     of([permission])
   );
-  assignPermission = createSpy(
+  assignPermission = vi.fn(
     'B2BUserAdapter.assignPermission'
-  ).and.returnValue(of(b2bUser));
-  unassignPermission = createSpy(
+  ).mockReturnValue(of(b2bUser));
+  unassignPermission = vi.fn(
     'B2BUserAdapter.unassignPermission'
-  ).and.returnValue(of(b2bUser));
-  loadUserGroups = createSpy('B2BUserAdapter.loadUserGroups').and.returnValue(
+  ).mockReturnValue(of(b2bUser));
+  loadUserGroups = vi.fn('B2BUserAdapter.loadUserGroups').mockReturnValue(
     of([userGroup])
   );
-  assignUserGroup = createSpy('B2BUserAdapter.assignUserGroup').and.returnValue(
+  assignUserGroup = vi.fn('B2BUserAdapter.assignUserGroup').mockReturnValue(
     of(userGroup)
   );
-  unassignUserGroup = createSpy(
+  unassignUserGroup = vi.fn(
     'B2BUserAdapter.unassignUserGroup'
-  ).and.returnValue(of(userGroup));
+  ).mockReturnValue(of(userGroup));
 }
 
 describe('B2BUserConnector', () => {

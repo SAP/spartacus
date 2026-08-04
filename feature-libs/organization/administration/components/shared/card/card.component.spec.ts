@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -24,14 +25,13 @@ import { ItemService } from '../item.service';
 import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
-import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
 
 class MockItemService {
   key$ = of('key');
   current$ = of(mockItem);
-  launchDetails = createSpy('launchDetails');
+  launchDetails = vi.fn('launchDetails');
 }
 
 class MockGlobalMessageService {
@@ -157,7 +157,7 @@ describe('CardComponent', () => {
       const ev = {
         stopPropagation: () => {},
       };
-      spyOn(component.view, 'toggle');
+      vi.spyOn(component.view, 'toggle');
       component.closeView(ev as MouseEvent);
       expect(component.view.toggle).toHaveBeenCalledWith(true);
     });

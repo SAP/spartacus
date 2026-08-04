@@ -21,8 +21,8 @@ import {
   InvoicesFields,
   OrderInvoiceList,
 } from '@spartacus/pdf-invoices/root';
-import { throwError } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { firstValueFrom, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { OccPDFInvoicesAdapter } from './occ-pdf-invoices.adapter';
 
 const mockUserId = 'userId1';
@@ -131,14 +131,10 @@ describe('OccPDFInvoicesAdapter', () => {
   });
 
   describe(`get invoices for an order`, () => {
-    it(`should show PDF Invoices for given user id, order id`, (done) => {
-      occPDFInvoicesAdapter
-        .getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockInvoicesList);
-          done();
-        });
+    it(`should show PDF Invoices for given user id, order id`, async () => {
+      const resultPromise = firstValueFrom(
+        occPDFInvoicesAdapter.getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -157,23 +153,23 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush(mockInvoicesList);
       expect(mockReq.request.responseType).toEqual('json');
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockInvoicesList);
     });
 
-    it(`should result in error when Error is thrown`, (done) => {
-      spyOn(httpClient, 'get').and.returnValue(
+    it(`should result in error when Error is thrown`, async () => {
+      vi.spyOn(httpClient, 'get').mockReturnValue(
         throwError(mockNoOrderIdBadRequestResponse)
       );
 
       let result: HttpErrorModel | undefined;
-      const subscription = occPDFInvoicesAdapter
-        .getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
-        .pipe(take(1))
-        .subscribe({
-          error: (err: any) => {
-            result = err;
-            done();
-          },
-        });
+      await firstValueFrom(
+        occPDFInvoicesAdapter
+          .getInvoicesForOrder(mockUserId, mockOrderId, mockInvoiceQueryParams)
+      ).catch((err: any) => {
+        result = err;
+      });
 
       expect(result).toEqual(
         tryNormalizeHttpError(
@@ -181,8 +177,6 @@ describe('OccPDFInvoicesAdapter', () => {
           new MockLoggerService()
         )
       );
-
-      subscription.unsubscribe();
     });
   });
 
@@ -190,14 +184,10 @@ describe('OccPDFInvoicesAdapter', () => {
     const mockFile: File = new File([], 'MockOrderInvoice', {
       type: 'application/pdf',
     });
-    it(`should download PDF Invoices for given user id, order id`, (done) => {
-      occPDFInvoicesAdapter
-        .getInvoicePDF(mockUserId, mockOrderId, mockInvoiceId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockFile);
-          done();
-        });
+    it(`should download PDF Invoices for given user id, order id`, async () => {
+      const resultPromise = firstValueFrom(
+        occPDFInvoicesAdapter.getInvoicePDF(mockUserId, mockOrderId, mockInvoiceId)
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -210,21 +200,20 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('blob');
       mockReq.flush(mockFile);
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockFile);
     });
 
-    it(`should download PDF Invoices for given user id, order id and external system id`, (done) => {
-      occPDFInvoicesAdapter
-        .getInvoicePDF(
+    it(`should download PDF Invoices for given user id, order id and external system id`, async () => {
+      const resultPromise = firstValueFrom(
+        occPDFInvoicesAdapter.getInvoicePDF(
           mockUserId,
           mockOrderId,
           mockInvoiceId,
           mockExternalSystemId
         )
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(mockFile);
-          done();
-        });
+      );
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -237,28 +226,27 @@ describe('OccPDFInvoicesAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush(mockFile);
       expect(mockReq.request.responseType).toEqual('blob');
+
+      const result = await resultPromise;
+      expect(result).toEqual(mockFile);
     });
 
-    it(`should result in error when Invoice download Error is thrown`, (done) => {
-      spyOn(httpClient, 'get').and.returnValue(
+    it(`should result in error when Invoice download Error is thrown`, async () => {
+      vi.spyOn(httpClient, 'get').mockReturnValue(
         throwError(mockDownloadPDFBadRequestResponse)
       );
 
       let result: HttpErrorModel | undefined;
-      const subscription = occPDFInvoicesAdapter
-        .getInvoicePDF(
+      await firstValueFrom(
+        occPDFInvoicesAdapter.getInvoicePDF(
           mockUserId,
           mockOrderId,
           mockInvoiceId,
           mockExternalSystemId
         )
-        .pipe(take(1))
-        .subscribe({
-          error: (err: any) => {
-            result = err;
-            done();
-          },
-        });
+      ).catch((err: any) => {
+        result = err;
+      });
 
       expect(result).toEqual(
         tryNormalizeHttpError(
@@ -266,8 +254,6 @@ describe('OccPDFInvoicesAdapter', () => {
           new MockLoggerService()
         )
       );
-
-      subscription.unsubscribe();
     });
   });
 });

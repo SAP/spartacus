@@ -1,4 +1,5 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
@@ -11,13 +12,12 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
-import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
-  requestForgotPasswordEmail = createSpy().and.returnValue(of({}));
+  requestForgotPasswordEmail = vi.fn().mockReturnValue(of({}));
 }
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy().and.stub();
+  go = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
@@ -26,7 +26,7 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   }
 }
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 describe('ForgotPasswordComponentService', () => {
@@ -35,7 +35,7 @@ describe('ForgotPasswordComponentService', () => {
   let routingService: RoutingService;
   let userPasswordFacade: UserPasswordFacade;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
@@ -65,8 +65,8 @@ describe('ForgotPasswordComponentService', () => {
       service['busy$'].next(true);
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
-      expect(result).toBeTrue();
-      expect(service.form.disabled).toBeTrue();
+      expect(result).toBe(true);
+      expect(service.form.disabled).toBe(true);
     });
 
     it('should return false', () => {
@@ -74,7 +74,7 @@ describe('ForgotPasswordComponentService', () => {
       let result;
       service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
       expect(result).toBeFalse;
-      expect(service.form.disabled).toBeFalse();
+      expect(service.form.disabled).toBe(false);
     });
   });
 
@@ -99,13 +99,13 @@ describe('ForgotPasswordComponentService', () => {
       });
 
       it('should reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.requestEmail();
         expect(service.form.reset).toHaveBeenCalled();
       });
 
       it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
-        spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+        vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
           OAuthFlow.ImplicitFlow
         );
         service.requestEmail();
@@ -133,7 +133,7 @@ describe('ForgotPasswordComponentService', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.requestEmail();
         expect(service.form.reset).not.toHaveBeenCalled();
       });

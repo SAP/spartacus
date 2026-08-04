@@ -4,7 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
@@ -108,7 +108,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   let value3: Configurator.Value;
   let values: Configurator.Value[];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     value1 = createValue('1', 'val1', true);
     value2 = createValue('2', VALUE_NAME_2, false);
     value3 = createValue('3', 'val3', false);
@@ -171,7 +171,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

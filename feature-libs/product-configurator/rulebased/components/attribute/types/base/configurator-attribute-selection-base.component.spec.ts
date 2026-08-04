@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -32,7 +32,7 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeSelectionComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -53,7 +53,7 @@ describe('ConfiguratorAttributeSelectionBaseComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     isConfigurationLoading$.next(false);

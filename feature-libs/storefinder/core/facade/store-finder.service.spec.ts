@@ -9,6 +9,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BehaviorSubject, EMPTY } from 'rxjs';
+import { vi } from 'vitest';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderSelectors } from '../store';
 import { StoreFinderActions } from '../store/actions/index';
@@ -192,7 +193,7 @@ describe('StoreFinderService', () => {
   };
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValue(mockSelect);
+    vi.spyOn(NgrxStore, 'select').mockReturnValue(mockSelect);
 
     TestBed.configureTestingModule({
       imports: [
@@ -216,16 +217,16 @@ describe('StoreFinderService', () => {
     winRef = TestBed.inject(WindowRef);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(
       winRef.nativeWindow.navigator.geolocation,
       'watchPosition'
-    ).and.callThrough();
-    spyOn(
+    );
+    vi.spyOn(
       winRef.nativeWindow.navigator.geolocation,
       'clearWatch'
-    ).and.callThrough();
-    spyOn(routingService, 'getParams').and.returnValue(EMPTY);
+    );
+    vi.spyOn(routingService, 'getParams').mockReturnValue(EMPTY);
   });
 
   it('should inject StoreFinderService', inject(

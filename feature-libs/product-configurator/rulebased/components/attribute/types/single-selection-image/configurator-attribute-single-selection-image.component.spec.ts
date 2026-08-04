@@ -4,7 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -38,6 +38,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
+import { vi } from 'vitest';
 
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
@@ -80,7 +81,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   const groupId = 'testGroup';
   const attributeName = 'attributeName';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(
       ConfiguratorAttributeSingleSelectionImageComponent,
       {}
@@ -140,7 +141,7 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   function createImage(url: string, altText: string): Configurator.Image {
     const configImage: Configurator.Image = {
@@ -258,10 +259,10 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
 
   describe('select single image', () => {
     it('should not call service for update and in case attribute is read-only', () => {
-      spyOn(
+      vi.spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
-      ).and.callThrough();
+      );
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_SINGLE_SELECTION_IMAGE;
       value2.selected = true;

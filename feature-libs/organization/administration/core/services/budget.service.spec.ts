@@ -1,4 +1,5 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { vi } from 'vitest';
+import { inject, TestBed } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
@@ -58,8 +59,8 @@ describe('BudgetService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(BudgetService);
     userIdService = TestBed.inject(UserIdService);
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(userIdService, 'takeUserId').and.callThrough();
+    vi.spyOn(store, 'dispatch');
+    vi.spyOn(userIdService, 'takeUserId');
 
     takeUserId$ = new BehaviorSubject(userId);
     actions$ = TestBed.inject(ActionsSubject);
@@ -73,8 +74,9 @@ describe('BudgetService', () => {
   ));
 
   describe('get budget', () => {
-    it('get() should trigger load budget details when they are not present in the store', fakeAsync(() => {
-      spyOn(service, 'loadBudget').and.callThrough();
+    it('get() should trigger load budget details when they are not present in the store', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(service, 'loadBudget');
       const sub = service.get(budgetCode).subscribe();
 
       actions$
@@ -85,9 +87,10 @@ describe('BudgetService', () => {
           );
           sub.unsubscribe();
         });
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
       expect(service.loadBudget).toHaveBeenCalledWith(budgetCode);
-    }));
+    });
 
     it('get() should be able to get budget details when they are present in the store', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
@@ -211,13 +214,13 @@ describe('BudgetService', () => {
   describe('getErrorState', () => {
     it('getErrorState() should be able to get status error', () => {
       let errorState: boolean;
-      spyOn<any>(service, 'getBudgetState').and.returnValue(
+      spyOn<any>(service, 'getBudgetState').mockReturnValue(
         of({ loading: false, success: false, error: true })
       );
 
       service.getErrorState('code').subscribe((error) => (errorState = error));
 
-      expect(errorState).toBeTrue();
+      expect(errorState).toBe(true);
     });
   });
 });

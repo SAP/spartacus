@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
+import { vi } from 'vitest';
 import {
   ActiveCartFacade,
   Cart,
@@ -30,7 +31,7 @@ import {
 } from '@spartacus/quote/root';
 import { ViewConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, firstValueFrom, of, throwError } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuoteConnector } from '../connectors';
 import { QuoteDetailsReloadQueryEvent } from '../event/quote.events';
@@ -39,7 +40,6 @@ import { QuoteCartService } from '../services/quote-cart.service';
 import { QuoteStorefrontUtilsService } from '../services/quote-storefront-utils.service';
 import { createEmptyQuote, QUOTE_CODE } from '../testing/quote-test-utils';
 import { QuoteService } from './quote.service';
-import createSpy = jasmine.createSpy;
 
 const userId = OCC_USER_ID_CURRENT;
 const cartId = '1234';
@@ -103,16 +103,16 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState() {
     return mockRouterState$.asObservable() as Observable<RouterState>;
   }
-  go = createSpy();
+  go = vi.fn();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId = createSpy().and.returnValue(of(userId));
+  takeUserId = vi.fn().mockReturnValue(of(userId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(of());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(of());
+  dispatch = vi.fn();
 }
 
 let isLoggedIn: boolean;
@@ -125,9 +125,9 @@ class MockAuthService implements Partial<AuthService> {
 let isQuoteCartActive: any;
 let quoteId: any;
 class MockQuoteCartService {
-  setQuoteCartActive = createSpy();
-  setQuoteId = createSpy();
-  setCheckoutAllowed = createSpy();
+  setQuoteCartActive = vi.fn();
+  setQuoteId = vi.fn();
+  setCheckoutAllowed = vi.fn();
   isQuoteCartActive() {
     return of(isQuoteCartActive);
   }
@@ -140,39 +140,39 @@ class MockViewConfig implements ViewConfig {
 }
 
 class MockQuoteConnector implements Partial<QuoteConnector> {
-  getQuotes = createSpy().and.returnValue(of(quoteList));
-  getQuote = createSpy().and.returnValue(of(quote));
-  createQuote = createSpy().and.returnValue(of(quote));
-  editQuote = createSpy().and.returnValue(of(EMPTY));
-  addComment = createSpy().and.returnValue(of(EMPTY));
-  addQuoteEntryComment = createSpy().and.returnValue(of(EMPTY));
-  performQuoteAction = createSpy().and.returnValue(of(EMPTY));
-  addDiscount = createSpy().and.returnValue(of(EMPTY));
-  downloadAttachment = createSpy().and.returnValue(of(mockQuoteAttachment()));
+  getQuotes = vi.fn().mockReturnValue(of(quoteList));
+  getQuote = vi.fn().mockReturnValue(of(quote));
+  createQuote = vi.fn().mockReturnValue(of(quote));
+  editQuote = vi.fn().mockReturnValue(of(EMPTY));
+  addComment = vi.fn().mockReturnValue(of(EMPTY));
+  addQuoteEntryComment = vi.fn().mockReturnValue(of(EMPTY));
+  performQuoteAction = vi.fn().mockReturnValue(of(EMPTY));
+  addDiscount = vi.fn().mockReturnValue(of(EMPTY));
+  downloadAttachment = vi.fn().mockReturnValue(of(mockQuoteAttachment()));
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  reloadActiveCart = createSpy().and.stub();
-  takeActiveCartId = createSpy().and.returnValue(of(cartId));
-  getActive = createSpy().and.returnValue(of(cart));
+  reloadActiveCart = vi.fn().mockImplementation(() => {});
+  takeActiveCartId = vi.fn().mockReturnValue(of(cartId));
+  getActive = vi.fn().mockReturnValue(of(cart));
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
-  loadCart = createSpy();
-  createCart = createSpy().and.returnValue(of({}));
+  loadCart = vi.fn();
+  createCart = vi.fn().mockReturnValue(of({}));
 }
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
-  handleCartAndGoToQuoteList = createSpy();
+  handleCartAndGoToQuoteList = vi.fn();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  remove = createSpy().and.stub();
-  add = createSpy().and.stub();
+  remove = vi.fn().mockImplementation(() => {});
+  add = vi.fn().mockImplementation(() => {});
 }
 
 class MockSavedCartFacade implements Partial<SavedCartFacade> {
-  editSavedCart = createSpy();
+  editSavedCart = vi.fn();
 }
 
 describe('QuoteService', () => {
@@ -191,7 +191,7 @@ describe('QuoteService', () => {
 
   beforeEach(() => {
     let mockedQuoteStorefrontUtilsService = {
-      getElement: createSpy(),
+      getElement: vi.fn(),
     };
 
     TestBed.configureTestingModule({
@@ -246,16 +246,13 @@ describe('QuoteService', () => {
     expect(activeCartFacade.getActive).toHaveBeenCalled();
   }
 
-  function checkNoActionPerforming(
-    quoteActionResult: Observable<unknown>,
-    done: any
+  async function checkNoActionPerforming(
+    quoteActionResult: Observable<unknown>
   ) {
-    quoteActionResult
-      .pipe(switchMap(() => classUnderTest['isActionPerforming$']))
-      .subscribe((isPerforming) => {
-        expect(isPerforming).toBe(false);
-        done();
-      });
+    const isPerforming = await firstValueFrom(
+      quoteActionResult.pipe(switchMap(() => classUnderTest['isActionPerforming$']))
+    );
+    expect(isPerforming).toBe(false);
   }
 
   it('should inject CommerceQuotesService', inject(
@@ -316,26 +313,23 @@ describe('QuoteService', () => {
   });
 
   describe('getQuotesState - reactive request triggering', () => {
-    it('should fire exactly one HTTP request on initial page load', (done) => {
+    it('should fire exactly one HTTP request on initial page load', async () => {
       const currentPage$ = new BehaviorSubject<number>(0);
       const sort$ = new BehaviorSubject<string>('byCode');
 
-      classUnderTest
-        .getQuotesState({ currentPage$, sort$ })
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
-          expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
-            currentPage: 0,
-            sort: 'byCode',
-            pageSize: pagination.pageSize,
-          });
-          expect(state.data).toEqual(quoteList);
-          done();
-        });
+      const state = await firstValueFrom(
+        classUnderTest.getQuotesState({ currentPage$, sort$ })
+      );
+      expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
+      expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
+        currentPage: 0,
+        sort: 'byCode',
+        pageSize: pagination.pageSize,
+      });
+      expect(state.data).toEqual(quoteList);
     });
 
-    it('should trigger a new request when currentPage changes', (done) => {
+    it('should trigger a new request when currentPage changes', async () => {
       const currentPage$ = new BehaviorSubject<number>(0);
       const sort$ = new BehaviorSubject<string>('byCode');
 
@@ -345,28 +339,25 @@ describe('QuoteService', () => {
       });
 
       // Subscribe and wait for initial emission, then change page
-      quotesState$.pipe(take(1)).subscribe(() => {
-        // Reset call count after the initial request
-        (quoteConnector.getQuotes as jasmine.Spy).calls.reset();
+      await firstValueFrom(quotesState$);
+      // Reset call count after the initial request
+      (quoteConnector.getQuotes as any).mockClear();
 
-        // Change the current page
-        currentPage$.next(1);
+      // Change the current page
+      currentPage$.next(1);
 
-        // Now subscribe again to get the result of the page change
-        quotesState$.pipe(take(1)).subscribe((state) => {
-          expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
-          expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
-            currentPage: 1,
-            sort: 'byCode',
-            pageSize: pagination.pageSize,
-          });
-          expect(state.data).toEqual(quoteList);
-          done();
-        });
+      // Now get the result of the page change
+      const state = await firstValueFrom(quotesState$);
+      expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
+      expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
+        currentPage: 1,
+        sort: 'byCode',
+        pageSize: pagination.pageSize,
       });
+      expect(state.data).toEqual(quoteList);
     });
 
-    it('should trigger a new request when sort changes', (done) => {
+    it('should trigger a new request when sort changes', async () => {
       const currentPage$ = new BehaviorSubject<number>(0);
       const sort$ = new BehaviorSubject<string>('byCode');
 
@@ -376,25 +367,22 @@ describe('QuoteService', () => {
       });
 
       // Subscribe and wait for initial emission, then change sort
-      quotesState$.pipe(take(1)).subscribe(() => {
-        // Reset call count after the initial request
-        (quoteConnector.getQuotes as jasmine.Spy).calls.reset();
+      await firstValueFrom(quotesState$);
+      // Reset call count after the initial request
+      (quoteConnector.getQuotes as any).mockClear();
 
-        // Change the sort
-        sort$.next('byDate');
+      // Change the sort
+      sort$.next('byDate');
 
-        // Now subscribe again to get the result of the sort change
-        quotesState$.pipe(take(1)).subscribe((state) => {
-          expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
-          expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
-            currentPage: 0,
-            sort: 'byDate',
-            pageSize: pagination.pageSize,
-          });
-          expect(state.data).toEqual(quoteList);
-          done();
-        });
+      // Now get the result of the sort change
+      const state = await firstValueFrom(quotesState$);
+      expect(quoteConnector.getQuotes).toHaveBeenCalledTimes(1);
+      expect(quoteConnector.getQuotes).toHaveBeenCalledWith(userId, {
+        currentPage: 0,
+        sort: 'byDate',
+        pageSize: pagination.pageSize,
       });
+      expect(state.data).toEqual(quoteList);
     });
   });
 
@@ -432,17 +420,12 @@ describe('QuoteService', () => {
       expect(quoteConnector.getQuote).toHaveBeenCalledTimes(0);
     });
 
-    it('should wait until active cart has been loaded', (done) => {
+    it('should wait until active cart has been loaded', async () => {
       isQuoteCartActive = true;
       quoteId = quote.code;
-      classUnderTest
-        .getQuoteDetails()
-        .pipe(take(1))
-        .subscribe((details) => {
-          expect(activeCartFacade.getActive).toHaveBeenCalled();
-          expect(details).toEqual(quote);
-          done();
-        });
+      const details = await firstValueFrom(classUnderTest.getQuoteDetails());
+      expect(activeCartFacade.getActive).toHaveBeenCalled();
+      expect(details).toEqual(quote);
     });
 
     it('should call connector once if isStable emits twice', () => {
@@ -533,199 +516,143 @@ describe('QuoteService', () => {
   });
 
   describe('performQuoteAction', () => {
-    it('should call respective connector method', (done) => {
-      classUnderTest
-        .performQuoteAction(quote, quoteAction.type)
-        .subscribe(() => {
-          expect(quoteConnector.performQuoteAction).toHaveBeenCalledWith(
-            userId,
-            quote.code,
-            quoteAction.type
-          );
-          done();
-        });
+    it('should call respective connector method', async () => {
+      await firstValueFrom(classUnderTest.performQuoteAction(quote, quoteAction.type));
+      expect(quoteConnector.performQuoteAction).toHaveBeenCalledWith(
+        userId,
+        quote.code,
+        quoteAction.type
+      );
     });
 
-    it('should raise re-load event', (done) => {
-      classUnderTest
-        .performQuoteAction(quote, quoteAction.type)
-        .subscribe(() => {
-          expect(eventService.dispatch).toHaveBeenCalledWith(
-            {},
-            QuoteDetailsReloadQueryEvent
-          );
-          done();
-        });
+    it('should raise re-load event', async () => {
+      await firstValueFrom(classUnderTest.performQuoteAction(quote, quoteAction.type));
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        QuoteDetailsReloadQueryEvent
+      );
     });
 
-    it('should raise re-load event, even if action fails', (done) => {
-      quoteConnector.performQuoteAction = createSpy().and.returnValue(
+    it('should raise re-load event, even if action fails', async () => {
+      quoteConnector.performQuoteAction = vi.fn().mockReturnValue(
         throwError({})
       );
-      classUnderTest.performQuoteAction(quote, quoteAction.type).subscribe({
-        error: () => {
-          expect(eventService.dispatch).toHaveBeenCalledWith(
-            {},
-            QuoteDetailsReloadQueryEvent
-          );
-          done();
-        },
-      });
+      await firstValueFrom(
+        classUnderTest.performQuoteAction(quote, quoteAction.type)
+      ).catch(() => {});
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        QuoteDetailsReloadQueryEvent
+      );
     });
 
     describe('on submit', () => {
-      it('should create new cart and navigate to quote list, but not reload', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.SUBMIT)
-          .subscribe(() => {
-            expect(
-              cartUtilsService.handleCartAndGoToQuoteList
-            ).toHaveBeenCalled();
-            expect(eventService.dispatch).not.toHaveBeenCalledWith(
-              {},
-              QuoteDetailsReloadQueryEvent
-            );
-            done();
-          });
+      it('should create new cart and navigate to quote list, but not reload', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT));
+        expect(cartUtilsService.handleCartAndGoToQuoteList).toHaveBeenCalled();
+        expect(eventService.dispatch).not.toHaveBeenCalledWith(
+          {},
+          QuoteDetailsReloadQueryEvent
+        );
       });
 
-      it('should set loading state to false when action is completed', (done) => {
-        checkNoActionPerforming(
-          classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT),
-          done
+      it('should set loading state to false when action is completed', async () => {
+        await checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.SUBMIT)
         );
       });
     });
 
     describe('on cancel', () => {
-      it('should create new cart and navigate to quote list', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.CANCEL)
-          .subscribe(() => {
-            expect(
-              cartUtilsService.handleCartAndGoToQuoteList
-            ).toHaveBeenCalled();
-            done();
-          });
+      it('should create new cart and navigate to quote list', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL));
+        expect(cartUtilsService.handleCartAndGoToQuoteList).toHaveBeenCalled();
       });
 
-      it('should set loading state to false when action is completed', (done) => {
-        checkNoActionPerforming(
-          classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL),
-          done
+      it('should set loading state to false when action is completed', async () => {
+        await checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CANCEL)
         );
       });
     });
 
     describe('on edit', () => {
-      it('should load quote cart', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.EDIT)
-          .subscribe(() => {
-            checkQuoteCartFacadeCalls();
-            done();
-          });
+      it('should load quote cart', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT));
+        checkQuoteCartFacadeCalls();
       });
 
-      it('should trigger a quote refresh', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.EDIT)
-          .subscribe(() => {
-            expect(eventService.dispatch).toHaveBeenCalledWith(
-              {},
-              QuoteDetailsReloadQueryEvent
-            );
-            done();
-          });
+      it('should trigger a quote refresh', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT));
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          QuoteDetailsReloadQueryEvent
+        );
       });
 
-      it('should trigger quote re-read in case quote does not carry a cart id', (done) => {
-        classUnderTest
-          .performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
-          .subscribe(() => {
-            expect(quoteConnector.getQuote).toHaveBeenCalledWith(
-              userId,
-              quote.code
-            );
-            done();
-          });
+      it('should trigger quote re-read in case quote does not carry a cart id', async () => {
+        await firstValueFrom(
+          classUnderTest.performQuoteAction(quoteWithoutCartId, QuoteActionType.EDIT)
+        );
+        expect(quoteConnector.getQuote).toHaveBeenCalledWith(
+          userId,
+          quote.code
+        );
       });
 
-      it('should set loading state to false when action is completed', (done) => {
-        checkNoActionPerforming(
-          classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT),
-          done
+      it('should set loading state to false when action is completed', async () => {
+        await checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.EDIT)
         );
       });
     });
 
     describe('on checkout', () => {
-      it('should load cart on checkout and signal that checkout is allowed', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.CHECKOUT)
-          .subscribe(() => {
-            checkQuoteCartFacadeCalls();
-            expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(
-              true
-            );
-            done();
-          });
+      it('should load cart on checkout and signal that checkout is allowed', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT));
+        checkQuoteCartFacadeCalls();
+        expect(quoteCartService.setCheckoutAllowed).toHaveBeenCalledWith(true);
       });
 
-      it('should navigate to checkout', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.CHECKOUT)
-          .subscribe(() => {
-            expect(routingService.go).toHaveBeenCalledWith({
-              cxRoute: 'checkout',
-            });
-            done();
-          });
+      it('should navigate to checkout', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT));
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'checkout',
+        });
       });
 
-      it('should set loading state to false when action is completed', (done) => {
-        checkNoActionPerforming(
-          classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT),
-          done
+      it('should set loading state to false when action is completed', async () => {
+        await checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.CHECKOUT)
         );
       });
     });
 
     describe('on reject', () => {
-      it('should set loading state to false when action is completed', (done) => {
-        checkNoActionPerforming(
-          classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT),
-          done
+      it('should set loading state to false when action is completed', async () => {
+        await checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT)
         );
       });
-      it('trigger navigation to quotes list', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.REJECT)
-          .subscribe(() => {
-            expect(routingService.go).toHaveBeenCalledWith({
-              cxRoute: 'quotes',
-            });
-            done();
-          });
+      it('trigger navigation to quotes list', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.REJECT));
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'quotes',
+        });
       });
     });
 
     describe('on approve', () => {
-      it('should set loading state to false when action is completed', (done) => {
-        checkNoActionPerforming(
-          classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE),
-          done
+      it('should set loading state to false when action is completed', async () => {
+        await checkNoActionPerforming(
+          classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE)
         );
       });
-      it('trigger navigation to quotes list', (done) => {
-        classUnderTest
-          .performQuoteAction(quote, QuoteActionType.APPROVE)
-          .subscribe(() => {
-            expect(routingService.go).toHaveBeenCalledWith({
-              cxRoute: 'quotes',
-            });
-            done();
-          });
+      it('trigger navigation to quotes list', async () => {
+        await firstValueFrom(classUnderTest.performQuoteAction(quote, QuoteActionType.APPROVE));
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'quotes',
+        });
       });
     });
   });
@@ -773,18 +700,13 @@ describe('QuoteService', () => {
         });
     });
 
-    it('should load quote cart', (done) => {
-      classUnderTest
-        .requote(quote.code)
-        .pipe(take(1))
-        .subscribe(() => {
-          checkQuoteCartFacadeCalls();
-          done();
-        });
+    it('should load quote cart', async () => {
+      await firstValueFrom(classUnderTest.requote(quote.code));
+      checkQuoteCartFacadeCalls();
     });
 
-    it('should set loading state to false when action is completed', (done) => {
-      checkNoActionPerforming(classUnderTest.requote(quote.code), done);
+    it('should set loading state to false when action is completed', async () => {
+      await checkNoActionPerforming(classUnderTest.requote(quote.code));
     });
   });
 
@@ -841,20 +763,17 @@ describe('QuoteService', () => {
     });
   });
 
-  it('should download proposal document after calling quoteConnector.downloadAttachment', (done) => {
+  it('should download proposal document after calling quoteConnector.downloadAttachment', async () => {
     const vendorQuoteCode = vendorQuote.code;
     const vendorQuoteAttachmentId = vendorQuote.sapAttachments[0].id;
-    classUnderTest
-      .downloadAttachment(vendorQuoteCode, vendorQuoteAttachmentId)
-      .pipe(take(1))
-      .subscribe((response) => {
-        expect(quoteConnector.downloadAttachment).toHaveBeenCalledWith(
-          userId,
-          vendorQuoteCode,
-          vendorQuoteAttachmentId
-        );
-        expect(response).toEqual(mockQuoteAttachment());
-        done();
-      });
+    const response = await firstValueFrom(
+      classUnderTest.downloadAttachment(vendorQuoteCode, vendorQuoteAttachmentId)
+    );
+    expect(quoteConnector.downloadAttachment).toHaveBeenCalledWith(
+      userId,
+      vendorQuoteCode,
+      vendorQuoteAttachmentId
+    );
+    expect(response).toEqual(mockQuoteAttachment());
   });
 });

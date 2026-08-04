@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { FormControl, FormGroup } from '@angular/forms';
 import { LanguageService, TimeUtils } from '@spartacus/core';
 import { Quote, QuoteState } from '@spartacus/quote/root';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import {
   EXPIRATION_DATE_AS_STRING,
   EXPIRATION_TIME_AS_STRING,
@@ -79,48 +80,36 @@ describe('QuoteSummarySellerEditComponentService', () => {
   });
 
   describe('parseDiscountValue', () => {
-    it('should parse string', (done) => {
-      classUnderTest.parseDiscountValue('100.00').subscribe((result) => {
-        expect(result).toBe(100);
-        done();
-      });
+    it('should parse string', async () => {
+      const result = await firstValueFrom(classUnderTest.parseDiscountValue('100.00'));
+      expect(result).toBe(100);
     });
 
-    it('should consider locale specific decimal separator', (done) => {
-      classUnderTest.parseDiscountValue('100.77').subscribe((result) => {
-        expect(result).toBe(100.77);
-        done();
-      });
+    it('should consider locale specific decimal separator', async () => {
+      const result = await firstValueFrom(classUnderTest.parseDiscountValue('100.77'));
+      expect(result).toBe(100.77);
     });
 
-    it('should ignore locale specific grouping separator', (done) => {
-      classUnderTest.parseDiscountValue('1,000.77').subscribe((result) => {
-        expect(result).toBe(1000.77);
-        done();
-      });
+    it('should ignore locale specific grouping separator', async () => {
+      const result = await firstValueFrom(classUnderTest.parseDiscountValue('1,000.77'));
+      expect(result).toBe(1000.77);
     });
 
-    it('should handle undefined discount value by returning 0', (done) => {
-      classUnderTest.parseDiscountValue(undefined).subscribe((result) => {
-        expect(result).toBe(0);
-        done();
-      });
+    it('should handle undefined discount value by returning 0', async () => {
+      const result = await firstValueFrom(classUnderTest.parseDiscountValue(undefined));
+      expect(result).toBe(0);
     });
 
-    it('should handle null discount value by returning 0', (done) => {
-      classUnderTest.parseDiscountValue(null).subscribe((result) => {
-        expect(result).toBe(0);
-        done();
-      });
+    it('should handle null discount value by returning 0', async () => {
+      const result = await firstValueFrom(classUnderTest.parseDiscountValue(null));
+      expect(result).toBe(0);
     });
   });
 
   describe('getFormatter', () => {
-    it('should return a formatter for percentage display ', (done) => {
-      classUnderTest.getFormatter().subscribe((result) => {
-        expect(result.format(0)).toBe('0%');
-        done();
-      });
+    it('should return a formatter for percentage display ', async () => {
+      const result = await firstValueFrom(classUnderTest.getFormatter());
+      expect(result.format(0)).toBe('0%');
     });
   });
 

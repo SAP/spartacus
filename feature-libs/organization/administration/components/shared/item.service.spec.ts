@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -10,11 +11,10 @@ import {
   LoadStatus,
   OrganizationItemStatus,
 } from '@spartacus/organization/administration/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, firstValueFrom, Observable, of } from 'rxjs';
 import { CurrentItemService } from './current-item.service';
 import { FormService } from './form/form.service';
 import { ItemService } from './item.service';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'o1';
 class MockRoutingService {
@@ -23,7 +23,7 @@ class MockRoutingService {
 
 class MockCurrentItemService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn('load').mockReturnValue(EMPTY);
   error$ = of(false);
 }
 
@@ -77,7 +77,7 @@ describe('ItemService', () => {
     formService = TestBed.inject(FormService);
     routingService = TestBed.inject(RoutingService);
 
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
   });
 
   it('should be created', () => {
@@ -85,7 +85,7 @@ describe('ItemService', () => {
   });
 
   it('should return form', () => {
-    spyOn(formService, 'getForm').and.callThrough();
+    vi.spyOn(formService, 'getForm');
     expect(service.getForm()).toEqual(mockForm);
   });
 
@@ -102,7 +102,7 @@ describe('ItemService', () => {
   describe('save()', () => {
     describe('handle valid form data', () => {
       it('should create new item', () => {
-        spyOn(service, 'create').and.callThrough();
+        vi.spyOn(service, 'create');
         const form = new UntypedFormGroup({});
         form.addControl('name', new UntypedFormControl('foo bar'));
         expect(service.save(form)).toEqual(mockItemStatus);
@@ -113,7 +113,7 @@ describe('ItemService', () => {
       });
 
       it('should update existing item', () => {
-        spyOn(service, 'update').and.callThrough();
+        vi.spyOn(service, 'update');
         const form = new UntypedFormGroup({});
         form.addControl('name', new UntypedFormControl('foo bar'));
 
@@ -127,7 +127,7 @@ describe('ItemService', () => {
 
     describe('handle invalid form data', () => {
       it('should not create invalid existing item', () => {
-        spyOn(service, 'create').and.callThrough();
+        vi.spyOn(service, 'create');
         const form = new UntypedFormGroup({});
         form.addControl(
           undefined,
@@ -140,7 +140,7 @@ describe('ItemService', () => {
       });
 
       it('should not update invalid existing item', () => {
-        spyOn(service, 'update').and.callThrough();
+        vi.spyOn(service, 'update');
         const form = new UntypedFormGroup({});
         form.addControl(
           'name',
@@ -154,29 +154,21 @@ describe('ItemService', () => {
     });
 
     describe('isInEditMode', () => {
-      it('should emit false after component creation', (done) => {
-        service.isInEditMode$.subscribe((result) => {
-          expect(result).toBe(false);
-          done();
-        });
+      it('should emit false after component creation', async () => {
+        const result = await firstValueFrom(service.isInEditMode$);
+        expect(result).toBe(false);
       });
 
-      it('when set to true should emit true', (done) => {
+      it('when set to true should emit true', async () => {
         service.setEditMode(true);
-
-        service.isInEditMode$.subscribe((result) => {
-          expect(result).toBe(true);
-          done();
-        });
+        const result = await firstValueFrom(service.isInEditMode$);
+        expect(result).toBe(true);
       });
 
-      it('when set to false should emit false', (done) => {
+      it('when set to false should emit false', async () => {
         service.setEditMode(false);
-
-        service.isInEditMode$.subscribe((result) => {
-          expect(result).toBe(false);
-          done();
-        });
+        const result = await firstValueFrom(service.isInEditMode$);
+        expect(result).toBe(false);
       });
     });
   });

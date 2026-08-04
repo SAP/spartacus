@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -10,6 +10,7 @@ import { ConfiguratorAttributeCompositionContext } from '../../composition/confi
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from './configurator-attribute-multi-selection-base.component';
+import { vi } from 'vitest';
 
 const createTestValue = (
   price: number | undefined,
@@ -59,7 +60,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionBaseComponent;
   let fixture: ComponentFixture<ExampleConfiguratorAttributeMultiSelectionComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -81,7 +82,7 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -208,10 +209,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
   describe('onHandleAttributeQuantity', () => {
     it('should call facade update onHandleAttributeQuantity', () => {
       const quantity = 2;
-      spyOn(
+      vi.spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
-      ).and.callThrough();
+      );
       component['onHandleAttributeQuantity'](quantity);
       expect(
         component['configuratorCommonsService'].updateConfiguration

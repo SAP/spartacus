@@ -13,8 +13,8 @@ import { ConfiguratorCoreConfig } from '../config/configurator-core.config';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
+import { vi } from 'vitest';
 
-import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
@@ -62,46 +62,46 @@ const cartModification: CartModification = {};
 class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
   public configuratorType: string;
 
-  readConfigurationForCartEntry = createSpy().and.callFake(() =>
+  readConfigurationForCartEntry = vi.fn().mockImplementation(() =>
     of(productConfiguration)
   );
-  readConfigurationForOrderEntry = createSpy().and.callFake(() =>
+  readConfigurationForOrderEntry = vi.fn().mockImplementation(() =>
     of(productConfiguration)
   );
-  updateConfigurationForCartEntry = createSpy().and.callFake(() =>
+  updateConfigurationForCartEntry = vi.fn().mockImplementation(() =>
     of(cartModification)
   );
-  getConfigurationOverview = createSpy().and.callFake((configId: string) =>
+  getConfigurationOverview = vi.fn().mockImplementation((configId: string) =>
     of('getConfigurationOverview' + configId)
   );
 
-  searchVariants = createSpy().and.callFake((configId: string) =>
+  searchVariants = vi.fn().mockImplementation((configId: string) =>
     of([{ productCode: PRODUCT_CODE + configId }])
   );
 
-  readPriceSummary = createSpy().and.callFake((configId: string) =>
+  readPriceSummary = vi.fn().mockImplementation((configId: string) =>
     of('readPriceSummary' + configId)
   );
 
-  readConfiguration = createSpy().and.callFake((configId: string) =>
+  readConfiguration = vi.fn().mockImplementation((configId: string) =>
     of('readConfiguration' + configId)
   );
 
-  updateConfiguration = createSpy().and.callFake(
+  updateConfiguration = vi.fn().mockImplementation(
     (configuration: Configurator.Configuration) =>
       of('updateConfiguration' + configuration.configId)
   );
 
-  updateConfigurationOverview = createSpy().and.callFake(
+  updateConfigurationOverview = vi.fn().mockImplementation(
     (ovInput: Configurator.Overview) =>
       of('updateConfigurationOverview' + ovInput.configId)
   );
 
-  createConfiguration = createSpy().and.callFake(
+  createConfiguration = vi.fn().mockImplementation(
     (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
   );
 
-  addToCart = createSpy().and.callFake((configId: string) =>
+  addToCart = vi.fn().mockImplementation((configId: string) =>
     of('addToCart' + configId)
   );
   getConfiguratorType(): string {

@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   FeatureToggles,
@@ -20,11 +20,11 @@ import {
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { EMPTY } from 'rxjs';
+import { vi } from 'vitest';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { LocationDisplayMode } from './store-finder-list.model';
 import { provideMockFeatureToggles } from 'core-libs/core/src/features-config/feature-toggles/testing';
-import createSpy = jasmine.createSpy;
 
 const location: PointOfService = {
   displayName: 'Test Store',
@@ -34,11 +34,9 @@ const locations = { stores: stores, pagination: { currentPage: 0 } };
 const displayModes = LocationDisplayMode;
 
 class StoreFinderServiceMock implements Partial<StoreFinderService> {
-  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
-    EMPTY
-  );
-  getStoresLoading = createSpy('getStoresLoading');
-  callFindStoresAction = createSpy('callFindStoresAction');
+  getFindStoresEntities = vi.fn().mockReturnValue(EMPTY);
+  getStoresLoading = vi.fn();
+  callFindStoresAction = vi.fn();
   getStoreLatitude(_location: any): number {
     return 35.528984;
   }
@@ -68,7 +66,7 @@ describe('StoreFinderListComponent', () => {
   let storeFinderService: StoreFinderService;
   let googleMapRendererService: GoogleMapRendererService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       imports: [
@@ -93,7 +91,7 @@ describe('StoreFinderListComponent', () => {
         add: { imports: [MockTranslatePipe] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
@@ -101,9 +99,9 @@ describe('StoreFinderListComponent', () => {
     storeFinderService = TestBed.inject(StoreFinderService);
     googleMapRendererService = TestBed.inject(GoogleMapRendererService);
 
-    spyOn(storeFinderService, 'getStoreLatitude');
-    spyOn(storeFinderService, 'getStoreLongitude');
-    spyOn(googleMapRendererService, 'centerMap');
+    vi.spyOn(storeFinderService, 'getStoreLatitude');
+    vi.spyOn(storeFinderService, 'getStoreLongitude');
+    vi.spyOn(googleMapRendererService, 'centerMap');
 
     fixture.detectChanges();
   });
@@ -118,7 +116,7 @@ describe('StoreFinderListComponent', () => {
     storeMapComponent = fixture.debugElement.query(
       By.css('cx-store-finder-map')
     ).componentInstance;
-    spyOn(storeMapComponent, 'centerMap').and.callThrough();
+    vi.spyOn(storeMapComponent, 'centerMap');
 
     component.centerStoreOnMapByIndex(0, location);
 
@@ -130,8 +128,8 @@ describe('StoreFinderListComponent', () => {
   it('should select store from list', () => {
     const itemNumber = 4;
     const storeListItemMock = { scrollIntoView: function () {} };
-    spyOn(document, 'getElementById').and.returnValue(storeListItemMock as any);
-    spyOn(storeListItemMock, 'scrollIntoView');
+    vi.spyOn(document, 'getElementById').mockReturnValue(storeListItemMock as any);
+    vi.spyOn(storeListItemMock, 'scrollIntoView');
 
     component.selectStoreItemList(itemNumber);
 

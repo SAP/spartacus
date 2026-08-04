@@ -1,6 +1,7 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ScriptLoader } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
+import { vi } from 'vitest';
 import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderService } from '../facade/store-finder.service';
 import { GoogleMapRendererService } from './google-map-renderer.service';
@@ -69,6 +70,7 @@ describe('GoogleMapRendererService', () => {
   let config: StoreFinderConfig;
 
   beforeEach(() => {
+    vi.useFakeTimers();
     const bed = TestBed.configureTestingModule({
       providers: [
         GoogleMapRendererService,
@@ -91,13 +93,17 @@ describe('GoogleMapRendererService', () => {
     config = TestBed.inject(StoreFinderConfig);
   });
 
-  it('should render map when an api key is provided in the config', fakeAsync(() => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('should render map when an api key is provided in the config', async () => {
     setApiKey(MOCK_MAPS_API_KEY);
 
     // given
-    spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
-    spyOn(storeFinderServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeFinderServiceMock, 'getStoreLongitude').and.callThrough();
+    vi.spyOn(scriptLoaderMock, 'embedScript');
+    vi.spyOn(storeFinderServiceMock, 'getStoreLatitude');
+    vi.spyOn(storeFinderServiceMock, 'getStoreLongitude');
 
     // when
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
@@ -107,22 +113,22 @@ describe('GoogleMapRendererService', () => {
       src: config.googleMaps?.apiUrl,
       params: Object({ key: MOCK_MAPS_API_KEY }),
       attributes: { type: 'text/javascript' },
-      callback: jasmine.any(Function) as any,
+      callback: expect.any(Function) as any,
     });
     expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
     expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
 
-    tick();
+    await vi.advanceTimersByTimeAsync(0);
     expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
-  }));
+  });
 
-  it('should render map when special "development" api key value is provided', fakeAsync(() => {
+  it('should render map when special "development" api key value is provided', async () => {
     setApiKey(GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG);
 
     // given
-    spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
-    spyOn(storeFinderServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeFinderServiceMock, 'getStoreLongitude').and.callThrough();
+    vi.spyOn(scriptLoaderMock, 'embedScript');
+    vi.spyOn(storeFinderServiceMock, 'getStoreLatitude');
+    vi.spyOn(storeFinderServiceMock, 'getStoreLongitude');
 
     // when
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
@@ -132,36 +138,36 @@ describe('GoogleMapRendererService', () => {
       src: config.googleMaps?.apiUrl,
       params: Object({ key: '' }),
       attributes: { type: 'text/javascript' },
-      callback: jasmine.any(Function) as any,
+      callback: expect.any(Function) as any,
     });
     expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
     expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
 
-    tick();
+    await vi.advanceTimersByTimeAsync(0);
     expect(mapDomElement.innerHTML).toEqual(MAP_DOM_ELEMENT_INNER_HTML);
-  }));
+  });
 
-  it('should not render map when no api key is provided (default config)', fakeAsync(() => {
+  it('should not render map when no api key is provided (default config)', () => {
     // given
-    spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
+    vi.spyOn(scriptLoaderMock, 'embedScript');
 
     // when
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
 
     // then
     expect(scriptLoaderMock.embedScript).not.toHaveBeenCalled();
-  }));
+  });
 
-  it('should not create a new map if the map was already created', fakeAsync(() => {
+  it('should not create a new map if the map was already created', async () => {
     setApiKey(GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG);
 
     // given the map is already rendered
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
-    tick();
+    await vi.advanceTimersByTimeAsync(0);
 
-    spyOn(scriptLoaderMock, 'embedScript').and.callThrough();
-    spyOn(storeFinderServiceMock, 'getStoreLatitude').and.callThrough();
-    spyOn(storeFinderServiceMock, 'getStoreLongitude').and.callThrough();
+    vi.spyOn(scriptLoaderMock, 'embedScript');
+    vi.spyOn(storeFinderServiceMock, 'getStoreLatitude');
+    vi.spyOn(storeFinderServiceMock, 'getStoreLongitude');
 
     // when rendering the map one more time
     googleMapRendererService.renderMap(mapDomElement, locations, selectedIndex);
@@ -170,7 +176,7 @@ describe('GoogleMapRendererService', () => {
     expect(scriptLoaderMock.embedScript).toHaveBeenCalledTimes(0);
     expect(storeFinderServiceMock.getStoreLatitude).toHaveBeenCalled();
     expect(storeFinderServiceMock.getStoreLongitude).toHaveBeenCalled();
-  }));
+  });
 
   function setApiKey(keyValue: string) {
     if (config.googleMaps) {

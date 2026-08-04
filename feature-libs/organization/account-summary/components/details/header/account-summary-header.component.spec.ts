@@ -1,10 +1,9 @@
+import { vi } from 'vitest';
 import { Component, DebugElement, Input } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+    TestBed,
+  } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Observable, of } from 'rxjs';
@@ -74,16 +73,18 @@ describe('AccountSummaryHeaderComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', fakeAsync(() => {
-    tick();
+  it('should create', async () => {
+    vi.useFakeTimers();
+    await vi.advanceTimersByTimeAsync(0);
+    vi.useRealTimers();
     fixture.detectChanges();
     expect(component).toBeTruthy();
-  }));
+  });
 
   it('should get id card', () => {
     const title = 'mock_id';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getIdCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -97,7 +98,7 @@ describe('AccountSummaryHeaderComponent', () => {
   it('should get name card', () => {
     const title = 'mock_name';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getNameCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -121,7 +122,7 @@ describe('AccountSummaryHeaderComponent', () => {
       address.formattedAddress,
       address.country?.name,
     ];
-    spyOn(translationService, 'translate').and.returnValue(of('title'));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of('title'));
     // Call function and expect that it calls translation and return correct card
     component.getAddressCardContent(address).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -135,7 +136,7 @@ describe('AccountSummaryHeaderComponent', () => {
   it('should get creditRep card', () => {
     const title = 'mock_rep';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getCreditRepCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -149,7 +150,7 @@ describe('AccountSummaryHeaderComponent', () => {
   it('should get creditLine card', () => {
     const title = 'mock_credit';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getCreditLineCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -163,7 +164,7 @@ describe('AccountSummaryHeaderComponent', () => {
   it('should get currentBalance card', () => {
     const title = 'mock_balance';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getCurrentBalanceCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -177,7 +178,7 @@ describe('AccountSummaryHeaderComponent', () => {
   it('should get openBalance card', () => {
     const title = 'mock_balance';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getOpenBalanceCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(
@@ -191,7 +192,7 @@ describe('AccountSummaryHeaderComponent', () => {
   it('should get pastDueBalance card', () => {
     const title = 'mock_balance';
     const text = 'mock_text';
-    spyOn(translationService, 'translate').and.returnValue(of(title));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of(title));
     // Call function and expect that it calls translation and return correct card
     component.getPastDueBalanceCardContent(text).subscribe((result) => {
       expect(translationService.translate).toHaveBeenCalledWith(

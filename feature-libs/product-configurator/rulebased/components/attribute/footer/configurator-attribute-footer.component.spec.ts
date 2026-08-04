@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -79,7 +79,7 @@ const owner = ConfiguratorModelUtils.createOwner(
 );
 
 describe('ConfigAttributeFooterComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -105,7 +105,7 @@ describe('ConfigAttributeFooterComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should render an empty component because showRequiredMessageForUserInput$ is `false`', () => {
     createComponentWithData(false).ngOnInit();

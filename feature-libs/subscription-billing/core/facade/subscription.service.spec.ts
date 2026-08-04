@@ -6,12 +6,12 @@ import {
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
 import { SubscriptionConnector } from '../connector';
-import createSpy = jasmine.createSpy;
-import { of, take } from 'rxjs';
+import { firstValueFrom, of, take } from 'rxjs';
 import {
   SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
+import { vi } from 'vitest';
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockRouteState = {
   state: {
@@ -76,15 +76,15 @@ const mockList: SubscriptionList = {
   ],
 };
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(mockUserId));
+  getUserId = vi.fn().mockReturnValue(of(mockUserId));
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(of(mockRouteState));
+  getRouterState = vi.fn().mockReturnValue(of(mockRouteState));
 }
 class MockSubscriptionConnector implements Partial<SubscriptionConnector> {
-  getSubscriptionByCode = createSpy().and.returnValue(of(mockDetail));
-  getSubscriptionList = createSpy().and.returnValue(of(mockList));
+  getSubscriptionByCode = vi.fn().mockReturnValue(of(mockDetail));
+  getSubscriptionList = vi.fn().mockReturnValue(of(mockList));
 }
 describe('SubscriptionService', () => {
   let service: SubscriptionService;
@@ -115,77 +115,61 @@ describe('SubscriptionService', () => {
     const mockPageSize = 5;
     const mockSort = 'byId';
 
-    it('should call connector.getSubscriptionList', (done) => {
-      service
-        .getSubscriptionList(mockCurrentPage, mockPageSize, mockSort)
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.getSubscriptionList).toHaveBeenCalledWith(
-            mockUserId,
-            mockCurrentPage,
-            mockPageSize,
-            mockSort
-          );
-          expect(data).toEqual(mockList);
-          done();
-        });
+    it('should call connector.getSubscriptionList', async () => {
+      const data = await firstValueFrom(
+        service.getSubscriptionList(mockCurrentPage, mockPageSize, mockSort)
+      );
+      expect(connector.getSubscriptionList).toHaveBeenCalledWith(
+        mockUserId,
+        mockCurrentPage,
+        mockPageSize,
+        mockSort
+      );
+      expect(data).toEqual(mockList);
     });
 
-    it('should contain the query state', (done) => {
+    it('should contain the query state', async () => {
       const mockCurrentPage = 1;
       const mockPageSize = 5;
       const mockSort = 'byId';
 
-      service
-        .getSubscriptionListState(mockCurrentPage, mockPageSize, mockSort)
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getSubscriptionList).toHaveBeenCalledWith(
-            mockUserId,
-            mockCurrentPage,
-            mockPageSize,
-            mockSort
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockList,
-          });
-          done();
-        });
+      const state = await firstValueFrom(
+        service.getSubscriptionListState(mockCurrentPage, mockPageSize, mockSort)
+      );
+      expect(connector.getSubscriptionList).toHaveBeenCalledWith(
+        mockUserId,
+        mockCurrentPage,
+        mockPageSize,
+        mockSort
+      );
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockList,
+      });
     });
   });
   describe('getSubscriptionByCode', () => {
-    it('should call connector.getSubscriptionByCode', (done) => {
-      service
-        .getSubscriptionByCode()
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.getSubscriptionByCode).toHaveBeenCalledWith(
-            mockUserId,
-            '01'
-          );
-          expect(data).toEqual(mockDetail);
-          done();
-        });
+    it('should call connector.getSubscriptionByCode', async () => {
+      const data = await firstValueFrom(service.getSubscriptionByCode());
+      expect(connector.getSubscriptionByCode).toHaveBeenCalledWith(
+        mockUserId,
+        '01'
+      );
+      expect(data).toEqual(mockDetail);
     });
 
-    it('should contain the query state', (done) => {
-      service
-        .getSubscriptionByCodeState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getSubscriptionByCode).toHaveBeenCalledWith(
-            mockUserId,
-            '01'
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockDetail,
-          });
-          done();
-        });
+    it('should contain the query state', async () => {
+      const state = await firstValueFrom(service.getSubscriptionByCodeState());
+      expect(connector.getSubscriptionByCode).toHaveBeenCalledWith(
+        mockUserId,
+        '01'
+      );
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockDetail,
+      });
     });
   });
 });

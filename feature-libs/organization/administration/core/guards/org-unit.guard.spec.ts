@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -8,10 +9,9 @@ import {
 } from '@spartacus/core';
 import { OrgUnitService } from '../services';
 import { OrgUnitGuard } from './org-unit.guard';
-import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy('add');
+  add = vi.fn('add');
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
@@ -58,14 +58,14 @@ describe('OrgUnitGuard', () => {
   describe('canActivate()', () => {
     it('should return true when updating unit is allowed', () => {
       let result: boolean | UrlTree;
-      spyOn(orgUnitService, 'isUpdatingUnitAllowed').and.returnValue(true);
+      vi.spyOn(orgUnitService, 'isUpdatingUnitAllowed').mockReturnValue(true);
       result = guard.canActivate();
       expect(result).toEqual(true);
     });
 
     it('should return organization url for redirection when updating unit is not allowed', () => {
       let result: boolean | UrlTree;
-      spyOn(orgUnitService, 'isUpdatingUnitAllowed').and.returnValue(false);
+      vi.spyOn(orgUnitService, 'isUpdatingUnitAllowed').mockReturnValue(false);
       result = guard.canActivate();
       expect(result.toString()).toBe('/organization');
       expect(globalMessageService.add).toHaveBeenCalledWith(

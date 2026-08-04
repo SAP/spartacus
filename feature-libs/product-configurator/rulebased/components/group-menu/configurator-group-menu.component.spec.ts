@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -25,7 +25,7 @@ import {
   IconComponent,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { NEVER, Observable, of } from 'rxjs';
+import { firstValueFrom, NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -50,6 +50,7 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
+import { vi } from 'vitest';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -246,7 +247,7 @@ function initialize() {
 }
 
 describe('ConfiguratorGroupMenuComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -296,31 +297,31 @@ describe('ConfiguratorGroupMenuComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
-    spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
-    spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
-    spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
+    vi.spyOn(configuratorGroupsService, 'navigateToGroup').mockImplementation(() => {});
+    vi.spyOn(configuratorGroupsService, 'setMenuParentGroup').mockImplementation(() => {});
+    vi.spyOn(configuratorGroupsService, 'isGroupVisited');
     isConflictGroupType = false;
-    spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+    vi.spyOn(configuratorGroupsService, 'isConflictGroupType');
 
     hamburgerMenuService = TestBed.inject(HamburgerMenuService);
-    spyOn(hamburgerMenuService, 'toggle').and.stub();
+    vi.spyOn(hamburgerMenuService, 'toggle').mockImplementation(() => {});
 
     configUtils = TestBed.inject(ConfiguratorStorefrontUtilsService);
-    spyOn(configUtils, 'setFocus').and.stub();
-    spyOn(configUtils, 'focusFirstActiveElement').and.stub();
+    vi.spyOn(configUtils, 'setFocus').mockImplementation(() => {});
+    vi.spyOn(configUtils, 'focusFirstActiveElement').mockImplementation(() => {});
 
     configuratorUtils = TestBed.inject(CommonConfiguratorUtilsService);
     configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
 
     configGroupMenuService = TestBed.inject(ConfiguratorGroupMenuService);
-    spyOn(configGroupMenuService, 'switchGroupOnArrowPress').and.stub();
+    vi.spyOn(configGroupMenuService, 'switchGroupOnArrowPress').mockImplementation(() => {});
 
     directionService = TestBed.inject(DirectionService);
-    spyOn(directionService, 'getDirection').and.callThrough();
+    vi.spyOn(directionService, 'getDirection');
 
     configExpertModeService = TestBed.inject(ConfiguratorExpertModeService);
   });
@@ -388,7 +389,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
   it('should return 0 groups if menu parent group is first group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+    vi.spyOn(configuratorGroupsService, 'getMenuParentGroup').mockReturnValue(
       of(mockProductConfiguration.groups[0])
     );
     initialize();
@@ -973,11 +974,11 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should navigate back to parent group', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+      vi.spyOn(configuratorGroupsService, 'getMenuParentGroup').mockReturnValue(
         of(clonedProductConfiguration.groups[0])
       );
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(true);
+      vi.spyOn(configuratorGroupsService, 'getParentGroup');
 
       let event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
@@ -998,7 +999,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should navigate to subgroups', () => {
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(false);
 
       let event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
@@ -1026,11 +1027,11 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should navigate back to parent group', () => {
-      spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+      vi.spyOn(configuratorGroupsService, 'getMenuParentGroup').mockReturnValue(
         of(clonedProductConfiguration.groups[0])
       );
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(true);
+      vi.spyOn(configuratorGroupsService, 'getParentGroup');
 
       let event = new KeyboardEvent('keydown', {
         code: 'ArrowRight',
@@ -1051,7 +1052,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
     });
 
     it('should navigate to subgroups', () => {
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(false);
 
       let event = new KeyboardEvent('keydown', {
         code: 'ArrowLeft',
@@ -1189,163 +1190,123 @@ describe('ConfiguratorGroupMenuComponent', () => {
       mockGroupVisited = true;
     });
 
-    it('should return appropriate (ICONSUCCESS) aria-describedby for variant configurator if group is complete and consistent', (done) => {
+    it('should return appropriate (ICONSUCCESS) aria-describedby for variant configurator if group is complete and consistent', async () => {
       clonedProductConfiguration.groups[1].complete = true;
       clonedProductConfiguration.groups[1].consistent = true;
       clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[1],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONSUCCESS1234-56-7892 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (only inListOfGroups) aria-describedby if group is complete, consistent and type is CPQ', (done) => {
+    it('should return appropriate (only inListOfGroups) aria-describedby if group is complete, consistent and type is CPQ', async () => {
       clonedProductConfiguration.groups[1].complete = true;
       clonedProductConfiguration.groups[1].consistent = true;
       clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[1],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual('inListOfGroups');
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONWARNING) aria-describedby if group is inconsistent and type is variant', (done) => {
+    it('should return appropriate (ICONWARNING) aria-describedby if group is inconsistent and type is variant', async () => {
       clonedProductConfiguration.groups[0].complete = true;
       clonedProductConfiguration.groups[0].consistent = false;
       clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONWARNING1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (only inListOfGroups) if group is inconsistent and type is CPQ', (done) => {
+    it('should return appropriate (only inListOfGroups) if group is inconsistent and type is CPQ', async () => {
       clonedProductConfiguration.groups[0].complete = true;
       clonedProductConfiguration.groups[0].consistent = false;
       clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual('inListOfGroups');
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is CPQ', (done) => {
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is CPQ', async () => {
       clonedProductConfiguration.groups[0].complete = false;
       clonedProductConfiguration.groups[0].consistent = true;
       clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONERROR1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is variant', (done) => {
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is variant', async () => {
       clonedProductConfiguration.groups[0].complete = false;
       clonedProductConfiguration.groups[0].consistent = true;
       clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONERROR1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONWARNING and ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', (done) => {
+    it('should return appropriate (ICONWARNING and ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', async () => {
       clonedProductConfiguration.groups[0].complete = false;
       clonedProductConfiguration.groups[0].consistent = false;
       clonedProductConfiguration.owner.configuratorType = typeVariant;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONWARNING1234-56-7891 ICONERROR1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', (done) => {
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', async () => {
       clonedProductConfiguration.groups[0].complete = false;
       clonedProductConfiguration.groups[0].consistent = false;
       clonedProductConfiguration.owner.configuratorType = typeCPQ;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONERROR1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONCARET_RIGHT) aria-describedby if group has subgroups', (done) => {
+    it('should return appropriate (ICONCARET_RIGHT) aria-describedby if group has subgroups', async () => {
       clonedProductConfiguration.owner.configuratorType = 'CONFIGURATOR';
       clonedProductConfiguration.groups[0].complete = true;
       clonedProductConfiguration.groups[0].consistent = true;
@@ -1355,21 +1316,16 @@ describe('ConfiguratorGroupMenuComponent', () => {
       isConflictGroupType = false;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONSUCCESS1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
 
-    it('should return appropriate (ICONCARET_RIGHT and ICONERROR) aria-describedby if group has subgroups', (done) => {
+    it('should return appropriate (ICONCARET_RIGHT and ICONERROR) aria-describedby if group has subgroups', async () => {
       clonedProductConfiguration.groups[0].groupType = undefined;
       clonedProductConfiguration.groups[0].complete = false;
       clonedProductConfiguration.groups[0].consistent = false;
@@ -1379,19 +1335,14 @@ describe('ConfiguratorGroupMenuComponent', () => {
       isConflictGroupType = false;
       initialize();
 
-      component
-        .getAriaDescribedby(
+      const describedby = await firstValueFrom(component.getAriaDescribedby(
           clonedProductConfiguration.groups[0],
           clonedProductConfiguration
-        )
-        .pipe(take(1))
-        .subscribe((describedby) => {
+        ));
           expect(describedby.trim()).toEqual(
             'ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
           );
-          done();
-        });
-    });
+          });
   });
 
   describe('Accessibility', () => {
@@ -1515,7 +1466,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
   });
 
   describe('displayMenuItem', () => {
-    it('should display conflict header menu item', (done) => {
+    it('should display conflict header menu item', async () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
@@ -1524,16 +1475,13 @@ describe('ConfiguratorGroupMenuComponent', () => {
       routerStateObservable = of(mockRouterState);
       initialize();
 
-      component
-        .displayMenuItem(configurationWithConflicts.groups[0])
-        .pipe(take(1))
-        .subscribe((displayMenuItem) => {
-          expect(displayMenuItem).toBe(true);
-          done();
-        });
+      const displayMenuItem = await firstValueFrom(
+        component.displayMenuItem(configurationWithConflicts.groups[0])
+      );
+      expect(displayMenuItem).toBe(true);
     });
 
-    it('should not display conflict header menu item', (done) => {
+    it('should not display conflict header menu item', async () => {
       let configurationWithConflicts = structuredClone(
         productConfigurationWithConflicts
       );
@@ -1543,13 +1491,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
       routerStateObservable = of(mockRouterState);
       initialize();
 
-      component
-        .displayMenuItem(configurationWithConflicts.groups[0])
-        .pipe(take(1))
-        .subscribe((displayMenuItem) => {
-          expect(displayMenuItem).toBe(false);
-          done();
-        });
+      const displayMenuItem = await firstValueFrom(
+        component.displayMenuItem(configurationWithConflicts.groups[0])
+      );
+      expect(displayMenuItem).toBe(false);
     });
   });
 
@@ -1564,7 +1509,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'Tab',
       });
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockImplementation(() => {});
       initialize();
 
       component['handleFocusLoopInMobileMode'](event);
@@ -1576,7 +1521,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowUp',
       });
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockImplementation(() => {});
       initialize();
 
       component['handleFocusLoopInMobileMode'](event);
@@ -1589,7 +1534,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
         code: 'Tab',
         shiftKey: true,
       });
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.stub();
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockImplementation(() => {});
       initialize();
 
       component['handleFocusLoopInMobileMode'](event);
@@ -1601,8 +1546,8 @@ describe('ConfiguratorGroupMenuComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'Tab',
       });
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(true);
+      vi.spyOn(configGroupMenuService, 'isActiveGroupInGroupList').mockReturnValue(
         false
       );
       initialize();
@@ -1616,8 +1561,8 @@ describe('ConfiguratorGroupMenuComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'Tab',
       });
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(true);
+      vi.spyOn(configGroupMenuService, 'isActiveGroupInGroupList').mockReturnValue(
         true
       );
       initialize();
@@ -1631,8 +1576,8 @@ describe('ConfiguratorGroupMenuComponent', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'Tab',
       });
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
-      spyOn(configGroupMenuService, 'isActiveGroupInGroupList').and.returnValue(
+      vi.spyOn(configGroupMenuService, 'isBackBtnFocused').mockReturnValue(false);
+      vi.spyOn(configGroupMenuService, 'isActiveGroupInGroupList').mockReturnValue(
         true
       );
       initialize();
@@ -1663,10 +1608,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
 
     describe('navigateUp', () => {
       it('should navigate up (and not set focus)', () => {
-        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        vi.spyOn(configuratorGroupsService, 'getMenuParentGroup').mockReturnValue(
           of(mockProductConfiguration.groups[0])
         );
-        spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+        vi.spyOn(configuratorGroupsService, 'getParentGroup').mockReturnValue(
           mockProductConfiguration.groups[0]
         );
         component.navigateUp();
@@ -1677,10 +1622,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       it('should navigate up and set focus if current group is provided', () => {
-        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        vi.spyOn(configuratorGroupsService, 'getMenuParentGroup').mockReturnValue(
           of(mockProductConfiguration.groups[0])
         );
-        spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
+        vi.spyOn(configuratorGroupsService, 'getParentGroup').mockReturnValue(
           mockProductConfiguration.groups[0]
         );
 
@@ -1691,10 +1636,10 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       it('should navigate up, parent group null', () => {
-        spyOn(configuratorGroupsService, 'getMenuParentGroup').and.returnValue(
+        vi.spyOn(configuratorGroupsService, 'getMenuParentGroup').mockReturnValue(
           of(mockProductConfiguration.groups[0])
         );
-        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+        vi.spyOn(configuratorGroupsService, 'getParentGroup');
 
         component.navigateUp();
         expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
@@ -1704,7 +1649,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
 
     describe('getGroupMenuTitle', () => {
       it('should return only group description as title when expert mode is off', () => {
-        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
           of(false)
         );
         expect(
@@ -1713,7 +1658,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       it('should return group description and name as title when expert mode is on', () => {
-        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
           of(true)
         );
         const groupMenuTitle =
@@ -1727,7 +1672,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       it('should return only conflict header group description as title even if expert mode is on', () => {
-        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
           of(true)
         );
         const configForExpMode = productConfigurationWithConflicts;
@@ -1738,7 +1683,7 @@ describe('ConfiguratorGroupMenuComponent', () => {
       });
 
       it('should return only conflict group description as title even if expert mode is on', () => {
-        spyOn(configExpertModeService, 'getExpModeActive').and.returnValue(
+        vi.spyOn(configExpertModeService, 'getExpModeActive').mockReturnValue(
           of(true)
         );
         const configForExpMode = productConfigurationWithConflicts;

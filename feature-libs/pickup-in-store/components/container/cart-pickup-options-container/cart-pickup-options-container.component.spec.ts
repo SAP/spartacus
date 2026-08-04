@@ -3,9 +3,7 @@ import { ElementRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+    } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsService,
@@ -28,8 +26,9 @@ import {
   LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
+import { vi } from 'vitest';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, firstValueFrom, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
@@ -188,7 +187,7 @@ describe('CartPickupOptionsContainerComponent', () => {
     launchDialogService = TestBed.inject(LaunchDialogService);
     activeCartService = TestBed.inject(ActiveCartFacade);
     pickupOptionService = TestBed.inject(PickupOptionFacade);
-    spyOn(launchDialogService, 'openDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'openDialog');
 
     fixture.detectChanges();
   };
@@ -221,7 +220,7 @@ describe('CartPickupOptionsContainerComponent', () => {
     });
 
     it('should not openDialog if display name is not set and ship it is selected', () => {
-      spyOn(component, 'openDialog');
+      vi.spyOn(component, 'openDialog');
       component['displayNameIsSet'] = false;
       const pickupOption: PickupOption = 'delivery';
       const event = {
@@ -232,7 +231,8 @@ describe('CartPickupOptionsContainerComponent', () => {
       expect(component.openDialog).not.toHaveBeenCalled();
     });
 
-    it('should check call update Entry on pickup option change when option is pickup', fakeAsync(() => {
+    it('should check call update Entry on pickup option change when option is pickup', async () => {
+      vi.useFakeTimers();
       const entryNumber = 2;
       const pickupOption: PickupOption = 'pickup';
       const quantity = 3;
@@ -245,8 +245,8 @@ describe('CartPickupOptionsContainerComponent', () => {
       component.quantity = quantity;
       component['displayNameIsSet'] = false;
 
-      spyOn(pickupOptionService, 'setPickupOption');
-      spyOn(activeCartService, 'updateEntry');
+      vi.spyOn(pickupOptionService, 'setPickupOption');
+      vi.spyOn(activeCartService, 'updateEntry');
 
       component.onPickupOptionChange(event);
       expect(pickupOptionService.setPickupOption).toHaveBeenCalledWith(
@@ -254,7 +254,8 @@ describe('CartPickupOptionsContainerComponent', () => {
         pickupOption
       );
 
-      tick();
+      await vi.advanceTimersByTimeAsync(0);
+      vi.useRealTimers();
 
       expect(activeCartService.updateEntry).toHaveBeenCalledWith(
         entryNumber,
@@ -262,16 +263,16 @@ describe('CartPickupOptionsContainerComponent', () => {
         'London School',
         true
       );
-    }));
+    });
 
     it('should set cartId to active cart id', () => {
-      spyOn(activeCartService, 'getActive').and.callThrough();
+      vi.spyOn(activeCartService, 'getActive');
       component.ngOnInit();
       expect(component['cartId']).toBe('test-active-cart-code');
     });
 
     it('should call getPreferredStoreWithProductInStock', () => {
-      spyOn(activeCartService, 'getActive').and.callThrough();
+      vi.spyOn(activeCartService, 'getActive');
       component.ngOnInit();
       expect(component['cartId']).toBe('test-active-cart-code');
     });
@@ -306,7 +307,7 @@ describe('CartPickupOptionsContainerComponent', () => {
     });
 
     it('should set the pickupOption to delivery', () => {
-      spyOn(pickupOptionService, 'getPickupOption').and.returnValue(
+      vi.spyOn(pickupOptionService, 'getPickupOption').mockReturnValue(
         of('delivery')
       );
       expect(component.pickupOption$).toBeObservable(
@@ -373,16 +374,14 @@ describe('CartPickupOptionsContainerComponent', () => {
       stubServiceAndCreateComponent();
     });
 
-    it('should set value for disableControls', (done) => {
+    it('should set value for disableControls', async () => {
       const mockEntries = [
         { product: { code: 'ABC' } },
         { product: { code: 'DEF' } },
       ];
-      spyOn(activeCartService, 'getEntries').and.returnValue(of(mockEntries));
-      component.disableControls$.subscribe((result) => {
-        expect(result).toBe(false);
-        done();
-      });
+      vi.spyOn(activeCartService, 'getEntries').mockReturnValue(of(mockEntries));
+      const result = await firstValueFrom(component.disableControls$);
+      expect(result).toBe(false);
     });
   });
 });

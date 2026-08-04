@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -72,7 +73,7 @@ describe('NotificationMessageComponent', () => {
   });
 
   it('should emit close event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.close')
     ).nativeElement;

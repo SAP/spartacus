@@ -17,6 +17,7 @@ import {
   SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
@@ -88,7 +89,7 @@ describe('SubscriptionDetailsComponent', () => {
       .compileComponents();
     eventService = TestBed.inject(EventService);
     facade = TestBed.inject(SubscriptionFacade);
-    spyOn(eventService, 'dispatch').and.callThrough();
+    vi.spyOn(eventService, 'dispatch');
     routerParam$.next({ ticketCode: 's1' });
     fixture = TestBed.createComponent(SubscriptionDetailsComponent);
     component = fixture.componentInstance;
@@ -99,7 +100,7 @@ describe('SubscriptionDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should reload data', () => {
-    spyOn(facade, 'getSubscriptionByCode').and.callThrough();
+    vi.spyOn(facade, 'getSubscriptionByCode');
     component.ngOnInit();
     expect(eventService.dispatch).toHaveBeenCalled();
     expect(facade.getSubscriptionByCode).toHaveBeenCalled();
@@ -113,7 +114,7 @@ describe('SubscriptionDetailsComponent', () => {
     const mode = 'cancel';
 
     (component as any).subscriptionDetails$ = of(subscription);
-    const openDialogSpy = spyOn(launchDialogService, 'openDialogAndSubscribe');
+    const openDialogSpy = vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
 
     component.showSubscriptionActionsDialog(mode);
 

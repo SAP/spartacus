@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   MockTranslatePipe,
@@ -24,6 +24,7 @@ import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configur
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-sidebar.component';
+import { vi } from 'vitest';
 
 const OWNER: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -50,12 +51,12 @@ function initTestComponent() {
     ConfiguratorStorefrontUtilsService
   );
 
-  spyOn(configuratorStorefrontUtilsService, 'getElement').and.callThrough();
-  spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
-  spyOn(
+  vi.spyOn(configuratorStorefrontUtilsService, 'getElement');
+  vi.spyOn(configuratorStorefrontUtilsService, 'changeStyling').mockImplementation(() => {});
+  vi.spyOn(
     configuratorStorefrontUtilsService,
     'getSpareViewportHeight'
-  ).and.callThrough();
+  );
 }
 
 class MockConfiguratorCommonsService {
@@ -114,7 +115,7 @@ class MockConfiguratorOverviewMenuComponent {
 }
 
 describe('ConfiguratorOverviewSidebarComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ConfiguratorOverviewSidebarComponent],
       providers: [
@@ -158,7 +159,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
       })
       .compileComponents();
     initTestComponent();
-  }));
+  });
 
   it('should create component', () => {
     expect(component).toBeDefined();

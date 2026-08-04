@@ -1,10 +1,11 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -27,7 +28,6 @@ import {
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { MyAccountV2ProfileComponent } from './my-account-v2-profile.component';
 import { UpdateProfileComponentService } from './update-profile-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {
@@ -61,7 +61,7 @@ class MockProfileService implements Partial<UpdateProfileComponentService> {
     lastName: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  updateProfile = createSpy().and.stub();
+  updateProfile = vi.fn().mockImplementation(() => {});
 }
 
 describe('MyAccountV2ProfileComponent', () => {
@@ -71,7 +71,7 @@ describe('MyAccountV2ProfileComponent', () => {
 
   let service: UpdateProfileComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -159,7 +159,7 @@ describe('MyAccountV2ProfileComponent', () => {
     it('should call onSubmit() method on submit', () => {
       component.onEdit();
       fixture.detectChanges();
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();

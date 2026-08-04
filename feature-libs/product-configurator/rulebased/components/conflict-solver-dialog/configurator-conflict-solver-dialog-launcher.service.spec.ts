@@ -1,7 +1,7 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ElementRef } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of, Subject } from 'rxjs';
+import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { ConfiguratorConflictSolverDialogLauncherService } from './configurator-conflict-solver-dialog-launcher.service';
 import {
   CommonConfigurator,
@@ -13,6 +13,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let lastDialogData: any;
@@ -74,8 +75,8 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
   function initLauncherService() {
     listener = TestBed.inject(ConfiguratorConflictSolverDialogLauncherService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-    spyOn(launchDialogService, 'closeDialog').and.stub();
-    spyOn(launchDialogService, 'openDialogAndSubscribe').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog').mockImplementation(() => {});
+    vi.spyOn(launchDialogService, 'openDialogAndSubscribe');
   }
 
   beforeEach(() => {
@@ -104,7 +105,10 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
 
   afterEach(() => {
     listener.ngOnDestroy();
+    vi.useRealTimers();
   });
+
+  beforeEach(() => { vi.useFakeTimers(); });
 
   describe('conflictGroups observable', () => {
     let configRouterData: ConfiguratorRouter.Data;
@@ -114,68 +118,66 @@ describe('ConfiguratorConflictSolverDialogLauncherService', () => {
       configRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
     });
 
-    it('should emit group data', (done) => {
+    it('should emit group data', async () => {
       routerData$ = of(configRouterData);
       initLauncherService();
-      listener.conflictGroupAndRouterData$.subscribe((data) => {
-        expect(data.conflictGroup).toEqual(group);
-        done();
-      });
       groupSubject.next(group);
+      const data = await firstValueFrom(listener.conflictGroupAndRouterData$);
+      expect(data.conflictGroup).toEqual(group);
     });
   });
 
   describe('controlDialog', () => {
-    it('should open conflict solver dialog because there are some conflict groups', fakeAsync(() => {
+    it('should open conflict solver dialog because there are some conflict groups', async () => {
       initLauncherService();
       groupSubject.next(group);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalled();
-    }));
+    });
 
-    it('should open conflict solver dialog only once if same conflict groups is emitted', fakeAsync(() => {
+    it('should open conflict solver dialog only once if same conflict groups is emitted', async () => {
       initLauncherService();
       groupSubject.next(group);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       groupSubject.next(group);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledTimes(
         1
       );
-    }));
+    });
 
-    it('should close conflict solver dialog because there are not any conflict groups', fakeAsync(() => {
+    it('should close conflict solver dialog because there are not any conflict groups', async () => {
       initLauncherService();
       groupSubject.next(group);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       groupSubject.next(undefined);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.closeDialog).toHaveBeenCalled();
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
         'CLOSE_NO_CONFLICTS_EXIST'
       );
-    }));
+    });
 
-    it('should NOT close conflict solver dialog because it has not been opened yet', fakeAsync(() => {
+    it('should NOT close conflict solver dialog because it has not been opened yet', async () => {
       initLauncherService();
       groupSubject.next(undefined);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.closeDialog).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should close conflict solver dialog only once unless it is not opened again', fakeAsync(() => {
+    it('should close conflict solver dialog only once unless it is not opened again', async () => {
       initLauncherService();
       groupSubject.next(group);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
 
       groupSubject.next(undefined);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.closeDialog).toHaveBeenCalledTimes(1);
 
       groupSubject.next(undefined);
-      tick(0);
+      await vi.advanceTimersByTimeAsync(0);
       expect(launchDialogService.closeDialog).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
 
   describe('closeModal', () => {

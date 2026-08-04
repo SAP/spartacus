@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -15,7 +16,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-import createSpy = jasmine.createSpy;
 
 const orderApprovalPermissionCode = 'testCode';
 const userId = 'userId';
@@ -25,7 +25,7 @@ const permission = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { orderApprovalPermissionCode } }) =>
       url === 'permission' ? url + orderApprovalPermissionCode : url
@@ -52,8 +52,8 @@ describe('OccPermissionAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     service = TestBed.inject(OccPermissionAdapter);
     httpMock = TestBed.inject(HttpTestingController);
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'convert');
   });
 
   afterEach(() => {

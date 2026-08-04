@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import {
   Address,
@@ -20,7 +21,6 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog.component';
-import createSpy = jasmine.createSpy;
 
 const mockData = {
   enteredAddress: {},
@@ -36,7 +36,7 @@ class MockCxIconComponent {
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog = createSpy();
+  closeDialog = vi.fn();
 
   data$ = of(mockData);
 }
@@ -47,7 +47,7 @@ describe('SuggestedAddressDialogComponent', () => {
 
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, SuggestedAddressDialogComponent],
       providers: [
@@ -89,7 +89,7 @@ describe('SuggestedAddressDialogComponent', () => {
   });
 
   it('should call setSelectedData when component constructed', () => {
-    spyOn(component, 'setSelectedAddress');
+    vi.spyOn(component, 'setSelectedAddress');
 
     component.data$.pipe(take(1)).subscribe((result) => {
       expect(result).toEqual(mockData);
@@ -116,7 +116,7 @@ describe('SuggestedAddressDialogComponent', () => {
 
   it('should closeModal when user click outside', () => {
     const el = fixture.debugElement.nativeElement;
-    spyOn(component, 'closeModal');
+    vi.spyOn(component, 'closeModal');
 
     el.click();
     expect(component.closeModal).toHaveBeenCalledWith('Cross click');

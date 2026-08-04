@@ -7,10 +7,7 @@ import {
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+      } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   FeaturesConfig,
@@ -29,6 +26,7 @@ import { defaultConfiguratorUISettingsConfig } from '../../../config/default-con
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import {
+import { vi } from 'vitest';
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
@@ -124,13 +122,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     configuratorUISettingsConfig.productConfigurator =
       defaultConfiguratorUISettingsConfig.productConfigurator;
     mockLanguageService = {
       getAll: () => of([]),
-      getActive: jasmine.createSpy().and.returnValue(of(locale)),
-      setActive: jasmine.createSpy(),
+      getActive: vi.fn().mockReturnValue(of(locale)),
+      setActive: vi.fn(),
     };
     TestBed.configureTestingModule({
       imports: [
@@ -172,7 +170,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -187,7 +185,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
-    spyOn(
+    vi.spyOn(
       configuratorAttributeNumericInputFieldService,
       'getPatternForValidationMessage'
     );
@@ -195,10 +193,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
 
-    spyOn(
+    vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
-    ).and.callThrough();
+    );
   });
 
   function checkForValidity(
@@ -230,6 +228,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  beforeEach(() => { vi.useFakeTimers(); });
+  afterEach(() => { vi.useRealTimers(); });
 
   it('should not consider empty required input field as invalid, despite that it will be marked as error on the UI, so that engine is still called', () => {
     component.attribute.required = true;
@@ -377,42 +378,42 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     ).toHaveBeenCalledTimes(0);
   });
 
-  it('should delay emit inputValue for debounce period', fakeAsync(() => {
+  it('should delay emit inputValue for debounce period', async () => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).toHaveBeenCalled();
-  }));
+  });
 
-  it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', fakeAsync(() => {
+  it('should delay emit inputValue for debounce period in case ui settings config is missing, because it falls back to default time', async () => {
     configuratorUISettingsConfig.productConfigurator = undefined;
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).toHaveBeenCalled();
-  }));
+  });
 
-  it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
+  it('should only emit once with last value if inputValue is changed within debounce period', async () => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
-    tick(DEBOUNCE_TIME / 2);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME / 2);
     component.attributeInputForm.setValue('123456');
     fixture.detectChanges();
-    tick(DEBOUNCE_TIME / 2);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME / 2);
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).toHaveBeenCalledWith(
@@ -424,37 +425,37 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       },
       Configurator.UpdateType.ATTRIBUTE
     );
-  }));
+  });
 
-  it('should emit twice if inputValue is changed after debounce period', fakeAsync(() => {
+  it('should emit twice if inputValue is changed after debounce period', async () => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
-    tick(DEBOUNCE_TIME);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     component.attributeInputForm.setValue('123456');
     fixture.detectChanges();
-    tick(DEBOUNCE_TIME);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).toHaveBeenCalledTimes(2);
-  }));
+  });
 
-  it('should not emit inputValue after destroy', fakeAsync(() => {
+  it('should not emit inputValue after destroy', async () => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
     component.ngOnDestroy();
-    tick(DEBOUNCE_TIME);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
     expect(
       component['configuratorCommonsService'].updateConfiguration
     ).not.toHaveBeenCalled();
-  }));
+  });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the ID of the element that describe the elements", fakeAsync(() => {
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the ID of the element that describe the elements", async () => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
       htmlElem = fixture.debugElement.nativeElement;
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -464,9 +465,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'aria-describedby',
         'cx-configurator--label--attributeName'
       );
-    }));
+    });
 
-    it("should contain div element with class name 'cx-validation-msg' and 'aria-live' attribute that enables the screen reader to read out a error as soon as it occurs", fakeAsync(() => {
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-live' attribute that enables the screen reader to read out a error as soon as it occurs", async () => {
       component.attribute.userInput = '123';
       component.attributeInputForm.markAsTouched({ onlySelf: true });
       component.attributeInputForm.setErrors({
@@ -474,7 +475,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       });
       fixture.detectChanges();
       component.ngOnInit();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -484,9 +485,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'aria-live',
         'assertive'
       );
-    }));
+    });
 
-    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", fakeAsync(() => {
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", async () => {
       component.attribute.userInput = '123';
       component.attributeInputForm.markAsTouched({ onlySelf: true });
       component.attributeInputForm.setErrors({
@@ -494,7 +495,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       });
       fixture.detectChanges();
       component.ngOnInit();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -504,7 +505,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'aria-atomic',
         'true'
       );
-    }));
+    });
   });
 
   describe('getIntervalText', () => {
@@ -522,9 +523,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     let minValueFormatted = '5.00';
     let maxValueFormatted = '7.00';
 
-    it('should return aria text for standard interval', fakeAsync(() => {
+    it('should return aria text for standard interval', async () => {
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
@@ -532,13 +533,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' minValue:' +
           minValueFormatted
       );
-    }));
+    });
 
-    it('should return aria text for half open interval, upper value not included', fakeAsync(() => {
+    it('should return aria text for half open interval, upper value not included', async () => {
       interval.minValueIncluded = true;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
@@ -548,13 +549,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' ' +
           'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
       );
-    }));
+    });
 
-    it('should return aria text for half open interval, lower value not included', fakeAsync(() => {
+    it('should return aria text for half open interval, lower value not included', async () => {
       interval.minValueIncluded = false;
       interval.maxValueIncluded = true;
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
@@ -564,13 +565,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' ' +
           'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
       );
-    }));
+    });
 
-    it('should return aria text for open interval', fakeAsync(() => {
+    it('should return aria text for open interval', async () => {
       interval.minValueIncluded = false;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
@@ -580,74 +581,74 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' ' +
           'configurator.a11y.numericIntervalStandardOpen'
       );
-    }));
+    });
 
-    it('should return aria text for infinite interval with min value', fakeAsync(() => {
+    it('should return aria text for infinite interval with min value', async () => {
       interval.minValue = 5;
       interval.maxValue = undefined;
       interval.minValueIncluded = false;
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMinValue value:' +
           minValueFormatted
       );
-    }));
+    });
 
-    it('should return aria text for infinite interval with min value included', fakeAsync(() => {
+    it('should return aria text for infinite interval with min value included', async () => {
       interval.minValue = 5;
       interval.maxValue = undefined;
       interval.minValueIncluded = true;
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
           minValueFormatted
       );
-    }));
+    });
 
-    it('should return aria text for infinite interval with max value', fakeAsync(() => {
+    it('should return aria text for infinite interval with max value', async () => {
       interval.minValue = undefined;
       interval.maxValue = 7;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMaxValue value:' +
           maxValueFormatted
       );
-    }));
+    });
 
-    it('should return aria text for infinite interval with max value included', fakeAsync(() => {
+    it('should return aria text for infinite interval with max value included', async () => {
       interval.minValue = undefined;
       interval.maxValue = 7;
       interval.maxValueIncluded = true;
 
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMaxValueIncluded value:' +
           maxValueFormatted
       );
-    }));
+    });
 
-    it('should return text for single value', fakeAsync(() => {
+    it('should return text for single value', async () => {
       interval.minValue = 5;
       interval.maxValue = 5;
       interval.minValueIncluded = false;
       interval.maxValueIncluded = false;
 
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalSingleValue value:' +
           minValueFormatted
       );
-    }));
+    });
   });
 
   describe('getIntervalTexts', () => {
@@ -668,13 +669,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     let maxValue1Formatted = '7.00';
     let minValue2Formatted = '10.00';
 
-    it('should return concatenated aria text for multiple intervals', fakeAsync(() => {
+    it('should return concatenated aria text for multiple intervals', async () => {
       component.intervals = [];
       component.intervals.push(interval1);
       component.intervals.push(interval2);
 
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component.getHelpTextForInterval()).toBe(
         'configurator.a11y.combinedIntervalsText combinedInterval:' +
@@ -686,9 +687,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
           minValue2Formatted
       );
-    }));
+    });
 
-    it('should return concatenated aria text for multiple intervals with single value', fakeAsync(() => {
+    it('should return concatenated aria text for multiple intervals with single value', async () => {
       let interval3: ConfiguratorAttributeNumericInterval = {
         minValue: 12,
         maxValue: 12,
@@ -702,7 +703,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.intervals.push(interval1);
       component.intervals.push(interval3);
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component.getHelpTextForInterval()).toBe(
         'configurator.a11y.combinedIntervalsText combinedInterval:' +
@@ -713,7 +714,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' newInterval:configurator.a11y.numericIntervalSingleValue value:' +
           minValue3Formatted
       );
-    }));
+    });
   });
 
   describe('getAriaLabelComplete', () => {
@@ -731,14 +732,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     let minValueFormatted = '5.00';
     let maxValueFormatted = '7.00';
 
-    it('should return aria text for entered value including text for standard interval', fakeAsync(() => {
+    it('should return aria text for entered value including text for standard interval', async () => {
       component.intervals = [];
       component.intervals.push(interval);
       component.attribute.intervalInDomain = true;
       component.attribute.label = 'Intervaltest';
       component.attribute.userInput = '123';
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component.getAriaLabelComplete()).toBe(
         'configurator.a11y.valueOfAttributeFull attribute:' +
@@ -752,9 +753,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' minValue:' +
           minValueFormatted
       );
-    }));
+    });
 
-    it('should return aria text for blank value including text for infinite interval with min value', fakeAsync(() => {
+    it('should return aria text for blank value including text for infinite interval with min value', async () => {
       interval.minValue = 5;
       interval.maxValue = undefined;
       interval.minValueIncluded = false;
@@ -765,7 +766,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.attribute.label = 'Intervaltest';
       component.attribute.userInput = '';
       fixture.detectChanges();
-      tick(DEBOUNCE_TIME);
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_TIME);
 
       expect(component.getAriaLabelComplete()).toBe(
         'configurator.a11y.valueOfAttributeBlank attribute:' +
@@ -774,6 +775,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           'configurator.a11y.numericInfiniteIntervalMinValue value:' +
           minValueFormatted
       );
-    }));
+    });
   });
 });

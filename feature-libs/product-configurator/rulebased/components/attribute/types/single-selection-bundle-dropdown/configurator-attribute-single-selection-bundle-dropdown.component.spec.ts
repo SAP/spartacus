@@ -4,7 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -216,7 +216,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     return component;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -275,7 +275,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         }
       )
       .compileComponents();
-  }));
+  });
 
   afterEach(() => {
     fixture?.destroy();

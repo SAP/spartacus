@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AbstractOrderType } from '@spartacus/cart/base/root';
 import {
@@ -35,7 +36,7 @@ describe('QuoteItemsComponent', () => {
   let eventService: EventService;
   let quoteItemsComponentService: QuoteItemsComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initMocks();
     TestBed.configureTestingModule({
       imports: [AbstractOrderContextModule, QuoteItemsComponent],
@@ -59,7 +60,7 @@ describe('QuoteItemsComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteItemsComponent);
@@ -70,20 +71,20 @@ describe('QuoteItemsComponent', () => {
   });
 
   function initMocks() {
-    eventService = jasmine.createSpyObj('EventService', ['get', 'dispatch']);
-    quoteItemsComponentService = jasmine.createSpyObj(
-      'QuoteItemsComponentService',
-      [
-        'setQuoteEntriesExpanded',
-        'getQuoteEntriesExpanded',
-        'retrieveQuoteEntries',
-      ]
-    );
-    asSpy(eventService.get).and.returnValue(EMPTY);
-    asSpy(quoteItemsComponentService.getQuoteEntriesExpanded).and.returnValue(
+    eventService = {
+      get: vi.fn(),
+      dispatch: vi.fn(),
+    } as any;
+    quoteItemsComponentService = {
+      setQuoteEntriesExpanded: vi.fn(),
+      getQuoteEntriesExpanded: vi.fn(),
+      retrieveQuoteEntries: vi.fn(),
+    } as any;
+    (eventService.get as vi.Mock).mockReturnValue(EMPTY);
+    (quoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock).mockReturnValue(
       true
     );
-    asSpy(quoteItemsComponentService.retrieveQuoteEntries).and.returnValue(
+    (quoteItemsComponentService.retrieveQuoteEntries as vi.Mock).mockReturnValue(
       of({
         entries: quote.entries,
         readOnly: true,
@@ -91,10 +92,6 @@ describe('QuoteItemsComponent', () => {
         abstractOrderId: quote.code,
       })
     );
-  }
-
-  function asSpy(f: any) {
-    return <jasmine.Spy>f;
   }
 
   describe('Initialization', () => {

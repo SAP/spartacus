@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 import { Provider } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   ActivatedRoute,
@@ -30,19 +31,11 @@ import {
   SESSION_EXPIRED_ERROR,
 } from '../user-account-constants';
 import { LoginFormComponentService } from './login-form-component.service';
-import createSpy = jasmine.createSpy;
 
 class MockWinRef {
-  localStorage = jasmine.createSpyObj('localStorage', [
-    'setItem',
-    'removeItem',
-  ]);
+  localStorage = { setItem: vi.fn(), removeItem: vi.fn() };
 
-  sessionStorage = jasmine.createSpyObj('sessionStorage', [
-    'setItem',
-    'getItem',
-    'removeItem',
-  ]);
+  sessionStorage = { setItem: vi.fn(), getItem: vi.fn(), removeItem: vi.fn() };
 
   location = { href: '' } as Location;
 
@@ -56,17 +49,17 @@ class MockWinRef {
 }
 
 class MockAuthService implements Partial<AuthService> {
-  loginWithCredentials = createSpy().and.returnValue(of({}));
-  isUserLoggedIn = createSpy().and.returnValue(of(true));
-  loginWithRedirect = createSpy().and.returnValue(true);
-  getCsrfToken = createSpy().and.returnValue(
+  loginWithCredentials = vi.fn().mockReturnValue(of({}));
+  isUserLoggedIn = vi.fn().mockReturnValue(of(true));
+  loginWithRedirect = vi.fn().mockReturnValue(true);
+  getCsrfToken = vi.fn().mockReturnValue(
     of({
       headerName: 'CSFR',
       parameterName: '_csfr',
       token: 'token',
     })
   );
-  refreshCsrfToken = createSpy().and.returnValue(
+  refreshCsrfToken = vi.fn().mockReturnValue(
     of({
       headerName: 'CSFR',
       parameterName: '_csfr',
@@ -76,8 +69,8 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockGlobalMessageService {
-  add = createSpy().and.stub();
-  remove = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
+  remove = vi.fn().mockImplementation(() => {});
 }
 
 class MockFederatedLoginService implements Partial<FederatedLoginService> {
@@ -97,8 +90,8 @@ class MockActivatedRoute implements Partial<ActivatedRoute> {
 }
 
 class MockRouter implements Partial<Router> {
-  navigate = createSpy().and.stub();
-  navigateByUrl = createSpy().and.stub();
+  navigate = vi.fn().mockImplementation(() => {});
+  navigateByUrl = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
@@ -108,8 +101,8 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
 }
 
 class MockCsrfStateService implements Partial<CsrfStateService> {
-  get = createSpy().and.returnValue({ token: 'token' });
-  set = createSpy().and.stub();
+  get = vi.fn().mockReturnValue({ token: 'token' });
+  set = vi.fn().mockImplementation(() => {});
 }
 
 class MockAuthMultisiteIsolationService
@@ -171,7 +164,7 @@ describe('LoginFormComponentService', () => {
     provideMockFeatureToggles({ ...mockFeatureToggles }),
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [],
@@ -197,10 +190,10 @@ describe('LoginFormComponentService', () => {
 
   describe('showResetPassword', () => {
     it('should be true when isLoginDomain is false', () => {
-      expect(service.showResetPassword).toBeTrue();
+      expect(service.showResetPassword).toBe(true);
     });
 
-    it('should be false when isLoginDomain is true', waitForAsync(() => {
+    it('should be false when isLoginDomain is true', async () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
@@ -225,7 +218,7 @@ describe('LoginFormComponentService', () => {
     });
 
     it('should patch user id', () => {
-      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+      vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue({
         history: { state: { newUid: 'test.user@shop.com' } },
       } as Window);
       service.isUpdating$.subscribe().unsubscribe();
@@ -249,7 +242,7 @@ describe('LoginFormComponentService', () => {
       });
 
       it('should reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
         expect(service.form.reset).toHaveBeenCalled();
       });
@@ -269,7 +262,7 @@ describe('LoginFormComponentService', () => {
       });
 
       it('should not reset the form', () => {
-        spyOn(service.form, 'reset').and.stub();
+        vi.spyOn(service.form, 'reset').mockImplementation(() => {});
         service.login();
         expect(service.form.reset).not.toHaveBeenCalled();
       });
@@ -278,7 +271,7 @@ describe('LoginFormComponentService', () => {
     describe('new flow', () => {
       let mockFeatureTogglesController: MockFeatureTogglesController;
       // Reset test module to reconfigure FeatureToggles
-      beforeEach(waitForAsync(() => {
+      beforeEach(async () => {
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
           providers: [...providers],
@@ -321,9 +314,9 @@ describe('LoginFormComponentService', () => {
           });
         });
 
-        it('should submit native form with refreshed CSRF token', waitForAsync(() => {
+        it('should submit native form with refreshed CSRF token', async () => {
           const form = createForm(userId, password, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).toHaveBeenCalledWith();
           expect(winRef.localStorage?.setItem).toHaveBeenCalledWith(
@@ -347,14 +340,14 @@ describe('LoginFormComponentService', () => {
               csrf: 'token',
             };
             const decoratedUserId = testData.userId + '|decorator';
-            spyOn(
+            vi.spyOn(
               authMultisiteIsolationService,
               'decorateUserId'
-            ).and.returnValue(of(decoratedUserId));
+            ).mockReturnValue(of(decoratedUserId));
             service.form.setValue(testData);
             const form = createForm(userId, password, csrf);
             let submittedFormData: FormData;
-            spyOn(form, 'submit').and.callFake(() => {
+            vi.spyOn(form, 'submit').mockImplementation(() => {
               submittedFormData = new FormData(form);
             });
 
@@ -366,18 +359,18 @@ describe('LoginFormComponentService', () => {
           });
         });
 
-        it('should update csrf form field with fresh token before submit', waitForAsync(() => {
+        it('should update csrf form field with fresh token before submit', async () => {
           service.form.get('csrf')?.setValue('old-token');
           const form = createForm(userId, password, 'old-token');
-          spyOn(form, 'submit');
+          vi.spyOn(form, 'submit');
           service.login(form);
           expect(service.form.get('csrf')?.value).toBe('new-token');
         }));
 
-        it('should not disable the form before submitting (browser drops disabled inputs from POST body)', waitForAsync(() => {
+        it('should not disable the form before submitting (browser drops disabled inputs from POST body)', async () => {
           const form = createForm(userId, password, csrf);
           let formDisabledAtSubmit: boolean | undefined;
-          spyOn(form, 'submit').and.callFake(() => {
+          vi.spyOn(form, 'submit').mockImplementation(() => {
             formDisabledAtSubmit = service.form.disabled;
           });
           service.login(form);
@@ -386,7 +379,7 @@ describe('LoginFormComponentService', () => {
         }));
 
         it('should reset the form', () => {
-          spyOn(service.form, 'reset').and.stub();
+          vi.spyOn(service.form, 'reset').mockImplementation(() => {});
           service.login();
           expect(service.form.reset).toHaveBeenCalled();
         });
@@ -407,13 +400,13 @@ describe('LoginFormComponentService', () => {
 
         it('should not login', () => {
           const form = createForm(userId, password, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).not.toHaveBeenCalled();
         });
 
         it('should not reset the form', () => {
-          spyOn(service.form, 'reset').and.stub();
+          vi.spyOn(service.form, 'reset').mockImplementation(() => {});
           const form = createForm(userId, password, csrf);
           service.login(form);
           expect(service.form.reset).not.toHaveBeenCalled();
@@ -426,22 +419,22 @@ describe('LoginFormComponentService', () => {
         const csrf = 'token';
 
         beforeEach(() => {
-          (authService.refreshCsrfToken as jasmine.Spy).and.returnValue(
+          (authService.refreshCsrfToken as any).mockReturnValue(
             throwError(() => ({ status: 403 }))
           );
           service.form.setValue({ userId, password, csrf });
         });
 
-        it('should NOT submit the form', waitForAsync(() => {
+        it('should NOT submit the form', async () => {
           const form = createForm(userId, password, csrf);
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).not.toHaveBeenCalled();
         }));
 
-        it('should stash session_expired in sessionStorage and hard-redirect to /login on CSRF refresh failure', waitForAsync(() => {
+        it('should stash session_expired in sessionStorage and hard-redirect to /login on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
+          vi.spyOn(form, 'submit');
           service.login(form);
           expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
             LOGIN_ERROR_KEY,
@@ -451,30 +444,30 @@ describe('LoginFormComponentService', () => {
           expect(authService.loginWithRedirect).not.toHaveBeenCalled();
         }));
 
-        it('should reset busy state to false on CSRF refresh failure', waitForAsync(() => {
+        it('should reset busy state to false on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
+          vi.spyOn(form, 'submit');
           let busyValue: boolean | undefined;
           service.isUpdating$.subscribe((v) => (busyValue = v));
           service.login(form);
           expect(busyValue).toBe(false);
         }));
 
-        it('should clear the OAuth redirect flow flag on CSRF refresh failure', waitForAsync(() => {
+        it('should clear the OAuth redirect flow flag on CSRF refresh failure', async () => {
           const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
+          vi.spyOn(form, 'submit');
           service.login(form);
           expect(winRef.localStorage?.removeItem).toHaveBeenCalledWith(
             OAUTH_REDIRECT_FLOW_KEY
           );
         }));
 
-        it('should surface the session-expired message inline when nativeWindow is unexpectedly undefined (defensive fallback)', waitForAsync(() => {
-          spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue(
+        it('should surface the session-expired message inline when nativeWindow is unexpectedly undefined (defensive fallback)', async () => {
+          vi.spyOn(winRef, 'nativeWindow', 'get').mockReturnValue(
             undefined as unknown as Window
           );
           const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
+          vi.spyOn(form, 'submit');
           service.login(form);
           expect(winRef.sessionStorage?.setItem).toHaveBeenCalledWith(
             LOGIN_ERROR_KEY,
@@ -490,7 +483,7 @@ describe('LoginFormComponentService', () => {
       describe('when authorizationCodeFlowByDefaultCsrfTokenRefresh is disabled', () => {
         let mockFeatureTogglesController: MockFeatureTogglesController;
 
-        beforeEach(waitForAsync(() => {
+        beforeEach(async () => {
           TestBed.resetTestingModule();
           TestBed.configureTestingModule({
             providers: [...providers],
@@ -525,7 +518,7 @@ describe('LoginFormComponentService', () => {
             csrf: 'token',
           });
           const form = createForm('test@email.com', 'secret', 'token');
-          const submitSpy = spyOn(form, 'submit');
+          const submitSpy = vi.spyOn(form, 'submit');
           service.login(form);
           expect(submitSpy).toHaveBeenCalled();
           expect(authService.refreshCsrfToken).not.toHaveBeenCalled();
@@ -546,10 +539,10 @@ describe('LoginFormComponentService', () => {
               csrf: 'token',
             };
             const decoratedUserId = testData.userId + '|decorator';
-            spyOn(
+            vi.spyOn(
               authMultisiteIsolationService,
               'decorateUserId'
-            ).and.returnValue(of(decoratedUserId));
+            ).mockReturnValue(of(decoratedUserId));
             service.form.setValue(testData);
             const form = createForm(
               testData.userId,
@@ -557,7 +550,7 @@ describe('LoginFormComponentService', () => {
               testData.csrf
             );
             let submittedFormData: FormData;
-            spyOn(form, 'submit').and.callFake(() => {
+            vi.spyOn(form, 'submit').mockImplementation(() => {
               submittedFormData = new FormData(form);
             });
 
@@ -592,7 +585,7 @@ describe('LoginFormComponentService', () => {
         });
 
         it('should drain a session_expired stash from sessionStorage and surface httpHandlers.sessionExpired', () => {
-          (winRef.sessionStorage?.getItem as jasmine.Spy).and.callFake(
+          (winRef.sessionStorage?.getItem as any).mockImplementation(
             (key: string) =>
               key === LOGIN_ERROR_KEY ? SESSION_EXPIRED_ERROR : null
           );
@@ -635,13 +628,13 @@ describe('LoginFormComponentService', () => {
         const csrf = 'token';
 
         beforeEach(() => {
-          spyOn(winRef, 'isBrowser').and.returnValue(false);
+          vi.spyOn(winRef, 'isBrowser').mockReturnValue(false);
           service.form.setValue({ userId, password, csrf });
         });
 
         it('should not set localStorage flag when submitting login form', () => {
           const form = createForm(userId, password, csrf);
-          spyOn(form, 'submit');
+          vi.spyOn(form, 'submit');
           service.login(form);
           expect(winRef.localStorage?.setItem).not.toHaveBeenCalled();
         });

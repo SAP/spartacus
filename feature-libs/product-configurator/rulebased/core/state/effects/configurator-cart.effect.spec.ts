@@ -28,6 +28,7 @@ import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
+import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -148,23 +149,23 @@ class MockLoggerService {
 }
 
 describe('ConfiguratorCartEffect', () => {
-  let addToCartMock: jasmine.Spy;
-  let updateCartEntryMock: jasmine.Spy;
+  let addToCartMock: vi.Mock;
+  let updateCartEntryMock: vi.Mock;
 
-  let readConfigurationForOrderEntryMock: jasmine.Spy;
+  let readConfigurationForOrderEntryMock: vi.Mock;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
 
   let actions$: Observable<any>;
 
   beforeEach(() => {
-    addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
+    addToCartMock = vi.fn().mockReturnValue(of(cartModification));
     updateCartEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(cartModification));
+      .vi.fn()
+      .mockReturnValue(of(cartModification));
 
     readConfigurationForOrderEntryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
+      .vi.fn()
+      .mockReturnValue(of(productConfiguration));
 
     class MockConnector {
       addToCart = addToCartMock;
@@ -217,7 +218,7 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect addOwner', () => {
     it('should emit 2 result actions', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfiguration)
       );
       const addOwnerAction = new ConfiguratorActions.AddNextOwner({
@@ -251,7 +252,7 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect removeCartBoundConfigurations', () => {
     it('should emit remove configuration action for configurations that belong to cart entries', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(configurationState)
       );
 
@@ -281,7 +282,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit remove configuration action for configurations that have been turned into cart configurations', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(configurationState)
       );
       const configurationProductBoundObsolete: Configurator.Configuration =
@@ -313,7 +314,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should not emit remove configuration action for configurations that are purely product bound or order bound', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(configurationState)
       );
       const configurationProductBound: Configurator.Configuration =
@@ -496,7 +497,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit a fail action if something goes wrong', () => {
-      readConfigurationForOrderEntryMock.and.returnValue(
+      readConfigurationForOrderEntryMock.mockReturnValue(
         throwError(() => errorResponse)
       );
       const readFromOrderEntry: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
@@ -558,7 +559,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit CartAddEntryFail in case add to cart call does not return entry', () => {
-      addToCartMock.and.returnValue(of(cartModificationWithoutEntry));
+      addToCartMock.mockReturnValue(of(cartModificationWithoutEntry));
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -586,7 +587,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit CartAddEntryFail in case add to cart call is not successful', () => {
-      addToCartMock.and.returnValue(throwError(() => errorResponse));
+      addToCartMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -633,7 +634,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     it('should emit AddToCartFail in case update cart entry call is not successful', () => {
-      updateCartEntryMock.and.returnValue(throwError(() => errorResponse));
+      updateCartEntryMock.mockReturnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration

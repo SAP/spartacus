@@ -1,23 +1,21 @@
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FutureStockAdapter } from './future-stock.adapter';
 import { FutureStockConnector } from './future-stock.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId1';
 const productCode = 'productCode1';
 const productCodes = 'productCode1, productCode2';
 
 class MockFutureStockAdapter implements Partial<FutureStockAdapter> {
-  getFutureStock = createSpy('FutureStockAdapter.getFutureStock').and.callFake(
+  getFutureStock = vi.fn().mockImplementation(
     (productCode: string, userId: string) =>
       of(`getFutureStock-${userId}-${productCode}`)
   );
 
-  getFutureStocks = createSpy(
-    'FutureStockAdapter.getFutureStocks'
-  ).and.callFake((productCodes: string, userId: string) =>
+  getFutureStocks = vi.fn().mockImplementation((productCodes: string, userId: string) =>
     of(`getFutureStocks-${userId}-${productCodes}`)
   );
 }

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpTestingController,
   provideHttpClientTesting,
@@ -18,7 +19,6 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
-import createSpy = jasmine.createSpy;
 
 const userGroupId = 'testUid';
 const permissionUid = 'permissionUid';
@@ -36,7 +36,7 @@ const member = {
 };
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+  buildUrl = vi.fn('MockOccEndpointsService.buildUrl').mockImplementation(
     // eslint-disable-next-line @typescript-eslint/no-shadow
     (url, { urlParams: { userGroupId } }) =>
       url === 'userGroup' ? url + userGroupId : url
@@ -67,8 +67,8 @@ describe('OccUserGroupAdapter', () => {
     httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
-    spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(converterService, 'convert').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
+    vi.spyOn(converterService, 'convert');
   });
 
   afterEach(() => {

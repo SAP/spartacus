@@ -1,15 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
+import { vi } from 'vitest';
 
 describe('TextfieldInputFieldComponent', () => {
   let component: ConfiguratorTextfieldInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -17,7 +18,7 @@ describe('TextfieldInputFieldComponent', () => {
         ConfiguratorTextfieldInputFieldComponent,
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldInputFieldComponent);
@@ -39,7 +40,7 @@ describe('TextfieldInputFieldComponent', () => {
   });
 
   it('should emit a change event on change ', () => {
-    spyOn(component.inputChange, 'emit').and.callThrough();
+    vi.spyOn(component.inputChange, 'emit');
     component.onInputChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
       component.attribute

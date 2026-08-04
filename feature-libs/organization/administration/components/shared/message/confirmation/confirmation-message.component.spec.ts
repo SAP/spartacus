@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -80,7 +81,7 @@ describe('ConfirmationMessageComponent', () => {
   });
 
   it('should emit confirm event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.confirm')
     ).nativeElement;
@@ -93,7 +94,7 @@ describe('ConfirmationMessageComponent', () => {
   });
 
   it('should not emit confirm event', () => {
-    const nextEvent = spyOn(messageData.events, 'next');
+    const nextEvent = vi.spyOn(messageData.events, 'next');
     const el: HTMLElement = fixture.debugElement.query(
       By.css('button.cancel')
     ).nativeElement;

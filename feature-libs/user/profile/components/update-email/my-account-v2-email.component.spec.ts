@@ -1,9 +1,10 @@
+import { vi } from 'vitest';
 import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -37,7 +38,6 @@ import { BehaviorSubject, Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import { UpdateEmailComponentService } from './update-email-component.service';
-import createSpy = jasmine.createSpy;
 
 const mockPageMeta: PageMeta = { title: 'Test Title', heading: 'Test Heading' };
 class MockPageMetaService implements Partial<PageMetaService> {
@@ -69,12 +69,12 @@ class MockMyAccountV2EmailService
     password: new UntypedFormControl(),
   });
   isUpdating$ = isBusySubject;
-  save = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  save = vi.fn().mockImplementation(() => {});
+  resetForm = vi.fn().mockImplementation(() => {});
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy().and.stub();
+  add = vi.fn().mockImplementation(() => {});
 }
 
 const sampleUser: User = {
@@ -93,7 +93,7 @@ describe('MyAccountV2EmailComponent', () => {
 
   let service: UpdateEmailComponentService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -207,7 +207,7 @@ describe('MyAccountV2EmailComponent', () => {
     it('should call onSubmit() method on submit', () => {
       component.onEdit();
       fixture.detectChanges();
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();

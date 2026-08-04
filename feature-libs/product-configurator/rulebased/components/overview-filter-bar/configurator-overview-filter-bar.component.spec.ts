@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
@@ -16,6 +16,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
+import { vi } from 'vitest';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -56,9 +57,7 @@ function initTestData() {
   };
 }
 function initMocks() {
-  mockConfigCommonsService = jasmine.createSpyObj([
-    'updateConfigurationOverview',
-  ]);
+  mockConfigCommonsService = { updateConfigurationOverview: vi.fn() } as any;
 }
 
 @Component({
@@ -73,7 +72,7 @@ class MockConfigUtilsService {
 }
 
 describe('ConfiguratorOverviewFilterBarComponent', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
@@ -96,7 +95,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewFilterBarComponent);
@@ -195,7 +194,7 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       let buttonEl = fixture.debugElement.query(
         By.css('#cx-overview-filter-applied-USER_INPUT')
       );
-      spyOn(component, 'onAttrFilterRemove');
+      vi.spyOn(component, 'onAttrFilterRemove');
 
       const event = new KeyboardEvent('keydown', {
         key: 'Delete',
@@ -426,10 +425,10 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
 
     describe('focusElementById', () => {
       it('should call getElement method of ConfiguratorStorefrontUtilsService using # as prefix', () => {
-        spyOn(
+        vi.spyOn(
           configuratorStorefrontUtilsService,
           'getElement'
-        ).and.callThrough();
+        );
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
         expect(
           configuratorStorefrontUtilsService.getElement
@@ -437,8 +436,8 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       });
 
       it('should call focus method of html element', () => {
-        let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
-        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+        let mockElement = { focus: vi.fn() };
+        vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
           mockElement
         );
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);
@@ -446,8 +445,8 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
       });
 
       it('should not call focus method if getElement returns null', () => {
-        let mockElement = jasmine.createSpyObj('HTMLElement', ['focus']);
-        spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+        let mockElement = { focus: vi.fn() };
+        vi.spyOn(configuratorStorefrontUtilsService, 'getElement').mockReturnValue(
           null
         );
         component['focusElementById'](FIRST_FILTER_CHECKBOX_ID);

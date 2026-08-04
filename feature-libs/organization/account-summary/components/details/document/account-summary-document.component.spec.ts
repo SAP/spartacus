@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -33,7 +34,6 @@ import {
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import createSpy = jasmine.createSpy;
 
 import { RouterModule } from '@angular/router';
 import { MockFeatureDirective } from 'core-libs/storefront/shared/test/mock-feature-directive';
@@ -89,7 +89,7 @@ class MockAccountSummaryFacade implements Partial<AccountSummaryFacade> {
 }
 
 class MockFileDownloadService {
-  download = createSpy('MockFileDownloadService.download Spy');
+  download = vi.fn('MockFileDownloadService.download Spy');
 }
 
 class MockLanguageService {
@@ -169,8 +169,8 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('Should change page and sort', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'updateQueryParams').and.callThrough();
-    spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
+    spyOn<any>(component, 'updateQueryParams');
+    vi.spyOn(accountSummaryFacade, 'getDocumentList');
 
     // By default page will be 0
     expect(component._queryParams.page).toEqual(0);
@@ -212,8 +212,8 @@ describe('AccountSummaryDocumentComponent', () => {
 
   it('should change filters', () => {
     // Spy functions to ensure new documents are being fetched
-    spyOn<any>(component, 'updateQueryParams').and.callThrough();
-    spyOn(accountSummaryFacade, 'getDocumentList').and.callThrough();
+    spyOn<any>(component, 'updateQueryParams');
+    vi.spyOn(accountSummaryFacade, 'getDocumentList');
 
     // Change the filters
     const status = DocumentStatus.CLOSED;
@@ -258,7 +258,7 @@ describe('AccountSummaryDocumentComponent', () => {
 
     // Call addNamesToSortModel with two sort options
     const sorts: Array<SortModel> = [{ code: 'abc' }, { code: 'def' }];
-    spyOn(translationService, 'translate').and.returnValue(of('test'));
+    vi.spyOn(translationService, 'translate').mockReturnValue(of('test'));
     component['addNamesToSortModel'](sorts);
 
     // Expect that translate was called twice
@@ -363,12 +363,12 @@ describe('AccountSummaryDocumentComponent', () => {
         (doc) => doc?.attachments?.length && doc?.attachments?.length > 0
       ) || {};
 
-    spyOn(accountSummaryFacade, 'getDocumentAttachment').and.returnValue(
+    vi.spyOn(accountSummaryFacade, 'getDocumentAttachment').mockReturnValue(
       of(blob)
     );
     const fakeUrl =
       'blob:http://localhost:9877/50d43852-5f76-41e0-bb36-599d4b99af07';
-    spyOn(URL, 'createObjectURL').and.returnValue(fakeUrl);
+    vi.spyOn(URL, 'createObjectURL').mockReturnValue(fakeUrl);
 
     component.downloadAttachment(
       documentWithAttachment.id,

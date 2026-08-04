@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { Address, B2BApprovalProcess, SearchConfig } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';
@@ -28,23 +28,23 @@ const approvalProcess: B2BApprovalProcess = {
 };
 
 class MockOrgUnitAdapter implements OrgUnitAdapter {
-  load = createSpy('load').and.returnValue(of(orgUnit));
-  loadList = createSpy('loadList').and.returnValue(of([orgUnitNode]));
-  create = createSpy('create').and.returnValue(of(orgUnit));
-  update = createSpy('update').and.returnValue(of(orgUnit));
-  loadTree = createSpy('loadTree').and.returnValue(of(orgUnit));
-  loadApprovalProcesses = createSpy('loadApprovalProcesses').and.returnValue(
+  load = vi.fn('load').mockReturnValue(of(orgUnit));
+  loadList = vi.fn('loadList').mockReturnValue(of([orgUnitNode]));
+  create = vi.fn('create').mockReturnValue(of(orgUnit));
+  update = vi.fn('update').mockReturnValue(of(orgUnit));
+  loadTree = vi.fn('loadTree').mockReturnValue(of(orgUnit));
+  loadApprovalProcesses = vi.fn('loadApprovalProcesses').mockReturnValue(
     of([approvalProcess])
   );
-  loadUsers = createSpy('loadUsers').and.returnValue(EMPTY);
-  assignRole = createSpy('assignRole').and.returnValue(EMPTY);
-  unassignRole = createSpy('unassignRole').and.returnValue(EMPTY);
-  assignApprover = createSpy('assignApprover').and.returnValue(EMPTY);
-  unassignApprover = createSpy('unassignApprover').and.returnValue(EMPTY);
-  loadAddresses = createSpy('loadAddresses').and.returnValue(EMPTY);
-  createAddress = createSpy('createAddress').and.returnValue(EMPTY);
-  updateAddress = createSpy('updateAddress').and.returnValue(EMPTY);
-  deleteAddress = createSpy('deleteAddress').and.returnValue(EMPTY);
+  loadUsers = vi.fn('loadUsers').mockReturnValue(EMPTY);
+  assignRole = vi.fn('assignRole').mockReturnValue(EMPTY);
+  unassignRole = vi.fn('unassignRole').mockReturnValue(EMPTY);
+  assignApprover = vi.fn('assignApprover').mockReturnValue(EMPTY);
+  unassignApprover = vi.fn('unassignApprover').mockReturnValue(EMPTY);
+  loadAddresses = vi.fn('loadAddresses').mockReturnValue(EMPTY);
+  createAddress = vi.fn('createAddress').mockReturnValue(EMPTY);
+  updateAddress = vi.fn('updateAddress').mockReturnValue(EMPTY);
+  deleteAddress = vi.fn('deleteAddress').mockReturnValue(EMPTY);
 }
 
 describe('OrgUnitConnector', () => {

@@ -4,7 +4,7 @@ import {
   Directive,
   Input,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -31,6 +31,7 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
+import { vi } from 'vitest';
 
 class MockGroupService {}
 
@@ -88,7 +89,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
   let htmlElem: HTMLElement;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(
       ConfiguratorAttributeMultiSelectionImageComponent,
       {
@@ -142,7 +143,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   function createImage(url: string, altText: string): Configurator.Image {
     const image: Configurator.Image = {
@@ -266,10 +267,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     const valueToSelect = fixture.debugElement.query(
       By.css(singleSelectionImageId)
     ).nativeElement;
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
-    ).and.returnValue(component.attribute.values);
+    ).mockReturnValue(component.attribute.values);
     expect(valueToSelect.checked).toBe(false);
     valueToSelect.click();
     fixture.detectChanges();
@@ -283,10 +284,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
 
   describe('select multi images', () => {
     it('should not call service in case uiType READ_ONLY_MULTI_SELECTION_IMAGE', () => {
-      spyOn(
+      vi.spyOn(
         component['configuratorCommonsService'],
         'updateConfiguration'
-      ).and.callThrough();
+      );
       component.attribute.uiType =
         Configurator.UiType.READ_ONLY_MULTI_SELECTION_IMAGE;
       value1.selected = true;
@@ -379,10 +380,10 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     });
 
     it('should create input element for last selected value with aria-live', () => {
-      spyOn(
+      vi.spyOn(
         configuratorStorefrontUtilsService,
         'assembleValuesForMultiSelectAttributes'
-      ).and.returnValue(component.attribute.values);
+      ).mockReturnValue(component.attribute.values);
       component.listenForPriceChanges = true;
       component.onSelect(0);
       fixture.detectChanges();

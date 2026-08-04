@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -77,7 +77,7 @@ describe('ConfigPriceSummaryComponent', () => {
   let fixture: ComponentFixture<ConfiguratorPriceSummaryComponent>;
   let htmlElem: HTMLElement;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
       imports: [
@@ -102,7 +102,7 @@ describe('ConfigPriceSummaryComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
   beforeEach(() => {
     config = { ...defaultConfig };
     fixture = TestBed.createComponent(ConfiguratorPriceSummaryComponent);

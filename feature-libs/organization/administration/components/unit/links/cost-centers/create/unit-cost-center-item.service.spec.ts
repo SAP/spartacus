@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
@@ -11,7 +12,6 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { CostCenterFormService } from '../../../../cost-center/form/cost-center-form.service';
 import { CurrentCostCenterService } from '../../../../cost-center/services/current-cost-center.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
-import createSpy = jasmine.createSpy;
 
 const mockCode = 'c1';
 class MockRoutingService {
@@ -36,7 +36,7 @@ class MockCostCenterFormService {}
 
 class MockCurrentCostCenterService {
   key$ = of(mockCode);
-  load = createSpy('load').and.returnValue(EMPTY);
+  load = vi.fn('load').mockReturnValue(EMPTY);
   error$ = of(false);
 }
 describe('UnitCostCenterItemService', () => {
@@ -66,7 +66,7 @@ describe('UnitCostCenterItemService', () => {
   });
 
   it('should create cost center with unit.uid', () => {
-    spyOn(costCenterService, 'create').and.callThrough();
+    vi.spyOn(costCenterService, 'create');
     const form = new UntypedFormGroup({});
     form.setControl('name', new UntypedFormControl('cc name'));
     form.setControl(
@@ -86,7 +86,7 @@ describe('UnitCostCenterItemService', () => {
 
   it('should launch orgUnitCostCenters with unit uid', () => {
     const routingService = TestBed.inject(RoutingService);
-    spyOn(routingService, 'go').and.callThrough();
+    vi.spyOn(routingService, 'go');
     service.launchDetails({
       code: 'c-1',
       name: 'foo bar',

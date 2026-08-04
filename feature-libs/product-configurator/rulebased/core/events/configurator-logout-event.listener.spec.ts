@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { CxEvent, EventService, LogoutEvent } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
 import { ConfiguratorLogoutEventListener } from './configurator-logout-event.listener';
 import { Type } from '@angular/core';
+import { vi } from 'vitest';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
-  dispatch = createSpy();
+  get = vi.fn().mockReturnValue(mockEventStream$.asObservable());
+  dispatch = vi.fn();
 }
 
 class MockConfiguratorExpertModeService {
@@ -54,20 +54,20 @@ describe(`ConfiguratorLogoutEventListener`, () => {
     configuratorExpertModeService = TestBed.inject(
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
-    spyOn(
+    vi.spyOn(
       configuratorExpertModeService,
       'setExpModeRequested'
-    ).and.callThrough();
-    spyOn(configuratorExpertModeService, 'setExpModeActive').and.callThrough();
+    );
+    vi.spyOn(configuratorExpertModeService, 'setExpModeActive');
 
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
 
-    spyOn(
+    vi.spyOn(
       configuratorCommonsService,
       'removeProductBoundConfigurations'
-    ).and.callThrough();
+    );
   });
 
   describe(`onLogout`, () => {
@@ -99,7 +99,7 @@ describe(`ConfiguratorLogoutEventListener`, () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe on ngOnDestroy', () => {
-      const spyUnsubscribe = spyOn(Subscription.prototype, 'unsubscribe');
+      const spyUnsubscribe = vi.spyOn(Subscription.prototype, 'unsubscribe');
       classUnderTest.ngOnDestroy();
       expect(spyUnsubscribe).toHaveBeenCalled();
     });

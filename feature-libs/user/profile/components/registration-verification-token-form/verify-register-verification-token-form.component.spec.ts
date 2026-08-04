@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
@@ -5,7 +6,7 @@
  */
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -34,7 +35,6 @@ import { MockUrlPipe } from 'core-libs/core/src/routing/configurable-routes/url-
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
-import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
 const mockInvalidPassword = 'strongPas$!123|';
@@ -51,7 +51,7 @@ const mockRegisterFormData: any = {
 };
 
 class MockRoutingService {
-  go = createSpy();
+  go = vi.fn();
 }
 
 class MockFormComponentService
@@ -62,26 +62,26 @@ class MockFormComponentService
     tokenCode: new UntypedFormControl(),
   });
   isUpdating$ = new BehaviorSubject(false);
-  createVerificationToken = createSpy().and.returnValue(
+  createVerificationToken = vi.fn().mockReturnValue(
     of({ tokenId: 'testTokenId', expiresIn: '300' })
   );
-  displayMessage = createSpy('displayMessage').and.stub();
+  displayMessage = vi.fn('displayMessage').mockImplementation(() => {});
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialogAndSubscribe = createSpy().and.stub();
+  openDialogAndSubscribe = vi.fn().mockImplementation(() => {});
 }
 
 class MockRegistrationVerificationTokenFormComponentService
   implements Partial<RegistrationVerificationTokenFormComponentService>
 {
-  postRegisterMessage = createSpy();
-  displayMessage = createSpy();
+  postRegisterMessage = vi.fn();
+  displayMessage = vi.fn();
 }
 
 class MockGlobalMessageService {
-  add = createSpy();
-  remove = createSpy();
+  add = vi.fn();
+  remove = vi.fn();
   get() {
     return EMPTY;
   }
@@ -97,7 +97,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   let routingService: RoutingService;
   let featureToggles: FeatureToggles;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -171,14 +171,14 @@ describe('RegistrationVerificationTokenFormComponent', () => {
 
   describe('register', () => {
     it('should call onSubmit() method on submit', () => {
-      const request = spyOn(component, 'onSubmit');
+      const request = vi.spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
       form.triggerEventHandler('submit', null);
       expect(request).toHaveBeenCalled();
     });
 
     it('should display send verification token sucessful message when history state is valid', () => {
-      spyOn(component, 'startWaitTimeInterval');
+      vi.spyOn(component, 'startWaitTimeInterval');
       component.ngOnInit();
       expect(component.startWaitTimeInterval).toHaveBeenCalled();
       expect(service.displayMessage).toHaveBeenCalledWith(
@@ -188,7 +188,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     });
 
     it('should register with valid form', () => {
-      service.register = createSpy().and.returnValue(of(mockRegisterFormData));
+      service.register = vi.fn().mockReturnValue(of(mockRegisterFormData));
       component.registerForm.patchValue(mockRegisterFormData);
       component.ngOnInit();
       component.onSubmit();
@@ -204,15 +204,15 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     });
 
     it('should not register with invalid form', () => {
-      service.register = createSpy();
+      service.register = vi.fn();
       component.ngOnInit();
       component.onSubmit();
       expect(service.register).not.toHaveBeenCalled();
     });
 
     it('should not redirect in different flow that ResourceOwnerPasswordFlow', () => {
-      service.register = createSpy().and.returnValue(of(mockRegisterFormData));
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+      service.register = vi.fn().mockReturnValue(of(mockRegisterFormData));
+      vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
         OAuthFlow.ImplicitFlow
       );
       component.ngOnInit();
@@ -222,8 +222,8 @@ describe('RegistrationVerificationTokenFormComponent', () => {
     });
 
     it('should redirect in different flow that ResourceOwnerPasswordFlow', () => {
-      service.register = createSpy().and.returnValue(of(mockRegisterFormData));
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+      service.register = vi.fn().mockReturnValue(of(mockRegisterFormData));
+      vi.spyOn(authConfigService, 'getOAuthFlow').mockReturnValue(
         OAuthFlow.ResourceOwnerPasswordFlow
       );
       component.ngOnInit();
@@ -235,7 +235,7 @@ describe('RegistrationVerificationTokenFormComponent', () => {
       const httpErrorResponse = new HttpErrorResponse({
         status: 400,
       });
-      service.register = createSpy().and.returnValue(
+      service.register = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       component.registerForm.patchValue(mockRegisterFormData);
@@ -269,8 +269,8 @@ describe('RegistrationVerificationTokenFormComponent', () => {
 
     it('should resend OTP', () => {
       component.target = 'example@example.com';
-      spyOn(component, 'startWaitTimeInterval');
-      spyOn(component, 'createRegistrationVerificationToken').and.returnValue(
+      vi.spyOn(component, 'startWaitTimeInterval');
+      vi.spyOn(component, 'createRegistrationVerificationToken').mockReturnValue(
         of({ tokenId: 'mock_tokenId', expiresIn: '300' })
       );
 

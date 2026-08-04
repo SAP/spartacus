@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetConnector } from './budget.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const budgetCode = 'budgetCode';
@@ -13,10 +13,10 @@ const budget = {
 };
 
 class MockBudgetAdapter implements BudgetAdapter {
-  load = createSpy('BudgetAdapter.load').and.returnValue(of(budget));
-  loadList = createSpy('BudgetAdapter.loadList').and.returnValue(of([budget]));
-  create = createSpy('BudgetAdapter.create').and.returnValue(of(budget));
-  update = createSpy('BudgetAdapter.update').and.returnValue(of(budget));
+  load = vi.fn('BudgetAdapter.load').mockReturnValue(of(budget));
+  loadList = vi.fn('BudgetAdapter.loadList').mockReturnValue(of([budget]));
+  create = vi.fn('BudgetAdapter.create').mockReturnValue(of(budget));
+  update = vi.fn('BudgetAdapter.update').mockReturnValue(of(budget));
 }
 
 describe('BudgetConnector', () => {

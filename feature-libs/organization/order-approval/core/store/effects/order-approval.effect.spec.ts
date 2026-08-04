@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpHeaders,
@@ -26,7 +27,6 @@ import {
 import { OrderApprovalActions } from '../actions/index';
 import * as fromEffects from './order-approval.effect';
 
-import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -51,11 +51,11 @@ const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 
 class MockOrderApprovalConnector {
-  get = createSpy().and.returnValue(of(orderApproval));
-  getList = createSpy().and.returnValue(
+  get = vi.fn().mockReturnValue(of(orderApproval));
+  getList = vi.fn().mockReturnValue(
     of({ values: [orderApproval], pagination, sorts })
   );
-  makeDecision = createSpy().and.returnValue(of(orderApprovalDecision));
+  makeDecision = vi.fn().mockReturnValue(of(orderApprovalDecision));
 }
 
 class MockLoggerService {
@@ -136,7 +136,7 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return LoadOrderApprovalFail action if orderApproval not updated', () => {
-      orderApprovalConnector.get = createSpy().and.returnValue(
+      orderApprovalConnector.get = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApproval({
@@ -184,7 +184,7 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return LoadOrderApprovalsFail action if orderApprovals not loaded', () => {
-      orderApprovalConnector.getList = createSpy().and.returnValue(
+      orderApprovalConnector.getList = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new OrderApprovalActions.LoadOrderApprovals({
@@ -233,9 +233,9 @@ describe('OrderApproval Effects', () => {
     });
 
     it('should return MakeDecisionFail action if decision not created', () => {
-      orderApprovalConnector.makeDecision = createSpy(
+      orderApprovalConnector.makeDecision = vi.fn(
         'makeDecision'
-      ).and.returnValue(throwError(() => httpErrorResponse));
+      ).mockReturnValue(throwError(() => httpErrorResponse));
       const action = new OrderApprovalActions.MakeDecision({
         userId,
         orderApprovalCode,

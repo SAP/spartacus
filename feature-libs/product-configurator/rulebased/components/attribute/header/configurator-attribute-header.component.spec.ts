@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -22,6 +22,7 @@ import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-setti
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
+import { vi } from 'vitest';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -134,7 +135,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -173,7 +174,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     config = configWithoutConflicts;
@@ -986,7 +987,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1000,7 +1001,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1013,7 +1014,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       fixture.detectChanges();
 
       component.navigateToGroup();
@@ -1026,7 +1027,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = undefined;
 
-      spyOn(configurationGroupsService, 'navigateToGroup');
+      vi.spyOn(configurationGroupsService, 'navigateToGroup');
       spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
@@ -1049,12 +1050,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           a: true,
           b: false,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
+        ).mockReturnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusValue');
+        vi.spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
         component['focusValue'](component.attribute);
@@ -1080,12 +1081,12 @@ describe('ConfigAttributeHeaderComponent', () => {
           a: true,
           b: false,
         });
-        spyOn(
+        vi.spyOn(
           configuratorCommonsService,
           'isConfigurationLoading'
-        ).and.returnValue(configurationLoading);
+        ).mockReturnValue(configurationLoading);
 
-        spyOn(
+        vi.spyOn(
           configuratorStorefrontUtilsService,
           'scrollToConfigurationElement'
         );

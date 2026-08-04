@@ -22,7 +22,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { of } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import {
   VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VariantConfiguratorOccAdapter,
@@ -41,6 +41,7 @@ import {
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 import {
+import { vi } from 'vitest';
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -184,8 +185,8 @@ describe('OccConfigurationVariantAdapter', () => {
     );
     configExpertModeService.setExpModeRequested(expMode);
 
-    spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
+    vi.spyOn(converterService, 'convert');
+    vi.spyOn(occEndpointsService, 'buildUrl');
     productConfigurationOcc.kbKey = undefined;
   });
 
@@ -194,17 +195,16 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   describe('createConfiguration', () => {
-    it('should call createConfiguration endpoint', (done) => {
+    it('should call createConfiguration endpoint', async () => {
       expMode = false;
       configExpertModeService.setExpModeRequested(expMode);
       productConfigurationOcc.kbKey = undefined;
-      spyOn(converterService, 'pipeable').and.callThrough();
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .createConfiguration(configuration.owner)
         .subscribe((resultConfiguration) => {
           expect(resultConfiguration.configId).toEqual(configId);
-          done();
         });
 
       //this call doesn't do the actual mapping but retrieves the map function,
@@ -234,14 +234,13 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(productConfigurationOcc);
     });
 
-    it('should forward configuration template id', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should forward configuration template id', async () => {
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .createConfiguration(configuration.owner, CONFIG_ID_TEMPLATE)
         .subscribe((resultConfiguration) => {
           expect(resultConfiguration.configId).toEqual(configId);
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -264,8 +263,8 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(productConfigurationOcc);
     });
 
-    it('should call createConfiguration endpoint for expert mode', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should call createConfiguration endpoint for expert mode', async () => {
+      vi.spyOn(converterService, 'pipeable');
       productConfigurationOcc.kbKey = kbKeyOcc;
 
       occConfiguratorVariantAdapter
@@ -276,7 +275,6 @@ describe('OccConfigurationVariantAdapter', () => {
           //check if expert mode data has been transferred to model
           expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
 
-          done();
         });
 
       //this call doesn't do the actual mapping but retrieves the map function,
@@ -306,15 +304,14 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(productConfigurationOcc);
     });
 
-    it('should set forceReset flag if requested', (done) => {
+    it('should set forceReset flag if requested', async () => {
       forceReset = true;
-      spyOn(converterService, 'pipeable').and.callThrough();
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .createConfiguration(configuration.owner, undefined, true)
         .subscribe((resultConfiguration) => {
           expect(resultConfiguration.configId).toEqual(configId);
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -337,16 +334,15 @@ describe('OccConfigurationVariantAdapter', () => {
     });
   });
 
-  it('should call readConfiguration endpoint', (done) => {
+  it('should call readConfiguration endpoint', async () => {
     expMode = false;
     configExpertModeService.setExpModeRequested(expMode);
     productConfigurationOcc.kbKey = undefined;
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
     occConfiguratorVariantAdapter
       .readConfiguration(configId, groupId, configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -376,16 +372,15 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(productConfigurationOcc);
   });
 
-  it('should call readConfiguration endpoint with attribute key for domain values', (done) => {
+  it('should call readConfiguration endpoint with attribute key for domain values', async () => {
     expMode = false;
     configExpertModeService.setExpModeRequested(expMode);
     productConfigurationOcc.kbKey = undefined;
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
     occConfiguratorVariantAdapter
       .readConfiguration(configId, groupId, configuration.owner, attributeKey)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -415,8 +410,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(productConfigurationOcc);
   });
 
-  it('should call readConfiguration endpoint for expert mode', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call readConfiguration endpoint for expert mode', async () => {
+    vi.spyOn(converterService, 'pipeable');
     productConfigurationOcc.kbKey = kbKeyOcc;
 
     occConfiguratorVariantAdapter
@@ -427,7 +422,6 @@ describe('OccConfigurationVariantAdapter', () => {
         //check if expert mode data has been transferred to model
         expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
 
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -457,16 +451,15 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(productConfigurationOcc);
   });
 
-  it('should call updateConfiguration endpoint', (done) => {
+  it('should call updateConfiguration endpoint', async () => {
     expMode = false;
     configExpertModeService.setExpModeRequested(expMode);
     productConfigurationOcc.kbKey = undefined;
-    spyOn(converterService, 'pipeable').and.callThrough();
+    vi.spyOn(converterService, 'pipeable');
     occConfiguratorVariantAdapter
       .updateConfiguration(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -498,8 +491,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(productConfigurationOcc);
   });
 
-  it('should call updateConfiguration endpoint for expert mode', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call updateConfiguration endpoint for expert mode', async () => {
+    vi.spyOn(converterService, 'pipeable');
     productConfigurationOcc.kbKey = kbKeyOcc;
 
     occConfiguratorVariantAdapter
@@ -509,7 +502,6 @@ describe('OccConfigurationVariantAdapter', () => {
         //check if expert mode data has been transferred to model
         expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
 
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -541,8 +533,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(productConfigurationOcc);
   });
 
-  it('should call readPriceSummary endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call readPriceSummary endpoint', async () => {
+    vi.spyOn(converterService, 'pipeable');
     occConfiguratorVariantAdapter
       .readPriceSummary(configuration)
       .subscribe((resultConfiguration) => {
@@ -577,7 +569,6 @@ describe('OccConfigurationVariantAdapter', () => {
           expect(supp3.valueSupplements[0].attributeValueKey).toBe('value_3_1');
           expect(supp3.valueSupplements[1].attributeValueKey).toBe('value_3_2');
           expect(supp3.valueSupplements[2].attributeValueKey).toBe('value_3_3');
-          done();
         }
       });
 
@@ -617,15 +608,14 @@ describe('OccConfigurationVariantAdapter', () => {
         cartId: documentId,
         cartEntryNumber: documentEntryNumber,
       };
-    it('should call readConfigurationForCartEntry endpoint', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should call readConfigurationForCartEntry endpoint', async () => {
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .readConfigurationForCartEntry(params)
         .subscribe((resultConfiguration) => {
           expect(resultConfiguration.configId).toEqual(configId);
           expect(resultConfiguration.kbKey).toBeUndefined();
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -655,8 +645,8 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(productConfigurationOcc);
     });
 
-    it('should try to activate expert mode if requested', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should try to activate expert mode if requested', async () => {
+      vi.spyOn(converterService, 'pipeable');
       configExpertModeService.setExpModeRequested(true);
       productConfigurationOcc.kbKey = kbKeyOcc;
       occConfiguratorVariantAdapter
@@ -667,7 +657,6 @@ describe('OccConfigurationVariantAdapter', () => {
           //check if expert mode data has been transferred to model
           expect(resultConfiguration.kbKey?.kbLogsys).toBe(kbLogSys);
 
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -698,8 +687,8 @@ describe('OccConfigurationVariantAdapter', () => {
     });
   });
 
-  it('should call readVariantConfigurationOverviewForOrderEntry endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call readVariantConfigurationOverviewForOrderEntry endpoint', async () => {
+    vi.spyOn(converterService, 'pipeable');
     const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
       {
         owner: configuration.owner,
@@ -711,7 +700,6 @@ describe('OccConfigurationVariantAdapter', () => {
       .readConfigurationForOrderEntry(params)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -740,8 +728,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(overviewOcc);
   });
 
-  it('should call readVariantConfigurationOverviewForQuoteEntry endpoint in case ownwer is quote', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call readVariantConfigurationOverviewForQuoteEntry endpoint in case ownwer is quote', async () => {
+    vi.spyOn(converterService, 'pipeable');
     const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
       {
         owner: {
@@ -756,7 +744,6 @@ describe('OccConfigurationVariantAdapter', () => {
       .readConfigurationForOrderEntry(params)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -785,8 +772,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(overviewOcc);
   });
 
-  it('should call readVariantConfigurationOverviewForSavedCartEntry endpoint in case ownwer is savedCart', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call readVariantConfigurationOverviewForSavedCartEntry endpoint in case ownwer is savedCart', async () => {
+    vi.spyOn(converterService, 'pipeable');
     const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
       {
         owner: {
@@ -801,7 +788,6 @@ describe('OccConfigurationVariantAdapter', () => {
       .readConfigurationForOrderEntry(params)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -830,8 +816,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(overviewOcc);
   });
 
-  it('should call updateVariantConfigurationForCartEntry endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call updateVariantConfigurationForCartEntry endpoint', async () => {
+    vi.spyOn(converterService, 'pipeable');
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
       configuration: configuration,
       userId: userId,
@@ -844,7 +830,6 @@ describe('OccConfigurationVariantAdapter', () => {
         expect(cartModificationResult.quantity).toEqual(
           cartModification.quantity
         );
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -873,8 +858,8 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(cartModification);
   });
 
-  it('should call addToCart endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call addToCart endpoint', async () => {
+    vi.spyOn(converterService, 'pipeable');
     const params: Configurator.AddToCartParameters = {
       productCode: 'Product',
       quantity: 1,
@@ -889,7 +874,6 @@ describe('OccConfigurationVariantAdapter', () => {
         expect(cartModificationResult.quantity).toEqual(
           cartModification.quantity
         );
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -906,7 +890,7 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(cartModification);
   });
 
-  it('should set owner on readVariantConfigurationForCartEntry according to parameters', (done) => {
+  it('should set owner on readVariantConfigurationForCartEntry according to parameters', async () => {
     const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
       {
         owner: productConfigurationForCartEntry.owner,
@@ -914,7 +898,7 @@ describe('OccConfigurationVariantAdapter', () => {
         cartId: documentId,
         cartEntryNumber: documentEntryNumber,
       };
-    spyOn(converterService, 'pipeable').and.returnValue(() =>
+    vi.spyOn(converterService, 'pipeable').mockReturnValue(() =>
       of(configuration)
     );
     occConfiguratorVariantAdapter
@@ -924,17 +908,15 @@ describe('OccConfigurationVariantAdapter', () => {
         expect(owner).toBeDefined();
         expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
         expect(owner.id).toBe(cartEntryNo);
-        done();
       });
   });
 
-  it('should call getVariantConfigurationOverview endpoint', (done) => {
-    spyOn(converterService, 'pipeable').and.callThrough();
+  it('should call getVariantConfigurationOverview endpoint', async () => {
+    vi.spyOn(converterService, 'pipeable');
     occConfiguratorVariantAdapter
       .getConfigurationOverview(configuration.configId)
       .subscribe((productConfigurationResult) => {
         expect(productConfigurationResult.configId).toBe(configId);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -963,12 +945,11 @@ describe('OccConfigurationVariantAdapter', () => {
     mockReq.flush(overviewOcc);
   });
 
-  it('should call searchConfiguratorVariants endpoint', (done) => {
+  it('should call searchConfiguratorVariants endpoint', async () => {
     occConfiguratorVariantAdapter
       .searchVariants(configuration.configId)
       .subscribe((productConfigurationResult) => {
         expect(productConfigurationResult.length).toBe(1);
-        done();
       });
 
     const mockReq = httpMock.expectOne((req) => {
@@ -1007,14 +988,13 @@ describe('OccConfigurationVariantAdapter', () => {
       attributeFilters: [Configurator.OverviewFilter.PRICE_RELEVANT],
       possibleGroups: [{ id: '1' }, { id: '2' }],
     };
-    it('should call overview endpoint and build url', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should call overview endpoint and build url', async () => {
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .updateConfigurationOverview(overviewInput)
         .subscribe((resultOv) => {
           expect(resultOv.configId).toEqual(configId);
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -1041,8 +1021,8 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(overviewOcc);
     });
 
-    it('should return filter attributes like provided as input', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should return filter attributes like provided as input', async () => {
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .updateConfigurationOverview(overviewInput)
@@ -1051,7 +1031,6 @@ describe('OccConfigurationVariantAdapter', () => {
             overviewInput.attributeFilters
           );
           expect(resultOv.groupFilters).toEqual(overviewInput.groupFilters);
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -1063,14 +1042,13 @@ describe('OccConfigurationVariantAdapter', () => {
       mockReq.flush(overviewOcc);
     });
 
-    it('should return possible groups like provided as input', (done) => {
-      spyOn(converterService, 'pipeable').and.callThrough();
+    it('should return possible groups like provided as input', async () => {
+      vi.spyOn(converterService, 'pipeable');
 
       occConfiguratorVariantAdapter
         .updateConfigurationOverview(overviewInput)
         .subscribe((resultOv) => {
           expect(resultOv.possibleGroups).toEqual(overviewInput.possibleGroups);
-          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {

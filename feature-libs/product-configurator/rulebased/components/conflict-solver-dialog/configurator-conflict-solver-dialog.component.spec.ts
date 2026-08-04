@@ -1,5 +1,5 @@
 import { Component, Directive, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CxDatePipe,
   FeatureDirective,
@@ -31,6 +31,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
+import { vi } from 'vitest';
 
 export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): void {}
@@ -99,7 +100,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let focusService: KeyboardFocusService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [IconModule, ConfiguratorConflictSolverDialogComponent],
       providers: [
@@ -136,7 +137,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -154,20 +155,20 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
 
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'scrollToConfigurationElement'
-    ).and.callThrough();
+    );
 
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'focusFirstAttribute'
-    ).and.callThrough();
+    );
 
-    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
+    vi.spyOn(configuratorCommonsService, 'updateConfiguration');
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+    vi.spyOn(launchDialogService, 'closeDialog');
 
     focusService = TestBed.inject(KeyboardFocusService);
   });

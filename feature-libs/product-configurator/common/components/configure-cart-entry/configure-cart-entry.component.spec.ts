@@ -185,22 +185,20 @@ describe('ConfigureCartEntryComponent', () => {
       configureTestingModule().compileComponents();
       assignTestArtifacts();
     });
-    it('should return false in case the url does not contain checkoutReviewOrder', (done) => {
+    it('should return false in case the url does not contain checkoutReviewOrder', async () => {
       component['isInCheckout']()
         .pipe(take(1), delay(0))
         .subscribe((isInCheckout) => {
           expect(isInCheckout).toBe(false);
-          done();
         });
     });
 
-    it('should return true in case the url contains checkoutReviewOrder in case one comes from the checkout', (done) => {
+    it('should return true in case the url contains checkoutReviewOrder in case one comes from the checkout', async () => {
       mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
       component['isInCheckout']()
         .pipe(take(1), delay(0))
         .subscribe((isInCheckout) => {
           expect(isInCheckout).toBe(true);
-          done();
         });
     });
   });
@@ -459,17 +457,16 @@ describe('ConfigureCartEntryComponent', () => {
     });
 
     describe('queryParam$', () => {
-      it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', (done) => {
+      it('should contain "navigateToCheckout" parameter in case the navigation to the cart is relevant', async () => {
         mockRouterState.state.semanticRoute = 'checkoutReviewOrder';
         component.queryParams$
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.navigateToCheckout).toBe(true);
-            done();
           });
       });
 
-      it('should contain "productCode" parameter in case product code is relevant', (done) => {
+      it('should contain "productCode" parameter in case product code is relevant', async () => {
         component.cartEntry = {
           entryNumber: 0,
           product: { configuratorType: configuratorType, code: productCode },
@@ -479,11 +476,10 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.productCode).toBe(productCode);
-            done();
           });
       });
 
-      it('should not contain "resolveIssues" parameter in case no issues exist', (done) => {
+      it('should not contain "resolveIssues" parameter in case no issues exist', async () => {
         component.readOnly = false;
         component.msgBanner = false;
         component.cartEntry = {
@@ -495,11 +491,10 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(false);
-            done();
           });
       });
 
-      it('should contain "resolveIssues" parameter in case issues exist', (done) => {
+      it('should contain "resolveIssues" parameter in case issues exist', async () => {
         component.readOnly = false;
         component.msgBanner = true;
         component.cartEntry = {
@@ -514,7 +509,6 @@ describe('ConfigureCartEntryComponent', () => {
           .pipe(take(1), delay(0))
           .subscribe((queryParams) => {
             expect(queryParams.resolveIssues).toBe(true);
-            done();
           });
       });
     });

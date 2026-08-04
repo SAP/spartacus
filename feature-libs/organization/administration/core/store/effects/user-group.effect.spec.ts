@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpHeaders,
@@ -29,7 +30,6 @@ import {
   UserGroupActions,
 } from '../actions';
 import * as fromEffects from './user-group.effect';
-import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -60,32 +60,32 @@ const customer = {
 };
 
 class MockUserGroupConnector implements Partial<UserGroupConnector> {
-  get = createSpy().and.returnValue(of(userGroup));
-  getList = createSpy().and.returnValue(
+  get = vi.fn().mockReturnValue(of(userGroup));
+  getList = vi.fn().mockReturnValue(
     of({ values: [userGroup], pagination, sorts })
   );
-  create = createSpy().and.returnValue(of(userGroup));
-  update = createSpy().and.returnValue(of(userGroup));
-  delete = createSpy().and.returnValue(of(userGroup));
-  getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
+  create = vi.fn().mockReturnValue(of(userGroup));
+  update = vi.fn().mockReturnValue(of(userGroup));
+  delete = vi.fn().mockReturnValue(of(userGroup));
+  getAvailableOrderApprovalPermissions = vi.fn().mockReturnValue(
     of({ values: [permission], pagination, sorts })
   );
-  assignOrderApprovalPermission = createSpy().and.returnValue(
+  assignOrderApprovalPermission = vi.fn().mockReturnValue(
     of({ id: permissionUid, selected: true })
   );
-  unassignOrderApprovalPermission = createSpy().and.returnValue(
+  unassignOrderApprovalPermission = vi.fn().mockReturnValue(
     of({ id: permissionUid, selected: false })
   );
-  getAvailableOrgCustomers = createSpy().and.returnValue(
+  getAvailableOrgCustomers = vi.fn().mockReturnValue(
     of({ values: [customer], pagination, sorts })
   );
-  assignMember = createSpy().and.returnValue(
+  assignMember = vi.fn().mockReturnValue(
     of({ id: customerId, selected: true })
   );
-  unassignMember = createSpy().and.returnValue(
+  unassignMember = vi.fn().mockReturnValue(
     of({ id: customerId, selected: false })
   );
-  unassignAllMembers = createSpy().and.returnValue(of(null));
+  unassignAllMembers = vi.fn().mockReturnValue(of(null));
 }
 
 class MockLoggerService {
@@ -167,7 +167,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadUserGroupFail action if userGroup not updated', () => {
-      userGroupConnector.get = createSpy().and.returnValue(
+      userGroupConnector.get = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.LoadUserGroup({
@@ -207,7 +207,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadUserGroupsFail action if userGroups not loaded', () => {
-      userGroupConnector.getList = createSpy().and.returnValue(
+      userGroupConnector.getList = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.LoadUserGroups({
@@ -244,7 +244,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return CreateUserGroupFail action if userGroup not created', () => {
-      userGroupConnector.create = createSpy().and.returnValue(
+      userGroupConnector.create = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.CreateUserGroup({
@@ -285,7 +285,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return UpdateUserGroupFail action if userGroup not created', () => {
-      userGroupConnector.update = createSpy().and.returnValue(
+      userGroupConnector.update = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.UpdateUserGroup({
@@ -331,7 +331,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupFail action if userGroup not created', () => {
-      userGroupConnector.delete = createSpy().and.returnValue(
+      userGroupConnector.delete = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.DeleteUserGroup({
@@ -384,7 +384,7 @@ describe('UserGroup Effects', () => {
 
     it('should return LoadPermissionFail action if permissions not loaded', () => {
       userGroupConnector.getAvailableOrderApprovalPermissions =
-        createSpy().and.returnValue(throwError(() => httpErrorResponse));
+        vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.LoadPermissions({
         userId,
         userGroupId,
@@ -430,7 +430,7 @@ describe('UserGroup Effects', () => {
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
       userGroupConnector.assignOrderApprovalPermission =
-        createSpy().and.returnValue(throwError(() => httpErrorResponse));
+        vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.AssignPermission({
         userId,
         userGroupId,
@@ -474,7 +474,7 @@ describe('UserGroup Effects', () => {
 
     it('should return DeleteUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
       userGroupConnector.unassignOrderApprovalPermission =
-        createSpy().and.returnValue(throwError(() => httpErrorResponse));
+        vi.fn().mockReturnValue(throwError(() => httpErrorResponse));
       const action = new UserGroupActions.UnassignPermission({
         userId,
         userGroupId,
@@ -525,7 +525,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return LoadUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
-      userGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
+      userGroupConnector.getAvailableOrgCustomers = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.LoadAvailableOrgCustomers({
@@ -574,7 +574,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return CreateUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
-      userGroupConnector.assignMember = createSpy().and.returnValue(
+      userGroupConnector.assignMember = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.AssignMember({
@@ -623,7 +623,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
-      userGroupConnector.unassignMember = createSpy().and.returnValue(
+      userGroupConnector.unassignMember = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.UnassignMember({
@@ -670,7 +670,7 @@ describe('UserGroup Effects', () => {
     });
 
     it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
-      userGroupConnector.unassignAllMembers = createSpy().and.returnValue(
+      userGroupConnector.unassignAllMembers = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new UserGroupActions.UnassignAllMembers({

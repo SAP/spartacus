@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { PaginationModel } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -12,7 +13,6 @@ import {
 import { QuoteAdapter } from './quote.adapter';
 import { QuoteConnector } from './quote.connector';
 
-import createSpy = jasmine.createSpy;
 
 const userId = 'user1';
 const cartId = 'cart1';
@@ -30,38 +30,38 @@ const comment = {
 };
 
 class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
-  getQuotes = createSpy('CommerceQuotesAdapter.getQuotes').and.callFake(
+  getQuotes = vi.fn().mockImplementation(
     (userId: string, pagination: PaginationModel) =>
       of(`getQuotes-${userId}-${pagination}`)
   );
-  createQuote = createSpy('CommerceQuotesAdapter.createQuote').and.callFake(
+  createQuote = vi.fn().mockImplementation(
     (userId: string, quoteStarter: QuoteStarter) =>
       of(`createQuote-${userId}-${quoteStarter}`)
   );
-  getQuote = createSpy('CommerceQuotesAdapter.getQuote').and.callFake(
+  getQuote = vi.fn().mockImplementation(
     (userId: string, quoteCode: string) => of(`getQuote-${userId}-${quoteCode}`)
   );
-  editQuote = createSpy('CommerceQuotesAdapter.editQuote').and.callFake(
+  editQuote = vi.fn().mockImplementation(
     (userId: string, quoteCode: string, quoteMetadata: QuoteMetadata) =>
       of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`)
   );
-  performQuoteAction = createSpy(
+  performQuoteAction = vi.fn(
     'CommerceQuotesAdapter.performQuoteAction'
-  ).and.callFake(
+  ).mockImplementation(
     (userId: string, quoteCode: string, quoteAction: QuoteActionType) =>
       of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
   );
-  addComment = createSpy('CommerceQuotesAdapter.addComment').and.callFake(
+  addComment = vi.fn().mockImplementation(
     (userId: string, quoteCode: string, quoteComment: Comment) =>
       of(`addComment-${userId}-${quoteCode}-${quoteComment}`)
   );
-  addDiscount = createSpy('CommerceQuotesAdapter.addDiscount').and.callFake(
+  addDiscount = vi.fn().mockImplementation(
     (userId: string, quoteCode: string, discount: QuoteDiscount) =>
       of(`addDiscount-${userId}-${quoteCode}-${discount}`)
   );
-  addQuoteEntryComment = createSpy(
+  addQuoteEntryComment = vi.fn(
     'CommerceQuotesAdapter.addQuoteEntryComment'
-  ).and.callFake(
+  ).mockImplementation(
     (
       userId: string,
       quoteCode: string,
@@ -72,9 +72,9 @@ class MockCommerceQuotesAdapter implements Partial<QuoteAdapter> {
         `addQuoteEntryComment-${userId}-${quoteCode}-${entryNumber}-${comment}`
       )
   );
-  downloadAttachment = createSpy(
+  downloadAttachment = vi.fn(
     'CommerceQuotesAdapter.downloadAttachment'
-  ).and.callFake((userId: string, quoteCode: string, attachmentId: string) =>
+  ).mockImplementation((userId: string, quoteCode: string, attachmentId: string) =>
     of(`downloadAttachment-${userId}-${quoteCode}-${attachmentId}`)
   );
 }

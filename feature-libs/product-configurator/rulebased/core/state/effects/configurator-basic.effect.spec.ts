@@ -35,6 +35,7 @@ import {
 import { getConfiguratorReducers } from './../reducers/index';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 import * as fromEffects from './configurator-basic.effect';
+import { vi } from 'vitest';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -180,12 +181,12 @@ class MockLoggerService {
 }
 
 describe('ConfiguratorEffect', () => {
-  let createMock: jasmine.Spy;
-  let readMock: jasmine.Spy;
-  let updateConfigurationMock: jasmine.Spy;
-  let readPriceSummaryMock: jasmine.Spy;
-  let overviewMock: jasmine.Spy;
-  let updateOverviewMock: jasmine.Spy;
+  let createMock: vi.Mock;
+  let readMock: vi.Mock;
+  let updateConfigurationMock: vi.Mock;
+  let readPriceSummaryMock: vi.Mock;
+  let overviewMock: vi.Mock;
+  let updateOverviewMock: vi.Mock;
   let configEffects: fromEffects.ConfiguratorBasicEffects;
   let configuratorBasicEffectService: ConfiguratorBasicEffectService;
 
@@ -194,20 +195,20 @@ describe('ConfiguratorEffect', () => {
   let actions$: Observable<any>;
 
   beforeEach(() => {
-    createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+    createMock = vi.fn().mockReturnValue(of(productConfiguration));
     updateConfigurationMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
+      .vi.fn()
+      .mockReturnValue(of(productConfiguration));
     readPriceSummaryMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration));
-    readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+      .vi.fn()
+      .mockReturnValue(of(productConfiguration));
+    readMock = vi.fn().mockReturnValue(of(productConfiguration));
     overviewMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration.overview));
+      .vi.fn()
+      .mockReturnValue(of(productConfiguration.overview));
     updateOverviewMock = jasmine
-      .createSpy()
-      .and.returnValue(of(productConfiguration.overview));
+      .vi.fn()
+      .mockReturnValue(of(productConfiguration.overview));
 
     class MockConnector {
       createConfiguration = createMock;
@@ -331,7 +332,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      createMock.and.returnValue(throwError(() => errorResponse));
+      createMock.mockReturnValue(throwError(() => errorResponse));
 
       const action = new ConfiguratorActions.CreateConfiguration({
         owner: productConfiguration.owner,
@@ -373,11 +374,11 @@ describe('ConfiguratorEffect', () => {
       const cachedConfiguration: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, cpqOwner),
       };
-      spyOn(
+      vi.spyOn(
         configuratorBasicEffectService,
         'getConfigurationIfTabAlreadyLoaded'
-      ).and.returnValue(cachedConfiguration);
-      readMock.calls.reset();
+      ).mockReturnValue(cachedConfiguration);
+      readMock.mockClear();
 
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: {
@@ -396,10 +397,10 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should not consult the store cache for non-CPQ configurator types', () => {
-      const cacheSpy = spyOn(
+      const cacheSpy = vi.spyOn(
         configuratorBasicEffectService,
         'getConfigurationIfTabAlreadyLoaded'
-      ).and.callThrough();
+      );
 
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: {
@@ -419,7 +420,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case connector raises an error', () => {
-      readMock.and.returnValue(throwError(() => errorResponse));
+      readMock.mockReturnValue(throwError(() => errorResponse));
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
         groupId: '',
@@ -474,7 +475,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case connector raises an error', () => {
-      readMock.and.returnValue(throwError(() => errorResponse));
+      readMock.mockReturnValue(throwError(() => errorResponse));
 
       const readConfigurationFailAction =
         new ConfiguratorActions.ReadConfigurationFail({
@@ -522,7 +523,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      overviewMock.and.returnValue(throwError(() => errorResponse));
+      overviewMock.mockReturnValue(throwError(() => errorResponse));
       const overviewAction = new ConfiguratorActions.GetConfigurationOverview(
         productConfiguration
       );
@@ -562,7 +563,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateOverviewMock.and.returnValue(throwError(() => errorResponse));
+      updateOverviewMock.mockReturnValue(throwError(() => errorResponse));
       const overviewAction =
         new ConfiguratorActions.UpdateConfigurationOverview(
           productConfiguration
@@ -604,7 +605,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      updateConfigurationMock.and.returnValue(throwError(() => errorResponse));
+      updateConfigurationMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const action = new ConfiguratorActions.UpdateConfiguration(payloadInput);
 
@@ -622,7 +623,7 @@ describe('ConfiguratorEffect', () => {
       // Give the connector some virtual "processing time" so that overlapping vs.
       // sequential handling becomes observable on the marble time line. The same cold
       // observable is replayed relative to each (sequential) subscription.
-      updateConfigurationMock.and.returnValue(
+      updateConfigurationMock.mockReturnValue(
         cold('--(c|)', { c: productConfiguration })
       );
       const action = new ConfiguratorActions.UpdateConfiguration(
@@ -662,7 +663,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit a fail action in case something goes wrong', () => {
-      readPriceSummaryMock.and.returnValue(throwError(() => errorResponse));
+      readPriceSummaryMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput = productConfiguration;
       const updatePriceSummaryAction =
         new ConfiguratorActions.UpdatePriceSummary(payloadInput);
@@ -950,7 +951,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit ReadConfigurationFail in case read call is not successful', () => {
-      readMock.and.returnValue(throwError(() => errorResponse));
+      readMock.mockReturnValue(throwError(() => errorResponse));
       const payloadInput: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(configId, owner),
         productCode: productCode,
@@ -989,7 +990,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('should emit remove configuration action for configurations that are purely product bound', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(configurationState)
       );
 

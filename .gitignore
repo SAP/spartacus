@@ -72,6 +72,9 @@ Thumbs.db
 
 # Claude
 /.claude/settings.local.json
+/.claude/worktrees/
+/.claude/projects/
+/.claude/todos/
 
 **/git-ignore
 

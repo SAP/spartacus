@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -20,7 +20,7 @@ import {
   StateWithConfigurationTextfield,
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
-import createSpy = jasmine.createSpy;
+import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -129,17 +129,15 @@ class MockUserIdService {
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
-  const mockConfigLoaderStateReturned = createSpy('select').and.returnValue(
+  const mockConfigLoaderStateReturned = vi.fn().mockReturnValue(
     () => of(loaderState)
   );
-  const mockConfigLoaderStateNothingPresent = createSpy(
-    'select'
-  ).and.returnValue(() => of(loaderStateNothingPresent));
-  const mockConfigReturned = createSpy('select').and.returnValue(() =>
+  const mockConfigLoaderStateNothingPresent = vi.fn().mockReturnValue(() => of(loaderStateNothingPresent));
+  const mockConfigReturned = vi.fn().mockReturnValue(() =>
     of(productConfiguration)
   );
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
@@ -154,7 +152,7 @@ describe('ConfiguratorTextfieldService', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
@@ -163,7 +161,7 @@ describe('ConfiguratorTextfieldService', () => {
       Store as Type<Store<StateWithConfigurationTextfield>>
     );
 
-    spyOn(store, 'dispatch').and.callThrough();
+    vi.spyOn(store, 'dispatch');
   });
 
   it('should create service', () => {
@@ -171,7 +169,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
   describe('createConfiguration', () => {
     it('should return a configuration if one is present', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         mockConfigLoaderStateReturned
       );
       const configurationFromStore =
@@ -187,7 +185,7 @@ describe('ConfiguratorTextfieldService', () => {
     });
 
     it('should create a configuration if nothing is present in store yet', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValues(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         mockConfigLoaderStateNothingPresent
       );
       const configurationFromStore =
@@ -220,7 +218,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockConfigReturned);
     const configurationFromStore =
       serviceUnderTest.readConfigurationForCartEntry(ownerCartRelated);
 
@@ -240,7 +238,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should dispatch the correct action when readConfigurationForOrderEntry is called', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockConfigReturned);
     const configurationFromStore =
       serviceUnderTest.readConfigurationForOrderEntry(ownerOrderRelated);
 
@@ -260,7 +258,7 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should access the store when calling createConfiguration', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
       mockConfigLoaderStateReturned
     );
     serviceUnderTest
@@ -272,11 +270,11 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should update a configuration, accessing the store', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
-    spyOn(
+    vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(mockConfigReturned);
+    vi.spyOn(
       serviceUnderTest,
       'createNewConfigurationWithChange'
-    ).and.callThrough();
+    );
 
     serviceUnderTest.updateConfiguration(changedAttribute);
 

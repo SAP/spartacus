@@ -1,5 +1,6 @@
 import { Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import {
   EventService,
   I18nTestingModule,
@@ -93,7 +94,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   let eventService: EventService;
   let quoteUIConfig: QuoteUIConfig;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initMocks();
     TestBed.configureTestingModule({
       imports: [CardModule, QuoteHeaderOverviewComponent],
@@ -130,7 +131,7 @@ describe('QuoteHeaderOverviewComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteHeaderOverviewComponent);
@@ -140,11 +141,11 @@ describe('QuoteHeaderOverviewComponent', () => {
     fixture.detectChanges();
 
     quoteFacade = TestBed.inject(QuoteFacade as Type<QuoteFacade>);
-    spyOn(quoteFacade, 'editQuote').and.callThrough();
+    vi.spyOn(quoteFacade, 'editQuote');
   });
 
   function initMocks() {
-    eventService = jasmine.createSpyObj('eventService', ['dispatch']);
+    eventService = { dispatch: vi.fn() } as any;
 
     quoteUIConfig = {
       quote: { truncateCardTileContentAfterNumChars: 30 },

@@ -6,12 +6,12 @@ import {
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
 import { SubscriptionBillingConnector } from '../connector';
-import createSpy = jasmine.createSpy;
-import { of, take, tap } from 'rxjs';
+import { firstValueFrom, of, take, tap } from 'rxjs';
 import {
   SubscriptionBill,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
+import { vi } from 'vitest';
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockRouteState = {
   state: {
@@ -89,13 +89,13 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(of(mockRouteState));
+  getRouterState = vi.fn().mockReturnValue(of(mockRouteState));
 }
 class MockSubscriptionConnector
   implements Partial<SubscriptionBillingConnector>
 {
-  getSubscriptionBillByCode = createSpy().and.returnValue(of(mockDetail));
-  getSubscriptionBillsList = createSpy().and.returnValue(of(mockList));
+  getSubscriptionBillByCode = vi.fn().mockReturnValue(of(mockDetail));
+  getSubscriptionBillsList = vi.fn().mockReturnValue(of(mockList));
 }
 describe('SubscriptionBillingService', () => {
   let service: SubscriptionBillingService;
@@ -128,95 +128,85 @@ describe('SubscriptionBillingService', () => {
     const mockPageSize = 5;
     const mockSort = 'byBillingDateDesc';
 
-    it('should call connectors getSubscriptionBillsList', (done) => {
-      service
-        .getSubscriptionBillsList(mockPageSize, mockCurrentPage, mockSort)
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
-            mockUserId,
-            mockPageSize,
-            mockCurrentPage,
-            mockSort,
-            undefined
-          );
-          expect(data).toEqual(mockList);
-          done();
-        });
+    it('should call connectors getSubscriptionBillsList', async () => {
+      const data = await firstValueFrom(
+        service.getSubscriptionBillsList(mockPageSize, mockCurrentPage, mockSort)
+      );
+      expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
+        mockUserId,
+        mockPageSize,
+        mockCurrentPage,
+        mockSort,
+        undefined
+      );
+      expect(data).toEqual(mockList);
     });
 
-    it('should contain the query state', (done) => {
+    it('should contain the query state', async () => {
       const mockCurrentPage = 1;
       const mockPageSize = 5;
       const mockSort = 'byBillingDateDesc';
 
-      service
-        .getSubscriptionBillsListState(
+      const state = await firstValueFrom(
+        service.getSubscriptionBillsListState(
           mockCurrentPage,
           mockPageSize,
           mockSort,
           undefined
         )
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
-            mockUserId,
-            mockCurrentPage,
-            mockPageSize,
-            mockSort,
-            undefined
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockList,
-          });
-          done();
-        });
+      );
+      expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
+        mockUserId,
+        mockCurrentPage,
+        mockPageSize,
+        mockSort,
+        undefined
+      );
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockList,
+      });
     });
   });
   describe('getSubscriptionBillList with empty userId', () => {
     const mockCurrentPage = 1;
     const mockPageSize = 5;
     const mockSort = 'byBillingDateDesc';
-    it('should return error observable because of no userId', (done) => {
-      spyOn(userIdServiceSpy, 'getUserId').and.returnValue(of(''));
+    it('should return error observable because of no userId', async () => {
+      vi.spyOn(userIdServiceSpy, 'getUserId').mockReturnValue(of(''));
       service = TestBed.inject(SubscriptionBillingService);
       connector = TestBed.inject(SubscriptionBillingConnector);
 
-      service
-        .getSubscriptionBillsListState(
-          mockPageSize,
-          mockCurrentPage,
-          mockSort,
-          undefined
-        )
-        .pipe(
-          tap(() => {
-            expect(connector.getSubscriptionBillsList).not.toHaveBeenCalled();
-          })
-        )
-        .subscribe((_) => {
-          done();
-        });
+      await firstValueFrom(
+        service
+          .getSubscriptionBillsListState(
+            mockPageSize,
+            mockCurrentPage,
+            mockSort,
+            undefined
+          )
+          .pipe(
+            tap(() => {
+              expect(connector.getSubscriptionBillsList).not.toHaveBeenCalled();
+            })
+          )
+      );
     });
 
-    it('should contain the query state', (done) => {
-      service
-        .getSubscriptionBillByCodeState()
-        .pipe(take(1))
-        .subscribe((state) => {
-          expect(connector.getSubscriptionBillByCode).toHaveBeenCalledWith(
-            mockUserId,
-            '01'
-          );
-          expect(state).toEqual({
-            loading: false,
-            error: false,
-            data: mockDetail,
-          });
-          done();
-        });
+    it('should contain the query state', async () => {
+      const state = await firstValueFrom(
+        service.getSubscriptionBillByCodeState()
+      );
+      expect(connector.getSubscriptionBillByCode).toHaveBeenCalledWith(
+        mockUserId,
+        '01'
+      );
+      expect(state).toEqual({
+        loading: false,
+        error: false,
+        data: mockDetail,
+      });
     });
   });
 });

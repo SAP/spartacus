@@ -8,6 +8,7 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
+import { vi } from 'vitest';
 
 const attributeCode = 1;
 
@@ -61,10 +62,10 @@ describe('ConfiguratorAttributeBaseComponent', () => {
     configuratorAttributePriceChangeService = TestBed.inject(
       ConfiguratorAttributePriceChangeService as Type<ConfiguratorAttributePriceChangeService>
     );
-    spyOn(
+    vi.spyOn(
       configuratorAttributePriceChangeService,
       'getChangedPrices'
-    ).and.callThrough();
+    );
 
     currentAttribute = {
       name: 'attributeId',

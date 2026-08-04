@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
@@ -10,14 +10,14 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldReadonlyComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         ConfiguratorTextfieldInputFieldReadonlyComponent,
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(

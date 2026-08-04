@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
@@ -38,8 +39,8 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     component.enablePurchaseOrderNumber = true;
     fixture.detectChanges();
 
-    spyOn(component.saveCard, 'emit').and.callThrough();
-    spyOn(component.cancelCard, 'emit').and.callThrough();
+    vi.spyOn(component.saveCard, 'emit');
+    vi.spyOn(component.cancelCard, 'emit');
   });
 
   it('should create and render component accordingly', () => {

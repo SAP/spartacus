@@ -2,10 +2,8 @@ import { Component, DOCUMENT, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  fakeAsync,
-  tick,
-  waitForAsync,
-} from '@angular/core/testing';
+      } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
@@ -60,7 +58,7 @@ describe('QuoteCommentsComponent', () => {
 
   let quote: Quote;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
@@ -89,7 +87,7 @@ describe('QuoteCommentsComponent', () => {
         add: { imports: [MockCxMessagingComponent, MockCxIconComponent] },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuoteCommentsComponent);
@@ -97,15 +95,13 @@ describe('QuoteCommentsComponent', () => {
     component = fixture.componentInstance;
 
     fixture.detectChanges();
-    spyOn(component.commentsComponent, 'resetForm');
+    vi.spyOn(component.commentsComponent, 'resetForm');
 
-    mockQuoteItemsComponentService = jasmine.createSpyObj(
-      'QuoteItemsComponentService',
-      ['setQuoteEntriesExpanded', 'getQuoteEntriesExpanded']
-    );
-    asSpy(
-      mockQuoteItemsComponentService.getQuoteEntriesExpanded
-    ).and.returnValue(of(true));
+    mockQuoteItemsComponentService = {
+      setQuoteEntriesExpanded: vi.fn(),
+      getQuoteEntriesExpanded: vi.fn(),
+    } as any;
+    (mockQuoteItemsComponentService.getQuoteEntriesExpanded as vi.Mock).mockReturnValue(of(true));
     quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
   });
 
@@ -118,18 +114,14 @@ describe('QuoteCommentsComponent', () => {
   }
 
   function initMocks() {
-    quoteFacade = jasmine.createSpyObj('QuoteFacade', [
-      'getQuoteDetails',
-      'addQuoteComment',
-    ]);
-    asSpy(quoteFacade.getQuoteDetails).and.returnValue(of(quote));
-    asSpy(quoteFacade.addQuoteComment).and.returnValue(of({}));
+    quoteFacade = {
+      getQuoteDetails: vi.fn(),
+      addQuoteComment: vi.fn(),
+    } as any;
+    (quoteFacade.getQuoteDetails as vi.Mock).mockReturnValue(of(quote));
+    (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(of({}));
 
-    eventService = jasmine.createSpyObj('EventService', ['dispatch']);
-  }
-
-  function asSpy(f: any) {
-    return <jasmine.Spy>f;
+    eventService = { dispatch: vi.fn() } as any;
   }
 
   it('should create', () => {
@@ -434,7 +426,7 @@ describe('QuoteCommentsComponent', () => {
       expect(component.messagingConfigs.newMessagePlaceHolder).toBeUndefined();
     });
     it('should handle errors', () => {
-      asSpy(quoteFacade.addQuoteComment).and.returnValue(
+      (quoteFacade.addQuoteComment as vi.Mock).mockReturnValue(
         throwError(new Error('test error'))
       );
       component.onSend(
@@ -457,37 +449,41 @@ describe('QuoteCommentsComponent', () => {
       aTagProduct2 = createElementMock('Product 2');
       const mockedATags = [aTagProduct1, aTagProduct2];
       const document = TestBed.inject(DOCUMENT);
-      spyOn(document, 'getElementsByTagName').and.returnValue(<any>mockedATags);
+      vi.spyOn(document, 'getElementsByTagName').mockReturnValue(<any>mockedATags);
       quoteItemsComponentService = TestBed.inject(QuoteItemsComponentService);
     });
 
     function createElementMock(textContent: string) {
       const elem = { textContent: textContent, scrollIntoView: function () {} };
-      spyOn(elem, 'scrollIntoView');
+      vi.spyOn(elem, 'scrollIntoView');
       return elem;
     }
 
-    it('should expand cart and call scrollIntoView on the corresponding cart item in the document', fakeAsync(() => {
+    it('should expand cart and call scrollIntoView on the corresponding cart item in the document', async () => {
+      vi.useFakeTimers();
       component.onItemClicked({ item: { id: 'P2', name: 'Product 2' } });
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
-      tick(); //because of delay(0)
+      await vi.advanceTimersByTimeAsync(0); //because of delay(0)
+      vi.useRealTimers();
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).toHaveBeenCalledWith({
         block: 'center',
       });
-    }));
+    });
 
-    it('should only expand the cart but not scroll if the target item is not found in the document', fakeAsync(() => {
+    it('should only expand the cart but not scroll if the target item is not found in the document', async () => {
+      vi.useFakeTimers();
       component.onItemClicked({ item: { id: 'P3', name: 'Product 3' } });
       expect(
         quoteItemsComponentService.setQuoteEntriesExpanded
       ).toHaveBeenCalledWith(true);
-      tick(); //because of delay(0)
+      await vi.advanceTimersByTimeAsync(0); //because of delay(0)
+      vi.useRealTimers();
       expect(aTagProduct1.scrollIntoView).not.toHaveBeenCalled();
       expect(aTagProduct2.scrollIntoView).not.toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('prepareMessageEvents', () => {

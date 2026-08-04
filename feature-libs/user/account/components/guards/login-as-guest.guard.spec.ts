@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 //generate test for LoginAsGuestGuard
 
 import { TestBed } from '@angular/core/testing';
@@ -17,13 +18,13 @@ const mockFeatureToggles: FeatureToggles = {
 
 const mockWindowRef = {
   localStorage: {
-    getItem: jasmine.createSpy().and.returnValue('true'),
-    removeItem: jasmine.createSpy(),
+    getItem: vi.fn().mockReturnValue('true'),
+    removeItem: vi.fn(),
   },
 };
 
 const mockSemanticPathService = {
-  get: jasmine.createSpy().and.returnValue('loginForm'),
+  get: vi.fn().mockReturnValue('loginForm'),
 };
 
 describe('LoginAsGuestGuard', () => {
@@ -52,7 +53,7 @@ describe('LoginAsGuestGuard', () => {
   });
 
   beforeEach(() => {
-    mockWindowRef.localStorage.removeItem.calls.reset();
+    mockWindowRef.localStorage.removeItem.mockClear();
   });
 
   it('should be created', () => {
@@ -84,7 +85,7 @@ describe('LoginAsGuestGuard', () => {
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set to true', () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
+      (mockWindowRef.localStorage?.getItem as any).mockReturnValue(
         'false'
       );
       guard.canActivate().subscribe((result) => {
@@ -98,7 +99,7 @@ describe('LoginAsGuestGuard', () => {
 
     it('should return true if IS_GUEST_USER_CHECKOUT_KEY is not set', () => {
       featureToggles.authorizationCodeFlowByDefault = true;
-      (mockWindowRef.localStorage?.getItem as jasmine.Spy).and.returnValue(
+      (mockWindowRef.localStorage?.getItem as any).mockReturnValue(
         null
       );
       guard.canActivate().subscribe((result) => {

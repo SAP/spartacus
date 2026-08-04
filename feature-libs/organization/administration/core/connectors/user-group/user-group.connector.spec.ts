@@ -1,10 +1,10 @@
+import { vi } from 'vitest';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { UserGroupAdapter } from './user-group.adapter';
 import { UserGroupConnector } from './user-group.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const userGroupId = 'userGroupId';
@@ -22,22 +22,22 @@ const member = {
 };
 
 class MockUserGroupAdapter implements UserGroupAdapter {
-  load = createSpy('load').and.returnValue(of(userGroup));
-  loadList = createSpy('loadList').and.returnValue(of([userGroup]));
-  create = createSpy('create').and.returnValue(of(userGroup));
-  update = createSpy('update').and.returnValue(of(userGroup));
-  delete = createSpy('delete').and.returnValue(of(userGroup));
-  loadAvailableOrderApprovalPermissions = createSpy(
+  load = vi.fn('load').mockReturnValue(of(userGroup));
+  loadList = vi.fn('loadList').mockReturnValue(of([userGroup]));
+  create = vi.fn('create').mockReturnValue(of(userGroup));
+  update = vi.fn('update').mockReturnValue(of(userGroup));
+  delete = vi.fn('delete').mockReturnValue(of(userGroup));
+  loadAvailableOrderApprovalPermissions = vi.fn(
     'loadAvailableOrderApprovalPermissions'
-  ).and.returnValue(of([permission]));
-  loadAvailableOrgCustomers = createSpy(
+  ).mockReturnValue(of([permission]));
+  loadAvailableOrgCustomers = vi.fn(
     'loadAvailableOrgCustomers'
-  ).and.returnValue(of([member]));
-  assignMember = createSpy('assignMember');
-  assignOrderApprovalPermission = createSpy('assignOrderApprovalPermission');
-  unassignMember = createSpy('unassignMember');
-  unassignAllMembers = createSpy('unassignAllMembers');
-  unassignOrderApprovalPermission = createSpy(
+  ).mockReturnValue(of([member]));
+  assignMember = vi.fn('assignMember');
+  assignOrderApprovalPermission = vi.fn('assignOrderApprovalPermission');
+  unassignMember = vi.fn('unassignMember');
+  unassignAllMembers = vi.fn('unassignAllMembers');
+  unassignOrderApprovalPermission = vi.fn(
     'unassignOrderApprovalPermission'
   );
 }

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -30,6 +30,7 @@ import {
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
+import { vi } from 'vitest';
 
 let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
@@ -101,7 +102,7 @@ describe('ConfiguratorCartService', () => {
   let store: Store<StateWithConfigurator>;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     cartObs = of(cart);
     isStableObs = of(true);
     checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
@@ -127,7 +128,7 @@ describe('ConfiguratorCartService', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(ConfiguratorCartService);
     store = TestBed.inject(Store);
@@ -163,10 +164,10 @@ describe('ConfiguratorCartService', () => {
           value: productConfiguration,
         };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfigurationLoaderState)
       );
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
         .readConfigurationForCartEntry(OWNER_CART_ENTRY)
@@ -200,10 +201,10 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfigurationLoaderState)
       );
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
         .readConfigurationForCartEntry(OWNER_CART_ENTRY)
@@ -234,7 +235,7 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfigurationLoaderState)
       );
 
@@ -262,7 +263,7 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfigurationLoaderState)
       );
 
@@ -279,10 +280,10 @@ describe('ConfiguratorCartService', () => {
           value: productConfiguration,
         };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfigurationLoaderState)
       );
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
 
       serviceUnderTest
         .readConfigurationForOrderEntry(OWNER_ORDER_ENTRY)
@@ -310,10 +311,10 @@ describe('ConfiguratorCartService', () => {
           },
         };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(
         () => () => of(productConfigurationLoaderState)
       );
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
       serviceUnderTest
         .readConfigurationForOrderEntry(OWNER_ORDER_ENTRY)
         .subscribe()
@@ -336,7 +337,7 @@ describe('ConfiguratorCartService', () => {
         owner: OWNER_PRODUCT,
       };
 
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
 
       serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT);
 
@@ -355,7 +356,7 @@ describe('ConfiguratorCartService', () => {
         owner: OWNER_PRODUCT,
       };
 
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
 
       serviceUnderTest.addToCart(PRODUCT_CODE, CONFIG_ID, OWNER_PRODUCT, 100);
 
@@ -374,9 +375,9 @@ describe('ConfiguratorCartService', () => {
         configuration: productConfiguration,
       };
 
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
       const obs = cold('|');
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      vi.spyOn(ngrxStore, 'select', 'get').mockReturnValue(() => () => obs);
       serviceUnderTest.updateCartEntry(productConfiguration);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -491,7 +492,7 @@ describe('ConfiguratorCartService', () => {
 
   describe('removeCartBoundConfigurations', () => {
     it('should fire respective action', () => {
-      spyOn(store, 'dispatch').and.callThrough();
+      vi.spyOn(store, 'dispatch');
       serviceUnderTest.removeCartBoundConfigurations();
 
       expect(store.dispatch).toHaveBeenCalledWith(

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -8,7 +9,7 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   BaseOccUrlProperties,
   DynamicAttributes,
@@ -64,7 +65,7 @@ describe(`OccStockAdapter`, () => {
   let httpMock: HttpTestingController;
   let occEndpointService: OccEndpointsService;
   let httpClient: HttpClient;
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
         OccStockAdapter,
@@ -74,13 +75,13 @@ describe(`OccStockAdapter`, () => {
         provideHttpClientTesting(),
       ],
     });
-  }));
+  });
   beforeEach(() => {
     occAdapter = TestBed.inject(OccStockAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointService = TestBed.inject(OccEndpointsService);
     httpClient = TestBed.inject(HttpClient);
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
+    vi.spyOn(occEndpointService, 'buildUrl');
   });
   afterEach(() => {
     httpMock.verify();
@@ -102,19 +103,21 @@ describe(`OccStockAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
     });
-    it('should call normalized http error for loadStockLevels', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
+    it('should call normalized http error for loadStockLevels', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockJaloError));
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .loadStockLevels(productCode, locationParam)
         .pipe(take(1))
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
+      vi.useRealTimers();
       expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
-    }));
+    });
   });
   describe(`get loadStockLevelAtStore`, () => {
     it(`should get loadStockLevelAtStore`, () => {
@@ -132,18 +135,20 @@ describe(`OccStockAdapter`, () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
     });
-    it('should call normalized http error for loadStockLevelAtStore', fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(() => mockJaloError));
+    it('should call normalized http error for loadStockLevelAtStore', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(httpClient, 'get').mockReturnValue(throwError(() => mockJaloError));
       let result: HttpErrorModel | undefined;
       const subscription = occAdapter
         .loadStockLevelAtStore(productCode, storeName)
         .pipe(take(1))
         .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+      await vi.advanceTimersByTimeAsync(4200);
+      vi.useRealTimers();
       expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
-    }));
+    });
   });
 });

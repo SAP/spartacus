@@ -1,9 +1,9 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CostCenterAdapter } from './cost-center.adapter';
 import { CostCenterConnector } from './cost-center.connector';
-import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const costCenterCode = 'costCenterCode';
@@ -18,21 +18,21 @@ const budget = {
 };
 
 class MockCostCenterAdapter implements CostCenterAdapter {
-  load = createSpy('CostCenterAdapter.load').and.returnValue(of(costCenter));
-  loadList = createSpy('CostCenterAdapter.loadList').and.returnValue(
+  load = vi.fn('CostCenterAdapter.load').mockReturnValue(of(costCenter));
+  loadList = vi.fn('CostCenterAdapter.loadList').mockReturnValue(
     of([costCenter])
   );
-  create = createSpy('CostCenterAdapter.create').and.returnValue(
+  create = vi.fn('CostCenterAdapter.create').mockReturnValue(
     of(costCenter)
   );
-  update = createSpy('CostCenterAdapter.update').and.returnValue(
+  update = vi.fn('CostCenterAdapter.update').mockReturnValue(
     of(costCenter)
   );
-  loadBudgets = createSpy('CostCenterAdapter.loadBudgets').and.returnValue(
+  loadBudgets = vi.fn('CostCenterAdapter.loadBudgets').mockReturnValue(
     of([budget])
   );
-  assignBudget = createSpy('CostCenterAdapter.assignBudget');
-  unassignBudget = createSpy('CostCenterAdapter.unassignBudget');
+  assignBudget = vi.fn('CostCenterAdapter.assignBudget');
+  unassignBudget = vi.fn('CostCenterAdapter.unassignBudget');
 }
 
 describe('CostCenterConnector', () => {

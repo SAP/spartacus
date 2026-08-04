@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import {
   HttpErrorResponse,
   HttpHeaders,
@@ -25,7 +26,6 @@ import { Observable, of, throwError } from 'rxjs';
 import { Permission } from '../../model/permission.model';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
-import createSpy = jasmine.createSpy;
 
 const httpErrorResponse = new HttpErrorResponse({
   error: 'error',
@@ -54,13 +54,13 @@ const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 
 class MockPermissionConnector {
-  get = createSpy().and.returnValue(of(permission));
-  getList = createSpy().and.returnValue(
+  get = vi.fn().mockReturnValue(of(permission));
+  getList = vi.fn().mockReturnValue(
     of({ values: [permission], pagination, sorts })
   );
-  create = createSpy().and.returnValue(of(permission));
-  update = createSpy().and.returnValue(of(permission));
-  getTypes = createSpy().and.returnValue(of(permissionTypes));
+  create = vi.fn().mockReturnValue(of(permission));
+  update = vi.fn().mockReturnValue(of(permission));
+  getTypes = vi.fn().mockReturnValue(of(permissionTypes));
 }
 
 class MockLoggerService {
@@ -136,7 +136,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return LoadPermissionFail action if permission not updated', () => {
-      permissionConnector.get = createSpy().and.returnValue(
+      permissionConnector.get = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermission({
@@ -178,7 +178,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return LoadPermissionsFail action if permissions not loaded', () => {
-      permissionConnector.getList = createSpy().and.returnValue(
+      permissionConnector.getList = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermissions({ userId, params });
@@ -215,7 +215,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return CreatePermissionFail action if permission not created', () => {
-      permissionConnector.create = createSpy().and.returnValue(
+      permissionConnector.create = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.CreatePermission({
@@ -261,7 +261,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return UpdatePermissionFail action if permission not created', () => {
-      permissionConnector.update = createSpy('update').and.returnValue(
+      permissionConnector.update = vi.fn('update').mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.UpdatePermission({
@@ -300,7 +300,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return LoadPermissionTypesFail action if permission types are not updated', () => {
-      permissionConnector.getTypes = createSpy().and.returnValue(
+      permissionConnector.getTypes = vi.fn().mockReturnValue(
         throwError(() => httpErrorResponse)
       );
       const action = new PermissionActions.LoadPermissionTypes();

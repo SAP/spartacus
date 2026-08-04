@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
@@ -14,13 +15,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AccountSummaryUnitListService } from './account-summary-unit-list.service';
 import * as _augmented from '../model/augmented.model';
 
-import createSpy = jasmine.createSpy;
 
 const treeToggle$ = new BehaviorSubject({});
 class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
-  initialize = createSpy('initialize');
-  isExpanded = createSpy('isExpanded').and.returnValue(false);
+  initialize = vi.fn('initialize');
+  isExpanded = vi.fn('isExpanded').mockReturnValue(false);
 }
 
 class MockUnitService {

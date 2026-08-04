@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -38,6 +38,7 @@ import {
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { vi } from 'vitest';
 
 class MockGroupService {}
 
@@ -114,7 +115,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   let htmlElem: HTMLElement;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
       set: {
         providers: [
@@ -175,7 +176,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
@@ -257,15 +258,15 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should deselect values onChangeValueQuantity if quantity is set to zero', () => {
-    spyOn(
+    vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
-    ).and.callThrough();
+    );
 
-    spyOn(
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
-    ).and.returnValue([
+    ).mockReturnValue([
       {
         name: VALUE_1,
         quantity: undefined,
@@ -320,14 +321,14 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should call emit of selectionChange onChangeValueQuantity if quantity is set to 1', () => {
-    spyOn(
+    vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
-    ).and.callThrough();
-    spyOn(
+    );
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
-    ).and.returnValue([
+    ).mockReturnValue([
       {
         name: VALUE_1,
         quantity: 1,
@@ -358,14 +359,14 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should not call facade update onChangeValueQuantity if value does not exist', () => {
-    spyOn(
+    vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
-    ).and.callThrough();
-    spyOn(
+    );
+    vi.spyOn(
       configuratorStorefrontUtilsService,
       'assembleValuesForMultiSelectAttributes'
-    ).and.returnValue([
+    ).mockReturnValue([
       {
         name: VALUE_1,
         quantity: undefined,
@@ -382,10 +383,10 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should call facade update onChangeQuantity', () => {
-    spyOn(
+    vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
-    ).and.callThrough();
+    );
     component.onChangeQuantity(2);
     expect(
       component['configuratorCommonsService'].updateConfiguration
@@ -393,7 +394,7 @@ describe('ConfiguratorAttributeCheckBoxListComponent', () => {
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
-    spyOn(component, 'onSelect');
+    vi.spyOn(component, 'onSelect');
     component.onChangeQuantity(0);
     expect(component.onSelect).toHaveBeenCalled();
   });

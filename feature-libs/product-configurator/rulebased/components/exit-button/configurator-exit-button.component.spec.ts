@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
@@ -22,6 +22,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
+import { vi } from 'vitest';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
@@ -108,7 +109,7 @@ describe('ConfiguratorExitButton', () => {
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
@@ -139,7 +140,7 @@ describe('ConfiguratorExitButton', () => {
         },
       ],
     });
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
@@ -158,7 +159,7 @@ describe('ConfiguratorExitButton', () => {
 
   describe('exit a configuration', () => {
     it('should navigate to product detail page', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       setRouterTestDataProduct();
       initialize();
       component.exitConfiguration();
@@ -169,7 +170,7 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should navigate back to cart', () => {
-      spyOn(routingService, 'go').and.callThrough();
+      vi.spyOn(routingService, 'go');
       setRouterTestDataCartEntry();
       initialize();
       component.exitConfiguration();
@@ -179,8 +180,8 @@ describe('ConfiguratorExitButton', () => {
 
   describe('rendering tests', () => {
     it('should render short text in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -192,8 +193,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -208,8 +209,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text in desktop mode', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -221,8 +222,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip in desktop mode', () => {
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
       setRouterTestDataProduct();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -234,8 +235,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render short text  when navigate from cart', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -247,8 +248,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip when navigate from cart in mobile mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(true));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -263,8 +264,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text  when navigate from cart', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -276,8 +277,8 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render long text tooltip when navigate from cart in desktop mode', () => {
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      vi.spyOn(breakpointService, 'isDown').mockReturnValue(of(false));
+      vi.spyOn(breakpointService, 'isUp').mockReturnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

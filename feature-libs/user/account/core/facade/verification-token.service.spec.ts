@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { CommandService } from '@spartacus/core';
 import {
@@ -9,7 +10,6 @@ import {
   VerificationTokenCreation,
 } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
   purpose: 'LOGIN',
@@ -23,7 +23,7 @@ const verificationToken: VerificationToken = {
 };
 
 class MockUserAccountConnector implements Partial<UserAccountConnector> {
-  createVerificationToken = createSpy().and.callFake(() =>
+  createVerificationToken = vi.fn().mockImplementation(() =>
     of(verificationToken)
   );
 }

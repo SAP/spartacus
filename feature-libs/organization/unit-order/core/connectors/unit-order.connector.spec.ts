@@ -1,17 +1,17 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UnitOrderAdapter } from './unit-order.adapter';
 import { UnitOrderConnector } from './unit-order.connector';
-import createSpy = jasmine.createSpy;
 
 class MockUnitOrderAdapter implements Partial<UnitOrderAdapter> {
-  loadUnitOrderHistory = createSpy(
+  loadUnitOrderHistory = vi.fn(
     'UnitOrderAdapter.loadUnitOrderHistory'
-  ).and.callFake((userId: string) => of(`orderHistory-${userId}`));
+  ).mockImplementation((userId: string) => of(`orderHistory-${userId}`));
 
-  loadUnitOrderDetail = createSpy(
+  loadUnitOrderDetail = vi.fn(
     'UnitOrderAdapter.loadUnitOrderDetail'
-  ).and.callFake((userId: string, orderCode: string) =>
+  ).mockImplementation((userId: string, orderCode: string) =>
     of(`orderDetails-${userId}-${orderCode}`)
   );
 }

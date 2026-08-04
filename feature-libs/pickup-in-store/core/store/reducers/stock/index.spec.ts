@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { Action, ActionReducer } from '@ngrx/store';
 import { ClearStockData, StockLevel } from '../../actions/stock.action';
 import { StockState } from '../../stock-state';
@@ -20,7 +21,7 @@ describe('Stock meta-reducer', () => {
     const action = new ClearStockData();
 
     const reducer: ActionReducer<StockState, Action> =
-      jasmine.createSpy('reducer');
+      vi.fn();
 
     clearStockState(reducer)(state, action);
     expect(reducer).toHaveBeenCalledWith(undefined, action);
@@ -30,7 +31,7 @@ describe('Stock meta-reducer', () => {
     const action = new StockLevel({ productCode: 'code', location: '' });
 
     const reducer: ActionReducer<StockState, Action> =
-      jasmine.createSpy('reducer');
+      vi.fn();
 
     clearStockState(reducer)(state, action);
     expect(reducer).toHaveBeenCalledWith(state, action);

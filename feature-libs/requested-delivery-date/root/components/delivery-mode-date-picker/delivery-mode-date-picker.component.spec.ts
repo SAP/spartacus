@@ -18,6 +18,7 @@ import {
   OutletContextData,
 } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
+import { vi } from 'vitest';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker.component';
 
@@ -26,9 +27,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   let fixture: ComponentFixture<DeliveryModeDatePickerComponent>;
 
   const requestedDelDateFacadeMock = {
-    setRequestedDeliveryDate: jasmine
-      .createSpy('setRequestedDeliveryDate')
-      .and.returnValue(of({})),
+    setRequestedDeliveryDate: vi.fn().mockReturnValue(of({})),
   };
 
   const mockedGlobalMessageService = {
@@ -41,9 +40,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   };
 
   const translationServiceMock = {
-    translate: jasmine
-      .createSpy('translate')
-      .and.returnValue(of('Delivery Date')),
+    translate: vi.fn().mockReturnValue(of('Delivery Date')),
   };
 
   beforeEach(async () => {
@@ -197,8 +194,8 @@ describe('DeliveryModeDatePickerComponent', () => {
     ).toHaveBeenCalled();
   });
 
-  it('should call setRequestedDeliveryDate when form value changes and show info message on success', (done) => {
-    spyOn(component['globalMessageService'], 'add');
+  it('should call setRequestedDeliveryDate when form value changes and show info message on success', async () => {
+    vi.spyOn(component['globalMessageService'], 'add');
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
     const data = TestBed.inject(OutletContextData);
@@ -231,23 +228,26 @@ describe('DeliveryModeDatePickerComponent', () => {
     expect(
       component['requestedDelDateFacade'].setRequestedDeliveryDate
     ).toHaveBeenCalled();
-    component['requestedDelDateFacade']
-      .setRequestedDeliveryDate('current', '123', newRequestedRetrievalAt)
-      .subscribe(() => {
-        expect(component['globalMessageService'].add).toHaveBeenCalledWith(
-          { key: 'requestedDeliveryDate.successMessage' },
-          GlobalMessageType.MSG_TYPE_INFO
-        );
-        done();
-      });
+
+    await new Promise<void>((resolve) => {
+      component['requestedDelDateFacade']
+        .setRequestedDeliveryDate('current', '123', newRequestedRetrievalAt)
+        .subscribe(() => {
+          expect(component['globalMessageService'].add).toHaveBeenCalledWith(
+            { key: 'requestedDeliveryDate.successMessage' },
+            GlobalMessageType.MSG_TYPE_INFO
+          );
+          resolve();
+        });
+    });
   });
 
   it('should NOT call setRequestedDeliveryDate when a date less than earliestRetrievalAt is provided', () => {
-    spyOn(component, 'setRequestedDeliveryDate');
+    vi.spyOn(component, 'setRequestedDeliveryDate');
 
-    component['requestedDelDateFacade'].setRequestedDeliveryDate = jasmine
-      .createSpy('setRequestedDeliveryDate')
-      .and.returnValue(of({}));
+    component['requestedDelDateFacade'].setRequestedDeliveryDate = vi
+      .fn()
+      .mockReturnValue(of({}));
 
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
@@ -285,7 +285,7 @@ describe('DeliveryModeDatePickerComponent', () => {
   });
 
   it('should NOT show the date picker when the component outlet value is read only', () => {
-    spyOn(component, 'setRequestedDeliveryDate');
+    vi.spyOn(component, 'setRequestedDeliveryDate');
     const requestedRetrievalAt = '2023-05-03';
     const earliestRetrievalAt = '2023-09-15';
     const data = TestBed.inject(OutletContextData);
@@ -313,12 +313,12 @@ describe('DeliveryModeDatePickerComponent', () => {
     expect(datePickerReadOnlyEl.innerHTML).not.toBeNull();
   });
 
-  it('should show error message when backend OCC API returns UnknownResourceError', (done) => {
-    spyOn(component['globalMessageService'], 'add');
+  it('should show error message when backend OCC API returns UnknownResourceError', async () => {
+    vi.spyOn(component['globalMessageService'], 'add');
 
-    component['requestedDelDateFacade'].setRequestedDeliveryDate = jasmine
-      .createSpy('setRequestedDeliveryDate')
-      .and.returnValue(
+    component['requestedDelDateFacade'].setRequestedDeliveryDate = vi
+      .fn()
+      .mockReturnValue(
         throwError({
           error: {
             errors: [
@@ -349,21 +349,23 @@ describe('DeliveryModeDatePickerComponent', () => {
       component['requestedDelDateFacade'].setRequestedDeliveryDate
     ).toHaveBeenCalled();
 
-    component['requestedDelDateFacade']
-      .setRequestedDeliveryDate('current', '123', earliestRetrievalAt)
-      .subscribe({
-        error: () => {
-          expect(component['globalMessageService'].add).toHaveBeenCalledWith(
-            { key: 'requestedDeliveryDate.errorMessage' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          done();
-        },
-      });
+    await new Promise<void>((resolve) => {
+      component['requestedDelDateFacade']
+        .setRequestedDeliveryDate('current', '123', earliestRetrievalAt)
+        .subscribe({
+          error: () => {
+            expect(component['globalMessageService'].add).toHaveBeenCalledWith(
+              { key: 'requestedDeliveryDate.errorMessage' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+            resolve();
+          },
+        });
+    });
   });
 
   it('should unsubscribe from subscription on component destruction', () => {
-    spyOn(component['subscription'], 'unsubscribe');
+    vi.spyOn(component['subscription'], 'unsubscribe');
     component.ngOnDestroy();
     expect(component['subscription'].unsubscribe).toHaveBeenCalled();
   });

@@ -1,24 +1,24 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UserProfileAdapter } from './user-profile.adapter';
 import { UserProfileConnector } from './user-profile.connector';
-import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserProfileAdapter {
-  update = createSpy('update').and.returnValue(of({}));
-  register = createSpy('register').and.callFake((userId) => of(userId));
-  registerGuest = createSpy('registerGuest').and.callFake((userId) =>
+  update = vi.fn('update').mockReturnValue(of({}));
+  register = vi.fn('register').mockImplementation((userId) => of(userId));
+  registerGuest = vi.fn('registerGuest').mockImplementation((userId) =>
     of(userId)
   );
-  close = createSpy('remove').and.returnValue(of({}));
-  requestForgotPasswordEmail = createSpy(
+  close = vi.fn('remove').mockReturnValue(of({}));
+  requestForgotPasswordEmail = vi.fn(
     'requestForgotPasswordEmail'
-  ).and.returnValue(of({}));
-  resetPassword = createSpy('resetPassword').and.returnValue(of({}));
-  updateEmail = createSpy('updateEmail').and.returnValue(of({}));
-  updatePassword = createSpy('updatePassword').and.returnValue(of({}));
-  loadTitles = createSpy('loadTitles').and.returnValue(of([]));
+  ).mockReturnValue(of({}));
+  resetPassword = vi.fn('resetPassword').mockReturnValue(of({}));
+  updateEmail = vi.fn('updateEmail').mockReturnValue(of({}));
+  updatePassword = vi.fn('updatePassword').mockReturnValue(of({}));
+  loadTitles = vi.fn('loadTitles').mockReturnValue(of([]));
 }
 
 describe('UserConnector', () => {

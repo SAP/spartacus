@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import {
   B2BUserRole,
@@ -9,22 +10,21 @@ import {
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { ApproverGuard } from './approver.guard';
-import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
   roles: [],
 };
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get = createSpy('get').and.returnValue(of(mockUserDetails));
+  get = vi.fn('get').mockReturnValue(of(mockUserDetails));
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy('go');
+  go = vi.fn('go');
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy('add');
+  add = vi.fn('add');
 }
 
 describe('ApproverGuard', () => {

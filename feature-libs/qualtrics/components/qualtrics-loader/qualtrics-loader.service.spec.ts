@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ScriptLoader, WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 import {
   QualtricsLoaderService,
   QUALTRICS_EVENT_NAME,
@@ -24,7 +25,7 @@ const mockedWindowRef = {
     addEventListener: (event, listener) => {
       eventListener[event] = listener;
     },
-    removeEventListener: jasmine.createSpy('removeEventListener'),
+    removeEventListener: vi.fn(),
     QSI: mockQsiJsApi,
   },
   document: {
@@ -81,12 +82,12 @@ describe('QualtricsLoaderService', () => {
   });
 
   describe('Consume Qualtrics API', () => {
-    let qsiRun: jasmine.Spy<any>;
-    let qsiUnload: jasmine.Spy<any>;
+    let qsiRun: ReturnType<typeof vi.spyOn>;
+    let qsiUnload: ReturnType<typeof vi.spyOn>;
 
     beforeEach(() => {
-      qsiRun = spyOn(winRef.nativeWindow['QSI'].API, 'run').and.stub();
-      qsiUnload = spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
+      qsiRun = vi.spyOn(winRef.nativeWindow['QSI'].API, 'run').mockImplementation(() => {});
+      qsiUnload = vi.spyOn(winRef.nativeWindow['QSI'].API, 'unload').mockImplementation(() => {});
     });
 
     it('should not load Qualtrics when the qsi_js_loaded event is not triggered', () => {
@@ -112,7 +113,7 @@ describe('QualtricsLoaderService', () => {
       });
 
       it('should unload when a script is alread in the DOM', () => {
-        spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
+        vi.spyOn(winRef.document, 'querySelector').mockReturnValue({} as Element);
         service.addScript(mockScript);
         expect(qsiUnload).toHaveBeenCalled();
       });
@@ -121,7 +122,7 @@ describe('QualtricsLoaderService', () => {
 
   describe('addScript()', () => {
     beforeEach(() => {
-      spyOn(scriptLoader, 'embedScript').and.callThrough();
+      vi.spyOn(scriptLoader, 'embedScript');
       loadQsi();
     });
 
@@ -134,7 +135,7 @@ describe('QualtricsLoaderService', () => {
 
     it('should not add the same script twice', () => {
       // simulate script has been added
-      spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
+      vi.spyOn(winRef.document, 'querySelector').mockReturnValue({} as Element);
       service.addScript(mockScript);
       expect(scriptLoader.embedScript).not.toHaveBeenCalled();
     });
@@ -143,7 +144,7 @@ describe('QualtricsLoaderService', () => {
   describe('custom service', () => {
     it('should invoke custom data collector', () => {
       const customService = TestBed.inject(CustomQualtricsLoaderService);
-      spyOn(customService, 'collectData').and.callThrough();
+      vi.spyOn(customService, 'collectData');
 
       eventListener[QUALTRICS_EVENT_NAME](new Event(QUALTRICS_EVENT_NAME));
 

@@ -1,25 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { SubscriptionActionsConnector } from './subscription-actions.connector';
 import { SubscriptionActionsAdapter } from './subscription-actions.adapter';
-import { of, throwError } from 'rxjs';
+import { of, firstValueFrom, throwError } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
+import { vi } from 'vitest';
 
 describe('SubscriptionActionsConnector', () => {
   let connector: SubscriptionActionsConnector;
-  let adapter: jasmine.SpyObj<SubscriptionActionsAdapter>;
+  let adapter: any;
 
   beforeEach(() => {
-    const adapterSpy = jasmine.createSpyObj('SubscriptionActionsAdapter', [
-      'getEffectiveCancellationDate',
-      'cancelSubscription',
-      'reverseCancellation',
-      'withdrawSubscription',
-      'extendSubscription',
-      'getExtensionEffectiveDate',
-    ]);
+    const adapterSpy = {
+      getEffectiveCancellationDate: vi.fn(),
+      cancelSubscription: vi.fn(),
+      reverseCancellation: vi.fn(),
+      withdrawSubscription: vi.fn(),
+      extendSubscription: vi.fn(),
+      getExtensionEffectiveDate: vi.fn(),
+    };
 
     TestBed.configureTestingModule({
       providers: [
@@ -29,9 +30,7 @@ describe('SubscriptionActionsConnector', () => {
     });
 
     connector = TestBed.inject(SubscriptionActionsConnector);
-    adapter = TestBed.inject(
-      SubscriptionActionsAdapter
-    ) as jasmine.SpyObj<SubscriptionActionsAdapter>;
+    adapter = TestBed.inject(SubscriptionActionsAdapter) as any;
   });
 
   it('should be created', () => {
@@ -44,7 +43,7 @@ describe('SubscriptionActionsConnector', () => {
       const subscriptionCode = 'subABC';
       const expectedResponse = of({ date: '2025-01-01' });
 
-      adapter.getEffectiveCancellationDate.and.returnValue(expectedResponse);
+      adapter.getEffectiveCancellationDate.mockReturnValue(expectedResponse);
 
       const result = connector.getEffectiveCancellationDate(
         userId,
@@ -64,7 +63,7 @@ describe('SubscriptionActionsConnector', () => {
       const subscriptionCode = 'subABC';
       const expectedResponse = of({ subscriptionEndAt: '2025-01-01' });
 
-      adapter.getExtensionEffectiveDate.and.returnValue(expectedResponse);
+      adapter.getExtensionEffectiveDate.mockReturnValue(expectedResponse);
 
       const result = connector.getExtensionEffectiveDate(
         userId,
@@ -91,7 +90,7 @@ describe('SubscriptionActionsConnector', () => {
       };
       const expectedResponse = of({ success: true });
 
-      adapter.cancelSubscription.and.returnValue(expectedResponse);
+      adapter.cancelSubscription.mockReturnValue(expectedResponse);
 
       const result = connector.cancelSubscription(
         userId,
@@ -106,7 +105,7 @@ describe('SubscriptionActionsConnector', () => {
       expect(result).toBe(expectedResponse);
     });
 
-    it('should handle errors', (done) => {
+    it('should handle errors', async () => {
       const userId = 'user123';
       const subscriptionCode = 'subABC';
       const cancellationDetails: SubscriptionCancellationDetails = {
@@ -114,16 +113,13 @@ describe('SubscriptionActionsConnector', () => {
       };
       const error = new Error('Cancel error');
 
-      adapter.cancelSubscription.and.returnValue(throwError(() => error));
+      adapter.cancelSubscription.mockReturnValue(throwError(() => error));
 
-      connector
-        .cancelSubscription(userId, subscriptionCode, cancellationDetails)
-        .subscribe({
-          error: (e) => {
-            expect(e).toBe(error);
-            done();
-          },
-        });
+      await expect(
+        firstValueFrom(
+          connector.cancelSubscription(userId, subscriptionCode, cancellationDetails)
+        )
+      ).rejects.toBe(error);
     });
   });
 
@@ -133,7 +129,7 @@ describe('SubscriptionActionsConnector', () => {
       const subscriptionCode = 'subABC';
       const expectedResponse = of({ success: true });
 
-      adapter.extendSubscription.and.returnValue(expectedResponse);
+      adapter.extendSubscription.mockReturnValue(expectedResponse);
 
       const result = connector.extendSubscription(
         userId,
@@ -150,21 +146,18 @@ describe('SubscriptionActionsConnector', () => {
       expect(result).toBe(expectedResponse);
     });
 
-    it('should handle errors', (done) => {
+    it('should handle errors', async () => {
       const userId = 'user123';
       const subscriptionCode = 'subABC';
       const error = new Error('Cancel error');
 
-      adapter.extendSubscription.and.returnValue(throwError(() => error));
+      adapter.extendSubscription.mockReturnValue(throwError(() => error));
 
-      connector
-        .extendSubscription(userId, subscriptionCode, 1, false)
-        .subscribe({
-          error: (e) => {
-            expect(e).toBe(error);
-            done();
-          },
-        });
+      await expect(
+        firstValueFrom(
+          connector.extendSubscription(userId, subscriptionCode, 1, false)
+        )
+      ).rejects.toBe(error);
     });
   });
 
@@ -174,7 +167,7 @@ describe('SubscriptionActionsConnector', () => {
       const subscriptionCode = 'subABC';
       const expectedResponse = of({ reversed: true });
 
-      adapter.reverseCancellation.and.returnValue(expectedResponse);
+      adapter.reverseCancellation.mockReturnValue(expectedResponse);
 
       const result = connector.reverseCancellation(userId, subscriptionCode);
       expect(adapter.reverseCancellation).toHaveBeenCalledWith(
@@ -197,7 +190,7 @@ describe('SubscriptionActionsConnector', () => {
       };
       const expectedResponse = of({ withdrawn: true });
 
-      adapter.withdrawSubscription.and.returnValue(expectedResponse);
+      adapter.withdrawSubscription.mockReturnValue(expectedResponse);
 
       const result = connector.withdrawSubscription(
         userId,

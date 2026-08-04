@@ -6,7 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
@@ -33,6 +33,7 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
+import { vi } from 'vitest';
 
 function createValue(
   code: string,
@@ -158,7 +159,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     return component;
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.overrideComponent(ConfiguratorAttributeDropDownComponent, {
       set: {
         providers: [
@@ -214,7 +215,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   it('should create', () => {
     createComponentWithData();
@@ -265,10 +266,10 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
   it('should call updateConfiguration on select', () => {
     createComponentWithData();
     component.ownerKey = ownerKey;
-    spyOn(
+    vi.spyOn(
       component['configuratorCommonsService'],
       'updateConfiguration'
-    ).and.callThrough();
+    );
     component.onSelect(component.attributeDropDownForm.value);
     expect(
       component['configuratorCommonsService'].updateConfiguration
