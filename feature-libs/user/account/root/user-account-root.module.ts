@@ -5,7 +5,11 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  CmsConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { defaultUserAccountConfig } from './config/default-user-account-config';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
