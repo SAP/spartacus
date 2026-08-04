@@ -5,7 +5,8 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { defaultUserAccountConfig } from './config/default-user-account-config';
 import { UserAccountEventModule } from './events/user-account-event.module';
 import {
   USER_ACCOUNT_CORE_FEATURE,
@@ -37,6 +38,9 @@ export function defaultUserAccountComponentsConfig(): CmsConfig {
 
 @NgModule({
   imports: [UserAccountEventModule],
-  providers: [provideDefaultConfigFactory(defaultUserAccountComponentsConfig)],
+  providers: [
+    provideDefaultConfig(defaultUserAccountConfig),
+    provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
+  ],
 })
 export class UserAccountRootModule {}
