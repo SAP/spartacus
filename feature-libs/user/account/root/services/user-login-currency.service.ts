@@ -49,13 +49,11 @@ export class UserLoginCurrencyService implements OnDestroy {
           switchMap((preLoginCurrency) => {
             this.currencyPersistence.savePreLoginCurrency(preLoginCurrency);
             return this.userAccountFacade.get().pipe(
-              filter(
-                (user): user is User => {
-                  const isocode = (user as any)?.currency?.isocode;
-                  return !!isocode && isocode !== preLoginCurrency;
-                }
-              ),
-              map((user) => (user as any)?.currency?.isocode as string),
+              filter((user): user is User => {
+                const isocode = user?.currency?.isocode;
+                return !!isocode && isocode !== preLoginCurrency;
+              }),
+              map((user) => user?.currency?.isocode as string),
               take(1)
             );
           })
@@ -66,15 +64,16 @@ export class UserLoginCurrencyService implements OnDestroy {
     );
 
     this.subscription.add(
-      this.eventService.get(LogoutEvent).pipe(
-        switchMap(() => this.currencyService.getActive().pipe(take(1)))
-      ).subscribe((activeCurrency) => {
-        const isocode = this.currencyPersistence.getPreLoginCurrency();
-        if (isocode && isocode !== activeCurrency) {
-          this.currencyService.setActive(isocode);
-        }
-        this.currencyPersistence.clearPreLoginCurrency();
-      })
+      this.eventService
+        .get(LogoutEvent)
+        .pipe(switchMap(() => this.currencyService.getActive().pipe(take(1))))
+        .subscribe((activeCurrency) => {
+          const isocode = this.currencyPersistence.getPreLoginCurrency();
+          if (isocode && isocode !== activeCurrency) {
+            this.currencyService.setActive(isocode);
+          }
+          this.currencyPersistence.clearPreLoginCurrency();
+        })
     );
   }
 
