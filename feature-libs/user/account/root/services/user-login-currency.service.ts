@@ -65,9 +65,11 @@ export class UserLoginCurrencyService implements OnDestroy {
     );
 
     this.subscription.add(
-      this.eventService.get(LogoutEvent).subscribe(() => {
+      this.eventService.get(LogoutEvent).pipe(
+        switchMap(() => this.currencyService.getActive().pipe(take(1)))
+      ).subscribe((activeCurrency) => {
         const isocode = this.currencyPersistence.getPreLoginCurrency();
-        if (isocode) {
+        if (isocode && isocode !== activeCurrency) {
           this.currencyService.setActive(isocode);
         }
         this.currencyPersistence.clearPreLoginCurrency();
