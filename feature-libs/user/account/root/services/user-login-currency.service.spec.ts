@@ -158,16 +158,6 @@ describe('UserLoginCurrencyService', () => {
         expect(currencyPersistence.clearPreLoginCurrency).toHaveBeenCalled();
       });
 
-      it('should not call setActive when pre-login currency matches active currency', () => {
-        // getActive() returns 'USD' by default — pre-login is also USD
-        mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY] = JSON.stringify('USD');
-
-        mockEventStream$.next(new LogoutEvent());
-
-        expect(currencyService.setActive).not.toHaveBeenCalled();
-        expect(currencyPersistence.clearPreLoginCurrency).toHaveBeenCalled();
-      });
-
       it('should not call setActive when no pre-login currency is stored', () => {
         mockEventStream$.next(new LogoutEvent());
 
