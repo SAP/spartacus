@@ -195,8 +195,14 @@ export class AuthService {
   /**
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use `logout` method. Use this method with caution.
+   *
+   * @param isRevoke When `true` (default), the access token is revoked on the
+   * authorization server before clearing the local session. Set to `false` to
+   * skip revocation and only clear the local tokens, e.g. when the current
+   * token is already known to be invalid server-side and the revoke call would
+   * fail.
    */
-  coreLogout(): Promise<void> {
+  coreLogout(isRevoke = true): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     if (this.featureToggles.propagateLogoutToAllTabs) {
@@ -204,8 +210,11 @@ export class AuthService {
         AuthNotificationType.LOGOUT
       );
     }
+    const logout = isRevoke
+      ? this.oAuthLibWrapperService.revokeAndLogout()
+      : Promise.resolve(this.oAuthLibWrapperService.logout());
     return new Promise((resolve) => {
-      this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
+      logout.finally(() => {
         this.store.dispatch(new AuthActions.Logout());
         this.setLogoutProgress(false);
         resolve();

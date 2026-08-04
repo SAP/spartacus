@@ -26,7 +26,6 @@ class MockRoutingService {
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
-  remove = createSpy().and.stub();
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
@@ -173,14 +172,10 @@ describe('UpdateEmailComponentService', () => {
         });
       }));
 
-      it('should clear any error message caused by token revocation during logout', waitForAsync(() => {
+      it('should log out without revoking the token, as the email change invalidates it', () => {
         service.save();
-        authService.coreLogout().then(() => {
-          expect(globalMessageService.remove).toHaveBeenCalledWith(
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        });
-      }));
+        expect(authService.coreLogout).toHaveBeenCalledWith(false);
+      });
     });
 
     describe('error', () => {

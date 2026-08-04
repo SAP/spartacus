@@ -92,13 +92,10 @@ export class UpdateEmailComponentService {
       this.routingService.getUrl({ cxRoute: 'home' })
     );
     // TODO(#9638): Use logout route when it will support passing redirect url
-    this.authService.coreLogout().then(() => {
-      // The email change invalidates the current token, so the token revocation
-      // during logout can fail (e.g. HTTP 500). AuthService.coreLogout() still
-      // resolves and logs the user out regardless (via its `.finally`), so we
-      // only need to clear the error banner the HTTP interceptor produced for
-      // that 500.
-      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+    // Changing the email changes the account's login id, which invalidates the
+    // current token server-side. Revoking that already-invalid token would fail
+    // (HTTP 500), so we skip revocation and only clear the local session.
+    this.authService.coreLogout(false).then(() => {
       this.routingService.go(
         { cxRoute: 'login' },
         {

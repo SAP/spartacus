@@ -176,8 +176,14 @@ export class AsmAuthService extends AuthService {
   /**
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use `logout` method. Use this method with caution.
+   *
+   * @param isRevoke When `true` (default), the access token is revoked on the
+   * authorization server before clearing the local session. Set to `false` to
+   * skip revocation and only clear the local tokens, e.g. when the current
+   * token is already known to be invalid server-side and the revoke call would
+   * fail. Ignored for emulated sessions, which never revoke.
    */
-  coreLogout(): Promise<any> {
+  coreLogout(isRevoke = true): Promise<any> {
     return lastValueFrom(
       this.userIdService.isEmulated().pipe(
         take(1),
@@ -188,7 +194,7 @@ export class AsmAuthService extends AuthService {
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
           } else {
-            return from(super.coreLogout());
+            return from(super.coreLogout(isRevoke));
           }
         })
       )

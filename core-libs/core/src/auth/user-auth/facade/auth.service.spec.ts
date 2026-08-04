@@ -39,6 +39,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   revokeAndLogout() {
     return Promise.resolve();
   }
+  logout() {}
   authorizeWithPasswordFlow() {
     return Promise.resolve({} as TokenResponse);
   }
@@ -417,6 +418,21 @@ describe('AuthService', () => {
       expect(
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
       ).toBe(false);
+    }));
+
+    it('should logout without revoking tokens when isRevoke is false', fakeAsync(() => {
+      spyOn(userIdService, 'clearUserId').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'logout').and.callThrough();
+      spyOn(store, 'dispatch').and.callThrough();
+
+      service.coreLogout(false);
+      tick();
+
+      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.logout).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.revokeAndLogout).not.toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
     }));
 
     describe('when propagateLogoutToAllTabs is enabled', () => {

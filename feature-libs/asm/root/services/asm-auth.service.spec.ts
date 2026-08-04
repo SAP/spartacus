@@ -58,6 +58,7 @@ class MockUserIdService {
 
 class MockOAuthLibWrapperService {
   revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
+  logout = jasmine.createSpy();
   initLoginFlow = jasmine.createSpy();
   tryLogin = jasmine
     .createSpy()
@@ -229,6 +230,14 @@ describe('AsmAuthService', () => {
 
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+    });
+
+    it('should forward isRevoke=false to super, skipping revocation when user not emulated', async () => {
+      await service.coreLogout(false);
+
+      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.logout).toHaveBeenCalled();
+      expect(oAuthLibWrapperService.revokeAndLogout).not.toHaveBeenCalled();
     });
 
     it('should logout when emulating user', async () => {
