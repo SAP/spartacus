@@ -124,6 +124,10 @@ export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_COMPONENTS = `@spartacus/org
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_ASSETS = `@spartacus/organization/account-summary/assets`;
 export const SPARTACUS_ORGANIZATION_ACCOUNT_SUMMARY_OCC = `@spartacus/organization/account-summary/occ`;
 
+export const SPARTACUS_ORGANIZATION_B2B_UNIT_SELECTION = `@spartacus/organization/b2b-unit-selection`;
+export const SPARTACUS_ORGANIZATION_B2B_UNIT_SELECTION_ROOT = `@spartacus/organization/b2b-unit-selection/root`;
+export const SPARTACUS_ORGANIZATION_B2B_UNIT_SELECTION_ASSETS = `@spartacus/organization/b2b-unit-selection/assets`;
+
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
 export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `@spartacus/product/variants/root`;
@@ -335,6 +339,9 @@ export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
 export const ORGANIZATION_UNIT_ORDER_FEATURE_NAME = 'Unit-Order';
 
 export const ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME = 'Account-Summary';
+
+export const ORGANIZATION_B2B_UNIT_SELECTION_FEATURE_NAME =
+  'B2b-Unit-Selection';
 
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';

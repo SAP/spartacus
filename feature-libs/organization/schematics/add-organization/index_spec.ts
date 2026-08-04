@@ -10,11 +10,13 @@ import {
   orderFeatureModulePath,
   ORGANIZATION_ACCOUNT_SUMMARY_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ORGANIZATION_B2B_UNIT_SELECTION_FEATURE_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
   ORGANIZATION_UNIT_ORDER_FEATURE_NAME,
   ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   organizationAccountSummaryFeatureModulePath,
   organizationAdministrationFeatureModulePath,
+  organizationB2bUnitSelectionFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
   organizationUnitOrderFeatureModulePath,
   organizationUserRegistrationFeatureModulePath,
@@ -68,6 +70,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
     features: [ORGANIZATION_UNIT_ORDER_FEATURE_NAME],
   };
 
+  const b2bUnitSelectionFeatureOptions: SpartacusOrganizationOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [ORGANIZATION_B2B_UNIT_SELECTION_FEATURE_NAME],
+  };
+
   describe('Without features', () => {
     beforeAll(async () => {
       appTree = await generateDefaultWorkspace(schematicRunner, appTree);
@@ -94,6 +101,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
       ).toBeFalsy();
       expect(
         appTree.exists(organizationUnitOrderFeatureModulePath)
+      ).toBeFalsy();
+      expect(
+        appTree.exists(organizationB2bUnitSelectionFeatureModulePath)
       ).toBeFalsy();
     });
 
@@ -452,6 +462,72 @@ describe('Spartacus Organization schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(
           organizationUnitOrderFeatureModulePath
+        );
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('B2B unit selection feature', () => {
+    describe('general setup', () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          b2bUnitSelectionFeatureOptions,
+          appTree
+        );
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(
+          organizationB2bUnitSelectionFeatureModulePath
+        );
+        expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const administrationFeatureModule = appTree.readContent(
+          organizationAdministrationFeatureModulePath
+        );
+        expect(administrationFeatureModule).toBeFalsy();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+
+      describe('b2b features', () => {
+        it('configuration should be added', () => {
+          const configurationModule = appTree.readContent(
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+          );
+          expect(configurationModule).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeAll(async () => {
+        appTree = await generateDefaultWorkspace(schematicRunner, appTree);
+        appTree = await schematicRunner.runSchematic(
+          'ng-add',
+          { ...b2bUnitSelectionFeatureOptions, lazy: false },
+          appTree
+        );
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(
+          organizationB2bUnitSelectionFeatureModulePath
         );
         expect(module).toMatchSnapshot();
       });

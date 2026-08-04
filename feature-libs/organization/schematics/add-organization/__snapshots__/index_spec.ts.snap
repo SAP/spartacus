@@ -452,6 +452,232 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
 }"
 `;
 
+exports[`Spartacus Organization schematics: ng-add B2B unit selection feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from "@spartacus/core";
+import { B2bUnitSelectionModule } from "@spartacus/organization/b2b-unit-selection";
+import { b2bUnitSelectionTranslationChunksConfig, b2bUnitSelectionTranslationsEnEn } from "@spartacus/organization/b2b-unit-selection/assets";
+import { B2bUnitSelectionRootModule } from "@spartacus/organization/b2b-unit-selection/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    B2bUnitSelectionRootModule,
+    B2bUnitSelectionModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: b2bUnitSelectionTranslationsEnEn },
+      chunks: b2bUnitSelectionTranslationChunksConfig,
+    },
+  })]
+})
+export class OrganizationB2bUnitSelectionFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add B2B unit selection feature general setup b2b features configuration should be added 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translationsEn } from "@spartacus/assets";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, provideConfigFactory, SiteContextConfig } from "@spartacus/core";
+import { defaultB2bOccConfig } from "@spartacus/setup";
+import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@spartacus/storefront";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfigFactory(layoutConfigFactory), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {},
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: translationsEn },
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '221121.15'
+    }
+  }), provideConfig(defaultB2bOccConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add B2B unit selection feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from "@spartacus/core";
+import { b2bUnitSelectionTranslationChunksConfig, b2bUnitSelectionTranslationsEnEn } from "@spartacus/organization/b2b-unit-selection/assets";
+import { B2bUnitSelectionRootModule, ORGANIZATION_B2B_UNIT_SELECTION_FEATURE } from "@spartacus/organization/b2b-unit-selection/root";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    B2bUnitSelectionRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORGANIZATION_B2B_UNIT_SELECTION_FEATURE]: {
+        module: () =>
+          import('@spartacus/organization/b2b-unit-selection').then((m) => m.B2bUnitSelectionModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: { en: b2bUnitSelectionTranslationsEnEn },
+      chunks: b2bUnitSelectionTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrganizationB2bUnitSelectionFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add B2B unit selection feature general setup styling should create a proper scss file 1`] = `
+"@import "../../styles-config";
+@import "@spartacus/organization";
+@import "@spartacus/styles/vendor/bootstrap/scss/functions";
+@import "@spartacus/styles/vendor/bootstrap/scss/variables";
+@import "@spartacus/styles/vendor/bootstrap/scss/_mixins";
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add B2B unit selection feature general setup styling should update angular.json 1`] = `
+"{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "schematics-test": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "type": "component",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:directive": {
+          "type": "directive",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "src/styles/spartacus/organization.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ],
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "3.5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "schematics-test:build:production"
+            },
+            "development": {
+              "buildTarget": "schematics-test:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/"
+              ]
+            },
+            "styles": [
+              "src/styles/spartacus/organization.scss"
+            ]
+          }
+        }
+      }
+    }
+  }
+}"
+`;
+
 exports[`Spartacus Organization schematics: ng-add Order approval feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from "@spartacus/core";

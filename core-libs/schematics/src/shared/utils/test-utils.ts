@@ -66,6 +66,8 @@ export const organizationUnitOrderFeatureModulePath =
   'src/app/spartacus/features/organization/organization-unit-order-feature.module.ts';
 export const organizationAccountSummaryFeatureModulePath =
   'src/app/spartacus/features/organization/organization-account-summary-feature.module.ts';
+export const organizationB2bUnitSelectionFeatureModulePath =
+  'src/app/spartacus/features/organization/organization-b2b-unit-selection-feature.module.ts';
 export const pdfInvoicesFeatureModulePath =
   'src/app/spartacus/features/pdf-invoices/pdf-invoices-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
