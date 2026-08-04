@@ -38,6 +38,7 @@ export class NgExpressEngineDecorator {
    * Returns the higher order ngExpressEngine with provided tokens for Spartacus
    *
    * @param ngExpressEngine
+   * @param optimizationOptions SSR optimization options
    */
   static get(
     ngExpressEngine: NgExpressEngine,
