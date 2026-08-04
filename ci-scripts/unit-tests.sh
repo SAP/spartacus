@@ -7,12 +7,26 @@ EXCLUDE_JEST=storefrontstyles,schematics,setup
 
 echo "-----"
 
+function run_vitest_migrated_tests {
+    echo "Running VITEST unit tests for migrated libraries"
+    npx nx run-many --all --target=test-vitest
+    return 0
+}
+
+function run_vitest_affected_tests {
+    echo "Running VITEST unit tests for affected migrated libraries"
+    npx nx affected --target=test-vitest
+    return 0
+}
+
 function run_affected_unit_tests {
     echo "Running JASMINE unit tests and code coverage for AFFECTED libraries"
     npx nx affected --target=test --exclude="$EXCLUDE_APPLICATIONS,$EXCLUDE_JEST" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 
     echo "Running JEST (mostly schematics) unit tests and code coverage for AFFECTED libraries"
     npx nx affected --target=test-jest --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
+
+    run_vitest_affected_tests
 }
 
 function run_all_unit_tests {
@@ -24,12 +38,16 @@ function run_all_unit_tests {
 
         echo "Running JEST unit tests for selected projects"
         npx nx run-many --target=test-jest --projects="$UNIT_TEST_GROUP_PROJECTS" --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
+
+        run_vitest_migrated_tests
     else
         echo "Running ALL JASMINE unit tests"
         npx nx run-many --all --target=test --exclude="$EXCLUDE_APPLICATIONS,$EXCLUDE_JEST" -- --no-watch --source-map --code-coverage --browsers ChromeHeadless
 
         echo "Running ALL JEST unit tests"
         npx nx run-many --all --target=test-jest --exclude="$EXCLUDE_APPLICATIONS" -- --coverage --runInBand
+
+        run_vitest_migrated_tests
     fi
 }
 
