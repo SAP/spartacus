@@ -50,11 +50,12 @@ export class UserLoginCurrencyService implements OnDestroy {
             this.currencyPersistence.savePreLoginCurrency(preLoginCurrency);
             return this.userAccountFacade.get().pipe(
               filter(
-                (user): user is User =>
-                  !!user?.currency?.isocode &&
-                  user.currency.isocode !== preLoginCurrency
+                (user): user is User => {
+                  const isocode = (user as any)?.currency?.isocode;
+                  return !!isocode && isocode !== preLoginCurrency;
+                }
               ),
-              map((user) => user?.currency?.isocode as string),
+              map((user) => (user as any)?.currency?.isocode as string),
               take(1)
             );
           })
