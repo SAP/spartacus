@@ -60,9 +60,7 @@ const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
  * Mirrors the logic in express-utils/express-request-url.ts.
  */
 function getFullUrl(req: express.Request): string {
-  const proto = req.get('X-Forwarded-Proto') ?? req.protocol;
-  const host = req.get('X-Forwarded-Host') ?? req.get('host') ?? 'localhost';
-  return `${proto}://${host}${req.originalUrl}`;
+  return `${req.protocol}://${req.hostname}${req.originalUrl}`;
 }
 
 // The Express app is exported so that it can be used by serverless Functions.

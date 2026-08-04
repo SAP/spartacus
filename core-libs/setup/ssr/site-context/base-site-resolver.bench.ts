@@ -147,7 +147,7 @@ async function scenarioSlowOcc(
   occBaseUrl: string,
   _serverDelayMs: number,
   resolverTimeoutMs: number
-): Promise<{ timedOut: boolean; elapsed: number }> {
+): Promise<{ timedOut: boolean; elapsed: number; resolveElapsed: number }> {
   const resolver = makeResolver({
     occBaseUrl,
     timeoutMs: resolverTimeoutMs,
@@ -155,9 +155,14 @@ async function scenarioSlowOcc(
   const t0 = performance.now();
   await resolver.initialize();
   const elapsed = performance.now() - t0;
+
+  const t1 = performance.now();
+  await resolver.resolve(REQUEST_URL);
+  const resolveElapsed = performance.now() - t1;
+
   const timedOut = elapsed >= resolverTimeoutMs * 0.9;
   await resolver.destroy();
-  return { timedOut, elapsed };
+  return { timedOut, elapsed, resolveElapsed };
 }
 
 // ─── main ────────────────────────────────────────────────────────────────────
@@ -210,7 +215,7 @@ async function main(): Promise<void> {
     const mockBaseUrl = `http://localhost:${MOCK_OCC_PORT}`;
     const result = await scenarioSlowOcc(mockBaseUrl, 4000, 3000);
     console.log(
-      `  elapsed: ${result.elapsed.toFixed(1)} ms  timed-out: ${result.timedOut}`
+      `  initialize: ${result.elapsed.toFixed(1)} ms  resolve: ${result.resolveElapsed.toFixed(1)} ms  timed-out: ${result.timedOut}`
     );
     mockServer.close();
   } else {

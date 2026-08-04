@@ -183,6 +183,7 @@ export class AngularAppBaseSiteResolver implements BaseSiteResolver {
         `[create-application] OCC basesites fetch failed after ${elapsed} ms:`,
         err
       );
+      this.cachedAt = Date.now();
     }
   }
 }
