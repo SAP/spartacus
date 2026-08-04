@@ -11,13 +11,12 @@ import { B2bUnitSelectionService } from './services/b2b-unit-selection.service';
 @NgModule({
   providers: [
     B2bUnitSelectionConnector,
-    // Eagerly initialise the service so it subscribes to LoginEvent/LogoutEvent
+    // Eagerly initialise the service so it subscribes to user ID changes
     // as soon as the feature module is loaded.
     B2bUnitSelectionService,
   ],
 })
 export class B2bUnitSelectionCoreModule {
-  // Inject here to trigger instantiation (providedIn: 'root' is lazy by default
-  // inside feature modules unless explicitly constructed).
+  // Inject here to trigger instantiation eagerly when the feature module loads.
   constructor(_service: B2bUnitSelectionService) {}
 }

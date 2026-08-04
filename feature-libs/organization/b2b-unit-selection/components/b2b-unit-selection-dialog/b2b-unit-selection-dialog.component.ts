@@ -17,7 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { B2BUnit, TranslatePipe, UserIdService } from '@spartacus/core';
+import { B2BUnit, TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
   FocusDirective,
@@ -28,8 +28,21 @@ import {
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { B2bUnitSelectionService } from '@spartacus/organization/b2b-unit-selection/core';
 
+/**
+ * Dialog component for B2B unit selection.
+ *
+ * This component is standalone and rendered in the root outlet via
+ * `inlineRoot: true`. It does NOT inject `B2bUnitSelectionService` because
+ * that service is module-scoped (lives in the lazy feature module's child
+ * injector) and is therefore not reachable from the root outlet context.
+ *
+ * Instead, `B2bUnitSelectionService.openDialogWhenReady` passes an `onConfirm`
+ * callback via the dialog data payload. On confirmation this component calls
+ * that callback with the selected unit name, which triggers `setDefaultUnit`
+ * in the service. The service then calls `LaunchDialogService.closeDialog` on
+ * HTTP success — preserving the original close-after-persist behaviour.
+ */
 @Component({
   selector: 'cx-b2b-unit-selection-dialog',
   templateUrl: './b2b-unit-selection-dialog.component.html',
@@ -45,11 +58,11 @@ import { B2bUnitSelectionService } from '@spartacus/organization/b2b-unit-select
 })
 export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
   protected launchDialogService = inject(LaunchDialogService);
-  protected userIdService = inject(UserIdService);
-  protected unitSelectionService = inject(B2bUnitSelectionService);
 
   orgUnits: B2BUnit[] = [];
   protected subscriptions = new Subscription();
+
+  private onConfirm?: (unitName: string) => void;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -67,8 +80,13 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
       this.launchDialogService.data$
         .pipe(take(1))
         .subscribe(
-          (data: { orgUnits: B2BUnit[]; defaultUnitName?: string }) => {
+          (data: {
+            orgUnits: B2BUnit[];
+            defaultUnitName?: string;
+            onConfirm?: (unitName: string) => void;
+          }) => {
             this.orgUnits = data?.orgUnits ?? [];
+            this.onConfirm = data?.onConfirm;
             const matched =
               this.orgUnits.find((u) => u.name === data?.defaultUnitName) ??
               this.orgUnits[0] ??
@@ -79,6 +97,11 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Invokes the `onConfirm` callback provided by `B2bUnitSelectionService`
+   * via the dialog data payload. The service handles the API call and closes
+   * the dialog on success via `LaunchDialogService.closeDialog`.
+   */
   confirm(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -88,12 +111,7 @@ export class B2bUnitSelectionDialogComponent implements OnInit, OnDestroy {
     if (!unit) {
       return;
     }
-    this.userIdService
-      .takeUserId(true)
-      .pipe(take(1))
-      .subscribe((userId) => {
-        this.unitSelectionService.setDefaultUnit(userId, unit.name ?? '');
-      });
+    this.onConfirm?.(unit.name ?? '');
   }
 
   ngOnDestroy(): void {

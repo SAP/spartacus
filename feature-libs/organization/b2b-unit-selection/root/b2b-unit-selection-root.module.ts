@@ -11,9 +11,11 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultB2bUnitSelectionConfig } from './config/default-b2b-unit-selection-config';
+import { defaultOccB2bUnitSelectionConfig } from './config/default-occ-b2b-unit-selection-config';
 import { ORGANIZATION_B2B_UNIT_SELECTION_FEATURE } from './feature-name';
-// Side-effect import: ensures the LAUNCH_CALLER extension is registered at application startup.
+// Side-effect imports: register module augmentations at application startup.
 import './model/augmented-core.model';
+import './model/occ-b2b-unit-selection-endpoints.model';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultB2bUnitSelectionComponentsConfig(): CmsConfig {
@@ -30,6 +32,10 @@ export function defaultB2bUnitSelectionComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfig(defaultB2bUnitSelectionConfig),
+    // OCC endpoint config must be registered eagerly (in the root module) so that
+    // OccEndpointsService — a root singleton built once at app startup — can
+    // resolve our custom endpoint keys before the lazy feature module loads.
+    provideDefaultConfig(defaultOccB2bUnitSelectionConfig),
     provideDefaultConfigFactory(defaultB2bUnitSelectionComponentsConfig),
   ],
 })

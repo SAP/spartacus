@@ -6,5 +6,3 @@
 
 export * from './adapters/occ-b2b-unit-selection.adapter';
 export * from './b2b-unit-selection-occ.module';
-export * from './config/default-occ-b2b-unit-selection-config';
-export * from './model/index';

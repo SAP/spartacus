@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { B2BUnit, I18nTestingModule, UserIdService } from '@spartacus/core';
+import { B2BUnit, I18nTestingModule } from '@spartacus/core';
 import {
   FocusConfig,
   FocusDirective,
@@ -16,8 +16,7 @@ import {
   LaunchDialogService,
   NgSelectA11yDirective,
 } from '@spartacus/storefront';
-import { BehaviorSubject, of } from 'rxjs';
-import { B2bUnitSelectionService } from '../../core/services/b2b-unit-selection.service';
+import { BehaviorSubject } from 'rxjs';
 import { B2bUnitSelectionDialogComponent } from './b2b-unit-selection-dialog.component';
 import createSpy = jasmine.createSpy;
 
@@ -25,7 +24,6 @@ const mockUnits: B2BUnit[] = [
   { uid: 'unit-1', name: 'Rustic' },
   { uid: 'unit-2', name: 'Rustic Services' },
 ];
-const mockUserId = 'current';
 
 @Directive({ selector: '[cxFocus]' })
 class MockFocusDirective {
@@ -37,18 +35,9 @@ class MockNgSelectA11yDirective {
   @Input() cxNgSelectA11y: { ariaLabel?: string } = {};
 }
 
-class MockUserIdService {
-  takeUserId = createSpy('takeUserId').and.returnValue(of(mockUserId));
-}
-
-class MockB2bUnitSelectionService {
-  setDefaultUnit = createSpy('setDefaultUnit');
-}
-
 describe('B2bUnitSelectionDialogComponent', () => {
   let component: B2bUnitSelectionDialogComponent;
   let fixture: ComponentFixture<B2bUnitSelectionDialogComponent>;
-  let unitSelectionService: MockB2bUnitSelectionService;
   let data$: BehaviorSubject<any>;
 
   function createComponent(dialogData: any = {}): void {
@@ -62,14 +51,7 @@ describe('B2bUnitSelectionDialogComponent', () => {
         I18nTestingModule,
         FormErrorsModule,
       ],
-      providers: [
-        { provide: LaunchDialogService, useValue: { data$ } },
-        { provide: UserIdService, useClass: MockUserIdService },
-        {
-          provide: B2bUnitSelectionService,
-          useClass: MockB2bUnitSelectionService,
-        },
-      ],
+      providers: [{ provide: LaunchDialogService, useValue: { data$ } }],
     })
       .overrideComponent(B2bUnitSelectionDialogComponent, {
         remove: { imports: [FocusDirective, NgSelectA11yDirective] },
@@ -82,7 +64,6 @@ describe('B2bUnitSelectionDialogComponent', () => {
 
     fixture = TestBed.createComponent(B2bUnitSelectionDialogComponent);
     component = fixture.componentInstance;
-    unitSelectionService = TestBed.inject(B2bUnitSelectionService) as any;
   }
 
   // ── ngOnInit ──────────────────────────────────────────────────────────────
@@ -126,32 +107,57 @@ describe('B2bUnitSelectionDialogComponent', () => {
       expect(component.orgUnits).toEqual([]);
       expect(component.form.value.selectedUnit).toBeNull();
     }));
+
+    it('should store the onConfirm callback from dialog data', waitForAsync(() => {
+      const onConfirm = createSpy('onConfirm');
+      createComponent({
+        orgUnits: mockUnits,
+        defaultUnitName: 'Rustic',
+        onConfirm,
+      });
+      fixture.detectChanges();
+
+      expect((component as any).onConfirm).toBe(onConfirm);
+    }));
   });
 
   // ── confirm() ─────────────────────────────────────────────────────────────
 
   describe('confirm()', () => {
+    let onConfirm: jasmine.Spy;
+
     beforeEach(waitForAsync(() => {
-      createComponent({ orgUnits: mockUnits, defaultUnitName: 'Rustic' });
+      onConfirm = createSpy('onConfirm');
+      createComponent({
+        orgUnits: mockUnits,
+        defaultUnitName: 'Rustic',
+        onConfirm,
+      });
       fixture.detectChanges();
     }));
 
-    it('should call setDefaultUnit with correct payload', () => {
+    it('should invoke the onConfirm callback with the selected unit name', () => {
       component.confirm();
 
-      expect(unitSelectionService.setDefaultUnit).toHaveBeenCalledWith(
-        mockUserId,
-        'Rustic'
-      );
+      expect(onConfirm).toHaveBeenCalledWith('Rustic');
     });
 
-    it('should mark form as touched and NOT call setDefaultUnit when selectedUnit is null', () => {
+    it('should mark form as touched and NOT invoke onConfirm when selectedUnit is null', () => {
       component.form.get('selectedUnit')?.setValue(null);
 
       component.confirm();
 
-      expect(unitSelectionService.setDefaultUnit).not.toHaveBeenCalled();
+      expect(onConfirm).not.toHaveBeenCalled();
       expect(component.form.get('selectedUnit')?.touched).toBeTrue();
+    });
+
+    it('should NOT throw when onConfirm is not provided', () => {
+      // Re-create without onConfirm in data payload.
+      TestBed.resetTestingModule();
+      createComponent({ orgUnits: mockUnits, defaultUnitName: 'Rustic' });
+      fixture.detectChanges();
+
+      expect(() => component.confirm()).not.toThrow();
     });
   });
 
