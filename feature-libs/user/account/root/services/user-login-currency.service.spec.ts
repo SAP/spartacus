@@ -13,6 +13,7 @@ import {
   LogoutEvent,
 } from '@spartacus/core';
 import { Subject, of } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { UserAccountConfig } from '../config/user-account-config';
 import { UserAccountFacade } from '../facade/user-account.facade';
 import { UserLoginCurrencyPersistenceService } from './user-login-currency-persistence.service';
@@ -25,7 +26,9 @@ import createSpy = jasmine.createSpy;
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get = createSpy().and.returnValue(mockEventStream$.asObservable());
+  get = createSpy().and.callFake((eventType: any) =>
+    mockEventStream$.asObservable().pipe(filter((e) => e instanceof eventType))
+  );
 }
 
 class MockCurrencyService implements Partial<CurrencyService> {
@@ -35,7 +38,9 @@ class MockCurrencyService implements Partial<CurrencyService> {
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get = createSpy().and.returnValue(
-    of({ currency: { isocode: 'EUR', name: 'Euro', active: true, symbol: '€' } })
+    of({
+      currency: { isocode: 'EUR', name: 'Euro', active: true, symbol: '€' },
+    })
   );
 }
 
@@ -76,7 +81,9 @@ describe('UserLoginCurrencyService', () => {
         },
         {
           provide: UserAccountConfig,
-          useValue: { userAccount: { applyUserCurrencyOnLogin: configEnabled } },
+          useValue: {
+            userAccount: { applyUserCurrencyOnLogin: configEnabled },
+          },
         },
       ],
     });
@@ -113,7 +120,9 @@ describe('UserLoginCurrencyService', () => {
         mockEventStream$.next(new LoginEvent());
 
         expect(currencyService.getActive).toHaveBeenCalled();
-        expect(currencyPersistence.savePreLoginCurrency).toHaveBeenCalledWith('USD');
+        expect(currencyPersistence.savePreLoginCurrency).toHaveBeenCalledWith(
+          'USD'
+        );
         expect(userAccountFacade.get).toHaveBeenCalled();
         expect(currencyService.setActive).toHaveBeenCalledWith('EUR');
       });
@@ -146,6 +155,16 @@ describe('UserLoginCurrencyService', () => {
         mockEventStream$.next(new LogoutEvent());
 
         expect(currencyService.setActive).toHaveBeenCalledWith('GBP');
+        expect(currencyPersistence.clearPreLoginCurrency).toHaveBeenCalled();
+      });
+
+      it('should not call setActive when pre-login currency matches active currency', () => {
+        // getActive() returns 'USD' by default — pre-login is also USD
+        mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY] = JSON.stringify('USD');
+
+        mockEventStream$.next(new LogoutEvent());
+
+        expect(currencyService.setActive).not.toHaveBeenCalled();
         expect(currencyPersistence.clearPreLoginCurrency).toHaveBeenCalled();
       });
 
