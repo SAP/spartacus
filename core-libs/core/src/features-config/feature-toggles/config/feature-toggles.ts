@@ -613,6 +613,22 @@ export interface FeatureTogglesInterface {
   improvedTabStyling?: boolean;
 
   /**
+   * When enabled, a guest cart is merged into the user cart after login even
+   * when the login uses the OAuth 2.1 authorization-code flow (which fully
+   * re-bootstraps the SPA and wipes in-memory state).
+   *
+   * The guest cart entries are persisted to storage before the redirect and
+   * re-added to the user cart after login. This is needed because the backend
+   * rejects a native merge of a guest cart (`"Cart is not anonymous"`), and the
+   * guest cart is no longer reachable with the user token after login.
+   *
+   * NOTE: Most relevant when `authorizationCodeFlowByDefault` is enabled.
+   *
+   * Affects: `ActiveCartService`
+   */
+  mergeGuestCartOnCodeFlowLogin?: boolean;
+
+  /**
    * When enabled, triggers a full page reload after a language switch so that
    * all `href` attributes (banners, navigation links, mini-cart, login) reflect
    * the new language immediately without requiring a manual page refresh.
@@ -766,6 +782,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   improvedTabStyling: false,
   reloadOnLanguageChange: false,
   productConfiguratorConsolidatedButtonDisabling: false,
+  mergeGuestCartOnCodeFlowLogin: false,
   a11yFormErrorIconContrast: false,
   a11yFocusIndicatorContrast: false,
   a11yDisabledButtonContrast: false,

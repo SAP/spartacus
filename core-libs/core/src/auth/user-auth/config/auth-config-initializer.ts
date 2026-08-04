@@ -63,17 +63,18 @@ export class AuthConfigInitializer implements ConfigInitializer {
     const addBaseSiteToRedirectUri =
       config.authentication?.initializerOptions?.addBaseSiteToRedirectUri;
 
+    // urlRoot is the provided config value or the system default
+    const urlRoot =
+      config.authentication?.OAuthLibConfig?.redirectUri ??
+      this.getDefaultRedirectUri();
+
     if (
       addBaseSiteToRedirectUri === true ||
       (addBaseSiteToRedirectUri === 'auto' && this.baseSiteInUrl())
     ) {
-      const urlRoot =
-        config.authentication?.OAuthLibConfig?.redirectUri ??
-        (!this.isSSR ? this.windowRef.nativeWindow?.location.origin : '');
-
       return `${urlRoot}/${encodeURIComponent(activeBaseSite)}`;
     } else {
-      return config.authentication?.OAuthLibConfig?.redirectUri;
+      return urlRoot;
     }
   }
 
@@ -81,5 +82,9 @@ export class AuthConfigInitializer implements ConfigInitializer {
     return this.siteContextParamsService
       .getUrlEncodingParameters()
       .includes(BASE_SITE_CONTEXT_ID);
+  }
+
+  protected getDefaultRedirectUri() {
+    return !this.isSSR ? this.windowRef.nativeWindow?.location.origin : '';
   }
 }

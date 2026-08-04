@@ -40,6 +40,8 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Add product to cart and go to checkout');
       checkout.goToCheapProductDetailsPage();
+      cy.log('Waiting for SSR timeout to pass (8s)');
+      cy.wait(8000);
       checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
 
       cy.log('--> Go through delivery form');

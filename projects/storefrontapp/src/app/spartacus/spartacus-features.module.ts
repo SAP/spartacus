@@ -314,6 +314,7 @@ if (environment.cpq) {
         cdsLoginEventsToken: true,
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
+        mergeGuestCartOnCodeFlowLogin: true,
         navigationMenuCloseOnSameLinkClick: true,
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: true,
