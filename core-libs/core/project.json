@@ -17,7 +17,7 @@
         }
       }
     },
-    "test": {
+    "test-vitest": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx vitest run --config vitest.config.ts",
