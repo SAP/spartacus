@@ -13,7 +13,7 @@ import {
   User,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { UserAccountConfig } from '../config/user-account-config';
 import { UserAccountFacade } from '../facade/user-account.facade';
 import { UserLoginCurrencyPersistenceService } from './user-login-currency-persistence.service';
@@ -49,15 +49,18 @@ export class UserLoginCurrencyService implements OnDestroy {
           switchMap((preLoginCurrency) => {
             this.currencyPersistence.savePreLoginCurrency(preLoginCurrency);
             return this.userAccountFacade.get().pipe(
-              filter((user): user is User & { currency: { isocode: string } } =>
-                !!user?.currency?.isocode
+              filter(
+                (user): user is User =>
+                  !!user?.currency?.isocode &&
+                  user.currency.isocode !== preLoginCurrency
               ),
+              map((user) => user?.currency?.isocode as string),
               take(1)
             );
           })
         )
-        .subscribe((user) => {
-          this.currencyService.setActive(user.currency.isocode);
+        .subscribe((isocode) => {
+          this.currencyService.setActive(isocode);
         })
     );
 
