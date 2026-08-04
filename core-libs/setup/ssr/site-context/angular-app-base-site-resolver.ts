@@ -183,6 +183,11 @@ export class AngularAppBaseSiteResolver implements BaseSiteResolver {
         `[create-application] OCC basesites fetch failed after ${elapsed} ms:`,
         err
       );
+      // Circuit breaker: stamp cachedAt so TTL suppresses retry for one window after failure,
+      // preventing retry storms against a slow/unavailable OCC backend.
+      // ADR TODO: evaluate switching to cachedAt = 0 (force immediate retry) — safer for
+      // correctness but risks hammering a degraded backend. Decision deferred pending
+      // load-test data from the benchmark (ticket 02 / 03).
       this.cachedAt = Date.now();
     }
   }
