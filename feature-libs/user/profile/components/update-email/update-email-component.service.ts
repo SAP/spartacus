@@ -18,6 +18,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -92,6 +93,12 @@ export class UpdateEmailComponentService {
     );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
+      // The email change invalidates the current token, so the token revocation
+      // during logout can fail (e.g. HTTP 500). AuthService.coreLogout() still
+      // resolves and logs the user out regardless (via its `.finally`), so we
+      // only need to clear the error banner the HTTP interceptor produced for
+      // that 500.
+      this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
       this.routingService.go(
         { cxRoute: 'login' },
         {

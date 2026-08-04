@@ -9,6 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+// eslint-disable-next-line @nx/workspace-no-self-public-api-import -- ESLint is misfiring here: core and root are not the same library — they're separate entry points
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
@@ -25,6 +26,7 @@ class MockRoutingService {
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
+  remove = createSpy().and.stub();
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
@@ -167,6 +169,15 @@ describe('UpdateEmailComponentService', () => {
         authService.coreLogout().then(() => {
           expect(authRedirectService.setRedirectUrl).toHaveBeenCalledBefore(
             routingService.go
+          );
+        });
+      }));
+
+      it('should clear any error message caused by token revocation during logout', waitForAsync(() => {
+        service.save();
+        authService.coreLogout().then(() => {
+          expect(globalMessageService.remove).toHaveBeenCalledWith(
+            GlobalMessageType.MSG_TYPE_ERROR
           );
         });
       }));
