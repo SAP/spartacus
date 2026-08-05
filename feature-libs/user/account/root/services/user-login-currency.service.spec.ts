@@ -161,7 +161,9 @@ describe('UserLoginCurrencyService', () => {
     describe('on LogoutEvent', () => {
       it('should restore pre-login currency and clear storage', () => {
         mockStorage[PRE_LOGIN_CURRENCY_STORAGE_KEY] = JSON.stringify('GBP');
-        (currencyPersistence.getPreLoginCurrency as jasmine.Spy).and.returnValue('GBP');
+        (
+          currencyPersistence.getPreLoginCurrency as jasmine.Spy
+        ).and.returnValue('GBP');
 
         mockEventStream$.next(new LogoutEvent());
 
