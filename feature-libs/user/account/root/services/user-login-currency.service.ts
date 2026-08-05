@@ -36,7 +36,7 @@ export class UserLoginCurrencyService implements OnDestroy {
   }
 
   protected onLoginAndLogout(): void {
-    if (!this.userAccountConfig.userAccount?.applyUserCurrencyOnLogin) {
+    if (!this.userAccountConfig.userAccount?.enableUserCurrencySync) {
       return;
     }
 

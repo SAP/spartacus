@@ -32,7 +32,7 @@ export class UserCurrencyPreferenceSaverService implements OnDestroy {
   }
 
   protected onCurrencyChange(): void {
-    if (!this.userAccountConfig.userAccount?.applyUserCurrencyOnLogin) {
+    if (!this.userAccountConfig.userAccount?.enableUserCurrencySync) {
       return;
     }
 

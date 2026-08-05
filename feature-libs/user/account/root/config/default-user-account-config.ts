@@ -8,6 +8,6 @@ import { UserAccountConfig } from './user-account-config';
 
 export const defaultUserAccountConfig: UserAccountConfig = {
   userAccount: {
-    applyUserCurrencyOnLogin: false,
+    enableUserCurrencySync: false,
   },
 };

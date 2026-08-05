@@ -44,7 +44,7 @@ describe('UserCurrencyPreferenceSaverService', () => {
         {
           provide: UserAccountConfig,
           useValue: {
-            userAccount: { applyUserCurrencyOnLogin: configEnabled },
+            userAccount: { enableUserCurrencySync: configEnabled },
           },
         },
       ],

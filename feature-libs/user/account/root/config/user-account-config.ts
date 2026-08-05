@@ -18,7 +18,7 @@ export abstract class UserAccountConfig {
      * on login, and reverts to the pre-login currency stored in localStorage on logout.
      * Affects: UserLoginCurrencyService
      */
-    applyUserCurrencyOnLogin?: boolean;
+    enableUserCurrencySync?: boolean;
   };
 }
 
