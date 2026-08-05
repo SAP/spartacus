@@ -32,7 +32,7 @@ import {
   OutletModule,
   PromotionsComponent,
 } from '@spartacus/storefront';
-import { MockFeatureLevelDirective } from '@spartacus/storefront/testing';
+import { MockFeatureLevelDirective } from '@spartacus/storefront/testing/mock-feature-level-directive';
 import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';

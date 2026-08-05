@@ -41,7 +41,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { MockFeatureDirective } from '@spartacus/storefront/testing';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of, firstValueFrom } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { CartItemComponent } from '../cart-shared';

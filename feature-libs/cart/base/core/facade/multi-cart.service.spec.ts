@@ -11,7 +11,7 @@ import {
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';
-import { provideMockFeatureToggles } from '@spartacus/core/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const testCart: Cart = {
   code: 'xxx',

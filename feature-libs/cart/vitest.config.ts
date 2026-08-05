@@ -15,8 +15,14 @@ export default defineConfig({
   plugins: [angular(), nxViteTsPaths()],
   resolve: {
     alias: {
-      '@spartacus/core/testing': `${root}/core-libs/core/testing/public_api.ts`,
-      '@spartacus/storefront/testing': `${root}/core-libs/storefront/testing/public_api.ts`,
+      '@spartacus/core/testing/mock-feature-toggles': `${root}/core-libs/core/src/features-config/feature-toggles/testing/index.ts`,
+      '@spartacus/core/testing/process-reducers': `${root}/core-libs/core/src/process/store/reducers/index.ts`,
+      '@spartacus/core/testing/client-auth-reducers': `${root}/core-libs/core/src/auth/client-auth/store/reducers/index.ts`,
+      '@spartacus/core/testing/user-reducers': `${root}/core-libs/core/src/user/store/reducers/index.ts`,
+      '@spartacus/core/testing/mock-occ-endpoints': `${root}/core-libs/core/src/occ/adapters/user/unit-test.helper.ts`,
+      '@spartacus/core/testing/mock-url-pipe': `${root}/core-libs/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe.ts`,
+      '@spartacus/storefront/testing/mock-feature-directive': `${root}/core-libs/storefront/shared/test/mock-feature-directive.ts`,
+      '@spartacus/storefront/testing/mock-feature-level-directive': `${root}/core-libs/storefront/shared/test/mock-feature-level-directive.ts`,
     },
   },
   test: {

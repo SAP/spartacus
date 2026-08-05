@@ -21,7 +21,7 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from '@spartacus/storefront/testing';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,

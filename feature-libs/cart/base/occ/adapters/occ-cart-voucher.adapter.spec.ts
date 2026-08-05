@@ -17,7 +17,7 @@ import {
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
-} from '@spartacus/core/testing';
+} from '@spartacus/core/testing/mock-occ-endpoints';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 
 const userId = '123';

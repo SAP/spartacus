@@ -20,8 +20,8 @@ import {
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import * as fromClientAuthReducers from '@spartacus/core/testing';
-import * as fromUserReducers from '@spartacus/core/testing';
+import * as fromClientAuthReducers from '@spartacus/core/testing/client-auth-reducers';
+import * as fromUserReducers from '@spartacus/core/testing/user-reducers';
 import { firstValueFrom, Observable, of, Subject, throwError } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
@@ -29,7 +29,7 @@ import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
-import { provideMockFeatureToggles } from '@spartacus/core/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const testCart: Cart = {
   code: 'xxx',

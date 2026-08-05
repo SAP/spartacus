@@ -21,7 +21,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { MockFeatureDirective } from '@spartacus/storefront/testing';
+import { MockFeatureDirective } from '@spartacus/storefront/testing/mock-feature-directive';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 

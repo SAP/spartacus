@@ -22,7 +22,7 @@ import {
 } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { vi } from 'vitest';
-import { provideMockFeatureToggles } from '@spartacus/core/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);

@@ -5,7 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { MockOccEndpointsService } from '@spartacus/core/testing';
+import { MockOccEndpointsService } from '@spartacus/core/testing/mock-occ-endpoints';
 import { OccSavedCartAdapter } from './occ-saved-cart.adapter';
 import {
   provideHttpClient,

@@ -19,7 +19,7 @@ import {
 import { FormErrorsModule, IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { QuickOrderFormComponent } from './quick-order-form.component';
-import { provideMockFeatureToggles } from '@spartacus/core/testing';
+import { provideMockFeatureToggles } from '@spartacus/core/testing/mock-feature-toggles';
 
 const mockProductCode: string = 'mockCode';
 const mockProductCode2: string = 'mockCode2';
