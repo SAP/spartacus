@@ -29,7 +29,7 @@ export function orgUnitEntitiesReducer(
 }
 
 export function orgUnitListReducer(
-  state = orgUnitsInitialState,
+  state: ListModel | undefined = orgUnitsInitialState,
   _action: StateUtils.LoaderAction
 ): any {
   return state;
