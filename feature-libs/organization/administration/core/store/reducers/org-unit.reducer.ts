@@ -29,9 +29,11 @@ export function orgUnitEntitiesReducer(
 }
 
 export function orgUnitListReducer(
-  state: ListModel | undefined = orgUnitsInitialState,
+  state: ListModel | undefined,
   _action: StateUtils.LoaderAction
 ): any {
+  state ??= orgUnitsInitialState;
+
   return state;
 }
 
