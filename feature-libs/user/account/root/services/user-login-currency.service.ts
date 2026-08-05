@@ -49,7 +49,7 @@ export class UserLoginCurrencyService implements OnDestroy {
             this.currencyPersistence.savePreLoginCurrency(preLoginCurrency);
             return this.userAccountFacade.get().pipe(
               filter((user) => {
-                const isocode = user?.currency?.isocode;
+                const isocode = (user as any)?.currency?.isocode;
                 return !!isocode && isocode !== preLoginCurrency;
               }),
               take(1)
@@ -57,7 +57,7 @@ export class UserLoginCurrencyService implements OnDestroy {
           })
         )
         .subscribe((user) => {
-          this.currencyService.setActive(user?.currency?.isocode as string);
+          this.currencyService.setActive((user as any)?.currency?.isocode as string);
         })
     );
 
